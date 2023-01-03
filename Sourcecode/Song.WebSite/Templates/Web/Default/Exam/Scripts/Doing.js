@@ -465,7 +465,8 @@ $ready(function () {
                             "id": qus.Qus_ID,
                             "class": "level1",
                             "num": qus.Qus_Number,
-                            "ans": questionAnswer(qus)
+                            "ans": questionAnswer(qus),
+                            "file": qus.Qus_Explain
                         });
                     }
                     results.ques.push(ques);
@@ -628,5 +629,7 @@ $ready(function () {
     });
 
 }, ['/Utilities/Components/avatar.js',
+    '/Utilities/Components/upload-file.js',
+    '/Utilities/Components/question/function.js',
     'Components/question.js',
     'Components/result.js']);

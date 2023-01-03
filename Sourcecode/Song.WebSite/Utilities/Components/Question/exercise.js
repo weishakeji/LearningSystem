@@ -139,7 +139,7 @@ Vue.component('question', {
         //judge: 是否立判断对错，true为判断
         ques_doing: function (ans, ques, judge) {
             if (this.mode % 2 == 1) {
-                alert('背题模式下不可以答题，请切到“答题模式”');
+                alert('背题模式下不可以答题，请切换到“答题模式”');
                 return;
             }
             var type = ques.Qus_Type;

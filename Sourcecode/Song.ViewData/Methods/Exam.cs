@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using Newtonsoft.Json.Linq;
 //using System.Web.Mvc;
@@ -21,6 +23,11 @@ namespace Song.ViewData.Methods
     [HttpPut, HttpGet]
     public class Exam : ViewMethod, IViewAPI
     {
+        //资源的虚拟路径和物理路径
+        public static string PathKey = "Exam";
+        public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
+        public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+
         #region 考试主题
 
         /// <summary>
@@ -250,11 +257,11 @@ namespace Song.ViewData.Methods
             jo.Add("result", _resultJson(exr));
             return jo;
         }
-        //public JArray Generate(int exrid)
-        //{
-        //    Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
-        //    return _putout(exr);
-        //}
+        /// <summary>
+        /// 根据考试答题记录的ID，获取详细的答题信息
+        /// </summary>
+        /// <param name="exrid"></param>
+        /// <returns></returns>
         public JObject ResultJson(int exrid)
         {
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
@@ -541,7 +548,141 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 文件上传管理
+        /// <summary>
+        /// 考试中上传附件
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="examid">考试id</param>
+        /// <param name="qid">试题id</param>
+        /// <returns>qid:试题id;state:是否成功;name:文件名; url:文件完整路径</returns>
+        [HttpPost]
+        [Student]
+        [Upload(Extension = "", MaxSize = 5120, CannotEmpty = true)]
+        public JObject FileUp(int stid, int examid, long qid)
+        {
+            JObject jo = new JObject();
+            jo.Add("qid", qid.ToString());
 
+            string filepath = PhyPath + examid + "\\" + stid + "\\";
+            //只保存第一张图片
+            foreach (string key in this.Files)
+            {
+                HttpPostedFileBase file = this.Files[key];
+                if (!System.IO.Directory.Exists(filepath))
+                    System.IO.Directory.CreateDirectory(filepath);
+                //删除原来的文件
+                foreach (FileInfo f in new DirectoryInfo(filepath).GetFiles())
+                {
+                    if (f.Name.IndexOf("_") > 0)
+                    {
+                        string idtm = f.Name.Substring(0, f.Name.IndexOf("_"));
+                        if (idtm == qid.ToString()) f.Delete();
+                    }
+                }
+                string filename = file.FileName;
+                //处理文件名长度，由于文件名前面还要加上试题id，防止文件名过长
+                int maxLength = 220;
+                if (filename.Length > maxLength)
+                {
+                    if (filename.IndexOf(".") > -1)
+                    {
+                        string ext = filename.Substring(filename.LastIndexOf("."));
+                        string name = filename.Substring(0, filename.LastIndexOf("."));
+                        if(name.Length> maxLength - ext.Length)
+                        {
+                            name = name.Substring(0, maxLength - ext.Length);
+                            filename = name + ext;
+                        }
+                    }
+                    else
+                    {
+                        filename = filename.Substring(0, maxLength);
+                    }
+                }
+                jo.Add("name", filename);
+                file.SaveAs(filepath + qid + "_" + filename);
+                jo.Add("url", string.Format("{0}{1}/{2}/{3}", VirPath, examid, stid, qid + "_" + filename));
+                jo.Add("state", true);
+                break;
+            }
+            return jo;
+        }
+        /// <summary>
+        /// 考试中的简答题附件
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="examid">考试id</param>
+        /// <param name="qid">试题id</param>
+        /// <returns>qid:试题id;state:是否成功;name:文件名; url:文件完整路径</returns>
+        public JObject FileLoad(int stid, int examid, long qid)
+        {
+            JObject jo = new JObject();
+            jo.Add("qid", qid.ToString());
+            //文件所在路径
+            string filepath = PhyPath + examid + "\\" + stid + "\\";
+            if (!System.IO.Directory.Exists(filepath))
+            {
+                jo.Add("state", false);
+                return jo;
+            }
+            string file = string.Empty;
+            foreach (FileInfo f in new DirectoryInfo(filepath).GetFiles())
+            {
+                if (f.Name.IndexOf("_") > 0)
+                {
+                    string idtm = f.Name.Substring(0, f.Name.IndexOf("_"));
+                    if (idtm == qid.ToString())
+                    {
+                        file = f.Name.Substring(f.Name.IndexOf("_") + 1);
+                        jo.Add("name", file);
+                        jo.Add("url", string.Format("{0}{1}/{2}/{3}", VirPath, examid, stid, f.Name));
+                        jo.Add("state", true);
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(file))           
+                jo.Add("state", false);          
+            return jo;
+        }
+        /// <summary>
+        /// 删除考试中的附件
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="examid">考试id</param>
+        /// <param name="qid">试题id</param>
+        /// <returns>state:是否成功;qid:试题id</returns>
+        [Student]
+        [HttpDelete]
+        public JObject FileDelete(int stid, int examid, long qid)
+        {
+            JObject jo = new JObject();
+            jo.Add("qid", qid.ToString());
+            //文件所在路径
+            string filepath = PhyPath + examid + "\\" + stid + "\\";
+            if (!System.IO.Directory.Exists(filepath))
+            {
+                jo.Add("state", false);
+                return jo;
+            }
+            //文件名
+            string file = "";
+            foreach (FileInfo f in new DirectoryInfo(filepath).GetFiles())
+            {
+                if (f.Name.IndexOf("_") > 0)
+                {
+                    string idtm = f.Name.Substring(0, f.Name.IndexOf("_"));
+                    if (idtm == qid.ToString()) file = f.FullName;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(file) && System.IO.File.Exists(file))                   
+                    System.IO.File.Delete(file);
+            jo.Add("state", true);
+            return jo;
+        }
+        #endregion
+
+        #region 增删改查
         /// <summary>
         /// 根据ID查询考试
         /// </summary>
@@ -726,6 +867,8 @@ namespace Song.ViewData.Methods
             return jo;
         }
 
+        #endregion
+
         #region 考试成绩
         /// <summary>
         /// 通过考试成绩的id，获取成绩信息
@@ -905,7 +1048,6 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool ResultClear(int examid)
         {
-
             Business.Do<IExamination>().ResultClear(examid);
             return true;
         }

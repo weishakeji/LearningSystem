@@ -162,8 +162,8 @@
                         <template v-if="!loading.paper">
                             <dl v-for="(group,i) in paperQues"
                                 :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
-                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
-                                    :total="questotal" :types="types">
+                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"
+                                    :total="questotal" :types="types" :exam="exam">
                                 </question>
                             </dl>
                         </template>
@@ -182,9 +182,9 @@
                         <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                             <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                         </dt>
-                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))" :ans="q.ans!=''"
+                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))" :ans="q.ans!='' || !(q.file==null || q.file=='' )"
                             :current="calcIndex(n,i)==swipeIndex">                          
-                            {{calcIndex(n,i)+1}}
+                            {{calcIndex(n,i)+1}}                          
                         </dd>
                     </dl>
                 </div>

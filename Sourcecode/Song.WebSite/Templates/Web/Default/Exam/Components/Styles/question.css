@@ -154,3 +154,6 @@ section textarea {
 	padding: 10px;
 	font-size: 20px;
 }
+.upload_file_area .error{
+	bottom: -40px !important;
+}

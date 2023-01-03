@@ -518,7 +518,9 @@ namespace Song.ServiceImpls
         /// <param name="id"></param>
         public void ResultDelete(int id)
         {
-            Gateway.Default.Delete<ExamResults>(ExamResults._.Exr_ID == id);
+            ExamResults exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exr_ID == id).ToFirst<ExamResults>();
+            if (exr == null) return;
+            ResultDelete(exr.Ac_ID, exr.Exam_ID);
         }
         /// <summary>
         /// 删除某个员工的某个考试的成绩

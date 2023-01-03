@@ -156,14 +156,18 @@ icon[copy]::before {
 icon[paste]::before {
     content: '\a061';
 }
-
-
-/*帮助、提示*/
-help, alert {
-    color: #999;
-    font-size: 13px;
-    cursor: default;
-}
+    icon[delete]::before {
+        content: '\e800';
+    }
+    icon[delete]{
+        cursor:pointer;
+    }
+    /*帮助、提示*/
+    help, alert {
+        color: #999;
+        font-size: 13px;
+        cursor: default;
+    }
 
 help::before, alert::before {
     font-family: "webdesk_icon" !important;

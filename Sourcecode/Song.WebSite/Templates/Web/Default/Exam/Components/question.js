@@ -1,15 +1,24 @@
 ﻿//试题的展示
 $dom.load.css([$dom.pagepath() + 'Components/Styles/question.css']);
 Vue.component('question', {
+    //exam:当前考试
+    //account:当前登录的学员账号
+    //index:索引号
     //groupindex:试题题型的分组，用于排序号
     //total: 试题总数
-    props: ['ques', 'index', 'groupindex', 'types', 'total'],
+    props: ['exam', 'account', 'ques', 'index', 'groupindex', 'types', 'total'],
     data: function () {
-        return {}
+        return {
+            ext_limit: "png,jpg,gif,zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
+            accessory: {},           //试题附件
+            loading_upload: false,        //上传的状态
+        }
     },
     watch: {
         'ques': {
             handler(nv, ov) {
+                if (nv && nv.Qus_Type == 4)
+                    this.accessoryLoad();
                 this.$nextTick(function () {
                     //没有内容的html元素，不显示
                     var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
@@ -75,6 +84,81 @@ Vue.component('question', {
                 ansstr += element.Ans_Context + ",";
             }
             this.ques.Qus_Answer = ansstr;
+        },
+        //附件文件上传
+        accessoryUpload: function (file) {
+            var th = this;
+            th.loading_upload = true;
+            $api.post('Exam/FileUp',
+                { 'stid': th.account.Ac_ID, 'examid': th.exam.Exam_ID, 'qid': th.ques.Qus_ID, 'file': file })
+                .then(function (req) {
+                    th.loading_upload = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.accessory = req.data.result;
+                        th.ques['Qus_Explain'] = th.accessory.name;
+                        if (result.state) {
+
+                        }
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading_upload = false;
+                    alert(err);
+                    console.error(err);
+                });
+        },
+        //加载附件
+        accessoryLoad: function () {
+            var th = this;
+            th.loading_upload = true;
+            $api.get('Exam/FileLoad', { 'stid': th.account.Ac_ID, 'examid': th.exam.Exam_ID, 'qid': th.ques.Qus_ID })
+                .then(function (req) {
+                    if (req.data.success) {
+                        th.accessory = req.data.result;
+                        
+                        console.log(th.accessory );
+                        th.ques['Qus_Explain'] = th.accessory.state ?  th.accessory.name : '';
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading_upload = false;
+                });
+        },
+        //删除附件
+        accessoryDelete: function () {
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                var th = this;
+                th.loading_upload = true;
+                $api.delete('Exam/FileDelete', { 'stid': th.account.Ac_ID, 'examid': th.exam.Exam_ID, 'qid': th.ques.Qus_ID })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.accessory = {};
+                            th.ques['Qus_Explain'] = '';
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    }).finally(function () {
+                        th.loading_upload = false;
+                    });
+
+            }).catch(() => {
+            });
         }
     },
     template: `<dd :qid="ques.Qus_ID">
@@ -109,6 +193,19 @@ Vue.component('question', {
                 </div>
                 <div v-if="ques.Qus_Type==4" class="ans_area type4"  remark="简答题">
                     <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
+                    <loading v-if="loading_upload">正在上传...</loading>
+                    <div v-else-if="accessory.state">
+                        附件:{{accessory.name}}   <icon delete @click="accessoryDelete()">删除</icon>
+                    </div>
+                    <upload-file v-else @change="accessoryUpload" :data="ques" :size="5120" height="30"
+                        :ext="ext_limit">
+                        <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right"
+                            effect="light">
+                            <el-button type="primary" plain>
+                                <icon>&#xe6ea</icon>点击上传文件
+                            </el-button>
+                        </el-tooltip>
+                    </upload-file>
                 </div>
                 <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
