@@ -118,9 +118,9 @@ Vue.component('question', {
                 .then(function (req) {
                     if (req.data.success) {
                         th.accessory = req.data.result;
-                        
-                        console.log(th.accessory );
-                        th.ques['Qus_Explain'] = th.accessory.state ?  th.accessory.name : '';
+
+                        console.log(th.accessory);
+                        th.ques['Qus_Explain'] = th.accessory.state ? th.accessory.name : '';
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -159,6 +159,29 @@ Vue.component('question', {
 
             }).catch(() => {
             });
+        },
+        //附件查看
+        accessoryview: function (url) {
+            var ext = url.indexOf('.') > -1 ? url.substring(url.lastIndexOf('.') + 1).toLowerCase() : '';
+            var canpreview = "jpg,gif,png,pdf";
+            var exist = canpreview.split(',').findIndex(x => x == ext);
+            if (exist > -1) {
+                if (ext == 'pdf') url = $api.pdfViewer(url);
+                var obj =
+                {
+                    'url': url, 'ico': 'e6ef',
+                    'pid': window.name,
+                    'title': '预览',
+                    'width': 900,
+                    'height': '80%'
+                }
+                obj['showmask'] = true; //始终显示遮罩
+                obj['min'] = false;
+                var box = window.$pagebox.create(obj).open();
+            }else{
+                alert('该文件类型不可预览');
+            }
+            return false;
         }
     },
     template: `<dd :qid="ques.Qus_ID">
@@ -194,15 +217,17 @@ Vue.component('question', {
                 <div v-if="ques.Qus_Type==4" class="ans_area type4"  remark="简答题">
                     <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
                     <loading v-if="loading_upload">正在上传...</loading>
-                    <div v-else-if="accessory.state">
-                        附件:{{accessory.name}}   <icon delete @click="accessoryDelete()">删除</icon>
+                    <div v-else-if="accessory.state" class="accessory">
+                        附件: <a @click="accessoryview(accessory.url)">{{accessory.name}}</a>
+                        <icon delete @click="accessoryDelete()">删除</icon>
+                        <a :href="accessory.url" :download="accessory.name"><icon>&#xa029</icon>下载</a>
                     </div>
                     <upload-file v-else @change="accessoryUpload" :data="ques" :size="5120" height="30"
                         :ext="ext_limit">
                         <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right"
                             effect="light">
                             <el-button type="primary" plain>
-                                <icon>&#xe6ea</icon>点击上传文件
+                                <icon>&#xe6ea</icon>点击上传附件
                             </el-button>
                         </el-tooltip>
                     </upload-file>

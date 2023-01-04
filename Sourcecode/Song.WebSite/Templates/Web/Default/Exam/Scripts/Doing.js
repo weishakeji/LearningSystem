@@ -631,5 +631,7 @@ $ready(function () {
 }, ['/Utilities/Components/avatar.js',
     '/Utilities/Components/upload-file.js',
     '/Utilities/Components/question/function.js',
+    '../scripts/pagebox.js',
     'Components/question.js',
     'Components/result.js']);
+$dom.load.css([$dom.path() + 'styles/pagebox.css']);

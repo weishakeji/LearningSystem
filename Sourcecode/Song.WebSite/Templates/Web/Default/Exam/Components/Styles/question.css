@@ -154,6 +154,21 @@ section textarea {
 	padding: 10px;
 	font-size: 20px;
 }
+/*附件*/
 .upload_file_area .error{
 	bottom: -40px !important;
+}
+.accessory{
+	font-size: 16px;
+}
+.accessory a{
+	color: #409EFF;
+}
+.accessory a[download]{
+	font-size: 14px;
+}
+.accessory>icon{
+	font-size: 14px;
+	color: #F56C6C;
+	margin-left: 10px;
 }
