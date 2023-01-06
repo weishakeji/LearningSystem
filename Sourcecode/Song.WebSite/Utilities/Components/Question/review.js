@@ -24,6 +24,7 @@ Vue.component('question', {
                 }
                 this.$nextTick(function () {
                     var dom = $dom("card[qid='" + this.qans.id + "']");
+                    console.error(dom);
                     //清理空元素                
                     window.ques.clearempty(dom.find('card-title'));
                     window.ques.clearempty(dom.find('.ans_area'));

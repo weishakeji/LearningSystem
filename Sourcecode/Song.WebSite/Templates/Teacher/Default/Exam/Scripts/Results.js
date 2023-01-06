@@ -269,7 +269,7 @@
                                         if (th.examlist[n].Exam_ID == avg.data.result.id) {
                                             th.examlist[n].avg = avg.data.result.average;
                                             th.examlist[n].number = num.data.result.number;
-                                            th.examlist[n].manual = manual.data.result.number;
+                                            th.examlist[n].manual = manual.data.result.manual;
                                         }
                                     }
                                 })).catch(function (err) {
@@ -296,21 +296,28 @@
                 },
                 template: `<div><el-row :gutter="20" class="row_title">
                 <el-col :span="8">考试场次</el-col>
-                <el-col :span="4">专业</el-col>
+                <el-col :span="6">专业</el-col>
                 <el-col :span="4">及格/满分</el-col>              
                 <el-col :span="2">平均分</el-col>
                 <el-col :span="2">参考人数</el-col>
-                <el-col :span="4"></el-col>
+                <el-col :span="2"></el-col>
               </el-row>
               <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
-                <el-col :span="8">{{item.Exam_Title}}</el-col>
-                <el-col :span="4">{{item.Sbj_Name}}</el-col>
+                <el-col :span="8">
+                    <el-tooltip content="点击查看成绩" placement="bottom" effect="light">
+                        <el-link type="primary" @click="btnResultView(item)">
+                            <icon>&#xe696</icon>{{item.Exam_Title}}
+                        </el-link>      
+                    </el-tooltip>              
+                </el-col>
+                <el-col :span="6">{{item.Sbj_Name}}</el-col>
                 <el-col :span="4">{{item.Exam_PassScore}}/{{item.Exam_Total}}</el-col>             
                 <el-col :span="2"><span class="el-icon-loading" v-if="item.avg==-1"></span><span v-else>{{item.avg}}</span></el-col>
                 <el-col :span="2"><span class="el-icon-loading" v-if="item.number==-1"></span><span v-else>{{item.number}}</span></el-col>
-                <el-col :span="4">
-                    <el-link type="primary" class="el-icon-document-checked" v-if="item.manual">批阅</el-link> 
-                    <el-link type="success" class="el-icon-view" @click="btnResultView(item)"> 成绩查看</el-link>
+                <el-col :span="2" v-if="item.manual">
+                    <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
+                        <el-link type="primary"><icon>&#xa02e</icon>批阅</el-link> 
+                    </el-tooltip> 
                 </el-col>
               </el-row>
               </div>`

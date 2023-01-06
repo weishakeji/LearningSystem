@@ -112,9 +112,7 @@ card[qid] .type_title {
 	padding: 10px;
 }
 
-card[qid] *:empty {
-	display: none;
-}
+
 
 card[qid] .type_info {
 	float: right;
