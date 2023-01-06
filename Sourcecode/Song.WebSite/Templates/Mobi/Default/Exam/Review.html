@@ -17,13 +17,13 @@
                 <a href="/mobi/sign/in">未登录 </a>
             </div>
             <div class="header_info" v-if="islogin" remark="已经登录">
-                <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
-                    :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                <div class="acc_photo" v-if="!!student.Ac_Photo && student.Ac_Photo!=''"
+                    :style="'background-image: url('+student.Ac_Photo+');'"></div>
                 <template v-else>
-                    <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                    <div class="acc_photo woman" v-if="student.Ac_Sex==2"></div>
                     <div class="acc_photo man" v-else></div>
                 </template>
-                <span class="acc-name">{{account.Ac_Name}} </span>
+                <span class="acc-name">{{student.Ac_Name}} </span>
             </div>
         </div>
         <div v-if="loading">
@@ -79,7 +79,7 @@
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
                         :state="tabactive">
-                        <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index"
+                        <question v-for="(q,i) in type.ques"  :stid="result.Ac_ID" :exam="exam" :qans="q" :index="i" :state="tabactive" :groupindex="index"
                             :questions="questions"></question>
                     </group>
                 </div>

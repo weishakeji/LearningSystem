@@ -7,7 +7,7 @@ $ready(function () {
             tpid: $api.querystring('tp', 0),
             trid: $api.querystring('tr', 0),
             account: {},     //当前登录账号
-            student: {},     //当前参考的学员，有可能不是当前学员        
+            //student: {},     //当前参考的学员，有可能不是当前学员        
             result: {},         //考试成绩的籹据实体对象
             exrxml: {},          //答题信息，xml
             paper: {},           //试卷信息

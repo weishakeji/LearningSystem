@@ -40,10 +40,8 @@ a {
 }
     /*文件下载链接*/
     a[download] {
-        display: inline-block;
-        min-width: 230px;
-        color: #409EFF;
-        font-size: 16px;
+        display: inline-block;       
+        color: #409EFF;      
     }
 
         a[download]:hover {

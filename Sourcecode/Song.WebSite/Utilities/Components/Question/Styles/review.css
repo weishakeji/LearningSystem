@@ -83,8 +83,8 @@ card[qid] card-title::before {
 }
 card[qid] card-title::after {
 	content: '(' attr(num) ' 分) ';	
-	margin-left: 10px;
 	font-size: 12px;
+	margin-left: 8px;
 	background-color: #faecd8;
 	border: solid 1px #f1bd6d;
     color: #e6a23c;
@@ -92,7 +92,11 @@ card[qid] card-title::after {
 	border-radius: 5px;
 	white-space: nowrap;
 }
-section dd card-title p, card-title span, card-title font{
+card[qid] card-title>p{
+	margin: 0px !important;
+	display: inline;
+}
+card[qid] card-title p, card-title span, card-title font{
 	line-height: 150%;
 	font-size: 16px;
 }

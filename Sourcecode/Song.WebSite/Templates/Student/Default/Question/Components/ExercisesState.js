@@ -13,8 +13,8 @@
             },
             items: {    //学员id,olid,couid,文件名
                 acid: 0,
-                olid: Number($api.querystring("olid", 0)),
-                couid: Number($api.querystring("couid", 0)),
+                olid: $api.querystring("olid", 0),
+                couid: $api.querystring("couid", 0),
                 file: $dom.file().toLowerCase()
             }
         };

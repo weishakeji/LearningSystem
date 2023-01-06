@@ -70,7 +70,7 @@
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
                         :state="tabactive">
-                        <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index"
+                        <question v-for="(q,i) in type.ques" :qans="q"  :account="account.Ac_ID" :exam="null" :index="i" :state="tabactive" :groupindex="index"
                             :questions="questions"></question>
                     </group>
                 </div>

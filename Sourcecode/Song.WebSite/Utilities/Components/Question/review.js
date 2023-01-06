@@ -1,19 +1,27 @@
 ﻿//试题的展示,用于回顾
 $dom.load.css(['/Utilities/Components/Question/Styles/review.css']);
 Vue.component('question', {
+    //exam:当前考试
+    //stid:当前考试的学员id
     //groupindex:试题题型的分组，用于排序号
-    props: ['qans', 'index', 'state', 'groupindex', 'questions', 'org'],
+    props: ['exam', 'stid', 'qans', 'index', 'state', 'groupindex', 'questions', 'org'],
     data: function () {
         return {
             ques: {},       //试题        
-            ismobi: $api.ismobi(),       //是否是手机端      
-            loading: false
+            ismobi: $api.ismobi(),       //是否是手机端    
+
+            accessory: {},           //试题附件
+            loading: false,
+            loading_file: false          //加载附件文件
         }
     },
     watch: {
         'ques': {
             handler(nv, ov) {
                 if (!this.existques) return;
+                if (this.exam && nv.Qus_Type == 4) {
+                    this.accessoryLoad();
+                }
                 this.$nextTick(function () {
                     var dom = $dom("card[qid='" + this.qans.id + "']");
                     //清理空元素                
@@ -198,13 +206,58 @@ Vue.component('question', {
                 }
                 return txt;
             }
+        },
+        //加载附件
+        accessoryLoad: function () {
+            var th = this;
+            th.loading_file = true;
+            $api.get('Exam/FileLoad', { 'stid': th.stid, 'examid': th.exam.Exam_ID, 'qid': th.ques.Qus_ID })
+                .then(function (req) {
+                    if (req.data.success) {
+                        th.accessory = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading_file = false;
+                });
+        },
+        //附件查看
+        accessoryview: function (url) {
+            var ext = url.indexOf('.') > -1 ? url.substring(url.lastIndexOf('.') + 1).toLowerCase() : '';
+            var canpreview = "jpg,gif,png,pdf";
+            var exist = canpreview.split(',').findIndex(x => x == ext);
+            if (exist > -1) {
+                var box = window.top.$pagebox;
+                if (box == null) return;
+                if (ext == 'pdf') url = $api.pdfViewer(url);
+
+                var params = {
+                    'url': url, 'ico': 'e6ef', 'min': false, 'showmask': true,
+                    'pid': window.name,
+                    'title': '预览',
+                    'width': 900,
+                    'height': '80%'
+                }
+                if (this.ismobi) {
+                    params['width'] = '99%';
+                    params['height'] = '100%';
+                }
+                var box = window.top.$pagebox.create(params).open();
+            } else {
+                alert('该文件类型不可预览');
+            }
+            return false;
         }
     },
     template: `<card :qid="qans.id" v-if="showQues()">
         <card-title :index="calcIndex(index+1)" v-if="loading">
             <loading type="spinner" size="24px" > 加载中...</loading>
-        </card-title>
-        
+        </card-title>        
         <card-title :index="calcIndex(index+1)" :num="qans.num" v-else-if="ques.Qus_Title" v-html="ques.Qus_Title">           
         </card-title>
         <card-title :index="calcIndex(index+1)" :num="qans.num"  v-else><span class="null">(试题不存在)</span></card-title>
@@ -238,7 +291,11 @@ Vue.component('question', {
         <div class="resultBox" :qtype="ques.Qus_Type">
             <div :mobi="ismobi">
                 <div>正确答案：<span v-html="sucessAnswer()"></span></div>
-                <div>实际答题：<span v-html="actualAnswer()"></span></div>
+                <div>实际答题：<span v-html="actualAnswer()"></span></div>               
+                <div v-if="accessory.state" class="accessory">
+                    附件: <a @click="accessoryview(accessory.url)">{{accessory.name}}</a>                 
+                    <a :href="accessory.url" :download="accessory.name"><icon>&#xa029</icon>下载</a>
+                </div>               
                 <div class="result_score" :success="qans.success">得分：{{qans.score}} 分</div>
             </div>
             <div v-if="ques.Qus_Explain!=''">试题解析：<span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>

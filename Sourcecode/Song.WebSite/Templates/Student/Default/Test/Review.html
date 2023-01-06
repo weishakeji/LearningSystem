@@ -26,7 +26,8 @@
                 <a href="/mobi/sign/in">未登录 </a>
             </div>
             <div class="header_info" v-if="islogin" remark="已经登录">
-                <img class="acc_photo noprint" v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo">
+                <img class="acc_photo noprint" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                    :src="account.Ac_Photo">
                 </img>
                 <template v-else>
                     <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
@@ -66,15 +67,15 @@
                                 <span icon="&#xa01f">未做({{ques_unanswerd_count}})
                             </template>
                         </el-tab-pane>
-                    </el-tabs>     
+                    </el-tabs>
                     <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
-                    <alert v-else>试卷不存在</alert>             
+                    <alert v-else>试卷不存在</alert>
                 </div>
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
                         :state="tabactive">
-                        <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index" :org="organ"
-                            :questions="questions"></question>
+                        <question v-for="(q,i) in type.ques" :account="account.Ac_ID" :exam="null" :qans="q" :index="i"
+                            :state="tabactive" :groupindex="index" :org="organ" :questions="questions"></question>
                     </group>
                 </div>
             </template>

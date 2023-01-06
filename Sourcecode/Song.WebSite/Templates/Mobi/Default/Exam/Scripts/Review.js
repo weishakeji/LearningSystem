@@ -6,7 +6,6 @@ $ready(function () {
             //考试id和成绩id
             examid: $api.querystring('examid', 0),
             exrid: $api.querystring('exrid', 0),
-            account: {},     //当前登录账号
             student: {},     //当前参考的学员，有可能不是当前学员
             exam: {},
             result: {},         //考试成绩的籹据实体对象
@@ -22,13 +21,14 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
-            window.addEventListener('scroll', this.handleScroll, true)
-            this.loading = true;
+            window.addEventListener('scroll', this.handleScroll, true);
+            var th = this;
+            th.loading = true;
             $api.bat(
-                $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.cache('Exam/ForID', { 'id': this.examid })
-            ).then(axios.spread(function (account, types, exam) {
+                $api.cache('Exam/ForID', { 'id': this.examid }),
+                $api.get('Exam/ResultForID', { 'id': th.exrid })
+            ).then(axios.spread(function (types, exam, result) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -38,60 +38,36 @@ $ready(function () {
                         console.error(data.message);
                     }
                 }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.types = types.data.result;
-                vapp.exam = exam.data.result;
-                if (JSON.stringify(vapp.account) != '{}' && vapp.account != null) {
-                    $api.get('Exam/ResultForID', { 'id': vapp.exrid }).then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            vapp.scoreFinal = result.Exr_ScoreFinal;
-                            $api.bat(
-                                $api.cache('Account/ForID', { 'id': result.Ac_ID }),
-                                $api.cache('TestPaper/ForID', { 'id': result.Tp_Id })
-                            ).then(axios.spread(function (student, paper) {
-                                //判断结果是否正常
-                                for (var i = 0; i < arguments.length; i++) {
-                                    if (arguments[i].status != 200)
-                                        console.error(arguments[i]);
-                                    var data = arguments[i].data;
-                                    if (!data.success && data.exception != null) {
-                                        console.error(data.exception);
-                                        throw data.message;
-                                    }
-                                }
-                                //获取结果
-                                vapp.student = student.data.result;
-                                vapp.paper = paper.data.result;
-                            })).catch(function (err) {
-                                console.error(err);
-                            });
-                        } else {
-
-                            console.error(req.data.exception);
-                            throw req.data.message;
+                //获取结果       
+                th.types = types.data.result;
+                th.exam = exam.data.result;
+                th.result = result.data.result;
+                th.exrxml = $api.loadxml(th.result.Exr_Results);
+                th.scoreFinal = th.result.Exr_ScoreFinal;
+                //获取学员与试卷
+                $api.bat(
+                    $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
+                    $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
+                ).then(axios.spread(function (student, paper) {
+                    th.loading = false;
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.exception);
+                            throw data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
-                }
+                    }
+                    //获取结果
+                    th.student = student.data.result;
+                    th.paper = paper.data.result;
+                })).catch(function (err) {
+                    console.error(err);
+                });
+
             })).catch(function (err) {
-                console.error(err);
-            });
-            $api.get('Exam/ResultReview', { 'id': this.exrid }).then(function (req) {
-                vapp.loading = false;
-                if (req.data.success) {
-                    vapp.result = req.data.result;
-                    vapp.exrxml = $api.loadxml(vapp.result.Exr_Results);
-                    console.log('答题信息：');
-                    console.log(vapp.exrxml);
-                } else {
-                    vapp.error = req.data.message;
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
                 console.error(err);
             });
         },
@@ -101,7 +77,7 @@ $ready(function () {
         computed: {
             //是否登录
             islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
+                return JSON.stringify(this.student) != '{}' && this.student != null;
             },
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
@@ -127,7 +103,7 @@ $ready(function () {
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));
                         qarr.push({
-                            'id': qid, 'type': type,'num': num,
+                            'id': qid, 'type': type, 'num': num,
                             'ans': ans, 'success': sucess, 'score': score
                         });
                     }
@@ -200,4 +176,7 @@ $ready(function () {
 
 }, ['/Utilities/Components/question/review.js',
     '/Utilities/Components/question/function.js',
+    '/Utilities/panel/scripts/ctrls.js',
+    '/Utilities/panel/scripts/pagebox.js',
     'Components/group.js']);
+$dom.load.css(['/Utilities/panel/Skins/Education/pagebox.css']);
