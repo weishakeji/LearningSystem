@@ -5,7 +5,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             //分组id
-            id: Number($api.querystring('id', '0')),
+            id: $api.querystring('id'),
             organ: {},       //当前机构
             config: {},
 
