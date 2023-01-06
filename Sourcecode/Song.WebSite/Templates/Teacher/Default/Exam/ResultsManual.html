@@ -9,11 +9,159 @@
 
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
 
         <div class="toolsbar">
+
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1,0)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div> <span>
+                <icon exam></icon>{{entity.Exam_Title}}
+            </span>
+        </div>
+        <div class="context">
+            <div class="accounts_list">
+                <el-table ref="datatables" :data="results" tooltip-effect="dark" style="width: 100%;" row-key="Exr_ID"
+                    v-loading="loading" @row-click="setCurrent" :highlight-current-row="true">
+                    <el-table-column type="index" width="50" label="#">
+                        <template slot-scope="scope">
+                            <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="姓名" width="120">
+                        <template slot-scope="scope">
+                            <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
+                                v-html='showsearch(scope.row.Ac_Name,form.name)' class="large">
+                            </icon>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="身份证">
+                        <template slot-scope="scope">
+                            <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="成绩" width="80" align="center">
+                        <template slot-scope="scope">
+                            <span :class="{'red':scope.row.Exr_ScoreFinal<entity.Exam_PassScore}">
+                                <score :number="scope.row.Exr_ScoreFinal"></score>
+                            </span>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div id="pager-box">
+                    <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index"
+                        :page-sizes="[1]" :page-size="form.size" :pager-count="5" v-show="!loading"
+                        layout="total, prev, pager, next" :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+
+            <div class="manual_area">
+                <div class="account_bar" @click="accountVisible=true">
+                    <avatar :account="account" circle="true" size="35"></avatar>
+                    <b>{{account.Ac_Name}}</b>
+                    <el-tag>
+                        参考时间：{{current.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                    </el-tag>
+                    <el-tag type="warning"> 用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}} 分钟</el-tag>
+                </div>
+                <div class="ques_area">
+                    d
+                </div>
+                <div class="btns">
+                    <div class="move_btn">
+                        <el-link type="primary" @click="moveCurrent(-1)">
+                            <icon>&#xe803</icon>上一位
+                        </el-link>
+                        <el-link type="primary" @click="moveCurrent(1)"> 下一位<icon>&#xe802</icon>
+                        </el-link>
+                    </div>
+                    <el-button type="primary" plain>
+                        <icon>&#xa048</icon>
+                        保存成绩
+                    </el-button>
+                </div>
+            </div>
         </div>
 
+        <el-dialog title="考生信息" :visible.sync="accountVisible">
+            <div slot="title">
+                <icon style="font-size: 25px;">&#xe669</icon>考生信息
+            </div>
+            <el-row :gutter="20">
+                <el-col :span="24" class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
+                    </div>
+                    <div icon="&#xe60f" title="身份证">
+                        {{account.Ac_IDCardNumber}}
+                    </div>
+                    <div icon="&#xa047" title="电话">
+                        <span v-html='account.Ac_MobiTel1'></span>
+                        <span
+                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                    </div>
+
+                </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <el-row :gutter="20" class="accountInfo">
+                <el-col :span="4">
+                    考试
+                </el-col>
+                <el-col :span="20">
+                    {{entity.Exam_Title}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="20" class="accountInfo" v-if="accountVisible">
+                <el-col :span="4">
+                    &nbsp;
+                </el-col>
+                <el-col :span="20">
+                    <el-tag type="success">开始时间</el-tag>
+                    <el-tag type="info">{{current.Exr_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20" class="accountInfo">
+                <el-col :span="4">
+                    &nbsp;
+                </el-col>
+                <el-col :span="20">
+                    <el-tag>交卷时间</el-tag>
+                    <el-tag type="info">{{current.Exr_LastTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+                    <el-tag type="info">用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}}分钟</el-tag>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20" class="accountInfo">
+                <el-col :span="4">
+                    成绩
+                </el-col>
+                <el-col :span="20">
+                    <b>{{current.Exr_ScoreFinal}} </b>分
+
+                    <el-tag type="danger" v-if="current.Exr_ScoreFinal<entity.Exam_PassScore"> 不及格</el-tag>
+                    <el-tag type="info">满分 {{entity.Exam_Total}} 分，{{entity.Exam_PassScore}} 分及格</el-tag>
+                </el-col>
+            </el-row>
+        </el-dialog>
     </div>
 
 

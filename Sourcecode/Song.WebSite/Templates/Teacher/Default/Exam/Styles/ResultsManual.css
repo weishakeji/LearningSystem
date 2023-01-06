@@ -1,1 +1,161 @@
 ﻿@charset "utf-8";
+
+.toolsbar {
+    display: flex;
+}
+
+.toolsbar>*:last-child {
+    flex: 1;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    padding-right: 10px;
+    text-align: right;
+}
+
+.context {
+    height: calc(100% - 32px);
+    width: 100%;
+    display: flex;
+}
+
+/*成绩列表区域*/
+.accounts_list {
+    width: 400px;
+    height: 100%;
+    position: relative;
+}
+
+.el-table {
+    height: 100%;
+}
+
+.el-table__body tr>td.el-table__cell {
+    cursor: pointer;
+}
+
+.el-table__body tr.current-row>td.el-table__cell {
+    background-color: #cce0f7 !important;
+}
+
+.accounts_list #pager-box {
+    position: absolute;
+}
+
+/*人工判卷区域*/
+.manual_area {
+    flex: 1;
+    box-sizing: border-box;
+    border-left: solid 1px #ccc;
+    padding: 3px 0px 0px 0px;
+    position: relative;
+}
+
+.account_bar {
+    display: flex;
+    line-height: 37px;
+}
+
+.account_bar .el-tag {
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.account_bar .ws_avatar {
+    margin-right: 8px;
+}
+
+.manual_area .ques_area {
+    background-color: aquamarine;
+    width: 100%;
+    height: calc(100% - 80px);
+    box-sizing: border-box;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.manual_area .btns {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 5px;
+
+}
+
+.move_btn {
+    height: 20px;
+    margin-top: 10px;
+}
+
+.move_btn>*:first-child {
+    margin-right: 15px;
+}
+
+.move_btn * {
+    font-size: 14px;
+    line-height: 20px;
+    user-select: none;
+}
+
+.move_btn icon:first-child {
+    font-size: 18px;
+}
+
+.move_btn icon:last-child {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.accountInfo {
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.accountInfo .ws_avatar {
+
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+/*得分，小数点对齐*/
+.score {
+    width: 80px;
+    display: flex;
+}
+
+.score span {
+    display: block;
+}
+
+.score .after {
+    width: 30px;
+    float: right;
+    text-align: left;
+}
+
+.score .dot {
+    width: 8px;
+    float: right;
+    text-align: center;
+}
+
+.score .prev {
+    width: 45px;
+    float: right;
+    text-align: right;
+}
