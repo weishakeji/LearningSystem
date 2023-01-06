@@ -171,14 +171,6 @@
             clickTable: function (row, index, e) {
                 //调用,table的方法,展开/折叠 行
                 this.$refs.datatable.toggleRowExpansion(row)
-            },
-            //查看成绩详情的按钮
-            btnResultView: function (row) {
-                var file = 'ResultsDetails';
-                var boxid = "ResultsDetails_" + row.Exam_ID + "_" + file;
-                var title = '  “' + row.Exam_Title + "”";
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 600, 400,
-                    { pid: window.name, resize: true });
             }
         },
         components: {
@@ -286,10 +278,18 @@
                     });
                 },
                 methods: {
+                    //查看当前考试的成绩列表
                     btnResultView: function (row) {
                         var file = 'ResultsDetail';
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
+                        window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
+                            { pid: window.name, resize: true, 'showmask': true, 'min': false, 'ico': 'e696' });
+                    },
+                    btnResultManual: function (row) {
+                        var file = 'ResultsManual';
+                        var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
+                        var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
                         window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
                             { pid: window.name, resize: true, 'showmask': true, 'min': false, 'ico': 'e696' });
                     }
@@ -305,7 +305,7 @@
               <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
                 <el-col :span="8">
                     <el-tooltip content="点击查看成绩" placement="bottom" effect="light">
-                        <el-link type="primary" @click="btnResultView(item)">
+                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Title">
                             <icon>&#xe696</icon>{{item.Exam_Title}}
                         </el-link>      
                     </el-tooltip>              
@@ -316,7 +316,7 @@
                 <el-col :span="2"><span class="el-icon-loading" v-if="item.number==-1"></span><span v-else>{{item.number}}</span></el-col>
                 <el-col :span="2" v-if="item.manual">
                     <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
-                        <el-link type="primary"><icon>&#xa02e</icon>批阅</el-link> 
+                        <el-link type="primary" @click="btnResultManual(item)"><icon>&#xa02e</icon>批阅</el-link> 
                     </el-tooltip> 
                 </el-col>
               </el-row>

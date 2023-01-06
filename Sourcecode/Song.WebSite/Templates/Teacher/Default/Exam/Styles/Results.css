@@ -21,3 +21,6 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
+.Exam_Title *{
+    font-size: 15px;
+}
