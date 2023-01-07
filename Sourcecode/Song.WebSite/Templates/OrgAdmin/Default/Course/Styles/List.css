@@ -8,7 +8,6 @@ html, body, #vapp {
 	overflow: hidden;
 	position: relative;
 }
-
 .tdcell, .tdcell * {
 	line-height: 20px !important;
 	max-height: 40px;
