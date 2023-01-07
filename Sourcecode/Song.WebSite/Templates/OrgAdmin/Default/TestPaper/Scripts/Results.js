@@ -110,6 +110,7 @@
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
+                var loading_obj = this.$fulloading();
                 var form = $api.clone(this.form);
                 if (form.score_min === '') form.score_min = -1;
                 if (form.score_max === '') form.score_max = -1;
@@ -125,6 +126,9 @@
                         th.datas = result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
+                        th.$nextTick(function () {
+                            loading_obj.close();
+                        });
                     } else {
                         throw d.data.message;
                     }

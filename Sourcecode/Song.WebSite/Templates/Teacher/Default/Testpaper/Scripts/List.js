@@ -180,6 +180,11 @@ $ready(function () {
                 var url = $api.url.set(ctr.path, 'couid', couid);
                 console.log(url);
                 ctr.add(url);
+            },
+             //查看成绩
+             viewResults: function (row) {
+                var url = $api.url.set('/orgadmin/TestPaper/Results', 'tpid', row.Tp_Id);
+                this.$refs.btngroup.pagebox(url, '《' + row.Tp_Name + '》的成绩', null, 800, 600, { 'ico': 'e696' });
             }
         }
     });

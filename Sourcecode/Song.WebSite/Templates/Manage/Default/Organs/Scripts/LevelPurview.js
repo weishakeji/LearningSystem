@@ -15,10 +15,12 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
+            //获取所有供选择的菜单项
             $api.get('ManageMenu/OrganPurviewSelect').then(function (req) {
                 if (req.data.success) {
                     th.datas = req.data.result;
                     console.log(th.datas);
+                    //获取已经选择的菜单项
                     $api.get('ManageMenu/OrganPurviewUID', { 'lvid': th.id }).then(function (req) {
                         th.loading = false;
                         if (req.data.success) {

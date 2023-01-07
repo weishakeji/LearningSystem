@@ -15,7 +15,7 @@ $ready(function () {
             },
             loading: false,  //预载
             drawer: false  //编辑的面板
-           
+
         },
         watch: {
             drawer: function (nl, ol) {
@@ -30,7 +30,7 @@ $ready(function () {
             }
         },
         created: function () {
-            this.getTreeData();           
+            this.getTreeData();
         },
         methods: {
             getTreeData: function () {
@@ -88,38 +88,22 @@ $ready(function () {
             //克隆一个新节点
             clone: function (data) {
                 var temp = {
-                    "MM_Id": -1,
-                    "MM_Name": "",
-                    "MM_Type": "",
-                    "MM_Root": 103,
-                    "MM_Link": "",
-                    "MM_Marker": "",
-                    "MM_Tax": 0,
-                    "MM_PatId": 0,
-                    "MM_Color": "",
-                    "MM_Font": "",
-                    "MM_IsBold": false,
-                    "MM_IsItalic": false,
-                    "MM_IcoS": "",
-                    "MM_IcoB": "",
-                    "MM_IsUse": true,
-                    "MM_IsShow": true,
-                    "MM_Intro": "",
-                    "MM_IsChilds": false,
-                    "MM_Func": "sys",
-                    "MM_WinWidth": 0,
-                    "MM_WinHeight": 0,
-                    "MM_IcoX": 0,
-                    "MM_IcoY": 0,
-                    "MM_UID": "",
-                    "MM_WinMin": false,
-                    "MM_WinMax": false,
-                    "MM_WinMove": false,
-                    "MM_WinResize": false,
-                    "MM_WinID": "",
-                    "id": 0,
-                    "label": "",
-                    "ico": ""
+                    "MM_Id": -1, "MM_Name": "",
+                    "MM_Type": "", "MM_Root": 103,
+                    "MM_Link": "", "MM_Marker": "",
+                    "MM_Tax": 0, "MM_PatId": 0,
+                    "MM_Color": "", "MM_Font": "",
+                    "MM_IsBold": false, "MM_IsItalic": false,
+                    "MM_IcoS": "", "MM_IcoB": "",
+                    "MM_IsUse": true, "MM_IsShow": true,
+                    "MM_Intro": "", "MM_IsChilds": false,
+                    "MM_Func": "sys", "MM_WinWidth": 0,
+                    "MM_WinHeight": 0, "MM_IcoX": 0,
+                    "MM_IcoY": 0, "MM_UID": "",
+                    "MM_WinMin": false, "MM_WinMax": false,
+                    "MM_WinMove": false, "MM_WinResize": false,
+                    "MM_WinID": "", "id": 0,
+                    "label": "", "ico": ""
                 }
                 var obj = $api.clone(temp);
                 obj.MM_Id = obj.id = -parseInt(Math.random() * 9999, 10) + 1;
