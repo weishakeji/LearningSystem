@@ -125,7 +125,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="试题" class-name="ques_title">
+            <el-table-column label="试题" class-name="ques_title"  min-width="300px">
                 <template slot-scope="scope">
                     <ques_type :type="scope.row.Qus_Type" :types="types"></ques_type>
                     <alert v-if="scope.row.Qus_IsError" title="存在错误">存在错误</alert>

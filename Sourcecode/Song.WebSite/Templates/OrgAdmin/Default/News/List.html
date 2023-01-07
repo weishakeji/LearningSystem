@@ -59,7 +59,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="标题">
+                <el-table-column label="标题" min-width="300px">
                     <template slot-scope="scope">
                         <icon v-if="scope.row.Art_IsImg" title="图片" style="font-size: 18px;">&#xe672</icon>
                         <span v-html="showsearch(scope.row.Art_Title,form.search)"class="large"></span>
