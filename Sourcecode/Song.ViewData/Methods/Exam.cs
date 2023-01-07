@@ -189,8 +189,8 @@ namespace Song.ViewData.Methods
             if (exam != null)
             {
                 jo.Add("uid", exam.Exam_UID);
-                jo.Add("subject", exam.Sbj_ID);
-                jo.Add("paper", exam.Tp_Id);
+                jo.Add("subject", exam.Sbj_ID.ToString());
+                jo.Add("paper", exam.Tp_Id.ToString());
             }
             else
             {
