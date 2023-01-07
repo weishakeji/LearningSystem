@@ -1,5 +1,6 @@
 ﻿.type_title{
     height: 40px;
+    line-height: 40px;
 }
 .type_info{
     float: right;

@@ -221,7 +221,7 @@ Vue.component('page_header', {
                 <img src="/Utilities/Images/def_logo.jpg" v-else />
             </a>          
             <search>
-                <input type="text" name="fname" v-model.trim="search" placeholder="请输入查询" @keyup.enter="gosearch()"></input>
+                <input type="text" name="fname" v-model.trim="search" placeholder="课程查询" @keyup.enter="gosearch()"></input>
                 <icon @click="gosearch()">&#xa00b</icon>
             </search>
             <userbar>

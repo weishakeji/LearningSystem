@@ -122,9 +122,9 @@ card-context {
 
 card-context a {
     display: block;
-    font-size: 16px;
-    line-height: 30px;
-    height: 30px;
+    font-size: 18px;
+    line-height: 35px;
+    height: 35px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
