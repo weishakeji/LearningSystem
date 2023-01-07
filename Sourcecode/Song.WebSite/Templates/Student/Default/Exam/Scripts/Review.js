@@ -119,7 +119,7 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
-                        var num = q.attr('num');
+                        var num = Number(q.attr('num'));
                         if (type == 4 || type == 5) ans = q.text();
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));

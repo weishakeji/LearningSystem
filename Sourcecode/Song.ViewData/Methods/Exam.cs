@@ -880,6 +880,22 @@ namespace Song.ViewData.Methods
             return Business.Do<IExamination>().ResultSingle(id);
         }
         /// <summary>
+        /// 保存考试成绩，用于教师批阅后的保存
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        [Teacher,Admin]
+        [HttpPost]
+        [HtmlClear(Not = "result")]
+        public bool ResultModify(ExamResults result)
+        {
+            ExamResults exr=Business.Do<IExamination>().ResultSingle(result.Exr_ID);
+            if (exr == null) return false;
+            exr.Copy<Song.Entities.ExamResults>(result);
+            Business.Do<IExamination>().ResultSave(exr);
+            return true;
+        }
+        /// <summary>
         /// 获取成绩记录
         /// </summary>
         /// <param name="examid">考试id</param>

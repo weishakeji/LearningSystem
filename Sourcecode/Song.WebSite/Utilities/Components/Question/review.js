@@ -3,6 +3,7 @@ $dom.load.css(['/Utilities/Components/Question/Styles/review.css']);
 Vue.component('question', {
     //exam:当前考试
     //stid:当前考试的学员id
+    //state:显示状态，success显示正确的，error显示答错的题，unasnwered未做的题，默认为所有
     //groupindex:试题题型的分组，用于排序号
     props: ['exam', 'stid', 'qans', 'index', 'state', 'groupindex', 'questions', 'org'],
     data: function () {
@@ -18,13 +19,13 @@ Vue.component('question', {
     watch: {
         'ques': {
             handler(nv, ov) {
-                if (!this.existques) return;
+                //if (!this.existques) return;
                 if (this.exam && nv.Qus_Type == 4) {
                     this.accessoryLoad();
                 }
                 this.$nextTick(function () {
                     var dom = $dom("card[qid='" + this.qans.id + "']");
-                    console.error(dom);
+                    //console.error(dom);
                     //清理空元素                
                     window.ques.clearempty(dom.find('card-title'));
                     window.ques.clearempty(dom.find('.ans_area'));
@@ -35,7 +36,7 @@ Vue.component('question', {
             immediate: true
         },
         'qans': {
-            handler(nv, ov) {
+            handler(nv, ov) {               
                 console.log(nv);
             },
             immediate: true
@@ -303,7 +304,9 @@ Vue.component('question', {
                 <span v-else>无</span>
             </div>
         </div>
+         <slot :ques="ques" :qans="qans"></slot>
         </card-context>
+       
         <div class="orgname noview" v-if="org">{{org.Org_Name}}</div>
       </card>`
 });

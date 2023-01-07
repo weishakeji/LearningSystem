@@ -71,15 +71,37 @@
 
             <div class="manual_area">
                 <div class="account_bar" @click="accountVisible=true">
-                    <avatar :account="account" circle="true" size="35"></avatar>
-                    <b>{{account.Ac_Name}}</b>
+                    <template v-if="account.Ac_ID">
+                        <avatar :account="account" circle="true" size="35"></avatar>
+                        <b>{{account.Ac_Name}}</b>
+                    </template>
+                    <el-tag :type="current.Ac_Sex=='2' ? 'danger' : ''" v-else>{{current.Ac_Name}}</el-tag>
                     <el-tag>
                         参考时间：{{current.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
                     </el-tag>
                     <el-tag type="warning"> 用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}} 分钟</el-tag>
                 </div>
                 <div class="ques_area">
-                    d
+                    <template v-for="(type,index) in quesAnswers" v-if="type.type==4">
+                        <question v-for="(q,i) in type.ques" :qans="q" :stid="account.Ac_ID" :exam="entity" :index="i"
+                            :groupindex="0" :questions="quesAnswers" :org="organ">
+                            <template scope="data">
+                                <el-input placeholder="请输入得分" class="score_area" type="number"
+                                    v-model.number="data.qans.score" :max="data.qans.num" :min="0"
+                                    @input="val=>{data.qans.score=val=='' ? 0 : (Number(val)>data.qans.num ? data.qans.num : Number(val))}">
+                                    <template slot="prepend">
+                                        <icon>&#xa02e</icon>人工判卷得分
+                                    </template>
+                                    <template slot="append">分，该题满分 {{data.qans.num}} 分</template>
+                                </el-input>
+                                <template v-if="false">
+                                    {{data.ques.Qus_Title}}
+                                    <hr />
+                                    {{data.qans}}
+                                </template>
+                            </template>
+                        </question>
+                    </template>
                 </div>
                 <div class="btns">
                     <div class="move_btn">
@@ -89,8 +111,8 @@
                         <el-link type="primary" @click="moveCurrent(1)"> 下一位<icon>&#xe802</icon>
                         </el-link>
                     </div>
-                    <el-button type="primary" plain>
-                        <icon>&#xa048</icon>
+                    <el-button type="primary" plain @click="savescore" :loading="loading_up">
+                        <icon v-if="!loading_up">&#xa048</icon>
                         保存成绩
                     </el-button>
                 </div>
@@ -103,23 +125,27 @@
             </div>
             <el-row :gutter="20">
                 <el-col :span="24" class="accountInfo">
-                    <avatar :account="account" circle="true" size="80"></avatar>
-                    <div>
-                        <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
-                            <b>{{account.Ac_Name}}</b>
-                        </icon>
-                        <span title="账号">({{account.Ac_AccName}})</span>
-                    </div>
-                    <div icon="&#xe60f" title="身份证">
-                        {{account.Ac_IDCardNumber}}
-                    </div>
-                    <div icon="&#xa047" title="电话">
-                        <span v-html='account.Ac_MobiTel1'></span>
-                        <span
-                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
-                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
-                    </div>
-
+                    <template v-if="account.Ac_ID">
+                        <avatar :account="account" circle="true" size="80"></avatar>
+                        <div>
+                            <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                                <b>{{account.Ac_Name}}</b>
+                            </icon>
+                            <span title="账号">({{account.Ac_AccName}})</span>
+                        </div>
+                        <div icon="&#xe60f" title="身份证">
+                            {{account.Ac_IDCardNumber}}
+                        </div>
+                        <div icon="&#xa047" title="电话">
+                            <span v-html='account.Ac_MobiTel1'></span>
+                            <span
+                                v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                            <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                        </div>
+                    </template>
+                    <icon :woman="current.Ac_Sex=='2'" v-else :man="current.Ac_Sex!='2'" class="large">
+                        {{current.Ac_Name}}
+                    </icon>
                 </el-col>
             </el-row>
             <el-divider></el-divider>

@@ -847,6 +847,9 @@
             arr2.push('/Utilities/Components/avatar.js');
             //加载状态组件
             arr2.push('/Utilities/Components/useicon.js');
+             //mathjax，解析latex公式
+             arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+             arr2.push('/Utilities/MathJax/globalVariable.js');
             window.$dom.load.js(arr2, f);
         });
     };

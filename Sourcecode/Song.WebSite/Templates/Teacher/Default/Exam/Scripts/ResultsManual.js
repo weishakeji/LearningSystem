@@ -3,6 +3,8 @@
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
+            organ: {},
+            types: {},          //题型
             entity: {}, //当前考试对象
             form: {
                 examid: $api.querystring('id'),
@@ -18,8 +20,10 @@
             account: {},      //当前学员信息
             current: {},     //当前行对象
 
+            quesAnswers: [],     //答题信息
 
             loading: false,
+            loading_up: false,       //提交信息时预载
             loadingid: 0,
         },
         computed: {
@@ -31,15 +35,30 @@
         created: function () {
             //获取考试信息
             var th = this;
-            $api.get('Exam/ForID', { 'id': this.id }).then(function (req) {
-                if (req.data.success) {
-                    th.entity = req.data.result;
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
+            th.loading = true;
+            $api.bat(
+                $api.cache('Question/Types:9999'),
+                $api.get('Organization/Current'),
+                $api.cache('Exam/ForID', { 'id': th.form.examid })
+            ).then(axios.spread(function (types, org, exam) {
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.message);
+                        throw arguments[i].config.way + ' ' + data.message;
+                    }
                 }
-            }).catch(function (err) {
-                //alert(err);
+                //获取结果           
+                th.types = types.data.result;
+                th.organ = org.data.result;
+                th.entity = exam.data.result;
+
+            })).catch(function (err) {
+                th.loading = false;
+                alert(err);
                 console.error(err);
             });
             this.handleCurrentChange(1, 0);
@@ -82,22 +101,24 @@
             },
             //设置为当前学员
             setCurrent: function (row, column, event) {
-                row.index = this.getArrayIndex(row);
+                row.index = getArrayIndex(this.results, row);
                 this.current = row;
                 this.$refs['datatables'].setCurrentRow(row);
                 this.getaccount(this.current);
-                console.log(row);
-            },
-            // 获取一个元素在数组中的下标
-            getArrayIndex: function (obj) {
-                var arr = this.results;
-                var i = arr.length;
-                while (i--) {
-                    if (arr[i].Exr_ID === obj.Exr_ID) {
-                        return i;
+                this.quesAnswers = [];
+                this.$nextTick(function () {
+                    this.quesAnswers = this.analysisQuesAnswer(this.current);
+                });
+
+                function getArrayIndex(arr, obj) {
+                    var i = arr.length;
+                    while (i--) {
+                        if (arr[i].Exr_ID === obj.Exr_ID) {
+                            return i;
+                        }
                     }
+                    return -1;
                 }
-                return -1;
             },
             //取上一位和下一位，move为移动值，1或-1
             moveCurrent: function (move) {
@@ -116,7 +137,7 @@
             },
             //当查看学员信息时，获取当前学员信息
             getaccount: function (row) {
-                var th = this;                
+                var th = this;
                 $api.get('Account/ForID', { 'id': row.Ac_ID }).then(function (req) {
                     if (req.data.success) {
                         th.account = req.data.result;
@@ -125,11 +146,109 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    th.account = {};
                     console.error(err);
                 });
             },
+            //试卷中的答题信息
+            //返回结构：先按试题分类，分类下是答题信息
+            analysisQuesAnswer: function (exr) {
+                if (!(exr && exr.Exr_Results)) return [];
+                var exrxml = $api.loadxml(exr.Exr_Results);
+                var arr = [];
+                if (exrxml == null || JSON.stringify(exrxml) === '{}') return arr;
+                var elements = exrxml.getElementsByTagName("ques");
+                for (var i = 0; i < elements.length; i++) {
+                    var gruop = $dom(elements[i]);
+                    //题型,题量，总分
+                    var type = Number(gruop.attr('type'));
+                    var count = Number(gruop.attr('count'));
+                    var number = Number(gruop.attr('number'));
+                    //试题
+                    var qarr = [];
+                    var list = gruop.find('q');
+                    for (var j = 0; j < list.length; j++) {
+                        var q = $dom(list[j]);
+                        var qid = q.attr('id');
+                        var ans = q.attr('ans');
+                        var num = Number(q.attr('num'));
+                        if (type == 4 || type == 5) ans = q.text();
+                        var sucess = q.attr('sucess') == 'true';
+                        var score = Number(q.attr('score'));
+                        qarr.push({
+                            'id': qid, 'type': type, 'num': num,
+                            'ans': ans, 'success': sucess, 'score': score
+                        });
+                    }
+                    arr.push({
+                        'type': type, 'count': count, 'number': number, 'ques': qarr
+                    });
+                }
+                return arr;
+            },
+            //保存手工批阅的信息
+            savescore: function () {
+                //计算总分
+                var total = 0;
+                for (let i = 0; i < this.quesAnswers.length; i++) {
+                    const ques = this.quesAnswers[i].ques;
+                    for (let j = 0; j < ques.length; j++) {
+                        if (ques[j].num == ques[j].score)
+                            ques[j].success = true;
+                        total += ques[j].score;
+                    }
+                }
+                this.current.Exr_ScoreFinal = total;
+                //同步到成绩详细记录中（xml)
+                var exrxml = $api.loadxml(this.current.Exr_Results);
+                var elements = exrxml.getElementsByTagName("q");
+                for (var i = 0; i < elements.length; i++) {
+                    var q = $dom(elements[i]);
+                    q.attr('score', getscore(q.attr('id'), this.quesAnswers));
+                }
+                //获取试题得分
+                function getscore(qid, arr) {
+                    for (let i = 0; i < arr.length; i++) {
+                        for (let j = 0; j < arr[i].ques.length; j++) {
+                            if (arr[i].ques[j].id == qid) return arr[i].ques[j].score;
+                        }
+                    }
+                }
+                this.current.Exr_Results = this.outputxml(exrxml);
 
+                //保存到服务器端
+                var th = this;
+                th.loading_up = true;
+                $api.post('Exam/ResultModify', { 'result': th.current }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$set(th.results, th.current.index, th.current);
+                        th.moveCurrent(1);
+                        th.$notify({
+                            title: '成功',
+                            message: '即将转到下一位学员',
+                            type: 'success', duration: 2000,
+                            position: 'bottom-right'
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading_up = false;
+                });
+            },
+            outputxml: function (obj) {
+                var type = $api.getType(obj);
+                if (type != 'XMLDocument') return '';
+                var dom = $dom(obj);
+                var xml = '<?xml version="1.0" encoding="utf-8"?>';
+                xml += dom.childs().outHtml();
+                return xml;
+            }
         },
         components: {
             //得分的输出，为了小数点对齐
@@ -142,23 +261,33 @@
                         after: ''
                     }
                 },
-                created: function () {
-                    var num = String(Math.round(this.number * 100) / 100);
-                    if (num.indexOf('.') > -1) {
-                        this.prev = num.substring(0, num.indexOf('.'));
-                        this.after = num.substring(num.indexOf('.') + 1);
-                    } else {
-                        this.prev = num;
-                        this.dot = '&nbsp;';
+                watch: {
+                    'number': {
+                        handler(nv, ov) {
+                            this.init();
+                        }, immediate: true
+                    },
+                },
+                methods: {
+                    init: function () {
+                        var num = String(Math.round(this.number * 100) / 100);
+                        if (num.indexOf('.') > -1) {
+                            this.prev = num.substring(0, num.indexOf('.'));
+                            this.after = num.substring(num.indexOf('.') + 1);
+                        } else {
+                            this.prev = num;
+                            this.dot = '&nbsp;';
+                        }
                     }
                 },
                 template: `<div class="score">
-                    <span class="prev">{{prev}}</span>
-                    <span class="dot" v-html="dot"></span>
-                    <span class="after">{{after}}</span>
+                        <span class="prev">{{prev}}</span>
+                        <span class="dot" v-html="dot"></span>
+                        <span class="after">{{after}}</span>
                     </div>`
             }
         }
     });
 
-});
+}, ['/Utilities/Components/question/review.js',
+    '/Utilities/Components/question/function.js']);

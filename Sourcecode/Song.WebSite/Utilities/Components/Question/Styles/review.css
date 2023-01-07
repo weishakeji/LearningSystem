@@ -56,7 +56,7 @@
 card[qid] .noview {
 	display: none;
 }
-
+/*
 card[qid]:first-child {
 	margin: 0px 0px 15px 0px;
 	width: 100%;
@@ -65,17 +65,21 @@ card[qid]:first-child {
 card[qid]:first-child card-title {
 	text-align: center;
 }
-
+*/
 card[qid] img {
 	max-width: 100%;
 	height: auto;
 }
-
+card[qid] table{
+	max-width: 100% !important;
+}
 card[qid] span.tag {
 	color: #999;
 	font-size: 14px;
 }
-
+card[qid] card-title{
+	text-align: left;
+}
 card[qid] card-title::before {
 	content: attr(index) ' . ';
 	float: left;
@@ -232,4 +236,19 @@ card[qid] .resultBox div.result_score {
 
 card[qid] .resultBox div.result_score[success] {
 	color: #1989fa;
+}
+.accessory{
+	font-size: 16px;
+}
+.accessory a{
+	color: #409EFF;
+	cursor: pointer;
+}
+.accessory a[download]{
+	font-size: 14px;
+}
+.accessory>icon{
+	font-size: 14px;
+	color: #F56C6C;
+	margin-left: 10px;
 }

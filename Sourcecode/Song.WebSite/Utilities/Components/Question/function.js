@@ -41,7 +41,8 @@
         if (exclude.includes(dom[0].tagName)) return;
 
         var childs = dom.childs();
-        if (childs.length < 1 && dom.text().length < 1) dom.hide();
+        //if (childs.length < 1 && dom.text().length < 1) dom.hide();
+        if (dom.text().length < 1) dom.hide();
         var th = this;
         if (childs.length > 0) {
             childs.each(function () {
