@@ -40,3 +40,6 @@ img.photo {
 .upload_img_area img{
     height: 100px;
 }
+.upload_img_area .nophoto icon {
+    margin: 0px;
+ }

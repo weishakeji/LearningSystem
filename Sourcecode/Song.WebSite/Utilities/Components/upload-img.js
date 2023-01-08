@@ -112,13 +112,13 @@ Vue.component('upload-img', {
         }
     },
     template: `<div class="upload_img_area" :ctrid="ctrid" :style="{'height':height_px}">   
-    <input type="file" name="file" :id="ctrid" v-show="false" @change="select_change" ></input>
-    <div @click="select_file">
-        <slot>
-            <span v-html="text" v-if="text!=''"></span>
-            <span v-else>选择需要上传的文件</span>
-        </slot>
-    </div>
-    <div v-if="error.state" class="error">* {{error.text}}</div>
+        <input type="file" name="file" :id="ctrid" v-show="false" @change="select_change" ></input>
+        <div @click="select_file">
+            <slot>
+                <span v-html="text" v-if="text!=''"></span>
+                <span v-else>选择需要上传的文件</span>
+            </slot>
+        </div>
+        <div v-if="error.state" class="error">* {{error.text}}</div>
     </div>`
 });
