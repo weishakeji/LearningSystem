@@ -14,7 +14,7 @@
 
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
-> “安装文件”是编译之后的程序，可以直接部署，存储在百度云盘，提取码：xekq。
+> “安装文件”是编译之后的程序，可以直接部署，存储在<a href="https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg" target="_blank" size=12> [ 百度云盘 ] </a>，提取码：xekq。
 
 ## 技术特点
  * 前后端分离（MVVM架构），C#、Sqlserver、Vue
