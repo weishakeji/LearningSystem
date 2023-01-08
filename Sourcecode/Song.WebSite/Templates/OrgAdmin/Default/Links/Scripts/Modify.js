@@ -62,7 +62,9 @@ $ready(function () {
                 th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
-                    vapp.entity = result;
+                    th.entity = result;
+                    if (th.entity.Ls_Id == 0)
+                        th.entity.Ls_Id = '';
                 } else {
                     throw '未查询到数据';
                 }

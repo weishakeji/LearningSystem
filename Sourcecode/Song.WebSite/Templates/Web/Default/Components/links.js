@@ -1,52 +1,96 @@
 ﻿
 //友情链接
-Vue.component('links', {
-    //友情链接分类，取多少条记录，低于多少条不再显示,排序方式
-    props: ["sort", "org", 'count', 'mincount', 'order'],
+$dom.load.css([$dom.path() + 'Components/Styles/links.css']);
+//友情链接的分类
+Vue.component('linksorts', {
+    //友情链接分类，
+    //sort:分类id,如果为空，取所有指定个数(count)
+    //count:取多少个分类  
+    props: ["org", "sort", 'count'],
     data: function () {
         return {
-            path: $dom.path(),   //模板路径
-            show: false,         //是否显示，  
-            datas: []
+            sorts: []           //链接分类         
         }
     },
     watch: {
         'org': {
             handler: function (nv, ov) {
                 if (JSON.stringify(nv) != '{}' && nv != null)
+                    this.getsort();
+            }, immediate: true
+        }
+    },
+    computed: {    },
+    mounted: function () {},
+    methods: {
+        //获取链接分类
+        getsort: function () {
+            var th = this;
+            if (th.sort != null) {
+                $api.post('Link/SortForID', { 'id': th.sort }).then(function (req) {
+                    if (req.data.success) {
+                        th.$set(th.sorts, 0, req.data.result);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            } else {
+                $api.post('Link/SortCount', { 'orgid': th.org.Org_ID, 'use': true, 'show': true, 'search': '', 'count': th.count })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.sorts = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    });
+            }
+        }
+    },
+
+    template: `<weisha class="linksorts" v-if="sorts.length>0">
+        <slot name="title"></slot>          
+        <links :sort="ls" v-for="(ls,i) in sorts"></links>         
+    </weisha>`
+});
+//友情链接列表
+Vue.component('links', {
+    //sort:友情链接分类，  
+    //count:取多少个链接
+    props: ["sort", 'count'],
+    data: function () {
+        return {         
+            datas: [],
+            loading:false
+        }
+    },
+    watch: {
+        'sort': {
+            handler: function (nv, ov) {
+                if (JSON.stringify(nv) != '{}' && nv != null)
                     this.getdata();
             }, immediate: true
         }
     },
-    computed: {
-    },
-    mounted: function () {
-        var css = $dom.path() + 'Components/Styles/links.css';
-        var isexist = false;
-        $dom("link[href]").each(function () {
-            var href = $dom(this).attr("href");
-            if (href.indexOf(css) > -1) {
-                isexist = true;
-                return false;
-            }
-        });
-        if (!isexist) $dom.load.css([css]);
-        this.mincount = !parseInt(this.mincount) ? 0 : parseInt(this.mincount);
-    },
+    computed: {    },
+    mounted: function () {},
     methods: {
         //获取数据
         getdata: function () {
             var th = this;
-            if (!(!!this.org.Org_ID)) return;
-            var sortid = th.sort == null ? 0 : th.sort.Ls_Id;
-            var orgid = th.org == null ? 0 : th.org.Org_ID;
-
+            if (!(!!this.sort.Ls_Id)) return;
             $api.cache('Link/Count',
-                { 'orgid': orgid, 'sortid': sortid, 'use': true, 'show': true, 'search': '', 'count': 20 })
+                { 'orgid': -1, 'sortid': th.sort.Ls_Id, 'use': true, 'show': true, 'search': '', 'count': th.count })
                 .then(function (req) {
                     if (req.data.success) {
-                        th.datas = req.data.result;
-                        th.show = th.datas.length >= th.mincount;
+                        th.datas = req.data.result;    
+                        console.error(th.datas);                   
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -57,15 +101,14 @@ Vue.component('links', {
         }
     },
 
-    template: `<weisha class="links" v-show="show">
-        <div class="links-tit">
-            <a href="links.ashx"  v-if="sort==null" target="_blank">友情链接</a>
-            <a href="links.ashx"  v-else target="_blank">{{sort.Ls_Name}}</a>
-        </div>       
-        <div class="link-items">
+    template: `<weisha class="links" v-if="datas.length>0">
+        <slot name="title"></slot>        
           <div v-for="d in datas">
             <div class="link-item"><a :href="d.Lk_Url" target="_blank">{{d.Lk_Name}}</a></div>
           </div>
         </div>
     </weisha>`
 });
+
+
+

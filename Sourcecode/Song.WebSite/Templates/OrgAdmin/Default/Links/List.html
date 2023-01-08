@@ -16,11 +16,12 @@
 
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
-                        <el-select v-model="form.sortid" placeholder="请选择分类">
+                        <el-select v-model="form.sortid" placeholder="请选择分类" clearable>
                             <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name"
                                 :value="item.Ls_Id">
                                 <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
                                 <span style="float: left">{{ item.Ls_Name }}</span>
+                                <links_count :sort="item"></links_count>
                                 <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
                             </el-option>
                         </el-select>

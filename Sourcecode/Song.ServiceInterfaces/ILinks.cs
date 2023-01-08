@@ -118,7 +118,6 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 友情链接分类项
-
         /// <summary>
         /// 添加
         /// </summary>
@@ -166,6 +165,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取同一父级下的最大排序号；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="parentId">父Id</param>
         /// <returns></returns>
         int SortMaxTaxis(int orgid, int parentId);
@@ -173,7 +173,7 @@ namespace Song.ServiceInterfaces
         /// 获取对象；即所有分类；
         /// </summary>
         /// <returns></returns>
-        LinksSort[] GetSortAll(int orgid, bool? isUse, bool? isShow);
+        LinksSort[] SortAll(int orgid, bool? isUse, bool? isShow);
         /// <summary>
         /// 取指定条数的友情链接分类
         /// </summary>
@@ -182,10 +182,19 @@ namespace Song.ServiceInterfaces
         /// <param name="isShow"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        LinksSort[] GetSortCount(int orgid, bool? isUse, bool? isShow, int count);
+        LinksSort[] SortCount(int orgid, bool? isUse, bool? isShow, int count);
+        /// <summary>
+        /// 当前链接分类下，有多少条链接记录
+        /// </summary>
+        /// <param name="lsid">链接分类id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="isShow">是否显示</param>
+        /// <returns></returns>
+        int SortOfCount(int lsid, bool? isUse, bool? isShow);
         /// <summary>
         /// 分页获取
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="isUse"></param>
         /// <param name="isShow"></param>
         /// <param name="searTxt"></param>
@@ -193,10 +202,11 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        LinksSort[] GetSortPager(int orgid, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum);
+        LinksSort[] SortPager(int orgid, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="entity">业务实体</param>
         /// <returns></returns>
         bool SortIsExist(int orgid, LinksSort entity);

@@ -8,7 +8,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header :organ="organ"  @login="acc=>account = acc">loading ...</page_header>
+        <page_header :organ="organ" @login="acc=>account = acc">loading ...</page_header>
 
         <template v-if="!loading">
             <el-carousel v-if="showpic.length>0" class="carousel">
@@ -64,7 +64,8 @@
                                 <img :src="data.Art_Logo" v-if="data.Art_Logo!=''" />
                                 <img src="Images/def_news.jpg" v-else />
                             </a>
-                            <a v-html="data.Art_Title" :title="data.Art_Title" :href="'/web/news/article.'+data.Art_ID"></a>
+                            <a v-html="data.Art_Title" :title="data.Art_Title"
+                                :href="'/web/news/article.'+data.Art_ID"></a>
                         </div>
                     </template>
                 </div>
@@ -85,7 +86,13 @@
         </context>
 
         <context remark="友情链接">
-            <links :sort="null" :org="organ" :count="6" :mincount="6"></links>
+            <linksorts :sort="null" :org="organ" :count="1">
+                <template #title>
+                    <div class="links-tit">
+                        <a href="/web/links" target="_blank">友情链接</a>
+                    </div>
+                </template>
+            </linksorts>
         </context>
         <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>

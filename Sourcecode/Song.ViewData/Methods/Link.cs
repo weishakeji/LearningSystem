@@ -116,7 +116,7 @@ namespace Song.ViewData.Methods
             }
             //总记录数
             int count = 0;
-            Song.Entities.LinksSort[] arr = Business.Do<ILinks>().GetSortPager(orgid, use, show, search, size, index, out count);
+            Song.Entities.LinksSort[] arr = Business.Do<ILinks>().SortPager(orgid, use, show, search, size, index, out count);
             ListResult result = new ListResult(arr);
             result.Index = index;
             result.Size = size;
@@ -135,7 +135,7 @@ namespace Song.ViewData.Methods
         [HttpPost,HttpGet]
         public Song.Entities.LinksSort[] SortCount(int orgid, bool? use, bool? show, string search,int count)
         {
-            return Business.Do<ILinks>().GetSortCount(orgid, use, show, count);
+            return Business.Do<ILinks>().SortCount(orgid, use, show, count);
         }
         /// <summary>
         /// 修改链接分类的状态
@@ -178,6 +178,16 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
+        }
+        /// <summary>
+        /// 获取链接分类下的链接个数
+        /// </summary>
+        /// <param name="sortid">链接分类id</param>
+        /// <param name="use">是启包括启用与未启用，为null时取所有</param>
+        /// <returns></returns>
+        public int SortOfCount(int sortid, bool? use)
+        {
+            return Business.Do<ILinks>().SortOfCount(sortid, use, null); 
         }
         #endregion
 

@@ -22,18 +22,13 @@ $ready(function () {
                 //console.log(val);
             }
         },
-        computed: {
-            //表格高度
-            tableHeight: function () {
-                var height = document.body.clientHeight;
-                return height - 75;
-            }
-        },
+        computed: {},
         created: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -44,11 +39,11 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                vapp.organ = organ.data.result;
-                vapp.form.orgid = vapp.organ.Org_ID;
+                th.organ = organ.data.result;
+                th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.handleCurrentChange(1);
+                th.config = $api.organ(th.organ).config;
+                th.handleCurrentChange(1);
             })).catch(function (err) {
                 console.error(err);
             });
@@ -85,7 +80,7 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -106,7 +101,7 @@ $ready(function () {
                 this.loadingid = row.Ls_Id;
                 $api.post('Link/SortModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -116,7 +111,7 @@ $ready(function () {
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.$alert(err, '错误');
                     th.loadingid = 0;
                 });
             },
@@ -164,12 +159,12 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
-                for (var i = 0; i < arr.length; i++) {
+                for (var i = 0; i < arr.length; i++)
                     delete arr[i]['childs'];
-                }
+                var th = this;
                 $api.post('Link/SortUpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
@@ -185,4 +180,4 @@ $ready(function () {
         }
     });
 
-});
+}, ['Components/links_count.js']);

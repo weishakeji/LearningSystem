@@ -140,4 +140,4 @@ $ready(function () {
         }
     });
 
-});
+}, ['Components/links_count.js']);

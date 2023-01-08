@@ -228,35 +228,20 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public int SortAdd(LinksSort entity)
         {
-            if (entity.Ls_PatId < 0)
-            {
-                //如果父节点小于0，违反逻辑
-                return -1;
-            }
-            if (!(entity.Ls_Name != null && entity.Ls_Name.Trim() != ""))
-            {
-                //如果名称为空
-                return -1;
-            }
+            //如果父节点小于0，违反逻辑
+            if (entity.Ls_PatId < 0) return -1;
+            //如果名称为空
+            if (!(entity.Ls_Name != null && entity.Ls_Name.Trim() != "")) return -1;
             if (entity.Ls_PatId > 0)
             {
                 LinksSort parent = Gateway.Default.From<LinksSort>().Where(LinksSort._.Ls_PatId == entity.Ls_Id).ToFirst<LinksSort>();
-                if (parent == null)
-                {
-                    //如果父节点不存在
-                    return -1;
-                }
+                if (parent == null) return -1;//如果父节点不存在
                 //新增对象的属性，遵循上级；
                 entity.Ls_IsUse = parent.Ls_IsUse;
             }
             //添加对象，并设置排序号
-            object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == entity.Ls_PatId);
-            int tax = 0;
-            if (obj is int)
-            {
-                tax = (int)obj;
-            }
-            entity.Ls_Tax = tax + 1;
+            object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == entity.Ls_PatId);       
+            entity.Ls_Tax = obj is int ?  (int)obj + 1 : entity.Ls_Tax;
             if (entity.Org_ID < 1)
             {
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -266,8 +251,7 @@ namespace Song.ServiceImpls
                     entity.Org_Name = org.Org_Name;
                 }
             }
-            int id = Gateway.Default.Save<LinksSort>(entity);
-            return id;
+            return Gateway.Default.Save<LinksSort>(entity);           
         }
         /// <suPsary>
         /// 修改
@@ -310,25 +294,7 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void SortDelete(LinksSort entity)
         {
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Delete<LinksSort>(LinksSort._.Ls_Id == entity.Ls_Id);
-                    tran.Delete<Links>(Links._.Ls_Id == entity.Ls_Id);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
+            this.SortDelete(entity.Ls_Id);
         }
         /// <suPsary>
         /// 删除，按主键ID；
@@ -336,6 +302,7 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         public void SortDelete(int identify)
         {
+            if (identify <= 0) return;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
@@ -364,25 +331,7 @@ namespace Song.ServiceImpls
         {
             LinksSort entity = Gateway.Default.From<LinksSort>().Where(LinksSort._.Ls_Name == name).ToFirst<LinksSort>();
             if (entity == null) return;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Delete<LinksSort>(LinksSort._.Ls_Id == entity.Ls_Id);
-                    tran.Delete<Links>(Links._.Ls_Id == entity.Ls_Id);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
+            this.SortDelete(entity);            
         }
         /// <suPsary>
         /// 获取单一实体对象，按主键ID；
@@ -405,6 +354,7 @@ namespace Song.ServiceImpls
         /// <suPsary>
         /// 获取同一父级下的最大排序号；
         /// </suPsary>
+        /// <param name="orgid"></param>
         /// <param name="parentId">父Id</param>
         /// <returns></returns>
         public int SortMaxTaxis(int orgid, int parentId)
@@ -422,14 +372,14 @@ namespace Song.ServiceImpls
         /// 获取对象；即所有栏目；
         /// </suPsary>
         /// <returns></returns>
-        public LinksSort[] GetSortAll(int orgid, bool? isUse, bool? isShow)
+        public LinksSort[] SortAll(int orgid, bool? isUse, bool? isShow)
         {
             WhereClip wc = LinksSort._.Org_ID == orgid;
             if (isUse != null) wc.And(LinksSort._.Ls_IsUse == isUse);
             if (isShow != null) wc.And(LinksSort._.Ls_IsShow == isShow);
             return Gateway.Default.From<LinksSort>().Where(wc).OrderBy(LinksSort._.Ls_Tax.Asc).ToArray<LinksSort>();
         }
-        public LinksSort[] GetSortCount(int orgid, bool? isUse, bool? isShow, int count)
+        public LinksSort[] SortCount(int orgid, bool? isUse, bool? isShow, int count)
         {
             WhereClip wc = LinksSort._.Org_ID == orgid;
             if (isUse != null) wc.And(LinksSort._.Ls_IsUse == isUse);
@@ -437,8 +387,23 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<LinksSort>().Where(wc).OrderBy(LinksSort._.Ls_Tax.Asc).ToArray<LinksSort>(count);
         }
         /// <summary>
+        /// 当前链接分类下，有多少条链接记录
+        /// </summary>
+        /// <param name="lsid">链接分类id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="isShow">是否显示</param>
+        /// <returns></returns>
+        public int SortOfCount(int lsid, bool? isUse, bool? isShow)
+        {
+            WhereClip wc = Links._.Ls_Id == lsid;
+            if (isUse != null) wc.And(Links._.Lk_IsUse == (bool)isUse);
+            if (isShow != null) wc.And(Links._.Lk_IsShow == (bool)isShow);
+            return Gateway.Default.Count<Links>(wc);
+        }
+        /// <summary>
         /// 分页获取
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="isUse"></param>
         /// <param name="isShow"></param>
         /// <param name="searTxt"></param>
@@ -446,7 +411,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public LinksSort[] GetSortPager(int orgid, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum)
+        public LinksSort[] SortPager(int orgid, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = LinksSort._.Org_ID == orgid;
             if (isUse != null) wc.And(LinksSort._.Ls_IsUse == isUse);
@@ -458,6 +423,7 @@ namespace Song.ServiceImpls
         /// <suPsary>
         /// 当前对象名称是否重名
         /// </suPsary>
+        /// <param name="orgid"></param>
         /// <param name="entity">业务实体</param>
         /// <returns>重名返回true，否则返回false</returns>
         public bool SortIsExist(int orgid, LinksSort entity)
