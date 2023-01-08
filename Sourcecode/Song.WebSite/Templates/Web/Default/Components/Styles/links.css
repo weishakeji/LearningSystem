@@ -4,33 +4,39 @@ weisha.linksorts{
 	width: 1200px;
 	margin-right: auto;
 	margin-left: auto;
-	height: 160px;
-    display: block;
+    display: flex;
 }
-
+weisha.linksorts div.links{
+	flex: 1;
+	display: flex;
+    flex-flow: column;
+}
 weisha.linksorts .links-tit{	
 	float: left;
 	height: 100px;
 	width: 200px;
 	line-height: 100px;	
 }
-weisha.linksorts .links-tit a{
-	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+weisha.linksorts .links-tit a{	
 	font-weight: bold;
 	font-size: 30px;
 	color: #666;
 	text-decoration: none;
 }
-weisha.linksorts .link-items{
-	float: left;
-	height: 60px;
-	width: 1000px;
-	margin-top: 20px;
+weisha.linksorts weisha.links{
+	display: block;
+	width: 100%;
+	margin-bottom: 50px;
 }
 weisha.linksorts .link-item{
 	line-height: 30px;
 	float: left;
 	margin-right: 30px;
+	display: flex;
+	flex-flow: column;
+}
+weisha.linksorts .link-item img{
+	height: 60px;
 }
 weisha.linksorts .link-item a{
 	color: #333;

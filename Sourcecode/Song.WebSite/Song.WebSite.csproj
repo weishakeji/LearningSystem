@@ -449,6 +449,7 @@
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansedit.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansitem.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_ansedit.css" />
@@ -1244,6 +1245,9 @@
     <Content Include="Templates\Web\Default\Question\Styles\Exercises.css" />
     <Content Include="Templates\Web\Default\Question\Styles\Notes.css" />
     <Content Include="Templates\Web\Default\Question\Styles\Often.css" />
+    <Content Include="Templates\Web\Default\Link\Index.html" />
+    <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Snow\Index.html" />
     <Content Include="Templates\Web\Default\Snow\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Snow\Styles\Index.css" />

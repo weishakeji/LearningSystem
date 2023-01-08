@@ -1,0 +1,13 @@
+﻿@charset "utf-8";
+
+weisha.linksorts .link-item a{
+	font-size: 18px !important;
+}
+
+.sortname {
+	margin-top: 50px;
+	font-weight: bold;
+	font-size: 30px;
+	color: #666;
+	margin-bottom: 10px;
+}

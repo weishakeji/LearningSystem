@@ -55,8 +55,14 @@ Vue.component('linksorts', {
     },
 
     template: `<weisha class="linksorts" v-if="sorts.length>0">
-        <slot name="title"></slot>          
-        <links :sort="ls" v-for="(ls,i) in sorts"></links>         
+        <slot name="title"></slot>  
+        <div class="links">   
+            <links :sort="ls" v-for="(ls,i) in sorts">
+                <template slot="sortname">
+                    <slot name="sortname" :sort="ls"></slot>
+                </template>  
+            </links>
+        </div>
     </weisha>`
 });
 //友情链接列表
@@ -89,8 +95,8 @@ Vue.component('links', {
                 { 'orgid': -1, 'sortid': th.sort.Ls_Id, 'use': true, 'show': true, 'search': '', 'count': th.count })
                 .then(function (req) {
                     if (req.data.success) {
-                        th.datas = req.data.result;    
-                        console.error(th.datas);                   
+                        th.datas = req.data.result;   
+                                      
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -102,11 +108,20 @@ Vue.component('links', {
     },
 
     template: `<weisha class="links" v-if="datas.length>0">
-        <slot name="title"></slot>        
-          <div v-for="d in datas">
-            <div class="link-item"><a :href="d.Lk_Url" target="_blank">{{d.Lk_Name}}</a></div>
-          </div>
-        </div>
+        <slot name="sortname"></slot>      
+        <div class="link-item" v-for="d in datas">
+            <template v-if="sort.Ls_IsImg">
+                <a :href="d.Lk_Url" target="_blank"  v-if="d.Lk_Logo!=''">
+                    <img :src="d.Lk_Logo"/>
+                </a>
+                <a :href="d.Lk_Url" target="_blank"  v-if="sort.Ls_IsText">
+                    {{d.Lk_Name}}
+                </a>
+            </template>
+            <a :href="d.Lk_Url" target="_blank"  v-else>
+                {{d.Lk_Name}}
+            </a>
+        </div>           
     </weisha>`
 });
 

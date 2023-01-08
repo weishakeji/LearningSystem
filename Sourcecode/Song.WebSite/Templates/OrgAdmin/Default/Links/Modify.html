@@ -49,9 +49,9 @@
             </el-form-item>
             <el-form-item label="图片">
                 <upload-img @change="filechange" :data="entity" size="1024" height="100" ext="jpg,png,gif">
-                    <template v-if="entity.Lk_LogoSmall!='' || upfile!=null">
+                    <template v-if="entity.Lk_Logo!='' || upfile!=null">
                         <img v-if="upfile!=null" :src="upfile.base64" />
-                        <img v-else :src="entity.Lk_LogoSmall" />
+                        <img v-else :src="entity.Lk_Logo" />
                         <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
                     </template>
                     <div class="nophoto" v-else>

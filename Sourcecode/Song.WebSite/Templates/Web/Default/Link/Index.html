@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>友情链接</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref='pageheader' @login="acc=>account = acc" @load="(o,c,p)=>{organ=o,config=c,platinfo=p}">
+            loading
+            ...
+        </page_header>
+        <context>
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
+                <el-breadcrumb-item>友情链接</el-breadcrumb-item>
+
+            </el-breadcrumb>
+            <linksorts :sort="null" :org="organ" :count="0">
+                <div slot="sortname" slot-scope="data" class="sortname">
+                    <icon>&#xa029</icon>
+                    {{data.sort.Ls_Name}}
+                </div>
+            </linksorts>
+        </context>
+        <page_footer :organ="organ">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>
