@@ -204,7 +204,6 @@ namespace Song.ViewData.Methods
         private JArray _outlineNode(Song.Entities.Outline item, List<Song.Entities.Outline> items)
         {
             JArray jarr = new JArray();
-
             foreach (Song.Entities.Outline m in items)
             {
                 if (item == null)
@@ -215,16 +214,8 @@ namespace Song.ViewData.Methods
                 {
                     if (m.Ol_PID != item.Ol_ID) continue;
                 }
-                string j = m.ToJson("", "Ol_LiveTime,Ol_ModifyTime");
-                JObject jo;
-                try
-                {
-                    jo = JObject.Parse(j);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                string j = m.ToJson("", "Ol_LiveTime,Ol_ModifyTime,Ol_Intro,Ol_Courseware");
+                JObject jo = JObject.Parse(j);
                 jarr.Add(jo);
                 //计算下级
                 JArray charray = _outlineNode(m, items);

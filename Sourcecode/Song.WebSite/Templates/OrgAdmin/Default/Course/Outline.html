@@ -10,7 +10,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="toolsbar">
+        <div class="toolsbar" v-show="!loading">
             <btngroup show="新增" ref='btngroup' @add="addBtn()" width="800" idkey='Ol_ID' height="600"></btngroup>
             <div class="search-box">
 
@@ -48,14 +48,14 @@
                                 :type="data.Ol_IsLive ? 'success' : 'info'">
                                 <icon>&#xe6bf</icon> 直播
                             </el-tag>
-                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}"  :type="data.Ol_IsAccessory ? 'success' : 'info'" title="附件">
+                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}"
+                                :type="data.Ol_IsAccessory ? 'success' : 'info'" title="附件">
                                 <icon>&#xe853</icon> 附件
                             </el-tag>
                         </span>
 
                         <span class="column_state">
-                            <loading v-if="loadingid==data.Ol_ID" star></loading>
-                            <template v-else>
+                            <template v-if="loadingid!=data.Ol_ID">
                                 <el-link :type="data.Ol_IsUse ? 'success' : 'danger'"
                                     @click="changeState(data,'Ol_IsUse')">
                                     <icon v-if="data.Ol_IsUse" title="启用">&#xe634</icon>
@@ -74,14 +74,17 @@
                             </template>
                         </span>
                         <span class="column_btn">
-                            <el-link type="primary" @click="modifyBtn(data)">
-                                <icon>&#xa02e</icon>编辑
-                            </el-link>
-                            <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
-                                <el-link type="danger" slot="reference">
-                                    <icon>&#xe800</icon>删除
+                            <loading v-if="loadingid==data.Ol_ID" star></loading>
+                            <template v-else>
+                                <el-link type="primary" @click="modifyBtn(data)">
+                                    <icon>&#xa02e</icon>编辑
                                 </el-link>
-                            </el-popconfirm>
+                                <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                                    <el-link type="danger" slot="reference">
+                                        <icon>&#xe800</icon>删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </template>
                         </span>
                     </div>
                 </span>
@@ -127,7 +130,8 @@
                     </template>
                     <el-form-item label="" label-width="0px" prop="Ol_Intro">
                         <editor :content="modify_obj.Ol_Intro" :menubar="false" model="general" ref="intro_editor"
-                        upload="Outline" :dataid="modify_obj.Ol_ID"  style="height: 500px;" @change="text=>modify_obj.Ol_Intro=text"></editor>
+                            upload="Outline" :dataid="modify_obj.Ol_ID" style="height: 500px;"
+                            @change="text=>modify_obj.Ol_Intro=text"></editor>
                     </el-form-item>
 
                 </el-form>

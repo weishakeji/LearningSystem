@@ -26,6 +26,7 @@
 
             loading: false,
             loadingid: -1,
+            loading_modify: false,       //编辑时加载
             loading_sumbit: false,   //提交时的预载           
             loading_init: true
         },
@@ -229,10 +230,26 @@
             },
             //编辑章节的按钮事件
             modifyBtn: function (data) {
-                this.modify_obj = $api.clone(data);
-                this.modify_obj.state = 'modify';
-                this.modify_show = true;
-                this.$refs['intro_editor'].setContent(data.Ol_Intro);
+                var th = this;
+                th.loadingid = data.Ol_ID;
+                $api.get('Outline/ForID', { 'id': data.Ol_ID }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.modify_obj = result;
+                        th.modify_obj.state = 'modify';
+                        th.modify_show = true;
+                        th.$refs['intro_editor'].setContent(result.Ol_Intro);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loadingid = -1;
+                });
+
             },
             //计算序号
             calcSerial: function (outline, lvl) {
