@@ -44,13 +44,11 @@
                 </template>
                 <template slot-scope="scope">
                     <el-tooltip class="item" effect="light" content="点击查看详情" placement="right">
-                        <span class="info" :class="{'woman': scope.row.Th_Sex==2}" @click="showteach(scope.row)">
-                            <icon v-if="scope.row.Th_Sex==2" title="女性">&#xe844</icon>
-                            <icon v-if="scope.row.Th_Sex==1" title="男性">&#xe645</icon>
-                            <icon v-if="scope.row.Th_Sex==0" title="性别未知">&#xa043</icon>
-                            <span v-html='showsearch(scope.row.Th_Name,query.search)' v-if="scope.row.Th_Name!=''"></span>
-                            <span v-else class="noname">(没有名字)</span>
-                        </span>
+                        <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex!=2" @click="showteach(scope.row)">
+                            <span v-html='showsearch(scope.row.Th_Name,query.search)' class="large"
+                                v-if="scope.row.Th_Name!=''"></span>
+                            <span v-else class="noname" class="large">(没有名字)</span>
+                        </icon>
                     </el-tooltip>
                     <el-tag type="info" v-if="existteach && teacher.Th_ID==scope.row.Th_ID">
                         <icon>&#xe705</icon>当前教师

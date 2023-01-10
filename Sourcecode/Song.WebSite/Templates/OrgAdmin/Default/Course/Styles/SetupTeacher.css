@@ -56,22 +56,13 @@
     height: 100%;
 	border-radius: 50% !important;
 }
-
-icon:before,*[icon]:before {
-	font-size: 18px;
+th .el-input{
+	margin-right: 8px;
+	width: auto;
 }
-
-.info {
-	font-size: 16px;
-	color: rgb(72, 127, 210);
-	margin-right: 10px;
+icon .large{
 	cursor: pointer;
 }
-
-.woman{
-	color: rgb(240, 104, 117);
-}
-
 .noname{
 	color: #aaa;
 	font-size: 12px;

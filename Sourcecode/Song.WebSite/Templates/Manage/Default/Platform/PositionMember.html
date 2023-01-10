@@ -30,9 +30,12 @@
                             <el-tag type="info" class="count" v-if="selects.length>0">选中 {{selects.length}} 个</el-tag>
                         </template>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645" title="男性"></span>
-                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647" title="女性"></span>
-                            <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span>/ {{ scope.row.Acc_AccName }}
+                            <icon :woman="scope.row.Acc_Sex==2" :man="scope.row.Acc_Sex!=2">
+                                <span v-html='showsearch(scope.row.Acc_AccName,form.name)' class="large"
+                                    v-if="scope.row.Acc_AccName!=''"></span>
+                                <span v-else class="noname" class="large">(没有名字)</span>
+                              
+                            </icon>  / {{ scope.row.Acc_AccName }}
                         </template>
                     </el-table-column>
                 </el-table>
