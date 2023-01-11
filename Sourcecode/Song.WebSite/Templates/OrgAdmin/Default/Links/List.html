@@ -9,7 +9,12 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div id="sort_area"></div>
+        <div id="sort_area">
+            <div class="sort_title">
+                <span icon="&#xa01a">链接分类</span>
+                <span icon="&#xa015">分类管理</span>
+            </div>
+        </div>
         <div id="link_area">
             <div class="toolsbar">
                 <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
@@ -95,7 +100,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip width="90">
 
                     <el-button-group slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-edit"
