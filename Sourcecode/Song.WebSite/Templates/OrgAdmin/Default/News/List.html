@@ -20,11 +20,12 @@
             </div>
             <div class="treebox">
                 <el-tree :data="columns" v-loading="loading_init" :props="defaultProps" default-expand-all
-                    @node-click="handleNodeClick">
+                    @node-click="handleNodeClick" :expand-on-click-node="false">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span class="bolder" v-if="curr_column && curr_column.Col_ID==data.Col_ID"
                             v-html="data.Col_Name"></span>
                         <span v-else v-html="data.Col_Name"></span>
+                        <article_count :column="data" :orgid="organ.Org_ID"></article_count>
                     </span>
                 </el-tree>
             </div>
@@ -49,7 +50,7 @@
                 </div>
             </div>
             <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_ID" 
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_ID"
                 :row-class-name="data=>{return data.row.Art_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35" show-overflow-tooltip>
                 </el-table-column>
@@ -62,7 +63,8 @@
                 <el-table-column label="标题" min-width="300px">
                     <template slot-scope="scope">
                         <icon v-if="scope.row.Art_IsImg" title="图片" style="font-size: 18px;">&#xe672</icon>
-                        <span v-html="showsearch(scope.row.Art_Title,form.search)"class="large"></span>
+                        <span v-html="showsearch(scope.row.Art_Title,form.search)" class="large"></span>
+
                     </template>
                 </el-table-column>
 
