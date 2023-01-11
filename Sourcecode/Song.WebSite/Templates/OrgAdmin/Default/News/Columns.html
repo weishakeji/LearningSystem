@@ -24,10 +24,7 @@
     </div>
     <div class="tree-box">
       <el-tree :data="datas" node-key="id" ref="tree" :props="defaultProps" default-expand-all
-        @node-drag-start="handleDragStart" :filter-node-method="filterNode" @node-drag-enter="handleDragEnter"
-        @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd"
-        @node-drop="handleDrop" :expand-on-click-node="false" draggable :allow-drop="allowDrop" :allow-drag="allowDrag"
-        v-loading="loading">
+        :filter-node-method="filterNode" :expand-on-click-node="false" draggable v-loading="loading">
         <span class="custom-tree-node" slot-scope="{ node, data }">
 
           <span class="tree-node draghandle">

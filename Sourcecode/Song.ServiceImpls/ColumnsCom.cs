@@ -205,6 +205,7 @@ namespace Song.ServiceImpls
         /// 更新栏目结构
         /// </summary>
         /// <param name="items"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
         public bool UpdateColumnsTree(Columns[] items, int orgid)
         {

@@ -124,6 +124,7 @@ namespace Song.ViewData.Methods
         }
         private void _ColumnsUpdate(string tree, string pid, List<Song.Entities.Columns> mlist)
         {
+            if (string.IsNullOrWhiteSpace(tree)) return;
             JArray jarr = JArray.Parse(tree);
             for (int i = 0; i < jarr.Count; i++)
             {
