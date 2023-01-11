@@ -7,6 +7,6 @@
 <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
 <style type="text/css">
     *[v-cloak] {
-        display: none;
+        display: none !important;
     }
 </style>
