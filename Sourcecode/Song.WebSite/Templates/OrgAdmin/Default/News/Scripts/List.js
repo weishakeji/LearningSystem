@@ -68,11 +68,11 @@ $ready(function () {
                 $api.get('News/ColumnsTree', { 'orgid': vapp.organ.Org_ID }).then(function (req) {
                     th.loading_init = false;
                     if (req.data.success) {
-                        window.vapp.columns = req.data.result;
+                        th.columns = req.data.result;
                     } else {
                         throw req.data.message;
                     }
-                    window.vapp.loading = false;
+                    //th.loading = false;
                 }).catch(function (err) {
                     th.loading_init = false;
                     console.error(err);
@@ -102,6 +102,10 @@ $ready(function () {
                     console.error(err);
                 });
             },
+            fresh:function(){
+                this.getColumnsTree();
+                this.handleCurrentChange();
+            },
             //删除
             deleteData: function (datas) {
                 var th = this;
@@ -110,12 +114,12 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        th.handleCurrentChange();
+                        th.fresh();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

@@ -247,7 +247,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.fresh', true);
             }
         },
     });
