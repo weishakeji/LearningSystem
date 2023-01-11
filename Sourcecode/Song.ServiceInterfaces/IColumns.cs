@@ -63,7 +63,8 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Columns[] ColumnCount(int orgid, string pid, string type, bool? isUse, int count);
+        Columns[] ColumnCount(int orgid, string pid, string type, bool? isUse, int count);      
+       
         /// <summary>
         /// 当前栏目下的子级栏目
         /// </summary>

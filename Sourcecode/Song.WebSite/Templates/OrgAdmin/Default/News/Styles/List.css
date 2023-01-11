@@ -22,7 +22,7 @@ html, body, #vapp {
 .left_box .toolsbar span {
     font-size: 15px;
     line-height: 32px;
-    padding: 0px 5px 0px 16px;
+    padding: 0px 5px 0px 5px;
 }
 
 .left_box .toolsbar .tip {
@@ -32,7 +32,7 @@ html, body, #vapp {
 }
 
 .left_box .toolsbar icon {
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 3px;
 }
 
@@ -41,7 +41,7 @@ html, body, #vapp {
     height: calc(100% - 31px);
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 0px 16px 16px 16px;
+    padding: 0px;
 }
 
 .left_box .treebox span {

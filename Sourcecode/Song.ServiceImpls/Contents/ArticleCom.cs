@@ -313,10 +313,17 @@ namespace Song.ServiceImpls
             Song.Entities.Article[] arts = Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_PushTime.Desc && Article._.Art_CrtTime.Desc).ToArray<Article>(topNum);
             return arts;
         }
-        public int ArticleOfCount(int orgid, string coluid)
+        /// <summary>
+        /// 统计文章数量
+        /// </summary>
+        /// <param name="coluid">栏目uid</param>
+        /// <param name="isuse">是否启用的</param>
+        /// <returns></returns>
+        public int ArticleOfCount(int orgid, string coluid, bool? isuse)
         {
             WhereClip wc = Article._.Art_IsDel == false && Article._.Art_IsShow == true && Article._.Art_IsVerify == true;
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
+            if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             if (!string.IsNullOrWhiteSpace(coluid)) wc.And(Article._.Col_UID == coluid);
             return Gateway.Default.Count<Article>(wc);
         }

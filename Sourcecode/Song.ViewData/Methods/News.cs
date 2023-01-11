@@ -450,6 +450,17 @@ namespace Song.ViewData.Methods
             }
             return i;
         }
+        /// <summary>
+        /// 统计文章数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="uid"></param>
+        /// <param name="isuse"></param>
+        /// <returns></returns>
+        public int Count(int orgid,string uid,bool? isuse)
+        {
+            return Business.Do<IContents>().ArticleOfCount(orgid, uid, isuse);
+        }
         #endregion
     }
 }

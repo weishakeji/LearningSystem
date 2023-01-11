@@ -114,9 +114,10 @@ namespace Song.ServiceInterfaces
         /// 统计文章数量
         /// </summary>
         /// <param name="orgid"></param>
-        /// <param name="coluid"></param>
+        /// <param name="coluid">栏目uid</param>
+        /// <param name="isuse">是否启用的</param>
         /// <returns></returns>
-        int ArticleOfCount(int orgid, string coluid);
+        int ArticleOfCount(int orgid, string coluid, bool? isuse);
         /// <summary>
         /// 分页获取新闻
         /// </summary>
