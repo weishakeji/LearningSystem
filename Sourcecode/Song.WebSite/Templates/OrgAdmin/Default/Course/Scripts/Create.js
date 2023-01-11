@@ -70,7 +70,7 @@
             //所取专业的数据，为树形数据
             getTreeData: function () {
                 var th = this;
-                this.loading = true;
+                th.loading = true;
                 $api.get('Subject/Tree', {
                     orgid: this.organ.Org_ID, search: '', isuse: true
                 }).then(function (req) {
@@ -81,7 +81,15 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert('没有查询到专业信息，请先创建专业信息', '错误', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            if (window.top.$pagebox) {
+                                var box = window.top.$pagebox.get(window.name);
+                                if (box) box.shut();
+                            }
+                        }
+                    });
                     console.error(err);
                 });
             },

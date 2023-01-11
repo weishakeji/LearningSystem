@@ -9,109 +9,111 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
-                :selects='selects' idkey='Lk_Id' table="datatables"></btngroup>
-            <div class="search-box">
+        <div id="sort_area"></div>
+        <div id="link_area">
+            <div class="toolsbar">
+                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
+                    :selects='selects' idkey='Lk_Id' table="datatables"></btngroup>
+                <div class="search-box">
 
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-select v-model="form.sortid" placeholder="请选择分类" clearable>
-                            <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name"
-                                :value="item.Ls_Id">
-                                <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
-                                <span style="float: left">{{ item.Ls_Name }}</span>
-                                <links_count :sort="item"></links_count>
-                                <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" clearable placeholder="链接名" style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.link" clearable placeholder="链接地址" style="width:150px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
+                    <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                        <el-form-item label="">
+                            <el-select v-model="form.sortid" placeholder="请选择分类" clearable>
+                                <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name"
+                                    :value="item.Ls_Id">
+                                    <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
+                                    <span style="float: left">{{ item.Ls_Name }}</span>
+                                    <links_count :sort="item"></links_count>
+                                    <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="">
+                            <el-input v-model="form.name" clearable placeholder="链接名" style="width:100px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="">
+                            <el-input v-model="form.link" clearable placeholder="链接地址" style="width:150px"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                                native-type="submit" plain>
+                                查询
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </div>
-        </div>
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Lk_Id"
-            :row-class-name="data=>{return data.row.Lk_IsUse ? 'enable' : 'disabled';}">
-            <el-table-column type="selection" width="35" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column type="index" width="50" align="center">
-                <template slot-scope="scope">
-                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
-                </template>
-            </el-table-column>
+            <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Lk_Id"
+                :row-class-name="data=>{return data.row.Lk_IsUse ? 'enable' : 'disabled';}">
+                <el-table-column type="selection" width="35" show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
 
-            <el-table-column label="链接名称">
-                <template slot-scope="scope">
-                    <icon v-if="scope.row.Lk_Logo!=''" title="图片" style="font-size: 18px;">&#xe672</icon>
-                    <span v-html="showsearch(scope.row.Lk_Name,form.name)" class="large"></span>
+                <el-table-column label="链接名称">
+                    <template slot-scope="scope">
+                        <icon v-if="scope.row.Lk_Logo!=''" title="图片" style="font-size: 18px;">&#xe672</icon>
+                        <span v-html="showsearch(scope.row.Lk_Name,form.name)" class="large"></span>
 
-                </template>
-            </el-table-column>
-            <el-table-column label="序号" show-overflow-tooltip width="80" align="center">
-                <template slot="header" slot-scope="scope">
-                    <el-tooltip class="item" effect="dark" content="调整顺序的数值" placement="top">
-                        <span>
-                            <icon>&#xa026</icon>序号
-                        </span>
-                    </el-tooltip>
-                </template>
-                <template slot-scope="scope">
-                    {{scope.row.Lk_Tax}}
-                </template>
-            </el-table-column>
-            <el-table-column label="链接" show-overflow-tooltip>
-                <template slot-scope="scope">
-                    <a target="_blank" :href="scope.row.Lk_Url" underline
-                        v-html="showsearch(scope.row.Lk_Url,form.link)"></a>
-                </template>
-            </el-table-column>
-            <el-table-column label="所属分类" show-overflow-tooltip width="120">
-                <template slot-scope="scope">
-                    {{scope.row.Ls_Name}}
-                </template>
-            </el-table-column>
-            <el-table-column label="启用" width="60">
-                <template slot-scope="scope">
-                    <span class="el-icon-loading" v-show="loadingid==scope.row.Lk_Id"></span>
-                    <div>
-                        <el-switch v-model="scope.row.Lk_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
-                            inactive-color="#ff4949" v-show="loadingid!=scope.row.Lk_Id">
-                        </el-switch>
-                    </div>
-                </template>
-            </el-table-column>
+                    </template>
+                </el-table-column>
+                <el-table-column label="序号" show-overflow-tooltip width="80" align="center">
+                    <template slot="header" slot-scope="scope">
+                        <el-tooltip class="item" effect="dark" content="调整顺序的数值" placement="top">
+                            <span>
+                                <icon>&#xa026</icon>序号
+                            </span>
+                        </el-tooltip>
+                    </template>
+                    <template slot-scope="scope">
+                        {{scope.row.Lk_Tax}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="链接" show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        <a target="_blank" :href="scope.row.Lk_Url" underline
+                            v-html="showsearch(scope.row.Lk_Url,form.link)"></a>
+                    </template>
+                </el-table-column>
+                <el-table-column label="所属分类" show-overflow-tooltip width="120">
+                    <template slot-scope="scope">
+                        {{scope.row.Ls_Name}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="60">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Lk_Id"></span>
+                        <div>
+                            <el-switch v-model="scope.row.Lk_IsUse" @change="changeState(scope.row)"
+                                active-color="#13ce66" inactive-color="#ff4949" v-show="loadingid!=scope.row.Lk_Id">
+                            </el-switch>
+                        </div>
+                    </template>
+                </el-table-column>
 
-            <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip width="120">
 
-                <el-button-group slot-scope="scope">
-                    <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Lk_Id)'>修改
-                    </el-link>
-                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
-                        title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Lk_Id)">
-                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                    <el-button-group slot-scope="scope">
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click='$refs.btngroup.modify(scope.row.Lk_Id)'>修改
                         </el-link>
-                    </el-popconfirm>
-                </el-button-group>
-            </el-table-column>
-        </el-table>
-
-
-        <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
-            </el-pagination>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Lk_Id)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </el-button-group>
+                </el-table-column>
+            </el-table>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </body>
