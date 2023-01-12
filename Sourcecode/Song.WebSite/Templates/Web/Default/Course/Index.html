@@ -24,7 +24,7 @@
             </div>
             <div class="bar subject">
                 <div>专业：</div>
-                <div>
+                <div v-if="sbj_children.length>0">
                     <el-tag v-for="tag in sbj_children" :key="tag.Sbj_ID" @click="setSbjChilds(tag.Sbj_ID)"
                         :type="tag.Sbj_Name" v-if="sbj_children!=null && sbj_children.length>0">
                         {{tag.Sbj_Name}}
@@ -32,6 +32,7 @@
                     <el-tag type="info" v-if="!sbj_children" @close="setSbjChilds(sbjCurrent.Sbj_PID)" closable>
                         (没有下级专业)</el-tag>
                 </div>
+                <div v-else>(没有专业)</div>
                 <div v-if="loading_init">
                     <loading></loading>
                 </div>

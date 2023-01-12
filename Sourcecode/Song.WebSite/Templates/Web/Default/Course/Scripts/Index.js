@@ -58,11 +58,11 @@ $ready(function () {
                         th.setSbjChilds(th.sbjid);
                         th.load_infinite_datas(true);
                     } else {
-                        console.error(req.data.exception);
+                        //console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    Vue.prototype.$alert(err);
+                    //alert(err);
                     console.error(err);
                 }).finally(function () {
                     th.loading_init = false;                  
