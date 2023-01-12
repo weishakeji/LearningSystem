@@ -258,7 +258,7 @@ $ready(function () {
                             //将试题对象中的Qus_Items，解析为json
                             for (let i = 0; i < paper.length; i++) {
                                 for (let j = 0; j < paper[i].ques.length; j++)
-                                    paper[i].ques[j] = th.parseAnswer(paper[i].ques[j]);
+                                    paper[i].ques[j] = window.ques.parseAnswer(paper[i].ques[j]);
                             }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
@@ -275,36 +275,6 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     });
-            },
-            //将试题对象中的Qus_Items，解析为json
-            parseAnswer: function (ques) {
-                try {
-                    if (ques == null || !(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
-                        return ques;
-                }
-                catch (e) {
-                    console.error(e);
-                    console.error(ques);
-                }
-                if (typeof (ques.Qus_Items) != 'string') return ques;
-                var xml = $api.loadxml(ques.Qus_Items);
-                var arr = [];
-                var items = xml.getElementsByTagName("item");
-                for (var i = 0; i < items.length; i++) {
-                    var item = $dom(items[i]);
-                    var ansid = Number(item.find("Ans_ID").html());
-                    var uid = item.find("Qus_UID").text();
-                    var context = item.find("Ans_Context").text();
-                    arr.push({
-                        "Ans_ID": ansid,
-                        "Qus_ID": ques.Qus_ID,
-                        "Qus_UID": uid,
-                        "Ans_Context": ques.Qus_Type == 5 ? "" : context,
-                        "selected": false
-                    });
-                }
-                ques.Qus_Items = arr;
-                return ques;
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {

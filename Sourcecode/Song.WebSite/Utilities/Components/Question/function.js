@@ -16,7 +16,7 @@
             var items = xml.getElementsByTagName("item");
             for (var i = 0; i < items.length; i++) {
                 var item = $dom(items[i]);
-                var ansid = Number(item.find("Ans_ID").html());
+                var ansid = item.find("Ans_ID").html();
                 var uid = item.find("Qus_UID").text();
                 var context = item.find("Ans_Context").text();
                 var isCorrect = item.find("Ans_IsCorrect").text() == "True";

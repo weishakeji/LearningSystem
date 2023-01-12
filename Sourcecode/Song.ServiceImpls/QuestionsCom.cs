@@ -99,13 +99,12 @@ namespace Song.ServiceImpls
             //答题选项的处理
             if (ansItem != null)
             {
-                for (int i = 0; i < ansItem.Count; i++)
+                //如果有试题id，则加上，好像也无所谓
+                if (entity.Qus_ID > 0)
                 {
-                    //添加随机的选择项id
-                    ansItem[i].Ans_ID = WeiSha.Core.Request.SnowID();
-                    //如果有试题id，则加上，好像也无所谓
-                    if (entity.Qus_ID > 0) ansItem[i].Qus_ID = entity.Qus_ID;
-                }
+                    for (int i = 0; i < ansItem.Count; i++)
+                        ansItem[i].Qus_ID = entity.Qus_ID;
+                } 
                 entity.Qus_Items = this.AnswerToItems(ansItem.ToArray());
             }
             //判断是否存在

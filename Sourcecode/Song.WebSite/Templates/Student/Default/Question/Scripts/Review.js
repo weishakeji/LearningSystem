@@ -216,4 +216,5 @@ $ready(function () {
 }, ['Components/Question.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
+    '/Utilities/Components/question/function.js',
     'Components/ExercisesState.js']);

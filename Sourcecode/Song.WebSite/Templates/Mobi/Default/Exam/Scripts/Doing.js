@@ -266,7 +266,7 @@ $ready(function () {
                         for (let i = 0; i < paper.length; i++) {
                             const group = paper[i];
                             for (let j = 0; j < group.ques.length; j++) {
-                                group.ques[j] = vapp.parseAnswer(group.ques[j]);
+                                group.ques[j] =  window.ques.parseAnswer(group.ques[j]);                               
                             }
                         }
                         vapp.calcTime();
@@ -379,31 +379,7 @@ $ready(function () {
                 this.swipeIndex = index;
                 $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
                 this.showCard = false;
-            },
-            //将试题对象中的Qus_Items，解析为json
-            parseAnswer: function (ques) {
-                if (!(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
-                    return ques;
-                if (typeof (ques.Qus_Items) != 'string') return ques;
-                var xml = $api.loadxml(ques.Qus_Items);
-                var arr = [];
-                var items = xml.getElementsByTagName("item");
-                for (var i = 0; i < items.length; i++) {
-                    var item = $dom(items[i]);
-                    var ansid = Number(item.find("Ans_ID").html());
-                    var uid = item.find("Qus_UID").text();
-                    var context = item.find("Ans_Context").text();
-                    arr.push({
-                        "Ans_ID": ansid,
-                        "Qus_ID": ques.Qus_ID,
-                        "Qus_UID": uid,
-                        "Ans_Context": ques.Qus_Type == 5 ? "" : context,
-                        "selected": false
-                    });
-                }
-                ques.Qus_Items = arr;
-                return ques;
-            },
+            },            
             //生成答题信息
             generateAnswerJson: function (paper) {
                 var results = {
@@ -772,4 +748,4 @@ $ready(function () {
             </template>
         </div>`
     });
-});
+},['/Utilities/Components/question/function.js']);

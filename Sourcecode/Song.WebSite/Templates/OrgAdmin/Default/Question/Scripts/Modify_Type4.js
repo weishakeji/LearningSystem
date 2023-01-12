@@ -31,7 +31,8 @@ $ready(function () {
             }
         },
     });
-}, ['Components/ques_type.js',
+}, ['/Utilities/Components/question/function.js',
+    'Components/ques_type.js',
     'Components/modify_main.js',
     'Components/knowledge.js',
     'Components/general.js',
