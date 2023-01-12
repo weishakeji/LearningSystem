@@ -132,39 +132,44 @@ namespace Song.ServiceImpls
         public void QuesDelete(long identify)
         {
             Song.Entities.Questions entity = this.QuesSingle(identify);
+            Gateway.Default.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
+            new Task(() =>
+            {
+                QuesDelete(entity);
+            }).Start();           
+        }
+        private void QuesDelete(Questions entity)
+        {
             if (entity == null) return;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                QuesDelete(entity, tran);
-            }
-        }
-        private void QuesDelete(Questions entity, DbTrans tran)
-        {
-            try
-            {
-                if (entity != null)
+                try
                 {
+
                     tran.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
                     tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == entity.Qus_ID);
                     tran.Delete<QuesAnswer>(QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Delete<Student_Notes>(Student_Notes._.Qus_ID == entity.Qus_ID);
-                    tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);
-                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString()); 
-                    tran.Commit();                   
-
-                    this.OnDelete(entity, null);
+                    tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);                   
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
                 }
             }
-            catch (Exception ex)
+            WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString());
+            //更新章节试题数
+            if (entity.Ol_ID > 0)
             {
-                tran.Rollback();
-                throw ex;
+                int count = Business.Do<IOutline>().QuesOfCount(entity.Ol_ID, -1, true, true);
+                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == entity.Ol_ID);
             }
-            finally
-            {
-                tran.Close();
-            }
-          
         }
         public void QuesDelete(string ids)
         {
@@ -817,10 +822,7 @@ namespace Song.ServiceImpls
             Questions[] ques = Gateway.Default.From<Questions>().Where(Questions._.Qt_ID == identify).ToArray<Questions>();
             foreach (Questions q in ques)
             {
-                using (DbTrans tran = Gateway.Default.BeginTrans())
-                {
-                    QuesDelete(q, tran);
-                }
+                QuesDelete(q);
             }
             Gateway.Default.Delete<QuesTypes>(QuesTypes._.Qt_ID == identify);
         }
@@ -1254,8 +1256,11 @@ namespace Song.ServiceImpls
             if (ques == null) return;
 
             //更新章节试题数
-            int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-            Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+            if (ques.Ol_ID > 0)
+            {
+                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+            }
 
             if (Add != null) Add(sender, e);
         }
@@ -1266,8 +1271,11 @@ namespace Song.ServiceImpls
             Questions ques = (Questions)sender;
             if (ques == null) return;
             //更新章节试题数
-            int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-            Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+            if (ques.Ol_ID > 0)
+            {
+                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+            }
 
             if (Delete != null) Delete(sender, e);
         }
