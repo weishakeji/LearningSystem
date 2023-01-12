@@ -924,7 +924,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(result.Exam_ID);
             if (exam == null) return result;          
             //试卷
-            Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle((int)result.Tp_Id);
+            Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(result.Tp_Id);
             if (tp == null) throw new Exception("考试所用试卷不存在");
             
             resXml.LoadXml(result.Exr_Results, false);

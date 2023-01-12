@@ -77,6 +77,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">学科id</param>
+        /// <param name="couid"></param>
         /// <param name="diff">难度等级</param>
         /// <param name="isUse">是否使用</param>
         /// <param name="sear">标题检索</param>

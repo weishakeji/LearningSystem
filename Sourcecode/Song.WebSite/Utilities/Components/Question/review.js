@@ -37,7 +37,7 @@ Vue.component('question', {
         },
         'qans': {
             handler(nv, ov) {               
-                console.log(nv);
+                //console.log(nv);
             },
             immediate: true
         }
