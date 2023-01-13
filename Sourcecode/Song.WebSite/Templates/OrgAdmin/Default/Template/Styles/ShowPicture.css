@@ -35,6 +35,7 @@
 #imglist .imgitem img:first-child {
 	width: 298px;
 	height: 148px;
+	cursor: pointer;
 }
 
 #imglist .imgitem::before {
