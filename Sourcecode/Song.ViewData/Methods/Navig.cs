@@ -37,12 +37,12 @@ namespace Song.ViewData.Methods
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 orgid = org.Org_ID;
             }
-            Song.Entities.Navigation[] navi = Business.Do<IStyle>().NaviAll(true, "mobi", type, orgid);
+            List<Song.Entities.Navigation> navi = Business.Do<IStyle>().NaviAll(true, "mobi", type, orgid);
             foreach (Song.Entities.Navigation n in navi)
             {
                 n.Nav_Logo = System.IO.File.Exists(PhyPath + n.Nav_Logo) ? VirPath + n.Nav_Logo : "";
             }
-            return navi.Length > 0 ? _MenuNode(null, navi.ToList<Song.Entities.Navigation>()) : null;
+            return navi.Count > 0 ? _MenuNode(null, navi) : null;
         }
         /// <summary>
         /// 电脑端web页导航，树形数据
@@ -59,12 +59,12 @@ namespace Song.ViewData.Methods
                 orgid = org.Org_ID;
             }
 
-            Song.Entities.Navigation[] navi = Business.Do<IStyle>().NaviAll(true, "web", type, orgid);
+            List<Song.Entities.Navigation> navi = Business.Do<IStyle>().NaviAll(true, "web", type, orgid);
             foreach (Song.Entities.Navigation n in navi)
             {
                 n.Nav_Logo = System.IO.File.Exists(PhyPath + n.Nav_Logo) ? VirPath + n.Nav_Logo : "";
             }
-            return navi.Length > 0 ? _MenuNode(null, navi.ToList<Song.Entities.Navigation>()) : null;
+            return navi.Count > 0 ? _MenuNode(null, navi) : null;
         }
         /// <summary>
         /// 手机端导航,所有导航，
@@ -80,12 +80,12 @@ namespace Song.ViewData.Methods
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 orgid = org.Org_ID;
             }
-            Song.Entities.Navigation[] navi = Business.Do<IStyle>().NaviAll(null, "mobi", type, orgid);
+            List<Song.Entities.Navigation> navi = Business.Do<IStyle>().NaviAll(null, "mobi", type, orgid);
             foreach (Song.Entities.Navigation n in navi)
             {
                 n.Nav_Logo = System.IO.File.Exists(PhyPath + n.Nav_Logo) ? VirPath + n.Nav_Logo : "";
             }
-            return navi.Length > 0 ? _MenuNode(null, navi.ToList<Song.Entities.Navigation>()) : null;
+            return navi.Count > 0 ? _MenuNode(null, navi) : null;
         }
         /// <summary>
         /// 电脑端web页导航，所有导航，树形数据
@@ -102,12 +102,12 @@ namespace Song.ViewData.Methods
                 orgid = org.Org_ID;
             }
 
-            Song.Entities.Navigation[] navi = Business.Do<IStyle>().NaviAll(null, "web", type, orgid);
+            List<Song.Entities.Navigation> navi = Business.Do<IStyle>().NaviAll(null, "web", type, orgid);
             foreach (Song.Entities.Navigation n in navi)
             {
                 n.Nav_Logo = System.IO.File.Exists(PhyPath + n.Nav_Logo) ? VirPath + n.Nav_Logo : "";
             }
-            return navi.Length > 0 ? _MenuNode(null, navi.ToList<Song.Entities.Navigation>()) : null;
+            return navi.Count > 0 ? _MenuNode(null, navi) : null;
         }
         /// <summary>
         /// 生成菜单子节点
@@ -118,10 +118,8 @@ namespace Song.ViewData.Methods
         private JArray _MenuNode(Song.Entities.Navigation item, List<Song.Entities.Navigation> items)
         {
             JArray jarr = new JArray();
-
             foreach (Song.Entities.Navigation m in items)
             {
-
                 if (item == null)
                 {
                     if (!string.IsNullOrWhiteSpace(m.Nav_PID)) continue;
@@ -139,12 +137,12 @@ namespace Song.ViewData.Methods
                 jfont.Add("bold", m.Nav_IsBold);
                 jfont.Add("color", m.Nav_Color);
                 jo.Add("font", jfont);
-
-                jarr.Add(jo);
+                
                 //计算下级
                 JArray charray = _MenuNode(m, items);
                 if (charray.Count > 0)
-                    jo.Add("children", charray);           
+                    jo.Add("children", charray);
+                jarr.Add(jo);
             }
             return jarr;
         }
@@ -170,20 +168,27 @@ namespace Song.ViewData.Methods
         }
         private void _MenuUpdate(string tree, string pid, List<Song.Entities.Navigation> mlist)
         {
-            JArray jarr = JArray.Parse(tree);
-            for (int i = 0; i < jarr.Count; i++)
+            try
             {
-                string childJson = string.Empty;
-                Song.Entities.Navigation m = _MenuParse((JObject)jarr[i], out childJson);
-                if (string.IsNullOrWhiteSpace(m.Nav_UID))
-                    m.Nav_UID = WeiSha.Core.Request.UniqueID();
-                m.Nav_Tax = i;
-                m.Nav_PID = pid;
-                mlist.Add(m);
-                if (m.Nav_Child > 0)
+                if (string.IsNullOrEmpty(tree)) return;
+                JArray jarr = JArray.Parse(tree);
+                for (int i = 0; i < jarr.Count; i++)
                 {
-                    _MenuUpdate(childJson, m.Nav_UID, mlist);
+                    string childJson = string.Empty;
+                    Song.Entities.Navigation m = _MenuParse((JObject)jarr[i], out childJson);
+                    if (string.IsNullOrWhiteSpace(m.Nav_UID))
+                        m.Nav_UID = WeiSha.Core.Request.UniqueID();
+                    m.Nav_Tax = i;
+                    m.Nav_PID = pid;
+                    mlist.Add(m);
+                    if (m.Nav_Child > 0)
+                    {
+                        _MenuUpdate(childJson, m.Nav_UID, mlist);
+                    }
                 }
+            }catch(Exception ex)
+            {
+                throw ex;
             }
         }
         private Song.Entities.Navigation _MenuParse(JObject jo, out string childJson)

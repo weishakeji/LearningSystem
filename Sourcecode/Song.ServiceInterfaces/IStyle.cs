@@ -52,8 +52,8 @@ namespace Song.ServiceInterfaces
         /// <param name="type">某一类导航</param>
         /// <param name="orgid">机构id</param>
         /// <returns></returns>
-        Navigation[] NaviAll(bool? isShow, string site, string type, int orgid);
-        Navigation[] NaviAll(bool? isShow, string site, string type, int orgid, string pid);
+        List<Navigation> NaviAll(bool? isShow, string site, string type, int orgid);
+        List<Navigation> NaviAll(bool? isShow, string site, string type, int orgid, string pid);
         /// <summary>
         /// 当前分类的下级分类
         /// </summary>

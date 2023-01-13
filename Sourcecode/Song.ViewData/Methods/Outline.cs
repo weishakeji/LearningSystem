@@ -215,12 +215,11 @@ namespace Song.ViewData.Methods
                     if (m.Ol_PID != item.Ol_ID) continue;
                 }
                 string j = m.ToJson("", "Ol_LiveTime,Ol_ModifyTime,Ol_Intro,Ol_Courseware");
-                JObject jo = JObject.Parse(j);
-                jarr.Add(jo);
+                JObject jo = JObject.Parse(j);               
                 //计算下级
                 JArray charray = _outlineNode(m, items);
-                if (charray.Count > 0)
-                    jo.Add("children", charray);
+                if (charray.Count > 0) jo.Add("children", charray);
+                jarr.Add(jo);
             }
             return jarr;
         }

@@ -329,9 +329,11 @@ namespace Song.ViewData.Methods
                 jfont.Add("italic", m.MM_IsItalic);
                 jfont.Add("color", m.MM_Color);
                 jo.Add("font", jfont);
-
+                //计算下级
+                JArray charray = _MenuNode(m, items);
+                if (charray.Count > 0) jo.Add("children", charray);
+            
                 jarr.Add(jo);
-                jo.Add("children", _MenuNode(m, items));
             }
             return jarr;
         }

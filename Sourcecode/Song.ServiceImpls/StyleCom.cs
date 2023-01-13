@@ -129,20 +129,19 @@ namespace Song.ServiceImpls
         /// <param name="isShow">是否在前台显示</param>
         /// <param name="site">站点分类，企业站web，手机站mobi，微网站weixin，默认为web</param>
         /// <param name="type">某一类导航</param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
-        public Navigation[] NaviAll(bool? isShow, string site, string type, int orgid)
+        public List<Navigation> NaviAll(bool? isShow, string site, string type, int orgid)
         {
             WhereClip wc = Navigation._.Org_ID == orgid;
             if (isShow != null) wc.And(Navigation._.Nav_IsShow == (bool)isShow);
             //所属站点
-            if (!string.IsNullOrWhiteSpace(site) && site.Trim() != "")
-                wc.And(Navigation._.Nav_Site == site);
+            if (!string.IsNullOrWhiteSpace(site)) wc.And(Navigation._.Nav_Site == site);
             //导航分类
-            if (!string.IsNullOrWhiteSpace(type) && type.Trim() != "") 
-                wc.And(Navigation._.Nav_Type == type);
-            return Gateway.Default.From<Navigation>().Where(wc).OrderBy(Navigation._.Nav_Tax.Asc).ToArray<Navigation>();
+            if (!string.IsNullOrWhiteSpace(type)) wc.And(Navigation._.Nav_Type == type);
+            return Gateway.Default.From<Navigation>().Where(wc).OrderBy(Navigation._.Nav_Tax.Asc).ToList<Navigation>();
         }
-        public Navigation[] NaviAll(bool? isShow, string site, string type, int orgid, string pid)
+        public List<Navigation> NaviAll(bool? isShow, string site, string type, int orgid, string pid)
         {
             WhereClip wc = Navigation._.Org_ID == orgid;
             if (!string.IsNullOrWhiteSpace(pid)) wc.And(Navigation._.Nav_PID == pid);
@@ -153,7 +152,7 @@ namespace Song.ServiceImpls
             //导航分类
             if (!string.IsNullOrWhiteSpace(type) && type.Trim() != "")
                 wc.And(Navigation._.Nav_Type == type);
-            return Gateway.Default.From<Navigation>().Where(wc).OrderBy(Navigation._.Nav_Tax.Asc).ToArray<Navigation>();
+            return Gateway.Default.From<Navigation>().Where(wc).OrderBy(Navigation._.Nav_Tax.Asc).ToList<Navigation>();
         }
         /// <summary>
         /// 当前分类的下级分类
@@ -178,7 +177,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public bool UpdateNavigation(string site, string type,int orgid,string pid, Navigation[] items)
         {
-            Navigation[] mms = this.NaviAll(null, site, type, orgid, pid);
+            List<Navigation> mms = this.NaviAll(null, site, type, orgid, pid);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
