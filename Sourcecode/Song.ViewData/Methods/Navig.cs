@@ -131,7 +131,6 @@ namespace Song.ViewData.Methods
                     if (m.Nav_PID != item.Nav_UID) continue;
                 }
                 string j = m.ToJson("", "Nav_CrtTime");
-
                 JObject jo = JObject.Parse(j);
                 jo.Add("id", "node_" + m.Nav_ID.ToString());
                 jo.Add("label", m.Nav_Name);
@@ -142,7 +141,10 @@ namespace Song.ViewData.Methods
                 jo.Add("font", jfont);
 
                 jarr.Add(jo);
-                jo.Add("children", _MenuNode(m, items));
+                //计算下级
+                JArray charray = _MenuNode(m, items);
+                if (charray.Count > 0)
+                    jo.Add("children", charray);           
             }
             return jarr;
         }

@@ -220,7 +220,7 @@ namespace Song.ViewData.Methods
                 //计算下级
                 JArray charray = _outlineNode(m, items);
                 if (charray.Count > 0)
-                    jo.Add("children", _outlineNode(m, items));
+                    jo.Add("children", charray);
             }
             return jarr;
         }
