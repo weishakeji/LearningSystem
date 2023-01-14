@@ -257,7 +257,7 @@
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
 					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;
-					var top = offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
+					var top = offset.top + obj.height + panel.height() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
 				}
