@@ -450,8 +450,8 @@
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
     <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
-    <Content Include="Templates\OrgAdmin\Default\News\Components\course_data.js" />
-    <Content Include="Templates\OrgAdmin\Default\News\Components\Styles\course_data.css" />
+    <Content Include="Templates\OrgAdmin\Default\News\Components\article_count.js" />
+    <Content Include="Templates\OrgAdmin\Default\News\Components\Styles\article_count.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansedit.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansitem.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_ansedit.css" />

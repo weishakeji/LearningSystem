@@ -205,13 +205,14 @@
 .dropmenu drop-panel child:after {
     content: '>';
     text-align: center;
-    color: #999;
+    color: #333;
     font: 800 9px/14px consolas;
 }
 
 .dropmenu drop-panel>*:not(hr):hover child:after,
 .dropmenu drop-panel>*:not(hr).hover child:after {
     color: #333;
+    text-shadow: 1px 1px 2px #eee;
 }
 
 .dropmenu drop-panel>*:not(hr):hover,
@@ -230,4 +231,7 @@
     left: 2px;
     top: 2px;
     border-radius: 3px;
+}
+.dropmenu drop-panel drop-node.hover{
+    background-color: rgba(200, 200, 200, 0.6);
 }

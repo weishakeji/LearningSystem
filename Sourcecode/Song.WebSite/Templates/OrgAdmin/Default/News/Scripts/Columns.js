@@ -163,4 +163,4 @@ $ready(function () {
         }
     });
 
-});
+},['Components/article_count.js']);

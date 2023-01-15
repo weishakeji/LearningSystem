@@ -321,10 +321,19 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int ArticleOfCount(int orgid, string coluid, bool? isuse)
         {
-            WhereClip wc = Article._.Art_IsDel == false && Article._.Art_IsShow == true && Article._.Art_IsVerify == true;
+            //WhereClip wc = Article._.Art_IsDel == false && Article._.Art_IsShow == true && Article._.Art_IsVerify == true;
+            WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
-            if (!string.IsNullOrWhiteSpace(coluid)) wc.And(Article._.Col_UID == coluid);
+            if (!string.IsNullOrWhiteSpace(coluid))
+            {
+                WhereClip wcColid = new WhereClip();
+                List<string> list = Business.Do<IColumns>().TreeID(coluid);
+                foreach (string l in list)
+                    wcColid.Or(Article._.Col_UID == l);
+                wc.And(wcColid);
+            }
+            //if (!string.IsNullOrWhiteSpace(coluid)) wc.And(Article._.Col_UID == coluid);
             return Gateway.Default.Count<Article>(wc);
         }
 

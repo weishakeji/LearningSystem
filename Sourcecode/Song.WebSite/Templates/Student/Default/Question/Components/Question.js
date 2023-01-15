@@ -9,7 +9,8 @@ Vue.component('question', {
     watch: {
         'ques': {
             handler(nv, ov) {
-                this.ques = this.parseAnswer(nv);
+                //将试题对象中的Qus_Items，解析为json
+                this.ques =  window.ques.parseAnswer(nv);
                 //记录答题状态
                 if (!this.ques.state) {
                     this.ques['state'] = {
@@ -27,55 +28,6 @@ Vue.component('question', {
     computed: {},
     mounted: function () { },
     methods: {
-        //将试题对象中的Qus_Items，解析为json
-        parseAnswer: function (ques) {
-            if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5) {
-                if ($api.getType(ques.Qus_Items) != 'String') return ques;
-                var xml = $api.loadxml(ques.Qus_Items);
-                var arr = [];
-                var items = xml.getElementsByTagName("item");
-                for (var i = 0; i < items.length; i++) {
-                    var item = $dom(items[i]);
-                    var ansid = Number(item.find("Ans_ID").html());
-                    var uid = item.find("Qus_UID").text();
-                    var context = item.find("Ans_Context").text();
-                    var isCorrect = item.find("Ans_IsCorrect").text() == "True";
-                    arr.push({
-                        "Ans_ID": ansid,
-                        "Qus_ID": ques.Qus_ID,
-                        "Qus_UID": uid,
-                        "Ans_Context": context,
-                        "Ans_IsCorrect": isCorrect,
-                        "selected": false,
-                        "answer": ''        //答题内容，用于填空题
-                    });
-                }
-                //从记录中还原
-                if (ques.state && ques.state.ans != '') {
-                    if (ques.Qus_Type == 1) {
-                        for (var i = 0; i < arr.length; i++) {
-                            if (arr[i].Ans_ID == ques.state.ans) arr[i].selected = true;
-                        }
-                    }
-                    if (ques.Qus_Type == 2) {
-                        var ans = ques.state.ans.split(',');
-                        for (var i = 0; i < arr.length; i++) {
-                            for (var j = 0; j < ans.length; j++) {
-                                if (arr[i].Ans_ID == ans[j]) arr[i].selected = true;
-                            }
-                        }
-                    }
-                    if (ques.Qus_Type == 5) {
-                        var ans = ques.state.ans.split(',');
-                        for (var i = 0; i < arr.length; i++)
-                            arr[i].answer = ans[i];
-                    }
-                }
-                //判断、简答、填空，无需还原处理，直接从ques.state.ans获取状态
-                ques.Qus_Items = arr;
-            }
-            return ques;
-        },
         //选项的序号转字母
         showIndex: function (index) {
             return String.fromCharCode(65 + index);

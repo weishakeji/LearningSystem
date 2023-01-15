@@ -81,7 +81,6 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-
                 });
             },
             //窗体上方按钮组的批量移除
@@ -137,8 +136,8 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);    
+                    loading.close();               
                     console.error(err);
                 });
             },
@@ -161,8 +160,7 @@ $ready(function () {
                 var th = this;
                 th.handleCurrentChange();
                 th.$nextTick(function () {
-                    th.operateSuccess();
-                    //loading.close();
+                    th.operateSuccess();                  
                 });
                 th.$message({
                     type: 'success',
@@ -224,7 +222,6 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-
                 });
             },
             //增加学员
@@ -238,10 +235,10 @@ $ready(function () {
                         th.$emit('addfinish', th.stsid, item.Ac_ID);
                     } else {
                         console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
+                        throw req.config.way + ' ' +req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    alert(err);
                     th.loading = false;
                     console.error(err);
                 });
@@ -433,7 +430,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    alert(err);
                     loading.close();
                     console.error(err);
                 });

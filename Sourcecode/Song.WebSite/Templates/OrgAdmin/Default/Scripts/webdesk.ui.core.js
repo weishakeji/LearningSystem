@@ -644,8 +644,8 @@
             'y': y
         };
     };
-     //是否是手机端
-     webdom.ismobi = function () {
+    //是否是手机端
+    webdom.ismobi = function () {
         var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
         var u = navigator.userAgent;
         if (null == u) return true;
@@ -904,7 +904,7 @@
                     if (window.globalVariable.isMathjaxConfig)
                         window.globalVariable.initMathjaxConfig();
                     window.globalVariable.TypeSet(elements);
-                };             
+                };
                 //全屏的预载效果
                 Vue.prototype.$fulloading = function () {
                     return this.$loading({
@@ -920,7 +920,7 @@
                     if (search == null || search == '') return txt;
                     var regExp = new RegExp(search, 'g');
                     return txt.replace(regExp, `<red>${search}</red>`);
-                };  
+                };
                 //重构alert
                 window.alert_base = window.alert;
                 window.alert = function (txt) {
@@ -930,7 +930,7 @@
                     } else {
                         Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
                     }
-                };                
+                };
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
@@ -946,12 +946,12 @@
     //创建全局对象，方便调用
     window.$dom = webdom;
     window.$dom.load.css([
+        '/Utilities/Fonts/icon.css',
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         webdom.path() + 'styles/public.css',
         //webdom.path() + 'styles/dropmenu.css',
-        '/Utilities/katex/katex.min.css',
-        '/Utilities/Fonts/icon.css'
+        '/Utilities/katex/katex.min.css'
     ]);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {

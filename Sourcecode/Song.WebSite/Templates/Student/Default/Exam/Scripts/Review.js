@@ -80,8 +80,8 @@ $ready(function () {
                         }
                     }
                     //获取结果
-                    vapp.student = student.data.result;
-                    vapp.paper = paper.data.result;
+                    th.student = student.data.result;
+                    th.paper = paper.data.result;
                 })).catch(function (err) {
                     th.loading = false;
                     alert(err);

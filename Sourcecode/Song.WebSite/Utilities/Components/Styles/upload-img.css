@@ -1,6 +1,5 @@
 ﻿.upload_img_area {
-   position: relative;
-   width: 100%;
+   position: relative;  
 }
 
 .upload_img_area .error {

@@ -37,7 +37,7 @@ Vue.component('question', {
         },
         'qans': {
             handler(nv, ov) {               
-                console.log(nv);
+                //console.log(nv);
             },
             immediate: true
         }
@@ -56,7 +56,7 @@ Vue.component('question', {
             if (req.data.success) {
                 th.ques = req.data.result;
                 if (th.ques.Qus_Type == 1 || th.ques.Qus_Type == 2 || th.ques.Qus_Type == 5)
-                    th.ques = th.parseAnswer(th.ques);
+                    th.ques = window.ques.parseAnswer(th.ques);                   
             } else {
                 console.error(req.data.exception);
                 throw req.data.message;
@@ -89,44 +89,6 @@ Vue.component('question', {
                 gindex--;
             };
             return initIndex + index;
-        },
-        //将试题对象中的Qus_Items，解析为json
-        parseAnswer: function (ques) {
-            var xml = $api.loadxml(ques.Qus_Items);
-            if ($api.getType(xml) == "Array") {
-                ques.Qus_Items = xml;
-                return ques;
-            }
-            //学员答题信息
-            var answer = this.qans.ans == null ? [] : this.qans.ans.split(',');
-            var arr = [];
-            var items = xml.getElementsByTagName("item");
-            for (var i = 0; i < items.length; i++) {
-                var item = $dom(items[i]);
-                var ansid = Number(item.find("Ans_ID").html());
-                var uid = item.find("Qus_UID").text();
-                var context = item.find("Ans_Context").text();
-                var correct = item.find("Ans_IsCorrect").text() == "True";
-                //学员是否选择某个选项
-                var selected = false;
-                for (var s in answer) {
-                    if (answer[s] == '') continue;
-                    if (ansid == Number(answer[s])) {
-                        selected = true;
-                        break;
-                    }
-                }
-                arr.push({
-                    "Ans_ID": ansid,
-                    "Qus_ID": ques.Qus_ID,
-                    "Qus_UID": uid,
-                    "Ans_Context": context,
-                    "Ans_IsCorrect": correct,
-                    "selected": selected
-                });
-            }
-            ques.Qus_Items = arr;
-            return ques;
         },
         //选项的序号转字母
         toletter: function (index) {

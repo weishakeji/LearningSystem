@@ -99,6 +99,7 @@ $ready(function () {
             selectDate: '',
         },
         mounted: function () {
+            var th=this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
@@ -113,9 +114,9 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
@@ -133,6 +134,7 @@ $ready(function () {
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                var loading = this.$fulloading();
                 th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
@@ -147,8 +149,11 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
+                    th.$nextTick(function () {                     
+                        loading.close();
+                    });
                 }).catch(function (err) {
-                    //alert(err);
+                    loading.close();    
                     console.error(err);
                 });
             },

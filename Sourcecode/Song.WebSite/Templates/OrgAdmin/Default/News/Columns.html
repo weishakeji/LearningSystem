@@ -28,7 +28,8 @@
         <span class="custom-tree-node" slot-scope="{ node, data }">
 
           <span class="tree-node draghandle">
-            {{ data.Col_Name }}
+            <span class="large">{{ data.Col_Name }}</span>
+            <article_count :column="data" :orgid="organ.Org_ID"></article_count>
           </span>
           <span class="tree-handle">
             <span style="width: 100px; " @click="data.Col_IsUse=!data.Col_IsUse">

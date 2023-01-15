@@ -160,7 +160,7 @@ $ready(function () {
                         var result = d.data.result;
                         //th.calc_count = result.length;
                         for (let i = 0; i < result.length; i++) {
-                            result[i] = th.parseAnswer(result[i]);
+                            result[i] =  window.ques.parseAnswer(result[i]);
                             th.checkItems(result[i], type);
 
                         }
@@ -180,34 +180,6 @@ $ready(function () {
                     Vue.prototype.$alert(err);
                     console.error(err);
                 });
-            },
-            //将试题对象中的Qus_Items，解析为json
-            parseAnswer: function (ques) {
-                if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5) {
-                    if ($api.getType(ques.Qus_Items) != 'String') return ques;
-                    var xml = $api.loadxml(ques.Qus_Items);
-                    var arr = [];
-                    var items = xml.getElementsByTagName("item");
-                    for (var i = 0; i < items.length; i++) {
-                        var item = $dom(items[i]);
-                        var ansid = Number(item.find("Ans_ID").html());
-                        var uid = item.find("Qus_UID").text();
-                        var context = item.find("Ans_Context").text();
-                        var isCorrect = item.find("Ans_IsCorrect").text() == "True";
-                        arr.push({
-                            "Ans_ID": ansid,
-                            "Qus_ID": ques.Qus_ID,
-                            "Qus_UID": uid,
-                            "Ans_Context": context,
-                            "Ans_IsCorrect": isCorrect,
-                            "selected": false,
-                            "answer": ''        //答题内容，用于填空题
-                        });
-                    }
-                    //判断、简答、填空，无需还原处理，直接从this.state.ans获取状态
-                    ques.Qus_Items = arr;
-                }
-                return ques;
             },
             //检查答案项的id是否重复
             checkItems: function (ques, type) {
@@ -294,4 +266,4 @@ $ready(function () {
             }
         }
     });
-});
+},['/Utilities/Components/question/function.js']);

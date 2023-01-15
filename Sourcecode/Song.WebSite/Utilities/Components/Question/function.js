@@ -16,7 +16,7 @@
             var items = xml.getElementsByTagName("item");
             for (var i = 0; i < items.length; i++) {
                 var item = $dom(items[i]);
-                var ansid = Number(item.find("Ans_ID").html());
+                var ansid = item.find("Ans_ID").html();
                 var uid = item.find("Qus_UID").text();
                 var context = item.find("Ans_Context").text();
                 var isCorrect = item.find("Ans_IsCorrect").text() == "True";
@@ -63,7 +63,7 @@
                             { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'count': 0 });
                     }
                 }
-                console.log('加载章节:'+result.length);
+                //console.log('加载章节:'+result.length);
             } else {
                 console.error(req.data.exception);
                 throw req.config.way + ' ' + req.data.message;
