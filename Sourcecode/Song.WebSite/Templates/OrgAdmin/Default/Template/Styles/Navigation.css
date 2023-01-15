@@ -34,10 +34,6 @@
     font-size: 14px;
     padding-right: 8px;
 }
-
-.custom-tree-node:hover {
-    background-color: #eee;
-}
 .el-tree-node__content {
     cursor: default !important;
 }
