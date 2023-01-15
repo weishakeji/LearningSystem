@@ -176,18 +176,24 @@ userbar .user-dropdown-show .el-icon--right {
 .el-dropdown-menu icon {
     font-size: 16px;
 }
-weisha_header_navi .dropmenu drop_roots drop-node{
+
+weisha_header_navi .dropmenu drop_roots drop-node {
     padding: 0px !important;
     text-align: center !important;
     flex: 3;
 }
-weisha_header_navi .dropmenu drop_roots drop-node:first-child{
+
+weisha_header_navi .dropmenu drop_roots drop-node:first-child {
     width: 150px;
     text-align: left !important;
     flex: 2;
 }
-weisha_header_navi .dropmenu drop_roots drop-node:last-child{
+
+weisha_header_navi .dropmenu drop_roots drop-node:last-child {
     text-align: right !important;
-    padding: 0px 10px 0px 0px !important;
     flex: 2;
+}
+
+weisha_header_navi .dropmenu drop_roots drop-node:last-child>a {
+    margin-right: 15px;
 }

@@ -232,3 +232,6 @@
     top: 2px;
     border-radius: 3px;
 }
+.dropmenu drop-panel drop-node.hover{
+    background-color: rgba(200, 200, 200, 0.6);
+}
