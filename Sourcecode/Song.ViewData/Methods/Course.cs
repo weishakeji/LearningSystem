@@ -1159,19 +1159,21 @@ namespace Song.ViewData.Methods
             return Business.Do<ICourse>().AllowStudy(couid, acid); 
         }
         /// <summary>
-        /// 学员是否拥有这个课程，包括购买或学员组关联
+        /// 学员是否拥有这个课程，包括购买或学员组关联，试用的不算
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
         public bool Owned(long couid, int acid)
         {
+            //学员是否存在或通过审核
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null || !acc.Ac_IsUse || !acc.Ac_IsPass) return false;
+
             //是否购买过该课程
             bool isBuy = Business.Do<ICourse>().IsBuy(couid, acid);
             if (isBuy) return true;
-
-            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
-            if (acc == null || !acc.Ac_IsUse || !acc.Ac_IsPass) return false;
+          
             //是否存在于学员组所关联的课程
             bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
             if (isExistSort) return true;

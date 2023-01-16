@@ -69,9 +69,6 @@ $ready(function () {
     window.onload = function () {
 
     }
-
-
-
     //
 
 }, ['/Utilities/Qiniuyun/qiniu-web-player-1.2.3.js',
