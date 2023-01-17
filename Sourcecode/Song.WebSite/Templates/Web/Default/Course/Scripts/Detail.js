@@ -19,6 +19,7 @@ $ready(function () {
             studied: false,        //是否可以学习课程
             purchase: {},          //课程购买记录
             canStudy: false,     //是否能够学习
+            owned:false,            //是否拥有这个课程（购买或学员组关联）
 
             testpapers: [],          //试卷
             finaltest: {},           //结课考试
@@ -172,8 +173,9 @@ $ready(function () {
                 $api.bat(
                     $api.get('Course/StudyAllow', { 'couid': th.couid }),
                     $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
-                    $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录                    
-                ).then(axios.spread(function (canStudy, purchase, videolog) {
+                    $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
+                    $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
+                ).then(axios.spread(function (canStudy, purchase, videolog, owned) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -189,6 +191,7 @@ $ready(function () {
                     if (purchase.data.result != null)
                         th.purchase = purchase.data.result;
                     th.videolog = videolog.data.result;
+                    th.owned=owned.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
