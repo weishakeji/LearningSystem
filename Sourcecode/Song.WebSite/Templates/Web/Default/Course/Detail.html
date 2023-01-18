@@ -143,9 +143,9 @@
                                 @node-click="data=>{$refs['guides'].gcuid=data.Gc_UID;}"
                                 :props="{children: 'children',label: 'Gc_Title'}" :default-expand-all="true"
                                 expand-on-click-node :expand-on-click-node="false">
-                                <template class="custom-tree-node" slot-scope="{ node, data }">
+                                <template slot-scope="{ node, data }">
                                     <span v-html="data.Gc_Title"
-                                        :class="{'current':data.Gc_UID==$refs['guides'].gcuid}"> </span>
+                                        :class="{'current':data.Gc_UID==$refs['guides'].gcuid,'large':true}"> </span>
                                 </template>
                             </el-tree>
                         </div>

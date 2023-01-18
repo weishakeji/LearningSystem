@@ -273,9 +273,10 @@ index {
     min-width: 200px;
 }
 
-.guideCol>div {
+.guideCol>div:first-child {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .guideCol>div:first-child {
@@ -344,4 +345,7 @@ index {
 }
 .testpapers .order{
     margin-right: 15px;
+}
+.testpapers .el-tag{
+    cursor: default;
 }
