@@ -500,6 +500,10 @@ video::-webkit-media-controls-panel {
 	display: block;
 	float: left;
 }
+.card-content{
+	height: calc(100% - 65px);
+	overflow: auto;
+}
 
 /*附件*/
 
