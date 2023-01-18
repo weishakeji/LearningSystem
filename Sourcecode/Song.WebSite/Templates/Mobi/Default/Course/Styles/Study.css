@@ -391,13 +391,12 @@ dl#chatlist, #chatlist dd {
 
 #context-box>div[tag] {
 	width: 100%;
-	height: calc(100vh - 100vw * 9 / 16 - 55px);
+	height: calc(100vh - 100vw * 9 / 16 - 65px);
 	--margin-top: calc(100vw * 9 / 16);
 }
 
 #details {
-	width: 100%;
-	padding: 20px;
+	width: 100%;	
 	box-sizing: border-box;
 }
 
@@ -501,8 +500,10 @@ video::-webkit-media-controls-panel {
 	float: left;
 }
 .card-content{
-	height: calc(100% - 65px);
+	height: calc(100% - 70px);
 	overflow: auto;
+	box-sizing: border-box;
+	padding: 15px;
 }
 
 /*附件*/
