@@ -2,7 +2,9 @@
 $dom.load.css([$dom.pagepath() + 'Components/Styles/accessory.css']);
 //附件列表
 Vue.component('accessory', {
-    props: ['outline', 'account', 'studied'],
+    //studied:是否可以学习该章节
+    //owned: 是否拥有该课程，例如学员组关联，购买
+    props: ['outline', 'account', 'studied','owned'],
     data: function () {
         return {
             files: [],		//附件文件列表		
@@ -58,14 +60,18 @@ Vue.component('accessory', {
         }
     },
     template: `<div class='accessory'>
-        <div class='noaccess' v-if='!studied'>（未登录或未选修课程）</div>            
-        <dl class='access_list' v-else-if='files.length>0'>
-            <dd v-for='(f,i) in files'>
+        <div v-if="!owned" class='noaccess'>课程未购买，资料不提供下载或预览</div>                 
+        <dl class='access_list' v-if='files.length>0'>
+            <dd v-for='(f,i) in files' v-if="owned">
                 <a target='_blank' :href='f.As_FileName' v-if='ispdf(f.As_FileName)' 
                 :download='f.As_Name' @click.prevent ='openpdf(f.As_FileName,f.As_Name)'>
                 {{i+1}}、{{f.As_Name}}</a>
                 <a target='_blank' :href='f.As_FileName' v-else
                 :download='f.As_Name'>{{i+1}}、{{f.As_Name}}</a>
+                <span class="filesize">{{f.As_Size|size}}</span>
+            </dd>
+            <dd v-else>
+            {{i+1}}、{{f.As_Name}}   <span class="filesize">{{f.As_Size|size}}</span>
             </dd>
         </dl>
         <div class='noaccess' v-else>（没有附件）</div>       

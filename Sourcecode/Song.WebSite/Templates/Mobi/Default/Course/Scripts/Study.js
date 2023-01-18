@@ -7,6 +7,7 @@ $ready(function () {
             account: {},		//当前登录学员
             course: {},		//当前课程
             outline: {},		//当前章节
+            state: {},           //当前章节的状态
             videolog: [],        //课程章节的视频学习记录
             outlines: [], 	//当前课程所有章节
             studied: false,		//当前学员是否购买该课程
@@ -22,8 +23,10 @@ $ready(function () {
             'outline': {
                 deep: true, immediate: false,
                 handler: function (n, o) {
-                    if (JSON.stringify(n) != '{}' && n != null)
+                    if (JSON.stringify(n) != '{}' && n != null) {
                         this.getLogForOutlineVideo();
+                        this.getstate(n.Ol_ID);
+                    }
                 }
             }
         },
@@ -34,38 +37,11 @@ $ready(function () {
             }
         },
         created: function () {
-            var couid = this.couid;
             var th = this;
-            $api.bat(
-                $api.cache("Course/ForID", { id: couid }),
-                $api.cache("Outline/TreeList", { couid: couid }),
-                $api.get('Course/Studied', { 'couid': couid })
-            ).then(axios.spread(function (cur, ol, studied) {
-                th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
-                th.course = cur.data.result;
-                document.title = th.course.Cou_Name;
-                th.outlines = ol.data.result;
-                //console.log(th.outlines);
-                th.studied = studied.data.result;
-                //获取学习记录
-                if (th.islogin) th.getLogForOutlineVideo();
-            })).catch(function (err) {
-                alert(err);
-            });
-
             //当前登录学员
             $api.login.account().then(function (acc) {
                 th.account = acc;
+                th.init();
                 $api.login.account_fresh(() => {
                     alert('登录失效，同一账号不可以同时登录多个设备');
                 });
@@ -77,6 +53,71 @@ $ready(function () {
             outline_change: function (node) {
                 console.log(node);
                 this.outline = node;
+            },
+            //初始化
+            init: function () {
+                var couid = this.couid;
+                var th = this;
+                $api.bat(
+                    $api.cache("Course/ForID", { id: couid }),
+                    $api.cache("Outline/TreeList", { couid: couid }),
+                    $api.get('Course/Studied', { 'couid': couid })                 
+                ).then(axios.spread(function (cur, ol, studied) {
+                    th.loading_init = false;
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.exception);
+                            throw data.message;
+                        }
+                    }
+                    th.course = cur.data.result;
+                    document.title = th.course.Cou_Name;
+                    th.outlines = ol.data.result;
+                    //console.log(th.outlines);
+                    th.studied = studied.data.result;                  
+                    //获取学习记录
+                    if (th.islogin) th.getLogForOutlineVideo();
+                })).catch(function (err) {
+                    alert(err);
+                });
+            },
+            //获取章节的状态
+            getstate: function (olid) {
+                var th = this;
+                th.loading = true;
+                //获取章节相关信息
+                $api.bat(
+                    $api.get('Outline/State', { 'olid': olid, 'acid': th.account.Ac_ID }),
+                    $api.cache("Outline/Info", { 'olid': olid })
+                ).then(axios.spread(function (state, info) {
+                    th.loading = false;
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.exception);
+                            throw arguments[i].config.way + ' ' + data.message;
+                        }
+                    }
+                    //获取结果
+                    var result = info.data.result;
+                    for (let key in state.data.result) {
+                        result[key] = state.data.result[key];
+                    }
+                    th.state = result;
+                    //th.$emit('change', th.state, th.outline);
+                    //console.log(th.state);
+                })).catch(function (err) {
+                    th.loading = false;
+                    alert(err);
+                    console.error(err);
+                });
             },
             //记录或获取播放进度，包括播放时间与进度
             playinfo: function (olid, couid, time, percent) {
@@ -307,7 +348,7 @@ $ready(function () {
                 studylogState: 0, //学习记录提交状态，1为成功，-1为失败
                 loading: true, 	//预载中
                 state_loading: true,     //章节状态加载的预载
-                error:''        //错误信息
+                error: ''        //错误信息
             }
         },
         watch: {
@@ -354,7 +395,7 @@ $ready(function () {
                         //console.log(th.state);
                     })).catch(function (err) {
                         th.state_loading = false;
-                        th.error= err;
+                        th.error = err;
                         window.alert(err);
                         console.error(err);
                     });

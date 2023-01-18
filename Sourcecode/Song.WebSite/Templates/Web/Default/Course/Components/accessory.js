@@ -62,13 +62,15 @@ Vue.component('accessory', {
         }
     },
     template: `<div id="accessory">
-        <div  v-if="!owned" style="color:red;">课程未购买，资料不提供下载或预览</div>
-            <a  v-if="studied"  v-for="(item,index) in datas" target="_blank" :href="item.As_FileName"
+        <div v-if="!owned" style="color:red;">课程未购买，资料不提供下载或预览</div>
+        <div v-if="owned" v-for="(item,index) in datas" class="download">
+            <a  target="_blank" :href="item.As_FileName"
                 v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"
-                :download="item.As_Name">{{index+1}}、{{item.As_Name}}
-                <span class="filesize">{{item.As_Size|size}}</span>
+                :download="item.As_Name">{{index+1}}、{{item.As_Name}}                
             </a>
-            <div v-if="!studied"  v-for="(item,index) in datas" >
+            <span class="filesize">{{item.As_Size|size}}</span>
+        </div>
+        <div v-if="!owned"  v-for="(item,index) in datas" >
             {{index+1}}、{{item.As_Name}}
             <span class="filesize">{{item.As_Size|size}}</span>
         </div>

@@ -1,8 +1,7 @@
-﻿
-/*附件*/
+﻿/*附件*/
 
 .accessory .access_list {
-	margin: 10px;
+	margin: 0px 10px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
@@ -15,22 +14,29 @@
 .accessory .noaccess {
 	font-size: 16px;
 	line-height: 30px;
-	color: #666;
-	padding: 20px;
+	color: #ff0000;
+	padding: 10px 20px;
 }
+
 .accessory .van-popup {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .accessory .van-popup .pdftitle {
-    padding: 10px 30px 10px 10px;
-    line-height: 30px;
-    font-size: 16px;
-    overflow: hidden;
+	padding: 10px 30px 10px 10px;
+	line-height: 30px;
+	font-size: 16px;
+	overflow: hidden;
 }
 
 .accessory .van-popup iframe {
-    width: 100%;
-    height: calc(100% - 60px);
+	width: 100%;
+	height: calc(100% - 60px);
+}
+
+.accessory .filesize {
+	font-size: 12px;
+	margin-left: 8px;
+	color: #666;
 }

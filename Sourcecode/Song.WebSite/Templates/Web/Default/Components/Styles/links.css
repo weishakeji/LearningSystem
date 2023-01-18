@@ -12,10 +12,8 @@ weisha.linksorts div.links{
     flex-flow: column;
 }
 weisha.linksorts .links-tit{	
-	float: left;
-	height: 100px;
+	float: left;	
 	width: 200px;
-	line-height: 100px;	
 }
 weisha.linksorts .links-tit a{	
 	font-weight: bold;
