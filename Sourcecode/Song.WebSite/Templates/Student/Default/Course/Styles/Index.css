@@ -69,7 +69,7 @@ context .nodata {
 
 context .el-card {
 	width: 100%;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 context .el-card__header {

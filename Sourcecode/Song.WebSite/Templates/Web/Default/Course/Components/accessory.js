@@ -1,6 +1,8 @@
 //课程附件
 Vue.component('accessory', {
-    props: ['uid', 'studied', 'account', 'outline'],
+    //studied:是否可以学习该章节
+    //owned: 是否拥有该课程，例如学员组关联，购买
+    props: ['uid', 'studied','owned', 'account', 'outline'],
     data: function () {
         return {
             datas: [],  //附件列表
@@ -22,7 +24,7 @@ Vue.component('accessory', {
                 this.getdatas(nv.Ol_UID);
             }, deep: true
         },
-        'studied': function (val, old) {
+        'owned': function (val, old) {
 
         }
     },
@@ -60,7 +62,7 @@ Vue.component('accessory', {
         }
     },
     template: `<div id="accessory">
-        <div  v-if="!studied" style="color:red;">课程未购买，资料不提供下载或预览</div>
+        <div  v-if="!owned" style="color:red;">课程未购买，资料不提供下载或预览</div>
             <a  v-if="studied"  v-for="(item,index) in datas" target="_blank" :href="item.As_FileName"
                 v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"
                 :download="item.As_Name">{{index+1}}、{{item.As_Name}}
