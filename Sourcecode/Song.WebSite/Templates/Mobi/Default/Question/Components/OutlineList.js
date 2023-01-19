@@ -107,8 +107,8 @@ Vue.component('outline_row', {
         var link = window.location.href;
         link = link.substring(link.indexOf(window.location.pathname));
         var url = $api.url.set('/mobi/course/buy', {
-          'couid': this.couid,
-          'olid': this.olid,
+          'couid': outline.Cou_ID,
+          'olid': outline.Ol_ID,
           'link': encodeURIComponent(link)
         });
         window.location.href = url;
@@ -141,20 +141,11 @@ Vue.component('outline_row', {
       <span class="olname" v-html="outline.Ol_Name" :preload="preload"></span>
       <van-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</van-tag>
     </div>
-    <div class="tag">
-      <template v-if="course.Cou_IsTry && outline.Ol_IsFree">
-        <van-tag type="success" v-if="outline.Ol_IsVideo">免费
-        </van-tag>
-      </template>
-      <template v-else>
-        <template v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree">
-          <van-tag plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}}
-          </van-tag>
-        </template>
-        <template v-else>
-          <van-tag type="primary" plain>购买 </van-tag>
-        </template>
-      </template>
+    <div class="tag">     
+        <van-tag v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree || outline.Ol_IsFree" 
+        plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}} </van-tag>     
+        <van-tag v-else-if="course.Cou_IsTry && outline.Ol_IsFree" type="success">免费</van-tag>
+        <van-tag v-else type="warning" plain>购买 </van-tag>
     </div>
   </van-cell>
   <template #left>

@@ -1,18 +1,19 @@
 // 课程按钮组
 Vue.component('course_menus', {
-    props: ["account", "course", "canstudy", "studied", "loading", "purchase"],
+    props: ["account", "course", "canstudy", "studied", "owned", "loading", "purchase"],
     data: function () {
         return {
             loading_show: false,     //预载中
             login_show: false,          //登录
             try_show: false,
             buy_show: false,
+            //mustbuy:必须购买或学员组关联后才能学习
             menus: [
-                { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, evt: null },
-                { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, evt: null },
-                { name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true, evt: null },
-                { name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true, evt: null },
-                { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, evt: null },
+                { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, mustbuy: false, evt: null },
+                { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, mustbuy: false, evt: null },
+                { name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true, mustbuy: true, evt: null },
+                { name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true, mustbuy: true, evt: null },
+                { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, mustbuy: true, evt: null },
             ],
             curr_menus: {},  //当前点击的按钮项
             outline: {},     //当前点击的章节
@@ -38,10 +39,6 @@ Vue.component('course_menus', {
         istry: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase.Stc_IsTry;
         },
-        //可以学习
-        canstudy: function () {
-            return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
-        },
         //下方弹出按钮区的高度
         popup_height: function () {
             var height = 60;
@@ -54,6 +51,10 @@ Vue.component('course_menus', {
     methods: {
         //按钮事件，首先是状态判断
         btnEvt: function (item, outline) {
+            //如果item为空,则来自于章节列表点击
+            if (item == null && !this.owned) {
+                return this.gobuy();
+            }
             this.outline = outline;
             this.curr_menus = item;
             var olid = outline != null ? outline.Ol_ID : 0;
@@ -74,7 +75,11 @@ Vue.component('course_menus', {
                     break;
                 }
             }
-
+            //如果菜单项必须课程购买后才能学习，且的确没有购买
+            if (item.mustbuy && !this.owned) {
+                this.buy_show = true;
+                return;
+            }
             //可以学习，购买，或课程免费
             if (this.course.Cou_IsFree || this.course.Cou_IsLimitFree || this.studied) {
                 this.gourl(item.url, this.course.Cou_ID, olid);

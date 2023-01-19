@@ -39,7 +39,7 @@
         </template>
       </van-cell>
       <template v-if="outlines && outlines.length>0">
-        <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="studied">
+        <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="owned">
         </outlinelist>
       </template>
       <van-cell v-else-if="loading">

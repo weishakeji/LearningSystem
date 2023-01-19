@@ -18,8 +18,7 @@ $ready(function () {
             prices: [],          //课程价格
             studied: false,        //是否在学习该课程
             owned:false,            //是否拥有该课程，例如购买或学员组关联
-            purchase: null,          //课程购买记录
-            canStudy: false,     //是否能够学习
+            purchase: null,          //课程购买记录           
 
             loading: false,       //加载状态
             loading_init: false,

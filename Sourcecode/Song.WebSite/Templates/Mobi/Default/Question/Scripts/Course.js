@@ -9,8 +9,8 @@ $ready(function () {
             account: null,     //当前登录学员 
             outlines: [],        //章节树
             course: {},         //当前课程对象  
-            studied:false,
-            
+            owned: false,       //是否购买或学员组关联课程
+
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
             state_ques: [],      //所有试题的状态，来自state中的items
@@ -87,12 +87,13 @@ $ready(function () {
                 //vapp.course.Cou_Target = vapp.clearTag(vapp.course.Cou_Target);
                 th.course.Cou_Intro = $api.trim(th.course.Cou_Intro);
                 document.title = th.course.Cou_Name;
+                if (!th.islogin) return;
                 var couid = th.course.Cou_ID;
                 //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
                 $api.bat(
                     $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
-                    $api.get('Course/Studied', { 'couid': couid })                   
-                ).then(axios.spread(function (outlines, studied) {
+                    $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
+                ).then(axios.spread(function (outlines, owned) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -109,7 +110,7 @@ $ready(function () {
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
-                    th.studied = studied.data.result;                  
+                    th.owned = owned.data.result;
                     //初始显示第几条试题
                     th.$nextTick(function () {
                         th.loading = false;
@@ -148,7 +149,7 @@ $ready(function () {
                 var childarr = outline == null ? this.outlines : (outline.children ? outline.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = lvl + (i + 1) + '.';                   
+                    childarr[i].serial = lvl + (i + 1) + '.';
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
@@ -202,7 +203,7 @@ $ready(function () {
                     'olid': last.olid
                 });
                 window.location.href = url;
-            }           
+            }
         }
     });
     // 中间的按钮组
