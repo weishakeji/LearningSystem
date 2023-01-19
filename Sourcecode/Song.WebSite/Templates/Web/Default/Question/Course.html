@@ -37,7 +37,7 @@
           <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>
         </div>
         <template v-if="outlines && outlines.length>0">
-          <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID">
+          <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="owned">
           </outlinelist>
         </template>
       </template>

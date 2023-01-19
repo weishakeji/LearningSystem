@@ -9,7 +9,8 @@ $ready(function () {
             account: null,     //当前登录学员 
             outlines: [],        //章节树
             course: {},         //当前课程对象  
-
+            owned: false,       //是否购买或学员组关联课程
+            
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
             state_ques: [],      //所有试题的状态，来自state中的items
@@ -66,6 +67,17 @@ $ready(function () {
             th.getAccount().then(function (d) {
                 th.account = d;
                 th.stid = d ? d.Ac_ID : 0;
+                $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.stid }).then(function (req) {
+                    if (req.data.success) {
+                        th.owned = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             }).catch(function (err) {
                 Vue.prototype.$alert(err);
             });

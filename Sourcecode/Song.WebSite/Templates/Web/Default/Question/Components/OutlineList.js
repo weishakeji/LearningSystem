@@ -1,7 +1,7 @@
 ﻿$dom.load.css([$dom.pagepath() + 'Components/Styles/outlinelist.css']);
 //章节列表
 Vue.component('outlinelist', {
-  props: ["outlines", "course", "acid"],
+  props: ["outlines", "course", "acid", "isbuy"],
   data: function () {
     return {}
   },
@@ -12,13 +12,13 @@ Vue.component('outlinelist', {
   },
   methods: {},
   template: `<div v-if="outlines && outlines.length>0" class="outlinelist">
-      <outline_row v-for="(o,i) in outlines" :outline="o" :course="course" :acid="acid"></outlines>
+      <outline_row v-for="(o,i) in outlines" :outline="o" :course="course" :acid="acid" :isbuy="isbuy"></outlines>
   </div>`
 });
 
 //章节显示的行
 Vue.component('outline_row', {
-  props: ["outline", "course", "acid"],
+  props: ["outline", "course", "acid", "isbuy"],
   data: function () {
     return {
       state: null,
@@ -103,19 +103,33 @@ Vue.component('outline_row', {
       });
     },
     //生成跳转到学习页的网址
-    gourl: function () {   
+    gourl: function () {
       var outline = this.outline;
       if (outline.Ol_QuesCount < 1) return '#';
-      var url = '/web/question/Exercises';
-      return $api.url.set(url, {
-        'olid': outline.Ol_ID,
-        'couid': outline.Cou_ID,
-        'back': true
-      });
+      if (this.isbuy || this.course.Cou_IsFree || this.course.Cou_IsLimitFree || outline.Ol_IsFree
+        || (this.course.Cou_IsTry && outline.Ol_IsFree)) {
+        var url = '/web/question/Exercises';
+        return $api.url.set(url, {
+          'olid': outline.Ol_ID,
+          'couid': outline.Cou_ID,
+          'back': true
+        });
+      } else {
+        var link = window.location.href;
+        link = link.substring(link.indexOf(window.location.pathname));
+        return $api.url.set('/mobi/course/buy', {
+          'couid': outline.Cou_ID,
+          'olid': outline.Ol_ID,
+          'link': encodeURIComponent(link)
+        });
+      }
     },
-    //跳转到学习页
-    skip: function () {
-      window.location.href = this.gourl();
+    //链接打开方式
+    target: function () {
+      var outline = this.outline;
+      if (this.isbuy || this.course.Cou_IsFree || this.course.Cou_IsLimitFree || outline.Ol_IsFree
+        || (this.course.Cou_IsTry && outline.Ol_IsFree)) return '_self';
+      return '_blank'
     }
   },
   //
@@ -123,12 +137,15 @@ Vue.component('outline_row', {
     <div>
       <span v-html="outline.serial"></span>  
       <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  
-      <a class="olname" :preload="preload" v-html="outline.Ol_Name" :href="gourl()"></a>
+      <a class="olname" :preload="preload" v-html="outline.Ol_Name" :href="gourl()" :target="target()"></a>
       <el-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</el-tag>
     </div>
-    <div class="tag">
-         <el-tag plain type="primary" @click="skip">{{count.answer}}/{{outline.Ol_QuesCount}}</el-tag>       
-    </div> 
-    <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid"></outlinelist>
+    <a class="tag" :href="gourl()" :target="target()">
+        <el-tag v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree || outline.Ol_IsFree" 
+        plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}} </el-tag>     
+        <el-tag v-else-if="course.Cou_IsTry && outline.Ol_IsFree" type="success">免费</el-tag>
+        <el-tag v-else type="warning" plain>购买 </el-tag>            
+    </a> 
+    <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid" :isbuy="isbuy"></outlinelist>
   </div>`
 });
