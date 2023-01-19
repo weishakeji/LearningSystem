@@ -4,7 +4,7 @@
 //change:更改章节时，返回 章节状态、章节
 //switch:选项卡切换时，返回 选项卡tag和索引
 Vue.component('study_outline', {
-    props: ['account'],
+    props: ['account', 'owned'],
     data: function () {
         return {
             couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
@@ -55,68 +55,68 @@ Vue.component('study_outline', {
             return JSON.stringify(this.course) != '{}' && this.course != null;
         }
     },
-    mounted: function () {       
+    mounted: function () {
         $dom.load.css([$dom.pagepath() + 'Components/Styles/study_outline.css']);
 
-        //
         var th = this;
         th.loading = true;
         $api.bat(
             $api.cache("Outline/tree", { 'couid': th.couid, 'isuse': true }),
-            $api.cache("Course/ForID", { id: th.couid })).then(axios.spread(function (ol, cur) {
-                th.loading = false;
-                if (cur.data.success) {
-                    th.course = cur.data.result;
-                    document.title = th.course.Cou_Name;
-                }
-                if (ol.data.success) {
-                    th.outlines = ol.data.result;
-                    //生成多级序号                   
-                    (() => {
-                        calcSerial(null, '');
-                        function calcSerial(outline, lvl) {
-                            var childarr = outline == null ? th.outlines : (outline.children ? outline.children : null);
-                            if (childarr == null) return;
-                            for (let i = 0; i < childarr.length; i++) {
-                                childarr[i].serial = lvl + (i + 1) + '.';
-                                calcSerial(childarr[i], childarr[i].serial);
-                            }
+            $api.cache("Course/ForID", { id: th.couid })
+        ).then(axios.spread(function (ol, cur) {
+            th.loading = false;
+            if (cur.data.success) {
+                th.course = cur.data.result;
+                document.title = th.course.Cou_Name;
+            }
+            if (ol.data.success) {
+                th.outlines = ol.data.result;
+                //生成多级序号                   
+                (() => {
+                    calcSerial(null, '');
+                    function calcSerial(outline, lvl) {
+                        var childarr = outline == null ? th.outlines : (outline.children ? outline.children : null);
+                        if (childarr == null) return;
+                        for (let i = 0; i < childarr.length; i++) {
+                            childarr[i].serial = lvl + (i + 1) + '.';
+                            calcSerial(childarr[i], childarr[i].serial);
                         }
-                    })();
-                    if (th.olid == '') {
-                        th.olid = ol.data.result[0].Ol_ID;
-                        th.outline = th.getOutline(th.olid, null);
-                        if (!th.outline.Ol_IsVideo)
-                            th.outline = th.getNext(th.outline);
-                        if (th.outline == null) th.outline = th.getOutline(th.olid, null);
-                    } else {
-                        th.outline = th.getOutline(th.olid, null);
                     }
-                    if (th.outline == null) {
-                        th.$alert('当前章节不存在', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                var href = location.href;
-                                href = $api.url.set(href, 'olid', '');
-                                location.href = href;
-                            }
-                        });
-                    }
-                    //课程与章节加载完成
-                    th.$emit('init', th.course, th.outline);
-                    th.outlineClick(th.outline, null);
+                })();
+                if (th.olid == '') {
+                    th.olid = ol.data.result[0].Ol_ID;
+                    th.outline = th.getOutline(th.olid, null);
+                    if (!th.outline.Ol_IsVideo)
+                        th.outline = th.getNext(th.outline);
+                    if (th.outline == null) th.outline = th.getOutline(th.olid, null);
                 } else {
-                    th.loading = false;
-                    th.outlines = [];
-                    th.$emit('init', th.course, {});
-                    //if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
-                    //if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
+                    th.outline = th.getOutline(th.olid, null);
                 }
-            })).catch(function (err) {
-                //Vue.prototype.$alert(err);
+                if (th.outline == null) {
+                    th.$alert('当前章节不存在', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            var href = location.href;
+                            href = $api.url.set(href, 'olid', '');
+                            location.href = href;
+                        }
+                    });
+                }
+                //课程与章节加载完成
+                th.$emit('init', th.course, th.outline);
+                th.outlineClick(th.outline, null);
+            } else {
+                th.loading = false;
                 th.outlines = [];
-                console.error(err);
-            });
+                th.$emit('init', th.course, {});
+                //if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
+                //if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
+            }
+        })).catch(function (err) {
+            //Vue.prototype.$alert(err);
+            th.outlines = [];
+            console.error(err);
+        });
 
         //获取当前机构
         $api.get('Organization/Current').then(function (req) {
@@ -161,8 +161,7 @@ Vue.component('study_outline', {
             var th = this;
             var olid = outline.Ol_ID;
             //if (String(olid) == $api.querystring("olid")) return;
-            var url = $api.setpara("olid", olid);
-            history.pushState({}, null, url);
+
             this.olid = olid;
             //设置当前节点的样式
             this.$nextTick(function () {
@@ -193,6 +192,23 @@ Vue.component('study_outline', {
                     result[key] = state.data.result[key];
                 }
                 th.state = result;
+                if (!th.state.canStudy) {
+                    th.$confirm('当前章节需要购买后学习, 是否继续?', '提示', {
+                        confirmButtonText: '购买',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        var link = window.location.href;
+                        link = link.substring(link.indexOf(window.location.pathname));
+                        var url = $api.url.set('/mobi/course/buy', {
+                            'couid': th.couid, 'olid': th.olid
+                        });
+                        window.location.href = url;
+                    }).catch(() => { });
+                    return;
+                }
+                var url = $api.setpara("olid", olid);
+                history.pushState({}, null, url);
                 th.$emit('change', th.state, th.outline);
                 //console.log(th.state);
             })).catch(function (err) {
@@ -288,7 +304,7 @@ Vue.component('study_outline', {
                 :isvideo='data.Ol_IsVideo' :islive='data.Ol_IsLive'>
                 <span>{{data.serial}}</span>
                 <span>{{ data.Ol_Name }}</span>
-            </span>
+            </span>           
         </el-tree>
         <study_chat v-if="tabActive=='chat'" :course="course" :account="account" :outline="outline" :playtime="playtime"></study_chat>
     </div>`

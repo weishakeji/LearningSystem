@@ -9,10 +9,11 @@ $ready(function () {
             account: {}, //当前账号信息
             course: {}, //当前课程
             outline: {}, //当前课程章节    
+            owned: false,       //是否购买或学员组关联课程
 
             //状态
             state: {}, //课程章节的状态       来自study_outline组件中的change事件传值
-           
+
             fold: false, //分隔线折叠状态
             titState: 'loading', //左侧选项卡的状态  
 
@@ -57,6 +58,17 @@ $ready(function () {
                     });
                     th.titState = "noLogin";
                     th.account = {};
+                });
+                $api.get('Course/Owned', { 'couid': th.couid, 'acid': acc.Ac_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.owned = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
                 });
             }).catch(() => { });
 

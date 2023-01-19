@@ -11,11 +11,10 @@ $ready(function () {
 
             course: {},         //当前课程对象
             couinfo: {},         //课程的一些数据信息，例如多少道题
-           
+            owned:false,            
+            
             sum: 0,              //购买课程的人数
-            teacher: null,     //课程教师
-            outlines: [],     //课程章节
-            guides: [],          //课程通知
+            teacher: null,     //课程教师        
             prices: [],          //课程价格          
 
             selected_price: {},          //选中的价格         
@@ -69,13 +68,11 @@ $ready(function () {
                 }
                 if (!th.course) return;
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
-                $api.bat(
-                    $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
+                $api.bat(                
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
-                    $api.get('Course/StudentSum', { 'couid': th.couid }),
-                    $api.cache('Guide/Guides', { 'couid': th.couid, 'count': 20 }),
+                    $api.get('Course/StudentSum', { 'couid': th.couid }),                   
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })                  
-                ).then(axios.spread(function (outlines, prices, sum, guides, teacher) {
+                ).then(axios.spread(function (prices, sum, teacher) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -86,11 +83,9 @@ $ready(function () {
                             console.error(data.exception);
                         }
                     }
-                    //获取结果
-                    th.outlines = outlines.data.result;
+                    //获取结果                
                     th.prices = prices.data.result;
-                    th.sum = sum.data.result;
-                    th.guides = guides.data.result;
+                    th.sum = sum.data.result;                 
                     th.teacher = teacher.data.result;                   
                 })).catch(function (err) {
                     console.error(err);
@@ -124,7 +119,7 @@ $ready(function () {
             //当学员登录后
             forlogin: function (acc) {
                 var th = this;
-                th.account = acc;
+                th.account = acc;              
                 $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }).then(function (req) {
                     if (req.data.success) {
                         th.owned = req.data.result;                      
@@ -324,8 +319,6 @@ $ready(function () {
     });
 
 }, ["Components/largebutton.js",        //购买课程的按钮
-    "Components/breadcrumb.js",         //顶部面包屑
-    "Components/guides.js",
-    "Components/progress_video.js",
+    "Components/breadcrumb.js",         //顶部面包屑    
     "../Components/courses.js",
-    '/Utilities/Scripts/jquery.qrcode.min.js',]);
+    '/Utilities/Scripts/jquery.qrcode.min.js']);

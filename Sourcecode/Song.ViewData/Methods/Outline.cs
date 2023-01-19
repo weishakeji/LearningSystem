@@ -295,9 +295,9 @@ namespace Song.ViewData.Methods
 
             dic.Add("isStudy", isStudy);
             //dic.Add("isBuy", isBuy);
-            ////是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            canStudy = isStudy && outline.Ol_IsUse && outline.Ol_IsFinish;
-            dic.Add("canStudy", true);
+            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+            canStudy = course.Cou_IsFree || isExistSort || isBuy  || (course.Cou_IsTry && outline.Ol_IsFree && outline.Ol_IsUse && outline.Ol_IsFinish);
+            dic.Add("canStudy", canStudy);
             return dic;
         }
         /// <summary>

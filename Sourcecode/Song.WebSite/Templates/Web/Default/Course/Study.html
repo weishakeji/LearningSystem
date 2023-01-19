@@ -60,8 +60,9 @@
         </div>
         <fold remark="此为分隔线"><span @click="fold = !fold" :class="{'open':fold}"></span> </fold>
         <!--开始右侧菜单区域-->
-        <study_outline ref="rightArea" :account="account" @switch="(tag,index)=>{}" @init="(c,o)=>{course=c;outline=o;}"
-            @change="(s,o)=>{state=s;outline=o;}" :style="!fold ? 'width: 25%;' : 'width: 0%'" v-show="!fold">
+        <study_outline ref="rightArea" :account="account" :owned="owned" @switch="(tag,index)=>{}"
+            @init="(c,o)=>{course=c;outline=o;}" @change="(s,o)=>{state=s;outline=o;}"
+            :style="!fold ? 'width: 25%;' : 'width: 0%'" v-show="!fold">
         </study_outline>
     </div>
 </body>
