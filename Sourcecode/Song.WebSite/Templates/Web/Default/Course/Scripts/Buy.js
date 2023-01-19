@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid:  $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),        //课程id
+            couid: $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),        //课程id
             account: {},     //当前登录账号       
             organ: {},
             config: {},      //当前机构配置项     
@@ -11,15 +11,12 @@ $ready(function () {
 
             course: {},         //当前课程对象
             couinfo: {},         //课程的一些数据信息，例如多少道题
-            videolog: [],        //课程章节的视频学习记录
+           
             sum: 0,              //购买课程的人数
             teacher: null,     //课程教师
             outlines: [],     //课程章节
             guides: [],          //课程通知
-            prices: [],          //课程价格
-            studied: false,        //是否购买课程
-            record: null,          //课程购买记录
-            canStudy: false,     //是否能够学习
+            prices: [],          //课程价格          
 
             selected_price: {},          //选中的价格         
 
@@ -77,9 +74,8 @@ $ready(function () {
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.cache('Guide/Guides', { 'couid': th.couid, 'count': 20 }),
-                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID }),
-                    $api.get('Course/Studied', { 'couid': th.couid })
-                ).then(axios.spread(function (outlines, prices, sum, guides, teacher, studied) {
+                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID })                  
+                ).then(axios.spread(function (outlines, prices, sum, guides, teacher) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -95,8 +91,7 @@ $ready(function () {
                     th.prices = prices.data.result;
                     th.sum = sum.data.result;
                     th.guides = guides.data.result;
-                    th.teacher = teacher.data.result;
-                    th.studied = studied.data.result;
+                    th.teacher = teacher.data.result;                   
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -130,28 +125,17 @@ $ready(function () {
             forlogin: function (acc) {
                 var th = this;
                 th.account = acc;
-                $api.bat(
-                    $api.get('Course/StudyAllow', { 'couid': th.couid }),
-                    $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
-                    $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录
-                ).then(axios.spread(function (canStudy, record, videolog) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            //console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
+                $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.owned = req.data.result;                      
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
                     }
-                    //获取结果
-                    th.canStudy = canStudy.data.result;
-                    th.record = record.data.result;
-                    th.videolog = videolog.data.result;
-                })).catch(function (err) {
+                }).catch(function (err) {
+                    alert(err);
                     console.error(err);
-                });
+                });               
             },
             //清理Html标签
             clearTag: function (html) {

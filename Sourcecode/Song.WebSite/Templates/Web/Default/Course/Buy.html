@@ -51,7 +51,7 @@
                         余额：<span id="money">{{account.Ac_Money}}</span>
                         <span id="coupon">{{account.Ac_Coupon}}</span>
                     </card-title>
-                    <card-context class="prices" v-if="!studied">
+                    <card-context class="prices" v-if="!owned">
                         <template v-for="(data,i) in prices" v-if="prices.length>0">
                             <div @click="select(data)" :class="{selected:data.CP_ID==selected_price.CP_ID}">
                                 <span class="mprice">

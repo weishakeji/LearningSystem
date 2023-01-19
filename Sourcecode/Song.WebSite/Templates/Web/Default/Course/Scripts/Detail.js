@@ -18,7 +18,7 @@ $ready(function () {
             prices: [],          //课程价格
             studied: false,        //是否可以学习课程
             purchase: {},          //课程购买记录
-            canStudy: false,     //是否能够学习
+            studied: false,     //是否能够学习
             owned:false,            //是否拥有这个课程（购买或学员组关联）
 
             testpapers: [],          //试卷
@@ -126,9 +126,8 @@ $ready(function () {
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
-                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID }),
-                    $api.get('Course/Studied', { 'couid': th.couid })
-                ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher, studied) {
+                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
+                ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -156,8 +155,7 @@ $ready(function () {
                     console.log(th.prices);
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
-                    th.teacher = teacher.data.result;
-                    th.studied = studied.data.result;
+                    th.teacher = teacher.data.result;                  
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -171,11 +169,11 @@ $ready(function () {
                 var th = this;
                 th.account = acc;
                 $api.bat(
-                    $api.get('Course/StudyAllow', { 'couid': th.couid }),
+                    $api.get('Course/Studied', { 'couid': th.couid }),
                     $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
                     $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
                     $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
-                ).then(axios.spread(function (canStudy, purchase, videolog, owned) {
+                ).then(axios.spread(function (studied, purchase, videolog, owned) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -187,7 +185,7 @@ $ready(function () {
                         }
                     }
                     //获取结果
-                    th.canStudy = canStudy.data.result;
+                    th.studied = studied.data.result;
                     if (purchase.data.result != null)
                         th.purchase = purchase.data.result;
                     th.videolog = videolog.data.result;

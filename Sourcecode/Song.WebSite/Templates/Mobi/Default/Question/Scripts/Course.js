@@ -9,7 +9,8 @@ $ready(function () {
             account: null,     //当前登录学员 
             outlines: [],        //章节树
             course: {},         //当前课程对象  
-
+            studied:false,
+            
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
             state_ques: [],      //所有试题的状态，来自state中的items
@@ -90,9 +91,8 @@ $ready(function () {
                 //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
                 $api.bat(
                     $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
-                    $api.get('Course/Studied', { 'couid': couid }),
-                    $api.get('Course/StudyAllow', { 'couid': couid })
-                ).then(axios.spread(function (outlines, isbuy, canStudy) {
+                    $api.get('Course/Studied', { 'couid': couid })                   
+                ).then(axios.spread(function (outlines, studied) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -109,8 +109,7 @@ $ready(function () {
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
-                    th.isbuy = isbuy.data.result;
-                    th.canStudy = canStudy.data.result;
+                    th.studied = studied.data.result;                  
                     //初始显示第几条试题
                     th.$nextTick(function () {
                         th.loading = false;
