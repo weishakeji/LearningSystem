@@ -11,7 +11,8 @@ $ready(function () {
             couid: 0,
             olid: 0,
             link: '',
-            studied:false,      //是否购买了该课程
+            studied: false,      //是否可以学习该课程
+            owned:false,        //是否拥有该课程，购买或学员组关联
 
             course: {},      //当前课程            
             couinfo: {},         //课程的一些数据信息，例如多少道题
@@ -23,15 +24,15 @@ $ready(function () {
             loading_buy: false      //购买中的状态
         },
         mounted: function () {
-            var th=this;
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
                 $api.get('Course/ForID', { 'id': this.couid }),
                 $api.cache('Course/Datainfo', { 'couid': this.couid }),
-                $api.get('Course/Studied',{'couid':this.couid })
-            ).then(axios.spread(function (account, platinfo, organ, course, info,studied) {
+                $api.get('Course/Studied', { 'couid': this.couid })
+            ).then(axios.spread(function (account, platinfo, organ, course, info, studied) {
                 vapp.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -46,12 +47,23 @@ $ready(function () {
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
                 th.studied = studied.data.result;
-                console.log(th.studied );
+                console.log(th.studied);
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.course = course.data.result;
                 th.couinfo = info.data.result;
+                $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.owned = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
                 //获取价格
                 $api.get('Course/prices', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
@@ -72,7 +84,7 @@ $ready(function () {
             });
         },
         created: function () {
-            this.couid =  $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid");
+            this.couid = $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid");
             this.olid = $api.querystring('olid');
             this.link = $api.querystring('link');
         },
@@ -235,10 +247,10 @@ $ready(function () {
                 });
             },
             //学员登录
-            gologin:function(){
+            gologin: function () {
                 var link = window.location.href;
                 link = link.substring(link.indexOf(window.location.pathname));
-                var url = $api.url.set('/mobi/sign/in', {                   
+                var url = $api.url.set('/mobi/sign/in', {
                     'link': encodeURIComponent(link)
                 });
                 // console.log(url);               

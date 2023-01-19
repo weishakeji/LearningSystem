@@ -3,8 +3,10 @@ $dom.load.css([$dom.pagepath() + 'Components/Styles/outline_tree.css']);
 // 章节列表组件
 Vue.component('outline_tree', {
     //章节列表，课程对象，菜单是否显示
+    //studied:是否可以学习该章节
+    //owned: 是否拥有该课程，例如学员组关联，购买
     //videolog:章节的学习记录
-    props: ['outlines', 'course', 'studied', 'videolog'],
+    props: ['outlines', 'course', 'studied', 'owned', 'videolog'],
     data: function () {
         return {
             current: {}, //当前章节对象		
@@ -79,7 +81,7 @@ Vue.component('outline_tree', {
             //是否允许学习
             var allow = false;
             if (this.course.Cou_IsTry && node.Ol_IsFree) allow = true;
-            if (this.studied || this.course.Cou_IsFree || this.course.Cou_IsLimitFree) allow = true;
+            if (this.owned || this.course.Cou_IsFree || this.course.Cou_IsLimitFree) allow = true;
             if (allow) {
                 if (node.Ol_ID == this.olid) return;
                 this.node_click_event(node);
@@ -121,7 +123,7 @@ Vue.component('outline_tree', {
                 <van-tag type="success" v-if="o.Ol_IsVideo">免费</van-tag>
             </template>
             <template v-else>
-                <span v-if="studied || course.Cou_IsFree || course.Cou_IsLimitFree">
+                <span v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree">
                       <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo">
                     </progress_video>
                 </span>

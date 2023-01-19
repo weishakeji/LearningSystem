@@ -10,7 +10,8 @@ $ready(function () {
             state: {},           //当前章节的状态
             videolog: [],        //课程章节的视频学习记录
             outlines: [], 	//当前课程所有章节
-            studied: false,		//当前学员是否购买该课程
+            studied: false,		//当前学员是否可以学习，免费试用也允许
+            owned: false,        //当前学员是否购买该课程或学员组关联
             messages: [], //咨询留言
             menuShow: false,		//章节菜单是否显示
             isMessage: true,         //是否启用留言咨询
@@ -61,8 +62,9 @@ $ready(function () {
                 $api.bat(
                     $api.cache("Course/ForID", { id: couid }),
                     $api.cache("Outline/TreeList", { couid: couid }),
-                    $api.get('Course/Studied', { 'couid': couid })                 
-                ).then(axios.spread(function (cur, ol, studied) {
+                    $api.get('Course/Studied', { 'couid': couid }),
+                    $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
+                ).then(axios.spread(function (cur, ol, studied, owned) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -78,7 +80,8 @@ $ready(function () {
                     document.title = th.course.Cou_Name;
                     th.outlines = ol.data.result;
                     //console.log(th.outlines);
-                    th.studied = studied.data.result;                  
+                    th.studied = studied.data.result;
+                    th.owned = owned.data.result;
                     //获取学习记录
                     if (th.islogin) th.getLogForOutlineVideo();
                 })).catch(function (err) {
