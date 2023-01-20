@@ -68,6 +68,7 @@
 
         },
         created: function () {
+            if (window.ques) window.ques.get_cache_data();
             window.onresize = function () {
                 $dom("section").hide();
                 $dom("section").css('left', -($dom("#vapp").width() * vapp.swipeIndex) + 'px');

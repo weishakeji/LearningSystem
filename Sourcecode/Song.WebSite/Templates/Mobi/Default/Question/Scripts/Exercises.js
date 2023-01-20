@@ -72,7 +72,7 @@
 
         },
         created: function () {
-
+            if (window.ques) window.ques.get_cache_data();
         },
         computed: {
             //是否登录

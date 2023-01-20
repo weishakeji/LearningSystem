@@ -359,7 +359,7 @@
                 for (var i = 0; i < answer.ques.length; i++) {
                     for (let j = 0; j < answer.ques[i].q.length; j++) {
                         const q = answer.ques[i].q[j];
-                        if (q.sucess) total += q.score;
+                        if (q.sucess) total += Number(q.score);
                     }
                 }
                 return total;
