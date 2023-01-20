@@ -60,13 +60,12 @@
                 for (let i = 0; i < result.length; i++) {
                     if (result[i].Ol_QuesCount > 0) {
                         $api.cache('Question/ForCourse:' + (60 * 24 * 30),
-                            { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'count': 0 });
+                            { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'count': 0 }).then((req) => {
+
+                            });
                     }
                 }
                 //console.log('加载章节:'+result.length);
-            } else {
-                console.error(req.data.exception);
-                throw req.config.way + ' ' + req.data.message;
             }
         }).catch(function (err) {
             //alert(err);
@@ -75,7 +74,6 @@
 
     };
     window.ques = new method();
-    window.ques.get_cache_data();
 })();
 
 //window.ques.alert();
