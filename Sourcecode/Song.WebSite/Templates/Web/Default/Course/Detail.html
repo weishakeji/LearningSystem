@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>课程详情</title>
-    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script> 
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
                         <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
                         <div title="主讲老师：" v-html="course.Th_Name"></div>
                     </div>
-                   
+
                     <div class="couMoney" title="学习费用：" v-if="!purchased && !forever">
                         <span class="moneyfree" v-if="course.Cou_IsFree">
                             <icon>&#xe746;</icon>免费
@@ -64,8 +64,8 @@
                         </template>
                     </div>
                     <!--购买课程的按钮-->
-                    <largebutton :course="course" :purchase="purchase" :account="account" :studied="owned" :forever="forever"
-                        :finaltest="finaltest">
+                    <largebutton :course="course" :purchase="purchase" :account="account" :studied="owned"
+                        :forever="forever" :finaltest="finaltest">
                     </largebutton>
 
                 </div>
@@ -108,7 +108,7 @@
                         <template v-else>
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
                                 <index>{{o.Ol_XPath}}</index>
-                                <span :title="'ID: '+o.Ol_ID" v-html="o.Ol_Name"></span>
+                                <span :title="o.Ol_Name" v-html="o.Ol_Name"></span>
                                 <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
                                     <a type="success" v-if="o.Ol_IsVideo"
@@ -118,10 +118,8 @@
                                 </template>
                                 <template v-else>
                                     <template v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree || forever">
-                                        <a type="success" v-if="o.Ol_IsVideo"
-                                            :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
-                                            <progress_video :videolog="videolog" :outline="o" text="学习"
-                                                v-if="o.Ol_IsVideo">
+                                        <a type="success" :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
+                                            <progress_video :videolog="videolog" :outline="o" text="学习">
                                             </progress_video>
                                         </a>
                                     </template>

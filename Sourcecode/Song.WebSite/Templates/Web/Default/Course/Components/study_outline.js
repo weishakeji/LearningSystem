@@ -159,9 +159,7 @@ Vue.component('study_outline', {
         //章节树形列表中的点击事件
         outlineClick: function (outline) {
             var th = this;
-            var olid = outline.Ol_ID;
-            //if (String(olid) == $api.querystring("olid")) return;
-
+            var olid = outline.Ol_ID;         
             this.olid = olid;
             //设置当前节点的样式
             this.$nextTick(function () {
@@ -209,8 +207,18 @@ Vue.component('study_outline', {
                 }
                 var url = $api.setpara("olid", olid);
                 history.pushState({}, null, url);
-                th.$emit('change', th.state, th.outline);
-                //console.log(th.state);
+                //获取当前章节的详细信息
+                $api.get('Outline/ForID', { 'id': olid }).then(function (req) {
+                    if (req.data.success) {
+                        th.$emit('change', th.state, req.data.result);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             })).catch(function (err) {
                 th.loading = false;
                 Vue.prototype.$alert(err);
