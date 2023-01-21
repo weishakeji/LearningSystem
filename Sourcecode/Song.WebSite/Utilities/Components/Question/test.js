@@ -86,7 +86,7 @@ Vue.component('question', {
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques);
             ques.state['sucess'] = correct;
-            ques.state['score'] = correct ? ques.Qus_Number : 0;
+            ques.state['score'] = correct ? Number(ques.Qus_Number) : 0;
             if (!correct) {
                 /*
                 $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID }).then(function (req) {
