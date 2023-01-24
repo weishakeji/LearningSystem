@@ -25,9 +25,6 @@ html,body{
     padding-right: 8px;
 }
 
-.custom-tree-node:hover {
-    background-color: #eee;
-}
 
 .tree_root {
     height: 30px;

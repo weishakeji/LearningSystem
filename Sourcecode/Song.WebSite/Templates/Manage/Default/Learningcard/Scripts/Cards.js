@@ -116,23 +116,14 @@
                 for (var i = 0; i < this.cardset.courses.length; i++) {
                     var cour = this.cardset.courses[i];
                     txt += "\r\n　　　　　" + (i + 1) + "." + cour.Cou_Name;
-                }
-                this.copy(txt, title, 'textarea');
-            },
-            //复制到粘贴板
-            copy: function (val, title, textbox) {
-                if (textbox == null) textbox = 'input';
-                var oInput = document.createElement(textbox);
-                oInput.value = val;
-                document.body.appendChild(oInput);
-                oInput.select(); // 选择对象
-                document.execCommand("Copy"); // 执行浏览器复制命令           
-                oInput.style.display = 'none';
-                this.$message({
-                    message: '复制 “' + title + '” 到粘贴板',
-                    type: 'success'
+                }                
+                this.copy(txt, 'textarea').then(function(th){
+                    th.$message({
+                        message: '复制 “' + title + '” 到粘贴板',
+                        type: 'success'
+                    });
                 });
-            },
+            },  
             //显示激活学习卡的账号的信息
             acccountInfo: function (row) {
                 this.current = row;

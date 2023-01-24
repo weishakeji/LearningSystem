@@ -57,7 +57,7 @@
                     <template slot-scope="scope">
                         <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2" class="large">
                             <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
-                                @dblclick.stop="copy(scope.row.Ac_Name)"></span>
+                                @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
                         </icon>
                     </template>
@@ -65,20 +65,20 @@
                 <el-table-column label="账号">
                     <template slot-scope="scope">
                         <icon v-html='showsearch(scope.row.Ac_AccName,form.acc)' :teacher="scope.row.Ac_IsTeacher"
-                            @dblclick.stop="copy(scope.row.Ac_AccName)" :title="scope.row.Ac_IsTeacher ? '教师' : ''">
+                            @dblclick.stop="copytext(scope.row.Ac_AccName)" :title="scope.row.Ac_IsTeacher ? '教师' : ''">
                         </icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="电话" width="100">
                     <template slot-scope="scope">
                         <span v-html='showsearch(showmobi(scope.row),form.phone)'
-                            @dblclick.stop="copy(showmobi(scope.row))"></span>
+                            @dblclick.stop="copytext(showmobi(scope.row))"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="身份证" width="160">
                     <template slot-scope="scope">
                         <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'
-                            @dblclick.stop="copy(scope.row.Ac_IDCardNumber)"></span>
+                            @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)"></span>
 
                     </template>
                 </el-table-column>

@@ -100,12 +100,13 @@ $ready(function () {
                 return phone != '' ? phone : row.Th_Phone;
             },
              //复制到粘贴板
-             copy: function (val, textbox) {
-                $api.copy(val, textbox);
-                this.$message({
-                    message: '复制 “' + val + '” 到粘贴板',
-                    type: 'success'
-                });
+             copytext: function (val, textbox) {
+                this.copy(val, textbox).then(function(th){
+                    th.$message({
+                        message: '复制 “' + val + '” 到粘贴板',
+                        type: 'success'
+                    });
+                });               
             },
             //更改使用状态，包括使用、审核
             changeState: function (row) {

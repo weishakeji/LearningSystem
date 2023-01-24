@@ -61,9 +61,9 @@
                         <div class="info" :class="{'woman': scope.row.Th_Sex==2}">
                             <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex==1"></icon>
                             <span v-html='showsearch(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
-                                @dblclick.stop="copy(scope.row.Th_Name)"></span>
+                                @dblclick.stop="copytext(scope.row.Th_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
-                            <div remark="电话" @dblclick.stop="copy(showmobi(scope.row))">
+                            <div remark="电话" @dblclick.stop="copytext(showmobi(scope.row))">
                                 <icon>&#xe677</icon>
                                 <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
                             </div>
@@ -73,7 +73,7 @@
                 </el-table-column>
                 <el-table-column label="身份证号">
                     <template slot-scope="scope">
-                        <div title="身份证号" @dblclick.stop="copy(scope.row.Th_IDCardNumber)">
+                        <div title="身份证号" @dblclick.stop="copytext(scope.row.Th_IDCardNumber)">
                             <icon>&#xe68f</icon>
                             <span v-html='showsearch(scope.row.Th_IDCardNumber,form.idcard)'></span>
                         </div>
@@ -132,7 +132,7 @@
                         </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                        <div @dblclick.stop="copy(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</div>
+                        <div @dblclick.stop="copytext(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</div>
                         <div>
                             <span class="el-icon-loading" v-if="loadingid==scope.row.Th_ID"></span>
                             <template v-else>

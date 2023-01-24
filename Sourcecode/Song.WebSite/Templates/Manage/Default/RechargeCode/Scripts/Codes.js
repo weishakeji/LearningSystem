@@ -97,21 +97,12 @@
                 var title = "充值码：" + row.Rc_Code + " - " + row.Rc_Pw;
                 var txt = title;
                 txt += "\r\n有效时间：" + this.codeset.Rs_LimitStart.format("yyyy-MM-dd") + " 至 " + this.codeset.Rs_LimitEnd.format("yyyy-MM-dd");
-                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";
-                this.copy(txt, title, 'textarea');
-            },
-            //复制到粘贴板
-            copy: function (val, title, textbox) {
-                if (textbox == null) textbox = 'input';
-                var oInput = document.createElement(textbox);
-                oInput.value = val;
-                document.body.appendChild(oInput);
-                oInput.select(); // 选择对象
-                document.execCommand("Copy"); // 执行浏览器复制命令           
-                oInput.style.display = 'none';
-                this.$message({
-                    message: '复制 “' + title + '” 到粘贴板',
-                    type: 'success'
+                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";              
+                this.copy(txt, 'textarea').then(function(th){
+                    th.$message({
+                        message: '复制 “' + title + '” 到粘贴板',
+                        type: 'success'
+                    });
                 });
             },
             //显示激活学习卡的账号的信息

@@ -25,7 +25,7 @@
       <span class="custom-tree-node" slot-scope="{ node, data }">
 
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
-          :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgb(255, 255, 255) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
+          :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgba(255, 255, 255,0) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
           <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''">&#xa038;</icon>
           <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
           {{ data.MM_Name }}

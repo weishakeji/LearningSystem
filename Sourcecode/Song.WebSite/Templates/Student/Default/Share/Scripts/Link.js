@@ -14,7 +14,7 @@ $ready(function () {
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.$nextTick(function () {
-                       th.buildQrcode();
+                        th.buildQrcode();
                     });
                 } else {
                     console.error(req.data.exception);
@@ -37,28 +37,17 @@ $ready(function () {
             //生成分享链接
             shareurl: function () {
                 var url = window.location.origin;
-                url = $api.url.set(url, { 'sharekeyid': this.account.Ac_ID });               
+                url = $api.url.set(url, { 'sharekeyid': this.account.Ac_ID });
                 return url;
             },
             //复制到粘贴板
-            copy: function (val, title) {
-                navigator.clipboard.writeText(val)
-                    .then(() => {
-                        vapp.$message({
-                            message: '复制 “' + title + '” 到粘贴板',
-                            type: 'success'
-                        });
-                    })
-                    .catch(err => {
-                        if (textbox == null) textbox = 'input';
-                        var oInput = document.createElement('textarea');
-                        document.body.appendChild(oInput);
-                        oInput.value = val;
-                        oInput.select(); // 选择对象
-                        document.execCommand("Copy"); // 执行浏览器复制命令           
-                        oInput.style.display = 'none';
+            copytext: function (val, title) {
+                this.copy(val, 'textarea').then(function (th) {
+                    th.$message({
+                        message: '复制 “' + title + '” 到粘贴板',
+                        type: 'success'
                     });
-
+                });
             },
             buildQrcode: function () {
                 //生成课程二维码

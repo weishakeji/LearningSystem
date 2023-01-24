@@ -110,6 +110,7 @@
             //双击事件
             rowdblclick: function (row, column, event) {
                 let cardset = this.getTheme(row.Lcs_ID);
+                var th=this;
                 $api.get('Learningcard/SetCourses', { 'id': cardset.Lcs_ID }).then(function (req) {
                     var courses = req.data.success ? req.data.result : [];
                     var title = "学习卡号：" + row.Lc_Code + " - " + row.Lc_Pw;
@@ -122,34 +123,19 @@
                         var cour = courses[i];
                         txt += "\r\n　　　　　" + (i + 1) + "." + cour.Cou_Name;
                     }
-                    vue.copy(txt, title);
+                    th.copy(txt, 'textarea').then(function(data){
+                        th.$message({
+                            message: '复制 “' + title + '” 到粘贴板',
+                            type: 'success'
+                        });
+                    });
 
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
                 });
 
-            },
-            //复制到粘贴板
-            copy: function (val, title) {
-                navigator.clipboard.writeText(val)
-                    .then(() => {
-                        vue.$message({
-                            message: '复制 “' + title + '” 到粘贴板',
-                            type: 'success'
-                        });
-                    })
-                    .catch(err => {
-                        if (textbox == null) textbox = 'input';
-                        var oInput = document.createElement('textarea');
-                        document.body.appendChild(oInput);
-                        oInput.value = val;
-                        oInput.select(); // 选择对象
-                        document.execCommand("Copy"); // 执行浏览器复制命令           
-                        oInput.style.display = 'none';
-                    });
-
-            },
+            },            
             //显示激活学习卡的账号的信息
             acccountInfo: function (row) {
                 this.current = row;

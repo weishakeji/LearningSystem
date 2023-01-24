@@ -46,12 +46,12 @@
                         <div :class="{'woman': scope.row.Ac_Sex==2,'large':true}">
                             <icon :woman="scope.row.Ac_Sex==2" :man="scope.row.Ac_Sex!=2">
                                 <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
-                                    @dblclick.stop="copy(scope.row.Ac_Name)"></span>
+                                    @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
                                 <span v-else class="noname">(没有名字)</span>
                                 <icon v-if="scope.row.Ac_IsTeacher" teacher title="教师"></icon>
                             </icon>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
-                            <div remark="电话" @dblclick.stop="copy(showmobi(scope.row))">
+                            <div remark="电话" @dblclick.stop="copytext(showmobi(scope.row))">
                                 <icon mobile></icon>
                                 <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
                             </div>
@@ -73,8 +73,8 @@
                 </el-table-column>
                 <el-table-column label="账号/学员组">
                     <template slot-scope="scope">
-                        <div @dblclick.stop="copy(scope.row.Ac_AccName)">
-                            <icon copy title="复制账号" @click.stop="copy(scope.row.Ac_AccName)"></icon>
+                        <div @dblclick.stop="copytext(scope.row.Ac_AccName)">
+                            <icon copy title="复制账号" @click.stop="copytext(scope.row.Ac_AccName)"></icon>
                             <span v-html='showsearch(scope.row.Ac_AccName,form.acc)' class="large"></span>
                         </div>
                         <div title="学员组">
@@ -89,7 +89,7 @@
                 </el-table-column>
                 <el-table-column label="身份证">
                     <template slot-scope="scope">
-                        <div @dblclick.stop="copy(scope.row.Ac_IDCardNumber)">
+                        <div @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)">
                             <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
 
                         </div>

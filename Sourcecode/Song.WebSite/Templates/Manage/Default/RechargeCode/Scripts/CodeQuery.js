@@ -111,29 +111,13 @@
                 var title = "充值码：" + row.Rc_Code + " - " + row.Rc_Pw;
                 var txt = title;
                 txt += "\r\n有效时间：" + codeset.Rs_LimitStart.format("yyyy-MM-dd") + " 至 " + codeset.Rs_LimitEnd.format("yyyy-MM-dd");
-                txt += "\r\n面　　额：" + codeset.Rs_Price + "元";
-                this.copy(txt, title, 'textarea');
-
-            },
-            //复制到粘贴板
-            copy: function (val, title) {
-                navigator.clipboard.writeText(val)
-                    .then(() => {
-                        vue.$message({
-                            message: '复制 “' + title + '” 到粘贴板',
-                            type: 'success'
-                        });
-                    })
-                    .catch(err => {
-                        if (textbox == null) textbox = 'input';
-                        var oInput = document.createElement('textarea');
-                        document.body.appendChild(oInput);
-                        oInput.value = val;
-                        oInput.select(); // 选择对象
-                        document.execCommand("Copy"); // 执行浏览器复制命令           
-                        oInput.style.display = 'none';
+                txt += "\r\n面　　额：" + codeset.Rs_Price + "元";               
+                this.copy(txt, 'textarea').then(function(th){
+                    th.$message({
+                        message: '复制 “' + title + '” 到粘贴板',
+                        type: 'success'
                     });
-
+                });
             },
             //显示激活学习卡的账号的信息
             acccountInfo: function (row) {
