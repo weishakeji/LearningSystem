@@ -266,7 +266,7 @@ namespace Song.ViewData.Methods
         [Cache(AdminDisable = true, Expires = 1440)]
         public JArray OrganMarkerMenus(string marker)
         {
-            JArray ja = new JArray();
+            //JArray ja = new JArray();
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             List<Song.Entities.ManageMenu> mm = Business.Do<IPurview>().GetOrganPurview(org, marker);
             return mm.Count > 0 ? _MenuNode(null, mm) : null;
@@ -312,7 +312,7 @@ namespace Song.ViewData.Methods
                 }
                 else
                 {
-                    if (!m.MM_PatId.Equals(item.MM_UID,StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!m.MM_PatId.Equals(item.MM_UID, StringComparison.OrdinalIgnoreCase)) continue;
                 }
                 //如果不是本机id，则显示项单项完成（因为完成度只是为了在开发时记录一下完成状态）
                 if (!islocal) m.MM_Complete = 100;
@@ -330,9 +330,7 @@ namespace Song.ViewData.Methods
                 jfont.Add("color", m.MM_Color);
                 jo.Add("font", jfont);
                 //计算下级
-                JArray charray = _MenuNode(m, items);
-                if (charray.Count > 0) jo.Add("children", charray);
-            
+                jo.Add("children", _MenuNode(m, items));
                 jarr.Add(jo);
             }
             return jarr;
