@@ -202,6 +202,7 @@ section dd {
 	width: 100vw;
 	overflow-y: auto;
 	line-height: 150%;
+	font-size: 18px;
 }
 
 section dd info {
@@ -213,7 +214,7 @@ section dd info {
 }
 
 section dd info span {
-	font-size: 14px;
+	font-size: 18px;
 	color: #999;
 }
 
@@ -245,6 +246,7 @@ section dd img {
 	font-style: normal;
 	margin-right: 15px !important;
 	display: inline-block;
+	white-space: nowrap;
 }
 
 .ans_area>div[ansid] i::before {

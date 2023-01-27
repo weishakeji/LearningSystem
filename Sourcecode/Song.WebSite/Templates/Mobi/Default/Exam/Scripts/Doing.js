@@ -256,32 +256,34 @@ $ready(function () {
                 th.loading.paper = true;
                 //试卷缓存过期时间
                 var span = this.exam.Exam_Span;
-                $api.cache('TestPaper/GenerateRandom:+' + span * 2, { 'tpid': this.paper.Tp_Id }).then(function (req) {
-                    window.setTimeout(function () {
-                        th.loading.paper = false;
-                    }, 1000);
-                    if (req.data.success) {
-                        var paper = req.data.result;
-                        //将试题对象中的Qus_Items，解析为json
-                        for (let i = 0; i < paper.length; i++) {
-                            const group = paper[i];
-                            for (let j = 0; j < group.ques.length; j++) {
-                                group.ques[j] =  window.ques.parseAnswer(group.ques[j]);                               
+                $api.cache('Exam/MakeoutPaper:+' + span * 2,
+                    { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
+                    .then(function (req) {
+                        window.setTimeout(function () {
+                            th.loading.paper = false;
+                        }, 1000);
+                        if (req.data.success) {
+                            var paper = req.data.result;
+                            //将试题对象中的Qus_Items，解析为json
+                            for (let i = 0; i < paper.length; i++) {
+                                const group = paper[i];
+                                for (let j = 0; j < group.ques.length; j++) {
+                                    group.ques[j] = window.ques.parseAnswer(group.ques[j]);
+                                }
                             }
-                        }
-                        vapp.calcTime();
-                        //将本地记录的答题信息还原到界面
-                        paper = vapp.restoreAnswer(paper);
-                        vapp.paperQues = paper;
+                            vapp.calcTime();
+                            //将本地记录的答题信息还原到界面
+                            paper = vapp.restoreAnswer(paper);
+                            vapp.paperQues = paper;
 
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    });
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
@@ -379,7 +381,7 @@ $ready(function () {
                 this.swipeIndex = index;
                 $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
                 this.showCard = false;
-            },            
+            },
             //生成答题信息
             generateAnswerJson: function (paper) {
                 var results = {
@@ -538,8 +540,7 @@ $ready(function () {
                         const q = group.ques[j];
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
-                            if (q.Qus_ID == reclist[n].id) {
-                                if (reclist[n].ans == '') continue;
+                            if (q.Qus_ID == reclist[n].id) {                               
                                 //单选
                                 if (q.Qus_Type == 1) {
                                     for (let index = 0; index < q.Qus_Items.length; index++) {
@@ -563,6 +564,7 @@ $ready(function () {
                                 }
                                 //判断
                                 if (q.Qus_Type == 3) {
+                                    if (reclist[n].ans == '') continue;
                                     q.Qus_Answer = reclist[n].ans == "0" ? 'true' : 'false';
                                 }
                                 //简答
@@ -571,10 +573,12 @@ $ready(function () {
                                 }
                                 //填空
                                 if (q.Qus_Type == 5) {
+                                    for (let b = 0; b < q.Qus_Items.length; b++)
+                                        q.Qus_Items[b]["Ans_Context"] = '';
                                     var arr = reclist[n].ans.split(',');
-                                    if (arr.length <= 0) continue;
-                                    for (var a = 0; a < arr.length; a++) {
-                                        if (arr[a] == '') continue;
+                                    if (arr.length < 1) continue;
+                                    for (var a = 0; a < arr.length && a < q.Qus_Items.length; a++) {
+                                        //if (arr[a] == '') continue;
                                         q.Qus_Items[a]["Ans_Context"] = arr[a];
                                     }
                                     q.Qus_Answer = reclist[n].ans;
@@ -748,4 +752,4 @@ $ready(function () {
             </template>
         </div>`
     });
-},['/Utilities/Components/question/function.js']);
+}, ['/Utilities/Components/question/function.js']);

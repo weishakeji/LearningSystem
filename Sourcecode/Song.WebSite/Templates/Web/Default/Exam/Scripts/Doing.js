@@ -251,8 +251,9 @@ $ready(function () {
                     th.loading.paper = false;
                     return;
                 }
-                //出卷
-                $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
+                //出卷                
+                $api.cache('Exam/MakeoutPaper:+' + th.paper.Tp_Span,
+                    { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
@@ -546,7 +547,6 @@ $ready(function () {
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
                             if (q.Qus_ID == reclist[n].id) {
-                                //if (reclist[n].ans == '') continue;
                                 //单选
                                 if (q.Qus_Type == 1) {
                                     for (let index = 0; index < q.Qus_Items.length; index++) {
@@ -570,6 +570,7 @@ $ready(function () {
                                 }
                                 //判断
                                 if (q.Qus_Type == 3) {
+                                    if (reclist[n].ans == '') continue;
                                     q.Qus_Answer = reclist[n].ans == "0" ? 'true' : 'false';
                                 }
                                 //简答
