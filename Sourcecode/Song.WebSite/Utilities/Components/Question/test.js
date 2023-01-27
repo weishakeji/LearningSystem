@@ -226,8 +226,7 @@ Vue.component('question', {
                     </div>
                 </div>
                 <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.state.ans" 
-                     @input="ques_doing(null,ques)"></textarea>                
+                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>                
                 </div>
                 <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
