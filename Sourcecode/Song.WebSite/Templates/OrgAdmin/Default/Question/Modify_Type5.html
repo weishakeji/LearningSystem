@@ -20,12 +20,8 @@
                     <dl class="ans" id="ansitems">
                         <dd v-for="(item,index) in ansitems">
                             <index :title="'id:'+item.Ans_ID">{{index+1}}</index>
-                            <div class="text" v-html="item.Ans_Context" :id="'ans_'+item.Ans_ID"
-                                @click="$refs['ques_ansitem'].set(item)">
-                            </div>
-                            <div class="btns">
-                                <el-link type="primary" plain icon="el-icon-edit"
-                                    @click="$refs['ques_ansedit'].set(item,index)">编辑</el-link>
+                            <input type="text" autocomplete="off" class="text" v-model="item.Ans_Context" placeholder="请输入内容"/>                                                 
+                            <div class="btns">                               
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                     title="确定删除吗？" @confirm="ansitems.splice(index, 1)">
                                     <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
@@ -41,8 +37,7 @@
                 </el-form-item>
             </el-form>
             <ques_ansitem ref="ques_ansitem" :question="entity" @close="ansEnter"></ques_ansitem>
-        </modify_main>
-        <ques_ansedit ref="ques_ansedit" :question="entity" @enter="ansEnter"> </ques_ansedit>
+        </modify_main>      
         <enter_button ref="enter_button" :question="entity" :verify="verify" :organ="organ"></enter_button>
     </div>
 </body>

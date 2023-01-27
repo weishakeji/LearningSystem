@@ -36,6 +36,12 @@ dl.ans dd .radio {
     text-align: center;
     cursor: pointer;
 }
+dl.ans dd input[type='text']{
+    border: none;
+}
+dl.ans dd input[type='text']:focus{
+    border: 1px solid #eee;
+}
 
 dl.ans dd .text {
     width: calc(100% - 50px - 90px);
@@ -47,4 +53,5 @@ dl.ans dd .text {
 }
 dl.ans dd .btns {
     width: 90px;
+    text-align: center;
 }

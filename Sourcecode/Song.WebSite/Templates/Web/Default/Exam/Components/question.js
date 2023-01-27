@@ -235,7 +235,7 @@ Vue.component('question', {
                 </div>
                 <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
-                        <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"/>               
+                        <input type="text" v-model="ans.Ans_Context" @input="type5_input(ques)"/>               
                     </div>
                 </div>    
             </card-context>
