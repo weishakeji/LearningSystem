@@ -1,4 +1,3 @@
-
 /*试题区*/
 
 section dl, section dd {
@@ -26,10 +25,12 @@ section dd info span {
 	font-size: 14px;
 	color: #999;
 }
-section dd p, dd span, dd font{
+
+section dd p, dd span, dd font {
 	line-height: 150% !important;
 	font-size: 16px;
 }
+
 section dd card {
 	min-height: calc(100% - 30px - 40px);
 }
@@ -49,14 +50,17 @@ section dd img {
 	position: relative;
 	margin: 10px;
 }
+
 card[qid] .ans_area i {
 	font-style: normal;
 	margin-right: 10px;
 	white-space: nowrap;
 }
+
 .ans_area div[selected] {
 	color: #409EFF !important;
 }
+
 .ans_area>div[ansid] i {
 	font-style: normal;
 	margin-right: 15px !important;
@@ -70,11 +74,11 @@ card[qid] .ans_area i {
 	margin-right: 5px;
 }
 
-.type1>div[ansid] i::before {	
-	content: '\e85c';	
+.type1>div[ansid] i::before {
+	content: '\e85c';
 }
 
-.type1>div[selected] i::before {	
+.type1>div[selected] i::before {
 	content: '\e85b';
 }
 
@@ -82,7 +86,7 @@ card[qid] .ans_area i {
 	display: flex;
 }
 
-.ans_area>div[ansid] * {	
+.ans_area>div[ansid] * {
 	margin: 0px;
 	padding: 0px;
 }
@@ -96,37 +100,55 @@ card[qid] .ans_area i {
 	content: '\a048';
 }
 
-.type2>div i::before {	
+.type2>div i::before {
 	content: '\e603';
 }
 
 .type2>div[selected] i::before {
 	content: '\e78b';
 }
+
 /*判断题*/
 card[qid] .type3 {
 	display: flex;
-	
+
 }
+
 card[qid] .type3>div:first-child {
 	margin-right: 40px;
 }
-card[qid] .type3 i{
+
+card[qid] .type3 i {
 	font-size: 18px;
 }
+
 card[qid] .type3>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e603';
 	font-style: normal;
-	margin-right: 5px;	
+	margin-right: 5px;
 	font-size: 22px;
 }
-card[qid] .type3>div[selected] i::before {	
-	content: '\e78b';	
+
+card[qid] .type3>div[selected] i::before {
+	content: '\e78b';
 }
+
 .type4 button {
 	float: right;
 	height: 35px;
 	margin-bottom: 20px;
 	margin-right: 10px;
+}
+
+/*填空题*/
+.type5 input[type='text'] {	
+	font-size: 16px;
+	padding: 5px 10px;
+}
+/*简答题*/
+.type4 textarea{
+	width: calc(100% - 20px);
+	font-size: 16px;
+	padding: 5px 10px;
 }

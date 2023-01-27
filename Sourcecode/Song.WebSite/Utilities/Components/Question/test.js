@@ -226,15 +226,14 @@ Vue.component('question', {
                     </div>
                 </div>
                 <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.state.ans"></textarea>
-                    <van-button type="primary" @click="ques_doing(null,ques)">提交答案</van-button>
-                    </div>
+                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.state.ans" 
+                     @input="ques_doing(null,ques)"></textarea>                
+                </div>
                 <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
-                        <i>{{i+1}}.</i>888
-                        <input type="text" v-model="ans.answer"></input>                
-                    </div>
-                    <van-button type="primary" @click="ques_doing(null,ques)">提交答案</van-button>
+                        <i>{{i+1}}.</i>
+                        <input type="text" v-model="ans.answer" @input="ques_doing(null,ques)"></input>                
+                    </div>                   
                 </div>    
             </card-context>
         </card>
