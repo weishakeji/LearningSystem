@@ -1,4 +1,5 @@
-﻿// 图片上传组件
+﻿$dom.load.css(['/Utilities/Components/Styles/upload-img.css']);
+// 图片上传组件
 //事件change:当选择本地文件后触发，参数file（含属性base64,当前上传图片文件的base64编码）
 Vue.component('upload-img', {
     //text: 上传按钮的文字
@@ -26,8 +27,7 @@ Vue.component('upload-img', {
             return this.height + 'px';
         }
     },
-    created: function () {
-        $dom.load.css(['/Utilities/Components/Styles/upload-img.css']);
+    created: function () {      
         var th = this;
         th.loading = true;
         //控件id

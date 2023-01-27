@@ -36,7 +36,7 @@ Vue.component('question', {
             immediate: true
         },
         'qans': {
-            handler(nv, ov) {               
+            handler(nv, ov) {
                 //console.log(nv);
             },
             immediate: true
@@ -56,7 +56,7 @@ Vue.component('question', {
             if (req.data.success) {
                 th.ques = req.data.result;
                 if (th.ques.Qus_Type == 1 || th.ques.Qus_Type == 2 || th.ques.Qus_Type == 5)
-                    th.ques = window.ques.parseAnswer(th.ques);                   
+                    th.ques = window.ques.parseAnswer(th.ques);
             } else {
                 console.error(req.data.exception);
                 throw req.data.message;
@@ -127,7 +127,7 @@ Vue.component('question', {
         },
         //实际答题
         actualAnswer: function () {
-            if (this.qans.ans == '') return '未做';
+            if (this.ques.Qus_Type != 4 && this.qans.ans == '') return '未做';
             if (this.ques.Qus_Type == 1 || this.ques.Qus_Type == 2) {
                 //学员答题信息
                 var answer = this.qans.ans.split(',');
@@ -149,6 +149,7 @@ Vue.component('question', {
                 return this.qans.ans == '0' ? "正确" : "错误";
             }
             if (this.ques.Qus_Type == 4) {
+                if (this.qans.ans == '' && this.accessory.state) return '(参看附件)';
                 return this.qans.ans;
             }
             //填空题

@@ -251,14 +251,20 @@ $ready(function () {
                     th.loading.paper = false;
                     return;
                 }
+                //出卷
                 $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
                             //将试题对象中的Qus_Items，解析为json
                             for (let i = 0; i < paper.length; i++) {
-                                for (let j = 0; j < paper[i].ques.length; j++)
+                                for (let j = 0; j < paper[i].ques.length; j++) {
                                     paper[i].ques[j] = window.ques.parseAnswer(paper[i].ques[j]);
+                                    if (paper[i].ques[j].Qus_Type == 5) {
+                                        for (let b = 0; b < paper[i].ques[j].Qus_Items.length; b++)
+                                            paper[i].ques[j].Qus_Items[b]["Ans_Context"] = '';
+                                    }
+                                }
                             }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
@@ -540,7 +546,7 @@ $ready(function () {
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
                             if (q.Qus_ID == reclist[n].id) {
-                                if (reclist[n].ans == '') continue;
+                                //if (reclist[n].ans == '') continue;
                                 //单选
                                 if (q.Qus_Type == 1) {
                                     for (let index = 0; index < q.Qus_Items.length; index++) {
@@ -572,10 +578,12 @@ $ready(function () {
                                 }
                                 //填空
                                 if (q.Qus_Type == 5) {
+                                    for (let b = 0; b < q.Qus_Items.length; b++)
+                                        q.Qus_Items[b]["Ans_Context"] = '';
                                     var arr = reclist[n].ans.split(',');
-                                    if (arr.length <= 0) continue;
-                                    for (var a = 0; a < arr.length; a++) {
-                                        if (arr[a] == '') continue;
+                                    if (arr.length < 1) continue;
+                                    for (var a = 0; a < arr.length && a < q.Qus_Items.length; a++) {
+                                        //if (arr[a] == '') continue;
                                         q.Qus_Items[a]["Ans_Context"] = arr[a];
                                     }
                                     q.Qus_Answer = reclist[n].ans;

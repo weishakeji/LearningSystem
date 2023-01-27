@@ -22,8 +22,8 @@ Vue.component('question', {
                 this.$nextTick(function () {
                     //没有内容的html元素，不显示
                     var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-                    //window.ques.clearempty(qbox.find('card-title'));
-                    //window.ques.clearempty(qbox.find('.ans_area'));
+                    window.ques.clearempty(qbox.find('card-title'));
+                    window.ques.clearempty(qbox.find('.ans_area'));
                     //公式渲染
                     this.$mathjax([qbox[0]]);
                 });
@@ -33,6 +33,7 @@ Vue.component('question', {
     },
     computed: {},
     updated: function () {
+        return;
         //没有内容的html元素，不显示
         var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
         window.ques.clearempty(qbox.find('card-title'));

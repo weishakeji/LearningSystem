@@ -70,7 +70,7 @@
             </div>
 
             <div class="manual_area">
-                <div class="account_bar" @click="accountVisible=true">
+                <div class="account_bar" @click="accountVisible=true" v-if="!loading">
                     <template v-if="account.Ac_ID">
                         <avatar :account="account" circle="true" size="35"></avatar>
                         <b>{{account.Ac_Name}}</b>

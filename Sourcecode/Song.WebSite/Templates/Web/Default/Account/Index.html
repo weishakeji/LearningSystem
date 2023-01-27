@@ -25,7 +25,6 @@
                                 <template v-if="account.Ac_Photo!='' || upfile!=null">
                                     <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
                                     <img v-else :src="account.Ac_Photo" />
-
                                     <el-link type="danger" v-if="upfile!=null" class="photo-txt"
                                         @click.stop="()=>upfile=null">清除头像
                                     </el-link>

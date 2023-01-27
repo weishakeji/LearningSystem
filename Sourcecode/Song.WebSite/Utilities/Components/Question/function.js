@@ -37,18 +37,18 @@
     //清理空html元素，内容为空的html标签隐藏起来，免得占空间
     fn.clearempty = function (dom) {
         if (dom.length < 1) return;
-        var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
-        if (exclude.includes(dom[0].tagName)) return;
-
+        var excludes = "INPUT,IMG,BUTTON,TEXTAREA".split(',');
+        if (excludes.includes(dom[0].tagName)) return;
+        //
         var childs = dom.childs();
-        //if (childs.length < 1 && dom.text().length < 1) dom.hide();
-        if (dom.text().length < 1) dom.hide();
+        if (childs.length < 1 && dom.text().length < 1) dom.hide();
+        //if (dom.text().length < 1) dom.hide();
         var th = this;
         if (childs.length > 0) {
             childs.each(function () {
                 th.clearempty($dom(this));
             });
-        }
+        } 
     };
     //获取试题缓存数据
     fn.get_cache_data = function () {

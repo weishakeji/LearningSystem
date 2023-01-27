@@ -86,6 +86,7 @@ context>section nav header {
     color: #409EFF;
     font-size: 12px;
     display: none;
+    cursor: pointer;
 }
 
 .upload_img_area:hover .photo-txt, .upload_img_area:hover .photo-btn {
