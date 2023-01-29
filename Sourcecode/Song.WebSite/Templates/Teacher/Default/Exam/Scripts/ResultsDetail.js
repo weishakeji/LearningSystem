@@ -7,7 +7,7 @@ $ready(function () {
             form: {
                 examid: $api.querystring('id'),
                 name: '', idcard: '',
-                min: -1, max: -1,
+                min: -1, max: -1, manual: null,
                 size: 20, index: 1
             },
             entity: {}, //当前考试对象
@@ -117,7 +117,7 @@ $ready(function () {
                     //alert(err);
                     console.error(err);
                 });
-            },          
+            },
             //计算考试用时
             calcSpan: function (d1, d2) {
                 if (d1 == null || d2 == null) return '';
@@ -176,8 +176,8 @@ $ready(function () {
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        var th=this;
-                        var loading=this.$fulloading();
+                        var th = this;
+                        var loading = this.$fulloading();
                         $api.delete('Exam/ResultClear', { 'examid': this.form.examid }).then(function (req) {
                             if (req.data.success) {
                                 th.$message({
@@ -194,7 +194,7 @@ $ready(function () {
                             alert(err);
                             console.error(err);
                         });
-                        
+
                     }).catch(() => { });
                 }).catch(() => { });
             },

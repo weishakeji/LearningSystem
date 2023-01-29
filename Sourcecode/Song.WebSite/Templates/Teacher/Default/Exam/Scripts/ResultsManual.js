@@ -9,7 +9,7 @@
             form: {
                 examid: $api.querystring('id'),
                 name: '', idcard: '',
-                min: -1, max: -1,
+                min: -1, max: -1, manual: false,
                 size: 20, index: 1
             },
             results: [],     //当前考试的所有成绩信息
@@ -73,7 +73,9 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 40);
-                $api.get("Exam/Result4Exam", th.form).then(function (d) {
+                var form = $api.clone(th.form);
+                form.manual = !form.manual ? null : false;
+                $api.get("Exam/Result4Exam", form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         th.results = d.data.result;

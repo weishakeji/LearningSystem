@@ -963,15 +963,16 @@ namespace Song.ViewData.Methods
         /// <param name="examid">考试id</param>
         /// <param name="name">学员姓名<</param>
         /// <param name="idcard">学员身份证号</param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
+        /// <param name="min">按分数区间获取记录，此处是最低分</param>
+        /// <param name="max">最高分</param>
+        /// <param name="manual">是否批阅</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Result4Exam(int examid, string name, string idcard, float min, float max, int size, int index)
+        public ListResult Result4Exam(int examid, string name, string idcard, float min, float max, bool? manual, int size, int index)
         {
             int count = 0;
-            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, min, max, size, index, out count);
+            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, min, max, manual, size, index, out count);
             ListResult result = new ListResult(datas);
             result.Index = index;
             result.Size = size;

@@ -304,13 +304,14 @@ namespace Song.ServiceInterfaces
         /// <param name="examid"></param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard">身份证号</param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
+        /// <param name="min">按分数区间获取记录，此处是最低分</param>
+        /// <param name="max">最高分</param>
+        /// <param name="manual">是否批阅</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, string idcard, float min, float max, int size, int index, out int countSum);
+        ExamResults[] Results(int examid, string name, string idcard, float min, float max,bool? manual, int size, int index, out int countSum);
         ExamResults[] Results(string examuid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的所有人员成绩
