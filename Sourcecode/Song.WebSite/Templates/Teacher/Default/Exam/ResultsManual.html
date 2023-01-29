@@ -46,6 +46,7 @@
                             <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
                                 v-html='showsearch(scope.row.Ac_Name,form.name)' class="large">
                             </icon>
+                            <icon v-if="scope.row.Exr_IsManual" title="已经批阅">&#xa048</icon>
                         </template>
                     </el-table-column>
                     <el-table-column label="身份证">

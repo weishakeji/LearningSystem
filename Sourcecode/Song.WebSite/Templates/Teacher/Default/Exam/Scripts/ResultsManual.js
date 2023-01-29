@@ -101,6 +101,7 @@
             },
             //设置为当前学员
             setCurrent: function (row, column, event) {
+                if (row.Exr_ID == this.current.Exr_ID) return;
                 row.index = getArrayIndex(this.results, row);
                 this.current = row;
                 this.$refs['datatables'].setCurrentRow(row);
@@ -219,6 +220,7 @@
                 //保存到服务器端
                 var th = this;
                 th.loading_up = true;
+                th.current.Exr_IsManual = true;
                 $api.post('Exam/ResultModify', { 'result': th.current }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;

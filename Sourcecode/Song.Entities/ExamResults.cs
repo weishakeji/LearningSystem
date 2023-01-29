@@ -68,6 +68,8 @@ namespace Song.Entities {
     		
     		protected DateTime _Exr_LastTime;
     		
+    		protected Boolean _Exr_IsManual;
+    		
     		/// <summary>
     		/// -1
     		/// </summary>
@@ -425,6 +427,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Exr_IsManual {
+    			get {
+    				return this._Exr_IsManual;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Exr_IsManual, _Exr_IsManual, value);
+    				this._Exr_IsManual = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -481,7 +493,8 @@ namespace Song.Entities {
     					_.Exr_IsCalc,
     					_.Exr_OverTime,
     					_.Exr_CalcTime,
-    					_.Exr_LastTime};
+    					_.Exr_LastTime,
+    					_.Exr_IsManual};
     		}
     		
     		/// <summary>
@@ -518,7 +531,8 @@ namespace Song.Entities {
     					this._Exr_IsCalc,
     					this._Exr_OverTime,
     					this._Exr_CalcTime,
-    					this._Exr_LastTime};
+    					this._Exr_LastTime,
+    					this._Exr_IsManual};
     		}
     		
     		/// <summary>
@@ -614,6 +628,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Exr_LastTime))) {
     				this._Exr_LastTime = reader.GetDateTime(_.Exr_LastTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Exr_IsManual))) {
+    				this._Exr_IsManual = reader.GetBoolean(_.Exr_IsManual);
     			}
     		}
     		
@@ -790,7 +807,11 @@ namespace Song.Entities {
     			/// 字段名：Exr_LastTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Exr_LastTime = new WeiSha.Data.Field<ExamResults>("Exr_LastTime");
+    			
+    			/// <summary>
+    			/// 字段名：Exr_IsManual - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Exr_IsManual = new WeiSha.Data.Field<ExamResults>("Exr_IsManual");
     		}
     	}
     }
-    
