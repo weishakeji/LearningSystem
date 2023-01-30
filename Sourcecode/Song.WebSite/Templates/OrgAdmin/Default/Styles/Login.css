@@ -1,37 +1,32 @@
 ﻿@charset "utf-8";
 .loginbox {
-    background: rgba(243, 240, 240, 0.6);
-    border: 1px solid #fff;
-    box-shadow: 0px 0px 25px #333;
     position: relative;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .6) 6%, rgba(255, 255, 255, 0.9) 70%, rgba(255, 255, 255, .2) 100%);
 }
-
 
 /*标题栏*/
 
 .loginbox login_titlebar {
     display: block;
-    height: 50px;
-    width: 100%;
     line-height: 60px;
     margin-bottom: 10px;
     font-size: 18px;
     cursor: default;
+    display: flex;
+    justify-content: center;
     user-select: none;
     text-shadow: 1px 1px 3px #999;
+    color: #fff;
 }
 
 .loginbox login_titlebar>* {
     display: block;
 }
 
-.loginbox login_ico {
-    margin: 0px 0px 0px 10px;
-    float: left;
-    width: 60px;
+.loginbox login_ico { 
+    min-width: auto;
     height: 60px;
-    text-align: center;
+    width: 50px;
+    text-align: left;
 }
 
 .loginbox login_ico img {
@@ -43,20 +38,17 @@
 .loginbox login_ico i {
     font-family: "webdesk_icon" !important;
     font-style: normal;
-    font-size: 36px;
+    font-size: 40px;
 }
 
 .loginbox login_tit {
-    line-height: 60px;
-    float: left;
-    width: calc(100% - 90px);
+    line-height: 60px;  
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 20px;
+    font-size: 30px;
     word-break: break-all;
 }
-
 
 /*底部信息栏*/
 
@@ -104,7 +96,6 @@
     content: '\a047';
 }
 
-
 /*主题内容区*/
 
 .loginbox .login_body {
@@ -119,15 +110,16 @@
 
 .loginbox .login_body>* {
     display: block;
-    margin: 10px 20px 10px 20px;
+    margin: 10px 20px 20px 20px;
     height: 45px;
     width: calc(100% - 40px);
     --flex: 1;
-    border-radius: 2px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .2);
 }
 
 .loginbox .login_body>* {
-    border: solid 1px #999;
+    border: solid 1px rgba(255, 255, 255, .2);
     width: calc(100% - 42px);
     position: relative;
 }
@@ -138,20 +130,37 @@
     height: 45px;
     line-height: 45px;
     display: block;
+    position: absolute;
     overflow: hidden;
     text-align: center;
-    font-size: 22px;
-    float: left;
-    color: #999;
-    background-color: rgba(255, 255, 255, .5);
+    font-size: 25px;
+    left: 0px;
+    top: 0px;  
+    color: #fff;
 }
-
+.loginbox .login_body .login_user{
+    ime-mode:active;
+}
+.loginbox .login_body .login_pw{
+    ime-mode:active;
+}
+.loginbox .login_body .login_code{
+    ime-mode:active;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0; 
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+  }
 .loginbox .login_body .login_user:before {
     content: '\a043';
 }
 
 .loginbox .login_body .login_pw:before {
-    content: '\e67b';
+    content: '\e76a';
 }
 
 .loginbox .login_body .login_code:before {
@@ -160,18 +169,32 @@
 
 .loginbox .login_body>* input {
     border: none;
+    height: 45px;
     height: calc(100% - 2px);
-    width: calc(100% - 48px);
-    float: right;
+    width: 180px;
+    width: -webkit-calc(100% - 48px);
+    width: -moz-calc(100% - 48px);
+    width: calc(100% - 60px);
+    position: absolute;
     text-indent: 10px;
-    font-size: 18px;
-    background-color: rgba(255, 255, 255, .5);
+    left: 45px;
+    top: 0px;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: transparent !important;
 }
 
 .loginbox .login_body>* input:focus {
-    font-size: 23px;
+    font-size: 25px;
     border: none !important;
     outline: none;
+}
+
+.loginbox .login_body>* input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-text-fill-color: #333 !important;
+    transition: background-color 5000s ease-in-out 0s;
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 
 .loginbox .login_body login_row.login_code {
@@ -179,8 +202,9 @@
 }
 
 .loginbox .login_body login_row.login_code input {
-    width: calc(100% - 90px - 47px);
-    float: right;
+    width: 100px;
+    width: calc(100% - 90px - 47px);  
+    text-indent: 10px;  
 }
 
 .loginbox .login_body login_row.login_code img.vcode_img {
@@ -189,8 +213,8 @@
     background-color: #fff;
     float: right;
     border: none;
+    opacity: 0.6;
 }
-
 
 /*登录按钮*/
 
@@ -199,14 +223,17 @@
     height: 100%;
     letter-spacing: 20px;
     font-size: 18px;
-    border: solid 1px #fff;
+    border: solid 1px transparent;
     color: #fff;
     cursor: pointer;
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .5) 0%, rgba(33, 161, 255, 0.9) 100%);
+   transition: all 1s;
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 50%,rgba(33, 161, 255, .2) 100%);
+
 }
 
 .loginbox .login_body button:hover {
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
+    background: rgba(33, 161, 255, .9);
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
     border: solid 1px #aaa;
 }
 
@@ -216,7 +243,7 @@
 }
 
 .loginbox .login_body>*:last-child {
-    height: 40px;
+    height: 50px;
     transition: all 0.2s;
 }
 
@@ -233,19 +260,18 @@
     border: solid 1px #fff;
 }
 
-
 /*滑块*/
 
 .loginbox .login_body login_drag {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     height: 45px;
     line-height: 45px;
     text-align: center;
-    color: #999;
+    color: #fff;
     position: absolute;
     width: 100%;
-    background-color: #eee;
+    background-color: rgba(255, 255, 255, .3);
     transition: all 0.6s;
 }
 
@@ -284,7 +310,6 @@
     background-color: #777;
 }
 
-
 /*拖动完成*/
 
 .loginbox .login_body login_drag.complete>div {
@@ -305,7 +330,6 @@
     display: none;
 }
 
-
 /*提示信息*/
 
 .loginbox .login_body>* login_tips {
@@ -314,7 +338,7 @@
     position: absolute;
     height: 20px;
     line-height: 20px;
-    font-size: 10px;
+    font-size: 14px;
     width: auto;
     padding: 0px 10px 0px 10px;
     color: #fff;
@@ -325,12 +349,11 @@
     transition: left 0.6s;
 }
 
-
 /*错误提示*/
 
 .loginbox login_row.login_error {
-    border: solid 1px red;
-    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset;
+    border: solid 1px #ff7d7d !important;
+    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset !important;
 }
 
 .loginbox login_row.login_error login_tips {
@@ -338,7 +361,6 @@
     transition: left 0.6s;
     right: -8px;
 }
-
 
 /*预载效*/
 

@@ -161,7 +161,9 @@
         //滑块拖动完成
         'dragfinish': function (obj, val, old) {
             //滑块拖动区域
-            var box = obj.dom.find('login_drag');
+            var box = obj.dom.find('login_drag');  
+            //要隐藏的元素，当未滑动时，输入框与验证码都隐藏        
+            var elements=box.prev().merge(box.prev().prev());
             if (val) {
                 box.addClass('complete');
                 box.css('transition', 'opacity 1s')
@@ -172,12 +174,15 @@
                 obj.trigger('dragfinish');
                 obj.vcode = '';
                 obj.dom.find('input[name=\'login_vcode\']').focus().parent().removeClass('login_error');
+                elements.show();
+                box.prev().focus();
             } else {
                 box.removeClass('complete');
                 box.css('transition', '')
                 box.css('opacity', 1);
                 box.show();
                 obj.dom.find('login_dragbox').left(5);
+                elements.hide();
             }
         },
         //加载状态变化时
