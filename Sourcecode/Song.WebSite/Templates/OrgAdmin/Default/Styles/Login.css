@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .loginbox {
     position: relative;
 }
@@ -22,7 +23,7 @@
     display: block;
 }
 
-.loginbox login_ico { 
+.loginbox login_ico {
     min-width: auto;
     height: 60px;
     width: 50px;
@@ -42,7 +43,7 @@
 }
 
 .loginbox login_tit {
-    line-height: 60px;  
+    line-height: 60px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -135,26 +136,32 @@
     text-align: center;
     font-size: 25px;
     left: 0px;
-    top: 0px;  
+    top: 0px;
     color: #fff;
 }
-.loginbox .login_body .login_user{
-    ime-mode:active;
+
+.loginbox .login_body .login_user {
+    ime-mode: active;
 }
-.loginbox .login_body .login_pw{
-    ime-mode:active;
+
+.loginbox .login_body .login_pw {
+    ime-mode: active;
 }
-.loginbox .login_body .login_code{
-    ime-mode:active;
+
+.loginbox .login_body .login_code {
+    ime-mode: active;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0; 
+    -webkit-appearance: none !important;
+    margin: 0;
 }
+
 input[type="number"] {
     -moz-appearance: textfield;
-  }
+}
+
 .loginbox .login_body .login_user:before {
     content: '\a043';
 }
@@ -203,8 +210,8 @@ input[type="number"] {
 
 .loginbox .login_body login_row.login_code input {
     width: 100px;
-    width: calc(100% - 90px - 47px);  
-    text-indent: 10px;  
+    width: calc(100% - 90px - 47px);
+    text-indent: 10px;
 }
 
 .loginbox .login_body login_row.login_code img.vcode_img {
@@ -226,14 +233,16 @@ input[type="number"] {
     border: solid 1px transparent;
     color: #fff;
     cursor: pointer;
-   transition: all 1s;
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 50%,rgba(33, 161, 255, .2) 100%);
+    transition: all 1s;
+    background: rgba(33, 161, 255, .9);
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+
 
 }
 
 .loginbox .login_body button:hover {
-    background: rgba(33, 161, 255, .9);
-    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 50%, rgba(33, 161, 255, .2) 100%);
+
     border: solid 1px #aaa;
 }
 
@@ -406,10 +415,12 @@ div.login_loding span:nth-child(2) {
         transform: rotate(360deg);
         opacity: 1.0;
     }
+
     50% {
         transform: rotate(180deg);
         opacity: 0.5;
     }
+
     100% {
         transform: rotate(0deg);
         opacity: 1;
@@ -421,10 +432,12 @@ div.login_loding span:nth-child(2) {
         transform: rotate(0deg);
         opacity: 0.5;
     }
+
     50% {
         transform: rotate(180deg);
         opacity: 1;
     }
+
     100% {
         transform: rotate(360deg);
         opacity: 0.5;
