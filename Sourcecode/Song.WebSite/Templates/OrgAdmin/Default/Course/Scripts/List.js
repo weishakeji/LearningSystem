@@ -110,7 +110,7 @@
             fressingle: function (id) {
                 var th = this;
                 th.loadingid = id;
-                $api.get('Course/ForID', { 'id': id }).then(function (req) {
+                $api.put('Course/ForID', { 'id': id }).then(function (req) {
                     th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;

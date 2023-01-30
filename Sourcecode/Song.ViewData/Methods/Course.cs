@@ -1393,7 +1393,14 @@ namespace Song.ViewData.Methods
             if (cour == null) return cour;
             Song.Entities.Course curr = cour.Clone<Song.Entities.Course>();
             curr.Cou_Logo = System.IO.File.Exists(PhyPath + curr.Cou_Logo) ? VirPath + curr.Cou_Logo : "";
-            curr.Cou_LogoSmall = System.IO.File.Exists(PhyPath + curr.Cou_LogoSmall) ? VirPath + curr.Cou_LogoSmall : "";
+            //如果缩略图不为空
+            if (!string.IsNullOrWhiteSpace(curr.Cou_LogoSmall))
+            {
+                curr.Cou_LogoSmall = System.IO.File.Exists(PhyPath + curr.Cou_LogoSmall) ? VirPath + curr.Cou_LogoSmall : "";
+            }else if (!string.IsNullOrWhiteSpace(curr.Cou_Logo))
+            {
+                curr.Cou_LogoSmall = WeiSha.Core.Images.Name.ToSmall(curr.Cou_Logo);
+            }
             //是否免费，或是限时免费
             if (cour.Cou_IsLimitFree)
             {

@@ -187,7 +187,7 @@
             fresh_parent: function (id) {
                 var win = window.parent;
                 if (win && win.vapp) {
-                    win.vapp.close_fresh('vapp.fressingle(' + id + ')');
+                    win.vapp.close_fresh('vapp.fressingle("' + id + '")');
                 }
             }
         }

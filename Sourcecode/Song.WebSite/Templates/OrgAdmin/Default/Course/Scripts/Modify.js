@@ -87,7 +87,7 @@
             //保存课程名称
             savename: function (name, course) {
                 this.course = course;
-                this.close_fresh('vapp.fressingle('+course.Cou_ID+')');
+                this.close_fresh('vapp.fressingle("'+course.Cou_ID+'")');
 
             },
             //关闭自身窗体，并刷新父窗体列表
