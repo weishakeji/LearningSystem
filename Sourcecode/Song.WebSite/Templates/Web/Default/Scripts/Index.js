@@ -41,6 +41,7 @@ $ready(function () {
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 if (!th.organ) return;
+                document.title = th.organ.Org_PlatformName;
                 //th.organ.Org_Logo = '';
                 th.load();
                 //机构配置信息
@@ -84,10 +85,7 @@ $ready(function () {
         created: function () {
         },
         computed: {},
-        watch: {
-            'platinfo': function (nv, ov) {
-                if (nv) document.title = nv.title;
-            },
+        watch: {           
             'showpic': {
                 handler: function (nv, ov) {
 

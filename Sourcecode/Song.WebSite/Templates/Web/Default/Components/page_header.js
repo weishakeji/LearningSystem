@@ -124,6 +124,7 @@ Vue.component('page_header', {
                 //获取结果             
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
+                document.title += ' - '+ th.organ.Org_PlatformName;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 //加载成功的事件
