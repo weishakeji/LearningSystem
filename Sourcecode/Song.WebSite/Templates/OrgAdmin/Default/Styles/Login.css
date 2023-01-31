@@ -15,19 +15,18 @@
     display: flex;
     justify-content: center;
     user-select: none;
+    text-align: center;
     text-shadow: 1px 1px 3px #999;
     color: #fff;
 }
 
-.loginbox login_titlebar>* {
-    display: block;
-}
 
 .loginbox login_ico {
     min-width: auto;
     height: 60px;
     width: 50px;
     text-align: left;
+    margin-right: 5px;
 }
 
 .loginbox login_ico img {
@@ -392,7 +391,7 @@ input[type="number"] {
 
 div.login_loding {
     width: 100px;
-    height: calc(100% - 120px);
+    height: 150px;
     margin: 30px auto 0px auto;
     position: relative;
 }

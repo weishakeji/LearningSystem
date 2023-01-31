@@ -202,12 +202,15 @@
         //加载状态变化时
         loading: function (obj, val, old) {
             if (obj.dom) {
-                if (val) {
-                    //var form = obj.dom.find('form.login_body');
+                if (val) {                 
                     obj.dom.find('form.login_body').hide();
+                    obj.dom.find('login_titlebar').hide();
+                    obj.dom.find('div.slot').hide();
                     obj.dom.find('div.login_loding').show();
                 } else {
                     obj.dom.find('form.login_body').show();
+                    obj.dom.find('div.slot').show();
+                    obj.dom.find('login_titlebar').show();
                     obj.dom.find('div.login_loding').hide();
                 }
             }
@@ -235,6 +238,7 @@
                 'target': th.dom,
                 'data': th.attrs
             });
+            th.dom.show();
         }, 200);
 
         return this;
@@ -319,7 +323,7 @@
         slot: function (obj) {
             var slot = obj.dom.add('div').addClass("slot");
             slot.html(obj.$slot);
-            //obj.dom.html(obj.dom.html()+obj.$slot);
+            slot.hide();
         }
     };
     //基础事件

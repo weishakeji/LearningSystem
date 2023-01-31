@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .loginbox {
     background: rgba(243, 240, 240, 0.6);
     border: 1px solid #fff;
@@ -13,7 +14,6 @@
     display: block;
     height: 50px;
     width: calc(100% - 20px);
-    line-height: 60px;
     margin-bottom: 10px;
     padding: 0px 0px 0px 20px;
     font-size: 18px;
@@ -23,15 +23,12 @@
     text-shadow: 1px 1px 3px #999;
 }
 
-.loginbox login_titlebar>* {
-    display: block;
-}
-
-.loginbox login_ico { 
+.loginbox login_ico {
     min-width: auto;
     height: 60px;
     width: 50px;
     text-align: left;
+    float: left;
 }
 
 .loginbox login_ico img {
@@ -44,6 +41,7 @@
     font-family: "webdesk_icon" !important;
     font-style: normal;
     font-size: 36px;
+    line-height: 60px;
 }
 
 .loginbox login_tit {
@@ -144,23 +142,29 @@
     top: 0px;
     color: #999;
 }
-.loginbox .login_body .login_user{
-    ime-mode:active;
+
+.loginbox .login_body .login_user {
+    ime-mode: active;
 }
-.loginbox .login_body .login_pw{
-    ime-mode:active;
+
+.loginbox .login_body .login_pw {
+    ime-mode: active;
 }
-.loginbox .login_body .login_code{
-    ime-mode:active;
+
+.loginbox .login_body .login_code {
+    ime-mode: active;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0; 
+    -webkit-appearance: none !important;
+    margin: 0;
 }
+
 input[type="number"] {
     -moz-appearance: textfield;
-  }
+}
+
 .loginbox .login_body .login_user:before {
     content: '\a043';
 }
@@ -208,8 +212,8 @@ input[type="number"] {
 
 .loginbox .login_body login_row.login_code input {
     width: 100px;
-    width: calc(100% - 90px - 47px);  
-    text-indent: 10px;  
+    width: calc(100% - 90px - 47px);
+    text-indent: 10px;
 }
 
 .loginbox .login_body login_row.login_code img.vcode_img {
@@ -303,6 +307,7 @@ input[type="number"] {
     cursor: pointer;
     z-index: 2;
 }
+
 .loginbox login_drag slideway {
     display: block;
     user-select: none;
@@ -316,9 +321,10 @@ input[type="number"] {
     padding: 0px 0px 0px 5px;
     top: 5px;
     left: 5px;
-    box-sizing: border-box;   
-    z-index: 1;    
+    box-sizing: border-box;
+    z-index: 1;
 }
+
 .loginbox login_dragbox:before {
     content: '\a049';
     font-family: "webdesk_icon" !important;
@@ -384,7 +390,7 @@ input[type="number"] {
 
 div.login_loding {
     width: 100px;
-    height: calc(100% - 120px);
+    height: 150px;
     margin: 30px auto 0px auto;
     position: relative;
 }
@@ -424,10 +430,12 @@ div.login_loding span:nth-child(2) {
         transform: rotate(360deg);
         opacity: 1.0;
     }
+
     50% {
         transform: rotate(180deg);
         opacity: 0.5;
     }
+
     100% {
         transform: rotate(0deg);
         opacity: 1;
@@ -439,10 +447,12 @@ div.login_loding span:nth-child(2) {
         transform: rotate(0deg);
         opacity: 0.5;
     }
+
     50% {
         transform: rotate(180deg);
         opacity: 1;
     }
+
     100% {
         transform: rotate(360deg);
         opacity: 0.5;
