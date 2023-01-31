@@ -87,18 +87,25 @@
             });
         },
         'title': function (obj, val, old) {
-            if (obj.domtit) obj.domtit.find('login_tit').html(val);
+            if (obj.domtit) {
+                if (val != '')
+                    obj.domtit.find('login_tit').html(val).css('display','');
+                else
+                    obj.domtit.find('login_tit').hide();
+            }
         },
         'icoimg': function (obj, val, old) {
             if (obj.domtit) {
                 var ico = obj.domtit.find('login_ico');
                 if (obj.icoimg != '') {
                     ico.find('i').remove();
-                    ico.add('img').attr('src', obj.icoimg);
+                    if (ico.find('img').length < 1)
+                        ico.add('img').attr('src', obj.icoimg);
                 }
                 if (obj.icoimg == '') {
                     ico.find('img').remove();
-                    ico.add('i').html('&#x' + obj.ico);
+                    if (ico.find('i').length < 1)
+                        ico.add('i').html('&#x' + obj.ico);
                 }
             }
         },
@@ -202,7 +209,7 @@
         //加载状态变化时
         loading: function (obj, val, old) {
             if (obj.dom) {
-                if (val) {                 
+                if (val) {
                     obj.dom.find('form.login_body').hide();
                     obj.dom.find('login_titlebar').hide();
                     obj.dom.find('div.slot').hide();

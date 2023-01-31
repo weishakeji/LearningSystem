@@ -21,6 +21,7 @@ $dom.ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
         ico: 'a003',
+        //icoimg:'/favicon.ico',
         loading: true,
         //width: '320px',
         title: '...',
@@ -372,8 +373,16 @@ window.createVapp = function () {
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-                //window.login.icoimg=vapp.organ.Org_Logo;
-                window.login.title = th.organ.Org_PlatformName;
+                /* 此处用来显示机构的logo，暂时没有用*/
+                window.setTimeout(function () {
+                    if (th.organ.Org_Logo != '') {
+                        window.login.icoimg = th.organ.Org_Logo;
+                        window.login.title = '';
+                    } else {
+                        window.login.title = th.organ.Org_PlatformName;
+                    }
+                }, 300);
+                //window.login.title = th.organ.Org_PlatformName;
                 document.title = '机构管理 - ' + th.organ.Org_PlatformName;
                 //
                 th.getnavi();

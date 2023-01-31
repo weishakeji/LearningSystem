@@ -26,19 +26,18 @@
     height: 60px;
     width: 50px;
     text-align: left;
-    margin-right: 5px;
+   
 }
 
-.loginbox login_ico img {
-    width: 40px;
-    height: 40px;
-    margin: 10px;
+.loginbox login_ico img {  
+    max-width: calc(100% - 46px);
 }
 
 .loginbox login_ico i {
     font-family: "webdesk_icon" !important;
     font-style: normal;
     font-size: 40px;
+    margin-right: 5px;
 }
 
 .loginbox login_tit {
