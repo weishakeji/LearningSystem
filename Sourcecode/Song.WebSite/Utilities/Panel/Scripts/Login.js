@@ -48,6 +48,7 @@
         this.dombody = null;
         this.domfoot = null;
         this.customVerify = []; //自定义验证方法
+        this.dragfinish_value = 85;       //滑块拖动完成达到这个值，就表示拖动完成
         this.$slot = null;         //插槽
         //
         if (!this._id) this._id = 'login_' + new Date().getTime();
@@ -143,10 +144,10 @@
             var box = obj.dom.find('login_dragbox');
             if (!val) {
                 box.css('transition', 'left 0.3s').removeClass('drag');
-                var p = box.parent();
-                var perecnt = 70; //拖动完成百分多少，算完成
-                if (parseInt(box.css('left') + box.width() / 2) > p.width() * perecnt / 100) {
-                    box.left(p.width() - box.width() - 5);
+                var parent = box.parent();
+                var perecnt = obj.dragfinish_value; //拖动完成百分多少，算完成             
+                if (parseInt(box.css('left')) / (parent.width() - box.width()) * 100 >= perecnt) {
+                    box.left(parent.width() - box.width() - 5);
                     if (!obj.dragfinish) obj.dragfinish = true;
                 } else {
                     box.left(5);
@@ -378,9 +379,10 @@
                 left = left <= min ? min : (left >= max ? max : left);
                 if (obj.drag) {
                     dragbox.left(left);
-                    var perecnt = 85;       //允许完成拖动的百分比，即达到这个值就算拖动成功
+                    var perecnt = obj.dragfinish_value;       //允许完成拖动的百分比，即达到这个值就算拖动成功
+                    //console.error(perecnt);
                     var per = parseInt(dragbox.css('left')) / (parent.width() - dragbox.width()) * 100;
-                    if (per > perecnt) {
+                    if (per >= perecnt) {
                         obj.dom.find("login_drag").addClass('complete').css("opacity", 0.8);
                     } else {
                         obj.dom.find("login_drag").removeClass('complete').css("opacity", 1);
