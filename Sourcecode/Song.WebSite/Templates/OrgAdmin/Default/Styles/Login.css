@@ -253,6 +253,7 @@ input[type="number"] {
 
 .loginbox .login_body>*:last-child {
     height: 50px;
+    margin-top: 30px;
     transition: all 0.2s;
 }
 
@@ -292,7 +293,22 @@ input[type="number"] {
     transition: all 0.6s;
     user-select: none;
 }
-
+.loginbox login_drag slideway {
+    display: block;
+    user-select: none;
+    height: calc(100% - 10px);
+    line-height: 35px;
+    width: 0px;
+    font-size: 25px;
+    text-align: center;
+    background-color: #ccc;
+    position: absolute;
+    padding: 0px 0px 0px 5px;
+    top: 5px;
+    left: 5px;
+    box-sizing: border-box;   
+    z-index: 1;
+}
 .loginbox login_dragbox {
     display: block;
     user-select: none;
@@ -308,6 +324,7 @@ input[type="number"] {
     left: 5px;
     color: #fff;
     cursor: pointer;
+    z-index: 2;
 }
 
 .loginbox login_dragbox:before {

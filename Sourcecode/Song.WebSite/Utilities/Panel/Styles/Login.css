@@ -301,8 +301,24 @@ input[type="number"] {
     left: 5px;
     color: #fff;
     cursor: pointer;
+    z-index: 2;
 }
-
+.loginbox login_drag slideway {
+    display: block;
+    user-select: none;
+    height: calc(100% - 10px);
+    line-height: 35px;
+    width: 0px;
+    font-size: 25px;
+    text-align: center;
+    background-color: #aaa;
+    position: absolute;
+    padding: 0px 0px 0px 5px;
+    top: 5px;
+    left: 5px;
+    box-sizing: border-box;   
+    z-index: 1;    
+}
 .loginbox login_dragbox:before {
     content: '\a049';
     font-family: "webdesk_icon" !important;
