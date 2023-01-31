@@ -89,7 +89,7 @@
         'title': function (obj, val, old) {
             if (obj.domtit) {
                 if (val != '')
-                    obj.domtit.find('login_tit').html(val).css('display','');
+                    obj.domtit.find('login_tit').css('display','inline').html(val);
                 else
                     obj.domtit.find('login_tit').hide();
             }

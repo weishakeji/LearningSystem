@@ -70,7 +70,7 @@
             </div>
 
             <div class="manual_area">
-                <div class="account_bar" @click="accountVisible=true" v-if="!loading">
+                <div class="account_bar" @click="accountVisible=true" v-if="!loading && account.Ac_ID">
                     <template v-if="account.Ac_ID">
                         <avatar :account="account" circle="true" size="35"></avatar>
                         <b>{{account.Ac_Name}}</b>
@@ -103,7 +103,7 @@
                         </question>
                     </template>
                 </div>
-                <div class="btns">
+                <div class="btns" v-if="!loading && account.Ac_ID">
                     <div class="move_btn">
                         <el-link type="primary" @click="moveCurrent(-1)">
                             <icon>&#xe803</icon>上一位

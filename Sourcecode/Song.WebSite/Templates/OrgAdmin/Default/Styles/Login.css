@@ -30,7 +30,8 @@
 }
 
 .loginbox login_ico img {  
-    max-width: calc(100% - 46px);
+    /*max-width: calc(100% - 46px);*/
+    max-width: 60%;
 }
 
 .loginbox login_ico i {
