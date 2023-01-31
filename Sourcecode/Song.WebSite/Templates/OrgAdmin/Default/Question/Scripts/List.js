@@ -36,7 +36,7 @@ $ready(function () {
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             var th = this;
             th.loading_init = true;
@@ -61,7 +61,6 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
                 th.getSubjects();
-                th.handleCurrentChange(1);
             })).catch(function (err) {
                 th.loading_init = false;
                 Vue.prototype.$alert(err);
@@ -88,21 +87,24 @@ $ready(function () {
             //获取课程专业的数据
             getSubjects: function () {
                 var th = this;
+                th.loading = true;
                 var form = { orgid: vapp.organ.Org_ID, search: '', isuse: null };
                 $api.get('Subject/Tree', form).then(function (req) {
                     if (req.data.success) {
                         th.subjects = req.data.result;
-                        th.getCourses();
                     } else {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
                     console.error(err);
+                }).finally(function () {
+                    th.getCourses();
                 });
             },
             //获取课程
             getCourses: function (val) {
                 var th = this;
+                th.loading = true;
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
@@ -114,9 +116,10 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
+                }).finally(function () {
+                    th.handleCurrentChange(1);
                 });
             },
             //加载数据页
@@ -127,7 +130,6 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 42);
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
-                th.loading = true;
                 var loading = this.$fulloading();
                 $api.get("Question/Pager", th.form).then(function (d) {
                     th.loading = false;
@@ -250,41 +252,50 @@ $ready(function () {
     });
     //显示课程名称
     Vue.component('course_name', {
-        props: ["couid"],
+        //couid:当前试题的id
+        //courses：所有课程
+        props: ["couid", "courses"],
         data: function () {
             return {
                 course: {},
-                loading: true
+                loading: false
             }
         },
         watch: {
             'couid': {
                 handler: function (nv) {
-                    var th = this;
-                    th.loading = true;
-                    $api.cache('Course/ForID', { 'id': nv }).then(function (req) {
-                        th.loading = false;
-                        if (req.data.success) {
-                            th.course = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        console.error(err);
-                    });
-                },immediate: true
+                    if (nv == null || nv == '') return;
+                    this.getcourse(nv);
+                }, immediate: true
             }
         },
         computed: {},
         mounted: function () { },
         methods: {
-
+            getcourse: function (couid) {
+                if (this.courses) {
+                    this.course = this.courses.find(item => item.Cou_ID == couid);
+                    if (this.course != undefined) return;
+                }
+                var th = this;
+                th.loading = true;
+                $api.cache('Course/ForID', { 'id': couid }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.course = req.data.result;                      
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    console.error(err);
+                });
+            }
         },
         template: `<span>
-        <loading v-if="loading"></loading>
-        <template v-else>{{course.Cou_Name}}</template>
+            <loading v-if="loading"></loading>
+            <template v-else>{{course.Cou_Name}}</template>
         </span>`
     });
 }, ['Components/ques_type.js']);
