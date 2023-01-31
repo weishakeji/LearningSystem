@@ -166,7 +166,10 @@
         //拖动值，滑块在拖动区间的百分比位置
         draggvalue: function (obj, val, old) {
             var slideway = obj.dom.find('slideway');
-            slideway.css('width', 'calc(' + val + '% - 10px)');
+            if (val > 10)
+                slideway.css('width', 'calc(' + val + '% - 10px)');
+            else
+                slideway.css('width', 'calc(' + val + '%)');
         },
         //滑块拖动完成
         'dragfinish': function (obj, val, old) {
