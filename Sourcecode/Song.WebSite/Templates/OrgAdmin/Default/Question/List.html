@@ -15,7 +15,6 @@
                 path="Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-
                     <el-form-item label="">
                         <el-input v-model.trim="form.search" clearable style="width:245px" placeholder="搜索"></el-input>
                     </el-form-item>
@@ -35,8 +34,9 @@
         <div class="queryBox" v-show="querybox">
             <el-form :model="form" class="demo-form-inline" v-on:submit.native.prevent label-width="80px">
                 <el-form-item label="专业">
-                    <el-cascader style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
-                        :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="getCourses">
+                    <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
+                        :options="subjects" separator="／" :props="defaultSubjectProps" filterable
+                        @change="()=>$refs['subjects'].dropDownVisible = false">
                         <template slot-scope="{ node, data }">
                             <span>{{ data.Sbj_Name }}</span>
                             <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
@@ -45,7 +45,7 @@
                         </template>
                     </el-cascader>
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item label="" v-if="courses">
                     <el-select v-model="form.couid" style="width: 100%;" filterable clearable placeholder="-- 课程 --">
                         <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                             :value="item.Cou_ID">
@@ -111,7 +111,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <!-- 数据列表-->       
+        <!-- 数据列表-->
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe :loading="loading"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
             row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
@@ -142,7 +142,7 @@
             </el-table-column>
             <el-table-column label="课程">
                 <template slot-scope="scope">
-                    <course_name :couid="scope.row.Cou_ID" :courses="courses"></course_name>
+                    <course_name :couid="scope.row.Cou_ID" :courses="courses_all"></course_name>
                 </template>
             </el-table-column>
             <el-table-column label="使用" width="70">
@@ -185,7 +185,7 @@
                 </el-button-group>
             </el-table-column>
         </el-table>
-       
+
 
         <div id="pager-box">
             <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"

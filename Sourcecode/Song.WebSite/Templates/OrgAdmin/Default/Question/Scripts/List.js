@@ -16,10 +16,10 @@ $ready(function () {
             },
             subjects: [],
             sbjids: [],
-            //课程
-            courses: [],
+            //所有课程
+            courses_all: [],
             couid: '',
-
+            //试题的查询条件
             form: {
                 'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
@@ -61,6 +61,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
                 th.getSubjects();
+                th.getCourses();
             })).catch(function (err) {
                 th.loading_init = false;
                 Vue.prototype.$alert(err);
@@ -71,11 +72,51 @@ $ready(function () {
 
         },
         computed: {
+            //当前选择的课程
+            'courses': function () {
+                var sbjids = this.sbjids;
+                if ($api.getType(sbjids) != "Array" || sbjids.length < 1) return this.courses_all;
+                //获取选中的所有专业id
+                var sbjid = sbjids.length > 0 ? sbjids[sbjids.length - 1] : '';
+                var sbjlist = [];
+                getsbjid(sbjid, this.subjects);
+                function getsbjid(sbjid, sbjs) {
+                    for (let i = 0; i < sbjs.length; i++) {
+                        if (sbjid == 0) {
+                            sbjlist.push(sbjs[i].Sbj_ID);
+                            if (sbjs[i].children && sbjs[i].children.length > 0)
+                                getsbjid(0, sbjs[i].children);
+                            continue;
+                        }
+                        if (sbjs[i].Sbj_ID == sbjid) {
+                            sbjlist.push(sbjs[i].Sbj_ID);
+                            if (sbjs[i].children && sbjs[i].children.length > 0)
+                                getsbjid(0, sbjs[i].children);
+                        } else {
+                            if (sbjs[i].children && sbjs[i].children.length > 0)
+                                getsbjid(sbjid, sbjs[i].children);
+                        }
+                    }
+                }
+                //console.log(sbjlist);
+                //所有专业下的课程（包括子专业）
+                var cou_arr = [];                
+                for (let j = 0; j < sbjlist.length; j++) {
+                    var sbj = sbjlist[j];
+                    for (let i = 0; i < this.courses_all.length; i++) {
+                        const cou = this.courses_all[i];
+                        if(cou.Sbj_ID == sbj){
+                            cou_arr.push(cou);
+                        }
+                    }                    
+                }
+                return cou_arr;
+            }
         },
         watch: {
             'sbjids': {
                 handler: function (nv, ov) {
-                    if ($api.getType(nv) == "Array") {
+                    if ($api.getType(nv) == "Array") {                      
                         this.form.sbjid = nv.length > 0 ? nv[nv.length - 1] : '';
                     } else {
                         this.form.sbjid = '';
@@ -98,7 +139,7 @@ $ready(function () {
                 }).catch(function (err) {
                     console.error(err);
                 }).finally(function () {
-                    th.getCourses();
+                    //th.getCourses();
                 });
             },
             //获取课程
@@ -110,7 +151,7 @@ $ready(function () {
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
                 $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
-                        th.courses = req.data.result;
+                        th.courses_all = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -282,7 +323,7 @@ $ready(function () {
                 $api.cache('Course/ForID', { 'id': couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        th.course = req.data.result;                      
+                        th.course = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;

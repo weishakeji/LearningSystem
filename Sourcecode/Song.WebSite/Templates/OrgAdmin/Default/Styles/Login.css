@@ -26,10 +26,10 @@
     height: 60px;
     width: 50px;
     text-align: left;
-   
+
 }
 
-.loginbox login_ico img {  
+.loginbox login_ico img {
     /*max-width: calc(100% - 46px);*/
     max-width: 60%;
 }
@@ -240,13 +240,12 @@ input[type="number"] {
 }
 
 .loginbox .login_body button:hover {
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 50%, rgba(33, 161, 255, .2) 100%);
-
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, 0.6) 50%, rgba(33, 161, 255, .2) 100%);
     border: solid 1px #aaa;
 }
 
 .loginbox .login_body button:active {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.952) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 50%, rgba(33, 161, 255, .2) 100%);
     border: solid 1px #aaa;
 }
 
@@ -292,6 +291,7 @@ input[type="number"] {
     transition: all 0.6s;
     user-select: none;
 }
+
 .loginbox login_drag slideway {
     display: block;
     user-select: none;
@@ -305,9 +305,10 @@ input[type="number"] {
     padding: 0px 0px 0px 5px;
     top: 5px;
     left: 5px;
-    box-sizing: border-box;   
+    box-sizing: border-box;
     z-index: 1;
 }
+
 .loginbox login_dragbox {
     display: block;
     user-select: none;
