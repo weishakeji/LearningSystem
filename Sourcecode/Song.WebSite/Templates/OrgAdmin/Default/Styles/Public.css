@@ -129,7 +129,6 @@ table.el-table__body tr.disabled td img, .disabled  * {
 	content: '\a048';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
 }
 .el-button icon {
 	font-size: 14px;

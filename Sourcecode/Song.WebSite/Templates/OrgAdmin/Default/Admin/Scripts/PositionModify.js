@@ -50,43 +50,30 @@ $ready(function () {
             });
         },
         methods: {
-            btnEnter: function () {
+            btnEnter: function (formName) {
                 var th = this;
                 if (this.loading) return;
-                //如果是新增界面
-                if (this.id == '') {
-                    $api.post('Position/Add', { 'posi': vue.entity }).then(function (req) {
-                        if (req.data.success) {
-                            vue.$message({
-                                type: 'success',
-                                message: '添加成功!',
-                                center: true
-                            });
-                            th.operateSuccess();
-                        } else {
-                            throw req.data.message;
-                        }
-                    }).catch(function (err) {
-                        alert(err);
-                    });
-
-                    return;
-                }
-                //如果是修改
-                $api.post('Position/Modify', { 'posi': vue.entity }).then(function (req) {
-                    if (req.data.success) {
-                        vue.$message({
-                            type: 'success',
-                            message: '修改成功!',
-                            center: true
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var apiurl = this.id == '' ? "Position/Add" : 'Position/Modify';
+                        $api.post(apiurl, { 'posi': th.entity }).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({
+                                    type: 'success',
+                                    message: '操作成功!',
+                                    center: true
+                                });
+                                th.operateSuccess();
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+                            alert(err);
                         });
-                        th.operateSuccess();
-
                     } else {
-                        throw req.data.message;
+                        console.log('error submit!!');
+                        return false;
                     }
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
                 });
             },
             //操作成功

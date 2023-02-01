@@ -1211,13 +1211,13 @@ namespace Song.ViewData.Methods
 
         #region 选修课程
         /// <summary>
-        /// 
+        ///  直接开课，创建学员与课程的关联信息
         /// </summary>
-        /// <param name="stid"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="couid"></param>
-        /// <returns></returns>
+        /// <param name="stid">学员id</param>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <param name="couid">课程id</param>
+        /// <returns>关联的课程数</returns>
         public int BeginCourse(int stid, DateTime start, DateTime end, long[] couid)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();

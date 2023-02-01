@@ -27,7 +27,7 @@ $ready(function () {
                     if (req.data.success) {
                         vue.organ = req.data.result;
                         vue.entity.Org_ID = vue.organ.Org_ID;
-                       
+
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -35,7 +35,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });                
+                });
                 return;
             }
             //如果是修改界面
@@ -51,23 +51,30 @@ $ready(function () {
             });
         },
         methods: {
-            btnEnter: function () {
-                var th = this;
-                if (this.loading) return;
-                var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
-                $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
-                    if (req.data.success) {
-                        th.$message({
-                            type: 'success',
-                            message: '操作成功!',
-                            center: true
+            btnEnter: function (formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var th = this;
+                        if (this.loading) return;
+                        var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
+                        $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({
+                                    type: 'success',
+                                    message: '操作成功!',
+                                    center: true
+                                });
+                                th.operateSuccess();
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+                            alert(err, '错误');
                         });
-                        th.operateSuccess();
                     } else {
-                        throw req.data.message;
+                        console.log('error submit!!');
+                        return false;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
                 });
             },
             //操作成功

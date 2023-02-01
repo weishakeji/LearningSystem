@@ -24,16 +24,15 @@
                     inactive-text="">
                 </el-switch>
             </el-form-item>
-
             <el-form-item label="排序号" v-if="entity.Title_Tax>0">
                 <el-input-number v-model="entity.Title_Tax"></el-input-number>
             </el-form-item>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
         </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('entity')">保存
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

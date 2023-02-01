@@ -211,8 +211,8 @@
                 </el-tabs>
             </el-form>
             <div class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('formData')">
-                    <icon v-if="!loading">&#xa048</icon>确认修改
+                <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('formData')">
+                    保存
                 </el-button>
                 <el-button type='close'>取消</el-button>
             </div>

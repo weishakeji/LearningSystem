@@ -116,7 +116,7 @@ Vue.component('enter_button', {
     template: `<div class="footer" v-if="!quesnull">
         <el-button type="primary" define="enter" native-type="submit" :disabled="loading || disabled" 
         :loading="loading" plain @click="btnEnter('entity')">
-            修改
+            保存
         </el-button>
         <el-button type='close' :disabled="loading" >
             取消
