@@ -41,7 +41,7 @@ Vue.component('progress_value', {
                 .then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        var result = req.data.result;
+                        var result = req.data.result;                      
                         if (result != null && result.length > 0) {
                             th.data = result[0];
                             th.data.lastTime = new Date(th.data.lastTime);

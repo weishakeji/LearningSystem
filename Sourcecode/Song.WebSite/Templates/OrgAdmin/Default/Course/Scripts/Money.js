@@ -108,7 +108,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    //alert(err, '错误');
                     console.error(err);
                 });
             },
