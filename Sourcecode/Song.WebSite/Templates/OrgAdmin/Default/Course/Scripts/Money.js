@@ -431,7 +431,7 @@
                 var couid = this.course.Cou_ID;
                 var win = window.parent;
                 if (win && win.vapp) {
-                    win.vapp.close_fresh('vapp.fressingle(' + couid + ')');
+                    win.vapp.close_fresh('vapp.fressingle("' + couid + '")');
                     //win.vapp.close_fresh('vapp.handleCurrentChange()');
                 }
             }

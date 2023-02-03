@@ -288,7 +288,7 @@ Vue.component('question', {
                     <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
                 </div>
                 <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div  :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
+                    <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
                     <div  :selected="state.ans=='false'"  @click="ques_doing(false,ques)">

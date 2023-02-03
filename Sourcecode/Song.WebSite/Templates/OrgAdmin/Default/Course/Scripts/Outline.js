@@ -323,7 +323,7 @@
             //更新后触发的事件
             //freshall:是否刷新所有章节
             updatedEvent: function (freshall) {
-                this.close_fresh('vapp.fressingle(' + this.id + ')');
+                this.close_fresh('vapp.fressingle("' + this.id + '")');
                 $api.cache('Outline/Tree:clear', { 'couid': this.id, 'isuse': true });
                 var th = this;
                 if (freshall == null || freshall == false) {

@@ -682,10 +682,10 @@ $ready(function () {
                     </div>
                 </div>
                 <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div  :selected="ques.Qus_Answer=='true'"  @click="type3_select(true)">
+                    <div :selected="ques.Qus_Answer=='true'" ansid="true"  @click="type3_select(true)">
                         <i></i> 正确
                     </div>
-                    <div  :selected="ques.Qus_Answer=='false'"  @click="type3_select(false)">
+                    <div :selected="ques.Qus_Answer=='false'" ansid="false" @click="type3_select(false)">
                         <i></i> 错误
                     </div>
                 </div>

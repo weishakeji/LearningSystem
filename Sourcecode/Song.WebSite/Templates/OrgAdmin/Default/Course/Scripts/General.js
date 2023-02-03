@@ -140,7 +140,7 @@
                         if (th.upfile != null) para['file'] = th.upfile;
                         console.log(obj);
                         th.loading = true;
-                        $api.post('Course/ModifyJson', para).then(function (req) {
+                        $api.post('Course/Modify', para).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;

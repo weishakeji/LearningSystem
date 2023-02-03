@@ -154,30 +154,13 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "course")]
         public Song.Entities.Course ModifyJson(JObject course)
         {
+            //由JObject对象转为 Song.Entities.Course对象
             Song.Entities.Course cour = new Entities.Course();
             cour.Copy<Song.Entities.Course>(course);          
-
+            //获取历史记录
             Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(cour.Cou_ID);
             if (old == null) throw new Exception("Not found entity for Course！");
-            if (this.Files.Count > 0)
-            {
-                //接收上传的图片
-                cour = this._upload_photo(this.Files, cour);
-                if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
-                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-            }
-            //如果没有上传图片，且新对象没有图片，则删除旧图
-            else if (string.IsNullOrWhiteSpace(cour.Cou_Logo))
-            {
-                WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-            }
-            //if (course.ContainsKey("Cou_Logo"))
-                course["Cou_Logo"] = cour.Cou_Logo;
-            //else
-            //    course.Add("Cou_Logo", cour.Cou_Logo);
-            course["Cou_LogoSmall"] = cour.Cou_LogoSmall;
-            //course.Add("Cou_LogoSmall", cour.Cou_LogoSmall);
-
+            //将新的值传给历史记录
             old.Copy<Song.Entities.Course>(course);
             Business.Do<ICourse>().CourseSave(old);
             return old;
