@@ -43,6 +43,17 @@ namespace Song.ViewData.Methods
             return cur != null;
         }
         /// <summary>
+        /// 获取或增加课程的浏览数
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <param name="num">要增总的浏览数，不可以为负数或零</param>
+        /// <returns></returns>
+        [HttpPost,HttpPut,HttpGet(Ignore =true)]
+        public int ViewNum(long couid, int num)
+        {
+            return Business.Do<ICourse>().CourseViewNum(couid, num);           
+        }
+        /// <summary>
         /// 根据课程ID获取课程信息
         /// </summary>
         /// <param name="id"></param>
@@ -64,6 +75,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(uid);
             return _tran(cur);
         }
+
         ///<summary>
         /// 创建课程
         /// </summary>

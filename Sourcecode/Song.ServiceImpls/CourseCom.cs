@@ -238,14 +238,18 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 增加课程浏览数
         /// </summary>
+        /// <param name="entity"></param>
         /// <param name="num"></param>
         /// <returns></returns>
         public int CourseViewNum(Course entity, int num)
         {
+            if (entity == null) return -1;
+            if (num <= 0) return entity.Cou_ViewNum;
+
             entity.Cou_ViewNum += num;
             Gateway.Default.Update<Course>(
                 new Field[] { Course._.Cou_ViewNum },
-                new object[] { entity.Cou_ViewNum++ }, Course._.Cou_ID == entity.Cou_ID);
+                new object[] { entity.Cou_ViewNum }, Course._.Cou_ID == entity.Cou_ID);
             return entity.Cou_ViewNum;
         }
         public int CourseViewNum(long couid, int num)

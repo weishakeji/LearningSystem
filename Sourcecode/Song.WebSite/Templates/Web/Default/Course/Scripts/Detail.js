@@ -19,7 +19,7 @@ $ready(function () {
             studied: false,        //是否可以学习课程
             purchase: {},          //课程购买记录
             studied: false,     //是否能够学习
-            owned:false,            //是否拥有这个课程（购买或学员组关联）
+            owned: false,            //是否拥有这个课程（购买或学员组关联）
 
             testpapers: [],          //试卷
             finaltest: {},           //结课考试
@@ -82,8 +82,9 @@ $ready(function () {
             //当前的机构、登录学员、课程
             $api.bat(
                 $api.get('Organization/Current'),
-                $api.get('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (organ, course) {
+                $api.get('Course/ForID', { 'id': th.couid }),
+                $api.post('Course/ViewNum', { 'couid': th.couid, 'num': 1 })
+            ).then(axios.spread(function (organ, course, viewnum) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -115,6 +116,8 @@ $ready(function () {
                 if (th.course != null) {
                     th.course.Cou_Target = th.clearTag(th.course.Cou_Target);
                     th.course.Cou_Intro = $api.trim(th.course.Cou_Intro);
+                    if (Number(viewnum.data.result) >= 0)
+                        th.course.Cou_ViewNum = viewnum.data.result;
                     document.title = th.course.Cou_Name;
                 }
                 if (!th.course) return;
@@ -155,7 +158,7 @@ $ready(function () {
                     console.log(th.prices);
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
-                    th.teacher = teacher.data.result;                  
+                    th.teacher = teacher.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -189,7 +192,7 @@ $ready(function () {
                     if (purchase.data.result != null)
                         th.purchase = purchase.data.result;
                     th.videolog = videolog.data.result;
-                    th.owned=owned.data.result;
+                    th.owned = owned.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });

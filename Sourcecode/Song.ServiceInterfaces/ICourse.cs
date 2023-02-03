@@ -65,7 +65,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 增加课程浏览数
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">课程</param>
         /// <param name="num"></param>
         /// <returns></returns>
         int CourseViewNum(Course entity, int num);
