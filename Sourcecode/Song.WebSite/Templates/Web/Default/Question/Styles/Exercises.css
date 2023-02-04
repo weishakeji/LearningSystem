@@ -19,7 +19,9 @@
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
 }
-
+*::-webkit-scrollbar-thumb{
+	background: #ffffff;
+}
 #vapp{
 	text-align: left;
 	background-color: #f2f2f2;
