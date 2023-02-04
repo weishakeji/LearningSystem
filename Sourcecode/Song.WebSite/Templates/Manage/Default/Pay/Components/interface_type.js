@@ -9,28 +9,28 @@ Vue.component('interface_type', {
             //导航，scene：使用场景
             navigation: [
                 {
-                    pattern: 'alipaywap', name: '支付宝手机支付', icon: '&#xe602', enable: false, scene: 'alipay,h5',
-                    tips: '手机端网页支付'
+                    pattern: 'alipaywap', platform: 'mobi', name: '支付宝手机支付',
+                    icon: '&#xe602', enable: false, scene: 'alipay,h5', tips: '手机端网页支付'
                 },
                 {
-                    pattern: 'alipayweb', name: '支付宝网页直付', icon: '&#xe602', enable: false, scene: 'alipay,native',
-                    tips: '电脑端网页支付'
+                    pattern: 'alipayweb', platform: 'web', name: '支付宝网页直付',
+                    icon: '&#xe602', enable: false, scene: 'alipay,native', tips: '电脑端网页支付'
                 },
                 {
-                    pattern: 'weixinpubpay', name: '微信公众号支付', icon: '&#xe832', enable: true, scene: 'weixin,public',
-                    tips: '在微信公众号中使用'
+                    pattern: 'weixinpubpay', platform: 'mobi', name: '微信公众号支付',
+                    icon: '&#xe832', enable: true, scene: 'weixin,public', tips: '在微信公众号中使用'
                 },
                 {
-                    pattern: 'weixinnativepay', name: '微信扫码支付', icon: '&#xe832', enable: true, scene: 'weixin,native',
-                    tips: '电脑端网页中使用'
+                    pattern: 'weixinnativepay', platform: 'web', name: '微信扫码支付',
+                    icon: '&#xe832', enable: true, scene: 'weixin,native', tips: '电脑端网页中使用'
                 },
                 {
-                    pattern: 'WeixinAppPay', name: '微信小程序支付', icon: '&#xe832', enable: false, scene: 'weixin,mini',
-                    tips: '在微信小程序中使用'
+                    pattern: 'WeixinAppPay', platform: 'mobi', name: '微信小程序支付',
+                    icon: '&#xe832', enable: false, scene: 'weixin,mini', tips: '在微信小程序中使用'
                 },
                 {
-                    pattern: 'WeixinH5Pay', name: '微信Html5支付', icon: '&#xe832', enable: true, scene: 'weixin,h5',
-                    tips: '手机端网页支付'
+                    pattern: 'WeixinH5Pay', platform: 'mobi', name: '微信Html5支付',
+                    icon: '&#xe832', enable: true, scene: 'weixin,h5', tips: '手机端网页支付'
                 },
             ],
             //当前导航项

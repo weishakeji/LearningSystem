@@ -45,11 +45,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         PayInterface[] PayAll(int orgid, string platform, bool? isEnable);
         /// <summary>
-        /// 当前对象名称是否重名
+        /// 接口是否存在（接口名称不得重复）
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="entity">业务实体</param>
+        /// <param name="scope">查询范围，1查询所有接口；2同一类型（Pai_InterfaceType），同一设备端（Pai_Platform），不重名</param>
         /// <returns></returns>
-        PayInterface PayIsExist(int orgid, PayInterface entity);
+        PayInterface PayIsExist(int orgid, PayInterface entity, int scope);
         /// <summary>
         /// 更改排序
         /// </summary>

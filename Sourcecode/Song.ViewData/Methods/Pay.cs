@@ -50,8 +50,8 @@ namespace Song.ViewData.Methods
         {
             try
             {
-                PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity);
-                if (pi != null) throw new Exception("当前支付接口已经存在");
+                PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity, 2);
+                if (pi != null) throw new Exception("支付接口名称重复");
                 Business.Do<IPayInterface>().PayAdd(entity);
                 return true;
             }
@@ -70,14 +70,26 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public bool Modify(PayInterface entity)
         {
-            PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity);
-            if (pi != null) throw new Exception("当前支付接口已经存在");
+            PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity, 2);
+            if (pi != null) throw new Exception("支付接口名称重复");
 
             Song.Entities.PayInterface old = Business.Do<IPayInterface>().PaySingle(entity.Pai_ID);
             if (old == null) throw new Exception("Not found entity for PayInterface！");
             old.Copy<Song.Entities.PayInterface>(entity);
             Business.Do<IPayInterface>().PaySave(old);
             return true;
+        }
+        /// <summary>
+        /// 接口是否存在（接口名称不得重复）
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <param name="scope">查询范围，1查询所有接口；2同一类型（Pai_InterfaceType），同一设备端（Pai_Platform），不重名</param>
+        /// <returns>重名返回true</returns>
+        [HttpPost]
+        public bool IsExist(PayInterface entity, int scope)
+        {
+            PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity, scope);
+            return pi != null;
         }
         /// <summary>
         /// 删除

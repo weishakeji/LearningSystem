@@ -82,15 +82,22 @@ namespace Song.ServiceImpls
              return Gateway.Default.From<PayInterface>().Where(wc).OrderBy(PayInterface._.Pai_Tax.Asc).ToArray<PayInterface>();
         }
         /// <summary>
-        /// 当前对象名称是否重名
+        /// 接口是否存在（接口名称不得重复）
         /// </summary>
         /// <param name="entity">业务实体</param>
+        /// <param name="scope">查询范围，1查询所有接口；2同一类型（Pai_InterfaceType），同一设备端（Pai_Platform），不重名</param>
         /// <returns></returns>
-        public PayInterface PayIsExist(int orgid, PayInterface entity)
+        public PayInterface PayIsExist(int orgid, PayInterface entity, int scope)
         {
             PayInterface mm = null;
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(PayInterface._.Org_ID == orgid);
+            //同一类型，同一设备端下，不可重名
+            if (scope == 2)
+            {
+                wc.And(PayInterface._.Pai_InterfaceType == entity.Pai_InterfaceType);
+                wc.And(PayInterface._.Pai_Platform == entity.Pai_Platform);
+            }
             mm = Gateway.Default.From<PayInterface>()
                 .Where(wc && PayInterface._.Pai_Name == entity.Pai_Name && PayInterface._.Pai_ID != entity.Pai_ID)
                 .ToFirst<PayInterface>();
