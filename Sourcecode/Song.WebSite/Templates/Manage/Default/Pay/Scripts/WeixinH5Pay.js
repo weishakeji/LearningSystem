@@ -3,56 +3,66 @@ $ready(function () {
 
     window.vapp = new Vue({
         el: '#vapp',
-        data: {
-            id: $api.querystring('id'),
-            //当前对象    
-            entity: {
-                Pai_IsEnable: true,
-                Pai_Platform: 'mobi'
-            },
-            config: {},      //接口配置项   
-            rules: {
-                Pai_Name: [
-                    { required: true, message: '不得为空', trigger: 'blur' },
-                    {
-                        validator: async function (rule, value, callback) {
-                            await vapp.isexist(value).then(res => {
-                                if (res) {
-                                    var type = vapp.$refs['interface_type'].current;
-                                    var name = type.name;
-                                    callback(new Error('支付名称在“' + name + '”中已经存在!'));
+        data: function () {
+            //config的字段是否为空
+            let isrequired = function (rule, value, callback) {
+                var field = rule.field;
+                if (!!vapp.config[field] && vapp.config[field] != '')
+                    return callback();
+                callback(new Error("不得为空"));
+            };
+            return {
+                id: $api.querystring('id'),
+                //当前对象    
+                entity: {
+                    Pai_IsEnable: true,
+                    Pai_Platform: 'mobi'
+                },
+                config: {},      //接口配置项   
+
+                rules: {
+                    Pai_Name: [
+                        { required: true, message: '不得为空', trigger: 'blur' },
+                        {
+                            validator: async function (rule, value, callback) {
+                                await vapp.isexist(value).then(res => {
+                                    if (res) {
+                                        var type = vapp.$refs['interface_type'].current;
+                                        var name = type.name;
+                                        callback(new Error('支付名称在“' + name + '”中已经存在!'));
+                                    }
+
+                                });
+                            }, trigger: 'blur'
+                        }
+                    ],
+                    Pai_ParterID: [
+                        { required: true, message: '不得为空', trigger: 'blur' }
+                    ],
+                    Pai_Key: [
+                        { required: true, message: '不得为空', trigger: 'blur' }
+                    ],
+                    Pai_Returl: [
+                        { required: true, message: '不得为空', trigger: 'blur' }
+                    ],
+                    Pai_Feerate: [
+                        {
+                            validator: function (rule, value, callback) {
+                                if ((value != '' && value != null) && isNaN(Number(value))) {
+                                    callback(new Error('请输入数字!'));
+                                } else {
+                                    callback();
                                 }
-
-                            });
-                        }, trigger: 'blur'
-                    }
-                ],
-                Pai_ParterID: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
-                ],
-                Pai_Key: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
-                ],
-                Pai_Returl: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
-                ],
-                Pai_Feerate: [
-                    {
-                        validator: function (rule, value, callback) {
-                            if ((value != '' && value != null) && isNaN(Number(value))) {
-                                callback(new Error('请输入数字!'));
-                            } else {
-                                callback();
-                            }
-                        }, trigger: 'blur'
-                    }
-                ]
-            },
-            loading: false
+                            }, trigger: 'blur'
+                        }
+                    ],
+                    MCHID: [{ required: true, validator: isrequired, trigger: 'blur' }],
+                    Paykey: [{ required: true, validator: isrequired, trigger: 'blur' }]
+                },
+                loading: false
+            }
         },
-        watch: {
-
-        },
+        watch: {},
         created: function () {
             var th = this;
             if (th.id == '') return;
@@ -102,6 +112,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var obj = $api.clone(th.entity);
+                        obj.Pai_Config = $api.xmlconfig.toxml(th.config);
                         var apipath = 'Pay/' + (this.id == '' ? api = 'add' : 'Modify');
                         $api.post(apipath, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
