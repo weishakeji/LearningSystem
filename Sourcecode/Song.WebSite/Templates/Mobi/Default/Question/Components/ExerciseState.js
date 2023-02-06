@@ -143,6 +143,7 @@
             $api.delete('Question/ExerciseLogDel', para).then(function (req) {
                 if (req.data.success) {
                     resolve(req.data.result);
+                    window.location.reload();
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;

@@ -63,8 +63,7 @@ Vue.component('setupmenu', {
           message: msg,
         }).then(function () {
           parent.setup_show = false;
-          parent.state.clear(true);
-          window.location.reload();
+          parent.state.clear(true);         
         }).catch(function () { });
       }
     },

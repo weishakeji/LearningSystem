@@ -175,8 +175,7 @@ section textarea {
 }
 
 /*提交的按钮*/
-.type2 button, .type4 button, .type5 button {
-	float: right;
+.type2 button, .type4 button, .type5 button {	
 	height: 35px;
 	color: #409eff;
 	background: #ecf5ff;
