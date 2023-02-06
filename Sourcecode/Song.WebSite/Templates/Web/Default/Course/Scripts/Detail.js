@@ -212,8 +212,10 @@ $ready(function () {
                 }
                 box.each(function () {
                     if ($(this).find("img").size() > 0) return;
-                    var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/Detail");
-                    console.log(url);
+                    //var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/Detail");
+                    var url = window.location.href;
+                    //console.error(url);
+
                     jQuery($(this)).qrcode({
                         render: "canvas", //也可以替换为table
                         width: 75,
