@@ -262,22 +262,22 @@ namespace Song.ServiceImpls
             return ea;
         }
         /// <summary>
-        /// 登录
+        /// 管理账号登录
         /// </summary>
         /// <param name="acc">账号，或身份证，或手机</param>
         /// <param name="pw">密码</param>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">管理员所在的机构id，如果小于等于零，取所有机构的管理员</param>
+        /// <param name="posid">岗位的id</param>
         /// <returns></returns>
-        public EmpAccount EmpLogin(string acc, string pw, int orgid)
+        public EmpAccount EmpLogin(string acc, string pw, int orgid, int posid)
         {
             WhereClip wc = new WhereClip();        
+            if(orgid>0) wc.And(EmpAccount._.Org_ID == orgid);
+            if (posid > 0) wc.And(EmpAccount._.Posi_Id == posid);
             wc.And(EmpAccount._.Acc_AccName == acc);
             string pwMd5= new WeiSha.Core.Param.Method.ConvertToAnyValue(pw).MD5;
             wc.And(EmpAccount._.Acc_Pw == pwMd5);
-            Song.Entities.EmpAccount entity = null;         
-            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(wc && EmpAccount._.Org_ID == orgid).ToFirst<EmpAccount>();
-            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(wc).ToFirst<EmpAccount>();         
-            return entity;
+            return Gateway.Default.From<EmpAccount>().Where(wc).ToFirst<EmpAccount>();
         }
         /// <summary>
         /// 获取当前员工所在的院系

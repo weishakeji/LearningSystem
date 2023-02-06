@@ -45,13 +45,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         EmpAccount GetSingle(int identify);
         /// <summary>
-        /// 登录
+        /// 管理账号登录
         /// </summary>
         /// <param name="acc">账号，或身份证，或手机</param>
         /// <param name="pw">密码</param>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">管理员所在的机构id，如果小于等于零，取所有机构的管理员</param>
+        /// <param name="posid">岗位的id</param>
         /// <returns></returns>
-        EmpAccount EmpLogin(string acc, string pw, int orgid);
+        EmpAccount EmpLogin(string acc, string pw, int orgid,int posid);
         /// <summary>
         /// 用于记录每次登录生成的验证码，用于：同一账号登录时，当前账号下线
         /// </summary>

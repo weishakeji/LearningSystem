@@ -27,6 +27,8 @@ namespace Song.ViewData.Methods
         public static string PathKey = "Employee";
         public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
         public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+
+        #region 登录验证
         /// <summary>
         /// 登录验证
         /// </summary>
@@ -41,10 +43,34 @@ namespace Song.ViewData.Methods
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
             //当前机构等于管理员所在机构
-            Song.Entities.Organization curr = Business.Do<IOrganization>().OrganCurrent();
-            Song.Entities.EmpAccount EmpAccount = Business.Do<IEmployee>().EmpLogin(acc, pw, curr.Org_ID);
+            Song.Entities.Organization organ = Business.Do<IOrganization>().OrganCurrent();
+            return this._login(acc, pw, organ, -1);
+         
+        }
+        /// <summary>
+        /// 超管登录的验证
+        /// </summary>
+        /// <param name="acc">验证</param>
+        /// <param name="pw">密码</param>
+        /// <param name="vcode">提交的验证码</param>
+        /// <param name="vmd5">用于验证码的加密字符串</param>
+        /// <returns></returns>
+        public Song.Entities.EmpAccount LoginSuper(string acc, string pw, string vcode, string vmd5)
+        {
+            string val = new Song.ViewData.ConvertToAnyValue(acc + vcode).MD5;
+            if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
+                throw VExcept.Verify("验证码错误", 101);
+            //必须处于根机构
+            Song.Entities.Organization organ = Business.Do<IOrganization>().OrganRoot();
+            //必须是管理员岗位
+            Song.Entities.Position posi = Business.Do<IPosition>().GetAdmin(organ.Org_ID);
+            return this._login(acc, pw, organ, posi.Posi_Id);           
+        }
+        private Song.Entities.EmpAccount _login(string acc, string pw, Song.Entities.Organization organ,int posid)
+        {
+            Song.Entities.EmpAccount EmpAccount = Business.Do<IEmployee>().EmpLogin(acc, pw, organ.Org_ID, posid);
             if (EmpAccount == null) throw VExcept.Verify("密码错误", 102);
-            if(!(bool)EmpAccount.Acc_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
+            if (!(bool)EmpAccount.Acc_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             //克隆当前对象
             EmpAccount = EmpAccount.DeepClone<Song.Entities.EmpAccount>();
             if (!string.IsNullOrWhiteSpace(EmpAccount.Acc_Photo))
@@ -55,16 +81,6 @@ namespace Song.ViewData.Methods
             EmpAccount.Acc_Pw = LoginAdmin.Status.Login(EmpAccount);
             return EmpAccount;
         }
-        ///// <summary>
-        ///// 获取当前登录的用户
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public Song.Entities.EmpAccount User()
-        //{
-        //    Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
-        //    return acc;
-        //}
         /// <summary>
         /// 当前登录的普通管理员
         /// </summary>
@@ -122,6 +138,9 @@ namespace Song.ViewData.Methods
         {
             return LoginAdmin.Status.Fresh(this.Letter);
         }
+        #endregion
+
+        #region 安全与权限
         /// <summary>
         /// 更改当前管理的登录密码
         /// </summary>
@@ -179,7 +198,44 @@ namespace Song.ViewData.Methods
                 return false;
             }
         }
-       
+        /// <summary>
+        /// 当前管理员的菜单项
+        /// </summary>
+        /// <returns></returns>
+        [Admin]
+        [HttpGet]
+        public string Menu()
+        {
+            Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
+            if (acc == null) throw new ExceptionForNoLogin();
+            Song.Entities.ManageMenu[] menus = Business.Do<IPurview>().GetAll4Emplyee((int)acc.Posi_Id);
+            string path = WeiSha.Core.Server.MapPath("/Utilities/datas/");
+            string result = "[";
+            if (LoginAdmin.Status.IsSuperAdmin(this.Letter))
+            {
+                result += File.ReadAllText(path + "SuperAdmin.json");
+            }
+            else
+            {
+                foreach (Song.Entities.ManageMenu m in menus)
+                {
+                    if (string.IsNullOrWhiteSpace(m.MM_Marker)) continue;
+                    try
+                    {
+                        result += File.ReadAllText(path + m.MM_Marker + ".json") + ",";
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+            }
+            result += "]";
+            return result;
+        }
+        #endregion
+
+        #region 增删改查
         /// <summary>
         /// 根据id获取账号信息
         /// </summary>
@@ -410,41 +466,6 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
-        /// 当前管理员的菜单项
-        /// </summary>
-        /// <returns></returns>
-        [Admin]
-        [HttpGet]
-        public string Menu()
-        {
-            Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
-            if (acc == null) throw new ExceptionForNoLogin();
-            Song.Entities.ManageMenu[] menus = Business.Do<IPurview>().GetAll4Emplyee((int)acc.Posi_Id);
-            string path = WeiSha.Core.Server.MapPath("/Utilities/datas/");
-            string result = "[";
-            if (LoginAdmin.Status.IsSuperAdmin(this.Letter))
-            {
-                result += File.ReadAllText(path + "SuperAdmin.json");
-            }
-            else
-            {
-                foreach (Song.Entities.ManageMenu m in menus)
-                {
-                    if (string.IsNullOrWhiteSpace(m.MM_Marker)) continue;
-                    try
-                    {
-                        result += File.ReadAllText(path + m.MM_Marker + ".json") + ",";
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-            }
-            result += "]";
-            return result;
-        }
-        /// <summary>
         /// 查询员工信息
         /// </summary>
         /// <param name="search">按名称索引</param>
@@ -474,10 +495,12 @@ namespace Song.ViewData.Methods
         /// <param name="id">账号id，如果账号已经存在，则不断判断自身</param>
         /// <returns></returns>
         [HttpGet]
-        public bool IsExistAcc(string acc,int id)
+        public bool IsExistAcc(string acc, int id)
         {
-            return Business.Do<IEmployee>().IsExists(acc,id);
+            return Business.Do<IEmployee>().IsExists(acc, id);
         }
+        #endregion        
+        
         #region 职务/头衔的管理
         /// <summary>
         /// 通过id获取职务信息

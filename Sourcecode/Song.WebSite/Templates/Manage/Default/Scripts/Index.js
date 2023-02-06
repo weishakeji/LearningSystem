@@ -88,7 +88,7 @@ $dom.ctrljs(function () {
     });
     window.login.onsubmit(function (s, e) {
         s.loading = true;
-        $api.post('Admin/Login', { 'acc': s.user, 'pw': s.pw, 'vcode': s.vcode, 'vmd5': s.vcodemd5 }).then(function (req) {
+        $api.post('Admin/LoginSuper', { 'acc': s.user, 'pw': s.pw, 'vcode': s.vcode, 'vmd5': s.vcodemd5 }).then(function (req) {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
