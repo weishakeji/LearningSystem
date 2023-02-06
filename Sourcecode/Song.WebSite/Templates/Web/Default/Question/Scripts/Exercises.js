@@ -109,7 +109,10 @@
                 if (this.couid == 0 || this.couid == 'undefined') return;
                 var th = this;
                 th.loading = true;
-
+                if (update) {
+                    th.questions=[];
+                    th.swipeIndex = 0;
+                }
                 var form = {
                     'couid': this.couid, 'olid': this.olid, 'type': -1, 'count': 0
                 }
@@ -122,10 +125,13 @@
                             th.count = d.count;
                             //获取记录成功再赋值
                             th.questions = req.data.result;
+                            console.error(333);
                             //初始显示第几条试题
                             th.$nextTick(function () {
                                 var last = th.state.last();
                                 if (last != null) th.swipeIndex = last.index ? last.index : 0;
+                                else
+                                    th.swipeIndex = 0;
                             });
                         }).catch(function (d) {
                             th.count = d.count;
@@ -154,8 +160,8 @@
                     console.log(req);
                 });
             },
-             //试题滑动 
-             swipe: function (e) {
+            //试题滑动 
+            swipe: function (e) {
                 if (e && e.preventDefault) {
                     e.preventDefault();
                     var node = $dom(e.target ? e.target : e.srcElement);

@@ -35,7 +35,7 @@
       <template v-else>
         <van-row class="topBox">
           <van-col span="6" class="btntop">
-            <a icon="&#xe748" @click="window.history.back();"></a>
+            <a icon="&#xe748" :href="'course?couid='+couid"></a>
             <a icon="&#xa020" href="/mobi/"></a>
             <a icon="&#xe813" @click="showCourse=true"></a>
           </van-col>

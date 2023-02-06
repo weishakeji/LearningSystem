@@ -43,6 +43,7 @@ Vue.component('setupmenu', {
         this.$dialog.confirm({
           title: '更新试题',
           message: '将试题保持与服务器端同步',
+          allowHtml:true
         }).then(function () {
           parent.setup_show = false;
           parent.getQuestion(true);

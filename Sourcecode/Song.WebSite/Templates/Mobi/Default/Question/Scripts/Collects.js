@@ -89,6 +89,10 @@
             getQuestion: function (update) {
                 var th = this;
                 th.loading = true;
+                if (update) {
+                    th.questions=[];
+                    th.swipeIndex = 0;
+                }
                 var query = $api.get('Question/CollecQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
                 query.then(function (req) {
                     th.loading = false;

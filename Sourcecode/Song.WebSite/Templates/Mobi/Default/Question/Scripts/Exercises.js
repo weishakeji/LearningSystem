@@ -101,6 +101,10 @@
             getQuestion: function (update) {
                 var th = this;
                 th.loading = true;
+                if (update) {
+                    th.questions=[];
+                    th.swipeIndex = 0;
+                }
                 var form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 }
                 var query = $api.cache('Question/ForCourse:' + (60 * 24 * 30), form);
                 if (update === true) query = $api.cache('Question/ForCourse:update', form);

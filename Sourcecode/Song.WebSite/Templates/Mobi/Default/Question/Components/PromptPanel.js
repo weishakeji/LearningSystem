@@ -24,7 +24,14 @@ Vue.component('prompt_panel', {
     },
     methods: {
         show: function () {
-            this.showpanel = true;
+            //当前课程下，只有第一次打开时，才显示手式提示面板
+            var name = 'ques_prompt_' + $api.querystring('couid');
+            var isfirst = $api.storage(name);
+            if (isfirst == undefined) {
+                this.showpanel = true;
+                $api.storage(name, true);
+            }
+
         }
     },
     template: `<div class="ws_prompt_panel" v-if="showpanel" :fadeout="fadeout" @click="fadeout=true">        
