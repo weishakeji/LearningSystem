@@ -2,8 +2,8 @@
 <html lang="zh">
 
 <head resource>
-    <include file="../inc/meta.inc" /> 
-    <title>课程详情</title>   
+    <include file="../inc/meta.inc" />
+    <title>课程详情</title>
 </head>
 
 <body>
@@ -34,8 +34,17 @@
                         <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
                         <div title="主讲老师：" v-html="course.Th_Name"></div>
                     </div>
-
-                    <div class="couMoney" title="学习费用：" v-if="!purchased && !forever">
+                    <div class="couMoney" title="已经选修：" v-if="purchased || forever">
+                        <template v-if="forever">
+                            <el-tag type="success" class="free">
+                                <icon>&#xa048</icon>不限时
+                            </el-tag>
+                        </template>
+                        <template v-else>
+                            {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d')}}
+                        </template>
+                    </div>
+                    <div class="couMoney" title="学习费用："  v-else>
                         <span class="moneyfree" v-if="course.Cou_IsFree">
                             <icon>&#xe746;</icon>免费
                         </span>
@@ -50,16 +59,7 @@
                         </span>
                         <span class="money" v-else>未设置价格（非免费课程）</span>
                     </div>
-                    <div class="couMoney" title="已经选修：" v-else>
-                        <template v-if="forever">
-                            <el-tag type="success" class="free">
-                                <icon>&#xa048</icon>不限时
-                            </el-tag>
-                        </template>
-                        <template v-else>
-                            {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d')}}
-                        </template>
-                    </div>
+
                     <!--购买课程的按钮-->
                     <largebutton :course="course" :purchase="purchase" :account="account" :studied="owned"
                         :forever="forever" :finaltest="finaltest">
