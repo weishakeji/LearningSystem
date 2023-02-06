@@ -1,7 +1,6 @@
 
 /*修改由1.0升到2.0时，管理员账号重复导致的无法显示菜单的问题*/
 
-
 /*将根机构的账号全部设置成管理员（即超管）*/
 declare @root_orgid int,@posid int
 select @root_orgid= Org_ID from Organization where Org_IsRoot=1
