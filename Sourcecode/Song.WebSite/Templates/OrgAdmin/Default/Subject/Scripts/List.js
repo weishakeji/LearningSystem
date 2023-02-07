@@ -275,7 +275,7 @@ $ready(function () {
             },
             //当专业数据更改时，刷新缓存数据
             fresh_cache: function () {
-                $api.cache('Subject/TreeFront', { 'orgid': this.organ.Org_ID });                
+                $api.cache('Subject/TreeFront:update', { 'orgid': this.organ.Org_ID });                
             }
         }
     });

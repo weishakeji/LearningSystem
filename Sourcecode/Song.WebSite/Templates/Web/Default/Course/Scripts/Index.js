@@ -52,7 +52,7 @@ $ready(function () {
                 th.query.orgid = th.organ.Org_ID;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;       
+                    th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;
                         th.setSbjChilds(th.sbjid);
@@ -65,7 +65,7 @@ $ready(function () {
                     //alert(err);
                     console.error(err);
                 }).finally(function () {
-                    th.loading_init = false;                  
+                    th.loading_init = false;
                 });
 
             })).catch(function (err) {
@@ -181,8 +181,10 @@ $ready(function () {
                 var getsubject = this.$refs['breadcrumb'].getsubject;
                 this.sbjCurrent = getsubject(sbj, this.subjects);
                 if (this.sbjCurrent == null) this.sbj_children = this.subjects;
-                else
+                else if (this.sbjCurrent.children)
                     this.sbj_children = this.sbjCurrent.children;
+                else
+                    this.sbj_children = [];
                 if (sbj != '') {
                     var url = $api.url.set(window.location.href, 'sbjid', sbj);
                     history.pushState({}, "", url);
