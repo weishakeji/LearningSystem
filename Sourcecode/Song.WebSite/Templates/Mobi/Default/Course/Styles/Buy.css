@@ -222,8 +222,8 @@ span.avg {
 }
 
 .selected {
-	background-color: #c1f8dc;
-	box-shadow: 1px 1px 3px #07c160, -1px -1px 3px #07c160, 1px -1px 3px #07c160, -1px 1px 3px #07c160;
+	background-color: #d1f8e4;
+	
 }
 /*按钮面板*/
 .showbtn{

@@ -12,7 +12,7 @@ $ready(function () {
             olid: 0,
             link: '',
             studied: false,      //是否可以学习该课程
-            owned:false,        //是否拥有该课程，购买或学员组关联
+            owned: false,        //是否拥有该课程，购买或学员组关联
 
             course: {},      //当前课程            
             couinfo: {},         //课程的一些数据信息，例如多少道题
@@ -68,9 +68,8 @@ $ready(function () {
                 $api.get('Course/prices', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
-                        if (th.prices.length > 0) {
-                            //vapp.selected_price = vapp.prices[0];
-                        }
+                        if (th.prices.length > 0)
+                            th.select(th.prices[0]);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -134,7 +133,14 @@ $ready(function () {
                 return (price - coupon) <= 0 ? 0 : price - coupon;
             },
             //选中价格
-            select: function (data) {
+            select: function (data) { 
+                if (data == null || (this.selected_price.CP_ID && this.selected_price.CP_ID == data.CP_ID)) {
+                    return;                   
+                } else {
+                    this.selected_price = data;
+                    this.showbtn = true;
+                }
+                return;
                 if (!this.selected_price.CP_ID) {
                     this.selected_price = data;
                     this.showbtn = true;

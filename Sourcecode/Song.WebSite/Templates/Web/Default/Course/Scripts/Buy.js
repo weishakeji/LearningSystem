@@ -11,8 +11,8 @@ $ready(function () {
 
             course: {},         //当前课程对象
             couinfo: {},         //课程的一些数据信息，例如多少道题
-            owned:false,            
-            
+            owned: false,
+
             sum: 0,              //购买课程的人数
             teacher: null,     //课程教师        
             prices: [],          //课程价格          
@@ -68,10 +68,10 @@ $ready(function () {
                 }
                 if (!th.course) return;
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
-                $api.bat(                
+                $api.bat(
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
-                    $api.get('Course/StudentSum', { 'couid': th.couid }),                   
-                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID })                  
+                    $api.get('Course/StudentSum', { 'couid': th.couid }),
+                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (prices, sum, teacher) {
                     th.loading_init = false;
                     //判断结果是否正常
@@ -85,8 +85,10 @@ $ready(function () {
                     }
                     //获取结果                
                     th.prices = prices.data.result;
-                    th.sum = sum.data.result;                 
-                    th.teacher = teacher.data.result;                   
+                    if (th.prices.length > 0)
+                        th.select(th.prices[0]);
+                    th.sum = sum.data.result;
+                    th.teacher = teacher.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -119,10 +121,10 @@ $ready(function () {
             //当学员登录后
             forlogin: function (acc) {
                 var th = this;
-                th.account = acc;              
+                th.account = acc;
                 $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }).then(function (req) {
                     if (req.data.success) {
-                        th.owned = req.data.result;                      
+                        th.owned = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -130,7 +132,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });               
+                });
             },
             //清理Html标签
             clearTag: function (html) {
@@ -147,8 +149,8 @@ $ready(function () {
                 }
                 box.each(function () {
                     if ($(this).find("img").size() > 0) return;
-                    var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/buy");
-                    console.log(url);
+                    //var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/buy");
+                    var url = window.location.href;
                     jQuery($(this)).qrcode({
                         render: "canvas", //也可以替换为table
                         width: 75,
@@ -196,12 +198,8 @@ $ready(function () {
             },
             //选中价格
             select: function (data) {
-                if (data == null) {
-                    this.selected_price = {};
+                if (data == null || (this.selected_price.CP_ID && this.selected_price.CP_ID == data.CP_ID)) {
                     return;
-                }
-                if (this.selected_price.CP_ID && this.selected_price.CP_ID == data.CP_ID) {
-                    this.selected_price = {};
                 } else {
                     this.selected_price = data;
                 }
