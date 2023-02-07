@@ -20,7 +20,7 @@ $ready(function () {
             owned: false,            //是否拥有该课程，例如购买或学员组关联
             purchase: null,          //课程购买记录           
 
-            loading: false,       //加载状态
+            loading: true,       //加载状态
             loading_init: false,
 
             showState: 1,         //内容显示的切换状态
@@ -129,6 +129,7 @@ $ready(function () {
                     th.teacher = teacher.data.result;
                     //如果已经登录
                     if (th.islogin) {
+                        th.loading = true;
                         $api.bat(
                             $api.get('Course/Studied', { 'couid': th.couid }),
                             $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }),
@@ -156,6 +157,8 @@ $ready(function () {
                     }
                 })).catch(function (err) {
                     console.error(err);
+                }).finally(function () {
+                    th.loading = false;
                 });
             })).catch(function (err) {
                 console.error(err);

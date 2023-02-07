@@ -51,7 +51,7 @@
         <van-sticky>
             <!--按钮组-->
             <course_menus ref='menus' :course="course" :account="account" :canstudy="canstudy" :purchase="purchase"
-                :studied="studied" :owned="owned">
+                :studied="studied" :owned="owned"  :loading="loading">
             </course_menus>
             <!--选项卡-->
             <van-tabs v-model="tabActive">

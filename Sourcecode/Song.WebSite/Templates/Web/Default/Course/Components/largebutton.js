@@ -1,7 +1,7 @@
 //课程购买或学习的按钮
 Vue.component('largebutton', {
     //当前课程，当前学员
-    props: ["course", "account", "studied", "finaltest", "purchase","forever"],
+    props: ["course", "account", "studied", "finaltest", "purchase","forever","loading"],
     data: function () {
         return {}
     },
@@ -43,21 +43,24 @@ Vue.component('largebutton', {
             return url.link;
         }
     },
-    template: ` <div class="couBtnBox">
-        <a v-if="!islogin" :href="url('login')">登录学习</a> 
-        <template v-else-if="canstudy || forever">
-            <a :href="url('study')">开始学习</a>
-            <a :href="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</a>
-        </template>      
-        <a v-else-if="course.Cou_IsFree" :href="url('study')">开始学习</a>
-        <template v-else-if="course.Cou_IsLimitFree" remark="限时免费">
-            <a :href="url('study')">开始学习</a>
-            <a :href="url('buy')" class="buy">选修该课程</a>
+    template: `<div class="couBtnBox">
+        <loading v-if="loading && islogin"></loading>
+        <template v-else>
+            <a v-if="!islogin" :href="url('login')">登录学习</a> 
+            <template v-else-if="canstudy || forever">
+                <a :href="url('study')">开始学习</a>
+                <a :href="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</a>
+            </template>      
+            <a v-else-if="course.Cou_IsFree" :href="url('study')">开始学习</a>
+            <template v-else-if="course.Cou_IsLimitFree" remark="限时免费">
+                <a :href="url('study')">开始学习</a>
+                <a :href="url('buy')" class="buy">选修该课程</a>
+            </template>
+            <template v-else-if="course.Cou_IsTry" remark="可以试学">
+                <a :href="url('study')">试学</a>
+                <a :href="url('buy')"  class="buy">选修该课程</a>
+            </template>
+            <a v-else :href="url('buy')" class="buy">选修该课程</a> 
         </template>
-        <template v-else-if="course.Cou_IsTry" remark="可以试学">
-            <a :href="url('study')">试学</a>
-            <a :href="url('buy')"  class="buy">选修该课程</a>
-        </template>
-        <a v-else :href="url('buy')" class="buy">选修该课程</a> 
     </div>`
 });

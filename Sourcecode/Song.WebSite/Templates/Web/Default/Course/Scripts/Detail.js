@@ -24,7 +24,7 @@ $ready(function () {
             testpapers: [],          //试卷
             finaltest: {},           //结课考试
 
-            loading: false,       //加载状态
+            loading: true,       //加载状态
             loading_init: false,
 
 
@@ -54,9 +54,9 @@ $ready(function () {
             },
             //是否购买记录
             purchased: function () {
-                if (JSON.stringify(this.purchase) == '{}' || this.purchase == null) return false;              
+                if (JSON.stringify(this.purchase) == '{}' || this.purchase == null) return false;
                 if (this.purchase.Stc_EndTime.getTime() < (new Date()).getTime())
-                    return false;               
+                    return false;
                 return this.purchase.Stc_Type != 5 && !this.course.Cou_IsFree && this.purchase.Stc_IsEnable;
             },
             //可以学习
@@ -101,7 +101,6 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;
                     } else {
@@ -109,8 +108,6 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_init = false;
-                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
                 //当前课程
@@ -133,7 +130,7 @@ $ready(function () {
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher) {
-                    th.loading_init = false;
+
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -157,12 +154,13 @@ $ready(function () {
                         th.testpapers = papers;
                     }
                     th.prices = prices.data.result;
-                    console.log(th.prices);
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
                 })).catch(function (err) {
                     console.error(err);
+                }).finally(function () {
+                    th.loading_init = false;
                 });
             })).catch(function (err) {
                 console.error(err);
@@ -173,6 +171,7 @@ $ready(function () {
             forlogin: function (acc) {
                 var th = this;
                 th.account = acc;
+                th.loading = true;
                 $api.bat(
                     $api.get('Course/Studied', { 'couid': th.couid }),
                     $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
@@ -197,6 +196,8 @@ $ready(function () {
                     th.owned = owned.data.result;
                 })).catch(function (err) {
                     console.error(err);
+                }).finally(function () {
+                    th.loading = false;
                 });
             },
             //清理Html标签
