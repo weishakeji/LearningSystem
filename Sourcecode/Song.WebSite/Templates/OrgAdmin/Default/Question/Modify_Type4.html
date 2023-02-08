@@ -18,8 +18,8 @@
                         @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>
                 <el-form-item label="答案" prop="Qus_Answer">
-                    <editor :content="entity.Qus_Answer" id="answer" :menubar="false" model="mini"
-                        style="height: 300px;" @change="text=>entity.Qus_Answer=text"></editor>
+                    <editor :content="entity.Qus_Answer" id="answer" :menubar="false" model="mini" upload="ques"
+                        :dataid="entity.Qus_ID" style="height: 300px;" @change="text=>entity.Qus_Answer=text"></editor>
                 </el-form-item>
             </el-form>
         </modify_main>
