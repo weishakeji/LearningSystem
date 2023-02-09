@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            tpid: $api.querystring("id"),   //试卷id
+            tpid: $api.dot(),   //试卷id
             account: {},     //当前登录账号
             platinfo: {},
             organ: {},
@@ -17,7 +17,7 @@ $ready(function () {
             datas: [],           //成绩列表
             finished: false,
             query: {
-                'stid': -1, 'tpid': this.tpid, 'size': 6, 'index': 0
+                'stid': -1, 'tpid': $api.dot(), 'size': 6, 'index': 0
             },
             total: 0
         },

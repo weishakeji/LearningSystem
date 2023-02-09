@@ -39,8 +39,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(id);
             if (tp == null) throw new Exception("试卷不存在！");
-            tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
-            return tp;
+            return _tran(tp);
         }
         ///<summary>
         /// 创建试卷
@@ -220,12 +219,9 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int orgid = org.Org_ID;
             int count = 0;
-            Song.Entities.TestPaper[] tps = null;
-            tps = Business.Do<ITestPaper>().PaperPager(orgid, -1, couid, diff, true, search, size, index, out count);
-            foreach(Song.Entities.TestPaper tp in tps)
-            {
-                tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
-            }
+            Song.Entities.TestPaper[] tps = Business.Do<ITestPaper>().PaperPager(orgid, -1, couid, diff, true, search, size, index, out count);
+            for (int i = 0; i < tps.Length; i++)
+                tps[i] = _tran(tps[i]);
             ListResult result = new ListResult(tps);
             result.Index = index;
             result.Size = size;
@@ -241,9 +237,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.TestPaper FinalPaper(long couid, bool? use)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid, use);
-            if (tp != null)
-                tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
-            return tp;
+            return _tran(tp);
         }
         /// <summary>
         /// 分页获取所有试卷
@@ -260,17 +254,38 @@ namespace Song.ViewData.Methods
         public ListResult Pager(int orgid, long sbjid, long couid, string search, bool? isuse, int diff, int size, int index)
         {
             int count = 0;
-            Song.Entities.TestPaper[] tps = null;
-            tps = Business.Do<ITestPaper>().PaperPager(orgid, sbjid, couid, diff, isuse, search, size, index, out count);
-            foreach (Song.Entities.TestPaper tp in tps)
-            {
-                tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
-            }
+            Song.Entities.TestPaper[] tps = Business.Do<ITestPaper>()
+                .PaperPager(orgid, sbjid, couid, diff, isuse, search, size, index, out count);
+            for(int i=0;i<tps.Length;i++)
+                tps[i]= _tran(tps[i]);
             ListResult result = new ListResult(tps);
             result.Index = index;
             result.Size = size;
             result.Total = count;
             return result;
+        }
+        /// <summary>
+        /// 处理试卷对象的一些信息
+        /// </summary>
+        /// <param name="paper"></param>
+        /// <returns></returns>
+        private Song.Entities.TestPaper _tran(Song.Entities.TestPaper paper)
+        {
+            if (paper == null) return paper;
+            paper.Tp_Logo = System.IO.File.Exists(PhyPath + paper.Tp_Logo) ? VirPath + paper.Tp_Logo : "";
+            //试卷所属的专业名称
+            if(paper.Sbj_ID>0 && string.IsNullOrWhiteSpace(paper.Sbj_Name))
+            {
+                Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(paper.Sbj_ID);
+                if (sbj != null) paper.Sbj_Name = sbj.Sbj_Name;
+            }
+            //试卷所属的课程名称
+            if (paper.Cou_ID > 0 && string.IsNullOrWhiteSpace(paper.Cou_Name))
+            {
+                Song.Entities.Course cour = Business.Do<ICourse>().CourseSingle(paper.Cou_ID);
+                if (cour != null) paper.Cou_Name = cour.Cou_Name;
+            }
+            return paper;
         }
         #endregion
 

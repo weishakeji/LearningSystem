@@ -92,8 +92,8 @@ $ready(function () {
             //页面跳转到试卷详情页
             gopaper: function (item) {
                 var file = "Paper";
-                var url = $api.url.set(file, {
-                    'id': item.Tp_Id,
+                var url = $api.dot(item.Tp_Id, file);
+                url = $api.url.set(url, {                   
                     'couid': $api.querystring("couid")
                 });
                 //history.pushState({}, "", url);

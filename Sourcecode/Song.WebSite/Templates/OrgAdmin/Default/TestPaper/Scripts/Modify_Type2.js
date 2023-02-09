@@ -25,6 +25,7 @@ $ready(function () {
 
             entity: {
                 Tp_Id: 0,        //主键
+                Tp_IsUse: true,
                 Tp_Type: 2,
                 Tp_Total: 100,
                 Tp_Diff: 1,

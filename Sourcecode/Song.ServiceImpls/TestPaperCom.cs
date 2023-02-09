@@ -34,8 +34,17 @@ namespace Song.ServiceImpls
             }
             entity.Tp_CrtTime = DateTime.Now;
             //相关联的课程名称
-            Course cou = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_ID).ToFirst<Course>();
-            if (cou != null) entity.Cou_Name = cou.Cou_Name;
+            if (entity.Cou_ID > 0 && string.IsNullOrWhiteSpace(entity.Cou_Name))
+            {
+                Song.Entities.Course cour = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_ID).ToFirst<Course>();
+                if (cour != null) entity.Cou_Name = cour.Cou_Name;
+            }           
+            //试卷所属的专业名称
+            if (entity.Sbj_ID > 0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
+            {
+                Song.Entities.Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == entity.Sbj_ID).ToFirst<Subject>();
+                if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
+            }
             //如果为结课考试，则取消当前课程下的其它试卷状态
             if (entity.Tp_IsFinal)
             {
@@ -79,8 +88,17 @@ namespace Song.ServiceImpls
         {
             entity.Tp_Lasttime = DateTime.Now;
             //相关联的课程名称
-            Course cou = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_ID).ToFirst<Course>();
-            if (cou != null) entity.Cou_Name = cou.Cou_Name;            
+            if (entity.Cou_ID > 0 && string.IsNullOrWhiteSpace(entity.Cou_Name))
+            {
+                Song.Entities.Course cour = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_ID).ToFirst<Course>();
+                if (cour != null) entity.Cou_Name = cour.Cou_Name;
+            }
+            //试卷所属的专业名称
+            if (entity.Sbj_ID > 0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
+            {
+                Song.Entities.Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == entity.Sbj_ID).ToFirst<Subject>();
+                if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
+            }
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
