@@ -26,11 +26,12 @@ $ready(function () {
             sbjSelects: [],      //选择中的专业项
             //图片文件
             upfile: null, //本地上传文件的对象  
-           
+
             rules: {
                 Sbj_Name: [{ required: true, message: '专业不得为空', trigger: 'blur' }]
             },
             loading: false,
+            loading_init: true,      //初始化预载
             num: 0
         },
         computed: {
@@ -44,11 +45,12 @@ $ready(function () {
         watch: {
         },
         created: function () {
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
                 vapp.loading_init = false;
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    vapp.getTreeData();
+                    th.organ = req.data.result;
+                    th.getTreeData(th.organ.Org_ID);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -62,26 +64,22 @@ $ready(function () {
         },
         methods: {
             //获取课程专业的数据
-            getTreeData: function () {
+            getTreeData: function (orgid) {
                 var th = this;
                 this.loading = true;
-                var form = {
-                    orgid: vapp.organ.Org_ID,
-                    search: '', isuse: null
-                };
-                $api.get('Subject/Tree', form).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.subjects = req.data.result;
-                        //vapp.traversalUse(th.subjects);
+                $api.get('Subject/Tree', { orgid: orgid, search: '', isuse: null })
+                    .then(function (req) {
+                        th.loading = false;
+                        if (req.data.success) {
+                            th.subjects = req.data.result;
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        console.error(err);
+                    }).finally(function () {
                         th.getEntity();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                    });
             },
             //获取当前实体
             getEntity: function () {
@@ -103,7 +101,7 @@ $ready(function () {
                         console.error(err);
                     });
                     return;
-                }              
+                }
                 $api.get('Subject/ForID', { 'id': th.id }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -116,12 +114,13 @@ $ready(function () {
                         //将当前专业的上级专业，在控件中显示
                         var arr = [];
                         arr = th.getParentPath(th.entity, th.subjects, arr);
-                        th.sbjSelects = arr;                      
+                        th.sbjSelects = arr;
                     } else {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
+                    th.loading = false;
                 });
             },
             btnEnter: function (formName) {
