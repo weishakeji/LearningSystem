@@ -52,11 +52,12 @@ $ready(function () {
             nullcourse: function () {
                 return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
             },
-            //是否购买记录
+            //是否购买
             purchased: function () {
                 if (JSON.stringify(this.purchase) == '{}' || this.purchase == null) return false;
                 if (this.purchase.Stc_EndTime.getTime() < (new Date()).getTime())
                     return false;
+                if (this.purchase.Stc_IsTry) return false;
                 return this.purchase.Stc_Type != 5 && !this.course.Cou_IsFree && this.purchase.Stc_IsEnable;
             },
             //可以学习

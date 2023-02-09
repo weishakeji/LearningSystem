@@ -150,7 +150,7 @@
                 });
             },
             //试题滑动 
-            swipe: function (e) {
+            swipe: function (e,binding) {
                 if (e && e.preventDefault) {
                     e.preventDefault();
                     var node = $dom(e.target ? e.target : e.srcElement);

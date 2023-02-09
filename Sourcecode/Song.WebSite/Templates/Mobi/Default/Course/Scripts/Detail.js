@@ -47,6 +47,7 @@ $ready(function () {
                 if (JSON.stringify(this.purchase) == '{}' || this.purchase == null) return false;
                 if (this.purchase.Stc_EndTime.getTime() < (new Date()).getTime())
                     return false;
+                if (this.purchase.Stc_IsTry) return false;
                 return this.purchase.Stc_Type != 5 && !this.course.Cou_IsFree && this.purchase.Stc_IsEnable;
             },
             //可以学习
