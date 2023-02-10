@@ -10,15 +10,15 @@ $ready(function () {
         mounted: function () {
             var c = $api.loginstatus('account');
             console.log(c);
+            var th=this;
             //判断是否登录
             $api.get('Account/Current', {}, function () {
                 window.login.loading = true;
-            }).then(function (req) {
-                window.login.loading = false;
+            }).then(function (req) {               
                 if (req.data.success) {
                     window.vapp.logged(req.data.result);
-                } else {
-                    window.login.loading = false;
+                } else {  
+                    window.login.loading = false;             
                     $dom('#login-area').show();
                 }
             }).catch(function (err) {
@@ -59,6 +59,7 @@ $ready(function () {
         },
         watch: {
             'account': function (nv, ov) {
+                var th=this;
                 if (nv == null || JSON.stringify(nv) === '{}') {
                     $dom('#login-area').show();
                     $dom('#logged-area').hide();
@@ -67,6 +68,8 @@ $ready(function () {
                     $dom('#logged-area').show().css('opacity', 0);
                     window.setTimeout(function () {
                         $dom('#logged-area').css('opacity', 1);
+                        $dom('#login-area').hide();
+                        th.loading = false;
                     }, 500);
                 }
             },
