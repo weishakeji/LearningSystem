@@ -24,8 +24,8 @@
                 <template v-if="!config.IsMobileRemoveMoney">
                     / <span class="moneyfree" v-if="!purchased && !forever">
                         <i class="free" v-if="course.Cou_IsFree">免费</i>
-                        <template v-if="course.Cou_IsLimitFree">
-                            <i class="free"> 限时免费</i>
+                        <template v-else-if="course.Cou_IsLimitFree">
+                            <i class="free">限时免</i>
                             （{{course.Cou_FreeStart|date('yyyy/M/d')}}
                             - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）
                         </template>

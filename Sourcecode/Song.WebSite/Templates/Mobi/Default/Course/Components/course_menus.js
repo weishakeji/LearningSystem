@@ -76,7 +76,7 @@ Vue.component('course_menus', {
                 }
             }
             //如果菜单项必须课程购买后才能学习，且的确没有购买
-            if (item.mustbuy && !this.owned) {
+            if (item.mustbuy && !this.owned && !this.course.Cou_IsFree) {
                 this.buy_show = true;
                 return;
             }

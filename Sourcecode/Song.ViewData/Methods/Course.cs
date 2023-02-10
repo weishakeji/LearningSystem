@@ -1381,29 +1381,28 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 处理课程信息，图片转为全路径，并生成clone对象
         /// </summary>
-        /// <param name="cour">课程对象的clone</param>
+        /// <param name="course">课程对象的clone</param>
         /// <returns></returns>
-        public static Song.Entities.Course _tran(Song.Entities.Course cour)
+        public static Song.Entities.Course _tran(Song.Entities.Course course)
         {
-            if (cour == null) return cour;
-            Song.Entities.Course curr = cour.Clone<Song.Entities.Course>();
-            curr.Cou_Logo = System.IO.File.Exists(PhyPath + curr.Cou_Logo) ? VirPath + curr.Cou_Logo : "";
+            if (course == null) return course;
+            course.Cou_Logo = System.IO.File.Exists(PhyPath + course.Cou_Logo) ? VirPath + course.Cou_Logo : "";
             //如果缩略图不为空
-            if (!string.IsNullOrWhiteSpace(curr.Cou_LogoSmall))
+            if (!string.IsNullOrWhiteSpace(course.Cou_LogoSmall))
             {
-                curr.Cou_LogoSmall = System.IO.File.Exists(PhyPath + curr.Cou_LogoSmall) ? VirPath + curr.Cou_LogoSmall : "";
-            }else if (!string.IsNullOrWhiteSpace(curr.Cou_Logo))
+                course.Cou_LogoSmall = System.IO.File.Exists(PhyPath + course.Cou_LogoSmall) ? VirPath + course.Cou_LogoSmall : "";
+            }else if (!string.IsNullOrWhiteSpace(course.Cou_Logo))
             {
-                curr.Cou_LogoSmall = WeiSha.Core.Images.Name.ToSmall(curr.Cou_Logo);
+                course.Cou_LogoSmall = WeiSha.Core.Images.Name.ToSmall(course.Cou_Logo);
             }
             //是否免费，或是限时免费
-            if (cour.Cou_IsLimitFree)
+            if (course.Cou_IsLimitFree)
             {
-                DateTime freeEnd = cour.Cou_FreeEnd.AddDays(1).Date;
-                if (!(cour.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                    cour.Cou_IsLimitFree = false;
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd > DateTime.Now))
+                    course.Cou_IsLimitFree = false;
             }
-            return curr;
+            return course;
         }
         #endregion
     }

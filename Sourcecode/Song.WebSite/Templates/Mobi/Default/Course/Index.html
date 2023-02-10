@@ -66,7 +66,7 @@
                         <info>
                             <div class="curname">
                                               
-                                <van-tag type="success" class="free" v-if="item.Cou_IsFree">免费</van-tag>
+                                <van-tag type="success" class="free" v-if="item.Cou_IsFree && !item.Cou_IsLimitFree">免费</van-tag>
                                 <van-tag type="success" class="free" v-else-if="item.Cou_IsLimitFree">限免</van-tag>
                                 <van-tag type="primary" class="free" v-else-if="item.Cou_IsTry">试</van-tag>
                                {{item.Cou_Name}}
