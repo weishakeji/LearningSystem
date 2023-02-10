@@ -1,6 +1,7 @@
 // 课程按钮组
 Vue.component('course_menus', {
-    props: ["account", "course", "canstudy", "studied", "owned", "loading", "purchase"],
+    //datainfo:课程的数据信息
+    props: ["account", "course", "canstudy", "studied", "owned", "loading", "purchase", "datainfo"],
     data: function () {
         return {
             loading_show: false,     //预载中
@@ -8,12 +9,28 @@ Vue.component('course_menus', {
             try_show: false,
             buy_show: false,
             //mustbuy:必须购买或学员组关联后才能学习
+            //disable:是否禁用，即不响应鼠标事件，并灰色显示
             menus: [
-                { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, mustbuy: false, evt: null },
-                { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, mustbuy: false, evt: null },
-                { name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true, mustbuy: true, evt: null },
-                { name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true, mustbuy: true, evt: null },
-                { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, mustbuy: true, evt: null },
+                {
+                    id: 'video', name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true,
+                    count: 0, disabled: false, mustbuy: false, evt: null
+                },
+                {
+                    id: 'question', name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true,
+                    count: 0, disabled: false, mustbuy: false, evt: null
+                },
+                {
+                    id: 'testpaper', name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
+                {
+                    id: 'knowledge', name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
+                {
+                    id: 'testfinal', name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
             ],
             curr_menus: {},  //当前点击的按钮项
             outline: {},     //当前点击的章节
@@ -24,6 +41,16 @@ Vue.component('course_menus', {
         //预载结束，隐藏提示信息
         'loading': function (nv, ov) {
             if (!nv) this.loading_show = false;
+        },
+        //课程数据变更
+        'datainfo': function (nv, ov) {
+            if (nv) {
+                for (let i = 0; i < this.menus.length; i++) {
+                    if (this.menus[i].id != 'video')
+                        this.menus[i].disabled = nv[this.menus[i].id] == 0;
+                    this.menus[i].count = nv[this.menus[i].id];
+                }
+            }
         }
     },
     computed: {
@@ -51,6 +78,7 @@ Vue.component('course_menus', {
     methods: {
         //按钮事件，首先是状态判断
         btnEvt: function (item, outline) {
+            if (item.disabled) return;
             //如果item为空,则来自于章节列表点击
             if (item == null && !this.owned) {
                 return this.gobuy();
@@ -140,9 +168,10 @@ Vue.component('course_menus', {
     //
     template: `<div class="mainmenu">
                 <div class="mainmenuBox">
-                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="m.show">
-                         <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
+                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="m.show" :disabled="m.disabled">
+                        <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
+                        <span v-if="m.count>0 && m.id!='testfinal'">{{m.count}}</span>
                     </div>                                   
                 </div>
             <van-popup v-model="login_show" class="login" position="bottom" :style="popup_height">   

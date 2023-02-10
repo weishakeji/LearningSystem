@@ -11,7 +11,7 @@ $ready(function () {
 
             course: {},         //当前课程对象
             videolog: [],        //课程章节的视频学习记录
-            sum: 0,              //购买课程的人数
+            datainfo: {},              //课程的相关数据统计
             teacher: null,     //课程教师
             outlines: [],     //课程章节
             guides: [],          //课程通知
@@ -108,10 +108,10 @@ $ready(function () {
                 $api.bat(
                     $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
-                    $api.get('Course/StudentSum', { 'couid': th.couid }),
+                    $api.get('Course/Datainfo', { 'couid': th.couid }),
                     $api.cache('Guide/Guides:3', { 'couid': th.couid, 'count': 20 }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(axios.spread(function (outlines, prices, sum, guides, teacher) {
+                ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -125,7 +125,7 @@ $ready(function () {
                     //获取结果
                     th.outlines = outlines.data.result;
                     th.prices = prices.data.result;
-                    th.sum = sum.data.result;
+                    th.datainfo = datainfo.data.result;
                     th.guides = guides.data.result;
                     th.teacher = teacher.data.result;
                     //如果已经登录

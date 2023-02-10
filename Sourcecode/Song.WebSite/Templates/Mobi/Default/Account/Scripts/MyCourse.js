@@ -181,6 +181,10 @@ $ready(function () {
                         视频 {{data.video}}
                     </div>
                     <div>
+                        <icon test></icon>
+                        测试 {{data.testpaper}}
+                    </div>
+                    <div>
                         <icon view></icon>
                         关注 {{viewnum}}
                     </div>

@@ -71,7 +71,7 @@ namespace Song.ServiceInterfaces
         /// <param name="diff"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse);
+        int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse);       
         /// <summary>
         /// ∑÷“≥ªÒ»° ‘æÌ
         /// </summary>
@@ -242,7 +242,5 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, long tpid, int size, int index, out int countSum);
         #endregion
-
-
     }
 }

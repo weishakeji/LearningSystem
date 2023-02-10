@@ -77,6 +77,8 @@
             'olSelects': function (nv, ov) {
                 console.log(nv);
                 if (nv.length > 0) this.form.olid = nv[nv.length - 1];
+                else
+                    this.form.olid = '';
                 //关闭级联菜单的浮动层
                 this.$refs["outlines"].dropDownVisible = false;
             }

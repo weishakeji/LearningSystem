@@ -152,6 +152,10 @@ a.go-home:before {
     font-size: 13px;
     text-align: center;
     padding: 10px 5px 0px 5px;
+    position: relative;
+}
+.mainmenuBox>div[disabled]{
+    color: #666;
 }
 .mainmenuBox>div icon{
     display: block;
@@ -159,9 +163,17 @@ a.go-home:before {
 }
 .mainmenuBox span{  
     display: block;
-    font-size: 30px;
+    font-size: 12px;
     text-align: center;
-    margin-bottom: 5px;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+    background-color: #e6a23c;
+    border-radius: 10px;
+    color: #fff;
+    line-height: 18px;
+    padding: 0 6px;
+
 }
 
 /*内容区*/

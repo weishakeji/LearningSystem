@@ -163,6 +163,30 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Guide>().Where(wc).ToArray<Guide>();
         }
         /// <summary>
+        /// 课程公告的数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="couid"></param>
+        /// <param name="gcuid"></param>
+        /// <param name="isShow"></param>
+        /// <returns></returns>
+        public int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow)
+        {
+            WhereClip wc = new WhereClip();
+            wc &= Guide._.Gu_IsShow == true;
+            if (orgid > 0) wc &= Guide._.Org_ID == orgid;
+            if (couid > 0) wc &= Guide._.Cou_ID == couid;
+            if (!string.IsNullOrWhiteSpace(gcuid))
+            {
+                WhereClip wcUid = new WhereClip();
+                List<string> list = this.ColumnsTreeID(gcuid);
+                foreach (string l in list)
+                    wcUid.Or(Guide._.Gc_UID == l);
+                wc.And(wcUid);
+            }
+            return Gateway.Default.Count<Guide>(wc);
+        }
+        /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="orgid"></param>

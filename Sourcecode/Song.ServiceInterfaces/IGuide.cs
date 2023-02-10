@@ -60,6 +60,15 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Guide[] GuideCount(int orgid, long couid, string gcuid, int count);
         /// <summary>
+        /// 课程公告的数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="couid"></param>
+        /// <param name="gcuid"></param>
+        /// <param name="isShow"></param>
+        /// <returns></returns>
+        int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow);
+        /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="orgid"></param>

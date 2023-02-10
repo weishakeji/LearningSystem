@@ -19,7 +19,7 @@
                 <span v-html="course.Cou_Name"></span>
             </div>
             <a class="go-home" href="/mobi/index"> </a>
-            <div class="info"><span class="study" v-html="sum"></span> /<span class="view"
+            <div class="info"><span class="study" v-html="datainfo.student"></span> /<span class="view"
                     v-html="course.Cou_ViewNum"></span>
                 <template v-if="!config.IsMobileRemoveMoney">
                     / <span class="moneyfree" v-if="!purchased && !forever">
@@ -51,7 +51,7 @@
         <van-sticky>
             <!--按钮组-->
             <course_menus ref='menus' :course="course" :account="account" :canstudy="canstudy" :purchase="purchase"
-                :studied="studied" :owned="owned"  :loading="loading">
+                :studied="studied" :owned="owned"  :loading="loading" :datainfo="datainfo">
             </course_menus>
             <!--选项卡-->
             <van-tabs v-model="tabActive">

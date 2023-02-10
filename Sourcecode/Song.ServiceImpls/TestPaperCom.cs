@@ -203,7 +203,7 @@ namespace Song.ServiceImpls
         }
         public TestPaper[] PaperCount(int orgid, long sbjid, long couid, int diff, bool? isUse, int count)
         {
-            WhereClip wc = TestPaper._.Tp_Id > -1;
+            WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
             if (sbjid > 0)
             {
@@ -237,7 +237,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
             return Gateway.Default.Count<TestPaper>(wc);
         }
-
+        
         public TestPaper[] PaperCount(string search, int orgid, long sbjid, long couid, int diff, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
