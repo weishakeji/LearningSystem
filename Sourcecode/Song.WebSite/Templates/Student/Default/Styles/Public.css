@@ -133,13 +133,46 @@ table.el-table__body tr.disabled td img {
 	justify-content: flex-end;
 }
 
+/*关闭按钮的样式*/
+.el-button--close:hover{
+	background: #eee;
+	color: #333;
+}
 .el-button--close::before {
 	content: '\e72c';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
 }
-
+.el-button--cancel::before {
+	content: '\e748';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+/*确定保存按钮的样式*/
+.el-button[define="enter"]:not(.is-loading)::before {
+	content: '\a048';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+}
+/*应用按钮的样式*/
+.el-button[define="apply"] {
+	color: #3c8d13;
+    background: #f0f9eb;
+    border-color: #c2e7b0;
+}
+.el-button[define="apply"]:hover {
+	color: #f0f9eb;
+    background: #7bbb5b;
+    border-color: #c2e7b0;
+}
+.el-button[define="apply"]:not(.is-loading)::before {
+	content: '\e634';
+	font-size: 15px;
+	margin-right: 5px;
+	font-family: "webdesk_icon" !important;
+}
 .el-button icon {
 	font-size: 14px;
 }
