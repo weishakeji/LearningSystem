@@ -99,6 +99,8 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
+                        //如果是简答题，答题内容与节点文本
+                        if (type == 4 || type == 5) ans = q.text();
                         var num = Number(q.attr('num'));
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));

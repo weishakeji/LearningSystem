@@ -4,6 +4,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             tpid: $api.dot(),   //试卷id
+            couid: $api.querystring("couid"),
             account: {},     //当前登录账号
             platinfo: {},
             organ: {},
@@ -22,14 +23,15 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
-                $api.get('TestPaper/ForID', { 'id': this.tpid }),
-                $api.get('Course/ForID', { 'id': $api.querystring("couid") })
+                $api.get('TestPaper/ForID', { 'id': th.tpid }),
+                $api.get('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (account, platinfo, organ, paper, course) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -40,15 +42,15 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
+                th.account = account.data.result;
                 if (vapp.islogin)
-                    vapp.query.stid = vapp.account.Ac_ID;
-                vapp.platinfo = platinfo.data.result;
-                vapp.paper = paper.data.result;
-                vapp.organ = organ.data.result;
+                    th.query.stid = th.account.Ac_ID;
+                th.platinfo = platinfo.data.result;
+                th.paper = paper.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.course = course.data.result;
+                th.config = $api.organ(th.organ).config;
+                th.course = course.data.result;
 
             })).catch(function (err) {
                 console.error(err);
@@ -70,14 +72,14 @@ $ready(function () {
                 var th = this;
                 if (th.query.stid <= 0) {
                     window.setTimeout(function () {
-                        vapp.onload();
+                        th.onload();
                     }, 100);
                     return;
                 }
-                th.query.tpid = $api.querystring("id", 0);
+                th.query.tpid = th.tpid;
                 th.query.index++;
                 var query = $api.clone(this.query);
-                $api.get('TestPaper/ResultsPager', query).then(function (req) {
+                $api.put('TestPaper/ResultsPager', query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
@@ -103,6 +105,7 @@ $ready(function () {
             },
             //删除某个测试成绩
             btnDelete: function (item) {
+                var th = this;
                 this.$dialog.confirm({
                     title: '删除成绩',
                     message: '您是否确定删除当前成绩（' + item.Tr_Score + '分）？',
@@ -111,12 +114,12 @@ $ready(function () {
                         if (req.data.success) {
                             var result = req.data.result;
                             if (result == true) {
-                                vapp.$toast.success('删除成功');
-                                vapp.datas = [];
-                                vapp.query.index = 0;
-                                vapp.finished = false;
-                                vapp.total = false;
-                                vapp.onload();
+                                th.$toast.success('删除成功');
+                                th.datas = [];
+                                th.query.index = 0;
+                                th.finished = false;
+                                th.total = false;
+                                th.onload();
                             }
                         } else {
                             console.error(req.data.exception);
@@ -132,21 +135,22 @@ $ready(function () {
             },
             //清空成绩
             btnDeleteAll: function () {
+                var th = this;
                 this.$dialog.confirm({
                     title: '清空成绩',
                     message: '您是否确定清空所有历史成绩？',
                 }).then(() => {
-                    $api.delete('TestPaper/ResultClear', { 'acid': vapp.account.Ac_ID, 'tpid': vapp.paper.Tp_Id })
+                    $api.delete('TestPaper/ResultClear', { 'acid': th.account.Ac_ID, 'tpid': th.paper.Tp_Id })
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 if (result > 0) {
-                                    vapp.$toast.success('清空成功');
-                                    vapp.datas = [];
-                                    vapp.query.index = 0;
-                                    vapp.finished = false;
-                                    vapp.total = false;
-                                    vapp.onload();
+                                    th.$toast.success('清空成功');
+                                    th.datas = [];
+                                    th.query.index = 0;
+                                    th.finished = false;
+                                    th.total = false;
+                                    th.onload();
                                 }
                             } else {
                                 console.error(req.data.exception);
@@ -165,7 +169,7 @@ $ready(function () {
                 var file = "doing";
                 var url = $api.url.set(file, {
                     'tpid': this.tpid,
-                    'couid': $api.querystring("couid")
+                    'couid': this.couid
                 });
                 window.location.href = url;
             },
@@ -182,7 +186,7 @@ $ready(function () {
                 var url = $api.url.set(file, {
                     'tr': item.Tr_ID,
                     'tp': item.Tp_Id,
-                    'couid': $api.querystring("couid")
+                    'couid': this.couid
                 });
                 window.location.href = url;
             },

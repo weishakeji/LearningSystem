@@ -151,6 +151,7 @@ Vue.component('question', {
             if (this.ques.Qus_Type == 4) {
                 if (this.qans.ans == '' && this.accessory.state) return '(参看附件)';
                 if (this.qans.ans == '') return '未做';
+                console.error(this.qans.ans);
                 return this.qans.ans;
             }
             //填空题

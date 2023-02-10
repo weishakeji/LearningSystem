@@ -97,13 +97,14 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
-                        var num = Number(q.attr('num'));
+                        //如果是简答题，答题内容与节点文本
                         if (type == 4 || type == 5) ans = q.text();
+                        var num = Number(q.attr('num'));
                         var success = q.attr('sucess');
                         var sucess = success == 'true' || success == 'True';
                         var score = Number(q.attr('score'));
                         qarr.push({
-                            'id': qid, 'type': type,'num': num,
+                            'id': qid, 'type': type, 'num': num,
                             'ans': ans, 'success': sucess, 'score': score
                         });
                     }
