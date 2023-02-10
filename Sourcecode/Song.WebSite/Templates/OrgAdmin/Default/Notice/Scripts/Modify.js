@@ -151,7 +151,15 @@ $ready(function () {
                 }
                 return data;
             },
+            //应用
+            btnApply: function (formName) {
+                this.save(formName, false, '数据已经保存，可随时查看效果');
+            },
             btnEnter: function (formName) {
+                this.save(formName, true, '操作成功!正在关闭当前窗体。');
+            },
+            //保存数据的具体方法，参数依次说明：表单对象，是否关闭窗体，完成后的消息
+            save: function (formName, isclose, message) {
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {
@@ -161,12 +169,14 @@ $ready(function () {
                                 var result = req.data.result;
                                 th.$message({
                                     type: 'success',
-                                    message: '操作成功!',
+                                    message: message,
                                     center: true
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess();
-                                }, 600);
+                                if (isclose) {
+                                    window.setTimeout(function () {
+                                        th.operateSuccess();
+                                    }, 600);
+                                };
                             } else {
                                 throw req.data.message;
                             }
