@@ -102,7 +102,7 @@
                 var th = this;
                 th.loading = true;
                 if (update) {
-                    th.questions=[];
+                    th.questions = [];
                     th.swipeIndex = 0;
                 }
                 var form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 }
@@ -150,7 +150,7 @@
                 });
             },
             //试题滑动 
-            swipe: function (e,binding) {
+            swipe: function (e) {
                 if (e && e.preventDefault) {
                     e.preventDefault();
                     var node = $dom(e.target ? e.target : e.srcElement);

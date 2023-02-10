@@ -56,10 +56,6 @@ panel#admin {
     font-size: 45px;
 }
 
-#default_logo::after {
-    content: '(没有图标)';
-    color: #999;
-}
 
 #menubar {
     position: static !important;
