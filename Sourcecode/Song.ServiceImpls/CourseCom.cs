@@ -849,8 +849,10 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid">专业id,多个id用逗号分隔</param>
+        /// <param name="thid"></param>
         /// <param name="isUse"></param>
         /// <param name="searTxt"></param>
+        /// <param name="order"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
@@ -904,10 +906,10 @@ namespace Song.ServiceImpls
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
             if (order == "hot") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_ViewNum.Asc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
-            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_CrtTime.Desc;
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {
                 wc.And(Course._.Cou_IsFree == true);

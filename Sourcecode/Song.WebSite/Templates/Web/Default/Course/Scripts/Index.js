@@ -17,7 +17,7 @@ $ready(function () {
 
             //search_str: $api.querystring("search"),      //搜索字符
 
-            query: { 'orgid': '', 'sbjids': '', 'search': '', 'order': '', 'size': 8, 'index': 0 },
+            query: { 'orgid': '', 'sbjids': '', 'search': '', 'order': 'rec', 'size': 8, 'index': 0 },
             courses: [],      //数据集，此处是课程列表
             total: 1, //总记录数
             totalpages: 1, //总页数

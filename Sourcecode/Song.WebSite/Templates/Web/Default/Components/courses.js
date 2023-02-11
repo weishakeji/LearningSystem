@@ -59,7 +59,7 @@ Vue.component('courses', {
             var th = this;
             th.surplus--;
             var orgid = th.org.Org_ID;
-            $api.get('Course/ShowPager', { 'orgid': orgid, 'sbjids': '', 'search': '', 'order': '', 'size': 1, 'index': index })
+            $api.get('Course/ShowPager', { 'orgid': orgid, 'sbjids': '', 'search': '', 'order': 'rec', 'size': 1, 'index': index })
                 .then(function (req) {
                     if (req.data.success) {
                         var result = th.remove_self(req.data.result);

@@ -24,6 +24,7 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -39,15 +40,15 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.query.orgid = vapp.organ.Org_ID;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                th.query.orgid = th.organ.Org_ID;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //
-                vapp.popupSubject();
-                vapp.tabChange(0, 'rec');
+                th.popupSubject();
+                th.tabChange(0, 'rec');
             })).catch(function (err) {
                 console.error(err);
             });
