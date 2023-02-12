@@ -1308,6 +1308,7 @@
     <Content Include="Utilities\Fonts\Styles\index.css" />
     <Content Include="Utilities\Images\alpha.png" />
     <Content Include="Utilities\Images\def_logo.jpg" />
+    <Content Include="Utilities\Images\def_logo2.jpg" />
     <Content Include="Utilities\Images\head\head1.jpg" />
     <Content Include="Utilities\Images\head\head2.jpg" />
     <Content Include="Utilities\Images\live-icon.gif" />

@@ -12,7 +12,7 @@
     <div id="vapp" v-cloak>
         <div class="context">
             <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-                <el-form-item label="课程专业" prop="Cou_Logo">
+                <el-form-item label="课程主图" prop="Cou_Logo">
                     <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
                         <template v-if="islogo">
                             <img v-if="upfile!=null" :src="upfile.base64" />
