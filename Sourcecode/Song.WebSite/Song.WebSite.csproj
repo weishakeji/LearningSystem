@@ -1314,6 +1314,10 @@
     <Content Include="Utilities\Images\live-icon.gif" />
     <Content Include="Utilities\Images\testpaper.jpg" />
     <Content Include="Utilities\MathJax\globalVariable.js" />
+    <Content Include="Utilities\MathJax\output\chtml.js" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\tex.js" />
+    <Content Include="Utilities\MathJax\output\svg.js" />
+    <Content Include="Utilities\MathJax\output\svg\fonts\tex.js" />
     <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
     <Content Include="Utilities\PdfViewer\debugger.js" />
     <Content Include="Utilities\PdfViewer\images\annotation-check.svg" />
@@ -1920,6 +1924,7 @@
     <Content Include="Utilities\Scripts\vue.min.js" />
     <Content Include="Utilities\Scripts\vuecomponent.js" />
     <Content Include="Utilities\Scripts\vuedraggable.min.js" />
+    <Content Include="Utilities\Scripts\vuedraggable.umd.min.js" />
     <Content Include="Utilities\scrollbar-thumb.gif" />
     <Content Include="Utilities\scrollbar-track.gif" />
     <Content Include="Utilities\Fonts\icon.css" />
@@ -3066,6 +3071,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Utilities\Scripts\vuedraggable.umd.min.js.map" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_AMS-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Calligraphic-Bold.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Calligraphic-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Fraktur-Bold.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Fraktur-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Main-Bold.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Main-Italic.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Main-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Math-BoldItalic.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Math-Italic.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Math-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_SansSerif-Bold.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_SansSerif-Italic.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_SansSerif-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Script-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Size1-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Size2-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Size3-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Size4-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Typewriter-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Vector-Bold.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Vector-Regular.woff" />
+    <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Zero.woff" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

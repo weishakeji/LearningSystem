@@ -766,6 +766,21 @@
         },
         js: function (src, callback) {
             webdom.load.arraySync(function (one, i, c) {
+                one = one.toLowerCase()
+                //判断js文件是否存在，如果存在则不加载
+                var exist = false;
+                var arr = document.querySelectorAll("script");
+                for (let i = 0; i < arr.length; i++) {
+                    let src = arr[i].getAttribute('src');
+                    if (src == null) continue;
+                    if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
+                    if (one == src.toLowerCase()) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (exist) return;
+                
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.src = one + '?ver=' + webdom.version();

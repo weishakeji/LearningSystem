@@ -1,4 +1,5 @@
 ﻿$ready(function () {
+
     //加载窗体组件
     $dom.ctrljs(function () {
         window.$dom.load.css(['/Utilities/panel/skins/education/pagebox.css']);
@@ -87,7 +88,7 @@
             //保存课程名称
             savename: function (name, course) {
                 this.course = course;
-                this.close_fresh('vapp.fressingle("'+course.Cou_ID+'")');
+                this.close_fresh('vapp.fressingle("' + course.Cou_ID + '")');
 
             },
             //关闭自身窗体，并刷新父窗体列表
@@ -110,7 +111,7 @@
                 console.log('刷新fresh_frame:' + this.tabName);
                 if (func == null) {
                     this.doubletab(this.tabName);
-                }else{
+                } else {
                     var iframe = $dom('iframe#' + this.tabName);
                     if (iframe.length < 1) return;
                     var win = iframe[0].contentWindow;
