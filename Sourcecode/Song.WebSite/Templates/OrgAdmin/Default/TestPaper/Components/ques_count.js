@@ -47,7 +47,7 @@ Vue.component('ques_count', {
 
     },
     template: `<span class="ques_count">
-    <loading v-if="loading"></loading>
+    <loading bubble v-if="loading"></loading>
     <template v-else>(共 {{count}} 道)</template>
     </span> `
 });

@@ -22,7 +22,7 @@ $ready(function () {
                 { name: '其它', tab: 'other', icon: 'e67e' }
             ],
             activeName: 'general',
-
+            //实体
             entity: {
                 Tp_Id: 0,        //主键
                 Tp_IsUse: true,
@@ -35,6 +35,7 @@ $ready(function () {
                 Cou_ID: 0           //所属课程的id
             },
             Tp_Diff: [1, 5],     //难度范围
+            //录入校验的规划
             rules: {
                 Tp_Name: [
                     { required: true, message: '标题不得为空', trigger: 'blur' }
@@ -78,7 +79,6 @@ $ready(function () {
                     }
                 ]
             },
-
             loading: false
         },
         mounted: function () {
@@ -172,8 +172,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -189,8 +188,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -200,21 +198,27 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
-                    if (req.data.success) {
-                        th.courses = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.courses = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    });
             },
             btnEnter: function (formName) {
+                var errmsg = '存在错误，请检查填写项';
                 var th = this;
+                var checked = this.$refs['fromtype0'].check();
+                if (!checked) {
+                    th.$message.error(errmsg);
+                    return;
+                }
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.entity.Tp_FromConfig = th.buildFromConfig();
@@ -245,7 +249,7 @@ $ready(function () {
                         });
                     } else {
                         console.log('error submit!!');
-                        th.$message.error('存在错误，请检查填写项');
+                        th.$message.error(errmsg);
                         return false;
                     }
                 });

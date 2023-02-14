@@ -65,7 +65,7 @@ Vue.component('fromtype0', {
             if (xmlDoc.lastChild.children.length > 0)
                 nodes = xmlDoc.lastChild.children[0].lastChild.children;
             else
-                return this.emptyItems();        
+                return this.emptyItems();
             for (var i = 0; i < nodes.length; i++) {
                 const n = nodes[i];
                 var obj = {};
@@ -128,7 +128,7 @@ Vue.component('fromtype0', {
                     Tp_UID: ""
                 };
                 arr.push(obj);
-            }        
+            }
             return arr;
         },
         //当分数占比变更时
@@ -142,6 +142,7 @@ Vue.component('fromtype0', {
             }
             if (surplus < 0) {
                 this.error = '各题型分数合计后大于总分 ' + this.total;
+                return false;
             }
             //有没有分完的分数
             if (this.sumPercent == 100 && surplus > 0) {
@@ -154,8 +155,24 @@ Vue.component('fromtype0', {
             }
             //如果大于100%
             if (this.sumPercent > 100) {
-                this.error = '各题型占比的合计不得大于100%'
+                this.error = '各题型占比的合计不得大于100%';
+                return false;
             }
+            return true;
+        },
+        inputCheck: function () {
+
+        },
+        //检验输入
+        check: function () {
+            var ispass = this.changePercent();
+            if (!ispass) return ispass;
+            //检查当有试题时，占分比不得为空
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].TPI_Count > 0 && this.items[i].TPI_Percent <= 0)
+                    return false;
+            }
+            return ispass;
         }
     },
     template: `<div>
@@ -170,7 +187,7 @@ Vue.component('fromtype0', {
                     </template>
                 </el-input>
             </el-col>
-                <el-col :span="12">
+            <el-col :span="12" :class="{'is-null':m.TPI_Count>0 && m.TPI_Percent<=0}">
                 <el-input v-model.number="m.TPI_Percent" type="number" :min="1" :max="100" @input="changePercent">
                     <template slot="prepend"> 占总分</template>
                     <template slot="append">%， 计 {{m.TPI_Number}} 分</template>

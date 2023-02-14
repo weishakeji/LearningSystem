@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title></title>
+    <title>随机抽题</title>
 </head>
 
 <body>
@@ -127,11 +127,13 @@
                         </el-col>
                     </el-row>
 
-                    <el-form-item label="" remark="当前课程所有试题" label-width="0px" v-show="entity.Tp_FromType==0">
+                    <el-form-item label="" remark="当前课程所有试题" label-width="0px" v-show="entity.Tp_FromType==0"
+                        prop="fromtype0">
                         <fromtype0 ref="fromtype0" :types="types" :testpaper="entity" :total="entity.Tp_Total">
                         </fromtype0>
                     </el-form-item>
-                    <el-form-item label="" remark="按章节出题" label-width="0px" v-show="entity.Tp_FromType==1">
+                    <el-form-item label="" remark="按章节出题" label-width="0px" v-show="entity.Tp_FromType==1"
+                        prop="fromtype1">
                         <fromtype1 ref="fromtype1" :types="types" :testpaper="entity" :total="entity.Tp_Total">
                         </fromtype1>
                     </el-form-item>

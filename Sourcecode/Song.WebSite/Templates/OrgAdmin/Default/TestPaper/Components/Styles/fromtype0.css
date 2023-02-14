@@ -1,10 +1,35 @@
 ﻿/*按课程抽题的布局*/
-.fromtype0{
+.fromtype0 {
     margin-bottom: 8px;
- }
- .alert{
-     text-align: left;
- }
- .ques_type{
-	width: 60px;
+}
+
+.alert {
+    text-align: left;
+}
+
+.ques_type {
+    width: 60px;
+}
+
+div.is-null .el-input__inner, .el-message-box__input input.invalid:focus {
+    border-color: #F56C6C;
+}
+
+.el-input {
+    position: relative;
+}
+
+div.is-null .el-input::before {
+    content: '不得为空';
+    display: block;
+    position: absolute;
+    bottom: -10px;
+    left: 60px;
+    z-index: 10;
+
+   
+    border-radius: 5px;  
+    background-color: #F56C6C;
+    color: yellow;
+    padding: 2px 5px 2px 5px;
 }
