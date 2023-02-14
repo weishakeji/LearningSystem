@@ -742,18 +742,18 @@
     webdom.load = {
         css: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
-                //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
-                var exist = false;
-                $dom("link").each(function () {
-                    var href = $dom(this).attr("href").toLowerCase();
-                    if (href.indexOf('?') > -1)
-                        href = href.substring(0, href.lastIndexOf('?'));
-                    if (one.toLowerCase() == href) {
-                        exist = true;
-                        return false;
-                    }
-                });
-                if (exist) return;
+                 //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
+                 var exist = false;
+                 $dom("link").each(function () {
+                     var href = $dom(this).attr("href");
+                     if (href == null || href == '') return false;
+                     if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
+                     if (one.toLowerCase() == href.toLowerCase()) {
+                         exist = true;
+                         return false;
+                     }
+                 });
+                 if (exist) return;
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
@@ -787,7 +787,7 @@
                         break;
                     }
                 }
-                if (exist) return;
+                //if (exist) return;
                 
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';

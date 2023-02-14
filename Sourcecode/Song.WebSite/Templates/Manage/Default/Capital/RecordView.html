@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>查看资金流水</title>  
+    <title>查看资金流水</title>
 </head>
 
 <body>
@@ -12,7 +12,8 @@
         <el-form ref="account" :model="account" @submit.native.prevent label-width="80px">
             <el-form-item>
                 <img v-if="account.Ac_Photo!=''" :src="account.Ac_Photo" class="avatar photo">
-                <img v-else-if="account.Ac_Sex==2" class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head2.jpg" />
+                <img v-else-if="account.Ac_Sex==2" class="el-icon-plus avatar-uploader-icon photo"
+                    src="/Utilities/images/head2.jpg" />
                 <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
                 <div>
                     <span v-if="account.Ac_Sex==1" class="man" icon="&#xe645" title="男性"></span>
@@ -30,7 +31,7 @@
                         证件：{{account.Ac_IDCardNumber}}</template>
                     <br />
                     机构：{{organ.Org_Name}}
-                </div>                
+                </div>
             </el-form-item>
             <el-form-item label="">
                 <span :class="'money type'+entity.Ma_Type">
@@ -52,7 +53,8 @@
                 {{entity.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
             </el-form-item>
             <el-form-item label="流水号">
-                {{entity.Ma_Serial}}<el-tag @click="copytext(entity.Ma_Serial,'流水号')" style="cursor: pointer;">复制</el-tag>
+                {{entity.Ma_Serial}}<el-tag @click="copytext(entity.Ma_Serial,'流水号')" style="cursor: pointer;">复制
+                </el-tag>
             </el-form-item>
             <el-form-item label="动作">
                 {{getFrom(entity.Ma_From)}}
@@ -78,11 +80,10 @@
             <el-form-item label="说明">
                 {{entity.Ma_Info}}
             </el-form-item>
-            <el-form-item class="footer">
-
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
         </el-form>
+        <div class="footer">
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 
