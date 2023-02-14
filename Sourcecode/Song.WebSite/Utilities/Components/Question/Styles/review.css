@@ -79,6 +79,7 @@ card[qid] span.tag {
 }
 card[qid] card-title{
 	text-align: left;
+	line-height: 30px;
 }
 card[qid] card-title::before {
 	content: attr(index) ' . ';
@@ -207,8 +208,7 @@ card[qid] .type3>div[selected] i::before {
 
 /*答题与解析等*/
 card[qid] .resultBox {
-	padding: 10px;
-	font-size: 14px;
+	padding: 10px;	
 	line-height: 25px;
 
 }
