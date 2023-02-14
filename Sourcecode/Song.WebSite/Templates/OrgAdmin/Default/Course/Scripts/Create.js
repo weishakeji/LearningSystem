@@ -41,9 +41,10 @@
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.getTreeData();
-                th.teacher = teach.data.result;
                 th.form.orgid = th.organ.Org_ID;
-                th.form.thid = th.teacher.Th_ID;
+                th.teacher = teach.data.result;
+                if (th.teacher)
+                    th.form.thid = th.teacher.Th_ID;
             })).catch(function (err) {
                 //Vue.prototype.$alert(err);
                 console.error(err);
