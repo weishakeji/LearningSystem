@@ -159,6 +159,10 @@ $ready(function () {
                         var result = req.data.result;
                         th.freshcache();
                         th.getShowpic();
+                        th.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -178,7 +182,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
-                            message: '修改状态成功',
+                            message: show ? '修改状态为启用' : '修改状态为禁用',
                             type: 'success'
                         });
                         th.freshcache(item);
