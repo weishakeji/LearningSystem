@@ -3095,6 +3095,7 @@
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Vector-Bold.woff" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Vector-Regular.woff" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Zero.woff" />
+    <Content Include="Utilities\Scripts\hammer.min.js.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
