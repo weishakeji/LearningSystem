@@ -41,12 +41,21 @@ namespace Song.ViewData
             html = html.Replace("\n", "");
             return html.Trim();
         }
+        /// <summary>
+        /// 清理Js脚本
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static string ClearScript(string html)
         {
             if (string.IsNullOrWhiteSpace(html)) return html;
+            RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace;
             //删除脚本
-            html = Regex.Replace(html, @"<script[^>]+?>[\s\S]*?</script>", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"//\(function\(\)[\s\S]+?}\)\(\);", "", RegexOptions.IgnoreCase);
+            html = Regex.Replace(html, @"<script[^>]+?>[\s\S]*?</script>", "", option);
+            html = Regex.Replace(html, @"//\(function\(\)[\s\S]+?}\)\(\);", "", option);
+            //清理掉<!DOCTYPE，主要是为了防止XXE攻击
+            html = Regex.Replace(html, @"<(\s*)!DOCTYPE[^>]*>", "", option);
+            html = Regex.Replace(html, @"<(\s*)!ENTITY[^>]*>", "", option);
             return html;
         }
         /// <summary>
@@ -89,6 +98,19 @@ namespace Song.ViewData
             if (string.IsNullOrWhiteSpace(html)) return html;
             foreach (string tag in tags)
                 html = ClearAttr(html, tag);
+            return html;
+        }
+        /// <summary>
+        /// 清理掉<!DOCTYPE，主要是为了防止XXE攻击
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        public static string ClearDoctype(string html)
+        {
+            if (string.IsNullOrWhiteSpace(html)) return html;
+            RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace;
+            html = Regex.Replace(html, @"<(\s*)!DOCTYPE[^>]*>", "", option);
+            html = Regex.Replace(html, @"<(\s*)!ENTITY[^>]*>", "", option);
             return html;
         }
     }

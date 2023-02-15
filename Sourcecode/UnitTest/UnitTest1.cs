@@ -8,6 +8,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace UnitTest
 {
@@ -93,6 +94,29 @@ namespace UnitTest
 
             char c = 'a';
             string cccc = c.GetType().Name;
+        }
+
+        [TestMethod]
+        public void testXXE()
+        {
+            string s1 = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>< !DOCTYPE ANY [<!ENTITY % name SYSTEM ""http://localhost/tp5/test.xml"">%name;]>";
+            string s2 = @"<?xml version=""1.0""?>
+< !DOCTYPE test[
+ <!ENTITY writer ""Bill Gates"" >
+ < !ENTITY copyright ""Copyright W3School.com.cn"" >
+ ] > ";
+            string r1 = ClearDoctype(s1);
+            string r2 = ClearDoctype(s2);
+
+            Assert.AreEqual(r1, "0456");
+        }
+        public string ClearDoctype(string html)
+        {
+            if (string.IsNullOrWhiteSpace(html)) return html;
+            RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace;
+            html = Regex.Replace(html, @"<(\s*)!DOCTYPE[^>]*>", "", option);
+            html = Regex.Replace(html, @"<(\s*)!ENTITY[^>]*>", "", option);
+            return html;
         }
     }
 }

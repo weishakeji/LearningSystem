@@ -228,6 +228,8 @@ namespace Song.ViewData
                 else
                     _params.Add(key, val);
             }
+            //清理脚本与DTD定义
+            _params = _params.ToDictionary(x => x.Key, x => Html.ClearScript(x.Value));
             //上传来的文件
             HttpContextWrapper _context = new HttpContextWrapper(context);
             this._files = _context.Request.Files;
@@ -329,6 +331,8 @@ namespace Song.ViewData
                 else
                     _params.Add(key, val);
             }
+            //清理脚本与DTD定义
+            _params = _params.ToDictionary(x => x.Key, x => Html.ClearScript(x.Value));
             //上传来的文件
             this._files = context.Request.Files;
             //foreach (string key in context.Request.Files)
@@ -379,7 +383,9 @@ namespace Song.ViewData
                 if (arr[1].StartsWith("'")) arr[1] = arr[1].Substring(1);
                 if (arr[1].EndsWith("'")) arr[1] = arr[1].Length > 1 ? arr[1].Substring(0, arr[1].Length - 1) : "";
                 _params.Add(arr[0].Trim(), arr[1].Trim());
-            }            
+            }
+            //清理脚本与DTD定义
+            _params = _params.ToDictionary(x => x.Key, x => Html.ClearScript(x.Value));
             this.ID = this["id"].Int64 ?? 0;
             //获取cookies       
             System.Web.HttpContext context = System.Web.HttpContext.Current;
