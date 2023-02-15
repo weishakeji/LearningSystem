@@ -78,7 +78,7 @@ Vue.component('course_menus', {
     methods: {
         //按钮事件，首先是状态判断
         btnEvt: function (item, outline) {
-            if (item.disabled) return;
+            if (item != null && item.disabled) return;
             //如果item为空,则来自于章节列表点击
             if (item == null && !this.owned) {
                 return this.gobuy();
