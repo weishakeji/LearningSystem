@@ -84,7 +84,7 @@ Vue.component('course_data', {
                     <icon>&#xe75e</icon> {{shownum(data.question)}}
                 </div>
                 <div :title="'试卷数'+data.testpaper" :class="{'zero':data.testpaper<=0}">
-                    <icon>&#xe731</icon> {{shownum(data.testpaper)}}
+                    <icon>&#xe731</icon> {{shownum(data.testpaper+data.testfinal)}}
                 </div>                   
             </div>
             <div>
