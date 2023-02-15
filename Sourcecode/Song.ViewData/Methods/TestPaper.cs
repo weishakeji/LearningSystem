@@ -645,7 +645,18 @@ namespace Song.ViewData.Methods
             if (sc.Stc_ExamScore != score)
             {
                 sc.Stc_ExamScore = score;
-                Business.Do<ICourse>().StudentScoreSave(sc, -1, -1, score);
+                new Thread(() =>
+                {
+                    try
+                    {
+                        Business.Do<ICourse>().StudentScoreSave(sc, -1, -1, score);
+                    }
+                    catch (Exception ex)
+                    {
+                        WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+                    }
+                }).Start();
+              
                 return true;
             }
             return false;

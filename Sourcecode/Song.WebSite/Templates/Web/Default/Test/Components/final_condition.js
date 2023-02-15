@@ -100,7 +100,7 @@ Vue.component('final_condition', {
                     }
                 }).catch(function (err) {
                     //alert(err);
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
             }
