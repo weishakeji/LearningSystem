@@ -286,8 +286,11 @@ namespace Song.ViewData.Methods
                 JObject ques = new JObject();
                 int type = Convert.ToInt32(node.Attributes["type"].Value);
                 ques.Add("type", type);
-                ques.Add("count", Convert.ToInt32(node.Attributes["count"].Value));
-                ques.Add("number", Convert.ToInt32(node.Attributes["number"].Value)); ;
+                float count = 0, number = 0;
+                float.TryParse(node.Attributes["count"].Value, out count);
+                float.TryParse(node.Attributes["number"].Value, out number);
+                ques.Add("count", count);
+                ques.Add("number", number);
                 JArray qarray = new JArray();
                 for (int n = 0; n < node.ChildNodes.Count; n++)
                 {
