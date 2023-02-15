@@ -42,7 +42,7 @@
             resultTotal: 0
         },
         mounted: function () {
-            var th=this;
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -123,7 +123,7 @@
                     this.paperAnswerXml = this.generateAnswerXml(nv);
                     //console.log(this.paperAnswerXml);
                     //计算成绩
-                    this.calcReslutScore();
+                    //this.calcReslutScore();
                 },
                 deep: true
             },
@@ -135,7 +135,7 @@
                 }
                 //console.log(nv);
             },
-            'swipeIndex':function(nv,ov){
+            'swipeIndex': function (nv, ov) {
                 //console.log(nv);
             }
         },
@@ -192,8 +192,10 @@
                 this.submitState.show = true;
                 this.submitState.loading = true;
                 this.submitState.submited = true;
+
+                this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
-                this.paperAnswer.patter = patter;
+                this.paperAnswer.patter = patter;               
                 var xml = this.generateAnswerXml(this.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
@@ -235,9 +237,11 @@
                 if (!answer.ques) return 0;
                 var total = 0;
                 for (var i = 0; i < answer.ques.length; i++) {
-                    for (let j = 0; j < answer.ques[i].q.length; j++) {
-                        const q = answer.ques[i].q[j];
-                        if (q.sucess) total += q.score;
+                    const ques = answer.ques[i].q;
+                    for (let j = 0; j < ques.length; j++) {
+                        //const q = ques[j];
+                        if (ques[j].sucess)
+                            total += ques[j].score;
                     }
                 }
                 return total;

@@ -322,6 +322,7 @@ $ready(function () {
                 if (this.examstate.issubmit) return;
                 this.submitState.show = true;
                 this.submitState.loading = true;
+                this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
                 this.paperAnswer.patter = 2;
                 var xml = this.generateAnswerXml(this.paperAnswer);

@@ -328,6 +328,7 @@ $ready(function () {
                 if (patter == 2)
                     th.submitState.show = true;
                 th.submitState.loading = true;
+                this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
                 th.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(th.paperAnswer);

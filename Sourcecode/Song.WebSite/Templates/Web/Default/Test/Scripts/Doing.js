@@ -310,9 +310,10 @@
                 this.submitState.show = true;
                 this.submitState.loading = true;
                 this.submitState.submited = true;
+                this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
                 this.paperAnswer.patter = patter;
-                this.paperAnswer.score = this.calcReslutScore();
+                //this.paperAnswer.score = this.calcReslutScore();
                 var xml = this.generateAnswerXml(this.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 var th = this;
