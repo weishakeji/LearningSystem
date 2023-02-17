@@ -136,8 +136,8 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);    
-                    loading.close();               
+                    alert(err);
+                    loading.close();
                     console.error(err);
                 });
             },
@@ -160,7 +160,7 @@ $ready(function () {
                 var th = this;
                 th.handleCurrentChange();
                 th.$nextTick(function () {
-                    th.operateSuccess();                  
+                    th.operateSuccess();
                 });
                 th.$message({
                     type: 'success',
@@ -191,7 +191,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (nv) {
                         this.form.orgid = nv;
-                        this.getpaper();
+                        this.getpaper(1);
                     }
                 }, immediate: true
             }
@@ -203,6 +203,7 @@ $ready(function () {
             //显示面板
             show: function () {
                 this.showpanel = true;
+                this.getpaper(1);
             },
             //加载数据页
             getpaper: function (index) {
@@ -232,10 +233,13 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
+                        item.Sts_ID = th.stsid;
+                        const index = th.accounts.findIndex(x => x.Sts_ID == th.stsid);
+                        th.$set(th.accounts, item, index);
                         th.$emit('addfinish', th.stsid, item.Ac_ID);
                     } else {
                         console.error(req.data.exception);
-                        throw req.config.way + ' ' +req.data.message;
+                        throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     alert(err);
@@ -278,8 +282,8 @@ $ready(function () {
                     <span class="idcard"> 
                         {{item.Ac_IDCardNumber}}   
                     </span>
-                    <span class="btn"> 
-                        <el-link type="primary" @click="add(item)" title="添加到学员组">添加</el-link>
+                    <span class="btn">                       
+                        <el-link type="primary" @click="add(item)" :disabled="stsid==item.Sts_ID" title="添加到学员组">添加</el-link>
                     </span>
                 </dd>
             </dl>
