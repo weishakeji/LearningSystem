@@ -221,50 +221,7 @@ $ready(function () {
                 this.$refs.btngroup.pagebox(url, title, null, 800, '80%');
             }
         }
-    });
-    //分组下的学员数
-    Vue.component('student_count', {
-        props: ["sort"],
-        data: function () {
-            return {
-                count: 0,
-                loading: true
-            }
-        },
-        watch: {
-            'sort': {
-                handler: function (nv, ov) {
-                    this.getcount(nv, nv.Sts_ID);
-                }, immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            getcount: function (item, sortid) {
-                var th = this;
-                th.loading = true;
-                $api.get('Account/SortOfNumber', { 'sortid': sortid }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.count = req.data.result;
-                        item.count = th.count;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            }
-        },
-        template: `<span title="学员数"  :class="{'count':true,'zero':count<=0}"  v-if="count>0">
-                    <span class="el-icon-loading" v-if="loading"></span>
-                    <el-tooltip v-else effect="light" content="当前组的学员数" placement="right">
-                        <span>( {{count}} )</span>
-                    </el-tooltip>      
-                 </span> `
-    });
+    });    
     //分组下的课程数
     Vue.component('course_count', {
         props: ["sort"],

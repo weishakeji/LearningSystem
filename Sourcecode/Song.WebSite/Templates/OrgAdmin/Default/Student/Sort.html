@@ -52,7 +52,7 @@
                 <template slot-scope="scope">
                     <el-link type="primary" @click="setaccount(scope.row)">
                         <icon>&#xe7cd</icon>设置成员
-                        <student_count :sort="scope.row"></student_count>
+                        <span title="学员数" v-if="scope.row.Sts_Count>0">( {{scope.row.Sts_Count}} )</span>                      
                     </el-link>
                 </template>
             </el-table-column>

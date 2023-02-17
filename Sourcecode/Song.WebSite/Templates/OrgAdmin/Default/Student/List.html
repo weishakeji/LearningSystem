@@ -21,7 +21,11 @@
                                 :value="item.Sts_ID">
                                 <div :disabled="!item.Sts_IsUse">
                                     <span style="float: left">{{i+1}}. {{ item.Sts_Name }}</span>
-                                    <student_count :sort="item"> </student_count>
+                                    <span> 
+                                        <el-tooltip effect="light" content="当前组的学员数" placement="right">
+                                            <span>( {{item.Sts_Count}} )</span>
+                                        </el-tooltip>  
+                                    </span>
                                 </div>
                             </el-option>
                         </el-select>

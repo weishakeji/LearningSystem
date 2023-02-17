@@ -30,6 +30,8 @@ namespace Song.Entities {
     		
     		protected Int64 _Sts_ID;
     		
+    		protected Int32 _Sts_Count;
+    		
     		public String Sts_Name {
     			get {
     				return this._Sts_Name;
@@ -140,6 +142,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Sts_Count {
+    			get {
+    				return this._Sts_Count;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_Count, _Sts_Count, value);
+    				this._Sts_Count = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -170,7 +182,8 @@ namespace Song.Entities {
     					_.Dep_CnName,
     					_.Dep_Id,
     					_.Sts_SwitchPlay,
-    					_.Sts_ID};
+    					_.Sts_ID,
+    					_.Sts_Count};
     		}
     		
     		/// <summary>
@@ -188,7 +201,8 @@ namespace Song.Entities {
     					this._Dep_CnName,
     					this._Dep_Id,
     					this._Sts_SwitchPlay,
-    					this._Sts_ID};
+    					this._Sts_ID,
+    					this._Sts_Count};
     		}
     		
     		/// <summary>
@@ -227,6 +241,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Sts_ID))) {
     				this._Sts_ID = reader.GetInt64(_.Sts_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_Count))) {
+    				this._Sts_Count = reader.GetInt32(_.Sts_Count);
     			}
     		}
     		
@@ -308,7 +325,11 @@ namespace Song.Entities {
     			/// 字段名：Sts_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<StudentSort>("Sts_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_Count - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_Count = new WeiSha.Data.Field<StudentSort>("Sts_Count");
     		}
     	}
     }
-    
