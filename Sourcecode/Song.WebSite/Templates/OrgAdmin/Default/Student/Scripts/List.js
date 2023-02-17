@@ -1,18 +1,21 @@
 $ready(function () {
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             form: {
-                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
                 size: 20, index: 1
             },
             organ: {},       //当前机构
-            loading: true,
-            loadingid: 0,        //当前操作中的对象id
+            sorts: [],      //学员组             
+
             accounts: [], //账号列表
             total: 1, //总记录数
             totalpages: 1, //总页数
-            selects: [] //数据表中选中的行
+            selects: [], //数据表中选中的行
+
+            loading: true,
+            loadingid: 0        //当前操作中的对象id
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
@@ -22,11 +25,13 @@ $ready(function () {
             });
         },
         created: function () {
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
-                    window.vue.organ = req.data.result;
-                    vue.form.orgid = vue.organ.Org_ID;
-                    window.vue.handleCurrentChange(1);
+                    th.organ = req.data.result;
+                    th.form.orgid = th.organ.Org_ID;
+                    th.getsorts();
+                    th.handleCurrentChange(1);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -39,22 +44,19 @@ $ready(function () {
         computed: {
         },
         methods: {
-            //删除
-            deleteData: function (datas) {
-                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
+            //获取学员组
+            getsorts: function (orgid) {
+                var th = this;
+                $api.get('Account/SortAll', { 'orgid': orgid, 'use': '' }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        vue.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        window.vue.handleCurrentChange();
+                        th.sorts = req.data.result;
                     } else {
-                        throw req.data.message;
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     alert(err);
+                    console.error(err);
                 });
             },
             //加载数据页
@@ -80,8 +82,27 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
+                });
+            },
+            //删除
+            deleteData: function (datas) {
+                var th = this;
+                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
                 });
             },
             //显示手机号
@@ -95,7 +116,7 @@ $ready(function () {
             },
             //复制到粘贴板
             copytext: function (val, textbox) {
-                this.copy(val, textbox).then(function(th){
+                this.copy(val, textbox).then(function (th) {
                     th.$message({
                         message: '复制 “' + val + '” 到粘贴板',
                         type: 'success'
@@ -109,7 +130,7 @@ $ready(function () {
                 var form = { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass };
                 $api.post('Account/ModifyState', form).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -119,7 +140,7 @@ $ready(function () {
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    alert(err, '错误');
                 });
             },
             //导出
@@ -144,6 +165,5 @@ $ready(function () {
                 this.$refs.btngroup.pagebox(page + '?id=' + account.Ac_ID, title, null, width, height, param);
             }
         }
-    });
-
+    });    
 });

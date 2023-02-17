@@ -28,6 +28,7 @@ $ready(function () {
         computed: {
         },
         created: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
@@ -42,16 +43,16 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                vapp.organ = organ.data.result;
-                vapp.form.orgid = vapp.organ.Org_ID;
+                th.organ = organ.data.result;
+                th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.handleCurrentChange(1);
+                th.config = $api.organ(th.organ).config;
+                th.handleCurrentChange(1);
             })).catch(function (err) {
                 console.error(err);
             });
         },
-        methods: {
+        methods: {            
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;

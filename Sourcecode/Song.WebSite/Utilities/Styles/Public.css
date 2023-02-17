@@ -131,6 +131,8 @@ a {
     border-bottom: 1px solid #DCDFE6;
     height: 31px;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .toolsbar .el-button-group .el-button {
@@ -139,7 +141,9 @@ a {
     height: 32px;
     margin: 1px 0px 0px 0px;
 }
-
+.toolsbar .demo-form-inline{
+    display: flex;
+}
 .btngroup {
     display: table;
     float: left;

@@ -7,5 +7,6 @@
 	background-color: aqua;
 }
 #link_area{
-	flex: 1;
+	
+	width: 100%;
 }

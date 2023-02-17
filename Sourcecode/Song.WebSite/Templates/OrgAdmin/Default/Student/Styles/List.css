@@ -8,6 +8,21 @@
 	height: 70px;
 }
 
+div[disabled] {
+	color: #aaa;
+}
+
+/*学员组的样式*/
+.el-select-dropdown__item>div>span:first-child {
+	float: left;
+}
+
+.el-select-dropdown__item>div>span:last-child {
+	float: right;
+	color: #8492a6;
+	font-size: 13px;
+}
+
 /*学员账号信息*/
 .account {
 	position: relative;
@@ -56,9 +71,11 @@ icon[coupon], icon[point] {
 icon[coupon]:hover, icon[point]:hover {
 	text-decoration: underline;
 }
-icon[copy],icon[copy]::before {
+
+icon[copy], icon[copy]::before {
 	margin-right: 0px;
 }
+
 /*头像组件*/
 
 .ws_avatar {
