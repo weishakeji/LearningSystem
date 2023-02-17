@@ -66,6 +66,10 @@ namespace Song.ServiceImpls
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 if (org != null) entity.Org_ID = org.Org_ID;
             }
+            //更新学员组的数量
+            if (entity.Sts_ID > 0)            
+                Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
+           
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
             {
@@ -152,7 +156,13 @@ namespace Song.ServiceImpls
                     entity.Ac_Age = entity.Ac_Birthday.Year;
             }
             //获取原有数据
-            //Accounts old = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            Accounts old = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            //更新学员组的学员数量
+            if (old.Sts_ID != entity.Sts_ID)
+            {
+                Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
+                Business.Do<IStudent>().SortUpdateNumber(old.Sts_ID);
+            }
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
@@ -346,7 +356,7 @@ namespace Song.ServiceImpls
 
                     tran.Commit();
 
-                   
+                    Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
                 }
                 catch (Exception ex)
                 {

@@ -195,6 +195,17 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
         }
+        /// <summary>
+        /// 更新学员组中的学员数量
+        /// </summary>
+        /// <param name="stsid"></param>
+        /// <returns></returns>
+        public void SortUpdateNumber(long stsid)
+        {
+            int count= Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
+            Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
+                            StudentSort._.Sts_ID == stsid);
+        }
         public bool SortIsExist(StudentSort entity)
         {
             //如果是一个已经存在的对象，则不匹配自己

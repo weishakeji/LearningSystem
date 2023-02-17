@@ -88,6 +88,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int SortOfNumber(long stsid);
         /// <summary>
+        /// 更新学员组中的学员数量
+        /// </summary>
+        /// <param name="stsid"></param>
+        /// <returns></returns>
+        void SortUpdateNumber(long stsid);
+        /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
         /// <param name="entity">实体</param>

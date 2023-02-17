@@ -889,7 +889,7 @@ namespace Song.ViewData.Methods
             }
         }
         /// <summary>
-        /// 某个学员组下的学员
+        /// 移除某个学员组下的学员
         /// </summary>
         /// <param name="stsid">学员组id</param>
         /// <param name="id">账户id，可以是多个，用逗号分隔</param>
@@ -918,10 +918,11 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
+            Business.Do<IStudent>().SortUpdateNumber(stsid);
             return i;
         }
         /// <summary>
-        /// 某个学员组下的学员
+        /// 新增某个学员组下的学员
         /// </summary>
         /// <param name="stsid">学员组id</param>
         /// <param name="id">账户id，可以是多个，用逗号分隔</param>
@@ -952,6 +953,7 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
+            Business.Do<IStudent>().SortUpdateNumber(stsid);
             return i;
         }
         #endregion
