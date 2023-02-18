@@ -2,3 +2,14 @@
 .el-card{
     margin: 20px;
 }
+.el-card__body{
+    position: relative;
+    padding: 20px 20px 40px 20px;
+}
+.footer{
+    position: absolute;
+    padding-right: 28px;
+}
+.footer button{
+    padding: 8px 12px;
+}

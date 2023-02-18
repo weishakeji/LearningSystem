@@ -11,10 +11,7 @@
     <div id="app" v-cloak>
         <el-card shadow="hover">
             <div slot="header" class="clearfix">
-                <span icon="&#xa038">平台名称</span>
-                <el-button type="primary"  size="medium" native-type="submit" style="float: right; padding: 5px 10px"
-                    v-loading="loading" @click="btnEnter('platinfo')">保存设置</el-button>
-
+                <span icon="&#xa038">平台信息</span>              
             </div>
             <el-form ref="platinfo" :model="platinfo" :rules="rules" @submit.native.prevent label-width="80px">
                 <el-form-item label="平台名称" prop="title">
@@ -28,14 +25,15 @@
                         :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
                 </el-form-item>
             </el-form>
+            <div class="footer">
+                <el-button type="primary"  size="medium" define="enter" native-type="submit"
+                v-loading="loading" @click="btnEnter('platinfo')">保存设置</el-button>
+            </div>
         </el-card>
 
         <el-card shadow="hover">
             <div slot="header" class="clearfix">
-                <span icon="&#xa038">多机构平台设置</span>
-                <el-button type="primary"  size="medium" native-type="submit" style="float: right; padding: 5px 10px"
-                    v-loading="loading" @click="btnMultiOrgan">保存设置</el-button>
-
+                <span icon="&#xa038">多机构平台设置</span>              
             </div>
             <el-form ref="platinfo" :model="platinfo" :rules="rules" @submit.native.prevent label-width="80px">
                 <template>
@@ -53,6 +51,10 @@
                 </template>
                 <el-alert title=" （注意：此处勿轻易切换，会导致用户登录与注销的异常情况，用户需清空浏览器缓存）" type="warning"></el-alert>
             </el-form>
+            <div class="footer">
+                <el-button type="primary"  size="medium" define="enter" native-type="submit" 
+                v-loading="loading" @click="btnMultiOrgan">保存设置</el-button>
+            </div>
         </el-card>
     </div>
 
