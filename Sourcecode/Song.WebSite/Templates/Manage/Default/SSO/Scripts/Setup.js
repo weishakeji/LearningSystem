@@ -2,52 +2,45 @@ $ready(function () {
 
     window.vapp = new Vue({
         el: '#vapp',
-        data: {
-            account: {},     //当前登录账号
-            platinfo: {},
-            organ: {},
-            config: {},      //当前机构配置项        
-            datas: {},
-            loading_init: true
+        data: {              
+            datas: [],
+            selects: [],  //数据表中选中的行
+            loading: false
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+           
         },
         created: function () {
 
         },
         computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+           
         },
         watch: {
         },
         methods: {
+             //删除
+             deleteData: function (datas) {
+                var th = this;
+                th.loadingdel = true;
+                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
+                    th.loadingdel = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loadingdel = false;
+                    th.$alert(err);
+                });
+            },
         }
     });
 

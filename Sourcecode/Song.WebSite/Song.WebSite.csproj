@@ -428,6 +428,9 @@
     <Content Include="Templates\Manage\Default\Ques\ItemRepeat.html" />
     <Content Include="Templates\Manage\Default\Ques\Scripts\ItemRepeat.js" />
     <Content Include="Templates\Manage\Default\Ques\Styles\ItemRepeat.css" />
+    <Content Include="Templates\Manage\Default\SSO\Modify.html" />
+    <Content Include="Templates\Manage\Default\SSO\Scripts\Modify.js" />
+    <Content Include="Templates\Manage\Default\SSO\Styles\Modify.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
