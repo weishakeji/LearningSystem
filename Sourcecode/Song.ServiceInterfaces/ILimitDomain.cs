@@ -48,8 +48,9 @@ namespace Song.ServiceInterfaces
         /// 当前域名是否存在
         /// </summary>
         /// <param name="domain"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        bool DomainIsExist(string domain);
+        bool DomainIsExist(string domain,int id);
         /// <summary>
         /// 分页获取
         /// </summary>

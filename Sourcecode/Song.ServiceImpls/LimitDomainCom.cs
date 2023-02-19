@@ -77,11 +77,13 @@ namespace Song.ServiceImpls
         /// 当前域名是否存在
         /// </summary>
         /// <param name="domain"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public bool DomainIsExist(string domain)
+        public bool DomainIsExist(string domain, int id)
         {
-            //如果是一个已经存在的对象，则不匹配自己
-            int count = Gateway.Default.Count<LimitDomain>(LimitDomain._.LD_Name == domain);
+            WhereClip wc = new WhereClip();
+            if (id > 0) wc.And(LimitDomain._.LD_ID == id);
+            int count = Gateway.Default.Count<LimitDomain>(wc && LimitDomain._.LD_Name == domain);
             return count > 0;
         }
         /// <summary>

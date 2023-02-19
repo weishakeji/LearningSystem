@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>保留域名-修改信息</title>   
+    <title>保留域名-修改信息</title>
 </head>
 
 <body>
@@ -17,17 +17,17 @@
                 <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="entity.LD_Intro"></el-input>
             </el-form-item>
             <el-form-item label="状态">
-                <el-switch v-model="entity.LD_IsUse" :active-text="entity.LD_IsUse ? '启用' : '禁用'"
-                    inactive-text="">
+                <el-switch v-model="entity.LD_IsUse" :active-text="entity.LD_IsUse ? '启用' : '禁用'" inactive-text="">
                 </el-switch>
             </el-form-item>
-         
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
+
         </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity')">保存
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

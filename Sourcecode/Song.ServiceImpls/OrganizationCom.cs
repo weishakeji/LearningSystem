@@ -286,6 +286,10 @@ namespace Song.ServiceImpls
                   .ToFirst<Organization>();
             return mm != null;
         }
+        /// <summary>
+        /// 删除机构，按id
+        /// </summary>
+        /// <param name="identify"></param>
         public void OrganDelete(int identify)
         {
             Organization org = this.OrganSingle(identify);

@@ -99,7 +99,7 @@ namespace Song.ViewData.Methods
         /// <returns>允许使用该域，即在限制域名中不存在，返回true,</returns>
         public bool DomainAllow(string name)
         {
-            return !Business.Do<ILimitDomain>().DomainIsExist(name);
+            return !Business.Do<ILimitDomain>().DomainIsExist(name, -1);
         }
         /// <summary>
         /// 分页获取机构信息

@@ -16,6 +16,16 @@ namespace Song.ViewData.Methods
     public class Domain : ViewMethod, IViewAPI
     {
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool Exist(string name,int id)
+        {
+            return Business.Do<ILimitDomain>().DomainIsExist(name, id);
+        }
+        /// <summary>
         /// 添加二级域名的保留项
         /// </summary>
         /// <param name="entity">业务实体</param>
