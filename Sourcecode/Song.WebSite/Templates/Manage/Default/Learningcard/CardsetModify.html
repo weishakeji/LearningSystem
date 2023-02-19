@@ -136,8 +136,8 @@
 
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                确认修改</el-button>
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                确认</el-button>
             <el-button type='close'>取消</el-button>
         </div>
         <el-dialog :visible.sync="studyspan_visible" class="studyspan">

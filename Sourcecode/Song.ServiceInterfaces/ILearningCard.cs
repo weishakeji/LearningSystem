@@ -34,6 +34,13 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">实体的主键</param>
         void SetDelete(int identify);
         /// <summary>
+        /// 判断学习卡名称是否重复
+        /// </summary>
+        /// <param name="name">学习卡名称</param>
+        /// <param name="id">学习卡id</param>
+        /// <returns></returns>
+        bool SetIsExist(string name, int id);
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>

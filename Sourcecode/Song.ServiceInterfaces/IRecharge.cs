@@ -38,6 +38,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         RechargeSet RechargeSetSingle(int identify);
         /// <summary>
+        /// 判断学习卡名称是否重复
+        /// </summary>
+        /// <param name="name">学习卡名称</param>
+        /// <param name="id">学习卡id</param>
+        /// <returns></returns>
+        bool RechargeSetIsExist(string name, int id);
+        /// <summary>
         /// 获取所有设置项
         /// </summary>
         /// <param name="orgid">所在机构id</param>

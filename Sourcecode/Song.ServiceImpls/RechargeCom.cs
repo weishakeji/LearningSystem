@@ -130,6 +130,20 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<RechargeSet>().Where(RechargeSet._.Rs_ID == identify).ToFirst<RechargeSet>();
         }
         /// <summary>
+        /// 判断学习卡名称是否重复
+        /// </summary>
+        /// <param name="name">学习卡名称</param>
+        /// <param name="id">学习卡id</param>
+        /// <returns></returns>
+        public bool RechargeSetIsExist(string name, int id)
+        {
+            WhereClip wc = new WhereClip();
+            //如果是一个已经存在的对象，则不匹配自己
+            if (id > 0) wc.And(RechargeSet._.Rs_ID != id);
+            int count = Gateway.Default.Count<RechargeSet>(wc && RechargeSet._.Rs_Theme == name);
+            return count > 0;
+        }
+        /// <summary>
         /// 获取所有设置项
         /// </summary>
         /// <param name="orgid">所在机构id</param>

@@ -257,6 +257,20 @@ namespace Song.ServiceImpls
             SetDelete(set);
         }
         /// <summary>
+        /// 判断学习卡名称是否重复
+        /// </summary>
+        /// <param name="name">学习卡名称</param>
+        /// <param name="id">学习卡id</param>
+        /// <returns></returns>
+        public bool SetIsExist(string name, int id)
+        {
+            WhereClip wc = new WhereClip();
+            //如果是一个已经存在的对象，则不匹配自己
+            if (id > 0) wc.And(LearningCardSet._.Lcs_ID != id);          
+            int count = Gateway.Default.Count<LearningCardSet>(wc && LearningCardSet._.Lcs_Theme == name);
+            return count > 0;
+        }
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>

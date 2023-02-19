@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>修改充值卡设置项</title>   
+    <title>修改充值卡设置项</title>
 </head>
 
 
@@ -50,9 +50,8 @@
             </el-row>
             <el-row>
                 <el-form-item label="说明" prop="Rs_Intro">
-      
-                    <el-input type="textarea" :rows="4" placeholder="请输入内容"
-                        v-model="entity.Rs_Intro"></el-input>
+
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Rs_Intro"></el-input>
                 </el-form-item>
             </el-row>
 
@@ -89,12 +88,13 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                    确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
         </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity')">
+                确认</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

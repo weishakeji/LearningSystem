@@ -38,6 +38,16 @@ namespace Song.ViewData.Methods
             return Business.Do<IRecharge>().RechargeSetSingle(id);
         }
         /// <summary>
+        /// 判断学习卡名称是否重复
+        /// </summary>
+        /// <param name="name">学习卡名称</param>
+        /// <param name="id">学习卡id</param>
+        /// <returns></returns>
+        public bool SetExist(string name, int id)
+        {
+            return Business.Do<IRecharge>().RechargeSetIsExist(name, id);
+        }
+        /// <summary>
         /// 修改学习卡设置
         /// </summary>
         /// <param name="entity"></param>

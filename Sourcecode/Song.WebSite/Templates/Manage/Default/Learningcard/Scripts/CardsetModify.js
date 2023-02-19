@@ -50,7 +50,15 @@ $ready(function () {
                 studyspan_visible: false,        // 学习卡时长变更的提示面板
                 rules: {
                     Lcs_Theme: [
-                        { required: true, message: '不得为空', trigger: ["blur", "change"] }
+                        { required: true, message: '不得为空', trigger: ["blur", "change"] },
+                        { min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur' },
+                        {
+                            validator: async function (rule, value, callback) {
+                                await vapp.isExist(value).then(res => {
+                                    if (res) callback(new Error('已经存在!'));
+                                });
+                            }, trigger: 'blur'
+                        }
                     ],
                     Lcs_Price: [
                         { required: true, message: '不得为空', trigger: ["blur", "change"] },
@@ -171,6 +179,22 @@ $ready(function () {
 
         },
         methods: {
+             //判断是否已经存在
+             isExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Learningcard/SetExist', { 'name': val, 'id': th.id}).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
