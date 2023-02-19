@@ -600,6 +600,38 @@ namespace Song.ServiceImpls
             return true;
         }
         /// <summary>
+        /// 当前对象名称是否重名
+        /// </summary>
+        /// <param name="name">机构等级的名称</param>
+        /// <param name="id">机构等级的id</param>   
+        /// <returns></returns>
+        public bool LevelNameExist(string name, int id)
+        {
+            WhereClip wc = new WhereClip();         
+            if (id > 0) wc.And(OrganLevel._.Olv_ID != id);
+            //如果是一个已经存在的对象，则不匹配自己
+            OrganLevel mm = Gateway.Default.From<OrganLevel>()
+                   .Where(wc && OrganLevel._.Olv_Name == name)
+                   .ToFirst<OrganLevel>();
+            return mm != null;
+        }
+        /// <summary>
+        /// 机构等级的tag标识是否重名
+        /// </summary>
+        /// <param name="tag">机构等级的tag标识</param>
+        /// <param name="id">机构等级的id</param>   
+        /// <returns></returns>
+        public bool LevelTagExist(string tag, int id)
+        {
+            WhereClip wc = new WhereClip();
+            if (id > 0) wc.And(OrganLevel._.Olv_ID != id);
+            //如果是一个已经存在的对象，则不匹配自己
+            OrganLevel mm = Gateway.Default.From<OrganLevel>()
+                   .Where(wc && OrganLevel._.Olv_Tag == tag)
+                   .ToFirst<OrganLevel>();
+            return mm != null;
+        }
+        /// <summary>
         /// 更改机构等级的排序
         /// </summary>
         /// <param name="items"></param>

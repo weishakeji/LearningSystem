@@ -20,7 +20,6 @@ $ready(function () {
                     validator: async function (rule, value, callback) {
                         await vapp.isExist(value).then(res => {
                             if (res) callback(new Error('当前名称已经存在!'));
-
                         });
                     }, trigger: 'blur'
                 }]
@@ -113,7 +112,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
+                            th.loading = false;
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

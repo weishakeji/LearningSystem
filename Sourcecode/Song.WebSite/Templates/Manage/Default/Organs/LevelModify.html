@@ -1,23 +1,18 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource>
-    <title>机构等级修改</title>
+<head resource>  
     <include file="../inc/meta.inc" />
-    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+    <title>机构等级修改</title> 
 </head>
 
-
 <body>
-    <div id="app" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-            <el-form-item>
-
-            </el-form-item>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity_form" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item label="名称" prop="Olv_Name">
                 <el-input v-model="entity.Olv_Name"></el-input>
             </el-form-item>
-            <el-form-item label="标识">
+            <el-form-item label="标识" prop="Olv_Tag">
                 <el-input v-model="entity.Olv_Tag" style="width:200px" clearable></el-input>
             </el-form-item>
             <el-form-item label="等级" prop="Olv_Level">
@@ -33,24 +28,22 @@
                 </template>
             </el-form-item>
             <el-row>
-                <el-form-item label="说明" prop="MM_Intro">
+                <el-form-item label="说明" prop="Olv_Intro">
                     <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Olv_Intro"></el-input>
                 </el-form-item>
             </el-row>
-            <el-form-item label="状态" prop="Acc_QQ">
+            <el-form-item label="状态" prop="Olv_IsUse">
                 <el-switch v-model="entity.Olv_IsUse" :active-text="entity.Olv_IsUse ? '启用' : '禁用'">
                 </el-switch>
             </el-form-item>
-
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+            <el-button type="primary" define="enter" :loading="loading" plain
+                @click="btnEnter('entity_form')">
                 确认修改</el-button>
             <el-button type='close'>取消</el-button>
         </div>
     </div>
-
-
 </body>
 
 </html>

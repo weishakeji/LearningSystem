@@ -412,6 +412,28 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
+        /// 机构等级名称是否存在
+        /// </summary>
+        /// <param name="name">机构等级名称</param>
+        /// <param name="id">机构等级id，如果对象已经存在，则不断判断自身</param>
+        /// <returns></returns>
+        [HttpGet]
+        public bool LevelNameExist(string name, int id)
+        {
+            return Business.Do<IOrganization>().LevelNameExist(name, id);
+        }
+        /// <summary>
+        /// 机构等级的tag标识是否重名
+        /// </summary>
+        /// <param name="tag">机构等级的tag标识</param>
+        /// <param name="id">机构等级的id</param>   
+        /// <returns></returns>
+        [HttpGet]
+        public bool LevelTagExist(string tag, int id)
+        {
+            return Business.Do<IOrganization>().LevelTagExist(tag, id);
+        }
+        /// <summary>
         /// 设置默认等级
         /// </summary>
         /// <param name="id">机构等级的id</param>

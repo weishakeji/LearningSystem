@@ -1,28 +1,24 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource>
-    <meta charset="utf-8">
+<head resource> 
     <include file="../inc/meta.inc" />
-    <title>修改学员组信息</title> 
+    <title>修改学员组信息</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-
             <el-form-item label="名称" prop="Sts_Name">
                 <el-input v-model="entity.Sts_Name" maxlength="140"></el-input>
-
             </el-form-item>
-
-            <el-form-item label="状态">
+            <el-form-item label="状态" prop="Sts_IsUse">
                 <el-switch v-model="entity.Sts_IsUse" active-color="#13ce66" inactive-color="#ff4949"
                     :active-text="entity.Sts_IsUse ? '启用' : '禁用'">
-                </el-switch>               
+                </el-switch>
             </el-form-item>
             <el-form-item label="备注" prop="Sts_Intro">
-                <el-input type="textarea" :rows="3" placeholder="请输入内容"  maxlength="250" v-model="entity.Sts_Intro">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Sts_Intro">
                 </el-input>
             </el-form-item>
             <el-form-item label="视频播放">
@@ -37,11 +33,10 @@
                     </el-tag>
                 </div>
             </el-form-item>
-
-
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter"  :loading="loading" plain @click="btnEnter('entity')">
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity')">
                 保存
             </el-button>
             <el-button type='close'>
@@ -49,8 +44,6 @@
             </el-button>
         </div>
     </div>
-
-
 </body>
 
 </html>

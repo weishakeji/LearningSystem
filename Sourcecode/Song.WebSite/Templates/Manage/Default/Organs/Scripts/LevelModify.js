@@ -2,7 +2,7 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             entity: {}, //当前对象    
@@ -10,11 +10,33 @@ $ready(function () {
             profit_id: '',   //当前分润方案
             rules: {
                 Olv_Name: [
-                    { required: true, message: '名称不得为空', trigger: 'blur' }
+                    { required: true, message: '名称不得为空', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isNameExist(value).then(res => {
+                                if (res) callback(new Error('当前名称已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ],
                 Olv_Tag: [
                     { required: true, message: '标识不得为空', trigger: 'blur' },
-                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            var pat = /^[a-zA-Z0-9_-]{4,20}$/;
+                            if (!pat.test(value))
+                                callback(new Error('标识仅限字符与数字!'));
+                            else callback();
+                        }, trigger: 'blur'
+                    },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isTagExist(value).then(res => {
+                                if (res) callback(new Error('当前标识已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             loading: false
@@ -56,31 +78,65 @@ $ready(function () {
             });
         },
         methods: {
+            //判断名称是否存在
+            isNameExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/LevelNameExist', { 'name': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
+             //判断tag标识是否存在
+             isTagExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/LevelTagExist', { 'tag': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
             btnEnter: function (formName) {
-                this.$refs[formName].validate((valid) => {
+                var th = this;
+                th.$refs[formName].validate((valid) => {                   
                     if (valid) {
-                        var apipath = 'Organization/Level' + (this.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
+                        th.loading = true;
+                        var apipath = 'Organization/Level' + (th.id == '' ? api = 'add' : 'Modify');
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {                           
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                vapp.operateSuccess();
+                                th.operateSuccess();
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            vapp.$alert(err, '错误');
+                            th.loading = false;
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
-                });
+                });               
             },
             //操作成功
             operateSuccess: function () {

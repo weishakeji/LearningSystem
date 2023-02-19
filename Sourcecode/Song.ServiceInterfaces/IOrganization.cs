@@ -145,6 +145,20 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">主键id</param>
         bool LevelDelete(int identify);
         /// <summary>
+        /// 当前对象名称是否重名
+        /// </summary>
+        /// <param name="name">机构等级的名称</param>
+        /// <param name="id">机构等级的id</param>   
+        /// <returns></returns>
+        bool LevelNameExist(string name, int id);
+        /// <summary>
+        /// 机构等级的tag标识是否重名
+        /// </summary>
+        /// <param name="tag">机构等级的tag标识</param>
+        /// <param name="id">机构等级的id</param>   
+        /// <returns></returns>
+        bool LevelTagExist(string tag, int id);
+        /// <summary>
         /// 更改机构等级的排序
         /// </summary>
         /// <param name="items"></param>
