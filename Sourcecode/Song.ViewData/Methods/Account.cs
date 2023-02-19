@@ -766,6 +766,18 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
+        /// 学员组是否存在
+        /// </summary>
+        /// <param name="name">账号名称</param>
+        /// <param name="id">账号id，如果名称已经存在，则不断判断自身</param>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        [HttpGet]
+        public bool SortIsExist(string name, int id,int orgid)
+        {
+            return Business.Do<IStudent>().SortIsExist(name, id, orgid);
+        }
+        /// <summary>
         /// 修改学员组的使用状态
         /// </summary>
         /// <param name="stsid">学员组id</param>

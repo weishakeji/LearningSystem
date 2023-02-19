@@ -178,6 +178,7 @@
     <Compile Include="Methods\Exam.cs" />
     <Compile Include="Methods\Knowledge.cs" />
     <Compile Include="Methods\Guide.cs" />
+    <Compile Include="Methods\Sso.cs" />
     <Compile Include="Methods\Sms.cs" />
     <Compile Include="Methods\OtherLogin.cs" />
     <Compile Include="Methods\Link.cs" />

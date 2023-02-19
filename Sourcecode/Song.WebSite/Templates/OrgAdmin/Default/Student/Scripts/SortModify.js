@@ -15,7 +15,15 @@ $ready(function () {
                 Org_ID: 0
             },
             rules: {
-                Sts_Name: [{ required: true, message: '名称不得为空', trigger: 'blur' }]
+                Sts_Name: [{ required: true, message: '名称不得为空', trigger: 'blur' },
+                {
+                    validator: async function (rule, value, callback) {
+                        await vapp.isExist(value).then(res => {
+                            if (res) callback(new Error('当前名称已经存在!'));
+
+                        });
+                    }, trigger: 'blur'
+                }]
             },
 
             loading_init: false,
@@ -45,7 +53,7 @@ $ready(function () {
                 th.getEntity();
             })).catch(function (err) {
                 console.error(err);
-            });            
+            });
 
         },
         methods: {
@@ -64,6 +72,22 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
+                });
+            },
+            //判断名称是否存在
+            isExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Account/SortIsExist', { 'name': val, 'id': th.id, 'orgid': th.organ.Org_ID }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
                 });
             },
             //保存信息

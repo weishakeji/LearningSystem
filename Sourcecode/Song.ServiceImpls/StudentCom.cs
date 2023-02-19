@@ -215,6 +215,24 @@ namespace Song.ServiceImpls
             return mm != null;
         }
         /// <summary>
+        /// 当前对象名称是否重名
+        /// </summary>
+        /// <param name="name">学员组名称</param>
+        /// <param name="id">学员组id</param>
+        /// <param name="orgid">所在机构id</param>
+        /// <returns></returns>
+        public bool SortIsExist(string name, int id, int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(StudentSort._.Org_ID == orgid);
+            if (id > 0) wc.And(StudentSort._.Sts_ID != id);
+            //如果是一个已经存在的对象，则不匹配自己
+            StudentSort mm = Gateway.Default.From<StudentSort>()
+                   .Where(wc && StudentSort._.Sts_Name == name)
+                   .ToFirst<StudentSort>();
+            return mm != null;
+        }
+        /// <summary>
         /// 分页获取学员组
         /// </summary>
         /// <param name="orgid">机构id</param>

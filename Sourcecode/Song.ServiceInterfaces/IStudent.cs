@@ -100,6 +100,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool SortIsExist(StudentSort entity);
         /// <summary>
+        /// 当前对象名称是否重名
+        /// </summary>
+        /// <param name="name">学员组名称</param>
+        /// <param name="id">学员组id</param>
+        /// <param name="orgid">所在机构id</param>
+        /// <returns></returns>
+        bool SortIsExist(string name, int id, int orgid);
+        /// <summary>
         /// 更改学员组的排序
         /// </summary>
         /// <param name="items">学员组的实体数组</param>
