@@ -64,7 +64,7 @@ $ready(function () {
                 $api.get('Account/SortForID', { 'id': th.id }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        var result = req.data.result;
+                        var result = req.data.result;                  
                         th.entity = result;
                     } else {
                         throw '未查底到数据';

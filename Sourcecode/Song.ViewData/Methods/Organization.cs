@@ -63,6 +63,45 @@ namespace Song.ViewData.Methods
             return orgs;
         }
         /// <summary>
+        /// 当前机构是否重名
+        /// </summary>
+        /// <param name="name">机构的名称</param>
+        /// <param name="id">机构的id</param>   
+        /// <returns></returns>
+        public bool ExistName(string name, int id)
+        {
+            return Business.Do<IOrganization>().ExistName(name, id);
+        }
+        /// <summary>
+        /// 机构平台名称是否重复
+        /// </summary>
+        /// <param name="name">机构的平台名称</param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        public bool ExistPlatform(string name, int id)
+        {
+            return Business.Do<IOrganization>().ExistPlatform(name, id);
+        }
+        /// <summary>
+        /// 机构的二级域否重复
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        public bool ExistDomain(string name, int id)
+        {
+            return Business.Do<IOrganization>().ExistDomain(name, id);
+        }
+        /// <summary>
+        /// 二级域名是否允许使用，判断是否存在于保留域名中
+        /// </summary>
+        /// <param name="name">二级域名</param>
+        /// <returns>允许使用该域，即在限制域名中不存在，返回true,</returns>
+        public bool DomainAllow(string name)
+        {
+            return !Business.Do<ILimitDomain>().DomainIsExist(name);
+        }
+        /// <summary>
         /// 分页获取机构信息
         /// </summary>
         /// <param name="lvid"></param>
@@ -254,6 +293,8 @@ namespace Song.ViewData.Methods
             }
         }
         #endregion
+
+        #region 配置管理
         /// <summary>
         /// 当前机构的配置项
         /// </summary>
@@ -306,6 +347,8 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+        #endregion
+
         #region 私有方法
         /// <summary>
         /// 处理机构对外展示的信息

@@ -47,6 +47,27 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Organization OrganSingle(int identify);
         /// <summary>
+        /// 当前机构是否重名
+        /// </summary>
+        /// <param name="name">机构的名称</param>
+        /// <param name="id">机构的id</param>   
+        /// <returns></returns>
+        bool ExistName(string name, int id);
+        /// <summary>
+        /// 机构平台名称是否重复
+        /// </summary>
+        /// <param name="name">机构的平台名称</param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        bool ExistPlatform(string name, int id);
+        /// <summary>
+        /// 机构的二级域否重复
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        bool ExistDomain(string name, int id);
+        /// <summary>
         /// 根据主键删除公司。
         /// </summary>
         /// <param name="identify">主键id</param>

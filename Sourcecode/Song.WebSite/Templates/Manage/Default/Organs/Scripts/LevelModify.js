@@ -52,7 +52,7 @@ $ready(function () {
                 $api.get('Organization/LevelForID', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         th.entity = req.data.result;
-                        vapp.profit_id = th.entity.Ps_ID;
+                        th.profit_id = th.entity.Ps_ID==0 ? '' : th.entity.Ps_ID;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

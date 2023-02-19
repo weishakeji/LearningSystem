@@ -11,16 +11,52 @@ $ready(function () {
             lv_id: '',   //当前机构等级
             rules: {
                 Org_PlatformName: [
-                    { required: true, message: '平台名称不得为空', trigger: 'blur' }
+                    { required: true, message: '平台名称不得为空', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isPlatefromExist(value).then(res => {
+                                if (res) callback(new Error('平台名称已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ],
                 Org_Name: [
-                    { required: true, message: '机构名称不得为空', trigger: 'blur' }
+                    { required: true, message: '机构名称不得为空', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isNameExist(value).then(res => {
+                                if (res) callback(new Error('机构名称已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ],
                 Org_AbbrName: [
                     { required: true, message: '机构简称不得为空', trigger: 'blur' }
                 ],
                 Org_TwoDomain: [
-                    { required: true, message: '平台域名不得为空', trigger: 'blur' }
+                    { required: true, message: '平台域名不得为空', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            var pat = /^[a-zA-Z0-9_-]{4,20}$/;
+                            if (!pat.test(value))
+                                callback(new Error('域名仅限字符与数字!'));
+                            else callback();
+                        }, trigger: 'blur'
+                    },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isDomainExist(value).then(res => {
+                                if (res) callback(new Error('域名已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isDomainAllow(value).then(res => {
+                                if (!res) callback(new Error('该域名被保留使用'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             mapshow: false,      //是否显示地图信息
@@ -57,16 +93,16 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.levels = level.data.result;
-                vapp.domain = domain.data.result;
+                th.levels = level.data.result;
+                th.domain = domain.data.result;
                 //默认机构
-                var deflevel = vapp.levels.filter(item => item.Olv_IsDefault);
-                if (deflevel.length > 0) vapp.lv_id = deflevel[0].Olv_ID;
+                var deflevel = th.levels.filter(item => item.Olv_IsDefault);
+                if (deflevel.length > 0) th.lv_id = deflevel[0].Olv_ID;
                 if (th.id != '') {
                     $api.get('Organization/ForID', { 'id': th.id }).then(function (req) {
                         if (req.data.success) {
                             th.entity = req.data.result;
-                            vapp.lv_id = th.entity.Olv_ID;
+                            th.lv_id = th.entity.Olv_ID;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -126,8 +162,8 @@ $ready(function () {
                         var point = new BMap.Point(lng, lat);
                         var marker = new BMap.Marker(point);  // 创建标注
                         window.map.addOverlay(marker);
-                        window.vapp.entity.Org_Longitude = lng;
-                        window.vapp.entity.Org_Latitude = lat;
+                        th.entity.Org_Longitude = lng;
+                        th.entity.Org_Latitude = lat;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -138,26 +174,92 @@ $ready(function () {
                 });
                 console.log(val);
             },
+            //判断平台名称是否存在
+            isPlatefromExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/ExistPlatform', { 'name': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
+            //判断机构名称是否存在
+            isNameExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/ExistName', { 'name': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
+            //判断域名是否已经存在
+            isDomainExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/ExistDomain', { 'name': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
+            //判断域名是否允许，如果属于限定的域名，则不允许使用
+            isDomainAllow: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Organization/DomainAllow', { 'name': val }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
             //保存信息
             btnEnter: function (formName) {
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        th.loading = true;
                         var apipath = 'Organization/' + (this.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                vapp.operateSuccess();
+                                th.operateSuccess();
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            vapp.$alert(err, '错误');
+                            th.loading = false;
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

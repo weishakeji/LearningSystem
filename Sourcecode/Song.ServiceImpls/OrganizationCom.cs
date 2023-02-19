@@ -247,7 +247,45 @@ namespace Song.ServiceImpls
             if (curr == null) curr = Gateway.Default.From<Organization>().Where(Organization._.Org_ID == identify).ToFirst<Organization>();
             return curr;
         }
-
+        /// <summary>
+        /// 当前机构是否重名
+        /// </summary>
+        /// <param name="name">机构的名称</param>
+        /// <param name="id">机构的id</param>   
+        /// <returns></returns>
+        public bool ExistName(string name, int id)
+        {
+            Organization mm = Gateway.Default.From<Organization>()
+                  .Where(Organization._.Org_ID != id && Organization._.Org_Name == name)
+                  .ToFirst<Organization>();
+            return mm != null;
+        }
+        /// <summary>
+        /// 机构平台名称是否重复
+        /// </summary>
+        /// <param name="name">机构的平台名称</param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        public bool ExistPlatform(string name, int id)
+        {
+            Organization mm = Gateway.Default.From<Organization>()
+                  .Where(Organization._.Org_ID != id && Organization._.Org_PlatformName == name)
+                  .ToFirst<Organization>();
+            return mm != null;
+        }
+        /// <summary>
+        /// 机构的二级域否重复
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id">机构的id</param>
+        /// <returns></returns>
+        public bool ExistDomain(string name, int id)
+        {
+            Organization mm = Gateway.Default.From<Organization>()
+                  .Where(Organization._.Org_ID != id && Organization._.Org_TwoDomain == name)
+                  .ToFirst<Organization>();
+            return mm != null;
+        }
         public void OrganDelete(int identify)
         {
             Organization org = this.OrganSingle(identify);
