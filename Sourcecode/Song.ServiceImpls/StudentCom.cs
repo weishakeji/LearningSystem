@@ -37,6 +37,10 @@ namespace Song.ServiceImpls
 
         public void SortSave(StudentSort entity)
         {
+            bool nameexist = this.SortIsExist(entity.Sts_Name, entity.Sts_ID, entity.Org_ID);
+            if (nameexist) throw new Exception("名称已经存在");
+         
+
             StudentSort original=Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == entity.Sts_ID).ToFirst<StudentSort>();
             if (original == null) return;
             //如果修改了使用状态
@@ -221,7 +225,7 @@ namespace Song.ServiceImpls
         /// <param name="id">学员组id</param>
         /// <param name="orgid">所在机构id</param>
         /// <returns></returns>
-        public bool SortIsExist(string name, int id, int orgid)
+        public bool SortIsExist(string name, long id, int orgid)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(StudentSort._.Org_ID == orgid);

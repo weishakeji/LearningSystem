@@ -480,6 +480,11 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void LevelAdd(OrganLevel entity)
         {
+            bool nameexist = this.LevelNameExist(entity.Olv_Name, entity.Olv_ID);
+            if (nameexist) throw new Exception("名称已经存在");
+            bool tageexist = this.LevelTagExist(entity.Olv_Name, entity.Olv_ID);
+            if (tageexist) throw new Exception("标识已经存在");
+
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_Tax, OrganLevel._.Olv_Tax > -1);
             int tax = obj is int ? (int)obj : 0;
@@ -496,6 +501,11 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void LevelSave(OrganLevel entity)
         {
+            bool nameexist = this.LevelNameExist(entity.Olv_Name, entity.Olv_ID);
+            if (nameexist) throw new Exception("名称已经存在");
+            bool tageexist = this.LevelTagExist(entity.Olv_Name, entity.Olv_ID);
+            if (tageexist) throw new Exception("标识已经存在");
+
             using (DbTrans trans = Gateway.Default.BeginTrans())
             {
                 try

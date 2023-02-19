@@ -106,7 +106,7 @@ namespace Song.ServiceInterfaces
         /// <param name="id">学员组id</param>
         /// <param name="orgid">所在机构id</param>
         /// <returns></returns>
-        bool SortIsExist(string name, int id, int orgid);
+        bool SortIsExist(string name, long id, int orgid);
         /// <summary>
         /// 更改学员组的排序
         /// </summary>

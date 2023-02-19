@@ -758,6 +758,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public bool SortModify(StudentSort entity)
         {
+
             Song.Entities.StudentSort old = Business.Do<IStudent>().SortSingle(entity.Sts_ID);
             if (old == null) throw new Exception("Not found entity for StudentSort！");
 
@@ -773,7 +774,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <returns></returns>
         [HttpGet]
-        public bool SortIsExist(string name, int id,int orgid)
+        public bool SortIsExist(string name, long id,int orgid)
         {
             return Business.Do<IStudent>().SortIsExist(name, id, orgid);
         }
