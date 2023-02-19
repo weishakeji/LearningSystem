@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -10,7 +10,15 @@ $ready(function () {
             organ: {},           //当前登录账号所在的机构
             rules: {
                 Posi_Name: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isExist(value).then(res => {
+                                if (res) callback(new Error('已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ]
             }
         },
@@ -23,7 +31,7 @@ $ready(function () {
             var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vue.organ = req.data.result;
+                    th.organ = req.data.result;
                     //如果是新增界面
                     if (th.id == '') {
                         th.entity.Posi_IsUse = true;
@@ -50,43 +58,48 @@ $ready(function () {
             });
         },
         methods: {
-            btnEnter: function () {
+            //判断是否已经存在
+            isExist: function (val) {
                 var th = this;
-                if (this.loading) return;
-                //如果是新增界面
-                if (this.id == '') {
-                    $api.post('Position/Add', { 'posi': vue.entity }).then(function (req) {
+                return new Promise(function (resolve, reject) {
+                    $api.get('Position/Exist', { 'name': val, 'id': th.id, 'orgid': th.organ.Org_ID }).then(function (req) {
                         if (req.data.success) {
-                            vue.$message({
-                                type: 'success',
-                                message: '添加成功!',
-                                center: true
-                            });
-                            th.operateSuccess();
+                            return resolve(req.data.result);
                         } else {
-                            throw req.data.message;
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        alert(err);
+                        return reject(err);
                     });
-
-                    return;
-                }
-                //如果是修改
-                $api.post('Position/Modify', { 'posi': vue.entity }).then(function (req) {
-                    if (req.data.success) {
-                        vue.$message({
-                            type: 'success',
-                            message: '修改成功!',
-                            center: true
+                });
+            },
+            btnEnter: function (formName) {
+                if (this.loading) return;
+                var th = this;
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        th.loading = true;
+                        var apiurl = this.id == '' ? "Position/Add" : 'Position/Modify';
+                        $api.post(apiurl, { 'posi': th.entity }).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({
+                                    type: 'success',
+                                    message: '操作成功!',
+                                    center: true
+                                });
+                                th.operateSuccess();
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+                            th.loading = false;
+                            alert(err, '错误');
                         });
-                        th.operateSuccess();
-
                     } else {
-                        throw req.data.message;
+                        console.log('error submit!!');
+                        return false;
                     }
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
                 });
             },
             //操作成功

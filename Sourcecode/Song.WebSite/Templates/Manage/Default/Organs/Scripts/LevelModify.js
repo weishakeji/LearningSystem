@@ -26,7 +26,7 @@ $ready(function () {
                         validator: function (rule, value, callback) {
                             var pat = /^[a-zA-Z0-9_-]{4,20}$/;
                             if (!pat.test(value))
-                                callback(new Error('标识仅限字符与数字!'));
+                                callback(new Error('标识仅限字母与数字!'));
                             else callback();
                         }, trigger: 'blur'
                     },

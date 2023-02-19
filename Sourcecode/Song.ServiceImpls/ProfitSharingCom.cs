@@ -110,6 +110,19 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<ProfitSharing>().Where(ProfitSharing._.Ps_ID == identify).ToFirst<ProfitSharing>();
         }
         /// <summary>
+        /// 主题是否存在
+        /// </summary>
+        /// <param name="name">主题名称</param>
+        /// <param name="id">主题id</param>
+        /// <returns></returns>
+        public bool ThemeExist(string name, int id)
+        {
+            WhereClip wc = new WhereClip();
+            if (id > 0) wc.And(ProfitSharing._.Ps_ID != id);
+            int count = Gateway.Default.Count<ProfitSharing>(wc && ProfitSharing._.Ps_Name == name);
+            return count > 0;
+        }
+        /// <summary>
         /// 获取对象；即所有分类；
         /// </summary>
         /// <returns></returns>

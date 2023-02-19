@@ -10,7 +10,15 @@ $ready(function () {
             childs: [],  //下级子项目
             rules: {
                 Ps_Name: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isExist(value).then(res => {
+                                if (res) callback(new Error('已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             editindex: -1,       //编辑行的id
@@ -48,6 +56,22 @@ $ready(function () {
             }
         },
         methods: {
+            //判断是否已经存在
+            isExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('ProfitSharing/ThemeExist', { 'name': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
@@ -62,9 +86,9 @@ $ready(function () {
                 var th = this;
                 var childs = $api.clone(this.childs);
                 childs.forEach(c => c.Ps_ID = 0);
-                $api.post('ProfitSharing/ProfitSave', { 'theme': this.entity, 'items': childs }).then(function (req) {
+                $api.post('ProfitSharing/ProfitSave', { 'theme': th.entity, 'items': childs }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$message({
+                        th.$message({
                             type: 'success',
                             message: '修改成功!',
                             center: true
@@ -73,10 +97,10 @@ $ready(function () {
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }
-                    th.loading = false;
+                    }                   
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.loading = false;
+                    alert(err, '错误');
                 });
             },
             //增加分润项

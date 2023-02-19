@@ -71,10 +71,10 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 if (this.loading) return;
-                var th = this; 
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        th.loading = true;                      
+                        th.loading = true;
                         var apiurl = this.id == '' ? "Domain/Add" : 'Domain/Modify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
@@ -88,7 +88,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;       
+                            th.loading = false;
                             alert(err, '错误');
                         });
                     } else {

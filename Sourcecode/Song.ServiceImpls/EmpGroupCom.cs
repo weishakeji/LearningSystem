@@ -172,18 +172,16 @@ namespace Song.ServiceImpls
         /// <returns>重名返回true，否则返回false</returns>
         public bool IsExist(EmpGroup entity)
         {
-            EmpGroup mm = null;
-            //如果是一个新对象
-            if (entity.EGrp_Id == 0)
-            {
-                mm = Gateway.Default.From<EmpGroup>().Where(EmpGroup._.EGrp_Name == entity.EGrp_Name).ToFirst<EmpGroup>();
-            }
-            else
-            {
-                //如果是一个已经存在的对象，则不匹配自己
-                mm = Gateway.Default.From<EmpGroup>().Where(EmpGroup._.EGrp_Name == entity.EGrp_Name && EmpGroup._.EGrp_Id != entity.EGrp_Id).ToFirst<EmpGroup>();
-            }
-            return mm != null;
+            return this.IsExist(entity.EGrp_Name, entity.EGrp_Id, entity.Org_ID);          
+        }
+        public bool IsExist(string name, int id, int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(EmpGroup._.Org_ID == orgid);
+            //如果是一个已经存在的对象，则不匹配自己
+            if (id > 0) wc.And(EmpGroup._.EGrp_Id != id);
+            int count = Gateway.Default.Count<EmpGroup>(wc && EmpGroup._.EGrp_Name == name);
+            return count > 0;
         }
         /// 更改排序
         /// </summary>

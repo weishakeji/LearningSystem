@@ -51,6 +51,16 @@ namespace Song.ViewData.Methods
             return Business.Do<IProfitSharing>().ThemeAll(true);
         }
         /// <summary>
+        /// 主题是否存在
+        /// </summary>
+        /// <param name="name">主题名称</param>
+        /// <param name="id">主题id</param>
+        /// <returns></returns>
+        public bool ThemeExist(string name,int id)
+        {
+            return Business.Do<IProfitSharing>().ThemeExist(name, id);
+        }
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="id"></param>

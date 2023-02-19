@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
@@ -20,7 +20,23 @@ $ready(function () {
                 ],
                 Acc_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },
-                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+                    { min: 4, max: 50, message: '长度在 4 到 50 个字符', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            if (vapp.id != '') return callback();
+                            var pat = /^[a-zA-Z0-9_-]{1,50}$/;
+                            if (!pat.test(value))
+                                callback(new Error('仅限字母与数字'));
+                            else callback();
+                        }, trigger: 'blur'
+                    },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.isExist(value).then(res => {
+                                if (res) callback(new Error('已经存在!'));
+                            });
+                        }, trigger: 'blur'
+                    }
                 ]
             },
 
@@ -42,10 +58,10 @@ $ready(function () {
             var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vue.organ = req.data.result;
+                    th.organ = req.data.result;
                     $api.bat(
                         $api.post('Position/EnableAll'),
-                        $api.post("Admin/TitleEnabledList", { 'orgid': vue.organ.Org_ID })
+                        $api.post("Admin/TitleEnabledList", { 'orgid': th.organ.Org_ID })
                     ).then(axios.spread(function (posi, title) {
                         //判断结果是否正常
                         for (var i = 0; i < arguments.length; i++) {
@@ -58,8 +74,8 @@ $ready(function () {
                             }
                         }
                         //获取结果
-                        vue.position = posi.data.result;
-                        vue.titles = title.data.result;
+                        th.position = posi.data.result;
+                        th.titles = title.data.result;
                     })).catch(function (err) {
                         console.error(err);
                     });
@@ -93,13 +109,29 @@ $ready(function () {
 
         },
         methods: {
+            //判断是否已经存在
+            isExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('admin/IsExistAcc', { 'acc': val, 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            return resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
+                });
+            },
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Admin/add' : 'Admin/Modify';
-                        if (th.id == '') vue.account.Org_ID = vue.organ.Org_ID;
+                        if (th.id == '') th.account.Org_ID = th.organ.Org_ID;
                         //接口参数，如果有上传文件，则增加file
                         var para = {};
                         if (th.upfile == null || JSON.stringify(th.upfile) == '{}') para = { 'acc': th.account };
@@ -133,7 +165,6 @@ $ready(function () {
                 this.accPingyin = makePy(this.account.Acc_Name);
                 if (this.accPingyin.length > 0)
                     this.account.Acc_NamePinyin = this.accPingyin[0];
-                //console.log(this.accPingyin);
             },
             //操作成功
             operateSuccess: function () {
@@ -142,4 +173,4 @@ $ready(function () {
         },
     });
 
-},["../Scripts/hanzi2pinyin.js"]);
+}, ["../Scripts/hanzi2pinyin.js"]);

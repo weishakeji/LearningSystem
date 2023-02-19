@@ -550,25 +550,19 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
-        /// <param name="entity">业务实体</param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
-        public bool TitleIsExist(int orgid,EmpTitle entity)
+        public bool TitleIsExist(string name, int id, int orgid)
         {
-            EmpTitle mm = null;
-            //如果是一个新对象
-            if (entity.Title_Id == 0)
-            {
-                mm = Gateway.Default.From<EmpTitle>().Where(EmpTitle._.Org_ID == orgid && EmpTitle._.Title_Name == entity.Title_Name).ToFirst<EmpTitle>();
-            }
-            else
-            {
-                //如果是一个已经存在的对象，则不匹配自己
-                mm = Gateway.Default.From<EmpTitle>()
-                    .Where(EmpTitle._.Org_ID == orgid && EmpTitle._.Title_Name == entity.Title_Name && EmpTitle._.Title_Id != entity.Title_Id)
-                    .ToFirst<EmpTitle>();
-            }
-            return mm != null;
-        }        
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(EmpTitle._.Org_ID == orgid);
+            //如果是一个已经存在的对象，则不匹配自己
+            if (id > 0) wc.And(EmpTitle._.Title_Id != id);           
+            int count = Gateway.Default.Count<EmpTitle>(wc && EmpTitle._.Title_Name == name);
+            return count > 0;
+        }
         /// <summary>
         /// 更改职务的排序
         /// </summary>

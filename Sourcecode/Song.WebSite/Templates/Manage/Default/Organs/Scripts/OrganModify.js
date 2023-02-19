@@ -37,10 +37,10 @@ $ready(function () {
                     { required: true, message: '平台域名不得为空', trigger: 'blur' },
                     { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' },
                     {
-                        validator: function (rule, value, callback) {
+                        validator: function (rule, value, callback) {                        
                             var pat = /^[a-zA-Z0-9_-]{1,20}$/;
                             if (!pat.test(value))
-                                callback(new Error('域名仅限字符与数字!'));
+                                callback(new Error('域名仅限字母与数字!'));
                             else callback();
                         }, trigger: 'blur'
                     },

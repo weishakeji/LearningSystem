@@ -82,7 +82,7 @@ namespace Song.ServiceImpls
         public bool DomainIsExist(string domain, int id)
         {
             WhereClip wc = new WhereClip();
-            if (id > 0) wc.And(LimitDomain._.LD_ID == id);
+            if (id > 0) wc.And(LimitDomain._.LD_ID != id);
             int count = Gateway.Default.Count<LimitDomain>(wc && LimitDomain._.LD_Name == domain);
             return count > 0;
         }

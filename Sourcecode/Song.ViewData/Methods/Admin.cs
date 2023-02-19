@@ -20,7 +20,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 管理员
     /// </summary> 
-    [HttpPost,HttpGet,HttpPut]
+    [HttpPost, HttpGet, HttpPut]
     public class Admin : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径
@@ -45,7 +45,7 @@ namespace Song.ViewData.Methods
             //当前机构等于管理员所在机构
             Song.Entities.Organization organ = Business.Do<IOrganization>().OrganCurrent();
             return this._login(acc, pw, organ, -1);
-         
+
         }
         /// <summary>
         /// 超管登录的验证
@@ -64,9 +64,9 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization organ = Business.Do<IOrganization>().OrganRoot();
             //必须是管理员岗位
             Song.Entities.Position posi = Business.Do<IPosition>().GetAdmin(organ.Org_ID);
-            return this._login(acc, pw, organ, posi.Posi_Id);           
+            return this._login(acc, pw, organ, posi.Posi_Id);
         }
-        private Song.Entities.EmpAccount _login(string acc, string pw, Song.Entities.Organization organ,int posid)
+        private Song.Entities.EmpAccount _login(string acc, string pw, Song.Entities.Organization organ, int posid)
         {
             Song.Entities.EmpAccount EmpAccount = Business.Do<IEmployee>().EmpLogin(acc, pw, organ.Org_ID, posid);
             if (EmpAccount == null) throw VExcept.Verify("密码错误", 102);
@@ -170,7 +170,7 @@ namespace Song.ViewData.Methods
                     Song.Entities.EmpAccount._.Acc_Qus, Song.Entities.EmpAccount._.Acc_Ans,
                 }, new object[] { ques, ans });
                 return true;
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 throw ex;
             }
@@ -349,7 +349,7 @@ namespace Song.ViewData.Methods
             {
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                file.SaveAs(PhyPath + filename);               
+                file.SaveAs(PhyPath + filename);
                 break;
             }
             //转jpg
@@ -386,7 +386,7 @@ namespace Song.ViewData.Methods
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
                 file.SaveAs(PhyPath + filename);
-                WeiSha.Core.Images.FileTo.Zoom(PhyPath + filename, 200, 200, false);              
+                WeiSha.Core.Images.FileTo.Zoom(PhyPath + filename, 200, 200, false);
                 break;
             }
             //转jpg
@@ -396,13 +396,13 @@ namespace Song.ViewData.Methods
                 using (System.Drawing.Image image = WeiSha.Core.Images.FileTo.ToImage(PhyPath + filename))
                 {
                     filename = Path.ChangeExtension(filename, "jpg");
-                    image.Save(PhyPath + Path.ChangeExtension(filename, "jpg"),ImageFormat.Jpeg);
+                    image.Save(PhyPath + Path.ChangeExtension(filename, "jpg"), ImageFormat.Jpeg);
                 }
-                System.IO.File.Delete(PhyPath + old);              
+                System.IO.File.Delete(PhyPath + old);
             }
             if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
             {
-                string filehy = PhyPath + acc.Acc_Photo;             
+                string filehy = PhyPath + acc.Acc_Photo;
                 try
                 {
                     //删除原图
@@ -434,7 +434,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization org = LoginAdmin.Status.Organ(this.Letter);
             //总记录数
             int count = 0;
-            EmpAccount[] eas = Business.Do<IEmployee>().GetPager(org.Org_ID, -1,name, size, index, out count);
+            EmpAccount[] eas = Business.Do<IEmployee>().GetPager(org.Org_ID, -1, name, size, index, out count);
             foreach (EmpAccount ea in eas) ea.Acc_Pw = string.Empty;
             ListResult result = new ListResult(eas);
             result.Index = index;
@@ -499,8 +499,8 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IEmployee>().IsExists(acc, id);
         }
-        #endregion        
-        
+        #endregion
+
         #region 职务/头衔的管理
         /// <summary>
         /// 通过id获取职务信息
@@ -511,6 +511,17 @@ namespace Song.ViewData.Methods
         public Song.Entities.EmpTitle TitleForID(int id)
         {
             return Business.Do<IEmployee>().TitleSingle(id);
+        }
+        /// <summary>
+        /// 判断职务名称是否存在重复
+        /// </summary>
+        /// <param name="name">职务名称</param>
+        /// <param name="id">当前职务id,为了不判断自身对象</param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public bool TitleExist(string name, int id, int orgid)
+        {
+            return Business.Do<IEmployee>().TitleIsExist(name, id, orgid);
         }
         /// <summary>
         /// 添加头衔信息
@@ -547,7 +558,7 @@ namespace Song.ViewData.Methods
                 old.Copy<Song.Entities.EmpTitle>(entity);
                 Business.Do<IEmployee>().TitleSave(old);
                 return true;
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 throw ex;
             }
@@ -570,7 +581,7 @@ namespace Song.ViewData.Methods
                 int.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
-                {                  
+                {
                     Business.Do<IEmployee>().TitleDelete(idval);
                     i++;
                 }
@@ -609,10 +620,10 @@ namespace Song.ViewData.Methods
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult TitlePager(int orgid,string name,int index, int size)
+        public ListResult TitlePager(int orgid, string name, int index, int size)
         {
             int sum = 0;
-            Song.Entities.EmpTitle[] titles = Business.Do<IEmployee>().TitlePager(orgid, null, name, size, index, out sum);           
+            Song.Entities.EmpTitle[] titles = Business.Do<IEmployee>().TitlePager(orgid, null, name, size, index, out sum);
             Song.ViewData.ListResult result = new ListResult(titles);
             result.Index = index;
             result.Size = size;
@@ -650,6 +661,17 @@ namespace Song.ViewData.Methods
         public Song.Entities.EmpGroup GroupForID(int id)
         {
             return Business.Do<IEmpGroup>().GetSingle(id);
+        }
+        /// <summary>
+        /// 员工组的名称是否已经存在
+        /// </summary>
+        /// <param name="name">员工组的名称</param>
+        /// <param name="id">员工组的id</param>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        public bool GroupExist(string name, int id, int orgid)
+        {
+            return Business.Do<IEmpGroup>().IsExist(name, id, orgid);
         }
         /// <summary>
         /// 添加工作组

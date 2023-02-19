@@ -33,6 +33,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 删除，按职位名称
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="name">职位名称</param>
         void Delete(int orgid, string name);
         /// <summary>
@@ -77,12 +78,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         EmpAccount[] GetAllEmplyee(int posid,bool use);
         /// <summary>
-        /// 当前对象名称是否重名
+        /// 岗位是否已经存在
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="entity">业务实体</param>
+        /// <param name="name">岗位名称</param>
+        /// <param name="id">对象id</param>
+        /// <param name="orgid">所在机构id</param>
         /// <returns></returns>
-        bool IsExist(int orgid, Position entity);        
+        bool IsExist(string name,int id,int orgid);
         /// <summary>
         /// 更改岗位排序
         /// </summary>

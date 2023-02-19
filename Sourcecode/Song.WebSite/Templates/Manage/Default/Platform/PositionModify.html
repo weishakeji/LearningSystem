@@ -3,12 +3,12 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>修改信息</title>   
+    <title>修改信息</title>
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules"  @submit.native.prevent label-width="80px">
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
 
             <el-form-item label="" prop="Org_Name">
                 <span v-html="organ.Org_Name"></span>
@@ -16,23 +16,24 @@
             <el-form-item label="名称" prop="Posi_Name">
                 <el-input v-model="entity.Posi_Name"></el-input>
             </el-form-item>
-          
+
             <el-form-item label="说明" prop="Posi_Intro">
                 <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="entity.Posi_Intro"></el-input>
             </el-form-item>
             <el-form-item label="状态">
-                <el-switch v-model="entity.Posi_IsUse"
-                    :active-text="entity.Posi_IsUse ? '启用' : '禁用'" inactive-text="">
+                <el-switch v-model="entity.Posi_IsUse" :active-text="entity.Posi_IsUse ? '启用' : '禁用'" inactive-text="">
                 </el-switch>
             </el-form-item>
             <el-form-item label="排序号" v-if="entity.Posi_Tax>0">
                 <el-input-number v-model="entity.Posi_Tax"></el-input-number>
             </el-form-item>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit"  :loading="loading" plain @click="btnEnter">确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
         </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity')">保存
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

@@ -83,6 +83,7 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         /// <returns></returns>
         bool IsExist(EmpGroup entity);
+        bool IsExist(string name, int id, int orgid);
         /// 更改排序
         /// </summary>
         /// <param name="entities"></param>

@@ -177,31 +177,22 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<EmpAccount>().Where(EmpAccount._.Posi_Id == posid && EmpAccount._.Acc_IsUse == use).ToArray<EmpAccount>();
         }
-
         /// <summary>
-        /// 当前对象名称是否重名
+        /// 岗位是否已经存在
         /// </summary>
-        /// <param name="entity">业务实体</param>
-        /// <returns>重名返回true，否则返回false</returns>
-        public bool IsExist(int orgid,Position entity)
+        /// <param name="name">岗位名称</param>
+        /// <param name="id">对象id</param>
+        /// <param name="orgid">所在机构id</param>
+        /// <returns></returns>
+        public bool IsExist(string name, int id, int orgid)
         {
-            Position mm = null;
-            //如果是一个新对象
-            if (entity.Posi_Id == 0)
-            {
-                mm = Gateway.Default.From<Position>()
-                    .Where(Position._.Org_ID == orgid && Position._.Posi_Name == entity.Posi_Name)
-                    .ToFirst<Position>();
-            }
-            else
-            {
-                //如果是一个已经存在的对象，则不匹配自己
-                mm = Gateway.Default.From<Position>()
-                    .Where(Position._.Org_ID == orgid && Position._.Posi_Name == entity.Posi_Name && Position._.Posi_Id != entity.Posi_Id)
-                    .ToFirst<Position>();
-            }
-            return mm != null;
-        }        
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Position._.Org_ID == orgid);
+            if (id > 0) wc.And(Position._.Posi_Id != id);
+            //如果是一个已经存在的对象，则不匹配自己
+            int count = Gateway.Default.Count<Position>(wc && Position._.Posi_Name == name);
+            return count > 0;
+        }
         /// <summary>
         /// 更改岗位排序
         /// </summary>

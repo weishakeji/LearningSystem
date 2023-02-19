@@ -223,13 +223,15 @@ namespace Song.ServiceInterfaces
         /// <param name="titleid">职务Id</param>
         /// <param name="isUse">是否在职</param>
         /// <returns></returns>
-        EmpAccount[] Title4Emplyee(int titleid, bool? isUse);       
+        EmpAccount[] Title4Emplyee(int titleid, bool? isUse);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
-        /// <param name="entity">业务实体</param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
-        bool TitleIsExist(int orgid,EmpTitle entity);
+        bool TitleIsExist(string name, int id, int orgid);
         /// <summary>
         /// 更改职务的排序
         /// </summary>

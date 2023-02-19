@@ -112,6 +112,17 @@ namespace Song.ViewData.Methods
             return i;
         }
         /// <summary>
+        /// 岗位名称是否已经存在
+        /// </summary>
+        /// <param name="name">岗位名称</param>
+        /// <param name="id">岗位id</param>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        public bool Exist(string name,int id,int orgid)
+        {
+            return Business.Do<IPosition>().IsExist(name,id,orgid);
+        }
+        /// <summary>
         /// 添加岗位
         /// </summary>
         /// <param name="posi"></param>
