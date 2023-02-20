@@ -155,6 +155,10 @@
     fn.show = function () {
         return this.each(function () {
             this.style.display = "block";
+            /*
+            if (this.style.display == 'none')
+                this.style.removeProperty('display');
+                */
         });
     };
     fn.toggle = function () {
@@ -643,8 +647,8 @@
             'y': y
         };
     };
-     //是否是手机端
-     webdom.ismobi = function () {
+    //是否是手机端
+    webdom.ismobi = function () {
         var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
         var u = navigator.userAgent;
         if (null == u) return true;
@@ -744,7 +748,7 @@
                     }
                 });
                 if (exist) return;
-                
+
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
@@ -933,11 +937,11 @@
     window.$dom = webdom;
     window.$dom.load.css([
         '/Utilities/ElementUi/index.css',
-        '/Utilities/styles/public.css',  
-        webdom.path() + 'styles/public.css',        
+        '/Utilities/styles/public.css',
+        webdom.path() + 'styles/public.css',
         '/Utilities/Fonts/icon.css'
-    ]);   
-   
+    ]);
+
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
         var file = webdom('meta[view]').attr("view");

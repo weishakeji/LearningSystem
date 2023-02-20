@@ -49,7 +49,7 @@
 
 
                 </template>
-                <el-alert title=" （注意：此处勿轻易切换，会导致用户登录与注销的异常情况，用户需清空浏览器缓存）" type="warning"></el-alert>
+                <el-alert :closable="false" title=" （注意：此处勿轻易切换，会导致用户登录与注销的异常情况，用户需清空浏览器缓存）" type="warning"></el-alert>
             </el-form>
             <div class="footer">
                 <el-button type="primary"  size="medium" define="enter" native-type="submit" 

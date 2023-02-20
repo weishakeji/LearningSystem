@@ -49,8 +49,13 @@ $dom.ctrljs(function () {
                 if (s != null) s.title = window.platinfo.title;
                 if (window.platinfo.title != '')
                     $dom("*[platinfo='title']").html(window.platinfo.title);
-                if (window.platinfo.intro != '')
-                    $dom("*[platinfo='intro']").html(window.platinfo.intro);
+                if (window.platinfo.intro != '') {
+                    $dom("*[platinfo='intro']").html(window.platinfo.intro).show();
+                    $dom("*[platinfo='intro']").prev().hide();
+                }else{
+                    $dom("*[platinfo='intro']").hide();
+                    $dom("*[platinfo='intro']").prev().show();
+                }
                 document.title = '平台管理 - ' + window.platinfo.title;
             } else {
                 throw req.data.message;
