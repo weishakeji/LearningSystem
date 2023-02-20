@@ -148,6 +148,9 @@ icon[woman] {
 icon[woman]::before {
     content: '\e647';
 }
+    icon[help]::before {
+        content: '\a026';
+    }
 /*复制*/
 icon[copy]::before {
     content: '\a060';

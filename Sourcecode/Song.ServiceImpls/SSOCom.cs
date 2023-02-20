@@ -37,6 +37,20 @@ namespace Song.ServiceImpls
         {
             Gateway.Default.Delete<SingleSignOn>(SingleSignOn._.SSO_ID == identify);
         }
+        /// <summary>
+        /// 是否已经存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool Exist(string name, int id)
+        {
+            WhereClip wc = new WhereClip();
+            if (id > 0) wc.And(SingleSignOn._.SSO_ID != id);
+            wc.And(SingleSignOn._.SSO_Name == name);
+            int obj = Gateway.Default.Count<SingleSignOn>(wc);
+            return obj > 0;
+        }
 
         public SingleSignOn GetSingle(int identify)
         {

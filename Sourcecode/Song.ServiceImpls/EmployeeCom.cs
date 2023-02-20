@@ -348,9 +348,10 @@ namespace Song.ServiceImpls
         public bool IsExists(string accname, int accid)
         {
             if (string.IsNullOrWhiteSpace(accname)) throw new Exception("账号不得为空");
-            WhereClip wc = new WhereClip(); 
+            WhereClip wc = new WhereClip();
+            if (accid > 0) wc.And(EmpAccount._.Acc_Id != accid);
             wc.And(EmpAccount._.Acc_AccName == accname);
-            int obj = Gateway.Default.Count<EmpAccount>(wc && EmpAccount._.Acc_Id != accid);
+            int obj = Gateway.Default.Count<EmpAccount>(wc);
             return obj > 0;
         }
         public bool LoginCheck(int orgid, string acc, string pw)

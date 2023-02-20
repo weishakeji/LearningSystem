@@ -6,12 +6,17 @@ $ready(function () {
         data: {
             loading: false,  //
             id: $api.querystring('id'),
-            entity: {}, //当前数据对象
+            dialogVisible:false,    //帮助面板的显示
+            //当前数据对象
+            entity: {
+                SSO_IsUse: true,
+                SSO_APPID: ''
+            },
             organ: {},           //当前登录账号所在的机构
             rules: {
-                Title_Name: [
+                SSO_Name: [
                     { required: true, message: '不得为空', trigger: 'blur' },
-                    { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' },
+                    { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' },
                     {
                         validator: async function (rule, value, callback) {
                             await vapp.isExist(value).then(res => {
@@ -19,7 +24,33 @@ $ready(function () {
                             });
                         }, trigger: 'blur'
                     }
-                ]
+                ],
+                SSO_Domain: [
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            if (value == undefined || value == '') return callback();
+                            var pattern =  /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/gi;
+                            if (!pattern.test(value)) callback(new Error('请输入域名，带http或https!'));
+                            else callback();
+                        }, trigger: 'blur'
+                    }],
+                SSO_Phone: [{
+                    validator: function (rule, value, callback) {
+                        if (value == undefined || value == '') return callback();
+                        var pattern = /^((\+86)|(86))?(1)\d{10}$/;
+                        if (!pattern.test(value)) callback(new Error('请输入电话!'));
+                        else callback();
+                    }, trigger: 'blur'
+                }],
+                SSO_Email: [{ type: 'email', message: '请输入邮箱', trigger: 'blur' }],
+                SSO_Info: [{
+                    validator: function (rule, value, callback) {
+                        if (value == undefined || value == '') return callback();
+                        if (value.length > 500) callback(new Error('最多允许 500 字符，当前 ' + value.length + ' 字符'));
+                    }, trigger: 'blur'
+                }]
             }
         },
         watch: {
@@ -28,27 +59,14 @@ $ready(function () {
             }
         },
         created: function () {
+            var th = this;
             //如果是新增界面
             if (this.id == '') {
-                var th = this;
-                this.entity.Title_IsUse = true;
-                $api.get('Admin/Organ').then(function (req) {
-                    if (req.data.success) {
-                        th.organ = req.data.result;
-                        th.entity.Org_ID = th.organ.Org_ID;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                this.getuid(uid => th.entity.SSO_APPID = uid);
                 return;
             }
             //如果是修改界面
-            var th = this;
-            $api.get('Admin/TitleForID', { 'id': th.id }).then(function (req) {
+            $api.get('Sso/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     th.entity = req.data.result;
                 } else {
@@ -59,11 +77,25 @@ $ready(function () {
             });
         },
         methods: {
+            //获取APPID
+            getuid: async function (callback) {
+                await $api.get('Systempara/UniqueID').then(function (req) {
+                    if (req.data.success) {
+                        callback(req.data.result);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
+            },
             //判断是否已经存在
             isExist: function (val) {
                 var th = this;
                 return new Promise(function (resolve, reject) {
-                    $api.get('admin/TitleExist', { 'name': val, 'id': th.id, 'orgid': th.entity.Org_ID }).then(function (req) {
+                    $api.get('Sso/Exist', { 'name': val, 'id': th.id }).then(function (req) {
                         if (req.data.success) {
                             return resolve(req.data.result);
                         } else {
@@ -81,7 +113,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        var apiurl = th.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
+                        var apiurl = th.id == '' ? "Sso/Add" : 'Sso/Modify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 th.$message({

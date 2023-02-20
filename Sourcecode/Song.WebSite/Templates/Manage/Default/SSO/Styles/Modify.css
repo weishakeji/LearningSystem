@@ -1,0 +1,11 @@
+﻿@charset "utf-8";
+
+.footer{
+   justify-content: space-between;
+}
+.footer>div{
+    display: flex;
+}
+.el-dialog__body{
+    padding-top: 0px !important;
+}

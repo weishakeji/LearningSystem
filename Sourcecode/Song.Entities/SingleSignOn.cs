@@ -12,7 +12,7 @@ namespace Song.Entities {
     		
     		protected String _SSO_Name;
     		
-    		protected Boolean? _SSO_IsUse;
+    		protected Boolean _SSO_IsUse;
     		
     		protected String _SSO_APPID;
     		
@@ -34,6 +34,8 @@ namespace Song.Entities {
     		
     		protected String _SSO_Config;
     		
+    		protected Boolean? _SSO_IsAddSort;
+    		
     		public Int32 SSO_ID {
     			get {
     				return this._SSO_ID;
@@ -54,7 +56,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean? SSO_IsUse {
+    		public Boolean SSO_IsUse {
     			get {
     				return this._SSO_IsUse;
     			}
@@ -164,6 +166,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean? SSO_IsAddSort {
+    			get {
+    				return this._SSO_IsAddSort;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.SSO_IsAddSort, _SSO_IsAddSort, value);
+    				this._SSO_IsAddSort = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -203,7 +215,8 @@ namespace Song.Entities {
     					_.SSO_Info,
     					_.SSO_CrtTime,
     					_.SSO_Power,
-    					_.SSO_Config};
+    					_.SSO_Config,
+    					_.SSO_IsAddSort};
     		}
     		
     		/// <summary>
@@ -223,7 +236,8 @@ namespace Song.Entities {
     					this._SSO_Info,
     					this._SSO_CrtTime,
     					this._SSO_Power,
-    					this._SSO_Config};
+    					this._SSO_Config,
+    					this._SSO_IsAddSort};
     		}
     		
     		/// <summary>
@@ -269,6 +283,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.SSO_Config))) {
     				this._SSO_Config = reader.GetString(_.SSO_Config);
     			}
+    			if ((false == reader.IsDBNull(_.SSO_IsAddSort))) {
+    				this._SSO_IsAddSort = reader.GetBoolean(_.SSO_IsAddSort);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -306,7 +323,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field SSO_Name = new WeiSha.Data.Field<SingleSignOn>("SSO_Name");
     			
     			/// <summary>
-    			/// 字段名：SSO_IsUse - 数据类型：Boolean(可空)
+    			/// 字段名：SSO_IsUse - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field SSO_IsUse = new WeiSha.Data.Field<SingleSignOn>("SSO_IsUse");
     			
@@ -359,7 +376,11 @@ namespace Song.Entities {
     			/// 字段名：SSO_Config - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field SSO_Config = new WeiSha.Data.Field<SingleSignOn>("SSO_Config");
+    			
+    			/// <summary>
+    			/// 字段名：SSO_IsAddSort - 数据类型：Boolean(可空)
+    			/// </summary>
+    			public static WeiSha.Data.Field SSO_IsAddSort = new WeiSha.Data.Field<SingleSignOn>("SSO_IsAddSort");
     		}
     	}
     }
-    

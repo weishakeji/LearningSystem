@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>修改信息</title>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="名称" prop="SSO_Name">
+                <el-input v-model.trim="entity.SSO_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="APPID" prop="SSO_APPID">
+                <span v-html="entity.SSO_APPID"></span>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-switch v-model="entity.SSO_IsUse" :active-text="entity.SSO_IsUse ? '启用' : '禁用'" inactive-text="">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="请求域" prop="SSO_Domain">
+                <el-input v-model.trim="entity.SSO_Domain"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话" prop="SSO_Phone">
+                <el-input v-model.trim="entity.SSO_Phone"></el-input>
+            </el-form-item>
+            <el-form-item label="电子邮箱" prop="SSO_Email">
+                <el-input v-model.trim="entity.SSO_Email"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="SSO_Info">
+                <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model.trim="entity.SSO_Info"></el-input>
+            </el-form-item>
+            <el-form-item label="权限">
+                <el-switch v-model="entity.SSO_IsAdd" :active-text="entity.SSO_IsAdd ? '允许创建账号' : '不可以创建账号'"
+                    inactive-text="">
+                </el-switch>
+                <br />
+                <help>登录的账号不存在时，是否允许创建新账号</help><br />
+                <template v-if="entity.SSO_IsAdd">
+                    <el-switch v-model="entity.SSO_IsAddSort"
+                        :active-text="entity.SSO_IsAddSort ? '允许创建学员组' : '可以创建学员组'" inactive-text="">
+                    </el-switch>
+                    <br />
+                    <help>如登录账号所属的学员组不存在时，是否允许创建学员组</help>
+                </template>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-link type="primary" @click="dialogVisible=true">
+                <icon help></icon>开发说明
+            </el-link>
+            <div>
+                <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                    @click="btnEnter('entity')">保存
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </div>
+        </div>
+        <!-- 说明-->
+        <el-dialog :visible.sync="dialogVisible" width="80%">
+            <template slot="title">
+                <icon help></icon>开发说明
+            </template>
+            <p> 1、示例：<br />
+                登录：
+                http://当前系统的域名/sso/login?appid=xx&user=xx&sort=&goto=(url)<br />
+                注销：
+                http://当前系统的域名/sso/logout?appid=xx&user=xx&goto=(url)
+            </p>
+            <p> 2、参数说明：<br />
+                appid：应用ID<br />
+                action：登录还是退出登录（可以为空），默认为login，如果为add，则账号不存在时将自动创建<br />
+                user：用户账号名<br />
+                name:用户名称（当action为add时才有用）,需Url编码<br />
+                goto：成功后的转向地址（可以为空）,转到首页用/,如果失败将不跳转<br />
+            </p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

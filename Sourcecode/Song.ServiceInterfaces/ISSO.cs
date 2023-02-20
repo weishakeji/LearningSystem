@@ -26,7 +26,14 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void Delete(int identify);        
+        void Delete(int identify);
+        /// <summary>
+        /// 是否已经存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool Exist(string name, int id);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -48,7 +55,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 某个主体（如新闻）的所有附件
         /// </summary>
-        /// <param name="uid">主体的唯一标识</param>
+        /// <param name="isuse"></param>
         /// <param name="type">类型</param>
         /// <returns></returns>
         SingleSignOn[] GetAll(bool? isuse,string type);        

@@ -21,7 +21,7 @@ $ready(function () {
             } else {
                 //如果是修改界面
                 var th = this;
-                $api.get('Platform/ParamForID', { 'id': this.id }).then(function (req) {
+                $api.get('Platform/ParamForID', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         th.entity = req.data.result;
                     } else {
@@ -45,9 +45,9 @@ $ready(function () {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
-                $api.post('Platform/ParamAdd', { 'entity': vue.entity }).then(function (req) {
+                $api.post('Platform/ParamAdd', { 'entity': th.entity }).then(function (req) {
                     if (req.data.success) {
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '添加成功!',
                             center: true

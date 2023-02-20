@@ -24,7 +24,7 @@ $ready(function () {
             } else {
                 //如果是修改界面
                 var th = this;
-                $api.get('ManageMenu/ForID', { 'id': this.id }).then(function (req) {
+                $api.get('ManageMenu/ForID', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         th.entity = req.data.result;
                     } else {

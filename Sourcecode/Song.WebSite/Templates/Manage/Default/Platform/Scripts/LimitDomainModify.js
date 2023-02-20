@@ -42,7 +42,7 @@ $ready(function () {
             }
             //如果是修改界面
             var th = this;
-            $api.get('Domain/ForID', { 'id': this.id }).then(function (req) {
+            $api.get('Domain/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     th.entity = req.data.result;
                 } else {
@@ -75,7 +75,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        var apiurl = this.id == '' ? "Domain/Add" : 'Domain/Modify';
+                        var apiurl = th.id == '' ? "Domain/Add" : 'Domain/Modify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 th.$message({
