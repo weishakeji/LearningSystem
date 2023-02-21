@@ -31,9 +31,9 @@ namespace Song.ViewData.Methods
         /// 所有短信接口
         /// </summary>
         /// <returns></returns>
-        public WeiSha.SMS.SmsItem[] Items()
+        public Song.SMS.SmsItem[] Items()
         {
-            return WeiSha.SMS.Config.SmsItems;
+            return Song.SMS.Config.SmsItems;
         }
         /// <summary>
         /// 设置当前接口
@@ -44,7 +44,7 @@ namespace Song.ViewData.Methods
         public bool SetCurrent(string mark)
         {
             Business.Do<ISystemPara>().Save("SmsCurrent", mark);
-            WeiSha.SMS.Config.SetCurrent(mark);
+            Song.SMS.Config.SetCurrent(mark);
             return true;
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Song.ViewData.Methods
 
             smspw = WeiSha.Core.DataConvert.DecryptForBase64(smspw);    //将密码解密
             //短信平台操作对象
-            WeiSha.SMS.ISMS sms = WeiSha.SMS.Gatway.GetService(mark);
+            Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(mark);
             //设置账号与密码
             sms.Current.User = smsacc;
             sms.Current.Password = smspw;

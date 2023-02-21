@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Song.SMS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WeiSha_SMS_com_sms1086_www_WsAPIs" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.sms1086.com/plan/api/WsApis.asmx</Value>
+    </Setting>
+    <Setting Name="WeiSha_SMS_sms1086_WsAPIs" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://www.sms1086.com/plan/api/WsApis.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

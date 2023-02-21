@@ -120,9 +120,6 @@
     <Reference Include="WeiSha.ORM">
       <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.SMS">
-      <HintPath>..\Lib\WeiSha.SMS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attri\UploadAttribute.cs" />
@@ -227,6 +224,10 @@
     <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
       <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>
       <Name>Song.ServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.SMS\Song.SMS.csproj">
+      <Project>{56b89a42-669c-4e23-a0e5-509f91b6b4ea}</Project>
+      <Name>Song.SMS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

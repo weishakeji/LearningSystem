@@ -75,7 +75,7 @@ namespace Song.ServiceImpls
         {           
             //获取短信接口
             string smsCurr = Business.Do<ISystemPara>().GetValue("SmsCurrent");
-            WeiSha.SMS.ISMS sms = WeiSha.SMS.Gatway.GetService(smsCurr);
+            Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(smsCurr);
             sms.Current.User = Business.Do<ISystemPara>().GetValue(smsCurr + "SmsAcc");           
             //生成短信内容
             string rnd = WeiSha.Core.Request.Random(6, 1);    //验证码，随机四位数字
@@ -90,7 +90,7 @@ namespace Song.ServiceImpls
                 smspw = WeiSha.Core.DataConvert.DecryptForBase64(smspw);    //将密码解密
                 sms.Current.Password = smspw;
                 //发送短信，phone手机号,msg是短信内容
-                WeiSha.SMS.SmsState state = sms.Send(phone, msg);
+                Song.SMS.SmsState state = sms.Send(phone, msg);
                 HttpContext context = System.Web.HttpContext.Current;
                 if (state.Success)
                 {

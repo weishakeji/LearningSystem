@@ -428,6 +428,12 @@
     <Content Include="Templates\Manage\Default\Ques\ItemRepeat.html" />
     <Content Include="Templates\Manage\Default\Ques\Scripts\ItemRepeat.js" />
     <Content Include="Templates\Manage\Default\Ques\Styles\ItemRepeat.css" />
+    <Content Include="Templates\Manage\Default\SMS\Message.html" />
+    <Content Include="Templates\Manage\Default\SMS\Modify.html" />
+    <Content Include="Templates\Manage\Default\SMS\Scripts\Message.js" />
+    <Content Include="Templates\Manage\Default\SMS\Scripts\Modify.js" />
+    <Content Include="Templates\Manage\Default\SMS\Styles\Message.css" />
+    <Content Include="Templates\Manage\Default\SMS\Styles\Modify.css" />
     <Content Include="Templates\Manage\Default\SSO\Modify.html" />
     <Content Include="Templates\Manage\Default\SSO\Scripts\Modify.js" />
     <Content Include="Templates\Manage\Default\SSO\Styles\Modify.css" />

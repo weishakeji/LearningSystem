@@ -32,7 +32,7 @@ $ready(function () {
                         validator: function (rule, value, callback) {
                             if (value == undefined || value == '') return callback();
                             var pattern =  /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/gi;
-                            if (!pattern.test(value)) callback(new Error('请输入域名，带http或https!'));
+                            if (!pattern.test(value)) callback(new Error('请输入合法域名，带http:// 或 https://'));
                             else callback();
                         }, trigger: 'blur'
                     }],
