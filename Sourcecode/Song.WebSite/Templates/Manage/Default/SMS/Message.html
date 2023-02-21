@@ -3,12 +3,36 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>短信接口</title>
+    <title>短信模板</title>
 </head>
 
 <body>
-    <div id="app-form"  v-cloak>
-       <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item label="短信平台">
+                <el-tag type="success">{{entity.Name}}</el-tag>
+            </el-form-item>
+            <el-form-item label="模板" prop="text">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="entity.text"> </el-input>
+            
+            </el-form-item>
+            <el-form-item label="实际效果">
+                
+            </el-form-item>
+            <el-form-item label="" label-width="0px">
+                <help multi> 1、结尾必须是【您的平台名称】，注意一定是中文的中括号结尾。
+                    <br />
+                    2、替代符：{vcode}验证码，{platform}平台名称，{org}机构简称,{date}时间。<br />
+                    3、案例：您正在登录{plate},验证码：{vcode}。转发可能导致账号被盗。{date},【{org}】
+                </help>
+            </el-form-item>
+        </el-form>
+
+        <div class="footer">
+            <el-button type="primary" define="enter" :loading="loading" plain @click="btnEnter('entity')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 </body>
 

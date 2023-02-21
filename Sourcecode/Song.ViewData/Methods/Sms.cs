@@ -61,6 +61,15 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
+        /// 通过mark，获取接口对象
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns></returns>
+        public Song.SMS.SmsItem GetItem(string mark)
+        {
+            return Song.SMS.Config.GetItem(mark);
+        }
+        /// <summary>
         /// 获取某短信接口的短信数
         /// </summary>
         /// <param name="mark">接口标识名</param>
@@ -91,8 +100,9 @@ namespace Song.ViewData.Methods
         public JObject UserInfo(string mark)
         {
             JObject jo = new JObject();
-            Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(mark);
-            jo.Add("name", sms.Current.Name);
+            Song.SMS.SmsItem sms = Song.SMS.Config.GetItem(mark);
+            if (sms == null) throw new Exception("短信接口“"+mark+"”不存在");
+            jo.Add("name", sms.Name);
             //账号与密码
             string user = Business.Do<ISystemPara>().GetValue(mark + "SmsAcc");
             string pw = Business.Do<ISystemPara>().GetValue(mark + "SmsPw");
@@ -130,6 +140,15 @@ namespace Song.ViewData.Methods
         {
             Business.Do<ISystemPara>().Save(mark + "_SmsTemplate", msg);
             return true;           
+        }
+        /// <summary>
+        /// 短信模板
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns></returns>
+        public string TemplateSMS(string mark)
+        {
+            return Business.Do<ISystemPara>().GetValue(mark + "_SmsTemplate"); ;
         }
         /// <summary>
         ///  短信模板实际效果
