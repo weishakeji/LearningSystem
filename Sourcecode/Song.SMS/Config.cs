@@ -35,7 +35,7 @@ namespace Song.SMS
             {
                 _currentName = value;
                 foreach (SmsItem item in smsItems)
-                    item.IsCurrent = item.Remarks.Equals(_currentName, StringComparison.OrdinalIgnoreCase);
+                    item.IsCurrent = item.Mark.Equals(_currentName, StringComparison.OrdinalIgnoreCase);
             }
         }
         private Config()
@@ -80,7 +80,7 @@ namespace Song.SMS
                 string isuse = _getValue(node, "isUse");
                 si.IsUse = "false".Equals(isuse, StringComparison.OrdinalIgnoreCase) ? false : true;
                 si.Type = _getValue(node, "type");
-                si.Remarks = _getValue(node, "remarks");
+                si.Mark = _getValue(node, "remarks");
                 si.Name = _getValue(node, "name");
                 //ÇëÇóµÄÍøÖ·
                 si.Domain = _getValue(node, "domain");

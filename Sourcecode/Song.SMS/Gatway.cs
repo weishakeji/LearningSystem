@@ -49,7 +49,7 @@ namespace Song.SMS
             SmsItem current = Config.Current;
             foreach (SmsItem item in Config.SmsItems)
             {
-                if (item.Remarks == remark)
+                if (item.Mark == remark)
                 {
                     current = item;
                     break;

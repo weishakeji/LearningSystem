@@ -4,9 +4,14 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.querystring('id'),
-            entity: {}, //当前对象             
-
+            mark: $api.querystring('mark'),
+            entity: {}, //当前对象        
+            count: -1,   //短信条数
+            error: '',       //   
+            rules: {
+                user: [{ required: true, message: '不得为空', trigger: 'blur' }],
+                pw: [{ required: true, message: '不得为空', trigger: 'blur' }]
+            },
             loading: false
         },
         watch: {
@@ -16,31 +21,73 @@ $ready(function () {
             var th = this;
             if (th.id == '') return;
             th.loading = true;
-            $api.get('Pay/ForID', { 'id': th.id }).then(function (req) {
-                window.setTimeout(function () {
-                    th.loading = false;
-                }, 300);
-
+            $api.get('Sms/UserInfo', { 'mark': th.mark }).then(function (req) {
                 if (req.data.success) {
                     th.entity = req.data.result;
+                    th.getcount();
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => alert(err))
+                .finally(() => th.loading = false);
         },
         computed: {
-            //实体是否不为空
-            'entity_exist': function () {
-                return JSON.stringify(this.entity) != '{}' && this.entity != null;
-            }
+
         },
         methods: {
-
+            //获取短信条数
+            getcount: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Sms/Count', { 'mark': th.mark }).then(function (req) {
+                    if (req.data.success) {
+                        th.count = req.data.result;
+                    } else throw req.data.message;
+                }).catch(err => th.error = err)
+                    .finally(() => th.loading = false);
+            },
+            //刷新短信余额
+            btnFresh: function (formName) {
+                var th = this;
+                th.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        th.getcount();
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            btnEnter: function (formName) {
+                var th = this;
+                th.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        th.loading = true;
+                        $api.post('Sms/Modify', { 'mark': th.mark, 'account': th.entity.user, 'pwd': th.entity.pw }).then(function (req) {
+                            if (req.data.success) {
+                                var result = req.data.result;
+                                th.$message({
+                                    type: 'success',
+                                    message: '操作成功!',
+                                    center: true
+                                });
+                                th.operateSuccess();
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(err => alert(err))
+                            .finally(() => th.loading = false);
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            //操作成功
+            operateSuccess: function () {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+            }
         },
     });
 

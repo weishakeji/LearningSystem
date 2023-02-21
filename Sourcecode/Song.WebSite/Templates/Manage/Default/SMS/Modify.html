@@ -7,8 +7,32 @@
 </head>
 
 <body>
-    <div id="app-form"  v-cloak>
-       <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item label="短信平台">
+                <el-tag type="success">{{entity.name}}</el-tag>
+
+            </el-form-item>
+            <el-form-item label="账号" prop="user">
+                <el-input v-model="entity.user" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="pw">
+                <el-input v-model="entity.pw" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="余额">
+                <loading v-if="loading"></loading>
+                <template v-else>
+                    <el-tag v-if="count>=0">{{count}}</el-tag>
+                    <alert v-else>{{error}}</alert>
+                </template>
+                <el-link type="primary" class="fresh" @click="btnFresh('entity')"><icon>&#xe651</icon>刷新</el-link>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" :loading="loading" plain @click="btnEnter('entity')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 </body>
 

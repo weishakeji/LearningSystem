@@ -84,13 +84,33 @@ namespace Song.ViewData.Methods
             return num;
         }
         /// <summary>
+        /// 短信接口的账号与密码
+        /// </summary>
+        /// <param name="mark">接口标识</param>
+        /// <returns>user账号,pw密码</returns>
+        public JObject UserInfo(string mark)
+        {
+            JObject jo = new JObject();
+            Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(mark);
+            jo.Add("name", sms.Current.Name);
+            //账号与密码
+            string user = Business.Do<ISystemPara>().GetValue(mark + "SmsAcc");
+            string pw = Business.Do<ISystemPara>().GetValue(mark + "SmsPw");
+            if (!string.IsNullOrWhiteSpace(pw))
+                pw = WeiSha.Core.DataConvert.DecryptForBase64(pw);
+            jo.Add("user", user);
+            jo.Add("pw", pw);
+            return jo;
+        }
+        /// <summary>
         /// 修改短信接口的账号与密码
         /// </summary>
         /// <param name="mark">接口标识名</param>
         /// <param name="account">短信平台的账号</param>
         /// <param name="pwd">短信平台的密码</param>
         /// <returns></returns>
-        public bool Update(string mark,string account, string pwd)
+        [HttpPost]
+        public bool Modify(string mark,string account, string pwd)
         {
             Business.Do<ISystemPara>().Save(mark + "SmsAcc", account);
             //密码加密存储
@@ -105,6 +125,7 @@ namespace Song.ViewData.Methods
         /// <param name="mark">接口标识名</param>
         /// <param name="msg">短信消息模板</param>
         /// <returns></returns>
+        [HttpPost]
         public bool TemplateUpdate(string mark,string msg)
         {
             Business.Do<ISystemPara>().Save(mark + "_SmsTemplate", msg);

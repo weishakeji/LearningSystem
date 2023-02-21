@@ -42,14 +42,14 @@ namespace Song.SMS
             get { return name; }
             set { name = value; }
         }
-        private string remarks;
+        private string mark;
         /// <summary>
         /// 标识信息
         /// </summary>
-        public string Remarks
+        public string Mark
         {
-            get { return remarks; }
-            set { remarks = value; }
+            get { return mark; }
+            set { mark = value; }
         }
         private string _domain;
         /// <summary>
