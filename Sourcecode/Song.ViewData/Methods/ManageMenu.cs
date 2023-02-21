@@ -81,7 +81,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="mm">菜单对象</param>
         /// <returns></returns>
-        [SuperAdmin]
+        [HttpPost, SuperAdmin]
         public bool Modify(Song.Entities.ManageMenu mm)
         {
             Song.Entities.ManageMenu old = Business.Do<IManageMenu>().GetSingle(mm.MM_Id);
@@ -95,7 +95,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="mm"></param>
         /// <returns></returns>
-        [SuperAdmin]
+        [HttpPost, SuperAdmin]
         public bool ModifyFuncRoot(Song.Entities.ManageMenu mm)
         {
             Song.Entities.ManageMenu old = Business.Do<IManageMenu>().GetSingle(mm.MM_Id);
@@ -137,7 +137,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="mm">菜单对象</param>
         /// <returns></returns>
-        [SuperAdmin]
+        [HttpPost,SuperAdmin]
         public bool AddFuncRoot(Song.Entities.ManageMenu mm)
         {
             try

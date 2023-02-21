@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
             <el-row>
                 <el-col :span="12">
@@ -53,13 +53,14 @@
                     </el-switch>
                 </el-form-item>
             </el-row>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
-        </el-form>
 
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity')">保存
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
         <icons @change='val=>{entity.MM_IcoS=val}' ref="icons" :selected="entity.MM_IcoS"></icons>
 
     </div>

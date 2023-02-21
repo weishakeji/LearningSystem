@@ -31,44 +31,18 @@ namespace Song.SMS
         public string CurrentName
         {
             get { return _currentName; }
-            set { _currentName = value; }
+            set
+            {
+                _currentName = value;
+                foreach (SmsItem item in smsItems)
+                    item.IsCurrent = item.Remarks.Equals(_currentName, StringComparison.OrdinalIgnoreCase);
+            }
         }
         private Config()
-        {
-            XmlNodeList list = WeiSha.Core.PlatformInfoHandler.GetParaNode("SMS").ChildNodes;
-            List<SmsItem> smslist = new List<SmsItem>();
-            for (int i = 0; i < list.Count; i++)
-            {
-                XmlNode node = list[i];
-                //如果该接口禁用，则跳过
-                if (_getValue(node, "isUse") == "false")
-                    continue;
-                SmsItem si = new SmsItem();
-                si = new SmsItem();
-                //si.User = _getValue(node, "user");
-                //si.Password = _getValue(node, "pw");
-                si.Type = _getValue(node, "type");
-                si.Remarks = _getValue(node, "remarks");
-                si.Name = _getValue(node, "name");
-                //请求的网址
-                si.Domain = _getValue(node, "domain");
-                if (!si.Domain.EndsWith("/")) si.Domain += "/";
-                si.RegisterUrl = _getValue(node, "regurl");
-                si.PayUrl = _getValue(node, "payurl");
-                si.IsUse = true;
-                smslist.Add(si);
-            }
-            smsItems = smslist.ToArray();
-            //当前采用的短信平台
-            foreach (SmsItem item in smsItems)
-            {
-                if (item.Remarks == _currentName)
-                {
-                    item.IsCurrent = true;
-                    break;
-                }
-            }
+        {            
+            this.initialize();            
         }
+        
         /// <summary>
         /// 获取属性值
         /// </summary>
@@ -86,6 +60,39 @@ namespace Song.SMS
             }
             return string.Empty;
         }
+        /// <summary>
+        /// 初始化，读取配置项
+        /// </summary>
+        /// <returns></returns>
+        private SmsItem[] initialize()
+        {
+            XmlNodeList list = WeiSha.Core.PlatformInfoHandler.GetParaNode("SMS").ChildNodes;
+            List<SmsItem> smslist = new List<SmsItem>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                XmlNode node = list[i];
+                ////如果该接口禁用，则跳过
+                //if (_getValue(node, "isUse") == "false")
+                //    continue;
+                SmsItem si = new SmsItem();
+                //si.User = _getValue(node, "user");
+                //si.Password = _getValue(node, "pw");
+                string isuse = _getValue(node, "isUse");
+                si.IsUse = "false".Equals(isuse, StringComparison.OrdinalIgnoreCase) ? false : true;
+                si.Type = _getValue(node, "type");
+                si.Remarks = _getValue(node, "remarks");
+                si.Name = _getValue(node, "name");
+                //请求的网址
+                si.Domain = _getValue(node, "domain");
+                if (!si.Domain.EndsWith("/")) si.Domain += "/";
+                si.RegisterUrl = _getValue(node, "regurl");
+                si.PayUrl = _getValue(node, "payurl");            
+                smslist.Add(si);
+            }
+            smsItems= smslist.ToArray();
+            return smsItems;
+        }
+        #region 公共静态方法
         /// <summary>
         /// 当前采用的短信平台
         /// </summary>
@@ -117,10 +124,12 @@ namespace Song.SMS
         /// <param name="remarks"></param>
         public static void SetCurrent(string remarks)
         {
-            foreach (SmsItem item in Config.SmsItems)
-            {
-                item.IsCurrent = item.Remarks == remarks;  
-            }
+            Config.Singleton.CurrentName = remarks;          
         }
+        public static void Fresh()
+        {
+            Config.Singleton.initialize();
+        }
+        #endregion
     }
 }

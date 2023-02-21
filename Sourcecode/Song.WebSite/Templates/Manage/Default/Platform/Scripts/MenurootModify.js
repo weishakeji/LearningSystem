@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -48,9 +48,9 @@ $ready(function () {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
-                $api.post('ManageMenu/AddFuncRoot', { 'mm': vue.entity }).then(function (req) {
+                $api.post('ManageMenu/AddFuncRoot', { 'mm': th.entity }).then(function (req) {
                     if (req.data.success) {
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '添加成功!',
                             center: true
@@ -59,19 +59,20 @@ $ready(function () {
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }
-                    th.loading = false;
+                    }                  
                 }).catch(function (err) {
                     alert(err);
+                }).finally(function () {
+                    th.loading = false;
                 });
             },
             modify: function () {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
-                $api.post('ManageMenu/ModifyFuncRoot', { 'mm': vue.entity }).then(function (req) {
+                $api.post('ManageMenu/ModifyFuncRoot', { 'mm': th.entity }).then(function (req) {
                     if (req.data.success) {
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '修改成功!',
                             center: true
@@ -80,10 +81,11 @@ $ready(function () {
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }
-                    th.loading = false;
+                    }                  
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    alert(err, '错误');
+                }).finally(function () {
+                    th.loading = false;
                 });
             },
             //操作成功

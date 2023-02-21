@@ -14,7 +14,8 @@
     </div>
     <template>
       <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-        @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="MM_Id" draggable>
+        @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="MM_Id"
+        :row-class-name="data=>{return data.row.MM_IsUse ? 'enable' : 'disabled';}" draggable>
         <el-table-column type="selection" width="35" show-overflow-tooltip>
         </el-table-column>
         <el-table-column type="index" width="50">
@@ -57,11 +58,11 @@
           <el-button-group slot-scope="scope">
             <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.MM_Id)'>修改
             </el-link>
-            <el-link type="danger" plain icon="el-icon-delete" :disabled="scope.row.MM_IsFixed" title="系统级菜单，不可删除"
-              @click='$refs.btngroup.delete(scope.row.MM_Id,{})'>删除
-            </el-link>
+            <el-popconfirm title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.MM_Id,{})">
+              <el-link type="danger" plain icon="el-icon-delete" :disabled="scope.row.MM_IsFixed" title="系统级菜单，不可删除"
+                slot="reference">删除 </el-link>
+            </el-popconfirm>
           </el-button-group>
-
         </el-table-column>
       </el-table>
 

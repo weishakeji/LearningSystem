@@ -44,4 +44,4 @@ $ready(function () {
         },
     });
 
-}, ['Components/interface_type.js']);
+});

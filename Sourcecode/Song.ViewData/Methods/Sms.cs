@@ -33,6 +33,19 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.SMS.SmsItem[] Items()
         {
+            string current = Business.Do<ISystemPara>().GetValue("SmsCurrent");
+            Song.SMS.Config.SetCurrent(current);
+            return Song.SMS.Config.SmsItems;
+        }
+        /// <summary>
+        /// 获取所有短信接口,并刷新缓存
+        /// </summary>
+        /// <returns></returns>
+        public Song.SMS.SmsItem[] ItemsFresh()
+        {
+            Song.SMS.Config.Fresh();
+            string current = Business.Do<ISystemPara>().GetValue("SmsCurrent");
+            Song.SMS.Config.SetCurrent(current);           
             return Song.SMS.Config.SmsItems;
         }
         /// <summary>

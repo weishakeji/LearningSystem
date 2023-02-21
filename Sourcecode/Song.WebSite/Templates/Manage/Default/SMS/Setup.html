@@ -7,8 +7,62 @@
 </head>
 
 <body>
-    <div id="app-form"  v-cloak>
-       <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
+            <el-tag type="success" v-if="current!=''">当前接口：{{current}}</el-tag>
+        </div>
+        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%"
+            @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
+            :row-class-name="data=>{return data.row.IsUse ? 'enable' : 'disabled';}">
+            <el-table-column type="index" width="50">
+            </el-table-column>
+            <el-table-column label="短信平台" header-align="left" width="200">
+                <template slot-scope="scope">
+                    <span v-html='scope.row.Name' v-if="scope.row.Name!=''"></span>
+                    <span v-else>{{scope.row.Remarks}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号" header-align="left">
+                <template slot-scope="scope">
+                    <span v-html='scope.row.User' v-if="scope.row.User!=''"></span>
+                    <el-link type="primary" v-else
+                        @click="openbox('Modify?remark='+scope.row.Remarks,'Remarks','设置账号与密码',600,400,'e808')">未设置，点击设置
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="余额（条）">
+                <template slot-scope="scope">
+                    <sms_count :mark="scope.row.Remarks"></sms_count>
+                </template>
+            </el-table-column>
+            <el-table-column label="短信模板" width="60" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary"
+                        @click="openbox('Message?remark='+scope.row.Remarks,'Message','短信模板',600,400,'e808')">设置
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="注册/充值" width="120" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary" :disabled="scope.row.RegisterUrl ==''"
+                        @click="openbox(scope.row.RegisterUrl,'RegisterUrl','注册短信平台',800,600,'e808')">注册
+                    </el-link>
+                    <el-link type="primary" v-if="scope.row.PayUrl !=''"
+                        @click="openbox(scope.row.PayUrl,'PayUrl','向短信平台充值',600,400,'e808')">充值
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip width="100" align="center">
+                <template slot-scope="scope">
+                    <el-tag type="success" class="current" v-if="scope.row.IsCurrent">当前采用</el-tag>
+                    <template v-else>
+                        <el-link type="primary" :disabled="!scope.row.IsUse" plain
+                            @click='setcurrent(scope.row.Remarks)'> 采用</el-link>
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </body>
 
