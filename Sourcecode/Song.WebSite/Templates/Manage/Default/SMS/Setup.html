@@ -10,7 +10,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
-            <el-tag type="success" v-if="current!=''">当前接口：{{current}}</el-tag>
+            <el-tag type="success" v-if="current!=''">当前接口： <icon>&#xa01c</icon>{{current}}</el-tag>
         </div>
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%"
             @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
@@ -27,7 +27,8 @@
                 <template slot-scope="scope">
                     <span v-html='scope.row.User' v-if="scope.row.User!=''"></span>
                     <el-link type="primary" v-else
-                        @click="openbox('Modify?mark='+scope.row.Mark,'Mark','设置账号与密码',600,400,'e808')">未设置，点击设置
+                        @click="openbox('Modify?mark='+scope.row.Mark,'Mark','设置账号与密码',600,400,'e808')">
+                        <icon>&#xa043</icon>未设置，点击设置
                     </el-link>
                 </template>
             </el-table-column>
@@ -39,7 +40,8 @@
             <el-table-column label="短信模板" width="60" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary"
-                        @click="openbox('Message?mark='+scope.row.Mark,'Message','短信模板',600,400,'e808')">设置
+                        @click="openbox('Message?mark='+scope.row.Mark,'Message','短信模板',600,400,'e808')">
+                        <icon>&#xe817</icon>设置
                     </el-link>
                 </template>
             </el-table-column>
@@ -55,10 +57,10 @@
             </el-table-column>
             <el-table-column label="操作" show-overflow-tooltip width="100" align="center">
                 <template slot-scope="scope">
-                    <el-tag type="success" class="current" v-if="scope.row.IsCurrent">当前采用</el-tag>
+                    <el-tag type="success" class="current" v-if="scope.row.IsCurrent"><icon>&#xa048</icon>当前</el-tag>
                     <template v-else>
                         <el-link type="primary" :disabled="!scope.row.IsUse" plain
-                            @click='setcurrent(scope.row.Mark)'> 采用</el-link>
+                            @click='setcurrent(scope.row.Mark)'><icon>&#xe634</icon> 采用</el-link>
                     </template>
                 </template>
             </el-table-column>
