@@ -17,12 +17,12 @@
             
             </el-form-item>
             <el-form-item label="实际效果">
-                
+                {{format_text}}
             </el-form-item>
             <el-form-item label="" label-width="0px">
                 <help multi> 1、结尾必须是【您的平台名称】，注意一定是中文的中括号结尾。
                     <br />
-                    2、替代符：{vcode}验证码，{platform}平台名称，{org}机构简称,{date}时间。<br />
+                    2、替代符：{vcode}验证码，{platform}平台名称，{org}机构简称,{date}日期,{time}时间。<br />
                     3、案例：您正在登录{plate},验证码：{vcode}。转发可能导致账号被盗。{date},【{org}】
                 </help>
             </el-form-item>

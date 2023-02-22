@@ -6,6 +6,7 @@ $ready(function () {
         data: {
             mark: $api.querystring('mark'),
             entity: { text: '' },      //当前接口对象
+            format_text: '',         //处理后的实际效果
             organ: {},  //当前机构
             platinfo: {},        //平台信息                    
             rules: {
@@ -14,7 +15,18 @@ $ready(function () {
             loading: false
         },
         watch: {
+            'entity.text': {
+                handler: function (nv, ov) {
+                    if (nv == null || nv == '') return;
+                    var pattern = /\{\w[^\}]+\}/gi;
+                    var arr = nv.match(pattern);
+                    if (arr.length < 1) return;
 
+                    this.format_text = nv;
+                    for (let i = 0; i < arr.length; i++)
+                        this.format_text = this.replace(arr[i].toLowerCase(), this.format_text);
+                }, immediate: true
+            }
         },
         mounted: function () {
             var th = this;
@@ -49,13 +61,25 @@ $ready(function () {
 
         },
         methods: {
+            //替换，参数：被替换的标签，文本
+            replace: function (tag, text) {
+                if (tag == "{vcode}") {
+                    var rnd = Math.floor(Math.random(0, 9999) * 10000);
+                    while (rnd < 1000) rnd *= 10;
+                    return text.replace(tag, rnd);
+                }
+                if (tag == "{plate}") return text.replace(tag, this.platinfo.title);
+                if (tag == "{org}") return text.replace(tag, this.organ.Org_Name);
+                if (tag == "{date}") return text.replace(tag, new Date().format('yyyy-M-dd'));
+                if (tag == "{time}") return text.replace(tag, new Date().format('HH:mm:ss'));
+                return text;
+            },
             btnEnter: function (formName) {
                 var th = this;
                 th.$refs[formName].validate((valid) => {
                     if (valid) {
-                        return;
                         th.loading = true;
-                        $api.post('Sms/Modify', { 'mark': th.mark, 'account': th.entity.user, 'pwd': th.entity.pw }).then(function (req) {
+                        $api.post('Sms/TemplateUpdate', { 'mark': th.mark, 'msg': th.entity.text }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -77,7 +101,8 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+                if (window.top.$pagebox && window.top.$pagebox.source)
+                    window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
             }
         },
     });
