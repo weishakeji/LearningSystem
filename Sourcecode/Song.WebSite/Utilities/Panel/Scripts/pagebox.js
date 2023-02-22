@@ -354,12 +354,25 @@
         },
         load: function (elem) {
             var src = $dom(elem).find('iframe').attr('src');
+
             if (src == '') {
                 var boxid = elem.getAttribute('boxid');
                 var ctrl = $ctrls.get(boxid);
                 ctrl.obj.trigger('load', { url: '', target: null });
                 return;
             }
+            //iframe路径如果不是同域的，直接设置为加载完成，并触发加载完成事件（其实可能并没有加载完成）
+            if (!(() => {
+                const origin = window.location.origin.toLowerCase();
+                if (src.length < origin) return false;
+                return src.toLowerCase().substring(0, origin.length) == origin;
+            })()) {
+                $dom(elem).find('pb-ico').last().hide();
+                $dom(elem).find('pb-ico').first().show();
+                ctrl.obj.trigger('load', { url: '', target: null });
+                return;
+            }
+            //同域路径才会启用预载状态判断
             $dom(elem).find('iframe').bind('load', function (e) {
                 var obj = box._getObj(e);
                 var eventArgs = {
