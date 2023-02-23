@@ -19,6 +19,10 @@ namespace Song.ViewData.Methods
     [HttpPut, HttpGet]
     public class Template : ViewMethod, IViewAPI
     {
+        public WeiSha.Core.Templates.TemplateConfingItem[] All()
+        {
+            return WeiSha.Core.Template.GetTemplateSorts();
+        }
         /// <summary>
         /// web端模版
         /// </summary>

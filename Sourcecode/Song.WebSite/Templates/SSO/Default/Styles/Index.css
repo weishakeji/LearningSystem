@@ -1,0 +1,23 @@
+﻿@charset "utf-8";
+card-title{
+    display: flex !important;
+
+}
+card-title span{
+    flex: 1;
+}
+loading{
+  display: block;
+  margin: 60px auto;
+}
+.btns{
+    display: flex;
+}
+.account_error card-context a{
+
+    width: auto;
+    background-color: #409EFF;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #fff;
+}

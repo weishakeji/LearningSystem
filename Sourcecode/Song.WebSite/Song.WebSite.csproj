@@ -491,6 +491,7 @@
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Results.js" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />
+    <Content Include="Templates\Pad\Default\_self.xml" />
     <Content Include="Templates\Pay\Default\Alibaba\Scripts\Mobi.js" />
     <Content Include="Templates\Pay\Default\Alibaba\Styles\Mobi.css" />
     <Content Include="Templates\Pay\Default\Alibaba\Mobi.html" />
@@ -507,6 +508,7 @@
     <Content Include="Pay\Images\支付宝网页直付.png" />
     <Content Include="Pay\readme.html" />
     <Content Include="Templates\Pay\Default\Inc\meta.inc" />
+    <Content Include="Templates\Pay\Default\Index.html" />
     <Content Include="Templates\Pay\Default\Scripts\PayEntry.js" />
     <Content Include="Templates\Pay\Default\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\Pay\Default\Styles\PayEntry.css" />
@@ -1123,6 +1125,20 @@
     <Content Include="Templates\Pay\Default\PayEntry.html" />
     <Content Include="Templates\Pay\Default\_self.xml" />
     <Content Include="Templates\Pay\_public\_self.xml" />
+    <Content Include="Templates\SSO\Default\Inc\meta.inc" />
+    <Content Include="Templates\SSO\Default\Index.html" />
+    <Content Include="Templates\SSO\Default\Login.html" />
+    <Content Include="Templates\SSO\Default\Logout.html" />
+    <Content Include="Templates\SSO\Default\Scripts\Inedex.js" />
+    <Content Include="Templates\SSO\Default\Scripts\Login.js" />
+    <Content Include="Templates\SSO\Default\Scripts\Logout.js" />
+    <Content Include="Templates\SSO\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\SSO\Default\Styles\Index.css" />
+    <Content Include="Templates\SSO\Default\Styles\Login.css" />
+    <Content Include="Templates\SSO\Default\Styles\Logout.css" />
+    <Content Include="Templates\SSO\Default\Styles\Public.css" />
+    <Content Include="Templates\SSO\Default\_self.xml" />
+    <Content Include="Templates\SSO\_public\_self.xml" />
     <Content Include="Templates\Student\Default\Course\Components\ques_progress.js" />
     <Content Include="Templates\Student\Default\Course\Components\Styles\ques_progress.css" />
     <Content Include="Templates\Student\Default\Course\Components\Styles\exam_test.css" />
@@ -1181,6 +1197,7 @@
     <Content Include="Templates\Teacher\Default\Testpaper\List.html" />
     <Content Include="Templates\Teacher\Default\Testpaper\Scripts\List.js" />
     <Content Include="Templates\Teacher\Default\Testpaper\Styles\List.css" />
+    <Content Include="Templates\TV\Default\_self.xml" />
     <Content Include="Templates\Web\Default\About\Images\about.jpg" />
     <Content Include="Templates\Web\Default\About\Index.html" />
     <Content Include="Templates\Web\Default\About\Scripts\Index.js" />
@@ -2662,6 +2679,7 @@
     <Folder Include="Templates\Manage\_public\Organs\" />
     <Folder Include="Templates\Pay\Default\Weixin\Scripts\" />
     <Folder Include="Templates\Pay\Default\Weixin\Styles\" />
+    <Folder Include="Templates\SSO\Default\Components\" />
     <Folder Include="Utilities\Images\Mobi\" />
   </ItemGroup>
   <ItemGroup>

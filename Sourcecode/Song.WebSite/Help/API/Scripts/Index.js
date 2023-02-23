@@ -248,10 +248,10 @@ var rvue = new Vue({
                 };
                 console.log(req);
                 var result = JSON.stringify(req.data.result);
-                if (req.config.returntype == "json")
-                    ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
-                if (req.config.returntype == "xml")
+                if (req.config && req.config.returntype == "xml")
                     ele.innerText = $api.trim(rvue.xmlformat(unescape(req.data)));
+                if (!req.config || req.config.returntype == "json")
+                    ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
 
             }).catch(function (ex) {
                 rvue.loading = false;
