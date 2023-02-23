@@ -326,7 +326,13 @@ namespace Song.ViewData
                 //属性名（包括泛型名称）
                 var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
                 string typename = nullableType != null ? nullableType.Name : pi.PropertyType.Name;
-                str += string.Format("<{0}>{1}</{0}>", pi.Name.ToLower(), _xml_property(typename, value));
+                try
+                {
+                    str += string.Format("<{0}>{1}</{0}>", pi.Name.ToLower(), _xml_property(typename, value));
+                }catch(Exception ex)
+                {
+                    throw ex;
+                }
             }
             if (str.EndsWith(",")) str = str.Substring(0, str.Length - 1);
             str += "</DataResult>";
@@ -376,40 +382,48 @@ namespace Song.ViewData
                     {
                         str = ((WeiSha.Data.Entity)value).ToXML();
                     }
+                    else if (value is WeiSha.Data.Entity[])
+                    {
+                        WeiSha.Data.Entity[] entitis = (WeiSha.Data.Entity[])value;
+                        str += "<Entitis>";
+                        foreach (WeiSha.Data.Entity en in entitis)
+                            str += en.ToXML();
+                        str += "</Entitis>";
+                    }
+                    else if (value is Array)
+                    {
+                        Array array = (Array)value;                       
+                        for (int i = 0; i < array.Length; i++)
+                        {
+                            string name = array.GetValue(i).GetType().Name;
+                            str += "<"+name+">";
+                            str += _xml_property(array.GetValue(i).GetType().Name, array.GetValue(i));
+                            str += "</"+name+">";
+                        }                      
+                    }
                     else
                     {
-                        if (value is WeiSha.Data.Entity[])
+                        try
                         {
-                            WeiSha.Data.Entity[] entitis = (WeiSha.Data.Entity[])value;
-                            str += "<Entitis>";
-                            foreach (WeiSha.Data.Entity en in entitis)
-                                str += en.ToXML();
-                            str += "</Entitis>";
-                        }
-                        else
-                        {
-                            try
-                            {
-                                string strjson = JsonConvert.SerializeObject(value);
-                                string root = "TemporaryNode";
-                                string xml = JsonConvert.DeserializeXNode(strjson, root, true).ToString();
-                                xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
-                                xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
-                                str += xml;
+                            string strjson = JsonConvert.SerializeObject(value);
+                            string root = "TemporaryNode";
+                            string xml = JsonConvert.DeserializeXNode(strjson, root, true).ToString();
+                            xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
+                            xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
+                            str += xml;
 
-                            }
-                            catch
+                        }
+                        catch
+                        {
+                            using (StringWriter writer = new StringWriter())
                             {
-                                using (StringWriter writer = new StringWriter())
-                                {
-                                    XmlSerializer serializer = new XmlSerializer(value.GetType());
-                                    string content = string.Empty;
-                                    serializer.Serialize(writer, value);
-                                    content = writer.ToString();
-                                    XmlDocument xml = new XmlDocument();
-                                    xml.LoadXml(content);
-                                    str += xml.LastChild.InnerXml;
-                                }
+                                XmlSerializer serializer = new XmlSerializer(value.GetType());
+                                string content = string.Empty;
+                                serializer.Serialize(writer, value);
+                                content = writer.ToString();
+                                XmlDocument xml = new XmlDocument();
+                                xml.LoadXml(content);
+                                str += xml.LastChild.InnerXml;
                             }
                         }
                     }
