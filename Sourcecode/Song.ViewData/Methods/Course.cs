@@ -48,7 +48,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程ID</param>
         /// <param name="num">要增总的浏览数，不可以为负数或零</param>
         /// <returns></returns>
-        [HttpPost,HttpPut,HttpGet(Ignore =true)]
+        [HttpPut,HttpGet(Ignore =true)]
         public int ViewNum(long couid, int num)
         {
             return Business.Do<ICourse>().CourseViewNum(couid, num);           
@@ -1099,7 +1099,9 @@ namespace Song.ViewData.Methods
             Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
             if (sc != null)
+            {
                 sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
+            }
             return sc;
         }
         /// <summary>

@@ -44,7 +44,15 @@ $ready(function () {
             $api.cache('Notice/ForID', { 'id': this.id }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
-                    vapp.data = req.data.result;
+                    th.data = req.data.result;
+                    $api.cache('Notice/ViewNum:60', { 'id': th.id, 'num': 1 }).then(function (req) {
+                        if (req.data.success) {
+                            th.data.No_ViewNum = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err));
                 } else {
                     throw req.data.message;
                 }

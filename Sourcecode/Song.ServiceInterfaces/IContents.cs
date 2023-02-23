@@ -34,6 +34,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 使当前文章浏览计数加一，仅传入id，返回浏览数，效率更高
         /// </summary>
+        /// <param name="artid"></param>
         /// <param name="id">新闻文章的id</param>
         /// <param name="addNum">每次浏览增加几个数</param>
         /// <returns></returns>

@@ -8,3 +8,7 @@ SSO_Name nvarchar(100)
 go
 /*单点登录配置项增加是否允许创建学员组*/
 alter table SingleSignOn add SSO_IsAddSort [bit] default 0 NULL
+go
+
+
+

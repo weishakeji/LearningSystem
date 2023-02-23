@@ -62,8 +62,9 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Notice[] GetAll();
         /// <summary>
-        /// 获取某个院系的所有公告；
+        /// 获取所有公告；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="isShow">是否显示</param>
         /// <returns></returns>
         Notice[] GetAll(int orgid, bool? isShow);
@@ -84,6 +85,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int OfCount(int orgid, bool? isShow);
         /// <summary>
+        /// 增加浏览数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="num">要增加的数量</param>
+        /// <returns></returns>
+        int ViewNum(long id, int num);
+        /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
         /// <param name="size">每页显示几条记录</param>
@@ -94,6 +102,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="isShow">是否显示</param>
         /// <param name="searTxt">查询字符</param>
         /// <param name="size"></param>

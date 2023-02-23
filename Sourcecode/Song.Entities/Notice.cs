@@ -48,13 +48,15 @@ namespace Song.Entities {
     		
     		protected String _No_Linkurl;
     		
-    		protected Int32 _No_Timespan;
-    		
     		protected String _No_StudentSort;
+    		
+    		protected Int32 _No_Timespan;
     		
     		protected Int32 _No_Type;
     		
     		protected Int64 _No_Id;
+    		
+    		protected Int32 _No_ViewNum;
     		
     		/// <summary>
     		/// True
@@ -283,16 +285,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 No_Timespan {
-    			get {
-    				return this._No_Timespan;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.No_Timespan, _No_Timespan, value);
-    				this._No_Timespan = value;
-    			}
-    		}
-    		
     		public String No_StudentSort {
     			get {
     				return this._No_StudentSort;
@@ -300,6 +292,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_StudentSort, _No_StudentSort, value);
     				this._No_StudentSort = value;
+    			}
+    		}
+    		
+    		public Int32 No_Timespan {
+    			get {
+    				return this._No_Timespan;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Timespan, _No_Timespan, value);
+    				this._No_Timespan = value;
     			}
     		}
     		
@@ -320,6 +322,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_Id, _No_Id, value);
     				this._No_Id = value;
+    			}
+    		}
+    		
+    		public Int32 No_ViewNum {
+    			get {
+    				return this._No_ViewNum;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_ViewNum, _No_ViewNum, value);
+    				this._No_ViewNum = value;
     			}
     		}
     		
@@ -363,10 +375,11 @@ namespace Song.Entities {
     					_.No_Height,
     					_.No_BgImage,
     					_.No_Linkurl,
-    					_.No_Timespan,
     					_.No_StudentSort,
+    					_.No_Timespan,
     					_.No_Type,
-    					_.No_Id};
+    					_.No_Id,
+    					_.No_ViewNum};
     		}
     		
     		/// <summary>
@@ -394,10 +407,11 @@ namespace Song.Entities {
     					this._No_Height,
     					this._No_BgImage,
     					this._No_Linkurl,
-    					this._No_Timespan,
     					this._No_StudentSort,
+    					this._No_Timespan,
     					this._No_Type,
-    					this._No_Id};
+    					this._No_Id,
+    					this._No_ViewNum};
     		}
     		
     		/// <summary>
@@ -464,17 +478,20 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.No_Linkurl))) {
     				this._No_Linkurl = reader.GetString(_.No_Linkurl);
     			}
-    			if ((false == reader.IsDBNull(_.No_Timespan))) {
-    				this._No_Timespan = reader.GetInt32(_.No_Timespan);
-    			}
     			if ((false == reader.IsDBNull(_.No_StudentSort))) {
     				this._No_StudentSort = reader.GetString(_.No_StudentSort);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Timespan))) {
+    				this._No_Timespan = reader.GetInt32(_.No_Timespan);
     			}
     			if ((false == reader.IsDBNull(_.No_Type))) {
     				this._No_Type = reader.GetInt32(_.No_Type);
     			}
     			if ((false == reader.IsDBNull(_.No_Id))) {
     				this._No_Id = reader.GetInt64(_.No_Id);
+    			}
+    			if ((false == reader.IsDBNull(_.No_ViewNum))) {
+    				this._No_ViewNum = reader.GetInt32(_.No_ViewNum);
     			}
     		}
     		
@@ -603,14 +620,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field No_Linkurl = new WeiSha.Data.Field<Notice>("No_Linkurl");
     			
     			/// <summary>
-    			/// 字段名：No_Timespan - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field No_Timespan = new WeiSha.Data.Field<Notice>("No_Timespan");
-    			
-    			/// <summary>
     			/// 字段名：No_StudentSort - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field No_StudentSort = new WeiSha.Data.Field<Notice>("No_StudentSort");
+    			
+    			/// <summary>
+    			/// 字段名：No_Timespan - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Timespan = new WeiSha.Data.Field<Notice>("No_Timespan");
     			
     			/// <summary>
     			/// 字段名：No_Type - 数据类型：Int32
@@ -621,7 +638,11 @@ namespace Song.Entities {
     			/// 字段名：No_Id - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field No_Id = new WeiSha.Data.Field<Notice>("No_Id");
+    			
+    			/// <summary>
+    			/// 字段名：No_ViewNum - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_ViewNum = new WeiSha.Data.Field<Notice>("No_ViewNum");
     		}
     	}
     }
-    

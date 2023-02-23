@@ -19,9 +19,9 @@ $ready(function () {
                     document.title = th.article.Art_Title;
                     $api.bat(
                         $api.cache('News/ColumnsForUID', { 'uid': th.article.Col_UID }),
-                        $api.cache('News/VisitPlusOne', { 'id': th.article.Art_ID }),
+                        $api.cache('News/VisitPlusOne:60', { 'id': th.article.Art_ID }),
                         $api.cache("News/Accessory", { 'uid': th.article.Art_Uid })
-                    ).then(axios.spread(function (column, visit, accessory) {
+                    ).then(axios.spread(function (column, visit, accessory, num) {
                         //判断结果是否正常
                         for (var i = 0; i < arguments.length; i++) {
                             if (arguments[i].status != 200)
@@ -33,11 +33,11 @@ $ready(function () {
                             }
                         }
                         //栏目信息
-                        vapp.column = column.data.result;
+                        th.column = column.data.result;
                         //访问量加一，并给当前新闻加上这个数
-                        vapp.article.Art_Number = visit.data.result;
+                        th.article.Art_Number = visit.data.result;
                         //新闻附件
-                        vapp.accessory = accessory.data.result;
+                        th.accessory = accessory.data.result;
                     })).catch(function (err) {
                         console.error(err);
                     });

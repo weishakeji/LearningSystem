@@ -461,6 +461,17 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IContents>().ArticleOfCount(orgid, uid, isuse);
         }
+        /// <summary>
+        /// 获取或增加的浏览数
+        /// </summary>
+        /// <param name="artid">文章ID</param>
+        /// <param name="num">要增总的浏览数，不可以为负数或零</param>
+        /// <returns></returns>
+        [HttpPut, HttpGet(Ignore = true)]
+        public int ViewNum(long artid, int num)
+        {
+            return Business.Do<IContents>().ArticleAddNumber(artid, num);
+        }
         #endregion
     }
 }

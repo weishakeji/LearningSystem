@@ -14,6 +14,7 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
+            var th = this;
             this.loading = true;
             $api.bat(
                 $api.get('Account/Current'),
@@ -30,11 +31,11 @@ $ready(function () {
                     }
                 }
                 //获取结果          
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.org = org.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.org = org.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.org).config;
+                th.config = $api.organ(th.org).config;
 
             })).catch(function (err) {
                 console.error(err);
@@ -48,7 +49,7 @@ $ready(function () {
                     document.title = th.article.Art_Title;
                     $api.bat(
                         $api.cache('News/ColumnsForUID', { 'uid': th.article.Col_UID }),
-                        $api.cache('News/VisitPlusOne', { 'id': th.article.Art_ID }),
+                        $api.cache('News/VisitPlusOne:60', { 'id': th.article.Art_ID }),
                         $api.cache("News/Accessory", { 'uid': th.article.Art_Uid })
                     ).then(axios.spread(function (column, visit, accessory) {
                         //判断结果是否正常
@@ -62,11 +63,11 @@ $ready(function () {
                             }
                         }
                         //栏目信息
-                        vapp.column = column.data.result;
+                        th.column = column.data.result;
                         //访问量加一，并给当前新闻加上这个数
-                        vapp.article.Art_Number = visit.data.result;
+                        th.article.Art_Number = visit.data.result;
                         //新闻附件
-                        vapp.accessory = accessory.data.result;
+                        th.accessory = accessory.data.result;
                     })).catch(function (err) {
                         console.error(err);
                     });
@@ -92,7 +93,7 @@ $ready(function () {
             //获取课程
             getcourses: function () {
                 var th = this;
-                $api.get('Course/ShowCount', { 'sbjid': -1, 'orgid': th.org.Org_ID,'search': '', 'order': 'rec', 'count': 6 }).then(function (req) {
+                $api.get('Course/ShowCount', { 'sbjid': -1, 'orgid': th.org.Org_ID, 'search': '', 'order': 'rec', 'count': 6 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                         console.log(th.courses);

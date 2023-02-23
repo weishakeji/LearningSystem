@@ -155,7 +155,24 @@ namespace Song.ServiceImpls
             if (isShow != null) wc.And(Notice._.No_IsShow == isShow);
             return Gateway.Default.Count<Notice>(wc);
         }
+        /// <summary>
+        /// 增加浏览数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="num">要增加的数量</param>
+        /// <returns></returns>
+        public int ViewNum(long id, int num)
+        {
+            Song.Entities.Notice notice =this.NoticeSingle(id);
+            if (notice == null) return -1;
+            if (num <= 0) return notice.No_ViewNum;
 
+            notice.No_ViewNum += num;
+            Gateway.Default.Update<Notice>(
+                new Field[] { Notice._.No_ViewNum },
+                new object[] { notice.No_ViewNum }, Notice._.No_Id == notice.No_Id);
+            return notice.No_ViewNum;
+        }
         public Notice[] GetPager(int orgid, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();

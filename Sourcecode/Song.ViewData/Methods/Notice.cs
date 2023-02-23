@@ -35,6 +35,16 @@ namespace Song.ViewData.Methods
             return notice.No_IsShow ? notice : null;
         }
         /// <summary>
+        /// 获取或增加通知的浏览数
+        /// </summary>
+        /// <param name="id">通知ID</param>
+        /// <param name="num">要增总的浏览数，不可以为负数或零</param>
+        /// <returns></returns>    
+        public int ViewNum(long id, int num)
+        {
+            return Business.Do<INotice>().ViewNum(id, num);
+        }
+        /// <summary>
         /// 修改通知信息
         /// </summary>
         /// <param name="entity"></param>

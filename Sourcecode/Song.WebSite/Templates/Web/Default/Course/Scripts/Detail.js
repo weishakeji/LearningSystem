@@ -86,7 +86,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Course/ForID', { 'id': th.couid }),
-                $api.post('Course/ViewNum', { 'couid': th.couid, 'num': 1 })
+                $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
             ).then(axios.spread(function (organ, course, viewnum) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
