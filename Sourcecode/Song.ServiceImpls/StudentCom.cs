@@ -132,7 +132,19 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == identify).ToFirst<StudentSort>();
         }
-
+        /// <summary>
+        /// 根据学员组名称获取学员
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public StudentSort SortSingle(string name, int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(StudentSort._.Org_ID == orgid);
+            wc.And(StudentSort._.Sts_Name == name);
+            return Gateway.Default.From<StudentSort>().Where(wc).ToFirst<StudentSort>();
+        }
         public StudentSort SortDefault(int orgid)
         {
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Org_ID == orgid && StudentSort._.Sts_IsDefault == true).ToFirst<StudentSort>();

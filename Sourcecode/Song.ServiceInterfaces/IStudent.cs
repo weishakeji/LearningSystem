@@ -43,6 +43,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         StudentSort SortSingle(long identify);
         /// <summary>
+        /// 根据学员组名称获取学员
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        StudentSort SortSingle(string name,int orgid);
+        /// <summary>
         /// 获取默认学员组
         /// </summary>
         /// <param name="orgid">机构id</param>

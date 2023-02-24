@@ -34,7 +34,7 @@ namespace Song.Entities {
     		
     		protected String _SSO_Config;
     		
-    		protected Boolean? _SSO_IsAddSort;
+    		protected Boolean _SSO_IsAddSort;
     		
     		public Int32 SSO_ID {
     			get {
@@ -166,7 +166,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean? SSO_IsAddSort {
+    		public Boolean SSO_IsAddSort {
     			get {
     				return this._SSO_IsAddSort;
     			}
@@ -378,7 +378,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field SSO_Config = new WeiSha.Data.Field<SingleSignOn>("SSO_Config");
     			
     			/// <summary>
-    			/// 字段名：SSO_IsAddSort - 数据类型：Boolean(可空)
+    			/// 字段名：SSO_IsAddSort - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field SSO_IsAddSort = new WeiSha.Data.Field<SingleSignOn>("SSO_IsAddSort");
     		}

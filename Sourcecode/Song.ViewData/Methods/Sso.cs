@@ -119,5 +119,67 @@ namespace Song.ViewData.Methods
             return true;
         }
         #endregion
+
+        #region 登录与退出
+        public Song.Entities.Accounts Login(string appid, string user, string name, string sort)
+        {
+            if (string.IsNullOrWhiteSpace(appid) || string.IsNullOrWhiteSpace(user)) return null;
+            //单点登录接口是否存在或启用
+            Song.Entities.SingleSignOn sso = Business.Do<ISSO>().GetSingle(appid);
+            if (sso == null || !sso.SSO_IsUse) return null;
+            //账号是否存在或禁用
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
+            if (acc == null || !acc.Ac_IsUse || !acc.Ac_IsPass)
+                throw VExcept.Verify("账号：" + user + " 被禁用或未通过审核", 103);
+
+            string PathKey = "Accounts";
+            string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
+            string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+            //如果账号存在，直接返回登录状态
+            if (acc != null)
+            {
+                acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
+                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
+                return acc;
+            } else if (sso.SSO_IsAdd)   //登录接口，允许添加学员
+            {
+                acc = new Accounts();
+                acc.Ac_AccName = user;
+                if (!string.IsNullOrWhiteSpace(name)) acc.Ac_Name = name;
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                acc.Org_ID = org.Org_ID;
+             
+                if (!string.IsNullOrWhiteSpace(sort))
+                {
+                    Song.Entities.StudentSort stsort = Business.Do<IStudent>().SortSingle(sort, org.Org_ID);
+                    if (stsort != null)
+                    {
+                        acc.Sts_ID = stsort.Sts_ID;
+                        acc.Sts_Name = stsort.Sts_Name;
+                    }
+                    else if(sso.SSO_IsAddSort)
+                    {
+                        stsort = new StudentSort();
+                        stsort.Sts_Name = sort;
+                        stsort.Org_ID = org.Org_ID;
+                        stsort.Org_Name = org.Org_Name;
+                        Business.Do<IStudent>().SortAdd(stsort);
+                        acc.Sts_ID = stsort.Sts_ID;
+                        acc.Sts_Name = stsort.Sts_Name;
+                    }
+                }
+                acc.Ac_IsPass = acc.Ac_IsUse = true;
+                Business.Do<IAccounts>().AccountsAdd(acc);
+
+                acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
+                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
+                return acc;
+            }
+            else
+            {
+                throw VExcept.Verify("账号：" + user + " 不存在，且没有创建账号的权限", 104);
+            }           
+        }
+        #endregion
     }
 }

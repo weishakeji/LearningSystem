@@ -516,7 +516,7 @@ namespace Song.ServiceImpls
         public Accounts AccountsLogin(string acc, string pw, bool? isPass)
         {
             Song.Entities.Accounts entity = null;
-           WhereClip wc = Accounts._.Ac_IsUse == true;
+            WhereClip wc = Accounts._.Ac_IsUse == true;
             if (isPass != null) wc.And(Accounts._.Ac_IsPass == (bool)isPass);
             string md5pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(pw).MD5;
             entity = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Ac_AccName == acc && Accounts._.Ac_Pw == md5pw).ToFirst<Accounts>();
@@ -530,13 +530,13 @@ namespace Song.ServiceImpls
                 w2 |= Accounts._.Ac_IDCardNumber == acc;
                 entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
             }
-            if (entity != null)
-            {
-                //识别码，记录到数据库
-                entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
-                Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
-                t2.Start(entity);
-            }
+            if (entity == null) return null;
+
+            //识别码，记录到数据库
+            entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
+            Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
+            t2.Start(entity);
+
             return _acc_init(entity);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -559,20 +559,27 @@ namespace Song.ServiceImpls
             }
         }
         /// <summary>
-        /// 登录判断
+        /// 登录判断，无须密码
         /// </summary>
-        /// <param name="accid">账户id</param>
-        /// <param name="pw">密码，md5加密后的</param>
+        /// <param name="acc">账号</param>
         /// <param name="isPass">是否审核通过</param>
         /// <returns></returns>
-        public Accounts AccountsLogin(int accid, string pw, bool? isPass)
+        public Accounts AccountsLogin(string acc, bool? isPass)
         {
             WhereClip wc = Accounts._.Ac_IsUse == true;
             if (isPass != null) wc.And(Accounts._.Ac_IsPass == (bool)isPass);
-            wc.And(Accounts._.Ac_ID == accid && Accounts._.Ac_Pw == pw);
+            wc.And(Accounts._.Ac_AccName == acc);
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc).ToFirst<Accounts>();
+            if (entity == null) return null;
+
+            //识别码，记录到数据库
+            entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
+            Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
+            t2.Start(entity);
+
             return _acc_init(entity);
         }
+
         public void RecordLoginCode(int acid, string code)
         {
             Thread t1 = new Thread(() =>

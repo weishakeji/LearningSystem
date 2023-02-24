@@ -133,13 +133,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Accounts AccountsLogin(string acc, string pw, bool? isPass);
         /// <summary>
-        /// 登录判断
+        /// 登录判断，无须密码
         /// </summary>
-        /// <param name="accid">账户id</param>
-        /// <param name="pw">密码，md5加密后的</param>
+        /// <param name="acc">账号</param>
         /// <param name="isPass">是否审核通过</param>
         /// <returns></returns>
-        Accounts AccountsLogin(int accid, string pw, bool? isPass);
+        Accounts AccountsLogin(string acc, bool? isPass);
         /// <summary>
         /// 用于记录每次登录生成的验证码，用于：同一账号登录时，当前账号下线
         /// </summary>
