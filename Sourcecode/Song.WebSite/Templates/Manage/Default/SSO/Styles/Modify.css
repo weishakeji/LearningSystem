@@ -1,11 +1,39 @@
 ﻿@charset "utf-8";
 
-.footer{
-   justify-content: space-between;
+.footer {
+    justify-content: space-between;
 }
-.footer>div{
+
+.footer>div {
     display: flex;
 }
-.el-dialog__body{
+
+.el-dialog__body {
     padding-top: 0px !important;
+}
+
+icon.copy {
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+/*帮助说明*/
+.info:not(:first-child) {
+    margin-top: 10px;
+}
+
+.info>div {
+    margin-top: 5px;
+    position: relative;
+    padding-left: 60px;
+}
+
+.info>div::before {
+    content: attr(title);
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    position: absolute;
+    left: 0px;
 }

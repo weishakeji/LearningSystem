@@ -20,11 +20,13 @@
                 <el-table-column label="名称" header-align="left" width="200">
                     <template slot-scope="scope">
                         <span v-html='showsearch(scope.row.SSO_Name,search)'></span>
+                      
                     </template>
                 </el-table-column>
                 <el-table-column label="APPID" header-align="left">
                     <template slot-scope="scope">
-                        <div class="value" v-html='scope.row.SSO_APPID'></div>
+                        <span v-html='scope.row.SSO_APPID'></span>
+                          <icon @click="copytext(scope.row.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="域">

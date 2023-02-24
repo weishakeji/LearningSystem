@@ -15,6 +15,7 @@
             </el-form-item>
             <el-form-item label="APPID" prop="SSO_APPID">
                 <span v-html="entity.SSO_APPID"></span>
+                <icon @click="copytext(entity.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
             </el-form-item>
             <el-form-item label="状态">
                 <el-switch v-model="entity.SSO_IsUse" :active-text="entity.SSO_IsUse ? '启用' : '禁用'" inactive-text="">
@@ -63,23 +64,27 @@
             <template slot="title">
                 <icon help></icon>开发说明
             </template>
-            <p> 1、示例：<br />
-                登录：
-                http://当前系统的域名/sso/login?appid=xx&user=xx&sort=&goto=(url)<br />
-                注销：
-                http://当前系统的域名/sso/logout?appid=xx&user=xx&goto=(url)
-            </p>
-            <p> 2、参数说明：<br />
-                appid：应用ID<br />
-                action：登录还是退出登录（可以为空），默认为login，如果为add，则账号不存在时将自动创建<br />
-                user：用户账号名<br />
-                name:用户名称（当action为add时才有用）,需Url编码<br />
-                goto：成功后的转向地址（可以为空）,转到首页用/,如果失败将不跳转<br />
-            </p>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-            </span>
-        </el-dialog>
+            <div class="info">
+                <b> 1、示例：</b>
+                <div title="登录：">
+                    http://当前系统的域名/sso/login?appid=xx&user=xx&name=xx&sort=&goto=(url)</div>
+                <div title="注销：">
+                    http://当前系统的域名/sso/logout?appid=xx&user=xx&goto=(url)</div>
+            </div>
+            <div class="info">
+                <b> 2、参数说明：</b>
+                <div title="appid：">应用ID</div>
+                <div title="user：">用户账号名</div>
+                <div title="name：">用户名称（当action为add时才有用）,需Url编码</div>
+                <div title="sort：">学员组的名称</div>
+                <div title="goto：">成功后的转向地址（默认为空,转到首页）,使用encodeURIComponent编码</div>
+                <div title="code：">校验码，appid+user+name+sort的md5密文</div>
+            </div>
+    </div>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+    </span>
+    </el-dialog>
     </div>
 
 

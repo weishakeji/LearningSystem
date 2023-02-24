@@ -82,6 +82,15 @@ $ready(function () {
                     th.loadingdel = false;
                     th.$alert(err);
                 });
+            },
+            copytext:function(txt){
+                var th=this;
+                th.copy(txt, 'textarea').then(function(data){
+                    data.$message({
+                        message: '复制 “' + txt + '” 到粘贴板',
+                        type: 'success'
+                    });
+                });
             }
         }
     });

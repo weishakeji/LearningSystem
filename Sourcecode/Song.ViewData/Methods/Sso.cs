@@ -18,6 +18,7 @@ namespace Song.ViewData.Methods
     /// </summary>
     public class Sso : ViewMethod, IViewAPI
     {
+        #region 增删改查
         /// <summary>
         /// 所有配置项
         /// </summary>
@@ -29,13 +30,24 @@ namespace Song.ViewData.Methods
             return Business.Do<ISSO>().GetAll(use);
         }
         /// <summary>
-        /// 获取链接分类的单一实体
+        /// 获取单一实体
         /// </summary>
-        /// <param name="id">链接分类的id</param>
+        /// <param name="id">id</param>
         /// <returns></returns>
         public SingleSignOn ForID(int id)
         {
             return Business.Do<ISSO>().GetSingle(id);
+        }
+        /// <summary>
+        /// 通过APPID获取登录接口对象,用于前端登录时使用，如果登录接口被禁用，则返回null
+        /// </summary>
+        /// <param name="appid">链接分类的id</param>
+        /// <returns>如果登录接口被禁用，则返回null</returns>
+        public SingleSignOn ForAPPID(string appid)
+        {
+            SingleSignOn sso= Business.Do<ISSO>().GetSingle(appid);
+            if (sso == null) return null;
+            return sso.SSO_IsUse ? sso : null;
         }
         /// <summary>
         /// 是否已经存在
@@ -106,5 +118,6 @@ namespace Song.ViewData.Methods
             Business.Do<ISSO>().Save(old);
             return true;
         }
+        #endregion
     }
 }

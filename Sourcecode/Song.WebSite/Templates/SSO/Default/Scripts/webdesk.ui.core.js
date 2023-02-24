@@ -155,6 +155,10 @@
     fn.show = function () {
         return this.each(function () {
             this.style.display = "block";
+            /*
+            if (this.style.display == 'none')
+                this.style.removeProperty('display');
+                */
         });
     };
     fn.toggle = function () {
@@ -643,6 +647,13 @@
             'y': y
         };
     };
+    //是否是手机端
+    webdom.ismobi = function () {
+        var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -731,14 +742,13 @@
                     var href = $dom(this).attr("href").toLowerCase();
                     if (href.indexOf('?') > -1)
                         href = href.substring(0, href.lastIndexOf('?'));
-                    //console.log(href);
                     if (one.toLowerCase() == href) {
                         exist = true;
                         return false;
                     }
                 });
                 if (exist) return;
-                //生成css的link
+
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
@@ -747,7 +757,7 @@
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
                 }, false);
-                document.head.appendChild(cur_script);
+                document.head.appendChild(cur_script)
             }, src, function (err, r) {
                 //全部加载完成后执行的回调函数
                 if (err) {
@@ -759,6 +769,21 @@
         },
         js: function (src, callback) {
             webdom.load.arraySync(function (one, i, c) {
+                one = one.toLowerCase()
+                //判断js文件是否存在，如果存在则不加载
+                var exist = false;
+                var arr = document.querySelectorAll("script");
+                for (let i = 0; i < arr.length; i++) {
+                    let src = arr[i].getAttribute('src');
+                    if (src == null) continue;
+                    if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
+                    if (one == src.toLowerCase()) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (exist) return;
+
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.src = one + '?ver=' + webdom.version();
@@ -820,25 +845,40 @@
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
         var page = view.attr("page");
-        if (page == null || page.length == 0) return '';
         return page.substring(0, page.lastIndexOf("/") + 1);
     };
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
-        var first = ['polyfill.min', 'vue.min'];
-        for (var t in first) first[t] = '/Utilities/Scripts/' + first[t] + '.js';
-        window.$dom.load.js(first, function () {
-            var arr = ['axios_min', 'api', 'hammer.min', 'vue-touch'];
-            for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
-            //arr.push('/Utilities/Panel/Scripts/ctrls.js');
-            window.$dom.load.js(arr, function () {
-                var arr2 = new Array();
-                //加载Vant
-                //arr2.push('/Utilities/Vant/vant.min.js');
-              
-                window.$dom.load.js(arr2, f);
-            });
+        var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
+        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        arr.push('/Utilities/Panel/Scripts/ctrls.js');
+        window.$dom.load.js(arr, function () {
+            var arr2 = new Array();
+            //arr2.push('/Utilities/Scripts/jquery.js');
+            //加载ElementUI
+            arr2.push('/Utilities/ElementUi/index.js');
+            arr2.push('/Utilities/Scripts/vuecomponent.js');
+            //加载Sortable拖动
+            arr2.push('/Utilities/Scripts/Sortable.min.js');
+            arr2.push('/Utilities/Scripts/vuedraggable.min.js');
+            //加载图标选择组件
+            arr2.push('/Utilities/Components/icons.js');
+            //图片上传组件
+            arr2.push('/Utilities/Components/upload-img.js');
+            arr2.push('/Utilities/Components/upload-file.js');
+            //编辑器
+            arr2.push('/Utilities/TinyMCE/tinymce.js');
+            arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
+            window.$dom.load.js(arr2, f);
+        });
+    };
+    //加载组件所需的javascript文件
+    webdom.ctrljs = function (f) {
+        webdom.corejs(function () {
+            var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
+            window.$dom.load.js(arr, f);
         });
     };
     //加载必要的资源完成
@@ -855,12 +895,37 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 300);
+                //全屏的预载效果
+                Vue.prototype.$fulloading = function () {
+                    return this.$loading({
+                        lock: true,
+                        text: '正在处理...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(255, 255, 255, 0.5)'
+                    });
+                };
+                //将查询结果高亮显示
+                Vue.prototype.showsearch = function (txt, search) {
+                    if (txt == null || txt == '') return '';
+                    if (search == null || search == '') return txt;
+                    var regExp = new RegExp(search, 'g');
+                    return txt.replace(regExp, `<red>${search}</red>`);
+                };
+                //重构alert
+                window.alert_base = window.alert;
+                window.alert = function (txt) {
+                    //手机端
+                    if (webdom.ismobi()) {
+                        vant.Dialog ? vant.Dialog.alert({ message: txt }) : window.alert_base(txt);
+                    } else {
+                        Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
+                    }
+                };
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
                         if (source[i].substring(0, 1) == "/") continue;
                         source[i] = webdom.pagepath() + source[i];
-                        //console.log(source[i]);                  
                     }
                     window.$dom.load.js(source, f);
                 }
@@ -873,14 +938,14 @@
     window.$dom.load.css([
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
-        webdom.path() + 'styles/public.css',     
+        webdom.path() + 'styles/public.css',
         '/Utilities/Fonts/icon.css'
     ]);
+
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
-        var file = webdom.file();
-        var view = webdom('meta[view]');
-        if (view.length > 0) file = view.attr("view");
+        var file = webdom('meta[view]').attr("view");
+        if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
     }

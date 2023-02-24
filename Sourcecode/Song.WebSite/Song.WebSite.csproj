@@ -184,7 +184,7 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Core, Version=2.0.8357.2960, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WeiSha.Core, Version=2.0.8454.26882, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
     </Reference>
@@ -202,6 +202,7 @@
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\View\PadController.cs" />
     <Compile Include="Controllers\View\PayController.cs" />
+    <Compile Include="Controllers\View\SSOController.cs" />
     <Compile Include="Controllers\View\TVController.cs" />
     <Compile Include="Controllers\View\StudentController.cs" />
     <Compile Include="Controllers\View\TeacherController.cs" />

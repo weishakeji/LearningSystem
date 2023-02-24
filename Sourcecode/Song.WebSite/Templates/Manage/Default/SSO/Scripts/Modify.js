@@ -6,7 +6,7 @@ $ready(function () {
         data: {
             loading: false,  //
             id: $api.querystring('id'),
-            dialogVisible:false,    //帮助面板的显示
+            dialogVisible: false,    //帮助面板的显示
             //当前数据对象
             entity: {
                 SSO_IsUse: true,
@@ -31,9 +31,20 @@ $ready(function () {
                     {
                         validator: function (rule, value, callback) {
                             if (value == undefined || value == '') return callback();
-                            var pattern =  /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/gi;
-                            if (!pattern.test(value)) callback(new Error('请输入合法域名，带http:// 或 https://'));
-                            else callback();
+                            //var pattern = /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/gi;
+                            var pattern = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
+                            if (!pattern.test(value)) callback(new Error('请输入合法域名'));
+                            else if (value.indexOf('?') > -1 || value.indexOf('#') > -1 || value.indexOf('&') > -1) {
+                                return callback(new Error('仅限域名，勿带参数'));
+                            } else if (value.length >= 'http://'.length && value.substring(0, 7).toLowerCase() == 'http://') {
+                                return callback(new Error('勿带 “http://” 前缀'));
+                            } else if (value.length >= 'https://'.length && value.substring(0, 8).toLowerCase() == 'https://') {
+                                return callback(new Error('勿带 “https://” 前缀'));
+                            } else if (value.indexOf('/') > -1) {
+                                var tmp = value.indexOf('http://') > -1 ? value.replace('http://', '') : value;
+                                tmp = tmp.indexOf('https://') > -1 ? tmp.replace('https://', '') : tmp;
+                                if (tmp.indexOf('/') > -1) return callback(new Error('仅限域名，勿带路径'));
+                            } else callback();
                         }, trigger: 'blur'
                     }],
                 SSO_Phone: [{
@@ -134,7 +145,15 @@ $ready(function () {
                         return false;
                     }
                 });
-
+            },
+            copytext: function (txt) {
+                var th = this;
+                th.copy(txt, 'textarea').then(function (data) {
+                    data.$message({
+                        message: '复制 “' + txt + '” 到粘贴板',
+                        type: 'success'
+                    });
+                });
             },
             //操作成功
             operateSuccess: function () {
