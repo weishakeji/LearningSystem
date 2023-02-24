@@ -47,21 +47,16 @@
                     <help>如登录账号所属的学员组不存在时，是否允许创建学员组</help>
                 </template>
             </el-form-item>
-            <el-form-item label="">
-                <span slot="label" style="color: #67C23A">
-                    <icon>&#xa007</icon>示例
-                </span>
-                <div class="demourl">{{demourl}}
-                    <el-link type="primary" @click="copytext(demourl,'示例内容')" title="复制">
-                        <icon class="copy">&#xa060</icon>复制
-                    </el-link>
-                </div>
-            </el-form-item>
         </el-form>
         <div class="footer">
-            <el-link type="primary" @click="dialogVisible=true">
-                <icon help></icon>开发说明
-            </el-link>
+            <span class="btnlink">
+                <el-link type="primary" @click="visibleHelp=true">
+                    <icon help></icon>开发说明
+                </el-link>
+                <el-link type="primary" @click="visibleDemo=true">
+                    <icon>&#xa015</icon>生成示例
+                </el-link>
+            </span>
             <div>
                 <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
                     @click="btnEnter('entity')">保存
@@ -70,7 +65,7 @@
             </div>
         </div>
         <!-- 说明-->
-        <el-dialog :visible.sync="dialogVisible" width="80%">
+        <el-dialog :visible.sync="visibleHelp" width="80%">
             <template slot="title">
                 <icon help></icon>开发说明
             </template>
@@ -90,6 +85,36 @@
                 <div title="goto：">成功后的转向地址（默认为空,转到首页）,使用encodeURIComponent编码</div>
                 <div title="code：">校验码，appid+user+name+sort的md5密文，注意必须与参数顺序一致</div>
             </div>
+        </el-dialog>
+        <!-- 示例-->
+        <el-dialog :visible.sync="visibleDemo" width="80%">
+            <template slot="title">
+                <icon>&#xa015</icon>生成示例
+            </template>
+            <el-form ref="demo" :model="demo" :rules="rules_demo" @submit.native.prevent label-width="80px">
+                <el-form-item label="账号" prop="user">
+                    <el-input v-model.trim="demo.user"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model.trim="demo.name"></el-input>
+                </el-form-item>
+                <el-form-item label="学员组" prop="sort">
+                    <el-input v-model.trim="demo.sort"></el-input>
+                </el-form-item>
+                <el-form-item label="返回地址" prop="goto">
+                    <el-input v-model.trim="demo.goto"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <span slot="label" style="color: #67C23A">
+                        <icon>&#xa015</icon>示例
+                    </span>
+                    <div class="demourl">{{demourl}}
+                        <el-link type="primary" @click="copydemo('demo',demourl)" title="复制">
+                            <icon class="copy">&#xa060</icon>复制
+                        </el-link>
+                    </div>
+                </el-form-item>
+            </el-form>
         </el-dialog>
     </div>
 

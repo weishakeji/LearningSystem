@@ -8,6 +8,10 @@
     display: flex;
 }
 
+.footer span.btnlink a {
+    margin-right: 15px;
+}
+
 .el-dialog__body {
     padding-top: 0px !important;
 }
@@ -37,7 +41,8 @@ icon.copy {
     position: absolute;
     left: 0px;
 }
-.demourl{
-    word-break: break-all; 
+
+.demourl {
+    word-break: break-all;
     line-height: 18px;
 }

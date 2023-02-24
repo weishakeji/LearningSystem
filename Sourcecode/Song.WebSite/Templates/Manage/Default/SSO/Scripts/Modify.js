@@ -6,7 +6,9 @@ $ready(function () {
         data: {
             loading: false,  //
             id: $api.querystring('id'),
-            dialogVisible: false,    //帮助面板的显示
+            visibleHelp: false,    //帮助面板的显示
+            visibleDemo: false,    //示例面板的显示
+
             //当前数据对象
             entity: {
                 SSO_IsUse: true,
@@ -64,9 +66,19 @@ $ready(function () {
                     }, trigger: 'blur'
                 }]
             },
+            //演示数据
+            demo: { user: '', name: '', sort: '', goto: '' },
+            rules_demo: {
+                user: [{ required: true, message: '不得为空', trigger: 'blur' }],
+            },
             loading: false
         },
         watch: {
+            'demo': {
+                handler: function (val, old) {
+                    this.demourl = this.buildemo(val);
+                }, deep: true, immediate: true
+            },
             'entity': {
                 handler: function (val, old) {
                     this.demourl = this.buildemo(val);
@@ -150,18 +162,24 @@ $ready(function () {
                 });
             },
             //生成演示
-            buildemo: function (sso) {
-                if (JSON.stringify(sso) == '{}' || sso == null) return '';
+            buildemo: function (demo) {
                 var href = window.location.origin + '/sso/login?';
-                var md5 = $api.md5(sso.SSO_APPID + 'xx' + 'xx' + 'xx');
+                var md5 = $api.md5(this.entity.SSO_APPID + demo.user + demo.name + demo.sort);
                 href = $api.url.set(href, {
-                    appid: sso.SSO_APPID,
-                    user: 'xx',
-                    name: 'xx',
-                    sort: 'xx',
+                    appid: this.entity.SSO_APPID,
+                    user: demo.user,
+                    name: demo.name,
+                    sort: demo.sort,
+                    goto: demo.goto != '' && demo.goto != undefined ? encodeURIComponent(demo.goto) : '',
                     code: md5
                 });
                 return href;
+            },
+            //复制示例内容
+            copydemo: function (formName, txt) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) this.copytext(txt, '示例内容');
+                });
             },
             //复制文本
             copytext: function (txt, title) {
@@ -174,6 +192,7 @@ $ready(function () {
                     });
                 });
             },
+
             //操作成功
             operateSuccess: function () {
                 window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
