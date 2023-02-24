@@ -19,7 +19,7 @@ icon.copy {
 }
 
 /*帮助说明*/
-.info:not(:first-child) {
+.info {
     margin-top: 10px;
 }
 
@@ -36,4 +36,8 @@ icon.copy {
     text-align: right;
     position: absolute;
     left: 0px;
+}
+.demourl{
+    word-break: break-all; 
+    line-height: 18px;
 }

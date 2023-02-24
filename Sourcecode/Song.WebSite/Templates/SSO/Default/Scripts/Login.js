@@ -61,8 +61,12 @@ $ready(function () {
             //校验基础参数是否通过
             check: async function (callback) {
                 var ref = this.getreferrer();
-                //if (ref == '' || this.code == '' || this.user=='') return callback(false);
-                var code = $api.md5(this.appid + this.user + this.name + this.sort);
+                if (ref == '' || this.code == '' || this.user=='') return callback(false);
+                //判断参数密文
+                var param = $api.querystring(null, []).filter(item => item.key != 'code' && item.key != 'goto');
+                var code = '';
+                param.forEach(item => code += item.val);
+                code = $api.md5(code);
                 if (code != this.code) return callback(false);
                 var th = this;
                 $api.get('Sso/ForAPPID', { 'appid': th.appid }).then(function (req) {
@@ -72,6 +76,7 @@ $ready(function () {
                         if (!(JSON.stringify(th.interface) != '{}' && th.interface != null)) return callback(false);
                         if (!th.interface.SSO_IsUse) return callback(false);
                         if (th.interface.SSO_Domain != ref) return callback(false);
+                        callback(true);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -88,6 +93,7 @@ $ready(function () {
                 if (ref == '') return ref;
                 ref = ref.indexOf('http://') > -1 ? ref.replace('http://', '') : ref;
                 ref = ref.indexOf('https://') > -1 ? ref.replace('https://', '') : ref;
+                ref = ref.indexOf(':') > -1 ? ref.substring(0, ref.indexOf(':')) : ref;
                 ref = ref.indexOf('?') > -1 ? ref.substring(0, ref.indexOf('?')) : ref;
                 ref = ref.indexOf('/') > -1 ? ref.substring(0, ref.indexOf('/')) : ref;
                 ref = ref.indexOf('#') > -1 ? ref.substring(0, ref.indexOf('#')) : ref;

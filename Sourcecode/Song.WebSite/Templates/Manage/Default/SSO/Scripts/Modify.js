@@ -13,6 +13,7 @@ $ready(function () {
                 SSO_APPID: ''
             },
             organ: {},           //当前登录账号所在的机构
+            demourl: '',         //示例
             rules: {
                 SSO_Name: [
                     { required: true, message: '不得为空', trigger: 'blur' },
@@ -31,7 +32,7 @@ $ready(function () {
                     {
                         validator: function (rule, value, callback) {
                             if (value == undefined || value == '') return callback();
-                            //var pattern = /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/gi;
+                            if (value == 'localhost') return callback();
                             var pattern = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
                             if (!pattern.test(value)) callback(new Error('请输入合法域名'));
                             else if (value.indexOf('?') > -1 || value.indexOf('#') > -1 || value.indexOf('&') > -1) {
@@ -62,11 +63,14 @@ $ready(function () {
                         if (value.length > 500) callback(new Error('最多允许 500 字符，当前 ' + value.length + ' 字符'));
                     }, trigger: 'blur'
                 }]
-            }
+            },
+            loading: false
         },
         watch: {
-            'loading': function (val, old) {
-                console.log('loading:' + val);
+            'entity': {
+                handler: function (val, old) {
+                    this.demourl = this.buildemo(val);
+                }, deep: true, immediate: true
             }
         },
         created: function () {
@@ -77,15 +81,14 @@ $ready(function () {
                 return;
             }
             //如果是修改界面
+            th.loading = true;
             $api.get('Sso/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     th.entity = req.data.result;
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-            });
+            }).catch(err => alert(err)).finally(() => th.loading = false);
         },
         methods: {
             //获取APPID
@@ -146,11 +149,27 @@ $ready(function () {
                     }
                 });
             },
-            copytext: function (txt) {
+            //生成演示
+            buildemo: function (sso) {
+                if (JSON.stringify(sso) == '{}' || sso == null) return '';
+                var href = window.location.origin + '/sso/login?';
+                var md5 = $api.md5(sso.SSO_APPID + 'xx' + 'xx' + 'xx');
+                href = $api.url.set(href, {
+                    appid: sso.SSO_APPID,
+                    user: 'xx',
+                    name: 'xx',
+                    sort: 'xx',
+                    code: md5
+                });
+                return href;
+            },
+            //复制文本
+            copytext: function (txt, title) {
                 var th = this;
+                title = title == null ? txt : title;
                 th.copy(txt, 'textarea').then(function (data) {
                     data.$message({
-                        message: '复制 “' + txt + '” 到粘贴板',
+                        message: '复制 “' + title + '” 到粘贴板',
                         type: 'success'
                     });
                 });

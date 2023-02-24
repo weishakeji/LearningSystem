@@ -658,7 +658,7 @@
         },
         //获取参数
         get: function (url, key) {
-            if (key == undefined || key == null) return '';
+            if (key == undefined || key == null) return this.params(url);
             var values = this.params(url);
             for (var q in values) {
                 if (values[q].key.toLowerCase() == key.toLowerCase())

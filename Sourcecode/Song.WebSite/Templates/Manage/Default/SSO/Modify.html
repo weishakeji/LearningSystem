@@ -31,7 +31,7 @@
                 <el-input v-model.trim="entity.SSO_Email"></el-input>
             </el-form-item>
             <el-form-item label="备注" prop="SSO_Info">
-                <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model.trim="entity.SSO_Info"></el-input>
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="entity.SSO_Info"></el-input>
             </el-form-item>
             <el-form-item label="权限">
                 <el-switch v-model="entity.SSO_IsAdd" :active-text="entity.SSO_IsAdd ? '允许创建账号' : '不可以创建账号'"
@@ -46,6 +46,16 @@
                     <br />
                     <help>如登录账号所属的学员组不存在时，是否允许创建学员组</help>
                 </template>
+            </el-form-item>
+            <el-form-item label="">
+                <span slot="label" style="color: #67C23A">
+                    <icon>&#xa007</icon>示例
+                </span>
+                <div class="demourl">{{demourl}}
+                    <el-link type="primary" @click="copytext(demourl,'示例内容')" title="复制">
+                        <icon class="copy">&#xa060</icon>复制
+                    </el-link>
+                </div>
             </el-form-item>
         </el-form>
         <div class="footer">
@@ -78,13 +88,9 @@
                 <div title="name：">用户名称（当action为add时才有用）,需Url编码</div>
                 <div title="sort：">学员组的名称</div>
                 <div title="goto：">成功后的转向地址（默认为空,转到首页）,使用encodeURIComponent编码</div>
-                <div title="code：">校验码，appid+user+name+sort的md5密文</div>
+                <div title="code：">校验码，appid+user+name+sort的md5密文，注意必须与参数顺序一致</div>
             </div>
-    </div>
-    <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-    </span>
-    </el-dialog>
+        </el-dialog>
     </div>
 
 
