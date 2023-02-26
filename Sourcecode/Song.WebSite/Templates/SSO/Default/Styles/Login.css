@@ -6,16 +6,34 @@
     justify-content: center;
 }
 
-/*参数错误的界面*/
-.noexist {
-    width: 600px;
-    height: 400px;
+.box {
     margin: 100px auto 0px auto;
     box-sizing: border-box;
     padding: 40px;
     position: relative;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.box>div:last-child{
+    position: absolute;
+    bottom: 30px;
+    width: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+}
+
+.box .context {
+    width: 60%;
+    text-align: left;
+    margin: 50px auto 0px auto;
+    line-height: 30px;
+}
+/*参数错误的界面*/
+.noexist {
+    width: 600px;
+    height: 400px;
+
 }
 
 .noexist>div:first-child {
@@ -28,17 +46,18 @@
     font-size: 25px;
 }
 
-.noexist>div:last-child {
-    position: absolute;
-    bottom: 30px;
-    width: calc(100% - 80px);
-    display: flex;
-    justify-content: center;
+
+/*登录中*/
+.progress {
+    width: 600px;
+    height: 300px;
 }
 
-.noexist .context {
-    width: 60%;
-    text-align: left;
-    margin: 50px auto 0px auto;
-    line-height: 30px;
+.progress div[loading] {
+    margin-top: 60px;
+}
+.progress .context {
+    width: 90%;
+   color: #ff0000;
+   text-align: center;
 }

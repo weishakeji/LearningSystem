@@ -2,55 +2,44 @@
 <html lang="zh">
 
 <head resource>
-    <meta charset="utf-8">
     <include file="inc/meta.inc" />
-    <title>在线支付</title>
+    <title>登录</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <card class="params_error" v-if="!checked">
-            <card-title>
-                <btns></btns>
-                <span>
-                    <icon>&#xe6d0</icon>参数错误
-                </span>
-            </card-title>
-            <card-context>
-                <p>用于支付的相关参数存在错误; </p>
-                <p>或支付时效已过。</p>
-            </card-context>
-        </card>
-        <loading v-else-if="loading">loading ...</loading>
-        <card class="account_error" v-else-if="!account">
-            <card-title>
-                <btns></btns>
-                <span>
-                    <icon>&#xa043</icon>未登录
-                </span>
-            </card-title>
-            <card-context>
-                <p>账号未登录，或登录失效</p>
-                <p><a href="/web/sign/in">点击此处登录</a></p>
-            </card-context>
-        </card>
-        <card class="payif_error" v-else-if="!ifexist">
-            <card-title>
-                <btns></btns>
-                <span>
-                    <icon>&#xe6d0</icon>接口异常
-                </span>
-            </card-title>
-            <card-context>
-                <p>支付接口的配置信息存在异常；</p>
-                <p>支付接口不存在，或是被禁用。</p>
-            </card-context>
-        </card>
-        <loading v-else-if="loading_income">生成资金流水...</loading>
-        <!-- 转向支付平台-->
-        <topayment v-else :interface="interface" :moneyrecord="moneyaccount"> </topayment>
+        <!-- 错误提示框 -->
+        <div v-if="!checked" class="box noexist">
+            <div>
+                <icon>&#xe70e</icon>登录操作存在错误
+            </div>
+            <div class="context">
+                可能的原因：<br />
+                1、请求来源不明晰，或来源未被授权<br />
+                2、登录接口不存在，或被禁用<br />
+                3、参数校验失改<br />
+            </div>
+            <div>
+                <el-button type="primary" plain @click="window.location.href='/'">
+                    <icon>&#xa020</icon>返回系统首页
+                </el-button>
+                <el-button type="warning" plain
+                    @click="()=>{window.opener=null;window.open('','_self');window.close();}">
+                    <icon>&#xe72c</icon>关闭当前窗体
+                </el-button>
+            </div>
+        </div>
+        <!-- 登录中的提示框-->
+        <div v-if="checked" class="box progress">
+            <div>
+                <icon>&#xa035</icon>正在退出登录...
+            </div>
+            <div class="context">
+                <div loading="p4"></div>
+            </div>
+        </div>
     </div>
-
+    </div>
 
 </body>
 

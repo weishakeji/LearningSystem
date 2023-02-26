@@ -13,55 +13,29 @@ $ready(function () {
             interface: {},      //接口对象
             checked: false,      //是否验证通过
 
+            error: '',       //服务端返回的错误信息
             loading: true,
             loading_income: false       //页面跳转中的预载
         },
         mounted: function () {
-            var th = this;
-            this.check(c => th.checked = c);
-
-            console.log(th.checked);
-            return;
-
-            var ref = th.getreferrer();
-            console.log(ref);
-
-            var ee = window.opener;
-            console.log(ee);
-            th.getInterface();
-
-            console.log(th.goto);
-
-            var md5 = $api.md5('1');
-            console.error(md5);
+            this.check(c => this.checked = c);
         },
-        created: function () {
-
-        },
-        computed: {
-            /*
-            //接口是否存在
-            exist: function () {
-                var ref = this.getreferrer();
-                if (ref == '' || this.code == '') return false;
-                var code = $api.md5(this.appid + this.user + this.name + this.sort);
-                if (code != this.code) return false;
-
-                if (this.loading) return false;
-                if (!(JSON.stringify(this.interface) != '{}' && this.interface != null)) return false;
-                if (this.interface.SSO_Domain != ref) return false;
-
-                return code == this.code;
-            }*/
-        },
+        created: function () { },
+        computed: {},
         watch: {
-
+            //是否验证通过
+            checked: function (nv, ov) {
+                if (nv) {
+                    console.log(true);
+                    this.loging();
+                }
+            }
         },
         methods: {
             //校验基础参数是否通过
             check: async function (callback) {
                 var ref = this.getreferrer();
-                if (ref == '' || this.code == '' || this.user=='') return callback(false);
+                if (ref == '' || this.code == '' || this.user == '') return callback(false);
                 //判断参数密文
                 var param = $api.querystring(null, []).filter(item => item.key != 'code' && item.key != 'goto');
                 var code = '';
@@ -69,7 +43,7 @@ $ready(function () {
                 code = $api.md5(code);
                 if (code != this.code) return callback(false);
                 var th = this;
-                $api.get('Sso/ForAPPID', { 'appid': th.appid }).then(function (req) {
+                await $api.get('Sso/ForAPPID', { 'appid': th.appid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.interface = req.data.result;
@@ -100,24 +74,33 @@ $ready(function () {
                 return ref.toLowerCase();
             },
             //获取接口对象
-            getInterface: function () {
+            loging: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Sso/ForAPPID', { 'appid': th.appid }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.interface = req.data.result;
-                        if (th.exist) {
-
+                $api.post('Sso/Login', { 'appid': th.appid, 'user': th.user, 'name': th.name, 'sort': th.sort })
+                    .then(function (req) {
+                        th.loading = false;
+                        if (req.data.success) {
+                            //登录成功
+                            var result = req.data.result;
+                            $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
+                            $api.login.account_fresh();
+                            //跳转到指定页面
+                            window.setTimeout(function () {
+                                th.loading = false;
+                                var gourl = th.goto == '' ? '/' : th.goto;
+                                window.location.href = gourl;
+                            }, 500);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
                         }
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                    }).catch(err => {
+                        if (err.indexOf(' ') > -1) err = err.substring(err.indexOf(' '));
+                        th.error = err;
+                        th.loading = false;
+                        console.error(err);
+                    });
             }
         }
     });

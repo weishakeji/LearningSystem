@@ -140,6 +140,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Accounts AccountsLogin(string acc, bool? isPass);
         /// <summary>
+        /// 直接登录
+        /// </summary>
+        /// <param name="acc">账号对象</param>
+        /// <returns></returns>
+        Accounts AccountsLogin(Accounts acc);
+        /// <summary>
         /// 用于记录每次登录生成的验证码，用于：同一账号登录时，当前账号下线
         /// </summary>
         /// <param name="acid"></param>

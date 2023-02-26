@@ -121,6 +121,15 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 登录与退出
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="appid">单点登录的接口标识</param>
+        /// <param name="user">账号</param>
+        /// <param name="name">账号的姓名</param>
+        /// <param name="sort">学员组名称</param>
+        /// <returns></returns>
+        [HttpPost]
         public Song.Entities.Accounts Login(string appid, string user, string name, string sort)
         {
             if (string.IsNullOrWhiteSpace(appid) || string.IsNullOrWhiteSpace(user)) return null;
@@ -129,7 +138,7 @@ namespace Song.ViewData.Methods
             if (sso == null || !sso.SSO_IsUse) return null;
             //账号是否存在或禁用
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
-            if (acc == null || !acc.Ac_IsUse || !acc.Ac_IsPass)
+            if (acc != null && (!acc.Ac_IsUse || !acc.Ac_IsPass))
                 throw VExcept.Verify("账号：" + user + " 被禁用或未通过审核", 103);
 
             string PathKey = "Accounts";
@@ -138,6 +147,7 @@ namespace Song.ViewData.Methods
             //如果账号存在，直接返回登录状态
             if (acc != null)
             {
+                acc = Business.Do<IAccounts>().AccountsLogin(acc);
                 acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
                 acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
                 return acc;
@@ -163,6 +173,7 @@ namespace Song.ViewData.Methods
                         stsort.Sts_Name = sort;
                         stsort.Org_ID = org.Org_ID;
                         stsort.Org_Name = org.Org_Name;
+                        stsort.Sts_IsUse = true;
                         Business.Do<IStudent>().SortAdd(stsort);
                         acc.Sts_ID = stsort.Sts_ID;
                         acc.Sts_Name = stsort.Sts_Name;
@@ -171,7 +182,8 @@ namespace Song.ViewData.Methods
                 acc.Ac_IsPass = acc.Ac_IsUse = true;
                 Business.Do<IAccounts>().AccountsAdd(acc);
 
-                acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
+                //acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
+                acc = Business.Do<IAccounts>().AccountsLogin(acc);
                 acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
                 return acc;
             }

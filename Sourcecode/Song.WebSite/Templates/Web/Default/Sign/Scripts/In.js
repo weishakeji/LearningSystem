@@ -8,15 +8,16 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
-            var c = $api.loginstatus('account');
-            console.log(c);
+            //var c = $api.loginstatus('account');
+            //console.log(c);
+            var th = this;
             //判断是否登录
             $api.get('Account/Current', {}, function () {
                 window.login.loading = true;
             }).then(function (req) {
                 window.login.loading = false;
                 if (req.data.success) {
-                    window.vapp.logged(req.data.result);
+                    th.logged(req.data.result);
                 } else {
                     window.login.loading = false;
                     $dom('#login-area').show();
@@ -30,7 +31,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -41,10 +42,10 @@ $ready(function () {
                     }
                 }
                 //获取结果           
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
@@ -85,7 +86,7 @@ $ready(function () {
                 $api.login.teacher().then(function (teach) {
                     th.$refs.header.teacher = teach;
                 }).catch((err) => { });
-                
+
             },
             //退出登录
             logout: function () {
@@ -220,7 +221,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 var orgid = th.org.Org_ID;
-                $api.get('Notice/showitems', { 'orgid': orgid, 'type':-1,'count': th.count }).then(function (req) {
+                $api.get('Notice/showitems', { 'orgid': orgid, 'type': -1, 'count': th.count }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;

@@ -532,12 +532,7 @@ namespace Song.ServiceImpls
             }
             if (entity == null) return null;
 
-            //识别码，记录到数据库
-            entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
-            Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
-            t2.Start(entity);
-
-            return _acc_init(entity);
+            return this.AccountsLogin(entity);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         private static void _AccountsLogin_update_time(object acc)
@@ -571,15 +566,22 @@ namespace Song.ServiceImpls
             wc.And(Accounts._.Ac_AccName == acc);
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc).ToFirst<Accounts>();
             if (entity == null) return null;
-
-            //识别码，记录到数据库
-            entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
-            Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
-            t2.Start(entity);
-
-            return _acc_init(entity);
+            return this.AccountsLogin(entity);          
         }
+        /// <summary>
+        /// 直接登录
+        /// </summary>
+        /// <param name="acc">账号对象</param>
+        /// <returns></returns>
+        public Accounts AccountsLogin(Accounts acc)
+        {
+            //识别码，记录到数据库
+            acc.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
+            Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
+            t2.Start(acc);
 
+            return _acc_init(acc);
+        }
         public void RecordLoginCode(int acid, string code)
         {
             Thread t1 = new Thread(() =>

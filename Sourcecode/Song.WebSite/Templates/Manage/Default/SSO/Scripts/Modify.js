@@ -165,14 +165,15 @@ $ready(function () {
             buildemo: function (demo) {
                 var href = window.location.origin + '/sso/login?';
                 var md5 = $api.md5(this.entity.SSO_APPID + demo.user + demo.name + demo.sort);
+                var goto = demo.goto == '' || demo.goto == undefined ? '' : encodeURIComponent(demo.goto);
                 href = $api.url.set(href, {
                     appid: this.entity.SSO_APPID,
                     user: demo.user,
                     name: demo.name,
-                    sort: demo.sort,
-                    goto: demo.goto != '' && demo.goto != undefined ? encodeURIComponent(demo.goto) : '',
+                    sort: demo.sort,                   
                     code: md5
                 });
+                href = $api.url.set(href, 'goto', goto);
                 return href;
             },
             //复制示例内容
