@@ -23,7 +23,7 @@
                       
                     </template>
                 </el-table-column>
-                <el-table-column label="APPID" header-align="left">
+                <el-table-column label="APPID" header-align="left" min-width="260">
                     <template slot-scope="scope">
                         <span v-html='scope.row.SSO_APPID'></span>
                           <icon @click="copytext(scope.row.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
@@ -32,6 +32,12 @@
                 <el-table-column label="域">
                     <template slot-scope="scope">
                         <span v-html='scope.row.SSO_Domain'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="权限"  width="160">
+                    <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.SSO_IsAdd">创建账号</el-tag>
+                        <el-tag  v-if="scope.row.SSO_IsAddSort">创建组</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="状态" width="60" align="center">
