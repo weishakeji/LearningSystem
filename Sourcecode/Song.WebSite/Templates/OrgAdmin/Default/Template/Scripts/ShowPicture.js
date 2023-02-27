@@ -15,6 +15,7 @@ $ready(function () {
             loading_id: -1       //当前更改行的id
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
@@ -30,11 +31,11 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.getShowpic();
+                th.config = $api.organ(th.organ).config;
+                th.getShowpic();
             })).catch(function (err) {
                 console.error(err);
             });
