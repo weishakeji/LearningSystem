@@ -344,7 +344,7 @@
                     oInput.select(); // 选择对象
                     document.execCommand("Copy"); // 执行浏览器复制命令           
                     oInput.style.display = 'none';
-                    var th=this;
+                    var th = this;
                     console.error(th);
                     resolve(text);
                 } catch (err) {
@@ -695,19 +695,20 @@
             return parastr.length > 0 ? url + "?" + parastr : url;
         },
         //地址栏最后一个.后面的字符
-        //key:如果
-        dot: function (key, url) {
+        //如果只有一参数，val为默认值，即.后面没有值时，返回默认值
+        //如果有两个参数，用于设置url的dot值
+        dot: function (val, url) {
             if (arguments.length <= 1) {
                 var url = String(window.document.location.href);
                 if (url.indexOf('/') > -1) url = url.substring(url.lastIndexOf('/') + 1);
                 if (url.indexOf('?') > -1) url = url.substring(0, url.lastIndexOf('?'));
                 if (url.indexOf('#') > -1) url = url.substring(0, url.lastIndexOf('#'));
                 if (url.indexOf('.') > -1) return url.substring(url.lastIndexOf('.') + 1);
-                var id = url.substring(url.lastIndexOf('.') + 1);
-                return this.get(String(window.document.location.href), key);
+                else if (val != undefined && val != null)
+                    return val;
+                else return '';
             }
-            if (arguments.length == 2) {
-                var val = key;
+            if (arguments.length == 2) {             
                 var prefix = '', suffix = '', parastr = '';
                 if (url.indexOf('?') > -1) {
                     parastr = url.substring(url.lastIndexOf('?'));
