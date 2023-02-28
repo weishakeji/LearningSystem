@@ -56,7 +56,7 @@
                     <van-swipe-item v-for="(data, index) in notice" :key="index">
                         <div class="data"><a :href="'notice/Detail.'+data.No_Id" class="notice" :title="data.No_Ttl"
                                 type="link"> <i icon="&#xa022"></i>
-                                {{data.No_Ttl}}{{data.No_Ttl}}{{data.No_Ttl}}</a> <span
+                                {{data.No_Ttl}}</a> <span
                                 class="badge">{{data.No_StartTime|date('MM-dd')}}</span>
                         </div>
                     </van-swipe-item>

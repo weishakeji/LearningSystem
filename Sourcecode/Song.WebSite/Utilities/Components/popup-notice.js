@@ -41,8 +41,8 @@ Vue.component('popup-notice', {
                 var mobi = this.ismoblie();
                 var width, height;
                 if (mobi) {
-                    width = (item.No_Width > 100 ? 100 : item.No_Width) + '%';
-                    height = (item.No_Height > 100 ? 100 : item.No_Height) + '%';
+                    width = (item.No_Width > 100 || item.No_Width <= 0 ? 100 : item.No_Width) + '%';
+                    height = (item.No_Height > 100 || item.No_Height <= 0 ? 100 : item.No_Height) + '%';
                 } else {
                     width = (item.No_Width < 100 ? 100 : item.No_Width) + 'px';
                     height = (item.No_Height < 100 ? 100 : item.No_Height) + 'px';
