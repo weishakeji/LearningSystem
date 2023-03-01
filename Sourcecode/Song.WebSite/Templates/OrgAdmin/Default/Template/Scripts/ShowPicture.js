@@ -91,13 +91,13 @@ $ready(function () {
                     },
                     onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
-                        // Example: http://jsbin.com/tuyafe/1/edit?js,output
+                        
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        // return false; — for cancel
+                        
                     },
                     onEnd: (e) => {
                         let old = $api.clone(this.datas); // 获取表数据

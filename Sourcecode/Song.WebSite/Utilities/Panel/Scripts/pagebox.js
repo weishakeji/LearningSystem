@@ -353,24 +353,24 @@
             });
         },
         load: function (elem) {
-            var src = $dom(elem).find('iframe').attr('src');
+            var boxid = elem.getAttribute('boxid');
+            var ctrl = $ctrls.get(boxid);
 
-            if (src == '') {
-                var boxid = elem.getAttribute('boxid');
-                var ctrl = $ctrls.get(boxid);
-                ctrl.obj.trigger('load', { url: '', target: null });
-                return;
-            }
+            var src = $dom(elem).find('iframe').attr('src');
+            //如果iframe路径为空，则直接算加载完成
+            if (src == '') return ctrl.obj.trigger('load', { url: '', target: null });
             //iframe路径如果不是同域的，直接设置为加载完成，并触发加载完成事件（其实可能并没有加载完成）
-            if (!(() => {
-                const origin = window.location.origin.toLowerCase();
-                if (src.length < origin) return false;
-                return src.toLowerCase().substring(0, origin.length) == origin;
-            })()) {
+            if ((src.length >= 'http://'.length && src.substring(0, 7).toLowerCase() == 'http://')
+                || (src.length >= 'https://'.length && src.substring(0, 8).toLowerCase() == 'https://')
+                && !(() => {
+                    const origin = window.location.origin.toLowerCase();
+                    if (src.length < origin) return false;
+                    return src.toLowerCase().substring(0, origin.length) == origin;
+                })()
+            ) {
                 $dom(elem).find('pb-ico').last().hide();
                 $dom(elem).find('pb-ico').first().show();
-                ctrl.obj.trigger('load', { url: '', target: null });
-                return;
+                return ctrl.obj.trigger('load', { url: '', target: null });
             }
             //同域路径才会启用预载状态判断
             $dom(elem).find('iframe').bind('load', function (e) {
