@@ -1,12 +1,5 @@
-﻿window.addEventListener('load', function () {
-    window.noticeApp = new Vue({
-        el: "#notice_box",
-        created: function () {
-
-        },
-    });
-}, false);
-// 注册
+﻿
+// 通知公告的弹窗
 Vue.component('popup-notice', {
     props: ['forpage'],
     data: function () {
@@ -22,19 +15,6 @@ Vue.component('popup-notice', {
         }
     },
     computed: {
-        //最外侧样式
-        shell: function () {
-            return 'width:calc(100vw * ' + this.items.length + ');\
-            height: 100vh;position: fixed;\
-            top: 0px;left: 0px;z-index: 99999;overflow: hidden;\
-            background-color: rgba(0, 0, 0, 0.3);';
-        },
-        //当前视图
-        view: function () {
-            return 'text-align: center;line-height: 100%;display: flex;\
-            flex-wrap: wrap;width: 100vw;height: 100%;float:left;\
-            position: relative;';
-        },
         //通知内容区域
         notice: function () {
             return function (item) {
@@ -47,60 +27,17 @@ Vue.component('popup-notice', {
                     width = (item.No_Width < 100 ? 100 : item.No_Width) + 'px';
                     height = (item.No_Height < 100 ? 100 : item.No_Height) + 'px';
                 }
-                return 'width:' + width + ';height:' + height + ';\
-                background-color: #fff;border-radius: 5px;overflow: hidden;margin: auto;';
-            }
-        },
-        //标题样式，如果没有图片，显示文字内容，
-        title: function () {
-            return 'width: calc(100% - 30px);line-height: 40px;padding: 15px;font-size: 18px;';
-        },
-        context: function () {
-            return 'padding: 0px 30px ;line-height:30px;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);';
-        },
-        //关闭按钮
-        close: function () {
-            return function (item) {
-                var mobi = this.ismoblie();
-                var postion = '', color = '', wh = 30;
-                if (mobi) {
-                    postion = 'bottom:calc((100vh - ' + item.No_Height + '%)/4 - 15px);left: calc((100% - 30px)/2);';
-                    color = 'rgb(214, 67, 67)';
+                let css = 'width:' + width + ';height:' + height + ';';
+                if (item.No_BgImage == '' || item.No_BgImage == undefined) {
+                    return 'width:' + width + '  !important;height:' + height + '  !important;background-color: #fff;';
                 } else {
-                    var width = item.No_Width < 100 ? 100 : item.No_Width;
-                    var height = item.No_Height < 100 ? 100 : item.No_Height;
-                    postion = 'top: calc((100% - ' + height + 'px)/2 + 5px); right: calc((100vw - ' + width + 'px)/2 + 5px);';
-                    color = 'rgb(214, 67, 67)';
-                    wh = 20;
+                    return 'width:' + width + ';height:' + height + ';';
                 }
-                var shadow = 'box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), \
-                0px -3px 3px rgba(255, 255, 255, 0.6), \
-                3px 0px 3px rgba(255, 255, 255, 0.6), \
-                0px 3px 3px rgba(255, 255, 255, 0.6);';
-                return postion + ' position: absolute;font-size: ' + wh + 'px;line-height: ' + (wh * 1) + 'px;text-align: center;\
-                width: '+ wh + 'px;height: ' + wh + 'px;z-Index:10;cursor: pointer;\
-                background-color: rgba(255, 255, 255,0.8);margin:0px;border-radius: 50%;\
-                color: '+ color + ';' + (mobi ? '' : shadow);
-            }
-        },
-        //数秒的样式
-        second: function () {
-            return function (item) {
-                var mobi = this.ismoblie();
-                var postion = ''
-                if (mobi) {
-                    var width = item.No_Width > 100 ? 100 : item.No_Width;
-                    var height = item.No_Height > 100 ? 100 : item.No_Height;
-                    postion = 'top: calc((100vh - ' + height + '%)/2 + 5px); right: calc((100vw - ' + width + '%)/2 + 5px); ';
-                } else {
-                    var width = item.No_Width < 100 ? 100 : item.No_Width;
-                    var height = item.No_Height < 100 ? 100 : item.No_Height;
-                    postion = 'top: calc((100vh - ' + height + 'px)/2 + 5px); right: calc((100vw - ' + width + 'px)/2 + 40px); ';
-                }
-                postion += 'position: absolute; padding: 5px; color: red; font-size: 16px; ';
-                return postion;
             }
         }
+    },
+    created: function () {
+        $dom.load.css(['/Utilities/Components/Styles/popup-notice.css']);
     },
     mounted: function () {
         var th = this;
@@ -143,6 +80,17 @@ Vue.component('popup-notice', {
             if (this.forpage.indexOf('_'))
                 prefix = this.forpage.substring(0, this.forpage.indexOf('_'));
             return prefix == 'mobi';
+        },
+        //图片加载完成
+        imgload: function (event) {
+            if (!this.ismoblie) return;
+            const width = event.target.width;
+            const height = event.target.height;
+            //const max = width > height ? width : height;
+            var parent = $dom(event.target).parent();
+            parent.height(height);
+            //parent.css('background-color', '#fff');
+            console.log(width);
         },
         //打开网址
         goUrl: function (item) {
@@ -252,18 +200,18 @@ Vue.component('popup-notice', {
         }
     },
     //
-    template: `<div :style="shell" remark="区域" >
-        <div v-for="(item,index) in items" :style="view" remark="通知视图">
-            <div :style="notice(item)" v-on:click="goUrl(item)" remark="通知内容">
-                <img :src="item.No_BgImage" v-if="item.No_BgImage!=\'\'" v-on:click="goUrl(item)"
-                style="width:100%;height:100%;" />
+    template: `<div id="notice_box" :style="'width:calc(100vw * ' + items.length + ')'" class="open_notice_shell" remark="区域" :mobi="ismoblie()" >
+        <div v-for="(item,index) in items" class="open_notice_view" remark="通知视图">
+            <div :style="notice(item)" remark="通知内容">
+                <img :src="item.No_BgImage" v-if="item.No_BgImage!=''" @load="imgload" v-on:click="goUrl(item)"
+                    style="max-width:100%;max-height:100%;"  />
                 <template v-else>
-                    <div :style="title">{{item.No_Ttl}}</div>
-                    <div :style="context"  class="open_notice_context" v-html="item.No_Context"></div>
+                    <div class="open_notice_title"  v-on:click="goUrl(item)">{{item.No_Ttl}}</div>
+                    <div class="open_notice_context"  v-on:click="goUrl(item)" v-html="item.No_Context"></div>
                 </template>
-            </div>
-            <icon remark="关闭按钮" :style="close(item)" v-on:click="btnClose(item.No_Id)">&#xe72c</icon>
-            <div remark="数秒" :style="second(item)" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>
+                <div remark="关闭" class="open_notice_close" @click="btnClose(item.No_Id)">&#xe72c</div>
+                <div remark="数秒" class="open_notice_second" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>                
+            </div>            
         </div>
     </div>`
 })

@@ -27,7 +27,7 @@ Vue.component('upload-img', {
             return this.height + 'px';
         }
     },
-    created: function () {      
+    created: function () {
         var th = this;
         th.loading = true;
         //控件id
@@ -89,7 +89,21 @@ Vue.component('upload-img', {
                 reads.onload = function (e) {
                     file.base64 = this.result;
                     th.$emit('change', file, th.data, th.id);
+                    //
+                    let img = new Image();
+                    img.src = this.result;
+                    img.onload = function (event) {
+
+                        const width = event.target.width;
+                        const height = event.target.height;
+                        th.$emit('load', {
+                            'width': event.target.width,
+                            'height': event.target.height
+                        });
+                        //console.error(height);
+                    }
                 };
+
             }
             //this.$emit('change', file, this.data, this.id);
         },
