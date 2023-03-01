@@ -1,0 +1,92 @@
+﻿#notice_box {
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 99999;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*弹窗内容的标题*/
+#notice_box .open_notice_title {
+    width: calc(100% - 30px);
+    line-height: 40px;
+    padding: 15px;
+    font-size: 18px;
+}
+
+#notice_box .open_notice_context {
+    padding: 0px 30px;
+    line-height: 30px;
+    font-size: 16px;
+    text-align: left;
+    overflow: auto;
+    height: calc(100% - 90px);
+}
+
+.open_notice_view {
+    text-align: center;
+    line-height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100%;
+    float: left;
+}
+
+.open_notice_view>div {
+    border-radius: 5px;
+    margin: auto;
+    position: relative;
+   
+}
+
+/*关闭按钮*/
+.open_notice_close {
+    margin: 0px;
+    border-radius: 50%;
+    z-Index: 10;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    color: rgb(214, 67, 67);
+    position: absolute;
+    font-size: 20px;
+    font-family: "webdesk_icon" !important;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    top: 10px;
+    right: 10px;
+}
+
+*[mobi] .open_notice_close {
+    font-size: 30px;
+    box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6),
+        0px -3px 3px rgba(255, 255, 255, 0.6),
+        3px 0px 3px rgba(255, 255, 255, 0.6),
+        0px 3px 3px rgba(255, 255, 255, 0.6);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    top: auto;
+    right: auto;
+    bottom: -40px;
+    left: calc(50% - 15px);
+   
+}
+
+/*数秒*/
+.open_notice_second {
+    position: absolute;
+    padding: 5px;
+    color: red;
+    font-size: 16px;
+    top: 7px;
+    right: 35px;
+}
+*[mobi] .open_notice_second {
+    top: 5px;
+    right: 5px;
+}

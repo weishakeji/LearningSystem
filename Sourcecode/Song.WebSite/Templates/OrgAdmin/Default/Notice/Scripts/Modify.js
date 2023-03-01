@@ -57,6 +57,13 @@ $ready(function () {
             },
             No_Context: function (nl, ol) {
                 this.formData.No_Context = nl;
+            },
+            //图片宽度变化
+            imgWidth: function (nv, ov) {
+
+            },
+            imgHeight: function (nv, ov) {
+
             }
         },
         computed: {
@@ -200,7 +207,16 @@ $ready(function () {
                 this.upfile = null;
                 this.formData.No_BgImage = '';
             },
+            //图片加载完成
+            fileload: function (e) {
+                if (this.ismoblie) {
 
+                } else {
+                    this.formData.No_Width = this.imgWidth = e.width;
+                    this.formData.No_Height = this.imgHeight = e.height;
+                }
+                console.log(e);
+            },
             imgWidthChange: function (val) {
                 if (this.scale) {
                     var width = isNaN(Number(this.imgWidth)) ? 0 : Number(this.imgWidth);

@@ -168,7 +168,7 @@
                         </el-col>
                         <el-col :span="24">
                             <el-form-item label="图片" style="margin-bottom: 0px;">
-                                <upload-img @change="filechange" :data="formData" size="1024" height="100"
+                                <upload-img @change="filechange" @load="fileload" :data="formData" size="1024" height="100"
                                     ext="jpg,png,gif">
                                     <template v-if="formData.No_BgImage!='' || upfile!=null">
                                         <img v-if="upfile!=null" :src="upfile.base64" />
