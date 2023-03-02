@@ -39,7 +39,13 @@
     border-radius: 5px;
     margin: auto;
     position: relative;
-   
+}
+
+/*图片*/
+.open_notice_img {
+    border-radius: 5px;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /*关闭按钮*/
@@ -74,7 +80,7 @@
     right: auto;
     bottom: -40px;
     left: calc(50% - 15px);
-   
+
 }
 
 /*数秒*/
@@ -86,6 +92,7 @@
     top: 7px;
     right: 35px;
 }
+
 *[mobi] .open_notice_second {
     top: 5px;
     right: 5px;
