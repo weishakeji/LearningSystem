@@ -1,43 +1,10 @@
 ﻿@charset "utf-8";
-html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
 
-body>#app {
-    height: calc(100% - 40px);
+.el-form {
+    height: calc(100% - 60px);
     overflow-y: auto;
-    width: 100%;
-}
-
-img.photo {
-    width: 100px;
-    height: 100px;
-    display: block;
-    float: left;
-    border: 1px solid #aaa;
-    margin-top: 5px;
-    border-radius: 50px;
-    margin-right: 10px;
-    float: left;
-}
-
-.photo-txt {
-    display: inline-block;
-    margin-top: 50px;
-    color: #409EFF;
-}
-
-.accname {
-    line-height: 40px;
-}
-
-.pingyin {
-    font-size: 13px;
-}
-
-.pingyin .py {
-    cursor: pointer;
-    color: #409EFF;
+    width: calc(100% - 12px);
+    padding: 10px;
+    
+    box-sizing: border-box;
 }

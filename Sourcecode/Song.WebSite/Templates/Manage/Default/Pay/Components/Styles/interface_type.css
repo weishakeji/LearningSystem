@@ -44,7 +44,7 @@ dl.interface_type {
 }
 
 .interface_type dd:not([disabled]):hover {
-    background-color: #409eff;
+    background-color: #8dc4fc;
     color: #fff;
 }
 
@@ -61,7 +61,13 @@ dl.interface_type {
     background-color: #fff;
     border-radius: 5px;
 }
-
+.interface_type dd:not([disabled]):hover span {
+    color: #666;
+    text-shadow: 0 0 10px #fff,
+        0 0 10px #fff,
+        0 0 10px #fff,
+        0 0 10px #fff;    
+}
 .interface_type dd[disabled] {
     cursor: not-allowed;
 }

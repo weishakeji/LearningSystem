@@ -30,11 +30,12 @@ namespace Song.ViewData.Helper
         /// <param name="elapsedTime">实例测量得出的总运行时间（以毫秒为单位</param>
         public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
         {
+            if (!((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2)) return;
             //1秒内的不统计
             //if (elapsedTime < 1000) return;
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            if (_context == null) return;
-            string path = _context.Request.Url.AbsolutePath;
+            if (_context == null || _context.Request == null) return;
+            string path = _context.Request.Url.AbsolutePath;          
             path = path.IndexOf("v1/") > -1 ? path.Substring(path.LastIndexOf("v1/") + 3) : path;
             path = path.Replace("/", "_");
             //path =path.IndexOf("")

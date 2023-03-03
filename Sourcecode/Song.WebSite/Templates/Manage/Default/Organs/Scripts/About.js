@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
 
             account: {}, //当前登录账号对象

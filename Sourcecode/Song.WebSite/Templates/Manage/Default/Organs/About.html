@@ -7,17 +7,14 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <editor ref="editor" :content="organ.Org_Intro" :menubar="false"
         upload="Org" :dataid="organ.Org_ID"
         model="general" @change="text=>organ.Org_Intro=text"></editor>
 
 
-        <div class="foot-btn">
-            <p class="title">
-
-            </p>
-            <el-button type="primary" @click="updateDetails" :loading="loading">保存修改</el-button>
+        <div class="footer">            
+            <el-button type="primary" define="enter" @click="updateDetails" :loading="loading">保存修改</el-button>
         </div>
     </div>
 

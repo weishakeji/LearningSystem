@@ -2,7 +2,7 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             account: {},    //当前账号
