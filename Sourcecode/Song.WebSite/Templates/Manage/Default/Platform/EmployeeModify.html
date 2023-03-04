@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource>   
+<head resource>
     <include file="../inc/meta.inc" />
     <title>修改信息</title>
 </head>
@@ -50,32 +50,28 @@
                         <span v-show='i<accPingyin.length-1'>,</span>
                     </span>）
             </el-form-item>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="岗位/角色" prop="Posi_Id">
-                        <template>
-                            <el-select v-model="account.Posi_Id" placeholder="请选择">
-                                <el-option v-for="item in position" :value-key="item.Posi_Id" :label="item.Posi_Name"
-                                    :value="item.Posi_Id">
-                                    <span>{{ item.Posi_Name }}</span>
-                                    <icon v-show='item.Posi_IsAdmin' class="red" title="系统管理岗">&#xe645</icon>
-                                </el-option>
-                            </el-select>
-                        </template>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="职务" prop="Title_Id">
-                        <template>
-                            <el-select v-model="account.Title_Id" placeholder="请选择">
-                                <el-option v-for="item in titles" :value-key="item.Title_Id" :label="item.Title_Name"
-                                    :value="item.Title_Id">
-                                </el-option>
-                            </el-select>
-                        </template>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+
+            <el-form-item label="岗位/角色" prop="Posi_Id">
+                <template>
+                    <el-select v-model="account.Posi_Id" placeholder="请选择">
+                        <el-option v-for="item in position" :value-key="item.Posi_Id" :label="item.Posi_Name"
+                            :value="item.Posi_Id">
+                            <span>{{ item.Posi_Name }}</span>
+                            <icon v-show='item.Posi_IsAdmin' class="red" title="系统管理岗">&#xe645</icon>
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
+
+            <el-form-item label="职务" prop="Title_Id">
+                <template>
+                    <el-select v-model="account.Title_Id" placeholder="请选择">
+                        <el-option v-for="item in titles" :value-key="item.Title_Id" :label="item.Title_Name"
+                            :value="item.Title_Id">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
             <el-form-item label="性别" prop="Acc_NamePinyin">
                 <el-radio-group v-model="account.Acc_Sex">
                     <el-radio-button label="1">男</el-radio-button>
@@ -88,20 +84,29 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="电话" prop="Acc_Tel">
-                <el-input v-model="account.Acc_Tel"></el-input>
+                <el-input v-model="account.Acc_Tel">
+                    <icon slot="prefix">&#xe66c</icon>
+                </el-input>
             </el-form-item>
             <el-form-item label="移动电话" prop="Acc_MobileTel">
-                <el-input v-model="account.Acc_MobileTel"></el-input>
+                <el-input v-model="account.Acc_MobileTel">
+                    <icon slot="prefix">&#xe677</icon>
+                </el-input>
             </el-form-item>
             <el-form-item label="Email" prop="Acc_Email">
-                <el-input v-model="account.Acc_Email"></el-input>
+                <el-input v-model="account.Acc_Email">
+                    <icon slot="prefix">&#xe76e</icon>
+                </el-input>
             </el-form-item>
             <el-form-item label="QQ" prop="Acc_QQ">
-                <el-input v-model="account.Acc_QQ"></el-input>
+                <el-input v-model="account.Acc_QQ">
+                    <icon slot="prefix">&#xe82a</icon>
+                </el-input>
             </el-form-item>
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('account')">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('account')">
                 确认修改</el-button>
             <el-button type='close'>取消</el-button>
         </div>

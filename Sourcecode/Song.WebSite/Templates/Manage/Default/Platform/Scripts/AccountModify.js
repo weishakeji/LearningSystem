@@ -27,9 +27,10 @@ $ready(function () {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;
+                    th.pingyin();
                     $api.get('Organization/ForID', { 'id': th.account.Org_ID }).then(function (req) {
                         if (req.data.success) {
-                            vue.organ = req.data.result;
+                            th.organ = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -50,6 +51,7 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName) {
+                var th=this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var apipath = 'Account/Modify';
@@ -61,6 +63,7 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
+                               
                                 window.setTimeout(function () {
                                     vue.operateSuccess();
                                 }, 600);
