@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>密码修改</title>   
+    <title>密码修改</title>
 </head>
 
 <body>
@@ -20,11 +20,12 @@
             <el-form-item label="确认输入" prop="newpw2" show-password>
                 <el-input v-model="form.newpw2" show-password></el-input>
             </el-form-item>
-            <el-form-item class="footer">
-                <el-button type="primary" plain @click="btnEnter('form')">确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
+
         </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" plain @click="btnEnter('form')">确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

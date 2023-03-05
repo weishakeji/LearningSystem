@@ -38,13 +38,13 @@
                 <el-form-item label="说明">
                     <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Sys_ParaIntro"></el-input>
                 </el-form-item>
-            </el-row>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
-        </el-form>      
+            </el-row>           
+        </el-form>   
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>   
     </div>
 
 

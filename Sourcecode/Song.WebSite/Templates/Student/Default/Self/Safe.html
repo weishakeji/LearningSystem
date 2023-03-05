@@ -26,19 +26,18 @@
                     <el-input v-model="formpw.newpw" show-password></el-input>
                 </el-form-item>
                 <el-form-item label="确认输入" prop="newpw2">
-                    <el-input v-model="formpw.newpw2" show-password></el-input>                  
+                    <el-input v-model="formpw.newpw2" show-password></el-input>
                 </el-form-item>
-                <el-form-item label="" v-if="false">                   
+                <el-form-item label="" v-if="false">
                     <securitylevel></securitylevel>
                 </el-form-item>
 
-                <el-form-item class="footer">
-                    <el-button type="primary" :loading="loading" @click="btnEnterPw('formpw')">
-                        <icon v-if="!loading">&#xa030</icon>修改密码
-                    </el-button>
-                </el-form-item>
             </el-form>
-
+            <div class="footer">
+                <el-button type="primary" :loading="loading" @click="btnEnterPw('formpw')">
+                    <icon v-if="!loading">&#xa030</icon>修改密码
+                </el-button>
+            </div>
         </el-card>
 
         <el-card class="box-card">
@@ -56,13 +55,13 @@
                 <el-form-item label="答案" prop="Ac_Ans">
                     <el-input v-model="account.Ac_Ans"></el-input>
                 </el-form-item>
-                <el-form-item class="footer">
-                    <el-button type="primary" :loading="loading" @click="btnEnterQues('ques')">
-                        <icon v-if="!loading">&#xa030</icon>修改
-                    </el-button>
-                </el-form-item>
-            </el-form>
 
+            </el-form>
+            <div class="footer">
+                <el-button type="primary" :loading="loading" @click="btnEnterQues('ques')">
+                    <icon v-if="!loading">&#xa030</icon>修改
+                </el-button>
+            </div>
         </el-card>
     </div>
 </body>
