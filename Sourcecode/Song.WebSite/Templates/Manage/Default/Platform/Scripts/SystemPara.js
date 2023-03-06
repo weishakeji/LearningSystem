@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             search: '',
             loading: false,
@@ -15,9 +15,10 @@ $ready(function () {
         methods: {
             //获取数据
             getData: function () {
+                var th = this;
                 $api.get('Platform/Parameters').then(function (req) {
                     if (req.data.success) {
-                        vapp.datas = req.data.result;
+                        th.datas = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -53,19 +54,19 @@ $ready(function () {
 
                 }).catch(() => { });
             },
-            //加载数据页
-            calcDatas: function () {
-                var arr = [];
-                for (let i = 0; i < this.datas.length; i++) {
-                    const item = this.datas[i];
-                    if (item.Sys_Key.indexOf(this.search) > -1)
-                        arr.push(item);
-                }
-                return arr;
+            //当前行是否显示
+            rowshow: function (row) {
+                if (this.search == '') return true;
+                var search = this.search.toLowerCase();
+                return row.Sys_Key.toLowerCase().indexOf(search) > -1
+                    || row.Sys_Value.toLowerCase().indexOf(search) > -1
+                    || row.Sys_ParaIntro.toLowerCase().indexOf(search) > -1;
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);
+            //清理html标签
+            clearhtml: function (html, len) {
+                html = html.replace(/<\/?.+?\/?>/g, '');
+                if (len == null || len >= html.length) return html;
+                return html.substring(0, len);
             }
         }
     });

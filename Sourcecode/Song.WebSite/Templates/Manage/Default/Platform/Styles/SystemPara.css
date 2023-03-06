@@ -7,3 +7,9 @@
 	height:25px;
 	text-overflow:ellipsis; 
 }
+.el-table{
+	height: calc(100% - 33px);
+}
+tr.hide{
+	display: none;
+}
