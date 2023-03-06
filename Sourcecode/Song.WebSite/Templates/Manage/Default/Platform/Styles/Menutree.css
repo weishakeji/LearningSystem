@@ -71,6 +71,10 @@ html,body{
 .tree-node[italic=true] {
     font-style: italic;
 }
+.tree-node span.hr{
+    color: #aaa;
+    font-size: 12px;
+}
 .mmlink{
     font-size: 12px;
     margin-left: 10px;

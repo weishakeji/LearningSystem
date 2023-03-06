@@ -4,7 +4,7 @@
 <head resource>
   <include file="../inc/meta.inc" />
   <title>功能菜单树</title>
- 
+
 </head>
 
 <body>
@@ -26,10 +26,13 @@
 
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgba(255, 255, 255,0) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
-          <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''">&#xa038;</icon>
-          <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
-          {{ data.MM_Name }}
-          <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
+          <template v-if="data.MM_Type!='hr'">
+            <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''">&#xa038;</icon>
+            <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
+            {{ data.MM_Name }}
+            <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
+          </template>
+          <span v-else class="hr">-----------（分隔线）-----------</span>
         </span>
         <span> <span style="display: inline-block;width: 80px;">
             <el-tag type="info" v-if="data.MM_Type=='item'">菜单项</el-tag>
@@ -75,7 +78,7 @@
             <el-form-item label="" label-width="5px">
 
               <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
-                  <icon setup v-if="curr.MM_IcoS==null || curr.MM_IcoS==''"></icon>
+                <icon setup v-if="curr.MM_IcoS==null || curr.MM_IcoS==''"></icon>
                 <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
               </el-link>
             </el-form-item>
@@ -165,8 +168,9 @@
             <el-option v-for="(item,index) in rootdata" :key="item.MM_UID" :label="item.MM_Name" :value="item.MM_UID">
               <span style="float: left">
                 <icon v-if="item.MM_IcoS==null || item.MM_IcoS==''" setup></icon>
-                <icon v-else  v-html="'&#x'+item.MM_IcoS+';'"></icon>
-                {{ item.MM_Name }}</span>
+                <icon v-else v-html="'&#x'+item.MM_IcoS+';'"></icon>
+                {{ item.MM_Name }}
+              </span>
             </el-option>
           </el-select>
         </el-form-item>
@@ -175,9 +179,9 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-    
+
     <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
-   
+
     <div class="btnFooter">
       <el-button type="primary" v-loading="loading" @click="btnSave()">保存菜单树</el-button>
       <el-button type="close">关闭</el-button>
