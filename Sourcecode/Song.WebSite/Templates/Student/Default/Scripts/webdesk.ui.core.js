@@ -925,8 +925,8 @@
                 Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
                     if (search == null || search == '') return txt;
-                    var regExp = new RegExp(search, 'g');
-                    return txt.replace(regExp, `<red>${search}</red>`);
+                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    return txt.replace(regExp, `<red>$1</red>`);
                 };
                 //重构alert
                 window.alert_base = window.alert;

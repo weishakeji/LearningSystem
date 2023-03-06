@@ -32,6 +32,7 @@ Vue.component('course_data', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
+                alert(err);
                 console.error(err);
             });
         },
@@ -75,6 +76,7 @@ Vue.component('course_data', {
     },
     template: `<div class="course_data">
         <span class="el-icon-loading" v-if="loading"></span>
+        <template v-else-if="data==null">(数据异常)</template>
         <template v-else>
             <div>
                 <div :title="'章节数：'+data.outline" :class="{'zero':data.outline<=0}">
