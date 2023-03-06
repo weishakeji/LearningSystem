@@ -320,7 +320,7 @@ namespace Song.ViewData.Methods
         public JObject Datainfo(long couid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-            if (course == null) return null;
+            if (course == null) throw new Exception("Not found entity for Course！");
             //章节数
             int outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
             //试题数
