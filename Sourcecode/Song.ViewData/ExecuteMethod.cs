@@ -153,7 +153,7 @@ namespace Song.ViewData
         /// <returns></returns>
         public static DataResult ExecToResult(Letter letter)
         {
-            DateTime time = DateTime.Now;
+            DateTime time = DateTime.Now;   //接口开始执行的时间
             try
             {
                 if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
@@ -174,11 +174,7 @@ namespace Song.ViewData
                     return list;
                 }
                 //记录执行速度
-                int elapsedNumber = (int)Math.Floor(span / 1000) * 1000;
-                if (elapsedNumber >= 1000)
-                {
-                    Helper.Logs.WriteLog(elapsedNumber + "_" + letter.ClassName + "_" + letter.MethodName, letter, span.ToString());
-                }
+                Helper.Logs.Elapsed(letter, span);
 
                 return new Song.ViewData.DataResult(res, span);       //普通数据
             }
@@ -190,7 +186,11 @@ namespace Song.ViewData
                 if (ex.InnerException is VExcept)
                 {
                     VExcept except = (VExcept)ex.InnerException;
-                    return new Song.ViewData.DataResult(except, time);
+                    //未登录造成的异常不记录
+                    if (except.State != 100)
+                    {
+                        return new Song.ViewData.DataResult(except, time);
+                    }
                 }
                 if (ex.InnerException is WeiSha.Data.DataException)
                 {

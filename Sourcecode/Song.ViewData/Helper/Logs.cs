@@ -16,6 +16,8 @@ namespace Song.ViewData.Helper
         //日志目录,相对于根路径
         private static string log_path = "logs_viewdata";
         private static int log_level = -1;
+        //记录接口执行时间，单位秒，当执行时间大于等于value时才记录
+        private static int log_apiElapsed = WeiSha.Core.App.Get["LOG_ApiElapsed"].Int32 ?? 1;
         #region 异常写入记录
 
         /// <summary>
@@ -51,6 +53,17 @@ namespace Song.ViewData.Helper
         {
             if (LOG_LEVEL >= 2) WriteLog("INFO", letter, content);
 
+        }
+        /// <summary>
+        /// 记录执行时间
+        /// </summary>
+        /// <param name="letter">类名</param>
+        /// <param name="elapsed">接口执行时间，单位毫秒</param>
+        public static void Elapsed(Letter letter, double elapsed)
+        {
+            int elapsedNumber = (int)Math.Floor(elapsed / 1000) * 1000;
+            if (elapsedNumber >= log_apiElapsed)
+                WriteLog("Elapsed/" + elapsedNumber, letter, elapsed.ToString());
         }
         /// <summary>
         /// 向日志文件出错信息
