@@ -3099,7 +3099,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <Content Include="Utilities\Scripts\vuedraggable.umd.min.js.map" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_AMS-Regular.woff" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Calligraphic-Bold.woff" />
@@ -3125,6 +3124,9 @@
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Vector-Regular.woff" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\woff-v2\MathJax_Zero.woff" />
     <Content Include="Utilities\Scripts\hammer.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

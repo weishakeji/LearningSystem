@@ -20,7 +20,9 @@
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
         apicache_location: false,     //本机是否缓存数据
-        timeout: 60 * 60 * 24 * 1000        //请求过期时效       
+        timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
+        //返回的结果是否加密
+        encrypt: true
     };
     //版权信息
     var copyright = {};
@@ -400,7 +402,6 @@
             var startTime = new Date();
             //登录状态
             var loginstatus = methods.loginstatus();
-            //console.log(loginstatus);
             //创建axiso对象
             var instance = axios.create({
                 method: true_method,
@@ -409,6 +410,7 @@
                 url: url,
                 headers: {
                     'X-Custom-Header': 'weishakeji',
+                    'Encrypt': config.encrypt,      //是否加密处理
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Headers': 'X-Requested-With',
                     'content-type': 'application/x-www-form-urlencoded',
@@ -489,6 +491,13 @@
             });
             //添加响应拦截器（即返回之后）
             instance.interceptors.response.use(function (response) {
+                //是否加密
+                var encrypt = response.config.headers.Encrypt;
+                if (encrypt) {
+                    if (!window.base64_for_api_response)
+                        window.base64_for_api_response = new $api.Base64();
+                    response.data = window.base64_for_api_response.decode(response.data);
+                }
                 //保留未解析为json之前的数据
                 //response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
@@ -708,7 +717,7 @@
                     return val;
                 else return '';
             }
-            if (arguments.length == 2) {             
+            if (arguments.length == 2) {
                 var prefix = '', suffix = '', parastr = '';
                 if (url.indexOf('?') > -1) {
                     parastr = url.substring(url.lastIndexOf('?'));
@@ -981,6 +990,110 @@
             d = md5_AddUnsigned(d, DD);
         }
         return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
+    };
+    //base64编码
+    apiObj.prototype.Base64 = function () {
+
+        // private property 
+        var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+        // public method for encoding 
+        this.encode = function (input) {
+            var output = "";
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+            input = _utf8_encode(input);
+            while (i < input.length) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
+                output = output +
+                    _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
+                    _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+            }
+            return output;
+        }
+
+        // public method for decoding 
+        this.decode = function (input) {
+            var output = "";
+            var chr1, chr2, chr3;
+            var enc1, enc2, enc3, enc4;
+            var i = 0;
+            input = input.replace(/[^A-Za-z0-9+/=]/g, "");
+            while (i < input.length) {
+                enc1 = _keyStr.indexOf(input.charAt(i++));
+                enc2 = _keyStr.indexOf(input.charAt(i++));
+                enc3 = _keyStr.indexOf(input.charAt(i++));
+                enc4 = _keyStr.indexOf(input.charAt(i++));
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+                output = output + String.fromCharCode(chr1);
+                if (enc3 != 64) {
+                    output = output + String.fromCharCode(chr2);
+                }
+                if (enc4 != 64) {
+                    output = output + String.fromCharCode(chr3);
+                }
+            }
+            output = _utf8_decode(output);
+            return output;
+        }
+
+        // private method for UTF-8 encoding 
+        _utf8_encode = function (string) {
+            string = string.replace(/rn/g, "n");
+            var utftext = "";
+            for (var n = 0; n < string.length; n++) {
+                var c = string.charCodeAt(n);
+                if (c < 128) {
+                    utftext += String.fromCharCode(c);
+                } else if ((c > 127) && (c < 2048)) {
+                    utftext += String.fromCharCode((c >> 6) | 192);
+                    utftext += String.fromCharCode((c & 63) | 128);
+                } else {
+                    utftext += String.fromCharCode((c >> 12) | 224);
+                    utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utftext += String.fromCharCode((c & 63) | 128);
+                }
+
+            }
+            return utftext;
+        }
+
+        // private method for UTF-8 decoding 
+        _utf8_decode = function (utftext) {
+            var string = "";
+            var i = 0;
+            var c = c1 = c2 = 0;
+            while (i < utftext.length) {
+                c = utftext.charCodeAt(i);
+                if (c < 128) {
+                    string += String.fromCharCode(c);
+                    i++;
+                } else if ((c > 191) && (c < 224)) {
+                    c2 = utftext.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                    i += 2;
+                } else {
+                    c2 = utftext.charCodeAt(i + 1);
+                    c3 = utftext.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                    i += 3;
+                }
+            }
+            return string;
+        }
     };
     //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
     apiObj.prototype.api_cache = {

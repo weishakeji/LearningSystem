@@ -66,9 +66,11 @@ namespace Song.WebSite.Controllers
         }
         private string GetInfo(string id)
         {
-            Song.ViewData.Letter p = new Song.ViewData.Letter(this.Request);         
-            DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(p);
-            return p.ReturnType == "xml" ? result.ToXml() : result.ToJson();
+            Song.ViewData.Letter letter = new Song.ViewData.Letter(this.Request);
+            DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
+            string data = letter.ReturnType == "xml" ? result.ToXml() : result.ToJson();
+            if (!letter.Encrypt) return data;
+            return WeiSha.Core.DataConvert.EncryptForBase64(data);
         }
     }
 }

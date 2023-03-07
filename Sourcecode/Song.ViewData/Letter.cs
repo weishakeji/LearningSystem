@@ -64,6 +64,10 @@ namespace Song.ViewData
         /// 接口版本
         /// </summary>
         public string Version { get; set; }
+        /// <summary>
+        /// 是否加密处理，当返回时数据采用Base64处理
+        /// </summary>
+        public bool Encrypt { get; set; }
 
         /// <summary>
         /// 所请求接口的类名称
@@ -159,7 +163,8 @@ namespace Song.ViewData
             API_PATH = request.Url.AbsolutePath;
             HTTP_METHOD = request.HttpMethod;           
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
-           
+
+            Encrypt = "true".Equals(HeadersParam(request.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
             //Authorization的解析
             string auth = request.Params["HTTP_AUTHORIZATION"];
             if (!string.IsNullOrWhiteSpace(auth))
@@ -259,7 +264,10 @@ namespace Song.ViewData
             API_PATH = httprequest.RequestUri.AbsolutePath;
             Referrer = httprequest.Headers.Referrer;
             HTTP_METHOD = httprequest.Method.Method; //请求方法           
-            HTTP_HOST = httprequest.Headers.Host;          
+            HTTP_HOST = httprequest.Headers.Host;
+
+            Encrypt = "true".Equals(HeadersParam(httprequest.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
+         
             //接口的所在页面
             WEB_PAGE = Referrer.AbsolutePath;
             WEB_HOST = Referrer.Authority;
@@ -403,6 +411,28 @@ namespace Song.ViewData
         #endregion
 
         #region 获取参数的方法
+        /// <summary>
+        /// 获取头部Header参数
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string HeadersParam(object header,string key)
+        {
+            if(header is System.Collections.Specialized.NameValueCollection)
+            {
+                System.Collections.Specialized.NameValueCollection collection = (System.Collections.Specialized.NameValueCollection)header;
+                return collection[key] == null ? string.Empty : collection[key];
+            }
+            if (header is System.Net.Http.Headers.HttpRequestHeaders)
+            {
+                System.Net.Http.Headers.HttpRequestHeaders headers = (System.Net.Http.Headers.HttpRequestHeaders)header;
+                IEnumerable<string> values= headers.GetValues(key);
+                if (values.Count<string>() > 0) return values.First<string>();
+                return string.Empty;
+            }
+            return string.Empty;
+        }
         /// <summary>
         /// 获取参数的值，等同GetParameter(string key)方法
         /// </summary>
