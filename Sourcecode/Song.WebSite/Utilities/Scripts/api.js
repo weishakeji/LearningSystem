@@ -22,7 +22,7 @@
         apicache_location: false,     //本机是否缓存数据
         timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
         //返回的结果是否加密
-        encrypt: true
+        encrypt: false
     };
     //版权信息
     var copyright = {};
@@ -409,15 +409,18 @@
                 way: way,
                 url: url,
                 headers: {
-                    'X-Custom-Header': 'weishakeji',
-                    'Encrypt': config.encrypt,      //是否加密处理
+                    'X-Custom-Header': 'WeishaKeji',
+                    'X-Custom-Method': custom_method,       //自定义http谓词
+                    'X-Custom-Action': action,              //动作，当http谓词为cache时，action为clear为清除后端接口缓存
+                    'X-Custom-Return': returntype,          //返回数据的类型，xml或json
+                    'Encrypt': config.encrypt,              //是否加密处理
                     'Content-Type': 'multipart/form-data',
-                    'Access-Control-Allow-Headers': 'X-Requested-With',
-                    'content-type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Headers': 'X-Requested-With',                  
                     'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,PATCH,HEAD,OPTIONS'
                 },
                 auth: {
-                    username: 'weishakeji ' + custom_method + ' ' + action + ' ' + returntype + ' ' + window.location,
+                    //username: 'weishakeji ' + custom_method + ' ' + action + ' ' + returntype + ' ' + window.location,
+                    username: window.location,
                     password: loginstatus
                 },
                 timeout: config.timeout,

@@ -138,15 +138,14 @@ namespace Song.ViewData
         /// 请求的来源，浏览器信息
         /// </summary>
         public string Browser { get; set; }
+        /// <summary>
+        /// 浏览器信息
+        /// </summary>
         public string UserAgent { get; set; }
         /// <summary>
         /// 当前web请求
         /// </summary>
-        public HttpRequestMessage Request
-        {
-            get;
-            set;
-        }
+        public HttpRequestMessage Request { get; set; }
         #endregion
 
         #region 构造方法
@@ -165,6 +164,12 @@ namespace Song.ViewData
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
 
             Encrypt = "true".Equals(HeadersParam(request.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
+            HTTP_Mark = HeadersParam(request.Headers, "X-Custom-Header");      
+            Custom_METHOD = HeadersParam(request.Headers, "X-Custom-Method").ToUpper();
+            if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
+                HTTP_METHOD = Custom_METHOD;
+            Custom_Action = HeadersParam(request.Headers, "X-Custom-Action");
+            ReturnType = HeadersParam(request.Headers, "X-Custom-Return");
             //Authorization的解析
             string auth = request.Params["HTTP_AUTHORIZATION"];
             if (!string.IsNullOrWhiteSpace(auth))
@@ -178,18 +183,7 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(s)) continue;
                     users.Add(s);
                 }
-                if (users.Count > 0) HTTP_Mark = users[0];  //标识，默认是weishakeji
-                //http方法
-                if (users.Count > 1)
-                {
-                    this.Custom_METHOD = users[1].ToUpper();
-                    if(!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
-                        HTTP_METHOD = users[1].ToUpper();
-                }             
-                //动作，即way冒号后面的关键字，一般用于cache方法的动作，例如clear清除缓存
-                if (users.Count > 2) Custom_Action = users[2];
-                //返回类型，Json或xml
-                if (users.Count > 3) ReturnType = users[3];               
+                if (users.Count > 0 && !string.IsNullOrWhiteSpace(WEB_PAGE)) WEB_PAGE = users[0];                
 
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
@@ -258,16 +252,21 @@ namespace Song.ViewData
         /// </summary>
         /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpRequestMessage httprequest)
-        {         
-            this.Request = httprequest; 
+        {
+            this.Request = httprequest;
 
             API_PATH = httprequest.RequestUri.AbsolutePath;
             Referrer = httprequest.Headers.Referrer;
             HTTP_METHOD = httprequest.Method.Method; //请求方法           
             HTTP_HOST = httprequest.Headers.Host;
-
+            //是否返回加密数据
             Encrypt = "true".Equals(HeadersParam(httprequest.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
-         
+            HTTP_Mark = HeadersParam(httprequest.Headers, "X-Custom-Header");
+            Custom_METHOD = HeadersParam(httprequest.Headers, "X-Custom-Method").ToUpper();
+            if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
+                HTTP_METHOD = Custom_METHOD;
+            Custom_Action = HeadersParam(httprequest.Headers, "X-Custom-Action");
+            ReturnType = HeadersParam(httprequest.Headers, "X-Custom-Return");
             //接口的所在页面
             WEB_PAGE = Referrer.AbsolutePath;
             WEB_HOST = Referrer.Authority;
@@ -286,19 +285,8 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(s)) continue;
                     users.Add(s);
                 }
-                if (users.Count > 0) HTTP_Mark = users[0];  //标识，默认是weishakeji
-                //http方法
-                if (users.Count > 1)
-                {
-                    this.Custom_METHOD = users[1].ToUpper();
-                    if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
-                        HTTP_METHOD = users[1].ToUpper();
-                }
-                //动作，即way冒号后面的关键字，一般用于cache方法的动作，例如clear清除缓存
-                if (users.Count > 2) Custom_Action = users[2];
-                //返回类型，Json或xml
-                if (users.Count > 3) ReturnType = users[3];
-                
+                if (users.Count > 0 && !string.IsNullOrWhiteSpace(WEB_PAGE)) WEB_PAGE = users[0];
+
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
                 if (!string.IsNullOrWhiteSpace(pwstr)) this.LoginStatus = pwstr.Split(',');

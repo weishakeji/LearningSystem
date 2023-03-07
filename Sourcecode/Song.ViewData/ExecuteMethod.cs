@@ -158,8 +158,8 @@ namespace Song.ViewData
             {
                 if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
                     throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
-                if (!"weishakeji".Equals(letter.HTTP_Mark))
-                    throw VExcept.System("The request id is incorrect", 100);
+                if (!"weishakeji".Equals(letter.HTTP_Mark,StringComparison.OrdinalIgnoreCase))
+                    throw VExcept.System("The request mark is incorrect", 102);
 
                 //执行方法
                 object res = Exec(letter);
