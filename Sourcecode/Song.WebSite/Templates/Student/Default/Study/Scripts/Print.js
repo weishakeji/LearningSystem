@@ -19,7 +19,7 @@ $ready(function () {
             var th = this;
             th.loading_init = true;
             $api.bat(
-                $api.get('Account/ForID', { 'id': this.stid }),
+                $api.get('Account/Current'),
                 $api.cache('Platform/Uploadpath:9999', { 'key': 'Org' }),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, upload, org) {
