@@ -8,7 +8,8 @@ $ready(function () {
             organ: {},
             config: {},      //当前机构配置项   
 
-            paypis: [],       //支付接口的列表
+            paypis: [],       //支付接口的列表      
+            payif: {},           //当前选中的支付接口    
             form: {
                 money: '',      //要充值的金额
                 payid: 0,
@@ -83,7 +84,7 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            }
         },
         watch: {
         },
@@ -109,9 +110,10 @@ $ready(function () {
                         this.form.payid = this.paypis[0].Pai_ID;
                         $api.storage(key, this.paypis[0].Pai_ID);
                     }
+                    this.payif = current;
                     return current;
                 }
-
+                return null;
             },
             //支付接口在不同场景下的显示
             pay_scene: function (paypis) {

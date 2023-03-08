@@ -19,7 +19,8 @@
                     <div>
                         <el-form ref="form" :inline="true" :model="form" :rules="rules" v-on:submit.native.prevent>
                             <el-form-item label="" prop="money">
-                                <el-input placeholder="请输入金额"  style="width: 500px;"  v-model="form.money" type="number" min="0">
+                                <el-input placeholder="请输入金额" style="width: 500px;" v-model="form.money" type="number"
+                                    min="0">
                                     <template slot="prepend">
                                         <icon>&#xe624</icon>
                                     </template>
@@ -40,8 +41,8 @@
                     <div class="title">选择支付方式</div>
                     <div class="list">
                         <div v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==form.payid"
-                            @click="setCurrentpay(item.Pai_ID)">                           
-                            <icon>&#xa02d</icon>                       
+                            @click="setCurrentpay(item.Pai_ID)">
+                            <icon>&#xa02d</icon>
                             <img :src="'/Utilities/Images/Pay/'+item.Pai_Pattern+'.png'" />
                             <span>{{item.Pai_Name}}</span>
                         </div>
@@ -55,12 +56,14 @@
                 </div>
                 <el-dialog title="提示" :visible.sync="paypanel" width="40%" :close-on-click-modal="false">
                     <div slot="title">
-                        <icon style="font-size: 15px;">&#xe62d</icon>在线支付
+                        <icon style="font-size: 15px;">&#xe62d</icon>充值
+                        ({{payif!=null ? payif.Pai_Name : ''}})
                     </div>
                     <div class="recharge_val"><span v-html="form.money"></span>
                         元</div>
                     <div slot="footer">
-                        <el-button type="primary" define="enter" @click="open_paywindow()" v-if="!isopenpay">确认支付</el-button>
+                        <el-button type="primary" define="enter" @click="open_paywindow()" v-if="!isopenpay">确认支付
+                        </el-button>
                         <el-button type="success" @click="fresh_window()" v-else>确认支付成功,刷新页面</el-button>
                         <el-button type="info" plain @click="paypanel=false">取消</el-button>
                     </div>
