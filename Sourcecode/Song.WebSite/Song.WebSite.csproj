@@ -1118,9 +1118,9 @@
     <Content Include="Templates\Mobi\Default\Scripts\About.js" />
     <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
     <Content Include="Templates\Pay\Default\PayEntry.html" />
-    <Content Include="Templates\Pay\Default\Weixin\Index.html" />
-    <Content Include="Templates\Pay\Default\Weixin\Scripts\PayEntry.js" />
-    <Content Include="Templates\Pay\Default\Weixin\Styles\PayEntry.css" />
+    <Content Include="Templates\Pay\Default\Weixin\Native.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\Native.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\Native.css" />
     <Content Include="Templates\Pay\Default\_self.xml" />
     <Content Include="Templates\Pay\_public\_self.xml" />
     <Content Include="Templates\SSO\Default\Inc\meta.inc" />
