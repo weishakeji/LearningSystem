@@ -22,7 +22,7 @@
         apicache_location: false,     //本机是否缓存数据
         timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
         //返回的结果是否加密
-        encrypt: false
+        encrypt: true
     };
     //版权信息
     var copyright = {};

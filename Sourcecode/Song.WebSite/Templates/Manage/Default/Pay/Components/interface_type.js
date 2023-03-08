@@ -96,7 +96,7 @@ Vue.component('interface_type', {
             <dt>请选择支付接口的类型</dt>     
             <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}" @click="gonavi(item,false)" :disabled="!item.enable">
                 <div>
-                    <img :src="'/pay/images/'+item.name+'.png'"/>
+                    <img :src="'/Utilities/Images/Pay/'+item.name+'.png'"/>
                     <span>{{item.name}}</span>     
                 </div> 
                 <div v-html="item.tips">提示信息</div>

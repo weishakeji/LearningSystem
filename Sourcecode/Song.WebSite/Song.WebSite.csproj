@@ -501,12 +501,6 @@
     <Content Include="Templates\Pay\Default\Alibaba\Styles\Web.css" />
     <Content Include="Templates\Pay\Default\Components\topayment.js" />
     <Content Include="Templates\Pay\Default\Components\btns.js" />
-    <Content Include="Pay\Images\微信Html5支付.png" />
-    <Content Include="Pay\Images\微信公众号支付.png" />
-    <Content Include="Pay\Images\微信小程序支付.png" />
-    <Content Include="Pay\Images\微信扫码支付.png" />
-    <Content Include="Pay\Images\支付宝手机支付.png" />
-    <Content Include="Pay\Images\支付宝网页直付.png" />
     <Content Include="Pay\readme.html" />
     <Content Include="Templates\Pay\Default\Inc\meta.inc" />
     <Content Include="Templates\Pay\Default\Index.html" />
@@ -1124,6 +1118,9 @@
     <Content Include="Templates\Mobi\Default\Scripts\About.js" />
     <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
     <Content Include="Templates\Pay\Default\PayEntry.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Index.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\PayEntry.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\PayEntry.css" />
     <Content Include="Templates\Pay\Default\_self.xml" />
     <Content Include="Templates\Pay\_public\_self.xml" />
     <Content Include="Templates\SSO\Default\Inc\meta.inc" />
@@ -1340,6 +1337,12 @@
     <Content Include="Utilities\Images\head\head1.jpg" />
     <Content Include="Utilities\Images\head\head2.jpg" />
     <Content Include="Utilities\Images\live-icon.gif" />
+    <Content Include="Utilities\Images\Pay\微信Html5支付.png" />
+    <Content Include="Utilities\Images\Pay\微信公众号支付.png" />
+    <Content Include="Utilities\Images\Pay\微信小程序支付.png" />
+    <Content Include="Utilities\Images\Pay\微信扫码支付.png" />
+    <Content Include="Utilities\Images\Pay\支付宝手机支付.png" />
+    <Content Include="Utilities\Images\Pay\支付宝网页直付.png" />
     <Content Include="Utilities\Images\testpaper.jpg" />
     <Content Include="Utilities\MathJax\globalVariable.js" />
     <Content Include="Utilities\MathJax\output\chtml.js" />
@@ -2679,8 +2682,6 @@
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
-    <Folder Include="Templates\Pay\Default\Weixin\Scripts\" />
-    <Folder Include="Templates\Pay\Default\Weixin\Styles\" />
     <Folder Include="Templates\SSO\Default\Components\" />
     <Folder Include="Utilities\Images\Mobi\" />
   </ItemGroup>

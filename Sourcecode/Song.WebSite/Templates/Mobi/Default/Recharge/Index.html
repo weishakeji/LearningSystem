@@ -99,7 +99,7 @@
                     <card-context class="paypis">
                         <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
                             @click="setCurrentpay(item.Pai_ID)">
-                            <img :src="'/pay/images/'+item.Pai_Pattern+'.png'" />
+                            <img :src="'/Utilities/Images/Pay/'+item.Pai_Pattern+'.png'" />
                             <span>{{item.Pai_Name}}</span>
                         </van-cell>
                         <van-cell remark="勿删除此标签"></van-cell>
