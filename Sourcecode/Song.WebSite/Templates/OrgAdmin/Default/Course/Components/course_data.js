@@ -38,6 +38,9 @@ Vue.component('course_data', {
         },
         //显示数值，过大的以千为单位显示,例如 10k
         shownum: function (num) {
+            if (num == null || num == undefined) num = 0;
+            if ($api.getType(num) != 'Number') num = Number(num);
+            if (isNaN(num)) num = 0;
             if (num < 1000) return num;
             return Math.floor(num / 1000) + 'k';
         },
