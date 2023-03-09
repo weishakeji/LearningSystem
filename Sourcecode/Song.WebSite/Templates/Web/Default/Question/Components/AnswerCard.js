@@ -61,7 +61,7 @@ Vue.component('answercard', {
     template: `<el-drawer :visible.sync="show" direction="ltr" class="quesCard" append-to-body :size="width_percent+'%'">
         <div class="cardTit" slot="title">
             <span><icon>&#xe75e</icon>答题卡</span>
-            <span>答题<b>{{vapp.count.answer}}</b>道 / 共<b>{{questions.length}}</b>道</span>
+            <span>答题<b>{{$parent.count.answer}}</b>道 / 共<b>{{questions.length}}</b>道</span>
           </div>
         <div class="cardBox">
             <dl  v-for="(g,i) in groups" v-if="g.ques.length>0">

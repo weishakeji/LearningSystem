@@ -48,7 +48,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程ID</param>
         /// <param name="num">要增总的浏览数，不可以为负数或零</param>
         /// <returns></returns>
-        [HttpPut,HttpGet(Ignore =true)]
+        [HttpPut]
         public int ViewNum(long couid, int num)
         {
             return Business.Do<ICourse>().CourseViewNum(couid, num);           

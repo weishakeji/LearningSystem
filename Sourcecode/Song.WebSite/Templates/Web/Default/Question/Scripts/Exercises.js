@@ -15,8 +15,8 @@
 
             questions: [],
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
-            loading: true,
-            loading_init: true,         //初始信息加载
+            loading: false,
+            loading_init: false,         //初始信息加载
             learnmode: 0,            //练习模式，0为练习模式，1为背题模式
 
             //答题的状态
@@ -35,13 +35,17 @@
         },
         mounted: function () {
             var th = this;
+            th.couid = th.couid == 'undefined' ? 0 : th.couid;
+            th.olid = th.olid == 'undefined' ? 0 : th.olid;
+            if (th.couid == 0 || th.olid == 0) return;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
             ).then(axios.spread(function (account, types, course, outline) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -51,7 +55,7 @@
                         console.error(data.message);
                     }
                 }
-                vapp.account = account.data.result;
+                th.account = account.data.result;
                 //创建试题练习状态的记录的操作对象
                 if (th.islogin)
                     th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
@@ -110,7 +114,7 @@
                 var th = this;
                 th.loading = true;
                 if (update) {
-                    th.questions=[];
+                    th.questions = [];
                     th.swipeIndex = 0;
                 }
                 var form = {
