@@ -60,7 +60,7 @@ Vue.component('topayment', {
         weixinnativepay: function (pi, ma) {
             var host = $api.url.host();
             //用于生成支付二维码的URL          
-            var url = "Pay/Weixin/NativePayPage.aspx?pi={0}&serial={1}";
+            var url = "/Pay/Weixin/Native?pi={0}&serial={1}";
             url = host + url.toLowerCase();
             url = url.format(pi.Pai_ID, ma.Ma_Serial);
             console.log(url);

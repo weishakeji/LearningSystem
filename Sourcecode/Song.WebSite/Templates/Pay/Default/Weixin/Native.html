@@ -3,13 +3,31 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="inc/meta.inc" />
+    <include file="../inc/meta.inc" />
     <title>微信扫码支付</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-       ddd
+        <loading v-if="loading"></loading>
+        <div v-else-if="!islogin" class="nologin">
+            未登录
+        </div>
+        <template v-else>
+            <div class="header">
+                <avatar :account="account" :circle="true" :size="100"></avatar>
+                <div>
+                    <span v-html="account.Ac_Name"></span>
+                    <span class="accname">({{account.Ac_AccName}})</span>
+                </div>
+            </div>
+            <div v-if="!ifexist">
+                <alert>支付接口不存在</alert>
+            </div>
+            <template>
+                
+            </template>
+        </template>
     </div>
 
 

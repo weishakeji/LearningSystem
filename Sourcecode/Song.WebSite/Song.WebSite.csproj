@@ -1118,6 +1118,8 @@
     <Content Include="Templates\Mobi\Default\Scripts\About.js" />
     <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
     <Content Include="Templates\Pay\Default\PayEntry.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Business\NativePay.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Lib\WxPayData.js" />
     <Content Include="Templates\Pay\Default\Weixin\Native.html" />
     <Content Include="Templates\Pay\Default\Weixin\Scripts\Native.js" />
     <Content Include="Templates\Pay\Default\Weixin\Styles\Native.css" />

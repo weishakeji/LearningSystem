@@ -184,7 +184,26 @@ namespace Song.ViewData.Methods
             ma = Business.Do<IAccounts>().MoneyIncome(ma);
             return ma;
         }
-
+        /// <summary>
+        /// 通过流水号获取资金记录
+        /// </summary>
+        /// <param name="serial">流水号</param>
+        /// <returns></returns>
+        public MoneyAccount MoneyAccount(string serial)
+        {
+            if (string.IsNullOrWhiteSpace(serial)) return null;
+            return Business.Do<IAccounts>().MoneySingle(serial);          
+        }
+        /// <summary>
+        /// 通过id获取支付接口(启用的）,相较于ForID方法，此处取启用的接口
+        /// </summary>
+        /// <param name="id">支付接口id</param>
+        /// <returns>支持接口</returns>
+        public Song.Entities.PayInterface Interface(int id)
+        {
+            Song.Entities.PayInterface pi= Business.Do<IPayInterface>().PaySingle(id);
+            return pi.Pai_IsEnable ? pi : null;
+        }
 
         #endregion
 

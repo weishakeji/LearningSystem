@@ -65,7 +65,7 @@
                         <el-button type="primary" define="enter" @click="open_paywindow()" v-if="!isopenpay">确认支付
                         </el-button>
                         <el-button type="success" @click="fresh_window()" v-else>确认支付成功,刷新页面</el-button>
-                        <el-button type="info" plain @click="paypanel=false">取消</el-button>
+                        <el-button type="info" plain @click=" ()=>{isopenpay=false;paypanel=false;}">取消</el-button>
                     </div>
                 </el-dialog>
             </template>
