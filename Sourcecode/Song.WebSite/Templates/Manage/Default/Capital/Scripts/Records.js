@@ -120,7 +120,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 66);
-                $api.get("Money/Pager", th.form).then(function (d) {
+                $api.get('Money/Pager', th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
@@ -144,7 +144,7 @@
             btnOutput: function () {
                 var file = 'RecordOutput';
                 var title = ' - 导出';
-                var boxid = "Capital_" + file;
+                var boxid = 'Capital_' + file;
                 this.$refs.btngroup.pagebox(file, title, boxid, 800, 400,
                     { pid: window.name, resize: true });
             }

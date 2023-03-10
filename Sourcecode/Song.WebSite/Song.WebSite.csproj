@@ -242,15 +242,6 @@
     <Compile Include="Pay\PayEntry.ashx.cs">
       <DependentUpon>PayEntry.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Pay\Weixin\business\DownloadBill.cs" />
-    <Compile Include="Pay\Weixin\business\JsApiPay.cs" />
-    <Compile Include="Pay\Weixin\business\MicroPay.cs" />
-    <Compile Include="Pay\Weixin\business\NativeNotify.cs" />
-    <Compile Include="Pay\Weixin\business\NativePay.cs" />
-    <Compile Include="Pay\Weixin\business\OrderQuery.cs" />
-    <Compile Include="Pay\Weixin\business\Refund.cs" />
-    <Compile Include="Pay\Weixin\business\RefundQuery.cs" />
-    <Compile Include="Pay\Weixin\business\ResultNotify.cs" />
     <Compile Include="Pay\Weixin\default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -286,13 +277,6 @@
     <Compile Include="Pay\Weixin\JsApiPayPage.aspx.designer.cs">
       <DependentUpon>JsApiPayPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pay\Weixin\lib\Config.cs" />
-    <Compile Include="Pay\Weixin\lib\Data.cs" />
-    <Compile Include="Pay\Weixin\lib\Exception.cs" />
-    <Compile Include="Pay\Weixin\lib\HttpService.cs" />
-    <Compile Include="Pay\Weixin\lib\Log.cs" />
-    <Compile Include="Pay\Weixin\lib\Notify.cs" />
-    <Compile Include="Pay\Weixin\lib\WxPayApi.cs" />
     <Compile Include="Pay\Weixin\MakeQRCode.aspx.cs">
       <DependentUpon>MakeQRCode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1120,9 +1104,12 @@
     <Content Include="Templates\Pay\Default\PayEntry.html" />
     <Content Include="Templates\Pay\Default\Weixin\Business\NativePay.js" />
     <Content Include="Templates\Pay\Default\Weixin\Lib\WxPayData.js" />
-    <Content Include="Templates\Pay\Default\Weixin\Native.html" />
-    <Content Include="Templates\Pay\Default\Weixin\Scripts\Native.js" />
-    <Content Include="Templates\Pay\Default\Weixin\Styles\Native.css" />
+    <Content Include="Templates\Pay\Default\Weixin\NativePayNotify.html" />
+    <Content Include="Templates\Pay\Default\Weixin\NativePayPage.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\NativePayNotify.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\NativePayPage.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\NativePayNotify.css" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\NativePayPage.css" />
     <Content Include="Templates\Pay\Default\_self.xml" />
     <Content Include="Templates\Pay\_public\_self.xml" />
     <Content Include="Templates\SSO\Default\Inc\meta.inc" />

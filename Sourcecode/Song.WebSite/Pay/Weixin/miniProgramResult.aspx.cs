@@ -59,7 +59,7 @@ namespace WxPayAPI
             else
             {
                 //接收来自微信支付中心的异步请求
-                ResultNotify resultNotify = new ResultNotify(this);
+                ResultNotify resultNotify = new ResultNotify();
                 //resultNotify.ProcessNotify();
                 //获取结果
                 WxPayData notifyData = resultNotify.GetNotifyData();

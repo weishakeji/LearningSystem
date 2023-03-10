@@ -9,7 +9,7 @@ using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Core;
 using System.Data;
-
+using WxPayAPI;
 
 namespace Song.ViewData.Methods
 {
@@ -207,6 +207,27 @@ namespace Song.ViewData.Methods
 
         #endregion
 
+        #region 微信支付
+        /// <summary>
+        /// 生成直接支付url，支付url有效期为2小时,模式二
+        /// </summary>
+        /// <param name="productId">商品ID</param>
+        /// <param name="body">商品描述，此处为平台名称</param>
+        /// <param name="serial">商户订单号</param>
+        /// <param name="total_fee">充值金额，单位为分</param>
+        /// <param name="appid">公众号id</param>
+        /// <param name="mchid">微信商户id</param>
+        /// <param name="paykey">微信商户支付密码</param>
+        /// <param name="notify_url">回调地址</param>
+        /// <param name="buyer">买家信息</param>
+        /// <returns></returns>
+        public string WxNativePayUrl(string productId, string body, string serial, int total_fee, string appid, string mchid, string paykey, string notify_url, string buyer)
+        {
+            NativePay nativePay = new NativePay();
+            string url2 = nativePay.GetPayUrl(productId, body, serial, total_fee, appid, mchid, paykey, notify_url, buyer);
+            return url2;
+        }
 
+        #endregion
     }
 }

@@ -253,8 +253,7 @@ namespace Song.ViewData
         /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpRequestMessage httprequest)
         {
-            this.Request = httprequest;
-
+            this.Request = httprequest;           
             API_PATH = httprequest.RequestUri.AbsolutePath;
             Referrer = httprequest.Headers.Referrer;
             HTTP_METHOD = httprequest.Method.Method; //请求方法           

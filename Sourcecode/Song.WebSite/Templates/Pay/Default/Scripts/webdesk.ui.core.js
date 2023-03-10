@@ -826,7 +826,7 @@
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
-        var first = ['polyfill.min', 'vue.min'];
+        var first = ['polyfill.min', 'vue.min', 'jquery'];
         for (var t in first) first[t] = '/Utilities/Scripts/' + first[t] + '.js';
         window.$dom.load.js(first, function () {
             var arr = ['axios_min', 'api', 'hammer.min', 'vue-touch'];
@@ -836,7 +836,7 @@
                 var arr2 = new Array();
                 //加载Vant
                 //arr2.push('/Utilities/Vant/vant.min.js');
-              
+
                 window.$dom.load.js(arr2, f);
             });
         });
@@ -873,7 +873,7 @@
     window.$dom.load.css([
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
-        webdom.path() + 'styles/public.css',     
+        webdom.path() + 'styles/public.css',
         '/Utilities/Fonts/icon.css'
     ]);
     //加载自身相关的js或css  

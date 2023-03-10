@@ -57,14 +57,10 @@ Vue.component('topayment', {
             window.location.href = url;
         },
         //微信扫码支付
-        weixinnativepay: function (pi, ma) {
-            var host = $api.url.host();
-            //用于生成支付二维码的URL          
-            var url = "/Pay/Weixin/Native?pi={0}&serial={1}";
-            url = host + url.toLowerCase();
-            url = url.format(pi.Pai_ID, ma.Ma_Serial);
-            console.log(url);
-            window.location.href = url;
+        weixinnativepay: function (pi, ma) {                 
+            var url = "Pay/Weixin/NativePayPage?pi={0}&serial={1}";
+            url = $api.url.host() + url.toLowerCase();
+            window.location.href = url.format(pi.Pai_ID, ma.Ma_Serial);
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {
@@ -75,7 +71,7 @@ Vue.component('topayment', {
         //微信Html5支付
         weixinh5pay: function (pi, ma) {
             var url = "/pay/Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
-            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money*100);
+            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100);
             window.location.href = url;
         },
 
@@ -95,7 +91,7 @@ Vue.component('topayment', {
         //支付宝网页直付
         alipayweb: function (pi, ma) {
             var url = "/pay/Alibaba/web?piid={0}&serial={1}&money={2}";
-            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money*100);
+            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100);
             window.location.href = url;
         },
     },

@@ -67,7 +67,7 @@
                     });
                     return;
                 }
-                var msg = clear ? " 回滚，且清除学习记录" : "回滚，但保留学习记录";
+                var msg = clear ? ' 回滚，且清除学习记录' : '回滚，但保留学习记录';
                 this.$confirm('您选择了“' + msg + '”<br/>是否确定进行批量回滚?', '确认', {
                     dangerouslyUseHTMLString: true,
                     confirmButtonText: '确定',

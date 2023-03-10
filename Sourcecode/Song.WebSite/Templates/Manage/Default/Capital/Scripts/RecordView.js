@@ -10,7 +10,7 @@ $ready(function () {
             isSuper: false,      //当前登录管理员，是否为超管
             organ: {},       //当前机构
             pay: {},         //支付接口
-            fromType: ["管理员充扣", "充值码充值", "在线支付", "购买课程"]
+            fromType: ['管理员充扣', '充值码充值', '在线支付', '购买课程']
         },
         watch: {
             'loading': function (val, old) {
@@ -40,7 +40,7 @@ $ready(function () {
                         vue.entity = req.data.result;
                         $api.bat(
                             $api.get('Account/ForID', { 'id': vue.entity.Ac_ID }),
-                            $api.get("Organization/ForID", { 'id': vue.entity.Org_ID })
+                            $api.get('Organization/ForID', { 'id': vue.entity.Org_ID })
                         ).then(axios.spread(function (account, organ) {
                             //判断结果是否正常
                             for (var i = 0; i < arguments.length; i++) {
@@ -87,19 +87,19 @@ $ready(function () {
             },
             //确认金额的按钮事件
             btnConfirm: function () {
-                var msg = "在线充值扣款成功，但该平台内没有增加金额时，<br/>\
+                var msg = '在线充值扣款成功，但该平台内没有增加金额时，<br/>\
                         此处操作可以确认金额。<br/>\
                         请认真核对流水号，确认该订单在支付平台已经成功。<br/>\
-                        流水号："+ this.entity.Ma_Serial;
+                        流水号：'+ this.entity.Ma_Serial;
                 this.$confirm(msg, '提示', {
                     dangerouslyUseHTMLString: true,
                     confirmButtonText: '经核对，确实充值成功',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    var txt = "确认订单成功后，该学员(" + this.entity.Ac_Name + ")的资金账户将增加" + this.entity.Ma_Money + "元。<br/>";
-                    txt += "是否确认？<br/>\
-                        流水号："+ this.entity.Ma_Serial;
+                    var txt = '确认订单成功后，该学员(' + this.entity.Ac_Name + ')的资金账户将增加' + this.entity.Ma_Money + '元。<br/>';
+                    txt += '是否确认？<br/>\
+                        流水号：'+ this.entity.Ma_Serial;
                     vue.$confirm(txt, '再次提示', {
                         dangerouslyUseHTMLString: true,
                         confirmButtonText: '确认当前订单为成功',

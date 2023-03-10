@@ -50,6 +50,7 @@ namespace WxPayAPI
                 }
                 Song.Entities.MoneyAccount maccount = Business.Do<IAccounts>().MoneySingle(serial);
                 if (maccount != null && maccount.Ma_IsSuccess) return;
+                //maccount.Ma_Serial
                 //开始生成二维码
                 NativePay nativePay = new NativePay();
                 //****生成扫码支付模式二url

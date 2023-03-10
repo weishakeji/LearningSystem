@@ -16,7 +16,7 @@ namespace WxPayAPI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ResultNotify resultNotify = new ResultNotify(this);
+            ResultNotify resultNotify = new ResultNotify();
             //resultNotify.ProcessNotify();
             //获取结果
             WxPayData notifyData = resultNotify.GetNotifyData();

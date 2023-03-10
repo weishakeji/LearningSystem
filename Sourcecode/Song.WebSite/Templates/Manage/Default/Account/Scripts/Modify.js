@@ -65,7 +65,7 @@ $ready(function () {
             },
             //图片上传
             handleAvatarSuccess: function (res, file) {
-                if (file.status == "success") {
+                if (file.status == 'success') {
                     this.account.Acc_Photo = res.url;
                     this.btnEnter();
                     //管理后台的右上角图片更换

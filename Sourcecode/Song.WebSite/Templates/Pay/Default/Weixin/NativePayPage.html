@@ -24,9 +24,14 @@
             <div v-if="!ifexist">
                 <alert>支付接口不存在</alert>
             </div>
-            <template>
-                
-            </template>
+            <div class="payarea" v-if="!moneyAccount.Ma_IsSuccess">
+                <div id="qrcode" :pay_url="pay_url"></div>              
+                <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
+            </div>
+            <div v-else class="success">
+                <icon>&#xa048</icon>
+                <div>支付成功</div>
+            </div>
         </template>
     </div>
 
