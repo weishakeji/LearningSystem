@@ -523,15 +523,11 @@ namespace Song.ServiceImpls
             if (entity == null)
             {
                 //账号、手机号、身份证，均可验证
-                WhereClip w2 = new WhereClip();
-                w2 |= Accounts._.Ac_AccName == acc;
-                w2 |= Accounts._.Ac_MobiTel1 == acc;
-                w2 |= Accounts._.Ac_MobiTel2 == acc;
-                w2 |= Accounts._.Ac_IDCardNumber == acc;
-                entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
+                wc.And(Accounts._.Ac_AccName == acc || Accounts._.Ac_MobiTel1 == acc ||
+                    Accounts._.Ac_MobiTel2 == acc || Accounts._.Ac_IDCardNumber == acc);
+                entity = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Ac_Pw == md5pw).ToFirst<Accounts>();
             }
             if (entity == null) return null;
-
             return this.AccountsLogin(entity);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
