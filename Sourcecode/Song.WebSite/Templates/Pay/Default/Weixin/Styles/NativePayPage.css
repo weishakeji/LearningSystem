@@ -21,23 +21,34 @@
     font-size: 14px;
     color: #999;
 }
-/*二维码*/
-.payarea>#qrcode {
-    margin-bottom: 10px;
-
+.payarea{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
-.payarea .text{
+/*二维码*/
+
+.payarea>div:first-child{
+    margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+}
+.payarea .text {
     color: #ff0000;
 }
-.payarea .text span{
+
+.payarea .text span {
     margin: 0px 10px;
     font-size: 25px;
 }
-.success{
-color: #409EFF;
+
+.success {
+    color: #409EFF;
 }
-.success icon{
-    font-size: 50px;   
+
+.success icon {
+    font-size: 50px;
     margin-left: 20px;
-    
+
 }

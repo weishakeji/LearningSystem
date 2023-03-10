@@ -53,52 +53,42 @@ $ready(function () {
             ifexist: function () {
                 return JSON.stringify(this.interface) != '{}' && this.interface != null && this.interface.Pai_IsEnable == true
                     && this.interface.Pai_InterfaceType != '';
+            },
+            //支付流水号是否存在或是否可用（例如未支付完成）
+            ismaccount: function () {
+                return JSON.stringify(this.moneyAccount) != '{}' && this.moneyAccount != null;
             }
         },
         watch: {
 
         },
         methods: {
-            //校验参数
-            checkcode: function () {
-                var vcode = $api.storage('weishakeji_pay_vcode');
-                var md5 = $api.md5(this.params.money + '_' + this.params.paiid + '_' + vcode);
-                return md5 == this.params.code;
-            },
-            //获取接口对象
+            //获取接口对象和流水号
             getPayinterface: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Pay/Interface', { 'id': th.pid }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.interface = req.data.result;
-                        if (th.ifexist) {
-                            //获取支付流水
-                            th.getMoneyAccount();
+                $api.bat(
+                    $api.get('Pay/Interface', { 'id': th.pid }),
+                    $api.get('Pay/MoneyAccount', { 'serial': th.serial })
+                ).then(axios.spread(function (pi, acc) {
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.exception);
+                            throw arguments[i].config.way + ' ' + data.message;
                         }
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
-            },
-            //获取支付流水
-            getMoneyAccount: function () {
-                var th = this;
-                th.loading = true;
-                $api.get('Pay/MoneyAccount', { 'serial': th.serial }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.moneyAccount = req.data.result;
-                        //th.pay_url = th.build_pay_url(th.interface, th.account, th.moneyAccount, th.orgin);
+                    //获取结果
+                    th.interface = pi.data.result;
+                    th.moneyAccount = acc.data.result;
+                    if (th.ifexist && th.ismaccount) {
                         th.build_pay_url(th.interface, th.account, th.moneyAccount, th.orgin);
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(err => console.error(err))
+
+                })).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //生成回调地址
@@ -149,8 +139,6 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading_qr = false);
-
-                //window.NativePay.GetPrePayUrl(orgid);
             },
             //生成二维码
             qrcode: function () {
@@ -159,10 +147,8 @@ $ready(function () {
                     var url = $(this).attr('pay_url');
                     jQuery($(this)).qrcode({
                         render: "canvas", //也可以替换为table
-                        width: 150,
-                        height: 150,
-                        foreground: "#0db711",
-                        background: "#FFF",
+                        width: 150, height: 150,
+                        foreground: "#0db711", background: "#FFF",
                         text: url
                     });
                     //将canvas转换成img标签，否则无法打印
@@ -176,7 +162,7 @@ $ready(function () {
                 var th = this;
                 $api.get('Pay/MoneyAccount', { 'serial': serial }).then(function (req) {
                     if (req.data.success) {
-                        th.moneyAccount = req.data.result;                     
+                        th.moneyAccount = req.data.result;
                         if (!th.moneyAccount.Ma_IsSuccess) {
                             window.setTimeout(function () {
                                 th.call_succeeded(serial);
@@ -186,14 +172,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         }
     });
 
 }, ['/Utilities/Components/avatar.js',
-    '/Utilities/Scripts/jquery.qrcode.min.js',
-    'Business/NativePay.js']);
+    '/Utilities/Scripts/jquery.qrcode.min.js']);

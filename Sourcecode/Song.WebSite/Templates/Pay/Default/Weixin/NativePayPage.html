@@ -21,14 +21,16 @@
                     <span class="accname">({{account.Ac_AccName}})</span>
                 </div>
             </div>
-            <div v-if="!ifexist">
-                <alert>支付接口不存在</alert>
+            <div v-if="!ifexist || !ismaccount">
+                <alert>支付信息异常</alert>
             </div>
-            <div class="payarea" v-if="!moneyAccount.Ma_IsSuccess">
-                <div id="qrcode" :pay_url="pay_url"></div>              
+            <div v-if="moneyAccount && !moneyAccount.Ma_IsSuccess" class="payarea">
+                <div id="qrcode" :pay_url="pay_url">
+                    <loading v-if="loading_qr"></loading>
+                </div>
                 <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
             </div>
-            <div v-else class="success">
+            <div v-if="moneyAccount && moneyAccount.Ma_IsSuccess" class="success">
                 <icon>&#xa048</icon>
                 <div>支付成功</div>
             </div>
