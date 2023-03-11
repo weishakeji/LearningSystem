@@ -41,7 +41,7 @@
         </div>
         <template>
             <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
-                style="width: 100%" @row-click="rowclick">
+                style="width: 100%" @row-click="row=>{show_detail = true;detail = row;}">
                 <el-table-column type="index" label="#" width="80" align="center">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
@@ -124,7 +124,11 @@
                     <span v-if="detail.Ma_Type==1">支出</span>
                     <span v-if="detail.Ma_Type==2">收入</span>
                     <el-tag v-if="detail.Ma_IsSuccess" type="success">成功</el-tag>
-                    <el-tag v-else type="warning">失败</el-tag>                   
+                    <loading v-else-if="loading_query"></loading>
+                    <template v-else>
+                        <el-tag type="warning">失败</el-tag>
+                        <el-link type="primary" @click="queryOrder(detail)">查询订单</el-link>
+                    </template>
                 </div>
                 <div title="交易号">
                     {{detail.Ma_Serial}}

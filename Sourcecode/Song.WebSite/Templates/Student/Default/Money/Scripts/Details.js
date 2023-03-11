@@ -15,6 +15,7 @@ $ready(function () {
             show_detail: false,     //详情展示
 
             loading_init: true,
+            loading_query: false,        //订单查询的预载
             loading: false
         },
         mounted: function () {
@@ -84,7 +85,11 @@ $ready(function () {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //console.log(th.accounts);
+                        //刷新当前查看的对象，右侧详情
+                        if (th.detail && th.detail.Ma_Serial) {                          
+                            var detail = th.datas.find(d => d.Ma_Serial == th.detail.Ma_Serial);
+                            if (detail != null) th.detail = detail;
+                        }
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
@@ -93,10 +98,39 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //行的点击事件
-            rowclick: function (row) {
-                this.show_detail = true;
-                this.detail = row;
+            //查询订单
+            queryOrder: function (detail) {
+                var th = this;
+                th.loading_query = true;
+                var query = { 'serial': detail.Ma_Serial };
+                $api.get('Pay/Interface', { 'id': detail.Pai_ID }).then(function (req) {
+                    if (req.data.success) {
+                        var pi = req.data.result;
+                        //如果是微信支付
+                        if (pi.Pai_Pattern.indexOf('微信') > -1) {
+                            query['appid'] = pi.Pai_ParterID;
+                            //接口配置项
+                            let config = $api.xmlconfig.tojson(pi.Pai_Config);
+                            query['mchid'] = config["MCHID"];    //商户id
+                            query['paykey'] = config["Paykey"];  //支付密钥
+                            $api.get('Pay/WxOrderQuery', query).then(function (req) {
+                                if (req.data.success) {
+                                    var result = req.data.result;
+                                    if (result['trade_state'] == 'SUCCESS') {
+                                        th.handleCurrentChange();
+                                    }
+                                    console.log(result);
+                                } else {
+                                    console.error(req.data.exception);
+                                    throw req.config.way + ' ' + req.data.message;
+                                }
+                            }).catch(err => console.error(err))
+                                .finally(() => th.loading_query = false);
+                        }
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err));
             }
         }
     });
