@@ -15,12 +15,16 @@
                     <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
                         end-placeholder="结束日期">
                     </el-date-picker>
+                </el-form-item>
+                <el-form-item>
                     <el-select v-model="form.from" placeholder="请选择来源" style="width: 120px;">
                         <el-option key="-1" label="--所有来源--" value="-1"> </el-option>
                         <el-option key="2" label="充值码充值" value="2" v-if="false"> </el-option>
                         <el-option key="3" label="在线支付" value="3"> </el-option>
                         <el-option key="1" label="管理员操作" value="1"> </el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item>
                     <el-select v-model="form.type" placeholder="请选择" style="width: 120px;">
                         <el-option key="-1" label="--所有收支--" value="-1"> </el-option>
                         <el-option key="1" label="支出" value="1"> </el-option>

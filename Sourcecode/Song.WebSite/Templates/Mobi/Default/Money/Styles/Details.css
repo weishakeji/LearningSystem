@@ -230,7 +230,13 @@ money {
 	word-break:break-all;
 	min-height: 30px;
 }
-
+.detail_content>div.queryOrder{	
+	text-align: center;
+}
+.detail_content>div.queryOrder::before{
+	content: '';
+	text-align: center;
+}
 .detail_content>div::before {
 	content: attr(title)  '：';
 	display: block;
