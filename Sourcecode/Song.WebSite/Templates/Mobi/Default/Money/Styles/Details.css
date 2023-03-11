@@ -225,13 +225,12 @@ money {
 	font-size: 25px;
 }
 .detail_content>div {
-	padding: 5px 15px;
+	padding: 5px 15px 5px 80px;
 	line-height: 150%;
+	box-sizing: border-box;
 	word-break:break-all;
 	min-height: 30px;
-}
-.detail_content>div.queryOrder{	
-	text-align: center;
+	position: relative;
 }
 .detail_content>div.queryOrder::before{
 	content: '';
@@ -240,8 +239,9 @@ money {
 .detail_content>div::before {
 	content: attr(title)  '：';
 	display: block;
-	width: 60px;
-	float: left;
+	width: 70px;
+	position: absolute;
+	left: 0px;
 	text-align: right;
 	margin-right: 10px;
 	color: #666;

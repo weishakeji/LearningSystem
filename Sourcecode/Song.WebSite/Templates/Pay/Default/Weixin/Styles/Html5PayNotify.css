@@ -1,38 +1,17 @@
 ﻿@charset "utf-8";
 
-.nologin {
-    padding: 50px;
-}
 
-.header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
-}
-
-.header .ws_avatar {
-    margin-bottom: 10px;
-}
-
-.accname {
-    margin: 0px 0px 0px 10px;
-    font-size: 14px;
-    color: #999;
-}
 .payarea{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: 50px;
 }
 /*二维码*/
 
 .payarea>div:first-child{
-    margin-bottom: 10px;
-    width: 150px;
-    height: 150px;
+    margin-bottom: 10px;  
 }
 .payarea .text {
     color: #ff0000;
@@ -42,7 +21,10 @@
     margin: 0px 10px;
     font-size: 25px;
 }
-
+.loading{
+    margin-top: 30px;
+    line-height: 40px;
+}
 .success {
     color: #409EFF;
 }
@@ -51,4 +33,22 @@
     font-size: 50px;
     margin-left: 20px;
 
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0px;
+    background: #eee;
+    width: 100%;
+    height: 45px;
+    line-height: 30px;
+    z-index: 9999;
+}
+
+.footer a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    line-height: 45px;
 }

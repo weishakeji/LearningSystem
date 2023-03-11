@@ -94,7 +94,7 @@
             </div>
             <div class="detail_content">
                 <div title="余额">
-                    <icon>&#xe837</icon>{{show_item.Ma_Total}} 元
+                    <icon>&#xe81c</icon>{{show_item.Ma_Total}} 元
                 </div>
                 <div title="明细">
                     <span v-if="show_item.Ma_Type==1">-</span>
@@ -102,7 +102,9 @@
                     {{show_item.Ma_Money}} 元
                 </div>
                 <div title="时间">
-                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd')}}
+                    <br/>
+                    {{show_item.Ma_CrtTime|date('HH:mm:ss')}}
                 </div>
                 <div title="类型">
                     <span v-if="show_item.Ma_Type==1">支出</span>

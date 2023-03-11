@@ -102,7 +102,8 @@ Vue.component('topayment', {
         referrer: function () {
             var ref = document.referrer;
             if (ref == null || ref == '') return '';
-            return encodeURIComponent(ref.substring(window.location.origin.length));
+            return encodeURIComponent(ref);
+            //return encodeURIComponent(ref.substring(window.location.origin.length));
         }
     },
     template: `<loading>正在转向支付平台..</loading>`

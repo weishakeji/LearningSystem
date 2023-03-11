@@ -30,8 +30,9 @@ namespace Song.WebSite.Controllers
             if ("weixin".Equals(actionName, StringComparison.OrdinalIgnoreCase))
             {
                 //微信扫码支付的回调方法
-                if ("NativePayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)||
-                   "Html5PayNotify".Equals(id, StringComparison.OrdinalIgnoreCase))
+                if ("NativePayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
+                   //|| "Html5PayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
+                   )
                 {
                     ResultNotify resultNotify = new ResultNotify();
                     //获取结果
