@@ -19,7 +19,7 @@ namespace WxPayAPI
         /// <summary>
         /// 保存页面对象，因为要在类的方法中使用Page的Request对象
         /// </summary>
-        private Page page {get;set;}
+        private HttpContext page {get;set;}
 
         /// <summary>
         /// openid用于调用统一下单接口
@@ -49,9 +49,10 @@ namespace WxPayAPI
         /// </summary>
         public WxPayData unifiedOrderResult { get; set; } 
 
-        public JsApiPay(Page page)
+        public JsApiPay()
         {
-            this.page = page;
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            this.page = _context;
         }
 
 

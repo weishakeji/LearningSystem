@@ -1102,11 +1102,17 @@
     <Content Include="Templates\Mobi\Default\Scripts\About.js" />
     <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
     <Content Include="Templates\Pay\Default\PayEntry.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Html5PayNotify.html" />
     <Content Include="Templates\Pay\Default\Weixin\NativePayNotify.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Html5PayPage.html" />
     <Content Include="Templates\Pay\Default\Weixin\NativePayPage.html" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\Html5PayNotify.js" />
     <Content Include="Templates\Pay\Default\Weixin\Scripts\NativePayNotify.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Scripts\Html5PayPage.js" />
     <Content Include="Templates\Pay\Default\Weixin\Scripts\NativePayPage.js" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\Html5PayNotify.css" />
     <Content Include="Templates\Pay\Default\Weixin\Styles\NativePayNotify.css" />
+    <Content Include="Templates\Pay\Default\Weixin\Styles\Html5PayPage.css" />
     <Content Include="Templates\Pay\Default\Weixin\Styles\NativePayPage.css" />
     <Content Include="Templates\Pay\Default\_self.xml" />
     <Content Include="Templates\Pay\_public\_self.xml" />

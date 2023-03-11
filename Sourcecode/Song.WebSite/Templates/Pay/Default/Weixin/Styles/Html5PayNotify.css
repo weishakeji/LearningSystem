@@ -1,0 +1,54 @@
+﻿@charset "utf-8";
+
+.nologin {
+    padding: 50px;
+}
+
+.header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.header .ws_avatar {
+    margin-bottom: 10px;
+}
+
+.accname {
+    margin: 0px 0px 0px 10px;
+    font-size: 14px;
+    color: #999;
+}
+.payarea{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+/*二维码*/
+
+.payarea>div:first-child{
+    margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+}
+.payarea .text {
+    color: #ff0000;
+}
+
+.payarea .text span {
+    margin: 0px 10px;
+    font-size: 25px;
+}
+
+.success {
+    color: #409EFF;
+}
+
+.success icon {
+    font-size: 50px;
+    margin-left: 20px;
+
+}

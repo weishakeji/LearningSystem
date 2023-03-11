@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>微信扫码支付</title> 
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <loading v-if="loading"></loading>
+        <div v-else-if="!islogin" class="nologin">
+            未登录
+        </div>
+        <template v-else>
+            <div class="header">
+                <div>
+                    <span v-html="account.Ac_Name"></span>
+                    <span class="accname">({{account.Ac_AccName}})</span>
+                </div>
+                <avatar :account="account" :circle="true" :size="100"></avatar>
+
+            </div>
+            <div v-if="!ifexist || !ismaccount">
+                <alert>支付信息异常</alert>
+            </div>
+            <div v-if="moneyAccount && !moneyAccount.Ma_IsSuccess" class="payarea">                
+                <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
+            </div>
+            <div v-if="moneyAccount && moneyAccount.Ma_IsSuccess" class="success">
+                <icon>&#xa048</icon>
+                <div>支付成功</div>
+            </div>
+        </template>
+
+        <div class="operation" loading="p4" v-if="loading_url">           
+        </div>
+        <div class="operation" v-else-if="error!=''">           
+            <alert>支付接口异常</alert>
+            <div>{{error}}</div>
+        </div>
+        <div class="footer">
+            <a href="/mobi/Recharge">如无法正常返回，请点击</a>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

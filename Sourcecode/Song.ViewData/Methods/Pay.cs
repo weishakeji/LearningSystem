@@ -10,6 +10,8 @@ using Song.ViewData.Attri;
 using WeiSha.Core;
 using System.Data;
 using WxPayAPI;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Song.ViewData.Methods
 {
@@ -209,7 +211,40 @@ namespace Song.ViewData.Methods
 
         #region 微信支付
         /// <summary>
-        /// 生成直接支付url，支付url有效期为2小时,模式二
+        /// 微信支付订单查询
+        /// </summary>
+        /// <param name="serial">资金流水号，由我方系统生成的订单号</param>
+        /// <param name="appid">公众号id</param>
+        /// <param name="mchid">微信商户id</param>
+        /// <param name="paykey">支付密钥</param>
+        /// <returns></returns>
+        public JObject WxOrderQuery(string serial, string appid, string mchid, string paykey)
+        {
+            WxPayData data = new WxPayData();
+            data.SetValue("out_trade_no", serial);  //商户订单号
+            WxPayData result = WxPayApi.OrderQuery(data, appid, mchid, paykey);//提交订单查询请求给API，接收返回数据
+            JObject jo= result.ToJObject();
+            WxPayAPI.Log.Debug("WxPayApi", "OrderQuery trade_state : " + jo["trade_state"].ToString());
+            //订单成功
+            if (jo["trade_state"].ToString()== "SUCCESS")
+            {
+                Song.Entities.MoneyAccount macc = Business.Do<IAccounts>().MoneySingle(serial);
+                if(macc != null && !macc.Ma_IsSuccess)
+                {
+                    //付款方与收款方（商户id)
+                    macc.Ma_Buyer = jo["attach"].ToString();
+                    macc.Ma_Seller = jo["mch_id"].ToString();
+                    Business.Do<IAccounts>().MoneyConfirm(macc);
+                    //刷新当前登录的学员信息
+                    Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(macc.Ac_ID);
+                    Song.ViewData.LoginAccount.Fresh(acc);
+                }
+                //WxPayAPI.Log.Debug("WxPayApi", "OrderQuery response : " + response);
+            }
+            return result.ToJObject();
+        }
+        /// <summary>
+        /// 生成扫码支付url，支付url有效期为2小时,模式二
         /// </summary>
         /// <param name="productId">商品ID</param>
         /// <param name="body">商品描述，此处为平台名称</param>
@@ -227,7 +262,39 @@ namespace Song.ViewData.Methods
             string url2 = nativePay.GetPayUrl(productId, body, serial, total_fee, appid, mchid, paykey, notify_url, buyer);
             return url2;
         }
-
+        /// <summary>
+        /// 生成html5支付的对象
+        /// </summary>
+        /// <param name="body">商品描述，此处为平台名称</param>
+        /// <param name="serial">商户订单号</param>
+        /// <param name="total_fee">充值金额，单位为分</param>
+        /// <param name="appid">公众号id</param>
+        /// <param name="mchid">微信商户id</param>
+        /// <param name="paykey">微信商户支付密码</param>
+        /// <param name="notify_url">回调地址</param>
+        /// <param name="buyer">买家信息</param>
+        /// <returns></returns>
+        public JObject WxJsApiPay(string body, string serial, int total_fee, string appid, string mchid, string paykey, string notify_url, string buyer)
+        {
+            //若传递了相关参数，则调统一下单接口，获得后续相关接口的入口参数
+            JsApiPay jsApiPay = new JsApiPay();
+            //jsApiPay.openid = "";
+            jsApiPay.total_fee = total_fee;
+            //JSAPI支付预处理
+            try
+            {
+                //统一下单
+                WxPayData result = jsApiPay.GetUnifiedOrderResult("MWEB", body, serial, appid, mchid, paykey, notify_url, buyer);
+                if (result == null) throw new Exception();
+                return result.ToJObject();
+            }
+            catch (Exception ex)
+            {
+                WxPayAPI.Log.Error(this.GetType().ToString(), "支付下单失败 : " + ex.Message);
+                WxPayAPI.Log.Error(this.GetType().ToString(), "支付下单失败 : " + ex.StackTrace);
+                throw ex;
+            }
+        }
         #endregion
     }
 }
