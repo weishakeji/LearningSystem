@@ -5,50 +5,11 @@ $ready(function () {
             account: {},
             organ: {},
             config: {},
+            plate: {},
+
             loading: false
         },
         mounted: function () {
-            //var c = $api.loginstatus('account');
-            //console.log(c);
-            var th = this;
-            //判断是否登录
-            $api.get('Account/Current', {}, function () {
-                window.login.loading = true;
-            }).then(function (req) {
-                window.login.loading = false;
-                if (req.data.success) {
-                    th.logged(req.data.result);
-                } else {
-                    window.login.loading = false;
-                    $dom('#login-area').show();
-                }
-            }).catch(function (err) {
-                //console.log(err);
-                throw err;
-            });
-            //平台信息
-            $api.bat(
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果           
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
         },
@@ -60,6 +21,8 @@ $ready(function () {
         },
         watch: {
             'account': function (nv, ov) {
+                window.login.loading = false;
+                var th = this;
                 if (nv == null || JSON.stringify(nv) === '{}') {
                     $dom('#login-area').show();
                     $dom('#logged-area').hide();
@@ -68,12 +31,17 @@ $ready(function () {
                     $dom('#logged-area').show().css('opacity', 0);
                     window.setTimeout(function () {
                         $dom('#logged-area').css('opacity', 1);
+                        $dom('#login-area').hide();
+                        th.logged(nv);
                     }, 500);
                 }
             },
             'config': function (nv, ov) {
                 if (nv.IsRegStudent)
                     $dom("*[v-if='config.IsRegStudent']").hide();
+            },
+            'plate': function (nv, ov) {
+                window.platinfo = nv;
             }
         },
         methods: {
