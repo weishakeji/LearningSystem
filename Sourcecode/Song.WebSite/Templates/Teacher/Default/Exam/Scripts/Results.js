@@ -306,8 +306,8 @@
               <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
                 <el-col :span="8">
                     <el-tooltip content="点击查看成绩" placement="bottom" effect="light">
-                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Title">
-                            <icon>&#xe696</icon>{{item.Exam_Title}}
+                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Name">
+                            <icon>&#xe696</icon>{{item.Exam_Name}}
                         </el-link>      
                     </el-tooltip>              
                 </el-col>
