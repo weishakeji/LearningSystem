@@ -40,6 +40,7 @@ $ready(function () {
                 start: new Date(),        //学员真正开始考试的时间，例如9:00 begin开始，学员9:10进场
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
+            blur_maxnum: 3,          //失去焦点的最大次数
             /*
             //考试中的状态
             state: {
@@ -120,7 +121,32 @@ $ready(function () {
                 console.error(err);
             });
         },
-        created: function () { },
+        created: function () {
+            //当窗体失去焦点
+
+            window.onblur = function () {
+                var vapp = window.vapp;
+                if (vapp.exam.Exam_IsToggle) return;
+                if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
+                var key = 'exam_blur_num_' + vapp.examid;
+                var blurnum = Number($api.storage(key));
+                if (isNaN(blurnum)) blurnum = vapp.blur_maxnum;
+                Number($api.storage(key, --blurnum));
+                //每切换一次减10分钟
+                vapp.time.over.setTime(vapp.time.over.getTime() - 10 * 60 * 1000);
+                if (blurnum <= 0 || vapp.time.over < new Date()) {
+                    vapp.submit(2);
+                    $api.storage(key, null);
+                    return;
+                }
+                vapp.$alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
+                    '禁止切换考试界面', {
+                    confirmButtonText: '确定',
+                    callback: action => { }
+                });
+                console.error(3333);
+            }
+        },
         computed: {
             //学员是否登录
             islogin: function () {
@@ -325,8 +351,10 @@ $ready(function () {
                 if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
                 if (th.examstate.issubmit || th.submitState.loading) return;
-                if (patter == 2)
+                if (patter == 2) {
                     th.submitState.show = true;
+                    $api.storage('exam_blur_num_' + th.examid, null);
+                }
                 th.submitState.loading = true;
                 this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
