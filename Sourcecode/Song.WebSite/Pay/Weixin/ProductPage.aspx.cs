@@ -27,7 +27,7 @@ namespace WxPayAPI
             Log.Info(this.GetType().ToString(), "page load");
             if (!IsPostBack)
             {
-                JsApiPay jsApiPay = new JsApiPay(this);
+                JsApiPay jsApiPay = new JsApiPay();
                 try
                 {
                     //调用【网页授权获取用户信息】接口获取用户的openid和access_token

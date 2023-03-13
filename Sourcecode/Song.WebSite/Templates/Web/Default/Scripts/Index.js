@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             platinfo: {},
             account: {},     //当前登录账号
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项
             showpic: [],        //轮换图片
             notice: [],          //通知公告  
@@ -21,38 +21,35 @@ $ready(function () {
             total: 0,
             sbj_loading: false
         },
-        mounted: function () {
-            
-            var th = this;
-            $api.bat(
-                $api.cache('Platform/PlatInfo:30'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果            
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                if (!th.organ) return;
-                document.title = th.organ.Org_PlatformName;
-                //th.organ.Org_Logo = '';
-                th.load();
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                //轮换图片，通知公告,自定义菜单项，专业
-                var orgid = th.organ.Org_ID;
+        mounted: function () { },
+        created: function () { },
+        computed: {},
+        watch: {
+            'org': {
+                handler: function (nv, ov) {
+                    this.loadinit(nv.Org_ID);
+                    this.loadsbj();
+                    document.title = nv.Org_PlatformName;
+                }, immediate: true
+            }
+        },
+        methods: {
+            onSearch: function () {
+                if ($api.trim(this.search) == '') return;
+                var search = encodeURIComponent(this.search);
+                var url = "/mobi/course/index?search=" + search;
+                window.location.href = url;
+            },
+            //加载一些初始数据
+            loadinit: function (orgid) {
+                if (orgid == undefined) return;
+                var th = this;
+                th.loading = true;
                 $api.bat(
                     $api.cache('Showpic/web:60', { 'orgid': orgid }),
                     $api.cache('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
                     $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' })
-                ).then(axios.spread(function (showpic, notice, articles, subject) {
+                ).then(axios.spread(function (showpic, notice, articles) {
                     th.loading = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -73,37 +70,17 @@ $ready(function () {
                         }
                     }
                     th.articles = articles.data.result;
-                    //th.subject = subject.data.result;
                 })).catch(function (err) {
                     th.loading = false;
                     console.error(err);
                 });
-            })).catch(function (err) {
-                console.error(err);
-            });
-        },
-        created: function () {
-        },
-        computed: {},
-        watch: {           
-            'showpic': {
-                handler: function (nv, ov) {
-
-                }, immediate: true
-            }
-        },
-        methods: {
-            onSearch: function () {
-                if ($api.trim(this.search) == '') return;
-                var search = encodeURIComponent(this.search);
-                var url = "/mobi/course/index?search=" + search;
-                window.location.href = url;
             },
-            load: function () {
+            //加载专业
+            loadsbj: function () {
                 var th = this;
-                if (!th.organ.Org_ID) return;
+                if (!th.org.Org_ID) return;
                 th.query.index++;
-                th.query.orgid = th.organ.Org_ID;
+                th.query.orgid = th.org.Org_ID;
                 var query = $api.clone(th.query);
                 $api.cache('Subject/PagerFront', query).then(function (req) {
                     if (req.data.success) {

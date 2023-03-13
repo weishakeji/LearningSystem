@@ -5,6 +5,7 @@ using System.Xml;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WxPayAPI
 {
@@ -102,7 +103,32 @@ namespace WxPayAPI
             xml += "</xml>";
             return xml;
         }
-
+        /**
+       * @将Dictionary转成Jobject
+       * @return 经转换得到的xml串
+       * @throws WxPayException
+       **/
+        public JObject ToJObject()
+        {
+            //数据为空时不能转化为xml格式
+            if (0 == m_values.Count)
+            {
+                Log.Error(this.GetType().ToString(), "WxPayData数据为空!");
+                throw new WxPayException("WxPayData数据为空!");
+            }
+            JObject jo = new JObject();
+            foreach (KeyValuePair<string, object> pair in m_values)
+            {
+                //字段值不能为null，会影响后续流程
+                if (pair.Value == null)
+                {
+                    Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
+                    throw new WxPayException("WxPayData内部含有值为null的字段!");
+                }
+                jo.Add(pair.Key, pair.Value.ToString());
+            }
+            return jo;
+        }
         /**
         * @将xml转为WxPayData对象并返回对象内部的数据
         * @param string 待转换的xml串

@@ -29,10 +29,16 @@
     background-color: #eee;
     color: #999;
 }
-
+.header .total {
+    padding: 0px 0px 0px 0px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
 .header .total span {
     margin: 0px 15px;
-    font-size: 25px;
+    font-size: 25px;  
     font-weight: bold;
     color: #ff0000;
 }

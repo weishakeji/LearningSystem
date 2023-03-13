@@ -45,7 +45,7 @@ namespace Song.Site.Pay.Weixin
                 return null;
             }
             //若传递了相关参数，则调统一下单接口，获得后续相关接口的入口参数
-            JsApiPay jsApiPay = new JsApiPay(this);
+            JsApiPay jsApiPay = new JsApiPay();
             jsApiPay.openid = openid;
             jsApiPay.total_fee = total_fee;
             //JSAPI支付预处理

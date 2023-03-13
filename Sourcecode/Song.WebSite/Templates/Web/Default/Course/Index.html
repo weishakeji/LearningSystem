@@ -9,7 +9,11 @@
 <body>
 
     <div id="vapp" v-cloak>
-        <page_header ref="header" :organ="organ" :account="account" @search="search">loading ...</page_header>
+        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"  @search="search">
+            loading
+            ...
+        </page_header>
+
         <context class="navig">
             <breadcrumb ref="breadcrumb" :subjects="subjects" :current="sbjCurrent"></breadcrumb>
             <div class="bar" v-if="query.search.length>0">
@@ -61,7 +65,7 @@
 
         <el-backtop target="#vapp" style="font-size: 12px;width: 20px;">返回顶部</el-backtop>
 
-        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+        <page_footer :organ="org" :account="account">loading ...</page_footer>
     </div>
 
 

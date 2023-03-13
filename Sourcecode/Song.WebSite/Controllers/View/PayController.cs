@@ -26,28 +26,33 @@ namespace Song.WebSite.Controllers
             string id = this.RouteData.Values["id"] != null ? this.RouteData.Values["id"].ToString() : string.Empty;
             if (id.IndexOf(".") > -1) id = id.Substring(0, id.LastIndexOf("."));
 
-            //如果是回调通知，
-            //微信扫码支付的回调方法
-            if ("NativePayNotify".Equals(id, StringComparison.OrdinalIgnoreCase))
+            //如果是微信回调通知
+            if ("weixin".Equals(actionName, StringComparison.OrdinalIgnoreCase))
             {
-                ResultNotify resultNotify = new ResultNotify();              
-                //获取结果
-                WxPayData notifyData = resultNotify.GetNotifyData();
-                string out_trade_no = notifyData.GetValue("out_trade_no").ToString();
-                WxPayAPI.Log.Info(this.GetType().ToString(), "商户流水号 : " + out_trade_no);
-                if (!string.IsNullOrWhiteSpace(out_trade_no))
+                //微信扫码支付的回调方法
+                if ("NativePayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
+                   //|| "Html5PayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
+                   )
                 {
-                    Song.Entities.MoneyAccount maccount = Business.Do<IAccounts>().MoneySingle(out_trade_no);
-                    if (maccount != null)
+                    ResultNotify resultNotify = new ResultNotify();
+                    //获取结果
+                    WxPayData notifyData = resultNotify.GetNotifyData();
+                    string out_trade_no = notifyData.GetValue("out_trade_no").ToString();
+                    WxPayAPI.Log.Info(this.GetType().ToString(), "商户流水号 : " + out_trade_no);
+                    if (!string.IsNullOrWhiteSpace(out_trade_no))
                     {
-                        //付款方与收款方（商户id)
-                        maccount.Ma_Buyer = notifyData.GetValue("attach").ToString();
-                        maccount.Ma_Seller = notifyData.GetValue("mch_id").ToString();
-                        Business.Do<IAccounts>().MoneyConfirm(maccount);
+                        Song.Entities.MoneyAccount maccount = Business.Do<IAccounts>().MoneySingle(out_trade_no);
+                        if (maccount != null)
+                        {
+                            //付款方与收款方（商户id)
+                            maccount.Ma_Buyer = notifyData.GetValue("attach").ToString();
+                            maccount.Ma_Seller = notifyData.GetValue("mch_id").ToString();
+                            Business.Do<IAccounts>().MoneyConfirm(maccount);
 
-                        //刷新当前登录的学员信息
-                        Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(maccount.Ac_ID);
-                        Song.ViewData.LoginAccount.Fresh(acc);
+                            //刷新当前登录的学员信息
+                            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(maccount.Ac_ID);
+                            Song.ViewData.LoginAccount.Fresh(acc);
+                        }
                     }
                 }
             }

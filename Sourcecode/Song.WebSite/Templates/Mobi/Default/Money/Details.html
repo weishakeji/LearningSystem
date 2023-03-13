@@ -34,8 +34,10 @@
                             <span class="acc-acname" v-html="account.Ac_AccName"></span>
                         </div>
                         <div class="acc-money" @click.stop="toRecharge()">
-                            <span><icon>&#xe746</icon>余额<b v-html="account.Ac_Money"></b>元</span>
-                            <a href="/mobi/Recharge/index" class="income">充值</a>     
+                            <span>
+                                <icon>&#xe746</icon>余额<b v-html="account.Ac_Money"></b>元
+                            </span>
+                            <a href="/mobi/Recharge/index" class="income">充值</a>
                         </div>
 
                     </div>
@@ -92,7 +94,7 @@
             </div>
             <div class="detail_content">
                 <div title="余额">
-                    <icon>&#xe837</icon>{{show_item.Ma_Total}} 元
+                    <icon>&#xe81c</icon>{{show_item.Ma_Total}} 元
                 </div>
                 <div title="明细">
                     <span v-if="show_item.Ma_Type==1">-</span>
@@ -100,12 +102,19 @@
                     {{show_item.Ma_Money}} 元
                 </div>
                 <div title="时间">
-                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd')}}
+                    <br/>
+                    {{show_item.Ma_CrtTime|date('HH:mm:ss')}}
                 </div>
                 <div title="类型">
                     <span v-if="show_item.Ma_Type==1">支出</span>
                     <span v-if="show_item.Ma_Type==2">收入</span>
-                    <span v-if="!item.Ma_IsSuccess">（失败）</span>
+                    <van-tag v-if="!show_item.Ma_IsSuccess" type="danger">失败</van-tag>
+                </div>
+                <div class="queryOrder" v-if="!show_item.Ma_IsSuccess">
+                    <loading v-if="loading_query"></loading>
+                    <van-button v-else type="primary" @click="queryOrder(show_item)">
+                        <icon>&#xf004c</icon>查询订单</van-button>
                 </div>
                 <div title="交易号">
                     {{show_item.Ma_Serial}}

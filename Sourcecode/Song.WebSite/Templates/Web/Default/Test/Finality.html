@@ -9,9 +9,11 @@
 
 <body>
     <div id="vapp" v-cloak>
-
-        <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <page_header ref='pageheader' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
+            loading
+            ...
+        </page_header>
+       
     </div>
 
 

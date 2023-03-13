@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>微信html5支付回调页</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <loading v-if="loading"></loading>
+        <div v-if="!ifexist || !ismaccount">
+            <alert>支付信息异常</alert>
+        </div>
+        <div v-if="moneyAccount" class="payarea">
+            <div class="text" v-if="moneyAccount.Ma_Money">支付：
+                <span>{{Math.floor(moneyAccount.Ma_Money *100)/100}}</span> 元
+            </div>
+            <div class="loading">等待支付平台回调
+                <br />
+                <loading bubble></loading>请稍候...
+            </div>
+        </div>
+        <div v-if="moneyAccount.Ma_IsSuccess" class="success">
+            <icon>&#xa048</icon>
+            <div>支付成功</div>
+        </div>
+        <div class="footer">
+            <a href="#" @click="goback()">如无法正常返回，请点击</a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

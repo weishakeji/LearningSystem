@@ -57,10 +57,10 @@ Vue.component('topayment', {
             window.location.href = url;
         },
         //微信扫码支付
-        weixinnativepay: function (pi, ma) {                 
-            var url = "Pay/Weixin/NativePayPage?pi={0}&serial={1}";
+        weixinnativepay: function (pi, ma) {
+            var url = "Pay/Weixin/NativePayPage?pi={0}&serial={1}&referrer={2}";
             url = $api.url.host() + url.toLowerCase();
-            window.location.href = url.format(pi.Pai_ID, ma.Ma_Serial);
+            window.location.href = url.format(pi.Pai_ID, ma.Ma_Serial, this.referrer());
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {
@@ -70,8 +70,12 @@ Vue.component('topayment', {
         },
         //微信Html5支付
         weixinh5pay: function (pi, ma) {
-            var url = "/pay/Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
-            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100);
+            let url = $api.url.set('/pay/Weixin/Html5PayPage', {
+                'pi': pi.Pai_ID,                 //支付接口id
+                'serial': ma.Ma_Serial,         //流水号
+                'money': ma.Ma_Money * 100,     //支付金额，单位：分
+                'referrer': this.referrer()     //来源页
+            });
             window.location.href = url;
         },
 
@@ -94,6 +98,13 @@ Vue.component('topayment', {
             url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100);
             window.location.href = url;
         },
+        //获取来源页
+        referrer: function () {
+            var ref = document.referrer;
+            if (ref == null || ref == '') return '';
+            return encodeURIComponent(ref);
+            //return encodeURIComponent(ref.substring(window.location.origin.length));
+        }
     },
     template: `<loading>正在转向支付平台..</loading>`
 });

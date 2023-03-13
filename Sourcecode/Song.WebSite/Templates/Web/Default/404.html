@@ -6,7 +6,10 @@
 </head>
 <body>
     <div id="vapp" v-cloak>
-        <page_header :organ="org">loading ...</page_header>
+        <page_header ref='pageheader' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
+            loading
+            ...
+        </page_header>
         <context>
           
             <icon>&#xe849</icon>

@@ -1,0 +1,74 @@
+﻿@charset "utf-8";
+
+body, #vapp {
+    text-align: center;
+    margin: 0px;
+    padding-top: 20px;
+}
+
+.nologin {
+    padding: 50px;
+}
+
+.header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.header .ws_avatar {
+    border: solid 1px #ccc;
+    margin-top: 10px;
+}
+
+.header>div {
+    margin-bottom: 10px;
+}
+
+.accname {
+    margin: 0px 0px 0px 10px;
+    font-size: 14px;
+    color: #999;
+}
+
+.btn-green {
+    display: block;
+    height: 42px;
+    line-height: 42px;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #43C750), color-stop(1, #31AB40));
+    border: 1px solid #2E993C;
+    box-shadow: 0 1px 0 0 #69D273 inset;
+    margin-top: 10px;
+}
+
+.operation {
+    margin: 40px auto 0px auto;
+}
+
+.payarea .text {
+    color: #ff0000;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0px;
+    background: #eee;
+    width: 100%;
+    height: 45px;
+    line-height: 30px;
+    z-index: 9999;
+}
+
+.footer a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    line-height: 45px;
+}
