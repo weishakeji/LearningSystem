@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项 
 
             subjects: [],         //专业
@@ -26,55 +26,8 @@ $ready(function () {
             loading: true,
             loading_init: false
         },
-        mounted: function () {
-            var th = this;
-            th.loading_init = true;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
-                th.query.orgid = th.organ.Org_ID;
-                //获取专业
-                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;
-                    if (req.data.success) {
-                        th.subjects = req.data.result;
-                        th.setSbjChilds(th.sbjid);
-                        th.load_infinite_datas(true);
-                    } else {
-                        //console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loading_init = false;
-                });
-
-            })).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
-        },
-        created: function () {
-        },
+        mounted: function () {},
+        created: function () {},
         computed: {
             //是否禁止加载专业下的课程
             'sbjcourses_disabled': function () {
@@ -86,6 +39,13 @@ $ready(function () {
             }
         },
         watch: {
+            'org': {
+                handler: function (nv, ov) {
+                    if (JSON.stringify(nv) == '{}' || nv == null) return;
+                    this.query.orgid = nv.Org_ID;
+                    this.getsubjects(nv.Org_ID);                   
+                }, immediate: true
+            },
             'sbjCurrent': {
                 handler: function (nv, ov) {
                     if (nv != null && nv.children)
@@ -106,6 +66,26 @@ $ready(function () {
             }
         },
         methods: {
+            getsubjects: function (orgid) {
+                var th = this;
+                //获取专业
+                $api.cache('Subject/TreeFront', { 'orgid': orgid }).then(function (req) {
+                    th.loading_init = false;
+                    if (req.data.success) {
+                        th.subjects = req.data.result;
+                        th.setSbjChilds(th.sbjid);
+                        th.load_infinite_datas(true);
+                    } else {
+                        //console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading_init = false;
+                });
+            },
             //无限下滑加载的方法
             //initial:是否是初始加载，如果为true，则检索的索引页将设置为1
             load_infinite_datas: function (initial) {

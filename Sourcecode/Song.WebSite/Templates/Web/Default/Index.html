@@ -8,7 +8,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header :organ="organ" @login="acc=>account = acc">loading ...</page_header>
+        <page_header  @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...</page_header>
 
         <template v-if="!loading">
             <el-carousel v-if="showpic.length>0" class="carousel">
@@ -79,14 +79,14 @@
 
         </context>
 
-        <context class="subjectbox" v-infinite-scroll="load">
+        <context class="subjectbox" v-infinite-scroll="loadsbj">
             <template v-for="sbj in subject">
                 <subject_show :subject="sbj" :count="6" :mincount="1" order="rec"></subject_show>
             </template>
         </context>
 
         <context remark="友情链接">
-            <linksorts :sort="null" :org="organ" :count="1">
+            <linksorts :sort="null" :org="org" :count="1">
                 <template #title>
                     <div class="links-tit">
                         <a href="/web/link" target="_blank">友情链接</a>
@@ -94,7 +94,7 @@
                 </template>
             </linksorts>
         </context>
-        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+        <page_footer :organ="org" :account="account">loading ...</page_footer>
         <popup-notice forpage="web_home" remark="通知公告的弹出"></popup-notice>
     </div>   
 

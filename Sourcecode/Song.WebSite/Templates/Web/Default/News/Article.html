@@ -9,7 +9,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header :organ="org">loading ...</page_header>
+        <page_header @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...
+        </page_header>
         <context>
             <div class="left">              
                 <div id="artBox">

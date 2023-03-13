@@ -3,8 +3,11 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            account: {},
             platinfo: {},
             org: {},
+            config: {},
+
             uid: $api.dot(),        //新闻栏目uid
             articles: [],        //新闻列表
             column: {},
@@ -19,31 +22,6 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
-            this.loading = true;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, org) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果          
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.org = org.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.org).config;
-
-            })).catch(function (err) {
-                console.error(err);
-            });
             var th = this;
             th.loading = true;
             $api.get('News/ColumnsForUID', { 'uid': this.uid }).then(function (req) {

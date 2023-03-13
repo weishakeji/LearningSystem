@@ -5,43 +5,19 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
             datas: {},
             loading_init: true,
             loading_map: true
         },
-        mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+        mounted: function () {           
         },
         created: function () {
             var th = this;
             window.setTimeout(function () {
                 th.loading_map = false;
-                th.showMap(th.organ);
+                th.showMap(th.org);
             }, 500);
         },
         computed: {
@@ -54,9 +30,9 @@ $ready(function () {
         },
         methods: {
             //显示地图
-            showMap: function (organ) {
-                var lng = organ.Org_Longitude;
-                var lat = organ.Org_Latitude;
+            showMap: function (org) {
+                var lng = org.Org_Longitude;
+                var lat = org.Org_Latitude;
                 lng = lng == 0 ? 116.404 : lng;
                 lat = lat == 0 ? 39.915 : lat;
                 //创建地图
