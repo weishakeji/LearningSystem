@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>微信公众号支付</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <loading v-if="loading"></loading>
+        <div v-else-if="!islogin" class="nologin">
+            未登录
+        </div>
+        <template v-else>
+            <div class="header">
+                <avatar :account="account" :circle="true" :size="100"></avatar>
+                <div>
+                    <span v-html="account.Ac_Name"></span>
+                    <span class="accname">({{account.Ac_AccName}})</span>
+                </div>
+            </div>
+            <div v-if="!ifexist || !ismaccount">
+                <alert>支付信息异常</alert>
+            </div>
+            <div v-if="moneyAccount && !moneyAccount.Ma_IsSuccess" class="payarea">
+                <div id="qrcode" :pay_url="pay_url">
+                    <loading v-if="loading_qr"></loading>
+                </div>
+                <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
+            </div>
+            <div v-if="moneyAccount && moneyAccount.Ma_IsSuccess" class="success">
+                <icon>&#xa048</icon>
+                <div>支付成功</div>
+            </div>
+        </template>
+    </div>
+
+
+</body>
+
+</html>

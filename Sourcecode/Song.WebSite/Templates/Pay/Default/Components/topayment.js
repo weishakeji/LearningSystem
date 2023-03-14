@@ -38,29 +38,29 @@ Vue.component('topayment', {
         //微信公众号支付
         weixinpubpay: function (pi, ma) {
             //回调路径
-            var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPay.aspx";
-            console.log(redirect_uri);
+            var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPayPage";        
             redirect_uri = encodeURIComponent(redirect_uri.toLowerCase());
             //返回的状态值，接口id、流水号        
-            var state = "pi:{0},serial:{1}";
+            var state = "pi:{0},serial:'{1}'";
             state = state.format(pi.Pai_ID, ma.Ma_Serial);
-            //构建参数
-            var data = {
+            let url = $api.url.set('https://open.weixin.qq.com/connect/oauth2/authorize', {
                 "appid": pi.Pai_ParterID,
                 "redirect_uri": redirect_uri,
                 "response_type": "code",
                 "scope": "snsapi_base",
                 "state": state + "#wechat_redirect"
-            };
-            var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + this.tourl(data);
-            console.log(url);
+            });
             window.location.href = url;
         },
         //微信扫码支付
         weixinnativepay: function (pi, ma) {
-            var url = "Pay/Weixin/NativePayPage?pi={0}&serial={1}&referrer={2}";
-            url = $api.url.host() + url.toLowerCase();
-            window.location.href = url.format(pi.Pai_ID, ma.Ma_Serial, this.referrer());
+            let url = $api.url.set('/pay/Weixin/NativePayPage', {
+                'pi': pi.Pai_ID,                 //支付接口id
+                'serial': ma.Ma_Serial,         //流水号
+                'money': ma.Ma_Money * 100,     //支付金额，单位：分
+                'referrer': this.referrer()     //来源页
+            });
+            window.location.href = url;
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {
