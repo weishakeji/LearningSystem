@@ -66,7 +66,11 @@
                                 </money>
                                 <span class="total">余额：{{item.Ma_Total}}元</span>
                                 <div class="time">{{item.Ma_CrtTime|date('MM-dd HH:mm')}}</div>
-                                <div> {{item.Ma_Remark}} {{item.Ma_Info}}</div>
+                                <div class="info">
+                                    <template v-if="item.Ma_Type==2">
+                                        {{item.Ma_Source}}
+                                    </template> {{item.Ma_Remark}} {{item.Ma_Info}}
+                                </div>
                             </div>
                             <error v-if="!item.Ma_IsSuccess" class="type">失败</error>
                             <template v-else>
@@ -103,7 +107,7 @@
                 </div>
                 <div title="时间">
                     {{show_item.Ma_CrtTime|date('yyyy-MM-dd')}}
-                    <br/>
+                    <br />
                     {{show_item.Ma_CrtTime|date('HH:mm:ss')}}
                 </div>
                 <div title="类型">
@@ -114,7 +118,8 @@
                 <div class="queryOrder" v-if="!show_item.Ma_IsSuccess">
                     <loading v-if="loading_query"></loading>
                     <van-button v-else type="primary" @click="queryOrder(show_item)">
-                        <icon>&#xf004c</icon>查询订单</van-button>
+                        <icon>&#xf004c</icon>查询订单
+                    </van-button>
                 </div>
                 <div title="交易号">
                     {{show_item.Ma_Serial}}

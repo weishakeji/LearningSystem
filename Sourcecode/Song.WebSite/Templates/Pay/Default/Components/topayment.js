@@ -38,11 +38,11 @@ Vue.component('topayment', {
         //微信公众号支付
         weixinpubpay: function (pi, ma) {
             //回调路径
-            var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPayPage";        
+            var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPayPage";
             redirect_uri = encodeURIComponent(redirect_uri.toLowerCase());
             //返回的状态值，接口id、流水号        
-            var state = "pi:{0},serial:'{1}'";
-            state = state.format(pi.Pai_ID, ma.Ma_Serial);
+            var state = "pi:{0},serial:'{1}',referrer:'{2}'";
+            state = state.format(pi.Pai_ID, ma.Ma_Serial, this.referrer());
             let url = $api.url.set('https://open.weixin.qq.com/connect/oauth2/authorize', {
                 "appid": pi.Pai_ParterID,
                 "redirect_uri": redirect_uri,

@@ -7,6 +7,7 @@ $ready(function () {
             code: $api.querystring('code'),
             //自己传递的参数被回调回来了，面值、流水号
             state: $api.querystring('state'),
+            referrer: '', //来源页
 
             account: {},      //当前账户
             organ: {},           //当前机构
@@ -47,7 +48,10 @@ $ready(function () {
         methods: {
             //初始化一些数据
             initData: function () {
+                var tmp = decodeURIComponent(this.state);
                 var state = eval('({' + decodeURIComponent(this.state) + '})');
+                this.referrer = state['referrer'];
+                //alert(this.referrer);               
                 var th = this;
                 th.loading = true;
                 $api.bat(
@@ -151,9 +155,10 @@ $ready(function () {
                     }).catch(err => console.error(err));
             },
             //调用微信JS api 支付
-            jsApiCall:function(wxJsApiParam){
+            jsApiCall: function (wxJsApiParam) {
                 var apipara = wxJsApiParam;
-                if (apipara==null || apipara == "") return;              
+                if (apipara == null || apipara == "") return;
+                var th = this;
                 WeixinJSBridge.invoke('getBrandWCPayRequest', apipara, function (res) {
                     //WeixinJSBridge.log(res.err_msg);
                     var msg = "code:" + res.err_code + "\n";
@@ -161,12 +166,7 @@ $ready(function () {
                     msg += "msg:" + res.err_msg + "\n";
                     //alert(msg);
                     //支付成功
-                    var returl = "";                //返回的地址
-                    var default_returl = '/mobi/account/myself';
-                    returl = $api.storage('recharge_returl');  //充值后的返回
-                    if (returl == '' || returl == null) returl = default_returl;
-                    $dom("#btnBacklink").attr('href', returl);
-                    $dom("#btnBacklink").click();
+                    var returl = th.gobackurl();                //返回的地址                    
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                         window.location.href = returl;
                     }
@@ -180,6 +180,12 @@ $ready(function () {
                         window.location.href = returl;
                     }
                 });
+            },
+            //返回页地址
+            gobackurl:function(){
+                var returl = this.referrer;
+                if (returl == '' || returl == null) returl = '/';
+                return returl; 
             }
         }
     });
