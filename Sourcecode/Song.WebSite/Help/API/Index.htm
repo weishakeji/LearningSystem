@@ -166,7 +166,7 @@
                       <pre>
       $api.bat(
             $api.post('Customer/ForID', { 'id':223 }), 
-            $api.get("Agent/ForID", { 'id': 225 }) 
+            $api.get('Agent/ForID', { 'id': 225 }) 
       ).then(axios.spread(function (customer, agent) {
             //判断结果是否正常
            for (var i = 0; i < arguments.length; i++) {

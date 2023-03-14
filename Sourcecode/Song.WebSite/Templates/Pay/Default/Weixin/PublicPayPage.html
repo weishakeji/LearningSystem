@@ -25,9 +25,6 @@
                 <alert>支付信息异常</alert>
             </div>
             <div v-if="moneyAccount && !moneyAccount.Ma_IsSuccess" class="payarea">
-                <div id="qrcode" :pay_url="pay_url">
-                    <loading v-if="loading_qr"></loading>
-                </div>
                 <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
             </div>
             <div v-if="moneyAccount && moneyAccount.Ma_IsSuccess" class="success">
@@ -35,9 +32,7 @@
                 <div>支付成功</div>
             </div>
         </template>
-    </div>
-
-
+    </div>    
 </body>
 
 </html>

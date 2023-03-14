@@ -31,13 +31,15 @@ namespace Song.WebSite.Controllers
             {
                 //微信扫码支付的回调方法
                 if ("NativePayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
-                   //|| "Html5PayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)
+                   || "PublicPayNotify".Equals(id, StringComparison.OrdinalIgnoreCase)      //公众号支付的回调
                    )
                 {
                     ResultNotify resultNotify = new ResultNotify();
                     //获取结果
                     WxPayData notifyData = resultNotify.GetNotifyData();
                     string out_trade_no = notifyData.GetValue("out_trade_no").ToString();
+                    //回调信息
+                    WxPayAPI.Log.Info(this.GetType().ToString(), actionName + " 的回调信息" + notifyData.ToJson());
                     WxPayAPI.Log.Info(this.GetType().ToString(), "商户流水号 : " + out_trade_no);
                     if (!string.IsNullOrWhiteSpace(out_trade_no))
                     {
