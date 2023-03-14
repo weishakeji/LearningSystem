@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading"></loading>
         <div v-else-if="!islogin" class="nologin">
-            未登录
+            账号不存在
         </div>
         <template v-else>
             <div class="header">
@@ -24,15 +24,17 @@
             <div v-if="!ifexist || !ismaccount">
                 <alert>支付信息异常</alert>
             </div>
-            <div v-if="moneyAccount && !moneyAccount.Ma_IsSuccess" class="payarea">
+            <div v-else-if="ismaccount && !moneyAccount.Ma_IsSuccess" class="payarea">
                 <div class="text">支付：<span>{{Math.floor(moneyAccount.Ma_Money * 100)/100}}</span> 元</div>
+                <loading>正在调取支付界面...</loading>
             </div>
-            <div v-if="moneyAccount && moneyAccount.Ma_IsSuccess" class="success">
-                <icon>&#xa048</icon>
-                <div>支付成功</div>
-            </div>
+           
+
         </template>
-    </div>    
+        <div class="footer">
+            <a href="/mobi/Recharge">如无法正常返回，请点击</a>
+        </div>
+    </div>
 </body>
 
 </html>
