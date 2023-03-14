@@ -8,7 +8,7 @@ namespace WxPayAPI
     public class Log
     {
         //在网站根目录下创建日志目录
-        public static string path = HttpContext.Current.Request.PhysicalApplicationPath + "logs/weixin";
+        private static string _path = HttpContext.Current.Request.PhysicalApplicationPath + "logs/weixin/";
 
         #region 写入日志
         /**
@@ -90,10 +90,8 @@ namespace WxPayAPI
         */
         protected static void WriteLog(string type, string className, string content)
         {
-            if(!Directory.Exists(path))//如果日志目录不存在就创建
-            {
-                Directory.CreateDirectory(path);
-            }
+            string path = _path + type;
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);           
 
             string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");//获取当前系统时间
             string filename = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";//用日期对日志文件命名

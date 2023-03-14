@@ -86,7 +86,7 @@
         </div>
         <template>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick"  :height="tableHeight">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
@@ -94,7 +94,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="金额" align="center"  width="150" >
+                <el-table-column label="金额/余额" align="center"  width="150" >
                     <template slot-scope="scope">
                         <span :class="scope.row.Ma_Type==1 ? 'pay' : 'income'">
                             <span v-if="scope.row.Ma_Type==1">支出</span>
@@ -102,23 +102,29 @@
                             <icon money style="font-size: 14px;">
                                 {{scope.row.Ma_Money}}元
                             </icon>
-                        </span><br />
-                        <el-tag type="info"> {{scope.row.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}</el-tag>
+                        </span>
+                        <span class="money">/ {{Math.floor(scope.row.Ma_Total*100)/100}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" width="80" align="center">
+                <el-table-column label="时间" width="150" align="center">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Ma_IsSuccess">成功</span>
-                        <span v-if="!scope.row.Ma_IsSuccess" class="faild">失败</span>
-
+                        {{scope.row.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                    </template>
+                </el-table-column>  
+                <el-table-column label="状态" width="120" align="center">
+                    <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.Ma_IsSuccess"><icon>&#xa048</icon>成功</el-tag>
+                        <loading v-else-if="loading_query==scope.row.Ma_ID"></loading>
+                        <template v-else>
+                            <el-tag type="danger">失败</el-tag>
+                            <el-link type="primary" @click="queryOrder(scope.row)">查询</el-link>
+                        </template>
                     </template>
                 </el-table-column>            
-                <el-table-column label="学员/余额">
+                <el-table-column label="姓名/账号">
                     <template slot-scope="scope">
-                       <span class="acname">{{scope.row.Ac_Name}}</span>
-                       <span class="money"> <icon money style="font-size: 14px;"></icon>{{Math.floor(scope.row.Ma_Total*100)/100}}</span>
-                            <br/>
-                            <el-tag type="info" title="学员账号"> {{scope.row.Ac_AccName}}</el-tag>   
+                       <span>{{scope.row.Ac_Name}}</span>
+                      <span class="acname">({{scope.row.Ac_AccName}})</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="流水号">
@@ -129,11 +135,11 @@
                     <template slot-scope="scope">
                         {{scope.row.Ma_Info}} </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="60" align="center">
+                <el-table-column label="操作" show-overflow-tooltip width="100" align="center">
                     <template slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-view"
                             @click='$refs.btngroup.modifyrow(scope.row,"查看")'>查看</el-link>
-                            <br/>
+                           
                         <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                             icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Ma_ID)">
                             <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除

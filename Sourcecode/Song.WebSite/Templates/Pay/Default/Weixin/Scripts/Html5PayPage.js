@@ -115,11 +115,12 @@ $ready(function () {
                 let paykey = config["Paykey"];  //支付密钥
                 //充值的人员信息
                 let buyer = account.Ac_MobiTel1 == '' ? account.Ac_MobiTel2 : account.Ac_MobiTel1;
-                if (buyer == '') buyer = acc.Ac_AccName;
+                if (buyer == '') buyer = account.Ac_AccName;
                 var th = this;
                 th.loading_url = true;
                 $api.get('Pay/WxJsApiPay', {
-                    'body': orgin.Org_PlatformName, 'serial': moneyacc.Ma_Serial,
+                    'tracetype': 'MWEB',
+                    'body': orgin.Org_PlatformName, 'serial': moneyacc.Ma_Serial, 'openid': '',
                     'total_fee': total_fee, 'appid': appid, 'mchid': mchid, 'paykey': paykey,
                     'notify_url': notify_url, 'buyer': buyer
                 }).then(function (req) {

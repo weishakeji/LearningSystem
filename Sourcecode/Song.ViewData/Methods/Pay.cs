@@ -259,14 +259,40 @@ namespace Song.ViewData.Methods
         public string WxNativePayUrl(string productId, string body, string serial, int total_fee, string appid, string mchid, string paykey, string notify_url, string buyer)
         {
             NativePay nativePay = new NativePay();
-            string url2 = nativePay.GetPayUrl(productId, body, serial, total_fee, appid, mchid, paykey, notify_url, buyer);
-            return url2;
+            return nativePay.GetPayUrl(productId, body, serial, total_fee, appid, mchid, paykey, notify_url, buyer);          
+        }
+        /// <summary>
+        /// 获取token和openid
+        /// </summary>
+        /// <returns>access_token,openid</returns>
+        public JObject WxOpenidAndAccessTokenFromCode(string appid, string secret, string code)
+        {
+            try
+            {
+                //构造获取openid及access_token的url
+                WxPayAPI.WxPayData data = new WxPayAPI.WxPayData();
+                data.SetValue("appid", appid);
+                data.SetValue("secret", secret);
+                data.SetValue("code", code);
+                data.SetValue("grant_type", "authorization_code");
+                string url = "https://api.weixin.qq.com/sns/oauth2/access_token?" + data.ToUrl();
+                //请求url以获取数据
+                string result = WxPayAPI.HttpService.Get(url);
+                return JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                WxPayAPI.Log.Error(this.GetType().ToString(), ex.ToString());
+                throw new WxPayAPI.WxPayException(ex.ToString());
+            }
         }
         /// <summary>
         /// 生成html5支付的对象
         /// </summary>
+        /// <param name="tracetype">支付方式，（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付、MWEB H5支付）</param>
         /// <param name="body">商品描述，此处为平台名称</param>
         /// <param name="serial">商户订单号</param>
+        /// <param name="openid"></param>
         /// <param name="total_fee">充值金额，单位为分</param>
         /// <param name="appid">公众号id</param>
         /// <param name="mchid">微信商户id</param>
@@ -274,18 +300,28 @@ namespace Song.ViewData.Methods
         /// <param name="notify_url">回调地址</param>
         /// <param name="buyer">买家信息</param>
         /// <returns></returns>
-        public JObject WxJsApiPay(string body, string serial, int total_fee, string appid, string mchid, string paykey, string notify_url, string buyer)
+        public JObject WxJsApiPay(string tracetype, string body, string serial, string openid, int total_fee, string appid, string mchid, string paykey, string notify_url, string buyer)
         {
             //若传递了相关参数，则调统一下单接口，获得后续相关接口的入口参数
             JsApiPay jsApiPay = new JsApiPay();
-            //jsApiPay.openid = "";
+            jsApiPay.openid = openid;
             jsApiPay.total_fee = total_fee;
             //JSAPI支付预处理
             try
             {
                 //统一下单
-                WxPayData result = jsApiPay.GetUnifiedOrderResult("MWEB", body, serial, appid, mchid, paykey, notify_url, buyer);
+                WxPayData result = jsApiPay.GetUnifiedOrderResult(tracetype, body, serial, appid, mchid, paykey, notify_url, buyer);
                 if (result == null) throw new Exception();
+                WxPayAPI.Log.Info(this.GetType().ToString(), tracetype + "回调地址 : " + notify_url);
+                WxPayAPI.Log.Info(this.GetType().ToString(), tracetype + "支付下单 : " + result.ToJson());
+                //如果是公众号支付
+                if (tracetype == "JSAPI")
+                {
+                    string wxJsApiParam = jsApiPay.GetJsApiParameters(paykey);// 用于前端js调用
+                    JObject jo = JObject.Parse(wxJsApiParam);
+                    return jo;
+                }
+                // if (tracetype == "MWEB")
                 return result.ToJObject();
             }
             catch (Exception ex)

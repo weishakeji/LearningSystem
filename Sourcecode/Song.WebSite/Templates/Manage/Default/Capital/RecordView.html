@@ -42,8 +42,10 @@
                 <span style="margin-left: 30px;">
                     <el-tag type="success" v-if="entity.Ma_IsSuccess" class="el-icon-circle-check"> 状态：操作成功</el-tag>
                     <el-tag type="danger" v-else class="el-icon-circle-close"> 状态：操作失败</el-tag>
-                    <el-link v-if="!entity.Ma_IsSuccess && entity.Ma_Type==2 && isSuper" @click="btnConfirm"
-                        type="primary">人工审核确认</el-link>
+                    <template v-if="false">
+                        <el-link v-if="!entity.Ma_IsSuccess && entity.Ma_Type==2 && isSuper" @click="btnConfirm"
+                            type="primary">人工审核确认</el-link>
+                    </template>
                 </span>
             </el-form-item>
             <el-form-item label="余额">

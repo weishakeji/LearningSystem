@@ -247,6 +247,10 @@ money {
 	color: #666;
 	white-space:nowrap;
 }
+.info{
+	color: #999;
+	margin-top: 8px;
+}
 .btnDelete{
 	height: 100%;
 }
