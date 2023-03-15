@@ -173,6 +173,7 @@
     <Compile Include="EmployeeCom.cs" />
     <Compile Include="LogsCom.cs" />
     <Compile Include="MessageCom.cs" />
+    <Compile Include="ThirdpartyLoginCom.cs" />
     <Compile Include="SystemParaCom.cs" />
     <Compile Include="LinksCom.cs" />
     <Compile Include="OrganizationCom.cs" />

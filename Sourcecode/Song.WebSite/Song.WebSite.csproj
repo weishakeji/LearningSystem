@@ -407,6 +407,9 @@
     <Content Include="Templates\Manage\Default\Learningcard\BatchDistribution.html" />
     <Content Include="Templates\Manage\Default\Learningcard\Scripts\BatchDistribution.js" />
     <Content Include="Templates\Manage\Default\Learningcard\Styles\BatchDistribution.css" />
+    <Content Include="Templates\Manage\Default\OtherLogin\QQ.html" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Scripts\QQ.js" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Styles\QQ.css" />
     <Content Include="Templates\Manage\Default\Platform\AccountBathDel.html" />
     <Content Include="Templates\Manage\Default\Platform\Scripts\AccountBathDel.js" />
     <Content Include="Templates\Manage\Default\Platform\Styles\AccountBathDel.css" />
@@ -1349,6 +1352,12 @@
     <Content Include="Utilities\MathJax\output\svg.js" />
     <Content Include="Utilities\MathJax\output\svg\fonts\tex.js" />
     <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
+    <Content Include="Utilities\OtherLogin\config.js" />
+    <Content Include="Utilities\OtherLogin\Images\QQ.png" />
+    <Content Include="Utilities\OtherLogin\Images\weixin.png" />
+    <Content Include="Utilities\OtherLogin\Images\yunzhijia.png" />
+    <Content Include="Utilities\OtherLogin\Images\zzGongshang.png" />
+    <Content Include="Utilities\OtherLogin\Styles\config.css" />
     <Content Include="Utilities\PdfViewer\debugger.js" />
     <Content Include="Utilities\PdfViewer\images\annotation-check.svg" />
     <Content Include="Utilities\PdfViewer\images\annotation-comment.svg" />

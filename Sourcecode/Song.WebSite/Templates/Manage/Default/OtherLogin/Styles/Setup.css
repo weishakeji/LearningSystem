@@ -1,21 +1,20 @@
 ﻿@charset "utf-8";
-
-.config {
-	padding: 20px;
+#vapp{
 	overflow: auto;
-	box-sizing: border-box;
-	height: 100%;
+}
+.config {
+	padding: 20px;	
+	box-sizing: border-box;	
 }
 
 .config>div {
 	border: 1px solid #ccc;
 	margin-bottom: 20px;
-	padding: 15px 15px 15px 30px;
+	padding: 10px 15px 10px 30px;
 	box-sizing: border-box;
 	border-radius: 6px;
 	position: relative;
-	overflow: hidden;
-	display: flex;
+	overflow: hidden;	
 }
 
 .config>div .index {
@@ -46,6 +45,7 @@
 .config>div .name {
 	font-size: 18px;
 	line-height: 30px;
+	font-weight: bold;
 }
 
 .config>div img {
@@ -59,4 +59,15 @@
 	position: absolute;
 	top: 8px;
 	right: 8px;
+}
+.config div.info{
+	margin-top: 0px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #666;
+}
+.use{
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
 }

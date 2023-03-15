@@ -19,7 +19,24 @@ namespace Song.ViewData.Methods
     [HttpPut, HttpGet]
     public class OtherLogin : ViewMethod, IViewAPI
     {
-
+        /// <summary>
+        /// 通过tag获取登录配置项
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public ThirdpartyLogin GetObject(string tag)
+        {
+            return Business.Do<IThirdpartyLogin>().GetSingle(tag);
+        }
+        public ThirdpartyLogin[] GetAll(bool? isuse)
+        {
+            return Business.Do<IThirdpartyLogin>().GetAll(isuse);
+        }
+        public bool Update(ThirdpartyLogin entity)
+        {
+            Business.Do<IThirdpartyLogin>().Save(entity);
+            return true;
+        }
         #region QQ登录
         /// <summary>
         /// 获取QQ登录的配置信息

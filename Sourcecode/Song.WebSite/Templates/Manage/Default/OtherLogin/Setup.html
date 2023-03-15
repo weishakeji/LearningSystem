@@ -7,16 +7,27 @@
 </head>
 
 <body>
-    <div id="vapp" v-cloak>      
+    <div id="vapp" v-cloak>
         <config class="config">
             <div slot="item" slot-scope="data" @dblclick="opensetup(data.item)">
                 <span class="index">{{data.index+1}}</span>
 
                 <div class="name"> <img :src="data.img" />
                     {{data.item.name}}</div>
-                <div class="info">
 
-                </div>
+                <login_item class="info" :tag="data.item.tag">
+                    <template slot="item" slot-scope="scope">
+                        <div>Appid: {{scope.item.Tl_APPID}}</div>
+                        <div>Secret: {{scope.item.Tl_Secret}}</div>
+                        <div>Returl: {{scope.item.Tl_Returl}}</div>
+                        <div class="use">
+                            <el-switch v-model="scope.item.Tl_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                            :active-text="scope.item.Tl_IsUse ? '启用' : '禁用'">
+                            </el-switch>
+                        </div>
+                    </template>
+                </login_item>
+
                 <div class="btns">
                     <el-button type="primary" plain @click.stop="opensetup(data.item)">
                         <icon>&#xa030</icon>设置
@@ -24,6 +35,9 @@
                 </div>
             </div>
         </config>
+        <hr />
+
+
     </div>
 </body>
 
