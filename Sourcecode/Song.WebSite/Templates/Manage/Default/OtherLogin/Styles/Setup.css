@@ -1,9 +1,62 @@
 ﻿@charset "utf-8";
-.el-tabs--border-card {
-	box-shadow: none;
-	border: none;
+
+.config {
+	padding: 20px;
+	overflow: auto;
+	box-sizing: border-box;
+	height: 100%;
 }
 
-.el-tabs__content {
-	display: none;
+.config>div {
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
+	padding: 15px 15px 15px 30px;
+	box-sizing: border-box;
+	border-radius: 6px;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+}
+
+.config>div .index {
+	display: block;
+	z-index: 10;
+	left: 8px;
+	top: 6px;
+	font-size: 18px;
+	position: absolute;
+	color: #fff;
+}
+
+.config>div::before {
+	content: '';
+	display: block;
+	background-color: #67C23Acc;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: -70px;
+	left: -40px;
+	transform: rotate(60deg);
+	box-shadow: 1px 1px 3px rgb(240 219 152);
+	z-index: 1;
+}
+
+/*图标与名称*/
+.config>div .name {
+	font-size: 18px;
+	line-height: 30px;
+}
+
+.config>div img {
+	height: 80px;
+	width: 80px;
+	float: left;
+	margin-right: 10px;
+}
+/*按钮*/
+.config>div .btns{
+	position: absolute;
+	top: 8px;
+	right: 8px;
 }
