@@ -101,7 +101,7 @@ $ready(function () {
         }
     });
     window.login = $login.create({
-        target: '#login-area',
+        target: '#login-box',
         ico: 'e804',
         //width: '320px',
         title: '...',

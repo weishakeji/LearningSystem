@@ -3,7 +3,7 @@
 
 <head resource>
   <meta charset="utf-8">
-  <include file="../inc/meta.inc" />   
+  <include file="../inc/meta.inc" />
   <title>登录</title>
   <link type="text/css" charset="UTF-8" rel="stylesheet" href="/Utilities/Panel/styles/Login.css">
 </head>
@@ -15,9 +15,14 @@
     <a href="/mobi/" icon="&#xa020"></a>
   </header>
   <div id="login-area" remark="登录框" style="display: none;">
+    <div id="login-box"></div>
     <div class="other">
-      <a href="up" v-if="config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>   
-      <a style="float: right;" href="find"><icon>&#xe76a</icon>找回密码</a>
+      <a href="up" v-if="config.IsRegStudent">
+        <icon>&#xe7cd</icon>注册
+      </a>
+      <a style="float: right;" href="find">
+        <icon>&#xe76a</icon>找回密码
+      </a>
     </div>
   </div>
   <div id="logged-area" v-cloak remark="登录后的状态">

@@ -90,17 +90,20 @@ header {
 #login-area {
     position: absolute;
     z-index: 2;
-    width: 90%;
-    height: 420px;
+    width: 90%;  
     top: calc((100vh - 320px)/4);
     left: calc((100vw - 90vw)/2);
     border: 1px solid #fff;
     border: none;
-    box-shadow: 0px 0px 200px #fff;
     background-color: #58c198;
     background-color: transparent
 }
-
+#login-box{
+    border: 1px solid #fff;
+    border: none;
+    background-color: #58c198;
+    background-color: transparent
+}
 #logged-area {
     display: none;
     position: absolute;
@@ -128,39 +131,41 @@ a {
 }
 
 .loginbox .login_body>*:not(:last-child) {
-    border: solid 1px #fff;
+    border: none;
     width: calc(100% - 42px);
-    position: relative;
-    border-radius: 5px;
-    box-shadow: 0px 0px 3px #fff;
-    margin-bottom: 20px;
+    position: relative;   
 }
 
 .loginbox .login_body>*:last-child {
     margin-top: 30px;
+    height: 50px !important;
+    border-radius: 10px;
+    border: none;
+    overflow: hidden;
 }
 
 .loginbox .login_body>* {
-    height: 60px !important;
+    height: 50px !important;
+  
 }
 
 .loginbox .login_body>*:before {  
-    line-height: 65px !important;
+    line-height: 55px !important;
     font-size: 28px !important;
 }
 
 .loginbox .login_body login_drag {
-    height: 60px !important;
-    line-height: 60px !important;
+    height: 50px !important;
+    line-height: 50px !important;
 }
 
 .loginbox login_dragbox {
-    width: 50px !important;
-    height: 50px !important;
+    width: 40px !important;
+    height: 40px !important;
 }
 
 .loginbox login_dragbox:before {
-    line-height: 55px !important;
+    line-height: 48px !important;
     font-size: 28px !important;
 }
 

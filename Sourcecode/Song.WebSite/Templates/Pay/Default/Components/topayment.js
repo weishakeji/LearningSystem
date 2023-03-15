@@ -64,8 +64,14 @@ Vue.component('topayment', {
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {
-            var url = "/pay/Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
-            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100, ma.Org_ID);
+            //var url = "/pay/Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
+            //url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100, ma.Org_ID);
+            let url = $api.url.set('/pay/Weixin/miniProgramPay', {
+                'pi': pi.Pai_ID,                 //支付接口id
+                'serial': ma.Ma_Serial,         //流水号
+                'money': ma.Ma_Money * 100,     //支付金额，单位：分
+                'referrer': this.referrer()     //来源页
+            });
             window.location.href = url;
         },
         //微信Html5支付
@@ -77,15 +83,6 @@ Vue.component('topayment', {
                 'referrer': this.referrer()     //来源页
             });
             window.location.href = url;
-        },
-
-        tourl: function (obj) {
-            var buff = "";
-            for (let key in obj)
-                buff += key + "=" + obj[key] + "&";
-            if (buff.substring(buff.length - 1) == '&')
-                buff = buff.substring(0, buff.length - 1);
-            return buff;
         },
         /* 支付宝支付 */
         //支付宝手机支付

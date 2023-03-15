@@ -5,7 +5,7 @@
             tabs: [
                 { name: 'QQ登录', tag: 'qq', icon: '&#xe82a', size: 16 },
                 { name: '微信登录', tag: 'weixin', icon: '&#xe730', size: 18 },
-                { name: '金碟.云之家', tag: 'yunzhijia', icon: '&#xa021', size: 14 }
+                { name: '金碟.云之家', tag: 'yunzhijia', icon: '&#xe726', size: 18 }
             ],
             activeName: 'qq',      //选项卡
 
