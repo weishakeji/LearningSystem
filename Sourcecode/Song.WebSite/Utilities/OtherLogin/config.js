@@ -5,10 +5,10 @@ Vue.component('config', {
     data: function () {
         return {
             items: [
-                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, showimg: true },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, showimg: true },
-                { name: '金碟.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, showimg: true },
-                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, showimg: true }
+                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, obj: {} },
+                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, obj: {} },
+                { name: '金碟.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, obj: {} },
+                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, obj: {} }
             ],
         }
     },

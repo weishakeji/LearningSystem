@@ -16,7 +16,14 @@
 	position: relative;
 	overflow: hidden;	
 }
-
+.config>div[disabled]{
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
 .config>div .index {
 	display: block;
 	z-index: 10;

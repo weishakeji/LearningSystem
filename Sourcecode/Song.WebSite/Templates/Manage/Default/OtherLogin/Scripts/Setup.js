@@ -1,17 +1,18 @@
 ﻿$ready(function () {
     //获取某一个登录配置项的记录
     Vue.component('login_item', {
-        props: ['tag'],
+        props: ['item'],
         data: function () {
             return {
-                item: {},        //当前登录配置项的对象
+                obj: {},        //当前登录配置项的对象
                 loading: false
             }
         },
         watch: {
-            'tag': {
+            'item': {
                 handler: function (nv, ov) {
-                    this.getobject(nv);
+                    if (!nv.tag) return;
+                    this.getobject(nv.tag);
                 }, immediate: true
             }
         },
@@ -21,7 +22,9 @@
                 th.loading = true;
                 $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
                     if (req.data.success) {
-                        th.item = req.data.result;
+                        th.obj = req.data.result;
+                        th.item['obj'] = th.obj;
+                        th.$set(th.item.obj, th.obj);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -30,9 +33,9 @@
                     .finally(() => th.loading = false);
             }
         },
-        template: `<div>              
+        template: `<div :class="{'disabled':item.Tl_IsUse}">              
                     <loading v-if="loading"></loading>
-                    <slot v-else name="item" :item="item"></slot>
+                    <slot v-else name="item" :item="obj"></slot>
                 </div>`
     });
     window.vapp = new Vue({
@@ -68,10 +71,10 @@
                 box.open();
             },
             //刷新
-            reload: function () {               
+            reload: function () {
                 window.location.reload();
             }
         }
     });
-    
+
 }, ['/Utilities/OtherLogin/config.js']);
