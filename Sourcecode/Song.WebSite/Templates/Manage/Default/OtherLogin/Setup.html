@@ -113,13 +113,14 @@
         <el-form-item label="域名" prop="Domain">
             <el-input v-model="weixin.Domain" placeholder=""></el-input>
         </el-form-item>
-        <el-form-item label="账号字段" prop="Acc">
-            <el-input v-model="weixin.Acc" placeholder="" style="width: 120px;"></el-input>
-            <help>（指定云之家用户信息的某个字段作为当前系统的账号字段）</help>
-        </el-form-item>    
         <el-form-item label="说明">
             <help>“域名”为云之家平台的域名，如果为私有云，请自主填写</help>
         </el-form-item> 
+        <el-form-item label="账号字段" prop="Tl_Account">
+            <el-input v-model="weixin.Tl_Account" placeholder="" style="width: 120px;"></el-input>
+            <help>（指定云之家用户信息的某个字段作为当前系统的账号字段）</help>
+        </el-form-item>    
+       
         <el-form-item label="">
             <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
                 title="确定保存吗？" @confirm="btnEnter('yunzhijia',yunzhijia)">
