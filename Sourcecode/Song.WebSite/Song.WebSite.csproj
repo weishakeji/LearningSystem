@@ -407,8 +407,17 @@
     <Content Include="Templates\Manage\Default\Learningcard\BatchDistribution.html" />
     <Content Include="Templates\Manage\Default\Learningcard\Scripts\BatchDistribution.js" />
     <Content Include="Templates\Manage\Default\Learningcard\Styles\BatchDistribution.css" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Scripts\ZzGongshang.js" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Scripts\Yunzhijia.js" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Styles\ZzGongshang.css" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Styles\Yunzhijia.css" />
+    <Content Include="Templates\Manage\Default\OtherLogin\ZzGongshang.html" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Yunzhijia.html" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Weixin.html" />
     <Content Include="Templates\Manage\Default\OtherLogin\QQ.html" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Scripts\Weixin.js" />
     <Content Include="Templates\Manage\Default\OtherLogin\Scripts\QQ.js" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Styles\Weixin.css" />
     <Content Include="Templates\Manage\Default\OtherLogin\Styles\QQ.css" />
     <Content Include="Templates\Manage\Default\Platform\AccountBathDel.html" />
     <Content Include="Templates\Manage\Default\Platform\Scripts\AccountBathDel.js" />

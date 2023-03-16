@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>QQ登录管理</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :disabled="loading" :model="entity" :rules="rules" @submit.native.prevent
+            label-width="100px">
+            <el-form-item label="AppID" prop="Tl_APPID">
+                <el-input v-model="entity.Tl_APPID" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="AppSecret" prop="Tl_Secret">
+                <el-input v-model="entity.Tl_Secret" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="域名" prop="Tl_Returl">
+                <el-input v-model="entity.Tl_Returl" placeholder="">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <help>“域名”为云之家平台的域名，如果为私有云，请自主填写</help>
+            </el-form-item>
+            <el-form-item label="账号字段" prop="Acc">
+                <el-input v-model="entity.Acc" placeholder="" style="width: 180px;"></el-input>
+
+            </el-form-item>
+            <el-form-item label="">
+                <help>（指定云之家用户信息的某个字段作为当前系统的账号字段）</help>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-row>
+                    <el-checkbox v-model="entity.Tl_IsUse">是否启用“云之家”登录</el-checkbox>
+                </el-row>
+                <el-row>
+                    <el-checkbox v-model="entity.Tl_IsRegister">是否允许“云之家”注册账号</el-checkbox>
+                </el-row>
+            </el-form-item>
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">确认修改
+            </el-button>
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

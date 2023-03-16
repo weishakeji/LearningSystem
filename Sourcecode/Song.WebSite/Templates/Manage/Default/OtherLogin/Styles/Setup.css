@@ -15,6 +15,7 @@
 	border-radius: 6px;
 	position: relative;
 	overflow: hidden;	
+	height: 110px;
 }
 .config>div[disabled]{
 	-webkit-filter: grayscale(100%);

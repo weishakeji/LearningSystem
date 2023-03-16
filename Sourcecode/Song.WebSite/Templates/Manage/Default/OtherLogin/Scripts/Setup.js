@@ -5,8 +5,7 @@
         data: function () {
             return {
                 obj: {},        //当前登录配置项的对象
-                loading: false,
-                loading_tag: ''      //当前刷新的
+                loading: false               
             }
         },
         watch: {
@@ -42,7 +41,7 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-
+            loading_tag: ''      //当前刷新的
         },
         watch: {
         },

@@ -46,7 +46,7 @@ namespace Song.ViewData.Methods
         public ThirdpartyLogin Update(ThirdpartyLogin entity)
         {
             Song.Entities.ThirdpartyLogin old = Business.Do<IThirdpartyLogin>().GetSingle(entity.Tl_Tag);
-            if (old == null) throw new Exception("Not found entity for ThirdpartyLogin！");
+            if (old == null) old = new ThirdpartyLogin();
 
             old.Copy<Song.Entities.ThirdpartyLogin>(entity);
             Business.Do<IThirdpartyLogin>().Save(old);
