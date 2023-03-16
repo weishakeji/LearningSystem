@@ -1,6 +1,6 @@
 ﻿context.first {
     display: block;
-    height: 440px;
+    height: 500px;
     --height: 100vh;
     width: 100%;
     padding: 0px !important;
@@ -162,7 +162,7 @@ context.first {
     box-sizing: border-box;
     background: rgba(119, 119, 119, 0.74);
     background-color: rgba(200, 200, 200, 0.6);
-   
+
 }
 
 #logged-area {
@@ -210,10 +210,13 @@ a {
     box-sizing: border-box;
     box-shadow: 0px 0px 5px rgb(255, 255, 255);
 }
-::-webkit-input-placeholder { /* WebKit browsers */
+
+::-webkit-input-placeholder {
+    /* WebKit browsers */
     color: #aaa;
     font-size: 16px;
-  }
+}
+
 .loginbox .login_body>*:last-child {
     margin-top: 20px;
 }
@@ -270,14 +273,16 @@ a {
 weisha_page_footer {
     margin-top: 60px !important;
 }
+
 context.rec {
     display: block;
     width: 1200px;
     margin: 60px auto;
     position: relative;
 }
+
 /*通知公告*/
-.notices{
+.notices {
     position: absolute;
     width: calc(100% - 180px - 280px);
     height: 320px;
@@ -300,6 +305,7 @@ context.rec {
     transition: all 0.5s;
 
 }
+
 .notices .noItem>div:first-child {
     height: calc(100% - 30px);
     line-height: 30px;
@@ -320,15 +326,18 @@ context.rec {
     margin-right: 10px;
 }
 
-.notices .noItem:nth-child(1) b{
-	color: rgb(179, 11, 44);
+.notices .noItem:nth-child(1) b {
+    color: rgb(179, 11, 44);
 }
-.notices .noItem:nth-child(2) b{
-	color: rgb(238, 23, 66);
+
+.notices .noItem:nth-child(2) b {
+    color: rgb(238, 23, 66);
 }
-.notices .noItem:nth-child(3) b{
-	color: #ff9a03;
+
+.notices .noItem:nth-child(3) b {
+    color: #ff9a03;
 }
+
 .notices .noItem a {
     font-size: 20px;
 }
@@ -348,4 +357,24 @@ context.rec {
     height: 30px;
     padding: 5px 10px;
     box-sizing: border-box;
+}
+
+/*登录框*/
+#login_box {
+    position: absolute;
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    box-shadow: 0px 0px 200px #fff;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    background: rgba(119, 119, 119, 0.74);
+    background-color: rgba(200, 200, 200, 0.6);
+
+    width: 320px;
+    height: 400px;
+    top: calc((100% - 400px) / 2);
+    left: 60px;
 }

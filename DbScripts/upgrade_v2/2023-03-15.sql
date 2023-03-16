@@ -79,6 +79,6 @@ select  @secret= Sys_Value from SystemPara where Sys_Key='WeixinpubSecret'
 select  @returl= Sys_Value from SystemPara where Sys_Key='WeixinpubReturl'
 print @pubappid
 
-set @json='{pubAppid:"'+@pubappid+'",pubSecret:"'+@secret+'",pubReturl:"'+@returl+'"}'
+set @json='{"pubAppid":"'+@pubappid+'","pubSecret":"'+@secret+'","pubReturl":"'+@returl+'"}'
 print @json
 update thirdpartylogin set [Tl_Config]=@json where tl_tag='weixin'

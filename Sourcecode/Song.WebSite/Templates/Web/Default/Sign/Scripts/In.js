@@ -220,6 +220,7 @@ $ready(function () {
 
 }, ['/Utilities/Panel/Scripts/ctrls.js',
     '/Utilities/Panel/Scripts/Login.js',
+    '/Utilities/Components/Sign/Login.js',
     "../Components/subject_rec.js",
 ]);
 

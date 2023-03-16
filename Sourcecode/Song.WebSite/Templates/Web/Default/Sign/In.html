@@ -13,10 +13,13 @@
     <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">
       loading ...</page_header>
 
+
     <context class="first">
       <section>
-        <notices :org="organ" :count="6"></notices>
-
+        <notices :org="organ" :count="6" v-if="false"></notices>
+        <div id="login_box">
+          <login :config="config"></login>
+        </div>
         <div id="login-area" remark="登录框" style="display: none;" v-pre>
           <div class="other">
             <a href="up" v-if="!config.IsRegStudent">

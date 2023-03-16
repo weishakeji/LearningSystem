@@ -1,0 +1,230 @@
+﻿.login_weisha {
+    position: relative;
+    height: 100%;
+}
+.login_weisha .login_title_bar {
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 0px;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+}
+
+.login_weisha .login_title_bar>div {
+    font-size: 18px;
+    line-height: 35px;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 3px 0px;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.login_weisha .login_title_bar>div:not(:last-child) {
+    margin-right: 25px;
+}
+
+.login_weisha .login_title_bar>div icon {
+    font-size: 25px;
+}
+
+.login_weisha .login_title_bar>div[tag=sms] icon {
+    font-size: 20px;
+}
+
+.login_weisha .login_title_bar>div[current] {
+    transform: scale(1.05);
+    border-bottom: solid 3px #999;
+}
+
+/*账号与密码输入框*/
+.login_weisha .login_acc_pwd {
+    border: solid 1px #ddd;
+    margin: 15px 0px 0px 0px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.login_weisha .login_acc_pwd>div {
+    position: relative;
+    height: 45px;
+    padding: 5px 5px 5px 50px;
+
+}
+
+.login_weisha .login_acc_pwd>div::before {
+    font-family: "webdesk_icon" !important;
+    width: 42px;
+    height: 45px;
+    line-height: 45px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    font-size: 25px;
+    left: 0px;
+    top: 6px;
+    color: #999;
+}
+
+.login_weisha .login_acc_pwd>div:first-child::before {
+    content: '\a043';
+}
+
+.login_weisha .login_acc_pwd>div:last-child::before {
+    content: '\e76a';
+}
+
+.login_weisha .login_acc_pwd>div:first-child::after {
+    content: '';
+    height: 1px;
+    width: calc(100% - 70px);
+    background-color: #ddd;
+    display: block;
+    position: absolute;
+    top: 56px;
+    left: 50px;
+}
+
+.login_weisha .login_acc_pwd>div input {
+    height: 40px;
+    width: calc(100% - 8px);
+    border: none;
+    font-size: 22px;
+}
+
+.login_weisha input {
+    border: none;
+    height: 40px;
+    font-size: 24px;
+    width: calc(100% - 8px);
+}
+
+.login_weisha input:focus {
+
+    border: none !important;
+    outline: none;
+}
+
+.login_weisha input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-text-fill-color: #333 !important;
+    transition: background-color 5000s ease-in-out 0s;
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+}
+
+/*按钮*/
+.login_btn {
+    width: 100%;
+    height: 40px;
+    margin-top: 15px;
+}
+
+.login_btn button {
+    width: 100%;
+    height: 100%;
+    letter-spacing: 20px;
+    font-size: 18px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(33, 161, 255, .5);
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .5) 0%, rgba(33, 161, 255, 0.9) 100%);
+}
+
+/*验证码区域*/
+.login_vcode {
+    width: 100%;
+    height: 45px;
+
+    margin: 8px 0px 0px 0px;
+    background-color: #fff;
+    border-radius: 5px;
+
+    position: relative;
+}
+
+.login_vcode>div.login_vcode_input {
+    position: relative;
+    padding: 5px 5px 5px 50px;
+    display: flex;
+}
+
+.login_vcode>div.login_vcode_input::before {
+    font-family: "webdesk_icon" !important;
+    width: 42px;
+    height: 45px;
+    line-height: 45px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    font-size: 25px;
+    left: 0px;
+    top: 2px;
+    color: #999;
+    content: '\a050';
+}
+
+.login_weisha .login_vcode input {
+    border: none;
+    height: 33px;
+    line-height: 33px;
+}
+
+.login_weisha .login_vcode_input img {
+    height: 35px;
+    margin: 0px 0px 0px 4px;
+    width: 90px;
+}
+
+/*滑块*/
+.login_weisha .login_drag {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    cursor: default;
+}
+
+.login_weisha .login_drag span {
+    font-size: 14px;
+    line-height: 45px;
+    color: #999;
+}
+.login_weisha .login_drag .login_dragbox{
+    display: block;
+    user-select: none;
+    height: 35px;
+    line-height: 35px;
+    width: 40px;
+    font-size: 25px;
+    text-align: center;
+    background-color: #bbb;
+    position: absolute;
+    padding: 0px 0px 0px 5px;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 2;
+}
+.login_weisha .login_drag .login_dragbox:before {
+    content: '\a049';
+    font-family: "webdesk_icon" !important;
+}
+.login_register{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 40px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+}
