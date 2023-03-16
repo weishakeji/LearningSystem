@@ -70,6 +70,25 @@
                 box.title = item.name + " - 设置项";
                 box.open();
             },
+            //更改使用状态
+            changeuse: function (item) {
+                var th = this;
+                $api.post('OtherLogin/ModifyUse', { 'tag': item.Tl_Tag, 'isue': item.Tl_IsUse}).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$message({
+                            message: '修改状态成功',
+                            type: 'success'
+                          });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    console.error(err);
+                });
+            },
             //刷新
             reload: function () {
                 window.location.reload();

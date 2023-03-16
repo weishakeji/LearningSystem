@@ -28,12 +28,47 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IThirdpartyLogin>().GetSingle(tag);
         }
+        /// <summary>
+        /// 获取所有
+        /// </summary>
+        /// <param name="isuse"></param>
+        /// <returns></returns>
         public ThirdpartyLogin[] GetAll(bool? isuse)
         {
             return Business.Do<IThirdpartyLogin>().GetAll(isuse);
         }
-        public bool Update(ThirdpartyLogin entity)
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ThirdpartyLogin Update(ThirdpartyLogin entity)
         {
+            Song.Entities.ThirdpartyLogin old = Business.Do<IThirdpartyLogin>().GetSingle(entity.Tl_Tag);
+            if (old == null) throw new Exception("Not found entity for ThirdpartyLogin！");
+
+            old.Copy<Song.Entities.ThirdpartyLogin>(entity);
+            Business.Do<IThirdpartyLogin>().Save(old);
+          
+            return old;
+        }
+        /// <summary>
+        /// 修改使用状态
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="isue"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public bool ModifyUse(string tag,bool isue)
+        {
+            ThirdpartyLogin entity= Business.Do<IThirdpartyLogin>().GetSingle(tag);
+            if (entity == null)
+            {      
+                entity = new ThirdpartyLogin();
+                entity.Tl_Tag = tag;
+            }
+            entity.Tl_IsUse = isue;
             Business.Do<IThirdpartyLogin>().Save(entity);
             return true;
         }

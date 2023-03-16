@@ -22,7 +22,7 @@
                         <div>Returl: {{scope.item.Tl_Returl}}</div>
                         <div class="use">
                             <el-switch v-model="scope.item.Tl_IsUse" active-color="#13ce66" inactive-color="#ff4949"
-                                :active-text="scope.item.Tl_IsUse ? '启用' : '禁用'">
+                                :active-text="scope.item.Tl_IsUse ? '启用' : '禁用'" @change="changeuse(scope.item)">
                             </el-switch>
                         </div>
                     </template>
