@@ -5,7 +5,8 @@
         data: function () {
             return {
                 obj: {},        //当前登录配置项的对象
-                loading: false
+                loading: false,
+                loading_tag: ''      //当前刷新的
             }
         },
         watch: {
@@ -35,7 +36,7 @@
         },
         template: `<div :class="{'disabled':item.Tl_IsUse}">              
                     <loading v-if="loading"></loading>
-                    <slot v-else name="item" :item="obj"></slot>
+                    <slot v-else name="item" :obj="obj"></slot>
                 </div>`
     });
     window.vapp = new Vue({
@@ -51,7 +52,6 @@
         methods: {
             //打开设置项的窗体
             opensetup: function (item) {
-                console.log(item.name);
                 var file = item.tag;
                 //文件路径
                 var url = window.location.href;
@@ -59,13 +59,9 @@
                 var boxid = "OtherLogin_" + item.name + "_" + file;
                 //创建
                 var box = window.top.$pagebox.create({
-                    width: 600,
-                    height: 400,
-                    resize: true,
-                    id: boxid,
-                    pid: window.name,
-                    ico: item.icon,
-                    url: url + '?id=' + $api.querystring('id')
+                    width: item.width, height: item.height,
+                    resize: true, id: boxid, pid: window.name,
+                    ico: item.icon, url: url
                 });
                 box.title = item.name + " - 设置项";
                 box.open();
@@ -73,13 +69,13 @@
             //更改使用状态
             changeuse: function (item) {
                 var th = this;
-                $api.post('OtherLogin/ModifyUse', { 'tag': item.Tl_Tag, 'isue': item.Tl_IsUse}).then(function (req) {
+                $api.post('OtherLogin/ModifyUse', { 'tag': item.Tl_Tag, 'isue': item.Tl_IsUse }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
                             message: '修改状态成功',
                             type: 'success'
-                          });
+                        });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -90,8 +86,28 @@
                 });
             },
             //刷新
-            reload: function () {
-                window.location.reload();
+            reload: function (tag) {
+                var th = this;
+                th.loading_tag = tag;
+                $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
+                    if (req.data.success) {
+                        var obj = req.data.result;
+                        var items = th.$refs['config'].items;
+                        for (let i = 0; i < items.length; i++) {
+                            if (items[i].tag == tag) {
+                                console.log(items[i].tag);
+                                items[i].obj = obj;
+                                //th.$set(items[i].obj, obj);
+                                th.$set(items, i, $api.clone(items[i]));
+                            }
+                        }
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_tag = '');
+                // window.location.reload();
             }
         }
     });

@@ -5,10 +5,10 @@ Vue.component('config', {
     data: function () {
         return {
             items: [
-                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, obj: {} },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, obj: {} },
-                { name: '金碟.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, obj: {} },
-                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, obj: {} }
+                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 700, height: 400, obj: {} },
+                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 800, height: 600, obj: {} },
+                { name: '金碟.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 800, height: 600, obj: {} },
+                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 800, height: 600, obj: {} }
             ],
         }
     },
@@ -17,11 +17,11 @@ Vue.component('config', {
     created: function () { },
     methods: {
         //图标地址
-        logosrc: function (item) {         
+        logosrc: function (item) {
             return '/Utilities/OtherLogin/Images/' + item.tag + '.png';
         },
         //图标
-        icon: function (item) {           
+        icon: function (item) {
             return '<icon style="font-size:"' + item.size + 'px;">&#x' + item.icon + '</icon>';
         }
     },
