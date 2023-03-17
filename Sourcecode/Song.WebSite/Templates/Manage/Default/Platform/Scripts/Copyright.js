@@ -8,30 +8,31 @@
             issuper: false       //是否是超管登录
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.cache('Copyright/Datas').then(function (req) {
-                vapp.loading = false;
+                th.loading = false;
                 if (req.data.success) {
-                    vapp.datas = req.data.result;
-                    vapp.rowdrop();
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }                
-            }).catch(function (err) {
-                vapp.loading = false;
-                vapp.$alert(err);
-                console.error(err);
-            });
-            $api.post('Admin/IsSuper').then(function (req) {
-                if (req.data.success) {
-                    vapp.issuper = req.data.result;
+                    th.datas = req.data.result;
+                    th.rowdrop();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                vapp.$alert(err);
+                th.loading = false;
+                alert(err);
+                console.error(err);
+            });
+            $api.post('Admin/IsSuper').then(function (req) {
+                if (req.data.success) {
+                    th.issuper = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
                 console.error(err);
             });
         },
@@ -75,15 +76,16 @@
                     }
                     if (isexist) return;
                 }
+                var th = this;
                 this.loading = true;
-
                 $api.post('Copyright/Update', { 'json': this.datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         $api.put('Copyright/Datas');
                         $api.cache('Copyright/Datas:update');
+                        $api.cache('Copyright/Info:update');
                         if (result) {
-                            vapp.$message({
+                            th.$message({
                                 message: '操作成功！',
                                 type: 'success'
                             });
@@ -94,7 +96,7 @@
                     }
                     vapp.loading = false;
                 }).catch(function (err) {
-                    vapp.loading = false;
+                    th.loading = false;
                     console.error(err);
                 });
             },
@@ -192,7 +194,7 @@
                     <el-input v-model="item.remark" style="width:100%;"></el-input>
                     </el-form-item>                
                     <el-form-item label="标识" prop="name">
-                    <el-input v-model="item.name" style="width:140px;"></el-input>
+                        <el-input v-model="item.name" :disabled="item.fixed" style="width:140px;"></el-input>
                     </el-form-item>                
                     <el-form-item label="" >
                     <el-select v-model="item.type" style="width:100px;">
@@ -205,7 +207,7 @@
                     <el-link class="delitem el-icon-delete" type="danger" v-if="!item.fixed" :disabled="item.fixed" 
                     :title="item.fixed ? '禁止删除' : ''" slot="reference"> 删除</el-link>    
                     </el-popconfirm>                      
-                </div>\               
+                </div>
                 <el-input v-model="item.text" v-if="item.type=='text'"><template slot="prepend">内容</template></el-input>\
                 <el-input v-model="item.text" v-if="item.type=='multi'" type="textarea" :rows="4" autosize></el-input>\
                 <el-input v-model="item.text" v-if="item.type=='link'"><template slot="prepend">地址</template></el-input>\
