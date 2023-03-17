@@ -10,21 +10,21 @@
 
 /*标题栏*/
 
-    .loginbox login_titlebar {
-        display: block;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        height: 50px;
-        width: calc(100% - 20px);
-        margin-bottom: 10px;
-        padding: 0px 0px 0px 20px;
-        font-size: 18px;
-        cursor: default;
-        display: flex;
-        user-select: none;
-        text-shadow: 1px 1px 3px #999;
-    }
+.loginbox login_titlebar {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 50px;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 0px 0px 0px 20px;
+    font-size: 18px;
+    cursor: default;
+    display: flex;
+    user-select: none;
+    text-shadow: 1px 1px 3px #999;
+}
 
 .loginbox login_ico {
     min-width: auto;
@@ -47,16 +47,16 @@
     line-height: 60px;
 }
 
-    .loginbox login_tit {
-        line-height: 60px;
-        width: calc(100% - 50px);
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        font-size: 20px;
-        word-break: break-all;
-        white-space: nowrap;
-    }
+.loginbox login_tit {
+    line-height: 60px;
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 20px;
+    word-break: break-all;
+    white-space: nowrap;
+}
 
 /*底部信息栏*/
 

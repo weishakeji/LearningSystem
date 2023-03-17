@@ -1,4 +1,14 @@
-﻿.login_weisha {
+﻿input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.login_weisha {
     position: relative;
     height: 100%;
 }
@@ -178,6 +188,7 @@
     height: 35px;
     margin: 0px 0px 0px 4px;
     width: 90px;
+    
 }
 
 /*滑块*/
@@ -210,6 +221,28 @@
     background-color: #bbb;
     position: absolute;
     padding: 0px 0px 0px 5px;
+    box-sizing: border-box;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 3;
+}
+.login_weisha .login_drag .drag {
+    background-color: #777;
+}
+
+.login_weisha .login_drag .slideway {
+    display: block;
+    user-select: none;
+    height: 35px;
+    line-height: 35px;
+    width: 0px;
+    font-size: 25px;
+    text-align: center;
+    background-color: rgb(224, 224, 224);
+    position: absolute;
+    padding: 0px 0px 0px 5px;
     top: 5px;
     left: 5px;
     color: #fff;
@@ -220,6 +253,26 @@
 .login_weisha .login_drag .login_dragbox:before {
     content: '\a049';
     font-family: "webdesk_icon" !important;
+}
+
+/*拖动完成*/
+
+.login_weisha .complete {
+    background-color: rgba(83, 204, 83);
+    background: linear-gradient(to bottom, rgba(83, 204, 83, 1) 0%, rgba(51, 162, 51, 1) 100%);
+}
+
+.login_weisha .complete .login_dragbox {
+    background-color: #fff;
+}
+
+.login_weisha .complete .login_dragbox:before {
+    content: '\a048';
+    color: rgba(83, 204, 83, 1);
+}
+
+.login_weisha .complete span {
+    display: none;
 }
 
 .login_register {
@@ -244,14 +297,16 @@
     bottom: 60px;
 }
 
-.config>div{
+.config>div {
     display: flex;
     font-size: 14px;
-    margin: 8px 10px 0px 0px;   
+    margin: 8px 10px 0px 0px;
 }
-.config>div:not(:last-child) {  
-    margin: 8px 0px 0px 0px;   
+
+.config>div:not(:last-child) {
+    margin: 8px 0px 0px 0px;
 }
+
 .config img {
     width: 18px;
     height: 18px;
