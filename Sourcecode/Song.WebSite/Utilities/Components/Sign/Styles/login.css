@@ -2,6 +2,7 @@
     position: relative;
     height: 100%;
 }
+
 .login_weisha .login_title_bar {
     height: 50px;
     box-sizing: border-box;
@@ -118,7 +119,7 @@
 .login_btn {
     width: 100%;
     height: 40px;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .login_btn button {
@@ -197,7 +198,8 @@
     line-height: 45px;
     color: #999;
 }
-.login_weisha .login_drag .login_dragbox{
+
+.login_weisha .login_drag .login_dragbox {
     display: block;
     user-select: none;
     height: 35px;
@@ -214,11 +216,13 @@
     cursor: pointer;
     z-index: 2;
 }
+
 .login_weisha .login_drag .login_dragbox:before {
     content: '\a049';
     font-family: "webdesk_icon" !important;
 }
-.login_register{
+
+.login_register {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
@@ -227,4 +231,30 @@
     left: 0px;
     bottom: 0px;
     width: 100%;
+}
+
+/*第三方登录*/
+.config {
+    width: 100%;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+    position: absolute;
+    left: 0px;
+    bottom: 60px;
+}
+
+.config>div{
+    display: flex;
+    font-size: 14px;
+    margin: 8px 10px 0px 0px;   
+}
+.config>div:not(:last-child) {  
+    margin: 8px 0px 0px 0px;   
+}
+.config img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 4px;
 }

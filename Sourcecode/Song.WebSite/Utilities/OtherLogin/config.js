@@ -12,19 +12,19 @@ Vue.component('config', {
             ],
             //配置项的数据记录，记录在数据库
             entities: [],
-             //可用的项
-            usable_items:[]
+            //可用的项
+            usable_items: []
         }
     },
     watch: {},
-    computed: {       
+    computed: {
     },
     created: function () {
         var th = this;
         $api.get('OtherLogin/GetAll', { 'isuse': th.isuse }).then(function (req) {
             if (req.data.success) {
                 th.entities = req.data.result;
-                th.usable_items=th.get_usable_items();
+                th.usable_items = th.get_usable_items();
             } else {
                 console.error(req.data.exception);
                 throw req.config.way + ' ' + req.data.message;
@@ -56,7 +56,11 @@ Vue.component('config', {
                     }
                 }
             }
-            this.$emit('load',items);
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].obj.Tl_Name == '')
+                    items[i].obj.Tl_Name = items[i].name;
+            }
+            this.$emit('load', items);
             return items;
         },
         //刷新
@@ -64,13 +68,13 @@ Vue.component('config', {
             var th = this;
             $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
                 if (req.data.success) {
-                    var obj = req.data.result;                  
+                    var obj = req.data.result;
                     for (let i = 0; i < th.entities.length; i++) {
-                        if (th.entities[i].Tl_Tag == obj.Tl_Tag) {                           
+                        if (th.entities[i].Tl_Tag == obj.Tl_Tag) {
                             th.$set(th.entities, i, obj);
                         }
-                    }                 
-                    th.usable_items=th.get_usable_items();                   
+                    }
+                    th.usable_items = th.get_usable_items();
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;

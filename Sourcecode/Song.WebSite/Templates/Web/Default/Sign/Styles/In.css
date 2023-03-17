@@ -373,7 +373,7 @@ context.rec {
     background: rgba(119, 119, 119, 0.74);
     background-color: rgba(200, 200, 200, 0.6);
 
-    width: 320px;
+    width: 350px;
     height: 400px;
     top: calc((100% - 400px) / 2);
     left: 60px;

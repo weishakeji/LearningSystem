@@ -55,6 +55,13 @@
 	line-height: 30px;
 	font-weight: bold;
 }
+.config>div .name .tagname {
+	font-size: 15px;
+	line-height: 30px;
+	font-weight: normal;
+	color: #666;
+	margin-left: 15px;
+}
 
 .config>div img {
 	height: 80px;

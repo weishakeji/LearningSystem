@@ -221,6 +221,7 @@ $ready(function () {
 }, ['/Utilities/Panel/Scripts/ctrls.js',
     '/Utilities/Panel/Scripts/Login.js',
     '/Utilities/Components/Sign/Login.js',
+    '/Utilities/OtherLogin/config.js',      //第三方登录的配置项
     "../Components/subject_rec.js",
 ]);
 

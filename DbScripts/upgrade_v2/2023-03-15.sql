@@ -7,6 +7,7 @@ CREATE TABLE [ThirdpartyLogin](
 	[Tl_ID] [int] IDENTITY(1,1) NOT NULL,
 	[Tl_Tag] [nvarchar](255) NULL,
 	[Tl_Account] [nvarchar](255) NULL,
+	[Tl_Name] [nvarchar](255) NULL,
 	[Tl_IsUse] [bit] NOT NULL,
 	[Tl_IsRegister] [bit] not NULL,
 	[Tl_APPID] [nvarchar](255) NULL,

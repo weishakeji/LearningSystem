@@ -9,11 +9,16 @@
 <body>
     <div id="vapp" v-cloak>
         <config ref="config" class="config" :isuse="null">
-            <div slot="item" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data" @dblclick="opensetup(data.item)">
+            <div slot="item" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
                 <span class="index">{{data.index+1}}</span>
                 <div class="name">
                     <img :src="data.img" />
-                    {{data.item.name}}
+                    <template v-if="data.item.obj.Tl_Name!=null"></template>
+                        {{data.item.obj.Tl_Name}}
+                        <span class="tagname">({{data.item.name}})</span>
+                    <template v-else>
+                        {{data.item.name}}
+                    </template>
                 </div>
                 <div class="info">
                     <div>Appid: {{data.item.obj.Tl_APPID}}</div>

@@ -1314,6 +1314,8 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Utilities\Components\Sign\login.js" />
+    <Content Include="Utilities\Components\Sign\Styles\login.css" />
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />
     <Content Include="Utilities\Components\Question\exercise.js" />
     <Content Include="Utilities\Components\Question\function.js" />

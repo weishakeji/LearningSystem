@@ -26,6 +26,8 @@ namespace Song.Entities {
     		
     		protected String _Tl_Account;
     		
+    		protected String _Tl_Name;
+    		
     		public Int32 Tl_ID {
     			get {
     				return this._Tl_ID;
@@ -116,6 +118,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Tl_Name {
+    			get {
+    				return this._Tl_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Tl_Name, _Tl_Name, value);
+    				this._Tl_Name = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -151,7 +163,8 @@ namespace Song.Entities {
     					_.Tl_Secret,
     					_.Tl_Returl,
     					_.Tl_Config,
-    					_.Tl_Account};
+    					_.Tl_Account,
+    					_.Tl_Name};
     		}
     		
     		/// <summary>
@@ -167,7 +180,8 @@ namespace Song.Entities {
     					this._Tl_Secret,
     					this._Tl_Returl,
     					this._Tl_Config,
-    					this._Tl_Account};
+    					this._Tl_Account,
+    					this._Tl_Name};
     		}
     		
     		/// <summary>
@@ -200,6 +214,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Tl_Account))) {
     				this._Tl_Account = reader.GetString(_.Tl_Account);
+    			}
+    			if ((false == reader.IsDBNull(_.Tl_Name))) {
+    				this._Tl_Name = reader.GetString(_.Tl_Name);
     			}
     		}
     		
@@ -271,6 +288,11 @@ namespace Song.Entities {
     			/// 字段名：Tl_Account - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Tl_Account = new WeiSha.Data.Field<ThirdpartyLogin>("Tl_Account");
+    			
+    			/// <summary>
+    			/// 字段名：Tl_Name - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Tl_Name = new WeiSha.Data.Field<ThirdpartyLogin>("Tl_Name");
     		}
     	}
     }
