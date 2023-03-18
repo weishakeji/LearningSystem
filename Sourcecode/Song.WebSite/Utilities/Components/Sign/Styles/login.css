@@ -188,7 +188,43 @@ input[type="number"] {
     height: 35px;
     margin: 0px 0px 0px 4px;
     width: 90px;
-    
+
+}
+
+/*错误提示*/
+
+.login_weisha .login_error {
+    border: solid 1px #ff7d7d !important;
+    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset !important;
+}
+
+.login_weisha .tips {
+    background-color: rgba(255, 0, 0, .8);
+    box-shadow: 1px 1px 2px rgb(255 0 0 / 80%);
+    position: absolute;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    width: auto;
+    padding: 0px 10px 0px 10px;
+    color: #fff;
+    border-radius: 4px;
+    display: none;
+    right: 800px;
+    bottom: -8px;
+    transition: left 0.6s;
+    z-index: 10;
+}
+
+.login_weisha .login_error::after {
+    display: none !important;
+}
+
+.login_weisha .login_error .tips {
+    display: block;
+    transition: left 0.6s;
+    right: -8px;
+    position: absolute;
 }
 
 /*滑块*/
@@ -228,6 +264,7 @@ input[type="number"] {
     cursor: pointer;
     z-index: 3;
 }
+
 .login_weisha .login_drag .drag {
     background-color: #777;
 }

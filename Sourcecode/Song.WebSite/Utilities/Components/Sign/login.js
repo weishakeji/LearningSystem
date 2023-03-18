@@ -11,25 +11,30 @@ Vue.component('login', {
             { name: '短信登录', tag: 'sms', icon: 'e76e', show: true }],
             tabActive: 'pwd',
 
-            show: false,         //是否显示
-            search: '',      //用于检索的字符
-            acc_form: {
-                acc: '', pwd: ''
-            },
-            acc_vcode: {
-                base64: '', md5: '', val: '', loading: false
+            //账号密码登录的表单项与验证码
+            acc_form: { acc: '', pwd: '' },
+            acc_vcode: { base64: '', md5: '', val: '', loading: false },
+            acc_rules: {
+                'acc': [
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { min: 4, max: 32, message: '长度在 4 到 32 个字符', trigger: 'blur' },
+                    { regex: /^[a-zA-Z0-9_-]{4,32}$/, message: '仅限字母与数字', trigger: 'blur' }
+                ],
+                'pwd': [
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { min: 1, max: 32, message: '长度在 6 到 32 个字符', trigger: 'blur' }
+                ],
+                'vcode': [
+                    { required: true, message: '校验码不得为空', trigger: 'blur' },
+                    { min: 4, max: 4, message: '仅限4位数字', trigger: 'blur' }
+                ]
             },
             loading: false,
 
         }
     },
     watch: {
-        'config': function (val, old) {
-            //this.$emit('change', val);
-            this.$nextTick(function () {
-                //this.drag();
-            });
-        },
+        //录入变化时
         'acc_form': {
             handler: function (val, old) {
                 this.$refs['acc_pwd_drag'].init();
@@ -40,11 +45,8 @@ Vue.component('login', {
         }
 
     },
-    computed: {
-
-    },
+    computed: {},
     created: function () {
-
     },
     methods: {
         //账号密码登录
@@ -52,9 +54,13 @@ Vue.component('login', {
             console.error('提交表单');
             e.preventDefault();
             //校验输入
-            if (this.acc_form.acc == '') {
-                //alert('账号不得为空');
+            var form = {
+                acc: this.acc_form.acc,
+                pwd: this.acc_form.pwd,
+                vcode: this.acc_vcode.val
             }
+            if (!this.verification(form, this.acc_rules)) return;
+
             var th = this;
             th.loading = true;
             $api.post('Account/Login', {
@@ -93,8 +99,44 @@ Vue.component('login', {
                 .finally(() => th.loading = false);
             return false;
         },
-        tips:function(prop,success,msg){
-
+        tips: function (prop, success, msg) {
+            var dom = $dom('*[prop="' + prop + '"]');
+            if (dom.length > 0) {
+                if (success) dom.removeClass('login_error');
+                else dom.addClass('login_error');
+                dom.find('.tips').html(msg);
+            }
+            return success;
+        },
+        //校验数据，data数据项,rules校验规则（基本遵循ElemenuUI相关校验规划）
+        verification: function (data, rules) {
+            for (d in data) {   //遍历数据项
+                if (!check(d, data[d], rules[d], this.tips)) return false;
+            }
+            //校验方法
+            function check(prop, val, rule, func) {
+                if (rule == undefined) return true;
+                for (let i = 0; i < rule.length; i++) {
+                    const item = rule[i];
+                    //为空判断
+                    if (!!item['required'] && val == '') {
+                        return func(prop, false, item['message']);
+                    }
+                    //判断长度
+                    if ((!!item['min'] && val.length < item['min'])
+                        || (!!item['max'] && val.length > item['max'])) {
+                        return func(prop, false, item['message']);
+                    }
+                    //正则验证
+                    if (!!item['regex']) {
+                        var regex = new RegExp(item['regex']);
+                        if (!regex.test(val))
+                            return func(prop, false, item['message']);
+                    }
+                }
+                return func(prop, true, '');
+            }
+            return true;
         },
         //滑块拖动完成
         dragfinish: function () {
@@ -142,7 +184,7 @@ Vue.component('login', {
                 <div class="login_vcode_input">
                     <input type="number" tabindex="3" v-model.trim='acc_vcode.val' autocomplete="off" placeholder="校验码"/>
                     <loading bubble v-if="acc_vcode.loading"></loading>
-                    <img v-else class="vcode_img" :src="acc_vcode.base64" :style="{'opacity': acc_vcode.base64=='' ? 0 : 1}"/>
+                    <img v-else class="vcode_img" @click="getvcode" :src="acc_vcode.base64" :style="{'opacity': acc_vcode.base64=='' ? 0 : 1}"/>
                 </div>               
                 <dragbox ref="acc_pwd_drag" id="acc_pwd" @dragfinish="dragfinish"></dragbox>
                 <span class="tips"></span>
