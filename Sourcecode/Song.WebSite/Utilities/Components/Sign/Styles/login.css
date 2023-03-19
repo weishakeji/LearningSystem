@@ -334,13 +334,13 @@ input[type="number"] {
     bottom: 60px;
 }
 
-.config>div {
+.config>a {
     display: flex;
     font-size: 14px;
     margin: 8px 10px 0px 0px;
 }
 
-.config>div:not(:last-child) {
+.config>a:not(:last-child) {
     margin: 8px 0px 0px 0px;
 }
 

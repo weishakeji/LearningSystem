@@ -74,7 +74,8 @@ Vue.component('login', {
                     $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
                     $api.login.account_fresh();
                     $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '账号密码登录', 'remark': '' });
-                    //window.vapp.logged(result);
+                    //登录成功的事件
+                    $emit('success',result);
                 } else {
                     var data = req.data;
                     switch (String(data.state)) {
@@ -99,6 +100,7 @@ Vue.component('login', {
                 .finally(() => th.loading = false);
             return false;
         },
+        //显示提示信息
         tips: function (prop, success, msg) {
             var dom = $dom('*[prop="' + prop + '"]');
             if (dom.length > 0) {
@@ -203,10 +205,10 @@ Vue.component('login', {
             <a href="find"><icon>&#xe76a</icon>找回密码</a>
         </div>  
         <config ref="config" class="config" :isuse="true">
-            <div slot="item" slot-scope="data" :title='data.item.name'>
+            <a slot="item" slot-scope="data" :title='data.item.name' href="#">
                 <img :src="data.img" />
                 {{data.item.obj.Tl_Name}}
-            </div>
+            </a>
         </config>
     </div>`
 });
