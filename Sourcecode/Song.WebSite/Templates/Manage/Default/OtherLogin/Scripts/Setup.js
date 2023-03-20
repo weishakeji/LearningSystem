@@ -25,7 +25,7 @@
             //更改使用状态
             changeuse: function (item) {
                 var th = this;
-                $api.post('OtherLogin/ModifyUse', { 'tag': item.Tl_Tag, 'isue': item.Tl_IsUse }).then(function (req) {
+                $api.post('OtherLogin/ModifyUse', { 'tag': item.tag, 'isue': item.obj.Tl_IsUse }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({

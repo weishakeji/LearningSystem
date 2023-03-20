@@ -31,6 +31,7 @@ $ready(function () {
             tag: {
                 handler(nv, ov) {
                     if (nv == null || nv == '') return;
+                    this.entity.Tl_Tag = nv;
                     this.getentity(nv);
                 },
                 immediate: true,
@@ -63,7 +64,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    //alert(err);
                     console.error(err);
                 }).finally(function () {
                     th.loading = false;

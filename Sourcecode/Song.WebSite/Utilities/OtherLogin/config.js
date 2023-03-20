@@ -7,7 +7,7 @@ Vue.component('config', {
             items: [
                 { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 700, height: 400, obj: {} },
                 { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 700, height: 500, obj: {} },
-                { name: '金碟.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 500, obj: {} },
+                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 500, obj: {} },
                 { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 400, obj: {} }
             ],
             //配置项的数据记录，记录在数据库
@@ -20,19 +20,7 @@ Vue.component('config', {
     computed: {
     },
     created: function () {
-        var th = this;
-        $api.get('OtherLogin/GetAll', { 'isuse': th.isuse }).then(function (req) {
-            if (req.data.success) {
-                th.entities = req.data.result;
-                th.usable_items = th.get_usable_items();
-            } else {
-                console.error(req.data.exception);
-                throw req.config.way + ' ' + req.data.message;
-            }
-        }).catch(function (err) {
-            //alert(err);
-            console.error(err);
-        });
+        this.get_all_items();
     },
     methods: {
         //图标地址
@@ -43,10 +31,31 @@ Vue.component('config', {
         icon: function (item) {
             return '<icon style="font-size:"' + item.size + 'px;">&#x' + item.icon + '</icon>';
         },
+        //获取所有的项
+        get_all_items: function () {
+            var th = this;
+            th.usable_items = [];
+            $api.get('OtherLogin/GetAll', { 'isuse': th.isuse }).then(function (req) {
+                if (req.data.success) {
+                    th.entities = req.data.result;
+                    th.usable_items = th.get_usable_items();
+
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                //alert(err);
+                console.error(err);
+            }).finally(() => {
+                th.usable_items = th.get_usable_items();
+            });
+        },
         //获取可用的项
         get_usable_items: function () {
-            if (this.entities.length < 1) return [];
+            //if (this.entities.length < 1) return [];
             var items = [];
+            //将数据库中的记录，保存到配置项的obj属性
             for (let i = 0; i < this.entities.length; i++) {
                 const el = this.entities[i];
                 for (let j = 0; j < this.items.length; j++) {
@@ -56,6 +65,15 @@ Vue.component('config', {
                     }
                 }
             }
+            //显示所有
+            if (this.isuse == undefined || this.isuse == null) {
+                for (let j = 0; j < this.items.length; j++) {
+                    const el = this.items[j];
+                    let index = this.entities.findIndex(t => t.Tl_Tag == el.tag);
+                    if (index < 0) items.push(this.items[j]);
+                }
+            }
+            //如果简要名称没有，则显示配置项的名称
             for (let i = 0; i < items.length; i++) {
                 if (items[i].obj.Tl_Name == '')
                     items[i].obj.Tl_Name = items[i].name;
@@ -65,6 +83,8 @@ Vue.component('config', {
         },
         //刷新
         fresh: function (tag) {
+            this.get_all_items();
+            return;
             var th = this;
             $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
                 if (req.data.success) {
@@ -74,6 +94,7 @@ Vue.component('config', {
                             th.$set(th.entities, i, obj);
                         }
                     }
+                    th.usable_items = [];
                     th.usable_items = th.get_usable_items();
                 } else {
                     console.error(req.data.exception);

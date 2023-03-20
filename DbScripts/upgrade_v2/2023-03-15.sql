@@ -6,6 +6,7 @@ GO
 CREATE TABLE [ThirdpartyLogin](
 	[Tl_ID] [int] IDENTITY(1,1) NOT NULL,
 	[Tl_Tag] [nvarchar](255) NULL,
+	[Tl_Tax] [int] not NULL,
 	[Tl_Account] [nvarchar](255) NULL,
 	[Tl_Name] [nvarchar](255) NULL,
 	[Tl_IsUse] [bit] NOT NULL,
@@ -24,24 +25,24 @@ GO
 
 /*插件初始数据*/
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('qq',1,1,'','','','')
+VALUES ('qq','QQ',1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('weixin',1,1,'','','','')
+VALUES ('weixin','微信',1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('yunzhijia',1,1,'','','','')
+VALUES ('yunzhijia','金蝶',1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('zzgongshang',1,1,'','','','')
+VALUES ('zzgongshang','郑州工商',1,1,'','','','')
 GO
 /*qq登录由SystemPara转到thirdpartylogin表*/
 update thirdpartylogin set tl_appid=(select Sys_Value from SystemPara where Sys_Key='QQAPPID') where tl_tag='qq'

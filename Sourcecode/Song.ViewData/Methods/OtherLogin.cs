@@ -62,6 +62,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public bool ModifyUse(string tag,bool isue)
         {
+            if (string.IsNullOrWhiteSpace(tag)) return false;
             ThirdpartyLogin entity= Business.Do<IThirdpartyLogin>().GetSingle(tag);
             if (entity == null)
             {      
