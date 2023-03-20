@@ -21,17 +21,17 @@ $ready(function () {
         },
         watch: {
             'account': function (nv, ov) {
-                window.login.loading = false;
+                //window.login.loading = false;
                 var th = this;
                 if (nv == null || JSON.stringify(nv) === '{}') {
-                    $dom('#login-area').show();
-                    $dom('#logged-area').hide();
+                    //$dom('#login-area').show();
+                    //$dom('#logged-area').hide();
                 } else {
-                    $dom('#login-area').hide();
-                    $dom('#logged-area').show().css('opacity', 0);
+                    //$dom('#login-area').hide();
+                    //$dom('#logged-area').show().css('opacity', 0);
                     window.setTimeout(function () {
-                        $dom('#logged-area').css('opacity', 1);
-                        $dom('#login-area').hide();
+                        //$dom('#logged-area').css('opacity', 1);
+                        // $dom('#login-area').hide();
                         th.logged(nv);
                     }, 500);
                 }
@@ -70,101 +70,6 @@ $ready(function () {
                 window.location.href = url;
             }
         }
-    });
-    window.login = $login.create({
-        target: '#login-area',
-        ico: 'e804',
-        //width: '320px',
-        title: '...',
-        company: '',
-        website: '',
-        tel: ''
-    });
-    //自定义验证
-    window.login.verify([{
-        'ctrl': 'user',
-        'regex': /^[a-zA-Z0-9_-]{4,32}$/,
-        'tips': '长度不得小于4位大于16位'
-    }, {
-        ctrl: 'vcode',
-        regex: /^\d{4}$/,
-        tips: '请输入4位数字'
-    }]);
-    window.login.watch({
-        'loading': function (obj, nv, ov) {
-            if (nv) {
-                obj.dom.find(".slot").hide();
-            }
-            else {
-                var slot = obj.dom.find(".slot");
-                slot.show();
-            }
-        }
-    });
-    window.login.onlayout(function (s, e) {
-        //console.log('布局完成' + e.data);
-        $api.cache('Platform/PlatInfo').then(function (req) {
-            if (req.data.success) {
-                window.platinfo = req.data.result;
-                if (s != null) s.title = window.platinfo.title;
-                document.title = window.platinfo.title;
-            } else {
-                throw req.data.message;
-            }
-        }).catch(function (err) {
-            //alert(err);
-            console.error(err);
-        });
-
-    });
-    window.login.ondragfinish(function (s, e) {
-        $api.post('Helper/CheckCodeImg', { 'leng': s.vcodelen, 'acc': s.user }).then(function (req) {
-            if (req.data.success) {
-                var result = req.data.result;
-                s.vcodebase64 = result.base64;
-                s.vcodemd5 = result.value;
-            } else {
-                throw req.data.message;
-            }
-        }).catch(function (err) {
-            alert(err);
-        });
-    });
-    window.login.onsubmit(function (s, e) {
-        s.loading = true;
-        $api.post('Account/Login', { 'acc': s.user, 'pw': s.pw, 'vcode': s.vcode, 'vmd5': s.vcodemd5 }).then(function (req) {
-            window.login.loading = false;
-            if (req.data.success) {
-                //登录成功
-                var result = req.data.result;
-                $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
-                $api.login.account_fresh();
-                $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '账号密码登录', 'remark': '' });
-                window.vapp.logged(result);
-            } else {
-                var data = req.data;
-                switch (String(data.state)) {
-                    //验证码错误
-                    case '1101':
-                        s.tips(s.inputs.vcode, false, data.message);
-                        break;
-                    case '1102':
-                        s.tips(s.inputs.pw, false, '账号或密码错误');
-                        break;
-                    case '1103':
-                        s.tips(s.inputs.user, false, '账号被禁用');
-                        break;
-                    default:
-                        s.tips(s.inputs.user, false, '登录失败');
-                        console.error(req.data.exception);
-                        console.log(req.data.message);
-                        break;
-                }
-            }
-        }).catch(function (err) {
-            alert(err);
-            console.error(err);
-        });
     });
     Vue.component('notices', {
         props: ["org", "count"],
@@ -218,10 +123,9 @@ $ready(function () {
         </div>`
     });
 
-}, ['/Utilities/Panel/Scripts/ctrls.js',
-    '/Utilities/Panel/Scripts/Login.js',
-    '/Utilities/Components/Sign/Login.js',
+}, ['/Utilities/Components/avatar.js',     
     '/Utilities/OtherLogin/config.js',      //第三方登录的配置项
+    '/Utilities/Components/Sign/Login.js',
     "../Components/subject_rec.js",
 ]);
 

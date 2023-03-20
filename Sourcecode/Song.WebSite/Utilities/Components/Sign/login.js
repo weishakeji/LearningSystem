@@ -66,8 +66,7 @@ Vue.component('login', {
             $api.post('Account/Login', {
                 'acc': th.acc_form.acc, 'pw': th.acc_form.pwd,
                 'vcode': th.acc_vcode.val, 'vmd5': th.acc_vcode.md5
-            }).then(function (req) {
-                //window.login.loading = false;
+            }).then(function (req) {             
                 if (req.data.success) {
                     //登录成功
                     var result = req.data.result;
@@ -75,7 +74,7 @@ Vue.component('login', {
                     $api.login.account_fresh();
                     $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '账号密码登录', 'remark': '' });
                     //登录成功的事件
-                    $emit('success',result);
+                    th.$emit('success',result);
                 } else {
                     var data = req.data;
                     switch (String(data.state)) {
@@ -165,51 +164,54 @@ Vue.component('login', {
         }
     },
     template: `<div class="login_weisha">
-        <div class="login_title_bar">
-            <div v-for="t in tabs" @click="tabActive=t.tag" :tag="t.tag" v-if="t.show" :current="tabActive==t.tag">
-                <icon v-html="'&#x'+t.icon"></icon>
-                <span>{{t.name}}</span>
-            </div>
-        </div>
-        <form class="login_pwd_area" @submit.prevent="submit_accpwd" v-if="tabActive=='pwd'"  remark="账号密码登录">
-            <div class="login_acc_pwd">
-                <div prop="acc">
-                    <input type="text" tabindex="1" autocomplete="off" v-model.trim='acc_form.acc' placeholder="账号"/>
-                    <span class="tips"></span>
+        <div class="login_loding" v-show="loading"><span></span><span></span></div>
+        <template  v-show="!loading">
+            <div class="login_title_bar">
+                <div v-for="t in tabs" @click="tabActive=t.tag" :tag="t.tag" v-if="t.show" :current="tabActive==t.tag">
+                    <icon v-html="'&#x'+t.icon"></icon>
+                    <span>{{t.name}}</span>
                 </div>
-                <div prop="pwd">
-                    <input type="password" tabindex="2" autocomplete="off"  v-model.trim='acc_form.pwd' placeholder="密码"/>
-                    <span class="tips"></span>
-                </div>
-            </div>    
-            <div class="login_vcode"  prop="vcode">
-                <div class="login_vcode_input">
-                    <input type="number" tabindex="3" v-model.trim='acc_vcode.val' autocomplete="off" placeholder="校验码"/>
-                    <loading bubble v-if="acc_vcode.loading"></loading>
-                    <img v-else class="vcode_img" @click="getvcode" :src="acc_vcode.base64" :style="{'opacity': acc_vcode.base64=='' ? 0 : 1}"/>
-                </div>               
-                <dragbox ref="acc_pwd_drag" id="acc_pwd" @dragfinish="dragfinish"></dragbox>
-                <span class="tips"></span>
-            </div> 
-            <div class="login_btn">
-                <button type="submit" tabindex="4"><icon>&#xe6c6</icon>登录</button>               
             </div>
-        </form>
+            <form class="login_pwd_area" @submit.prevent="submit_accpwd" v-show="tabActive=='pwd'"  remark="账号密码登录">
+                <div class="login_acc_pwd">
+                    <div prop="acc">
+                        <input type="text" tabindex="1" autocomplete="off" v-model.trim='acc_form.acc' placeholder="账号"/>
+                        <span class="tips"></span>
+                    </div>
+                    <div prop="pwd">
+                        <input type="password" tabindex="2" autocomplete="off"  v-model.trim='acc_form.pwd' placeholder="密码"/>
+                        <span class="tips"></span>
+                    </div>
+                </div>    
+                <div class="login_vcode"  prop="vcode">
+                    <div class="login_vcode_input">
+                        <input type="number" tabindex="3" v-model.trim='acc_vcode.val' autocomplete="off" placeholder="校验码"/>
+                        <loading bubble v-if="acc_vcode.loading"></loading>
+                        <img v-else class="vcode_img" @click="getvcode" :src="acc_vcode.base64" :style="{'opacity': acc_vcode.base64=='' ? 0 : 1}"/>
+                    </div>               
+                    <dragbox ref="acc_pwd_drag" id="acc_pwd" @dragfinish="dragfinish"></dragbox>
+                    <span class="tips"></span>
+                </div> 
+                <div class="login_btn">
+                    <button type="submit" tabindex="4"><icon>&#xe6c6</icon>登录</button>               
+                </div>
+            </form>
 
-        <div class="login_area" v-if="tabActive=='sms'" remark="短信登录">
-            短信的登录
-        </div>
+            <div class="login_area" v-show="tabActive=='sms'" remark="短信登录">
+                短信的登录
+            </div>
 
-        <div class="login_register">
-            <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
-            <a href="find"><icon>&#xe76a</icon>找回密码</a>
-        </div>  
-        <config ref="config" class="config" :isuse="true">
-            <a slot="item" slot-scope="data" :title='data.item.name' href="#">
-                <img :src="data.img" />
-                {{data.item.obj.Tl_Name}}
-            </a>
-        </config>
+            <div class="login_register">
+                <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
+                <a href="find"><icon>&#xe76a</icon>找回密码</a>
+            </div>  
+            <config ref="config" class="config" :isuse="true">
+                <a slot="item" slot-scope="data" :title='data.item.name' href="#">
+                    <img :src="data.img" />
+                    {{data.item.obj.Tl_Name}}
+                </a>
+            </config>
+        </template>
     </div>`
 });
 

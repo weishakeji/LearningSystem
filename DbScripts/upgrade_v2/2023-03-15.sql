@@ -25,22 +25,22 @@ GO
 
 /*插件初始数据*/
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('qq','QQ',1,1,'','','','')
+VALUES ('qq','QQ',1,1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('weixin','微信',1,1,'','','','')
+VALUES ('weixin','微信',2,1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
 VALUES ('yunzhijia','金蝶',1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
-  ([Tl_Tag],[Tl_Name],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
+  ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
 VALUES ('zzgongshang','郑州工商',1,1,'','','','')
 GO

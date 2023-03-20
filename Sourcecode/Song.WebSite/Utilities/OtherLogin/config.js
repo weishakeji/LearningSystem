@@ -72,7 +72,7 @@ Vue.component('config', {
                     let index = this.entities.findIndex(t => t.Tl_Tag == el.tag);
                     if (index < 0) items.push(this.items[j]);
                 }
-            }
+            }           
             //如果简要名称没有，则显示配置项的名称
             for (let i = 0; i < items.length; i++) {
                 if (items[i].obj.Tl_Name == '')

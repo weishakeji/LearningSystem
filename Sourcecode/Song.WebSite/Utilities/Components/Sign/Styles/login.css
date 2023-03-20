@@ -102,13 +102,13 @@ input[type="number"] {
     height: 40px;
     width: calc(100% - 8px);
     border: none;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .login_weisha input {
     border: none;
     height: 40px;
-    font-size: 24px;
+    font-size: 18px;
     width: calc(100% - 8px);
 }
 
@@ -188,7 +188,7 @@ input[type="number"] {
     height: 35px;
     margin: 0px 0px 0px 4px;
     width: 90px;
-
+    cursor: pointer;
 }
 
 /*错误提示*/
@@ -349,4 +349,78 @@ input[type="number"] {
     height: 18px;
     border-radius: 50%;
     margin-right: 4px;
+}
+
+
+/*预载效*/
+
+div.login_loding {
+    width: 100px;
+    height: 150px;
+    margin: 30px auto 0px auto;
+    position: relative;
+}
+
+div.login_loding span {
+    position: absolute;
+    border: 8px solid #b36868;
+    border-top: 8px solid transparent;
+    border-radius: 999px;
+}
+
+div.login_loding b {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 120px;
+    color: #666;
+}
+
+div.login_loding span:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    animation: spin-1 2s infinite linear;
+}
+
+div.login_loding span:nth-child(2) {
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    animation: spin-2 1s infinite linear;
+}
+
+@keyframes spin-1 {
+    0% {
+        transform: rotate(360deg);
+        opacity: 1.0;
+    }
+
+    50% {
+        transform: rotate(180deg);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes spin-2 {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: rotate(180deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.5;
+    }
 }

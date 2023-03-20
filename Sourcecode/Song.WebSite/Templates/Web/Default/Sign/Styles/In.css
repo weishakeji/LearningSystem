@@ -30,126 +30,13 @@ context.first {
     -moz-animation: Gradient 15s ease infinite;
     animation: Gradient 15s ease infinite;
 }
-
-@-webkit-keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-@-moz-keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-@keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-/*预载效*/
-
-#loading {
-    width: 100px;
-    height: 100px;
-    margin: 200px auto 0px auto;
-    position: relative;
-}
-
-#loading b {
-    display: block;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    bottom: 20px;
-    color: #fff;
-    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
-}
-
-#loading span {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: rgb(178, 166, 248);
-    animation: bounce 1s infinite linear;
-}
-
-#loading span:nth-child(1) {
-    left: 0;
-    animation-delay: 0s;
-}
-
-#loading span:nth-child(2) {
-    left: 20px;
-    animation-delay: 0.25s;
-}
-
-#loading span:nth-child(3) {
-    left: 40px;
-    animation-delay: 0.5s;
-}
-
-#loading span:nth-child(4) {
-    left: 60px;
-    animation-delay: 0.75s;
-}
-
-#loading span:nth-child(5) {
-    left: 80px;
-    animation-delay: 1.0s;
-}
-
-@keyframes bounce {
-    0% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: translateY(-30px);
-        opacity: 1.0;
-    }
-
-    100% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-}
-
-#login-area, #logged-area {
+#logged-area {
     width: 280px;
     height: 320px;
     top: calc((100% - 320px) / 2);
     right: 60px;
 }
-
+/*已经登录*/
 #login-area {
     position: absolute;
     text-align: left;
@@ -165,8 +52,7 @@ context.first {
 
 }
 
-#logged-area {
-    display: none;
+#logged-area {  
     position: absolute;
     z-index: 2;
     text-align: center;
@@ -174,7 +60,13 @@ context.first {
     box-sizing: border-box;
     background-color: rgba(200, 200, 200, 0.3);
 }
-
+#logged-area .ws_avatar{
+    margin: auto;
+}
+#logged-area .accname{
+    margin: 5px;
+    color: #000;
+}
 #logged-area button {
     font-size: 16px;
 }
@@ -188,75 +80,6 @@ a {
     text-decoration: none;
 }
 
-.loginbox {
-
-    box-shadow: none !important;
-}
-
-.loginbox .login_body {
-    height: calc(100% - 70px) !important;
-
-}
-
-.loginbox .login_body>* {
-    border: none !important;
-}
-
-.loginbox .login_body>*:not(:last-child) {
-    border: solid 1px #fff;
-    width: calc(100% - 42px);
-    position: relative;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 5px rgb(255, 255, 255);
-}
-
-::-webkit-input-placeholder {
-    /* WebKit browsers */
-    color: #aaa;
-    font-size: 16px;
-}
-
-.loginbox .login_body>*:last-child {
-    margin-top: 20px;
-}
-
-.login_code img {
-    margin: 3px;
-    height: 39px !important;
-    height: calc(100% - 6px) !important;
-    width: 84px !important;
-    border-radius: 0px 5px 5px 0px;
-}
-
-.other {
-    width: 100%;
-    padding: 30px 10px 10px 25px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.other a:first-child {
-    float: left;
-    display: block;
-}
-
-.other a:last-child {
-    float: right;
-    display: block;
-}
-
-.accname {
-    margin: 10px 0px;
-    color: #333;
-    font-size: 18px;
-}
-
-.photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
 
 #logged-area button {
     width: 100%;
