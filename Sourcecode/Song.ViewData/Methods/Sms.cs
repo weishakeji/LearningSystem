@@ -41,11 +41,20 @@ namespace Song.ViewData.Methods
         /// 获取所有短信接口,并刷新缓存
         /// </summary>
         /// <returns></returns>
+        [HttpPost,Admin]
         public Song.SMS.SmsItem[] ItemsFresh()
         {
             Song.SMS.Config.Fresh();
             string current = Business.Do<ISystemPara>().GetValue("SmsCurrent");
-            Song.SMS.Config.SetCurrent(current);           
+            Song.SMS.Config.SetCurrent(current);
+            SMS.SmsItem[] items = Song.SMS.Config.SmsItems;
+            foreach (SMS.SmsItem item in items)
+            {
+                item.User = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsAcc");
+                item.Password = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsPw");
+                if (!string.IsNullOrWhiteSpace(item.Password))
+                    item.Password = WeiSha.Core.DataConvert.DecryptForBase64(item.Password);    //将密码解密
+            }
             return Song.SMS.Config.SmsItems;
         }
         /// <summary>
@@ -73,17 +82,22 @@ namespace Song.ViewData.Methods
         /// 获取某短信接口的短信数
         /// </summary>
         /// <param name="mark">接口标识名</param>
+        /// <param name="smsacc"></param>
+        /// <param name="smspw"></param>
         /// <returns></returns>
-        public int Count(string mark)
+        public int Count(string mark,string smsacc,string smspw)
         {
-            //账号与密码
-            string smsacc = Business.Do<ISystemPara>().GetValue(mark + "SmsAcc");
-            string smspw = Business.Do<ISystemPara>().GetValue(mark + "SmsPw");
-            if (string.IsNullOrWhiteSpace(smspw)) throw new Exception("密码不得为空");
-
-            int num = -1;
-
-            smspw = WeiSha.Core.DataConvert.DecryptForBase64(smspw);    //将密码解密
+            //账号
+            if(string.IsNullOrWhiteSpace(smsacc))
+                smsacc = Business.Do<ISystemPara>().GetValue(mark + "SmsAcc");
+            //密码
+            if (string.IsNullOrWhiteSpace(smspw))
+            {
+                smspw = Business.Do<ISystemPara>().GetValue(mark + "SmsPw");
+                if (string.IsNullOrWhiteSpace(smspw)) throw new Exception("密码不得为空");
+                smspw = WeiSha.Core.DataConvert.DecryptForBase64(smspw);    //将密码解密
+            }
+            int num = -1;         
             //短信平台操作对象
             Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(mark);
             //设置账号与密码

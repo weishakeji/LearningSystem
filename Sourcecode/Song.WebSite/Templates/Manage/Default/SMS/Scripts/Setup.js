@@ -20,8 +20,9 @@
             loadDatas: function () {
                 var th = this;
                 th.loading = true;
+                th.datas = [];
                 $api.bat(
-                    $api.get('Sms/ItemsFresh'),
+                    $api.post('Sms/ItemsFresh'),
                     $api.get("Sms/Current")
                 ).then(axios.spread(function (items, curr) {
                     //判断结果是否正常
@@ -86,7 +87,7 @@
         },
         components: {
             'sms_count': {
-                props: ['mark'],
+                props: ['mark', 'user', 'pw'],
                 data: function () {
                     return {
                         count: -1,    //短信数量
@@ -101,7 +102,7 @@
                     getcount: function () {
                         var th = this;
                         th.loading = true;
-                        $api.get('Sms/Count', { 'mark': th.mark }).then(function (req) {
+                        $api.get('Sms/Count', { 'mark': th.mark, 'smsacc': th.user, 'smspw': th.pw }).then(function (req) {
                             if (req.data.success) {
                                 th.count = req.data.result;
                             } else throw req.data.message;

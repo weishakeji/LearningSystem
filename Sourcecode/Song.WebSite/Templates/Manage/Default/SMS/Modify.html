@@ -21,11 +21,11 @@
             </el-form-item>
             <el-form-item label="余额">
                 <loading v-if="loading"></loading>
-                <template v-else>
-                    <el-tag v-if="count>=0">{{count}}</el-tag>
-                    <alert v-else>{{error}}</alert>
-                </template>
-                <el-link type="primary" class="fresh" @click="btnFresh('entity')"><icon>&#xe651</icon>刷新</el-link>
+                <alert v-else-if="error!=''">{{error}}</alert>
+                <el-tag v-else>{{count}}</el-tag>
+                <el-link type="primary" class="fresh" @click="btnFresh('entity')">
+                    <icon>&#xe651</icon>刷新
+                </el-link>
             </el-form-item>
         </el-form>
         <div class="footer">

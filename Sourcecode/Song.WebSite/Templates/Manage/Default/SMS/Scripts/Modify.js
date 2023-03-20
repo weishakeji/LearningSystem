@@ -40,11 +40,12 @@ $ready(function () {
             getcount: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Sms/Count', { 'mark': th.mark }).then(function (req) {
+                $api.get('Sms/Count', { 'mark': th.mark, 'smsacc': th.entity.user, 'smspw': th.entity.pw }).then(function (req) {
                     if (req.data.success) {
                         th.count = req.data.result;
+                        th.error = '';
                     } else throw req.data.message;
-                }).catch(err => th.error = err)
+                }).catch(err => { th.error = err; th.count = -1; })
                     .finally(() => th.loading = false);
             },
             //刷新短信余额
@@ -72,6 +73,7 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
+                                th.getcount();
                                 th.operateSuccess();
                             } else {
                                 throw req.data.message;
