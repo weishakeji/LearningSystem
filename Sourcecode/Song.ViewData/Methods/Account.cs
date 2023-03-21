@@ -81,6 +81,25 @@ namespace Song.ViewData.Methods
             return LoginAccount.Status.Fresh(this.Letter);
         }
         /// <summary>
+        /// 清除CheckUID
+        /// </summary>
+        /// <param name="acc">账号或手机号</param>
+        /// <param name="type">mobi为手机号，acc为账号</param>
+        /// <returns></returns>
+        public bool ClearCheckUID(string acc, string type)
+        {
+            Song.Entities.Accounts account = null;
+            if (type == "mobi")
+                account = Business.Do<IAccounts>().AccountsForMobi(acc, -1, null, null);
+            if (type == "acc")
+                account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
+            if (acc != null)
+                Business.Do<IAccounts>().AccountsUpdate(account,
+                    new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_CheckUID },
+                    new object[] { "" });
+            return true;
+        }
+        /// <summary>
         /// 登录验证
         /// </summary>
         /// <param name="acc">验证</param>
@@ -99,6 +118,28 @@ namespace Song.ViewData.Methods
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             LoginAccount.Add(account);
 
+            //克隆当前对象,用于发向前端
+            Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
+            user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
+            //登录，密码被设置成加密状态值
+            user.Ac_CheckUID = account.Ac_CheckUID;
+            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
+            return user;
+        }
+        /// <summary>
+        /// 短信登录
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="sms"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Song.Entities.Accounts LoginSms(string phone, string sms)
+        {
+            string val = new Song.ViewData.ConvertToAnyValue(phone + sms).MD5;
+            Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
+            if (account == null) throw VExcept.Verify("验证码不正确", 105);
+            if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
+            LoginAccount.Add(account);
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";

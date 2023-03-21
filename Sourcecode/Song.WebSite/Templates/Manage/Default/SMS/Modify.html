@@ -17,7 +17,7 @@
                 <el-input v-model.trim="entity.user" clearable></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="pw">
-                <el-input v-model.trim="entity.pw" clearable></el-input>
+                <el-input type="password" v-model.trim="entity.pw" clearable></el-input>
             </el-form-item>
             <el-form-item label="余额">
                 <loading v-if="loading"></loading>

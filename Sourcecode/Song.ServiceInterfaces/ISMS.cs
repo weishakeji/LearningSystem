@@ -53,10 +53,9 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 发送短信验证码
         /// </summary>
-        /// <param name="phone">手机号</param>
-        /// <param name="keyname">写入cookis的key值名称</param>
-        /// <returns>是否发送成功</returns>
-        bool SendVcode(string phone, string keyname);
+        /// <param name="phone">手机号</param>   
+        /// <returns>被发送的验证码</returns>
+        string SendVcode(string phone,int len);
         /// <summary>
         /// 格式化短信内容，将一些替换符转成实际内容
         /// </summary>

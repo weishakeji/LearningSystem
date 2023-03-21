@@ -70,18 +70,18 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 发送短信验证码
         /// </summary>
-        /// <param name="keyname">写入cookis的key值名称</param>
-        public bool SendVcode(string phone, string keyname)
+        /// <param name="phone">手机号</param>
+        public string SendVcode(string phone,int len)
         {           
             //获取短信接口
             string smsCurr = Business.Do<ISystemPara>().GetValue("SmsCurrent");
             Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(smsCurr);
             sms.Current.User = Business.Do<ISystemPara>().GetValue(smsCurr + "SmsAcc");           
             //生成短信内容
-            string rnd = WeiSha.Core.Request.Random(6, 1);    //验证码，随机四位数字
+            string rnd = WeiSha.Core.Request.Random(len, 1);    //验证码，随机四位数字
             string msg = Business.Do<ISystemPara>().GetValue(smsCurr + "_SmsTemplate");
             msg = this.MessageFormat(msg, rnd);
-            if (string.IsNullOrWhiteSpace(msg)) return false;
+            if (string.IsNullOrWhiteSpace(msg)) return string.Empty;
             //发送状态
             try
             {
@@ -91,29 +91,21 @@ namespace Song.ServiceImpls
                 sms.Current.Password = smspw;
                 //发送短信，phone手机号,msg是短信内容
                 Song.SMS.SmsState state = sms.Send(phone, msg);
-                HttpContext context = System.Web.HttpContext.Current;
+
                 if (state.Success)
                 {
-                    //存储随机数
-                    HttpCookie cookie = new HttpCookie(keyname);
-                    //将随机字符转用ＭＤ５加密
-                    cookie.Value = new WeiSha.Core.Param.Method.ConvertToAnyValue(rnd).MD5;
-                    //如果是多机构，又不用IP访问，则用根域写入cookie
-                    int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
-                    if (multi == 0 && !WeiSha.Core.Server.IsLocalIP) cookie.Domain = WeiSha.Core.Server.MainName;
-                    cookie.Expires = DateTime.Now.AddMinutes(10);
-                    context.Response.Cookies.Add(cookie);
-                    return true;
+                    return rnd;
                 }
                 else
                 {
                     throw new Exception(state.Description + "；状态码" + state.Code);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
+            return rnd;
         }
         /// <summary>
         /// 格式化短信内容，将一些替换符转成实际内容

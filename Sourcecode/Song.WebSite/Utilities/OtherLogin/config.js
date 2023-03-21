@@ -83,25 +83,7 @@ Vue.component('config', {
         },
         //刷新
         fresh: function (tag) {
-            this.get_all_items();
-            return;
-            var th = this;
-            $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
-                if (req.data.success) {
-                    var obj = req.data.result;
-                    for (let i = 0; i < th.entities.length; i++) {
-                        if (th.entities[i].Tl_Tag == obj.Tl_Tag) {
-                            th.$set(th.entities, i, obj);
-                        }
-                    }
-                    th.usable_items = [];
-                    th.usable_items = th.get_usable_items();
-                } else {
-                    console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
-                }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading_tag = '');
+            this.get_all_items();          
         }
     },
     template: `<div>

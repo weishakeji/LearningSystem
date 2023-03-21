@@ -20,6 +20,7 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -35,14 +36,14 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                if (vapp.account && !!vapp.account.Ac_ID)
-                    vapp.query.acid = vapp.account.Ac_ID;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                if (th.account && !!th.account.Ac_ID)
+                    th.query.acid = th.account.Ac_ID;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.tabChange(null, 'purchased');
+                th.config = $api.organ(th.organ).config;
+                th.tabChange(null, 'purchased');
             })).catch(function (err) {
                 console.error(err);
             });

@@ -11,7 +11,7 @@ $ready(function () {
                 { name: '课程学习', tag: 'study', icon: '&#xe813', size: 16 },
                 { name: '终端', tag: 'device', icon: '&#xa021', size: 14 }
             ],
-            activeName: 'study',      //选项卡
+            activeName: 'register',      //选项卡
 
             //图片文件
             upfile: null, //本地上传文件的对象   

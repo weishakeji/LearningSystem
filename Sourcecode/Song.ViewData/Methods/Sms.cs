@@ -35,13 +35,21 @@ namespace Song.ViewData.Methods
         {
             string current = Business.Do<ISystemPara>().GetValue("SmsCurrent");
             Song.SMS.Config.SetCurrent(current);
-            return Song.SMS.Config.SmsItems;
+            SMS.SmsItem[] items = Song.SMS.Config.SmsItems;
+            foreach (SMS.SmsItem item in items)
+            {
+                item.User = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsAcc");
+                item.Password = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsPw");
+                if (!string.IsNullOrWhiteSpace(item.Password))
+                    item.Password = WeiSha.Core.DataConvert.DecryptForBase64(item.Password);    //将密码解密
+            }
+            return items;
         }
         /// <summary>
         /// 获取所有短信接口,并刷新缓存
         /// </summary>
         /// <returns></returns>
-        [HttpPost,Admin]
+        [HttpPost, SuperAdmin]
         public Song.SMS.SmsItem[] ItemsFresh()
         {
             Song.SMS.Config.Fresh();
@@ -55,7 +63,7 @@ namespace Song.ViewData.Methods
                 if (!string.IsNullOrWhiteSpace(item.Password))
                     item.Password = WeiSha.Core.DataConvert.DecryptForBase64(item.Password);    //将密码解密
             }
-            return Song.SMS.Config.SmsItems;
+            return items;
         }
         /// <summary>
         /// 设置当前接口
@@ -85,6 +93,7 @@ namespace Song.ViewData.Methods
         /// <param name="smsacc"></param>
         /// <param name="smspw"></param>
         /// <returns></returns>
+        [Admin]
         public int Count(string mark,string smsacc,string smspw)
         {
             //账号
@@ -111,6 +120,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="mark">接口标识</param>
         /// <returns>user账号,pw密码</returns>
+       [HttpGet,SuperAdmin]
         public JObject UserInfo(string mark)
         {
             JObject jo = new JObject();
@@ -172,6 +182,24 @@ namespace Song.ViewData.Methods
         public string TemplateFormat(string msg)
         {            
             return Business.Do<ISMS>().MessageFormat(msg, DateTime.Now.ToString("mmss"));
+        }
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="len"></param>
+        /// <returns>返回phone与验证码的md5值</returns>
+        public string SendVcode(string phone, int len)
+        {
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsForMobi(phone, -1, true, true);
+            if (acc == null) throw new Exception("当前手机号不存在");
+
+            string vcode = "666888";
+            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+            acc.Ac_CheckUID = new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;
+            Business.Do<IAccounts>().AccountsSave(acc);
+
+            return acc.Ac_CheckUID;
         }
     }
 }

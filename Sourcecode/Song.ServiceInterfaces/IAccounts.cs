@@ -146,6 +146,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Accounts AccountsLogin(Accounts acc);
         /// <summary>
+        /// 短信验证登录
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="vcode"></param>
+        /// <returns></returns>
+        Accounts AccountsLoginSms(string phone, string vcode);
+
+        /// <summary>
         /// 用于记录每次登录生成的验证码，用于：同一账号登录时，当前账号下线
         /// </summary>
         /// <param name="acid"></param>

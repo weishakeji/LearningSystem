@@ -578,6 +578,25 @@ namespace Song.ServiceImpls
 
             return _acc_init(acc);
         }
+        /// <summary>
+        /// 短信验证登录
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="vcode"></param>
+        /// <returns></returns>
+        public Accounts AccountsLoginSms(string phone, string vcode)
+        {
+            if (string.IsNullOrWhiteSpace(phone)) return null;
+            WhereClip wc = new WhereClip();
+            wc.And(Accounts._.Ac_IsPass == true);
+            wc.And(Accounts._.Ac_IsUse == true);
+            wc.And(Accounts._.Ac_CheckUID == vcode);
+            WhereClip w2 = new WhereClip();
+            w2 |= Accounts._.Ac_MobiTel1 == phone;
+            w2 |= Accounts._.Ac_MobiTel2 == phone;
+            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
+            return _acc_init(ac);
+        }
         public void RecordLoginCode(int acid, string code)
         {
             Thread t1 = new Thread(() =>

@@ -7,9 +7,9 @@ Vue.component('login', {
         return {
 
             data: [],
-            tabs: [{ name: '密码登录', tag: 'pwd', icon: 'e687', show: true },
+            tabs: [{ name: '账号登录', tag: 'pwd', icon: 'e687', show: true },
             { name: '短信登录', tag: 'sms', icon: 'e76e', show: true }],
-            tabActive: 'pwd',
+            tabActive: '',
 
             //账号密码登录的表单项与验证码
             acc_form: { acc: '', pwd: '' },
@@ -29,7 +29,22 @@ Vue.component('login', {
                     { min: 4, max: 4, message: '仅限4位数字', trigger: 'blur' }
                 ]
             },
+            //短信登录
+            sms_form: { 'phone': '', 'vcode': '' },
+            sms_rules: {
+                'phone': [
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    { regex: /^[0-9_-]{11,11}$/, message: '请输入合法手机号', trigger: 'blur' }
+                ],
+                'sms': [
+                    { required: true, message: '验证码不得为空', trigger: 'blur' },
+                    { min: 6, max: 6, message: '仅限6位数字', trigger: 'blur' }
+                ]
+            },
+            sms_seconds: 0,        //发送短信后的数秒
             loading: false,
+            loading_sms: false,
+
 
         }
     },
@@ -41,18 +56,50 @@ Vue.component('login', {
                 this.acc_vcode.val = '';
                 this.acc_vcode.md5 = '';
                 this.acc_vcode.base64 = '';
+                this.tips();
             }, deep: true
+        },
+        'acc_vcode': {
+            handler: function (val, old) {
+                this.tips();
+            }, deep: true
+        },
+        'sms_form': {
+            handler: function (val, old) {
+                this.tips();
+            }, deep: true
+        },
+        'config': {
+            handler: function (val, old) {
+                if (!val || val == undefined || JSON.stringify(val) == '{}') return;
+                //是否显示       
+                this.tabs[0].show = val.IsLoginForPw;
+                this.tabs[1].show = val.IsLoginForSms;
+                this.$set(this.tabs, 0, this.tabs[0]);
+                this.$set(this.tabs, 1, this.tabs[1]);
+                //计算默认选项卡
+                var tag = this.tabActive;
+                var obj = this.tabs.find(item => item.tag == tag && item.show);
+                if (obj == null) obj = this.tabs.find(item => item.show == true);
+                if (obj != null) this.tabActive = obj.tag;
+
+            }, immediate: true, deep: true
         }
 
     },
-    computed: {},
+    computed: {
+        //禁止登录
+        disabled_login: function () {
+            return !this.config.IsLoginForPw && !this.config.IsLoginForSms;
+        }
+    },
     created: function () {
+
+
     },
     methods: {
         //账号密码登录
         submit_accpwd: function (e) {
-            console.error('提交表单');
-            e.preventDefault();
             //校验输入
             var form = {
                 acc: this.acc_form.acc,
@@ -66,7 +113,7 @@ Vue.component('login', {
             $api.post('Account/Login', {
                 'acc': th.acc_form.acc, 'pw': th.acc_form.pwd,
                 'vcode': th.acc_vcode.val, 'vmd5': th.acc_vcode.md5
-            }).then(function (req) {             
+            }).then(function (req) {
                 if (req.data.success) {
                     //登录成功
                     var result = req.data.result;
@@ -74,7 +121,7 @@ Vue.component('login', {
                     $api.login.account_fresh();
                     $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '账号密码登录', 'remark': '' });
                     //登录成功的事件
-                    th.$emit('success',result);
+                    th.$emit('success', result);
                 } else {
                     var data = req.data;
                     switch (String(data.state)) {
@@ -99,12 +146,110 @@ Vue.component('login', {
                 .finally(() => th.loading = false);
             return false;
         },
+        //短信登录
+        submit_sms: function () {
+            //校验输入
+            var form = {
+                phone: this.sms_form.phone,
+                sms: this.sms_form.vcode
+            }
+            if (!this.verification(form, this.sms_rules)) return;
+            //校验验证码
+            let storage = 'login_sms_seconds';
+            var obj = $api.storage(storage);
+            if (obj == undefined) return this.tips('sms', false, '请发送验证码');
+            if (obj.expire < new Date()) return this.tips('sms', false, '验证码时效过期');
+            if (obj.vcode != $api.md5(form.phone + form.sms)) return this.tips('sms', false, '验证码不正确');
+            var th = this;
+            th.loading = true;
+            $api.post('Account/LoginSms', form).then(function (req) {
+                if (req.data.success) {
+                    if (req.data.success) {
+                        //登录成功
+                        var result = req.data.result;
+                        $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
+                        $api.login.account_fresh();
+                        $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '短信验证登录', 'remark': '' });
+                        //登录成功的事件
+                        th.$emit('success', result);
+                    } else {
+                        var data = req.data;
+                        switch (String(data.state)) {
+                            //验证码错误
+                            case '1101':
+                                th.tips('phone', false, data.message);
+                                break;
+                            case '1105':
+                                th.tips('sms', false, '验证码错误');
+                                break;
+                            case '1103':
+                                th.tips('phone', false, '账号被禁用');
+                                break;
+                            default:
+                                th.tips('phone', false, '登录失败');
+                                console.error(req.data.exception);
+                                console.log(req.data.message);
+                                break;
+                        }
+                    }
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
+            return;
+        },
+        //获取短信
+        getsms: function () {
+            if (!this.verification({ 'phone': this.sms_form.phone }, this.sms_rules)) return;
+            var th = this;
+            th.loading_sms = true;
+            $api.get('Sms/SendVcode', { 'phone': th.sms_form.phone, 'len': 6 }).then(function (req) {
+                if (req.data.success) {
+                    var result = req.data.result;   //校验码
+                    th.countdown(result);
+                    window.login_sms_seconds = window.setInterval(function () {
+                        th.countdown();
+                    }, 1000);
+
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+                console.error(err);
+            }).finally(() => th.loading_sms = false);
+        },
+        //倒计时
+        countdown: function (vcode) {
+            let storage = 'login_sms_seconds';
+            var obj = $api.storage(storage);
+            if (obj == undefined) obj = {};
+            if (vcode != '' && vcode != undefined) {
+                obj = { 'second': 60, 'expire': new Date(new Date().getTime() + 1000 * 180), 'vcode': vcode };
+            }
+            else {
+                if (obj.second > 0) obj.second--;
+                else window.clearInterval(window.login_sms_seconds);
+            }
+            this.sms_seconds = obj.second;
+            $api.storage(storage, obj);
+            console.log(obj.second);
+        },
         //显示提示信息
         tips: function (prop, success, msg) {
+            if (prop == undefined || prop == null) {
+                return $dom('*[prop]').removeClass('login_error');
+            }
             var dom = $dom('*[prop="' + prop + '"]');
             if (dom.length > 0) {
                 if (success) dom.removeClass('login_error');
-                else dom.addClass('login_error');
+                if (!success) {
+                    dom.addClass('login_error');
+                    dom.find('input').focus();
+                }
                 dom.find('.tips').html(msg);
             }
             return success;
@@ -172,7 +317,7 @@ Vue.component('login', {
                     <span>{{t.name}}</span>
                 </div>
             </div>
-            <form class="login_pwd_area" @submit.prevent="submit_accpwd" v-show="tabActive=='pwd'"  remark="账号密码登录">
+            <form class="login_pwd_area" v-if="config.IsLoginForPw" @submit.prevent="submit_accpwd" v-show="tabActive=='pwd'"  remark="账号密码登录">
                 <div class="login_acc_pwd">
                     <div prop="acc">
                         <input type="text" tabindex="1" autocomplete="off" v-model.trim='acc_form.acc' placeholder="账号"/>
@@ -197,20 +342,40 @@ Vue.component('login', {
                 </div>
             </form>
 
-            <div class="login_area" v-show="tabActive=='sms'" remark="短信登录">
-                短信的登录
+            <form class="login_area" v-if="config.IsLoginForSms" @submit.prevent="submit_sms" v-show="tabActive=='sms'" remark="短信登录">               
+                <div class="login_sms">
+                    <div prop="phone">
+                        <input type="text" tabindex="1" autocomplete="off" v-model.trim='sms_form.phone' placeholder="手机号"/>
+                        <span class="tips"></span>
+                    </div>
+                    <div prop="sms">
+                        <input type="number" tabindex="2" autocomplete="off"  v-model.trim='sms_form.vcode' placeholder="短信验证码"/>
+                        <span class="tips"></span>                      
+                        <div class="sms_handler">
+                            <loading bubble v-if="loading_sms"></loading>
+                            <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                            <span class="getsms" v-else @click="getsms">获取验证码</span>
+                        </div>
+                    </div>
+                </div>  
+                <div class="login_btn">
+                    <button type="submit" tabindex="4"><icon>&#xe6c6</icon>登录</button>               
+                </div>
+            </form>
+            <div class="disabled_login" v-if="disabled_login">
+                <icon>&#xe774</icon>
+                账号登录与短信登录都被禁止
             </div>
-
-            <div class="login_register">
-                <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
-                <a href="find"><icon>&#xe76a</icon>找回密码</a>
-            </div>  
             <config ref="config" class="config" :isuse="true">
                 <a slot="item" slot-scope="data" :title='data.item.name' href="#">
                     <img :src="data.img" />
                     {{data.item.obj.Tl_Name}}
                 </a>
             </config>
+            <div class="login_register">
+                <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
+                <a href="find"><icon>&#xe76a</icon>找回密码</a>
+            </div>  
         </template>
     </div>`
 });
