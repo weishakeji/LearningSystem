@@ -17,102 +17,58 @@ header {
     padding: 10px 12px;
 }
 
-/*预载效*/
-
-#loading {
-    width: 100px;
-    height: 100px;
-    margin: 200px auto 0px auto;
-    position: relative;
+/*登录框*/
+#login_box {
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    width: 350px;
+    height: calc(100vh - 80px);
+    margin: auto;
 }
 
-#loading b {
+.login_register {
+    position: static !important;
+    margin-top: 20px;
+}
+.config{
+    bottom: 0px !important;
+}
+.config::before{
+    content: '其它登录方式';
     display: block;
-    position: absolute;
     width: 100%;
+    height: 30px;
     text-align: center;
-    bottom: 20px;
-    color: #fff;
-    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+    font-size: 14px;
 }
 
-#loading span {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: rgb(178, 166, 248);
-    animation: bounce 1s infinite linear;
-}
-
-#loading span:nth-child(1) {
-    left: 0;
-    animation-delay: 0s;
-}
-
-#loading span:nth-child(2) {
-    left: 20px;
-    animation-delay: 0.25s;
-}
-
-#loading span:nth-child(3) {
-    left: 40px;
-    animation-delay: 0.5s;
-}
-
-#loading span:nth-child(4) {
-    left: 60px;
-    animation-delay: 0.75s;
-}
-
-#loading span:nth-child(5) {
-    left: 80px;
-    animation-delay: 1.0s;
-}
-
-@keyframes bounce {
-    0% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: translateY(-30px);
-        opacity: 1.0;
-    }
-
-    100% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-}
-
-#login-area {
-    position: absolute;
-    z-index: 2;
-    width: 90%;  
-    top: calc((100vh - 320px)/4);
-    left: calc((100vw - 90vw)/2);
-    border: 1px solid #fff;
-    border: none;
-    background-color: #58c198;
-    background-color: transparent
-}
-#login-box{
-    border: 1px solid #fff;
-    border: none;
-    background-color: #58c198;
-    background-color: transparent
-}
-#logged-area {
-    display: none;
-    position: absolute;
-    z-index: 2;
-    width: 280px;
-    height: 320px;
-    top: calc((100vh - 320px)/3);
-    left: calc((100vw - 280px)/2);
+/*已经登录*/
+#logged-area {     
     text-align: center;
+    margin: auto;
+    padding: 30px;
+    box-sizing: border-box;   
+}
+
+#logged-area .ws_avatar{
+    margin: auto;
+}
+#logged-area .accname{
+    margin: 5px;
+    color: #000;
+    margin: 30px auto;
+}
+#logged-area button {
+    font-size: 16px;
+}
+
+#logged-area icon {
+    font-size: 22px;
 }
 
 a {
@@ -120,87 +76,6 @@ a {
     text-decoration: none;
 }
 
-.loginbox {
-    background: none !important;
-    box-shadow: none !important;
-}
-
-.loginbox .login_body {
-    height: calc(100% - 70px) !important;
-
-}
-
-.loginbox .login_body>*:not(:last-child) {
-    border: none;
-    width: calc(100% - 42px);
-    position: relative;   
-}
-
-.loginbox .login_body>*:last-child {
-    margin-top: 30px;
-    height: 50px !important;
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-}
-
-.loginbox .login_body>* {
-    height: 50px !important;
-  
-}
-
-.loginbox .login_body>*:before {  
-    line-height: 55px !important;
-    font-size: 28px !important;
-}
-
-.loginbox .login_body login_drag {
-    height: 50px !important;
-    line-height: 50px !important;
-}
-
-.loginbox login_dragbox {
-    width: 40px !important;
-    height: 40px !important;
-}
-
-.loginbox login_dragbox:before {
-    line-height: 48px !important;
-    font-size: 28px !important;
-}
-
-login_dragbox>div span {
-    line-height: 55px !important;
-}
-
-.login_code img {
-    margin: 3px;
-    height: 39px !important;
-    height: calc(100% - 6px) !important;
-    width: 100px !important;
-    border-radius: 0px 5px 5px 0px;
-}
-.loginbox .login_body login_row.login_code input{
-    width:calc(100% - 110px - 47px) !important;
-}
-.loginbox .login_body login_row.login_code{
-    ---display: flex;
-}
-.other {
-    width: calc(100% - 50px);
-    margin: 10px 25px 10px 25px;
-    font-size: 14px;
-}
-
-.accname {
-    margin-bottom: 20px;
-}
-
-.photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
 
 #logged-area button {
     width: 100%;
@@ -210,6 +85,5 @@ login_dragbox>div span {
 .loginbox .login_body button {
     border: none !important;
     background: rgba(33, 161, 255, .5) !important;
-    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent) !important;
 
 }
