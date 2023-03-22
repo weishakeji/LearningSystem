@@ -189,17 +189,31 @@ namespace Song.ViewData.Methods
         /// <param name="phone"></param>
         /// <param name="len"></param>
         /// <returns>返回phone与验证码的md5值</returns>
-        public string SendVcode(string phone, int len)
+        [HttpPost]
+        public string SendLoginVcode(string phone, int len)
         {
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsForMobi(phone, -1, true, true);
             if (acc == null) throw new Exception("当前手机号不存在");
 
-            string vcode = "666888";
-            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+
+            string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             acc.Ac_CheckUID = new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;
             Business.Do<IAccounts>().AccountsSave(acc);
 
             return acc.Ac_CheckUID;
+        }
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="len"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string SendVcode(string phone, int len)
+        {  
+            string vcode = "666888";
+            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+            return new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;           
         }
     }
 }

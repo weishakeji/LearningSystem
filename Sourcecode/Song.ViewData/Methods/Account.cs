@@ -1286,5 +1286,47 @@ namespace Song.ViewData.Methods
             return i;
         }
         #endregion
+
+
+        #region 绑定信息
+        /// <summary>
+        /// 绑定手机号
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Song.Entities.Accounts PhoneBind(int acid, string phone)
+        {
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null)
+            {
+                throw new Exception("账号不存在");
+            }
+            acc.Ac_MobiTel1 = acc.Ac_MobiTel2 = phone;
+            Song.Entities.Accounts accphone = Business.Do<IAccounts>().AccountsForMobi(phone, -1, null, null);
+            if (accphone != null && accphone.Ac_ID != acc.Ac_ID)
+                throw new Exception("手机号已经占用");
+            Business.Do<IAccounts>().AccountsSave(acc);
+            return acc;
+        }
+        /// <summary>
+        /// 解除手机绑定
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Song.Entities.Accounts PhoneUnbind(int acid)
+        {
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null)
+            {
+                throw new Exception("账号不存在");
+            }
+            acc.Ac_MobiTel2 = "";
+            Business.Do<IAccounts>().AccountsSave(acc);
+            return acc;
+        }
+        #endregion
     }
 }

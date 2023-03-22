@@ -205,7 +205,7 @@ Vue.component('login', {
             if (!this.verification({ 'phone': this.sms_form.phone }, this.sms_rules)) return;
             var th = this;
             th.loading_sms = true;
-            $api.get('Sms/SendVcode', { 'phone': th.sms_form.phone, 'len': 6 }).then(function (req) {
+            $api.post('Sms/SendLoginVcode', { 'phone': th.sms_form.phone, 'len': 6 }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;   //校验码
                     th.countdown(result);
