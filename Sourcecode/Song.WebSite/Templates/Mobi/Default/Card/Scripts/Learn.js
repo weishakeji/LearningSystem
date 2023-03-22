@@ -117,7 +117,7 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                window.location.href = "/mobi/sign/in";
+                window.location.href = this.commonaddr('signin');
             },
             myself: function () {
                 window.location.href = "/mobi/account/myself";

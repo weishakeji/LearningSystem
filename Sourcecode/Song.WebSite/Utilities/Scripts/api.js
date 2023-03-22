@@ -415,7 +415,7 @@
                     'X-Custom-Return': returntype,          //返回数据的类型，xml或json
                     'Encrypt': config.encrypt,              //是否加密处理
                     'Content-Type': 'multipart/form-data',
-                    'Access-Control-Allow-Headers': 'X-Requested-With',                  
+                    'Access-Control-Allow-Headers': 'X-Requested-With',
                     'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,PATCH,HEAD,OPTIONS'
                 },
                 auth: {
@@ -680,9 +680,7 @@
         },
         set: function (url, key, value) {
             if (key.constructor === Object) {
-                for (let k in key) {
-                    url = this.set(url, k, key[k]);
-                }
+                for (let k in key) url = this.set(url, k, key[k]);
                 return url;
             }
             var values = this.params(url);
@@ -694,7 +692,6 @@
                 }
             }
             if (!isExist) values.push({ key: key, val: value });
-
             //拼接Url      
             if (url == null || url == '') url = String(window.document.location.href);
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));

@@ -608,7 +608,7 @@ $ready(function () {
             <div remark='没有视频' id='noVideo' v-if='!state.existVideo && !state.isLive'>
                 <div v-if="error!=null || error!='' ">{{error}}</div>
                 <template v-else>
-                    <span v-if='!state.isLogin'><a href='/mobi/sign/in'>未登录，点击此处登录！</a></span>
+                    <span v-if='!state.isLogin'><a :href="commonaddr('signin')">未登录，点击此处登录！</a></span>
                     <span v-else-if='!state.canStudy'>不允许学习相关内容</span> 
                 </template>
             </div>

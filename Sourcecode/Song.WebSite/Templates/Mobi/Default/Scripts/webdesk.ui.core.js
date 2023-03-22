@@ -916,8 +916,19 @@
                 Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
                     if (search == null || search == '') return txt;
-                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    var regExp = new RegExp('(' + search + ')', 'ig');
                     return txt.replace(regExp, `<red>$1</red>`);
+                };
+                //常用地址
+                Vue.prototype.commonaddr = function (key) {
+                    var urls = {
+                        'signin': '/mobi/sign/in',      //登录地址
+                        'myself': '/mobi/account/myself'        //个人中心
+                    };
+                    if (urls[key] == undefined) return '';
+                    return $api.url.set(urls[key], {
+                        'referrer': encodeURIComponent(location.href)
+                    });
                 };
                 //重构alert
                 window.alert_base = window.alert;
@@ -934,7 +945,6 @@
                     for (var i = 0; i < source.length; i++) {
                         if (source[i].substring(0, 1) == "/") continue;
                         source[i] = webdom.pagepath() + source[i];
-                        //console.log(source[i]);                  
                     }
                     window.$dom.load.js(source, f);
                 }

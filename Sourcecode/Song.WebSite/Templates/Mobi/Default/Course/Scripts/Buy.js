@@ -256,7 +256,8 @@ $ready(function () {
             gologin: function () {
                 var link = window.location.href;
                 link = link.substring(link.indexOf(window.location.pathname));
-                var url = $api.url.set('/mobi/sign/in', {
+                var url=this.commonaddr('signin');
+                url = $api.url.set(url, {
                     'link': encodeURIComponent(link)
                 });
                 // console.log(url);               

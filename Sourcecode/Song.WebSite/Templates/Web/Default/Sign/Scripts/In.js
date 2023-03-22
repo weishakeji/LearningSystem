@@ -6,12 +6,15 @@ $ready(function () {
             organ: {},
             config: {},
             plate: {},
+            //来源页
+            referrer: decodeURIComponent($api.querystring('referrer')),
 
             loading: false
         },
         mounted: function () {
         },
         created: function () {
+            console.log(this.referrer);
         },
         computed: {
             //是否登录
@@ -21,19 +24,11 @@ $ready(function () {
         },
         watch: {
             'account': function (nv, ov) {
-                //window.login.loading = false;
                 var th = this;
-                if (nv == null || JSON.stringify(nv) === '{}') {
-                    //$dom('#login-area').show();
-                    //$dom('#logged-area').hide();
-                } else {
-                    //$dom('#login-area').hide();
-                    //$dom('#logged-area').show().css('opacity', 0);
+                if (!(nv == null || JSON.stringify(nv) === '{}')) {
                     window.setTimeout(function () {
-                        //$dom('#logged-area').css('opacity', 1);
-                        // $dom('#login-area').hide();
                         th.logged(nv);
-                    }, 500);
+                    }, 100);
                 }
             },
             'config': function (nv, ov) {
@@ -54,15 +49,21 @@ $ready(function () {
                 $api.login.teacher().then(function (teach) {
                     th.$refs.header.teacher = teach;
                 }).catch((err) => { });
-
+                window.setTimeout(function () {
+                    if (th.referrer != '') window.location.href = th.referrer;
+                }, 200);
             },
             //退出登录
             logout: function () {
-                this.$confirm('是否确定退出登录？').then(function () {
+                var th = this;
+                th.$confirm('是否确定退出登录？').then(function () {
                     $api.loginstatus('account', '');
-                    this.account = {};
+                    th.account = {};
                     window.setTimeout(function () {
-                        window.location.href = '/web/';
+                        if (th.referrer == '')
+                            window.location.href = '/web/';
+                        else
+                            window.location.href = th.referrer;
                     }, 500);
                 }).catch(function () { });
             },
@@ -123,7 +124,7 @@ $ready(function () {
         </div>`
     });
 
-}, ['/Utilities/Components/avatar.js',     
+}, ['/Utilities/Components/avatar.js',
     '/Utilities/OtherLogin/config.js',      //第三方登录的配置项
     '/Utilities/Components/Sign/Login.js',
     "../Components/subject_rec.js",

@@ -16,7 +16,7 @@
             </van-sticky>
             <div class="header">
                 <van-row>
-                    <div class="header_info" v-if="!islogin" remark="未登录" @click="gourl('/mobi/sign/in')">
+                    <div class="header_info" v-if="!islogin" remark="未登录" @click="gourl(commonaddr('signin'))">
                         <div class="acc_photo nophoto"></div>
                         <div class="acc_info">
                             <div class="acc-name">未登录 </div>

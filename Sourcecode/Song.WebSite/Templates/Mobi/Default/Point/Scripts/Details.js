@@ -86,7 +86,7 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                var url = $api.url.set("/mobi/sign/in", {});
+                var url =this.commonaddr('signin');
                 window.location.href = url;
             },
             myself: function () {

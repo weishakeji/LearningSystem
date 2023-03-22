@@ -308,7 +308,8 @@ $ready(function () {
                 var link = window.location.href;
                 link = link.substring(link.indexOf(window.location.pathname));
                 var url = $api.url.set('/web/sign/in', {
-                    'link': encodeURIComponent(link)
+                    'link': encodeURIComponent(link),
+                    'referrer': encodeURIComponent(document.referrer)
                 });
                 // console.log(url);               
                 window.location.href = url;

@@ -215,10 +215,10 @@ Vue.component('login', {
 
                 } else {
                     console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
+                    throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.tips('phone', false, err);
                 console.error(err);
             }).finally(() => th.loading_sms = false);
         },

@@ -139,7 +139,7 @@ Vue.component('course_menus', {
         //组件内部的按钮事件
         //跳转，登录页
         gologin: function () {
-            window.location.href = '/mobi/sign/in';
+            window.location.href = this.commonaddr('signin');
         },
         //跳转，试学
         gotry: function () {

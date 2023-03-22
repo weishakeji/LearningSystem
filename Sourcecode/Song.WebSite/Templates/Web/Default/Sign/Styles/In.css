@@ -199,5 +199,5 @@ context.rec {
     width: 350px;
     height: 400px;
     top: calc((100% - 400px) / 2);
-    right: 60px;
+    right: 30px;
 }

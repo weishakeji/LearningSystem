@@ -155,8 +155,7 @@ Vue.component('page_header', {
         menuClick: function (sender, eventArgs) {
             var data = eventArgs.data;
             if (!data || data.url == '') return;
-            window.location.href = data.url;
-            //console.log(data);
+            window.location.href = data.url;         
         },
         //节点转换
         nodeconvert: function (obj) {
@@ -176,16 +175,14 @@ Vue.component('page_header', {
             var str = encodeURIComponent(this.search);
             var path = "/web/course/index";
             var route = $dom('meta[view]').attr("route");
-            //如果正处在课程频道页
-            //var func=path == route ? $api.setpara
+            //如果正处在课程频道页      
             var url = $api.url.set(path == route ? null : path, 'search', str);
             if (path == route) {
                 history.pushState({}, "", url);
                 this.$emit('search', this.search);
             } else {
                 window.location.href = url;
-            }
-            //console.log(route);
+            }          
         },
         //搜索字符串被改变
         changesearch: function (str) {
@@ -212,6 +209,12 @@ Vue.component('page_header', {
                 }, 500);
             }).catch(function () { });
         },
+        //页面跳转,路径上增加当前页地址作为来源页
+        gourl:function(url){
+            return $api.url.set(url, {               
+                'referrer': encodeURIComponent(location.href)
+            });
+        }
     },
     // 
     template: `<weisha_header_navi>
@@ -228,7 +231,7 @@ Vue.component('page_header', {
             <userbar>
                 <loading v-if="loading_login">... </loading>
                 <template v-else-if="!islogin">
-                    <a href="/web/sign/in">登录</a> | <a href="/web/sign/up">注册</a>
+                    <a :href="gourl('/web/sign/in')">登录</a> | <a :href="gourl('/web/sign/up')">注册</a>
                 </template>
                 <el-dropdown v-else  @command="handleCommand" @visible-change="show=>visible_userdrop=show" show-timeout="10" remark="登录后的状态">
                     <span :class="{'el-dropdown-link':true,'user-dropdown-show':visible_userdrop}">

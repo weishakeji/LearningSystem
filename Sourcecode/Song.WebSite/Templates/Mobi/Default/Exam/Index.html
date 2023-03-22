@@ -11,7 +11,7 @@
   <div id="vapp" v-cloak>
     <div class="header" :login="islogin">
       <van-row>
-        <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="window.location.href='/mobi/sign/in'">
+        <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="window.location.href=commonaddr('signin')">
           <div class="acc_photo nophoto"></div>
           <div class="accInfo">
             <div class="acc-name">未登录

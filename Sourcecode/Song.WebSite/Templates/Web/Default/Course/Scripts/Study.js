@@ -37,7 +37,12 @@ $ready(function () {
 
         },
         methods: {
-
+            //页面跳转,路径上增加当前页地址作为来源页
+            gourl: function (url) {
+                return $api.url.set(url, {
+                    'referrer': encodeURIComponent(location.href)
+                });
+            }
         },
         created: function () {
             $dom.load.css([$dom.path() + 'styles/pagebox.css']);

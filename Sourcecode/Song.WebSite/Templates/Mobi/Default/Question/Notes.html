@@ -21,7 +21,7 @@
       <template v-if="error!=''">
         <card v-if="!islogin">
           <card-title icon="&#xa043">未登录！</card-title>
-          <card-context><a href="/mobi/sign/in">点击此处登录</a></card-context>
+          <card-context><a :href="commonaddr('signin')">点击此处登录</a></card-context>
         </card>
         <card v-else>
           <card-title class="error" icon="&#xe6fe">错误！

@@ -7,7 +7,7 @@ Vue.component('aside_menu', {
             show: false,
             //login为0，登录后显示；1未登录显示；-1一直显示
             menus: [
-                { name: '登录', login: 1, url: 'sign/in', icon: '&#xa035', size: 16, evt: null },
+                { name: '登录', login: 1, url: this.commonaddr('signin'), icon: '&#xa035', size: 16, evt: null },
                 { name: '注册', login: 1, url: 'sign/up', icon: '&#xe7cd', size: 18, evt: null },
                 { name: '课程中心', login: 1, url: 'course/index', icon: '&#xe765', size: 16, evt: null },
                 { name: '我的课程', login: 0, url: 'Account/MyCourse', icon: '&#xe813', size: 20, evt: null },
@@ -52,6 +52,7 @@ Vue.component('aside_menu', {
         //默认事件
         evtDefault: function (item) {
             if (item.url == "") return;
+            if (item.url.substring(0, 1) == '/') return window.location.href = item.url;
             var root = "";
             var route = $dom("meta[route]").attr("route");
             var i = 1;
@@ -75,7 +76,7 @@ Vue.component('aside_menu', {
                 <div class="account_info" v-if="!islogin" remark="未登录">
                     <div class="acc_photo nophoto"></div>
                     <div class="accInfo">
-                        <div class="acc-name"> <a href="/mobi/sign/in">未登录 </a> 
+                        <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a> 
                         </div>                        
                         <span class="acc-money"> ... </span>                                             
                      </div>

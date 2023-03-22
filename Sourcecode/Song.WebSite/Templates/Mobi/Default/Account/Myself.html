@@ -15,7 +15,7 @@
                 <div class="header_info" v-if="!islogin" remark="未登录">
                     <div class="acc_photo nophoto"></div>
                     <div class="accInfo">
-                        <div class="acc-name"> <a href="/mobi/sign/in">未登录 </a>
+                        <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
                         </div>
                         <span class="acc-money"> ... </span>
                     </div>

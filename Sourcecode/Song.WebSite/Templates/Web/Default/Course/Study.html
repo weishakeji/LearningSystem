@@ -27,7 +27,7 @@
                     </p>
                 </div>
                 <div remark="提示" v-show="titState=='isNull' || !state.canStudy || !islogin ">
-                    <div class="noSelect" v-if="!islogin"> <a href="/web/sign/in">未登录，点击此处登录！</a> </div>
+                    <div class="noSelect" v-if="!islogin"> <a :href="gourl('/web/sign/in')">未登录，点击此处登录！</a> </div>
                     <div class="noSelect" v-if="!!account.Ac_ID"> 没有内容，或无权查看！</div>
                     <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
                     </div>

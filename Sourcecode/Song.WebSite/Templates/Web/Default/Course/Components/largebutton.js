@@ -37,9 +37,15 @@ Vue.component('largebutton', {
                 { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
                 { 'type': 'test', 'link': '/web/test/paper.' + this.finaltest.Tp_Id },
             ];
+            for (let i = 0; i < urls.length; i++) {                
+                urls[i].link = $api.url.set(urls[i].link, {                    
+                    'referrer': encodeURIComponent(location.href)
+                });             
+            }
             var url = urls.find(function (item) {
                 return item.type == type;
             });
+           
             return url.link;
         }
     },

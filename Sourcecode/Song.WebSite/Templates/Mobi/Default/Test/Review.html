@@ -14,7 +14,7 @@
             <a icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
             <div class="header_info" v-if="!islogin" remark="未登录">
                 <div class="acc_photo nophoto"></div>
-                <a href="/mobi/sign/in">未登录 </a>
+                <a :href="commonaddr('signin')">未登录 </a>
             </div>
             <div class="header_info" v-if="islogin" remark="已经登录">
                 <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
