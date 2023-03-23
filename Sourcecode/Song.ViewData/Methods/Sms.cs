@@ -210,9 +210,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         public string SendVcode(string phone, int len)
-        {  
-            string vcode = "666888";
-            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+        {
+            //string vcode = "666888";
+            string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             return new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;           
         }
     }

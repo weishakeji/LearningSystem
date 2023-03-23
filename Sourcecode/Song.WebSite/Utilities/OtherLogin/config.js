@@ -86,7 +86,7 @@ Vue.component('config', {
             this.get_all_items();          
         }
     },
-    template: `<div>
+    template: `<div v-if="usable_items.length>0">
         <slot v-for="(item,index) in usable_items" 
             name="item" :item="item" :index="index" :img="logosrc(item)" :icon="icon(item)">
         </slot>

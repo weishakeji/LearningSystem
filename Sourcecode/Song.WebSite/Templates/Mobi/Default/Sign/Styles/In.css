@@ -35,8 +35,8 @@ header {
     position: static !important;
     margin-top: 20px;
 }
-.config{
-    bottom: 0px !important;
+.login_weisha{
+   min-height: 600px;
 }
 .config::before{
     content: '其它登录方式';

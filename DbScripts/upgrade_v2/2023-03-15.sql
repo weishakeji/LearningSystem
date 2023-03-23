@@ -37,22 +37,31 @@ GO
 INSERT INTO [ThirdpartyLogin]
   ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('yunzhijia','金蝶',1,1,'','','','')
+VALUES ('yunzhijia','金蝶',3,1,1,'','','','')
 GO
 INSERT INTO [ThirdpartyLogin]
   ([Tl_Tag],[Tl_Name],[Tl_Tax],[Tl_IsUse],[Tl_IsRegister],[Tl_APPID]
    ,[Tl_Secret],[Tl_Returl],[Tl_Config])
-VALUES ('zzgongshang','郑州工商',1,1,'','','','')
+VALUES ('zzgongshang','郑州工商',4,1,1,'','','','')
 GO
 /*qq登录由SystemPara转到thirdpartylogin表*/
 update thirdpartylogin set tl_appid=(select Sys_Value from SystemPara where Sys_Key='QQAPPID') where tl_tag='qq'
 update thirdpartylogin set Tl_Secret=(select Sys_Value from SystemPara where Sys_Key='QQAPPKey') where tl_tag='qq'
 update thirdpartylogin set Tl_Returl=(select Sys_Value from SystemPara where Sys_Key='QQReturl') where tl_tag='qq'
 go
-update thirdpartylogin set [Tl_IsRegister]=(select  case when Sys_Value='True' then 1 else 0 end from SystemPara where Sys_Key='QQDirectIs') 
-where tl_tag='qq'
-update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='QQLoginIsUse') 
-where tl_tag='qq'
+declare @qqdir int,@qqlogin int
+select @qqdir= COUNT(*) from SystemPara where Sys_Key='QQDirectIs'
+select @qqlogin= COUNT(*) from SystemPara where Sys_Key='QQLoginIsUse'
+if @qqdir>0
+begin
+	update thirdpartylogin set [Tl_IsRegister]=(select  case when Sys_Value='True' then 1 else 0 end from SystemPara where Sys_Key='QQDirectIs') 
+	where tl_tag='qq'
+end
+if @qqlogin>0
+begin
+	update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='QQLoginIsUse') 
+	where tl_tag='qq'
+end
 
 /*云之家由SystemPara转到thirdpartylogin表*/
 update thirdpartylogin set tl_appid=(select Sys_Value from SystemPara where Sys_Key='YunzhijiaAppid') where tl_tag='yunzhijia'
@@ -60,8 +69,15 @@ update thirdpartylogin set Tl_Secret=(select Sys_Value from SystemPara where Sys
 update thirdpartylogin set Tl_Returl=(select Sys_Value from SystemPara where Sys_Key='YunzhijiaDomain') where tl_tag='yunzhijia'
 update thirdpartylogin set [Tl_Account]=(select Sys_Value from SystemPara where Sys_Key='YunzhijiaAcc') where tl_tag='yunzhijia'
 go
-update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='YunzhijiaLoginIsuse') 
-where tl_tag='yunzhijia'
+declare @yunzhijiao int
+select @yunzhijiao= COUNT(*) from SystemPara where Sys_Key='YunzhijiaLoginIsuse'
+if @yunzhijiao>0
+begin
+	update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='YunzhijiaLoginIsuse') 
+	where tl_tag='yunzhijia'
+end
+
+
 /*微信登录由SystemPara转到thirdpartylogin表*/
 select * from SystemPara where Sys_Key like 'weixin%'
 
@@ -69,10 +85,20 @@ update thirdpartylogin set tl_appid=(select Sys_Value from SystemPara where Sys_
 update thirdpartylogin set Tl_Secret=(select Sys_Value from SystemPara where Sys_Key='WeixinSecret') where tl_tag='weixin'
 update thirdpartylogin set Tl_Returl=(select Sys_Value from SystemPara where Sys_Key='WeixinReturl') where tl_tag='weixin'
 go
-update thirdpartylogin set [Tl_IsRegister]=(select  case when Sys_Value='True' then 1 else 0 end from SystemPara where Sys_Key='WeixinDirectIs') 
-where tl_tag='weixin'
-update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='WeixinLoginIsUse') 
-where tl_tag='weixin'
+declare @weixindir int,@weixinlogin int
+select @weixindir= COUNT(*) from SystemPara where Sys_Key='WeixinDirectIs'
+select @weixinlogin= COUNT(*) from SystemPara where Sys_Key='WeixinLoginIsUse'
+if @weixindir>0
+begin
+	update thirdpartylogin set [Tl_IsRegister]=(select  case when Sys_Value='True' then 1 else 0 end from SystemPara where Sys_Key='WeixinDirectIs') 
+	where tl_tag='weixin'
+end
+if @weixinlogin>0
+begin	
+	update thirdpartylogin set [Tl_IsUse]=(select case when Sys_Value='True' then 1 else 0 end  from SystemPara where Sys_Key='WeixinLoginIsUse') 
+	where tl_tag='weixin'
+end
+
 
 
 declare @json nvarchar(1000),@pubappid nvarchar(200),@secret nvarchar(200),@returl nvarchar(200)
@@ -84,3 +110,5 @@ print @pubappid
 set @json='{"pubAppid":"'+@pubappid+'","pubSecret":"'+@secret+'","pubReturl":"'+@returl+'"}'
 print @json
 update thirdpartylogin set [Tl_Config]=@json where tl_tag='weixin'
+
+/**/
