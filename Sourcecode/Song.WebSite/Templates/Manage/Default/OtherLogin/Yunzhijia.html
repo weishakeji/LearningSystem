@@ -21,15 +21,20 @@
             <el-form-item label="AppSecret" prop="Tl_Secret">
                 <el-input v-model="entity.Tl_Secret" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="域名" prop="Tl_Returl">
-                <el-input v-model="entity.Tl_Returl" placeholder="">
+            <el-form-item label="云之家" prop="Tl_Domain">
+                <el-input v-model="entity.Tl_Domain" placeholder="">
                 </el-input>
             </el-form-item>
             <el-form-item label="">
-                <help>“域名”为云之家平台的域名，如果为私有云，请自主填写</help>
+                <help>云之家平台的域名，如果为私有云，请自主填写</help>
             </el-form-item>
-            <el-form-item label="账号字段" prop="Acc">
-                <el-input v-model="entity.Acc" placeholder="" style="width: 180px;"></el-input>
+            <el-form-item label="回调域" prop="Tl_Returl">
+                <el-input v-model="entity.Tl_Returl" placeholder="">
+                </el-input>
+            </el-form-item>
+           
+            <el-form-item label="账号字段" prop="Tl_Account">
+                <el-input v-model="entity.Tl_Account" placeholder="" style="width: 180px;"></el-input>
 
             </el-form-item>
             <el-form-item label="">

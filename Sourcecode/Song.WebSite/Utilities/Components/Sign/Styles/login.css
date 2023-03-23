@@ -409,13 +409,14 @@ input[type="number"] {
     bottom: 60px;
 }
 
-.config>a {
+.config>span {
     display: flex;
     font-size: 14px;
     margin: 8px 10px 0px 0px;
+    cursor: pointer;
 }
 
-.config>a:not(:last-child) {
+.config>span:not(:last-child) {
     margin: 8px 0px 0px 0px;
 }
 

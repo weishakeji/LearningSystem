@@ -18,12 +18,18 @@
             <el-form-item label="AppID" prop="Tl_APPID">
                 <el-input v-model="entity.Tl_APPID" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="AppKey" prop="Tl_Secret">
+            <el-form-item label="Secret" prop="Tl_Secret">
                 <el-input v-model="entity.Tl_Secret" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="平台域名" prop="Tl_Domain">
+                <el-input v-model="entity.Tl_Domain" placeholder="">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <help>第三方登录平台的域名，如果为私有云，请自主填写</help>
             </el-form-item>
             <el-form-item label="回调域" prop="Tl_Returl">
                 <el-input v-model="entity.Tl_Returl" placeholder="">
-                 
                 </el-input>
             </el-form-item>
             <el-form-item label="">

@@ -28,6 +28,10 @@ namespace Song.Entities {
     		
     		protected String _Tl_Name;
     		
+    		protected Int32 _Tl_Tax;
+    		
+    		protected String _Tl_Domain;
+    		
     		public Int32 Tl_ID {
     			get {
     				return this._Tl_ID;
@@ -128,6 +132,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Tl_Tax {
+    			get {
+    				return this._Tl_Tax;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Tl_Tax, _Tl_Tax, value);
+    				this._Tl_Tax = value;
+    			}
+    		}
+    		
+    		public String Tl_Domain {
+    			get {
+    				return this._Tl_Domain;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Tl_Domain, _Tl_Domain, value);
+    				this._Tl_Domain = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -164,7 +188,9 @@ namespace Song.Entities {
     					_.Tl_Returl,
     					_.Tl_Config,
     					_.Tl_Account,
-    					_.Tl_Name};
+    					_.Tl_Name,
+    					_.Tl_Tax,
+    					_.Tl_Domain};
     		}
     		
     		/// <summary>
@@ -181,7 +207,9 @@ namespace Song.Entities {
     					this._Tl_Returl,
     					this._Tl_Config,
     					this._Tl_Account,
-    					this._Tl_Name};
+    					this._Tl_Name,
+    					this._Tl_Tax,
+    					this._Tl_Domain};
     		}
     		
     		/// <summary>
@@ -217,6 +245,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Tl_Name))) {
     				this._Tl_Name = reader.GetString(_.Tl_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.Tl_Tax))) {
+    				this._Tl_Tax = reader.GetInt32(_.Tl_Tax);
+    			}
+    			if ((false == reader.IsDBNull(_.Tl_Domain))) {
+    				this._Tl_Domain = reader.GetString(_.Tl_Domain);
     			}
     		}
     		
@@ -293,6 +327,16 @@ namespace Song.Entities {
     			/// 字段名：Tl_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Tl_Name = new WeiSha.Data.Field<ThirdpartyLogin>("Tl_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Tl_Tax - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Tl_Tax = new WeiSha.Data.Field<ThirdpartyLogin>("Tl_Tax");
+    			
+    			/// <summary>
+    			/// 字段名：Tl_Domain - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Tl_Domain = new WeiSha.Data.Field<ThirdpartyLogin>("Tl_Domain");
     		}
     	}
     }

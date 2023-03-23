@@ -1288,6 +1288,9 @@
     <Content Include="Templates\Web\Default\Link\Index.html" />
     <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Sign\QQ.html" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\QQ.js" />
+    <Content Include="Templates\Web\Default\Sign\Styles\QQ.css" />
     <Content Include="Templates\Web\Default\Snow\Index.html" />
     <Content Include="Templates\Web\Default\Snow\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Snow\Styles\Index.css" />

@@ -367,10 +367,10 @@ Vue.component('login', {
                 账号登录与短信登录都被禁止
             </div>
             <config ref="config" class="config" :isuse="true">
-                <a slot="item" slot-scope="data" :title='data.item.name' href="#">
+                <span slot="item" slot-scope="data" :title='data.item.name' @click="$refs['config'].eventClick(data.item)">
                     <img :src="data.img" />
                     {{data.item.obj.Tl_Name}}
-                </a>
+                </span>
             </config>
             <div class="login_register">
                 <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>

@@ -6,9 +6,9 @@ Vue.component('config', {
         return {
             items: [
                 { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 700, height: 400, obj: {} },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 700, height: 500, obj: {} },
-                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 500, obj: {} },
-                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 400, obj: {} }
+                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 700, height: 550, obj: {} },
+                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, obj: {} },
+                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, obj: {} }
             ],
             //配置项的数据记录，记录在数据库
             entities: [],
@@ -53,7 +53,6 @@ Vue.component('config', {
         },
         //获取可用的项
         get_usable_items: function () {
-            //if (this.entities.length < 1) return [];
             var items = [];
             //将数据库中的记录，保存到配置项的obj属性
             for (let i = 0; i < this.entities.length; i++) {
@@ -72,7 +71,7 @@ Vue.component('config', {
                     let index = this.entities.findIndex(t => t.Tl_Tag == el.tag);
                     if (index < 0) items.push(this.items[j]);
                 }
-            }           
+            }
             //如果简要名称没有，则显示配置项的名称
             for (let i = 0; i < items.length; i++) {
                 if (items[i].obj.Tl_Name == '')
@@ -83,7 +82,70 @@ Vue.component('config', {
         },
         //刷新
         fresh: function (tag) {
-            this.get_all_items();          
+            this.get_all_items();
+        },
+        //点击事件，作为跳转项
+        eventClick: function (item) {
+            if (JSON.stringify(item.obj) == '{}' || item.obj == undefined || item.obj == null) return;
+            var evt = eval('this.event_' + item.tag + '');
+            if (evt != null) evt(item);
+        },
+        //qq登录
+        event_qq: function (item) {
+            var url = 'https://graph.qq.com/oauth2.0/authorize';
+            url = $api.url.set(url, {
+                'client_id': item.obj.Tl_APPID,
+                'response_type': 'code',
+                'scope': 'all',
+                'state': item.obj.Tl_Tag,
+                'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
+            });
+            window.location.href = url;
+        },
+        //微信登录
+        event_weixin: function (item) {
+            var ismobi = $api.ismobi();
+            var isweixin = $api.isWeixin();//是否处于微信中
+            if (ismobi && !isweixin) return alert("请在微信中打开");
+            if (isweixin) {
+                var url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+                url = $api.url.set(url, {
+                    'appid': item.obj.Tl_APPID,
+                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/mobi/sign/weixin'),
+                    'response_type': 'code',
+                    'scope': 'snsapi_userinfo',
+                    'state': item.obj.Tl_Tag
+                }) + '#wechat_redirect';                          
+            } else {
+                var url = 'https://open.weixin.qq.com/connect/qrconnect';
+                url = $api.url.set(url, {
+                    'appid': item.obj.Tl_APPID,
+                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/weixin'),
+                    'response_type': 'code',
+                    'scope': 'snsapi_login',
+                    'state': item.obj.Tl_Tag,
+                    'style': 'black',
+                }) + '#wechat_redirect';
+            }
+            window.location.href = url;
+        },
+        //金蝶云之家
+        event_yunzhijia: function (item) {
+            //是否处在云之家平台中
+            var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
+            if (!isYzjApp) return alert("当前应用不在云之家App中");
+        },
+        //郑州工商学院
+        event_zzgongshang: function (item) {
+            var url = 'http://172.16.31.55/auth/oauth2/authorize';
+            url = $api.url.set(url, {
+                'client_id': item.obj.Tl_APPID,
+                'redirect_uri': encodeURIComponent(item.obj.Tl_Returl),
+                'response_type': 'code',
+                'state': item.obj.Tl_Tag
+            });
+            console.log(url);
+            //http://172.16.31.55/auth/oauth2/authorize?client_id=NmMyNzcwZTAwYTAxNDliZGI2ZWI0NTI2ZjlmNzA5ZTY&redirect_uri=http%3A%2F%2Fwww.51ixuejiao.com&response_type=code&state=your_state_code
         }
     },
     template: `<div v-if="usable_items.length>0">

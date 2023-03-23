@@ -11,7 +11,7 @@ $ready(function () {
                 Tl_Secret: [
                     { required: true, message: '不得为空', trigger: 'blur' }
                 ],
-                Tl_Returl: [
+                Tl_Domain: [
                     { required: true, message: '不得为空', trigger: 'blur' }
                 ]
             },
@@ -68,7 +68,7 @@ $ready(function () {
                         th.loading = true;
                         $api.post('OtherLogin/Update', { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
-                                var result = req.data.result;
+                                th.entity = req.data.result;
                                 th.$notify({
                                     type: 'success',
                                     message: '修改成功',

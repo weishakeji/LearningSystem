@@ -77,16 +77,30 @@ $ready(function () {
                         var th = this;
                         th.loading = true;
                         var entity = $api.clone(th.entity);
+                        //回调域去除最末尾的/
+                        var ret = th.entity.pubReturl;
+                        if (ret.length > 1 && ret.substring(ret.length - 1) == '/')
+                            ret = ret.substring(0, ret.length - 1);
                         var conf = {
                             pubAppid: th.entity.pubAppid,
-                            pubReturl: th.entity.pubReturl,
+                            pubReturl: ret,
                             pubSecret: th.entity.pubSecret
                         };
-                        entity.Tl_Config=JSON.stringify(conf);
-                        console.log(entity);                       
+                        entity.Tl_Config = JSON.stringify(conf);
+                        console.log(entity);
                         $api.post('OtherLogin/Update', { 'entity': entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
+                                var cof = result.Tl_Config;
+                                if (result.Tl_Config != '') {
+                                    try {
+                                        var conf = eval('(' + result.Tl_Config + ')');
+                                        for (k in conf)
+                                            result[k] = conf[k];
+                                    } catch { }
+                                }
+                                //console.log(result);
+                                th.entity = result;
                                 th.$notify({
                                     type: 'success',
                                     message: '修改成功',
