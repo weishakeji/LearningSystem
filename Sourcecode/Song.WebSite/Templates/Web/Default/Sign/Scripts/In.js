@@ -128,9 +128,6 @@ $ready(function () {
     '/Utilities/OtherLogin/config.js',      //第三方登录的配置项
     '/Utilities/Components/Sign/Login.js',
     "../Components/subject_rec.js",
+    '../scripts/pagebox.js',
 ]);
-
-//登录成功
-function ready(result) {
-    window.vapp.logged(result);
-}
+$dom.load.css([$dom.path() + 'styles/pagebox.css']);

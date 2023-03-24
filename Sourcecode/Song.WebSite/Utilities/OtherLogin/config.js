@@ -84,6 +84,16 @@ Vue.component('config', {
         fresh: function (tag) {
             this.get_all_items();
         },
+        //弹窗
+        openbox: function (url, title, icon, width, height) {
+            var obj = {};
+            obj = {
+                'url': url, 'ico': icon, 'title': title,
+                'pid': window.name, 'showmask': true, 'min': false, 'max': false,
+                'width': width ? width : 600, 'height': height ? height : 400
+            }
+            $pagebox.create(obj).open();
+        },
         /**
          *        
          */
@@ -103,7 +113,8 @@ Vue.component('config', {
                 'state': item.obj.Tl_Tag,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
             });
-            window.location.href = url;
+            this.openbox(url,'QQ登录','e82a');
+            //window.location.href = url;
         },
         //微信登录
         event_weixin: function (item) {
@@ -115,7 +126,7 @@ Vue.component('config', {
                     try {
                         var conf = eval('(' + item.obj.Tl_Config + ')');
                         for (k in conf) item.obj[k] = conf[k];
-                    } catch(err) { }
+                    } catch (err) { }
                 }
                 var url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
                 url = $api.url.set(url, {

@@ -11,8 +11,19 @@ $ready(function () {
             openid: '',
 
             user: {},  //用户信息
-
-
+            /*
+            {
+                "openid": "ohjXUjtd56L30DEbXM81fwk0che0", 
+                "nickname": "宋", 
+                "sex": 0, 
+                "language": "", 
+                "city": "", 
+                "province": "", 
+                "country": "", 
+                "headimgurl": "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eo6KrCia9leuX73Y84YRzcsWhUicECVCE04q7ESOAeWJFJFj3nbgFjxxaBX1aticCgxWnVn7154H5H7A/132", 
+                "privilege": [ ], 
+                "unionid": "oviR-0ujiC7OLI45s0xt0ja1-YSI"
+            }*/
             loading: true
         },
         mounted: function () {
@@ -88,14 +99,12 @@ $ready(function () {
             //获取微信用户信息
             getUserInfo: function (token, openid) {
                 var url = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN";
-                          // https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}
                 url = url.format(token, this.object.Tl_APPID, openid);
                 var th = this;
                 $api.get('OtherLogin/HttpRequest', { 'url': url }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        alert(result);
-                        console.log(result);
+                        th.user = req.data.result;                       
+                        console.log( th.user );
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
