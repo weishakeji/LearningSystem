@@ -1306,6 +1306,9 @@
     <Content Include="Templates\Web\Default\Link\Index.html" />
     <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\WeixinQrcode.js" />
+    <Content Include="Templates\Web\Default\Sign\Styles\WeixinQrcode.css" />
+    <Content Include="Templates\Web\Default\Sign\WeixinQrcode.html" />
     <Content Include="Templates\Web\Default\Sign\Weixin.html" />
     <Content Include="Templates\Web\Default\Sign\QQ.html" />
     <Content Include="Templates\Web\Default\Sign\Scripts\Weixin.js" />

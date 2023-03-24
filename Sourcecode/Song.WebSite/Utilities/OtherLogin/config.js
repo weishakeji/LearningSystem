@@ -113,8 +113,9 @@ Vue.component('config', {
                 'state': item.obj.Tl_Tag,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
             });
-            this.openbox(url,'QQ登录','e82a');
-            //window.location.href = url;
+            if ($api.ismobi()) window.location.href = url;
+            else
+                this.openbox(url, item.name, item.icon);
         },
         //微信登录
         event_weixin: function (item) {
@@ -136,7 +137,9 @@ Vue.component('config', {
                     'scope': 'snsapi_base',
                     'state': item.obj.Tl_Tag
                 }) + '#wechat_redirect';
+                window.location.href = url;
             } else {
+                //web端
                 var url = 'https://open.weixin.qq.com/connect/qrconnect';
                 url = $api.url.set(url, {
                     'appid': item.obj.Tl_APPID,
@@ -146,8 +149,9 @@ Vue.component('config', {
                     'state': item.obj.Tl_Tag,
                     'style': 'black',
                 }) + '#wechat_redirect';
+                this.openbox('/web/sign/weixinQrcode?tag=' + item.obj.Tl_Tag, item.name, item.icon);
             }
-            window.location.href = url;
+
         },
         //金蝶云之家
         event_yunzhijia: function (item) {
