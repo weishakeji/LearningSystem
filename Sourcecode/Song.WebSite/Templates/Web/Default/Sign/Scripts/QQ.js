@@ -67,7 +67,7 @@ $ready(function () {
             },
             //获取token
             gettoken: function (obj) {
-                var url = "https://graph.qq.com/oauth2.0/token?client_id={0}&client_secret={1}&code={2}&grant_type=authorization_code&redirect_uri={3}";
+                var url = "https://graph.qq.com/oauth2.0/token";
                 url = $api.url.set(url, {
                     'client_id': obj.Tl_APPID,
                     'client_secret': obj.Tl_Secret,

@@ -84,6 +84,9 @@ Vue.component('config', {
         fresh: function (tag) {
             this.get_all_items();
         },
+        /**
+         *        
+         */
         //点击事件，作为跳转项
         eventClick: function (item) {
             if (JSON.stringify(item.obj) == '{}' || item.obj == undefined || item.obj == null) return;
@@ -108,14 +111,20 @@ Vue.component('config', {
             var isweixin = $api.isWeixin();//是否处于微信中
             if (ismobi && !isweixin) return alert("请在微信中打开");
             if (isweixin) {
+                if (item.obj.Tl_Config != '') {
+                    try {
+                        var conf = eval('(' + item.obj.Tl_Config + ')');
+                        for (k in conf) item.obj[k] = conf[k];
+                    } catch(err) { }
+                }
                 var url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
                 url = $api.url.set(url, {
-                    'appid': item.obj.Tl_APPID,
-                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/mobi/sign/weixin'),
+                    'appid': item.obj.pubAppid,
+                    'redirect_uri': encodeURIComponent(item.obj.pubReturl + '/mobi/sign/weixin'),
                     'response_type': 'code',
-                    'scope': 'snsapi_userinfo',
+                    'scope': 'snsapi_base',
                     'state': item.obj.Tl_Tag
-                }) + '#wechat_redirect';                          
+                }) + '#wechat_redirect';
             } else {
                 var url = 'https://open.weixin.qq.com/connect/qrconnect';
                 url = $api.url.set(url, {
