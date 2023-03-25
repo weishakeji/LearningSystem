@@ -9,40 +9,40 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <loading size="24px" type="spinner" v-if="loading">加载中...</loading>
         <div class="context" v-else>
-            <van-sticky>
-                <div class="header_info" v-if="!islogin" remark="未登录">
-                    <div class="acc_photo nophoto"></div>
-                    <div class="accInfo">
-                        <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
-                        </div>
-                        <span class="acc-money"> ... </span>
-                    </div>
-                </div>
-                <div class="header_info" v-if="islogin" remark="已经登录">
-                    <header>
-                        <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
-                        <a href="/mobi/" icon="&#xa020"></a>
-                    </header>
-                    <avatar :account="account" circle="true" size="60"></avatar>
-                    <div class="accInfo">
-                        <div class="acc-name">
-                            <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
-                            <span v-else>（没有名字）</span>
-                        </div>
-                        <span class="acc-acname">{{account.Ac_AccName}}</span>
 
+            <div class="header_info" v-if="!islogin" remark="未登录">
+                <div class="acc_photo nophoto"></div>
+                <div class="accInfo">
+                    <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
                     </div>
+                    <span class="acc-money"> ... </span>
                 </div>
-            </van-sticky>
+            </div>
+            <div class="header_info" v-if="islogin" remark="已经登录">
+                <header>
+                    <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
+                    <a href="/mobi/" icon="&#xa020"></a>
+                </header>
+                <avatar :account="account" circle="true" size="60"></avatar>
+                <div class="accInfo">
+                    <div class="acc-name">
+                        <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
+                        <span v-else>（没有名字）</span>
+                    </div>
+                    <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+                </div>
+            </div>
+
             <template v-if="islogin">
                 <card>
                     <card-title>
                         <icon>&#xe66d</icon>手机号绑定
                     </card-title>
                     <card-context v-if="isbind">
-                        <van-cell>
+                        <div>
                             <template #title>
                                 {{account.Ac_MobiTel1}}
                             </template>
@@ -50,8 +50,8 @@
                                 <van-tag type="primary">已经绑定</van-tag>
                             </template>
 
-                        </van-cell>
-                        <van-cell>
+                        </div>
+                        <div>
                             <template #title>
                                 <span></span>
                             </template>
@@ -62,14 +62,14 @@
                                 </van-button>
                             </template>
 
-                        </van-cell>
+                        </div>
                     </card-context>
                     <!-- 未绑定-->
                     <card-context v-else class="phonebind">
                         <div prop="phone">
                             <span>手机号</span>
-                            <input type="text" tabindex="1"  v-model.trim='form.phone' autocomplete="off" v-model.trim='form.phone'
-                                placeholder="手机号" />
+                            <input type="text" tabindex="1" v-model.trim='form.phone' autocomplete="off"
+                                v-model.trim='form.phone' placeholder="手机号" />
                             <span class="tips"></span>
                         </div>
                         <div prop="sms">
@@ -83,7 +83,7 @@
                             </div>
                             <span class="tips"></span>
                         </div>
-                        <van-cell>
+                        <div>
                             <template #title>
                                 <span></span>
                             </template>
@@ -94,23 +94,16 @@
                                 </van-button>
                             </template>
 
-                        </van-cell>
+                        </div>
                     </card-context>
                 </card>
 
             </template>
             <card v-else>
-                <van-cell is-link>
-                    <template #title>
-                        <a icon="&#xe84d" :href="commonaddr('signin')">点击此处登录</a>
-                    </template>
-                </van-cell>
-
+                未登录
             </card>
 
         </div>
-        <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
     </div>
 
 

@@ -1,0 +1,7 @@
+﻿@charset "utf-8";
+#vapp{
+	overflow-y: auto;
+}
+.el-input__prefix icon {
+	width: 25px;
+}

@@ -1,41 +1,85 @@
 ﻿@charset "utf-8";
-#vapp{
-    display: flex;
+
+#vapp {
+    overflow: auto;
 }
 
-.el-card {
-    margin: 30px 30px 30px 10px;    
-    max-height: 300px;
-    flex: 1;
-    position: relative;
-}
-.el-card:last-child{
-    margin-left: 0px;
-}
-.el-card__header {
-    position: relative;
-}
-.el-card__header icon{
-    font-size: 20px;
-}
-.el-card__body{
-    box-sizing: border-box;
-    height: calc(100% - 43px);
-}
-.el-form{
-    width: 100%;
-    height: 100%;
-    position: relative;
+card {
+    margin: 30px 30px 30px 10px;
+    padding: 5px;
     box-sizing: border-box;
 }
-icon.right {
+
+card-context {
+    padding: 10px 0px;
+}
+
+card div.row {
+    line-height: 35px;
+    padding: 5px 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+card div.row:hover {
+    background-color: #eee;
+}
+
+card div.row icon {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
+card div.row[right]::after {
+    content: '\e777';
+    font-family: "webdesk_icon";
+    display: block;
     position: absolute;
     right: 0px;
     bottom: 8px;
     color: #999;
-    font-size: 15px;
+    font-size: 22px;
 }
-.footer{
-    position: absolute !important;
-    margin-bottom: 0px !important;
+
+/*第三方登录的项*/
+.config>div {
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    height: 46px;
+}
+
+.config>div[disabled] {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}
+
+
+/*图标与名称*/
+.config>div .name {}
+
+.config>div .name .tagname {
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+    margin-left: 15px;
+}
+
+.config>div img {
+    height: 25px;
+    width: 25px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 5px;
+}
+/*右侧内容*/
+.right{
+    float: right;
+}
+.right .phone{
+    margin-right: 10px;
 }

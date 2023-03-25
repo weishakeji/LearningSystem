@@ -4,65 +4,55 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title></title>
+    <title>安全管理</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <el-card class="box-card">
-            <div slot="header" class="clearfix">
+        <card>
+            <div class="row"  @click="openbox('BindPhone','手机号绑定','e66d',500,300)">
                 <span>
-                    <icon>&#xe613</icon>密码修改
+                    <icon>&#xe66d</icon>手机号绑定
                 </span>
-                <icon class="right">&#xe777</icon>
+                <div class="right">
+                    <span class="phone"> {{account.Ac_MobiTel1}}</span>
+                    <el-tag type="success" v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel1==account.Ac_MobiTel2">
+                        已经绑定</el-tag>
+                    <el-tag type="success" v-else>已经绑定</el-tag>
+                </div>
             </div>
 
-            <el-form ref="formpw" :model="formpw" :rules="rules_pw" @submit.native.prevent label-width="100px">
-                <el-form-item label="原密码" prop="oldpw">
-                    <el-input v-model="formpw.oldpw" show-password></el-input>
+        </card>
+        <card>
+            <card-title>
+                <icon>&#xa030</icon>第三方登录账号绑定
+            </card-title>
 
-                </el-form-item>
-                <el-form-item label="新密码" prop="newpw">
-                    <el-input v-model="formpw.newpw" show-password></el-input>
-                </el-form-item>
-                <el-form-item label="确认输入" prop="newpw2">
-                    <el-input v-model="formpw.newpw2" show-password></el-input>
-                </el-form-item>
-                <el-form-item label="" v-if="false">
-                    <securitylevel></securitylevel>
-                </el-form-item>
+            <config ref="config" class="config" :isuse="true">
+                <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
+                    <div class="name">
+                        <img :src="data.img" />
+                        <template v-if="data.item.obj.Tl_Name!=null"></template>
+                        {{data.item.obj.Tl_Name}}
+                        <span class="tagname">({{data.item.name}})</span>
+                        <template v-else>
+                            {{data.item.name}}
+                        </template>
+                    </div>
 
-            </el-form>
-            <div class="footer">
-                <el-button type="primary" :loading="loading" @click="btnEnterPw('formpw')">
-                    <icon v-if="!loading">&#xa030</icon>修改密码
-                </el-button>
+                </div>
+            </config>
+
+        </card>
+
+        <card>
+            <div class="row" right @click="openbox('password','密码修改','e613',500,300)">
+                <icon>&#xe613</icon>密码修改
             </div>
-        </el-card>
-
-        <el-card class="box-card">
-            <div slot="header" class="clearfix">
-                <span>
-                    <icon>&#xe6ed</icon>安全问题
-                </span>
-                <icon class="right">&#xe777</icon>
+            <div class="row" right @click="openbox('Security','安全问题','e6ed',500,300)">
+                <icon>&#xe6ed</icon>安全问题
             </div>
-            <el-form ref="ques" :model="account" :rules="rules_ques" @submit.native.prevent label-width="100px">
-
-                <el-form-item label="安全问题" prop="Ac_Qus">
-                    <el-input v-model="account.Ac_Qus"></el-input>
-                </el-form-item>
-                <el-form-item label="答案" prop="Ac_Ans">
-                    <el-input v-model="account.Ac_Ans"></el-input>
-                </el-form-item>
-
-            </el-form>
-            <div class="footer">
-                <el-button type="primary" :loading="loading" @click="btnEnterQues('ques')">
-                    <icon v-if="!loading">&#xa030</icon>修改
-                </el-button>
-            </div>
-        </el-card>
+        </card>
     </div>
 </body>
 

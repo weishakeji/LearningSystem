@@ -206,13 +206,18 @@ namespace Song.ViewData.Methods
         /// 发送短信验证码
         /// </summary>
         /// <param name="phone"></param>
+        /// <param name="acid"></param>
         /// <param name="len"></param>
         /// <returns></returns>
         [HttpPost]
-        public string SendVcode(string phone, int len)
+        public string SendBindVcode(string phone,int acid, int len)
         {
-            //string vcode = "666888";
-            string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().IsAccountsExist(acid, phone, 1);
+            if (acc != null) throw new Exception("当前手机号已经存在");
+
+            string vcode = "666888";
+
+            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             return new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;           
         }
     }

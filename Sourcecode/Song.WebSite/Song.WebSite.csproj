@@ -1180,6 +1180,12 @@
     <Content Include="Templates\Student\Default\Course\Styles\ScoreDetails.css" />
     <Content Include="Templates\Student\Default\Exam\Components\group.js" />
     <Content Include="Templates\Student\Default\Exam\Components\Styles\group.css" />
+    <Content Include="Templates\Student\Default\Self\Security.html" />
+    <Content Include="Templates\Student\Default\Self\Password.html" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Security.js" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Password.js" />
+    <Content Include="Templates\Student\Default\Self\Styles\Security.css" />
+    <Content Include="Templates\Student\Default\Self\Styles\Password.css" />
     <Content Include="Templates\Student\Default\Start.html" />
     <Content Include="Templates\Student\Default\Study\Components\progress_value.js" />
     <Content Include="Templates\Student\Default\Study\Print.html" />

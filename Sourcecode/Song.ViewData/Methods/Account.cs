@@ -1308,7 +1308,8 @@ namespace Song.ViewData.Methods
             if (accphone != null && accphone.Ac_ID != acc.Ac_ID)
                 throw new Exception("手机号已经占用");
             Business.Do<IAccounts>().AccountsSave(acc);
-            return acc;
+            LoginAccount.Fresh(acc);
+            return _tran(acc);
         }
         /// <summary>
         /// 解除手机绑定
@@ -1325,7 +1326,8 @@ namespace Song.ViewData.Methods
             }
             acc.Ac_MobiTel2 = "";
             Business.Do<IAccounts>().AccountsSave(acc);
-            return acc;
+            LoginAccount.Fresh(acc);
+            return _tran(acc);
         }
         #endregion
     }

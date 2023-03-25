@@ -648,34 +648,35 @@ namespace Song.ServiceImpls
         }
 
         /// <summary>
-        /// 当前用帐号是否重名
+        /// 当前用帐号或信息是否重复
         /// </summary>
-        /// <param name="accname">账户帐号</param>
+        /// <param name="acid">当前账号的id</param>
+        /// <param name="name">账号，或手机号</param>
         /// <param name="type">判断类型，默认为账号，1为手机号,2为邮箱,-1为所有</param>
         /// <returns></returns>
-        public Accounts IsAccountsExist(int orgid, string accname, int type)
+        public Accounts IsAccountsExist(int acid, string name, int type)
         {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();          
             switch (type)
             {
                 case 1:
-                    wc |= Accounts._.Ac_MobiTel1 == accname;
-                    wc |= Accounts._.Ac_MobiTel2 == accname;
+                    wc |= Accounts._.Ac_MobiTel1 == name;
+                    wc |= Accounts._.Ac_MobiTel2 == name;
                     break;
                 case 2:
-                    wc |= Accounts._.Ac_Email == accname;
+                    wc |= Accounts._.Ac_Email == name;
                     break;
                 case -1:
-                    wc |= Accounts._.Ac_MobiTel1 == accname;
-                    wc |= Accounts._.Ac_MobiTel2 == accname;
-                    wc |= Accounts._.Ac_Email == accname;
-                    wc &= Accounts._.Ac_AccName == accname;
+                    wc |= Accounts._.Ac_MobiTel1 == name;
+                    wc |= Accounts._.Ac_MobiTel2 == name;
+                    wc |= Accounts._.Ac_Email == name;
+                    wc &= Accounts._.Ac_AccName == name;
                     break;
                 default:
-                    wc &= Accounts._.Ac_AccName == accname;
+                    wc &= Accounts._.Ac_AccName == name;
                     break;
             }
+            wc.And(Accounts._.Ac_ID != acid);
             Accounts mm = Gateway.Default.From<Accounts>()
                 .Where(wc).ToFirst<Accounts>();
             return _acc_init(mm);

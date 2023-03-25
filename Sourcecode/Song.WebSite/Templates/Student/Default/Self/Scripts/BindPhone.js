@@ -70,23 +70,17 @@ $ready(function () {
             }
         },
         watch: {
-            //提交信息中的状态变更
-            'uploading': function (nv, ov) {
-                if (nv) {
-                    this.$toast.loading({
-                        message: '信息提交中...',
-                        forbidClick: true,
-                    });
-                }
-            }
+
         },
         methods: {
             //取消绑定
             phoneUnbind: function () {
                 var th = this;
-                this.$dialog.confirm({
-                    message: '是否确定取消绑定？',
-                }).then(function () {
+                this.$confirm('是否确定取消绑定?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
                     th.uploading = true;
                     $api.post('Account/PhoneUnbind', { 'acid': th.account.Ac_ID }).then(function (req) {
                         if (req.data.success) {
@@ -99,7 +93,7 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     }).finally(() => th.uploading = false);
-                }).catch(function () { });
+                }).catch(() => { });
             },
             //绑定
             phonebind: function () {
@@ -175,7 +169,7 @@ $ready(function () {
                 if (!this.verification({ 'phone': this.form.phone }, this.sms_rules)) return;
                 var th = this;
                 th.loading_sms = true;
-                $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid':th.account.Ac_ID,'len': 6 }).then(function (req) {
+                $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;   //校验码
                         th.countdown(result);

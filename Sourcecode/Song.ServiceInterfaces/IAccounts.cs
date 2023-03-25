@@ -174,12 +174,13 @@ namespace Song.ServiceInterfaces
         /// <returns>true为存在，false为不存在</returns>
         bool IsAccountExist(string accname, int id);
         /// <summary>
-        /// 当前用帐号是否重名
+        /// 当前用帐号或信息是否重复
         /// </summary>
-        /// <param name="accname">账户帐号</param>
+        /// <param name="acid">当前账号的id</param>
+        /// <param name="name">账号，或手机号</param>
         /// <param name="type">判断类型，默认为账号，1为手机号,2为邮箱</param>
         /// <returns></returns>
-        Accounts IsAccountsExist(int orgid, string accname, int type);
+        Accounts IsAccountsExist(int acid, string name, int type);
         /// <summary>
         /// 判断账户是否已经在存，将判断账号与手机号
         /// </summary>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>安全问题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="ques" :model="account" :rules="rules_ques" @submit.native.prevent label-width="100px">
+
+            <el-form-item label="安全问题" prop="Ac_Qus">
+                <el-input v-model="account.Ac_Qus"></el-input>
+            </el-form-item>
+            <el-form-item label="答案" prop="Ac_Ans">
+                <el-input v-model="account.Ac_Ans"></el-input>
+            </el-form-item>
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" define="enter" :loading="loading" @click="btnEnterQues('ques')">
+                修改
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>
