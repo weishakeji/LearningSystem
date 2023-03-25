@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <card>
-            <div class="row"  @click="openbox('BindPhone','手机号绑定','e66d',500,300)">
+            <div class="row" @click="openbox('BindPhone','手机号绑定','e66d',500,300)">
                 <span>
                     <icon>&#xe66d</icon>手机号绑定
                 </span>
@@ -29,7 +29,8 @@
             </card-title>
 
             <config ref="config" class="config" :isuse="true">
-                <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
+                <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data"
+                    @click="$refs['config'].eventClick(data.item,2)">
                     <div class="name">
                         <img :src="data.img" />
                         <template v-if="data.item.obj.Tl_Name!=null"></template>
@@ -40,7 +41,7 @@
                         </template>
                     </div>
                 </div>
-                <div slot="null"  class="row null">( 没有可用的第三方平台 )</div>
+                <div slot="null" class="row null">( 没有可用的第三方平台 )</div>
             </config>
 
         </card>

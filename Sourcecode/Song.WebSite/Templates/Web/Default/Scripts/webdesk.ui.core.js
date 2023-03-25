@@ -742,18 +742,18 @@
     webdom.load = {
         css: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
-                 //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
-                 var exist = false;
-                 $dom("link").each(function () {
-                     var href = $dom(this).attr("href");
-                     if (href == null || href == '') return false;
-                     if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
-                     if (one.toLowerCase() == href.toLowerCase()) {
-                         exist = true;
-                         return false;
-                     }
-                 });
-                 if (exist) return;
+                //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
+                var exist = false;
+                $dom("link").each(function () {
+                    var href = $dom(this).attr("href");
+                    if (href == null || href == '') return false;
+                    if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
+                    if (one.toLowerCase() == href.toLowerCase()) {
+                        exist = true;
+                        return false;
+                    }
+                });
+                if (exist) return;
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
@@ -773,8 +773,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {
-                one = one.toLowerCase()
+            webdom.load.arraySync(function (one, i, c) {                
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -782,13 +781,13 @@
                     let src = arr[i].getAttribute('src');
                     if (src == null) continue;
                     if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
-                    if (one == src.toLowerCase()) {
+                    if (one.toLowerCase() == src.toLowerCase()) {
                         exist = true;
                         break;
                     }
                 }
                 //if (exist) return;
-                
+
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.src = one + '?ver=' + webdom.version();
@@ -937,7 +936,7 @@
                 Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
                     if (search == null || search == '') return txt;
-                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    var regExp = new RegExp('(' + search + ')', 'ig');
                     return txt.replace(regExp, `<red>$1</red>`);
                 };
                 //常用地址
@@ -963,8 +962,10 @@
                 };
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
-                    for (var i = 0; i < source.length; i++) {
+                    for (var i = 0; i < source.length; i++) {                       
                         if (source[i].substring(0, 1) == "/") continue;
+                        if (source[i].length >= 7 && source[i].substring(0, 7).toLowerCase() == "http://") continue;
+                        if (source[i].length >= 8 && source[i].substring(0, 8).toLowerCase() == "https://") continue;
                         source[i] = webdom.pagepath() + source[i];
                     }
                     window.$dom.load.js(source, f);

@@ -765,8 +765,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {
-                one = one.toLowerCase()
+            webdom.load.arraySync(function (one, i, c) {                
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -774,7 +773,7 @@
                     let src = arr[i].getAttribute('src');
                     if (src == null) continue;
                     if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
-                    if (one == src.toLowerCase()) {
+                    if (one.toLowerCase() == src.toLowerCase()) {
                         exist = true;
                         break;
                     }
@@ -944,6 +943,8 @@
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
                         if (source[i].substring(0, 1) == "/") continue;
+                        if (source[i].length >= 7 && source[i].substring(0, 7).toLowerCase() == "http://") continue;
+                        if (source[i].length >= 8 && source[i].substring(0, 8).toLowerCase() == "https://") continue;
                         source[i] = webdom.pagepath() + source[i];
                     }
                     window.$dom.load.js(source, f);

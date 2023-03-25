@@ -367,7 +367,7 @@ Vue.component('login', {
                 账号登录与短信登录都被禁止
             </div>
             <config ref="config" class="config" :isuse="true">
-                <span slot="item" slot-scope="data" :title='data.item.name' @click="$refs['config'].eventClick(data.item)">
+                <span slot="item" slot-scope="data" :title='data.item.name' @click="$refs['config'].eventClick(data.item,1)">
                     <img :src="data.img" />
                     {{data.item.obj.Tl_Name}}
                 </span>

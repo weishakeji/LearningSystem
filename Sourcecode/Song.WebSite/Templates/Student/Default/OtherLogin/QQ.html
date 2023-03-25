@@ -2,16 +2,17 @@
 <html lang="zh">
 
 <head resource>
-    <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>微信登录</title>
-    
+    <title>QQ登录管理</title>
+
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-
-        <div id="login_container"></div>
+        <div v-for="(val,key) in user">
+            {{key}} : {{val}}
+        </div>
+        <img :src="user.figureurl_2 "/>
     </div>
 
 

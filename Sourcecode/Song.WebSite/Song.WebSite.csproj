@@ -1180,6 +1180,18 @@
     <Content Include="Templates\Student\Default\Course\Styles\ScoreDetails.css" />
     <Content Include="Templates\Student\Default\Exam\Components\group.js" />
     <Content Include="Templates\Student\Default\Exam\Components\Styles\group.css" />
+    <Content Include="Templates\Student\Default\OtherLogin\QQ.html" />
+    <Content Include="Templates\Student\Default\OtherLogin\Scripts\QQ.js" />
+    <Content Include="Templates\Student\Default\OtherLogin\Scripts\Weixin.js" />
+    <Content Include="Templates\Student\Default\OtherLogin\Scripts\Yunzhijia.js" />
+    <Content Include="Templates\Student\Default\OtherLogin\Scripts\ZzGongshang.js" />
+    <Content Include="Templates\Student\Default\OtherLogin\Styles\QQ.css" />
+    <Content Include="Templates\Student\Default\OtherLogin\Styles\Weixin.css" />
+    <Content Include="Templates\Student\Default\OtherLogin\Styles\Yunzhijia.css" />
+    <Content Include="Templates\Student\Default\OtherLogin\Styles\ZzGongshang.css" />
+    <Content Include="Templates\Student\Default\OtherLogin\Weixin.html" />
+    <Content Include="Templates\Student\Default\OtherLogin\Yunzhijia.html" />
+    <Content Include="Templates\Student\Default\OtherLogin\ZzGongshang.html" />
     <Content Include="Templates\Student\Default\Self\BindPhone.html" />
     <Content Include="Templates\Student\Default\Self\Scripts\BindPhone.js" />
     <Content Include="Templates\Student\Default\Self\Security.html" />
@@ -1402,6 +1414,8 @@
     <Content Include="Utilities\MathJax\output\svg.js" />
     <Content Include="Utilities\MathJax\output\svg\fonts\tex.js" />
     <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
+    <Content Include="Utilities\OtherLogin\Weixin.js" />
+    <Content Include="Utilities\OtherLogin\QQ.js" />
     <Content Include="Utilities\OtherLogin\config.js" />
     <Content Include="Utilities\OtherLogin\Images\QQ.png" />
     <Content Include="Utilities\OtherLogin\Images\weixin.png" />

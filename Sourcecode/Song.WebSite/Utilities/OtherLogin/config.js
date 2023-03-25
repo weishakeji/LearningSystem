@@ -5,7 +5,7 @@ Vue.component('config', {
     data: function () {
         return {
             items: [
-                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 700, height: 400, obj: {} },
+                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 600, height: 500, obj: {} },
                 { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 700, height: 550, obj: {} },
                 { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, obj: {} },
                 { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, obj: {} }
@@ -85,40 +85,44 @@ Vue.component('config', {
             this.get_all_items();
         },
         //弹窗
-        openbox: function (url, title, icon, width, height) {
+        openbox: function (url, item) {
             var obj = {};
+            console.error(window.name);
             obj = {
-                'url': url, 'ico': icon, 'title': title,
-                'pid': window.name, 'showmask': true, 'min': false, 'max': false,
-                'width': width ? width : 600, 'height': height ? height : 400
+                'url': url, 'ico': item.icon, 'title': item.name,
+                'pid': window.tag, 'showmask': true, 'min': false, 'max': false,
+                'width': item.width, 'height': item.height
             }
-            $pagebox.create(obj).open();
+            window.top.$pagebox.create(obj).open();
         },
         /**
          *        
          */
         //点击事件，作为跳转项
-        eventClick: function (item) {
+        //item:登录配置项
+        //type:1为登录，2为绑定
+        eventClick: function (item, type) {
             if (JSON.stringify(item.obj) == '{}' || item.obj == undefined || item.obj == null) return;
             var evt = eval('this.event_' + item.tag + '');
-            if (evt != null) evt(item);
+            if (evt != null) evt(item, type);
         },
         //qq登录
-        event_qq: function (item) {
+        event_qq: function (item, type) {
             var url = 'https://graph.qq.com/oauth2.0/authorize';
             url = $api.url.set(url, {
                 'client_id': item.obj.Tl_APPID,
                 'response_type': 'code',
                 'scope': 'all',
-                'state': item.obj.Tl_Tag,
+                'state': item.obj.Tl_Tag + ',' + type,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
             });
-            if ($api.ismobi()) window.location.href = url;
+            var ismobi = $api.ismobi();
+            if (ismobi) window.location.href = url;
             else
-                this.openbox(url, item.name, item.icon);
+                this.openbox(url, item);
         },
         //微信登录
-        event_weixin: function (item) {
+        event_weixin: function (item, type) {
             var ismobi = $api.ismobi();
             var isweixin = $api.isWeixin();//是否处于微信中
             if (ismobi && !isweixin) return alert("请在微信中打开");
@@ -135,7 +139,7 @@ Vue.component('config', {
                     'redirect_uri': encodeURIComponent(item.obj.pubReturl + '/mobi/sign/weixin'),
                     'response_type': 'code',
                     'scope': 'snsapi_base',
-                    'state': item.obj.Tl_Tag
+                    'state': item.obj.Tl_Tag + ',' + type,
                 }) + '#wechat_redirect';
                 window.location.href = url;
             } else {
@@ -146,21 +150,28 @@ Vue.component('config', {
                     'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/weixin'),
                     'response_type': 'code',
                     'scope': 'snsapi_login',
-                    'state': item.obj.Tl_Tag,
+                    'state': item.obj.Tl_Tag + ',' + type,
                     'style': 'black',
                 }) + '#wechat_redirect';
-                this.openbox('/web/sign/weixinQrcode?tag=' + item.obj.Tl_Tag, item.name, item.icon);
+                //在弹窗显示二维码
+                url = $api.url.set('/web/sign/weixinQrcode', {
+                    'tag': item.obj.Tl_Tag,
+                    'type': type,
+                    'appid': item.obj.Tl_APPID,
+                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/weixin')
+                });
+                this.openbox(url, item);
             }
 
         },
         //金蝶云之家
-        event_yunzhijia: function (item) {
+        event_yunzhijia: function (item, type) {
             //是否处在云之家平台中
             var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
             if (!isYzjApp) return alert("当前应用不在云之家App中");
         },
         //郑州工商学院
-        event_zzgongshang: function (item) {
+        event_zzgongshang: function (item, type) {
             var url = 'http://172.16.31.55/auth/oauth2/authorize';
             url = $api.url.set(url, {
                 'client_id': item.obj.Tl_APPID,
