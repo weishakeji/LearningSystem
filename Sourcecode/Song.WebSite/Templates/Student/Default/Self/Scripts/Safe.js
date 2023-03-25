@@ -49,6 +49,10 @@ $ready(function () {
                 }
                 if (window.top.$pagebox)
                     window.top.$pagebox.create(obj).open();
+            },
+            //刷新页面
+            fresh:function(){
+                window.location.reload();
             }
         }
     });

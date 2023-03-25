@@ -229,11 +229,18 @@ $ready(function () {
                 obj['min'] = false;
 
                 var box = $pagebox.create(obj);
-                if(shutevent!=null)box.onshut(shutevent);
+                if (shutevent != null) box.onshut(shutevent);
                 box.open();
             },
             //关闭窗口，并执行方法
             shut: function (name, func) {
+                this.call(name, func);
+                window.setTimeout(function () {
+                    $pagebox.shut(name);
+                }, 1000);
+            },
+            //调用父级方法
+            call: function (name, func) {
                 var box = $pagebox.get(name);
                 if (box == null) return;
                 var iframe = $dom('iframe[name="' + box.pid + '"]');
@@ -248,9 +255,6 @@ $ready(function () {
                         if (f != null) f();
                     }
                 }
-                window.setTimeout(function () {
-                    $pagebox.shut(name);
-                }, 1000);
             }
         }
     });

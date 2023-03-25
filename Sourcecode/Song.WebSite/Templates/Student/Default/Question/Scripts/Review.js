@@ -56,9 +56,9 @@ $ready(function () {
             window.onresize = function () {
                 $dom("section").hide();
                 $dom("section").css('left', -($dom("#vapp").width() * vapp.swipeIndex) + 'px');
-                window.setTimeout(function(){
+                window.setTimeout(function () {
                     $dom("section").show();
-                },300);
+                }, 300);
             }
         },
         computed: {
@@ -185,7 +185,7 @@ $ready(function () {
                 });
             },
             //清除所有错题记录
-            clearErrors: function (couid) {               
+            clearErrors: function (couid) {
                 var acid = this.account.Ac_ID;
                 couid = this.couid;
                 var th = this;
@@ -207,8 +207,8 @@ $ready(function () {
                     console.error(err);
                 });
             },
-             //操作成功
-             operateSuccess: function () {           
+            //操作成功
+            operateSuccess: function () {
                 window.top.vapp.shut(window.name, 'vapp.handleCurrentChange');
             }
         }

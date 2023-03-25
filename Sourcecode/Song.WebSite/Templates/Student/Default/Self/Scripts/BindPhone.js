@@ -31,7 +31,7 @@ $ready(function () {
                     { required: true, message: '验证码不得为空', trigger: 'blur' },
                     { min: 6, max: 6, message: '仅限6位数字', trigger: 'blur' },
                     {
-                        validator: function (rule, value, callback) {                          
+                        validator: function (rule, value, callback) {
                             //校验验证码
                             let storage = 'bindphone_sms_seconds';
                             var obj = $api.storage(storage);
@@ -103,6 +103,7 @@ $ready(function () {
                     $api.post('Account/PhoneUnbind', { 'acid': th.account.Ac_ID }).then(function (req) {
                         if (req.data.success) {
                             th.account = req.data.result;
+                            window.top.vapp.call(window.name, 'vapp.fresh');
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -163,7 +164,7 @@ $ready(function () {
                 console.log(obj.second);
             },
             //绑定
-            phonebind: function (formName) {
+            phonebind: function (formName) {               
                 this.$refs[formName].validateField(['sms'], (valid, v) => {
                     if (!valid) {
                         var th = this;
@@ -171,6 +172,9 @@ $ready(function () {
                         $api.post('Account/PhoneBind', { 'acid': th.account.Ac_ID, 'phone': this.form.phone }).then(function (req) {
                             if (req.data.success) {
                                 th.account = req.data.result;
+                                window.setTimeout(function () {
+                                  th.operateSuccess();
+                                }, 300);
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
@@ -185,6 +189,10 @@ $ready(function () {
                     }
                 });
             },
+            //操作成功
+            operateSuccess: function () {               
+                window.top.vapp.shut(window.name, 'vapp.fresh');
+            }
         }
     });
 
