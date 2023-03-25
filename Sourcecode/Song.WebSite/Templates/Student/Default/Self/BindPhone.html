@@ -10,15 +10,17 @@
 <body>
     <div id="vapp" v-cloak>
         <el-form ref="account" :model="account" @submit.native.prevent label-width="120px" v-if="isbind">
-            <el-form-item label="账号" prop="Ac_AccName">
-                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            <el-form-item label="" prop="Ac_AccName">
+                <avatar :account="account" circle="true" size="30"></avatar>
+                {{account.Ac_Name}}
+                <span class="accname">( {{account.Ac_AccName}} )</span>               
             </el-form-item>
             <el-form-item label="移动电话" prop="Ac_MobiTel1">
                 <el-input v-model="account.Ac_MobiTel1" style="width:200px" :disabled="true">
                     <icon slot="prefix">&#xe66c</icon>
                 </el-input>
             </el-form-item>
-            <el-form-item label="">
+            <el-form-item label=""  prop="bind">
                 <el-tag type="success"> 已经绑定</el-tag>
             </el-form-item>
             <el-form-item label="" v-if="false">
@@ -27,17 +29,19 @@
         </el-form>
         <!-- 未绑定-->
         <el-form ref="form" :model="form" :rules="sms_rules" @submit.native.prevent label-width="120px" v-else>
-            <el-form-item label="账号" prop="Ac_AccName">
-                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            <el-form-item label="" prop="Ac_AccName">
+                <avatar :account="account" circle="true" size="30"></avatar>
+                {{account.Ac_Name}}
+                <span class="accname">( {{account.Ac_AccName}} )</span>
             </el-form-item>
             <el-form-item label="移动电话" prop="phone">
-                <el-input v-model="form.phone" style="width:160px">
+                <el-input v-model="form.phone" style="width:160px" :disabled="sms_seconds>0">
                     <icon slot="prefix">&#xe66c</icon>
                 </el-input>
                 <el-tag type="warning"> 未绑定</el-tag>
             </el-form-item>
             <el-form-item label=" " prop="sms">
-                <el-input v-model="form.sms" style="width:160px">
+                <el-input v-model="form.sms" style="width:160px" prop>
                     <icon slot="prefix">&#xe76e</icon>
                 </el-input>             
                 <loading bubble v-if="loading_sms"></loading>

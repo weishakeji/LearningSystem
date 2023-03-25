@@ -10,7 +10,9 @@
 <body>
     <div id="vapp" v-cloak>
         <el-form ref="ques" :model="account" :rules="rules_ques" @submit.native.prevent label-width="100px">
-
+            <el-form-item label="账号" prop="Ac_AccName">
+                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            </el-form-item>
             <el-form-item label="安全问题" prop="Ac_Qus">
                 <el-input v-model="account.Ac_Qus"></el-input>
             </el-form-item>

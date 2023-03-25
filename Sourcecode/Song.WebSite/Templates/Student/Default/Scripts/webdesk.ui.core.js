@@ -876,6 +876,7 @@
             //mathjax，解析latex公式
             arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
             arr2.push('/Utilities/MathJax/globalVariable.js');
+          
             //编辑器
             arr2.push('/Utilities/TinyMCE/tinymce.js');
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');

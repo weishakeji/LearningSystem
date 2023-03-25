@@ -16,11 +16,31 @@ $ready(function () {
             sms_rules: {
                 'phone': [
                     { required: true, message: '不得为空', trigger: 'blur' },
-                    { pattern: /^[0-9_-]{11,11}$/, message: '请输入合法手机号', trigger: 'blur' }
+                    { pattern: /^[0-9_-]{11,11}$/, message: '请输入合法手机号', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            await vapp.vefifyphone(value).then(res => {
+                                if (res != true) {
+                                    callback(new Error());
+                                }
+                            });
+                        }, trigger: 'blur'
+                    }
                 ],
                 'sms': [
                     { required: true, message: '验证码不得为空', trigger: 'blur' },
-                    { min: 6, max: 6, message: '仅限6位数字', trigger: 'blur' }
+                    { min: 6, max: 6, message: '仅限6位数字', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {                          
+                            //校验验证码
+                            let storage = 'bindphone_sms_seconds';
+                            var obj = $api.storage(storage);
+                            if (obj == undefined) return callback(new Error('请发送验证码'));
+                            if (obj.expire < new Date()) return callback(new Error('验证码时效过期'));
+                            if (obj.vcode != $api.md5(vapp.form.phone + value)) return callback(new Error('验证码不正确'));
+                            callback();
+                        }, trigger: 'blur'
+                    }
                 ]
             },
 
@@ -96,31 +116,34 @@ $ready(function () {
             },
             //获取短信
             getsms: function (formName) {
-                var th = this;
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        var th = this;
-                        th.loading_sms = true;
-                        $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
-                            if (req.data.success) {
-                                var result = req.data.result;   //校验码
-                                th.countdown(result);
-                                window.login_sms_seconds = window.setInterval(function () {
-                                    th.countdown();
-                                }, 1000);
-
-                            } else {
-                                console.error(req.data.exception);
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            alert(err);
-                            console.error(err);
-                        }).finally(() => th.loading_sms = false);
+                this.$refs[formName].validateField(['phone'], (valid, v) => {
+                    if (!valid) {
+                        console.log(1465);
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
+                });
+            },
+            //验证手机号，并发送短信
+            vefifyphone: function () {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.countdown(result);
+                            window.login_sms_seconds = window.setInterval(function () {
+                                th.countdown();
+                            }, 1000);
+                            return resolve(true);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        return reject(err);
+                    });
                 });
             },
             //倒计时
@@ -141,9 +164,9 @@ $ready(function () {
             },
             //绑定
             phonebind: function (formName) {
-                var th = this;
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
+                this.$refs[formName].validateField(['sms'], (valid, v) => {
+                    if (!valid) {
+                        var th = this;
                         th.uploading = true;
                         $api.post('Account/PhoneBind', { 'acid': th.account.Ac_ID, 'phone': this.form.phone }).then(function (req) {
                             if (req.data.success) {
@@ -165,5 +188,4 @@ $ready(function () {
         }
     });
 
-}, ["/Utilities/Scripts/hanzi2pinyin.js",
-    "/Utilities/Components/education.js"]);
+});
