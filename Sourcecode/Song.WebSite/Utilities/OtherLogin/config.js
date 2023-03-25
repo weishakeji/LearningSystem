@@ -173,8 +173,10 @@ Vue.component('config', {
         }
     },
     template: `<div v-if="usable_items.length>0">
+        <slot name="title" :items="usable_items"></slot>
         <slot v-for="(item,index) in usable_items" 
             name="item" :item="item" :index="index" :img="logosrc(item)" :icon="icon(item)">
         </slot>
-    </div>`
+    </div>
+    <slot name="null" v-else></slot>`
 });

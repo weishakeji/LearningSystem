@@ -66,7 +66,7 @@ $ready(function () {
             },
             //是否绑定手机号了
             isbind: function () {
-                return account.Ac_MobiTel1!='' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
+                return this.account.Ac_MobiTel1!='' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
             }
         },
         watch: {

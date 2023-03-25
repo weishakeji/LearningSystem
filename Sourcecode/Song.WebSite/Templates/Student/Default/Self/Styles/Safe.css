@@ -81,3 +81,7 @@ card div.row[right]::after {
 .right .phone{
     margin-right: 10px;
 }
+.null{
+    color: #999;
+    font-size: 14px;
+}
