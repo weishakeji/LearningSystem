@@ -36,7 +36,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading = false;
+                th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -66,7 +66,7 @@ $ready(function () {
             },
             //是否绑定手机号了
             isbind: function () {
-                return this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
+                return account.Ac_MobiTel1!='' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
             }
         },
         watch: {

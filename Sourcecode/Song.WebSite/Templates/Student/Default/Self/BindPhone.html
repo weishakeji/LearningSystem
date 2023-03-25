@@ -9,100 +9,52 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <loading size="24px" type="spinner" v-if="loading">加载中...</loading>
-        <div class="context" v-else>
-
-            <div class="header_info" v-if="!islogin" remark="未登录">
-                <div class="acc_photo nophoto"></div>
-                <div class="accInfo">
-                    <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
-                    </div>
-                    <span class="acc-money"> ... </span>
-                </div>
-            </div>
-            <div class="header_info" v-if="islogin" remark="已经登录">
-                <header>
-                    <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
-                    <a href="/mobi/" icon="&#xa020"></a>
-                </header>
-                <avatar :account="account" circle="true" size="60"></avatar>
-                <div class="accInfo">
-                    <div class="acc-name">
-                        <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
-                        <span v-else>（没有名字）</span>
-                    </div>
-                    <span class="acc-acname">{{account.Ac_AccName}}</span>
-
-                </div>
-            </div>
-
-            <template v-if="islogin">
-                <card>
-                    <card-title>
-                        <icon>&#xe66d</icon>手机号绑定
-                    </card-title>
-                    <card-context v-if="isbind">
-                        <div>
-                            <template #title>
-                                {{account.Ac_MobiTel1}}
-                            </template>
-                            <template #default>
-                                <van-tag type="primary">已经绑定</van-tag>
-                            </template>
-
-                        </div>
-                        <div>
-                            <template #title>
-                                <span></span>
-                            </template>
-                            <template #default>
-
-                                <van-button type="warning" @click="phoneUnbind">
-                                    <icon>&#xe7ad</icon>取消绑定
-                                </van-button>
-                            </template>
-
-                        </div>
-                    </card-context>
-                    <!-- 未绑定-->
-                    <card-context v-else class="phonebind">
-                        <div prop="phone">
-                            <span>手机号</span>
-                            <input type="text" tabindex="1" v-model.trim='form.phone' autocomplete="off"
-                                v-model.trim='form.phone' placeholder="手机号" />
-                            <span class="tips"></span>
-                        </div>
-                        <div prop="sms">
-                            <span>验证码</span>
-                            <input type="text" tabindex="1" autocomplete="off" v-model.trim='form.sms'
-                                placeholder="短信验证码" />
-                            <div class="sms_handler">
-                                <loading bubble v-if="loading_sms"></loading>
-                                <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
-                                <span class="getsms" v-else @click="getsms">获取验证码</span>
-                            </div>
-                            <span class="tips"></span>
-                        </div>
-                        <div>
-                            <template #title>
-                                <span></span>
-                            </template>
-                            <template #default>
-
-                                <van-button type="primary" @click="phonebind">
-                                    <icon>&#xe634</icon>确认绑定
-                                </van-button>
-                            </template>
-
-                        </div>
-                    </card-context>
-                </card>
-
-            </template>
-            <card v-else>
-                未登录
-            </card>
-
+        <el-form ref="account" :model="account" @submit.native.prevent label-width="120px" v-if="isbind">
+            <el-form-item label="账号" prop="Ac_AccName">
+                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            </el-form-item>
+            <el-form-item label="移动电话" prop="Ac_MobiTel1">
+                <el-input v-model="account.Ac_MobiTel1" style="width:200px" :disabled="true">
+                    <icon slot="prefix">&#xe66c</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <el-tag type="success"> 已经绑定</el-tag>
+            </el-form-item>
+            <el-form-item label="" v-if="false">
+                <el-checkbox v-model="account.Ac_IsOpenMobi">是否公开</el-checkbox>
+            </el-form-item>
+        </el-form>
+        <!-- 未绑定-->
+        <el-form ref="form" :model="form" :rules="sms_rules" @submit.native.prevent label-width="120px" v-else>
+            <el-form-item label="账号" prop="Ac_AccName">
+                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            </el-form-item>
+            <el-form-item label="移动电话" prop="phone">
+                <el-input v-model="form.phone" style="width:160px">
+                    <icon slot="prefix">&#xe66c</icon>
+                </el-input>
+                <el-tag type="warning"> 未绑定</el-tag>
+            </el-form-item>
+            <el-form-item label=" " prop="sms">
+                <el-input v-model="form.sms" style="width:160px">
+                    <icon slot="prefix">&#xe76e</icon>
+                </el-input>             
+                <loading bubble v-if="loading_sms"></loading>
+                <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                <el-button type="primary" v-else plain @click="getsms('form')">获取验证码</el-button>
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" v-if="isbind" define="enter" :loading="loading" @click="phoneUnbind()">
+                取消绑定
+            </el-button>
+            <el-button type="primary" v-else define="enter" :loading="loading" @click="phonebind('form')">
+                绑定手机
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
         </div>
     </div>
 

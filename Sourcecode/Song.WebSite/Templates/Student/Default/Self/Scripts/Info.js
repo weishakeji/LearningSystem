@@ -12,9 +12,7 @@ $ready(function () {
         mounted: function () {
             this.getAccount(null);
         },
-        created: function () {
-
-        },
+        created: function () {},
         computed: {
             //是否登录
             islogin: function () {

@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            account: {},     //当前登录账号
+            account: {}, //当前登录账号对象
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项
@@ -16,7 +16,7 @@ $ready(function () {
             sms_rules: {
                 'phone': [
                     { required: true, message: '不得为空', trigger: 'blur' },
-                    { regex: /^[0-9_-]{11,11}$/, message: '请输入合法手机号', trigger: 'blur' }
+                    { pattern: /^[0-9_-]{11,11}$/, message: '请输入合法手机号', trigger: 'blur' }
                 ],
                 'sms': [
                     { required: true, message: '验证码不得为空', trigger: 'blur' },
@@ -27,7 +27,6 @@ $ready(function () {
             loading: true,  //
             loading_sms: false,
             uploading: false        //修改信息中
-
         },
         mounted: function () {
             var th = this;
@@ -36,7 +35,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading = false;
+                th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -66,17 +65,16 @@ $ready(function () {
             },
             //是否绑定手机号了
             isbind: function () {
-                return this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
+                return this.account.Ac_MobiTel1 != '' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
             }
         },
         watch: {
-
         },
         methods: {
             //取消绑定
             phoneUnbind: function () {
                 var th = this;
-                this.$confirm('是否确定取消绑定?', '提示', {
+                this.$confirm('是否确定取消绑定？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -94,97 +92,36 @@ $ready(function () {
                         console.error(err);
                     }).finally(() => th.uploading = false);
                 }).catch(() => { });
-            },
-            //绑定
-            phonebind: function () {
-                if (!this.verification(this.form, this.sms_rules)) return;
-                //校验验证码
-                let storage = 'bindphone_sms_seconds';
-                var obj = $api.storage(storage);
-                if (obj == undefined) return this.tips('sms', false, '请发送验证码');
-                if (obj.expire < new Date()) return this.tips('sms', false, '验证码时效过期');
-                if (obj.vcode != $api.md5(this.form.phone + this.form.sms)) return this.tips('sms', false, '验证码不正确');
-                var th = this;
-                th.uploading = true;
-                $api.post('Account/PhoneBind', { 'acid': th.account.Ac_ID, 'phone': this.form.phone }).then(function (req) {
-                    if (req.data.success) {
-                        th.account = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(() => th.uploading = false);
-            },
-            //显示提示信息
-            tips: function (prop, success, msg) {
-                if (prop == undefined || prop == null) {
-                    return $dom('*[prop]').removeClass('login_error');
-                }
-                var dom = $dom('*[prop="' + prop + '"]');
-                if (dom.length > 0) {
-                    if (success) dom.removeClass('login_error');
-                    if (!success) {
-                        dom.addClass('login_error');
-                        dom.find('input').focus();
-                    }
-                    dom.find('.tips').html(msg);
-                }
-                return success;
-            },
-            //校验数据，data数据项,rules校验规则（基本遵循ElemenuUI相关校验规划）
-            verification: function (data, rules) {
-                for (d in data) {   //遍历数据项
-                    if (!check(d, data[d], rules[d], this.tips)) return false;
-                }
-                //校验方法
-                function check(prop, val, rule, func) {
-                    if (rule == undefined) return true;
-                    for (let i = 0; i < rule.length; i++) {
-                        const item = rule[i];
-                        //为空判断
-                        if (!!item['required'] && val == '') {
-                            return func(prop, false, item['message']);
-                        }
-                        //判断长度
-                        if ((!!item['min'] && val.length < item['min'])
-                            || (!!item['max'] && val.length > item['max'])) {
-                            return func(prop, false, item['message']);
-                        }
-                        //正则验证
-                        if (!!item['regex']) {
-                            var regex = new RegExp(item['regex']);
-                            if (!regex.test(val))
-                                return func(prop, false, item['message']);
-                        }
-                    }
-                    return func(prop, true, '');
-                }
-                return true;
+
             },
             //获取短信
-            getsms: function () {
-                if (!this.verification({ 'phone': this.form.phone }, this.sms_rules)) return;
+            getsms: function (formName) {
                 var th = this;
-                th.loading_sms = true;
-                $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;   //校验码
-                        th.countdown(result);
-                        window.login_sms_seconds = window.setInterval(function () {
-                            th.countdown();
-                        }, 1000);
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var th = this;
+                        th.loading_sms = true;
+                        $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
+                            if (req.data.success) {
+                                var result = req.data.result;   //校验码
+                                th.countdown(result);
+                                window.login_sms_seconds = window.setInterval(function () {
+                                    th.countdown();
+                                }, 1000);
 
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+                            alert(err);
+                            console.error(err);
+                        }).finally(() => th.loading_sms = false);
                     } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
+                        console.log('error submit!!');
+                        return false;
                     }
-                }).catch(function (err) {
-                    th.tips('phone', false, err);
-                    console.error(err);
-                }).finally(() => th.loading_sms = false);
+                });
             },
             //倒计时
             countdown: function (vcode) {
@@ -202,7 +139,31 @@ $ready(function () {
                 $api.storage(storage, obj);
                 console.log(obj.second);
             },
-        },
+            //绑定
+            phonebind: function (formName) {
+                var th = this;
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        th.uploading = true;
+                        $api.post('Account/PhoneBind', { 'acid': th.account.Ac_ID, 'phone': this.form.phone }).then(function (req) {
+                            if (req.data.success) {
+                                th.account = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            alert(err);
+                            console.error(err);
+                        }).finally(() => th.uploading = false);
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+        }
     });
 
-}, ['/Utilities/Components/avatar.js']);
+}, ["/Utilities/Scripts/hanzi2pinyin.js",
+    "/Utilities/Components/education.js"]);

@@ -60,8 +60,6 @@ card div.row[right]::after {
 
 
 /*图标与名称*/
-.config>div .name {}
-
 .config>div .name .tagname {
     font-size: 14px;
     font-weight: normal;
