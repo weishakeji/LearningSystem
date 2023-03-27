@@ -167,25 +167,14 @@
                 </card>
                 <card>
                     <van-collapse v-model="activeNames">
-                        <van-collapse-item name="7">
+                        <van-cell is-link @click="window.location.href='BindPhone'">
                             <template #title>
-                                <span icon="&#xe76a">安全问题 </span>
+                                <span icon="&#xe677">绑定手机</span>
                             </template>
-                            <van-cell-group>
-                                <van-cell>
-                                    <van-field v-model="account.Ac_Qus" label="问题" />
-                                </van-cell>
-                                <van-cell>
-                                    <template>
-                                        <van-field v-model="account.Ac_Ans" label="答案" />
-                                    </template>
-                                </van-cell>
-                                <van-cell>
-                                    <van-button size="small" type="primary" style="float: right;" @click="update">确 定
-                                    </van-button>
-                                </van-cell>
-                            </van-cell-group>
-                        </van-collapse-item>
+                            <template #default>
+                                <span>   {{account.Ac_MobiTel1}}</span>
+                            </template>
+                        </van-cell>
                         <van-collapse-item name="8">
                             <template #title>
                                 <span icon="&#xe613">密码修改 </span>
@@ -210,14 +199,34 @@
                                 </van-cell>
                             </van-cell-group>
                         </van-collapse-item>
-                        <van-cell is-link @click="window.location.href='BindPhone'">
+                        <van-collapse-item name="7">
                             <template #title>
-                                <span icon="&#xe677">绑定手机</span>
+                                <span icon="&#xe76a">安全问题 </span>
+                            </template>
+                            <van-cell-group>
+                                <van-cell>
+                                    <van-field v-model="account.Ac_Qus" label="问题" />
+                                </van-cell>
+                                <van-cell>
+                                    <template>
+                                        <van-field v-model="account.Ac_Ans" label="答案" />
+                                    </template>
+                                </van-cell>
+                                <van-cell>
+                                    <van-button size="small" type="primary" style="float: right;" @click="update">确 定
+                                    </van-button>
+                                </van-cell>
+                            </van-cell-group>
+                        </van-collapse-item>
+                        <van-cell is-link @click="window.location.href='OtherLogin'">
+                            <template #title>
+                                <span icon="&#xe808">第三方账号绑定</span>
                             </template>
                             <template #default>
-                                <span>   {{account.Ac_MobiTel1}}</span>
+                              
                             </template>
                         </van-cell>
+                        
                     </van-collapse>
                 </card>
 

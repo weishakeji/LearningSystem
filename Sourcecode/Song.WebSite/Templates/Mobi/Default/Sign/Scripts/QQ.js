@@ -6,6 +6,7 @@ $ready(function () {
             //1为绑定，2为登录
             type: $api.querystring('type'),
 
+            user: {},
             loading: true
         },
         mounted: function () {
@@ -19,7 +20,21 @@ $ready(function () {
         },
         methods: {
             loaduser: function (user) {
-                alert(user);
+                //type:1为登录，2为绑定
+                if (this.type == 2 || this.type == '2') {
+                    var ismobi = $api.ismobi();                  
+                    for (k in user) {
+                        user[k] = encodeURIComponent(user[k]);
+                    }
+                    //if (!ismobi) {
+                        var url = $api.url.set('/student/OtherLogin/qq', user);
+                        //console.error(url);
+                        window.location.href = url;
+                    //}
+                } else {
+                    this.user = user;
+                }
+                //alert(user);
             }
         }
     });

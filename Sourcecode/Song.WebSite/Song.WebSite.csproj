@@ -436,8 +436,11 @@
     <Content Include="Templates\Manage\Default\SSO\Styles\Modify.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Account\BindPhone.html" />
+    <Content Include="Templates\Mobi\Default\Account\OtherLogin.html" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\BindPhone.js" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\OtherLogin.js" />
     <Content Include="Templates\Mobi\Default\Account\Styles\BindPhone.css" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\OtherLogin.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\Accessory.js" />

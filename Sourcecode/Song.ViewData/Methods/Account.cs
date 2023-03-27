@@ -1330,5 +1330,59 @@ namespace Song.ViewData.Methods
             return _tran(acc);
         }
         #endregion
+
+        #region 第三方登录的账号，通过openid获取已经存在账户
+        /// <summary>
+        /// 通过openid获取已经存在账户
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="type">weixin,qq</param>
+        /// <returns></returns>
+        public Song.Entities.Accounts User4Openid(string openid, string type)
+        {
+            Song.Entities.Accounts acc = null;
+            type = type.ToLower();
+            switch (type)
+            {
+                case "weixin":
+                    acc = Business.Do<IAccounts>().Account4Weixin(openid);
+                    break;
+                case "qq":
+                    acc = Business.Do<IAccounts>().Account4QQ(openid);
+                    break;
+            }
+            return _tran(acc);
+        }
+        /// <summary>
+        /// 绑定第三方账号，如果openid为空，则为取消绑定
+        /// </summary>
+        /// <param name="openid">第三方平台账号的唯一id</param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [HttpPost, Student]
+        public Song.Entities.Accounts UserBind(string openid, string type)
+        {
+            Song.Entities.Accounts acc = this.User;
+            type = type.ToLower();
+            switch (type)
+            {
+                case "weixin":
+                    Business.Do<IAccounts>().AccountsUpdate(acc, 
+                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_WeixinOpenID },
+                        new object[] { openid });
+                    break;
+                case "qq":
+                    Business.Do<IAccounts>().AccountsUpdate(acc, 
+                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_QqOpenID },
+                        new object[] { openid });
+                    break;
+            }
+            acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
+            LoginAccount.Fresh(acc);
+            return _tran(acc);
+        }
+        #endregion
+
+       
     }
 }

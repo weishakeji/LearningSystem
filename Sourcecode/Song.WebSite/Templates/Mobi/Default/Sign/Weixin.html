@@ -10,10 +10,14 @@
 
 <body>
     <div id="vapp" v-cloak>
-        code:{{code}}
-        <hr />
-        state:{{state}}
 
+        <weixin @load="loaduser"></weixin>
+
+        <div v-for="(val,key) in user">
+            {{key}} : {{val}}
+        </div>
+        登录中...
+        <img :src="user.headimgurl "/>
     </div>
 
 

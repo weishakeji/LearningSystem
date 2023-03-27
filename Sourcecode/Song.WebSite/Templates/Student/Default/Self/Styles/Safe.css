@@ -60,6 +60,11 @@ card div.row[right]::after {
 
 
 /*图标与名称*/
+.config>div.row{
+    display: flex;
+    justify-content: space-between;
+    cursor: default;
+}
 .config>div .name .tagname {
     font-size: 14px;
     font-weight: normal;

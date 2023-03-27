@@ -86,8 +86,7 @@ Vue.component('config', {
         },
         //弹窗
         openbox: function (url, item) {
-            var obj = {};
-            console.error(window.name);
+            var obj = {};           
             obj = {
                 'url': url, 'ico': item.icon, 'title': item.name,
                 'pid': window.tag, 'showmask': true, 'min': false, 'max': false,
@@ -108,15 +107,17 @@ Vue.component('config', {
         },
         //qq登录
         event_qq: function (item, type) {
+            var ismobi = $api.ismobi();
             var url = 'https://graph.qq.com/oauth2.0/authorize';
             url = $api.url.set(url, {
                 'client_id': item.obj.Tl_APPID,
                 'response_type': 'code',
                 'scope': 'all',
                 'state': item.obj.Tl_Tag + ',' + type,
-                'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
+                'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq'),
+                'display':ismobi ? 'mobile' : ''
             });
-            var ismobi = $api.ismobi();
+            
             if (ismobi) window.location.href = url;
             else
                 this.openbox(url, item);

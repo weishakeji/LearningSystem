@@ -21,7 +21,9 @@
                     <el-tag type="success" v-else>未绑定</el-tag>
                 </div>
             </div>
-
+            <div class="row" right @click="openbox('password','密码修改','e613',500,300)">
+                <icon>&#xe613</icon>密码修改
+            </div>
         </card>
         <card>
             <card-title>
@@ -29,8 +31,7 @@
             </card-title>
 
             <config ref="config" class="config" :isuse="true">
-                <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data"
-                    @click="$refs['config'].eventClick(data.item,2)">
+                <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
                     <div class="name">
                         <img :src="data.img" />
                         <template v-if="data.item.obj.Tl_Name!=null"></template>
@@ -40,6 +41,17 @@
                             {{data.item.name}}
                         </template>
                     </div>
+                    <loading v-if="loading_bind=='data.item.tag'"></loading>
+                    <div class="btns" v-else>
+                        <el-popconfirm title="确定要取消绑定吗？" v-if="isbind(data.item.tag)"  @confirm="cancelbind(data.item.tag)">
+                            <el-button type="warning" slot="reference">
+                                <icon style="font-size:12px">&#xe6fe</icon>取消绑定
+                            </el-button>
+                        </el-popconfirm>
+                        <el-button v-else type="primary" @click="$refs['config'].eventClick(data.item,2)">
+                            <icon style="font-size:12px">&#xa030</icon>绑定账号
+                        </el-button>
+                    </div>
                 </div>
                 <div slot="null" class="row null">( 没有可用的第三方平台 )</div>
             </config>
@@ -47,9 +59,7 @@
         </card>
 
         <card>
-            <div class="row" right @click="openbox('password','密码修改','e613',500,300)">
-                <icon>&#xe613</icon>密码修改
-            </div>
+
             <div class="row" right @click="openbox('Security','安全问题','e6ed',500,300)">
                 <icon>&#xe6ed</icon>安全问题
             </div>

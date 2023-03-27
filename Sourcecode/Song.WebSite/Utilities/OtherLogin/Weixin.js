@@ -83,7 +83,7 @@ Vue.component('weixin', {
                         th.gettoken(th.object);
                     else
                         th.getUserInfo(th.token, th.openid);
-                   
+
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -113,7 +113,17 @@ Vue.component('weixin', {
                         //示例："{"access_token":"66_e22Lk3_9qlwIlYM9_T5pYEF3ZuStSk08D3PutHRlJW1S1CXf1rN6CIJWDGLV1QUQ1oK1iCeAyiZj3U9-dHHKXlM0B5LOGS0gKlCbqcvhHu4","expires_in":7200,"refresh_token":"66_M_02gRnk6F2jcX5_DVpNR5tE4ZRq5M6U-zHp5kqChS0O2AEtzPse-aN8YFwjFIa32HviovRFm-1xXVX0vvb7RGAgZA4PIpWIc2ZV1OS0acE","openid":"ofQVY1arThLpPqI2F6onNClfo1oE","scope":"snsapi_login","unionid":"oviR-0ujiC7OLI45s0xt0ja1-YSI"}"
                         th.token = result.access_token;
                         th.openid = result.openid;
-                        th.getUserInfo(th.token, th.openid);
+                        //th.getUserInfo(th.token, th.openid);
+                        //跳转
+                        var url = window.location.href;
+                        if (url.indexOf('?') > -1) url = url.substring(0, url.lastIndexOf('?'));
+                        url = $api.url.set(url, {
+                            token: th.token,
+                            openid: th.openid,
+                            tag: th.tag,
+                            type: th.type
+                        });
+                        window.parent.location.href = url;
                     } else {
                         //失败
                         //示例：{"errcode":40013,"errmsg":"invalid appid, rid: 641d130f-2302406a-492bc56c"};
@@ -140,7 +150,7 @@ Vue.component('weixin', {
                 if (req.data.success) {
                     var result = req.data.result;
                     var result = JSON.parse(req.data.result);
-                    //result['openid'] = openid;
+                    result['tag'] = th.tag;     //第三方登录的配置项标识
                     th.$emit('load', result);
                     console.log(result);
                 } else {

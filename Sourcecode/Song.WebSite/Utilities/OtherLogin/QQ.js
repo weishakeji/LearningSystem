@@ -162,7 +162,7 @@ Vue.component('qq', {
                             tag: th.tag,
                             type: th.type
                         });
-                        window.location.href = url;
+                        window.parent.location.href = url;
                     }
 
                 } else {
@@ -183,6 +183,7 @@ Vue.component('qq', {
                 if (req.data.success) {
                     var result = JSON.parse(req.data.result);
                     result['openid'] = openid;
+                    result['tag'] = th.tag;     //第三方登录的配置项标识
                     th.$emit('load', result);
                     console.log(result);
                 } else {

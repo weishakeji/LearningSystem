@@ -10,14 +10,17 @@
 
 <body>
     <div id="vapp" v-cloak>
-        code:{{code}}
-        <hr />
-        type:{{type}}
+ 
         <qq @load="loaduser">
 
         </qq>
-    </div>
 
+        <div v-for="(val,key) in user">
+            {{key}} : {{val}}
+        </div>
+        登录中...
+        <img :src="user.figureurl_2 "/>
+    </div>
 
 </body>
 

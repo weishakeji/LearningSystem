@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>第三方平台账号绑定</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <van-sticky>
+                <div class="header_info" v-if="!islogin" remark="未登录">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录">
+                    <header>
+                        <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
+                        <a href="/mobi/" icon="&#xa020"></a>
+                    </header>
+                    <avatar :account="account" circle="true" size="60"></avatar>
+                    <div class="accInfo">
+                        <div class="acc-name">
+                            <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
+                            <span v-else>（没有名字）</span>
+                        </div>
+                        <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+                    </div>
+                </div>
+            </van-sticky>
+            <template v-if="islogin">
+
+                <card>
+                    <config ref="config" class="config" :isuse="true">
+                        <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
+                            <div class="name">
+                                <img :src="data.img" />
+                                <template v-if="data.item.obj.Tl_Name!=null"></template>
+                                {{data.item.obj.Tl_Name}}
+                                <span class="tagname">({{data.item.name}})</span>
+                                <template v-else>
+                                    {{data.item.name}}
+                                </template>
+                            </div>
+                            <loading v-if="loading_bind=='data.item.tag'"></loading>
+                            <div class="btns" v-else>
+
+                                <van-button type="warning" v-if="isbind(data.item.tag)"
+                                    @click="cancelbind(data.item.tag)">
+                                    <icon style="font-size:12px">&#xe6fe</icon>取消
+                                </van-button>
+
+                                <van-button v-else type="primary" @click="$refs['config'].eventClick(data.item,2)">
+                                    <icon style="font-size:12px">&#xa030</icon>绑定
+                                </van-button>
+                            </div>
+                        </div>
+                        <div slot="null" class="row null">( 没有可用的第三方平台 )</div>
+                    </config>
+                </card>
+
+
+            </template>
+            <card v-else>
+                <van-cell is-link>
+                    <template #title>
+                        <a icon="&#xe84d" :href="commonaddr('signin')">点击此处登录</a>
+                    </template>
+                </van-cell>
+
+            </card>
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

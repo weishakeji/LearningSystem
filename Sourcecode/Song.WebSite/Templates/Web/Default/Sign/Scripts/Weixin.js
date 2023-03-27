@@ -34,18 +34,23 @@ $ready(function () {
         },
         methods: {
             loaduser: function (user) {
-                if (this.type == 1 || this.type == '1') {
+                //type:1为登录，2为绑定
+                if (this.type == 2 || this.type == '2') {
                     var ismobi = $api.ismobi();
                     //let json = eval('('+user+')');
                     //let json = JSON.parse(user);
                     for (k in user) {
                         user[k] = encodeURIComponent(user[k]);
                     }
-                    if (!ismobi) {
-                        var url = $api.url.set('/student/OtherLogin/weixin', user);
-                        //console.error(url);
-                        window.location.href = url;
-                    }
+                    console.error(user);
+                    //this.tag=user['tag']; 
+                    //if (!ismobi) {
+                    var url = $api.url.set('/student/OtherLogin/weixin', user);
+                    //console.error(url);
+                    window.location.href = url;
+                    //}
+                } else {
+                    this.user = user;
                 }
                 //alert(user);
             }

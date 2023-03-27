@@ -19,6 +19,7 @@ namespace Song.ViewData.Methods
     [HttpPut, HttpGet]
     public class OtherLogin : ViewMethod, IViewAPI
     {
+        #region 管理
         /// <summary>
         /// 通过tag获取登录配置项
         /// </summary>
@@ -76,6 +77,8 @@ namespace Song.ViewData.Methods
             Business.Do<IThirdpartyLogin>().Save(entity);
             return true;
         }
+        #endregion
+
         /// <summary>
         /// 获取远程页面的返回
         /// </summary>
@@ -89,6 +92,6 @@ namespace Song.ViewData.Methods
                 return WeiSha.Core.Request.HttpPost(url);
             return  WeiSha.Core.Request.HttpGet(url);
         }
-
+       
     }
 }

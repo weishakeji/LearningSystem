@@ -3,16 +3,52 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>微信登录</title>
+    <title>微信账号绑定</title>
 
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <div v-for="(val,key) in user">
-            {{key}} : {{val}}
+        <header v-if="ismobi">
+            <a href="/mobi/account/myself" icon="&#xe727" style="font-size: 22px;"></a>
+            <a href="/mobi/" icon="&#xa020"></a>
+        </header>
+        <div class="outer">
+            <img :src="outeruser.headimgurl " />
+            <div>
+                <div class="nickname">昵称：<span>{{outeruser.nickname}}</span></div>
+                <div class="tagname">
+                    <icon>&#xe832</icon>微信用户
+                </div>
+            </div>
         </div>
-        <img :src="user.headimgurl "/>
+        <div class="state">
+            <el-alert  v-if="!islogin" title="未登录" type="error" :closable="false"> </el-alert>
+            <el-alert  v-else-if="bound" title="已经绑定" type="success" :closable="false"> </el-alert>
+            <el-alert  v-else-if="used" title="已经绑定到其它账号" type="warning" :closable="false"> </el-alert>
+            <el-alert  v-else title=" 未绑定，点击绑定" type="info" :closable="false"> </el-alert>
+         
+        </div>
+
+        <div class="user" v-if="islogin">
+            <avatar :account="localuser" circle="true" size="80"></avatar>
+            <div>
+                <div>姓名：<span>{{localuser.Ac_Name}}</span></div>
+                <div>账号：<span>{{localuser.Ac_AccName}}</span></div>
+            </div>
+
+        </div>
+        <div class="btns" v-if="islogin && !bound && !used">
+            <el-button type="primary" :disabled="loading" @click="bindhandler()">
+                <icon>&#xa030</icon>绑定账号
+            </el-button>
+        </div>
+        <template v-if="false">
+            <div v-for="(val,key) in outeruser">
+                {{key}} : {{val}}
+            </div>
+            <img :src="outeruser.headimgurl " />
+        </template>
     </div>
 
 </body>

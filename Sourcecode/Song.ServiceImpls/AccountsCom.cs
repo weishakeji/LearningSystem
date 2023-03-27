@@ -482,7 +482,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts Account4QQ(string qqopenid)
         {
-            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_QqOpenID == qqopenid || Accounts._.Ac_AccName == qqopenid).ToFirst<Accounts>();
+            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_QqOpenID == qqopenid).ToFirst<Accounts>();
             return _acc_init(ac);
         }
         /// <summary>
@@ -492,7 +492,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts Account4Weixin(string openid)
         {
-            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_WeixinOpenID == openid || Accounts._.Ac_AccName == openid).ToFirst<Accounts>();
+            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_WeixinOpenID == openid).ToFirst<Accounts>();
             return _acc_init(ac);
         }
         /// <summary>
