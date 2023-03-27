@@ -44,8 +44,6 @@ Vue.component('login', {
             sms_seconds: 0,        //发送短信后的数秒
             loading: false,
             loading_sms: false,
-
-
         }
     },
     watch: {
@@ -90,12 +88,15 @@ Vue.component('login', {
     computed: {
         //禁止登录
         disabled_login: function () {
-            return !this.config.IsLoginForPw && !this.config.IsLoginForSms;
+            return this.config && !this.config.IsLoginForPw && !this.config.IsLoginForSms;
         }
     },
     created: function () {
-
-
+        //记录来源页
+        var referrer = decodeURIComponent($api.querystring('referrer'));
+        if (referrer != '') {
+            $api.storage('singin_referrer', referrer);
+        }
     },
     methods: {
         //账号密码登录
@@ -116,12 +117,8 @@ Vue.component('login', {
             }).then(function (req) {
                 if (req.data.success) {
                     //登录成功
-                    var result = req.data.result;
-                    $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
-                    $api.login.account_fresh();
-                    $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '账号密码登录', 'remark': '' });
-                    //登录成功的事件
-                    th.$emit('success', result);
+                    var ismobi = $api.ismobi();
+                    th.success(req.data.result, ismobi ? '手机端' : '电脑网页', '账号密码登录', '');
                 } else {
                     var data = req.data;
                     switch (String(data.state)) {
@@ -166,12 +163,8 @@ Vue.component('login', {
                 if (req.data.success) {
                     if (req.data.success) {
                         //登录成功
-                        var result = req.data.result;
-                        $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
-                        $api.login.account_fresh();
-                        $api.post('Point/AddForLogin', { 'source': '电脑网页', 'info': '短信验证登录', 'remark': '' });
-                        //登录成功的事件
-                        th.$emit('success', result);
+                        var ismobi = $api.ismobi();
+                        th.success(req.data.result, ismobi ? '手机端' : '电脑网页', '短信验证登录', '');
                     } else {
                         var data = req.data;
                         switch (String(data.state)) {
@@ -306,6 +299,14 @@ Vue.component('login', {
                 }
             }).catch(err => console.error(err))
                 .finally(() => th.acc_vcode.loading = false);
+        },
+        //登录成功
+        success: function (account, source, info, remark) {
+            $api.loginstatus('account', account.Ac_Pw, account.Ac_ID);
+            $api.login.account_fresh();
+            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark });
+            //登录成功的事件
+            this.$emit('success', account);
         }
     },
     template: `<div class="login_weisha">
@@ -317,7 +318,7 @@ Vue.component('login', {
                     <span>{{t.name}}</span>
                 </div>
             </div>
-            <form class="login_pwd_area" v-if="config.IsLoginForPw" @submit.prevent="submit_accpwd" v-show="tabActive=='pwd'"  remark="账号密码登录">
+            <form class="login_pwd_area" v-if="config && config.IsLoginForPw" @submit.prevent="submit_accpwd" v-show="tabActive=='pwd'"  remark="账号密码登录">
                 <div class="login_acc_pwd">
                     <div prop="acc">
                         <input type="text" tabindex="1" autocomplete="off" v-model.trim='acc_form.acc' placeholder="账号"/>
@@ -342,7 +343,7 @@ Vue.component('login', {
                 </div>
             </form>
 
-            <form class="login_area" v-if="config.IsLoginForSms" @submit.prevent="submit_sms" v-show="tabActive=='sms'" remark="短信登录">               
+            <form class="login_area" v-if="config && config.IsLoginForSms" @submit.prevent="submit_sms" v-show="tabActive=='sms'" remark="短信登录">               
                 <div class="login_sms">
                     <div prop="phone">
                         <input type="text" tabindex="1" autocomplete="off" v-model.trim='sms_form.phone' placeholder="手机号"/>
@@ -373,7 +374,7 @@ Vue.component('login', {
                 </span>
             </config>
             <div class="login_register">
-                <a href="up" v-if="!config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
+                <a href="up" v-if="config && !config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
                 <a href="find"><icon>&#xe76a</icon>找回密码</a>
             </div>  
         </template>

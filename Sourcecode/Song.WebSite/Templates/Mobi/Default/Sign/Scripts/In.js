@@ -40,6 +40,7 @@ $ready(function () {
             });
         },
         created: function () {
+           
         },
         computed: {
             //是否登录

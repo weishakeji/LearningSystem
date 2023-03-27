@@ -10,16 +10,36 @@
 
 <body>
     <div id="vapp" v-cloak>
- 
+
         <qq @load="loaduser">
 
         </qq>
-
-        <div v-for="(val,key) in user">
-            {{key}} : {{val}}
+        <login ref="login" v-show="false"></login>
+        <header v-if="ismobi">
+            <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>
+            <a href="/mobi/" icon="&#xa020"></a>
+        </header>
+        <div class="outer">
+            <img :src="outeruser.figureurl_2" />
+            <div>
+                <div class="nickname">昵称：<span>{{outeruser.nickname}}</span></div>
+                <div class="tagname">
+                    <icon>&#xe82a</icon>QQ用户
+                </div>
+            </div>
         </div>
-        登录中...
-        <img :src="user.figureurl_2 "/>
+        <div class="loading" v-if="bound" >
+            <div loading="p6"></div>
+            <span>登录成功，转向来源页... </span> 
+          
+        </div>
+        <template v-if="false">
+            <div v-for="(val,key) in outeruser">
+                {{key}} : {{val}}
+            </div>
+            登录中...
+            <img :src="outeruser.figureurl_2 " />
+        </template>
     </div>
 
 </body>

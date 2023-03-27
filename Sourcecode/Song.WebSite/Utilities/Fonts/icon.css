@@ -390,14 +390,14 @@ loading[star]::before {
 }
 
 *[loading=p6] {
-    width: 120px;
+   
     height: 22px;
     border-radius: 20px;
     color: #d8d8d8;
     border: 2px solid;
     position: relative;
     background: #67C23A;
-    background: rgba(248, 98, 98, 0.2);
+    background: rgb(148 221 125 / 20%);
     background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
 }
 
@@ -408,7 +408,7 @@ loading[star]::before {
     inset: 0 100% 0 0;
     border-radius: inherit;
     background: rgba(55, 218, 15, 0.6);
-    animation: p6 2s infinite;
+    animation: p6 1s infinite;
 }
 
 @keyframes p6 {

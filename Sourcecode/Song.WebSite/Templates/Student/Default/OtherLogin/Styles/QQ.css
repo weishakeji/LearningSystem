@@ -22,7 +22,7 @@ header{
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
-    margin: auto;
+    margin: 60px auto auto auto;
     justify-content: center;
     position: static;
 }

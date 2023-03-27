@@ -1354,6 +1354,22 @@ namespace Song.ViewData.Methods
             return _tran(acc);
         }
         /// <summary>
+        /// 采用第三方平台openid登录
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Song.Entities.Accounts UserLogin(string openid, string type)
+        {
+            Song.Entities.Accounts acc = this.User4Openid(openid, type);
+            if (acc != null)
+            {
+                acc = Business.Do<IAccounts>().AccountsLogin(acc);               
+                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
+            }
+            return acc;
+        }
+        /// <summary>
         /// 绑定第三方账号，如果openid为空，则为取消绑定
         /// </summary>
         /// <param name="openid">第三方平台账号的唯一id</param>
