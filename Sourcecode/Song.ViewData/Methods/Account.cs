@@ -1397,8 +1397,35 @@ namespace Song.ViewData.Methods
             LoginAccount.Fresh(acc);
             return _tran(acc);
         }
+        /// <summary>
+        /// 用第三方平台信息创建新用户
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc,string openid)
+        {
+            if (string.IsNullOrWhiteSpace(acc.Ac_AccName))
+                acc.Ac_AccName = WeiSha.Core.Request.SnowID().ToString();
+            acc.Ac_IsPass = acc.Ac_IsUse = true;
+            acc.Ac_Pw = openid;
+            //头像图片
+            string photoPath = PhyPath + openid + ".jpg";
+            WeiSha.Core.Request.LoadFile(acc.Ac_Photo, photoPath);
+            acc.Ac_Photo = openid + ".jpg";
+
+            int acid = Business.Do<IAccounts>().AccountsAdd(acc);
+            Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
+            _tran(nacc);
+            nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
+            nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc, this.Letter);
+            LoginAccount.Fresh(nacc);
+            return nacc;           
+          
+        }
         #endregion
 
-       
+
     }
 }

@@ -28,10 +28,18 @@
                 </div>
             </div>
         </div>
-        <div class="loading" v-if="bound" >
+        <div class="loading" v-if="bound">
             <div loading="p6"></div>
-            <span>登录成功，转向来源页... </span> 
-          
+            <span>登录成功，转向来源页... </span>
+
+        </div>
+        <div v-else class="btns">
+            <loading v-if="loading_crt"></loading>
+            <template v-else>
+                <div type="success" @click="window.location.href=commonaddr('signin')">我已经有账号，返回登录</div>
+                <help>登录后，在个人中心绑定第三方账号</help>
+                <div type="primary" v-if="entity.Tl_IsRegister" @click="createuser">我还没有账号，直接创建</div>
+            </template>
         </div>
         <template v-if="false">
             <div v-for="(val,key) in outeruser">

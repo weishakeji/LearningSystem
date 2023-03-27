@@ -11,7 +11,10 @@ $ready(function () {
 
             openid: '',
             tag: '',         //第三方登录的配置项标识
-            loading: true
+
+            entity: {},       //第三方登录的配置项
+            loading: true,
+            loading_crt: false       //创建用户的预载
         },
         mounted: function () {
 
@@ -44,7 +47,7 @@ $ready(function () {
                 this.openid = user.openid;
                 this.tag = user.tag;
                 this.getuser();
-
+                this.getentity(this.tag);
             },
             //获取登录账号与已经绑定的账号
             getuser: function () {
@@ -54,19 +57,64 @@ $ready(function () {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, '手机端', 'QQ登录', '');
-                        //如果已经绑定
-                        var singin_referrer = $api.storage('singin_referrer');
-                        if (singin_referrer != '') window.location.href = singin_referrer;
-                        else
-                            window.location.href = '/mobi/';
+                        window.setTimeout(function () {
+                            var singin_referrer = $api.storage('singin_referrer');
+                            if (singin_referrer != '') window.location.href = singin_referrer;
+                            else
+                                window.location.href = '/mobi/';
+                        }, 300);
+
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {                    
+                }).catch(function (err) {
                     console.error(err);
                 }).finally(() => th.loading = false);
 
             },
+            //获取第三方登录配置项
+            getentity: function (tag) {
+                var th = this;
+                th.loading = true;
+                $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
+                    if (req.data.success) {
+                        th.entity = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading = false;
+                });
+            },
+            //创建用户
+            createuser: function () {
+                var user = this.outeruser;
+                var obj = {};
+                obj.Ac_QqOpenID = user.openid;
+                obj.Ac_Name = user.nickname;
+                obj.Ac_Photo = user.figureurl_2;
+                obj.Ac_Sex = user.gender == "男" ? 1 : 2;
+                var th = this;
+                th.loading_crt = true;
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$refs['login'].success(result, '手机端', 'QQ登录', '');
+                        window.setTimeout(function () {
+                            window.location.href = '/mobi/';
+                        }, 300);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(() => th.loading_crt = false);
+            }
         }
     });
 
