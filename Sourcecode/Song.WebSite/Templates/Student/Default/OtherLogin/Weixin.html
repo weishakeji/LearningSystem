@@ -26,7 +26,7 @@
             <el-alert  v-if="!islogin" title="未登录" type="error" :closable="false"> </el-alert>
             <el-alert  v-else-if="bound" title="已经绑定" type="success" :closable="false"> </el-alert>
             <el-alert  v-else-if="used" title="已经绑定到其它账号" type="warning" :closable="false"> </el-alert>
-            <el-alert  v-else title=" 未绑定，点击绑定" type="info" :closable="false"> </el-alert>
+            <el-alert  v-else title=" 未绑定，点击下方按钮绑定" type="info" :closable="false"> </el-alert>
          
         </div>
 

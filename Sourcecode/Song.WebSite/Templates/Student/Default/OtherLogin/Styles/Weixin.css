@@ -45,9 +45,11 @@ header{
     margin-left: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     color: #999;
     font-size: 16px;
     line-height: 30px;
+    text-align: left;
 }
 
 .outer>div .nickname {
@@ -82,6 +84,7 @@ header{
     margin-left: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     color: #999;
     font-size: 14px;
     line-height: 30px;
