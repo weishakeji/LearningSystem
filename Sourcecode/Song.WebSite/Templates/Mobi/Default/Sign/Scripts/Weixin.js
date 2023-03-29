@@ -5,8 +5,8 @@ $ready(function () {
         data: {
             //1为绑定，2为登录
             type: $api.querystring('type'),
-            //微信用户信息
-            user: {},
+
+            outeruser: {},      //外部用户（第三方登录的用户）  
             /** 示例
             {
                 "openid": "ohjXUjtd56L30DEbXM81fwk0che0", 
@@ -21,7 +21,14 @@ $ready(function () {
                 "unionid": "oviR-0ujiC7OLI45s0xt0ja1-YSI"
             }
             */
-            loading: true
+            binduser: {},        //外部用户绑定的本地账号   
+
+            openid: '',
+            tag: '',         //第三方登录的配置项标识
+
+            entity: {},       //第三方登录的配置项
+            loading: true,
+            loading_crt: false       //创建用户的预载
         },
         mounted: function () {
 
@@ -29,30 +36,102 @@ $ready(function () {
         created: function () {
         },
         computed: {
+            //是否是手机端
+            ismobi: function () {
+                return $api.ismobi();
+            },
+            //当前openid是否已经绑定到当前登录账户
+            'bound': function () {
+                return JSON.stringify(this.binduser) != '{}' && this.binduser != null;
+            },
         },
         watch: {
         },
         methods: {
+            //加载第三方账号成功
             loaduser: function (user) {
+                this.outeruser = user;
+                console.log(user);
                 //type:1为登录，2为绑定
                 if (this.type == 2 || this.type == '2') {
-                    var ismobi = $api.ismobi();
-                    //let json = eval('('+user+')');
-                    //let json = JSON.parse(user);
-                    for (k in user) {
-                        user[k] = encodeURIComponent(user[k]);
-                    }
-                    //if (!ismobi) {
-                        var url = $api.url.set('/student/OtherLogin/weixin', user);
-                        //console.error(url);
-                        window.location.href = url;
-                    //}
-                } else {
-                    this.user = user;
+                    for (k in user) user[k] = encodeURIComponent(user[k]);
+                    var url = $api.url.set('/student/OtherLogin/weixin', user);
+                    window.location.href = url;
+                    return;
                 }
-                //alert(user);
+                this.openid = user.openid;
+                this.tag = user.tag;
+                this.getuser();
+                this.getentity(this.tag);
+            },
+            //获取登录账号与已经绑定的账号
+            getuser: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Account/UserLogin', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
+                    if (req.data.success) {
+                        th.binduser = req.data.result;
+                        th.$refs['login'].success(th.binduser, '手机端', '微信登录', '');
+                        window.setTimeout(function () {
+                            var singin_referrer = $api.storage('singin_referrer');
+                            if (singin_referrer != '') window.location.href = singin_referrer;
+                            else
+                                window.location.href = '/mobi/';
+                        }, 300);
+
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(() => th.loading = false);
+
+            },
+            //获取第三方登录配置项
+            getentity: function (tag) {
+                var th = this;
+                th.loading = true;
+                $api.get('OtherLogin/GetObject', { 'tag': tag }).then(function (req) {
+                    if (req.data.success) {
+                        th.entity = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    console.error(err);
+                }).finally(function () {
+                    th.loading = false;
+                });
+            },
+            //创建用户
+            createuser: function () {
+                var user = this.outeruser;
+                var obj = {};
+                obj.Ac_WeixinOpenID = user.openid;
+                obj.Ac_Name = user.nickname;             //昵称
+                obj.Ac_Photo = user.headimgurl;      //用户头像
+                obj.Ac_Sex = user.sex == 0 ? 1 : 2;  //性别，1为男，2为女
+                var th = this;
+                th.loading_crt = true;
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$refs['login'].success(result, '手机端', '微信登录', '');
+                        window.setTimeout(function () {
+                            window.location.href = '/mobi/';
+                        }, 300);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(() => th.loading_crt = false);
             }
         }
     });
 
-}, ['/Utilities/OtherLogin/weixin.js']);
+}, ['/Utilities/OtherLogin/weixin.js',
+    '/Utilities/Components/Sign/Login.js']);
