@@ -6,7 +6,7 @@ Vue.component('config', {
         return {
             items: [
                 { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 600, height: 500, obj: {} },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 700, height: 550, obj: {} },
+                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 500, height: 550, obj: {} },
                 { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, obj: {} },
                 { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, obj: {} }
             ],

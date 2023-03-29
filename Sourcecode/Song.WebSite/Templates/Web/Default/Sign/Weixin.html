@@ -11,15 +11,44 @@
 <body>
     <div id="vapp" v-cloak>
 
-        <weixin @load="loaduser"></weixin>
+        <weixin @load="loaduser">
 
-        <div v-for="(val,key) in user">
-            {{key}} : {{val}}
+        </weixin>
+        <login ref="login" v-show="false"></login>
+        <header v-if="ismobi">
+            <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>
+            <a href="/mobi/" icon="&#xa020"></a>
+        </header>
+        <div class="outer">
+            <img :src="outeruser.headimgurl" />
+            <div>
+                <div class="nickname">昵称：<span>{{outeruser.nickname}}</span></div>
+                <div class="tagname">
+                    <icon>&#xe832</icon>微信用户
+                </div>
+            </div>
         </div>
-        登录中...
-        <img :src="user.headimgurl "/>
-    </div>
+        <div class="loading" v-if="bound">
+            <div loading="p6"></div>
+            <span>登录成功，转向来源页... </span>
 
+        </div>
+        <div v-else class="btns">
+            <loading v-if="loading_crt"></loading>
+            <template v-else>
+                <div type="success" @click="close()">我已经有账号，返回登录</div>
+                <help>登录后，在个人中心绑定第三方账号</help>
+                <div type="primary" v-if="entity.Tl_IsRegister" @click="createuser">我还没有账号，直接创建</div>
+            </template>
+        </div>
+        <template v-if="false">
+            <div v-for="(val,key) in outeruser">
+                {{key}} : {{val}}
+            </div>
+            登录中...
+            <img :src="outeruser.figureurl_2 " />
+        </template>
+    </div>
 
 </body>
 

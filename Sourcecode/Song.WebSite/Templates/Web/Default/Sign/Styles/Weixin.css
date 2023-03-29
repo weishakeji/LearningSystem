@@ -1,1 +1,120 @@
-﻿
+﻿@charset "utf-8";
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+header{
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 5px 15px;
+}
+#vapp {
+    width: 357px;
+    height: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+    margin: 60px auto auto auto;
+    justify-content: center;
+    position: static;
+}
+
+/*第三方平台的账户*/
+.outer {
+    display: flex;
+    margin: auto;
+    width: auto;
+    justify-content: center;
+}
+
+.outer img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.outer>div {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #999;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: left;
+}
+
+.outer>div .nickname {
+    text-align: left;
+}
+
+.outer>div .nickname span {
+
+    color: #333;
+    font-size: 16px;
+}
+
+.outer>div .tagname {
+    line-height: 30px;
+    color: #46bc3e;
+    font-size: 14px;
+}
+
+.outer>div .tagname icon {
+    font-size: 18px;
+}
+
+.loading{
+    margin-top: 60px;
+}
+.loading span{
+    font-size: 13px;
+    color: #999;
+    line-height: 40px;
+}
+/*按钮区域*/
+.btns{
+    margin-top: 20px;
+}
+.btns>div[type]{
+    width: 100%;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+   
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin: 20px 0px 10px 0px;
+}
+.btns>div[type='success']{
+    color: #fff;
+    background-color: #67c23a;
+    border-color: #67c23a;
+}
+.btns>div[type='primary']{
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+}

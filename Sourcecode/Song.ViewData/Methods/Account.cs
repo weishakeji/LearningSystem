@@ -1409,7 +1409,7 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(acc.Ac_AccName))
                 acc.Ac_AccName = WeiSha.Core.Request.SnowID().ToString();
             acc.Ac_IsPass = acc.Ac_IsUse = true;
-            acc.Ac_Pw = openid;
+            acc.Ac_Pw = WeiSha.Core.Request.UniqueID();
             //头像图片
             string photoPath = PhyPath + openid + ".jpg";
             WeiSha.Core.Request.LoadFile(acc.Ac_Photo, photoPath);
