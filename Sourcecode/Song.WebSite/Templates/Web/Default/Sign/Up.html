@@ -12,7 +12,8 @@
 
 
   <div id="vapp" v-cloak>
-    <page_header ref='header' :organ="organ" v-if="true">loading ...</page_header>
+    <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">loading ...</page_header>
+    <login ref="login" v-show="false"></login>
     <context class="first">
       <section v-if="!config.IsRegStudent">
         <el-form ref="register" :model="form" :rules="rules" size="medium" @submit.native.prevent label-width="80px">
@@ -45,8 +46,8 @@
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label-width="0px" prop="rec">
-                <el-input placeholder="推荐人" v-model="form.rec">
+              <el-form-item label-width="0px" prop="rec" v-if="existref">
+                <el-input placeholder="推荐人" v-model="form.rec" :disabled="existref">
                   <template slot="prepend">
                     <icon>&#xe804</icon>
                   </template>

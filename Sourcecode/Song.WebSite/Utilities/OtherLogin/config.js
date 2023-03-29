@@ -5,10 +5,10 @@ Vue.component('config', {
     data: function () {
         return {
             items: [
-                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 600, height: 500, obj: {} },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 500, height: 550, obj: {} },
-                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, obj: {} },
-                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, obj: {} }
+                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
+                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
+                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, disabled: true, obj: {} },
+                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: true, obj: {} }
             ],
             //配置项的数据记录，记录在数据库
             entities: [],
@@ -102,6 +102,9 @@ Vue.component('config', {
         //type:1为登录，2为绑定
         eventClick: function (item, type) {
             if (JSON.stringify(item.obj) == '{}' || item.obj == undefined || item.obj == null) return;
+            if(item.disabled){
+                return alert('还没有开发该功能，如有需要请联系客服');
+            }
             var evt = eval('this.event_' + item.tag + '');
             if (evt != null) evt(item, type);
         },

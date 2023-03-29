@@ -216,6 +216,9 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
+            _tran(tmp);
+            tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
+            tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
             LoginAccount.Add(tmp);
             return tmp;
         }

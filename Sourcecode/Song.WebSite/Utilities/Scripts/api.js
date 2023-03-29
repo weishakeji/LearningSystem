@@ -1475,22 +1475,6 @@
     }
 })();
 
-//异步获取数据的示例
-//$api.get("/dd/xx");
-/* $api.v1.post("/dd/xx",{id:1}).then(function(req){
-.....
-});*/
-
-/*一次获取多个数据
-$api.bat(
-    $api.get("Outline/TreeList", { couid: $api.querystring("couid") }),
-    $api.get("Course/ForID", { id: $api.querystring("couid") })
-).then(axios.spread(function (req, cur) {
-    if (req.data.success) {
-        var outlines = req.data.result;
-    }
-}));
-*/
 //日期格式化
 Date.prototype.format = function (fmt) {
 
@@ -1643,6 +1627,7 @@ $api.effect(function () {
     //console.log(response);
 });
 
+/**统计localStorage容量 */
 (function () {
     if (!window.localStorage) {
         console.log('浏览器不支持localStorage');
@@ -1690,3 +1675,14 @@ window.addEventListener("load", function () {
 
     });
 });
+
+/**分享链接的记录 */
+(function () {
+    var key = 'sharekeyid';
+    window.sharekeyid = $api.querystring(key);
+    if (window.sharekeyid != '') {
+        $api.storage(key, window.sharekeyid);
+    }
+    window.sharekeyid = $api.storage(key);
+    //console.log(window.sharekeyid);
+})();

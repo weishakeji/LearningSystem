@@ -3,9 +3,12 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            platinfo: {},
+            account: {},
             organ: {},
-            config: {},      //当前机构配置项      
+            config: {},
+            plate: {},
+            referrer: {},            //推荐人
+
             //输入的信息
             form: {
                 acc: '',
@@ -81,39 +84,15 @@ $ready(function () {
             loading_vcode: false     //校验码加载
         },
         mounted: function () {
-            $api.bat(
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果           
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                //是否允许注册
-                vapp.config['IsRegStudent'] = !!vapp.config['IsRegStudent'];
-                //console.log(vapp.config);
-                //生成校证码
-                vapp.getvcode();
-            })).catch(function (err) {
-                console.error(err);
-            });
-
             this.getAgreement();
+            this.getreferrer();
         },
         created: function () { },
         computed: {
-
+            //是否有推荐人
+            existref: function () {
+                return JSON.stringify(this.referrer) != '{}' && this.referrer != null;
+            }
         },
         watch: {
             'agreement.checked': {
@@ -121,6 +100,13 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (nv) this.agreement.show = false;
                 }
+            },
+            'organ': {
+                handler: function (nv, ov) {
+                    if (JSON.stringify(nv) != '{}' && nv != null) {
+                        this.getvcode();
+                    }
+                }, immediate: true
             }
         },
         methods: {
@@ -132,6 +118,23 @@ $ready(function () {
                 }
                 this.getAgreement(this.agreement.show);
             },
+            //获取推荐账号
+            getreferrer: function () {
+                if (window.sharekeyid == null || window.sharekeyid == '') return;
+                var th = this;
+                $api.get('Account/ForID', { 'id': window.sharekeyid }).then(function (req) {
+                    if (req.data.success) {
+                        th.referrer = req.data.result;
+                        if (th.existref) {
+                            th.form.rec = '推荐人：'+th.referrer.Ac_Name;
+                            th.form.recid = th.referrer.Ac_ID;
+                        }
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err));
+            },
             //获取校验吗
             getvcode: function () {
                 var th = this;
@@ -142,8 +145,8 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         var vcodebase64 = result.base64;
-                        vapp.form.vcodemd5 = result.value;
-                        console.log(vapp.form.vcodemd5);
+                        th.form.vcodemd5 = result.value;
+                        console.log(th.form.vcodemd5);
                         //
                         $dom("#vcode").attr('src', vcodebase64);
                     } else {
@@ -199,6 +202,13 @@ $ready(function () {
                                             window.location.href = '/';
                                         }
                                     });
+                                    th.$refs['login'].success(result, 'web端', '注册登录', '');
+                                    window.setTimeout(function () {
+                                        var singin_referrer = $api.storage('singin_referrer');
+                                        if (singin_referrer != '') window.location.href = singin_referrer;
+                                        else
+                                            window.location.href = '/';
+                                    }, 300);
                                 } else {
                                     //需要审核
                                     th.$alert('注册成功，请等待审核！', '成功', {
@@ -224,4 +234,4 @@ $ready(function () {
         }
     });
 
-});
+}, ['/Utilities/Components/Sign/Login.js']);

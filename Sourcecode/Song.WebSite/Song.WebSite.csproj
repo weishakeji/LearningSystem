@@ -379,6 +379,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="copyright.weisha" />
+    <Content Include="crossdomain.xml" />
     <Content Include="Download\readme.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1330,11 +1331,8 @@
     <Content Include="Templates\Web\Default\Link\Index.html" />
     <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
-    <Content Include="Templates\Web\Default\Sign\Scripts\QqQrcode.js" />
     <Content Include="Templates\Web\Default\Sign\Scripts\WeixinQrcode.js" />
-    <Content Include="Templates\Web\Default\Sign\Styles\QqQrcode.css" />
     <Content Include="Templates\Web\Default\Sign\Styles\WeixinQrcode.css" />
-    <Content Include="Templates\Web\Default\Sign\QqQrcode.html" />
     <Content Include="Templates\Web\Default\Sign\WeixinQrcode.html" />
     <Content Include="Templates\Web\Default\Sign\Weixin.html" />
     <Content Include="Templates\Web\Default\Sign\QQ.html" />
