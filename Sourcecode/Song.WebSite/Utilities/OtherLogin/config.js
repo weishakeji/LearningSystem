@@ -86,7 +86,7 @@ Vue.component('config', {
         },
         //弹窗
         openbox: function (url, item) {
-            var obj = {};           
+            var obj = {};
             obj = {
                 'url': url, 'ico': item.icon, 'title': item.name,
                 'pid': window.tag, 'showmask': true, 'min': false, 'max': false,
@@ -115,12 +115,25 @@ Vue.component('config', {
                 'scope': 'all',
                 'state': item.obj.Tl_Tag + ',' + type,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq'),
-                'display':ismobi ? 'mobile' : ''
+                'display': ismobi ? 'mobile' : ''
             });
-            
-            if (ismobi) window.location.href = url;
-            else
+
+            if (ismobi) {
+                window.location.href = url;
+            }
+            else {
+                //this.openbox(url, item);
+                window.open(url);
+                return;
+                //在弹窗显示二维码
+                url = $api.url.set('/web/sign/QqQrcode', {
+                    'tag': item.obj.Tl_Tag,
+                    'type': type,
+                    'appid': item.obj.Tl_APPID,
+                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
+                });
                 this.openbox(url, item);
+            }
         },
         //微信登录
         event_weixin: function (item, type) {
@@ -145,6 +158,7 @@ Vue.component('config', {
                 window.location.href = url;
             } else {
                 //web端
+                /*
                 var url = 'https://open.weixin.qq.com/connect/qrconnect';
                 url = $api.url.set(url, {
                     'appid': item.obj.Tl_APPID,
@@ -153,7 +167,7 @@ Vue.component('config', {
                     'scope': 'snsapi_login',
                     'state': item.obj.Tl_Tag + ',' + type,
                     'style': 'black',
-                }) + '#wechat_redirect';
+                }) + '#wechat_redirect';*/
                 //在弹窗显示二维码
                 url = $api.url.set('/web/sign/weixinQrcode', {
                     'tag': item.obj.Tl_Tag,

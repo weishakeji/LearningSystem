@@ -71,12 +71,12 @@ $ready(function () {
                 $api.get('Account/UserLogin', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
                     if (req.data.success) {
                         th.binduser = req.data.result;
-                        th.$refs['login'].success(th.binduser, '手机端', '微信登录', '');
+                        th.$refs['login'].success(th.binduser, 'web端', '微信登录', '');
                         window.setTimeout(function () {
                             var singin_referrer = $api.storage('singin_referrer');
                             if (singin_referrer != '') window.location.href = singin_referrer;
                             else
-                                window.location.href = '/mobi/';
+                                window.location.href = '/';
                         }, 300);
 
                     } else {

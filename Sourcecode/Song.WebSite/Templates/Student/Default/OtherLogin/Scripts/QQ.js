@@ -55,7 +55,7 @@ $ready(function () {
             var params = $api.querystring();
             var obj = {};
             for (let i = 0; i < params.length; i++) {
-                const key=$api.trim(params[i].key)
+                const key = $api.trim(params[i].key)
                 obj[key] = decodeURIComponent(params[i].val);
             }
             //
@@ -95,12 +95,12 @@ $ready(function () {
             //绑定
             bindhandler: function () {
                 var th = this;
-                console.error(this.openid);
+                //console.error(this.openid);
                 th.loading = true;
                 $api.get('Account/UserBind', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.getuser();
+                        th.getuser(th.openid);
                         if (!th.ismobi) {
                             //web端，关闭当前窗口                          
                             window.setTimeout(function () {
@@ -120,7 +120,15 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.vapp.shut(window.name, 'vapp.fresh');
+                if (window.top && window.top.vapp && window.top.vapp.shut) {
+                    window.top.vapp.shut(window.name, 'vapp.fresh');
+                }
+                else {
+                    alert('绑定账号成功，请返回来源页,并刷新');
+                    window.setTimeout(function () {
+                        window.close();
+                    }, 3000);
+                }
             }
         }
     });

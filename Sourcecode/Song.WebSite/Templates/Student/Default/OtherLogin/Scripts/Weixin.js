@@ -98,7 +98,7 @@ $ready(function () {
                 $api.get('Account/UserBind', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.getuser();
+                        th.getuser(th.openid);
                         if (!th.ismobi) {
                             //web端，关闭当前窗口                          
                             window.setTimeout(function () {
