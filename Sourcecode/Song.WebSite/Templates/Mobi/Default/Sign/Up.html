@@ -33,7 +33,7 @@
             </van-field>
             <van-field v-model="password2" label="密码确认" required type="password" placeholder="登录密码" :rules="pw2_rules">
             </van-field>
-            <van-field v-model="form.rec" label="推荐人" placeholder="非必填">
+            <van-field v-model="form.rec" label="推荐人" placeholder="非必填"  :disabled="existref" v-if="existref">
             </van-field>
             <van-cell>
               <template #title>

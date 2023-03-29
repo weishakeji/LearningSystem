@@ -6,6 +6,7 @@ $ready(function () {
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项      
+            referrer: {},            //推荐人
             //输入的信息
             form: {
                 acc: '',
@@ -67,6 +68,7 @@ $ready(function () {
             loading_vcode: false     //校验码加载
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
@@ -82,27 +84,30 @@ $ready(function () {
                     }
                 }
                 //获取结果           
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //是否允许注册
-                vapp.config['IsRegStudent'] = !!vapp.config['IsRegStudent'];
-                
-                $dom("#platname").text(vapp.organ.Org_PlatformName);
+                th.config['IsRegStudent'] = !!th.config['IsRegStudent'];
+
+                $dom("#platname").text(th.organ.Org_PlatformName);
                 //生成校证码
-                vapp.getvcode();
+                th.getvcode();
             })).catch(function (err) {
                 console.error(err);
             });
-
+            this.getreferrer();
             this.getAgreement();
         },
         created: function () {
 
         },
         computed: {
-
+            //是否有推荐人
+            existref: function () {
+                return JSON.stringify(this.referrer) != '{}' && this.referrer != null;
+            }
         },
         watch: {
             'agreement.checked': {
@@ -122,6 +127,23 @@ $ready(function () {
                 }
                 this.getAgreement(this.agreement.show);
                 //console.log('查看协言');
+            },
+            //获取推荐账号
+            getreferrer: function () {
+                if (window.sharekeyid == null || window.sharekeyid == '') return;
+                var th = this;
+                $api.get('Account/ForID', { 'id': window.sharekeyid }).then(function (req) {
+                    if (req.data.success) {
+                        th.referrer = req.data.result;
+                        if (th.existref) {
+                            th.form.rec = th.referrer.Ac_Name;
+                            th.form.recid = th.referrer.Ac_ID;
+                        }
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err));
             },
             //获取校验吗
             getvcode: function () {
@@ -173,7 +195,7 @@ $ready(function () {
                 $api.post('Account/Register', this.form).then(function (req) {
                     th.loading_submit = false;
                     if (req.data.success) {
-                        var result = req.data.result;                       
+                        var result = req.data.result;
                         if (result.Ac_IsPass) {
                             //直接注册通过，写入登录状态
                             $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
