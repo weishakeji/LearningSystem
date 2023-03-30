@@ -12,7 +12,7 @@
         <card class="link">
             <icon>&#xa029</icon>分享链接：
             <div>
-                <el-link :href="shareurl()" target="_blank">{{shareurl()}}</el-link>
+                <a :href="shareurl()" target="_blank">{{shareurl()}}</a>
                 <el-tag type="info" @click="copytext(shareurl(),'链接')">复制</el-tag>
             </div>
         </card>
