@@ -18,7 +18,7 @@ $ready(function () {
                 return $api.ismobi();
             },
             //当前openid是否已经绑定到当前登录账户
-            'bound': function () {               
+            'bound': function () {
                 if (!this.islogin) return false;
                 var exist = JSON.stringify(this.binduser) != '{}' && this.binduser != null;
                 if (!exist) return false;
@@ -72,7 +72,7 @@ $ready(function () {
                 th.loading = true;
                 $api.bat(
                     $api.get('Account/Current'),
-                    $api.get('Account/User4Openid', { 'openid': openid, 'type': th.tag })
+                    $api.get('Account/User4Openid', { 'openid': openid, 'field': th.tag })
                 ).then(axios.spread(function (user, bound) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -95,7 +95,7 @@ $ready(function () {
                 var th = this;
                 console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
+                $api.get('Account/UserBind', { 'openid': th.openid, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getuser(th.openid);

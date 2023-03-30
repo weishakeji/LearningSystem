@@ -4,11 +4,12 @@ Vue.component('config', {
     props: ['isuse'],
     data: function () {
         return {
+            //tag：是accounts表中的字段名
             items: [
-                { name: 'QQ登录', tag: 'qq', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
-                { name: '微信登录', tag: 'weixin', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
-                { name: '金蝶.云之家', tag: 'yunzhijia', icon: 'e726', size: 18, width: 600, height: 550, disabled: true, obj: {} },
-                { name: '郑州工商学院', tag: 'zzgongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: false, obj: {} }
+                { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
+                { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
+                { name: '金蝶.云之家', tag: 'Jindie', icon: 'e726', size: 18, width: 600, height: 550, disabled: true,  obj: {} },
+                { name: '郑州工商学院', tag: 'ZzGongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: false,  obj: {} }
             ],
             //配置项的数据记录，记录在数据库
             entities: [],
@@ -109,7 +110,7 @@ Vue.component('config', {
             if (evt != null) evt(item, type);
         },
         //qq登录
-        event_qq: function (item, type) {
+        event_QqOpenID: function (item, type) {
             var ismobi = $api.ismobi();
             var url = 'https://graph.qq.com/oauth2.0/authorize';
             url = $api.url.set(url, {
@@ -139,7 +140,7 @@ Vue.component('config', {
             }
         },
         //微信登录
-        event_weixin: function (item, type) {
+        event_WeixinOpenID: function (item, type) {
             var ismobi = $api.ismobi();
             var isweixin = $api.isWeixin();//是否处于微信中
             if (ismobi && !isweixin) return alert("请在微信中打开");
@@ -183,13 +184,13 @@ Vue.component('config', {
 
         },
         //金蝶云之家
-        event_yunzhijia: function (item, type) {
+        event_Jindie: function (item, type) {
             //是否处在云之家平台中
             var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
             if (!isYzjApp) return alert("当前应用不在云之家App中");
         },
         //郑州工商学院
-        event_zzgongshang: function (item, type) {
+        event_ZzGongshang: function (item, type) {
             var url = item.obj.Tl_Domain + '/auth/oauth2/authorize';
             url = $api.url.set(url, {
                 'client_id': item.obj.Tl_APPID,
@@ -197,7 +198,9 @@ Vue.component('config', {
                 'response_type': 'code',
                 'state': item.obj.Tl_Tag + ',' + type,
             });
-            console.log(url);
+            window.location.href = url;
+            //console.log(url);
+            //window.open(url);
             //http://172.16.31.55/auth/oauth2/authorize?client_id=NmMyNzcwZTAwYTAxNDliZGI2ZWI0NTI2ZjlmNzA5ZTY&redirect_uri=http%3A%2F%2Fwww.51ixuejiao.com&response_type=code&state=your_state_code
         }
     },

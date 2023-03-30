@@ -1339,21 +1339,24 @@ namespace Song.ViewData.Methods
         /// 通过openid获取已经存在账户
         /// </summary>
         /// <param name="openid"></param>
-        /// <param name="type">weixin,qq</param>
+        /// <param name="field">accounts表中的相关字段</param>
         /// <returns></returns>
-        public Song.Entities.Accounts User4Openid(string openid, string type)
+        public Song.Entities.Accounts User4Openid(string openid, string field)
         {
-            Song.Entities.Accounts acc = null;
-            type = type.ToLower();
-            switch (type)
-            {
-                case "weixin":
-                    acc = Business.Do<IAccounts>().Account4Weixin(openid);
-                    break;
-                case "qq":
-                    acc = Business.Do<IAccounts>().Account4QQ(openid);
-                    break;
-            }
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountThirdparty(openid,field);
+            //type = type.ToLower();
+            //switch (type)
+            //{
+            //    case "weixin":
+            //        acc = Business.Do<IAccounts>().Account4Weixin(openid);
+            //        break;
+            //    case "qq":
+            //        acc = Business.Do<IAccounts>().Account4QQ(openid);
+            //        break;
+            //    case "zzgongshang":
+            //        acc = Business.Do<IAccounts>().Account4QQ(openid);
+            //        break;
+            //}
             return _tran(acc);
         }
         /// <summary>
@@ -1376,26 +1379,33 @@ namespace Song.ViewData.Methods
         /// 绑定第三方账号，如果openid为空，则为取消绑定
         /// </summary>
         /// <param name="openid">第三方平台账号的唯一id</param>
-        /// <param name="type"></param>
+        /// <param name="field">在本系统accounts表的字段,不带Ac_前缀</param>
         /// <returns></returns>
         [HttpPost, Student]
-        public Song.Entities.Accounts UserBind(string openid, string type)
+        public Song.Entities.Accounts UserBind(string openid, string field)
         {
             Song.Entities.Accounts acc = this.User;
-            type = type.ToLower();
-            switch (type)
-            {
-                case "weixin":
-                    Business.Do<IAccounts>().AccountsUpdate(acc, 
-                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_WeixinOpenID },
+            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
+            Business.Do<IAccounts>().AccountsUpdate(acc,
+                        new WeiSha.Data.Field[] { _field },
                         new object[] { openid });
-                    break;
-                case "qq":
-                    Business.Do<IAccounts>().AccountsUpdate(acc, 
-                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_QqOpenID },
-                        new object[] { openid });
-                    break;
-            }
+            //type = type.ToLower();
+            //switch (type)
+            //{
+            //    case "weixin":
+            //        Business.Do<IAccounts>().AccountsUpdate(acc, 
+            //            new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_WeixinOpenID },
+            //            new object[] { openid });
+            //        break;
+            //    case "qq":
+            //        Business.Do<IAccounts>().AccountsUpdate(acc, 
+            //            new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_QqOpenID },
+            //            new object[] { openid });
+            //        break;
+            //    case "zzgongshang":
+            //        //acc = Business.Do<IAccounts>().Account4QQ(openid);
+            //        break;
+            //}
             acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
             LoginAccount.Fresh(acc);
             return _tran(acc);

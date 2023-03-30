@@ -475,24 +475,36 @@ namespace Song.ServiceImpls
                 _acc_init(ac);
             return accs;
         }
+        ///// <summary>
+        ///// 通过QQ的openid获取账户
+        ///// </summary>
+        ///// <param name="qqopenid"></param>
+        ///// <returns></returns>
+        //public Accounts Account4QQ(string qqopenid)
+        //{
+        //    Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_QqOpenID == qqopenid).ToFirst<Accounts>();
+        //    return _acc_init(ac);
+        //}
+        ///// <summary>
+        ///// 通过微信的openid获取账户
+        ///// </summary>
+        ///// <param name="openid"></param>
+        ///// <returns></returns>
+        //public Accounts Account4Weixin(string openid)
+        //{
+        //    Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_WeixinOpenID == openid).ToFirst<Accounts>();
+        //    return _acc_init(ac);
+        //}
         /// <summary>
-        /// 通过QQ的openid获取账户
+        /// 查询第三方登录账号是否存在
         /// </summary>
-        /// <param name="qqopenid"></param>
+        /// <param name="openid">第三方登录的id</param>
+        /// <param name="field">在本系统accounts表的字段,不带Ac_前缀</param>
         /// <returns></returns>
-        public Accounts Account4QQ(string qqopenid)
+        public Accounts AccountThirdparty(string openid, string field)
         {
-            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_QqOpenID == qqopenid).ToFirst<Accounts>();
-            return _acc_init(ac);
-        }
-        /// <summary>
-        /// 通过微信的openid获取账户
-        /// </summary>
-        /// <param name="openid"></param>
-        /// <returns></returns>
-        public Accounts Account4Weixin(string openid)
-        {
-            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_WeixinOpenID == openid).ToFirst<Accounts>();
+            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
+            Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(_field == openid).ToFirst<Accounts>();
             return _acc_init(ac);
         }
         /// <summary>

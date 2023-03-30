@@ -1331,7 +1331,10 @@
     <Content Include="Templates\Web\Default\Link\Index.html" />
     <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Sign\ZzGongshang.html" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\ZzGongshang.js" />
     <Content Include="Templates\Web\Default\Sign\Scripts\WeixinQrcode.js" />
+    <Content Include="Templates\Web\Default\Sign\Styles\ZzGongshang.css" />
     <Content Include="Templates\Web\Default\Sign\Styles\WeixinQrcode.css" />
     <Content Include="Templates\Web\Default\Sign\WeixinQrcode.html" />
     <Content Include="Templates\Web\Default\Sign\Weixin.html" />
@@ -1418,12 +1421,13 @@
     <Content Include="Utilities\MathJax\output\svg.js" />
     <Content Include="Utilities\MathJax\output\svg\fonts\tex.js" />
     <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
+    <Content Include="Utilities\OtherLogin\Images\Jindie.png" />
+    <Content Include="Utilities\OtherLogin\Images\QqOpenID.png" />
+    <Content Include="Utilities\OtherLogin\Images\WeixinOpenID.png" />
+    <Content Include="Utilities\OtherLogin\ZzGongshang.js" />
     <Content Include="Utilities\OtherLogin\Weixin.js" />
     <Content Include="Utilities\OtherLogin\QQ.js" />
     <Content Include="Utilities\OtherLogin\config.js" />
-    <Content Include="Utilities\OtherLogin\Images\QQ.png" />
-    <Content Include="Utilities\OtherLogin\Images\weixin.png" />
-    <Content Include="Utilities\OtherLogin\Images\yunzhijia.png" />
     <Content Include="Utilities\OtherLogin\Images\zzGongshang.png" />
     <Content Include="Utilities\OtherLogin\Styles\config.css" />
     <Content Include="Utilities\PdfViewer\debugger.js" />

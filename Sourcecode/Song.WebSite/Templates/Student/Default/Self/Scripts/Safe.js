@@ -57,25 +57,14 @@ $ready(function () {
             },
             //是否绑定
             isbind: function (tag) {
-                switch (tag) {
-                    case 'qq':
-                        return this.account.Ac_QqOpenID != '' && this.account.Ac_QqOpenID != null;
-                        break;
-                    case 'weixin':
-                        var bind = this.account.Ac_WeixinOpenID != '' && this.account.Ac_WeixinOpenID != null;
-                        console.log(bind);
-                        return bind;
-                        break;
-                    default:
-                        return false;
-                }
-                console.log(tag);
+                let field = 'Ac_' + tag;
+                return this.account[field] != '' && this.account[field] != null;
             },
             //取消绑定
             cancelbind: function (tag) {
                 var th = this;
                 th.loading_bind = tag;
-                $api.get('Account/UserBind', { 'openid': '', 'type': tag }).then(function (req) {
+                $api.get('Account/UserBind', { 'openid': '', 'field': tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         window.location.reload();

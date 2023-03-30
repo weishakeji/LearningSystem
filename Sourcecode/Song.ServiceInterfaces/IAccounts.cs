@@ -106,18 +106,25 @@ namespace Song.ServiceInterfaces
         /// <param name="name"></param>
         /// <returns></returns>
         Accounts[] Account4Name(string name);
+        ///// <summary>
+        ///// 通过QQ的openid获取账户
+        ///// </summary>
+        ///// <param name="openid"></param>
+        ///// <returns></returns>
+        //Accounts Account4QQ(string openid);        
+        ///// <summary>
+        ///// 通过微信的openid获取账户
+        ///// </summary>
+        ///// <param name="openid"></param>
+        ///// <returns></returns>
+        //Accounts Account4Weixin(string openid);
         /// <summary>
-        /// 通过QQ的openid获取账户
+        /// 查询第三方登录账号是否存在
         /// </summary>
-        /// <param name="openid"></param>
+        /// <param name="openid">第三方登录的id</param>
+        /// <param name="field">在本系统accounts表的字段</param>
         /// <returns></returns>
-        Accounts Account4QQ(string openid);        
-        /// <summary>
-        /// 通过微信的openid获取账户
-        /// </summary>
-        /// <param name="openid"></param>
-        /// <returns></returns>
-        Accounts Account4Weixin(string openid);
+        Accounts AccountThirdparty(string openid,string field);
         /// <summary>
         /// 通过基础账号的id，获取教师账户
         /// </summary>
