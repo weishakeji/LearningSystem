@@ -15,16 +15,18 @@
 
         </zzgongshang>
         <login ref="login" v-show="false"></login>
+        <config ref="conf" v-show="false"></config>
         <header v-if="ismobi">
             <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>
             <a href="/mobi/" icon="&#xa020"></a>
         </header>
         <div class="outer">
-            <img :src="outeruser.figureurl_2" />
+            <img :src="'/Utilities/OtherLogin/Images/' + tag + '.png'" />
             <div>
-                <div class="nickname">昵称：<span>{{outeruser.nickname}}</span></div>
+                <div class="nickname" v-if="existouter">名称：<span>{{outeruser.name}}</span></div>
+                <div class="nickname" v-else>(获取身份认证失败)</div>
                 <div class="tagname">
-                    <icon>&#xe82a</icon>QQ用户
+                    <icon>&#xa006</icon>郑州工商学院
                 </div>
             </div>
         </div>
@@ -33,7 +35,7 @@
             <span>登录成功，转向来源页... </span>
 
         </div>
-        <div v-else class="btns">
+        <div v-else-if="existouter" class="btns">
             <loading v-if="loading_crt"></loading>
             <template v-else>
                 <div type="success" @click="window.location.href=commonaddr('signin')">我已经有账号，返回登录</div>

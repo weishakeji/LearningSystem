@@ -25,7 +25,8 @@
             <div class="outer">
                 <img :src="outeruser.figureurl_2" />
                 <div>
-                    <div class="nickname">昵称：<span>{{outeruser.nickname}}</span></div>
+                    <div class="nickname" v-if="existouter">昵称：<span>{{outeruser.nickname}}</span></div>
+                    <div class="nickname" v-else>(获取身份认证失败)</div>
                     <div class="tagname">
                         <icon>&#xe82a</icon>QQ用户
                     </div>
@@ -36,7 +37,7 @@
                 <span>登录成功，转向来源页... </span>
 
             </div>
-            <div v-else class="btns">
+            <div v-else-if="existouter" class="btns">
                 <loading v-if="loading_crt"></loading>
                 <template v-else>
                     <div type="success" @click="window.location.href=commonaddr('signin')">我已经有账号，返回登录</div>

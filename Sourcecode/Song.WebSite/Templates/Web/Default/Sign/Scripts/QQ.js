@@ -26,6 +26,10 @@ $ready(function () {
             ismobi: function () {
                 return $api.ismobi();
             },
+             //是否正常获取到第三方平台的账号
+             'existouter': function () {
+                return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
+            },
             //当前openid是否已经绑定到当前登录账户
             'bound': function () {
                 return JSON.stringify(this.binduser) != '{}' && this.binduser != null;

@@ -1417,16 +1417,25 @@ namespace Song.ViewData.Methods
         /// <param name="openid"></param>
         /// <returns></returns>
         [HttpPost]
-        public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc,string openid)
+        public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc, string openid)
         {
+            //账号为空，则自动创建；如果不为空，则判断是否重复
+            bool accexist = false;
             if (string.IsNullOrWhiteSpace(acc.Ac_AccName))
                 acc.Ac_AccName = WeiSha.Core.Request.SnowID().ToString();
+            else
+                accexist = Business.Do<IAccounts>().IsAccountExist(acc.Ac_AccName, -1);
+            if (accexist) acc.Ac_AccName += "_" + WeiSha.Core.Request.SnowID().ToString();
+
             acc.Ac_IsPass = acc.Ac_IsUse = true;
             acc.Ac_Pw = WeiSha.Core.Request.UniqueID();
             //头像图片
-            string photoPath = PhyPath + openid + ".jpg";
-            WeiSha.Core.Request.LoadFile(acc.Ac_Photo, photoPath);
-            acc.Ac_Photo = openid + ".jpg";
+            if (!string.IsNullOrWhiteSpace(acc.Ac_Photo))
+            {
+                string photoPath = PhyPath + openid + ".jpg";
+                WeiSha.Core.Request.LoadFile(acc.Ac_Photo, photoPath);
+                acc.Ac_Photo = openid + ".jpg";
+            }
 
             int acid = Business.Do<IAccounts>().AccountsAdd(acc);
             Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
@@ -1434,8 +1443,8 @@ namespace Song.ViewData.Methods
             nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
             nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc, this.Letter);
             LoginAccount.Fresh(nacc);
-            return nacc;           
-          
+            return nacc;
+
         }
         #endregion
 

@@ -4,7 +4,8 @@ $ready(function () {
         el: '#vapp',
         data: {
             //1为绑定，2为登录
-            type: $api.querystring('type'),
+            type: '',
+            state: $api.querystring('state'),   //自己配置的信息，由第三方平台原样返回，此处为tag+','+type
 
             outeruser: {},      //外部用户（第三方登录的用户）      
             /** 示例 json对象
@@ -42,19 +43,35 @@ $ready(function () {
             ismobi: function () {
                 return $api.ismobi();
             },
+            //是否正常获取到第三方平台的账号
+            'existouter': function () {
+                return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
+            },
             //当前openid是否已经绑定到当前登录账户
             'bound': function () {
                 return JSON.stringify(this.binduser) != '{}' && this.binduser != null;
             },
         },
         watch: {
+            //返回状态值
+            'state': {
+                handler: function (nv, ov) {
+                    if (nv == null || nv == '') return;
+                    nv = decodeURIComponent(nv);
+                    if (nv.indexOf(',') > -1) {
+                        var arr = nv.split(',');
+                        this.tag = arr[0];
+                        this.type = arr[1];
+                    }
+                }, immediate: true,
+            },
         },
         methods: {
             //加载第三方账号成功
-            loaduser: function (user) {
+            loaduser: function (user, type) {
                 this.outeruser = user;
                 //type:1为登录，2为绑定
-                if (this.type == 2 || this.type == '2') {
+                if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/ZzGongshang', user);
                     window.location.href = url;
@@ -62,6 +79,7 @@ $ready(function () {
                 }
                 this.openid = user.openid;
                 this.tag = user.tag;
+                //alert(user);
                 this.getuser();
                 this.getentity(this.tag);
             },
@@ -110,13 +128,14 @@ $ready(function () {
             createuser: function () {
                 var user = this.outeruser;
                 var obj = {};
-                obj.Ac_QqOpenID = user.openid;
-                obj.Ac_Name = user.nickname;
-                obj.Ac_Photo = user.figureurl_2;
-                obj.Ac_Sex = user.gender == "男" ? 1 : 2;
+                obj.Ac_ZzGongshang = user.userId;
+                obj.Ac_Name = user.name;
+                obj.Ac_Email = user.email;
+                obj.Ac_AccName = user.sub;
+                //obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.userId }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', '郑州工商学院账号登录', '');
@@ -131,11 +150,13 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading_crt = false);
             }
         }
     });
 
-}, ['/Utilities/OtherLogin/zzgongshang.js',
+}, ['/Utilities/OtherLogin/config.js',
+    '/Utilities/OtherLogin/zzgongshang.js',
     '/Utilities/Components/Sign/Login.js']);

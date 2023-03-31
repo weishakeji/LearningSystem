@@ -87,7 +87,7 @@ Vue.component('zzgongshang', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                //alert(err);
                 console.error(err);
             });
 
@@ -102,7 +102,7 @@ Vue.component('zzgongshang', {
             userinfo['openid'] = userinfo.userId;
             userinfo['tag'] = this.tag;     //第三方登录的配置项标识          
             //console.error(userinfo);
-            th.$emit('load', userinfo, this.type);
+            this.$emit('load', userinfo, this.type);
         }
     },
     template: `<div >

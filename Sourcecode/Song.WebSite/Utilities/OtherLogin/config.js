@@ -8,8 +8,8 @@ Vue.component('config', {
             items: [
                 { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
                 { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
-                { name: '金蝶.云之家', tag: 'Jindie', icon: 'e726', size: 18, width: 600, height: 550, disabled: true,  obj: {} },
-                { name: '郑州工商学院', tag: 'ZzGongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: false,  obj: {} }
+                { name: '金蝶.云之家', tag: 'Jindie', icon: 'e726', size: 18, width: 600, height: 550, disabled: true, obj: {} },
+                { name: '郑州工商学院', tag: 'ZzGongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: false, obj: {} }
             ],
             //配置项的数据记录，记录在数据库
             entities: [],
@@ -25,8 +25,8 @@ Vue.component('config', {
     },
     methods: {
         //图标地址
-        logosrc: function (item) {
-            return '/Utilities/OtherLogin/Images/' + item.tag + '.png';
+        logosrc: function (tag) {
+            return '/Utilities/OtherLogin/Images/' + tag + '.png';
         },
         //图标
         icon: function (item) {
@@ -117,7 +117,7 @@ Vue.component('config', {
                 'client_id': item.obj.Tl_APPID,
                 'response_type': 'code',
                 'scope': 'all',
-                'state': item.obj.Tl_Tag + ',' + type,
+                'state': item.tag + ',' + type,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq'),
                 'display': ismobi ? 'mobile' : ''
             });
@@ -131,7 +131,7 @@ Vue.component('config', {
                 return;
                 //在弹窗显示二维码
                 url = $api.url.set('/web/sign/QqQrcode', {
-                    'tag': item.obj.Tl_Tag,
+                    'tag': item.tag,
                     'type': type,
                     'appid': item.obj.Tl_APPID,
                     'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
@@ -157,7 +157,7 @@ Vue.component('config', {
                     'redirect_uri': encodeURIComponent(item.obj.pubReturl + '/mobi/sign/weixin'),
                     'response_type': 'code',
                     'scope': 'snsapi_base',
-                    'state': item.obj.Tl_Tag + ',' + type,
+                    'state': item.tag + ',' + type,
                 }) + '#wechat_redirect';
                 window.location.href = url;
             } else {
@@ -169,12 +169,12 @@ Vue.component('config', {
                     'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/weixin'),
                     'response_type': 'code',
                     'scope': 'snsapi_login',
-                    'state': item.obj.Tl_Tag + ',' + type,
+                    'state': item.tag + ',' + type,
                     'style': 'black',
                 }) + '#wechat_redirect';*/
                 //在弹窗显示二维码
                 url = $api.url.set('/web/sign/weixinQrcode', {
-                    'tag': item.obj.Tl_Tag,
+                    'tag': item.tag,
                     'type': type,
                     'appid': item.obj.Tl_APPID,
                     'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/weixin')
@@ -196,18 +196,18 @@ Vue.component('config', {
                 'client_id': item.obj.Tl_APPID,
                 'redirect_uri': encodeURIComponent(item.obj.Tl_Returl),
                 'response_type': 'code',
-                'state': item.obj.Tl_Tag + ',' + type,
+                'state': item.tag + ',' + type,
             });
-            window.location.href = url;
-            //console.log(url);
-            //window.open(url);
-            //http://172.16.31.55/auth/oauth2/authorize?client_id=NmMyNzcwZTAwYTAxNDliZGI2ZWI0NTI2ZjlmNzA5ZTY&redirect_uri=http%3A%2F%2Fwww.51ixuejiao.com&response_type=code&state=your_state_code
+            if (type == 1)
+                window.location.href = url;
+            else
+                window.open(url);          
         }
     },
     template: `<div v-if="usable_items.length>0">
         <slot name="title" :items="usable_items"></slot>
         <slot v-for="(item,index) in usable_items" 
-            name="item" :item="item" :index="index" :img="logosrc(item)" :icon="icon(item)">
+            name="item" :item="item" :index="index" :img="logosrc(item.tag)" :icon="icon(item)">
         </slot>
     </div>
     <slot name="null" v-else></slot>`

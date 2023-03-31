@@ -243,8 +243,8 @@ namespace Song.ServiceImpls
                 throw new Exception("账号最短不得小于6个字符");
             if (acc.Length > 50)
                 throw new Exception("账号最长不得超过50个字符");
-            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z0-9]*$");
-            if (!ispass) throw new Exception("账号仅限字母和数字");
+            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"[a-zA-Z][a-zA-Z0-9_]{6,50}");
+            if (!ispass) throw new Exception("账号仅限字母、数字、下划线");
             return acc;
         }
         /// <summary>

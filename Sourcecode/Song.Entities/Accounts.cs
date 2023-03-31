@@ -116,6 +116,16 @@ namespace Song.Entities {
     		
     		protected String _Ac_WeixinOpenID;
     		
+    		protected String _Ac_QiyeWeixin;
+    		
+    		protected String _Ac_Zhifubao;
+    		
+    		protected String _Ac_Dingding;
+    		
+    		protected String _Ac_ZzGongshang;
+    		
+    		protected String _Ac_Jindie;
+    		
     		public Int32 Ac_ID {
     			get {
     				return this._Ac_ID;
@@ -656,6 +666,56 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Ac_QiyeWeixin {
+    			get {
+    				return this._Ac_QiyeWeixin;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_QiyeWeixin, _Ac_QiyeWeixin, value);
+    				this._Ac_QiyeWeixin = value;
+    			}
+    		}
+    		
+    		public String Ac_Zhifubao {
+    			get {
+    				return this._Ac_Zhifubao;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_Zhifubao, _Ac_Zhifubao, value);
+    				this._Ac_Zhifubao = value;
+    			}
+    		}
+    		
+    		public String Ac_Dingding {
+    			get {
+    				return this._Ac_Dingding;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_Dingding, _Ac_Dingding, value);
+    				this._Ac_Dingding = value;
+    			}
+    		}
+    		
+    		public String Ac_ZzGongshang {
+    			get {
+    				return this._Ac_ZzGongshang;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_ZzGongshang, _Ac_ZzGongshang, value);
+    				this._Ac_ZzGongshang = value;
+    			}
+    		}
+    		
+    		public String Ac_Jindie {
+    			get {
+    				return this._Ac_Jindie;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_Jindie, _Ac_Jindie, value);
+    				this._Ac_Jindie = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -736,7 +796,12 @@ namespace Song.Entities {
     					_.Ac_PointAmount,
     					_.Ac_School,
     					_.Ac_QqOpenID,
-    					_.Ac_WeixinOpenID};
+    					_.Ac_WeixinOpenID,
+    					_.Ac_QiyeWeixin,
+    					_.Ac_Zhifubao,
+    					_.Ac_Dingding,
+    					_.Ac_ZzGongshang,
+    					_.Ac_Jindie};
     		}
     		
     		/// <summary>
@@ -797,7 +862,12 @@ namespace Song.Entities {
     					this._Ac_PointAmount,
     					this._Ac_School,
     					this._Ac_QqOpenID,
-    					this._Ac_WeixinOpenID};
+    					this._Ac_WeixinOpenID,
+    					this._Ac_QiyeWeixin,
+    					this._Ac_Zhifubao,
+    					this._Ac_Dingding,
+    					this._Ac_ZzGongshang,
+    					this._Ac_Jindie};
     		}
     		
     		/// <summary>
@@ -965,6 +1035,21 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ac_WeixinOpenID))) {
     				this._Ac_WeixinOpenID = reader.GetString(_.Ac_WeixinOpenID);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_QiyeWeixin))) {
+    				this._Ac_QiyeWeixin = reader.GetString(_.Ac_QiyeWeixin);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_Zhifubao))) {
+    				this._Ac_Zhifubao = reader.GetString(_.Ac_Zhifubao);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_Dingding))) {
+    				this._Ac_Dingding = reader.GetString(_.Ac_Dingding);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_ZzGongshang))) {
+    				this._Ac_ZzGongshang = reader.GetString(_.Ac_ZzGongshang);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_Jindie))) {
+    				this._Ac_Jindie = reader.GetString(_.Ac_Jindie);
     			}
     		}
     		
@@ -1261,7 +1346,31 @@ namespace Song.Entities {
     			/// 字段名：Ac_WeixinOpenID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ac_WeixinOpenID = new WeiSha.Data.Field<Accounts>("Ac_WeixinOpenID");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_QiyeWeixin - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_QiyeWeixin = new WeiSha.Data.Field<Accounts>("Ac_QiyeWeixin");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_Zhifubao - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_Zhifubao = new WeiSha.Data.Field<Accounts>("Ac_Zhifubao");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_Dingding - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_Dingding = new WeiSha.Data.Field<Accounts>("Ac_Dingding");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_ZzGongshang - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_ZzGongshang = new WeiSha.Data.Field<Accounts>("Ac_ZzGongshang");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_Jindie - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_Jindie = new WeiSha.Data.Field<Accounts>("Ac_Jindie");
     		}
     	}
     }
-    
