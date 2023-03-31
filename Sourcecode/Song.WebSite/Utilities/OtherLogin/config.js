@@ -4,10 +4,14 @@ Vue.component('config', {
     props: ['isuse'],
     data: function () {
         return {
-            //tag：是accounts表中的字段名
+            //tag：accounts表中的字段名，不过没有Ac_前缀，图标文件也以此命名（\Utilities\OtherLogin\Images）
+            //disabled: 是否禁用，一般是因为没有开发
             items: [
                 { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
                 { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
+                { name: '企业微信', tag: 'QiyeWeixin', icon: 'e730', size: 18, width: 600, height: 550, disabled: true, obj: {} },
+                { name: '支付宝', tag: 'Zhifubao', icon: 'e602', size: 15, width: 600, height: 550, disabled: true, obj: {} },
+                { name: '钉钉', tag: 'Dingding', icon: 'e602', size: 15, width: 600, height: 550, disabled: true, obj: {} },
                 { name: '金蝶.云之家', tag: 'Jindie', icon: 'e726', size: 18, width: 600, height: 550, disabled: true, obj: {} },
                 { name: '郑州工商学院', tag: 'ZzGongshang', icon: 'a006', size: 18, width: 600, height: 500, disabled: false, obj: {} }
             ],
@@ -59,6 +63,7 @@ Vue.component('config', {
             for (let i = 0; i < this.entities.length; i++) {
                 const el = this.entities[i];
                 for (let j = 0; j < this.items.length; j++) {
+                    if (this.items[j].disabled) continue;   //被禁用不显示
                     if (this.items[j].tag == el.Tl_Tag) {
                         this.items[j].obj = el;
                         items.push(this.items[j]);
@@ -129,7 +134,7 @@ Vue.component('config', {
                 if (type == 1 || $api.ismobi())
                     window.location.href = url;
                 else
-                    window.open(url);               
+                    window.open(url);
             }
         },
         //微信登录

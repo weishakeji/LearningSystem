@@ -1424,9 +1424,12 @@
     <Content Include="Utilities\MathJax\output\svg.js" />
     <Content Include="Utilities\MathJax\output\svg\fonts\tex.js" />
     <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
+    <Content Include="Utilities\OtherLogin\Images\Dingding.png" />
     <Content Include="Utilities\OtherLogin\Images\Jindie.png" />
+    <Content Include="Utilities\OtherLogin\Images\QiyeWeixin.png" />
     <Content Include="Utilities\OtherLogin\Images\QqOpenID.png" />
     <Content Include="Utilities\OtherLogin\Images\WeixinOpenID.png" />
+    <Content Include="Utilities\OtherLogin\Images\Zhifubao.png" />
     <Content Include="Utilities\OtherLogin\ZzGongshang.js" />
     <Content Include="Utilities\OtherLogin\Weixin.js" />
     <Content Include="Utilities\OtherLogin\QQ.js" />

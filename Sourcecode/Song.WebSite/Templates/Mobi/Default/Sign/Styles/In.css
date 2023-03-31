@@ -38,6 +38,9 @@ header {
 .login_weisha{
    min-height: 600px;
 }
+.config{
+    bottom: 30px !important;
+}
 .config::before{
     content: '其它登录方式';
     display: block;
@@ -46,7 +49,9 @@ header {
     text-align: center;
     font-size: 14px;
 }
-
+.config>span:not(:last-child) {
+    margin: 8px 10px 0px 0px !important;
+}
 /*已经登录*/
 #logged-area {     
     text-align: center;

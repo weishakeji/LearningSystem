@@ -130,7 +130,7 @@ input[type="number"] {
 .login_btn {
     width: 100%;
     height: 40px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .login_btn button {
@@ -391,8 +391,7 @@ input[type="number"] {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    line-height: 40px;
-    position: absolute;
+    line-height: 40px;  
     left: 0px;
     bottom: 0px;
     width: 100%;
@@ -406,7 +405,7 @@ input[type="number"] {
     justify-content: space-between;
     position: absolute;
     left: 0px;
-    bottom: 60px;
+    bottom: 10px;
 }
 
 .config>span {
@@ -417,7 +416,7 @@ input[type="number"] {
 }
 
 .config>span:not(:last-child) {
-    margin: 8px 0px 0px 0px;
+    margin: 8px 5px 0px 0px;
 }
 
 .config img {
