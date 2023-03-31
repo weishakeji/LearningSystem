@@ -466,14 +466,17 @@
     <Content Include="Templates\Mobi\Default\Sign\Scripts\QQ.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Up.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Weixin.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\ZzGongshang.js" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Find.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\In.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Out.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\QQ.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Up.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Weixin.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\ZzGongshang.css" />
     <Content Include="Templates\Mobi\Default\Sign\Up.html" />
     <Content Include="Templates\Mobi\Default\Sign\Weixin.html" />
+    <Content Include="Templates\Mobi\Default\Sign\ZzGongshang.html" />
     <Content Include="Templates\Mobi\Default\Test\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />
     <Content Include="Templates\Mobi\_Public\500.html" />

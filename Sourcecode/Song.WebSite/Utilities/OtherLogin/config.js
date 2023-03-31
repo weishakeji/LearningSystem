@@ -126,17 +126,10 @@ Vue.component('config', {
                 window.location.href = url;
             }
             else {
-                //this.openbox(url, item);
-                window.open(url);
-                return;
-                //在弹窗显示二维码
-                url = $api.url.set('/web/sign/QqQrcode', {
-                    'tag': item.tag,
-                    'type': type,
-                    'appid': item.obj.Tl_APPID,
-                    'redirect_uri': encodeURIComponent(item.obj.Tl_Returl + '/web/sign/qq')
-                });
-                this.openbox(url, item);
+                if (type == 1 || $api.ismobi())
+                    window.location.href = url;
+                else
+                    window.open(url);               
             }
         },
         //微信登录
@@ -198,10 +191,10 @@ Vue.component('config', {
                 'response_type': 'code',
                 'state': item.tag + ',' + type,
             });
-            if (type == 1)
+            if (type == 1 || $api.ismobi())
                 window.location.href = url;
             else
-                window.open(url);          
+                window.open(url);
         }
     },
     template: `<div v-if="usable_items.length>0">

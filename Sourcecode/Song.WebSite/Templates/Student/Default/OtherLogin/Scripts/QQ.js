@@ -17,6 +17,10 @@ $ready(function () {
             ismobi: function () {
                 return $api.ismobi();
             },
+             //是否正常获取到第三方平台的账号
+             'existouter': function () {
+                return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
+            },
             //当前openid是否已经绑定到当前登录账户
             'bound': function () {
                 if (!this.islogin) return false;
@@ -101,14 +105,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getuser(th.openid);
-                        if (!th.ismobi) {
-                            //web端，关闭当前窗口                          
-                            window.setTimeout(function () {
-                                th.operateSuccess();
-                            }, 300);
-                        } else {
-                            window.location.reload();
-                        }
+                        th.operateSuccess();
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -120,14 +117,23 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                if (window.top && window.top.vapp && window.top.vapp.shut) {
-                    window.top.vapp.shut(window.name, 'vapp.fresh');
-                }
-                else {
-                    alert('绑定账号成功，请返回来源页,并刷新');
+                if ($api.ismobi()) {
                     window.setTimeout(function () {
-                        window.close();
-                    }, 3000);
+                        var singin_referrer = $api.storage('singin_referrer');
+                        if (singin_referrer != '') window.location.href = singin_referrer;
+                        else
+                            window.location.href = '/mobi/';
+                    }, 300);
+                } else {
+                    if (!!window.top.vapp.shut) {
+                        window.top.vapp.shut(window.name, 'vapp.fresh');
+                    }
+                    else {
+                        alert('绑定账号成功，请返回来源页,并刷新');
+                        window.setTimeout(function () {
+                            window.close();
+                        }, 3000);
+                    }
                 }
             }
         }

@@ -72,46 +72,49 @@ header{
     font-size: 18px;
 }
 
-/*当前登录*/
-.user {
-    display: flex;
-    margin: auto;
-    width: auto;
-    justify-content: center;
+.loading{
+    margin-top: 60px;
 }
-
-.user>div {
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.loading span{
+    font-size: 13px;
     color: #999;
+    line-height: 40px;
+}
+/*按钮区域*/
+.btns{
+    margin-top: 20px;
+}
+.btns>div[type]{
+    width: 100%;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+   
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 12px 20px;
     font-size: 14px;
-    line-height: 30px;
-    text-align: left;
-
+    border-radius: 4px;
+    margin: 20px 0px 10px 0px;
 }
-
-.user>div div span {
-
-    color: #333;
-    font-size: 16px;
+.btns>div[type='success']{
+    color: #fff;
+    background-color: #67c23a;
+    border-color: #67c23a;
 }
-
-.state {
-    margin: 30px 0px;
-}
-
-/*按钮*/
-.btns {
-    margin-top: 50px;
-    display: flex;
-}
-
-.btns * {
-    flex: 1;
-}
-.el-alert__content{
-   margin: auto;
-
+.btns>div[type='primary']{
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
 }

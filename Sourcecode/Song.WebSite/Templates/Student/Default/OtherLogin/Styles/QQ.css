@@ -88,6 +88,7 @@ header{
     color: #999;
     font-size: 14px;
     line-height: 30px;
+    text-align: left;
 }
 
 .user>div div span {

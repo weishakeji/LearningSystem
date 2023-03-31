@@ -8,5 +8,5 @@
     <items>Data Source=192.168.1.212;Initial Catalog=examweisha;User ID=sa;password=sa;</items>
     <items>Data Source=.;Initial Catalog=Quesbank;User ID=sa;password=Sa123456;</items>
   </ConnectionStrings>
-  <EntityFolder>E:\SourceCode\02_LearningSystem_optimize\Sourcecode\Song.Entities</EntityFolder>
+  <EntityFolder>E:\SourceCode\02_LearningSystem_dev\Sourcecode\Song.Entities</EntityFolder>
 </Config>

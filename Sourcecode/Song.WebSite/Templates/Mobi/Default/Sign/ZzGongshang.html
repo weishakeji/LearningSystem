@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>郑州工商学院</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <zzgongshang @load="loaduser">
+
+        </zzgongshang>
+        <login ref="login" v-show="false"></login>
+        <config ref="conf" v-show="false"></config>
+        <header v-if="ismobi">
+            <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>
+            <a href="/mobi/" icon="&#xa020"></a>
+        </header>
+        <div class="outer">
+            <img :src="'/Utilities/OtherLogin/Images/' + tag + '.png'" />
+            <div>
+                <div class="nickname" v-if="existouter">名称：<span>{{outeruser.name}}</span></div>
+                <div class="nickname" v-else>(获取身份认证失败)</div>
+                <div class="tagname">
+                    <icon>&#xa006</icon>郑州工商学院
+                </div>
+            </div>
+        </div>
+        <div class="loading" v-if="bound">
+            <div loading="p6"></div>
+            <span>登录成功，转向来源页... </span>
+
+        </div>
+        <div v-else-if="existouter" class="btns">
+            <loading v-if="loading_crt"></loading>
+            <template v-else>
+                <div type="success" @click="window.location.href=commonaddr('signin')">我已经有账号，返回登录</div>
+                <help>登录后，在个人中心绑定第三方账号</help>
+                <div type="primary" v-if="entity.Tl_IsRegister" @click="createuser">我还没有账号，直接创建</div>
+            </template>
+        </div>
+        <template v-if="false">
+            <div v-for="(val,key) in outeruser">
+                {{key}} : {{val}}
+            </div>
+            登录中...
+            <img :src="outeruser.figureurl_2 " />
+        </template>
+    </div>
+
+</body>
+
+</html>
