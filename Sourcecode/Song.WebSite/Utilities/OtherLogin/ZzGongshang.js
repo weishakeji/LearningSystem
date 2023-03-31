@@ -102,7 +102,7 @@ Vue.component('zzgongshang', {
             userinfo['openid'] = userinfo.userId;
             userinfo['tag'] = this.tag;     //第三方登录的配置项标识          
             //console.error(userinfo);
-            th.$emit('load', userinfo);
+            th.$emit('load', userinfo, this.type);
         }
     },
     template: `<div >

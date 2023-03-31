@@ -153,7 +153,9 @@ Vue.component('qq', {
                         var r = result.match(reg); //匹配目标参数
                         var obj = $api.parseJson(r[0]);
                         th.openid = obj.openid;
+                        th.getUserInfo(th.token, th.openid);
                         //跳转
+                        /*
                         var url = window.location.href;
                         if (url.indexOf('?') > -1) url = url.substring(0, url.lastIndexOf('?'));
                         url = $api.url.set(url, {
@@ -162,7 +164,7 @@ Vue.component('qq', {
                             tag: th.tag,
                             type: th.type
                         });
-                        window.parent.location.href = url;
+                        window.parent.location.href = url;*/
                     }
 
                 } else {
@@ -184,7 +186,7 @@ Vue.component('qq', {
                     var result = JSON.parse(req.data.result);
                     result['openid'] = openid;
                     result['tag'] = th.tag;     //第三方登录的配置项标识
-                    th.$emit('load', result);
+                    th.$emit('load', result, th.type);
                     console.log(result);
                 } else {
                     console.error(req.data.exception);

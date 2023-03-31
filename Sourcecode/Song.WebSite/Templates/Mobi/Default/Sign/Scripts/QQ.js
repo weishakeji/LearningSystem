@@ -35,10 +35,10 @@ $ready(function () {
         },
         methods: {
             //加载第三方账号成功
-            loaduser: function (user) {
+            loaduser: function (user,type) {
                 this.outeruser = user;
                 //type:1为登录，2为绑定
-                if (this.type == 2 || this.type == '2') {
+                if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/qq', user);
                     window.location.href = url;

@@ -23,7 +23,7 @@ $ready(function () {
             */
             binduser: {},        //外部用户绑定的本地账号   
 
-            openid: '',
+            unionid: '',
             tag: '',         //第三方登录的配置项标识
 
             entity: {},       //第三方登录的配置项
@@ -49,17 +49,17 @@ $ready(function () {
         },
         methods: {
             //加载第三方账号成功
-            loaduser: function (user) {
+            loaduser: function (user,type) {
                 this.outeruser = user;
-                console.log(user);
+                //console.log(user);
                 //type:1为登录，2为绑定
-                if (this.type == 2 || this.type == '2') {
+                if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/weixin', user);
                     window.location.href = url;
                     return;
                 }
-                this.openid = user.openid;
+                this.unionid = user.unionid;
                 this.tag = user.tag;
                 this.getuser();
                 this.getentity(this.tag);
@@ -68,7 +68,7 @@ $ready(function () {
             getuser: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Account/UserLogin', { 'openid': th.openid, 'type': th.tag }).then(function (req) {
+                $api.get('Account/UserLogin', { 'openid': th.unionid, 'type': th.tag }).then(function (req) {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, '手机端', '微信登录', '');
@@ -109,13 +109,13 @@ $ready(function () {
             createuser: function () {
                 var user = this.outeruser;
                 var obj = {};
-                obj.Ac_WeixinOpenID = user.openid;
+                obj.Ac_WeixinOpenID = user.unionid;
                 obj.Ac_Name = user.nickname;             //昵称
                 obj.Ac_Photo = user.headimgurl;      //用户头像
                 obj.Ac_Sex = user.sex == 0 ? 1 : 2;  //性别，1为男，2为女
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.unionid }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '微信登录', '');

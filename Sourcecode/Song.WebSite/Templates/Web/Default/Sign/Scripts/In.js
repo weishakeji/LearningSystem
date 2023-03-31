@@ -51,6 +51,8 @@ $ready(function () {
                 }).catch((err) => { });
                 window.setTimeout(function () {
                     if (th.referrer != '') window.location.href = th.referrer;
+                    else
+                        window.location.href = '/';
                 }, 200);
             },
             //退出登录
