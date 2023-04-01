@@ -221,4 +221,11 @@ section textarea {
 		height: 100%;
 		overflow: auto;
 	}
+	table{
+		overflow: auto;
+		width: 100% !important;
+	}
+	td{
+		word-break: break-all;
+	}
 }

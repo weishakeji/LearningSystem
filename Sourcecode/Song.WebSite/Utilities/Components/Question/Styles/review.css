@@ -52,7 +52,9 @@
 		display: inline-block !important;
 	}
 }
-
+td{
+	word-break: break-all;
+}
 card[qid] .noview {
 	display: none;
 }
