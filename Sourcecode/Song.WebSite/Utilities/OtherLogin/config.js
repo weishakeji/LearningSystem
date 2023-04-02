@@ -111,6 +111,8 @@ Vue.component('config', {
             if (item.disabled) {
                 return alert('还没有开发该功能，如有需要请联系客服');
             }
+            if (item.obj.Tl_APPID == '' || item.obj.Tl_Secret == '')
+                return alert('配置项内容不完整');
             var evt = eval('this.event_' + item.tag + '');
             if (evt != null) evt(item, type);
         },
