@@ -19,7 +19,7 @@
         float:left;
         font-size: 50px;
         color:#999;
-        animation: rotate_360 0.4s infinite linear;
+        animation: rotate_360 0.3s infinite linear;
     }
     *[v-cloak]::after {
         content: "...";
