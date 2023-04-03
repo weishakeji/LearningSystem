@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             organ: {},
             config: {},      //当前机构配置项        
-            
+
             subjects: [],     //所有专业数据
             defaultProps: {
                 children: 'children',
@@ -23,10 +23,11 @@ $ready(function () {
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -37,11 +38,11 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.form.orgid = vapp.organ.Org_ID;
-                vapp.getTreeData();
+                th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
+                th.getTreeData();
             })).catch(function (err) {
                 console.error(err);
             });
@@ -60,9 +61,9 @@ $ready(function () {
         methods: {
             //获取课程专业的数据
             getTreeData: function () {
-                var th = this;              
+                var th = this;
                 var form = {
-                    orgid: vapp.organ.Org_ID,
+                    orgid: th.organ.Org_ID,
                     search: '', isuse: true
                 };
                 $api.get('Subject/Tree', form).then(function (req) {
@@ -72,8 +73,7 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
+                }).catch(function (err) {                    
                     console.error(err);
                 });
             },
@@ -87,7 +87,7 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.datas=result;
+                        th.datas = result;
                         console.log(result);
                     } else {
                         console.error(req.data.exception);
@@ -103,5 +103,5 @@ $ready(function () {
     });
 
 }, ['../Course/Components/course_data.js',
-'../Course/Components/course_income.js',
-'../Course/Components/course_prices.js']);
+    '../Course/Components/course_income.js',
+    '../Course/Components/course_prices.js']);

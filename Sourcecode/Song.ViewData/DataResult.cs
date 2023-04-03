@@ -192,10 +192,11 @@ namespace Song.ViewData
             //长整型作为字符串处理，否则在客户端的js解析时会丢失精度
             if (type.Name == "Int64" || type.Name == "UInt64")
                 return string.Format("\"{0}\"", obj.ToString());
-            if (type.Name == "Decimal") {
-                decimal dec= (decimal)obj;
+            if (type.Name == "Decimal")
+            {
+                decimal dec = (decimal)obj;
                 dec = Math.Round(dec * 100) / 100;
-                return string.Format("\"{0}\"", dec.ToString()); 
+                return string.Format("\"{0}\"", dec.ToString());
             }
             //如果是数值型或逻辑型
             if (type.IsNumeric() || type.Name == "Boolean")
@@ -209,7 +210,7 @@ namespace Song.ViewData
                 str = Microsoft.JScript.GlobalObject.escape(str);
                 return string.Format("\"{0}\"", str);
             }
-           
+
             //日期类型转成js所需的格式
             if (typename == "DateTime")
             {
@@ -260,23 +261,12 @@ namespace Song.ViewData
                 sb.Append("]");
             }
             //如果是DataTable
-            else if (obj is DataTable || type.FullName.IndexOf("Dictionary") > -1)
+            else if (obj is DataTable)
             {
-                if (obj is DataTable)
-                {
-                    DataTable dt = (DataTable)obj;
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        for (int i = 0; i < dt.Columns.Count; i++)
-                        {
-                            if (dt.Columns[i].DataType.FullName == "System.String")
-                            {
-                                if (dr[i].ToString() == "")
-                                    dr[i] = string.Empty;
-                            }
-                        }
-                    }
-                }
+                sb.Append(DataTableToJson((DataTable)obj));               
+            }
+            else if (type.FullName.IndexOf("Dictionary") > -1)
+            {
                 string str = JsonConvert.SerializeObject(obj);
                 str = str.Replace(":\"True\"", ":true").Replace(":\"False\"", ":false");
                 sb.Append(str);
@@ -304,9 +294,34 @@ namespace Song.ViewData
                 sb.Append("}");
             }
             return sb.ToString();
-        } 
+        }
+        /// <summary>
+        /// DataTable转json字符
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static string DataTableToJson(DataTable dt)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                sb.Append("{");
+                for (int j = 0;j < dt.Columns.Count; j++)
+                {
+                    string keyval = string.Format("{0}:{1}", dt.Columns[j].ColumnName, ObjectToJson(dr[j], false, 1));
+                    sb.Append(keyval);
+                    if (j < dt.Columns.Count - 1) sb.Append(",");
+                }
+                sb.Append("}");
+                if (i < dt.Rows.Count - 1) sb.Append(",");              
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
         #endregion
-      
+
 
         #region 输出xml
         /// <summary>
