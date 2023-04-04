@@ -38,14 +38,27 @@ context>aside .el-divider {
 
 /*机构信息*/
 .intro {
+	text-align: left;
 	box-sizing: border-box;
+	background-color: #fff;
 	padding: 20px 40px;
-	
+	margin: 0px 20px 20px 20px;
+
 }
-.intro, .intro *{
-	line-height: 35px !important;
-	font-size: 18px !important;
+
+.intro, .intro * {
+	font-size: 18px;
+	line-height: 35px;
+	color: #323233;
 }
+.intro img, .intro table{
+	max-width: 100%;
+}
+.intro table td{
+	word-break: break-all;
+}
+
+
 dl.infoBox>dd {
 	box-sizing: border-box;
 	padding: 5px 5px 5px 110px;

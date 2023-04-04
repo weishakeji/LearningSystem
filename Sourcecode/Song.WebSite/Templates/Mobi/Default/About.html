@@ -11,7 +11,10 @@
     <div id="vapp" v-cloak>
         <context>
             <van-sticky>
-                <page_header title="关于" icon="&#xa031" :fresh="false"></page_header>
+                <page_header title="关于" icon="&#xa031" :fresh="false" :home="true">
+                    <a v-html="organ.Org_PlatformName" href="/Mobi/"></a>
+                </page_header>
+
             </van-sticky>
 
             <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />

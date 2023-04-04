@@ -9,6 +9,7 @@
     line-height: 44px;
     color: #666;
     text-align: left;
+    justify-content: space-between;
 }
 .van-sticky--fixed .page_header {
     background-color: #fff;
@@ -29,20 +30,29 @@
     font-size: 16px;
 }
 
-.page_header icon.fresh {
-    float: right;
-}
-
 .page_header .header_title {
-    width: calc(100% - 70px);
+ flex: 1;
     text-shadow: .2rem 0rem .5rem #fff,-.2rem 0rem .5rem #fff,0rem .2rem .5rem #fff,0rem -.2rem .5rem #fff;
 
 }
-
-.page_header .header_title icon {
+.page_header .page_header_btns{
+    max-width: 88px;
+    display: flex;
+}
+.page_header .page_header_btns icon{
+    margin: 5px 0px 0px 0px;
+   
+}
+.page_header .header_title{
+    display: flex;
+    justify-content: space-between;
+}
+.page_header .header_title>*::before {
     width: auto;
     margin-right: 3px;
     font-size: 21px;
-    margin-top: 3px;
     float: left;
+}
+.page_header .header_title>*{
+    line-height: 48px;
 }

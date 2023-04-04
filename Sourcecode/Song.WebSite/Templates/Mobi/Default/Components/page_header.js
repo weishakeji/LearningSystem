@@ -41,11 +41,13 @@ Vue.component('page_header', {
     // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: `<div  class="page_header">
            <icon class="goback" @click="btnback">&#xe72a</icon>         
-           <div class="header_title">
-                <icon v-html="icon" v-if="icon"></icon>   
-                <span v-html="title"></span>  
-           </div>
-           <icon class="fresh" @click="btnFresh" v-if="fresh">&#xe694</icon>     
-           <icon class="home" @click="btnHome" v-if="home">&#xa020</icon>     
+           <div class="header_title">             
+                <span :icon="icon" v-html="title"></span>  
+                <slot></slot>
+           </div>          
+           <div v-if="fresh || home" class="page_header_btns">
+                <icon class="fresh" @click="btnFresh" v-if="fresh">&#xe694</icon>     
+                <icon class="home" @click="btnHome" v-if="home">&#xa020</icon>   
+           </div>  
         </div>`
 });
