@@ -69,9 +69,9 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions QuesSingle(string uid);
         /// <summary>
-        /// 获取单一实体对象，按题目
+        /// 获取单一实体对象，按题干
         /// </summary>
-        /// <param name="titile"></param>
+        /// <param name="title"></param>
         /// <param name="type">题型的数字标识</param>
         /// <returns></returns>
         Questions QuesSingle(string title, int type);

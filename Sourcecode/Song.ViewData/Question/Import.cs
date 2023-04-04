@@ -71,7 +71,11 @@ namespace Song.ViewData.QuestionHandler
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
                     Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
-                    if (outline != null) obj.Ol_ID = outline.Ol_ID;
+                    if (outline != null)
+                    {
+                        obj.Ol_ID = outline.Ol_ID;
+                        obj.Ol_Name = outline.Ol_Name;
+                    }
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
                 //唯一值，正确答案，类型
@@ -172,7 +176,11 @@ namespace Song.ViewData.QuestionHandler
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
                     Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
-                    if (outline != null) obj.Ol_ID = outline.Ol_ID;
+                    if (outline != null)
+                    {
+                        obj.Ol_ID = outline.Ol_ID;
+                        obj.Ol_Name = outline.Ol_Name;
+                    }
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
                 //唯一值，正确答案，类型
@@ -281,7 +289,11 @@ namespace Song.ViewData.QuestionHandler
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
                     Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
-                    if (outline != null) obj.Ol_ID = outline.Ol_ID;
+                    if (outline != null)
+                    {
+                        obj.Ol_ID = outline.Ol_ID;
+                        obj.Ol_Name = outline.Ol_Name;
+                    }
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
                 //唯一值，正确答案，类型
@@ -352,7 +364,11 @@ namespace Song.ViewData.QuestionHandler
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
                     Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
-                    if (outline != null) obj.Ol_ID = outline.Ol_ID;
+                    if (outline != null)
+                    {
+                        obj.Ol_ID = outline.Ol_ID;
+                        obj.Ol_Name = outline.Ol_Name;
+                    }
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
                 //唯一值，正确答案，类型
@@ -422,7 +438,11 @@ namespace Song.ViewData.QuestionHandler
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
                     Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
-                    if (outline != null) obj.Ol_ID = outline.Ol_ID;
+                    if (outline != null)
+                    {
+                        obj.Ol_ID = outline.Ol_ID;
+                        obj.Ol_Name = outline.Ol_Name;
+                    }
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
                 //唯一值

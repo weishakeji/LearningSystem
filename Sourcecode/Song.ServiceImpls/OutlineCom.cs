@@ -33,10 +33,8 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    if (entity.Ol_ID <= 0)
-                    {
-                        entity.Ol_ID = WeiSha.Core.Request.SnowID();
-                    }
+                    if (entity.Ol_ID <= 0)                  
+                        entity.Ol_ID = WeiSha.Core.Request.SnowID();                
                     if (entity.Org_ID <= 0)
                     {
                         Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -46,18 +44,13 @@ namespace Song.ServiceImpls
                     if (entity.Sbj_ID <= 0 && entity.Cou_ID > 0)
                     {
                         Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(entity.Cou_ID);
-                        entity.Sbj_ID = cou.Sbj_ID;
+                        if (cou != null) entity.Sbj_ID = cou.Sbj_ID;
                     }
                     //计算排序号
                     object obj = tran.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
                     entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
                     //唯一id
-                    string uid = string.IsNullOrWhiteSpace(entity.Ol_UID) ? WeiSha.Core.Request.UniqueID() : entity.Ol_UID;
-                    do
-                    {
-                        uid = WeiSha.Core.Request.UniqueID();
-                    } while (Gateway.Default.Count<Outline>(Outline._.Ol_UID == uid) > 0);
-                    entity.Ol_UID = uid;
+                    entity.Ol_UID = WeiSha.Core.Request.SnowID().ToString();
 
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
@@ -121,17 +114,21 @@ namespace Song.ServiceImpls
                 {
                     current = new Outline();
                     current.Ol_Name = listName[i];
+                    current.Ol_ID = WeiSha.Core.Request.SnowID();
                     current.Ol_IsUse = true;        //默认为启用
+                    current.Ol_IsChecked = true;
                     current.Org_ID = orgid;
                     current.Sbj_ID = course != null ? course.Sbj_ID : sbjid;
                     current.Cou_ID = couid;
                     current.Ol_PID = pid;
                     current.Ol_IsFinish = true;     //默认为完结
-                    this.OutlineAdd(current);
+                    new Task(() => {
+                        this.OutlineAdd(current);
+                    }).Start();
                 }
                 last = current;
                 pid = current.Ol_ID;
-            }            
+            }
             return last;
         }
         /// <summary>
