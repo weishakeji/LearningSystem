@@ -50,8 +50,7 @@ Vue.component('courses', {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //Vue.prototype.$alert(err);
+                }).catch(function (err) {                   
                     console.error(err);
                 });
         },
@@ -76,9 +75,7 @@ Vue.component('courses', {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    //Vue.prototype.$alert(err);
+                }).catch(function (err) {                
                     console.error(err);
                 });
         },

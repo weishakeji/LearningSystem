@@ -101,6 +101,9 @@ $ready(function () {
                 return notify_url;
             },
             //支付url
+            //pi: 支付接口的对象
+            //acount: 学员账号的对象
+            //moneyacc: 资金流水记录
             build_pay_url: function (pi, account, moneyacc, orgin) {
                 let total_fee = Math.floor(moneyacc.Ma_Money * 100);
                 let orgid = moneyacc.Org_ID;
@@ -114,7 +117,7 @@ $ready(function () {
                 let paykey = config["Paykey"];  //支付密钥
                 //充值的人员信息
                 let buyer = account.Ac_MobiTel1 == '' ? account.Ac_MobiTel2 : account.Ac_MobiTel1;
-                if (buyer == '') buyer = acc.Ac_AccName;
+                if (buyer == '') buyer = account.Ac_AccName;
                 var th = this;
                 th.loading_qr = true;
                 $api.get('Pay/WxNativePayUrl', {

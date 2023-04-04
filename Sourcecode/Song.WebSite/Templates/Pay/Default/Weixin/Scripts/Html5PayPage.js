@@ -102,6 +102,9 @@ $ready(function () {
                 return encodeURIComponent(notify_url);
             },
             //支付url
+             //pi: 支付接口的对象
+            //acount: 学员账号的对象
+            //moneyacc: 资金流水记录
             build_pay_url: function (pi, account, moneyacc, orgin) {
                 let total_fee = Math.floor(moneyacc.Ma_Money * 100);
                 let orgid = moneyacc.Org_ID;

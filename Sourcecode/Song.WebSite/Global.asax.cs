@@ -29,15 +29,20 @@ namespace Song.WebSite
             //采用自定义模版引擎
             System.Web.Mvc.ViewEngines.Engines.Clear();
             System.Web.Mvc.ViewEngines.Engines.Add(new WeiSha.Core.TemplateEngine());
-            //机构中的模版设置，初始化
-            if (!WeiSha.Core.PlateOrganInfo.IsInitialization)
-            {               
-                WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
+            try
+            {
+                //机构中的模版设置，初始化
+                if (!WeiSha.Core.PlateOrganInfo.IsInitialization)
+                    WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
+                //初始化七牛云直播的值
+                Business.Do<ILive>().Initialization();
+                //账号信息，加入内存缓存，方便后续查询
+                //Song.ServiceImpls.AccountLogin.Buffer.Init();        
             }
-            //初始化七牛云直播的值
-            Business.Do<ILive>().Initialization();
-            //账号信息，加入内存缓存，方便后续查询
-            //Song.ServiceImpls.AccountLogin.Buffer.Init();            
+            catch (Exception ex)
+            {
+                Log.Error(this.GetType().ToString(), ex);
+            }
         }
     }
 }

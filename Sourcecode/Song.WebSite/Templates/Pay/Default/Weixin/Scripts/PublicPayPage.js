@@ -96,30 +96,33 @@ $ready(function () {
                     //获取结果
                     th.account = acc.data.result;
                     th.organ = org.data.result;
-                    th.wxJsApiPay(th.interface, th.moneyAccount, th.account, th.organ);
+                    th.wxJsApiPay(th.interface, th.account, th.moneyAccount, th.organ);
                 })).catch(function (err) {
                     //alert(err);
                     console.error(err);
                 });
             },
             //获取支付订单所需的参数
-            wxJsApiPay: function (interface, moneyacc, acc, org) {
+            //pi: 支付接口的对象
+            //acount: 学员账号的对象
+            //moneyacc: 资金流水记录
+            wxJsApiPay: function (pi, acount, moneyacc, org) {
                 var th = this;
                 var total_fee = Math.floor(moneyacc.Ma_Money * 100);
-                var appid = interface.Pai_ParterID;  //绑定支付的APPID（必须配置）
-                var secret = interface.Pai_Key;      //公众帐号secert（仅JSAPI支付的时候需要配置）
+                var appid = pi.Pai_ParterID;  //绑定支付的APPID（必须配置）
+                var secret = pi.Pai_Key;      //公众帐号secert（仅JSAPI支付的时候需要配置）
                 //接口配置项
-                var config = $api.xmlconfig.tojson(th.interface.Pai_Config);
+                var config = $api.xmlconfig.tojson(pi.Pai_Config);
                 var mchid = config["MCHID"];    //商户id
                 var paykey = config["Paykey"];  //支付密钥
                 //回调地址
-                var notify_url = interface.Pai_Returl;
+                var notify_url = pi.Pai_Returl;
                 if (notify_url == '') notify_url = $api.url.host();
                 if (notify_url.length > 0 && notify_url.substring(notify_url.length - 1) != '/') notify_url += "/";
                 notify_url += "Pay/Weixin/PublicPayNotify";
                 //充值的人员信息
-                var buyer = acc.Ac_MobiTel1 == '' ? acc.Ac_MobiTel2 : acc.Ac_MobiTel1;
-                if (buyer == '') buyer = acc.Ac_AccName;
+                var buyer = acount.Ac_MobiTel1 == '' ? acount.Ac_MobiTel2 : acount.Ac_MobiTel1;
+                if (buyer == '') buyer = acount.Ac_AccName;
                 //获取token和openid
                 $api.get('Pay/WxOpenidAndAccessTokenFromCode', { 'appid': appid, 'secret': secret, 'code': th.code })
                     .then(function (req) {
@@ -182,10 +185,10 @@ $ready(function () {
                 });
             },
             //返回页地址
-            gobackurl:function(){
+            gobackurl: function () {
                 var returl = this.referrer;
                 if (returl == '' || returl == null) returl = '/';
-                return returl; 
+                return returl;
             }
         }
     });

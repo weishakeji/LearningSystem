@@ -29,9 +29,10 @@ window.vapp = new Vue({
     methods: {
         //检测链接
         checkConn: function () {
-            this.loadingConn = true;
-            vapp.connState = false;
-            vapp.verison = '';
+            var th = this;
+            th.loadingConn = true;
+            th.connState = false;
+            th.verison = '';
             $api.bat(
                 $api.post('Platform/DbConnection'),
                 $api.post("Platform/DbVersion")
@@ -45,35 +46,35 @@ window.vapp = new Vue({
                         console.error(data.exception);
                         throw data.message;
                     }
-                }
-                vapp.loadingConn = false;
+                }             
                 //获取结果
-                vapp.connState = conn.data.result;
-                vapp.verison = ver.data.result;
-                vapp.checkComplete();
+                th.connState = conn.data.result;
+                th.verison = ver.data.result;
+                th.checkComplete();
             })).catch(function (err) {
-                console.error(err);
-                vapp.loadingConn = false;
-                vapp.connState = false;
-                vapp.verison = '';
+                console.error(err);             
+                th.connState = false;
+                th.verison = '';
+            }).finally(() => {
+                th.loadingConn = false;
             });
         },
         //检测完整性
         checkComplete: function () {
-            this.loadingComp = true;
-            this.compDatas=[];
+            var th = this;
+            th.loadingComp = true;
+            th.compDatas = [];
             $api.post('Platform/DbCheck').then(function (req) {
                 if (req.data.success) {
-                    vapp.compDatas= req.data.result;
-                    //...
+                    th.compDatas = req.data.result;
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-                vapp.loadingComp = false;
-            }).catch(function (err) {
-                vapp.loadingComp = false;
+            }).catch(function (err) {               
                 console.error(err);
+            }).finally(() => {
+                th.loadingComp = false;
             });
         }
     }

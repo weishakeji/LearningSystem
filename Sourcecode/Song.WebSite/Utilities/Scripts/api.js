@@ -1607,7 +1607,14 @@ $api.effect(function () {
         return;
     }
     if (response.data.state == '94060') {
-        alert('数据库链接异常');
+        var url = '/help/datas/test.htm';
+        var name = window.location.pathname.toLowerCase();
+        if (url != name) {
+            alert('数据库链接异常');
+            window.setInterval(function () {
+                window.location.href = url;
+            }, 3000);
+        }
         return;
     }
     if (!response.config) return;
