@@ -53,7 +53,7 @@
 
 .van-sticky--fixed .artTitle {
     font-size: 16px;
-    background-color: rgba(255, 255, 255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -91,10 +91,10 @@
 }
 
 #artContext p {
-    margin-top: 10px;  
+    margin-top: 10px;
 }
 
-#artContext img {
+#artContext img, #artContext table {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
@@ -103,7 +103,9 @@
     max-width: 100% !important;
     height: auto;
 }
-
+table td{
+	word-break: break-all;
+}
 .img-box {
     text-align: center;
 }
@@ -121,9 +123,8 @@
     background-color: transparent !important;
 }
 
-#artContext p
-{
-	margin: 0.5em 0px 0px 0px;
+#artContext p {
+    margin: 0.5em 0px 0px 0px;
 }
 
 #artAcc {

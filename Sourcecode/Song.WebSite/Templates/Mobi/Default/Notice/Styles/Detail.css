@@ -90,14 +90,17 @@ nav .right{
 	margin-top: 10px;
 	margin-left: 10px;	
 }
-#artContext img{
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	text-align:center;
-	max-width:100% !important;
-	height: auto;
+#artContext img, #artContext table {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    max-width: 100% !important;
+    height: auto;
+}
+table td{
+	word-break: break-all;
 }
 .img-box{
 	text-align: center;
