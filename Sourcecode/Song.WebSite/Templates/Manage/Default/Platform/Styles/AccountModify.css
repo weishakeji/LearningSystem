@@ -5,7 +5,7 @@ html, body {
     overflow: hidden;
 }
 
-body>#app {
+body>#vapp {
     height: calc(100% - 40px);
     overflow-y: auto;
     width: 100%;
@@ -40,4 +40,13 @@ img.photo {
 .pingyin .py {
     cursor: pointer;
     color: #409EFF;
+}
+.organ {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+}
+
+.organ icon {
+    margin-right: 2px;
 }

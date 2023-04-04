@@ -9,7 +9,7 @@
 
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item>
                 <el-upload class="avatar-uploader"
@@ -21,13 +21,8 @@
                 </el-upload>
 
             </el-form-item>
-            <el-form-item label="">
-
-            </el-form-item>
             <el-form-item label="账号" prop="Ac_AccName">
-                <span class="el-form-item__label">{{account.Ac_AccName}}</span>
-                <span class="el-form-item__label" title="所在机构">({{organ.Org_Name}})</span>
-
+                <el-input v-model="account.Ac_AccName" style="width:200px" clearable></el-input>               
             </el-form-item>
             <el-row>
                 <el-col :span="12">
@@ -128,6 +123,10 @@
 
         </el-form>
         <div class="footer">
+            <el-tag type="success" class="organ" title="所属机构">
+                <icon>&#xa02a</icon>
+                {{organ.Org_Name}}
+            </el-tag>
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('account')">
                 确认修改</el-button>
             <el-button type='close'>取消</el-button>

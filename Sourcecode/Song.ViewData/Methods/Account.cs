@@ -462,7 +462,7 @@ namespace Song.ViewData.Methods
                 WeiSha.Core.Upload.Get[PathKey].DeleteFile(old.Ac_Photo);      
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             //账号，密码，登录状态值，不更改
-            old.Copy<Song.Entities.Accounts>(acc, "Ac_AccName,Ac_Pw,Ac_CheckUID");
+            old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             Business.Do<IAccounts>().AccountsSave(old);
             Song.ViewData.LoginAccount.Fresh(old);

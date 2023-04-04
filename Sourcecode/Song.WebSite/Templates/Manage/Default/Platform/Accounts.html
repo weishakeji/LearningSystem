@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="修改,删除,批量删除,导出" ref='btngroup' @delete="deleteData" @output="output" @bathdelete="bathdel"
                 path="AccountModify" :disabled="loading || loadingdel" width="600" height="600" :selects='selects'

@@ -50,7 +50,8 @@ namespace Song.ServiceImpls
             entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
             entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
             entity.Ac_Name = this._checkName(entity.Ac_Name);
-
+            if (this.IsAccountExist(entity.Ac_AccName, 0))
+                throw new Exception("账号已经存在");
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
                 entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
             if (string.IsNullOrWhiteSpace(entity.Ac_UID))
@@ -120,7 +121,8 @@ namespace Song.ServiceImpls
             entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
             entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
             entity.Ac_Name = this._checkName(entity.Ac_Name);
-
+            if (this.IsAccountExist(entity.Ac_AccName, entity.Ac_ID))
+                throw new Exception("账号已经存在");
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
                 entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
             if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)
@@ -239,11 +241,11 @@ namespace Song.ServiceImpls
                 throw new Exception("账号不可为空");
             //清除空格
             acc = acc.Replace(" ", "").Replace("\r", "").Replace("\n", "").ToLower();
-            if (acc.Length < 6)
-                throw new Exception("账号最短不得小于6个字符");
+            if (acc.Length < 5)
+                throw new Exception("账号最短不得小于5个字符");
             if (acc.Length > 50)
                 throw new Exception("账号最长不得超过50个字符");
-            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z]|[a-zA-Z0-9_]{6,50}$");
+            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z]|[a-zA-Z0-9_]{5,50}$");
             if (!ispass) throw new Exception("账号仅限字母、数字、下划线");
             return acc;
         }

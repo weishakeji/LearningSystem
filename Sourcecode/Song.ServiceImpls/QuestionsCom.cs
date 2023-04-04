@@ -639,7 +639,7 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "正确答案", "试题讲解" };
+            string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度", "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "正确答案", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);            
             //生成数据行
@@ -689,7 +689,7 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", "答案", "试题讲解" };
+            string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度", "答案", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
@@ -723,7 +723,7 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", "答案", "试题讲解" };
+            string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度", "答案", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
@@ -755,7 +755,7 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", 
+            string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度", 
                 "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);

@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
@@ -115,7 +115,7 @@
                 this.loadingid = row.Ac_ID;
                 $api.post('Account/ModifyState', { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -125,7 +125,7 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    alert(err, '错误');
                 });
             },
             //导出
