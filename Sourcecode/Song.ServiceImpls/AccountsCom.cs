@@ -238,12 +238,12 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(acc))
                 throw new Exception("账号不可为空");
             //清除空格
-            acc = acc.Replace(" ", "").ToLower();
+            acc = acc.Replace(" ", "").Replace("\r", "").Replace("\n", "").ToLower();
             if (acc.Length < 6)
                 throw new Exception("账号最短不得小于6个字符");
             if (acc.Length > 50)
                 throw new Exception("账号最长不得超过50个字符");
-            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"[a-zA-Z][a-zA-Z0-9_]{6,50}");
+            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z]|[a-zA-Z0-9_]{6,50}$");
             if (!ispass) throw new Exception("账号仅限字母、数字、下划线");
             return acc;
         }
@@ -475,26 +475,7 @@ namespace Song.ServiceImpls
                 _acc_init(ac);
             return accs;
         }
-        ///// <summary>
-        ///// 通过QQ的openid获取账户
-        ///// </summary>
-        ///// <param name="qqopenid"></param>
-        ///// <returns></returns>
-        //public Accounts Account4QQ(string qqopenid)
-        //{
-        //    Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_QqOpenID == qqopenid).ToFirst<Accounts>();
-        //    return _acc_init(ac);
-        //}
-        ///// <summary>
-        ///// 通过微信的openid获取账户
-        ///// </summary>
-        ///// <param name="openid"></param>
-        ///// <returns></returns>
-        //public Accounts Account4Weixin(string openid)
-        //{
-        //    Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_WeixinOpenID == openid).ToFirst<Accounts>();
-        //    return _acc_init(ac);
-        //}
+
         /// <summary>
         /// 查询第三方登录账号是否存在
         /// </summary>

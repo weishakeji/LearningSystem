@@ -43,6 +43,12 @@ namespace Song.ServiceInterfaces
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         void AccountsUpdate(Accounts entity, Field[] fiels, object[] objs);
+        /// <summary>
+        /// 修改账户，按条件修改
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="fiels"></param>
+        /// <param name="objs"></param>
         void AccountsUpdate(int acid, Field[] fiels, object[] objs);
         /// <summary>
         /// 删除，按主键ID；
@@ -106,18 +112,6 @@ namespace Song.ServiceInterfaces
         /// <param name="name"></param>
         /// <returns></returns>
         Accounts[] Account4Name(string name);
-        ///// <summary>
-        ///// 通过QQ的openid获取账户
-        ///// </summary>
-        ///// <param name="openid"></param>
-        ///// <returns></returns>
-        //Accounts Account4QQ(string openid);        
-        ///// <summary>
-        ///// 通过微信的openid获取账户
-        ///// </summary>
-        ///// <param name="openid"></param>
-        ///// <returns></returns>
-        //Accounts Account4Weixin(string openid);
         /// <summary>
         /// 查询第三方登录账号是否存在
         /// </summary>
