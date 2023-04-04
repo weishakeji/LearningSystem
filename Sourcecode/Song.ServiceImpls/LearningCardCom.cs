@@ -312,6 +312,7 @@ namespace Song.ServiceImpls
         {
             Organization org = Business.Do<IOrganization>().OrganCurrent();
             object max_setid = Gateway.Default.Max<LearningCardSet>(LearningCardSet._.Lcs_ID, new WhereClip());
+            max_setid = max_setid == null ? 1 : max_setid;
             int min_len = (org.Org_ID.ToString() + max_setid.ToString()).Length + 1;
             return min_len;
         }

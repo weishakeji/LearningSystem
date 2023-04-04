@@ -149,7 +149,7 @@ $ready(function () {
                                 //获取学习卡关联的课程
                                 $api.get('Learningcard/SetCourses', { 'id': th.id }).then(function (req) {
                                     if (req.data.success) {
-                                        vapp.courses = req.data.result;
+                                        th.courses = req.data.result;
                                     }
                                 }).catch(function (err) {
                                     alert(err);
@@ -170,12 +170,12 @@ $ready(function () {
                         th.entity.Lcs_Unit = '月';
                     }
                 } else {
-                    console.error(req.data.exception);
-                    th.$alert(err, '错误');
+                    throw req.data;                    
                 }
             }).catch(function (err) {
-                console.error(err);
-            });
+                alert(err.message, '错误');
+                console.error(err.exception);
+            }).finally(()=>th.loading = false);
 
         },
         methods: {
