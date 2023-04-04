@@ -17,7 +17,8 @@ Vue.component('general', {
             courses: [],     //课程列表
             couid: '',      //当前课程id
 
-            outlines: [],     //章节
+            outlines: [],     //课程下的所有章节
+            outline: null,         //试题当前章节
             defaultOutlinesProps: {
                 children: 'children',
                 label: 'Ol_Name'
@@ -50,7 +51,6 @@ Vue.component('general', {
         'couid': {
             handler: function (nv, ov) {
                 this.question.Cou_ID = nv;
-                //console.error(nv);
             }, immediate: true
         },
         //章节查询的字符
@@ -62,7 +62,7 @@ Vue.component('general', {
         //禁止选择专业与课程，（例如在课程管理中的试题编辑）
         'disable_select': function () {
             var from = $api.querystring('from');
-            return from=='course_modify';
+            return from == 'course_modify';
         }
     },
     mounted: function () {
@@ -147,8 +147,7 @@ Vue.component('general', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                //alert(err);
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },
@@ -177,19 +176,22 @@ Vue.component('general', {
         //所取章节数据，为树形数据
         getOultines: function () {
             var th = this;
-            this.loading = true;
+            th.loading = true;
             var couid = th.question.Cou_ID && th.question.Cou_ID != '' ? th.question.Cou_ID : -1;
             $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.outlines = req.data.result;
+                    if (th.question.Ol_ID != '')
+                        th.outline = th.getoutline(th.outlines);
+                    //console.error(th.outline);
+                    //console.log(th.outlines);
                     th.calcSerial(null, '');
                 } else {
                     throw req.data.message;
                 }
             }).catch(function (err) {
                 th.outlines = [];
-            });
+            }).finally(() => th.loading = false);
         },
         //过滤章节树形
         filterNode: function (value, data, node) {
@@ -207,10 +209,27 @@ Vue.component('general', {
                 this.calcSerial(childarr[i], childarr[i].serial);
             }
         },
+        //获取当前章节
+        getoutline: function (list) {
+            if (list == null) list = this.outlines;
+            let outline = null;
+            for (let i = 0; i < list.length; i++) {
+                if (this.question.Ol_ID == list[i].Ol_ID) {
+                    outline = list[i];
+                    break;
+                }
+                if (list[i].children) {
+                    outline = this.getoutline(list[i].children);
+                    if (outline != null) break;
+                }
+            }
+            return outline;
+        },
         //章节节点点击事件
         outlineClick: function (data, node, el) {
             this.question.Ol_ID = data.Ol_ID;
             this.question.Ol_Name = data.Ol_Name;
+            this.outline = this.getoutline(this.outlines);
         }
     },
     template: `<div class="general">
@@ -252,7 +271,7 @@ Vue.component('general', {
                 <div class="outline_bar">
                     <el-input v-model="outlineFilterText" clearable style="width:160px" placeholder="搜索"
                                 suffix-icon="el-icon-search"></el-input>
-                    <span v-if="question.Ol_Name!=''">{{question.Ol_Name}}</span>
+                    <span v-if="question.Ol_ID!=''">{{outline ? outline.Ol_Name : ''}}</span>
                     <span v-else class="noselect">未选择章节</span>
                 </div>
                 <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="defaultOutlinesProps" expand-on-click-node

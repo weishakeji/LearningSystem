@@ -62,8 +62,7 @@ Vue.component('enter_button', {
                         type: 'success',
                         message: '操作成功!',
                         center: true
-                    });
-                    console.log(333);
+                    });                   
                     //如果是新增
                     //if (isadd) {
                     //var url = $api.dot(result, window.location.href);
