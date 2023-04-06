@@ -127,6 +127,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading_crt = false);
             }
