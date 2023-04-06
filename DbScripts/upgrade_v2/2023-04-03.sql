@@ -124,3 +124,6 @@ alter table Accounts add Ac_Dingding nvarchar(100)  NULL
 go
 alter table Accounts add Ac_Jindie nvarchar(100)  NULL
 go
+
+/*删除课程公告里的临时ID字段*/
+ALTER TABLE Guide DROP COLUMN Gu_SID
