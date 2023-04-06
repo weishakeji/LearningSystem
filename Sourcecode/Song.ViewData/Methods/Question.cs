@@ -406,6 +406,7 @@ namespace Song.ViewData.Methods
         /// <param name="count"></param>
         /// <returns></returns>
         [Study]
+        [Cache]
         public ListResult ForCourse(long couid, long olid, int type, int count)
         {
             if (couid == 0 && olid == 0) return null;

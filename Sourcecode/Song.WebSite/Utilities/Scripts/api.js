@@ -1162,7 +1162,6 @@
                 };
             }).then(function (db) {
                 if (db) db.close();
-
             }).catch(function (err) {
                 console.group('apicace_get error:');
                 if (!!err.message) console.log(err.message);
