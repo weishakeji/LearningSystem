@@ -334,18 +334,7 @@ namespace Song.ServiceImpls
         {
             Course entity = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
             if (entity == null) return "";
-            string xpath = entity.Cou_Name;
-            Song.Entities.Course tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
-            while (tm != null)
-            {
-                xpath = tm.Cou_Name + "," + xpath;
-                if (tm.Cou_PID == 0) break;
-                if (tm.Cou_PID != 0)
-                {
-                    tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
-                }
-            }
-            return xpath;
+            return entity.Cou_Name;
         }
         /// <summary>
         /// 学员是否购买了该课程

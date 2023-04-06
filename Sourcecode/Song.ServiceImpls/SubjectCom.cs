@@ -220,23 +220,25 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取专业名称，如果为多级，则带上父级名称
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="sbjid"></param>
         /// <returns></returns>
-        public string SubjectName(long identify)
+        public string SubjectName(long sbjid)
         {
-            Subject entity = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == identify).ToFirst<Subject>();
-            if (entity == null) return "";
-            string xpath = entity.Sbj_Name;
-            Song.Entities.Subject tm = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == entity.Sbj_PID).ToFirst<Subject>();
-            while (tm != null)
+            Subject entity = null;
+            string xpath = string.Empty;
+            do
             {
-                xpath = tm.Sbj_Name + "," + xpath;
-                if (tm.Sbj_PID == 0) break;
-                if (tm.Sbj_PID != 0)
+                entity = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == sbjid)
+                    .Select(new Field[] { Subject._.Sbj_ID, Subject._.Sbj_PID, Subject._.Sbj_Name }).ToFirst<Subject>();
+                if (entity != null)
                 {
-                    tm = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == tm.Sbj_PID).ToFirst<Subject>();
+                    if (string.IsNullOrWhiteSpace(xpath))
+                        xpath = entity.Sbj_Name;
+                    else
+                        xpath = entity.Sbj_Name + "," + xpath;               
+                    sbjid = entity.Sbj_PID;
                 }
-            }
+            } while (entity != null && sbjid > 0);
             return xpath;
         }
         /// <summary>

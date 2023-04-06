@@ -492,19 +492,21 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string OutlineName(long olid)
         {
-            Outline entity = this.OutlineSingle(olid);
-            if (entity == null) return "";
-            string xpath = entity.Ol_Name;
-            Song.Entities.Outline tm = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == entity.Ol_PID).ToFirst<Outline>();
-            while (tm != null)
+            Outline entity = null;
+            string xpath = string.Empty;
+            do
             {
-                xpath = tm.Ol_Name + "," + xpath;
-                if (tm.Ol_PID == 0) break;
-                if (tm.Ol_PID != 0)
+                entity = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid)
+                    .Select(new Field[] { Outline._.Ol_ID, Outline._.Ol_PID, Outline._.Ol_Name }).ToFirst<Outline>();
+                if (entity != null)
                 {
-                    tm = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == entity.Ol_PID).ToFirst<Outline>();
+                    if (string.IsNullOrWhiteSpace(xpath))
+                        xpath = entity.Ol_Name;
+                    else
+                        xpath = entity.Ol_Name + "," + xpath;
+                    olid = entity.Ol_PID;
                 }
-            }
+            } while (entity != null && olid > 0);
             return xpath;
         }
         /// <summary>

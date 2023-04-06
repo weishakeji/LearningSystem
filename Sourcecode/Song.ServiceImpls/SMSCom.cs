@@ -71,12 +71,12 @@ namespace Song.ServiceImpls
         /// 发送短信验证码
         /// </summary>
         /// <param name="phone">手机号</param>
-        public string SendVcode(string phone,int len)
-        {           
+        public string SendVcode(string phone, int len)
+        {
             //获取短信接口
             string smsCurr = Business.Do<ISystemPara>().GetValue("SmsCurrent");
             Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(smsCurr);
-            sms.Current.User = Business.Do<ISystemPara>().GetValue(smsCurr + "SmsAcc");           
+            sms.Current.User = Business.Do<ISystemPara>().GetValue(smsCurr + "SmsAcc");
             //生成短信内容
             string rnd = WeiSha.Core.Request.Random(len, 1);    //验证码，随机四位数字
             string msg = Business.Do<ISystemPara>().GetValue(smsCurr + "_SmsTemplate");
@@ -92,20 +92,13 @@ namespace Song.ServiceImpls
                 //发送短信，phone手机号,msg是短信内容
                 Song.SMS.SmsState state = sms.Send(phone, msg);
 
-                if (state.Success)
-                {
-                    return rnd;
-                }
-                else
-                {
-                    throw new Exception(state.Description + "；状态码" + state.Code);
-                }
+                if (state.Success) return rnd;
+                throw new Exception(state.Description + "；状态码" + state.Code);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            return rnd;
+            }           
         }
         /// <summary>
         /// 格式化短信内容，将一些替换符转成实际内容

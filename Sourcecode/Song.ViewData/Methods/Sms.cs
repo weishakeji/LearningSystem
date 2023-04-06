@@ -195,7 +195,6 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsForMobi(phone, -1, true, true);
             if (acc == null) throw new Exception("当前手机号不存在");
 
-
             string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             acc.Ac_CheckUID = new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;
             Business.Do<IAccounts>().AccountsSave(acc);
@@ -216,7 +215,6 @@ namespace Song.ViewData.Methods
             if (acc != null) throw new Exception("当前手机号已经存在");
 
             //string vcode = "666888";
-
             string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             return new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;           
         }

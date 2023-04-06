@@ -310,25 +310,21 @@ namespace Song.ViewData.Methods
         /// <param name="path"></param>
         /// <param name="couid">课程id,如果小于等于零，则取所有</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray ExcelFiles(string path,long couid)
+        public JArray ExcelFiles(string path, string couid)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
+
             JArray jarr = new JArray();
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            if (string.IsNullOrWhiteSpace(couid)) return jarr;          
+            string[] files = System.IO.Directory.GetFiles(rootpath, "*." + couid + ".xls");
+            foreach(string file in files)
             {
-                if (couid > 0)
-                {
-                    string name = f.Name;
-                    if (name.IndexOf(".") > 0) name = name.Substring(0, name.LastIndexOf("."));
-                    if (name.IndexOf(".") > 0) name = name.Substring(name.LastIndexOf(".") + 1);
-                    int tmp = 0;
-                    int.TryParse(name, out tmp);
-                    if (tmp > 0 && tmp != couid) continue;
-                }
+                FileInfo f = new FileInfo(file);
+                string name = f.Name.Replace("." + couid, "");
                 JObject jo = new JObject();
+                jo.Add("name", name);
                 jo.Add("file", f.Name);
                 jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
