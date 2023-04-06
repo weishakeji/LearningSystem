@@ -387,6 +387,7 @@
                     });
                 }).catch(function (err) {
                     console.log(err);
+                    //alert(err.message);
                     // console.log(p);
                     return $api.query(way, parameters, 'get_cache', loading, loaded, returntype);
                 });
