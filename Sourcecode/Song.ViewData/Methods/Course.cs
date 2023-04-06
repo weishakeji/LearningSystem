@@ -121,31 +121,30 @@ namespace Song.ViewData.Methods
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "course")]
-        public Song.Entities.Course Modify(Song.Entities.Course course)
+        public Song.Entities.Course Modify(JObject course)
         {
             try
             {
-
-                Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(course.Cou_ID);
+                long couid = 0;
+                long.TryParse(course["Cou_ID"].ToString(), out couid);
+                Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(couid);
                 if (old == null) throw new Exception("Not found entity for Course！");
-                //如果有上传文件
+                //
+                string cou_login = course["Cou_Logo"] != null ? course["Cou_Logo"].ToString() : string.Empty;
+                if (this.Files.Count <= 0 && string.IsNullOrWhiteSpace(cou_login) && !string.IsNullOrWhiteSpace(old.Cou_Logo))
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+                //接收上传的图片
                 if (this.Files.Count > 0)
                 {
-                    //接收上传的图片
-                    course = this._upload_photo(this.Files, course);
                     if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
                         WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-                }
-                //如果没有上传图片，且新对象没有图片，则删除旧图
-                else if (string.IsNullOrWhiteSpace(course.Cou_Logo))
-                {
-                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+                    old = this._upload_photo(this.Files, old);                   
                 }
                 //某些字段将不同步修改                   
-                string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name";
-                //如果名称为空，则不修改
-                if (string.IsNullOrWhiteSpace(course.Cou_Name))
-                    nomidfy = "Cou_Name," + nomidfy;
+                string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name,Cou_Logo,Cou_LogoSmall";
+                ////如果名称为空，则不修改
+                //if (string.IsNullOrWhiteSpace(course.Cou_Name))
+                //    nomidfy = "Cou_Name," + nomidfy;
                 old.Copy<Song.Entities.Course>(course, nomidfy);
                 Business.Do<ICourse>().CourseSave(old);
                 return old;

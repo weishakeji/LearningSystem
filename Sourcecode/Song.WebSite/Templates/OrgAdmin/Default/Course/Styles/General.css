@@ -7,8 +7,7 @@
 
 .upload_img_area {
 	width: 240px;
-	height: 135px;
-	background-color: #eee;
+	height: 135px;	
 	cursor: pointer;
 	color: #ccc;
 }

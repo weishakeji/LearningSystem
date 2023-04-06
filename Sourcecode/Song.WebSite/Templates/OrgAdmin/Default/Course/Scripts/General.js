@@ -87,7 +87,7 @@
                     th.loading = false;
                     th.loading_obj.close();
                     if (req.data.success) {
-                        th.entity = req.data.result;                      
+                        th.entity = req.data.result;
                         //将当前课程的专业，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Sbj_ID);
@@ -186,7 +186,7 @@
             //调用父级方法
             fresh_parent: function (id) {
                 var win = window.parent;
-                if (win && win.vapp) {
+                if (win && win.vapp && win.vapp.close_fresh) {
                     win.vapp.close_fresh('vapp.fressingle("' + id + '")');
                 }
             }
