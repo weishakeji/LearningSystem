@@ -4,7 +4,21 @@ $ready(function () {
         el: '#vapp',
         data: {
             outeruser: {},      //外部用户（第三方登录的用户）
-
+            /** 示例
+            {
+                //不同微信应用下openid不同，例如微信公众号与微信小程序下获取同一微信号的openid并不相同
+                "openid": "ohjXUjtd56L30DEbXM81fwk0che0",   
+                "nickname": "宋", 
+                "sex": 0, 
+                "language": "", 
+                "city": "", 
+                "province": "", 
+                "country": "", 
+                "headimgurl": "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eo6KrCia9leuX73Y84YRzcsWhUicECVCE04q7ESOAeWJFJFj3nbgFjxxaBX1aticCgxWnVn7154H5H7A/132", 
+                "privilege": [ ], 
+                "unionid": "oviR-0ujiC7OLI45s0xt0ja1-YSI"       //这才是微信唯一id
+            }
+            */
             binduser: {},        //外部用户绑定的账号
             onlineuser: {},     //当前登录账号（本系统用户）
 
@@ -62,7 +76,8 @@ $ready(function () {
                 obj[params[i].key] = decodeURIComponent(params[i].val);
             //
             this.outeruser = obj;
-            this.openid = obj.openid;
+            //采用unionid替代openid
+            this.openid = obj.unionid;
             this.tag = obj.tag;
             console.log(obj);
         },
