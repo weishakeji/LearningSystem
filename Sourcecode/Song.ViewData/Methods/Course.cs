@@ -51,7 +51,7 @@ namespace Song.ViewData.Methods
         [HttpPut]
         public int ViewNum(long couid, int num)
         {
-            return Business.Do<ICourse>().CourseViewNum(couid, num);           
+            return Business.Do<ICourse>().CourseViewNum(couid, num);
         }
         /// <summary>
         /// 根据课程ID获取课程信息
