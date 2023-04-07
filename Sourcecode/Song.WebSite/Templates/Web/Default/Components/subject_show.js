@@ -88,7 +88,7 @@ Vue.component('subject_show', {
                     <div class="name">{{ cour.Cou_Name }}</div>
                     <div class="price">
                         <span class="free" v-if="cour.Cou_IsFree">免费</span>
-                        <span class="money" v-else>
+                        <span class="money" v-else-if="cour.Cou_Price>0">
                             <icon>&#xe818;</icon>
                             {{cour.Cou_Price}}元/{{cour.Cou_PriceSpan}}{{cour.Cou_PriceUnit}}             
                         </span>

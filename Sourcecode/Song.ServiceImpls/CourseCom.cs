@@ -1561,20 +1561,28 @@ namespace Song.ServiceImpls
         ///  将产品价格写入到课程所在的表，取第一条价格
         /// </summary>
         /// <param name="uid">课程UID</param>
-        public void PriceSetCourse(string uid){           
-            CoursePrice[] prices = PriceCount(0, uid, true, 0);
-            if (prices.Length > 0)
+        public void PriceSetCourse(string uid) {
+           
+            Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
+            if (course != null)
             {
-                CoursePrice p = prices[0];
-                Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
-                if (course != null)
+                CoursePrice[] prices = PriceCount(0, uid, true, 0);
+                if (prices.Length > 0)
                 {
+                    CoursePrice p = prices[0];
                     course.Cou_Price = p.CP_Price;
                     course.Cou_PriceSpan = p.CP_Span;
                     course.Cou_PriceUnit = p.CP_Unit;
-                    Gateway.Default.Save<Course>(course);
                 }
+                else
+                {
+                    course.Cou_Price =0;
+                    course.Cou_PriceSpan =0;
+                    course.Cou_PriceUnit = string.Empty;
+                }
+                Gateway.Default.Save<Course>(course);
             }
+
         }
         /// <summary>
         /// 修改价格记录
@@ -1665,11 +1673,22 @@ namespace Song.ServiceImpls
                             CoursePrice._.CP_ID == item.CP_ID);
                     }
                     //第一条记录，同步到课程信息中
-                    CoursePrice first = items[0];
-                    tran.Update<Course>(
-                           new Field[] { Course._.Cou_Price, Course._.Cou_PriceSpan, Course._.Cou_PriceUnit },
-                           new object[] { first.CP_Price, first.CP_Span, first.CP_Unit },
-                           Course._.Cou_UID == first.Cou_UID);
+                    CoursePrice first =null;
+                    for (int i = 0; i < items.Length; i++)
+                    {
+                        if (items[i].CP_IsUse)
+                        {
+                            first = items[i];
+                            break;
+                        }
+                    }
+                    if (first != null)
+                    {
+                        tran.Update<Course>(
+                               new Field[] { Course._.Cou_Price, Course._.Cou_PriceSpan, Course._.Cou_PriceUnit },
+                               new object[] { first.CP_Price, first.CP_Span, first.CP_Unit },
+                               Course._.Cou_UID == first.Cou_UID);
+                    }
                     tran.Commit();
                     return true;
                 }

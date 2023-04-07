@@ -42,7 +42,7 @@ Vue.component('course', {
     <a class="name" :href="seturl()" target="_blank">{{ item.Cou_Name }}</a>
     <div class="price">
         <span class="free" v-if="item.Cou_IsFree">免费</span>
-        <span class="money" v-else>
+        <span class="money" v-else-if="item.Cou_Price>0">
             <icon>&#xe818;</icon>
             {{item.Cou_Price}}元/{{item.Cou_PriceSpan}}{{item.Cou_PriceUnit}}             
         </span>
