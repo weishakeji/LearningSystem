@@ -27,6 +27,7 @@ $ready(function () {
         watch: {
             'org': {
                 handler: function (nv, ov) {
+                    if (JSON.stringify(nv) == '{}' || nv == null) return;
                     this.loadinit(nv.Org_ID);
                     this.loadsbj();
                     document.title = nv.Org_PlatformName;
