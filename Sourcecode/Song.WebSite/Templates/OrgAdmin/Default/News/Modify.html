@@ -103,7 +103,10 @@
                         <dl>
                             <dd v-for="(f,i) in accessories">
                                 <a :href="f.As_FileName" target="_blank"
-                                    :download="f.As_Name"><span>{{i+1}}.</span><span v-html="f.As_Name"></span></a>
+                                    :download="f.As_Name"><span>{{i+1}}.</span><span v-html="f.As_Name"></span>
+                                    <span class="filesize">{{f.As_Size|size}}</span>
+                                </a>
+                                  
                                 <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
                                     <el-link type="danger" class="el-icon-delete" slot="reference"> 删除</el-link>
                                 </el-popconfirm>

@@ -126,6 +126,11 @@
 .art_access dd .el-link::before{
     margin-right: 8px;
 }
+.filesize {
+    font-size: 14px;
+    color: #999;
+    margin-left: 10px;
+}
 .upload_file_area {
     margin-right: 40px;
 }
