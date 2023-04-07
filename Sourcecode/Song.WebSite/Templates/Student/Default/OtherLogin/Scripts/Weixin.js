@@ -112,7 +112,7 @@ $ready(function () {
             //绑定
             bindhandler: function () {
                 var th = this;
-                console.error(this.openid);
+                //console.error(this.openid);
                 th.loading = true;
                 $api.get('Account/UserBind', { 'openid': th.openid, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
@@ -138,6 +138,7 @@ $ready(function () {
                             window.location.href = '/mobi/';
                     }, 300);
                 } else {
+                    //console.error('vapp.fresh');
                     if (!!window.top.vapp.shut) {
                         window.top.vapp.shut(window.name, 'vapp.fresh');
                     }

@@ -53,6 +53,7 @@ $ready(function () {
             },
             //刷新页面
             fresh: function () {
+                alert('fresh')
                 window.location.reload();
             },
             //是否绑定

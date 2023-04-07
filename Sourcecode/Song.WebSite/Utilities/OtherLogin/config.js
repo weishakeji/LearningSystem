@@ -95,7 +95,7 @@ Vue.component('config', {
             var obj = {};
             obj = {
                 'url': url, 'ico': item.icon, 'title': item.name,
-                'pid': window.tag, 'showmask': true, 'min': false, 'max': false,
+                'pid': window.name, 'showmask': true, 'min': false, 'max': false,
                 'width': item.width, 'height': item.height
             }
             window.top.$pagebox.create(obj).open();
