@@ -60,10 +60,13 @@ card div.row[right]::after {
 
 
 /*图标与名称*/
-.config>div.row{
+.config>div.row {
     display: flex;
     justify-content: space-between;
     cursor: default;
+}
+.config>div.row .name{
+    width:  calc(100% - 400px);
 }
 .config>div .name .tagname {
     font-size: 14px;
@@ -79,14 +82,33 @@ card div.row[right]::after {
     margin-right: 15px;
     margin-top: 5px;
 }
+
 /*右侧内容*/
-.right{
+.right {
     float: right;
 }
-.right .phone{
+
+.right .phone {
     margin-right: 10px;
 }
-.null{
+
+.null {
     color: #999;
     font-size: 14px;
+}
+
+/*第三方账号的信息*/
+.thirdparty {  
+    min-width: 200px;
+    display: flex;
+    text-align: left;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.thirdparty img {
+   border-radius: 50%;
+}
+.thirdparty icon{
+    font-size: 25px !important;
 }

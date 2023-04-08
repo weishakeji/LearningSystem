@@ -41,14 +41,19 @@
                 <card>
                     <config ref="config" class="config" :isuse="true">
                         <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
-                            <div class="name">
-                                <img :src="data.img" />
-                                <template v-if="data.item.obj.Tl_Name!=null"></template>
-                                {{data.item.obj.Tl_Name}}
-                                <span class="tagname">({{data.item.name}})</span>
+                            <img :src="data.img" />
+                            <div class="name" v-if="!isbind(data.item.tag)">
+                                <template v-if="data.item.obj.Tl_Name!=null">
+                                    {{data.item.obj.Tl_Name}}
+                                    <span class="tagname">({{data.item.name}})</span>
+                                </template>
                                 <template v-else>
                                     {{data.item.name}}
                                 </template>
+                            </div>
+                            <div class="name" v-else>
+                                <span class="tagname"> {{data.item.obj.Tl_Name}}({{data.item.name}})</span>
+                                <thirdparty :account="account" :tag="data.item.tag"></thirdparty>
                             </div>
                             <loading v-if="loading_bind=='data.item.tag'"></loading>
                             <div class="btns" v-else>

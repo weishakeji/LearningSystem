@@ -13,6 +13,7 @@ $ready(function () {
 
         },
         mounted: function () {
+            var th=this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -29,23 +30,13 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                if (vapp.account)
-                    vapp.account.Ac_Sex = String(vapp.account.Ac_Sex);
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                if (th.account)
+                th.account.Ac_Sex = String(th.account.Ac_Sex);
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                if (vapp.account != null) {
-                    $api.cache('Share/FriendAll:3', { 'acid': vapp.account.Ac_ID }).then(function (req) {
-                        if (req.data.success) {
-                            vapp.friendsAll = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    });
-                }
+                th.config = $api.organ(th.organ).config;                
             })).catch(function (err) {
                 console.error(err);
             });
@@ -111,7 +102,7 @@ $ready(function () {
                 }).then(function () {
                     var th = this;
                     th.loading_bind = tag;
-                    $api.get('Account/UserBind', { 'openid': '', 'field': tag }).then(function (req) {
+                    $api.get('Account/UserUnbind', { 'field': tag }).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
                             window.location.reload();
@@ -129,6 +120,54 @@ $ready(function () {
 
         }
     });
-
+    //第三方平台的绑定信息
+    Vue.component('thirdparty', {
+        props: ['account', 'tag'],
+        data: function () {
+            return {
+                data: {},        //
+                loading: false
+            }
+        },
+        watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if (nv && nv.Ac_ID != null)
+                        this.onload();
+                }, immediate: true, deep: true
+            }
+        },
+        computed: {
+            //是否存在
+            isexist: function () {
+                return JSON.stringify(this.data) != '{}' && this.data != null;
+            }
+        },
+        mounted: function () { },
+        methods: {
+            onload: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Account/UserThirdparty', { 'acid': th.account.Ac_ID, 'tag': th.tag })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.data = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            }
+        },
+        template: `<div class="thirdparty">
+            <loading v-if="loading"></loading>           
+            <template v-else-if="isexist">
+                <img :src="data.Ta_Headimgurl" v-if="data.Ta_Headimgurl!=''"/>
+                <icon v-else>&#xe687</icon>
+                <span v-text="data.Ta_NickName"></span>
+            </template>
+    </div>`
+    });
 }, ['/Utilities/Components/avatar.js',
     '/Utilities/OtherLogin/config.js']);

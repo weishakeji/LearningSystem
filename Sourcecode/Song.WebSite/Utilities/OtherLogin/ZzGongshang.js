@@ -16,6 +16,22 @@ Vue.component('zzgongshang', {
 
             //第三方平台的用户信息
             user: {}
+            /** 示例 json对象
+             * aud: "NmMyNzcwZTAwYTAxNDliZGI2ZWI0NTI2ZjlmNzA5ZTY"
+                authType: "PWD"
+                email: "liushihong@gmail.com"
+                exp: 1680261199
+                iat: 1680174799
+                iss: "http://www.weishakeji.net/auth/oidc/567D115746AF46ED830A77696D14CC97"
+                jti: "ylpKhbyNm6Z6vTA95tYQ7A"
+                name: "测试员"
+                nbf: 1680174739
+                roles: []
+                sub: "tester01"
+                subjectId: "74e8e3c9-ffed-449f-bd0d-44ec39723988"
+                userId: "8fa70155-9a3a-4c64-b91d-4443a25c1623"
+
+             */
         }
     },
     watch: {

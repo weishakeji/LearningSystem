@@ -42,16 +42,21 @@
                         </template>
                     </div>
                     <loading v-if="loading_bind=='data.item.tag'"></loading>
-                    <div class="btns" v-else>
-                        <el-popconfirm title="确定要取消绑定吗？" v-if="isbind(data.item.tag)"  @confirm="cancelbind(data.item.tag)">
-                            <el-button type="warning" slot="reference">
-                                <icon style="font-size:12px">&#xe6fe</icon>取消绑定
+                    <template v-else>
+                        <thirdparty v-if="isbind(data.item.tag)" :account="account" :tag="data.item.tag"></thirdparty>
+
+                        <div class="btns">
+                            <el-popconfirm title="确定要取消绑定吗？" v-if="isbind(data.item.tag)"
+                                @confirm="cancelbind(data.item.tag)">
+                                <el-button type="warning" slot="reference">
+                                    <icon style="font-size:12px">&#xe6fe</icon>取消绑定
+                                </el-button>
+                            </el-popconfirm>
+                            <el-button v-else type="primary" @click="$refs['config'].eventClick(data.item,2)">
+                                <icon style="font-size:12px">&#xa030</icon>绑定账号
                             </el-button>
-                        </el-popconfirm>
-                        <el-button v-else type="primary" @click="$refs['config'].eventClick(data.item,2)">
-                            <icon style="font-size:12px">&#xa030</icon>绑定账号
-                        </el-button>
-                    </div>
+                        </div>
+                    </template>
                 </div>
                 <div slot="null" class="row null">( 没有可用的第三方平台 )</div>
             </config>

@@ -213,6 +213,7 @@
     <Compile Include="TestPaperItem.cs" />
     <Compile Include="TestPaperQues.cs" />
     <Compile Include="TestResults.cs" />
+    <Compile Include="ThirdpartyAccounts.cs" />
     <Compile Include="ThirdpartyLogin.cs" />
   </ItemGroup>
   <ItemGroup>

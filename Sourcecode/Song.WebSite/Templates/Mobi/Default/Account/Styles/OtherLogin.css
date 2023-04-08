@@ -96,14 +96,16 @@ button {
 .van-cell__value {
     white-space: nowrap;
 }
+
 /*第三方登录的项*/
-.config{
+.config {
     margin: 10px;
 }
+
 .config>div {
     box-sizing: border-box;
     position: relative;
-    overflow: hidden;   
+    overflow: hidden;
     padding: 15px 10px;
 }
 
@@ -118,39 +120,63 @@ button {
 
 
 /*图标与名称*/
-.config>div.row{
+.config>div.row {
     display: flex;
-    justify-content: space-between;
     cursor: default;
+    padding-right: 85px;
+    position: relative;
 }
-.config>div .name {
-   
-}
+
+.config>div .name {}
+
 .config>div .name .tagname {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: normal;
     color: #666;
-    margin-left: 15px;
     display: block;
     min-width: 120px;
+    text-align: left;
     white-space:nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .config>div img {
-    height: 35px;
-    width: 35px;
+    height: 40px;
+    width: 40px;
     float: left;
     margin-right: 15px;
     margin-top: 5px;
 }
-/*右侧内容*/
-.right{
-    float: right;
+.config>div .name img{
+    height: 18px;
+    width: 18px;
+    margin-right: 5px;
+    margin-top: 0px;
 }
-.right .phone{
-    margin-right: 10px;
+.config>div .btns {
+    position: absolute;
+    right: 0px;
+    top: 15px;
+    width: 85px;
 }
-.null{
-    color: #999;
+/*第三方账号的信息*/
+.thirdparty {  
+    margin-top: 5px;
+    display: flex;
+    text-align: left;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+}
+.thirdparty img {
+   border-radius: 50%;
+}
+.thirdparty span{
     font-size: 14px;
+    line-height: 20px;
+}
+.thirdparty icon{
+    font-size: 25px !important;
 }

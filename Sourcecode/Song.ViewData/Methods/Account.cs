@@ -1344,19 +1344,6 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts User4Openid(string openid, string field)
         {
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountThirdparty(openid,field);
-            //type = type.ToLower();
-            //switch (type)
-            //{
-            //    case "weixin":
-            //        acc = Business.Do<IAccounts>().Account4Weixin(openid);
-            //        break;
-            //    case "qq":
-            //        acc = Business.Do<IAccounts>().Account4QQ(openid);
-            //        break;
-            //    case "zzgongshang":
-            //        acc = Business.Do<IAccounts>().Account4QQ(openid);
-            //        break;
-            //}
             return _tran(acc);
         }
         /// <summary>
@@ -1379,33 +1366,36 @@ namespace Song.ViewData.Methods
         /// 绑定第三方账号，如果openid为空，则为取消绑定
         /// </summary>
         /// <param name="openid">第三方平台账号的唯一id</param>
+        /// <param name="nickname"></param>
+        /// <param name="headurl"></param>
         /// <param name="field">在本系统accounts表的字段,不带Ac_前缀</param>
         /// <returns></returns>
         [HttpPost, Student]
-        public Song.Entities.Accounts UserBind(string openid, string field)
+        public Song.Entities.Accounts UserBind(string openid, string nickname, string headurl, string field)
         {
             Song.Entities.Accounts acc = this.User;
-            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
-            Business.Do<IAccounts>().AccountsUpdate(acc,
-                        new WeiSha.Data.Field[] { _field },
-                        new object[] { openid });
-            //type = type.ToLower();
-            //switch (type)
-            //{
-            //    case "weixin":
-            //        Business.Do<IAccounts>().AccountsUpdate(acc, 
-            //            new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_WeixinOpenID },
-            //            new object[] { openid });
-            //        break;
-            //    case "qq":
-            //        Business.Do<IAccounts>().AccountsUpdate(acc, 
-            //            new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_QqOpenID },
-            //            new object[] { openid });
-            //        break;
-            //    case "zzgongshang":
-            //        //acc = Business.Do<IAccounts>().Account4QQ(openid);
-            //        break;
-            //}
+            if (string.IsNullOrWhiteSpace(openid))
+            {
+                acc = Business.Do<IAccounts>().UnBindThirdparty(acc, field);
+            }
+            else
+            {
+                acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, nickname, headurl, field);
+            }          
+            acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
+            LoginAccount.Fresh(acc);
+            return _tran(acc);
+        }
+        /// <summary>
+        /// 取消当前登录账号的第三方登录绑定
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        [HttpPost, Student]
+        public Song.Entities.Accounts UserUnbind(string field)
+        {
+            Song.Entities.Accounts acc = this.User;
+            acc = Business.Do<IAccounts>().UnBindThirdparty(acc, field);
             acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
             LoginAccount.Fresh(acc);
             return _tran(acc);
@@ -1415,9 +1405,10 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="acc"></param>
         /// <param name="openid"></param>
+        /// <param name="field"></param>
         /// <returns></returns>
         [HttpPost]
-        public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc, string openid)
+        public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc, string openid,string field)
         {
             //账号为空，则自动创建；如果不为空，则判断是否重复
             bool accexist = false;
@@ -1430,12 +1421,15 @@ namespace Song.ViewData.Methods
             acc.Ac_IsPass = acc.Ac_IsUse = true;
             acc.Ac_Pw = WeiSha.Core.Request.UniqueID();
             //头像图片
-            if (!string.IsNullOrWhiteSpace(acc.Ac_Photo))
+            string headurl = acc.Ac_Photo;
+            if (!string.IsNullOrWhiteSpace(headurl))
             {
                 string photoPath = PhyPath + openid + ".jpg";
-                WeiSha.Core.Request.LoadFile(acc.Ac_Photo, photoPath);
+                WeiSha.Core.Request.LoadFile(headurl, photoPath);
                 acc.Ac_Photo = openid + ".jpg";
             }
+            //生成绑定记录
+            acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, acc.Ac_Name, headurl, field);
 
             int acid = Business.Do<IAccounts>().AccountsAdd(acc);
             Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
@@ -1444,7 +1438,16 @@ namespace Song.ViewData.Methods
             nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc, this.Letter);
             LoginAccount.Fresh(nacc);
             return nacc;
-
+        }
+        /// <summary>
+        /// 获取学员账号绑定的第三方平台的信息
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="tag">第三方平台的标识，来自config.js中的tag</param>
+        /// <returns>包括第三方平台账号的名称与头像地址</returns>
+        public Song.Entities.ThirdpartyAccounts UserThirdparty(int acid,string tag)
+        {
+            return Business.Do<IAccounts>().ThirdpartyAccount(acid,tag);
         }
         #endregion
 

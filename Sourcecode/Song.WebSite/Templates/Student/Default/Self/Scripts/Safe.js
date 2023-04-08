@@ -14,7 +14,10 @@ $ready(function () {
 
         },
         computed: {
-
+            //是否登录
+            islogin: function () {
+                return JSON.stringify(this.account) != '{}' && this.account != null;
+            }
         },
         watch: {
         },
@@ -65,7 +68,7 @@ $ready(function () {
             cancelbind: function (tag) {
                 var th = this;
                 th.loading_bind = tag;
-                $api.get('Account/UserBind', { 'openid': '', 'field': tag }).then(function (req) {
+                $api.get('Account/UserUnbind', { 'field': tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         window.location.reload();
@@ -80,5 +83,53 @@ $ready(function () {
             }
         }
     });
-
+    //第三方平台的绑定信息
+    Vue.component('thirdparty', {
+        props: ['account', 'tag'],
+        data: function () {
+            return {
+                data: {},        //
+                loading: false
+            }
+        },
+        watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if (nv && nv.Ac_ID != null)
+                        this.onload();
+                }, immediate: true, deep: true
+            }
+        },
+        computed: {
+            //是否存在
+            isexist: function () {
+                return JSON.stringify(this.data) != '{}' && this.data != null;
+            }
+        },
+        mounted: function () { },
+        methods: {
+            onload: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Account/UserThirdparty', { 'acid': th.account.Ac_ID, 'tag': th.tag })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.data = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            }
+        },
+        template: `<div class="thirdparty">
+                <loading v-if="loading"></loading>           
+                <template v-else-if="isexist">
+                    <img :src="data.Ta_Headimgurl" v-if="data.Ta_Headimgurl!=''"/>
+                    <icon v-else>&#xe687</icon>
+                    <span v-text="data.Ta_NickName"></span>
+                </template>
+        </div>`
+    });
 }, ['/Utilities/OtherLogin/config.js']);

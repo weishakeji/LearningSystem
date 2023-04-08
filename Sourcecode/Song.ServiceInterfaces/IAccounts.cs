@@ -279,6 +279,30 @@ namespace Song.ServiceInterfaces
         string AccountsExport4Excel(string path, string orgs);
         #endregion
 
+        #region 第三方平台绑定
+        /// <summary>
+        /// 绑定第三方平台账号的openid
+        /// </summary>
+        /// <param name="acid">本系统账号id</param>
+        /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
+        /// <returns></returns>
+        Accounts BindThirdparty(int acid, string openid,string nickname,string headurl, string field);
+        /// <summary>
+        ///  绑定第三方平台账号的openid
+        /// </summary>
+        /// <param name="acc">本系统账号账号</param>
+        /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
+        /// <returns></returns>
+        Accounts BindThirdparty(Song.Entities.Accounts acc, string openid, string nickname, string headurl, string field);
+
+        Accounts UnBindThirdparty(int acid, string field);
+        Accounts UnBindThirdparty(Song.Entities.Accounts acc, string field);
+
+        ThirdpartyAccounts ThirdpartyAccount(int acid, string tag);
+        #endregion
+
         #region 下级账户，上级账户
         /// <summary>
         /// 下级会员数据

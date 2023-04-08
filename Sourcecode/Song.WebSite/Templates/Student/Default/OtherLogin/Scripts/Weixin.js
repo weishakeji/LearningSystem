@@ -7,7 +7,7 @@ $ready(function () {
             /** 示例
             {
                 //不同微信应用下openid不同，例如微信公众号与微信小程序下获取同一微信号的openid并不相同
-                "openid": "ohjXUjtd56L30DEbXM81fwk0che0",   
+                "openid": "ohjXUjtd5WeiShakeji1fwk0che0",   
                 "nickname": "宋", 
                 "sex": 0, 
                 "language": "", 
@@ -16,7 +16,7 @@ $ready(function () {
                 "country": "", 
                 "headimgurl": "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eo6KrCia9leuX73Y84YRzcsWhUicECVCE04q7ESOAeWJFJFj3nbgFjxxaBX1aticCgxWnVn7154H5H7A/132", 
                 "privilege": [ ], 
-                "unionid": "oviR-0ujiC7OLI45s0xt0ja1-YSI"       //这才是微信唯一id
+                "unionid": "oviR-www.weishakeji.net-YSI"       //这才是微信唯一id
             }
             */
             binduser: {},        //外部用户绑定的账号
@@ -114,7 +114,7 @@ $ready(function () {
                 var th = this;
                 //console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid, 'field': th.tag }).then(function (req) {
+                $api.get('Account/UserBind', { 'openid': th.openid,'nickname': th.outeruser.nickname, 'headurl': th.outeruser.headimgurl, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getuser(th.openid);

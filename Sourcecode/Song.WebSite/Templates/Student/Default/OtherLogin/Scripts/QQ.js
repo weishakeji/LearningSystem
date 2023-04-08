@@ -4,7 +4,32 @@ $ready(function () {
         el: '#vapp',
         data: {
             outeruser: {},      //外部用户（第三方登录的用户）
-
+            /** 示例
+             {
+                "ret": 0,
+                "msg": "",
+                "is_lost":0,
+                "nickname": "碧水寒天",
+                "gender": "男",
+                "gender_type": 2,
+                "province": "广东",
+                "city": "深圳",
+                "year": "1990",
+                "constellation": "",
+                "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101436449\/58DCE5776EDC704DD286D7C409404CE7\/30",
+                "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101436449\/58DCE5776EDC704DD286D7C409404CE7\/50",
+                "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101436449\/58DCE5776EDC704DD286D7C409404CE7\/100",
+                "figureurl_qq_1": "http://thirdqq.qlogo.cn/g?b=oidb&k=BuhTEI7icaATGmuRP737WtQ&kti=ZB7IYQAAAAI&s=40&t=1555306155",
+                "figureurl_qq_2": "http://thirdqq.qlogo.cn/g?b=oidb&k=BuhTEI7icaATGmuRP737WtQ&kti=ZB7IYQAAAAI&s=100&t=1555306155",
+                "figureurl_qq": "http://thirdqq.qlogo.cn/g?b=oidb&k=BuhTEI7icaATGmuRP737WtQ&kti=ZB7IYQAAAAI&s=640&t=1555306155",
+                "figureurl_type": "1",
+                "is_yellow_vip": "0",
+                "vip": "0",
+                "yellow_vip_level": "0",
+                "level": "0",
+                "is_yellow_year_vip": "0"
+            }
+            */
             binduser: {},        //外部用户绑定的账号
             onlineuser: {},     //当前登录账号（本系统用户）
 
@@ -17,8 +42,8 @@ $ready(function () {
             ismobi: function () {
                 return $api.ismobi();
             },
-             //是否正常获取到第三方平台的账号
-             'existouter': function () {
+            //是否正常获取到第三方平台的账号
+            'existouter': function () {
                 return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
             },
             //当前openid是否已经绑定到当前登录账户
@@ -101,19 +126,20 @@ $ready(function () {
                 var th = this;
                 //console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid, 'field': th.tag }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.getuser(th.openid);
-                        th.operateSuccess();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(() => th.loading = false);
+                $api.get('Account/UserBind', { 'openid': th.openid, 'nickname': th.outeruser.nickname, 'headurl': th.outeruser.figureurl_2, 'field': th.tag })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.getuser(th.openid);
+                            th.operateSuccess();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    }).finally(() => th.loading = false);
             },
             //操作成功
             operateSuccess: function () {

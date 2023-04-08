@@ -4,6 +4,22 @@ $ready(function () {
         el: '#vapp',
         data: {
             outeruser: {},      //外部用户（第三方登录的用户）
+            /** 示例 json对象
+             * aud: "NmMyNzcwZTAwYTAxNDliZGI2ZWI0NTI2ZjlmNzA5ZTY"
+                authType: "PWD"
+                email: "10522779@qq.com"
+                exp: 1680261199
+                iat: 1680174799
+                iss: "http://www.weishakeji.net/auth/oidc/567D115746AF46ED830A77696D14CC97"
+                jti: "ylpKhbyNm6Z6vTA95tYQ7A"
+                name: "测试员"
+                nbf: 1680174739
+                roles: []
+                sub: "tester01"
+                subjectId: "74e8e3c9-ffed-449f-bd0d-44ec39723988"
+                userId: "8fa70155-9a3a-4c64-b91d-4443a25c1623"
+
+             */
 
             binduser: {},        //外部用户绑定的账号
             onlineuser: {},     //当前登录账号（本系统用户）
@@ -101,7 +117,7 @@ $ready(function () {
                 var th = this;
                 //console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid, 'field': th.tag }).then(function (req) {
+                $api.get('Account/UserBind', { 'openid': th.openid, 'nickname': th.outeruser.name, 'headurl': '', 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getuser(th.openid);

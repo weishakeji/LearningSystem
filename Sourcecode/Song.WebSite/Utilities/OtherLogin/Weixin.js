@@ -18,7 +18,7 @@ Vue.component('weixin', {
             user: {}
             /** 示例
             {
-                "openid": "ohjXUjtd56L30DEbXM81fwk0che0", 
+                "openid": "ohjXUjtd5WeiShakeji1fwk0che0", 
                 "nickname": "宋", 
                 "sex": 0, 
                 "language": "", 
@@ -27,7 +27,7 @@ Vue.component('weixin', {
                 "country": "", 
                 "headimgurl": "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eo6KrCia9leuX73Y84YRzcsWhUicECVCE04q7ESOAeWJFJFj3nbgFjxxaBX1aticCgxWnVn7154H5H7A/132", 
                 "privilege": [ ], 
-                "unionid": "oviR-0ujiC7OLI45s0xt0ja1-YSI"
+                "unionid": "oviR-www.weishakeji.net-YSI"
             }
             */
         }

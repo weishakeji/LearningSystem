@@ -1019,7 +1019,69 @@ namespace Song.ServiceImpls
             }
             return;
         }
-        #endregion        
+        #endregion
+
+        #region 第三方平台绑定
+        /// <summary>
+        /// 绑定第三方平台账号的openid
+        /// </summary>
+        /// <param name="acid">本系统账号id</param>
+        /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
+        /// <returns></returns>
+        public Accounts BindThirdparty(int acid, string openid, string nickname, string headurl, string field)
+        {
+            Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            return this.BindThirdparty(acc, openid,nickname,headurl, field);
+        }
+        /// <summary>
+        ///  绑定第三方平台账号的openid
+        /// </summary>
+        /// <param name="acc">本系统账号账号</param>
+        /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
+        /// <returns></returns>
+        public Accounts BindThirdparty(Song.Entities.Accounts acc, string openid, string nickname, string headurl, string field)
+        {
+            if (acc == null) return acc;
+            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
+            Business.Do<IAccounts>().AccountsUpdate(acc,
+                        new WeiSha.Data.Field[] { _field },
+                        new object[] { openid });
+            //第三登录平台的账号记录
+            ThirdpartyAccounts tacc = ThirdpartyAccount(acc.Ac_ID, field);
+            if (tacc == null) tacc = new ThirdpartyAccounts();
+            tacc.Ac_ID = acc.Ac_ID;
+            tacc.Ta_Tag = field;
+            tacc.Ta_Openid = openid;
+            tacc.Ta_NickName = nickname;
+            tacc.Ta_Headimgurl = headurl;
+            Gateway.Default.Save<ThirdpartyAccounts>(tacc);
+            return _acc_init(acc);
+        }
+
+        public Accounts UnBindThirdparty(int acid, string field)
+        {
+
+            Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            return this.UnBindThirdparty(acc, field);
+        }
+        public Accounts UnBindThirdparty(Song.Entities.Accounts acc, string field)
+        {
+            if (acc == null) return acc;
+            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
+            Business.Do<IAccounts>().AccountsUpdate(acc,
+                        new WeiSha.Data.Field[] { _field },
+                        new object[] { string.Empty });
+            Gateway.Default.Delete<ThirdpartyAccounts>(ThirdpartyAccounts._.Ac_ID==acc.Ac_ID);
+            return _acc_init(acc);
+        }
+
+        public ThirdpartyAccounts ThirdpartyAccount(int acid, string tag)
+        {
+            return Gateway.Default.From<ThirdpartyAccounts>().Where(ThirdpartyAccounts._.Ac_ID == acid && ThirdpartyAccounts._.Ta_Tag==tag).ToFirst<ThirdpartyAccounts>();
+        }
+        #endregion
 
         #region 下级账户
         /// <summary>
