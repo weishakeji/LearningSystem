@@ -127,3 +127,23 @@ go
 
 /*删除课程公告里的临时ID字段*/
 ALTER TABLE Guide DROP COLUMN Gu_SID
+go
+/*记录第三方登录的绑定信息*/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [ThirdpartyAccounts](
+	[Ta_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Ta_NickName] [nvarchar](255) NULL,
+	[Ta_Headimgurl]  [nvarchar](500) NULL,
+	[Ta_Openid] [nvarchar](255) NULL,
+	[Ta_Tag] [nvarchar](100) NULL,
+	[Ac_ID] [bigint] not NULL,	
+ CONSTRAINT [aaaaaThirdpartyAccounts_PK] PRIMARY KEY NONCLUSTERED 
+(
+	[Ta_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
