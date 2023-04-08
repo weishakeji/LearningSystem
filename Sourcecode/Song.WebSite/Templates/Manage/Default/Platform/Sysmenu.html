@@ -16,12 +16,9 @@
         新增下级
       </el-button>
     </div>
-    <el-tree :data="data" node-key="id" :props="defaultProps" default-expand-all @node-drag-start="handleDragStart"
-      @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver"
-      @node-drag-end="handleDragEnd" @node-drop="handleDrop" :expand-on-click-node="false" draggable
-      :allow-drop="allowDrop" :allow-drag="allowDrag" v-loading="loading">
+    <el-tree :data="data" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false" draggable
+      v-loading="loading">
       <span class="custom-tree-node" slot-scope="{ node, data }">
-
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color">
           <template v-if="data.MM_Type!='hr'">
@@ -29,7 +26,7 @@
             <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>{{ data.MM_Name }}
             <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
           </template>
-          <span v-else class="hr">-----------（分隔线）-----------</span>         
+          <span v-else class="hr">-----------（分隔线）-----------</span>
         </span>
         <span class="tree-handle"> <span style="display: inline-block;width: 100px;">
             <el-tag type="info" v-if="data.MM_Type=='item'">菜单项</el-tag>

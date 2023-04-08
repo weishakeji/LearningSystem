@@ -34,11 +34,11 @@ $ready(function () {
         },
         methods: {
             getTreeData: function () {
-                this.loading = true;
+                var th = this;
+                th.loading = true;
                 $api.get('ManageMenu/SystemMenu').then(function (req) {
                     if (req.data.success) {
-                        window.vapp.data = req.data.result;
-                        //...
+                        th.data = req.data.result;
                     } else {
                         throw req.data.message;
                     }
@@ -46,40 +46,13 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
-            },
-            handleDragStart(node, ev) {
-                //console.log('drag start', node);
-            },
-            handleDragEnter(draggingNode, dropNode, ev) {
-                //console.log('tree drag enter: ', dropNode.label);
-            },
-            handleDragLeave(draggingNode, dropNode, ev) {
-                //console.log('tree drag leave: ', dropNode.label);
-            },
-            handleDragOver(draggingNode, dropNode, ev) {
-                //console.log('tree drag over: ', dropNode.label);
-            },
-            handleDragEnd(draggingNode, dropNode, dropType, ev) {
-                //console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-                //console.log(this.data);
-            },
-            handleDrop(draggingNode, dropNode, dropType, ev) {
-                console.log('tree drop: ', dropNode.label, dropType);
-            },
-            allowDrop(draggingNode, dropNode, type) {
-                return true;
-            },
-            allowDrag(draggingNode) {
-                return true;
-            }
-            ,
+                }).finally(() => th.loading = false);
+            },           
+            //添加一个节点
             append: function (d) {
                 var obj = this.clone();
                 if (d != null) {
-                    if (!d.children) {
-                        this.$set(d, 'children', []);
-                    }
+                    if (!d.children) this.$set(d, 'children', []);
                     d.children.push(obj);
                 } else {
                     this.data.push(obj);
@@ -144,11 +117,12 @@ $ready(function () {
                 });
             },
             updateSave: function () {
-                this.loading = true;
-                $api.post('ManageMenu/SystemMenuUpdate', { 'tree': this.data }).then(function (req) {
+                var th = this;
+                th.loading = true;
+                $api.post('ManageMenu/SystemMenuUpdate', { 'tree': th.data }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        window.vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '系统菜单保存成功！',
                             position: 'bottom-left',
@@ -160,11 +134,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    window.vapp.loading = false;
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         }
     });
