@@ -271,19 +271,19 @@ Vue.component('question', {
             <slot name="buttons"></slot>          
         </info>
         <card :qid="ques.Qus_ID" :correct="state ? state.correct : ''" :ans="state.ans">   
-            <card-title v-html="ques.Qus_Title"></card-title>          
+            <card-title v-html="ques.Qus_Title" v-once></card-title>          
             <card-context>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                     :selected="ans.selected" @click="ques_doing(ans,ques)">
                         <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
+                        <span v-html="ans.Ans_Context" v-once></span>
                     </div>
                 </div>
                 <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
                         <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
+                        <span v-html="ans.Ans_Context" v-once></span>
                     </div>
                     <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
                 </div>
@@ -291,7 +291,7 @@ Vue.component('question', {
                     <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
-                    <div  :selected="state.ans=='false'"  @click="ques_doing(false,ques)">
+                    <div  :selected="state.ans=='false'" @click="ques_doing(false,ques)">
                         <i>错误</i> 
                     </div>
                 </div>
@@ -310,18 +310,18 @@ Vue.component('question', {
         <div v-show="mode==1 || (mode==0 && state.ans!='')">
             <card class="answer">   
                 <card-title><icon>&#xe816</icon> 正确答案</card-title>
-                <card-context v-html="sucessAnswer()"></card-context>
+                <card-context v-html="sucessAnswer()" v-once></card-context>
             </card>
             <card v-if="ques.Qus_Explain!=''" class="explain">   
                 <card-title><icon>&#xe85a</icon> 试题解析</card-title>
-                <card-context>
+                <card-context v-once>
                     <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                     <span v-else>无</span> 
                 </card-context>
             </card>
             <card class="knowledge" v-if="existknl" >   
                 <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
-                <card-context>
+                <card-context v-once>
                     <div>{{knowledge.Kn_Title}}</div>
                     <div v-html="knowledge.Kn_Details"></div>
                 </card-context>

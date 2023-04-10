@@ -141,8 +141,7 @@ live {
 
 .cour-card .cour-box price {
     right: 3px;
-    top: 10px;
-    text-shadow: 1px 1px 2px white, -1px -1px 2px white;
+    top: 10px;    
     position: absolute;
 }
 
