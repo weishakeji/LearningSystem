@@ -17,11 +17,12 @@
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -32,11 +33,11 @@
                     }
                 }
                 //获取结果              
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-               
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
@@ -58,8 +59,8 @@
                 //this.center.lng = 116.404
                 //this.center.lat = 39.915
                 this.center = {
-                    lng: Number(vapp.organ.Org_Longitude),
-                    lat: Number(vapp.organ.Org_Latitude)
+                    lng: Number(this.organ.Org_Longitude),
+                    lat: Number(this.organ.Org_Latitude)
                 }
                 this.zoom = 15
             }

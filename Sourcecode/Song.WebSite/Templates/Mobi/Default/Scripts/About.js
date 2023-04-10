@@ -9,9 +9,13 @@ $ready(function () {
             editon: {},     //商业版权信息
             version: {},      //版本信息
             copyright_items: [],       //版权信息，来自copyright.xml
+
+            browser: {},         //浏览器信息
+
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Platform/Version'),
                 $api.post('Platform/Edition'),
@@ -19,7 +23,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Copyright/Datas')
             ).then(axios.spread(function (ver, editon, platinfo, organ, copyright) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -30,13 +34,15 @@ $ready(function () {
                     }
                 }
                 //获取结果     
-                vapp.version = ver.data.result;
-                vapp.editon = editon.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.version = ver.data.result;
+                th.editon = editon.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.copyright_items = copyright.data.result;
+                th.config = $api.organ(th.organ).config;
+                th.copyright_items = copyright.data.result;
+
+                th.builbrowser();
             })).catch(function (err) {
                 console.error(err);
             });
@@ -48,6 +54,11 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //当前年份
+            year: function () {
+                var date = new Date();
+                return date.format('yyyy');
             }
         },
         watch: {
@@ -63,14 +74,27 @@ $ready(function () {
                         break;
                     }
                 }
-                return text;               
+                return text;
             },
-            //年份
-            year: function () {
-                var date = new Date();
-                return date.format('yyyy');
+            builbrowser: function () {
+                var md = new MobileDetect(window.navigator.userAgent);
+                var browser = {
+                    'OS': md.os(),
+                    'browser': md.userAgent()
+                }
+                if (md.mobile() != 'UnknownPhone')
+                    browser['mobile'] = md.mobile();
+                for (var s in window.navigator) {
+                    let type = $api.getType(window.navigator[s]);
+                    if (type != 'String') continue;
+                    if (window.navigator[s] == '') continue;
+                    browser[s] = window.navigator[s];
+                }
+                console.log(browser);
+                this.browser = browser;
             }
         }
     });
 
-}, ['Components/page_header.js']);
+}, ['Components/page_header.js',
+    '/Utilities/Scripts/mobile-detect.min.js']);

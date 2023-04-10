@@ -1531,6 +1531,7 @@
     <Content Include="Utilities\Scripts\hammer.min.js" />
     <Content Include="Templates\Mobi\Default\Scripts\treemenu.js" />
     <Content Include="Utilities\Scripts\jquery.jqprint-0.3.js" />
+    <Content Include="Utilities\Scripts\mobile-detect.min.js" />
     <Content Include="Utilities\Scripts\vue-touch.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Scripts\webdesk.ui.core.js" />

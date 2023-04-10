@@ -7,6 +7,7 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
+	background-color: #fff;
 }
 
 context {
@@ -73,4 +74,18 @@ img.logo {
 	z-index: 2;
 	line-height: 44px;
 	color: #666;
+}
+card.browser{
+	text-align: left;
+}
+card.browser div{
+	padding: 3px 8px;
+}
+card.browser span.key{
+	display: inline-block;
+	width: 120px;
+}
+card.browser span.val{
+	font-size: 12px;
+	line-height: 16px;
 }

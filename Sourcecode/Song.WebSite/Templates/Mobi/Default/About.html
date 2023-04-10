@@ -30,8 +30,17 @@
 
             <div class="intro" v-html="organ.Org_Intro" v-if="organ.Org_Intro && organ.Org_Intro.length>0">
             </div>
+            <card class="browser">
+                <card-title>设备信息</card-title>
+                <card-context>
+                    <div v-for="(v,k) in browser">
+                        <span class="key">{{k}}:</span>
+                        <span class="val">{{v}}</span>
+                    </div>
+                </card-context>
+            </card>
             <div class="copyright">
-                Copyright &copy; <span v-html="year()"></span> <span v-html="copyright('powerby')"></span> All rights
+                Copyright &copy; <span v-html="year"></span> <span v-html="copyright('powerby')"></span> All rights
                 reserved.
             </div>
         </context>

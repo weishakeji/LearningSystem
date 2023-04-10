@@ -52,6 +52,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     flex-direction: row;
+    padding: 10px 5px 0px 5px;
 }
 
 .cour-card .cour-content[loading=true] {

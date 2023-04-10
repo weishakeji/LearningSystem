@@ -90,7 +90,7 @@ Vue.component('popup-notice', {
             var parent = $dom(event.target).parent();
             parent.height(height);
             //parent.css('background-color', '#fff');
-            console.log(width);
+            //console.log(width);
         },
         //打开网址
         goUrl: function (item) {
