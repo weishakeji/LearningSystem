@@ -108,8 +108,7 @@
 .cour-box picture img {
     width: 177px !important;
     height: 100%;
-    border-radius: 3px;
-    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
+    border-radius: 3px;   
 }
 
 .cour-box picture .rec {

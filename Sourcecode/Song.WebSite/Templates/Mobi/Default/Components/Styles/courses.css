@@ -78,11 +78,8 @@
 .cour-card .cour-box img {
     display: block;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 10px;
-    margin-bottom: 3px;
-    box-shadow: 1px 1px 2px #888888;
+    margin: 10px auto 3px auto;
+    border-radius: 3px;
 }
 
 /*限时免费的角标*/
@@ -148,16 +145,15 @@ live {
 /*免费*/
 
 .cour-card .cour-box price f {
-    color: #090;
-    font-size: 13px;
+    color: #fff;
+    font-size: 12px;
+    background-color: #090;
+    padding: 0px 5px;
+    margin-top: 3px;
+    border-radius: 5px;
+    display: block;
 }
 
-.cour-card .cour-box price f:before {
-    content: "\e60b";
-    font-family: webdesk_icon;
-    font-size: 16px;
-    margin-right: 2px;
-}
 
 /*限时免费费*/
 
