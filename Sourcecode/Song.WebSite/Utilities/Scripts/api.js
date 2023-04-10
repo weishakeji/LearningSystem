@@ -1104,7 +1104,7 @@
         //way:api请求路径,para：请求参数,value:api的返回值
         //return:无返回值
         createstore: function (store, version) {
-            var th = this;
+            var th = this;         
             new Promise(function (resolve, reject) {
                 var request = version ? th.indexedDB.open(th.dbname, version) : th.indexedDB.open(th.dbname);
                 request.onupgradeneeded = function (event) {
@@ -1138,15 +1138,19 @@
             new Promise(function (resolve, reject) {
                 var request = th.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {
-                    var err = th.error(-4, 'pending', request, '本地数据库"' + th.dbname + '"进行中(pending)', th.dbname, 1);
+                    var err = th.error(4, 'pending', request, '本地数据库"' + th.dbname + '"进行中(pending)', th.dbname, 1);
                     //reject(err);
+                    setTimeout(function () {
+                        var err = th.error(3, 'timeout', p, '本地数据库"' + p.store + '"写入超时', th.dbname, p.store);
+                        reject(err);
+                    }, 1000 * 10);
                 }
                 request.onerror = function (event) {
-                    var err = th.error(-2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, 1);
+                    var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, 1);
                     reject(err);
                 };
                 request.onblocked = function (event) {
-                    var err = th.error(-3, 'onblocked', event.target, '存储空间"' + p.store + '"被占用', th.dbname, p.store);
+                    var err = th.error(3, 'onblocked', event.target, '存储空间"' + p.store + '"被占用', th.dbname, p.store);
                     reject(err);
                 };
                 request.onsuccess = function (event) {
@@ -1157,6 +1161,7 @@
                     } else {
                         var store = db.transaction([p.store], 'readwrite').objectStore(p.store);
                         store.put(p);
+                        if (db) db.close();
                         resolve(db);
                     }
                 };
@@ -1167,7 +1172,7 @@
                 if (!!err.message) console.log(err.message);
                 if (!!err.target) console.log(err.target);
                 console.groupEnd();
-            });
+            }).finally(() => { });
         },
         //获取缓存数据
         get: function (way, para) {
@@ -1178,19 +1183,23 @@
                 if (!config.apicache_location) {
                     if (window.location.hostname == 'localhost' && !p.compel) return reject('本机不允许缓存');
                 }
-                var request = window.indexedDB.open(th.dbname);
+                var request = th.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {
-                    var err = th.error(-4, 'pending', request,
+                    var err = th.error(4, 'pending', request,
                         '本地数据库"' + th.dbname + '"进行中(pending),' + way + '没有获取到数据',
                         th.dbname, 1);
                     //reject(err);
+                    setTimeout(function () {
+                        var err = th.error(3, 'timeout', p, '本地数据库"' + p.store + '"读取超时', th.dbname, p.store);
+                        reject(err);
+                    }, 200);
                 }
                 request.onerror = function (event) {
-                    var err = th.error(-2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
+                    var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
                     reject(err);
                 };
                 request.onblocked = function (event) {
-                    var err = th.error(-3, 'onblocked', '本地数据库"' + p.store + '"被占用', th.dbname, p.store);
+                    var err = th.error(3, 'onblocked', '本地数据库"' + p.store + '"被占用', th.dbname, p.store);
                     reject(err);
                 };
                 request.onsuccess = function (event) {
@@ -1237,17 +1246,13 @@
                         }
                     }
                 };
-                setTimeout(function () {
-                    var err = th.error(-3, 'timeout', p, '本地数据库"' + p.store + '"执行超时', th.dbname, p.store);
-                    reject(err);
-                }, 200);
             });
         },
         del: function (way, para) {
             var p = this.parse(way, para);
             var th = this;
             return new Promise(function (resolve, reject) {
-                var request = window.indexedDB.open(th.dbname);
+                var request = th.indexedDB.open(th.dbname);
                 request.onsuccess = function (event) {
                     var db = event.target.result;
                     if (!db.objectStoreNames.contains(p.store)) {
@@ -1330,7 +1335,7 @@
             var th = this;
             return new Promise(function (resolve, reject) {
                 function _getall(storeName, callback) {
-                    var request = window.indexedDB.open(th.dbname);
+                    var request = th.indexedDB.open(th.dbname);
                     var db = null;
                     request.onsuccess = function (event) {
                         db = event.target.result;
@@ -1364,7 +1369,7 @@
         stores: function () {
             var th = this;
             return new Promise(function (resolve, reject) {
-                var request = window.indexedDB.open(th.dbname);
+                var request = th.indexedDB.open(th.dbname);
                 request.onsuccess = function (event) {
                     var db = event.target.result;
                     resolve(db.objectStoreNames);
@@ -1411,7 +1416,7 @@
                         }
                     });
                 } else {
-                    var request = window.indexedDB.open(th.dbname);
+                    var request = th.indexedDB.open(th.dbname);
                     request.onsuccess = function (event) {
                         var db = event.target.result;
                         var store = db.transaction(store, 'readwrite').objectStore(store);
