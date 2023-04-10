@@ -19,7 +19,7 @@
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
-        apicache_location: false,     //本机是否缓存数据
+        apicache_location: true,     //本机是否缓存数据
         timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
         //返回的结果是否加密
         encrypt: true
@@ -1104,7 +1104,7 @@
         //way:api请求路径,para：请求参数,value:api的返回值
         //return:无返回值
         createstore: function (store, version) {
-            var th = this;         
+            var th = this;
             new Promise(function (resolve, reject) {
                 var request = version ? th.indexedDB.open(th.dbname, version) : th.indexedDB.open(th.dbname);
                 request.onupgradeneeded = function (event) {
@@ -1192,14 +1192,14 @@
                     setTimeout(function () {
                         var err = th.error(3, 'timeout', p, '本地数据库"' + p.store + '"读取超时', th.dbname, p.store);
                         reject(err);
-                    }, 200);
+                    }, 500);
                 }
-                request.onerror = function (event) {
+                request.onerror = function (event) {                  
                     var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
                     reject(err);
                 };
                 request.onblocked = function (event) {
-                    var err = th.error(3, 'onblocked', '本地数据库"' + p.store + '"被占用', th.dbname, p.store);
+                    var err = th.error(3, 'onblocked', event.target, '本地数据库"' + p.store + '"被占用', th.dbname, p.store);
                     reject(err);
                 };
                 request.onsuccess = function (event) {
@@ -1208,17 +1208,12 @@
                         var err = th.error(0, 'onsuccess', event.target, '存储空间"' + p.store + '"不存在', db, p.store);
                         var version = db.version;
                         db.close();
-                        th.createstore(p.store, version + 1);
+                        th.createstore(p.store, version + 1);                        
                         reject(err);
                     } else {
                         if (p.active == 'update') return reject('更新缓存' + subject);
                         if (p.active == 'clear') {
-                            th.del(way, para).then(function (d) {
-                                reject(d);
-                            }).catch(function (err) {
-                                reject(err);
-                            });
-                            return;
+                            return th.del(way, para).then(d => reject(d)).catch(err => reject(err));
                         }
                         var transaction = db.transaction(p.store);
                         var store = transaction.objectStore(p.store);
@@ -1307,8 +1302,7 @@
             time.setMinutes(time.getMinutes() + duration);
             //缓存时长和过期时间
             var expires = {
-                'duration': duration,
-                'time': time,
+                'duration': duration, 'time': time,
                 'timestring': time.format('yyyy-MM-dd HH:mm:ss')
             }
             //处理value
@@ -1321,7 +1315,6 @@
                 //进一步删除多余值
                 if (!!value['data']) {
                     var retain = 'result,success,size,index,total,totalpages'.split(',');
-                    //console.log(retain);
                     for (var d in value['data']) {
                         if (retain.includes(d)) continue;
                         delete value['data'][d];
@@ -1433,7 +1426,7 @@
             }
         },
         //错误信息的返回值      
-        error: function (state, event, target, message, database, value) {
+        error: function (state, event, target, message, database, value) {            
             return {
                 'state': state,     //状态，0不存在，-1为其它
                 'event': event,     //触发错误的事件名称，例如onsuccess
