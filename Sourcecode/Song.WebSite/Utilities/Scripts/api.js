@@ -1105,27 +1105,24 @@
         //return:无返回值
         createstore: function (store, version) {
             var th = this;
-            new Promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 var request = version ? th.indexedDB.open(th.dbname, version) : th.indexedDB.open(th.dbname);
                 request.onupgradeneeded = function (event) {
-                    var db = event.target.result;
-                    var objectStore;
-                    if (db && !db.objectStoreNames.contains(store)) {
+                    let db = event.target.result;
+                    if (!db.objectStoreNames.contains(store))
                         objectStore = db.createObjectStore(store, { keyPath: "keyid" });
-                        resolve(db.objectStoreNames);
-                    }
+                    else db.close();
+                };
+                request.onsuccess = function (event) {
+                    resolve(event.target.result);
+                };
+                request.onerror = function (event) {
+                    let db = event.target.result;
                     if (db) db.close();
+                    var err = th.error(-1, 'onerror', event.target, '本地数据库"' + store + '"打开失败', th.dbname, 1);
+                    reject(err);
                 }
-            }).then(function (stores) {
-                console.group('当前库中的stores:');
-                console.log(stores);
-                console.groupEnd();
-
-            }).catch(function (err) {
-                console.group('创建 store 错误:');
-                console.log(err);
-                console.groupEnd();
-            });;
+            });
         },
         //添加数据
         put: function (way, para, value) {
@@ -1139,14 +1136,10 @@
                 var request = th.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {
                     var err = th.error(4, 'pending', request, '本地数据库"' + th.dbname + '"进行中(pending)', th.dbname, 1);
-                    //reject(err);
-                    setTimeout(function () {
-                        var err = th.error(3, 'timeout', p, '本地数据库"' + p.store + '"写入超时', th.dbname, p.store);
-                        reject(err);
-                    }, 1000 * 10);
+                    //reject(err); 
                 }
                 request.onerror = function (event) {
-                    var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, 1);
+                    var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"操作失败', th.dbname, 1);
                     reject(err);
                 };
                 request.onblocked = function (event) {
@@ -1155,15 +1148,21 @@
                 };
                 request.onsuccess = function (event) {
                     var db = event.target.result;
-                    if (!db.objectStoreNames.contains(p.store)) {
-                        var err = th.error(0, 'onsuccess', event.target, '存储空间"' + p.store + '"不存在', db, p.store);
-                        reject(err);
-                    } else {
+                    var version = db.version;
+                    if (db.objectStoreNames.contains(p.store)){
                         var store = db.transaction([p.store], 'readwrite').objectStore(p.store);
                         store.put(p);
                         if (db) db.close();
                         resolve(db);
-                    }
+                    }else{
+                        th.createstore(p.store, version + 1).then(function (result) {
+                            var store = result.transaction([p.store], 'readwrite').objectStore(p.store);
+                            store.put(p);
+                            if (result) result.close();
+                            result.close();
+                            resolve(result);
+                        });
+                    }             
                 };
             }).then(function (db) {
                 if (db) db.close();
@@ -1194,7 +1193,7 @@
                         reject(err);
                     }, 500);
                 }
-                request.onerror = function (event) {                  
+                request.onerror = function (event) {
                     var err = th.error(2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
                     reject(err);
                 };
@@ -1208,7 +1207,9 @@
                         var err = th.error(0, 'onsuccess', event.target, '存储空间"' + p.store + '"不存在', db, p.store);
                         var version = db.version;
                         db.close();
-                        th.createstore(p.store, version + 1);                        
+                        th.createstore(p.store, version + 1).then(function (db) {
+
+                        });
                         reject(err);
                     } else {
                         if (p.active == 'update') return reject('更新缓存' + subject);
@@ -1426,7 +1427,7 @@
             }
         },
         //错误信息的返回值      
-        error: function (state, event, target, message, database, value) {            
+        error: function (state, event, target, message, database, value) {
             return {
                 'state': state,     //状态，0不存在，-1为其它
                 'event': event,     //触发错误的事件名称，例如onsuccess

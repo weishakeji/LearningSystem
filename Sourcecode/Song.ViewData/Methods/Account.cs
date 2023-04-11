@@ -110,7 +110,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts Login(string acc, string pw, string vcode, string vmd5)
         {
-            string val = new Song.ViewData.ConvertToAnyValue(acc + vcode).MD5;
+            string val = new ConvertToAnyValue(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLogin(acc, pw, true);
