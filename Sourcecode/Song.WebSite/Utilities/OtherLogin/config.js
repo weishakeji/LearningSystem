@@ -10,7 +10,7 @@ Vue.component('config', {
             //配置管理文件也以此命名（例如：/manage/OtherLogin/QqOpenID）
             //disabled: 是否禁用，一般是因为没有开发
             items: [
-                { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
+                { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 400, disabled: false, obj: {} },
                 { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 550, height: 550, disabled: false, obj: {} },
                 { name: '企业微信', tag: 'QiyeWeixin', icon: 'e730', size: 18, width: 600, height: 550, disabled: true, obj: {} },
                 { name: '支付宝', tag: 'Zhifubao', icon: 'e602', size: 15, width: 600, height: 550, disabled: true, obj: {} },
