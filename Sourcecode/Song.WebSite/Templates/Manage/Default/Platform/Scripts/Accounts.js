@@ -43,7 +43,11 @@
             });
         },
         computed: {
-
+            //表格高度
+            tableHeight: function () {
+                var height = document.body.clientHeight;
+                return height - 75;
+            }
         },
         methods: {
             //删除
@@ -98,7 +102,7 @@
             },
             //复制到粘贴板
             copytext: function (val, textbox) {
-                this.copy(val, textbox).then(function(th){
+                this.copy(val, textbox).then(function (th) {
                     th.$message({
                         message: '复制 “' + val + '” 到粘贴板',
                         type: 'success'
