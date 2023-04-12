@@ -35,7 +35,7 @@ $ready(function () {
         },
         methods: {
             //加载第三方账号成功
-            loaduser: function (user,type) {
+            loaduser: function (user, type) {
                 this.outeruser = user;
                 //type:1为登录，2为绑定
                 if (type == 2 || type == '2') {
@@ -100,7 +100,7 @@ $ready(function () {
                 obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', 'QQ登录', '');

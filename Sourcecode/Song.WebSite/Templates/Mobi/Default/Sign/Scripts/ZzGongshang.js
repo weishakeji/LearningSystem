@@ -135,7 +135,7 @@ $ready(function () {
                 //obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.userId }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.userId, 'field': th.tag  }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '郑州工商学院账号登录', '');

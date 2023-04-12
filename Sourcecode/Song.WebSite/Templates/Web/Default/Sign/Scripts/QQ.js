@@ -104,7 +104,7 @@ $ready(function () {
                 obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid, 'field': th.tag  }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', 'QQ登录', '');

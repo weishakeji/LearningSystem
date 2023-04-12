@@ -115,7 +115,7 @@ $ready(function () {
                 obj.Ac_Sex = user.sex == 0 ? 1 : 2;  //性别，1为男，2为女
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.unionid }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.unionid, 'field': th.tag  }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '微信登录', '');

@@ -1428,10 +1428,9 @@ namespace Song.ViewData.Methods
                 WeiSha.Core.Request.LoadFile(headurl, photoPath);
                 acc.Ac_Photo = openid + ".jpg";
             }
-            //生成绑定记录
-            acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, acc.Ac_Name, headurl, field);
-
             int acid = Business.Do<IAccounts>().AccountsAdd(acc);
+            //生成绑定记录
+            acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, acc.Ac_Name, headurl, field);           
             Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
             _tran(nacc);
             nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
