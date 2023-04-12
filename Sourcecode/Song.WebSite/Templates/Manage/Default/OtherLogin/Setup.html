@@ -8,14 +8,14 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <config ref="config" class="config" :isuse="null">
-            <div slot="item" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
+        <config ref="config" class="config" :isuse="null" :disabled="false">
+            <div slot="item" :disabled="!data.item.obj.Tl_IsUse || data.item.disabled" slot-scope="data">
                 <span class="index">{{data.index+1}}</span>
                 <div class="name">
                     <img :src="data.img" />
                     <template v-if="data.item.obj.Tl_Name!=null"></template>
-                        {{data.item.obj.Tl_Name}}
-                        <span class="tagname">({{data.item.name}})</span>
+                    {{data.item.obj.Tl_Name}}
+                    <span class="tagname">({{data.item.name}})</span>
                     <template v-else>
                         {{data.item.name}}
                     </template>
@@ -24,7 +24,7 @@
                     <div>Appid: {{data.item.obj.Tl_APPID}}</div>
                     <div>Secret: {{data.item.obj.Tl_Secret}}</div>
                     <div>Returl: {{data.item.obj.Tl_Returl}}</div>
-                    <div class="use">
+                    <div class="use" v-if="!data.item.disabled">
                         <el-switch v-model="data.item.obj.Tl_IsUse" active-color="#13ce66" inactive-color="#ff4949"
                             :active-text="data.item.obj.Tl_IsUse ? '启用' : '禁用'" @change="changeuse(data.item)">
                         </el-switch>

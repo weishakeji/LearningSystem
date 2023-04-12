@@ -1,14 +1,17 @@
 ﻿// 第三方登录的配置项
 $dom.load.css(['/Utilities/OtherLogin/Styles/config.css']);
 Vue.component('config', {
-    props: ['isuse'],
+    //isuse:启用的（该值来自数据库ThirdpartyLogin表中的配置项）,true只显示启用的，false显示禁用的，null显示全部
+    //disabled: 被禁用的（该值来自当前文件的配置项），true返回禁用的，false返回启用的，null显示全部
+    props: ['isuse', 'disabled'],
     data: function () {
         return {
             //tag：accounts表中的字段名，不过没有Ac_前缀，图标文件也以此命名（\Utilities\OtherLogin\Images）
+            //配置管理文件也以此命名（例如：/manage/OtherLogin/QqOpenID）
             //disabled: 是否禁用，一般是因为没有开发
             items: [
                 { name: 'QQ登录', tag: 'QqOpenID', icon: 'e82a', size: 16, width: 600, height: 500, disabled: false, obj: {} },
-                { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 500, height: 550, disabled: false, obj: {} },
+                { name: '微信登录', tag: 'WeixinOpenID', icon: 'e730', size: 18, width: 550, height: 550, disabled: false, obj: {} },
                 { name: '企业微信', tag: 'QiyeWeixin', icon: 'e730', size: 18, width: 600, height: 550, disabled: true, obj: {} },
                 { name: '支付宝', tag: 'Zhifubao', icon: 'e602', size: 15, width: 600, height: 550, disabled: true, obj: {} },
                 { name: '钉钉', tag: 'Dingding', icon: 'e602', size: 15, width: 600, height: 550, disabled: true, obj: {} },
@@ -58,24 +61,29 @@ Vue.component('config', {
         },
         //获取可用的项
         get_usable_items: function () {
-            var items = [];
+            var items = [], configs = [];
+            //过滤掉禁用的，根据disabled属性
+            for (let j = 0; j < this.items.length; j++) {
+                if (this.disabled == null) configs.push(this.items[j]);
+                if (this.disabled === true && this.items[j].disabled) configs.push(this.items[j]);
+                if (this.disabled === false && !this.items[j].disabled) configs.push(this.items[j]);
+            }
             //将数据库中的记录，保存到配置项的obj属性
             for (let i = 0; i < this.entities.length; i++) {
                 const el = this.entities[i];
-                for (let j = 0; j < this.items.length; j++) {
-                    if (this.items[j].disabled) continue;   //被禁用不显示
-                    if (this.items[j].tag == el.Tl_Tag) {
-                        this.items[j].obj = el;
-                        items.push(this.items[j]);
+                for (let j = 0; j < configs.length; j++) {
+                    if (configs[j].tag == el.Tl_Tag) {
+                        configs[j].obj = el;
+                        items.push(configs[j]);
                     }
                 }
             }
-            //显示所有
+            //显示所有，还是只显示允许使用的
             if (this.isuse == undefined || this.isuse == null) {
-                for (let j = 0; j < this.items.length; j++) {
-                    const el = this.items[j];
+                for (let j = 0; j < configs.length; j++) {
+                    const el = configs[j];
                     let index = this.entities.findIndex(t => t.Tl_Tag == el.tag);
-                    if (index < 0) items.push(this.items[j]);
+                    if (index < 0) items.push(configs[j]);
                 }
             }
             //如果简要名称没有，则显示配置项的名称

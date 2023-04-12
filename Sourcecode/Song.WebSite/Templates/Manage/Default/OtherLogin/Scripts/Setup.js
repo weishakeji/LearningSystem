@@ -8,6 +8,10 @@
         methods: {
             //打开设置项的窗体
             opensetup: function (item) {
+                if(item.disabled){
+                    alert('尚未开发，敬请期待');
+                    return;
+                }
                 var file = item.tag;
                 //文件路径
                 var url = window.location.href;
