@@ -47,11 +47,13 @@
    top: 0px;
    left: 0px;
    display: flex;
+   justify-content: right;
 }
-
-.query_panel_expand .query_panel_mask {
+.query_panel_expand>div:first-child{
    flex: 1;
    display: block;
+}
+.query_panel_expand .query_panel_mask { 
    background-color: rgba(255, 255, 255, .6);
 }
 
@@ -61,16 +63,5 @@
    height: 100%;
    overflow: auto;
    box-sizing: border-box;
-}
-
-.queryBox {
-   width: 400px;
-   float: right;
-   position: absolute;
-   padding: 10px 20px 10px 10px;
-   right: 0px;
-   top: 31px;
-   background-color: #fff;
-   z-index: 11;
-   box-shadow: -2px 2px 6px 0 rgba(0, 0, 0, .1);
+   border-left: 1px solid #DCDFE6;  
 }

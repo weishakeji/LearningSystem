@@ -40,9 +40,8 @@ Vue.component('query_panel', {
             if (!this.expanded) return 'auto';
             let def = 50;
             var val = $api.isnull(this.width) ? def : this.width;
-            if ($api.getType(val) == 'Number') {
+            if ($api.getType(val) == 'Number')
                 return val + (val > 100 ? 'px' : '%');
-            }
             if ($api.getType(val) == 'String') return val;
             return def + '%';
         }
@@ -57,10 +56,11 @@ Vue.component('query_panel', {
         }
     },
     template: `<div :class="{'query_panel':true,'query_panel_expand':expanded}">
-        <div class="query_panel_mask" v-if="showmask && expanded"  @click="expand=false" ></div>
+        <div class="query_panel_mask" v-if="showmask && expanded" @click="expand=false"></div>
+       
         <el-form :inline="!expanded" :model="model" :style="{'width':width_val}" v-on:submit.native.prevent  label-width="80px">
             <slot></slot>
-            <el-form-item v-show="!expand">
+            <el-form-item v-show="!expanded">
                 <el-button-group>
                     <el-button type="primary" v-on:click="onserch()" :loading="loading"
                         native-type="submit" plain  class="el-icon-search">
