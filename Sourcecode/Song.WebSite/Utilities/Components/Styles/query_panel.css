@@ -21,10 +21,12 @@
    margin-right: 5px;
    margin-left: 5px;
 }
+
 .query_panel .el-form--inline div.el-form-item:last-child {
    margin-right: 50px;
-  
+
 }
+
 .query_panel .el-form--inline input[type=text] {
    height: 28px;
    margin-top: 2px;
@@ -33,10 +35,20 @@
 .query_panel .el-form--inline .el-form-item__label {
    display: none;
 }
+
+.query_panel .el-form--inline .el-range-editor {
+   height: 28px !important;
+   padding-top: 0px;
+  
+}
+.query_panel .el-form--inline .el-range-input{ 
+   margin-top: 1px;
+}
 /*录入错误的提示*/
-.query_panel .el-form--inline .el-form-item__error{
+.query_panel .el-form--inline .el-form-item__error {
    bottom: -5px !important;
 }
+
 .query_panel .query_panel_mask {
    display: none;
 }
@@ -52,11 +64,13 @@
    display: flex;
    justify-content: right;
 }
-.query_panel_expand>div:first-child{
+
+.query_panel_expand>div:first-child {
    flex: 1;
    display: block;
 }
-.query_panel_expand .query_panel_mask { 
+
+.query_panel_expand .query_panel_mask {
    background-color: rgba(255, 255, 255, .6);
 }
 
@@ -66,5 +80,5 @@
    height: 100%;
    overflow: auto;
    box-sizing: border-box;
-   border-left: 1px solid #DCDFE6;  
+   border-left: 1px solid #DCDFE6;
 }
