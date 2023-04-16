@@ -53,6 +53,7 @@
             if ($api.url.get(url, key) == '') return defvalue;
             return $api.url.get(url, key);
         },
+        //设置url中的参数
         setpara: function (key, value) {
             var url = String(window.document.location.href);
             return $api.url.set(url, key, value);
@@ -126,6 +127,15 @@
             var myType = getType.call(data); //调用call方法判断类型，结果返回形如[object Function]  
             var typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
             return typeName;
+        },
+        //是否为空
+        isnull: function (obj) {
+            if (obj == null || obj == undefined) return true;
+            if (methods.getType(obj) == 'Object') {
+                if (JSON.stringify(obj) == '{}') return true;
+                if (Object.keys(obj).length == 0) return true;
+            }
+            return false;
         },
         //storage存储
         storage: function (key, value) {
@@ -1149,12 +1159,12 @@
                 request.onsuccess = function (event) {
                     var db = event.target.result;
                     var version = db.version;
-                    if (db.objectStoreNames.contains(p.store)){
+                    if (db.objectStoreNames.contains(p.store)) {
                         var store = db.transaction([p.store], 'readwrite').objectStore(p.store);
                         store.put(p);
                         if (db) db.close();
                         resolve(db);
-                    }else{
+                    } else {
                         th.createstore(p.store, version + 1).then(function (result) {
                             var store = result.transaction([p.store], 'readwrite').objectStore(p.store);
                             store.put(p);
@@ -1162,7 +1172,7 @@
                             result.close();
                             resolve(result);
                         });
-                    }             
+                    }
                 };
             }).then(function (db) {
                 if (db) db.close();
