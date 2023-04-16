@@ -13,104 +13,89 @@
             <loading v-if="loading"></loading>
             <btngroup v-else show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
                 path="Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
+
+            <query_panel :expand="querybox" :model="form" :width="45" :loading="loading" :more="true"
+                @search="handleCurrentChange(1)">
+                <template>
+                    <el-form-item label="题干">
                         <el-input v-model.trim="form.search" clearable style="width:245px" placeholder="搜索"></el-input>
                     </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain v-show="!querybox" class="el-icon-search">
-                            查询
-                        </el-button>
-                        <el-link type="success" @click="querybox=!querybox" :class="querybox ? 'more' : ''">更多条件<i
-                                class="el-icon-caret-right"></i></el-link>
+                </template>
+                <template slot="full">
+                    <el-form-item label="专业">
+                        <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids"
+                            placeholder="请选择课程专业" :options="subjects" separator="／" :props="defaultSubjectProps"
+                            filterable @change="()=>$refs['subjects'].dropDownVisible = false">
+                            <template slot-scope="{ node, data }">
+                                <span>{{ data.Sbj_Name }}</span>
+                                <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
+                                    <icon>&#xe813</icon>{{ data.Sbj_CouNumber }}
+                                </span>
+                            </template>
+                        </el-cascader>
                     </el-form-item>
-                </el-form>
-            </div>
-        </div>
-        <!--查询面板-->
-        <div class="queryBox_mask" v-show="querybox" @click="querybox=false"></div>
-        <div class="queryBox" v-show="querybox">
-            <el-form :model="form" class="demo-form-inline" v-on:submit.native.prevent label-width="80px">
-                <el-form-item label="专业">
-                    <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
-                        :options="subjects" separator="／" :props="defaultSubjectProps" filterable
-                        @change="()=>$refs['subjects'].dropDownVisible = false">
-                        <template slot-scope="{ node, data }">
-                            <span>{{ data.Sbj_Name }}</span>
-                            <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
-                                <icon>&#xe813</icon>{{ data.Sbj_CouNumber }}
-                            </span>
-                        </template>
-                    </el-cascader>
-                </el-form-item>
-                <el-form-item label="" v-if="courses">
-                    <el-select v-model="form.couid" style="width: 100%;" filterable clearable placeholder="-- 课程 --">
-                        <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
-                            :value="item.Cou_ID">
-                            <span>{{i+1}} . </span>
-                            <span>{{item.Cou_Name}}</span>
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="题型">
-                    <el-radio-group v-model="form.type" class="types">
-                        <el-radio-button label="">所有</el-radio-button>
-                        <el-radio-button v-for="(item,i) in types" :label="i+1">
-                            <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
-                        </el-radio-button>
-                    </el-radio-group>
-                </el-form-item>
+                    <el-form-item label="" v-if="courses">
+                        <el-select v-model="form.couid" style="width: 100%;" filterable clearable
+                            placeholder="-- 课程 --">
+                            <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                                :value="item.Cou_ID">
+                                <span>{{i+1}} . </span>
+                                <span>{{item.Cou_Name}}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="题型">
+                        <el-radio-group v-model="form.type" class="types">
+                            <el-radio-button label="">
+                                <icon ques_type="" title="所有" showname="true"></icon>
+                            </el-radio-button>
+                            <el-radio-button v-for="(item,i) in types" :label="i+1">
+                                <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
+                            </el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
 
-                <el-form-item label="状态">
-                    <!--是否试题有错误-->
-                    <el-radio-group v-model="form.error">
-                        <el-radio-button label="">所有</el-radio-button>
-                        <el-radio-button label="false">
-                            <icon>&#xe634</icon>正常
-                        </el-radio-button>
-                        <el-radio-button label="true">
-                            <icon>&#xe70e</icon>存在错误
-                        </el-radio-button>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="反馈">
-                    <!--学员反馈有问题的试题-->
-                    <el-radio-group v-model="form.wrong">
-                        <el-radio-button label="">所有</el-radio-button>
-                        <el-radio-button label="false">
-                            <icon>&#xe634</icon>正常
-                        </el-radio-button>
-                        <el-radio-button label="true">
-                            <icon>&#xe61f</icon>报错
-                        </el-radio-button>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="启用">
-                    <!--试题是否允许显示-->
-                    <el-radio-group v-model="form.use">
-                        <el-radio-button label="">所有</el-radio-button>
-                        <el-radio-button label="true">
-                            <icon>&#xa030</icon>启用
-                        </el-radio-button>
-                        <el-radio-button label="false">
-                            <icon>&#xe7ad</icon>禁用
-                        </el-radio-button>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="" class="search_btns">
-                    <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                        native-type="submit" class="el-icon-search">
-                        查询
-                    </el-button>
-                    <el-button type="primary" @click="querybox=!querybox" native-type="submit" plain
-                        class="el-icon-sunset">
-                        隐藏面板
-                    </el-button>
-                </el-form-item>
-            </el-form>
+                    <el-form-item label="状态">
+                        <!--是否试题有错误-->
+                        <el-radio-group v-model="form.error">
+                            <el-radio-button label="">所有</el-radio-button>
+                            <el-radio-button label="false">
+                                <icon>&#xe634</icon>正常
+                            </el-radio-button>
+                            <el-radio-button label="true">
+                                <icon>&#xe70e</icon>存在错误
+                            </el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="反馈">
+                        <!--学员反馈有问题的试题-->
+                        <el-radio-group v-model="form.wrong">
+                            <el-radio-button label="">所有</el-radio-button>
+                            <el-radio-button label="false">
+                                <icon>&#xe634</icon>正常
+                            </el-radio-button>
+                            <el-radio-button label="true">
+                                <icon>&#xe61f</icon>报错
+                            </el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="启用">
+                        <!--试题是否允许显示-->
+                        <el-radio-group v-model="form.use">
+                            <el-radio-button label="">所有</el-radio-button>
+                            <el-radio-button label="true">
+                                <icon>&#xa030</icon>启用
+                            </el-radio-button>
+                            <el-radio-button label="false">
+                                <icon>&#xe7ad</icon>禁用
+                            </el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+
+                </template>
+            </query_panel>
         </div>
+
         <!-- 数据列表-->
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe :loading="loading"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"

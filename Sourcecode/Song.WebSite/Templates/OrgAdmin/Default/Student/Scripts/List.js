@@ -6,6 +6,7 @@ $ready(function () {
                 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
                 size: 20, index: 1
             },
+            querybox: false,     //查询面板是否显示
             organ: {},       //当前机构
             sorts: [],      //学员组             
 
@@ -16,6 +17,16 @@ $ready(function () {
 
             loading: true,
             loadingid: 0        //当前操作中的对象id
+        },
+        computed: {
+        },
+        watch: {
+            form: {
+                handler: function (nv, ov) {
+                    console.log(nv);
+                    console.error('this.querybox:'+this.querybox);
+                }, deep: true
+            }
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
@@ -41,8 +52,7 @@ $ready(function () {
             });
 
         },
-        computed: {
-        },
+
         methods: {
             //获取学员组
             getsorts: function (orgid) {
@@ -165,5 +175,5 @@ $ready(function () {
                 this.$refs.btngroup.pagebox(page + '?id=' + account.Ac_ID, title, null, width, height, param);
             }
         }
-    });    
+    });
 });

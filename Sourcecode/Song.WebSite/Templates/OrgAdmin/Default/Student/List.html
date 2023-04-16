@@ -13,43 +13,38 @@
             <btngroup show="新增,修改,删除,导入,导出,批量禁用" ref='btngroup' @delete="deleteData" @output="output" @input="input"
                 @batch="batch_disable" path="Modify" width="600" height="600" :selects='selects' idkey='Ac_ID'
                 table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
+            <query_panel :expand="querybox" :model="form" :width="45" :loading="loading"  :more="true"
+                @search="handleCurrentChange(1)">
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                </el-form-item>
+                <template slot="full">
+                    <el-form-item label="学员组">
                         <el-select v-model="form.sortid" filterable clearable placeholder="学员组">
                             <el-option v-for="(item,i) in sorts" :key="item.Sts_ID" :label="item.Sts_Name"
                                 :value="item.Sts_ID">
                                 <div :disabled="!item.Sts_IsUse">
                                     <span style="float: left">{{i+1}}. {{ item.Sts_Name }}</span>
-                                    <span> 
+                                    <span>
                                         <el-tooltip effect="light" content="当前组的学员数" placement="right">
                                             <span>( {{item.Sts_Count}} )</span>
-                                        </el-tooltip>  
+                                        </el-tooltip>
                                     </span>
                                 </div>
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                    <el-form-item label="账号">
+                        <el-input v-model="form.acc" placeholder="账号" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+                </template>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatables" v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"

@@ -768,7 +768,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {              
+            webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -869,6 +869,8 @@
             //编辑器
             arr2.push('/Utilities/TinyMCE/tinymce.js');
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
+            //查询面板
+            arr2.push('/Utilities/Components/query_panel.js');
             window.$dom.load.js(arr2, f);
         });
     };
@@ -904,10 +906,10 @@
                     });
                 };
                 //将查询结果高亮显示
-                Vue.prototype.showsearch = function (txt, search) {                 
+                Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
-                    if (search == null || search == '') return txt;                                     
-                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    if (search == null || search == '') return txt;
+                    var regExp = new RegExp('(' + search + ')', 'ig');
                     return txt.replace(regExp, `<red>$1</red>`);
                 };
                 //重构alert

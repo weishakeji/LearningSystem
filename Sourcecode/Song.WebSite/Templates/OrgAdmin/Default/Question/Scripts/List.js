@@ -64,7 +64,7 @@ $ready(function () {
                 th.getCourses();
             })).catch(function (err) {
                 th.loading_init = false;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },
@@ -129,7 +129,7 @@ $ready(function () {
             getSubjects: function () {
                 var th = this;
                 th.loading = true;
-                var form = { orgid: vapp.organ.Org_ID, search: '', isuse: null };
+                var form = { orgid: th.organ.Org_ID, search: '', isuse: null };
                 $api.get('Subject/Tree', form).then(function (req) {
                     if (req.data.success) {
                         th.subjects = req.data.result;

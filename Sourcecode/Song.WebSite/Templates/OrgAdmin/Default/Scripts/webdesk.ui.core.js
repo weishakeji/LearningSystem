@@ -765,7 +765,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {              
+            webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -779,7 +779,7 @@
                     }
                 }
                 if (exist) return;
-              
+
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.src = one + '?ver=' + webdom.version();
@@ -864,13 +864,7 @@
         arr.push('/Utilities/Panel/Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
             var arr2 = new Array();
-            //arr2.push('/Utilities/Scripts/jquery.js');
-            //TinyMCE编辑器
-            arr2.push('/Utilities/TinyMCE/tinymce.js');
-            arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
-            //mathjax，解析latex公式
-            arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
-            arr2.push('/Utilities/MathJax/globalVariable.js');
+            //arr2.push('/Utilities/Scripts/jquery.js');          
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
             arr2.push('/Utilities/Scripts/vuecomponent.js');
@@ -882,10 +876,18 @@
             //图片上传组件
             arr2.push('/Utilities/Components/upload-img.js');
             arr2.push('/Utilities/Components/upload-file.js');
+            //TinyMCE编辑器
+            arr2.push('/Utilities/TinyMCE/tinymce.js');
+            arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
+            //mathjax，解析latex公式
+            arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+            arr2.push('/Utilities/MathJax/globalVariable.js');
             //头像组件
             arr2.push('/Utilities/Components/avatar.js');
             //加载状态组件
             arr2.push('/Utilities/Components/useicon.js');
+            //查询面板
+            arr2.push('/Utilities/Components/query_panel.js');
             window.$dom.load.js(arr2, f);
         });
     };
@@ -932,7 +934,7 @@
                 Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
                     if (search == null || search == '') return txt;
-                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    var regExp = new RegExp('(' + search + ')', 'ig');
                     return txt.replace(regExp, `<red>$1</red>`);
                 };
                 //重构alert
