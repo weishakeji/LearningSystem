@@ -22,7 +22,7 @@
                 'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
             },
-            querypanel: false,     //更多查询的面板是否显示
+      
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数

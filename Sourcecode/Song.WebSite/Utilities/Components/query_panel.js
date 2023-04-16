@@ -3,21 +3,18 @@
 //事件search:触发查询
 Vue.component('query_panel', {
     //model:表单绑定的数据对象
-    //rules: 表单校验的方法
-    //expand: 是否展开 
+    //rules: 表单校验的方法 
     //mask: 展开查询面板时，是否显示背景遮罩
     //width:面板宽度
     //loading: 预载
-    props: ['model', 'rules', 'expand', 'mask', 'width', 'loading'],
+    props: ['model', 'rules', 'mask', 'width', 'loading'],
     data: function () {
         return {
+            //是否显示面板
             visible: false
         }
     },
-    watch: {
-        expand: function (nv, ov) {
-            this.visible = nv;          
-        }
+    watch: {        
     },
     computed: {
         //当前状态是否是展开的,默认不展开
@@ -28,7 +25,7 @@ Vue.component('query_panel', {
         //显示“更多”按钮，如果更多查询的插槽中有内容，则显示
         'showmore': function () {
             var slots = this.$slots
-            return slots['full'] && slots['full'].length > 0;
+            return slots['more'] && slots['more'].length > 0;
         },
         //是否显示背景遮罩，默认为显示
         'showmask': function () {
@@ -84,7 +81,7 @@ Vue.component('query_panel', {
                     </el-tooltip>                   
                 </el-button-group>               
             </el-form-item>
-            <slot name="full" v-if="expanded"></slot>
+            <slot name="more" v-if="expanded"></slot>
             <el-form-item label="" class="search_btns" v-show="expanded">
                 <el-button type="primary"  v-on:click="onserch()" :loading="loading" class="el-icon-search">
                     查询

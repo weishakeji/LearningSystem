@@ -373,16 +373,17 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(Teacher._.Org_ID == orgid);
             countSum = Gateway.Default.Count<Teacher>(wc);
             index = index > 0 ? index : 1;
-            return Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_CrtTime.Desc).ToArray<Teacher>(size, (index - 1) * size);
+            return Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>(size, (index - 1) * size);
         }
 
-        public Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc, string idcard, int size, int index, out int countSum)
+        public Teacher[] TeacherPager(int orgid, int thsid, int gender, bool? isUse, bool? isShow, string searName, string phone, string acc, string idcard, string order, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Teacher._.Org_ID == orgid);
             if (thsid > 0) wc.And(Teacher._.Ths_ID == thsid);
             if (isUse != null) wc.And(Teacher._.Th_IsUse == (bool)isUse);
             if (isShow != null) wc.And(Teacher._.Th_IsShow == (bool)isShow);
+            if (gender >=0) wc.And(Teacher._.Th_Sex == gender);
             if (!string.IsNullOrWhiteSpace(acc)) wc.And(Teacher._.Th_AccName.Like("%" + acc + "%"));
             if (!string.IsNullOrWhiteSpace(searName)) wc.And(Teacher._.Th_Name.Like("%" + searName + "%"));
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Teacher._.Th_IDCardNumber.Like("%" + idcard + "%"));
@@ -393,9 +394,12 @@ namespace Song.ServiceImpls
                 wcphone.Or(Teacher._.Th_PhoneMobi.Like("%" + phone + "%"));
                 wc.And(wcphone);
             }
-            countSum = Gateway.Default.Count<Teacher>(wc);
+            //排序方式
+            OrderByClip orderByClip = new OrderByClip();
+            if (!string.IsNullOrWhiteSpace(order)) orderByClip = Teacher._.Th_Pinyin.Asc;
+             countSum = Gateway.Default.Count<Teacher>(wc);
             index = index > 0 ? index : 1;
-            return Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_CrtTime.Desc).ToArray<Teacher>(size, (index - 1) * size);
+            return Gateway.Default.From<Teacher>().Where(wc).OrderBy(orderByClip && Teacher._.Th_ID.Desc).ToArray<Teacher>(size, (index - 1) * size);
         }
         #endregion
 

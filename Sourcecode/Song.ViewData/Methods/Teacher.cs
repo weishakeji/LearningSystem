@@ -424,16 +424,19 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <param name="titid">职称id</param>
         /// <param name="search">按名称检索</param>
+        /// <param name="gender"></param>
+        /// <param name="isuse"></param>
         /// <param name="phone">按电话查询，包括固话与手机号</param>
         /// <param name="acc">按账号查询</param>
         /// <param name="idcard">按身份证号查询</param>
+        /// <param name="order"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, int titid, string search, string phone, string acc, string idcard, int size, int index)
+        public ListResult Pager(int orgid, int titid, string search, int gender, bool? isuse, string phone, string acc, string idcard,string order, int size, int index)
         {
             int count = 0;
-            Song.Entities.Teacher[] eas = Business.Do<ITeacher>().TeacherPager(orgid, titid, null, null, search, phone, acc, idcard, size, index, out count);
+            Song.Entities.Teacher[] eas = Business.Do<ITeacher>().TeacherPager(orgid, titid, gender, isuse, null, search, phone, acc, idcard, order, size, index, out count);
             for (int i = 0; i < eas.Length; i++)
                 eas[i] = _tran(eas[i]);
             ListResult result = new ListResult(eas);

@@ -19,7 +19,7 @@
             accounts: [],        //当前页的学员账号
             loading: false,
             loadingid: 0,        //当前操作中的对象id
-            querypanel: false,     //更多查询的面板是否显示
+       
             datas: [],          //数据集
             total: 1, //总记录数
             totalpages: 1, //总页数

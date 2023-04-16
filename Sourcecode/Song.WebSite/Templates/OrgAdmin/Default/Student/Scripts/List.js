@@ -15,8 +15,7 @@ $ready(function () {
                         }
                     }
                 ]
-            },
-            querypanel: false,     //查询面板是否显示   
+            },       
             organ: {},       //当前机构
             sorts: [],      //学员组             
 

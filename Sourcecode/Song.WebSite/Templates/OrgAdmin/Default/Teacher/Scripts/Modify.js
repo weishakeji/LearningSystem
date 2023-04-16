@@ -154,7 +154,7 @@ $ready(function () {
             //名称转拼音
             pingyin: function () {
                 this.accPingyin = makePy(this.entity.Th_Name);
-                if (this.accPingyin.length > 0)
+                if (this.accPingyin.length > 0 && this.entity.Th_Pinyin == '')
                     this.entity.Th_Pinyin = this.accPingyin[0];
                 //console.log(this.accPingyin);
             },

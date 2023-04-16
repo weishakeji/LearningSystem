@@ -12,11 +12,17 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @delete="deleteData" @output="output" @input="input"
                 path="Modify" width="600" height="600" :selects='selects' idkey='Th_ID' table="datatables"></btngroup>
-            <div class="search-box">
+            <query_panel :model="form" :loading="loading" width="400px" @search="handleCurrentChange(1)">
+                <el-form-item label="名称">
+                    <el-input v-model="form.search" placeholder="名称" clearable style="width:160px"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:160px"></el-input>
+                </el-form-item>
 
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-select v-model="form.sortid" placeholder="-- 职称 --" style="width: 120px;">
+                <template v-slot:more>
+                    <el-form-item label="职称">
+                        <el-select v-model="form.sortid" placeholder="-- 职称 --" style="width:220px">
                             <el-option v-for="(item,i) in titles" :key="item.Ths_ID" :label="item.Ths_Name"
                                 :value="item.Ths_ID">
                                 <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
@@ -25,23 +31,27 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.search" placeholder="名称" clearable style="width:100px"></el-input>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证号" clearable style="width:220px"></el-input>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                    <el-form-item label="性别">
+                        <el-radio-group v-model="form.gender">
+                            <el-radio-button :label="-1">所有</el-radio-button>
+                            <el-radio-button :label="1">男</el-radio-button>
+                            <el-radio-button :label="2">女</el-radio-button>
+                            <el-radio-button :label="0">未知</el-radio-button>
+                          </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.idcard" placeholder="身份证号" clearable style="width:100px"></el-input>
+                    <el-form-item label="状态">
+                        <el-radio-group v-model="form.isuse">
+                            <el-radio-button label="">所有</el-radio-button>
+                            <el-radio-button label="true">启用</el-radio-button>
+                            <el-radio-button label="false">禁用</el-radio-button>                           
+                          </el-radio-group>
                     </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+                </template>
+            </query_panel>
+
         </div>
         <template>
             <el-table ref="datatables" v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"

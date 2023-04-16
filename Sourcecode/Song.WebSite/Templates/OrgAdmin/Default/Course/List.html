@@ -12,26 +12,32 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除,批量" ref='btngroup' @delete="deleteData" @add="btnadd" @bat="batchVisible=true"
                 path="Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <sbj_cascader ref="subject" :orgid="form.orgid"
-                            @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+
+                <el-form-item label="专业">
+                    <sbj_cascader ref="subject" :orgid="form.orgid"
+                        @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
+                </el-form-item>
+                <el-form-item label="课程">
+                    <el-input v-model="form.search" placeholder="课程名称" clearable style="width:160px"></el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="推荐">
+                        <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox v-model="checkRec">推荐</el-checkbox>
+                    <el-form-item label="教师">
+                        <el-select v-model="form.thid" clearable filterable remote reserve-keyword placeholder="教师名称"
+                            :remote-method="teacher_query" :loading="loading_teach" style="width:160px">
+                            <el-option v-for="(item,i) in teachers" :key="item.Th_ID" :label="item.Th_Name"
+                                :value="item.Th_ID">
+                                <span>{{i+1}} .</span>
+                                <icon :woman="item.Th_Sex==2" :man="item.Th_Sex==1">{{ item.Th_Name }}</icon>
+                            </el-option>
+                        </el-select>
+                        <help>可输入名称检索</help>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+                </template>
+            </query_panel>
         </div>
         <!--课程列表-->
         <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -103,7 +109,7 @@
                 </template>
             </el-table-column>
             <el-table-column label="教师" show-overflow-tooltip width="90">
-                <template slot-scope="scope" v-if="scope.row.Th_Name!=''">
+                <template slot-scope="scope" v-if="scope.row.Th_ID>0 && scope.row.Th_Name!=''">
                     <icon style="font-size: 17px">&#xe650</icon>
                     <span>{{scope.row.Th_Name}}</span>
                 </template>
@@ -165,7 +171,8 @@
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item divided>
-                                <el-link type="primary" plain icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
+                                <el-link type="primary" plain icon="el-icon-edit"
+                                    @click='$refs.btngroup.modify(scope.row.Cou_ID)'>
                                     修改
                                 </el-link>
                             </el-dropdown-item>

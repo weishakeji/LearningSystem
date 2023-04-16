@@ -14,14 +14,14 @@
             <btngroup v-else show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
                 path="Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
 
-            <query_panel :expand.sync="querypanel" :model="form" :width="45" :loading="loading"
+            <query_panel :model="form" :width="45" :loading="loading"
                 @search="handleCurrentChange(1)">
                 <template>
                     <el-form-item label="题干">
                         <el-input v-model.trim="form.search" clearable style="width:245px" placeholder="搜索"></el-input>
                     </el-form-item>
                 </template>
-                <template slot="full">
+                <template slot="more">
                     <el-form-item label="专业">
                         <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids"
                             placeholder="请选择课程专业" :options="subjects" separator="／" :props="defaultSubjectProps"

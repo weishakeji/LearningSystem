@@ -81,7 +81,7 @@
                     </el-row>
 
                     <el-form-item label="拼音缩写" prop="Th_Pinyin">
-                        <el-input v-model="entity.Th_Pinyin" style="width:100px"></el-input>
+                        <el-input v-model="entity.Th_Pinyin" @focus="pingyin" style="width:100px"></el-input>
                         <span v-show="accPingyin.length>1" class="pingyin">
                             （多音：<span class="py" v-for="(d,i) in accPingyin" @click="entity.Th_Pinyin=d">
                                 {{d}} <span v-show='i<accPingyin.length-1'>, </span>

@@ -12,7 +12,7 @@
         <div class="toolsbar">
             <btngroup show="删除,导出" ref='btngroup' @delete="deleteData" @output="btnOutput" path="RecordView" width="600"
                 height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
-            <query_panel :expand.sync="querypanel" :model="form" :width="45" :loading="loading"
+            <query_panel :model="form" :width="45" :loading="loading"
                 @search="handleCurrentChange(1)">
                 <el-form-item label="时间区间">
                     <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
@@ -23,7 +23,7 @@
                 <el-form-item label="账号">
                     <el-input v-model="form.account" placeholder="学员姓名/账号" style="width:160px"> </el-input>
                 </el-form-item>
-                <template slot="full">
+                <template slot="more">
                     <el-form-item label="资金来源">
                         <el-select v-model="form.from" placeholder="--来源--" style="width: 120px;">
                             <el-option v-for="item in moneyform" :label="item.label" :value="item.value"

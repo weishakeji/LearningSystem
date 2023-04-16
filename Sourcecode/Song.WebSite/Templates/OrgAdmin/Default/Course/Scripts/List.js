@@ -16,6 +16,8 @@
             organ: {},
             config: {},      //当前机构配置项      
 
+            teachers: [],        //教师
+
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -31,7 +33,8 @@
 
             loading: false,
             loadingid: 0,
-            loading_init: true
+            loading_init: true,
+            loading_teach: false //加载教师信息时的预载
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
@@ -41,15 +44,16 @@
             });
         },
         created: function () {
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    vapp.form.orgid = vapp.organ.Org_ID;
+                    th.organ = req.data.result;
+                    th.form.orgid = th.organ.Org_ID;
                     //机构配置信息
-                    vapp.config = $api.organ(vapp.organ).config;
-                    vapp.handleCurrentChange(1);
-
+                    th.config = $api.organ(th.organ).config;
+                    th.handleCurrentChange(1);
+                    th.teacher_query('');
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -105,6 +109,26 @@
                 }).catch(function (err) {
                     console.error(err);
                 });
+            },
+            //获取教师列表
+            teacher_query: function (search) {
+                var th = this;
+                th.loading_teach = true;
+                let query = {
+                    orgid: th.organ.Org_ID, titid: '', gender: '-1', isuse: '',
+                    search: search, phone: '', acc: '', idcard: '',
+                    order: 'pinyin', size: 9999999, index: 1
+                };
+                $api.get('Teacher/Pager', query).then(function (req) {
+                    if (req.data.success) {
+                        th.teachers = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_teach = false);
+
             },
             //刷新单一课程
             fressingle: function (id) {
@@ -198,7 +222,7 @@
                                 ids += th.datas[i].Cou_ID + ',';
                         }
                         th.loading = true;
-                        $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null,'edit':null }).then(function (req) {
+                        $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null, 'edit': null }).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -245,10 +269,6 @@
                     th.$alert(err, '错误');
                     console.error(err);
                 });
-            },
-            //打开编辑界面
-            btnmodify: function (id) {
-                this.$refs.btngroup.modify(id);
             },
             //新增课程的按钮事件
             btnadd: function (btn) {

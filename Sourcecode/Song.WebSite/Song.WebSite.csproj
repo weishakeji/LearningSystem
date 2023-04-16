@@ -1394,7 +1394,9 @@
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
     <Content Include="Utilities\Components\Styles\icons.css" />
     <Content Include="Utilities\Components\Styles\popup-notice.css" />
+    <Content Include="Utilities\Components\Styles\query_panel.css" />
     <Content Include="Utilities\Components\Styles\useicon.css" />
+    <Content Include="Utilities\Components\query_panel.js" />
     <Content Include="Utilities\Components\useicon.js" />
     <Content Include="Utilities\Components\Styles\upload-chunked.css" />
     <Content Include="Utilities\Components\Styles\upload-excel.css" />

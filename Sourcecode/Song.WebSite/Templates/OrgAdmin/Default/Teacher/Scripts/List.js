@@ -3,10 +3,9 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: {
-                orgid: '', titid: '',
+                orgid: '', titid: '', gender: '-1',isuse:'',
                 search: '', phone: '', acc: '', idcard: '',
-                size: 20,
-                index: 1
+                order: '', size: 20, index: 1
             },
             organ: {},       //当前机构
             titles: [],          //职称
@@ -93,20 +92,20 @@ $ready(function () {
                 }).catch(function (err) {
                     console.error(err);
                 });
-            },             
+            },
             //显示手机号
             showmobi: function (row) {
                 var phone = row.Th_PhoneMobi;
                 return phone != '' ? phone : row.Th_Phone;
             },
-             //复制到粘贴板
-             copytext: function (val, textbox) {
-                this.copy(val, textbox).then(function(th){
+            //复制到粘贴板
+            copytext: function (val, textbox) {
+                this.copy(val, textbox).then(function (th) {
                     th.$message({
                         message: '复制 “' + val + '” 到粘贴板',
                         type: 'success'
                     });
-                });               
+                });
             },
             //更改使用状态，包括使用、审核
             changeState: function (row) {

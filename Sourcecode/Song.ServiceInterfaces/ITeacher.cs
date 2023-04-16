@@ -130,16 +130,19 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="thsid">教师分组id</param>
+        /// <param name="gender">性别</param>
         /// <param name="isUse"></param>
         /// <param name="isShow">是否在前台显示</param>
         /// <param name="searName"></param>
         /// <param name="phone">按电话查询，包括固话与手机号</param>
         /// <param name="acc">按账号查询</param>
+        /// <param name="idcard"></param>
+        /// <param name="order">排序方式，默认按id倒序，可以按拼音pinyin</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc,string idcard, int size, int index, out int countSum);     
+        Teacher[] TeacherPager(int orgid, int thsid, int gender, bool? isUse, bool? isShow, string searName, string phone, string acc,string idcard, string order,int size, int index, out int countSum);     
         #endregion
 
         #region 教师分类管理
