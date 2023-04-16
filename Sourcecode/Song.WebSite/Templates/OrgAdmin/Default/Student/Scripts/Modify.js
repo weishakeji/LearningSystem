@@ -211,8 +211,7 @@ $ready(function () {
             pingyin: function () {
                 this.accPingyin = makePy(this.account.Ac_Name);
                 if (this.accPingyin.length > 0)
-                    this.account.Ac_Pinyin = this.accPingyin[0];
-                //console.log(this.accPingyin);
+                    this.account.Ac_Pinyin = this.accPingyin[0];                
             },
             //图片文件上传
             filechange: function (file) {

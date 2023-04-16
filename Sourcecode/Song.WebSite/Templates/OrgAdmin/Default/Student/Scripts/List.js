@@ -6,6 +6,16 @@ $ready(function () {
                 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
                 size: 20, index: 1
             },
+            rules: {
+                name: [{ min: 1, max: 10, message: '长度限 1 到 10 个字符', trigger: 'blur' }],
+                phone: [
+                    {
+                        required: false, type: 'number', message: '请输入数字', trigger: 'change', transform(value) {
+                            return Number(value)
+                        }
+                    }
+                ]
+            },
             querypanel: false,     //查询面板是否显示   
             organ: {},       //当前机构
             sorts: [],      //学员组             
@@ -22,7 +32,7 @@ $ready(function () {
         },
         watch: {
             form: {
-                handler: function (nv, ov) {                   
+                handler: function (nv, ov) {
                 }, deep: true
             }
         },
@@ -68,7 +78,7 @@ $ready(function () {
                 });
             },
             //加载数据页
-            handleCurrentChange: function (index) {               
+            handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算

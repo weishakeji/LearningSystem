@@ -64,15 +64,22 @@ Vue.component('query_panel', {
     mounted: function () {
     },
     methods: {
+        //查询事件
         onserch: function () {
-            this.visible = false;
-            this.$emit('search', this.model);
+            this.$refs['form'].validate((valid) => {
+                if (valid) {
+                    this.visible = false;
+                    this.$emit('search', this.model);
+                } else {      
+                    console.log('error');             
+                    return false;
+                }
+            });
         }
     },
     template: `<div :class="{'query_panel':true,'query_panel_expand':expanded}">
-        <div class="query_panel_mask" v-if="showmask && expanded" @click="visible=false"></div>
-       
-        <el-form :inline="!expanded" :model="model" :style="{'width':width_val}" v-on:submit.native.prevent  label-width="80px">
+        <div :class="{'query_panel_mask':showmask && expanded}"  @click="visible=false"></div>    
+        <el-form ref="form" :rules="rules" :inline="!expanded" :model="model" :style="{'width':width_val}" v-on:submit.native.prevent  label-width="80px">
             <slot></slot>
             <el-form-item v-show="!expanded && showbutton">
                 <el-button-group>

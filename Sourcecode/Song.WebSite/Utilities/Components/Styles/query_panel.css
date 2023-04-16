@@ -12,7 +12,7 @@
 }
 
 .query_panel .el-form--inline button {
-   height: 25px !important;
+   height: 28px !important;
    margin-top: 1px;
    padding: 5px 10px 5px 10px;
 }
@@ -26,14 +26,17 @@
   
 }
 .query_panel .el-form--inline input[type=text] {
-   height: 25px;
-   margin-top: 1px;
+   height: 28px;
+   margin-top: 2px;
 }
 
 .query_panel .el-form--inline .el-form-item__label {
    display: none;
 }
-
+/*录入错误的提示*/
+.query_panel .el-form--inline .el-form-item__error{
+   bottom: -5px !important;
+}
 .query_panel .query_panel_mask {
    display: none;
 }

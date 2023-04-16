@@ -13,13 +13,13 @@
             <btngroup show="新增,修改,删除,导入,导出,批量禁用" ref='btngroup' @delete="deleteData" @output="output" @input="input"
                 @batch="batch_disable" path="Modify" width="600" height="600" :selects='selects' idkey='Ac_ID'
                 table="datatables"></btngroup>
-            <query_panel :expand.sync="querypanel" :model="form" :width="45" :loading="loading"
+            <query_panel :expand.sync="querypanel" :rules="rules" :model="form" :width="45" :loading="loading"
                 @search="handleCurrentChange(1)">
-                <el-form-item label="姓名">
+                <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
                 </el-form-item>
-                <el-form-item label="电话">
-                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                <el-form-item label="电话" prop="phone">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:120px"></el-input>
                 </el-form-item>
                 <template slot="full">
                     <el-form-item label="学员组">
@@ -43,7 +43,6 @@
                     <el-form-item label="身份证">
                         <el-input v-model="form.idcard" placeholder="身份证" clearable></el-input>
                     </el-form-item>
-
                 </template>
             </query_panel>
         </div>
