@@ -27,6 +27,14 @@ Vue.component('query_panel', {
         },
         //更多查询的按钮是否显示,默认不显示
         showmore: function () {
+            if($api.isnull(this.more)){
+                //如果更多查询的插槽中有内容，则显示“更多”按钮
+                var slots = this.$slots
+                if (slots['full'] && slots['full'].length > 0) {
+                    this.more = true;
+                    return true;
+                }
+            }
             if ($api.getType(this.more) != 'Boolean') return false;
             return $api.isnull(this.more) ? false : this.more;
         },
@@ -46,8 +54,12 @@ Vue.component('query_panel', {
             return def + '%';
         }
     },
-    created: function () {
-
+    mounted: function () {
+        var slots = this.$slots
+        console.log(slots);
+        if (slots['full'].length > 0) {
+            this.more = true;
+        }
     },
     methods: {
         onserch: function () {
