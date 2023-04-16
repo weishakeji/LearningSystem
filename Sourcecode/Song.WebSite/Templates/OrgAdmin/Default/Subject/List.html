@@ -11,20 +11,18 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' path="Modify" width="900" idkey='Sbj_ID' height="600"></btngroup>
-            <div class="search-box">
+            <query_panel :model="form" :loading="loading">
+                <el-form-item label="">
+                    <el-tag type="success">
+                        <icon>&#xe750</icon>总计 {{total}} 个专业
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
+                        suffix-icon="el-icon-search"></el-input>
+                </el-form-item>
+            </query_panel>
 
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-tag type="success">
-                            <icon>&#xe750</icon>总计 {{total}} 个专业
-                        </el-tag>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
-                            suffix-icon="el-icon-search"></el-input>
-                    </el-form-item>
-                </el-form>
-            </div>
         </div>
 
         <div class="tree-box">

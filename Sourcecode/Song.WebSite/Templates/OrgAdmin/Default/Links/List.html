@@ -19,34 +19,25 @@
             <div class="toolsbar">
                 <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
                     :selects='selects' idkey='Lk_Id' table="datatables"></btngroup>
-                <div class="search-box">
-
-                    <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                        <el-form-item label="">
-                            <el-select v-model="form.sortid" placeholder="请选择分类" clearable>
-                                <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name"
-                                    :value="item.Ls_Id">
-                                    <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
-                                    <span style="float: left">{{ item.Ls_Name }}</span>
-                                    <links_count :sort="item"></links_count>
-                                    <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="">
-                            <el-input v-model="form.name" clearable placeholder="链接名" style="width:100px"></el-input>
-                        </el-form-item>
-                        <el-form-item label="">
-                            <el-input v-model="form.link" clearable placeholder="链接地址" style="width:150px"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                                native-type="submit" plain>
-                                查询
-                            </el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
+                <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                    <el-form-item label="">
+                        <el-select v-model="form.sortid" placeholder="请选择分类" clearable>
+                            <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name"
+                                :value="item.Ls_Id">
+                                <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
+                                <span style="float: left">{{ item.Ls_Name }}</span>
+                                <links_count :sort="item"></links_count>
+                                <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.name" clearable placeholder="链接名" style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.link" clearable placeholder="链接地址" style="width:150px"></el-input>
+                    </el-form-item>
+                </query_panel>
             </div>
             <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Lk_Id"

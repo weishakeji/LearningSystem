@@ -37,7 +37,7 @@ $ready(function () {
                 }
                 //获取结果             
                 th.organ = organ.data.result;
-                if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
+                //if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;

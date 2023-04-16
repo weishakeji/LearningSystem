@@ -14,7 +14,7 @@ Vue.component('query_panel', {
             visible: false
         }
     },
-    watch: {        
+    watch: {
     },
     computed: {
         //当前状态是否是展开的,默认不展开
@@ -34,8 +34,10 @@ Vue.component('query_panel', {
         },
         //是否显示查询按钮
         'showbutton': function () {
+            if (this.$listeners && this.$listeners['search'] == undefined) return false;
             var slots = this.$slots
             return slots['default'] && slots['default'].length > 0;
+
         },
         //宽度值
         'width_val': function () {
