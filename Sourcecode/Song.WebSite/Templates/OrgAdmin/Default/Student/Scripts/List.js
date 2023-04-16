@@ -6,7 +6,7 @@ $ready(function () {
                 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
                 size: 20, index: 1
             },
-            querybox: false,     //查询面板是否显示   
+            querypanel: false,     //查询面板是否显示   
             organ: {},       //当前机构
             sorts: [],      //学员组             
 
@@ -68,9 +68,7 @@ $ready(function () {
                 });
             },
             //加载数据页
-            handleCurrentChange: function (index) {
-               
-                console.error('this.querybox:'+this.querybox);
+            handleCurrentChange: function (index) {               
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算

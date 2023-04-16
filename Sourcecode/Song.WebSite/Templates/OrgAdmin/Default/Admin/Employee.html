@@ -14,19 +14,12 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="EmployeeModify" width="600" height="600"
                 :selects='selects' idkey='Acc_Id' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" placeholder="名称" style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :width="45" :loading="loading"
+                @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.name" clearable placeholder="名称" style="width:100px"></el-input>
+                </el-form-item>
+            </query_panel>          
         </div>
         <template>
             <el-table ref="datatables" :data="accounts" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -42,7 +35,7 @@
                 <el-table-column label="姓名/账号">
                     <template slot-scope="scope">
                         <icon :woman="scope.row.Acc_Sex==2" :man="scope.row.Acc_Sex==1" class="large">
-                            <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span> / 
+                            <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span> /
                             <span class="accname" title="账号">{{ scope.row.Acc_AccName}}</span>
                         </icon>
                     </template>
