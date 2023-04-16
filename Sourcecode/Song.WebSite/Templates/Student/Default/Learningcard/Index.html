@@ -10,34 +10,28 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <el-tooltip class="item" effect="light" content="点击此处，激活学习卡" placement="bottom">
-                <el-button type="primary" size="mini" plain @click="useCardShow=true">
-                    <icon style="font-size: 19px;">&#xe685</icon>学习卡
-                </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="light" content="点击此处，激活学习卡" placement="bottom">
-                <el-link type="primary" size="mini" plain @click="useCardShow=true" style="margin-left: 20px">
-                    使用学习卡
-                </el-link>
-            </el-tooltip>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-checkbox v-model="form.isused">已使用</el-checkbox>
-                        <el-checkbox v-model="form.isdisable">被禁用</el-checkbox>
-                        <el-checkbox v-model="form.isback">被回滚</el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.code" clearable style="width:150px" placeholder="卡号"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
+            <div>
+                <el-tooltip class="item" effect="light" content="点击此处，激活学习卡" placement="bottom">
+                    <el-button type="primary" size="mini" plain @click="useCardShow=true">
+                        <icon style="font-size: 19px;">&#xe685</icon>学习卡
+                    </el-button>
+                </el-tooltip>
+                <el-tooltip class="item" effect="light" content="点击此处，激活学习卡" placement="bottom">
+                    <el-link type="primary" size="mini" plain @click="useCardShow=true" style="margin-left: 20px">
+                        使用学习卡
+                    </el-link>
+                </el-tooltip>
             </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-checkbox v-model="form.isused">已使用</el-checkbox>
+                    <el-checkbox v-model="form.isdisable">被禁用</el-checkbox>
+                    <el-checkbox v-model="form.isback">被回滚</el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.code" clearable style="width:150px" placeholder="卡号"></el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template v-if="!loading &&  totalCard<1">
             <div class="non-existent">

@@ -32,11 +32,11 @@
 	font-size: 20px;
 }
 
-.search-box {
+.query_panel {
 	position: absolute;
-	height: 35px;
+	height: 39px;
 	right: 0px;
-	top: 6px;
+	top: 3px;
 }
 
 /*内容区域*/

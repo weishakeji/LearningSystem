@@ -14,21 +14,13 @@
             <el-tag>
                 <icon>&#xe634</icon>专项考试的成绩回顾
             </el-tag>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-input v-model="form.sear" placeholder="考试名称" clearable>
-                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.sear" placeholder="考试名称" clearable>
+                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <context>
             <loading v-show='loading'>正在加载中...</loading>
@@ -85,7 +77,8 @@
                                 <div>
                                     <span>
                                         <icon>&#xe816</icon> 得分：
-                                        <score :class="item.th.scoreStyle(result.Exr_ScoreFinal)"  @click="review(result)">
+                                        <score :class="item.th.scoreStyle(result.Exr_ScoreFinal)"
+                                            @click="review(result)">
                                             {{result.Exr_ScoreFinal}} 分
                                         </score>
                                         <help v-if="item.exam">

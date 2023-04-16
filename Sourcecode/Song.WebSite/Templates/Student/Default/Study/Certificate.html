@@ -13,21 +13,13 @@
             <el-tag>
                 <help>请从右侧课程列表中选择要打印证明的课程</help>
             </el-tag>
-
-            <div class="search-box">
-                <el-form :inline="true" :model="query" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item>
-                        <el-input v-model="query.search" clearable style="width:180px" placeholder="按课程检索">
-                            <icon slot="prefix">&#xe813</icon>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
-                            class="el-icon-search"> 查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="query" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-input v-model="query.search" clearable style="width:180px" placeholder="按课程检索">
+                        <icon slot="prefix">&#xe813</icon>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
 
         <context>
@@ -52,7 +44,7 @@
                                 <div class="info_row">
                                     <span v-html="index + 1" class="index"></span>
                                     <a target="_blank" class="cour_name" :href="'/web/course/detail.'+item.Cou_ID"
-                                    v-html="item.Cou_Name"></a>
+                                        v-html="item.Cou_Name"></a>
                                 </div>
                                 <div class="info_row btns">
                                     <progress_value :stid="account.Ac_ID" :course="item" :config="config">

@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title></title>
+    <title>我的朋友</title>
 </head>
 
 <body>
@@ -13,27 +13,19 @@
             <el-tag>
                 <icon>&#xe67d</icon>好朋友{{friends}}个 / 累计朋友{{friendAll}}个
             </el-tag>
-
-            <div class="search-box">
-                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item>
-                        <el-input v-model="form.acc" clearable style="width:120px" placeholder="账号">
-                            <icon slot="prefix">&#xa043</icon>
-                        </el-input>
-                        <el-input v-model="form.name" clearable style="width:120px" placeholder="姓名">
-                            <icon slot="prefix">&#xe808</icon>
-                        </el-input>
-                        <el-input v-model="form.phone" clearable style="width:130px" placeholder="手机号">
-                            <icon slot="prefix">&#xe677</icon>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
-                            class="el-icon-search">
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-input v-model="form.acc" clearable style="width:120px" placeholder="账号">
+                        <icon slot="prefix">&#xa043</icon>
+                    </el-input>
+                    <el-input v-model="form.name" clearable style="width:120px" placeholder="姓名">
+                        <icon slot="prefix">&#xe808</icon>
+                    </el-input>
+                    <el-input v-model="form.phone" clearable style="width:130px" placeholder="手机号">
+                        <icon slot="prefix">&#xe677</icon>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
@@ -72,7 +64,7 @@
                 </el-table-column>
                 <el-table-column label="资金">
                     <template slot-scope="scope">
-                        <icon  money title="资金余额"> {{scope.row.Ac_Money}}</icon>
+                        <icon money title="资金余额"> {{scope.row.Ac_Money}}</icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="卡券">

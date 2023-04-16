@@ -17,21 +17,13 @@
                     </span>
                 </el-tab-pane>
             </el-tabs>
-            <div class="search-box">
-                <el-form :inline="true" :model="query" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item>
-                        <el-input v-model="query.search" placeholder="请输入内容" clearable>
-                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="query" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-input v-model="query.search" placeholder="请输入内容" clearable>
+                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
 
         <context>
@@ -42,7 +34,7 @@
                 </div>
             </template>
             <template v-else>
-                <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account"  v-slot="scope">
+                <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account" v-slot="scope">
                     <el-card class="course">
                         <template slot="header">
                             <div>
@@ -68,10 +60,13 @@
                         <div class="info">
                             <div class="info_row datainfo">
                                 <template v-if="scope.forever">
-                                    <el-tag type="success" class="free"><icon>&#xa048</icon>不限时</el-tag>
+                                    <el-tag type="success" class="free">
+                                        <icon>&#xa048</icon>不限时
+                                    </el-tag>
                                 </template>
 
-                                <template v-else-if="item.Cou_IsLimitFree && (scope.data && item.Cou_FreeEnd>scope.data.Stc_EndTime)">
+                                <template
+                                    v-else-if="item.Cou_IsLimitFree && (scope.data && item.Cou_FreeEnd>scope.data.Stc_EndTime)">
                                     <el-tag type="success" class="free">限时免</el-tag>
                                     <el-tag type="success" class="free">
                                         免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
