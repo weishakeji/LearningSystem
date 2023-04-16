@@ -4,219 +4,214 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>考试成绩</title>   
+    <title>考试成绩</title>
 </head>
 
 
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除,清空,导出" ref='btngroup' @delete="deleteData" @clear="clear" @output="output" width="600" height="600"
-                :selects='selects' idkey='Exr_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-dropdown @command="dorphandle">
-                            <span class="el-dropdown-link">
-                                {{scorerange}}<i class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="-1">
-                                    <el-tag type="info">全部</el-tag>
-                                </el-dropdown-item>
-                                <el-dropdown-item command="1">
-                                    <el-tag>优良({{Math.floor(entity.Exam_Total*0.8)}}分以上)</el-tag>
-                                </el-dropdown-item>
-                                <el-dropdown-item command="2">
-                                    <el-tag type="success">及格({{entity.Exam_PassScore}}分以上)</el-tag>
-                                </el-dropdown-item>
-                                <el-dropdown-item command="3">
-                                    <el-tag type="danger">不及格({{entity.Exam_PassScore}}分以下)</el-tag>
-                                </el-dropdown-item>
-                                <el-dropdown-item command="4">
-                                    <el-tag type="info">零分</el-tag>
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
-        </div>
-        <template>
-            <el-table ref="datatables" :data="results" :stripe="true" tooltip-effect="dark" style="width: 100%;"
-                @selection-change="val=>selects=val" row-key="Exr_ID" v-loading="loading">
-                <el-table-column type="selection" width="40">
-                </el-table-column>
-                <el-table-column type="index" width="50" label="#">
-                    <template slot-scope="scope">
-                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="姓名" width="120">
-                    <template slot-scope="scope">
-                        <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
-                            v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large" @click="getaccount(scope.row)">
-                        </icon>
-                    </template>
-                </el-table-column>
-                <el-table-column label="身份证">
-                    <template slot-scope="scope">
-                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link" @click="getaccount(scope.row)"></span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="考试时间" align="center">
-                    <template slot-scope="scope">
+            <btngroup show="删除,清空,导出" ref='btngroup' @delete="deleteData" @clear="clear" @output="output" width="600"
+                height="600" :selects='selects' idkey='Exr_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-dropdown @command="dorphandle">
+                        <span class="el-dropdown-link">
+                            {{scorerange}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="-1">
+                                <el-tag type="info">全部</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="1">
+                                <el-tag>优良({{Math.floor(entity.Exam_Total*0.8)}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="2">
+                                <el-tag type="success">及格({{entity.Exam_PassScore}}分以上)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="3">
+                                <el-tag type="danger">不及格({{entity.Exam_PassScore}}分以下)</el-tag>
+                            </el-dropdown-item>
+                            <el-dropdown-item command="4">
+                                <el-tag type="info">零分</el-tag>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div> 
+    <template>
+        <el-table ref="datatables" :data="results" :stripe="true" tooltip-effect="dark" style="width: 100%;"
+            @selection-change="val=>selects=val" row-key="Exr_ID" v-loading="loading">
+            <el-table-column type="selection" width="40">
+            </el-table-column>
+            <el-table-column type="index" width="50" label="#">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="姓名" width="120">
+                <template slot-scope="scope">
+                    <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
+                        v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large"
+                        @click="getaccount(scope.row)">
+                    </icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="身份证">
+                <template slot-scope="scope">
+                    <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link"
+                        @click="getaccount(scope.row)"></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="考试时间" align="center">
+                <template slot-scope="scope">
 
-                        {{scope.row.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
-                    </template>
-                </el-table-column>
-                <el-table-column label="考试用时" width="120" align="center">
-                    <template slot-scope="scope">
+                    {{scope.row.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                </template>
+            </el-table-column>
+            <el-table-column label="考试用时" width="120" align="center">
+                <template slot-scope="scope">
 
-                        {{calcSpan(scope.row.Exr_CrtTime,scope.row.Exr_LastTime)}} 分钟
+                    {{calcSpan(scope.row.Exr_CrtTime,scope.row.Exr_LastTime)}} 分钟
+                </template>
+            </el-table-column>
+            <el-table-column label="成绩" width="80" align="center">
+                <template slot-scope="scope">
+                    <el-tooltip :content="scope.row.Exr_ScoreFinal<entity.Exam_PassScore ? '不及格' : '点击查看成绩详情'"
+                        placement="bottom" effect="light">
+                        <span :class="{'red':scope.row.Exr_ScoreFinal<entity.Exam_PassScore,'link':true}"
+                            @click="review(scope.row)">
+                            <score :number="scope.row.Exr_ScoreFinal"></score>
+                        </span>
+                    </el-tooltip>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="80" align="center">
+                <template slot-scope="scope">
+                    <template v-if="loadingid==scope.row.Exr_ID">
+                        <span class="el-icon-loading"></span>
                     </template>
-                </el-table-column>
-                <el-table-column label="成绩" width="80" align="center">
-                    <template slot-scope="scope">
-                        <el-tooltip :content="scope.row.Exr_ScoreFinal<entity.Exam_PassScore ? '不及格' : '点击查看成绩详情'" placement="bottom" effect="light">
-                            <span :class="{'red':scope.row.Exr_ScoreFinal<entity.Exam_PassScore,'link':true}"
-                                @click="review(scope.row)">
-                                <score :number="scope.row.Exr_ScoreFinal"></score>
-                            </span>
+                    <template v-else>
+                        <el-tooltip class="item" effect="dark" content="重新计算成绩" placement="bottom">
+                            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                icon-color="red" title="确定要重新计算成绩吗？" @confirm="clacScore(scope.row.Exr_ID)">
+                                <el-link type="primary" plain icon="el-icon-refresh" slot="reference">
+                                </el-link>
+                            </el-popconfirm>
                         </el-tooltip>
-
+                        <el-tooltip class="item" effect="dark" content="删除考试成绩" placement="bottom">
+                            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Exr_ID)">
+                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">
+                                </el-link>
+                            </el-popconfirm>
+                        </el-tooltip>
                     </template>
-                </el-table-column>
-                <el-table-column label="操作" width="80" align="center">
-                    <template slot-scope="scope">
-                        <template v-if="loadingid==scope.row.Exr_ID">
-                            <span class="el-icon-loading"></span>
-                        </template>
-                        <template v-else>
-                            <el-tooltip class="item" effect="dark" content="重新计算成绩" placement="bottom">
-                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    icon-color="red" title="确定要重新计算成绩吗？" @confirm="clacScore(scope.row.Exr_ID)">
-                                    <el-link type="primary" plain icon="el-icon-refresh" slot="reference">
-                                    </el-link>
-                                </el-popconfirm>
-                            </el-tooltip>
-                            <el-tooltip class="item" effect="dark" content="删除考试成绩" placement="bottom">
-                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Exr_ID)">
-                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">
-                                    </el-link>
-                                </el-popconfirm>
-                            </el-tooltip>
-                        </template>
-                    </template>
-                </el-table-column>
+                </template>
+            </el-table-column>
 
-            </el-table>
-        </template>
-        <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="12" v-show="!loading" layout="total, prev, pager, next, jumper"
-                :total="total">
-            </el-pagination>
+        </el-table>
+    </template>
+    <div id="pager-box">
+        <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+            :page-size="form.size" :pager-count="12" v-show="!loading" layout="total, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination>
+    </div>
+    <el-dialog title="考生信息" :visible.sync="accountVisible">
+        <div slot="title">
+            <icon style="font-size: 25px;">&#xe669</icon>考生信息
         </div>
-        <el-dialog title="考生信息" :visible.sync="accountVisible">
-            <div slot="title">
-                <icon style="font-size: 25px;">&#xe669</icon>考生信息
-            </div>
-            <el-row :gutter="20">
-                <el-col :span="24" class="accountInfo">
-                    <avatar :account="account" circle="true" size="80"></avatar>
-                    <div>
-                        <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
-                            <b>{{account.Ac_Name}}</b>
-                        </icon>
-                        <span title="账号">({{account.Ac_AccName}})</span>
-                    </div>
-                    <div icon="&#xe60f" title="身份证">
-                        {{account.Ac_IDCardNumber}}
-                    </div>
-                    <div icon="&#xa047" title="电话">
-                        <span v-html='account.Ac_MobiTel1'></span>
-                        <span
-                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
-                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
-                    </div>
+        <el-row :gutter="20">
+            <el-col :span="24" class="accountInfo">
+                <avatar :account="account" circle="true" size="80"></avatar>
+                <div>
+                    <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                        <b>{{account.Ac_Name}}</b>
+                    </icon>
+                    <span title="账号">({{account.Ac_AccName}})</span>
+                </div>
+                <div icon="&#xe60f" title="身份证">
+                    {{account.Ac_IDCardNumber}}
+                </div>
+                <div icon="&#xa047" title="电话">
+                    <span v-html='account.Ac_MobiTel1'></span>
+                    <span
+                        v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                    <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                </div>
 
-                </el-col>
-            </el-row>
-            <el-divider></el-divider>
-            <el-row :gutter="20" class="accountInfo">
-                <el-col :span="4">
-                    考试
-                </el-col>
-                <el-col :span="20">
-                    {{entity.Exam_Title}}
-                </el-col>
-            </el-row>
-            <el-row :gutter="20" class="accountInfo" v-if="accountVisible">
-                <el-col :span="4">
-                    &nbsp;
-                </el-col>
-                <el-col :span="20">
-                    <el-tag type="success">开始时间</el-tag>
-                    <el-tag type="info">{{current.Exr_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20" class="accountInfo">
-                <el-col :span="4">
-                    &nbsp;
-                </el-col>
-                <el-col :span="20">
-                    <el-tag>交卷时间</el-tag>
-                    <el-tag type="info">{{current.Exr_LastTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
-                    <el-tag type="info">用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}}分钟</el-tag>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20" class="accountInfo">
-                <el-col :span="4">
-                    成绩
-                </el-col>
-                <el-col :span="20">
-                    <b>{{current.Exr_ScoreFinal}} </b>分
+            </el-col>
+        </el-row>
+        <el-divider></el-divider>
+        <el-row :gutter="20" class="accountInfo">
+            <el-col :span="4">
+                考试
+            </el-col>
+            <el-col :span="20">
+                {{entity.Exam_Title}}
+            </el-col>
+        </el-row>
+        <el-row :gutter="20" class="accountInfo" v-if="accountVisible">
+            <el-col :span="4">
+                &nbsp;
+            </el-col>
+            <el-col :span="20">
+                <el-tag type="success">开始时间</el-tag>
+                <el-tag type="info">{{current.Exr_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20" class="accountInfo">
+            <el-col :span="4">
+                &nbsp;
+            </el-col>
+            <el-col :span="20">
+                <el-tag>交卷时间</el-tag>
+                <el-tag type="info">{{current.Exr_LastTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
+                <el-tag type="info">用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}}分钟</el-tag>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20" class="accountInfo">
+            <el-col :span="4">
+                成绩
+            </el-col>
+            <el-col :span="20">
+                <b>{{current.Exr_ScoreFinal}} </b>分
 
-                    <el-tag type="danger" v-if="current.Exr_ScoreFinal<entity.Exam_PassScore"> 不及格</el-tag>
-                    <el-tag type="info">满分 {{entity.Exam_Total}} 分，{{entity.Exam_PassScore}} 分及格</el-tag>
-                </el-col>
-            </el-row>
-        </el-dialog>
-        <el-dialog title="成绩导出" :visible.sync="exportVisible" :show-close="false" :before-close="()=>{}">
-            <dl v-if="files.length>0">
-                <dd v-for="(f,i) in files">
-                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                            {{f.file}}</a>
-                        {{f.size|size}}
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                    </div>
-                </dd>
-            </dl>
-            <div v-else>
-                没有供下载的文件
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="exportVisible = false">取 消</el-button>
-                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
-            </span>
-        </el-dialog>
+                <el-tag type="danger" v-if="current.Exr_ScoreFinal<entity.Exam_PassScore"> 不及格</el-tag>
+                <el-tag type="info">满分 {{entity.Exam_Total}} 分，{{entity.Exam_PassScore}} 分及格</el-tag>
+            </el-col>
+        </el-row>
+    </el-dialog>
+    <el-dialog title="成绩导出" :visible.sync="exportVisible" :show-close="false" :before-close="()=>{}">
+        <dl v-if="files.length>0">
+            <dd v-for="(f,i) in files">
+                <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    {{f.size|size}}
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </div>
+            </dd>
+        </dl>
+        <div v-else>
+            没有供下载的文件
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="exportVisible = false">取 消</el-button>
+            <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+        </span>
+    </el-dialog>
     </div>
 
 

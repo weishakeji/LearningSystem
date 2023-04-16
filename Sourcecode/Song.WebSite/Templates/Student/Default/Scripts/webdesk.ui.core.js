@@ -644,8 +644,8 @@
             'y': y
         };
     };
-     //是否是手机端
-     webdom.ismobi = function () {
+    //是否是手机端
+    webdom.ismobi = function () {
         var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
         var u = navigator.userAgent;
         if (null == u) return true;
@@ -765,7 +765,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {              
+            webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -779,7 +779,7 @@
                     }
                 }
                 if (exist) return;
-              
+
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.src = one + '?ver=' + webdom.version();
@@ -875,10 +875,12 @@
             //mathjax，解析latex公式
             arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
             arr2.push('/Utilities/MathJax/globalVariable.js');
-          
+
             //编辑器
             arr2.push('/Utilities/TinyMCE/tinymce.js');
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
+            //查询面板
+            arr2.push('/Utilities/Components/query_panel.js');
             window.$dom.load.js(arr2, f);
         });
     };
@@ -925,7 +927,7 @@
                 Vue.prototype.showsearch = function (txt, search) {
                     if (txt == null || txt == '') return '';
                     if (search == null || search == '') return txt;
-                    var regExp = new RegExp('('+search+')', 'ig');                 
+                    var regExp = new RegExp('(' + search + ')', 'ig');
                     return txt.replace(regExp, `<red>$1</red>`);
                 };
                 //重构alert

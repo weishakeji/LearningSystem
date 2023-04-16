@@ -12,28 +12,17 @@
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' path="Modify" width="800" height="600" idkey='Exam_ID' table="datatable"
                 :modal="true"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
-                            style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-                            :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
-                        </el-date-picker>
-                    </el-form-item>
-
-                    <el-form-item label="">
-                        <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
+                        style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                        :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" :stripe="true" style="width: 100%"
@@ -92,7 +81,7 @@
                             icon-color="red" title="确定删除吗？" @confirm="deleteExam(scope.row)">
                             <el-link type="danger" plain icon="el-icon-delete" slot="reference" @click.native.stop>删除
                             </el-link>
-                        </el-popconfirm>                     
+                        </el-popconfirm>
                     </template>
                 </el-table-column>
             </el-table>

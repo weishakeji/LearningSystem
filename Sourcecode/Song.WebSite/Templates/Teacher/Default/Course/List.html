@@ -13,25 +13,19 @@
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @add="btnadd" @bat="batchVisible=true"
                 :modal="true" path="/orgadmin/course/Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID'
                 table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="课程">
+                    <el-input v-model="form.search" placeholder="课程名称" clearable style="width:200px"></el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="专业">
                         <sbj_cascader ref="subject" :orgid="form.orgid" @change="id=>{form.sbjids=id}"> </sbj_cascader>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-checkbox v-model="checkRec">推荐</el-checkbox>
+                        <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+                </template>
+            </query_panel>
         </div>
         <!--数据列表-->
         <el-table ref="datatables" :data="datas" :show-header="false" tooltip-effect="dark" style="width: 100%"
@@ -40,8 +34,7 @@
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>
             <el-table-column type="expand">
-                <div slot-scope="scope" :class="{'course_expand':true}"
-                    :title="scope.row.Cou_Name">
+                <div slot-scope="scope" :class="{'course_expand':true}" :title="scope.row.Cou_Name">
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank"
                         :class="scope.row.Cou_IsUse ? 'enable' : 'disabled'">
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />

@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>考试成绩</title>   
+    <title>考试成绩</title>
 </head>
 
 <body>
@@ -15,32 +15,23 @@
             </el-tag>
             <btngroup show="" ref='btngroup' path="LevelModify" width="600" height="500" idkey='Exam_ID'
                 table="datatable"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
-                            style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-                            :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
-                        </el-date-picker>
-                    </el-form-item>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
+                        style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                        :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
+                    </el-date-picker>
+                </el-form-item>
 
-                    <el-form-item label="">
-                        <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-
-                    </el-form-item>
-                </el-form>
-            </div>
+                <el-form-item label="">
+                    <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" :height="document.documentElement.clientHeight - 60" tooltip-effect="dark" :stripe="true" style="width: 100%"
-                index-key="Exam_Tax" row-key="Exam_ID" @row-click.self="clickTable" default-expand-all>
+            <el-table ref="datatable" :data="datas" :height="document.documentElement.clientHeight - 60"
+                tooltip-effect="dark" :stripe="true" style="width: 100%" index-key="Exam_Tax" row-key="Exam_ID"
+                @row-click.self="clickTable" default-expand-all>
                 <el-table-column type="index" width="50">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
@@ -68,7 +59,8 @@
                 </el-table-column>
                 <el-table-column label="成绩" width="80" align="center" v-if="false">
                     <template slot-scope="scope">
-                        <el-button type="primary" plain @click.stop="btnResultView(scope.row)" disabled v-if="false">查看</el-button>
+                        <el-button type="primary" plain @click.stop="btnResultView(scope.row)" disabled v-if="false">查看
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>

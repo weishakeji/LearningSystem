@@ -12,22 +12,14 @@
     <div id="vapp" v-cloak>
 
         <div class="toolsbar">
-
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>                   
-                        <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
-                        <el-checkbox v-model="form.manual">未批阅</el-checkbox>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1,0)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div> <span>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                    <el-checkbox v-model="form.manual">未批阅</el-checkbox>
+                </el-form-item>
+            </query_panel>
+            <span>
                 <icon exam></icon>{{entity.Exam_Title}}
             </span>
         </div>

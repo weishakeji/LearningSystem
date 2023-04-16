@@ -13,7 +13,6 @@
             <btngroup show="新增,修改,删除,批量" ref='btngroup' @delete="deleteData" @add="btnadd" @bat="batchVisible=true"
                 path="Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
-
                 <el-form-item label="专业">
                     <sbj_cascader ref="subject" :orgid="form.orgid"
                         @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
@@ -22,7 +21,7 @@
                     <el-input v-model="form.search" placeholder="课程名称" clearable style="width:160px"></el-input>
                 </el-form-item>
                 <template v-slot:more>
-                    <el-form-item label="推荐">
+                    <el-form-item label="">
                         <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
                     </el-form-item>
                     <el-form-item label="教师">

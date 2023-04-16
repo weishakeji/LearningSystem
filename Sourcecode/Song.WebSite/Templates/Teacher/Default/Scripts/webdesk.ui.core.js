@@ -876,6 +876,8 @@
              //mathjax，解析latex公式
              arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
              arr2.push('/Utilities/MathJax/globalVariable.js');
+              //查询面板
+            arr2.push('/Utilities/Components/query_panel.js');
             window.$dom.load.js(arr2, f);
         });
     };
