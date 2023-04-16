@@ -4,12 +4,11 @@
 Vue.component('query_panel', {
     //model:表单绑定的数据对象
     //rules: 表单校验的方法
-    //expand: 是否展开
-    //more: 显示更多查询的按钮
+    //expand: 是否展开 
     //mask: 展开查询面板时，是否显示背景遮罩
     //width:面板宽度
     //loading: 预载
-    props: ['model', 'rules', 'expand', 'more', 'mask', 'width', 'loading'],
+    props: ['model', 'rules', 'expand', 'mask', 'width', 'loading'],
     data: function () {
         return {
             visible: false
@@ -17,8 +16,7 @@ Vue.component('query_panel', {
     },
     watch: {
         expand: function (nv, ov) {
-            this.visible = nv;
-            console.log('expand:' + nv);
+            this.visible = nv;          
         }
     },
     computed: {
@@ -27,18 +25,10 @@ Vue.component('query_panel', {
             if ($api.getType(this.visible) != 'Boolean') return false;
             return $api.isnull(this.visible) ? false : this.visible;
         },
-        //更多查询的按钮是否显示,默认不显示
+        //显示“更多”按钮，如果更多查询的插槽中有内容，则显示
         'showmore': function () {
-            if ($api.isnull(this.more)) {
-                //如果更多查询的插槽中有内容，则显示“更多”按钮
-                var slots = this.$slots
-                if (slots['full'] && slots['full'].length > 0) {
-                    this.more = true;
-                    return true;
-                }
-            }
-            if ($api.getType(this.more) != 'Boolean') return false;
-            return $api.isnull(this.more) ? false : this.more;
+            var slots = this.$slots
+            return slots['full'] && slots['full'].length > 0;
         },
         //是否显示背景遮罩，默认为显示
         'showmask': function () {
@@ -70,8 +60,8 @@ Vue.component('query_panel', {
                 if (valid) {
                     this.visible = false;
                     this.$emit('search', this.model);
-                } else {      
-                    console.log('error');             
+                } else {
+                    console.log('error');
                     return false;
                 }
             });
