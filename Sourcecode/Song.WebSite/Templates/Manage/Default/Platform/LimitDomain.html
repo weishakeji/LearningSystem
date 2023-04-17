@@ -3,28 +3,20 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>保留域名</title>  
+    <title>保留域名</title>
 
 </head>
 
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LimitDomainModify" width="600" height="400"
-                :selects='selects' idkey='LD_ID'></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>                   
-                    <el-form-item label="">
-                        <el-input v-model="form.search" style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="loadDatas(1)" v-loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LimitDomainModify" width="600"
+                height="400" :selects='selects' idkey='LD_ID'></btngroup>
+            <query_panel :model="form" :loading="loading" @search="loadDatas(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.search" clearable style="width:150px"></el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"

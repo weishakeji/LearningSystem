@@ -14,7 +14,7 @@
                 :selects='selects' idkey='Pai_ID' table="datatable"></btngroup>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" index-key="Pai_Tax" row-key="Pai_ID"
                 draggable :row-class-name="data=>{return data.row.Pai_IsEnable ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">

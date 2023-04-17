@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title></title>   
+    <title></title>
 </head>
 
 <body>
@@ -11,18 +11,15 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CodesetModify"
                 width="640" height="480" :selects='selects' idkey='Rs_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.search" placeholder="充值码主题" style="width:160px">
-                            <i class="el-icon-search el-input__icon" slot="suffix" @click="handleCurrentChange(1)">
-                            </i>
-                        </el-input>
-                    </el-form-item>
-
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model.trim="form.search" placeholder="充值码主题" @clear="handleCurrentChange(1)" clearable
+                        style="width:160px">
+                        <i class="el-icon-search el-input__icon" slot="suffix" @click="handleCurrentChange(1)">
+                        </i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -61,7 +58,7 @@
                     <template slot-scope="scope">
                         {{scope.row.Rs_LimitStart|date('yyyy-MM-dd')}}
                         至
-                        {{scope.row.Rs_LimitEnd|date('yyyy-MM-dd')}}                       
+                        {{scope.row.Rs_LimitEnd|date('yyyy-MM-dd')}}
                     </template>
 
                 </el-table-column>

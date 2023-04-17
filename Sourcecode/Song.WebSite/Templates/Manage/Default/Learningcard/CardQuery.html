@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>学习卡</title>  
+    <title>学习卡</title>
 </head>
 
 <body>
@@ -12,35 +12,26 @@
             <el-button-group>
                 <el-button type="danger" size="small" plain class="el-icon-refresh-left" @click="goback()">回滚
                 </el-button>
-
             </el-button-group>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox label="被回滚" v-model="form.isback"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.card" placeholder="卡号/不要带密码" clearable style="width:180px">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            :disabled="loading" native-type="submit" plain>
-                            <span v-if="!loading">查询</span>
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox label="被回滚" v-model="form.isback"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.card" placeholder="卡号/不要带密码" clearable style="width:180px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px">
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"

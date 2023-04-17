@@ -15,21 +15,28 @@
         methods: {
             //删除
             deleteData: function (datas) {
-                $api.delete('Pay/Delete', { 'id': datas }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        vue.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        window.vue.handleCurrentChange();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                var th = this;
+                this.$confirm('此操作将永久删除， 请慎重操作， 是否继续?', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    $api.delete('Pay/Delete', { 'id': datas }).then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.$notify({
+                                type: 'success',
+                                message: '成功删除' + result + '条数据',
+                                center: true
+                            });
+                            th.handleCurrentChange();
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                    });
+                }).catch(() => { });               
             },
             //加载数据页
             handleCurrentChange: function () {
@@ -86,13 +93,13 @@
                     },
                     onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;

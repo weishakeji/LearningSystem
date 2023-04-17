@@ -1,13 +1,13 @@
-﻿$dom.load.css(['/Utilities/Components/Styles/query_panel.css']);
+﻿
 //查询面板
-//事件search:触发查询
+//事件search:触发查询,如果引用组件时不添加这个事件，查询按钮也不会显示出来
 Vue.component('query_panel', {
     //model:表单绑定的数据对象
     //rules: 表单校验的方法 
     //mask: 展开查询面板时，是否显示背景遮罩
     //width:面板宽度
     //loading: 预载
-    props: ['model', 'rules', 'mask', 'width', 'loading'],
+    props: ['model', 'rules', 'mask', 'width', 'loading','disabled'],
     data: function () {
         return {
             //是否显示面板
@@ -51,6 +51,7 @@ Vue.component('query_panel', {
         }
     },
     mounted: function () {
+
     },
     methods: {
         //查询事件
@@ -68,7 +69,8 @@ Vue.component('query_panel', {
     },
     template: `<div :class="{'query_panel':true,'query_panel_expand':expanded}">
         <div :class="{'query_panel_mask':showmask && expanded}"  @click="visible=false"></div>    
-        <el-form ref="form" :rules="rules" :inline="!expanded" :model="model" :style="{'width':width_val}" v-on:submit.native.prevent  label-width="80px">
+        <el-form ref="form" :rules="rules" :disabled="disabled" :inline="!expanded" :model="model"
+            :style="{'width':width_val}" v-on:submit.native.prevent  label-width="80px">
             <slot></slot>
             <el-form-item v-show="!expanded && showbutton">
                 <el-button-group>
@@ -95,3 +97,4 @@ Vue.component('query_panel', {
         </el-form>
     </div>`
 });
+$dom.load.css(['/Utilities/Components/Styles/query_panel.css']);

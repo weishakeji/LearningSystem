@@ -14,11 +14,17 @@
             <btngroup show="修改,删除,批量删除,导出" ref='btngroup' @delete="deleteData" @output="output" @bathdelete="bathdel"
                 path="AccountModify" :disabled="loading || loadingdel" width="600" height="600" :selects='selects'
                 idkey='Ac_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent
-                    :disabled="loading || loadingdel">
-                    <el-form-item label="">
-                        <el-select v-model="form.orgid" placeholder="所有机构" clearable style="width: 100px;">
+            <query_panel :model="form" :loading="loading" width="400px" @search="handleCurrentChange(1)"
+                :disabled="loading || loadingdel">
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:200px"></el-input>
+                </el-form-item>               
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:200px"></el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="机构">
+                        <el-select v-model="form.orgid" placeholder="所有机构" clearable style="width: 300px;">
                             <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
                                 :label="item.Org_PlatformName" :value="item.Org_ID">
                                 <div>
@@ -28,22 +34,21 @@
                                 <div style="float: right; color: #8492a6; font-size: 13px">{{ item.Org_Name }}</div>
                             </el-option>
                         </el-select>
-                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
-                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>
-                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
-                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
                     </el-form-item>
-                </el-form>
-            </div>
+                    <el-form-item label="账号">
+                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:200px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:300px"></el-input>
+                    </el-form-item>
+                </template>
+            </query_panel>
+
         </div>
         <template>
             <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" v-loading="loading || loadingdel"
-                element-loading-text="正在处理中..." element-loading-spinner="el-icon-loading"  :height="tableHeight"
+                element-loading-text="正在处理中..." element-loading-spinner="el-icon-loading" :height="tableHeight"
                 element-loading-background="rgba(255, 255, 255, 0.8)"
                 :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
@@ -84,9 +89,9 @@
                 </el-table-column>
                 <el-table-column label="资金" width="120">
                     <template slot-scope="scope">
-                        <el-tooltip content="增加或减扣金额" placement="bottom"  effect="light">
+                        <el-tooltip content="增加或减扣金额" placement="bottom" effect="light">
                             <icon money @click="moneyHandle(scope.row)">{{scope.row.Ac_Money}}</icon>
-                          </el-tooltip>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
                 <el-table-column label="启用" width="80" align="center">

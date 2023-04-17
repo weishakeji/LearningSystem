@@ -9,30 +9,23 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.code" placeholder="卡号/不带密码" clearable style="width:200px"
-                            @clear="handleCurrentChange(1)"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"
-                            @clear="handleCurrentChange(1)"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <div></div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.code" placeholder="卡号/不带密码" clearable style="width:200px"
+                        @clear="handleCurrentChange(1)"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"
+                        @clear="handleCurrentChange(1)"> </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"

@@ -19,32 +19,23 @@
                 <el-button type="success" size="small" plain @click="OutputQrcode">
                     <span icon="&#xa046"></span>导出二维码
                 </el-button>
-
             </el-button-group>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.code" placeholder="充值码/不要带密码" clearable style="width:200px"
-                            @clear="handleCurrentChange(1)"> </el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:100px"
-                            @clear="handleCurrentChange(1)"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.code" placeholder="充值码/不要带密码" clearable style="width:200px"
+                        @clear="handleCurrentChange(1)"> </el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:100px"
+                        @clear="handleCurrentChange(1)"> </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -60,7 +51,7 @@
                 <el-table-column label="充值码-密码">
                     <template slot-scope="scope">
                         <div title="双击复制充值码信息" @dblclick="rowdblclick(scope.row)"> <span
-                            v-html='showsearch(scope.row.Rc_Code,form.code)'></span>
+                                v-html='showsearch(scope.row.Rc_Code,form.code)'></span>
                             - {{scope.row.Rc_Pw}}</div>
 
                     </template>
@@ -74,7 +65,7 @@
                 <el-table-column label="使用人" align="center">
                     <template slot-scope="scope">
                         <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)"
-                        v-html='showsearch(scope.row.Ac_AccName,form.account)'>/el-link>
+                            v-html='showsearch(scope.row.Ac_AccName,form.account)'>/el-link>
 
                     </template>
                 </el-table-column>

@@ -12,15 +12,13 @@
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' @delete="deleteData" path="SystemParaModify" width="600" height="400"
                 idkey='Sys_Id'></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-input v-model="search" style="width:160px" clearable placeholder="查询">
-                            <i class="el-icon-search el-input__icon" slot="suffix"> </i>
-                        </el-input>
-                    </el-form-item>                    
-                </el-form>
-            </div>
+            <query_panel>
+                <el-form-item label="">
+                    <el-input v-model="search" style="width:160px" clearable placeholder="查询">
+                        <i class="el-icon-search el-input__icon" slot="suffix"> </i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"

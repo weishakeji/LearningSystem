@@ -11,28 +11,19 @@
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' @add="()=>{dialogVisible=true;current={};}" @delete="deleteData"
                 width="600" height="600" idkey='Acc_Id' table="datatables"></btngroup>
-            <div class="search-box">
-
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="" v-if="adminPosi">
-                        <el-tag type="warning" v-if="adminPosi.length>0">
-                            <icon>&#xe645</icon>{{adminPosi[0].Posi_Name}}
-                        </el-tag>
-                        <el-tag type="warning" v-else @click="creatPosi" style="cursor: pointer;">
-                            <icon>&#xe645</icon>没有管理岗位，单击创建
-                        </el-tag>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="" v-if="adminPosi">
+                    <el-tag type="warning" v-if="adminPosi.length>0">
+                        <icon>&#xe645</icon>{{adminPosi[0].Posi_Name}}
+                    </el-tag>
+                    <el-tag type="warning" v-else @click="creatPosi" style="cursor: pointer;">
+                        <icon>&#xe645</icon>没有管理岗位，单击创建
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <el-table ref="datatables" :data="accounts" :stripe="true" tooltip-effect="dark" style="width: 100%"
             @row-dblclick="rowdblclick">
