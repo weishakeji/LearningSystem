@@ -40,7 +40,12 @@ namespace Song.ServiceInterfaces
         /// 批量删除
         /// </summary>
         /// <param name="ids"></param>
-        void QuesDelete(string ids);
+        void QuesDelete(string[] ids);
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="idarray"></param>
+        void QuesDelete(long[] idarray);
         /// <summary>
         /// 修改试题的某些项
         /// </summary>

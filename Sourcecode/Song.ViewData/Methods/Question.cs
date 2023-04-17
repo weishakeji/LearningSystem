@@ -39,33 +39,20 @@ namespace Song.ViewData.Methods
 
         #region 试题编辑
         /// <summary>
-        /// 删除试题
+        /// 删除试题,因为要统计章节的试题数，所以提交了更多id
         /// </summary>
-        /// <param name="id">试题id，可以是多个，用逗号分隔</param>
+        /// <param name="qusid">试题id，数组类型</param>
+        /// <param name="olid">被删除试题的章节id</param>
         /// <returns></returns>
         [Admin, Teacher]
         [HttpDelete]
-        public int Delete(string id)
-        {
-            int i = 0;
-            if (string.IsNullOrWhiteSpace(id)) return i;
-            string[] arr = id.Split(',');
-            foreach (string s in arr)
-            {
-                long idval = 0;
-                long.TryParse(s, out idval);
-                if (idval == 0) continue;
-                try
-                {
-                    Business.Do<IQuestions>().QuesDelete(idval);
-                    i++;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            return i;
+        public int Delete(long[] qusid, long[] olid)
+        {          
+            if (qusid == null || qusid.Length<1) return 0;          
+            Business.Do<IQuestions>().QuesDelete(qusid);
+            //更新章节试题数
+            Business.Do<IOutline>().StatisticalQuestion(olid);
+            return qusid.Length;          
         }
         /// <summary>
         /// 添加试题

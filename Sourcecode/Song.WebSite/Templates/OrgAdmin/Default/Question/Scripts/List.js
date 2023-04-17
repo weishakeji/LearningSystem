@@ -24,7 +24,7 @@ $ready(function () {
                 'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
             },
-       
+
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -100,15 +100,15 @@ $ready(function () {
                 }
                 //console.log(sbjlist);
                 //所有专业下的课程（包括子专业）
-                var cou_arr = [];                
+                var cou_arr = [];
                 for (let j = 0; j < sbjlist.length; j++) {
                     var sbj = sbjlist[j];
                     for (let i = 0; i < this.courses_all.length; i++) {
                         const cou = this.courses_all[i];
-                        if(cou.Sbj_ID == sbj){
+                        if (cou.Sbj_ID == sbj) {
                             cou_arr.push(cou);
                         }
-                    }                    
+                    }
                 }
                 return cou_arr;
             }
@@ -116,7 +116,7 @@ $ready(function () {
         watch: {
             'sbjids': {
                 handler: function (nv, ov) {
-                    if ($api.getType(nv) == "Array") {                      
+                    if ($api.getType(nv) == "Array") {
                         this.form.sbjid = nv.length > 0 ? nv[nv.length - 1] : '';
                     } else {
                         this.form.sbjid = '';
@@ -197,9 +197,18 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;
+                th.loading = true;              
                 var loading = this.$fulloading();
-                $api.delete('Question/Delete', { 'id': datas }).then(function (req) {
+                var quesid = datas.split(',');
+                var form = {'qusid':quesid};              
+                //要删除的试题,当删除后要重新统计章节、课程、专业下的试题数，所以需要提交更多id
+                var ques = th.getques_selected(quesid);
+                form['olid'] =th.getques_keys(ques, 'Ol_ID'); //章节id
+                //form['couid'] =th.getques_keys(ques, 'Cou_ID'); //课程id
+                //form['sbjid'] =th.getques_keys(ques, 'Sbj_ID'); //专业id   
+                //console.log(form['couid'] );
+                //return;        
+                $api.delete('Question/Delete', form).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
@@ -221,6 +230,23 @@ $ready(function () {
                     loading.close();
                     console.error(err);
                 });
+            },
+            //获取选中的（要删除的）试题
+            getques_selected: function (ids) {
+                var arr = [];
+                for (let i = 0; i < ids.length; i++) {
+                    const id = ids[i];
+                    var q = this.datas.find(el => el.Qus_ID == id);
+                    if (q != null) arr.push(q);
+                }
+                return arr;
+            },
+            //获取试题的章节
+            getques_keys: function (ques, key) {
+                var arr = [];
+                for (let i = 0; i < ques.length; i++)
+                    arr.push(ques[i][key]);
+                return Array.from(new Set(arr));
             },
             //导出
             output: function (btn) {

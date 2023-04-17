@@ -1042,6 +1042,70 @@ namespace Song.ServiceImpls
         }
         #endregion
 
+        #region 试题统计
+        /// <summary>
+        /// 统计所有章节试题
+        /// </summary>
+        /// <returns></returns>
+        public int StatisticalQuestion()
+        {
+            return StatisticalQuestion(new long[] { });
+        }
+        /// <summary>
+        /// 统计某个章节的试题
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        public int StatisticalQuestion(long olid)
+        {
+            return StatisticalQuestion(new long[] { olid });
+        }
+        /// <summary>
+        /// 统计指定章节的试题
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        public int StatisticalQuestion(long[] olid)
+        {
+            //更新章节试题数            
+            string sql = @"select ol_id, COUNT(*) from Questions where {where} group by Ol_ID";
+            if (olid.Length < 1)
+            {
+                sql = sql.Replace("{where}", "1=1");
+            }
+            else
+            {
+                string where = "";
+                for(int i = 0; i < olid.Length; i++)
+                {
+                    where += " Ol_ID=" + olid[i];
+                    if(i<olid.Length-1)
+                        where += " or ";
+                }
+                sql = sql.Replace("{where}", where);
+            }
+            int num = 0;
+            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+            {
+                while (reader.Read())
+                {
+                    //章节id
+                    long id = reader.GetValue<long>(0);
+                    if (id <= 0) continue;
+                    //试题数
+                    int count = reader.GetValue<int>(1);
+                    //更新
+                    Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == id);
+                    num++;
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            return num;
+        }
+        #endregion
+
         #region 章节视频事件
         /// <summary>
         /// 添加章节中视频播放事件

@@ -131,55 +131,71 @@ namespace Song.ServiceImpls
             }
         }
         public void QuesDelete(long identify)
-        {
-            Song.Entities.Questions entity = this.QuesSingle(identify);
-            Gateway.Default.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
+        {          
+            Gateway.Default.Delete<Questions>(Questions._.Qus_ID == identify);
             new Task(() =>
             {
-                QuesDelete(entity);
+                Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == identify);
+                Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == identify);  
             }).Start();           
         }
-        private void QuesDelete(Questions entity)
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="ids"></param>
+        public void QuesDelete(string[] ids)
         {
-            if (entity == null) return;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
+            long[] arr = new long[ids.Length];
+            for(int i = 0; i < ids.Length; i++)
             {
-                try
-                {
-
-                    tran.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
-                    //tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == entity.Qus_ID || QuesAnswer._.Qus_UID == entity.Qus_UID);                  
-                    tran.Delete<Student_Notes>(Student_Notes._.Qus_ID == entity.Qus_ID);
-                    tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);                   
-                    tran.Commit();
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    throw ex;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                long idval = 0;
+                long.TryParse(ids[i], out idval);
+                arr[i] = idval;
             }
-            WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString());
-            //更新章节试题数
-            if (entity.Ol_ID > 0)
-            {
-                int count = Business.Do<IOutline>().QuesOfCount(entity.Ol_ID, -1, true, true);
-                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == entity.Ol_ID);
-            }
+            this.QuesDelete(arr);
         }
-        public void QuesDelete(string ids)
+        public void QuesDelete(long[] idarray)
         {
-            foreach (string idstr in ids.Split(','))
+            //删除试题
+            WhereClip wc = new WhereClip();
+            foreach (long id in idarray)
+                wc.Or(Questions._.Qus_ID == id);
+            Gateway.Default.Delete<Questions>(wc);
+            //删除图片等资源
+            new Task(() =>
             {
-                long qusid = 0;
-                long.TryParse(idstr, out qusid);
-                if (qusid < 1) continue;
-                this.QuesDelete(qusid);
-            }
+                foreach (long id in idarray)
+                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(id.ToString());
+            }).Start();          
+           
+            new Task(() =>
+            {
+                //删除笔记
+                WhereClip wcNotes = new WhereClip();
+                foreach (long id in idarray)
+                    wcNotes.Or(Student_Notes._.Qus_ID == id);
+                Gateway.Default.Delete<Student_Notes>(wcNotes);
+            }).Start();
+
+            new Task(() =>
+            {
+                //删除收藏记录
+                WhereClip wcCol = new WhereClip();
+                foreach (long id in idarray)
+                    wcCol.Or(Student_Collect._.Qus_ID == id);
+                Gateway.Default.Delete<Student_Collect>(wcCol);
+
+            }).Start();
+
+            new Task(() =>
+            {
+                //删除错题记录
+                WhereClip wcErr = new WhereClip();
+                foreach (long id in idarray)
+                    wcErr.Or(Student_Ques._.Qus_ID == id);
+                Gateway.Default.Delete<Student_Ques>(wcErr);
+
+            }).Start();
         }
         /// <summary>
         /// 修改课程的某些项
@@ -844,10 +860,9 @@ namespace Song.ServiceImpls
         public void TypeDelete(int identify)
         {
             Questions[] ques = Gateway.Default.From<Questions>().Where(Questions._.Qt_ID == identify).ToArray<Questions>();
-            foreach (Questions q in ques)
-            {
-                QuesDelete(q);
-            }
+            foreach (Questions q in ques)        
+                QuesDelete(q.Qus_ID);
+        
             Gateway.Default.Delete<QuesTypes>(QuesTypes._.Qt_ID == identify);
         }
         /// <summary>

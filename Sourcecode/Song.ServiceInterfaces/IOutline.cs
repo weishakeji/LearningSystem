@@ -280,6 +280,26 @@ namespace Song.ServiceInterfaces
         bool UpdateTaxis(Outline[] list);
         #endregion
 
+        #region 试题统计
+        /// <summary>
+        /// 统计所有章节试题
+        /// </summary>
+        /// <returns></returns>
+        int StatisticalQuestion();
+        /// <summary>
+        /// 统计某个章节的试题
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        int StatisticalQuestion(long olid);
+        /// <summary>
+        /// 统计指定章节的试题
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        int StatisticalQuestion(long[] olid);
+        #endregion
+
         #region 章节事件
         /// <summary>
         /// 添加章节中视频播放事件

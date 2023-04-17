@@ -42,10 +42,10 @@ namespace Song.ViewData.Methods
             return LoginAccount.Status.User(this.Letter);           
         }
         /// <summary>
-        /// 一个临时测试的方法
+        /// 账号缓存数量
         /// </summary>
         /// <returns></returns>
-        public int atest()
+        public int BufferCount()
         {
            
 

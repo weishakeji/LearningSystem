@@ -22,7 +22,7 @@
                 'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
             },
-      
+
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -135,17 +135,23 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;
+                th.loading = true;              
                 var loading = this.$fulloading();
-                $api.delete('Question/Delete', { 'id': datas }).then(function (req) {
+                var quesid = datas.split(',');
+                var form = {'qusid':quesid};              
+                //要删除的试题,当删除后要重新统计章节、课程、专业下的试题数，所以需要提交更多id
+                var ques = th.getques_selected(quesid);
+                form['olid'] =th.getques_keys(ques, 'Ol_ID'); //章节id
+                $api.delete('Question/Delete', form).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
+                        th.getOutlineTree();
                         th.handleCurrentChange();
                         th.$nextTick(function () {
                             loading.close();
@@ -159,6 +165,23 @@
                     th.$alert(err, '错误');
                     console.error(err);
                 });
+            },
+             //获取选中的（要删除的）试题
+             getques_selected: function (ids) {
+                var arr = [];
+                for (let i = 0; i < ids.length; i++) {
+                    const id = ids[i];
+                    var q = this.datas.find(el => el.Qus_ID == id);
+                    if (q != null) arr.push(q);
+                }
+                return arr;
+            },
+            //获取试题的章节
+            getques_keys: function (ques, key) {
+                var arr = [];
+                for (let i = 0; i < ques.length; i++)
+                    arr.push(ques[i][key]);
+                return Array.from(new Set(arr));
             },
             //导出
             output: function (btn) {
