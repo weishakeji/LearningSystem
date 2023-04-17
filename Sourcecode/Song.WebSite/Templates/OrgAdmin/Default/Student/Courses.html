@@ -17,26 +17,18 @@
                     </span>
                 </el-tab-pane>
             </el-tabs>
-            <div class="search-box">
-                <el-form :inline="true" :model="query" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item>
-                        <el-button type="success" plain @click="begincourse">
-                            <icon>&#xe813</icon>单独开课
-                        </el-button>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-input v-model="query.search" placeholder="请输入内容" clearable>
-                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="query" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-button type="success" plain @click="begincourse">
+                        <icon>&#xe813</icon>单独开课
+                    </el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="query.search" placeholder="请输入内容" clearable>
+                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
 
         <context>
@@ -74,7 +66,9 @@
                         <div class="info">
                             <div class="info_row datainfo">
                                 <template v-if="scope.forever">
-                                    <el-tag type="success" class="free"><icon>&#xa048</icon>不限时</el-tag>
+                                    <el-tag type="success" class="free">
+                                        <icon>&#xa048</icon>不限时
+                                    </el-tag>
                                 </template>
                                 <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
                                     <el-tag type="success" class="free">限时免</el-tag>
@@ -98,7 +92,7 @@
                                             </el-link>
                                             <el-popconfirm title="确定禁止吗？" v-if="scope.data.Stc_IsEnable"
                                                 @confirm="purchaseEnable(scope.data,false)">
-                                                <el-link type="success" title="点击此处禁用学习"  slot="reference">
+                                                <el-link type="success" title="点击此处禁用学习" slot="reference">
                                                     <icon>&#xe634</icon>可学习
                                                 </el-link>
                                             </el-popconfirm>

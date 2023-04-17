@@ -158,31 +158,6 @@ a[download]:hover {
     float: left;
 }
 
-/*搜索框*/
-
-.search-box {
-    float: right;
-}
-
-.search-box form {
-    margin: 0px;
-    padding: 0px;
-}
-
-.search-box .el-input {
-    margin: 0px !important;
-}
-
-.search-box input[type=text] {
-    height: 25px;
-    margin-top: 1px;
-}
-
-.search-box button {
-    height: 25px;
-    margin-top: 1px;
-    padding: 5px 10px 5px 10px;
-}
 
 .el-link {
     font-size: 12px !important;

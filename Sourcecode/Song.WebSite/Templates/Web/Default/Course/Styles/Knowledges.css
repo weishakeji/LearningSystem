@@ -23,12 +23,7 @@ section.list {
     height: 100%;
 	position: relative;
 }
-.search-box{
-	width: 100%;
-	text-align: right;
-	box-sizing: border-box;
 
-}
 .knl_title{
 	font-size: 16px;
 	cursor: pointer;

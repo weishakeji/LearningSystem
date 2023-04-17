@@ -14,27 +14,17 @@
             <btngroup show="导出,说明" ref='btngroup' path="Modify" @help="btnhelp" @output="exportVisible=true" width="880"
                 height="60%" idkey='Ac_ID' table="datatables">
             </btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="学员账号">
-                        <el-input v-model="form.acc" :disabled="loading" tabindex="0" clearable style="width:180px">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-
-                    </el-form-item>
-                    <el-form-item label="姓名">
-                        <el-input v-model="form.name" :disabled="loading" placeholder="请输全名" tabindex="1" clearable
-                            style="width:100px">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="getdata(1)" :loading="loading" native-type="submit" plain>
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="getdata(1)">
+                <el-form-item label="学员账号">
+                    <el-input v-model="form.acc" placeholder="账号" :disabled="loading" tabindex="0" clearable style="width:180px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" :disabled="loading" placeholder="请输全名" tabindex="1" clearable
+                        style="width:100px">
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <!--数据列表-->
         <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -49,10 +39,10 @@
             <el-table-column label="姓名" width="100">
                 <template slot-scope="scope">
                     <avatar :account="scope.row" circle="true" size="20"></avatar>
-                    
+
                     <icon :woman="scope.row.Ac_Sex==2" class="acname" :man="scope.row.Ac_Sex!=2">
                         <span v-html='showname(scope.row.Ac_Name)' v-if="scope.row.Ac_Name!=''"></span>
-                    <span v-else class="noname">(没有名字)</span>
+                        <span v-else class="noname">(没有名字)</span>
                     </icon>
                 </template>
             </el-table-column>

@@ -12,23 +12,19 @@
   <div id="vapp" v-cloak>
     <div class="toolsbar">
       <btngroup show="新增" ref='btngroup' @add="append()"></btngroup>
-      <div class="search-box">
-
-        <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
-          <el-form-item label="">
-            <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索" suffix-icon="el-icon-search">
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+      <query_panel :loading="loading">
+        <el-form-item label="">
+          <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索" suffix-icon="el-icon-search">
+          </el-input>
+        </el-form-item>
+      </query_panel>
     </div>
     <div class="tree-box">
       <el-tree :data="datas" node-key="id" ref="tree" :props="defaultProps" default-expand-all
         :filter-node-method="filterNode" :expand-on-click-node="false" draggable v-loading="loading">
         <span class="custom-tree-node" slot-scope="{ node, data }">
-
           <span class="tree-node draghandle">
-            <span class="large">{{ data.Col_Name }}</span>
+            <span class="large" v-html="showsearch(data.Col_Name,filterText)"></span>
             <article_count :column="data" :orgid="organ.Org_ID"></article_count>
           </span>
           <span class="tree-handle">

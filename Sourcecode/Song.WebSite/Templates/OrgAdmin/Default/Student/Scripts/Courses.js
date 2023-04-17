@@ -85,7 +85,7 @@
                 //var query = $api.clone(this.query);
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
-                console.log(document.documentElement.clientHeight);
+                //console.log(document.documentElement.clientHeight);
                 th.query.size = Math.floor(area / 200);
                 var apiurl = "Course/" + this.method_name;
                 $api.get(apiurl, th.query).then(function (req) {

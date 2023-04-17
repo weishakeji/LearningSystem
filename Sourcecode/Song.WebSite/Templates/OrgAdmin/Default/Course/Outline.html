@@ -12,20 +12,17 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar" v-show="!loading">
             <btngroup show="新增" ref='btngroup' @add="addBtn()" width="800" idkey='Ol_ID' height="600"></btngroup>
-            <div class="search-box">
-
-                <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-tag type="success">
-                            <icon>&#xe750</icon>当前课程有 {{total}} 个章节
-                        </el-tag>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
-                            suffix-icon="el-icon-search"></el-input>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :loading="loading">
+                <el-form-item label="">
+                    <el-tag type="success">
+                        <icon>&#xe750</icon>当前课程有 {{total}} 个章节
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
+                        suffix-icon="el-icon-search"></el-input>
+                </el-form-item>
+            </query_panel>
         </div>
 
         <div class="tree-box">
@@ -37,7 +34,7 @@
 
                     <div class="node_name draghandle">
                         <span>{{data.serial}}</span>
-                        {{ data.Ol_Name }}
+                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>                    
                     </div>
                     <div class="btns">
                         <span class="column_video">

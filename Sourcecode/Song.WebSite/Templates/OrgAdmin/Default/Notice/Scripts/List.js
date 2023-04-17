@@ -61,7 +61,6 @@ $ready(function () {
                 th.loading = true;
                 $api.get("Notice/Pager", th.form).then(function (d) {
                     th.loading = false;
-                    console.log(3);
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);

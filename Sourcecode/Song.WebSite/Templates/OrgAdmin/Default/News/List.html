@@ -34,20 +34,11 @@
             <div class="toolsbar" v-if="!loading_init">
                 <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="80%" height="80%"
                     :selects='selects' idkey='Art_ID' table="datatables"></btngroup>
-                <div class="search-box">
-
-                    <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                        <el-form-item label="">
-                            <el-input v-model="form.search" clearable style="width:100px"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                                native-type="submit" plain>
-                                查询
-                            </el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
+                <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                    <el-form-item label="">
+                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                </query_panel>
             </div>
             <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_ID"

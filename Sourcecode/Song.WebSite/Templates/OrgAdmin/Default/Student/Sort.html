@@ -12,20 +12,19 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="SortModify" width="600" height="400"
                 :selects='selects' idkey='Sts_ID' table="datatables"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.search" style="width:200px" clearable
-                            @keyup.enter.native="handleCurrentChange(1)">
-                            <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
-                        </el-input>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model.trim="form.search" style="width:200px" clearable
+                        @clear="handleCurrentChange(1)">
+                        <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
 
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects=val"  :row-class-name="data=>{return data.row.Sts_IsUse ? 'enable' : 'disabled';}"
+            @selection-change="val=>selects=val"
+            :row-class-name="data=>{return data.row.Sts_IsUse ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Sts_ID"
             draggable>
             <el-table-column type="selection" width="35" show-overflow-tooltip>
@@ -37,9 +36,9 @@
             </el-table-column>
             <el-table-column label="组名称">
                 <template slot-scope="scope">
-                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>                    
+                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>
                 </template>
-            </el-table-column>   
+            </el-table-column>
             <el-table-column label="课程" width="160">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="setcourse(scope.row)">
@@ -47,12 +46,12 @@
                         <course_count :sort="scope.row"></course_count>
                     </el-link>
                 </template>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column label="成员" width="160">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="setaccount(scope.row)">
                         <icon>&#xe7cd</icon>设置成员
-                        <span title="学员数" v-if="scope.row.Sts_Count>0">( {{scope.row.Sts_Count}} )</span>                      
+                        <span title="学员数" v-if="scope.row.Sts_Count>0">( {{scope.row.Sts_Count}} )</span>
                     </el-link>
                 </template>
             </el-table-column>

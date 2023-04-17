@@ -13,20 +13,12 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" @add="btnadd" ref='btngroup' @delete="deleteData" path="../TestPaper/Modify"
                 width="820" height="600" :selects='selects' idkey='Tp_Id' table="datatables" :modal="true"></btngroup>
-            <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.search" clearable style="width:245px" placeholder="搜索"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
-                            native-type="submit" plain class="el-icon-search">
-                            查询
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model.trim="form.search" clearable @clear="handleCurrentChange(1)" style="width:245px"
+                        placeholder="搜索"></el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <!-- 数据列表-->
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
@@ -50,7 +42,9 @@
                     <el-tag type="info" title="难度等级"> {{scope.row.Tp_Diff}} - {{scope.row.Tp_Diff2}}</el-tag>
                     <el-tag type="info" title="题量"> {{scope.row.Tp_Count}} 道题</el-tag>
 
-                    <el-tag type="primary" v-if="scope.row.Tp_IsFinal"><icon>&#xe816</icon>结课考试</el-tag>
+                    <el-tag type="primary" v-if="scope.row.Tp_IsFinal">
+                        <icon>&#xe816</icon>结课考试
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="类型" align="center" width="120">
