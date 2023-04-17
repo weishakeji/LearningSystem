@@ -186,6 +186,7 @@ namespace Song.ViewData
             if (obj == null) return level <= 1 ? "null" : "\"\"";
 
             Type type = obj.GetType();
+            if (type.Name == "DBNull") return "\"\"";
             //属性名（包括泛型名称）
             var nullableType = Nullable.GetUnderlyingType(type);
             string typename = nullableType != null ? nullableType.Name : type.Name;
@@ -200,7 +201,7 @@ namespace Song.ViewData
             }
             //如果是数值型或逻辑型
             if (type.IsNumeric() || type.Name == "Boolean")
-                return obj.ToString().ToLower();
+                return obj.ToString().ToLower();                
             //字符串作为url编码处理
             if (type.Name == "String")
             {
@@ -210,7 +211,6 @@ namespace Song.ViewData
                 str = Microsoft.JScript.GlobalObject.escape(str);
                 return string.Format("\"{0}\"", str);
             }
-
             //日期类型转成js所需的格式
             if (typename == "DateTime")
             {
@@ -263,7 +263,7 @@ namespace Song.ViewData
             //如果是DataTable
             else if (obj is DataTable)
             {
-                sb.Append(DataTableToJson((DataTable)obj));               
+                sb.Append(DataTableToJson((DataTable)obj));
             }
             else if (type.FullName.IndexOf("Dictionary") > -1)
             {
@@ -310,7 +310,9 @@ namespace Song.ViewData
                 sb.Append("{");
                 for (int j = 0;j < dt.Columns.Count; j++)
                 {
-                    string keyval = string.Format("{0}:{1}", dt.Columns[j].ColumnName, ObjectToJson(dr[j], false, 1));
+                    object val = dr[j];
+                    string keyval = string.Format("{0}:{1}", dt.Columns[j].ColumnName, ObjectToJson(val, false, 1));
+                    if (keyval == "{}") keyval = "";
                     sb.Append(keyval);
                     if (j < dt.Columns.Count - 1) sb.Append(",");
                 }

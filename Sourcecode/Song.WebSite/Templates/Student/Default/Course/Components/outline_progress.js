@@ -52,7 +52,7 @@ Vue.component('outline_progress', {
                 }
             }
             //console.log(data.lastTime);
-            if (!$api.isnull(data.lastTime) && data.lastTime != '')
+            if (data && !$api.isnull(data.lastTime) && data.lastTime != '')
                 data.lastTime = new Date(data.lastTime);
             return data;
         },
@@ -75,7 +75,8 @@ Vue.component('outline_progress', {
         },
         //累计学习时间
         studyTime: function (time) {
-            if (time == null) return '';
+            //if ($api.isnull(time)) return '';
+            if (time=='' || time == null) return '';
             if (time < 60) return "0:" + time + "";
             if (time >= 60) {
                 var ss = time % 60;

@@ -1534,6 +1534,7 @@ Date.prototype.format = function (fmt) {
 
 //日期字符串解析为日期对象
 Date.parse = function (str) {
+    if (JSON.stringify(str) == '{}') return new Date();
     //如果是数值
     if (typeof (str) == 'number') {
         return new Date(str);
