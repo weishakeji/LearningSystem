@@ -148,8 +148,7 @@ namespace Song.ServiceImpls
                 {
 
                     tran.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
-                    tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == entity.Qus_ID);
-                    tran.Delete<QuesAnswer>(QuesAnswer._.Qus_UID == entity.Qus_UID);
+                    //tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == entity.Qus_ID || QuesAnswer._.Qus_UID == entity.Qus_UID);                  
                     tran.Delete<Student_Notes>(Student_Notes._.Qus_ID == entity.Qus_ID);
                     tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);                   
                     tran.Commit();

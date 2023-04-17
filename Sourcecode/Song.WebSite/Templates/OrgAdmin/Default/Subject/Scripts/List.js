@@ -156,7 +156,7 @@ $ready(function () {
             filterNode: function (value, data) {
                 if (!value) return true;
                 var txt = $api.trim(value.toLowerCase());
-                console.log(txt.length);
+                //console.log(txt.length);
                 if (txt == '') return true;
                 return data.Sbj_Name.toLowerCase().indexOf(txt) !== -1;
             },

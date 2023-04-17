@@ -3204,6 +3204,8 @@
     <Content Include="Utilities\Scripts\hammer.min.js.map" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Help\Datas\Entitiy\ThirdpartyLogin.json" />
+    <Content Include="Help\Datas\Entitiy\SingleSignOn.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

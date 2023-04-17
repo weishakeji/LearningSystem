@@ -59,7 +59,7 @@ Vue.component('video_progress', {
                             console.error(err);
                         });
                 }
-                console.log(nv);
+                //console.log(nv);
             }, immediate: true, deep: true
         },
     },
@@ -96,9 +96,11 @@ Vue.component('video_progress', {
                         var result = req.data.result;
                         if (result != null && result.length > 0) {
                             th.data = result[0];
-                            th.data.lastTime = new Date(th.data.lastTime);
+                            if (th.data.lastTime != '')
+                                th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            //console.log(th.data);
+                            console.log('th.data:' + th.data.Cou_Name);
+                            console.log(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;

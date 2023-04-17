@@ -1,0 +1,1 @@
+{"Ta_ID":{"mark":"主键","intro":"","relation":""},"Ta_NickName":{"mark":"昵称","intro":"","relation":""},"Ta_Headimgurl":{"mark":"头像","intro":"","relation":""},"Ta_Openid":{"mark":"Openid","intro":"","relation":""},"Ta_Tag":{"mark":"标识","intro":"","relation":""},"Ac_ID":{"mark":"学员账号","intro":"","relation":"Accounts"}}

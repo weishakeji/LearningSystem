@@ -1160,13 +1160,13 @@
                     var db = event.target.result;
                     var version = db.version;
                     if (db.objectStoreNames.contains(p.store)) {
-                        var store = db.transaction([p.store], 'readwrite').objectStore(p.store);
+                        var store = db.transaction(p.store, 'readwrite').objectStore(p.store);
                         store.put(p);
                         if (db) db.close();
                         resolve(db);
                     } else {
                         th.createstore(p.store, version + 1).then(function (result) {
-                            var store = result.transaction([p.store], 'readwrite').objectStore(p.store);
+                            var store = result.transaction(p.store, 'readwrite').objectStore(p.store);
                             store.put(p);
                             if (result) result.close();
                             result.close();

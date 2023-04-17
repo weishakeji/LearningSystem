@@ -51,7 +51,8 @@ Vue.component('outline_progress', {
                     break;
                 }
             }
-            if (data != null && data.lastTime != null)
+            //console.log(data.lastTime);
+            if (!$api.isnull(data.lastTime) && data.lastTime != '')
                 data.lastTime = new Date(data.lastTime);
             return data;
         },

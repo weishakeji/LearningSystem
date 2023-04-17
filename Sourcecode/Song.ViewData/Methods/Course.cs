@@ -758,7 +758,7 @@ namespace Song.ViewData.Methods
         /// <returns>课程信息，额外增加属性："lastTime"最后记录时间,"studyTime"累计学习时长,"complete"课程完成度
         /// </returns>
         [Cache(Expires = 10)]
-        public DataTable LogForVideo(int stid, long couid)
+        public DataTable LogForVideo(long couid, int stid)
         {
             return Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
         }
