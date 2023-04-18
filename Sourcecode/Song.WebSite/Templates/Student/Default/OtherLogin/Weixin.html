@@ -23,20 +23,23 @@
             </div>
         </div>
         <div class="state">
-            <el-alert  v-if="!islogin" title="未登录" type="error" :closable="false"> </el-alert>
-            <el-alert  v-else-if="bound" title="已经绑定" type="success" :closable="false"> </el-alert>
-            <el-alert  v-else-if="used" title="已经绑定到其它账号" type="warning" :closable="false"> </el-alert>
-            <el-alert  v-else title=" 未绑定，点击下方按钮绑定" type="info" :closable="false"> </el-alert>
-         
+            <el-alert v-if="!islogin" title="未登录" type="error" :closable="false"> </el-alert>
+            <el-alert v-else-if="bound" title="已经绑定" type="success" :closable="false"> </el-alert>
+            <el-alert v-else-if="used" title="已经绑定到其它账号" type="warning" :closable="false"> </el-alert>
+            <el-alert v-else title=" 未绑定，点击下方按钮绑定" type="info" :closable="false"> </el-alert>
+
         </div>
 
         <div class="user" v-if="islogin">
             <avatar :account="localuser" circle="true" size="80"></avatar>
-            <div>
+            <div v-if="!used">
                 <div>姓名：<span>{{localuser.Ac_Name}}</span></div>
                 <div>账号：<span>{{localuser.Ac_AccName}}</span></div>
             </div>
-
+            <div v-else>
+                <div>姓名：<span>{{localuser.Ac_Name}}</span></div>
+                <div>账号：<span>{{localuser.Ac_AccName}}</span></div>
+            </div>
         </div>
         <div class="btns" v-if="islogin && !bound && !used">
             <el-button type="primary" :disabled="loading" @click="bindhandler()">

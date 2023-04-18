@@ -33,30 +33,27 @@ $ready(function () {
             },
             //是否正常获取到第三方平台的账号
             'existouter': function () {
-                return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
+                return !$api.isnull(this.outeruser);
             },
             //当前openid是否已经绑定到当前登录账户
             'bound': function () {
-                if (!this.islogin) return false;
-                var exist = JSON.stringify(this.binduser) != '{}' && this.binduser != null;
-                if (!exist) return false;
+                if (!this.islogin || $api.isnull(this.binduser)) return false;
                 return this.binduser.Ac_WeixinOpenID == this.onlineuser.Ac_WeixinOpenID;
             },
             //openid已经使用，但没有绑定当前登录账户
             'used': function () {
-                var exist = JSON.stringify(this.binduser) != '{}' && this.binduser != null;
-                if (!exist) return false;
+                if ($api.isnull(this.binduser)) return false;
                 return this.binduser.Ac_WeixinOpenID != this.onlineuser.Ac_WeixinOpenID;
             },
             //是否为登录状态
             'islogin': function () {
-                return JSON.stringify(this.onlineuser) != '{}' && this.onlineuser != null;
+                return !$api.isnull(this.onlineuser);
             },
             //本地用户，也许是当前登录，也许是被绑定的用户
             'localuser': function () {
-                //如果已经绑定，或没有绑定到当前绑定
+                //如果已经绑定，或没有绑定到当前绑定,返回当前登录账号
                 if (this.bound || !this.used) return this.onlineuser;
-                return this.binduser;
+                return this.binduser;       //如果已经绑定，则返回绑定的账号
             }
 
         },
@@ -106,15 +103,15 @@ $ready(function () {
                     //获取结果
                     th.onlineuser = user.data.result;
                     th.binduser = bound.data.result;
-                })).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                })).catch(function (err) { console.error(err); })
+                    .finally(function () { th.loading = false; });
             },
             //绑定
             bindhandler: function () {
                 var th = this;
                 //console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid,'nickname': th.outeruser.nickname, 'headurl': th.outeruser.headimgurl, 'field': th.tag }).then(function (req) {
+                $api.get('Account/UserBind', { 'openid': th.openid, 'nickname': th.outeruser.nickname, 'headurl': th.outeruser.headimgurl, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getuser(th.openid);
@@ -123,10 +120,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(() => th.loading = false);
+                }).catch(function (err) { console.error(err); })
+                    .finally(function () { th.loading = false; });
             },
             //操作成功
             operateSuccess: function () {
@@ -138,7 +133,6 @@ $ready(function () {
                             window.location.href = '/mobi/';
                     }, 300);
                 } else {
-                    //console.error('vapp.fresh');
                     if (!!window.top.vapp.shut) {
                         window.top.vapp.shut(window.name, 'vapp.fresh');
                     }
@@ -148,7 +142,15 @@ $ready(function () {
                             window.close();
                         }, 3000);
                     }
-                }               
+                }
+            },
+            //数据脱敏
+            //first:从第几个字符开始
+            //last：从倒数第几个开始
+            dataMasking: function (str, first, last) {
+                if (first>0 && str.length > first) { 
+                    
+                }
             }
         }
     });

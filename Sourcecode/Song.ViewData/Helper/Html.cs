@@ -16,25 +16,26 @@ namespace Song.ViewData
         public static string ClearHTML(string html)
         {
             if (string.IsNullOrWhiteSpace(html)) return html;
+            RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace;
             //删除脚本
-            html = Regex.Replace(html, @"<script[^>]+?>[\s\S]*?</script>", "", RegexOptions.IgnoreCase);
+            html = Regex.Replace(html, @"<script[^>]+?>[\s\S]*?</script>", "", option);
             //删除HTML
-            html = Regex.Replace(html, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"-->", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"<!--.*", "", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
-            //html = Regex.Replace(html, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
-            //html = Regex.Replace(html, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(nbsp|#160);", " ", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
-            html = Regex.Replace(html, @"&#(\d+);", "", RegexOptions.IgnoreCase);
+            html = Regex.Replace(html, @"<(.[^>]*)>", "", option);
+            html = Regex.Replace(html, @"([\r\n])[\s]+", "", option);
+            html = Regex.Replace(html, @"-->", "", option);
+            html = Regex.Replace(html, @"<!--.*", "", option);
+            html = Regex.Replace(html, @"&(quot|#34);", "\"", option);
+            html = Regex.Replace(html, @"&(amp|#38);", "&", option);
+            //html = Regex.Replace(html, @"&(lt|#60);", "<", option);
+            //html = Regex.Replace(html, @"&(gt|#62);", ">", option);
+            html = Regex.Replace(html, @"&(nbsp|#160);", " ", option);
+            html = Regex.Replace(html, @"&(iexcl|#161);", "\xa1", option);
+            html = Regex.Replace(html, @"&(cent|#162);", "\xa2", option);
+            html = Regex.Replace(html, @"&(pound|#163);", "\xa3", option);
+            html = Regex.Replace(html, @"&(copy|#169);", "\xa9", option);
+            html = Regex.Replace(html, @"&#(\d+);", "", option);
 
-            html = Regex.Replace(html, @"//\(function\(\)[\s\S]+?}\)\(\);", "", RegexOptions.IgnoreCase);
+            html = Regex.Replace(html, @"//\(function\(\)[\s\S]+?}\)\(\);", "", option);
             //html = html.Replace("<", "&lt;");
             //html = html.Replace(">", "&gt;");
             html = html.Replace("\r", "");
@@ -51,7 +52,8 @@ namespace Song.ViewData
             if (string.IsNullOrWhiteSpace(html)) return html;
             RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace;
             //删除脚本
-            html = Regex.Replace(html, @"<script[^>]+?>[\s\S]*?</script>", "", option);
+            html = Regex.Replace(html, @"(\<script(.+?)\</script\>)|(\<style(.+?)\</style\>)", "", option);
+            html = Regex.Replace(html, @"<script[^>]*>[\s\S]*?</script>", "", option);
             html = Regex.Replace(html, @"//\(function\(\)[\s\S]+?}\)\(\);", "", option);
             //清理掉<!DOCTYPE，主要是为了防止XXE攻击
             html = Regex.Replace(html, @"<(\s*)!DOCTYPE[^>]*>", "", option);

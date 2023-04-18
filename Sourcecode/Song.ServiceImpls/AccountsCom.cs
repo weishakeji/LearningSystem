@@ -1069,11 +1069,15 @@ namespace Song.ServiceImpls
         public Accounts UnBindThirdparty(Song.Entities.Accounts acc, string field)
         {
             if (acc == null) return acc;
-            WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
+            field = "Ac_" + field;      //属性（或叫字段）的完整名       
+            //删除关联信息（第三方平台账号的信息）
+            object val = acc.GetValue(field);
+            if (val != null)
+                Gateway.Default.Delete<ThirdpartyAccounts>(ThirdpartyAccounts._.Ac_ID == acc.Ac_ID && ThirdpartyAccounts._.Ta_Openid == val.ToString());
+            //清除当前账号的openid
             Business.Do<IAccounts>().AccountsUpdate(acc,
-                        new WeiSha.Data.Field[] { _field },
-                        new object[] { string.Empty });
-            Gateway.Default.Delete<ThirdpartyAccounts>(ThirdpartyAccounts._.Ac_ID==acc.Ac_ID);
+                      new WeiSha.Data.Field[] { new WeiSha.Data.Field<Accounts>(field) },
+                      new object[] { string.Empty });
             return _acc_init(acc);
         }
 

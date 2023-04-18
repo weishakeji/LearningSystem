@@ -38,8 +38,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns> 
         [HttpPost]
         public Song.Entities.Accounts Current()
-        {          
-            return LoginAccount.Status.User(this.Letter);           
+        {
+            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
+            return acc;           
         }
         /// <summary>
         /// 账号缓存数量

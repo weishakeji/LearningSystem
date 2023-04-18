@@ -37,3 +37,13 @@
     color: #999;
     font-size: 12px;
 }
+/*查询面板中的题型按钮*/
+.query_panel icon[ques_type]{
+    font-size: 15px;
+    line-height: 8px;
+}
+.query_panel icon[ques_type][showname=true]::after {
+    margin-left: 8px;
+    font-size: 12px;
+    line-height: 8px;
+}
