@@ -87,7 +87,9 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(function () {
+                    th.loading = false;
+                });
 
             },
             //获取第三方登录配置项
@@ -118,7 +120,7 @@ $ready(function () {
                 obj.Ac_Sex = user.sex == 0 ? 1 : 2;  //性别，1为男，2为女
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.unionid, 'field': th.tag  }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.unionid, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', '微信登录', '');
@@ -132,7 +134,9 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading_crt = false);
+                }).finally(function () {
+                    th.loading_crt = false;
+                });
             },
             close: function () {
                 if (window.top.$pagebox)

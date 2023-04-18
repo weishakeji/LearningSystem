@@ -40,7 +40,9 @@ section dd card-title, section dd card-title p, card-title span, card-title font
 	line-height: 150%;
 	font-size: 18px;
 }
-
+section dd card-title{
+	word-break: break-all;
+}
 .explain, .explain p, .explain span, .explain font,
 .knowledge, .knowledge p, .knowledge span, .knowledge font {
 	line-height: 150%;

@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>资金流水导出</title>  
+    <title>资金流水导出</title>
 </head>
 
 <body>
@@ -19,18 +19,18 @@
             </el-form-item>
             <el-form-item label="来源">
                 <el-radio-group v-model.number="form.from">
-                    <el-radio-button v-for="item in moneyform" :label="item.value">
-                        {{item.label}}
-                    </el-radio-button>
-
+                    <el-radio-button :label="-1"> 所有 </el-radio-button>
+                    <el-radio-button :label="3"> 在线支付 </el-radio-button>
+                    <el-radio-button :label="1"> 管理员操作 </el-radio-button>
+                    <el-radio-button :label="4"> 购买课程 </el-radio-button>
                 </el-radio-group>
 
             </el-form-item>
             <el-form-item label="操作">
                 <el-radio-group v-model.number="form.type">
-                    <el-radio-button v-for="item in moneytype" :label="item.value">
-                        {{item.label}}
-                    </el-radio-button>
+                    <el-radio-button :label="-1"> 所有 </el-radio-button>
+                    <el-radio-button :label="1"> 支出 </el-radio-button>
+                    <el-radio-button :label="2"> 充值 </el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>

@@ -86,16 +86,7 @@ $ready(function () {
                         picker.$emit('pick', [start, end]);
                     }
                 }]
-            },
-            //资金来源
-            moneyform: [{ value: -1, label: '所有' },
-            { value: 3, label: '在线支付' },
-            { value: 1, label: '管理员操作' },
-            { value: 4, label: '购买课程' }],
-            //操作类型
-            moneytype: [{ value: -1, label: '所有' },
-            { value: 1, label: '支出' },
-            { value: 2, label: '充值' }]
+            }           
         },
         watch: {
             //选择时间区间

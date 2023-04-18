@@ -37,7 +37,7 @@
     //清理空html元素，内容为空的html标签隐藏起来，免得占空间
     fn.clearempty = function (dom) {
         if (dom.length < 1) return;
-        var excludes = "INPUT,IMG,BUTTON,TEXTAREA".split(',');
+        var excludes = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
         if (excludes.includes(dom[0].tagName)) return;
         //
         var childs = dom.childs();
