@@ -2108,12 +2108,14 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 导出excel
         /// </summary>
+        /// <param name="path"></param>
+        /// <param name="acid"></param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="from">来源，1为管理员，2为充值码，3为在线支付</param>
         /// <param name="start">按时间检索区间，此为开始时间</param>
         /// <param name="end">按时间检索区间，此为结束时间</param>
         /// <returns></returns>
-        public string MoneyRecords4Excel(string path, int type, int from, DateTime? start, DateTime? end)
+        public string MoneyRecords4Excel(string path, int[] acid, int type, int from, DateTime? start, DateTime? end)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件

@@ -236,7 +236,9 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;          
             string filename = string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, type, from, start, end);
+            //定义这个数组只是为了临时编译通过
+            int[] acid = new int[] { };
+            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, acid, type, from, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
