@@ -123,6 +123,7 @@ $ready(function () {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '微信登录', '');
                         window.setTimeout(function () {
+                            th.loading_crt = false;
                             window.location.href = '/mobi/';
                         }, 300);
                     } else {
@@ -131,9 +132,10 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
+                    th.loading_crt = false;
                     console.error(err);
                 }).finally(function () {
-                    th.loading_crt = false;
+                   
                 });
             }
         }
