@@ -31,6 +31,8 @@
 
             showCard: false,         //答题卡是否显示
             showCourse: false,           //显示课程   
+
+            //colors: ['409EFF', '67C23A', 'E6A23C','F56C6C','909399']
         },
         mounted: function () {
             var th = this;
@@ -89,10 +91,35 @@
                     var ques = this.questions[nv];
                     this.state.last(ques.Qus_ID, nv);
                 }
+                //更新答题状态（不推送到服务器）
                 this.state.update(false);
-                window.setTimeout(function () {
-                    $dom("section").css('left', -($dom("#vapp").width() * nv) + 'px');
-                }, 50);
+                this.$nextTick(function () {
+                    window.setTimeout(function () {
+                        $dom("section").css('left', -($dom("#vapp").width() * nv) + 'px');
+                        /*
+                        window.setTimeout(function () {
+                            console.group('宽度信息:');
+                            console.error('vapp宽度：' + $dom("#vapp").width());
+                            console.error('屏幕宽度：' + document.body.clientWidth);
+                            console.error('section：' + $dom("section").width());
+                            console.error('当前left：' + $dom("#vapp").width() * nv);
+                            console.groupEnd();
+
+                            let msg = 'vapp宽度：' + $dom("#vapp").width()
+                                + '\r屏幕宽度：' + document.body.clientWidth
+                                + '\rsection：' + $dom("section").width()
+                                + '\r当前left：' + $dom("#vapp").width() * nv;
+                            //alert(msg);
+                            //
+                            let str = 'vapp宽度：' + $dom("#vapp").width()
+                                + '\r屏幕宽度：' + document.body.clientWidth
+                                + '\r当前left：' + $dom("#vapp").width() * nv
+                                + '\rsection left：' + $dom("section").css('left');
+                            alert(str);
+                        }, 500);*/
+                    }, 50);
+                });
+                //隐藏答题卡
                 this.showCard = false;
             }
         },
