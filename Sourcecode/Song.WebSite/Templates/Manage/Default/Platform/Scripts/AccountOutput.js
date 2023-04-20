@@ -100,7 +100,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
             }
         },
     });

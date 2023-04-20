@@ -3,27 +3,30 @@
         el: '#app',
         data: {
             form: {
+                acid: $api.querystring('id'),      //学员id 
+                type: '-1',     //类型，支出或充值
+                from: '-1',     //来源
                 start: '',       //时间区间的开始时间
                 end: '',         //结束时间
-                account: '',      //学员名称或账号
-                from: '-1',     //来源
-                type: '-1',     //类型，支出或充值
+                search: '',     //按内容检索
                 moneymin: 0,      //金额的选择范围，最小值
                 moneymax: '',     //同上,最大值
-                serial: '',          //流水号
+                serial: '',          //流水号               
                 state: '-1',       //状态，成功为1，失败为2,-1为所有
                 size: 20,
                 index: 1
             },
+           // {'acid':'','type':'','from':'','start':'','end':'',
+            //'search':'','moneymin':'','moneymax':'','serial':'','state':'','size':'','index':''}           
             selectDate: '',
-            accounts: [],        //当前页的学员账号
             loading: false,
             loadingid: 0,        //当前操作中的对象id
-       
+
             datas: [],          //数据集
             total: 1, //总记录数
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
+            entity: null,        //当前要显示的行
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -64,7 +67,8 @@
             moneystate: [{ value: '-1', label: '全部' },
             { value: '1', label: '成功' },
             { value: '2', label: '失败' }],
-
+            
+            fromType: ['管理员充扣', '充值码充值', '在线支付', '购买课程'],
             loading_query: 0     //订单查询
         },
         mounted: function () {
@@ -122,7 +126,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 43);
-                $api.get('Money/Pager', th.form).then(function (d) {
+                $api.get('Money/PagerForAccount', th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
@@ -138,9 +142,9 @@
                 });
             },
             //双击事件
-            rowdblclick: function (row, column, event) {
-                console.log(row);
-                this.$refs.btngroup.modifyrow(row, '查看');
+            rowclick: function (row, column, event) {
+                //console.log(row);
+                //this.$refs.btngroup.modifyrow(row, '查看');
             },
             //导出按钮的事件
             btnOutput: function () {

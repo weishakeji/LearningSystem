@@ -2027,7 +2027,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public MoneyAccount[] MoneyPager(int orgid, int stid, int type, int size, int index, out int countSum)
         {
-            return this.MoneyPager(orgid, stid, type, null, null, -1, string.Empty, -1, size, index, out countSum);
+            return this.MoneyPager(orgid, stid, type, -1, null, null, string.Empty, -1, -1, string.Empty, -1, size, index, out countSum);
         }
         /// <summary>
         /// 分页获取资金流水；
@@ -2042,7 +2042,8 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public MoneyAccount[] MoneyPager(int orgid, int stid, int type, DateTime? start, DateTime? end, int from, string search, int state, int size, int index, out int countSum)
+        public MoneyAccount[] MoneyPager(int orgid, int stid, int type, int from, DateTime? start, DateTime? end, string search,
+            int moneymin, int moneymax, string serial, int state, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
@@ -2053,9 +2054,17 @@ namespace Song.ServiceImpls
             if (end != null) wc &= MoneyAccount._.Ma_CrtTime < (DateTime)end;
 
             if (!string.IsNullOrWhiteSpace(search)) wc &= MoneyAccount._.Ma_Info.Like("%" + search + "%");
+
+            //金额区间
+            if (moneymin >= 0) wc &= MoneyAccount._.Ma_Money >= moneymin;
+            if (moneymax > 0) wc &= MoneyAccount._.Ma_Money < moneymax;
+            //流水号
+            if (!string.IsNullOrWhiteSpace(serial)) wc &= MoneyAccount._.Ma_Serial.Like("%" + serial + "%");
+
             //状态，-1为所有，1为成功，2为失败
             if (state == 1) wc &= MoneyAccount._.Ma_IsSuccess == true;
             if (state == 2) wc &= MoneyAccount._.Ma_IsSuccess == false;
+
             countSum = Gateway.Default.Count<MoneyAccount>(wc);
             return Gateway.Default.From<MoneyAccount>()
                 .Where(wc).OrderBy(MoneyAccount._.Ma_CrtTime.Desc).ToArray<MoneyAccount>(size, (index - 1) * size);

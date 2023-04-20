@@ -192,11 +192,15 @@ namespace Song.ViewData.Methods
         /// <param name="type">类型，1支出，2充值</param>
         /// <param name="from">来源，1管理员操作，3在线支付，4购买课程</param>
         /// <param name="search"></param>
+        /// <param name="moneymin">查询金额区间，起始金额</param>
+        /// <param name="moneymax">查询金额区间，最大金额</param>
+        /// <param name="serial">流水号</param>
         /// <param name="state">状态，-1为所有，1为成功，2为失败</param> 
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult PagerForAccount(int acid, DateTime? start, DateTime? end, int type, int from, string search, int state, int size, int index)
+        public ListResult PagerForAccount(int acid, int type, int from, DateTime? start, DateTime? end, string search,
+            int moneymin, int moneymax, string serial, int state, int size, int index)
         {
             if (acid <= 0)
             {
@@ -207,7 +211,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int count = 0;
             Song.Entities.MoneyAccount[] eas = null;
-            eas = Business.Do<IAccounts>().MoneyPager(-1, acid, type, start, end, from, search, state, size, index, out count);
+            eas = Business.Do<IAccounts>().MoneyPager(-1, acid, type, from, start, end, search, moneymin, moneymax, serial, state, size, index, out count);
             ListResult result = new ListResult(eas);
             result.Index = index;
             result.Size = size;
