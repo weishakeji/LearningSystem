@@ -164,7 +164,7 @@ Vue.component('config', {
                     'appid': item.obj.pubAppid,
                     'redirect_uri': encodeURIComponent(item.obj.pubReturl + '/mobi/sign/weixin'),
                     'response_type': 'code',
-                    'scope': 'snsapi_base',
+                    'scope': 'snsapi_userinfo',
                     'state': item.tag + ',' + type,
                 }) + '#wechat_redirect';
                 window.location.href = url;

@@ -486,6 +486,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts AccountThirdparty(string openid, string field)
         {
+            if (string.IsNullOrWhiteSpace(openid)) return null;
             WeiSha.Data.Field _field = new WeiSha.Data.Field<Accounts>("Ac_" + field);
             Song.Entities.Accounts ac = Gateway.Default.From<Accounts>().Where(_field == openid).ToFirst<Accounts>();
             return _acc_init(ac);

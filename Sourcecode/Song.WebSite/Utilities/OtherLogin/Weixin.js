@@ -108,7 +108,7 @@ Vue.component('weixin', {
             $api.get('OtherLogin/HttpRequest', { 'url': url }).then(function (req) {
                 if (req.data.success) {
                     var result = $api.parseJson(req.data.result);
-                    if (!result.errcode) {
+                    if (!result.errcode || JSON.stringify(result).indexOf('errcode') < 0) {
                         //成功
                         //示例："{"access_token":"66_e22Lk3_9qlwIlYM9_T5pYEF3ZuStSk08D3PutHRlJW1S1CXf1rN6CIJWDGLV1QUQ1oK1iCeAyiZj3U9-dHHKXlM0B5LOGS0gKlCbqcvhHu4","expires_in":7200,"refresh_token":"66_M_02gRnk6F2jcX5_DVpNR5tE4ZRq5M6U-zHp5kqChS0O2AEtzPse-aN8YFwjFIa32HviovRFm-1xXVX0vvb7RGAgZA4PIpWIc2ZV1OS0acE","openid":"ofQVY1arThLpPqI2F6onNClfo1oE","scope":"snsapi_login","unionid":"oviR-0ujiC7OLI45s0xt0ja1-YSI"}"
                         th.token = result.access_token;
