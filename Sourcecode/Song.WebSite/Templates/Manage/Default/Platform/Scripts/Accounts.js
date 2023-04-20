@@ -142,6 +142,14 @@
                 var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金操作'
                 this.$refs.btngroup.pagebox('AccountMoney?id=' + row.Ac_ID, title, null, '600', '400');
             },
+             //资金流水
+             capitalRecords: function (row) {
+                var file = '../accounts/capitalRecords';
+                var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金流水'
+                var boxid = 'capitalRecords_' + file;
+                this.$refs.btngroup.pagebox(file, title, boxid, 800, 400,
+                    { pid: window.name, resize: true });
+            },
             //批量删除的按钮事件
             bathdel: function (btn) {
                 console.log(btn);

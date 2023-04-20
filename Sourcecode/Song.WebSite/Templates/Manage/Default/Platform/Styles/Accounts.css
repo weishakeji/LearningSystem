@@ -18,3 +18,14 @@ icon[money] {
 icon[money]:hover {
     text-decoration: underline;
 }
+/*下拉菜单*/
+.el-dropdown-menu span[icon]::before {
+    width: 15px;
+    text-align: right;
+    display: block;
+    float: left;
+}
+
+.el-dropdown-menu .el-divider {
+    margin: 3px 0px;
+}

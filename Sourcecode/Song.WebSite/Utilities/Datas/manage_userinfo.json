@@ -10,7 +10,7 @@
   "childs": [
     {
       "title": "个人信息",
-      "url": "/manage/account/selfinfo",
+      "url": "/manage/self/selfinfo",
       "width": "400",
       "height": "300",
       "type": "open",
@@ -18,7 +18,7 @@
     },
     {
       "title": "资料修改",
-      "url": "/manage/account/Modify",
+      "url": "/manage/self/Modify",
       "type": "open",
       "width": "600",
       "height": "600",
@@ -26,7 +26,7 @@
     },
     {
       "title": "密码",
-      "url": "/manage/account/mypassword",
+      "url": "/manage/self/mypassword",
       "width": "400",
       "height": "300",
       "type": "open",
@@ -38,7 +38,7 @@
     {
       "title": "退出登录",
       "type": "open",
-      "url": "/manage/account/logout",
+      "url": "/manage/self/logout",
       "width": "300",
       "height": "150",
       "min": false,
