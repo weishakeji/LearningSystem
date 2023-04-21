@@ -6,7 +6,9 @@ $ready(function () {
             loading: false,  //
             id: $api.querystring('id'),
             files: [],          //已经生成的excel文件列表
+            //path: 'MoneyOutputToExcel',     //导出的文件的存储路径
             form: {
+                path: 'MoneyOutputToExcel',     //导出的文件的存储路径
                 from: -1,     //来源
                 type: -1,     //类型，支出或充值               
                 start: '',       //时间区间的开始时间
@@ -86,7 +88,7 @@ $ready(function () {
                         picker.$emit('pick', [start, end]);
                     }
                 }]
-            }           
+            }
         },
         watch: {
             //选择时间区间
@@ -129,33 +131,35 @@ $ready(function () {
             btnOutput: function () {
                 //创建生成Excel
                 this.loading = true;
+                var th = this;
                 $api.get('Money/ExcelOutput', this.form).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             message: '成功生成Excel文件！',
                             type: 'success',
                             position: 'top-right',
                             duration: 2000
                         });
-                        vue.getFiles();
+                        th.getFiles();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    vue.loading = false;
+                    th.loading = false;
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                    vue.loading = false;
+                    th.loading = false;
                 });
             },
             //获取文件列表
             getFiles: function () {
-                $api.get('Money/ExcelFiles').then(function (req) {
+                var th = this;
+                $api.get('Money/ExcelFiles', { 'path': this.form.path }).then(function (req) {
                     if (req.data.success) {
-                        vue.files = req.data.result;
-                        vue.loading = false;
+                        th.files = req.data.result;
+                        th.loading = false;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -168,11 +172,12 @@ $ready(function () {
             //删除文件
             deleteFile: function (file) {
                 this.loading = true;
-                $api.get('Money/ExcelDelete', { 'filename': file }).then(function (req) {
+                var th = this;
+                $api.get('Money/ExcelDelete', { 'path': this.form.path, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.getFiles();
-                        vue.$notify({
+                        th.getFiles();
+                        th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
                             position: 'bottom-right',

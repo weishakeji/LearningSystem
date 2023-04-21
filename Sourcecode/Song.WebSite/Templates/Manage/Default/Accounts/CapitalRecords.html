@@ -10,8 +10,8 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除,导出" ref='btngroup' @delete="deleteData" @output="btnOutput" path="RecordView" width="600"
-                height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
+            <btngroup show="删除,导出" ref='btngroup' @delete="deleteData" @output="output_panel=true" path="RecordView"
+                width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="时间区间">
                     <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
@@ -20,7 +20,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="关键字">
-                    <el-input v-model="form.search" placeholder="说明" style="width: 120px;" clearable ></el-input>
+                    <el-input v-model="form.search" placeholder="说明" style="width: 120px;" clearable></el-input>
                 </el-form-item>
                 <template slot="more">
                     <el-form-item label="资金来源">
@@ -60,10 +60,10 @@
                 </template>
             </query_panel>
         </div>
-
+        <!-- 数据列表-->
         <template>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-click="row=>entity=row" :height="tableHeight" 
+                @selection-change="val=>selects=val" @row-click="row=>entity=row" :height="tableHeight"
                 :row-class-name="data=>{return entity!=null && entity.Ma_ID==data.row.Ma_ID ? 'current' : 'c'}">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -106,18 +106,24 @@
                         {{scope.row.Ma_Info}} </template>
                 </el-table-column>
             </el-table>
-
+            <!--底部按钮-->
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
         </template>
-
-        <el-drawer title="资金详情" :visible.sync="entity" size="50%" direction="rtl" :before-close="()=>entity=null">
+        <!-- 资金详情-->
+        <el-drawer :visible.sync="entity" size="50%" direction="rtl" :before-close="()=>entity=null">
             <span slot="title" icon="&#xe749">资金详情</span>
             <el-form ref="account" v-if="entity" :model="entity" @submit.native.prevent label-width="80px">
-                <el-form-item label="">                 
-                    <span  slot="label" :class="'money type'+entity.Ma_Type">
+                <el-form-item label="">
+                    <span slot="label" :class="'money type'+entity.Ma_Type">
                         <span v-if="entity.Ma_Type==1">支出</span>
                         <span v-if="entity.Ma_Type==2">充值</span>
-                      
-                    </span>  <icon money  :class="'money type'+entity.Ma_Type">{{entity.Ma_Money}} 元</icon>
+
+                    </span>
+                    <icon money :class="'money type'+entity.Ma_Type">{{entity.Ma_Money}} 元</icon>
                     <span>
                         <el-tag type="success" v-if="entity.Ma_IsSuccess" class="el-icon-circle-check"> 状态：操作成功</el-tag>
                         <el-tag type="danger" v-else class="el-icon-circle-close"> 状态：操作失败</el-tag>
@@ -146,7 +152,7 @@
                 <el-form-item label="充值码" v-if="entity.Ma_From==2">
                     {{entity.Rc_Code}}
                 </el-form-item>
-                <template v-if="entity.Ma_From==3">                   
+                <template v-if="entity.Ma_From==3">
                     <el-form-item label="支付账户">
                         {{entity.Ma_Buyer}}
                     </el-form-item>
@@ -154,17 +160,54 @@
                         {{entity.Ma_Seller}}
                     </el-form-item>
                 </template>
-    
+
                 <el-form-item label="说明">
                     {{entity.Ma_Info}}
                 </el-form-item>
             </el-form>
         </el-drawer>
-        <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-        </div>
+        <!-- 导出面板-->
+        <el-drawer :visible.sync="output_panel" size="50%" direction="ttb" class="output" :show-close="false">
+            <el-form ref="query" :model="query" @submit.native.prevent label-width="80px">
+                <el-form-item label="资金来源">
+                    <el-radio-group v-model.number="query.from">
+                        <el-radio-button v-for="item in moneyform" :label="item.value">
+                            {{item.label}}</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="操作">
+                    <el-radio-group v-model.number="query.type">
+                        <el-radio-button v-for="item in moneytype" :label="item.value">
+                            {{item.label}}</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-button :type="loading_out ? 'info' : 'success'" v-on:click="btnOutput" class="el-icon-position"
+                        :loading="loading_out" native-type="submit">
+                        导出资金流水
+                    </el-button>
+                </el-form-item>
+                <template v-if="files.length>0">
+                    <el-divider></el-divider>
+                    <el-form-item label="文件下载">
+                        <dl>
+                            <dd v-for="(f,i) in files">
+                                <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                        {{f.file}}</a>
+                                    {{f.size|size}}
+                                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                        <el-link type="danger" icon="el-icon-delete" v-loading="loading"
+                                            slot="reference">删除
+                                        </el-link>
+                                    </el-popconfirm>
+                                </div>
+                            </dd>
+                        </dl>
+                    </el-form-item>
+                </template>
+            </el-form>
+        </el-drawer>
+
     </div>
 
 

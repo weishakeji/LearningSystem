@@ -35,3 +35,23 @@
 .current .current tr, .current td{
     background-color: rgb(225, 243, 216) !important;
 }
+/*导出面板*/
+.output .el-drawer__header{
+    margin-bottom: 10px;
+    padding: 20px 20px 0;
+}
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}

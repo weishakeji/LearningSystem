@@ -2148,6 +2148,13 @@ namespace Song.ServiceImpls
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;           
             if (start != null && ((DateTime)start) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime >= ((DateTime)start).Date;
             if (end != null && ((DateTime)end) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime < ((DateTime)end).AddDays(1).Date;
+            if(acid!=null && acid.Length > 0)
+            {
+                WhereClip wcacid = new WhereClip();
+                foreach (int id in acid)
+                    wcacid.Or(MoneyAccount._.Ac_ID == id);
+                wc.And(wcacid);
+            }
             MoneyAccount[] rcodes = Gateway.Default.From<MoneyAccount>()
                 .Where(wc).OrderBy(MoneyAccount._.Ma_CrtTime.Desc).ToArray<MoneyAccount>();
             for (int i = 0; i < rcodes.Length; i++)

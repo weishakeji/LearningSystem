@@ -29,6 +29,8 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            window.location.href = $api.url.set('/manage/accounts/capitalRecords', { 'id': th.id });
+            return;
             $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -55,7 +57,7 @@ $ready(function () {
         methods: {
             handleCurrentChange: function (index) {
                 if (index != null) this.query.index = index;
-                var th = this;            
+                var th = this;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 40;
                 th.query.size = Math.floor(area / 42);

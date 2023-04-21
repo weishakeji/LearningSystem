@@ -15,7 +15,7 @@
                 state: '-1',       //状态，成功为1，失败为2,-1为所有
                 size: 20,
                 index: 1
-            },                
+            },
             selectDate: '',
             loading: false,
             loadingid: 0,        //当前操作中的对象id
@@ -67,7 +67,20 @@
             { value: '2', label: '失败' }],
 
             fromType: ['管理员充扣', '充值码充值', '在线支付', '购买课程'],
-            loading_query: 0     //订单查询
+            loading_query: 0,     //订单查询
+
+            //资金流水导出
+            output_panel: false,      //导出面板
+            query: {
+                path: 'MoneyOutputToExcel_' + $api.querystring('id'),     //导出的文件的存储路径
+                acid: $api.querystring('id'),      //学员id 
+                from: -1,     //来源
+                type: -1,     //类型，支出或充值               
+                start: '',       //时间区间的开始时间
+                end: ''         //结束时间    
+            },
+            files: [],          //已经生成的excel文件列表
+            loading_out: false
         },
         mounted: function () {
         },
@@ -81,6 +94,7 @@
             this.selectDate[1] = end;
             //
             this.handleCurrentChange();
+            this.getFiles();
         },
         computed: {
             //表格高度
@@ -100,15 +114,16 @@
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -138,19 +153,6 @@
                     alert(err);
                     th.loading = false;
                 });
-            },
-            //双击事件
-            rowclick: function (row, column, event) {
-                //console.log(row);
-                //this.$refs.btngroup.modifyrow(row, '查看');
-            },
-            //导出按钮的事件
-            btnOutput: function () {
-                var file = 'RecordOutput';
-                var title = ' - 导出';
-                var boxid = 'Capital_' + file;
-                this.$refs.btngroup.pagebox(file, title, boxid, 800, 400,
-                    { pid: window.name, resize: true });
             },
             //查询订单
             queryOrder: function (detail) {
@@ -198,6 +200,72 @@
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err));
+            },
+            //导出学员的资金流水
+            btnOutput: function () {
+                //创建生成Excel
+                this.loading_out = true;
+                var th = this;
+                $api.get('Money/ExcelAccountOutput', this.query).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            message: '成功生成Excel文件！',
+                            type: 'success',
+                            position: 'top-right',
+                            duration: 2000
+                        });
+                        th.getFiles();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                    th.loading_out = false;
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                    th.loading_out = false;
+                });
+            },
+            //获取文件列表
+            getFiles: function () {
+                var th = this;
+                $api.get('Money/ExcelFiles', { 'path': this.query.path }).then(function (req) {
+                    if (req.data.success) {
+                        th.files = req.data.result;
+                        th.loading_out = false;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    th.loading_out = false;
+                    console.error(err);
+                });
+            },
+            //删除文件
+            deleteFile: function (file) {
+                var th = this;
+                th.loading_out = true;
+                $api.get('Money/ExcelDelete', { 'path': th.query.path, 'filename': file }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getFiles();
+                        th.$notify({
+                            message: '文件删除成功！',
+                            type: 'success',
+                            position: 'bottom-right',
+                            duration: 2000
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             }
         }
     });

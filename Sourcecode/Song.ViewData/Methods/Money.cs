@@ -219,7 +219,6 @@ namespace Song.ViewData.Methods
             return result;
         }
         #region 导出
-        private static string outputPath = "MoneyOutputToExcel";
         /// <summary>
         /// 生成excel
         /// </summary>
@@ -228,12 +227,12 @@ namespace Song.ViewData.Methods
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public JObject ExcelOutput(int type, int from, DateTime? start, DateTime? end)
+        public JObject ExcelOutput(string path, int type, int from, DateTime? start, DateTime? end)
         {
             DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
             DateTime dte = end == null ? DateTime.MaxValue : (DateTime)end;
             //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
@@ -245,18 +244,52 @@ namespace Song.ViewData.Methods
             filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, acid, type, from, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 生成excel
+        /// </summary>
+        /// <param name="type">类型，1支出，2充值</param>
+        /// <param name="from">来源，1管理员操作，3在线支付，4购买课程<</param>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public JObject ExcelAccountOutput(string path,int acid, int type, int from, DateTime? start, DateTime? end)
+        {
+            DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
+            DateTime dte = end == null ? DateTime.MaxValue : (DateTime)end;
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Empty;
+            if(start!=null || end !=null)
+            filename=string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
+            else
+                filename = string.Format("{0}.xls",  date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            //定义这个数组只是为了临时编译通过
+            int[] acidarr = new int[] { acid };
+            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, acidarr, type, from, start, end);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);
             jo.Add("date", date);
             return jo;
         }
         /// <summary>
         /// 删除Excel文件
         /// </summary>
+        /// <param name="path">upload/temp下的子级路径</param>
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
-        public bool ExcelDelete(string filename)
+        public bool ExcelDelete(string path,string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             string filePath = rootpath + filename;
@@ -270,10 +303,11 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 已经生成的Excel文件
         /// </summary>
+        /// <param name="path">upload/temp下的子级路径</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray ExcelFiles()
+        public JArray ExcelFiles(string path)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
@@ -282,7 +316,7 @@ namespace Song.ViewData.Methods
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
-                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + f.Name);
+                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
