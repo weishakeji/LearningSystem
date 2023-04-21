@@ -173,6 +173,7 @@ html, body, #vapp {
 	height: 100%;
 	top: 0px;
 	right: 0px;
+	overflow: hidden;
 }
 
 money {

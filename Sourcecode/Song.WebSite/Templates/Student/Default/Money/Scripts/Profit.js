@@ -3,7 +3,19 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            form: { 'acid': '', 'start': '', 'end': '', 'type': '-1', 'from': '5', 'search': '', 'state': '-1', 'size': 10, 'index': 1 },
+            form: {
+                acid: '',      //学员id 
+                type: '-1',     //类型，支出或充值
+                from: '5',     //来源
+                start: '',       //时间区间的开始时间
+                end: '',         //结束时间
+                search: '',     //按内容检索
+                moneymin: '-1',      //金额的选择范围，最小值
+                moneymax: '-1',     //同上,最大值
+                serial: '',          //流水号               
+                state: '-1',       //状态，成功为1，失败为2,-1为所有
+                size: 10, index: 1
+            },
             date_picker: [],
             account: {},
 
@@ -11,7 +23,7 @@ $ready(function () {
             total: 1, //总记录数
             totalpages: 1, //总页数
 
-            sum:0,              //收入总额
+            sum: 0,              //收入总额
 
             loading_init: true,
             loading_sum: true,      //获取总额
@@ -56,7 +68,7 @@ $ready(function () {
                 $api.get('Money/MoneySum', { 'acid': th.account.Ac_ID, 'type': '', 'from': '5' }).then(function (req) {
                     th.loading_sum = false;
                     if (req.data.success) {
-                        th.sum= req.data.result;
+                        th.sum = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

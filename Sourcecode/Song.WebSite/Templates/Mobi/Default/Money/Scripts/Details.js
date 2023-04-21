@@ -16,7 +16,19 @@ $ready(function () {
 
             datas: [],           //数据列表
             finished: false,
-            query: { 'acid': '', 'start': '', 'end': '', 'type': -1, 'from': -1, 'search': '', 'state': -1, 'size': 6, 'index': 0 },
+            query: {
+                acid: '',      //学员id 
+                type: '-1',     //类型，支出或充值
+                from: '-1',     //来源
+                start: '',       //时间区间的开始时间
+                end: '',         //结束时间
+                search: '',     //按内容检索
+                moneymin: '-1',      //金额的选择范围，最小值
+                moneymax: '-1',     //同上,最大值
+                serial: '',          //流水号               
+                state: '-1',       //状态，成功为1，失败为2,-1为所有
+                size: 6, index: 0
+            },
             total: 0
         },
         mounted: function () {

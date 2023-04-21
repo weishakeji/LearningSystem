@@ -9,15 +9,13 @@
                 start: '',       //时间区间的开始时间
                 end: '',         //结束时间
                 search: '',     //按内容检索
-                moneymin: 0,      //金额的选择范围，最小值
+                moneymin: '',      //金额的选择范围，最小值
                 moneymax: '',     //同上,最大值
                 serial: '',          //流水号               
                 state: '-1',       //状态，成功为1，失败为2,-1为所有
                 size: 20,
                 index: 1
-            },
-           // {'acid':'','type':'','from':'','start':'','end':'',
-            //'search':'','moneymin':'','moneymax':'','serial':'','state':'','size':'','index':''}           
+            },                
             selectDate: '',
             loading: false,
             loadingid: 0,        //当前操作中的对象id
@@ -26,7 +24,7 @@
             total: 1, //总记录数
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
-            entity: null,        //当前要显示的行
+            entity: null,        //要显示的当前数据行
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -67,7 +65,7 @@
             moneystate: [{ value: '-1', label: '全部' },
             { value: '1', label: '成功' },
             { value: '2', label: '失败' }],
-            
+
             fromType: ['管理员充扣', '充值码充值', '在线支付', '购买课程'],
             loading_query: 0     //订单查询
         },

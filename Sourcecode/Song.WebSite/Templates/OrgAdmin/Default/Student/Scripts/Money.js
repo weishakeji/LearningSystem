@@ -10,8 +10,17 @@ $ready(function () {
 
             datas: [],           //数据列表
             query: {
-                'acid': '', 'start': '', 'end': '',
-                'type': -1, 'from': -1, 'search': '', 'state': -1, 'size': 6, 'index': 1
+                acid: '',      //学员id 
+                type: '-1',     //类型，支出或充值
+                from: '-1',     //来源
+                start: '',       //时间区间的开始时间
+                end: '',         //结束时间
+                search: '',     //按内容检索
+                moneymin: '-1',      //金额的选择范围，最小值
+                moneymax: '-1',     //同上,最大值
+                serial: '',          //流水号               
+                state: '-1',       //状态，成功为1，失败为2,-1为所有
+                size: 6, index: 0
             },
             total: 0,
 
@@ -25,7 +34,7 @@ $ready(function () {
                     var result = req.data.result;
                     th.account = result;
                     th.query.acid = th.account.Ac_ID;
-                    th.handleCurrentChange();
+                    th.handleCurrentChange(1);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -46,7 +55,7 @@ $ready(function () {
         methods: {
             handleCurrentChange: function (index) {
                 if (index != null) this.query.index = index;
-                var th = this;
+                var th = this;            
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 40;
                 th.query.size = Math.floor(area / 42);

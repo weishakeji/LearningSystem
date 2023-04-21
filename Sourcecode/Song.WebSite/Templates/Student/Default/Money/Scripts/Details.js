@@ -3,7 +3,19 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            form: { 'acid': '', 'start': '', 'end': '', 'type': '-1', 'from': '-1', 'search': '', 'state': '-1', 'size': 10, 'index': 1 },
+            form: {
+                acid: '',      //学员id 
+                type: '-1',     //类型，支出或充值
+                from: '-1',     //来源
+                start: '',       //时间区间的开始时间
+                end: '',         //结束时间
+                search: '',     //按内容检索
+                moneymin: '-1',      //金额的选择范围，最小值
+                moneymax: '-1',     //同上,最大值
+                serial: '',          //流水号               
+                state: '-1',       //状态，成功为1，失败为2,-1为所有
+                size: 10, index: 0
+            },
             date_picker: [],
             account: {},
 
@@ -26,7 +38,7 @@ $ready(function () {
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.form.acid = th.account.Ac_ID;
-                    th.handleCurrentChange();
+                    th.handleCurrentChange(1);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -63,7 +75,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        Vue.prototype.$alert(err);
+                        //Vue.prototype.$alert(err);
                         console.error(err);
                     });
                 }
