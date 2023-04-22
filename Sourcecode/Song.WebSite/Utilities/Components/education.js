@@ -3,7 +3,7 @@
 Vue.component('education', {
     //value:当前值
     //ctr:控件，默认是select，可以设置为span,只显示结果不进行选择
-    props: ['value', 'ctr'],
+    props: ['value', 'ctr', 'width'],
     data: function () {
         return {
             datas: [
@@ -28,6 +28,13 @@ Vue.component('education', {
         'ctr_type': function () {
             if (this.ctr == '' || this.ctr == null) return 'select';
             return this.ctr;
+        },
+        //宽度
+        'widthval': function () {
+            if (!this.width) return '100%';
+            if (this.width.indexOf('%') > -1) return this.width;
+            if (this.width.indexOf('px') > -1) return this.width;
+            return this.width + 'px';
         }
     },
     created: function () {
@@ -44,7 +51,7 @@ Vue.component('education', {
     },
     template: `<span class="weisha_education">
         <template v-if="ctr_type=='select'">
-            <el-select v-model="value" placeholder="-- 学历 --">
+            <el-select v-model="value" placeholder="-- 学历 --" :style="'width:'+widthval">
             <icon slot="prefix">&#xe6112</icon>
             <el-option v-for="(item,i) in datas" :key="item.value" :label="item.name"
                 :value="item.value">

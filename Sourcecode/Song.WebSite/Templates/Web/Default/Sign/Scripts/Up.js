@@ -11,15 +11,10 @@ $ready(function () {
 
             //输入的信息
             form: {
-                acc: '',
-                pw1: '',
-                pw2: '',
-                rec: '',
-                recid: 0,
-                vcode: '',
-                vcodemd5: ''
+                acc: '', pw1: '', pw2: '',
+                rec: '', recid: 0,
+                vcode: '', vcodemd5: ''
             },
-            password2: '',       //密码确认
             rules: {
                 acc: [
                     { required: true, message: '不得为空', trigger: 'blur' },
@@ -92,7 +87,7 @@ $ready(function () {
             //是否有推荐人
             existref: function () {
                 return JSON.stringify(this.referrer) != '{}' && this.referrer != null;
-            }
+            },
         },
         watch: {
             'agreement.checked': {
@@ -126,7 +121,7 @@ $ready(function () {
                     if (req.data.success) {
                         th.referrer = req.data.result;
                         if (th.existref) {
-                            th.form.rec = '推荐人：'+th.referrer.Ac_Name;
+                            th.form.rec = '推荐人：' + th.referrer.Ac_Name;
                             th.form.recid = th.referrer.Ac_ID;
                         }
                     } else {
@@ -199,22 +194,16 @@ $ready(function () {
                                     th.$alert('注册成功！', '成功', {
                                         confirmButtonText: '确定',
                                         callback: () => {
-                                            window.location.href = '/';
+                                            th.goback();
                                         }
                                     });
                                     th.$refs['login'].success(result, 'web端', '注册登录', '');
-                                    window.setTimeout(function () {
-                                        var singin_referrer = $api.storage('singin_referrer');
-                                        if (singin_referrer != '') window.location.href = singin_referrer;
-                                        else
-                                            window.location.href = '/';
-                                    }, 300);
                                 } else {
                                     //需要审核
                                     th.$alert('注册成功，请等待审核！', '成功', {
                                         confirmButtonText: '确定',
                                         callback: () => {
-                                            window.location.href = '/';
+                                            th.goback();
                                         }
                                     });
                                 }
@@ -230,6 +219,21 @@ $ready(function () {
                         return false;
                     }
                 });
+            },
+            //注册成功后的跳转
+            goback: function () {
+                var referrer = $api.querystring('referrer');
+                if (referrer == null || referrer == '')
+                    referrer = $api.storage('singin_referrer');
+                //注册成功后，是否需要填写详情
+                if (this.config && this.config.IsRegDetail) {
+                    window.location.href = $api.url.set('detail', {
+                        'referrer': referrer
+                    });
+                    return;
+                }
+                referrer = decodeURIComponent(referrer);
+                window.location.href = referrer != '' ? referrer : '/';
             }
         }
     });
