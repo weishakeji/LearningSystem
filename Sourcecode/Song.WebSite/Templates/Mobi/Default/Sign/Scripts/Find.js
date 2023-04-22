@@ -72,6 +72,11 @@
                 } else {
                     this.acc.error = false;
                     this.acc.message = '';
+                    if (th.checkcount(3)) {
+                        this.acc.message = '每分钟最多3次，稍后再试';
+                        alert(this.acc.message);
+                        return;
+                    };
                     this.loading = true;
                     $api.get('Account/ForAcc', { 'acc': th.acc.input }).then(function (req) {
                         th.loading = false;
@@ -86,6 +91,24 @@
                         console.error(err);
                     });
                 }
+            },
+            //校验次数
+            checkcount: function (most) {
+                var storage = 'checkcount_register';
+                var array = $api.storage(storage);
+                if (array == null) array = [];
+                //判断每分钟的次数
+                let count = 0;
+                var max = new Date(), min = new Date(new Date().getTime() - 1000 * 60);
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i] > min && array[i] <= max)
+                        count++;
+                }
+                if (count < most) {
+                    array.push(new Date());
+                    $api.storage(storage, array);
+                }
+                return count >= most;
             },
             //测试安全问题是否正确
             testQues: function () {
