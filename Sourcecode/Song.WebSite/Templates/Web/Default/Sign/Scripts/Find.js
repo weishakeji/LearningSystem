@@ -5,13 +5,32 @@
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项        
-            datas: {},
+
             loading_init: true,
             //输入的学员账号
             acc: {
                 input: '',   //输入信息
-                error: false,   //是否错误
-                message: ''  //提示信息
+                vcode: '',   //校验码
+                base64: '', md5: '', loading: false
+            },
+            accrules: {
+                input: [
+                    { required: true, message: '账号不得为空', trigger: 'blur' },
+                    { min: 5, max: 50, message: '长度在 5 到 50 个字符', trigger: 'blur' }
+                ],
+                vcode: [
+                    { required: true, message: '不得为空', trigger: 'input' },
+                    { min: 4, max: 4, message: '请输入4位字符', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            var md5 = $api.md5(value);
+                            if (md5 != vapp.acc.md5)
+                                callback(new Error('校验码错误'));
+                            else
+                                callback();
+                        }, trigger: 'input'
+                    }
+                ],
             },
             //安全问题
             ques: {
@@ -31,11 +50,12 @@
             step: 1
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -46,10 +66,11 @@
                     }
                 }
                 //获取结果             
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
+                th.getvcode();
             })).catch(function (err) {
                 console.error(err);
             });
@@ -63,30 +84,72 @@
         watch: {
         },
         methods: {
-            //测试账号是否存在
-            testAcc: function () {
+            //加载验证码图片
+            getvcode: function () {
                 var th = this;
-                console.log(3333);
-                if ($api.trim(this.acc.input) == '') {
-                    this.acc.error = true;
-                    this.acc.message = '账号不得为空';
-                } else {
-                    this.acc.error = false;
-                    this.acc.message = '';
-                    this.loading = true;
-                    $api.get('Account/ForAcc', { 'acc': th.acc.input }).then(function (req) {
-                        th.loading = false;
-                        if (req.data.success) {
-                            th.account = req.data.result;
-                            th.step = 2;
-                        } else {
-                            th.acc.error = true;
-                            th.acc.message = '账号不存在';
-                        }
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+                th.acc.loading = true;
+                $api.post('Helper/CodeImg', { 'leng': 4, 'type': 5, 'acc': '' }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.acc.base64 = result.base64;
+                        th.acc.md5 = result.value;
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.acc.loading = false);
+            },
+            //测试账号是否存在
+            testAcc: function (formName) {
+                var field = this.$refs[formName].fields[0];
+                this.$refs[formName].clearValidate();
+                field.error = '';
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var th = this;
+                        if (th.checkcount(3)) {
+                            field.error = '每分钟最多3次，稍后再试';
+                            alert(field.error);
+                            return;
+                        };
+                        $api.get('Account/ForAcc', { 'acc': th.acc.input }).then(function (req) {
+                            th.loading = false;
+                            if (req.data.success) {
+                                th.account = req.data.result;
+                                th.step = 2;
+                            } else {
+                                field.error = '账号不存在';
+                                throw field.error;
+                            }
+                        }).catch(function (err) {
+                            //alert(err);
+                            console.error(err);
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            //校验次数
+            checkcount: function (most) {
+                var storage = 'checkcount_register';
+                var array = $api.storage(storage);
+                if (array == null) array = [];
+                //判断每分钟的次数
+                let count = 0;
+                var max = new Date(), min = new Date(new Date().getTime() - 1000 * 60);
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i] > min && array[i] <= max)
+                        count++;
                 }
+                if (count < most) {
+                    array.push(new Date());
+                    $api.storage(storage, array);
+                }
+                return count >= most;
+                console.log(max.format('yyyy-MM-dd HH:mm:ss'));
+                console.log(min.format('yyyy-MM-dd HH:mm:ss'));
             },
             //测试安全问题是否正确
             testQues: function () {

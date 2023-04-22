@@ -21,18 +21,20 @@
                         <icon style="font-size: 23px;">&#xe687</icon>请输入您的账号
                     </card-title>
                     <card-context>
-                        <el-form size="medium" @submit.native.prevent label-width="80px">
-                            <el-form-item label="账号">
-                                <el-input v-model="acc.input" label="账号" required placeholder="账号">
-                                </el-input>
-                                <error v-if='acc.error' v-html="acc.message"></error>
+                        <el-form ref="acc" :model="acc" :rules="accrules" size="medium" @submit.native.prevent
+                            label-width="80px">
+                            <el-form-item label="账号" prop="input">
+                                <el-input v-model="acc.input" placeholder="账号"></el-input>
+                            </el-form-item>
+                            <el-form-item label="校验码" prop="vcode" class="vcode">
+                                <el-input v-model="acc.vcode" placeholder="校验码"></el-input>
+                                <loading bubble v-if="acc.loading"></loading>
+                                <img v-else class="vcode_img" @click="getvcode" :src="acc.base64" />
                             </el-form-item>
                             <el-form-item label="">
-                                <el-button type="primary" @click="testAcc" :loading="loading" :disabled="loading"
-                                    loading-text="正在执行...">
+                                <el-button type="primary" @click="testAcc('acc')" :loading="loading">
                                     <icon>&#xe6c6</icon>下一步
                                 </el-button>
-
                             </el-form-item>
                         </el-form>
                     </card-context>

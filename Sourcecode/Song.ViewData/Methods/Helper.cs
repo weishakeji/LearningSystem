@@ -311,7 +311,8 @@ namespace Song.ViewData.Methods
         /// <param name="leng">长度</param>
         /// <param name="type">类型:0为数字与大小写字母，1为纯数字，2为纯小字母，3为纯大写字母，4为大小写字母，5数字加小写，6数字加大写</param>
         /// <returns></returns>
-        private Dictionary<string, string> CodeImg(int leng, int type, string acc)
+        [HttpPost]
+        public Dictionary<string, string> CodeImg(int leng, int type, string acc)
         {
             //设定生成几位随机数
             string tmp = RndNum(leng, type);

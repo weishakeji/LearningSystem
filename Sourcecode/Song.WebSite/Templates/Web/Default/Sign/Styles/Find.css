@@ -30,17 +30,12 @@ context.first section {
 	background-repeat: no-repeat;
 }
 
-img.logo {
-	max-width: calc(60% - 40px);
-	padding: 20px 20px 0px 20px;
-}
-
 .platinfo {
 	box-sizing: border-box;
 	padding: 20px;
 	font-size: 20px;
 	text-shadow: 1px 1px 3px #999;
-	width: 300px;
+	width: 400px;
 	margin: 0px auto;
 	text-align: left;
 }
@@ -51,39 +46,18 @@ img.logo {
 
 card {
 	text-align: left;
-	width: 300px;
+	width: 400px;
 	margin: 0px auto;
 }
 
-.el-row {
-	padding: 15px 0px;
-	box-sizing: border-box;
-	position: relative;
+/*校验码*/
+.vcode .el-form-item__content{
+	display: flex;
 }
-
-.el-input {
-	position: relative;
+.vcode .el-form-item__content img{
+	width: 180px;
+	cursor: pointer;
 }
-
-error {	
-	display: block;
-	position: absolute;
-	right: 0px;
-	top: 25px;
-	background-color: #F56C6C;
-    color: yellow;
-    padding: 2px 5px;
-	border-radius: 5px;
-	font-size: 12px;
-	width: auto;	
-	line-height: 20px;
-	box-sizing: border-box;
-}
-
-.btns {
-	text-align: right;
-}
-
 .acc_photo {
 	width: 25px;
 	height: 25px;
