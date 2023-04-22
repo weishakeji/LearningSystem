@@ -202,14 +202,14 @@ $ready(function () {
                             th.$dialog.alert({
                                 message: '注册成功！',
                             }).then(() => {
-                                window.location.href = '/mobi/';
+                                th.goback();
                             });
                         } else {
                             //需要审核
                             th.$dialog.alert({
                                 message: '注册成功，请等待审核！',
                             }).then(() => {
-                                window.location.href = '/mobi/';
+                                th.goback();
                             });
                         }
                         //...
@@ -222,6 +222,21 @@ $ready(function () {
                     });
                     console.error(err);
                 });
+            },
+            //注册成功后的跳转
+            goback: function () {
+                var referrer = $api.querystring('referrer');
+                if (referrer == null || referrer == '')
+                    referrer = $api.storage('singin_referrer');
+                //注册成功后，是否需要填写详情
+                if (this.config && this.config.IsRegDetail === true) {
+                    window.location.href = $api.url.set('detail', {
+                        'referrer': referrer
+                    });
+                    return;
+                }
+                referrer = decodeURIComponent(referrer);
+                window.location.href = referrer != '' ? referrer : '/';
             }
         }
     });

@@ -1,0 +1,85 @@
+﻿html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: #58c198;
+	overflow: hidden;
+	background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
+}
+
+#vapp {
+	width: 100%;
+	overflow-y: auto;
+}
+header {
+    height: 26px;
+    width: calc(100vw - 24px);
+    line-height: 26px;
+    padding: 10px 12px;
+    display: flex;
+}
+#platname {
+    box-sizing: border-box;
+    padding: 0px;
+    float: right;
+    text-align: right;
+    white-space:nowrap;
+    overflow: hidden;
+   flex:1;
+}
+card {
+	text-align: left;
+	border: none;
+	box-shadow: none;
+	background-color: transparent;
+	margin: 0px auto;
+}
+
+.btns>*:last-child {
+	display: flex;
+	margin-top: 20px;
+}
+
+.btns>*:last-child * {
+	flex: 1;
+}
+
+/*选择学员组的按钮*/
+.btnsort {
+	cursor: pointer;
+}
+
+.btnsort:hover {
+	transform: scaleX(1.05);
+}
+
+.sortpanel .el-dialog__header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.sortpanel .el-dialog__footer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.sortpanel .el-dialog__body {
+	padding: 0px 20px 0px 20px;
+}
+
+.sort {
+	padding: 3px 8px;
+	box-sizing: border-box;
+	cursor: pointer;
+	text-align: left;
+}
+
+.sort:hover {
+	text-decoration: underline;
+	background-color: #eee;
+}
+
+.sort span:first-child {
+	margin-right: 8px;
+}

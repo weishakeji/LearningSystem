@@ -1,0 +1,83 @@
+﻿#vapp {
+	width: 100%;
+	overflow-y: auto;
+}
+
+context.first {
+	display: block;
+	height: 600px;
+	--height: 100vh;
+	padding: 0px !important;
+	width: 100%;
+	text-align: center;
+	background-color: rgb(221, 133, 18);
+	margin: 20px 0px;
+	background-image: repeating-radial-gradient(circle, rgb(228, 228, 228) 0%, rgb(255, 255, 255) 60%);
+}
+
+context.first section {
+	display: block;
+	width: 1200px;
+	height: 100%;
+	margin: 0px auto;
+	position: relative;
+	box-sizing: border-box;
+	padding: 30px 0px;
+
+	background-image: url(../images/bg1.png);
+	background-size: contain;
+	background-position: center 0;
+	background-repeat: no-repeat;
+}
+
+
+card {
+	text-align: left;
+	width: 400px;
+	margin: 0px auto;
+}
+.btns>*:last-child{
+	display: flex;
+	margin-top: 20px;
+}
+.btns>*:last-child *{
+	flex: 1;
+}
+/*选择学员组的按钮*/
+.btnsort {
+    cursor: pointer;
+}
+
+.btnsort:hover {
+    transform: scaleX(1.05);
+}
+
+.sortpanel .el-dialog__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sortpanel .el-dialog__footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sortpanel .el-dialog__body {
+    padding: 0px 20px 0px 20px;
+}
+
+.sort {
+    padding: 3px 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+	text-align: left;
+}
+
+.sort:hover {
+    text-decoration: underline;
+    background-color: #eee;
+}
+
+.sort span:first-child {
+    margin-right: 8px;
+}

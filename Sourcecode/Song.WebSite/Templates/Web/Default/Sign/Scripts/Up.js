@@ -226,7 +226,7 @@ $ready(function () {
                 if (referrer == null || referrer == '')
                     referrer = $api.storage('singin_referrer');
                 //注册成功后，是否需要填写详情
-                if (this.config && this.config.IsRegDetail) {
+                if (this.config && this.config.IsRegDetail === true) {
                     window.location.href = $api.url.set('detail', {
                         'referrer': referrer
                     });

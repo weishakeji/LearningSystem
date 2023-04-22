@@ -459,10 +459,12 @@
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\Quesbuttons.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\PromptPanel.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\SetupMenu.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Detail.html" />
     <Content Include="Templates\Mobi\Default\Sign\Find.html" />
     <Content Include="Templates\Mobi\Default\Sign\In.html" />
     <Content Include="Templates\Mobi\Default\Sign\Out.html" />
     <Content Include="Templates\Mobi\Default\Sign\QQ.html" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\Detail.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Find.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\In.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Out.js" />
@@ -470,6 +472,7 @@
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Up.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\Weixin.js" />
     <Content Include="Templates\Mobi\Default\Sign\Scripts\ZzGongshang.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\Detail.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Find.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\In.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Out.css" />
@@ -1336,6 +1339,9 @@
     <Content Include="Templates\Web\Default\Link\Index.html" />
     <Content Include="Templates\Web\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Sign\Detail.html" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\Detail.js" />
+    <Content Include="Templates\Web\Default\Sign\Styles\Detail.css" />
     <Content Include="Templates\Web\Default\Sign\ZzGongshang.html" />
     <Content Include="Templates\Web\Default\Sign\Scripts\ZzGongshang.js" />
     <Content Include="Templates\Web\Default\Sign\Scripts\WeixinQrcode.js" />

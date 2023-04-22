@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>详细信息</title>
+    <link type="text/css" rel="stylesheet" href="/Utilities/ElementUi/index.css">
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+        <header>
+            <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
+            <a href="/mobi/" icon="&#xa020"></a>
+            <div id="platname"><icon style="font-size: 23px;">&#xe687</icon>详细信息</div>
+          </header>
+        <context>
+            <card>
+                <card-context>
+                    <el-form ref="account" :model="account" :rules="accrules" size="medium" @submit.native.prevent
+                        label-width="80px">
+                        <el-form-item label="姓名" prop="Ac_Name">
+                            <el-input v-model="account.Ac_Name" style="width:180px" clearable>
+                                <icon slot="prefix">&#xe808</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="性别">
+                            <el-radio-group v-model="account.Ac_Sex">
+                                <el-radio-button label="1">男</el-radio-button>
+                                <el-radio-button label="2">女</el-radio-button>
+                                <el-radio-button label="0">未知</el-radio-button>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="年龄" prop="Ac_Age">
+                            <el-input-number v-model="account.Ac_Age" style="width:180px"></el-input-number>
+                        </el-form-item>
+                        <el-form-item label="身份证" prop="Ac_IDCardNumber">
+                            <el-input v-model="account.Ac_IDCardNumber">
+                                <icon slot="prefix">&#xe68f</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="学员组">
+
+                            <el-tooltip content="点击更改学员组" v-if="sortexist" effect="light" placement="right">
+                                <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
+                                </el-tag>
+                            </el-tooltip>
+                            <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
+                                <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
+                            </el-tooltip>
+                        </el-form-item>
+                        <el-form-item label="电子邮箱" prop="Ac_Email">
+                            <el-input v-model="account.Ac_Email">
+                                <icon slot="prefix">&#xe76e</icon>
+                            </el-input>
+                        </el-form-item>
+
+                        <el-form-item label="学历" prop="Ac_Education">
+                            <education :value="account.Ac_Education" @change="val=>account.Ac_Education=val">
+                            </education>
+                        </el-form-item>
+                        <el-form-item label="专业" prop="Ac_Major">
+                            <el-input v-model="account.Ac_Major">
+                                <icon slot="prefix">&#xe84b</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="" class="btns">
+                            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                                @click="btnEnter('account')">
+                                确认
+                            </el-button>
+                            <el-button type="success" native-type="submit" :loading="loading" plain @click="btnJump()">
+                                跳过 <icon>&#xe6c6</icon>
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </card-context>
+            </card>
+        </context>
+
+        <!-- 学员组的选择-->
+        <el-dialog title="学员组" :visible.sync="sortpanel" class="sortpanel" width="80%" :show-close="false">
+            <template slot="title">
+                <span>
+                    <icon>&#xe67d</icon>学员组
+                </span>
+                <el-input placeholder="查询" v-model="sortquery.search" clearable style="width: 150px;" :fullscreen="true"
+                    @keyup.enter.native="sortpaper(1)" @clear="sortpaper(1)" @blur="sortpaper(1)">
+                    <i slot="suffix" @click="sortpaper(1)" class="el-input__icon el-icon-search"
+                        style="cursor:pointer"></i>
+                </el-input>
+            </template>
+            <template v-if="sorts.length>0">
+                <div v-for="(item,i) in sorts" class="sort" @click="sortselect(item)" title="点击选择当前组">
+                    <span>{{i+1+sortquery.size*(sortquery.index-1)}} . </span>{{item.Sts_Name}}
+                </div>
+            </template>
+            <div v-else>
+                没有满足条件的内容
+            </div>
+            <template slot="footer">
+                <el-pagination v-on:current-change="sortpaper" :current-page="sortquery.index" :page-sizes="[1]"
+                    :page-size="sortquery.size" :pager-count="4" layout="total, prev, pager, next" :total="sort.total">
+                </el-pagination>           
+            </template>
+        </el-dialog>
+
+    </div>
+
+
+</body>
+
+</html>
