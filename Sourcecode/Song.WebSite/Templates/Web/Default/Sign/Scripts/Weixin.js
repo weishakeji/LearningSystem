@@ -80,7 +80,7 @@ $ready(function () {
                             if (window.top.vapp) {
                                 window.top.vapp.logged(th.binduser);
                             }
-                        }, 100);
+                        }, 200);
 
                     } else {
                         throw req.data.message;

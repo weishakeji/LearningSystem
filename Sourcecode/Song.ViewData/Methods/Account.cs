@@ -1361,6 +1361,7 @@ namespace Song.ViewData.Methods
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);               
                 acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
             }
+            LoginAccount.Fresh(acc);
             return acc;
         }
         /// <summary>

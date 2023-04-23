@@ -404,6 +404,7 @@
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
     <Content Include="Templates\Manage\Default\Accounts\Styles\CapitalRecords.css" />
@@ -3198,6 +3199,8 @@
   <ItemGroup>
     <Content Include="Help\Datas\Entitiy\ThirdpartyLogin.json" />
     <Content Include="Help\Datas\Entitiy\SingleSignOn.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

@@ -304,9 +304,9 @@ Vue.component('login', {
         success: function (account, source, info, remark) {
             $api.loginstatus('account', account.Ac_Pw, account.Ac_ID);
             $api.login.account_fresh();
-            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark });
             //登录成功的事件
             this.$emit('success', account);
+            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark });            
         }
     },
     template: `<div class="login_weisha">
