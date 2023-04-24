@@ -751,11 +751,11 @@ namespace Song.ServiceImpls
             string ver = WeiSha.Core.Browser.Version;
             bool ismobi = WeiSha.Core.Browser.IsMobile;
 
-            Task task = new Task(() =>
-            {               
+            //Task task = new Task(() =>
+            //{               
                 _LogForStudyUpdate(couid, olid, st, playTime * 1000, studyTime, totalTime * 1000, ip, os, name, ver, ismobi);
-            });
-            task.Start();
+            //});
+            //task.Start();
         }
         protected void _LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime,
             string ip, string os, string name, string ver, bool ismobi)

@@ -726,10 +726,10 @@ namespace Song.ViewData.Methods
             //计算完成度的百分比
             double per = (double)studyTime * 1000 / (double)totalTime;
             per = Math.Floor(per * 10000) / 100;
-            new System.Threading.Tasks.Task(() =>
-            {
+            //new System.Threading.Tasks.Task(() =>
+            //{
                 Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);
-            }).Start();           
+            //}).Start();           
             return per;
         }
         /// <summary>

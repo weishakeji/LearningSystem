@@ -113,7 +113,7 @@ namespace Song.ViewData.Methods
                 else
                 {
                     //如果没有上传图片，且新对象没有图片，则删除旧图
-                    if (string.IsNullOrWhiteSpace(entity.Sbj_Logo))
+                    if (string.IsNullOrWhiteSpace(old.Sbj_Logo))
                     {
                         WeiSha.Core.Upload.Get["Subject"].DeleteFile(old.Sbj_Logo);
                     }

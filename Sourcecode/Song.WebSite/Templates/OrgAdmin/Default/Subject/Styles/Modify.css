@@ -1,4 +1,15 @@
 ﻿@charset "utf-8";
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
+    box-sizing: border-box;
+}
+
+.panel>div:not(:first-child) {
+    border: 1px solid #DCDFE6;
+    border-top: none;
+}
 .el-form {
     box-sizing: border-box;
     margin: 0px;
@@ -7,6 +18,44 @@
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
+}
+
+.el-form {
+    height: calc(100% - 40px);
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+/*编辑框*/
+.about_editor {
+    width: 100%;
+    height: 100%;
+}
+
+.el-form>div.about_editor {
+    padding: 0px;
+}
+.el-form>div.about_editor .tox-tinymce {
+	border: none !important;
+}
+.el-form>div.about_editor .tox-statusbar{
+	border: none !important;
+}
+.el-tabs--border-card {
+    box-shadow: none;
+    border: none;
+}
+
+.el-tabs__content {
+    display: none;
 }
 
 /*没有图片*/
@@ -31,3 +80,4 @@
 .upload_img_area img{
     max-height: 180px;
     max-width: 100%;
+}

@@ -5,6 +5,7 @@ $ready(function () {
         data: {
             id: $api.querystring('id'),
             organ: {},
+            activeName: 'general',      //选项卡
             subjects: [],     //所有专业数据
             //当前要操作的对象
             entity: {
