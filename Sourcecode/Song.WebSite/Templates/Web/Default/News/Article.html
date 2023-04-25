@@ -23,8 +23,10 @@
                         <h1 v-if="article.Art_TitleFull==''"> {{article.Art_Title}}</h1>
                         <h1 v-else> {{article.Art_TitleFull}}</h1>
 
-                        <div class="artAttrBar">
-                            <span class="artTime">{{article.Art_PushTime|date("yyyy-M-dd hh:m:s")}}</span>
+                        <div class="artAttrBar">                         
+                            <span class="artTime">{{article.Art_PushTime|date("yyyy-M-dd hh:m:s")}}
+                                ({{article.Art_PushTime.untilnow()}})
+                            </span>
 
                             <span icon="&#xa03a"> {{article.Art_Number}} </span>
                             <el-switch v-model="isformat" active-color="#13ce66" inactive-color="#999"

@@ -4,6 +4,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             arid: $api.dot(),        //新闻id
+            isformat: $api.storage('article_isformat') == 'true',         //是否格式化
             article: {},        //新闻对象
             accessory: [],       //新闻附件
             column: {},          //栏目信息
@@ -52,7 +53,15 @@ $ready(function () {
         },
         created: function () { },
         computed: {},
-        watch: {},
+        watch: {
+            //是否格式化
+            'isformat': {
+                handler: function (nv, ov) {
+                    if (nv != null)
+                        $api.storage('article_isformat', nv);
+                }, immediate: false,
+            }
+        },
         methods: {}
     });
 

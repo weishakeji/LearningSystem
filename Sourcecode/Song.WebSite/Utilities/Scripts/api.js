@@ -1484,6 +1484,7 @@
     }
 })();
 
+/** 时间相关的方法 */
 //日期格式化
 Date.prototype.format = function (fmt) {
 
@@ -1566,6 +1567,7 @@ Date.parse = function (str) {
     second = isNaN(second) ? 0 : second;
     return new Date(year, month, day, hour, minute, second);
 }
+//增加月份
 Date.prototype.addmonth = function (n) {
     var dt = this;
     var yy = dt.getYear();
@@ -1580,6 +1582,31 @@ Date.prototype.addmonth = function (n) {
     var dd = year + "-" + month + "-" + days;
     return dd;
 };
+Date.prototype.untilnow = function () {
+    var date = this;
+    const now = new Date();
+    const diff = Math.abs(now.getTime() - date.getTime());
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+
+    if (years > 0) {
+        return years + "年前";
+    } else if (months > 0) {
+        return months + "个月前";
+    } else if (days > 0) {
+        return days + "天前";
+    } else if (hours > 0) {
+        return hours + "小时前";
+    } else if (minutes > 0) {
+        return minutes + "分钟前";
+    } else {
+        return "刚刚";
+    }
+}
 String.prototype.format = function () {
     var args = arguments;
     return this.replace(/\{(\d+)\}/g, function (m, i) {

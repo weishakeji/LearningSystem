@@ -23,9 +23,12 @@
                     </div>
                 </van-sticky>
                 <div class="artAttrBar">
-                    <span icon="&#xa039">{{article.Art_PushTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                    <span icon="&#xa039" v-html="article.Art_PushTime ? article.Art_PushTime.untilnow() : ''"></span>
                     <span icon="&#xa03a"> {{article.Art_Number}} </span>
-
+                    <span @click="isformat=!isformat" :class="{'formatbtn':true, 'format':isformat}">
+                        <span icon="&#xa041" v-if="isformat">格式化 </span>
+                        <span icon="&#xa042" v-else>未格式化 </span>
+                    </span>
                 </div>
                 <!--摘要 -->
 
@@ -37,7 +40,7 @@
                 <div id="artImg" v-if="article.Art_Logo!=''"> <img :src="article.Art_Logo" />
                 </div>
                 <!--正文 -->
-                <div id="artContext" v-html="article.Art_Details">
+                <div :class="{'artContext':isformat}" v-html="article.Art_Details">
 
                 </div>
                 <!--附件 -->

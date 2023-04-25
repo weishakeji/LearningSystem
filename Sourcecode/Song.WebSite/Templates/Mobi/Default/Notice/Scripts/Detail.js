@@ -7,11 +7,13 @@ $ready(function () {
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项          
-            loading: true,
+
             sear_str: '',
 
             id: $api.dot(),     //通知公告的id
-            data: {}
+            data: {},
+            isformat: $api.storage('notice_isformat') == 'true',         //是否格式化
+            loading: true
 
         },
         mounted: function () {
@@ -70,6 +72,17 @@ $ready(function () {
             }
         },
         watch: {
+            //是否为空，即通知公告不存在
+            isempty: function () {
+                return !(JSON.stringify(this.data) != '{}' && this.data != null);
+            },
+            //是否格式化
+            'isformat': {
+                handler: function (nv, ov) {
+                    if (nv != null)
+                        $api.storage('notice_isformat', nv);
+                }, immediate: false,
+            }
         },
         methods: {
             onSearch: function () {

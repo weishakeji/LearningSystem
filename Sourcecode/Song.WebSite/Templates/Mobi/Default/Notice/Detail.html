@@ -24,17 +24,22 @@
             </van-search>
         </div>
         <div class="context">
-            <loading bubble v-if="loading">   ...</loading>
+            <loading bubble v-if="loading"> ...</loading>
             <div id="artBox" v-else-if="!isempty">
                 <van-sticky :offset-top="44" class="artTitle"> {{data.No_Ttl}}</van-sticky>
 
-                <div class="artAttrBar"> <span class="artTime">{{data.No_CrtTime|date("yyyy-M-dd hh:m:s")}}</span>
-                   &nbsp;
+                <div class="artAttrBar"> <span class="artTime" icon="&#xa039">{{data.No_CrtTime.untilnow()}}</span>
+                    &nbsp;
                     <span icon="&#xa03a"> {{data.No_ViewNum}} </span>
+                    <span @click="isformat=!isformat" :class="{'formatbtn':true, 'format':isformat}">
+                        <span icon="&#xa041" v-if="isformat">格式化 </span>
+                        <span icon="&#xa042" v-else>未格式化 </span>
+                    </span>
+
                     <!--<span class="artSharp">分享 </span>  -->
                 </div>
                 <!--正文 -->
-                <div id="artContext" v-html="data.No_Context">
+                <div :class="{'artContext':isformat}" v-html="data.No_Context">
 
                 </div>
             </div>

@@ -86,15 +86,15 @@
     max-width: 100% !important;
 }
 
-#artContext {
+.artContext {
     margin-bottom: 20px;
 }
 
-#artContext p {
+.artContext p {
     margin-top: 10px;
 }
 
-#artContext img, #artContext table {
+.artContext img, .artContext table {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
@@ -117,13 +117,13 @@ table td{
     margin-bottom: 1em;
 }
 
-#artContext, #artContext p, #artContext font, #artContext div, #artContext span {
+.artContext, .artContext p, .artContext font, .artContext div, .artContext span {
     font-size: 17px !important;
     line-height: 30px !important;
     background-color: transparent !important;
 }
 
-#artContext p {
+.artContext p {
     margin: 0.5em 0px 0px 0px;
 }
 
@@ -155,4 +155,16 @@ table td{
     font-size: 14px;
     color: #666666;
     margin-left: 10px;
+}
+
+/*是否格式化的按钮*/
+.formatbtn {
+    margin: 0px 10px; 
+}
+
+.formatbtn span[icon]::before {
+    font-size: 18px !important;
+}
+.format{
+    color: #67C23A;
 }

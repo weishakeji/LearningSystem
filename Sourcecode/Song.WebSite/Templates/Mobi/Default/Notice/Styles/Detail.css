@@ -3,8 +3,9 @@
     height: 100%;
     margin: 0px;
     padding: 0px;
-    overflow: hidden;   
+    overflow: hidden;
 }
+
 .header {
     height: 44px;
     background-color: rgb(212, 224, 206);
@@ -35,62 +36,69 @@
     padding: 5px 6px !important;
 }
 
-.context{
+.context {
     position: fixed;
     height: calc(100% - 93px);
     width: 100%;
     top: 44px;
     left: 0px;
-	overflow-y: auto;
+    overflow-y: auto;
 }
 
-#artBox{
-	margin:20px;
-}
-nav .left{
-	margin-left:10px;
-}
-nav .right{
-	margin-right:20px;
-}
-.artTitle
-{
-	font-size: 17px;
-	text-align: center;
-	margin-top: 10px;
-	margin-right: auto;
-	margin-bottom: 10px;
-	margin-left: auto;
-
-}
-.van-sticky{
-	background-color: #fff;
-}
-.artAttrBar
-{
-	font-size: 12px;
-	text-align: center;
-	margin-top: 10px;
-	margin-right: auto;
-	margin-bottom: 10px;
-	margin-left: auto;
-	color: #666666;
-}
-#artImg{
-	text-align: center;
-}
-#artImg img{
-	max-width:100% !important;
-}
-#artContext{
-	margin-bottom: 20px;
+#artBox {
+    margin: 20px;
 }
 
-#artContext p{
-	margin-top: 10px;
-	margin-left: 10px;	
+nav .left {
+    margin-left: 10px;
 }
-#artContext img, #artContext table {
+
+nav .right {
+    margin-right: 20px;
+}
+
+.artTitle {
+    font-size: 17px;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+
+}
+
+.van-sticky {
+    background-color: #fff;
+}
+
+.artAttrBar {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+    color: #666666;
+}
+
+#artImg {
+    text-align: center;
+}
+
+#artImg img {
+    max-width: 100% !important;
+}
+
+.artContext {
+    margin-bottom: 20px;
+}
+
+.artContext p {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.artContext img, .artContext table {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
@@ -99,39 +107,55 @@ nav .right{
     max-width: 100% !important;
     height: auto;
 }
-table td{
-	word-break: break-all;
-}
-.img-box{
-	text-align: center;
-}
-#artIntro
-{
-	font-size: 16x !important;
-	line-height: 22px !important;
-	background-color:transparent !important;
-	margin-bottom: 1em;
-}
-#artContext, #artContext p, #artContext font, #artContext div,#artContext span{
-	font-size: 16px !important;
-	line-height: 30px !important;
-	background-color:transparent !important;	
-}
-#artContext p
-{
-	margin: 0.5em 0px 0px 0px;
+
+table td {
+    word-break: break-all;
 }
 
-.nocontext{
+.img-box {
+    text-align: center;
+}
+
+#artIntro {
+    font-size: 16x !important;
+    line-height: 22px !important;
+    background-color: transparent !important;
+    margin-bottom: 1em;
+}
+
+.artContext, .artContext p, .artContext font, .artContext div, .artContext span {
+    font-size: 16px !important;
+    line-height: 30px !important;
+    background-color: transparent !important;
+}
+
+.artContext p {
+    margin: 0.5em 0px 0px 0px;
+}
+
+.nocontext {
     padding: 20px;
     text-align: center;
     font-size: 16px;
-    
+
 }
-.nocontext::before{
+
+.nocontext::before {
     content: "\e849";
     font-family: webdesk_icon;
     font-size: 140px;
     display: block;
     color: #999;
+}
+
+/*是否格式化的按钮*/
+.formatbtn {
+    margin: 0px 10px; 
+}
+
+.formatbtn span[icon]::before {
+    font-size: 18px !important;
+}
+.format{
+    color: #67C23A;
 }
