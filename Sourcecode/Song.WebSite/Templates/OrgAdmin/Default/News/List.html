@@ -32,7 +32,7 @@
         </div>
         <div class="right_box" remark="新闻列表">
             <div class="toolsbar" v-if="!loading_init">
-                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="80%" height="80%"
+                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="820" height="600"
                     :selects='selects' idkey='Art_ID' table="datatables"></btngroup>
                 <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                     <el-form-item label="">

@@ -12,7 +12,7 @@ Vue.component('articles', {
     mounted: function () {
         var th = this;
         th.loading = true;
-        $api.get('News/Articles', { 'uid': this.column.Col_UID, 'count': 10, 'order': '' }).then(function (req) {
+        $api.get('News/ArticlesShow', { 'orgid': -1, 'uid': this.column.Col_UID, 'count': 10, 'order': '' }).then(function (req) {
             th.loading = false;
             if (req.data.success) {
                 th.datas = req.data.result;

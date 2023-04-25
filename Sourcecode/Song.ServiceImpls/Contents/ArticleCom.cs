@@ -292,11 +292,11 @@ namespace Song.ServiceImpls
         {
             return this.ArticleCount(orgid, coluid, topNum, null, order);
         }
-        public Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isShow, string order)
+        public Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isuse, string order)
         {
             WhereClip wc = Article._.Art_IsDel == false;
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
-            if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
+            if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             if (!string.IsNullOrWhiteSpace(coluid))
             {
                 WhereClip wcColid = new WhereClip();
@@ -356,7 +356,7 @@ namespace Song.ServiceImpls
               return Gateway.Default.From<Article>().Where(wc).OrderBy(Article._.Art_PushTime.Desc).ToArray<Article>(size, (index - 1) * size);
         }
 
-        public Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isDel, string searTxt, int size, int index, out int countSum)
+        public Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isuse, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
@@ -370,12 +370,12 @@ namespace Song.ServiceImpls
             }
             if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
-            if (isDel != null) wc.And(Article._.Art_IsDel == (bool)isDel);
+            if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             countSum = Gateway.Default.Count<Article>(wc);
             return Gateway.Default.From<Article>().Where(wc).OrderBy(Article._.Art_PushTime.Desc).ToArray<Article>(size, (index - 1) * size);
         }
 
-        public Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isDel, string order,int size, int index, out int countSum)
+        public Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isuse, string order,int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
@@ -389,7 +389,7 @@ namespace Song.ServiceImpls
             }
             if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
-            if (isDel != null) wc.And(Article._.Art_IsDel == (bool)isDel);
+            if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
             if (order == "img") wcOrder = Article._.Art_IsImg.Desc;

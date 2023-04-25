@@ -110,7 +110,7 @@ namespace Song.ServiceInterfaces
         /// <param name="order">获取类别，默认null取最新置顶的优先，hot热点优先，flux流量最大优先,img为图片新闻</param>
         /// <returns></returns>
         Article[] ArticleCount(int orgid, string coluid, int topNum, string order);
-        Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isShow, string order);
+        Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isuse, string order);
         /// <summary>
         /// 统计文章数量
         /// </summary>
@@ -137,13 +137,13 @@ namespace Song.ServiceInterfaces
         /// <param name="orgid">机构id</param>
         /// <param name="coluid"></param>
         /// <param name="isVerify">是否审核</param>
-        /// <param name="isDel">是否删除</param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="searTxt"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isDel, string searTxt, int size, int index, out int countSum);
+        Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isuse, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取新闻
         /// </summary>
@@ -151,13 +151,13 @@ namespace Song.ServiceInterfaces
         /// <param name="coluid">新闻栏目</param>
         /// <param name="searTxt">按标题的检索的字符串</param>
         /// <param name="isVerify">是否审核</param>
-        /// <param name="isDel">是否删除</param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="order">获取类别，默认null取最新置顶的优先，hot热点优先，flux流量最大优先,img为图片新闻</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isDel, string order, int size, int index, out int countSum);
+        Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isuse, string order, int size, int index, out int countSum);
         #endregion
 
         #region 新闻专题管理
@@ -258,20 +258,20 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum);
         Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum, bool? isShow, bool? isUse);
-        Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum, bool? isDel, bool? isShow, bool? isUse);
+        Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum, bool? isuse, bool? isShow, bool? isUse);
         Article[] SpecialArticle(int spId, string searTxt, int count);
         /// <summary>
         /// 专题下的文章
         /// </summary>
         /// <param name="spId">专题Id</param>
         /// <param name="searTxt">检索的字符</param>
-        /// <param name="isDel">是否删除</param>
+        /// <param name="isuse">是否删除</param>
         /// <param name="isShow">是否显示</param>
         /// <param name="isUse">是否使用</param>
         /// <param name="count">取多少条，小于等于0，取所有</param>
         /// <param name="type">获取类别，默认null取最新置顶的优先，hot热点优先，maxFlux流量最大优先</param>
         /// <returns></returns>
-        Article[] SpecialArticle(int spId, string searTxt, bool? isDel, bool? isShow, bool? isUse, int count, string type);
+        Article[] SpecialArticle(int spId, string searTxt, bool? isuse, bool? isShow, bool? isUse, int count, string type);
         #endregion
 
         #region 新闻评论管理

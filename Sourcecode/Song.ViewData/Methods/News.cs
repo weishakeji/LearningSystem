@@ -223,7 +223,7 @@ namespace Song.ViewData.Methods
         public ListResult ArticlePagerShow(string uid, string search, string order, int size, int index)
         {
             int count = 0;
-            Song.Entities.Article[] news = Business.Do<IContents>().ArticlePager(-1, uid, search, null, false, order, size, index, out count);
+            Song.Entities.Article[] news = Business.Do<IContents>().ArticlePager(-1, uid, search, null, true, order, size, index, out count);
 
             ListResult result = new ListResult(news);
             result.Index = index;

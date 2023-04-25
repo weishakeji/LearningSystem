@@ -65,6 +65,7 @@ $ready(function () {
                         console.error(err);
                     });
             },
+            //获取新闻文章
             getArticles: function (index) {
                 var th = this;
                 if (index != null) th.query.index = index;
