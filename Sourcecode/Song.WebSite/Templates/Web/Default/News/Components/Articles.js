@@ -27,13 +27,14 @@ Vue.component('articles', {
     },
     methods: {},
     template: `<card-context> 
-        <div v-if="loading"><van-loading size="24px">加载中...</van-loading></div>      
-        <a :href="'/web/news/article.'+art.Art_ID"  v-for="(art,i) in datas">
-            <icon>&#xe649</icon>{{art.Art_Title}}        
-            <span v-if="false">{{art.Art_PushTime|date("yyyy-MM-dd")}}</span>
-        </a>
-      
+        <div v-if="loading"><loading>加载中...</loading></div>    
+        <div class="item" v-for="(art,i) in datas">  
+            <a :href="'/web/news/article.'+art.Art_ID" target="_blank">
+                <icon>&#xe649</icon>{{art.Art_Title}}
+            </a>
+            <span>[ {{art.Art_PushTime|date("MM-dd")}} ]</span>
+        </div>
         <div  v-if="datas.length==0 && !loading" class="noarticle">没有内容</div>
-        </card-context>`
+    </card-context>`
 });
 

@@ -108,19 +108,24 @@ context.columns>div.column .col_name {
     padding: 5px 0px;
     box-sizing: border-box;
     line-height: 40px;
+    display: flex;
+    justify-content: space-between;
 }
 
-context.columns>div.column .col_name icon {
+context.columns>div.column .col_name a[icon]:first-child::before {
     margin-right: 10px;
     font-size: 25px;
 }
-
+context.columns>div.column .col_name a[icon]:last-child{
+    font-size: 14px;
+}
 card-context {
     display: block;
     min-height: 180px;
+    padding: 0px !important;
 }
 
-card-context a {
+card-context .item a {
     display: block;
     font-size: 18px;
     line-height: 35px;
@@ -129,9 +134,20 @@ card-context a {
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
+    width: calc(100% - 60px);
 }
 
 context.rec{
     text-align: left;
     margin-top: 50px;
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+}
+.item span{
+    display: block;
+    width: 60px;
+    font-size: 14px;
+    text-align: right;
 }

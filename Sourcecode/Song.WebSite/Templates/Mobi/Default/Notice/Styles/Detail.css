@@ -16,7 +16,6 @@
     z-index: 2;
 }
 
-.header>* {}
 
 .header>div:first-child {
     float: left;
