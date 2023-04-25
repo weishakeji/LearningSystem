@@ -56,3 +56,9 @@ html, body, #vapp {
     width: calc(100% - 230px);
     background-color: #fff;
 }
+/*置顶图标*/
+.top{
+    font-size: 18px;
+    color: #E6A23C;
+    cursor: default;
+}

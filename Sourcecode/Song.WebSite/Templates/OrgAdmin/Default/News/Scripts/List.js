@@ -102,7 +102,7 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            fresh:function(){
+            fresh: function () {
                 this.getColumnsTree();
                 this.handleCurrentChange();
             },
@@ -129,21 +129,17 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //新闻栏目的节点点击事件
-            handleNodeClick: function (data) {
-                console.log(data);
-                this.curr_column = data;
-            },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
+            //设置置顶
+            btnsettop: function (row) {
+                row.Art_IsTop = !row.Art_IsTop;
+                this.changeState(row);
             },
             //更改使用状态
             changeState: function (row) {
                 var th = this;
                 th.loadingid = row.Art_ID;
                 $api.post('News/ArticleModifyState',
-                    { 'id': row.Art_ID, 'use': row.Art_IsUse, 'verify': row.Art_IsVerify })
+                    { 'id': row.Art_ID, 'use': row.Art_IsUse, 'top': row.Art_IsTop })
                     .then(function (req) {
                         th.loadingid = -1;
                         if (req.data.success) {
@@ -163,4 +159,4 @@ $ready(function () {
         }
     });
 
-},['Components/article_count.js']);
+}, ['Components/article_count.js']);

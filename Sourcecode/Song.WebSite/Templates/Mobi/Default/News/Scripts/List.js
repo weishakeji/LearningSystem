@@ -10,7 +10,7 @@ $ready(function () {
             finished: false,
             query: {
                 'uid': '', 'search': '',
-                'order': 'rec', 'size': 6, 'index': 0
+                'order': 'top', 'size': 6, 'index': 0
             },
             total: 0,
             loading: false

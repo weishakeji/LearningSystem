@@ -306,6 +306,7 @@ namespace Song.ServiceImpls
                 wc.And(wcColid);
             }
             OrderByClip wcOrder = new OrderByClip();
+            if (order == "top") wcOrder = Article._.Art_IsTop.Desc;
             if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
             if (order == "img") wcOrder = Article._.Art_IsImg.Desc;
             if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;
@@ -391,6 +392,7 @@ namespace Song.ServiceImpls
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             OrderByClip wcOrder = new OrderByClip();
+            if (order == "top") wcOrder = Article._.Art_IsTop.Desc;
             if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
             if (order == "img") wcOrder = Article._.Art_IsImg.Desc;
             if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;

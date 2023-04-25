@@ -401,19 +401,19 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">文章的id</param>
         /// <param name="use">是否启用</param>
-        /// <param name="verify">是否审核通过</param>
+        /// <param name="top">是否置顶</param>
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        public bool ArticleModifyState(long id, bool use, bool verify)
+        public bool ArticleModifyState(long id, bool use, bool top)
         {
             try
             {
                 Business.Do<IContents>().ArticleUpdate(id,
                     new WeiSha.Data.Field[] {
                         Song.Entities.Article._.Art_IsUse,
-                        Song.Entities.Article._.Art_IsVerify },
-                    new object[] { use, verify });
+                        Song.Entities.Article._.Art_IsTop },
+                    new object[] { use, top });
                 return true;
             }
             catch (Exception ex)

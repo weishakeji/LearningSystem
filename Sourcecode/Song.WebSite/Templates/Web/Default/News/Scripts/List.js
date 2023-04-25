@@ -13,7 +13,7 @@ $ready(function () {
             column: {},
             query: {
                 'uid': '', 'search': '',
-                'order': 'rec', 'size': 15, 'index': $api.querystring("index", 1)
+                'order': 'top', 'size': 15, 'index': $api.querystring("index", 1)
             },
             total: 1, //总记录数
             totalpages: 1, //总页数

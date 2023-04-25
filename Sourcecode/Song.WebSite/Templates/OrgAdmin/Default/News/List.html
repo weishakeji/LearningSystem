@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
 
         <div class="left_box" remark="新闻栏目">
-            <div class="toolsbar" @click="handleNodeClick(null)">
+            <div class="toolsbar" @click="curr_column = null">
                 <span>
                     <icon>&#xe6fd</icon>
                     新闻栏目
@@ -20,7 +20,7 @@
             </div>
             <div class="treebox">
                 <el-tree :data="columns" v-loading="loading_init" :props="defaultProps" default-expand-all
-                    @node-click="handleNodeClick" :expand-on-click-node="false">
+                    @node-click="data=>curr_column = data" :expand-on-click-node="false">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span class="bolder" v-if="curr_column && curr_column.Col_ID==data.Col_ID"
                             v-html="data.Col_Name"></span>
@@ -41,7 +41,8 @@
                 </query_panel>
             </div>
             <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_ID"
+                @selection-change="val=>selects=val"
+                @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Art_ID"
                 :row-class-name="data=>{return data.row.Art_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35" show-overflow-tooltip>
                 </el-table-column>
@@ -53,9 +54,11 @@
 
                 <el-table-column label="标题" min-width="300px">
                     <template slot-scope="scope">
+                        <icon v-if="scope.row.Art_IsTop" class="top" title="置顶">&#xe618</icon>
                         <icon v-if="scope.row.Art_IsImg" title="图片" style="font-size: 18px;">&#xe672</icon>
-                        <span v-html="showsearch(scope.row.Art_Title,form.search)" class="large"></span>
 
+                        <a :href="'/web/news/article.'+scope.row.Art_ID" target="_blank"
+                            v-html="showsearch(scope.row.Art_Title,form.search)" class="large link"></a>
                     </template>
                 </el-table-column>
 
@@ -69,19 +72,44 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip width="80">
+                    <template slot-scope="scope">
 
-                    <el-button-group slot-scope="scope">
-                        <el-link type="primary" plain icon="el-icon-edit"
-                            @click='$refs.btngroup.modify(scope.row.Art_ID)'>修改
-                        </el-link>
-                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Art_ID)">
-                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                    </el-button-group>
-                </el-table-column>
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                <icon>&#xe64d</icon><span style="font-size: 12px">编辑</span><i
+                                    class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-link type="success" plain @click='btnsettop(scope.row)'>
+                                        <template v-if="!scope.row.Art_IsTop">
+                                            <icon>&#xe618</icon> 置顶
+                                        </template>
+                                        <template v-else>
+                                            <icon>&#xe618</icon> 取消置顶
+                                        </template>
+                                    </el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided>
+                                    <el-link type="primary" plain icon="el-icon-edit"
+                                        @click='$refs.btngroup.modify(scope.row.Art_ID)'>
+                                        修改
+                                    </el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                        icon-color="red" title="确定删除吗？"
+                                        @confirm="$refs.btngroup.delete(scope.row.Art_ID)">
+                                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                        </el-link>
+                                    </el-popconfirm>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+
+                    </template>
+
             </el-table>
             <div id="pager-box">
                 <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
