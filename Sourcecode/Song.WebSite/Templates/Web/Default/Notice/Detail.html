@@ -26,10 +26,13 @@
                         <div class="artAttrBar"> <span class="artTime">{{data.No_CrtTime|date('yyyy-M-dd hh:m:s')}}</span>
                             &nbsp;
                             <span icon="&#xa03a"> {{data.No_ViewNum}} </span>
+                            <el-switch v-model="isformat" active-color="#13ce66" inactive-color="#999"
+                            :active-text="isformat ? '格式化' :'未格式化'">
+                            </el-switch>
                             <!--<span class="artSharp">分享 </span>  -->
                         </div>
                         <!--正文 -->
-                        <div id="artContext" v-html="data.No_Context"></div>
+                        <div :class="{'artContext':isformat}"  v-html="data.No_Context"></div>
                     </template>
                     <div v-else class="nocontext"> 没有内容</div>
 

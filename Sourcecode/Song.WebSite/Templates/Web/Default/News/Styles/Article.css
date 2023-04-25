@@ -44,7 +44,7 @@ context .right {
 	line-height: 20px;
 	color: #707070;
 }
-.artAttrBar span{
+.artAttrBar>span{
     margin: 0px 20px;
 }
 #artImg {
@@ -55,18 +55,18 @@ context .right {
 	max-width: 100% !important;
 }
 
-#artContext {
+.artContext {
 	margin-bottom: 20px;
 	text-align: left;
 }
 
-#artContext p {
+.artContext p {
 	margin-top: 10px;
 	margin-left: 10px;
 	text-indent: 2em;
 }
 
-#artContext img, #artContext table {
+.artContext img, .artContext table {
     margin-right: auto;
     margin-left: auto;
     margin-top: 10px;
@@ -90,13 +90,13 @@ table td{
     text-align: left;
 }
 
-#artContext, #artContext p, #artContext font, #artContext div, #artContext span {
+.artContext, .artContext p, .artContext font, .artContext div, .artContext span {
 	font-size: 20px !important;
 	line-height: 35px !important;
 	background-color: transparent !important;
 }
 
-#artContext p {
+.artContext p {
 	margin-top: 0.5em;
 }
 

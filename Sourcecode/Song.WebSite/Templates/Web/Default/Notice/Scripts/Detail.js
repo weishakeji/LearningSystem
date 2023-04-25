@@ -14,6 +14,7 @@ $ready(function () {
             id: $api.dot(),         //通知公告的id
             preview: $api.querystring('preview'),    //是否为预览内容，参数为true时预览
             data: {},
+            isformat: $api.storage('notice_isformat') == 'true',         //是否格式化
 
             loading: true,
 
@@ -55,6 +56,13 @@ $ready(function () {
             }
         },
         watch: {
+             //是否格式化
+             'isformat': {
+                handler: function (nv, ov) {
+                    if (nv != null)
+                        $api.storage('notice_isformat', nv);
+                }, immediate: false,
+            }
         },
         methods: {
             onSearch: function () {

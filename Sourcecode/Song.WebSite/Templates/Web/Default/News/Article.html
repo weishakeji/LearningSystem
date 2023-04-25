@@ -12,11 +12,11 @@
         <page_header @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...
         </page_header>
         <context>
-            <div class="left">              
+            <div class="left">
                 <div id="artBox">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
-                        <el-breadcrumb-item><a href="index">新闻</a></el-breadcrumb-item>
+                        <el-breadcrumb-item><a href="index">资讯</a></el-breadcrumb-item>
                         <el-breadcrumb-item>正文</el-breadcrumb-item>
                     </el-breadcrumb>
                     <template v-if="!isempty">
@@ -27,6 +27,9 @@
                             <span class="artTime">{{article.Art_PushTime|date("yyyy-M-dd hh:m:s")}}</span>
 
                             <span icon="&#xa03a"> {{article.Art_Number}} </span>
+                            <el-switch v-model="isformat" active-color="#13ce66" inactive-color="#999"
+                            :active-text="isformat ? '格式化' :'未格式化'">
+                            </el-switch>
                             <!--<span class="artSharp">分享 </span>  -->
                         </div>
                         <div class="artIntro" remark="摘要" v-if="article.Art_Intro!=''">
@@ -36,7 +39,7 @@
                             <img :src="article.Art_Logo" />
                         </div>
                         <!--正文 -->
-                        <div id="artContext" v-html="article.Art_Details">
+                        <div :class="{'artContext':isformat}" v-html="article.Art_Details">
 
                         </div>
                         <!--附件 -->

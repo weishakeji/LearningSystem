@@ -10,6 +10,8 @@ $ready(function () {
 
             arid: $api.dot(),        //新闻id
             article: {},        //新闻对象
+            isformat: $api.storage('article_isformat') == 'true',         //是否格式化
+
             accessory: [],       //新闻附件
             column: {},          //栏目信息
 
@@ -58,14 +60,24 @@ $ready(function () {
             });
             this.getcourses();
         },
-        created: function () { },
+        created: function () {
+            //this.isformat = $api.storage('isformat') == 'true';
+        },
         computed: {
             //是否为空，即不存在
             isempty: function () {
                 return !(JSON.stringify(this.article) != '{}' && this.article != null);
             }
         },
-        watch: {},
+        watch: {
+            //是否格式化
+            'isformat': {
+                handler: function (nv, ov) {
+                    if (nv != null)
+                        $api.storage('article_isformat', nv);
+                }, immediate: false,
+            }
+        },
         methods: {
             //获取课程
             getcourses: function () {
