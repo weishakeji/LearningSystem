@@ -25,11 +25,17 @@ Vue.component('courses', {
             },
             immediate: true
         },
+        'config': {
+            handler: function (val, old) {
+                //是否移除充值金额相关
+                if (!!val.IsMobileRemoveMoney)
+                    this.mremove = val.IsMobileRemoveMoney;
+            },
+            immediate: true
+        },
     },
-    created: function () {      
-        //是否移除充值金额相关
-        if (!!this.config.IsMobileRemoveMoney)
-            this.mremove = this.config.IsMobileRemoveMoney;
+    created: function () {
+
     },
     methods: {
         getCourse: function (sbj, size, index) {
@@ -77,15 +83,14 @@ Vue.component('courses', {
             var price = "";
             if (cour.Cou_IsFree) {
                 price = "<f>免费</f>";
-            } else {
-                if (cour.Cou_IsLimitFree) {
-                    var end = Date.parse(cour.Cou_FreeEnd);
-                    var date = end.format("yyyy-M-d");
-                    price = "<l>免费至" + date + "</l>";
-                } else if (cour.Cou_Price > 0) {
-                    price = "<m>" + unescape(cour.Cou_PriceSpan) + unescape(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
-                }
+            } else if (cour.Cou_IsLimitFree) {
+                var end = Date.parse(cour.Cou_FreeEnd);
+                var date = end.format("yyyy-M-d");
+                price = "<l>免费至" + date + "</l>";
+            } else if (cour.Cou_Price > 0) {
+                price = "<m>" + unescape(cour.Cou_PriceSpan) + unescape(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
             }
+
             return price;
         }
     },

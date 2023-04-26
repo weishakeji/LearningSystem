@@ -7,6 +7,7 @@ $ready(function () {
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项      
+            mremove: false,  //移除金额、充值相关
 
             loading: true,
             show_subject: false, //显示专业面板
@@ -46,6 +47,9 @@ $ready(function () {
                 th.query.orgid = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
+                //是否移除充值金额相关
+                if (!!th.config.IsMobileRemoveMoney)
+                    th.mremove = th.config.IsMobileRemoveMoney;
                 //
                 th.popupSubject();
                 th.tabChange(0, 'rec');

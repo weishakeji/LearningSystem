@@ -3,8 +3,8 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
-    <title>课程中心</title>   
+    <include file="../inc/meta.inc" />
+    <title>课程中心</title>
     <link type="text/css" charset="UTF-8" rel="stylesheet" href="../Styles/treemenu.css">
 </head>
 
@@ -18,15 +18,15 @@
                     {{sbjname}}
                 </van-tag>
             </div>
-            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent"  @search="onSearch">
+            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent" @search="onSearch">
                 <template #action>
-                  
+
                 </template>
                 <template #right-icon>
                     <div @click="onSearch">搜索</div>
                 </template>
                 <template #left-icon>
-                   
+
                 </template>
             </van-search>
         </div>
@@ -65,15 +65,18 @@
                         </picture>
                         <info>
                             <div class="curname">
-                                              
-                                <van-tag type="success" class="free" v-if="item.Cou_IsFree && !item.Cou_IsLimitFree">免费</van-tag>
-                                <van-tag type="success" class="free" v-else-if="item.Cou_IsLimitFree">限免</van-tag>
-                                <van-tag type="primary" class="free" v-else-if="item.Cou_IsTry">试</van-tag>
-                               {{item.Cou_Name}}
+                                <template v-if="!mremove">
+                                    <van-tag type="success" class="free"
+                                        v-if="item.Cou_IsFree && !item.Cou_IsLimitFree">免费</van-tag>
+                                    <van-tag type="success" class="free" v-else-if="item.Cou_IsLimitFree">限免</van-tag>
+                                    <van-tag type="primary" class="free" v-else-if="item.Cou_IsTry">试</van-tag>
+                                </template>
+                                {{item.Cou_Name}}
                             </div>
                             <div class="cursubject"> {{item.Sbj_Name}}</div>
-                            <price>
-                                <van-tag type="warning" v-if="!(item.Cou_IsFree || item.Cou_IsLimitFree)">
+                            <price v-if="!mremove">
+                                <van-tag type="warning"
+                                    v-if="!(item.Cou_IsFree || item.Cou_IsLimitFree) && item.Cou_Price>0">
                                     {{item.Cou_PriceSpan}} {{item.Cou_PriceUnit}} {{item.Cou_Price}}元
                                 </van-tag>
                                 <van-tag type="success " class="free" v-if="item.Cou_IsLimitFree">
@@ -85,7 +88,7 @@
                     </template>
                 </van-cell>
                 <template #right>
-                    <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>                    
+                    <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
                 </template>
             </van-swipe-cell>
         </van-list>
