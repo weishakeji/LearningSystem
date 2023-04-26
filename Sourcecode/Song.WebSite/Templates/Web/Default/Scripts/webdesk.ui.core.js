@@ -651,6 +651,16 @@
         if (null == u) return true;
         return regex_match.exec(u) != null;
     };
+    //网页是否处于微信内置浏览器
+    webdom.isWeixin = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/MicroMessenger/i) == 'micromessenger';
+    };
+    //网页是否处于微信小程序内置浏览器
+    webdom.isWeixinApp = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/miniProgram/i) == 'miniprogram';
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -773,7 +783,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {                
+            webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -897,7 +907,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备是手机端，转向手机页面
-        if (webdom.ismobi() && route.indexOf('/web/') > -1) {
+        if ((webdom.ismobi() || webdom.isWeixinApp()) && route.indexOf('/web/') > -1) {
             var search = window.location.search;
             var href = route.replace('/web/', '/mobi/');
             var pathname = window.location.pathname;
@@ -962,7 +972,7 @@
                 };
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
-                    for (var i = 0; i < source.length; i++) {                       
+                    for (var i = 0; i < source.length; i++) {
                         if (source[i].substring(0, 1) == "/") continue;
                         if (source[i].length >= 7 && source[i].substring(0, 7).toLowerCase() == "http://") continue;
                         if (source[i].length >= 8 && source[i].substring(0, 8).toLowerCase() == "https://") continue;

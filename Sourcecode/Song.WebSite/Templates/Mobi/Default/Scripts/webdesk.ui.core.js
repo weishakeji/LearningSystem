@@ -650,6 +650,16 @@
         if (null == u) return true;
         return regex_match.exec(u) != null;
     };
+    //网页是否处于微信内置浏览器
+    webdom.isWeixin = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/MicroMessenger/i) == 'micromessenger';
+    };
+    //网页是否处于微信小程序内置浏览器
+    webdom.isWeixinApp = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/miniProgram/i) == 'miniprogram';
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -876,7 +886,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备不是手机端，转向web端页面
-        if (!webdom.ismobi() && route.indexOf('/mobi/') > -1) {
+        if (!(webdom.ismobi() || webdom.isWeixinApp) && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
             var href = route.replace('/mobi/', '/web/');
             var pathname = window.location.pathname;
