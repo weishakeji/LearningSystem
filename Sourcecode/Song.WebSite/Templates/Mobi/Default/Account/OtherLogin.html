@@ -39,7 +39,7 @@
             <template v-if="islogin">
 
                 <card>
-                    <config ref="config" class="config" :isuse="true">
+                    <config ref="config" class="config"  :isuse="true" :disabled="false">
                         <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
                             <img :src="data.img" />
                             <div class="name" v-if="!isbind(data.item.tag)">

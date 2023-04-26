@@ -81,6 +81,7 @@
 
         <context class="subjectbox" v-infinite-scroll="loadsbj">
             <template v-for="sbj in subject">
+                <!-- mincount 最少显示个数，当专业下的课程低于这个数时，这个区域不显示，为了保持页面不要太空-->
                 <subject_show :subject="sbj" :count="6" :mincount="1" order="rec"></subject_show>
             </template>
         </context>

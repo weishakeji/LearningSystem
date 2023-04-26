@@ -30,7 +30,7 @@
                 <icon>&#xa030</icon>第三方登录账号绑定
             </card-title>
 
-            <config ref="config" class="config" :isuse="true">
+            <config ref="config" class="config"  :isuse="true" :disabled="false">
                 <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
                     <div class="name">
                         <img :src="data.img" />
