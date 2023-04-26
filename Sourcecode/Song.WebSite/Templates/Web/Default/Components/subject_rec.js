@@ -2,12 +2,12 @@
 //推荐课程的列表
 Vue.component('subject_rec', {
     //专业，取多少条记录，低于多少条不再显示,排序方式
-    props: ["subject", 'count', 'mincount', 'order'],
+    props: ['subject', 'org', 'count', 'mincount', 'order'],
     data: function () {
         return {
             path: $dom.path(),   //模板路径
             show: false,         //是否显示，例如当前专业下没有课程    
-            
+
             loading: false,      //
             courses: []        //专业下的课程          
         }
@@ -15,7 +15,14 @@ Vue.component('subject_rec', {
     watch: {
         'subject': {
             handler: function (nv, ov) {
-                this.getcourse(this);
+                if (JSON.stringify(nv) == '{}' || nv == null) return;
+                this.getcourse();
+            }, immediate: true
+        },
+        'org': {
+            handler: function (nv, ov) {
+                if (JSON.stringify(nv) == '{}' || nv == null) return;
+                this.getcourse();
             }, immediate: true
         }
     },
@@ -35,12 +42,12 @@ Vue.component('subject_rec', {
     },
     methods: {
         //获取课程
-        getcourse: function (th) {
+        getcourse: function () {
             var th = this;
             th.loading = true;
             var sbjid = th.subject == null ? 0 : th.subject.Sbj_ID;
             $api.cache('Course/ShowCount',
-                { 'sbjid': sbjid, 'orgid': '', 'search': '', 'order': th.order, 'count': th.count })
+                { 'sbjid': sbjid, 'orgid': th.org.Org_ID, 'search': '', 'order': th.order, 'count': th.count })
                 .then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;

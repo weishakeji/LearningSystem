@@ -50,7 +50,7 @@
             </div>
         </context>
         <context class="rec">
-            <subject_rec :subject="null" :count="8" :mincount="4" order="rec"></subject_rec>
+            <subject_rec :subject="null" :org="org" :count="8" :mincount="4" order="rec"></subject_rec>
         </context>
         <context class="news" v-if="articles.length>0">
             <a class="tit" href="web/news">
@@ -82,7 +82,7 @@
         <context class="subjectbox" v-infinite-scroll="loadsbj">
             <template v-for="sbj in subject">
                 <!-- mincount 最少显示个数，当专业下的课程低于这个数时，这个区域不显示，为了保持页面不要太空-->
-                <subject_show :subject="sbj" :count="6" :mincount="1" order="rec"></subject_show>
+                <subject_show :subject="sbj" :org="org" :count="6" :mincount="1" order="rec"></subject_show>
             </template>
         </context>
 

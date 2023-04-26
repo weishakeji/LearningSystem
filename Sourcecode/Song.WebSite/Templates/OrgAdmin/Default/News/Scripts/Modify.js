@@ -209,7 +209,6 @@ $ready(function () {
                 var th = this;
                 th.loading_upload = true;
                 var uid = this.entity.Art_Uid;
-
                 $api.post('Accessory/Upload', { 'uid': uid, 'type': 'News', 'file': file }).then(function (req) {
                     th.loading_upload = false;
                     if (req.data.success) {

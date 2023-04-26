@@ -4,7 +4,7 @@
 //complete: //加载完成事件，参数为课程数
 Vue.component('subject_show', {
     //专业，取多少条记录，低于多少条不再显示,排序方式
-    props: ["subject", 'count', 'mincount', 'order'],
+    props: ['subject', 'org', 'count', 'mincount', 'order'],
     data: function () {
         return {
             path: $dom.path(),   //模板路径
@@ -17,7 +17,12 @@ Vue.component('subject_show', {
     watch: {
         'subject': {
             handler: function (nv, ov) {
-                this.getcourse(this);
+            }, immediate: true
+        },
+        'org': {
+            handler: function (nv, ov) {
+                if (JSON.stringify(nv) == '{}' || nv == null) return;
+                this.getcourse();
             }, immediate: true
         }
     },
@@ -37,20 +42,20 @@ Vue.component('subject_show', {
     },
     methods: {
         //获取课程
-        getcourse: function (th) {
+        getcourse: function () {
             var th = this;
             th.loading = true;
             var sbjid = th.subject == null ? 0 : th.subject.Sbj_ID;
             $api.cache('Course/ShowCount',
-                { 'sbjid': sbjid, 'orgid': '', 'search': '', 'order': th.order, 'count': th.count })
+                { 'sbjid': sbjid, 'orgid': th.org.Org_ID, 'search': '', 'order': th.order, 'count': th.count })
                 .then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                         th.show = th.courses.length >= th.mincount;
-                        if(th.show){
-                            th.$nextTick(function(){
+                        if (th.show) {
+                            th.$nextTick(function () {
                                 //加载完成事件，参数为课程数
-                                th.$emit('complete',th.courses.length);
+                                th.$emit('complete', th.courses.length);
                             });
                         }
                     } else {
