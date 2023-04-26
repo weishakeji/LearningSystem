@@ -37,20 +37,21 @@ $ready(function () {
 
             loading: false,
             loading_init: true,
-            loading_upload:false        //附件上传的预载
+            loading_upload: false        //附件上传的预载
         },
         watch: {
         },
         created: function () {
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    $api.get('News/ColumnsTree', { 'orgid': vapp.organ.Org_ID })
+                    th.organ = req.data.result;
+                    $api.get('News/ColumnsTree', { 'orgid': th.organ.Org_ID })
                         .then(function (req) {
                             if (req.data.success) {
-                                vapp.columns = req.data.result;
-                                vapp.getAtricle();
+                                th.columns = req.data.result;
+                                th.getAtricle();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -79,13 +80,13 @@ $ready(function () {
                 if (th.id == '') {
                     $api.get('Snowflake/Generate').then(function (req) {
                         if (req.data.success) {
-                            th.entity.Art_ID =req.data.result;                       
+                            th.entity.Art_ID = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {    
-                        Vue.prototype.$alert(err);
+                    }).catch(function (err) {
+                        alert(err);
                         console.error(err);
                     });
                     return;
@@ -99,11 +100,11 @@ $ready(function () {
                         //将当前新闻文章的分类，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Col_UID);
-                        var sbj = vapp.traversalQuery(th.entity.Col_UID, th.columns);
+                        var sbj = th.traversalQuery(th.entity.Col_UID, th.columns);
                         if (sbj == null) {
                             throw '文章的栏目“' + th.entity.Col_Name + '”不存在，或该栏目被禁用';
                         }
-                        arr = vapp.getParentPath(sbj, th.columns, arr);
+                        arr = th.getParentPath(sbj, th.columns, arr);
                         th.entity.Col_UID = arr;
                         //加载附件
                         th.getAccessory();
@@ -111,14 +112,13 @@ $ready(function () {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.$alert(err, '错误');
                 });
             },
             btnEnter: function (formName) {
-                var th = this;             
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-
                         th.loading = true;
                         //为上传数据作处理
                         var obj = $api.clone(th.entity);
@@ -135,32 +135,28 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                window.setTimeout(function () {
-                                    vapp.operateSuccess();
-                                }, 600);
+                                //刷新客户端与服务器端缓存
+                                $api.cache('News/Article:clear', { 'id': th.id })
+                                    .catch(err => console.error(err))
+                                    .finally(() => {
+                                        th.operateSuccess();
+                                    });
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-            },
-            //图片文件上传
-            filechange: function (file) {
-                var th = this;
-                th.upfile = file;
-
-                console.log(file);
             },
             //清除图片
             fileremove: function () {
@@ -196,7 +192,7 @@ $ready(function () {
             getAccessory: function () {
                 var th = this;
                 var uid = this.entity.Art_Uid;
-                $api.get('Accessory/List', { 'uid': uid,'type':'news' }).then(function (req) {
+                $api.cache('News/Accessory:clear', { 'uid': uid}).then(function (req) {
                     if (req.data.success) {
                         th.accessories = req.data.result;
                     } else {
@@ -211,11 +207,11 @@ $ready(function () {
             //附件文件上传
             uploadAccessory: function (file) {
                 var th = this;
-                th.loading_upload=true;
+                th.loading_upload = true;
                 var uid = this.entity.Art_Uid;
 
                 $api.post('Accessory/Upload', { 'uid': uid, 'type': 'News', 'file': file }).then(function (req) {
-                    th.loading_upload=false;
+                    th.loading_upload = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getAccessory();
@@ -224,7 +220,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_upload=false;
+                    th.loading_upload = false;
                     console.error(err);
                 });
             },

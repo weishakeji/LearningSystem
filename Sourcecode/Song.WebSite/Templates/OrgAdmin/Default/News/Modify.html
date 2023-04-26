@@ -67,7 +67,8 @@
                 <template v-if="activeName=='tab3'">
                     <div class="art_logo">
                         <div class="img_tools">
-                            <upload-img @change="filechange" :data="entity" :size="1024" height="30" ext="jpg,png,gif">
+                            <upload-img @change="file=>upfile = file" :data="entity" :size="1024" height="30"
+                                ext="jpg,png,gif">
                                 <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
                                     <span style="cursor: pointer;">
                                         <icon>&#xe6ea</icon>点击上传图片
@@ -106,7 +107,7 @@
                                     :download="f.As_Name"><span>{{i+1}}.</span><span v-html="f.As_Name"></span>
                                     <span class="filesize">{{f.As_Size|size}}</span>
                                 </a>
-                                  
+
                                 <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
                                     <el-link type="danger" class="el-icon-delete" slot="reference"> 删除</el-link>
                                 </el-popconfirm>

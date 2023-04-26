@@ -16,7 +16,7 @@ Vue.component('course', {
             handler: function (nv, ov) {
                 var config = $api.organ(nv).config;
                 //是否移除充值金额相关
-                if (!!configIsMobileRemoveMoney)
+                if (!!config.IsMobileRemoveMoney)
                     this.mremove = config.IsMobileRemoveMoney;
             }, immediate: true
         }
