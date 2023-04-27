@@ -3,17 +3,17 @@
 
 <head resource>
     <title></title>
-    <include file="inc/meta.inc" />  
+    <include file="inc/meta.inc" />
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header  @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...</page_header>
+        <page_header @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...</page_header>
 
         <template v-if="!loading">
             <el-carousel v-if="showpic.length>0" class="carousel">
                 <el-carousel-item v-for="pic in showpic" :style="'background:'+pic.Shp_BgColor">
-                    <a :href="pic.Shp_Url" :target="pic.shp_target">
+                    <a :href="pic.Shp_Url!='' ? pic.Shp_Url : '#'" :target="pic.Shp_Target">
                         <img :src="pic.Shp_File" v-if="pic.Shp_File!=''" />
                         <img src="Images/swipe/3.jpg" v-else />
                     </a>
@@ -97,7 +97,7 @@
         </context>
         <page_footer :organ="org" :account="account">loading ...</page_footer>
         <popup-notice forpage="web_home" remark="通知公告的弹出"></popup-notice>
-    </div>   
+    </div>
 
 </body>
 
