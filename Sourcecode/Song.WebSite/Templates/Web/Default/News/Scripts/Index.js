@@ -9,8 +9,7 @@ $ready(function () {
 
             columns: [],        //新闻栏目++
 
-            articles: [],         //新闻文章  
-            notices: [],         //通知公告
+            articles: [],         //新闻文章
             loading: false
         },
         mounted: function () {            
@@ -31,10 +30,9 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.bat(
-                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': -1,'count': 4 }),
                     $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
                     $api.cache('News/ColumnsShow:60', { 'orgid': orgid, 'pid': '', 'count': 0 })
-                ).then(axios.spread(function (notice, articles, columns) {
+                ).then(axios.spread(function (articles, columns) {
                     vapp.loading = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -45,12 +43,7 @@ $ready(function () {
                             console.error(data.exception);
                         }
                     }
-                    //获取结果                
-                    th.notices = notice.data.result;
-                    var regex = /(<([^>]+)>)/ig
-                    for (let i = 0; i < th.notices.length; i++) {
-                        th.notices[i].No_Context = th.notices[i].No_Context.replace(regex, "");
-                    }
+                    //获取结果
                     th.articles = articles.data.result;
                     th.columns = columns.data.result;
                 })).catch(function (err) {

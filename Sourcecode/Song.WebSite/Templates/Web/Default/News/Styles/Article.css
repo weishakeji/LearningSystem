@@ -94,6 +94,7 @@ table td{
 	font-size: 20px !important;
 	line-height: 35px !important;
 	background-color: transparent !important;
+	font-family: '' !important;
 }
 
 .artContext p {

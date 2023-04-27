@@ -169,6 +169,7 @@ namespace Song.ViewData.Methods
         [HttpGet,Localhost]
         public JObject Entities()
         {
+            //数据库所有的表
             List<string> entities = Business.Do<ISystemPara>().DataTables();
             //获取实体的原有记录项
             JObject details = null;

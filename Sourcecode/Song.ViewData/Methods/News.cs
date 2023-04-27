@@ -187,6 +187,7 @@ namespace Song.ViewData.Methods
                 {
                     art.Art_Intro = WeiSha.Core.HTML.ClearTag(art.Art_Details, 200);
                 }
+                art.Art_Details = string.Empty;
             }
             return news;
         }
@@ -208,6 +209,7 @@ namespace Song.ViewData.Methods
                 {
                     art.Art_Intro = WeiSha.Core.HTML.ClearTag(art.Art_Details, 200);
                 }
+                art.Art_Details = string.Empty;
             }
             return news;
         }
@@ -224,7 +226,15 @@ namespace Song.ViewData.Methods
         {
             int count = 0;
             Song.Entities.Article[] news = Business.Do<IContents>().ArticlePager(-1, uid, search, null, true, order, size, index, out count);
-
+            foreach (Song.Entities.Article art in news)
+            {
+                art.Art_Logo = System.IO.File.Exists(PhyPath + art.Art_Logo) ? VirPath + art.Art_Logo : "";
+                if (string.IsNullOrWhiteSpace(art.Art_Intro))
+                {
+                    art.Art_Intro = WeiSha.Core.HTML.ClearTag(art.Art_Details, 200);
+                }
+                art.Art_Details = string.Empty;
+            }
             ListResult result = new ListResult(news);
             result.Index = index;
             result.Size = size;

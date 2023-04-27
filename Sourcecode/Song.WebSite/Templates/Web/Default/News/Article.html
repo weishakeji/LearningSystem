@@ -19,18 +19,19 @@
                         <el-breadcrumb-item><a href="index">资讯</a></el-breadcrumb-item>
                         <el-breadcrumb-item>正文</el-breadcrumb-item>
                     </el-breadcrumb>
-                    <template v-if="!isempty">
+                    <loading v-if="loading"></loading>
+                    <template v-else-if="!isempty">
                         <h1 v-if="article.Art_TitleFull==''"> {{article.Art_Title}}</h1>
                         <h1 v-else> {{article.Art_TitleFull}}</h1>
 
-                        <div class="artAttrBar">                         
+                        <div class="artAttrBar">
                             <span class="artTime">{{article.Art_PushTime|date("yyyy-M-dd hh:m:s")}}
                                 ({{article.Art_PushTime.untilnow()}})
                             </span>
 
                             <span icon="&#xa03a"> {{article.Art_Number}} </span>
                             <el-switch v-model="isformat" active-color="#13ce66" inactive-color="#999"
-                            :active-text="isformat ? '格式化' :'未格式化'">
+                                :active-text="isformat ? '格式化' :'未格式化'">
                             </el-switch>
                             <!--<span class="artSharp">分享 </span>  -->
                         </div>

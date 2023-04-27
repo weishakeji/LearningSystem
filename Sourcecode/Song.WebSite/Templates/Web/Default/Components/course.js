@@ -14,6 +14,7 @@ Vue.component('course', {
     watch: {
         'org': {
             handler: function (nv, ov) {
+                if (JSON.stringify(nv) == '{}' || nv == null) return;
                 var config = $api.organ(nv).config;
                 //是否移除充值金额相关
                 if (!!config.IsMobileRemoveMoney)

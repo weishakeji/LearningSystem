@@ -72,12 +72,15 @@ context {
     flex-wrap: wrap;
     overflow: hidden;
 }
-
-.art_list a {
+.art_list>div{
     width: calc(33% - 70px);
     margin: 0px 35px 10px 35px;
     height: 40px;
     line-height: 40px;
+    display: flex;
+}
+.art_list a {   
+    width: calc(100% - 60px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -89,7 +92,9 @@ context {
     margin-right: 5px;
     display: inline-block;
 }
-
+.art_list span{
+    font-size: 14px;
+}
 context.columns {
     display: flex;
     flex-direction: row;

@@ -71,9 +71,12 @@ Vue.component('page_footer', {
         <email v-if="organ.Org_Email!=''">{{organ.Org_Email}}</email><br/>
         <span>Copyright &copy; {{organ.Org_AbbrEnName}} All rights reserved</span><br/>
         <div class="beian"> 
-            <a v-if="organ.Org_ICP!=''" href="http://beian.miit.gov.cn/" target="_blank">{{organ.Org_ICP}}</a> 
-            <a v-if="organ.Org_GonganBeian!=''"  :href="'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode='+organ.Org_GonganBeian" target="_blank">
-            <img src="/Utilities/Images/ghs.png" />{{organ.Org_GonganBeian}}</a>        
+            <a v-if="organ.Org_ICP!=''" title="ICP备案号" href="http://beian.miit.gov.cn/" target="_blank">
+                <icon>&#xa054</icon>{{organ.Org_ICP}}
+            </a> 
+            <a v-if="organ.Org_GonganBeian!=''" title="公案备案号" :href="'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode='+organ.Org_GonganBeian" target="_blank">
+                <icon>&#xa02b</icon>{{organ.Org_GonganBeian}}
+            </a>        
         </div>         
         </div>       
     </weisha_page_footer>`

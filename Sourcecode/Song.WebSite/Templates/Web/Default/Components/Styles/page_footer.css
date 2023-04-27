@@ -79,8 +79,15 @@ weisha_page_footer email::before {
 
 weisha_page_footer .beian a {
     text-decoration: none;
+    font-size: 14px !important;
 }
 
 weisha_page_footer .beian a:first-child {
     margin-right: 20px;
+}
+weisha_page_footer .beian a:first-child icon{
+    font-size: 22px !important;
+}
+weisha_page_footer .beian a:last-child icon{
+    font-size: 20px !important;
 }

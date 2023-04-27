@@ -54,10 +54,9 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
+            }).catch(function (err) {               
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
             this.getcourses();
         },
         created: function () {
