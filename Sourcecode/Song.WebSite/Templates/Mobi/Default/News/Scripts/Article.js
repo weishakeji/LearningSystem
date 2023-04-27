@@ -14,7 +14,6 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.cache('News/Article', { 'id': this.arid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.article = req.data.result;
                     document.title = th.article.Art_Title;
@@ -46,10 +45,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () { },
         computed: {},

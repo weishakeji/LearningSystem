@@ -19,7 +19,10 @@
                         <el-breadcrumb-item><a href="index">资讯</a></el-breadcrumb-item>
                         <el-breadcrumb-item>正文</el-breadcrumb-item>
                     </el-breadcrumb>
-                    <loading v-if="loading"></loading>
+                    <template v-if="loading">
+                        <div loading="p1"></div>
+                        <loading bubble></loading>
+                    </template>
                     <template v-else-if="!isempty">
                         <h1 v-if="article.Art_TitleFull==''"> {{article.Art_Title}}</h1>
                         <h1 v-else> {{article.Art_TitleFull}}</h1>

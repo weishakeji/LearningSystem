@@ -12,7 +12,7 @@ context .left {
 
 context .right {
 	margin-left: 30px;
-	width: 260px;	
+	width: 260px;
 	margin-top: 60px;
 	box-sizing: border-box;
 
@@ -21,12 +21,16 @@ context .right {
 
 
 #artBox {
-    margin: 60px 20px 80px 20px;
+	margin: 60px 20px 80px 20px;
 	padding: 30px;
 	width: calc(100% - 50px);
-    border: solid 1px #ccc;
-    box-sizing: border-box;
-    min-height: 600px;
+	border: solid 1px #ccc;
+	box-sizing: border-box;
+	min-height: 600px;
+}
+
+#artBox div[loading] {
+	margin-top: 50px;
 }
 
 #artBox h1 {
@@ -44,9 +48,11 @@ context .right {
 	line-height: 20px;
 	color: #707070;
 }
-.artAttrBar>span{
-    margin: 0px 20px;
+
+.artAttrBar>span {
+	margin: 0px 20px;
 }
+
 #artImg {
 	text-align: center;
 }
@@ -67,17 +73,19 @@ context .right {
 }
 
 .artContext img, .artContext table {
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    max-width: 100% !important;
-    height: auto;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	max-width: 100% !important;
+	height: auto;
 }
-table td{
+
+table td {
 	word-break: break-all;
 }
+
 .img-box {
 	text-align: center;
 }
@@ -87,7 +95,7 @@ table td{
 	line-height: 40px !important;
 	background-color: transparent !important;
 	margin-bottom: 1em;
-    text-align: left;
+	text-align: left;
 }
 
 .artContext, .artContext p, .artContext font, .artContext div, .artContext span {
@@ -119,33 +127,33 @@ table td{
 
 /*附件*/
 #artAcc {
-    margin-bottom: 1em;
-    text-align: left;
+	margin-bottom: 1em;
+	text-align: left;
 }
 
 #artAcc .accItem {
-    margin-left: 0px;
+	margin-left: 0px;
 }
 
 #artAcc {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 #artAcc dt {
-    font-size: 20px;
-    line-height: 30px;
-    font-weight: bold;
+	font-size: 20px;
+	line-height: 30px;
+	font-weight: bold;
 }
 
 #artAcc dd, #artAcc dd a {
-    font-size: 18px;
-    line-height: 30px;
-    color: #069;
+	font-size: 18px;
+	line-height: 30px;
+	color: #069;
 }
 
 .filesize {
-    font-size: 16px;
-    color: #666666;
-    margin-left: 10px;
+	font-size: 16px;
+	color: #666666;
+	margin-left: 10px;
 }
