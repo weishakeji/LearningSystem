@@ -480,6 +480,7 @@ $ready(function () {
                         }
                         ques += ">";
                         if (quesgroup.type == 4 || quesgroup.type == 5) {
+                            q[j]['ans'] = q[j]['ans'].replace(/<[^>]*>/g, '');
                             ques += "<![CDATA[" + q[j]['ans'] + "]]>"
                         }
                         ques += "</q>";

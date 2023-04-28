@@ -360,6 +360,20 @@ namespace Song.ViewData.Methods
             }
             XmlDocument resXml = new XmlDocument();
             resXml.LoadXml(result, false);
+            //遍历试题答题内容
+            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
+            foreach (XmlNode ques in quesnodes)
+            {
+                int type = 0;
+                int.TryParse(ques.Attributes["type"].Value, out type);
+                //填空和简答,清理冗余html标签
+                if (type == 4 || type == 5)
+                {
+                    foreach (XmlNode q in ques.ChildNodes)
+                        q.InnerText = Html.ClearHTML(q.InnerText);
+
+                }
+            }
             XmlNode xn = resXml.SelectSingleNode("results");
             //学员Id,学员名称
             int stid = 0, stsid = 0, stsex = 0;
@@ -579,7 +593,26 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.TestResults ResultForID(int id)
         {
-            return Business.Do<ITestPaper>().ResultsSingle(id);
+            Song.Entities.TestResults result= Business.Do<ITestPaper>().ResultsSingle(id);
+            if (result == null) return result;
+            XmlDocument resXml = new XmlDocument();
+            resXml.LoadXml(result.Tr_Results, false);
+            //遍历试题答题内容
+            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
+            foreach (XmlNode ques in quesnodes)
+            {
+                int type = 0;
+                int.TryParse(ques.Attributes["type"].Value, out type);
+                //填空和简答,清理冗余html标签
+                if (type == 4 || type == 5)
+                {
+                    foreach (XmlNode q in ques.ChildNodes)
+                        q.InnerText = Html.ClearHTML(q.InnerText);
+
+                }
+            }
+            result.Tr_Results = resXml.InnerXml;
+            return result;
         }
         /// <summary>
         /// 删除测试成绩

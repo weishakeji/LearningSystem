@@ -260,7 +260,7 @@
             //生成试卷内容
             generatePaper: function () {
                 if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
-                if (this.paperQues.length > 0) return;             
+                if (this.paperQues.length > 0) return;
                 var th = this;
                 th.loading.paper = true;
                 $api.get('TestPaper/GenerateRandom', { 'tpid': this.tpid }).then(function (req) {
@@ -479,6 +479,7 @@
                         }
                         ques += ">";
                         if (quesgroup.type == 4 || quesgroup.type == 5) {
+                            q[j]['ans'] = q[j]['ans'].replace(/<[^>]*>/g, '');
                             ques += "<![CDATA[" + q[j]['ans'] + "]]>"
                         }
                         ques += "</q>";

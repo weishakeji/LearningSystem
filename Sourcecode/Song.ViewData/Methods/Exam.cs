@@ -303,7 +303,8 @@ namespace Song.ViewData.Methods
                     if (type == 1 || type == 2 || type == 3)
                         ans = q.Attributes["ans"].Value;
                     if (type == 4 || type == 5) ans = q.InnerText;
-                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";                  
+                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";
+                    ans = Html.ClearHTML(ans);
                     jq.Add("ans", ans);
                     if (q.Attributes["file"] != null) jq.Add("file", file);
 
@@ -441,6 +442,20 @@ namespace Song.ViewData.Methods
             JObject jo = new JObject();
             XmlDocument resXml = new XmlDocument();
             resXml.LoadXml(xml, false);
+            //遍历试题答题内容
+            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
+            foreach (XmlNode ques in quesnodes)
+            {
+                int type = 0;
+                int.TryParse(ques.Attributes["type"].Value, out type);
+                //填空和简答,清理冗余html标签
+                if (type == 4 || type == 5)
+                {
+                    foreach (XmlNode q in ques.ChildNodes)
+                        q.InnerText = Html.ClearHTML(q.InnerText);
+
+                }
+            }
             XmlNode xn = resXml.SelectSingleNode("results");
             //试卷id，考试id
             long tpid;
@@ -931,6 +946,21 @@ namespace Song.ViewData.Methods
             if (tp == null) throw new Exception("考试所用试卷不存在");
             
             resXml.LoadXml(result.Exr_Results, false);
+            //遍历试题答题内容
+            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
+            foreach (XmlNode ques in quesnodes)
+            {
+                int type = 0;
+                int.TryParse(ques.Attributes["type"].Value, out type);
+                //填空和简答,清理冗余html标签
+                if (type == 4 || type == 5)
+                {
+                    foreach(XmlNode q in ques.ChildNodes)                  
+                        q.InnerText = Html.ClearHTML(q.InnerText);
+                   
+                }               
+            }
+            result.Exr_Results = resXml.InnerXml;
             //判断开始时间与结束时间，是否考试结束等
             bool isOver;
             //判断是否已经开始、是否已经结束
@@ -952,11 +982,11 @@ namespace Song.ViewData.Methods
                     lover = lover * 10000;
                     DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
                     DateTime overTime = dtStart.Add(new TimeSpan(lover));    //得到转换后的结束时间
-                    isOver = DateTime.Now > overTime;
+                    isOver = DateTime.Now > overTime;                    
                 }
             }
             if(!isOver) throw new Exception("考试时间尚未结束，为防止泄题，请稍后查看回顾");
-
+           
             return result;
         }
 

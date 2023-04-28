@@ -27,7 +27,7 @@ $ready(function () {
             $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.cache('Exam/ForID', { 'id': this.examid }),
-                $api.get('Exam/ResultForID', { 'id': th.exrid })
+                $api.get('Exam/ResultReview', { 'id': th.exrid })
             ).then(axios.spread(function (types, exam, result) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
