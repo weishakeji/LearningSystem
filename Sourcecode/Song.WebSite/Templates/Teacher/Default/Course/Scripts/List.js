@@ -156,6 +156,15 @@ $ready(function () {
             //更改状态
             changeState: function (row) {
                 var th = this;
+                this.$alert('课程的启用与禁用，需要管理员操作', '警告', {
+                    confirmButtonText: '确定',
+                    type:'warning',
+                    callback: action => {
+                        row.Cou_IsUse = !row.Cou_IsUse;
+                    }
+                });
+
+                return;
                 this.loadingid = row.Cou_ID;
                 $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec, 'edit': row.Cou_Allowedit }).then(function (req) {
                     this.loadingid = -1;
@@ -218,7 +227,7 @@ $ready(function () {
                 });
             },
             //打开编辑界面
-            btnmodify: function (id) {               
+            btnmodify: function (id) {
                 this.$refs.btngroup.modify(id);
             },
             //新增课程的按钮事件

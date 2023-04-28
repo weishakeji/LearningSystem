@@ -44,7 +44,7 @@
                         separator="／" :props="defaultProps" filterable>
                     </el-cascader>
                 </el-form-item>
-                <el-form-item label="状态" prop="Cou_IsUse">
+                <el-form-item label="状态" prop="Cou_IsUse" v-if="!teachpage">
 
                     <el-switch v-model="entity.Cou_IsUse" :active-text="entity.Cou_IsUse ? '启用' : '禁用'">
                     </el-switch>
@@ -68,13 +68,13 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="学习目标" prop="Cou_Target">
-                    <editor :content="entity.Cou_Target" model="mini" style="height: 200px;"
-                        upload="Course" :dataid="entity.Cou_ID" @change="text=>entity.Cou_Target=text">
+                    <editor :content="entity.Cou_Target" model="mini" style="height: 200px;" upload="Course"
+                        :dataid="entity.Cou_ID" @change="text=>entity.Cou_Target=text">
                     </editor>
                 </el-form-item>
                 <el-form-item label="课程简介" prop="Cou_Intro">
-                    <editor :content="entity.Cou_Intro" model="general" style="height: 400px;"
-                        upload="Course" :dataid="entity.Cou_ID" @change="text=>entity.Cou_Intro=text">
+                    <editor :content="entity.Cou_Intro" model="general" style="height: 400px;" upload="Course"
+                        :dataid="entity.Cou_ID" @change="text=>entity.Cou_Intro=text">
                     </editor>
 
                 </el-form-item>

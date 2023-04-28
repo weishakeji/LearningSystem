@@ -94,10 +94,14 @@ namespace Song.ViewData.Methods
                 Song.Entities.Course entity = new Entities.Course();
                 entity.Cou_Name = name;
                 entity.Org_ID = orgid;
-                entity.Th_ID = thid;
                 if (thid > 0)
                 {
-                    Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(thid);
+                    entity.Th_ID = thid;
+                    Song.Entities.Teacher teacher = this.Teacher;
+                    if (!(teacher != null && teacher.Th_ID == thid))
+
+                        teacher = Business.Do<ITeacher>().TeacherSingle(thid);
+                    entity.Th_Name = teacher.Th_Name;
                     if (teacher != null) entity.Th_Name = teacher.Th_Name;
                 }
                 entity.Sbj_ID = sbjid;

@@ -5,6 +5,9 @@
             id: $api.querystring('id'),
             entity: {},         //当前实体
             organ: {},
+            admin: {},       //当前管理员
+            teacher: {},     //当前教师
+
             subjects: [],     //所有专业数据
             defaultProps: {
                 children: 'children',
@@ -27,15 +30,27 @@
         mounted: function () {
             var th = this;
             this.loading_obj = this.$fulloading();
-            $api.get('Organization/Current').then(function (req) {
-                if (req.data.success) {
-                    th.organ = req.data.result;
-                    th.getTreeData();
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
+            $api.bat(
+                $api.get('Organization/Current'),
+                $api.get('Admin/General'),
+                $api.get('Teacher/Current')
+            ).then(axios.spread(function (org, admin, teach) {
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.exception);
+                        throw arguments[i].config.way + ' ' + data.message;
+                    }
                 }
-            }).catch(function (err) {
+                //获取结果
+                th.organ = org.data.result;
+                th.admin = admin.data.result;
+                th.teacher = teach.data.result;
+                th.getTreeData();
+            })).catch(function (err) {
                 console.error(err);
             });
         },
@@ -48,7 +63,21 @@
                 var et = this.entity;
                 var etlogo = JSON.stringify(et) != '{}' && et != null && et['Cou_Logo'];
                 return etlogo || this.upfile != null
+            },
+            //管理员是否登录
+            'adminlogin': function () {
+                return !$api.isnull(this.admin);
+            },
+            //教师是否登录
+            'teachlogin': function () {
+                return !$api.isnull(this.teacher);
+            },
+            //是否处于教师管理页面
+            'teachpage': function () {
+                var href = window.top.location.href.toLowerCase();
+                return href.indexOf('/web/teach') > -1;
             }
+
         },
         watch: {
             'sbjSelects': function (nv, ov) {

@@ -26,6 +26,7 @@ namespace Song.ViewData.Extensions
         /// <summary>
         /// 将实体生成为Json对象，每个属性为json的属性
         /// </summary>
+        /// <param name="entity"></param>
         /// <param name="only">仅输出指定的属性，用逗号分隔，注意大小写</param>
         /// <param name="wipe">限定不输出的属性，用逗号分隔，注意大小写</param>
         /// <returns></returns>
