@@ -5,11 +5,12 @@
             id: $api.querystring('id'),     //课程Id
             uid: $api.querystring('uid'),       //课程的uid         
             course: {},  //当前课程
-            datas: [],
+            datas: [],              //章节
             defaultProps: {
                 children: 'children',
                 label: 'Ol_Name'
             },
+            olSelects: [],      //选择中的章节项
             expanded: [],        //树形默认展开的节点
             expanded_storage: 'outline_for_admin_tree' + $api.querystring('id'),  //用于记录展开节点的storage名称
             filterText: '',      //查询过虑树形的字符
@@ -64,7 +65,7 @@
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        th.datas = req.data.result;
+                        th.datas = req.data.result;                        
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -239,6 +240,7 @@
                         th.modify_obj.state = 'modify';
                         th.modify_show = true;
                         th.$refs['intro_editor'].setContent(result.Ol_Intro);
+
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -251,11 +253,19 @@
                 });
 
             },
+            //当编辑章节中的上级章节变化时
+            casader_change: function (data) {
+                if (data == null) return;
+                this.modify_obj.Ol_PID = data[data.length - 1];
+                //关闭级联菜单的浮动层
+                this.$refs["outlines"].dropDownVisible = false;
+            },
             //计算序号
             calcSerial: function (outline, lvl) {
                 var childarr = outline == null ? this.datas : (outline.children ? outline.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
+                    childarr[i].Ol_ModifyTime = new Date(childarr[i].Ol_ModifyTime);
                     childarr[i].serial = lvl + (i + 1) + '.';
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);

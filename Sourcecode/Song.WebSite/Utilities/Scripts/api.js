@@ -1592,8 +1592,9 @@ Date.prototype.untilnow = function () {
     const days = Math.floor(hours / 24);
     const months = Math.floor(days / 30);
     const years = Math.floor(months / 12);
-
-    if (years > 0) {
+    if (years >= 100) {
+        return "多年前";
+    } else if (years > 0) {
         return years + "年前";
     } else if (months > 0) {
         return months + "个月前";

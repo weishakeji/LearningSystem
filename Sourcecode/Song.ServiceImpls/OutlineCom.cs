@@ -33,8 +33,7 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    if (entity.Ol_ID <= 0)                  
-                        entity.Ol_ID = WeiSha.Core.Request.SnowID();                
+                    if (entity.Ol_ID <= 0)  entity.Ol_ID = WeiSha.Core.Request.SnowID();                
                     if (entity.Org_ID <= 0)
                     {
                         Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -51,7 +50,9 @@ namespace Song.ServiceImpls
                     entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
                     //唯一id
                     entity.Ol_UID = WeiSha.Core.Request.SnowID().ToString();
-
+                    //编辑时间
+                    if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-100))
+                        entity.Ol_ModifyTime = DateTime.Now;
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
                     //entity.Ol_XPath = _ClacXPath(entity);  
@@ -122,6 +123,7 @@ namespace Song.ServiceImpls
                     current.Cou_ID = couid;
                     current.Ol_PID = pid;
                     current.Ol_IsFinish = true;     //默认为完结
+                    current.Ol_ModifyTime = DateTime.Now;
                     new Task(() => {
                         this.OutlineAdd(current);
                     }).Start();
@@ -169,6 +171,9 @@ namespace Song.ServiceImpls
                 object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Org_ID == entity.Org_ID && Outline._.Ol_PID == entity.Ol_PID);
                 entity.Ol_Tax = obj is int ? (int)obj + 1 : 0;
             }
+            //编辑时间
+            if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-100))
+                entity.Ol_ModifyTime = DateTime.Now;
             //如果有下级，设置为章节节点
             int childCount = Gateway.Default.Count<Outline>(Outline._.Ol_PID == entity.Ol_ID);
             entity.Ol_IsNode = childCount > 0;

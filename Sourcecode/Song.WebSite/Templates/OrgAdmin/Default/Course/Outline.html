@@ -34,7 +34,9 @@
 
                     <div class="node_name draghandle">
                         <span>{{data.serial}}</span>
-                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>                    
+                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>
+                        <span class="date"
+                            :title="data.Ol_ModifyTime|date('yyyy-MM-dd HH:mm:ss')">({{data.Ol_ModifyTime.untilnow()}})</span>
                     </div>
                     <div class="btns">
                         <span class="column_video">
@@ -95,6 +97,16 @@
                     :rules="{'Ol_Name':[ { required: true, message: '不得为空', trigger: 'blur' }]}">
                     <el-form-item label="章节名称" prop="Ol_Name">
                         <el-input v-model="modify_obj.Ol_Name" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上级章节" prop="Ol_PID" v-if="modify_obj.state=='add'">
+                        <el-cascader style="width: 300px;" ref="outlines" v-model="olSelects" :options="datas"
+                            @change="casader_change" separator="／"
+                            :props="{children: 'children', label: 'Ol_Name',value: 'Ol_ID', expandTrigger: 'hover',checkStrictly: true }"
+                            clearable filterable placeholder=" -- 章节 -- ">
+                            <template slot-scope="{node,data}">
+                                {{data.Ol_Name}}
+                            </template>
+                        </el-cascader>
                     </el-form-item>
                     <el-form-item label="状态">
                         <div>

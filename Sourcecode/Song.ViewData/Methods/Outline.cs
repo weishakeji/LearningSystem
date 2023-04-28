@@ -14,6 +14,7 @@ using pili_sdk;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using Newtonsoft.Json.Linq;
+using Song.ViewData.Extensions;
 
 namespace Song.ViewData.Methods
 {
@@ -214,8 +215,8 @@ namespace Song.ViewData.Methods
                 {
                     if (m.Ol_PID != item.Ol_ID) continue;
                 }
-                string j = m.ToJson("", "Ol_LiveTime,Ol_ModifyTime,Ol_Intro,Ol_Courseware");
-                JObject jo = JObject.Parse(j);               
+                //string j = m.ToJson("", "Ol_LiveTime,Ol_Intro,Ol_Courseware");
+                JObject jo = m.ToJObject("", "Ol_Intro,Ol_Courseware");             
                 //计算下级
                 JArray charray = _outlineNode(m, items);
                 if (charray.Count > 0) jo.Add("children", charray);
