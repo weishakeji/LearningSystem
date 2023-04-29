@@ -1,4 +1,27 @@
-h1{
+h1 {
     font-size: 25px;
     padding: 20px;
+}
+dl{
+    display: flex;
+    padding-left: 20px;
+}
+dl dd{
+    font-size: 18px;
+    margin: 10px 20px 10px 0px;
+    padding: 0px;
+}
+a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+a[href] {
+    color: #333;
+}
+a[href]:hover{
+    text-decoration: underline;
+}
+a icon{
+    font-size: 22px;
 }
