@@ -37,7 +37,7 @@ Vue.component('editor', {
         'content': {
             handler: function (nv, ov) {
                 if (this.text == null || this.text == '') {
-                    if (nv != '' && nv!=null)
+                    if (nv != '' && nv != null)
                         this.text = nv.replace(/[\r\n]/g, '');
                     this.setContent(this.text);
                 }
@@ -111,6 +111,18 @@ Vue.component('editor', {
             }
             return arr;
         },
+        //右键菜单的显示
+        contextmenushow: function () {
+            let def = 'copy paste | link image inserttable | cell row column deletetable | code';
+            switch (this.model) {
+                case 'mini':
+                case 'inline':
+                    return 'copy paste'
+                    break;
+                default:
+                    return def;
+            }
+        },
         init: function () {
             var th = this;
             th.load = true;
@@ -154,7 +166,7 @@ Vue.component('editor', {
                 //选中时出现的快捷工具，与插件有依赖关系
                 quickbars_selection_toolbar: 'bold italic underline forecolor | link blockquote',
                 quickbars_insert_toolbar: 'kityformula-editor importword quicktable',
-                contextmenu: 'copy paste | link image inserttable | cell row column deletetable | code',
+                contextmenu: th.contextmenushow(),
                 table_style_by_css: true,
                 OperationManualHtml: '',
                 CommonProblemHtml: '',
