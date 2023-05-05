@@ -124,15 +124,6 @@
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -247,16 +238,6 @@
                                     $api.get("Exam/AttendNumber", { 'examid': th.examlist[i].Exam_ID }),
                                     $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
                                 ).then(axios.spread(function (avg, num, manual) {
-                                    //判断结果是否正常
-                                    for (var z = 0; z < arguments.length; z++) {
-                                        if (arguments[z].status != 200)
-                                            console.error(arguments[z]);
-                                        var data = arguments[z].data;
-                                        if (!data.success && data.exception != null) {
-                                            console.error(data.exception);
-                                            throw data.message;
-                                        }
-                                    }
                                     for (var n = 0; n < th.examlist.length; n++) {
                                         if (th.examlist[n].Exam_ID == avg.data.result.id) {
                                             th.examlist[n].avg = avg.data.result.average;

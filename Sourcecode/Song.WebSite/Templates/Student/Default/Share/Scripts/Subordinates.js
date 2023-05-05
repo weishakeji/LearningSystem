@@ -79,15 +79,6 @@ $ready(function () {
                     $api.get("Share/Friends", { 'acid': acid })
                 ).then(axios.spread(function (friendAll, friends) {
                     th.lading_count = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //获取结果
                     th.friendAll = friendAll.data.result;
                     th.friends = friends.data.result;

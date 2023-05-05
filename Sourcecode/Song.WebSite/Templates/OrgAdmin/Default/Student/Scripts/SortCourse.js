@@ -28,15 +28,6 @@ $ready(function () {
                 $api.get('Account/SortForID', { 'id': th.id })
             ).then(axios.spread(function (organ, sort) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果             
                 th.organ = organ.data.result;
                 th.sort = sort.data.result;

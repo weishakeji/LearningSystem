@@ -558,13 +558,32 @@
             } else {
                 return instance.request({ data: parameters });
             }
-        }
+        };
         //一次获取多个数据
         this.bat = function (queryArr) {
-            if (arguments.length == 0) return null;
-            //if (arguments.length == 1) return queryArr;
-            return axios.all(arguments);
-        }
+            var args = arguments;
+            return new Promise(function (resolve, reject) {
+                if (args.length == 0) return reject('未传入任何axios请求');
+                axios.all(args).then(axios.spread(function () {
+                    var arr = new Array();
+                    //判断结果是否正常
+                    for (let i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200) {
+                            console.error(arguments[i]);
+                            return reject(arguments[i]);
+                        }
+                        const data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.message);
+                            return reject(data.message);
+                        }
+                        arr.push(data.result);
+                    }
+                    resolve(arguments);
+                    //resolve(arr);                   
+                }));
+            });
+        };
         //常用方法加到$api根，方便调用
         for (var m in methods) {
             eval("this." + m + "=" + methods[m] + ";");

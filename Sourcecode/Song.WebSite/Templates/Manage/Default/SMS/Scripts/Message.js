@@ -36,16 +36,6 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (item, template, plat, organ) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
                 //获取结果
                 th.entity = item.data.result;
                 //th.entity.text = template.data.result;

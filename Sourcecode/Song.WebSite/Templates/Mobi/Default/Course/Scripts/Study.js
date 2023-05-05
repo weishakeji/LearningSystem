@@ -66,16 +66,6 @@ $ready(function () {
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
                 ).then(axios.spread(function (cur, ol, studied, owned) {
                     th.loading_init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw data.message;
-                        }
-                    }
                     th.course = cur.data.result;
                     document.title = th.course.Cou_Name;
                     th.outlines = ol.data.result;
@@ -98,16 +88,6 @@ $ready(function () {
                     $api.cache("Outline/Info", { 'olid': olid })
                 ).then(axios.spread(function (state, info) {
                     th.loading = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     var result = info.data.result;
                     for (let key in state.data.result) {
@@ -372,16 +352,6 @@ $ready(function () {
                         $api.cache("Outline/Info", { 'olid': th.outline.Ol_ID })
                     ).then(axios.spread(function (state, info) {
                         th.state_loading = false;
-                        //判断结果是否正常
-                        for (var i = 0; i < arguments.length; i++) {
-                            if (arguments[i].status != 200)
-                                console.error(arguments[i]);
-                            var data = arguments[i].data;
-                            if (!data.success && data.exception != null) {
-                                console.error(data.exception);
-                                throw arguments[i].config.way + ' ' + data.message;
-                            }
-                        }
                         //获取结果
                         var result = info.data.result;
                         for (let key in state.data.result) {

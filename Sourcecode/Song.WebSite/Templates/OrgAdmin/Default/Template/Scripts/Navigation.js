@@ -33,15 +33,6 @@ $ready(function () {
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
                 vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果          
                 vapp.platinfo = platinfo.data.result;
                 vapp.organ = organ.data.result;
@@ -82,16 +73,6 @@ $ready(function () {
                     $api.get(path, { 'orgid': th.organ.Org_ID, 'type': 'main' }),
                     $api.get(path, { 'orgid': th.organ.Org_ID, 'type': 'foot' })
                 ).then(axios.spread(function (main, foot) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw data.message;
-                        }
-                    }
                     //获取结果
                     th.data_main = main.data.result ? main.data.result : [];
                     th.data_foot = foot.data.result ? foot.data.result : [];

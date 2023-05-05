@@ -157,16 +157,7 @@
                     $api.cache('Question/Types:9999'),
                     $api.get('TestPaper/ForID', { 'id': this.tpid })
                 ).then(axios.spread(function (type, paper) {
-                    vapp.loading.init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.message);
-                        }
-                    }
+                    th.loading.init = false;
                     //试题类型
                     th.types = type.data.result;
                     //试卷

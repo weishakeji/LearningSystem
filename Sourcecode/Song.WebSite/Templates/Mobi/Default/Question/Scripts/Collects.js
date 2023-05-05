@@ -39,16 +39,7 @@
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': this.couid })
             ).then(axios.spread(function (account, types, course) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
+                th.loading_init = false;
                 th.account = account.data.result;
                 //创建试题练习状态的记录的操作对象
                 th.state = $state.create(th.account.Ac_ID, th.couid, 0);

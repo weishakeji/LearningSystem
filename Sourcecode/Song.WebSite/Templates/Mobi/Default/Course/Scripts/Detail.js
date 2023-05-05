@@ -80,15 +80,6 @@ $ready(function () {
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
             ).then(axios.spread(function (account, platinfo, organ, course, viewnum) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                    }
-                }
                 //当前登录学员、平台信息         
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -113,15 +104,6 @@ $ready(function () {
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {
                     th.loading_init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //获取结果
                     th.outlines = outlines.data.result;
                     th.prices = prices.data.result;
@@ -137,16 +119,6 @@ $ready(function () {
                             $api.cache('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account ? th.account.Ac_ID : 0 }),
                             $api.cache('Course/LogForOutlineVideo:10', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录
                         ).then(axios.spread(function (studied, owned, purchase, videolog) {
-                            //判断结果是否正常
-                            for (var i = 0; i < arguments.length; i++) {
-                                if (arguments[i].status != 200)
-                                    console.error(arguments[i]);
-                                var data = arguments[i].data;
-                                if (!data.success && data.exception != null) {
-                                    console.error(data.exception);
-                                    //throw data.message;
-                                }
-                            }
                             th.studied = studied.data.result;
                             th.owned = owned.data.result;
                             if (purchase.data.result != null)

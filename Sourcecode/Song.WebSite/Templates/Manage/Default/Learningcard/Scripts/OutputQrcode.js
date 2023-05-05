@@ -52,16 +52,6 @@
                 $api.get('Learningcard/SetCourses', { 'id': this.id }),
                 $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, courses, cards) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
                 vue.loading = false;
                 //获取结果
                 vue.cardset = cardset.data.result;

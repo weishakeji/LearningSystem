@@ -49,16 +49,6 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (org, types) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
                 th.organ = org.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;

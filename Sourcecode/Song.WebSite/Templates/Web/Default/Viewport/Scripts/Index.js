@@ -20,15 +20,6 @@ $ready(function () {
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 th.platinfo = platinfo.data.result;
                 document.title += ' - ' + th.platinfo.title;
                 th.organ = organ.data.result;

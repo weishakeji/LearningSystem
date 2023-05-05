@@ -33,15 +33,6 @@ $ready(function () {
                 $api.get('Share/Param')
             ).then(axios.spread(function (account, platinfo, organ, param) {
                 vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果
                 vapp.account = account.data.result;
                 vapp.platinfo = platinfo.data.result;
@@ -93,15 +84,6 @@ $ready(function () {
                     $api.get('Share/FriendAll', { 'acid': acid })
                 ).then(axios.spread(function (friends, friendsAll) {
                     vapp.loading_init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.message);
-                        }
-                    }
                     //获取结果
                     vapp.friends = friends.data.result;
                     vapp.friendsAll = friendsAll.data.result;
@@ -117,15 +99,6 @@ $ready(function () {
                     $api.get('Share/EarnPoint', { 'acid': acid })
                 ).then(axios.spread(function (coupon, money, point) {
                     vapp.loading_init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.message);
-                        }
-                    }
                     //获取结果
                     vapp.earn.coupon = coupon.data.result;
                     vapp.earn.money = money.data.result;

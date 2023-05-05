@@ -94,16 +94,6 @@ $ready(function () {
                         $api.put('Snowflake/Generate'),
                         $api.get('Organization/Current')
                     ).then(axios.spread(function (snowid, org) {
-                        //判断结果是否正常
-                        for (var i = 0; i < arguments.length; i++) {
-                            if (arguments[i].status != 200)
-                                console.error(arguments[i]);
-                            var data = arguments[i].data;
-                            if (!data.success && data.exception != null) {
-                                console.error(data.exception);
-                                throw arguments[i].config.way + ' ' + data.message;
-                            }
-                        }
                         //获取结果
                         //th.entity.Th_ID = snowid.data.result;
                         th.organ = org.data.result;

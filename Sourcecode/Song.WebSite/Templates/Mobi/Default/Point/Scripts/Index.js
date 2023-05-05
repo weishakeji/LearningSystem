@@ -16,29 +16,21 @@ $ready(function () {
             checked: false           //输入校验是否通过
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
                 $api.get('Point/Param')
             ).then(axios.spread(function (account, platinfo, organ, param) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
+                th.loading_init = false;
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.param = param.data.result;
+                th.config = $api.organ(th.organ).config;
+                th.param = param.data.result;
             })).catch(function (err) {
                 console.error(err);
             });

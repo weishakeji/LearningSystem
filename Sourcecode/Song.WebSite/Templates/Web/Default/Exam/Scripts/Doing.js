@@ -65,16 +65,6 @@ $ready(function () {
                 $api.post('Platform/ServerTime')
             ).then(axios.spread(function (type, state, exam, time) {
                 th.loading.init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                        throw data.message;
-                    }
-                }
                 //考试相关
                 th.types = type.data.result;
                 th.examstate = state.data.result;   //考试的状态               
@@ -96,17 +86,6 @@ $ready(function () {
                     $api.get('TestPaper/ForID', { 'id': th.examstate.paper })
                 ).then(axios.spread(function (theme, sbj, paper) {
                     th.loading.exam = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw data.message;
-                        }
-                    }
-
                     th.time.span = th.exam.Exam_Span;
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;

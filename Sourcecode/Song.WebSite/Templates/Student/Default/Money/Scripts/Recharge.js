@@ -51,15 +51,6 @@ $ready(function () {
                 $api.get('Pay/ListEnable', { 'platform': 'web' })
             ).then(axios.spread(function (account, platinfo, organ, payi) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;

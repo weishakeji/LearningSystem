@@ -22,16 +22,6 @@ $ready(function () {
                         $api.cache('News/VisitPlusOne:60', { 'id': th.article.Art_ID }),
                         $api.cache("News/Accessory", { 'uid': th.article.Art_Uid })
                     ).then(axios.spread(function (column, visit, accessory, num) {
-                        //判断结果是否正常
-                        for (var i = 0; i < arguments.length; i++) {
-                            if (arguments[i].status != 200)
-                                console.error(arguments[i]);
-                            var data = arguments[i].data;
-                            if (!data.success && data.exception != null) {
-                                console.error(data.exception);
-                                throw data.message;
-                            }
-                        }
                         //栏目信息
                         th.column = column.data.result;
                         //访问量加一，并给当前新闻加上这个数

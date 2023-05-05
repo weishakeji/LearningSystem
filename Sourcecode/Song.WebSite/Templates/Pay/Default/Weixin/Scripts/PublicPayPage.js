@@ -58,16 +58,6 @@ $ready(function () {
                     $api.get('Pay/Interface', { 'id': state.pi }),
                     $api.get('Pay/MoneyAccount', { 'serial': state.serial })
                 ).then(axios.spread(function (pi, acc) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.interface = pi.data.result;
                     th.moneyAccount = acc.data.result;
@@ -83,16 +73,6 @@ $ready(function () {
                     $api.get('Account/ForID', { 'id': moneyAccount.Ac_ID }),
                     $api.get('Organization/ForID', { 'id': moneyAccount.Org_ID })
                 ).then(axios.spread(function (acc, org) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.account = acc.data.result;
                     th.organ = org.data.result;

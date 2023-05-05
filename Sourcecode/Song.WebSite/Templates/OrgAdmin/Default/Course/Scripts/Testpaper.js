@@ -30,15 +30,6 @@
                 $api.get('Organization/Current')
             ).then(axios.spread(function (org) {
                 vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息

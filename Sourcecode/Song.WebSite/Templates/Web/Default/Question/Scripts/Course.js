@@ -87,16 +87,6 @@ $ready(function () {
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true })
             ).then(axios.spread(function (organ, course, outlines) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
                 //机构和当前学员
                 th.organ = organ.data.result;
                 //课程
