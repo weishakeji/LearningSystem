@@ -162,27 +162,18 @@
       }).finally(()=>{});</pre>
                       <P><b>批量访问</b> </P>
                       <pre>
-      $api.bat(
-            $api.post('Customer/ForID', { 'id':223 }), 
-            $api.get('Agent/ForID', { 'id': 225 }) 
-      ).then(axios.spread(function (customer, agent) {
-            //判断结果是否正常
-           for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
-                //获取结果
-                var cus = customer.data.result;
-                var agt = agent.data.result;            
-      })).catch(function (err) {
-            alert(err);
-            console.error(err);
-      }); </pre>
+      //批量访问过中会验证结果是否异常，但不会触发catch
+      $api.batch(
+            $api.get('Account/Current'),
+            $api.cache('Question/Types:9999'),
+            $api.post('Course/ForID', { 'id': 123 })
+      ).then(axios.spread(function (acc, type, cou, outline) {
+            console.error(type);
+      })).catch(err => alert(err))
+      .finally(() => {
+            console.log('finally');
+      });
+                        </pre>
                       <P><b>浏览器本地缓存</b> </P>
                       
                       <pre>
