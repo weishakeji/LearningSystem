@@ -318,7 +318,7 @@ namespace Song.ViewData.Methods
             //专业数
             jo.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));
             //试题数
-            jo.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1,-1,-1, null));
+            jo.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1,-1,-1,-1, null));
             //学员数
             jo.Add("account", Business.Do<IAccounts>().AccountsOfCount(orgid, null));
             //教师数

@@ -96,19 +96,6 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions[] QuesCount(int type, bool? isUse, int count);
         /// <summary>
-        /// 获取试题
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        /// <param name="type">试题类型</param>
-        /// <param name="diff">难度等级</param>
-        /// <param name="isUse"></param>
-        /// <param name="count">取多少条</param>
-        /// <returns></returns>
-        Questions[] QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int count);
-        /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
         /// <param name="orgid">机构id</param>
@@ -123,16 +110,19 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions[] QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count);
         /// <summary>
-        /// 计算有多少道题
+        /// 获取简化的某个课程或章节试题
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="sbjid"></param>
-        /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="type"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
         /// <param name="isUse"></param>
+        /// <param name="fields">要取值的字段</param>
+        /// <param name="count">取多少条</param>
         /// <returns></returns>
-        int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, bool? isUse);
+        Questions[] QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
         int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse);
         /// <summary>
         /// 获取随机试题
@@ -166,12 +156,12 @@ namespace Song.ServiceInterfaces
         /// <param name="orgid"></param>
         /// <param name="type">试题类型</param>
         /// <param name="isUse">是否显示</param>
+        /// <param name="diff">试题难度</param>
         /// <param name="searTxt">查询字符</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int orgid, int type, bool? isUse, string searTxt, int size, int index, out int countSum);
         Questions[] QuesPager(int orgid, int type, bool? isUse, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取所有的试题；

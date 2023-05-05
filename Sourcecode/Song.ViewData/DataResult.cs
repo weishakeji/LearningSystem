@@ -73,7 +73,7 @@ namespace Song.ViewData
         {
             this.Result = obj;
             if (obj != null)
-                this.DataType = obj.GetType().Name;
+                this.DataType = obj.GetType().SimpleName();
             Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;
@@ -186,24 +186,23 @@ namespace Song.ViewData
             if (obj == null) return level <= 1 ? "null" : "\"\"";
 
             Type type = obj.GetType();
-            if (type.Name == "DBNull") return "\"\"";
-            //属性名（包括泛型名称）
-            var nullableType = Nullable.GetUnderlyingType(type);
-            string typename = nullableType != null ? nullableType.Name : type.Name;
+            //类型名（包括泛型名称）
+            string typename = type.SimpleName();
+            if (typename == "DBNull") return "\"\"";          
             //长整型作为字符串处理，否则在客户端的js解析时会丢失精度
-            if (type.Name == "Int64" || type.Name == "UInt64")
+            if (typename == "Int64" || typename == "UInt64")
                 return string.Format("\"{0}\"", obj.ToString());
-            if (type.Name == "Decimal")
+            if (typename == "Decimal")
             {
                 decimal dec = (decimal)obj;
                 dec = Math.Round(dec * 100) / 100;
                 return string.Format("\"{0}\"", dec.ToString());
             }
             //如果是数值型或逻辑型
-            if (type.IsNumeric() || type.Name == "Boolean")
+            if (type.IsNumeric() || typename == "Boolean")
                 return obj.ToString().ToLower();                
             //字符串作为url编码处理
-            if (type.Name == "String")
+            if (typename == "String")
             {
                 string str = obj.ToString();
                 if (string.IsNullOrWhiteSpace(str.Trim())) return "\"\"";
@@ -221,6 +220,7 @@ namespace Song.ViewData
                 //将C#时间转换成JS时间字符串    
                 return string.Format("eval('new ' + eval('/Date({0})/').source)", timeStamp);
             }
+
             if (obj is System.Exception)
             {
                 return JsonConvert.SerializeObject(obj);
@@ -322,6 +322,7 @@ namespace Song.ViewData
             sb.Append("]");
             return sb.ToString();
         }
+        
         #endregion
 
 
@@ -341,8 +342,7 @@ namespace Song.ViewData
                 //当前属性的值
                 object value = info.GetProperty(pi.Name).GetValue(this, null);
                 //属性名（包括泛型名称）
-                var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
-                string typename = nullableType != null ? nullableType.Name : pi.PropertyType.Name;
+                string typename = pi.PropertyType.SimpleName();
                 try
                 {
                     str += string.Format("<{0}>{1}</{0}>", pi.Name.ToLower(), _xml_property(typename, value));
@@ -503,6 +503,19 @@ namespace Song.ViewData
             if (type.Name.StartsWith("Nullable"))
                 return type.GetGenericArguments()[0].IsNumeric();
             return Array.IndexOf(_numberec, type.Name) >= 0;
+        }
+        /// <summary>
+        /// 简要名称，例如泛型名称不要带`
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string SimpleName(this Type type)
+        {
+            //属性名（包括泛型名称）
+            var nullableType = Nullable.GetUnderlyingType(type);
+            string typename = nullableType != null ? nullableType.Name : type.Name;
+            if (typename.IndexOf("`") > -1) typename = typename.Substring(0, typename.IndexOf("`"));
+            return typename;
         }
         /// <summary>
         /// 属性名称是否转小写

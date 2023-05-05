@@ -23,6 +23,7 @@ namespace Song.ViewData.Methods
     public class Question : ViewMethod, IViewAPI
     {
         #region 题型
+        private static readonly string[] types= WeiSha.Core.App.Get["QuesType"].Split(',');
         /// <summary>
         /// 题型
         /// </summary>
@@ -30,7 +31,7 @@ namespace Song.ViewData.Methods
         [Cache(Expires = int.MaxValue)]
         public string[] Types()
         {
-            string[] types = WeiSha.Core.App.Get["QuesType"].Split(',');
+            string[] types = Question.types;
             for (int i = 0; i < types.Length; i++)
                 types[i] = types[i].Trim();
             return types;
@@ -336,7 +337,7 @@ namespace Song.ViewData.Methods
         [Cache]
         public int Count(int orgid, long sbjid, long couid, long olid, int type, bool? use)
         {
-            return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type, use);
+            return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type,-1, use);
         }
 
         /// <summary>
@@ -397,7 +398,7 @@ namespace Song.ViewData.Methods
         public ListResult ForCourse(long couid, long olid, int type, int count)
         {
             if (couid == 0 && olid == 0) return null;
-            int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, type, true);
+            int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, type, -1, true);
             Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, -1, couid, olid, type, -1, true, 0 - 1, count);
             for (int i = 0; i < ques.Length; i++)
             {
@@ -409,7 +410,35 @@ namespace Song.ViewData.Methods
             result.Total = total;
             return result;
         }
-
+        /// <summary>
+        /// 获取试题的简化信息，例如仅包含试题id与类型
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="type"></param>
+        /// <param name="count"></param>   
+        /// <returns></returns>
+        public Dictionary<string, List<string>> Simplify(long couid, long olid, int type, int count)
+        {
+            //要返回的字段
+            Field[] fields = new Field[] {
+                Questions._.Qus_ID,
+                Questions._.Qus_Type
+            };
+            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, -1, true, fields, count);
+            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+            for (int i = 1; i <= Question.types.Length; i++)
+            {
+                List<string> list = new List<string>();
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Qus_Type != i) continue;
+                    list.Add(q.Qus_ID.ToString());
+                }
+                if (list.Count > 0) dic.Add(i.ToString(), list);
+            } 
+            return dic;
+        }
         #endregion
 
         #region 处理试题内容

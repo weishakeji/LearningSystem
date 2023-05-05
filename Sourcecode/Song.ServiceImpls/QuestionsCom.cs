@@ -267,28 +267,6 @@ namespace Song.ServiceImpls
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
                 .ToArray<Questions>(count);
         }
-        public Questions[] QuesCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, int count)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
-            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list)
-                    wcSbjid.Or(Questions._.Ol_ID == l);
-                wc.And(wcSbjid);
-            }
-            if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
-            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
-                .ToArray<Questions>(count);
-        }
         /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
@@ -325,16 +303,19 @@ namespace Song.ServiceImpls
                 .ToArray<Questions>(count, index);
         }
         /// <summary>
-        /// 计算试题数量
+        /// 获取简化的某个课程或章节试题
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <param name="type">试题类型</param>
-        /// <param name="isUse">是否使用</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse"></param>
+        /// <param name="fields">要取值的字段</param>
+        /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, bool? isUse)
+        public Questions[] QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -350,8 +331,12 @@ namespace Song.ServiceImpls
                 wc.And(wcSbjid);
             }
             if (type > 0) wc.And(Questions._.Qus_Type == type);
+            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            return Gateway.Default.Count<Questions>(wc);
+            if (fields == null) fields = new Field[] { };
+            return Gateway.Default.From<Questions>().Where(wc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc).Select(fields)
+                .ToArray<Questions>(count);
         }
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
         {
@@ -466,21 +451,6 @@ namespace Song.ServiceImpls
         public Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
         {
             return this.QuesRandom(-1, sbjid, couid, -1, type, diff1, diff2, isUse, count);           
-        }
-        public Questions[] QuesPager(int orgid, int type, bool? isUse, string searTxt, int size, int index, out int countSum)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
-            if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(searTxt) && searTxt.Trim() != "")
-            {
-                wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
-            }
-            countSum = Gateway.Default.Count<Questions>(wc);
-            return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
-                .ToArray<Questions>(size, (index - 1) * size);
         }
         /// <summary>
         /// 分页获取试题

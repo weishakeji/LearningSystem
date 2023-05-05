@@ -14,8 +14,7 @@
       <el-tab-pane label="学员注册" name="first">
         <icon student slot="label"> 学员注册</icon>
         <editor :content="accounts_details" model="general" upload="Org" :dataid="0" ref="editor"
-          @change="text=>accounts_details=text">
-        </editor>
+          @change="text=>accounts_details=text"> </editor>
         <div class="foot-btn">
           <p class="title">通配字符：
             <el-tag v-for="(val,key,index) in tooltip">
@@ -29,8 +28,7 @@
       <el-tab-pane label="教师申请" name="second">
         <icon teacher slot="label"> 教师申请</icon>
         <editor :content="teacher_details" model="general" upload="Org" :dataid="0" ref="editor"
-          @change="text=>teacher_details=text">
-        </editor>
+          @change="text=>teacher_details=text"> </editor>
 
         <div class="foot-btn">
           <p class="title">通配字符：

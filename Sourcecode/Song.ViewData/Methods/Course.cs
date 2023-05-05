@@ -327,7 +327,7 @@ namespace Song.ViewData.Methods
             //章节数
             int outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
             //试题数
-            int qus = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, 0, true);
+            int qus = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, 0, -1, true);
             //知识点
             int knl = Business.Do<IKnowledge>().KnowledgeOfCount(-1, couid, -1, true);
             //课程通知
