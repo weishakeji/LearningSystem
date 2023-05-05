@@ -88,15 +88,6 @@ $ready(function () {
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
             ).then(axios.spread(function (organ, course, viewnum) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                    }
-                }
                 //机构配置信息
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
@@ -131,16 +122,6 @@ $ready(function () {
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher) {
-
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //章节
                     th.outlines = outlines.data.result;
                     //试卷,结课考试
@@ -179,16 +160,6 @@ $ready(function () {
                     $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
                     $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
                 ).then(axios.spread(function (studied, purchase, videolog, owned) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            //console.error(data.exception);
-                            //throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.studied = studied.data.result;
                     if (purchase.data.result != null)

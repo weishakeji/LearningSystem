@@ -52,15 +52,6 @@ $ready(function () {
                     $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' })
                 ).then(axios.spread(function (showpic, notice, articles) {
                     th.loading = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //获取结果
                     th.showpic = showpic.data.result;
                     th.notice = notice.data.result;

@@ -35,16 +35,6 @@
                 $api.get('Admin/General'),
                 $api.get('Teacher/Current')
             ).then(axios.spread(function (org, admin, teach) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
                 //获取结果
                 th.organ = org.data.result;
                 th.admin = admin.data.result;

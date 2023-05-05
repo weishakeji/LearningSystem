@@ -42,16 +42,6 @@ $ready(function () {
                 $api.cache('Exam/ForID', { 'id': th.examid }),
                 $api.get('Exam/ResultReview', { 'id': th.exrid })
             ).then(axios.spread(function (types, plat, org, exam, result) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
                 //获取结果           
                 th.types = types.data.result;
                 th.platinfo = plat.data.result;
@@ -69,16 +59,6 @@ $ready(function () {
                     $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
                 ).then(axios.spread(function (student, paper) {
                     th.loading = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.student = student.data.result;
                     th.paper = paper.data.result;

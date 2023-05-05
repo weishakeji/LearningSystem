@@ -174,16 +174,6 @@ Vue.component('study_outline', {
                 $api.cache("Outline/Info", { 'olid': olid })
             ).then(axios.spread(function (state, info) {
                 th.loading = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
                 //获取结果
                 var result = info.data.result;
                 for (let key in state.data.result) {

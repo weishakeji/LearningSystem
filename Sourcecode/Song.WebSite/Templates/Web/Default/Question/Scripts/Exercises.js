@@ -46,15 +46,6 @@
                 $api.cache('Outline/ForID', { 'id': th.olid })
             ).then(axios.spread(function (account, types, course, outline) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 th.account = account.data.result;
                 //创建试题练习状态的记录的操作对象
                 if (th.islogin)

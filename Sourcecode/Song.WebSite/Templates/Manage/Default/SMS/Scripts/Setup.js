@@ -25,16 +25,6 @@
                     $api.post('Sms/ItemsFresh'),
                     $api.get("Sms/Current")
                 ).then(axios.spread(function (items, curr) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.datas = items.data.result;
                     th.current = curr.data.result;

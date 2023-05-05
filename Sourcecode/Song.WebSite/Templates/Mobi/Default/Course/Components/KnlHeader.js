@@ -43,15 +43,6 @@ Vue.component('knl_header', {
             $api.get('Knowledge/SortTree', { 'couid': this.couid, 'search': '', 'isuse': true })
         ).then(axios.spread(function (course, sorts) {
             th.loading = false;
-            //判断结果是否正常
-            for (var i = 0; i < arguments.length; i++) {
-                if (arguments[i].status != 200)
-                    console.error(arguments[i]);
-                var data = arguments[i].data;
-                if (!data.success && data.exception != null) {
-                    console.error(data.message);
-                }
-            }
             //获取结果
             th.course = course.data.result;
             th.sorts = sorts.data.result;

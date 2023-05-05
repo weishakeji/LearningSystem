@@ -32,15 +32,6 @@ $ready(function () {
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/Datainfo', { 'couid': th.couid }),
             ).then(axios.spread(function (organ, course, info) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                    }
-                }
                 //机构配置信息
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
@@ -74,15 +65,6 @@ $ready(function () {
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (prices, sum, teacher) {
                     th.loading_init = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //获取结果                
                     th.prices = prices.data.result;
                     if (th.prices.length > 0)

@@ -16,16 +16,6 @@ $ready(function () {
                 $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (organs, domain) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
                 //获取结果
                 vue.datas = organs.data.result;
                 vue.domain = domain.data.result;

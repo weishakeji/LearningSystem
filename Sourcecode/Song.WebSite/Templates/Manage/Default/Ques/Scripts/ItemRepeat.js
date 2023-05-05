@@ -105,16 +105,6 @@ $ready(function () {
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 5, 'use': '' }),
                 ).then(axios.spread(function (t0, t1, t2, t5) {
                     th.loading = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
-                        }
-                    }
                     //获取结果
                     th.total.type0 = t0.data.result;
                     th.total.type1 = t1.data.result;

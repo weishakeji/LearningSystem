@@ -34,15 +34,6 @@ $ready(function () {
                 $api.get('Course/Studied', { 'couid': this.couid })
             ).then(axios.spread(function (account, platinfo, organ, course, info, studied) {
                 vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;

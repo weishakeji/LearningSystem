@@ -64,15 +64,6 @@ $ready(function () {
                 $api.post('Platform/ServerTime')
             ).then(axios.spread(function (account, platinfo, organ, type, state, time) {
                 vapp.loading.init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果
                 vapp.account = account.data.result;
                 vapp.platinfo = platinfo.data.result;
@@ -99,16 +90,6 @@ $ready(function () {
                     $api.get('Exam/Result', { 'examid': vapp.examid, 'tpid': vapp.examstate.paper, 'stid': vapp.account.Ac_ID })
                 ).then(axios.spread(function (exam, theme, sbj, paper, result) {
                     vapp.loading.exam = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw data.message;
-                        }
-                    }
                     vapp.exam = exam.data.result;
                     vapp.time.span = vapp.exam.Exam_Span;
                     vapp.theme = theme.data.result;

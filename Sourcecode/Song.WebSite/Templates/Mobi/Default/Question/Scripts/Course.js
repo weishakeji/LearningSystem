@@ -69,16 +69,6 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (organ, account, course) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
                 //机构和当前学员
                 th.organ = organ.data.result;
                 th.account = account.data.result;
@@ -94,17 +84,6 @@ $ready(function () {
                     $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
                 ).then(axios.spread(function (outlines, owned) {
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                            throw data.message;
-                        }
-                    }
-
                     //章节
                     var outlines = outlines.data.result;
                     th.outlines = outlines;

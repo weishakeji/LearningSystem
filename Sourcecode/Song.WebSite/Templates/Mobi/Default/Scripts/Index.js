@@ -25,15 +25,6 @@ $ready(function () {
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
                 th.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -51,15 +42,6 @@ $ready(function () {
                     $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
                 ).then(axios.spread(function (showpic, notice, menus, subject) {
                     th.loading = false;
-                    //判断结果是否正常
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i].status != 200)
-                            console.error(arguments[i]);
-                        var data = arguments[i].data;
-                        if (!data.success && data.exception != null) {
-                            console.error(data.exception);
-                        }
-                    }
                     //获取结果
                     th.showpic = showpic.data.success ? showpic.data.result : [];
                     th.notice = notice.data.success ? notice.data.result : [];

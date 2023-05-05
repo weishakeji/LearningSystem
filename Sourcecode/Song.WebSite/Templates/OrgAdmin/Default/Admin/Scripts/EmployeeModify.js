@@ -42,24 +42,14 @@ $ready(function () {
             var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vue.organ = req.data.result;
+                    th.organ = req.data.result;
                     $api.bat(
                         $api.post('Position/EnableAll'),
                         $api.post("Admin/TitleEnabledList", { 'orgid': vue.organ.Org_ID })
                     ).then(axios.spread(function (posi, title) {
-                        //判断结果是否正常
-                        for (var i = 0; i < arguments.length; i++) {
-                            if (arguments[i].status != 200)
-                                console.error(arguments[i]);
-                            var data = arguments[i].data;
-                            if (!data.success && data.exception != null) {
-                                console.error(data.exception);
-                                throw data.message;
-                            }
-                        }
                         //获取结果
-                        vue.position = posi.data.result;
-                        vue.titles = title.data.result;
+                        th.position = posi.data.result;
+                        th.titles = title.data.result;
                     })).catch(function (err) {
                         console.error(err);
                     });
