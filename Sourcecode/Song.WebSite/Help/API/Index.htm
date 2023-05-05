@@ -163,7 +163,7 @@
                       <P><b>批量访问</b> </P>
                       <pre>
       //批量访问过中会验证结果是否异常，但不会触发catch
-      $api.batch(
+      $api.bat(
             $api.get('Account/Current'),
             $api.cache('Question/Types:9999'),
             $api.post('Course/ForID', { 'id': 123 })
