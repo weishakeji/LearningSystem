@@ -16,6 +16,7 @@
     position: relative;
     z-index: 1;
     padding: 20px;
+    background-color: transparent;
 }
 
 .header[login] {
@@ -23,7 +24,7 @@
     position: relative;
     z-index: 1;
     padding: 20px;
-    background-color: transparent;
+   
 }
 
 .header_info {
