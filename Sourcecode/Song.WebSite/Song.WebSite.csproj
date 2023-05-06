@@ -459,6 +459,9 @@
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\Quesbuttons.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\PromptPanel.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\SetupMenu.css" />
+    <Content Include="Templates\Mobi\Default\Question\Exercise.html" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Exercise.js" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Exercise.css" />
     <Content Include="Templates\Mobi\Default\Sign\Detail.html" />
     <Content Include="Templates\Mobi\Default\Sign\Find.html" />
     <Content Include="Templates\Mobi\Default\Sign\In.html" />

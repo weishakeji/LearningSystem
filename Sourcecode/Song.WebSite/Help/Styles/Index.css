@@ -8,7 +8,7 @@ dl{
 }
 dl dd{
     font-size: 18px;
-    margin: 10px 20px 10px 0px;
+    margin: 10px 30px 10px 0px;
     padding: 0px;
 }
 a {
@@ -17,11 +17,12 @@ a {
 }
 
 a[href] {
-    color: #333;
+    color: #409EFF;
 }
 a[href]:hover{
     text-decoration: underline;
 }
 a icon{
     font-size: 22px;
+    margin-right: 6px;
 }
