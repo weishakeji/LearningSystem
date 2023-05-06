@@ -182,11 +182,11 @@ $ready(function () {
             //生成二维码
             qrcode: function () {
                 var box = $("#course-qrcode");
-                if (box.size() < 1) {
+                if (box.length < 1) {
                     window.setTimeout(this.qrcode, 200);
                 }
                 box.each(function () {
-                    if ($(this).find("img").size() > 0) return;
+                    if ($(this).find("img").length > 0) return;
                     //var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/Detail");
                     var url = window.location.href;
                     //console.error(url);

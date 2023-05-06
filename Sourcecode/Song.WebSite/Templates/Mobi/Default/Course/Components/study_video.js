@@ -264,7 +264,7 @@ window.onblur = function () {
 }
 window.onfocus = function () {
     //如果有视频事件弹出，则窗体获取焦点时，视频并不播放
-    //if ($("div[type=MsgBox]").size() > 0) return;
+    //if ($("div[type=MsgBox]").length > 0) return;
     var player = window.video_player;
     var playready = false;
     if (player != null && player.engine) playready = player._isReady;

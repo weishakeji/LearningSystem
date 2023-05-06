@@ -1817,7 +1817,6 @@
     <Content Include="Utilities\Panel\Effects\Line\css\style.css" />
     <Content Include="Utilities\Panel\Effects\Line\index.html" />
     <Content Include="Utilities\Panel\Effects\Line\js\jparticle.min.js" />
-    <Content Include="Utilities\Panel\Effects\Line\js\jquery.js" />
     <Content Include="Utilities\Panel\Effects\Particle\css\style.css" />
     <Content Include="Utilities\Panel\Effects\Particle\index.html" />
     <Content Include="Utilities\Panel\Effects\Particle\js\script.js" />
@@ -1825,7 +1824,6 @@
     <Content Include="Utilities\Panel\Effects\Starrysky\canvas.js" />
     <Content Include="Utilities\Panel\Effects\Starrysky\Images\big-bg.jpg" />
     <Content Include="Utilities\Panel\Effects\Starrysky\index.html" />
-    <Content Include="Utilities\Panel\Effects\Starrysky\jquery.js" />
     <Content Include="Utilities\Panel\Effects\Tree\index.html" />
     <Content Include="Utilities\Panel\Images\head1.jpg" />
     <Content Include="Utilities\Panel\Scripts\ctrls.js" />
@@ -1870,7 +1868,6 @@
     <Content Include="Utilities\Panel\Skins\_Night\tabs.css" />
     <Content Include="Utilities\Panel\Skins\_Night\treemenu.css" />
     <Content Include="Utilities\Panel\Skins\_Night\verticalbar.css" />
-    <Content Include="Utilities\Panel\Slider\jquery-3.4.1.min.js" />
     <Content Include="Utilities\Panel\Slider\Slider.css" />
     <Content Include="Utilities\Panel\Slider\Slider.html" />
     <Content Include="Utilities\Panel\Slider\Slider.js" />
@@ -2103,7 +2100,6 @@
     <Content Include="Utilities\TinyMCE\plugins\bbcode\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\bbcode\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\bdmap\bd.html" />
-    <Content Include="Utilities\TinyMCE\plugins\bdmap\jquery.js" />
     <Content Include="Utilities\TinyMCE\plugins\bdmap\map.html" />
     <Content Include="Utilities\TinyMCE\plugins\bdmap\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\bdmap\plugin.min.js" />
@@ -2620,7 +2616,6 @@
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\assets\theme\default\images\down.png" />
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\assets\theme\default\images\open.png" />
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\assets\theme\default\images\up.png" />
-    <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\js\jquery-3.6.0.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\js\kity-formula-parser.all.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\js\kity-formula-render.all.js" />
     <Content Include="Utilities\TinyMCE\plugins\kityformula-editor\kityformula\js\kityformula-editor.all.min.js" />
