@@ -126,7 +126,7 @@ $ready(function () {
             //生成二维码
             qrcode: function () {
                 $("#qrcode").each(function () {
-                    if ($(this).find("img").size() > 0) return;
+                    if ($(this).find("img").length > 0) return;
                     var url = $(this).attr('pay_url');
                     jQuery($(this)).qrcode({
                         render: "canvas", //也可以替换为table

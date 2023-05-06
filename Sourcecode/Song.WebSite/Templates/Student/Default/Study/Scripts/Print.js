@@ -132,14 +132,14 @@ $ready(function () {
             qrcode: function () {
                 var len = $(".qrcode").length;
                 if (len <= 0) window.setTimeout(this.qrcode, 100);;
-                ///console.log('qrcode:'+$(".qrcode").size());
-                //console.log('img:'+$(".qrcode img").size());
-                if ($(".qrcode").size() > $(".qrcode img").size()) {
+                ///console.log('qrcode:'+$(".qrcode").length);
+                //console.log('img:'+$(".qrcode img").length);
+                if ($(".qrcode").length > $(".qrcode img").length) {
                     window.setTimeout(this.qrcode, 100);
                 }
                 //生成学员学习证明的二维码 
                 $(".qrcode").each(function () {
-                    if ($(this).find("img").size() > 0) return;
+                    if ($(this).find("img").length > 0) return;
                     var acid = $api.dot();
                     var cous = $api.querystring('courses');
                     var md5 = $api.md5(acid + cous);
