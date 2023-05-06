@@ -8,7 +8,7 @@
 
 .header {
     height: 44px;
-    background-color: rgb(212, 224, 206);
+    
     font-size: 14px;
     position: fixed;
     width: 100%;
@@ -66,8 +66,11 @@ nav .right {
 
 }
 
-.van-sticky {
+.van-sticky--fixed {
     background-color: #fff;
+    padding: 10px;
+    
+    
 }
 
 .artAttrBar {

@@ -5,7 +5,7 @@
 
 .header {
     height: 44px;
-    background-color: rgb(212, 224, 206);
+    
     font-size: 14px;
     position: fixed;
     width: 100%;
@@ -36,7 +36,7 @@
     padding: 20px;
     position: fixed;
     width: calc(100% - 40px);
-    height: calc(100% - 45px - 40px);
+    height: calc(100% - 45px - 110px);
     top: 45px;
     left: 0px;
     overflow-y: auto;

@@ -342,3 +342,7 @@ row[arrow]::before {
 	font-size: 18px;
 	font-family: "webdesk_icon" !important;
 }
+
+.header {
+	background-color: #fff;
+}

@@ -190,7 +190,7 @@ a.go-home:before {
     border-radius: 2px;
     background-color: #fff;
     background-clip: padding-box;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .1),-1px -1px 2px rgba(0, 0, 0, .1);
     min-height: 200px;
     
 }
