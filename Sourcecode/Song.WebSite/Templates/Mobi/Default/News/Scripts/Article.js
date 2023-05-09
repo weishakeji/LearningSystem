@@ -3,6 +3,11 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            account: {},     //当前登录账号
+            platinfo: {},
+            organ: {},
+            config: {},      //当前机构配置项       
+            
             arid: $api.dot(),        //新闻id
             isformat: $api.storage('article_isformat') == 'true',         //是否格式化
             article: {},        //新闻对象
@@ -13,6 +18,21 @@ $ready(function () {
         mounted: function () {
             var th = this;
             th.loading = true;
+            $api.bat(
+                $api.get('Account/Current'),
+                $api.cache('Platform/PlatInfo'),
+                $api.get('Organization/Current')
+            ).then(axios.spread(function (account, platinfo, organ) {
+                //获取结果
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                //机构配置信息
+                th.config = $api.organ(th.organ).config;
+            })).catch(function (err) {
+                console.error(err);
+            });
+
             $api.cache('News/Article', { 'id': this.arid }).then(function (req) {
                 if (req.data.success) {
                     th.article = req.data.result;

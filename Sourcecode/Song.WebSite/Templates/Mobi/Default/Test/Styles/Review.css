@@ -10,7 +10,7 @@ html, body, #vapp {
 
 .header {
 	height: 20px;
-	background-color: rgb(212, 224, 206);
+	
 	font-size: 14px;
 	width: calc(100% - 24px);
 	top: 0px;

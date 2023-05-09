@@ -74,7 +74,7 @@ html, body, #vapp {
 
 header {
 	height: 44px;
-	background-color: rgb(212, 224, 206);
+	
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -123,7 +123,7 @@ header>div.title {
 
 footer {
 	height: 44px;
-	background-color: rgb(212, 224, 206);
+	
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -298,7 +298,7 @@ section textarea {
 
 .quesCard .cardTit {
 	height: 50px;
-	background-color: rgb(212, 224, 206);
+	
 	font-size: 16px;
 	line-height: 50px;
 }

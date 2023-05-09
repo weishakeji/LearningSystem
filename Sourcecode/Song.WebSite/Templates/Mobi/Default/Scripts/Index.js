@@ -63,15 +63,7 @@ $ready(function () {
             'platinfo': function (nv, ov) {
                 //document.title = nv.title;
             },
-            'organ': function (nv, ov) {
-                this.$nextTick(function () {
-                    $dom("header img.logo").bind('load', function (event) {
-                        var node = event.target ? event.target : event.srcElement;
-                        var img = $dom(node);
-                        var searWidth = $dom("header").width() - img.width();
-                        img.next().width(searWidth);
-                    });
-                });
+            'organ': function (nv, ov) {    
                 document.title = nv.Org_PlatformName;
             },
             'menus': function (nv, ov) {

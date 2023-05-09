@@ -33,7 +33,6 @@ a {
 
 header {
     background-color: #fff;
-    background-color: rgb(212, 224, 206);
     width: 100%;
     height: 44px;
     overflow: hidden;
@@ -52,6 +51,7 @@ header {
     padding: 5px 6px;
     transition: all 0.5s;
     float: right;
+    flex: 1;
 }
 
 /*轮换图片*/
@@ -63,6 +63,7 @@ header {
 .swip_pic {
     width: 100%;
     height: 150px;
+    background-color: #fff;
 }
 
 .swip_pic img {
@@ -118,16 +119,16 @@ header {
 
 /*自定义菜单*/
 
-.custom-menu {
-    width: calc(100% - 20px);
+.custom-menu {  
     flex-direction: row;
     display: flex;
     flex-wrap: wrap;
     flex-flow: row wrap;
     /*子元素溢出父容器时换行*/
     text-align: center;
-    margin-top: 0px;
-    padding: 6px 10px 0px 10px;   
+    margin: 0px 0px 12px 0px;  
+    background-color: #fff;
+    box-sizing: border-box;
 }
 
 .custom-menu a {

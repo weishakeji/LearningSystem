@@ -12,7 +12,7 @@
             //学习记录加载后
             'videolog': {
                 handler: function (nv, ov) {
-                    if (!nv && nv.length) this.show = true;
+                    if (nv && nv.length) this.show = true;
                 }, immediate: true
             }
         },

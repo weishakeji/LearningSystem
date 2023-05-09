@@ -26,6 +26,7 @@ context {
 	z-index: 1;
 	padding: 20px 20px 0px 20px;
 	overflow: hidden;
+	background-color: transparent;
 }
 
 .header_info {
