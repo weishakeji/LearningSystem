@@ -172,6 +172,7 @@
     <Compile Include="Attri\WeishaAttr.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
+    <Compile Include="Extensions\DataTimeExtensions.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Helper\Browser.cs" />
     <Compile Include="Helper\Cache.cs" />

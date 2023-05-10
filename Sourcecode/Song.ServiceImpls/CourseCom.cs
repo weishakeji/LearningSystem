@@ -1529,6 +1529,29 @@ namespace Song.ServiceImpls
                    .Where(wc).OrderBy(Accounts._.Ac_LastTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
 
         }
+        /// <summary>
+        /// 快要过期的课程
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="day">剩余几天内的</param>
+        /// <returns></returns>
+        public List<Student_Course> OverdueSoon(int acid, int day)
+        {
+            WhereClip wc = Student_Course._.Ac_ID == acid;
+            //免费为0，试用为1，购买为2，后台开课为3（机构管理员在学员管理中，为学员单独开课），学习卡为4，学员组关联为5
+            WhereClip wctype = new WhereClip();
+            foreach (int t in new int[] { 2, 3, 4 })
+                wctype.Or(Student_Course._.Stc_Type == t);
+            wc.And(wctype);
+            //时间
+            //wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime >= DateTime.Now);      //课程仍处于学习时间内
+            wc.And(Student_Course._.Stc_EndTime> DateTime.Now && Student_Course._.Stc_EndTime <= DateTime.Now.AddDays(day));      //结束时间剩余几天内的
+            //是否启用的，（即便是购买的过程，管理员也可以设置不让学习，所以此处要做判断）
+            wc.And(Student_Course._.Stc_IsEnable == true);
+
+            return Gateway.Default.From<Student_Course>()
+                 .Where(wc).OrderBy(Student_Course._.Stc_EndTime.Desc).ToList<Student_Course>();
+        }
         #endregion
 
         #region 价格管理

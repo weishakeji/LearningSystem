@@ -623,6 +623,32 @@ namespace Song.ViewData.Methods
             return result;                 
         }
         /// <summary>
+        /// 快要过期的课程
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="day">剩余几天内的</param>
+        /// <returns></returns>
+        public JArray OverdueSoon(int acid, int day)
+        {
+            List<Song.Entities.Student_Course> list = Business.Do<ICourse>().OverdueSoon(acid, day);
+            if (list == null || list.Count < 1) { return null; }
+            JArray jarr = new JArray();
+            foreach (Student_Course sc in list)
+            {
+                Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(sc.Cou_ID);
+                if (cou == null) continue;
+                cou.Cou_Intro = cou.Cou_Target = string.Empty;
+                JObject jo = cou.ToJObject();
+                jo.Add("end",sc.Stc_EndTime.ToJsString());
+                jo.Add("enddate", sc.Stc_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                jo.Add("study",sc.Stc_StudyScore);
+                jo.Add("exam", sc.Stc_ExamScore);
+                jo.Add("ques", sc.Stc_QuesScore);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
         /// 试用的课程
         /// </summary>
         /// <param name="acid">学员id</param>

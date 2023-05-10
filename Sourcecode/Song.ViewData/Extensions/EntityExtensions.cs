@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeiSha.Data;
 
-namespace Song.ViewData.Extensions
+namespace Song.ViewData
 {
     /// <summary>
     /// 实体类的扩展

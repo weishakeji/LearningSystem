@@ -884,7 +884,7 @@
             //页面的头部和底部
             arr2.push(webdom.path() + 'Components/page_header.js');
             arr2.push(webdom.path() + 'Components/page_footer.js');
-            arr2.push(webdom.path() + 'Components/course.js');
+            arr2.push(webdom.path() + 'Components/course.js');         
             //mathjax，解析latex公式
             arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
             arr2.push('/Utilities/MathJax/globalVariable.js');

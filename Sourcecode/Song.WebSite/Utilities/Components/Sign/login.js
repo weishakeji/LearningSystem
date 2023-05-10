@@ -44,6 +44,8 @@ Vue.component('login', {
             sms_seconds: 0,        //发送短信后的数秒
             loading: false,
             loading_sms: false,
+            //指定快到期课程的天数值，当登录后，会提醒学员快到期课程，这里指定几天内到期
+            overdue_soon_day: 7
         }
     },
     watch: {
@@ -304,10 +306,54 @@ Vue.component('login', {
         success: function (account, source, info, remark) {
             $api.loginstatus('account', account.Ac_Pw, account.Ac_ID);
             $api.login.account_fresh();
-            //登录成功的事件
-            this.$emit('success', account);
-            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark });            
+
+            //查询学员快过期的课程
+            var th = this;
+            if (th.overdue_soon_day <= 0) return th.success_emit(account, source, info, remark);
+            $api.get('Course/OverdueSoon', { 'acid': account.Ac_ID, 'day': th.overdue_soon_day }).then(function (req) {
+                if (req.data.success) {
+                    var result = req.data.result;
+                    if (result.length > 0) th.overdue_soon_alert(result, account, source, info, remark);
+                    else
+                        th.success_emit(account, source, info, remark);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                th.success_emit(account, source, info, remark);
+                console.error(err);
+            });
+        },
+        //触发组件的事件
+        success_emit: function (account, source, info, remark) {
+            //记录登录的积分信息
+            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark }).finally(() => {
+                //登录成功的事件
+                this.$emit('success', account);
+            });
+        },
+        //剩余课程的提示
+        overdue_soon_alert: function (courses, account, source, info, remark) {
+            var title = '提示';
+            var message = '您有 ' + courses.length + ' 门课程快要到期，请抓紧时间学习。';
+            var th = this;
+            //手机端
+            if ($dom.ismobi() && vant.Dialog) {
+                vant.Dialog.alert({ message: message }).then(() => {
+                    th.success_emit(account, source, info, remark);
+                });
+            }
+            if (!$dom.ismobi() && Vue.prototype.$alert) {
+                th.$alert(message, title, {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                        th.success_emit(account, source, info, remark);
+                    }
+                });
+            }
         }
+
     },
     template: `<div class="login_weisha">
         <div class="login_loding" v-show="loading"><span></span><span></span></div>

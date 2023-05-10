@@ -378,6 +378,7 @@ namespace Song.ServiceInterfaces
         /// <param name="istry"></param>
         /// <returns></returns>
         List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry);
+       
         /// <summary>
         /// 课程收益
         /// </summary>
@@ -420,6 +421,15 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         Accounts[] Student4Course(long couid, string stname, string stmobi, int size, int index, out int countSum);
+
+        /// <summary>
+        /// 快要过期的课程
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="day">剩余几天内的</param>
+        /// <returns></returns>
+        List<Student_Course> OverdueSoon(int acid, int day);
+     
         #endregion
 
         #region 价格管理
