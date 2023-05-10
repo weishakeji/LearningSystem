@@ -27,9 +27,8 @@
 
 ![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
 
->2.0仍在开发中，当前处于公测阶段，近期会发布正式版，需要稳定版本的请下载1.0版本
-<br/><a href="https://gitee.com/weishakeji/learningsystem_v1" target="_blank">https://gitee.com/weishakeji/learningsystem_v1</a> 
-<br/>注意：2.0并不是1.0的升级，而是重构，1.0升级到2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
+>产品v2.0版本已经推出发行版，原version 1版本不再维护，请积极升级到新版本。
+<br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
 
 ## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
