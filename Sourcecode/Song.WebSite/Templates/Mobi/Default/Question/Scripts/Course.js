@@ -177,7 +177,7 @@ $ready(function () {
             gocontinue: function () {
                 var last = this.last;
                 if (last == null) return;
-                var url = $api.url.set('exercises', {
+                var url = $api.url.set('exercise', {
                     'couid': this.couid,
                     'olid': last.olid
                 });

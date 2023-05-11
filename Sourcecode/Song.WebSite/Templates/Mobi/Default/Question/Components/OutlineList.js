@@ -97,7 +97,7 @@ Vue.component('outline_row', {
           return;
         }
         var couid = $api.url.get(null, 'couid');
-        var uri = $api.url.set('exercises', {
+        var uri = $api.url.set('exercise', {
           'path': outline.Ol_XPath,
           'couid': couid,
           'olid': outline.Ol_ID,

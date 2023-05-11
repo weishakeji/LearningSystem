@@ -72,6 +72,7 @@
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
             },
+            
         },
         watch: {
             //滑动试题，滑动到指定试题索引
