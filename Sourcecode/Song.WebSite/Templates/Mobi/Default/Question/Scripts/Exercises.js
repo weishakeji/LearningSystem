@@ -72,7 +72,7 @@
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
             },
-            
+
         },
         watch: {
             //滑动试题，滑动到指定试题索引
@@ -87,28 +87,7 @@
                 this.state.update(false);
                 this.$nextTick(function () {
                     window.setTimeout(function () {
-                        $dom("section").css('left', -($dom("#vapp").width() * nv) + 'px');
-                        /*
-                        window.setTimeout(function () {
-                            console.group('宽度信息:');
-                            console.error('vapp宽度：' + $dom("#vapp").width());
-                            console.error('屏幕宽度：' + document.body.clientWidth);
-                            console.error('section：' + $dom("section").width());
-                            console.error('当前left：' + $dom("#vapp").width() * nv);
-                            console.groupEnd();
-
-                            let msg = 'vapp宽度：' + $dom("#vapp").width()
-                                + '\r屏幕宽度：' + document.body.clientWidth
-                                + '\rsection：' + $dom("section").width()
-                                + '\r当前left：' + $dom("#vapp").width() * nv;
-                            //alert(msg);
-                            //
-                            let str = 'vapp宽度：' + $dom("#vapp").width()
-                                + '\r屏幕宽度：' + document.body.clientWidth
-                                + '\r当前left：' + $dom("#vapp").width() * nv
-                                + '\rsection left：' + $dom("section").css('left');
-                            alert(str);
-                        }, 500);*/
+                        $dom("section").css('left', -($dom("#vapp").width() * nv) + 'px');        
                     }, 50);
                 });
                 //隐藏答题卡

@@ -12,6 +12,8 @@ Vue.component('quesarea', {
             index: 0,            //当前试题索引
             initindex: 0,         //试题列表的初始索引
 
+            swipeIndex: 0,
+
             maxvalue: 4,       //每次显示的最多试题数，即ques4display的最大长度
         }
     },
@@ -29,6 +31,22 @@ Vue.component('quesarea', {
                 console.log(list);
             },
             immediate: true
+        },
+        //滑动试题，滑动到指定试题索引
+        'swipeIndex': function (nv, ov) {
+            if (nv > this.ques4display.length - 1 || nv < 0) return;
+            //设置当前练习的试题
+            if (nv != null && this.ques4display.length > 0) {
+                var ques = this.ques4display[nv];
+                //this.state.last(ques.Qus_ID, nv);
+            }
+            //更新答题状态（不推送到服务器）
+            //this.state.update(false);
+            this.$nextTick(function () {
+                window.setTimeout(function () {
+                    $dom("dl.quesArea").css('left', -($dom("#vapp").width() * nv) + 'px');
+                }, 50);
+            });
         }
     },
     computed: {
@@ -36,7 +54,7 @@ Vue.component('quesarea', {
     },
     mounted: function () { },
     methods: {
-        //判断答题是否正确
+        //设置当前试题的id与索引
         setindex: function (qid, index) {
             if (qid != null || qid >= 0) this.currid = qid;
             if (index != null || index > 0) this.index = index - 1;
@@ -55,9 +73,21 @@ Vue.component('quesarea', {
             //console.log(qid);
             //console.log(index);
         },
-
+        //试题滑动 
+        swipe: function (e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+                var node = $dom(e.target ? e.target : e.srcElement);
+                if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
+                    return;
+            }
+            //向左滑动
+            if (e.direction == 2 && this.swipeIndex < this.ques4display.length - 1) this.swipeIndex++;
+            //向右滑动
+            if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
+        },
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+ques4display.length*100+'vw'">
+    template: `<dl :class="{'quesArea':true}" :style="'width:'+ques4display.length*100+'vw'" v-swipe="swipe">
            <question v-for="(qid,i) in ques4display" :qid="qid" :state="{}" :index="initindex+i" :total="list.length" :types="types"
             :mode="mode" :current="initindex+i==index"></question>
         </dl>`
