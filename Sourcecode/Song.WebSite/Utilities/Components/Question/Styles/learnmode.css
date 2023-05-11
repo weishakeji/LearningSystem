@@ -4,11 +4,9 @@
     width: 100px;
     height: 25px;
     margin: 10px auto;
-    transition: all 1s;
     border-radius: 5px;
     box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.3),
-    1px -1px 1px rgba(255, 255, 255, 0.3), -1px 1px 1px rgba(255, 255, 255, 0.3);;
-    transition: all 1s;
+    1px -1px 1px rgba(255, 255, 255, 0.3), -1px 1px 1px rgba(255, 255, 255, 0.3); 
 }
 
 .ws_ques_learnmode::before {
@@ -36,17 +34,9 @@
     box-sizing: border-box;
     padding: 2px 8px;
     font-size: 14px;
-    color: #666;
-    transition: all 0.5s;
+    color: #999;
     z-index: 1;
-}
-
-.ws_ques_learnmode>div:first-child {
-    padding-right: 4px;
-}
-
-.ws_ques_learnmode>div:last-child {
-    padding-left: 4px;
+    text-align: center;
 }
 
 .ws_ques_learnmode>div[current] {
