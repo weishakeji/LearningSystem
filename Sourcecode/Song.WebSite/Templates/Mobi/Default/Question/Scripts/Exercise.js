@@ -6,8 +6,7 @@
             couid: $api.querystring("couid", 0),
             olid: $api.querystring("olid", 0),
 
-            learnmode: 0,            //练习模式，0为练习模式，1为背题模式
-            showCard: false,         //答题卡是否显示
+            learnmode: 0,            //练习模式，0为练习模式，1为背题模式        
             showCourse: false,           //显示课程  
 
             account: {},     //当前登录账号        
@@ -16,13 +15,14 @@
             outline: {},        //当前章节   
             error: '',           //错误信息       
 
-            questions: [],
+            questions: {},
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
             //答题的状态
             state: {},
 
             //一些数值         
-            count: {
+            data: {
+                total: 0,        //总数
                 answer: 0,      //答题数量
                 correct: 0,     //正确数
                 wrong: 0,           //错误数
@@ -47,6 +47,7 @@
             })).catch(err => alert(err))
                 .finally(() => {
                     th.loading_init = false;
+                    th.getQuesSimplify(false);
                 });
 
         },
@@ -59,15 +60,36 @@
             //课程是否加载正确
             iscourse: (t) => { return !$api.isnull(t.course); },
             //章节是否加载正确
-            isoutline: (t) => { return !$api.isnull(t.outline); },
+            isoutline: (t) => { return !$api.isnull(t.outline); },       
         },
         watch: {
 
         },
         methods: {
-
+            //获取试题简要信息，只有试题类型与id
+            getQuesSimplify: function (update) {
+                var th = this;
+                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
+                let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
+                $api.cache(apiurl, form).then(function (req) {
+                    if (req.data.success) {
+                        th.questions = req.data.result;
+                        //计算总题数
+                        for (let ty in th.questions)
+                            th.data.total += th.questions[ty].length;
+                        console.log(th.questions);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
+            }
         }
     });
 }, ['/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
-    'Components/SetupMenu.js',
+    'Components/SetupMenu.js',          //右上角的设置项菜单 
+    'Components/AnswerSheet.js',        //答题卡
 ]);

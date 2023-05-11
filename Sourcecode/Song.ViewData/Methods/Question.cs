@@ -435,7 +435,7 @@ namespace Song.ViewData.Methods
                     if (q.Qus_Type != i) continue;
                     list.Add(q.Qus_ID.ToString());
                 }
-                if (list.Count > 0) dic.Add(i.ToString(), list);
+                if (list.Count > 0) dic.Add("type_"+i.ToString(), list);
             }
             return dic;
         }

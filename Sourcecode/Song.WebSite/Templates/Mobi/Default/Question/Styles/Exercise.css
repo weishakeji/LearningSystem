@@ -29,9 +29,9 @@ input, textarea {
 }
 
 .van-overlay {
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.3);	
 }
-
+/*模糊*/
 .blur {
 	filter: url(blur.svg#blur);
 	/* FireFox, Chrome, Opera */

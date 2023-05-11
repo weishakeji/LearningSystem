@@ -33,23 +33,26 @@
           <div>
             <van-button type="default" @click="showCourse=false">取消</van-button>
             <van-button type="primary" :url="'../course/Detail.'+couid">
-              <span icon="&#xe813">返回课程</span> 
+              <span icon="&#xe813">返回课程</span>
             </van-button>
           </div>
         </template>
         <row v-else>课程不存在</row>
       </van-popup>
     </template>
+    <!--答题卡-->
+    <answersheet ref='answersheet' :questions="questions" :types="types" :ansstate="state" :data="data"
+      @click="index=>swipeIndex = index"></answersheet>
     <!--底部按钮区 -->
     <div class="footer">
-      <div>正确率：{{count.rate}} %</div>
+      <div>正确率：{{data.rate}} %</div>
       <div class="count_number">
-        <span icon="&#xe67f">{{count.correct}}</span>
-        <span icon="&#xe61c">{{count.wrong}}</span>
+        <span icon="&#xe67f">{{data.correct}}</span>
+        <span icon="&#xe61c">{{data.wrong}}</span>
       </div>
-      <div @click="showCard=true">
+      <div @click="$refs['answersheet'].show()">
         <icon>&#xe75e</icon>
-        <span>{{count.answer}}</span>/{{questions.length}}
+        <span>{{data.answer}}</span>/{{data.total}}
       </div>
     </div>
   </div>
