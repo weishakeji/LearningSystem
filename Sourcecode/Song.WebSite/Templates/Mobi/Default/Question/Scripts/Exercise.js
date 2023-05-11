@@ -60,7 +60,7 @@
             //课程是否加载正确
             iscourse: (t) => { return !$api.isnull(t.course); },
             //章节是否加载正确
-            isoutline: (t) => { return !$api.isnull(t.outline); },       
+            isoutline: (t) => { return !$api.isnull(t.outline); },
         },
         watch: {
 
@@ -77,7 +77,11 @@
                         //计算总题数
                         for (let ty in th.questions)
                             th.data.total += th.questions[ty].length;
-                        console.log(th.questions);
+                        th.$nextTick(function () {
+                            th.$refs['quesarea'].setindex(null, 1);
+                        });
+
+                        //console.log(th.questions);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -89,7 +93,10 @@
             }
         }
     });
-}, ['/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
+}, ['/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
     'Components/SetupMenu.js',          //右上角的设置项菜单 
     'Components/AnswerSheet.js',        //答题卡
+    'Components/QuesArea.js',           //试题区域
+    'Components/Question.js',           //单个试题的展示
 ]);

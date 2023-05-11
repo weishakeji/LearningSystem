@@ -40,9 +40,11 @@
         <row v-else>课程不存在</row>
       </van-popup>
     </template>
+    <!-- 试题区域-->
+    <quesarea ref='quesarea' :ques="questions"  :types="types" :mode="learnmode%2"></quesarea>
     <!--答题卡-->
     <answersheet ref='answersheet' :questions="questions" :types="types" :ansstate="state" :data="data"
-      @click="index=>swipeIndex = index"></answersheet>
+      @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
     <!--底部按钮区 -->
     <div class="footer">
       <div>正确率：{{data.rate}} %</div>

@@ -60,8 +60,7 @@ Vue.component('answersheet', {
         //试题索引号
         index: function (i, j) {
             let init = 0;
-            while (--i >= 0)
-                init += this.groups[i].ques.length;
+            while (--i >= 0) init += this.groups[i].ques.length;
             return init + j + 1;
         }
     },

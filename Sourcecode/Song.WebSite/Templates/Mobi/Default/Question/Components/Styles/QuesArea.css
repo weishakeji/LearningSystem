@@ -1,0 +1,12 @@
+dl.quesArea{
+    height: calc(100% - 90px);
+    overflow: auto;
+}
+dl.quesArea, .quesArea dd {
+    padding: 0px;
+    margin: 0px;
+}
+
+.quesArea dd {
+    width: 100vw;
+}
