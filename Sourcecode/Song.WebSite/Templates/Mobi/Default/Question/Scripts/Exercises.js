@@ -42,36 +42,38 @@
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
-            ).then(axios.spread(function (account, types, course, outline) {
-                th.account = account.data.result;
-                th.types = types.data.result;
-                th.course = course.data.result;
-                if (th.course == null) throw '课程不存在！';
+            ).then(axios.spread(function (acc, type, cou, outline) {
+                th.account = acc.data.result;
+                th.types = type.data.result;
+                th.course = cou.data.result;
                 th.outline = outline.data.result;
-                if (th.outline == null) throw '章节不存在！';
-                th.outline.Ol_XPath = $api.querystring('path');
-                document.title = th.outline.Ol_Name;
+                if (th.isoutline) {
+                    document.title = th.outline.Ol_Name;
+                    th.getQuestion(false);
+                }
                 //创建试题练习状态的记录的操作对象
                 th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
+
                 console.log(th.state);
-                th.getQuestion(false);
-            })).catch(function (err) {
-                th.error = err;
-                alert(err);
-                console.error(err);
-            }).finally(function () {
-                th.loading_init = false;
-            });
+            })).catch(err => { th.error = err; alert(err); })
+                .finally(() => {
+                    th.loading_init = false;
+
+                    //th.getQuesSimplify(false);
+                });
+
 
         },
         created: function () {
-            if (window.ques) window.ques.get_cache_data();
+            //if (window.ques) window.ques.get_cache_data();
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
+            //课程是否加载正确
+            iscourse: (t) => { return !$api.isnull(t.course); },
+            //章节是否加载正确
+            isoutline: (t) => { return !$api.isnull(t.outline); },
 
         },
         watch: {
@@ -87,7 +89,7 @@
                 this.state.update(false);
                 this.$nextTick(function () {
                     window.setTimeout(function () {
-                        $dom("section").css('left', -100 * nv + 'vw');        
+                        $dom("section").css('left', -100 * nv + 'vw');
                     }, 50);
                 });
                 //隐藏答题卡

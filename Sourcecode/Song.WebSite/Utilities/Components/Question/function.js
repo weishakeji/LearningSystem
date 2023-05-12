@@ -57,7 +57,7 @@
         $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
             if (req.data.success) {
                 var result = req.data.result;
-                for (let i = 0; i < result.length; i++) {
+                for (let i = 0; i < result.length; i++) {                  
                     if (result[i].Ol_QuesCount > 0) {
                         $api.cache('Question/ForCourse:' + (60 * 24 * 30),
                             { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'count': 0 }).then((req) => {
