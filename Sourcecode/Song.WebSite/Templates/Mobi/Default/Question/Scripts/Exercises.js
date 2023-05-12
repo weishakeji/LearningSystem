@@ -87,7 +87,7 @@
                 this.state.update(false);
                 this.$nextTick(function () {
                     window.setTimeout(function () {
-                        $dom("section").css('left', -($dom("#vapp").width() * nv) + 'px');        
+                        $dom("section").css('left', -100 * nv + 'vw');        
                     }, 50);
                 });
                 //隐藏答题卡
