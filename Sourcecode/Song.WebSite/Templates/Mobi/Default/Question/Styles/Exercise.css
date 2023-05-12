@@ -43,9 +43,13 @@ input, textarea {
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
 }
 
-.van-loading {
+loading {
 	text-align: center;
 	padding: 20px;
+	margin: 30px auto;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
 }
 
 card-title.error a {

@@ -3,18 +3,12 @@ $dom.load.css([$dom.pagepath() + 'Components/Styles/QuesArea.css']);
 Vue.component('quesarea', {
     //ques:试题列表，只有试题类型与id
     //mode:练习模式，练题还是背题
-    props: ['ques', 'types', 'mode'],
+    props: ['ques', 'types', 'mode', 'account'],
     data: function () {
         return {
-            list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算    
-            ques4display: [],     //用于显示的试题，   
-            currid: -1,         //当前试题id            
-            index: 0,            //当前试题索引
-            initindex: 0,         //试题列表的初始索引
-
-            swipeIndex: 0,
-
-            maxvalue: 4,       //每次显示的最多试题数，即ques4display的最大长度
+            list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
+            currid: '',         //当前试题id            
+            index: 0,            //当前试题索引 
         }
     },
     watch: {
@@ -28,7 +22,6 @@ Vue.component('quesarea', {
                         list.push(nv[k][i]);
                 }
                 this.list = list;
-                console.log(list);
             },
             immediate: true
         },
@@ -36,8 +29,18 @@ Vue.component('quesarea', {
             console.log(nv);
         },
         //滑动试题，滑动到指定试题索引
-        'swipeIndex': function (nv, ov) {
-
+        'index': function (nv, ov) {
+            if (nv > this.list.length - 1 || nv < 0) return;
+            //设置当前练习的试题
+            //if (nv != null && this.list.length > 0)
+            //this.state.last(this.list[nv], nv);
+            //更新答题状态（不推送到服务器）
+            //this.state.update(false);
+            this.$nextTick(function () {
+                window.setTimeout(function () {
+                    $dom("dl.quesArea").css('left', -100 * nv + 'vw');
+                }, 50);
+            });
         }
     },
     computed: {
@@ -48,26 +51,8 @@ Vue.component('quesarea', {
         //设置当前试题的id与索引
         setindex: function (qid, index) {
             if (qid != null || qid >= 0) this.currid = qid;
-            if (index != null || index > 0) this.index = index - 1;
-            //生成用于显示的试题，           
-            let arr = [];
-            let half = Math.floor(this.maxvalue / 3);
-            let init = this.index - half <= 0 ? 0 : this.index - half;       //取值的起始索引   
-            let max = init + this.maxvalue >= this.list.length ? this.list.length : init + this.maxvalue;   //最大索引
-            for (let i = init; i < max; i++) {
-                arr.push(this.list[i]);
-            }
-            this.ques4display = [];
-            this.ques4display = arr;
-            this.initindex = init;
-            console.log(arr);
-
-            if (index <= 0 || index >= this.ques4display.length - 1) return;
-            this.swipeIndex = index - init - 1;
-            if (this.swipeIndex < -1) this.swipeIndex = -1;
-            $dom("dl.quesArea").css('left', -($dom("#vapp").width() * this.swipeIndex) + 'px');
-            //console.log(qid);
-            //console.log(index);
+            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
+            //this.index = this.index;
         },
         //试题滑动 
         swipe: function (e) {
@@ -78,40 +63,17 @@ Vue.component('quesarea', {
                     return;
             }
             //向左滑动
-            if (e.direction == 2 && this.swipeIndex < this.ques4display.length - 1) this.swipeIndex++;
+            if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
-            if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
-            this.swipeEffect(this.swipeIndex, e.direction);
-        },
-        //滑动后的效果
-        swipeEffect: function (nv, direction) {
-            if (nv > this.ques4display.length - 1 || nv < 0) return;
-            //设置当前练习的试题
-            if (nv != null && this.ques4display.length > 0) {
-                var ques = this.ques4display[nv];
-                //this.state.last(ques.Qus_ID, nv);
-            }
-            //更新答题状态（不推送到服务器）
-            //this.state.update(false);
-            var th = this;
-            this.$nextTick(function () {
-                //transition: left 0.5s;
-                $dom("dl.quesArea").css('transition', 'left 0.5s');
-                window.setTimeout(function () {
-                    $dom("dl.quesArea").css('left', -($dom("#vapp").width() * nv) + 'px');
-                    window.setTimeout(function () {
-                        $dom("dl.quesArea").css('transition', 'none');
-                        //向左滑动
-                        if (direction == 2) th.setindex(null, th.index + 2);
-                        //向右滑动
-                        if (direction == 4) th.setindex(null, th.index);
-                    }, 600);
-                }, 50);
-            });
+            if (e.direction == 4 && this.index > 0) this.index--;
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+ques4display.length*100+'vw'" v-swipe="swipe">
-           <question v-for="(qid,i) in ques4display" :qid="qid" :state="{}" :index="initindex+i" :total="list.length" :types="types"
-            :mode="mode" :current="initindex+i==index"></question>
+    template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
+           <question v-for="(qid,i) in list" :qid="qid" :state="{}" :index="index" :total="list.length" :types="types"
+            :mode="mode" :current="i==index" :account="account" >
+            <template v-slot:buttons="btn">
+                <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
+            </template>
+            </question>
         </dl>`
 });

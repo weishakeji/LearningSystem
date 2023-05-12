@@ -55,7 +55,7 @@ Vue.component('answersheet', {
         //当点击试题标识时
         clickEvent: function (qid, index) {
             this.showsheet = false;
-            this.$emit('click', qid, index);
+            this.$emit('click', qid, index - 1);
         },
         //试题索引号
         index: function (i, j) {

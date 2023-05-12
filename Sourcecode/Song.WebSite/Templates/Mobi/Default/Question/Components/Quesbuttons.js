@@ -29,16 +29,15 @@ Vue.component('quesbuttons', {
     watch: {
         'question': {
             handler(nv, ov) {
-                //console.log(nv);               
+                if (nv == null) return;
                 if (nv.Qus_IsWrong) {
                     var btn = this.getbtn('error');
                     if (btn != null) btn.used = true;
                 }
-                if(this.current){
+                if (this.current) {
                     this.collectState();
                     this.noteState();
                 }
-                //console.log(nv);
             },
             immediate: true
         },

@@ -8,30 +8,20 @@ Vue.component('question', {
     //types:试题类型，
     //mode:0为练习模式，1为背题模式
     //current:当前显示的试题，即滑动到这个试题
-    props: ['qid', 'state', 'index', 'total', 'types', 'mode', 'current'],
+    props: ['qid', 'state', 'index', 'total', 'types', 'mode', 'current', 'account'],
     data: function () {
         return {
             init: false,         //初始化完成     
             ques: {},                //当前试题   
-            knowledge: {}        //试题关联的知识点
+            knowledge: {},        //试题关联的知识点
+
+            loading: false       //试题加载中
         }
     },
     watch: {
         'qid': {
             handler(nv, ov) {
-                if (nv == null) return;
-                var th = this;
-                $api.cache('Question/ForID', { 'id': nv }).then(function (req) {
-                    if (req.data.success) {
-                        th.ques = req.data.result;
-                        th.initialization();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+
             },
             immediate: true
         },
@@ -61,17 +51,29 @@ Vue.component('question', {
     methods: {
         //始始化的方法
         initialization: function () {
-            this.getKnowledge(this.ques);
-            this.ques = this.parseAnswer(this.ques);
-            this.init = true;
-            this.$nextTick(function () {
-                var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
-                //清理空元素                
-                window.ques.clearempty(dom.find('card-title'));
-                window.ques.clearempty(dom.find('.ans_area'));
-                //公式渲染
-                this.$mathjax([dom[0]]);
-            });
+            if (this.qid == null) return;
+            var th = this;
+            th.loading = true;
+            $api.cache('Question/ForID', { 'id': th.qid }).then(function (req) {
+                if (req.data.success) {
+                    th.ques = req.data.result;
+                    th.getKnowledge(th.ques);
+                    th.ques = th.parseAnswer(th.ques);
+                    th.init = true;
+                    th.$nextTick(function () {
+                        var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
+                        //清理空元素                
+                        window.ques.clearempty(dom.find('card-title'));
+                        window.ques.clearempty(dom.find('.ans_area'));
+                        //公式渲染
+                        th.$mathjax([dom[0]]);
+                    });
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //获取知识点
         getKnowledge: function (ques) {
@@ -159,7 +161,9 @@ Vue.component('question', {
             var correct = func(ans, ques, judge);
             if (correct == null) return;
             if (!correct) {
-                $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID })
+                let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
+                if (acid <= 0) return;
+                $api.post('Question/ErrorAdd', { 'acid': acid, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID })
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
@@ -168,7 +172,6 @@ Vue.component('question', {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-
                         console.error(err);
                     });
             }
@@ -276,11 +279,12 @@ Vue.component('question', {
         }
     },
     template: `<dd :qid="qid" :current="current" :render="init">
-    <template v-if="init">
+    <div loading="p1" v-if="loading"></div>
+    <template v-else-if="init">
         <info no-font-size>
             {{index+1}}/{{total}}
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-            <slot name="buttons"></slot>          
+            <slot name="buttons" :ques="ques"></slot>          
         </info>
         <card :correct="state ? state.correct : ''" :ans="state.ans">   
             <card-title v-html="ques.Qus_Title"></card-title>          
@@ -310,7 +314,7 @@ Vue.component('question', {
                 <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
                     <textarea rows="10" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
                     <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
-                    </div>
+                </div>
                 <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">                   
                         <input type="text" v-model="ans.answer"></input>                

@@ -15,11 +15,12 @@
             outline: {},        //当前章节   
             error: '',           //错误信息       
 
-            questions: {},
-            swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
+            queslist: [],      //试题简要信息，只有题型与id,按题型分为多个数组
+            loading: true,
+            loading_init: false,         //初始信息加载
+
             //答题的状态
             state: {},
-
             //一些数值         
             data: {
                 total: 0,        //总数
@@ -69,19 +70,20 @@
             //获取试题简要信息，只有试题类型与id
             getQuesSimplify: function (update) {
                 var th = this;
+                th.loading = true;
                 let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
                 let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
-                        th.questions = req.data.result;
+                        th.queslist = req.data.result;
                         //计算总题数
-                        for (let ty in th.questions)
-                            th.data.total += th.questions[ty].length;
+                        for (let ty in th.queslist)
+                            th.data.total += th.queslist[ty].length;
                         th.$nextTick(function () {
-                            th.$refs['quesarea'].setindex(null, 1);
+                            if (th.$refs['quesarea'])
+                                th.$refs['quesarea'].setindex(null, 0);
+                            th.loading = false;
                         });
-
-                        //console.log(th.questions);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -89,6 +91,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
+                    th.loading = false;
                 });
             }
         }
@@ -99,4 +102,6 @@
     'Components/AnswerSheet.js',        //答题卡
     'Components/QuesArea.js',           //试题区域
     'Components/Question.js',           //单个试题的展示
+    'Components/Quesbuttons.js',
+    'Components/ExerciseState.js'
 ]);
