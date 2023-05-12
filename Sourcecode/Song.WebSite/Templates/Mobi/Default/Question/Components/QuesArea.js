@@ -32,21 +32,12 @@ Vue.component('quesarea', {
             },
             immediate: true
         },
+        'mode': function (nv, ov) {
+            console.log(nv);
+        },
         //滑动试题，滑动到指定试题索引
         'swipeIndex': function (nv, ov) {
-            if (nv > this.ques4display.length - 1 || nv < 0) return;
-            //设置当前练习的试题
-            if (nv != null && this.ques4display.length > 0) {
-                var ques = this.ques4display[nv];
-                //this.state.last(ques.Qus_ID, nv);
-            }
-            //更新答题状态（不推送到服务器）
-            //this.state.update(false);
-            this.$nextTick(function () {
-                window.setTimeout(function () {
-                    $dom("dl.quesArea").css('left', -($dom("#vapp").width() * nv) + 'px');
-                }, 50);
-            });
+
         }
     },
     computed: {
@@ -70,6 +61,11 @@ Vue.component('quesarea', {
             this.ques4display = arr;
             this.initindex = init;
             console.log(arr);
+
+            if (index <= 0 || index >= this.ques4display.length - 1) return;
+            this.swipeIndex = index - init - 1;
+            if (this.swipeIndex < -1) this.swipeIndex = -1;
+            $dom("dl.quesArea").css('left', -($dom("#vapp").width() * this.swipeIndex) + 'px');
             //console.log(qid);
             //console.log(index);
         },
@@ -85,7 +81,34 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.swipeIndex < this.ques4display.length - 1) this.swipeIndex++;
             //向右滑动
             if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
+            this.swipeEffect(this.swipeIndex, e.direction);
         },
+        //滑动后的效果
+        swipeEffect: function (nv, direction) {
+            if (nv > this.ques4display.length - 1 || nv < 0) return;
+            //设置当前练习的试题
+            if (nv != null && this.ques4display.length > 0) {
+                var ques = this.ques4display[nv];
+                //this.state.last(ques.Qus_ID, nv);
+            }
+            //更新答题状态（不推送到服务器）
+            //this.state.update(false);
+            var th = this;
+            this.$nextTick(function () {
+                //transition: left 0.5s;
+                $dom("dl.quesArea").css('transition', 'left 0.5s');
+                window.setTimeout(function () {
+                    $dom("dl.quesArea").css('left', -($dom("#vapp").width() * nv) + 'px');
+                    window.setTimeout(function () {
+                        $dom("dl.quesArea").css('transition', 'none');
+                        //向左滑动
+                        if (direction == 2) th.setindex(null, th.index + 2);
+                        //向右滑动
+                        if (direction == 4) th.setindex(null, th.index);
+                    }, 600);
+                }, 50);
+            });
+        }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+ques4display.length*100+'vw'" v-swipe="swipe">
            <question v-for="(qid,i) in ques4display" :qid="qid" :state="{}" :index="initindex+i" :total="list.length" :types="types"
