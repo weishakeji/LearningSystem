@@ -76,17 +76,14 @@
                 let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
                 let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
-                    if (req.data.success) {
-                        th.queslist = req.data.result;
-                        //计算总题数
-                        for (let ty in th.queslist)
-                            th.data.total += th.queslist[ty].length;
+                    if (req.data.success) {                       
                         //获取练习记录，获取记录成功再赋值 
-                        th.state.restore(th.queslist).then(function (d) {
+                        th.state.restore(req.data.result).then(function (d) {
+                            th.queslist = req.data.result;
                             th.data = d.count;
                             //初始显示第几条试题
                             th.$nextTick(function () {
-                                let last = th.state.last();
+                                let last = th.state.last();                               
                                 let index = last != null ? last.index : 0;
                                 th.$refs['quesarea'].setindex(null, index);
                             });

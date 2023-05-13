@@ -72,20 +72,21 @@ Vue.component('quesarea', {
         },
         //试题答题状态变更时
         answer: function (state, ques) {
+            this.state.data.current = state;
             var data = this.state.update(true);
             //this.count = data.count;
-            data.total = this.list.length;
-            console.log(data);
-            this.$emit('change', data.count);
+            //data.total = this.list.length;
+            //console.log(data);
+            //this.$emit('change', data.count);
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
            <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="index"
-            :total="list.length" :types="types"
-            :mode="mode" :current="i==index" :account="account" @answer="answer">
-            <template v-slot:buttons="btn">
-                <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
-            </template>
+            :total="list.length" :types="types" :account="account"
+            :mode="mode" :current="i==index" @answer="answer">
+                <template v-slot:buttons="btn">
+                    <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
+                </template>
             </question>
         </dl>`
 });

@@ -922,10 +922,10 @@ namespace Song.ViewData.Methods
                     DateTime last = new DateTime(timeTricks);
                 }
             }
-            new System.Threading.Tasks.Task(() =>
-            {
+            //new System.Threading.Tasks.Task(() =>
+            //{
                 Business.Do<IQuestions>().ExerciseLogSave(acc, -1, couid, olid, json.ToString(), total, answer, correct, wrong, rate);
-            }).Start();
+            //}).Start();
            
             return true;
         }

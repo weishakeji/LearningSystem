@@ -46,8 +46,7 @@
       </template>
       <!-- 试题区域-->
       <loading star v-show="loading">试题加载中...</loading>
-      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
-        @change="d=>data=d"></quesarea>
+      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>

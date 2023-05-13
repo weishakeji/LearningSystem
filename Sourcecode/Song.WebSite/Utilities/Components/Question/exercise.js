@@ -291,7 +291,7 @@ Vue.component('question', {
                     <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
-                    <div  :selected="state.ans=='false'" @click="ques_doing(false,ques)">
+                    <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
                         <i>错误</i> 
                     </div>
                 </div>

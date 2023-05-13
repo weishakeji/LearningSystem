@@ -158,7 +158,7 @@ dl.quesArea dd img {
 
 .type5>div::before {
 	counter-increment: section;
-	content: counter(dl) ". ";
+	content: counter(section) ". ";
 	display: block;
 	position: absolute;
 	top: 5px;

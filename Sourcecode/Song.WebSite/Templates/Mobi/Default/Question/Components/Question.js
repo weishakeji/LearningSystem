@@ -17,20 +17,20 @@ Vue.component('question', {
             ques: {},                //当前试题   
             knowledge: {},        //试题关联的知识点
 
+            forced_rendering:0,     //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
             loading: false       //试题加载中
         }
     },
     watch: {
         'qid': {
-            handler(nv, ov) {},
+            handler(nv, ov) { },
             immediate: true
         },
         //试题总数变化时（例如删除错题），重新处理当前试题
         'total': function (nv, ov) {
             if (nv && this.current) {
                 this.initialization();
-            }
-            //console.log(nv);
+            }       
         },
         //是否是当前显示的试题
         'current': {
@@ -88,7 +88,7 @@ Vue.component('question', {
             }).catch(function (err) {
             });
         },
-        //将试题对象中的Qus_Items，解析为json
+        //将试题对象中的Qus_Items，解析为json，并还原答题状态
         parseAnswer: function (ques) {
             ques = window.ques.parseAnswer(ques);
             var arr = ques.Qus_Items;
@@ -156,9 +156,12 @@ Vue.component('question', {
                 alert('背题模式下不可以答题，请切换到“答题模式”');
                 return;
             }
+            this.forced_rendering++;        //强制渲染的冗余值
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
+            this.state.index = this.index;
+            this.$emit('answer', this.state, this.ques);
             if (correct == null) return;
             if (!correct) {
                 let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
@@ -192,7 +195,7 @@ Vue.component('question', {
             this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //多选题的选择
@@ -233,7 +236,7 @@ Vue.component('question', {
             this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct) this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return correct;
         },
         //判断题的选择,logic为true或false
@@ -248,7 +251,7 @@ Vue.component('question', {
             this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //简答题
@@ -257,7 +260,7 @@ Vue.component('question', {
             this.state['ans'] = this.state.ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //填空题
@@ -273,8 +276,7 @@ Vue.component('question', {
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            this.$emit('answer', this.state, this.ques);
+            this.state['time'] = new Date();           
             return this.state['correct'] == 'succ';
         }
     },
@@ -286,7 +288,7 @@ Vue.component('question', {
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
             <slot name="buttons" :ques="ques"></slot>          
         </info>
-        <card :correct="state ? state.correct : ''" :ans="state.ans">   
+        <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
             <card-title v-html="ques.Qus_Title"></card-title>          
             <card-context>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
@@ -303,11 +305,11 @@ Vue.component('question', {
                     </div>
                     <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
                 </div>
-                <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
+                <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
                     <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
-                    <div  :selected="state.ans=='false'" @click="ques_doing(false,ques)">
+                    <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
                         <i>错误</i> 
                     </div>
                 </div>
