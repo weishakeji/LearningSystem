@@ -1,5 +1,7 @@
 ﻿//试题的练习
 $dom.load.css([$dom.pagepath() + 'Components/Styles/Question.css']);
+//事件：
+//answer:当答题状态变化时触发，返回答题状态与试题
 Vue.component('question', {
     //qid:当前试题的id
     //state:答题状态
@@ -20,9 +22,7 @@ Vue.component('question', {
     },
     watch: {
         'qid': {
-            handler(nv, ov) {
-
-            },
+            handler(nv, ov) {},
             immediate: true
         },
         //试题总数变化时（例如删除错题），重新处理当前试题

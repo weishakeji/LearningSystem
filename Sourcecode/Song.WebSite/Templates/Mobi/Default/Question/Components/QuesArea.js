@@ -1,9 +1,12 @@
 ﻿//试题练习的区域
 $dom.load.css([$dom.pagepath() + 'Components/Styles/QuesArea.css']);
+//事件
+//change:当答题信息变更时触发，返回一些统计数据
 Vue.component('quesarea', {
     //ques:试题列表，只有试题类型与id
     //mode:练习模式，练题还是背题
-    props: ['ques', 'types', 'mode', 'account'],
+    //state
+    props: ['ques', 'types', 'mode', 'account', 'state'],
     data: function () {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
@@ -66,11 +69,20 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
+        },
+        //试题答题状态变更时
+        answer: function (state, ques) {
+            var data = this.state.update(true);
+            //this.count = data.count;
+            data.total = this.list.length;
+            console.log(data);
+            this.$emit('change', data.count);
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
-           <question v-for="(qid,i) in list" :qid="qid" :state="{}" :index="index" :total="list.length" :types="types"
-            :mode="mode" :current="i==index" :account="account" >
+           <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="index"
+            :total="list.length" :types="types"
+            :mode="mode" :current="i==index" :account="account" @answer="answer">
             <template v-slot:buttons="btn">
                 <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
             </template>

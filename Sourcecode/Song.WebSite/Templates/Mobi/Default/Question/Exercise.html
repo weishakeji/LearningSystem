@@ -13,6 +13,7 @@
 
     <loading bubble v-if="loading_init">正在初始化...</loading>
     <template v-else>
+      <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>
       <template remark="顶部栏">
         <van-row class="topBox">
           <van-col span="7" class="btntop">
@@ -45,7 +46,8 @@
       </template>
       <!-- 试题区域-->
       <loading star v-show="loading">试题加载中...</loading>
-      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account"></quesarea>
+      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
+        @change="d=>data=d"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>

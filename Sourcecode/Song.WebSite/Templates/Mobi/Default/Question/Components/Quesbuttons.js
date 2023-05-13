@@ -35,8 +35,8 @@ Vue.component('quesbuttons', {
                     if (btn != null) btn.used = true;
                 }
                 if (this.current) {
-                    this.collectState();
-                    this.noteState();
+                    //this.collectState();
+                    //this.noteState();
                 }
             },
             immediate: true
@@ -70,6 +70,7 @@ Vue.component('quesbuttons', {
         },
         //收藏的状态
         collectState: function () {
+            if ($api.isnull(this.account)) return;
             var th = this;
             //试题是否被收藏
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
@@ -89,6 +90,7 @@ Vue.component('quesbuttons', {
         },
         //笔记的状态，及内容
         noteState: function () {
+            if ($api.isnull(this.account)) return;
             var th = this;
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
             $api.get('Question/NotesSingle', query).then(function (req) {
@@ -108,6 +110,7 @@ Vue.component('quesbuttons', {
         },
         //设置收藏
         addcollect: function (btn) {
+            if ($api.isnull(this.account)) return;
             if (!btn.used) {
                 var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'couid': this.couid };
                 $api.post('Question/CollectAdd', query).then(function (req) {
@@ -144,6 +147,7 @@ Vue.component('quesbuttons', {
         },
         //更改笔记内容
         noteUpdate: function (note) {
+            if ($api.isnull(this.account)) return;
             var th = this;
             th.isShowNote = false;
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'note': note };

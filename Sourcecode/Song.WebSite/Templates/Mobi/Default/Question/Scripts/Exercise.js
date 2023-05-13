@@ -16,7 +16,7 @@
             error: '',           //错误信息       
 
             queslist: [],      //试题简要信息，只有题型与id,按题型分为多个数组
-            loading: true,
+            loading: false,
             loading_init: false,         //初始信息加载
 
             //答题的状态
@@ -29,8 +29,6 @@
                 wrong: 0,           //错误数
                 rate: 0         //正确率
             },
-
-
         },
         mounted: function () {
             var th = this;
@@ -45,12 +43,16 @@
                 th.types = type.data.result;
                 th.course = cou.data.result;
                 th.outline = outline.data.result;
-            })).catch(err => alert(err))
-                .finally(() => {
-                    th.loading_init = false;
+                if (th.isoutline) document.title = th.outline.Ol_Name;
+                //如果登录状态，则加载试题
+                if (th.islogin && th.isoutline) {
+                    //创建试题练习状态的记录的操作对象
+                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
+                    //加载试题的id列表
                     th.getQuesSimplify(false);
-                });
-
+                }
+            })).catch(err => alert(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             //if (window.ques) window.ques.get_cache_data();
@@ -79,10 +81,26 @@
                         //计算总题数
                         for (let ty in th.queslist)
                             th.data.total += th.queslist[ty].length;
-                        th.$nextTick(function () {
-                            if (th.$refs['quesarea'])
-                                th.$refs['quesarea'].setindex(null, 0);
+                        //获取练习记录，获取记录成功再赋值 
+                        th.state.restore(th.queslist).then(function (d) {
+                            th.data = d.count;
+                            //初始显示第几条试题
+                            th.$nextTick(function () {
+                                let last = th.state.last();
+                                let index = last != null ? last.index : 0;
+                                th.$refs['quesarea'].setindex(null, index);
+                            });
+                        }).catch(function (d) {
+                            //如果没有历史练习记录,显示操作指引的面板
+                            th.$refs['prompt'].show();
+                        }).finally(function () {
                             th.loading = false;
+                            if (th.data.total > 0) {
+                                th.$toast.success({
+                                    message: '试题加载成功',
+                                    duration: 800
+                                });
+                            }
                         });
                     } else {
                         console.error(req.data.exception);
@@ -102,6 +120,7 @@
     'Components/AnswerSheet.js',        //答题卡
     'Components/QuesArea.js',           //试题区域
     'Components/Question.js',           //单个试题的展示
-    'Components/Quesbuttons.js',
-    'Components/ExerciseState.js'
+    'Components/PromptPanel.js',        //刚打开时的提示面板，手式操作的指引
+    'Components/Quesbuttons.js',        //试题右上角的按钮，报错、笔记、收藏
+    'Components/ExerciseState.js'       //记录学习状态
 ]);
