@@ -29,7 +29,7 @@
         },*/
         //一些数值         
         count: {
-            sum: 0,          //总题数
+            num: 0,          //总题数
             answer: 0,      //答题数量
             correct: 0,     //正确数
             wrong: 0,           //错误数
@@ -43,7 +43,7 @@
         this.data = new Object();
         this.data.items = new Array();
         this.data.current = null;
-        this.data.count = { answer: 0, correct: 0, rate: 0, sum: 0, wrong: 0 };
+        this.data.count = { answer: 0, correct: 0, rate: 0, num: 0, wrong: 0 };
         return this.data;
     };
     //获取一个item项
@@ -97,14 +97,10 @@
             }
             arr.push(state);
         }
-        var count = {
-            sum: items.length,
-            answer: number,
-            correct: correct,
-            wrong: wrong,
-            rate: Math.round(correct / items.length * 10000) / 100
-        }
-        this.data.count = count;
+        this.data.count['answer'] = number;
+        this.data.count['correct'] = correct;
+        this.data.count['wrong'] = wrong;
+        this.data.count['rate'] = Math.round(correct / items.length * 10000) / 100;
         this.data.items = arr;
         this.write(toserver);
         return this.data;
@@ -154,7 +150,8 @@
         });
     };
     //将记录的答题信息，还原到界面
-    fn.restore = function () {
+    //queslist:当前加载的试题,试题id列表
+    fn.restore = function (queslist) {
         var th = this;
         var localdata = th.gettolocal();
         //获取服务端的数据
@@ -165,14 +162,21 @@
                 if (req.data.success) {
                     var result = req.data.result;
                     var json = $api.parseJson(result.Lse_JsonData);
-                    var statedate = null;
+                    var statedata = null;
                     if (localdata.current == null || localdata.current.time == null) {
-                        statedate = json;
+                        statedata = json;
                     } else {
-                        statedate = json.current.time > localdata.current.time ? json : localdata;
+                        statedata = json.current.time > localdata.current.time ? json : localdata;
                     }
-                    th.data = statedate;
-                    resolve(statedate);
+                    //进行预进入，如果queslist不为空，清除历史记录中的无用数据
+                    if (queslist != null) {
+                        let total = 0;
+                        for (let ty in queslist)
+                            total += queslist[ty].length;
+                        statedata.count.num = total;
+                    }
+                    th.data = statedata;
+                    resolve(statedata);
                 } else {
                     throw req.config.way + ' ' + req.data.message;
                 }

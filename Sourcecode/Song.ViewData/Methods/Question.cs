@@ -435,7 +435,7 @@ namespace Song.ViewData.Methods
                     if (q.Qus_Type != i) continue;
                     list.Add(q.Qus_ID.ToString());
                 }
-                if (list.Count > 0) dic.Add(i.ToString(), list);
+                if (list.Count > 0) dic.Add("type_"+i.ToString(), list);
             }
             return dic;
         }
@@ -900,10 +900,10 @@ namespace Song.ViewData.Methods
             if (acc == null) return false;
             if (acid != acc.Ac_ID) return false;
             //统计数据
-            int sum, answer, correct, wrong;
+            int total, answer, correct, wrong;
             double rate;
             JToken countJo = json["count"];           
-            int.TryParse(countJo["sum"].ToString(), out sum);
+            int.TryParse(countJo["num"].ToString(), out total);
             int.TryParse(countJo["answer"].ToString(), out answer);
             int.TryParse(countJo["correct"].ToString(), out correct);
             int.TryParse(countJo["wrong"].ToString(), out wrong);
@@ -922,10 +922,10 @@ namespace Song.ViewData.Methods
                     DateTime last = new DateTime(timeTricks);
                 }
             }
-            new System.Threading.Tasks.Task(() =>
-            {
-                Business.Do<IQuestions>().ExerciseLogSave(acc, -1, couid, olid, json.ToString(), sum, answer, correct, wrong, rate);
-            }).Start();
+            //new System.Threading.Tasks.Task(() =>
+            //{
+                Business.Do<IQuestions>().ExerciseLogSave(acc, -1, couid, olid, json.ToString(), total, answer, correct, wrong, rate);
+            //}).Start();
            
             return true;
         }

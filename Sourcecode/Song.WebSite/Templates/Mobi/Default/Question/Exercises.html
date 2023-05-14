@@ -87,15 +87,17 @@
       </template>
     </template>
     <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
-      <row>课程： {{course.Cou_Name}}</row>
-      <row>章节： {{outline.Ol_XPath}} {{outline.Ol_Name}}</row>
-      <div>
-        <van-button type="default" @click="showCourse=false">取消</van-button>
-        <van-button type="primary" :url="'../course/Detail.'+couid">
-          <span icon="&#xe813"></span>
-          返回课程
-        </van-button>
-      </div>
+      <template v-if="iscourse">
+        <row>《 {{course.Cou_Name}} 》</row>
+        <row v-if="isoutline">章节： {{outline.Ol_XPath}} {{outline.Ol_Name}}</row>
+        <div>
+          <van-button type="default" @click="showCourse=false">取消</van-button>
+          <van-button type="primary" :url="'../course/Detail.'+couid">
+            <span icon="&#xe813">返回课程</span>
+          </van-button>
+        </div>
+      </template>
+      <row v-else>课程不存在</row>
     </van-popup>
   </div>
 

@@ -6,44 +6,118 @@
             couid: $api.querystring("couid", 0),
             olid: $api.querystring("olid", 0),
 
+            learnmode: 0,            //练习模式，0为练习模式，1为背题模式        
+            showCourse: false,           //显示课程  
+
             account: {},     //当前登录账号        
             types: [],          //试题类型
             course: {},         //当前课程
             outline: {},        //当前章节   
             error: '',           //错误信息       
 
+            queslist: [],      //试题简要信息，只有题型与id,按题型分为多个数组
+            loading: false,
+            loading_init: false,         //初始信息加载
 
+            //答题的状态
+            state: {},
+            //一些数值         
+            data: {
+                num: 0,        //总数
+                answer: 0,      //答题数量
+                correct: 0,     //正确数
+                wrong: 0,           //错误数
+                rate: 0         //正确率
+            },
         },
         mounted: function () {
             var th = this;
             th.loading_init = true;
-            $api.batch(
-                $api.get('Account/Currentd'),
+            $api.bat(
+                $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
             ).then(axios.spread(function (acc, type, cou, outline) {
-                console.error(type);
+                th.account = acc.data.result;
+                th.types = type.data.result;
+                th.course = cou.data.result;
+                th.outline = outline.data.result;
+                if (th.isoutline) document.title = th.outline.Ol_Name;
+                //如果登录状态，则加载试题
+                if (th.islogin && th.isoutline) {
+                    //创建试题练习状态的记录的操作对象
+                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
+                    //加载试题的id列表
+                    th.getQuesSimplify(false);
+                }
             })).catch(err => alert(err))
-                .finally(() => {
-                    console.log('finally');
-                });
-
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             //if (window.ques) window.ques.get_cache_data();
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
+            //课程是否加载正确
+            iscourse: (t) => { return !$api.isnull(t.course); },
+            //章节是否加载正确
+            isoutline: (t) => { return !$api.isnull(t.outline); },
         },
         watch: {
 
         },
         methods: {
-
+            //获取试题简要信息，只有试题类型与id
+            getQuesSimplify: function (update) {
+                var th = this;
+                th.loading = true;
+                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
+                let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
+                $api.cache(apiurl, form).then(function (req) {
+                    if (req.data.success) {                       
+                        //获取练习记录，获取记录成功再赋值 
+                        th.state.restore(req.data.result).then(function (d) {
+                            th.queslist = req.data.result;
+                            th.data = d.count;
+                            //初始显示第几条试题
+                            th.$nextTick(function () {
+                                let last = th.state.last();                               
+                                let index = last != null ? last.index : 0;
+                                th.$refs['quesarea'].setindex(null, index);
+                            });
+                        }).catch(function (d) {
+                            //如果没有历史练习记录,显示操作指引的面板
+                            th.$refs['prompt'].show();
+                        }).finally(function () {
+                            th.loading = false;
+                            if (th.data.num > 0) {
+                                th.$toast.success({
+                                    message: '试题加载成功',
+                                    duration: 800
+                                });
+                            }
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                    th.loading = false;
+                });
+            }
         }
     });
-}, []);
+}, ['/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
+    'Components/SetupMenu.js',          //右上角的设置项菜单 
+    'Components/AnswerSheet.js',        //答题卡
+    'Components/QuesArea.js',           //试题区域
+    'Components/Question.js',           //单个试题的展示
+    'Components/PromptPanel.js',        //刚打开时的提示面板，手式操作的指引
+    'Components/Quesbuttons.js',        //试题右上角的按钮，报错、笔记、收藏
+    'Components/ExerciseState.js'       //记录学习状态
+]);

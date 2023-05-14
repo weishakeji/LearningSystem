@@ -1306,8 +1306,8 @@ namespace Song.ServiceImpls
         public bool ExerciseLogSave(Accounts acc, int orgid, long couid, long olid, string json, int sum, int answer, int correct, int wrong, double rate)
         {
             if (olid <= 0 || acc == null) return false;
-            new Task(() =>
-            {
+            //new Task(() =>
+            //{
                 if (orgid <= 0)
                 {
                     Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -1344,7 +1344,7 @@ namespace Song.ServiceImpls
                 //答题信息的详情，以json方式存储
                 log.Lse_JsonData = json;
                 Gateway.Default.Save<LogForStudentExercise>(log);
-            }).Start();
+            //}).Start();
             return true;
         }
         /// <summary>

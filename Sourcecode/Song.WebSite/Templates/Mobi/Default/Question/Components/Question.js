@@ -1,40 +1,42 @@
 ﻿//试题的练习
-$dom.load.css(['/Utilities/Components/Question/Styles/exercise.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/Question.css']);
+//事件：
+//answer:当答题状态变化时触发，返回答题状态与试题
 Vue.component('question', {
-    //ques:当前试题
+    //qid:当前试题的id
     //state:答题状态
     //index:索引号，
     //total:试题总数
     //types:试题类型，
     //mode:0为练习模式，1为背题模式
     //current:当前显示的试题，即滑动到这个试题
-    props: ['ques', 'state', 'index', 'total', 'types', 'mode', 'current'],
+    props: ['qid', 'state', 'index', 'total', 'types', 'mode', 'current', 'account'],
     data: function () {
         return {
-            init: false,         //初始化完成        
-            knowledge: {}        //试题关联的知识点
+            init: false,         //初始化完成     
+            ques: {},                //当前试题   
+            knowledge: {},        //试题关联的知识点
+
+            forced_rendering:0,     //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
+            loading: false       //试题加载中
         }
     },
     watch: {
-        'ques': {
-            handler(nv, ov) {
-                //this.ques = this.parseAnswer(this.ques);
-            },
+        'qid': {
+            handler(nv, ov) { },
             immediate: true
         },
         //试题总数变化时（例如删除错题），重新处理当前试题
         'total': function (nv, ov) {
             if (nv && this.current) {
                 this.initialization();
-            }
-            //console.log(nv);
+            }       
         },
         //是否是当前显示的试题
         'current': {
             handler(nv, ov) {
-                if (!ov && nv && !this.init) {
+                if (!ov && nv && !this.init)
                     this.initialization();
-                }
             },
             immediate: true
         }
@@ -49,17 +51,29 @@ Vue.component('question', {
     methods: {
         //始始化的方法
         initialization: function () {
-            this.getKnowledge(this.ques);
-            this.ques = this.parseAnswer(this.ques);
-            this.init = true;
-            this.$nextTick(function () {
-                var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
-                //清理空元素                
-                window.ques.clearempty(dom.find('card-title'));
-                window.ques.clearempty(dom.find('.ans_area'));
-                //公式渲染
-                this.$mathjax([dom[0]]);
-            });
+            if (this.qid == null) return;
+            var th = this;
+            th.loading = true;
+            $api.cache('Question/ForID', { 'id': th.qid }).then(function (req) {
+                if (req.data.success) {
+                    th.ques = req.data.result;
+                    th.getKnowledge(th.ques);
+                    th.ques = th.parseAnswer(th.ques);
+                    th.init = true;
+                    th.$nextTick(function () {
+                        var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
+                        //清理空元素                
+                        window.ques.clearempty(dom.find('card-title'));
+                        window.ques.clearempty(dom.find('.ans_area'));
+                        //公式渲染
+                        th.$mathjax([dom[0]]);
+                    });
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //获取知识点
         getKnowledge: function (ques) {
@@ -74,7 +88,7 @@ Vue.component('question', {
             }).catch(function (err) {
             });
         },
-        //将试题对象中的Qus_Items，解析为json
+        //将试题对象中的Qus_Items，解析为json，并还原答题状态
         parseAnswer: function (ques) {
             ques = window.ques.parseAnswer(ques);
             var arr = ques.Qus_Items;
@@ -86,7 +100,7 @@ Vue.component('question', {
                     }
                 }
                 if (ques.Qus_Type == 2) {
-                    var ans = this.state.ans.split(',');
+                    let ans = this.state.ans ? this.state.ans.split(',') : [];
                     for (var i = 0; i < arr.length; i++) {
                         for (var j = 0; j < ans.length; j++) {
                             if (arr[i].Ans_ID == ans[j]) arr[i].selected = true;
@@ -94,7 +108,7 @@ Vue.component('question', {
                     }
                 }
                 if (ques.Qus_Type == 5) {
-                    var ans = this.state.ans.split(',');
+                    let ans = this.state.ans ? this.state.ans.split(',') : [];
                     for (var i = 0; i < arr.length; i++)
                         arr[i].answer = ans[i];
                 }
@@ -142,12 +156,17 @@ Vue.component('question', {
                 alert('背题模式下不可以答题，请切换到“答题模式”');
                 return;
             }
+            this.forced_rendering++;        //强制渲染的冗余值
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
+            this.state.index = this.index;
+            this.$emit('answer', this.state, this.ques);
             if (correct == null) return;
             if (!correct) {
-                $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID })
+                let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
+                if (acid <= 0) return;
+                $api.post('Question/ErrorAdd', { 'acid': acid, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID })
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
@@ -156,7 +175,6 @@ Vue.component('question', {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-
                         console.error(err);
                     });
             }
@@ -177,7 +195,7 @@ Vue.component('question', {
             this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //多选题的选择
@@ -218,7 +236,7 @@ Vue.component('question', {
             this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct) this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return correct;
         },
         //判断题的选择,logic为true或false
@@ -233,7 +251,7 @@ Vue.component('question', {
             this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //简答题
@@ -242,7 +260,7 @@ Vue.component('question', {
             this.state['ans'] = this.state.ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            this.$emit('answer', this.state, this.ques);
+            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //填空题
@@ -258,36 +276,36 @@ Vue.component('question', {
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            this.$emit('answer', this.state, this.ques);
+            this.state['time'] = new Date();           
             return this.state['correct'] == 'succ';
         }
     },
-    template: `<dd :qid="ques.Qus_ID" :current="current" :render="init">
-    <template v-if="init">
+    template: `<dd :qid="qid" :current="current" :render="init">
+    <div loading="p1" v-if="loading"></div>
+    <template v-else-if="init">
         <info no-font-size>
             {{index+1}}/{{total}}
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-            <slot name="buttons"></slot>          
+            <slot name="buttons" :ques="ques"></slot>          
         </info>
-        <card :qid="ques.Qus_ID" :correct="state ? state.correct : ''" :ans="state.ans">   
-            <card-title v-html="ques.Qus_Title" v-once></card-title>          
+        <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
+            <card-title v-html="ques.Qus_Title"></card-title>          
             <card-context>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                     :selected="ans.selected" @click="ques_doing(ans,ques)">
                         <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context" v-once></span>
+                        <span v-html="ans.Ans_Context"></span>
                     </div>
                 </div>
                 <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
                         <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context" v-once></span>
+                        <span v-html="ans.Ans_Context"></span>
                     </div>
                     <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
                 </div>
-                <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
+                <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
                     <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
@@ -298,7 +316,7 @@ Vue.component('question', {
                 <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
                     <textarea rows="10" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
                     <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
-                    </div>
+                </div>
                 <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">                   
                         <input type="text" v-model="ans.answer"></input>                
@@ -307,21 +325,21 @@ Vue.component('question', {
                 </div>    
             </card-context>
         </card>
-        <div v-show="mode==1 || (mode==0 && state.ans!='')">
+        <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
             <card class="answer">   
                 <card-title><icon>&#xe816</icon> 正确答案</card-title>
-                <card-context v-html="sucessAnswer()" v-once></card-context>
+                <card-context v-html="sucessAnswer()"></card-context>
             </card>
             <card v-if="ques.Qus_Explain!=''" class="explain">   
                 <card-title><icon>&#xe85a</icon> 试题解析</card-title>
-                <card-context v-once>
+                <card-context>
                     <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                     <span v-else>无</span> 
                 </card-context>
             </card>
             <card class="knowledge" v-if="existknl" >   
                 <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
-                <card-context v-once>
+                <card-context>
                     <div>{{knowledge.Kn_Title}}</div>
                     <div v-html="knowledge.Kn_Details"></div>
                 </card-context>

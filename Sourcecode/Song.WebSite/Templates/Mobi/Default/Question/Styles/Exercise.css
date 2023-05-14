@@ -29,9 +29,9 @@ input, textarea {
 }
 
 .van-overlay {
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.3);	
 }
-
+/*模糊*/
 .blur {
 	filter: url(blur.svg#blur);
 	/* FireFox, Chrome, Opera */
@@ -43,9 +43,13 @@ input, textarea {
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
 }
 
-.van-loading {
+loading {
 	text-align: center;
 	padding: 20px;
+	margin: 30px auto;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
 }
 
 card-title.error a {
@@ -79,18 +83,18 @@ card-title.error a {
 /*顶部栏*/
 
 .topBox {
-	
 	height: 45px;
 	overflow: hidden;
 	font-size: 14px;
 	line-height: 45px;
 	text-align: center;
+	background-color: #a7dbfd;
 }
 
-	.topBox *[icon]::before, .topBox icon {
-		line-height: 45px;
-		font-size: 18px;
-	}
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
+}
 
 .topBox>.btntop {
 	display: flex;
@@ -112,12 +116,12 @@ card-title.error a {
 
 .footer {
 	height: 44px;
-	
+	background-color: #a7dbfd;
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
-	right: 0px;	
+	right: 0px;
 	z-index: 3;
 	display: flex;
 }
@@ -126,80 +130,29 @@ card-title.error a {
 	line-height: 44px;
 	text-align: center;
 	font-size: 14px;
+	padding: 0px 20px;
+
+}
+
+.footer>div:first-child {
 	flex: 1;
-}
-
-.footer .correct-rate {
-	width: 80px;
-	flex: auto;
-}
-
-.footer .correct-rate:before {
-	content: "正确率：";
-	margin-left: 5px;
-}
-
-.footer .correct-rate:after {
-	content: "%";
-}
-
-/*正确数*/
-
-.footer .correct-num {
-	text-align: center;
-}
-
-.footer .correct-num:before {
-	content: "\e67f";
-	font-family: "webdesk_icon";
+	text-align: left;
 	color: #0099FF;
-	margin-right: 5px;
-	margin-top: 3px;
-	font-size: 18px;
 }
 
-/*错误数*/
-
-.footer .error-num {
-	text-align: center;
+.footer .count_number {
+	display: flex;
+	justify-content: space-between;
 }
-
-.footer .error-num:before {
-	content: "\e61c";
-	font-family: "webdesk_icon";
-	color: #FF0000;
-	margin-right: 5px;
+.footer .count_number span{
+	padding: 0px 10px;
+}
+.footer .count_number span::before{
 	font-size: 17px;
 }
-
-#btnCard {
-	line-height: 40px;
-	text-align: center;
-	font-size: 14px;
+.footer .count_number span:first-child{
+	color: #67C23A;
 }
-
-#btnCard:before {
-	content: "\e75e";
-	font-family: "webdesk_icon";
-	font-size: 20px;
-	margin-right: 5px;
-}
-
-/*试题区*/
-
-section {
-	height: calc(100% - 90px);
-	background-color: #f2f2f2;
-	width: 100%;
-	z-index: 4;
-	left: 0px;
-	position: relative;
-	transition: left 0.5s;
-}
-
-section dl, section dd {
-	margin: 0px;
-	padding: 0px;
-	height: 100%;
-	float: left;
+.footer .count_number span:last-child{
+	color: #E6A23C;
 }

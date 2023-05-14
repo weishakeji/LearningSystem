@@ -1,0 +1,28 @@
+/*试题区*/
+
+dl.quesArea {
+    height: calc(100% - 90px);
+    background-color: #f2f2f2;
+    width: 100%;
+    z-index: 4;
+    left: 0px;
+    position: relative;
+    transition: left 0.5s;
+    overflow: hidden;
+}
+
+section dl, section dd {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    float: left;
+}
+
+dl.quesArea, .quesArea dd {
+    padding: 0px;
+    margin: 0px;
+}
+
+.quesArea dd {
+    width: 100vw;
+}
