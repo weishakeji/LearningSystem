@@ -7,7 +7,7 @@ Vue.component('answersheet', {
         return {
             groups: [],    //试题分组，按题型
             showsheet: false,     //是否显示
-            total: 0
+            //total: 0
         }
     },
     watch: {
@@ -67,7 +67,7 @@ Vue.component('answersheet', {
     template: `<div :class="{'answerSheet':true,'sheet_show':showsheet}">
             <div class="sheet_title">
                 <span><icon>&#xe75e</icon>答题卡</span>
-                <span>答题<b>{{data.answer}}</b>道 / 共<b>{{data.total}}</b>道</span>
+                <span>答题<b>{{data.answer}}</b>道 / 共<b>{{data.num}}</b>道</span>
                 <icon class="sheet_close" @click="showsheet=false">&#xe606</icon>
             </div>
             <div class="sheet_area">
