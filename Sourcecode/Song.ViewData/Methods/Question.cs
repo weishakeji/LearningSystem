@@ -391,24 +391,20 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <param name="type">试题的题型分类</param>
-        /// <param name="count"></param>
+        /// <param name="count">取多少条</param>
         /// <returns></returns>
         [Study]
         [Cache]
-        public ListResult ForCourse(long couid, long olid, int type, int count)
+        public Song.Entities.Questions[] ForCourse(long couid, long olid, int type, int count)
         {
-            if (couid == 0 && olid == 0) return null;
+            if (couid <= 0 && olid <= 0) return null;
             int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, type, -1, true);
             Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, -1, couid, olid, type, -1, true, 0 - 1, count);
             for (int i = 0; i < ques.Length; i++)
             {
                 ques[i] = _tran(ques[i]);
             }
-            ListResult result = new ListResult(ques);
-            result.Index = 1;
-            result.Size = count;
-            result.Total = total;
-            return result;
+            return ques;
         }
         /// <summary>
         /// 获取试题的简化信息，例如仅包含试题id与类型
