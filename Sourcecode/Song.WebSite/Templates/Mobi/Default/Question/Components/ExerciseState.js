@@ -29,7 +29,7 @@
         },*/
         //一些数值         
         count: {
-            total: 0,          //总题数
+            num: 0,          //总题数
             answer: 0,      //答题数量
             correct: 0,     //正确数
             wrong: 0,           //错误数
@@ -43,7 +43,7 @@
         this.data = new Object();
         this.data.items = new Array();
         this.data.current = null;
-        this.data.count = { answer: 0, correct: 0, rate: 0, total: 0, wrong: 0 };
+        this.data.count = { answer: 0, correct: 0, rate: 0, num: 0, wrong: 0 };
         return this.data;
     };
     //获取一个item项
@@ -173,7 +173,7 @@
                         let total = 0;
                         for (let ty in queslist)
                             total += queslist[ty].length;
-                        statedata.count.total = total;
+                        statedata.count.num = total;
                     }
                     th.data = statedata;
                     resolve(statedata);

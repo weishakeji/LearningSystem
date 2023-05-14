@@ -23,7 +23,7 @@
             state: {},
             //一些数值         
             data: {
-                total: 0,        //总数
+                num: 0,        //总数
                 answer: 0,      //答题数量
                 correct: 0,     //正确数
                 wrong: 0,           //错误数
@@ -92,7 +92,7 @@
                             th.$refs['prompt'].show();
                         }).finally(function () {
                             th.loading = false;
-                            if (th.data.total > 0) {
+                            if (th.data.num > 0) {
                                 th.$toast.success({
                                     message: '试题加载成功',
                                     duration: 800

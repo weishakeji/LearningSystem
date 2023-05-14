@@ -903,7 +903,7 @@ namespace Song.ViewData.Methods
             int total, answer, correct, wrong;
             double rate;
             JToken countJo = json["count"];           
-            int.TryParse(countJo["total"].ToString(), out total);
+            int.TryParse(countJo["num"].ToString(), out total);
             int.TryParse(countJo["answer"].ToString(), out answer);
             int.TryParse(countJo["correct"].ToString(), out correct);
             int.TryParse(countJo["wrong"].ToString(), out wrong);
