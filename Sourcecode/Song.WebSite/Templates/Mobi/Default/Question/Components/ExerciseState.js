@@ -152,6 +152,11 @@
     //将记录的答题信息，还原到界面
     //queslist:当前加载的试题,试题id列表
     fn.restore = function (queslist) {
+        var total = 0;
+        //计算试题总数，有可能学习记录的数量与实际数量不符
+        if (queslist != null) {
+            for (let ty in queslist) total += queslist[ty].length;
+        }
         var th = this;
         var localdata = th.gettolocal();
         //获取服务端的数据
@@ -168,19 +173,14 @@
                     } else {
                         statedata = json.current.time > localdata.current.time ? json : localdata;
                     }
-                    //进行预进入，如果queslist不为空，清除历史记录中的无用数据
-                    if (queslist != null) {
-                        let total = 0;
-                        for (let ty in queslist)
-                            total += queslist[ty].length;
-                        statedata.count.num = total;
-                    }
+                    if (total > 0) statedata.count.num = total;
                     th.data = statedata;
                     resolve(statedata);
                 } else {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
+                if (total > 0) localdata.count.num = total;
                 th.data = localdata;
                 reject(localdata);
             });
