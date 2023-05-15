@@ -52,7 +52,7 @@
         if (!this.data) return {};
         var item = null;
         for (var j = 0; j < this.data.items.length; j++) {
-            if (qid == this.data.items[j].qid) {
+            if (qid === this.data.items[j].qid) {
                 item = this.data.items[j];
                 break;
             }
@@ -72,6 +72,7 @@
         if (qid == null) return this.data.current;
         var item = this.getitem(qid, index);
         item.time = new Date();
+        item.index = index;
         this.data.current = item;
         this.update(false);
         return item;

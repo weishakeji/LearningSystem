@@ -4,7 +4,7 @@
 <head resource>
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
-  <title>试题练习</title>
+  <title>试题 - </title>
 </head>
 
 <body>
@@ -46,7 +46,8 @@
       </template>
       <!-- 试题区域-->
       <loading star v-show="loading">试题加载中...</loading>
-      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"></quesarea>
+      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
+        @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
@@ -59,7 +60,7 @@
         </div>
         <div @click="$refs['answersheet'].show()">
           <icon>&#xe75e</icon>
-          <span>{{data.answer}}</span>/{{data.num}}
+          <span>{{data.answer}}/{{data.num}}</span>
         </div>
       </div>
     </template>

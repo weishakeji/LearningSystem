@@ -131,15 +131,19 @@ card-title.error a {
 	text-align: center;
 	font-size: 14px;
 	padding: 0px 20px;
-
+	white-space: nowrap;
 }
 
 .footer>div:first-child {
 	flex: 1;
 	text-align: left;
 	color: #0099FF;
+	padding: 0px 0px 0px 20px;
 }
-
+.footer>div:last-child{
+	padding: 0px 20px 0px 0px;
+	box-sizing: border-box;	
+}
 .footer .count_number {
 	display: flex;
 	justify-content: space-between;

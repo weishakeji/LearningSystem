@@ -32,18 +32,21 @@ Vue.component('quesarea', {
             console.log(nv);
         },
         //滑动试题，滑动到指定试题索引
-        'index': function (nv, ov) {
-            if (nv > this.list.length - 1 || nv < 0) return;
-            //设置当前练习的试题
-            //if (nv != null && this.list.length > 0)
-            //this.state.last(this.list[nv], nv);
-            //更新答题状态（不推送到服务器）
-            //this.state.update(false);
-            this.$nextTick(function () {
-                window.setTimeout(function () {
-                    $dom("dl.quesArea").css('left', -100 * nv + 'vw');
-                }, 50);
-            });
+        'index': {
+            handler: function (nv, ov) {
+                if (nv > this.list.length - 1 || nv < 0) return;
+                //设置当前练习的试题
+                if (nv != null && this.list.length > 0)
+                    this.state.last(this.list[nv], nv);
+                //更新答题状态（不推送到服务器）
+                //this.state.update(false);
+
+                this.$nextTick(function () {
+                    window.setTimeout(function () {
+                        $dom("dl.quesArea").css('left', -100 * nv + 'vw');
+                    }, 50);
+                });
+            }, immediate: true
         }
     },
     computed: {
@@ -55,7 +58,8 @@ Vue.component('quesarea', {
         setindex: function (qid, index) {
             if (qid != null || qid >= 0) this.currid = qid;
             if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
-            //this.index = this.index;
+            //触发滑动事件,返回当前索引
+            this.$emit('swipe', index);
         },
         //试题滑动 
         swipe: function (e) {
@@ -69,6 +73,8 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
+            //触发滑动事件,返回当前索引
+            this.$emit('swipe', this.index);
         },
         //试题答题状态变更时
         answer: function (state, ques) {
@@ -81,7 +87,7 @@ Vue.component('quesarea', {
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
-           <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="index"
+           <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
             :total="list.length" :types="types" :account="account"
             :mode="mode" :current="i==index" @answer="answer">
                 <template v-slot:buttons="btn">

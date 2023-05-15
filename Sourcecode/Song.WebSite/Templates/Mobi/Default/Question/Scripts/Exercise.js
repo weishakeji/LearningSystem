@@ -43,7 +43,7 @@
                 th.types = type.data.result;
                 th.course = cou.data.result;
                 th.outline = outline.data.result;
-                if (th.isoutline) document.title = th.outline.Ol_Name;
+                if (th.isoutline) document.title += th.outline.Ol_Name;
                 //如果登录状态，则加载试题
                 if (th.islogin && th.isoutline) {
                     //创建试题练习状态的记录的操作对象
@@ -80,19 +80,19 @@
                         //获取练习记录，获取记录成功再赋值 
                         th.state.restore(req.data.result).then(function (d) {
                             th.data = d.count;
-                            
+
                         }).catch(function (d) {
                             th.data = d.count;
                             //如果没有历史练习记录,显示操作指引的面板
                             th.$refs['prompt'].show();
                         }).finally(function () {
                             th.queslist = req.data.result;
-                           //初始显示第几条试题
-                           th.$nextTick(function () {
-                            let last = th.state.last();
-                            let index = last != null ? last.index : 0;
-                            th.$refs['quesarea'].setindex(null, index);
-                        });
+                            //初始显示第几条试题
+                            th.$nextTick(function () {
+                                let last = th.state.last();
+                                let index = last != null ? last.index : 0;
+                                th.$refs['quesarea'].setindex(null, index);
+                            });
                             th.loading = false;
                             if (th.data.num > 0) {
                                 th.$toast.success({
@@ -110,6 +110,10 @@
                     console.error(err);
                     th.loading = false;
                 });
+            },
+            swipe: function (index) {
+                let sheet = this.$refs['answersheet'];
+                if (sheet) sheet.currindex = index + 1;
             }
         }
     });

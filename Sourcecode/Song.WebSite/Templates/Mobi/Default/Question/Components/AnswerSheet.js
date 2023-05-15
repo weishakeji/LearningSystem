@@ -2,7 +2,8 @@
 $dom.load.css([$dom.pagepath() + 'Components/Styles/AnswerSheet.css']);
 Vue.component('answersheet', {
     //ansstate:答题的状态
-    props: ['questions', 'types', 'ansstate', 'data'],
+    //data:答题的统计数据
+    props: ['questions', 'types', 'ansstate', 'data','currindex'],
     data: function () {
         return {
             groups: [],    //试题分组，按题型
@@ -34,12 +35,12 @@ Vue.component('answersheet', {
     methods: {
         //判断答题是否正确
         judge: function (q) {
-            return false;
+            //return false;
             //if (!this.ansstate) return false;
             var items = this.ansstate.data.items;
             var item = null;
             for (var j = 0; j < items.length; j++) {
-                if (q.Qus_ID == items[j].qid) {
+                if (q == items[j].qid) {
                     item = items[j];
                     break;
                 }
@@ -73,7 +74,7 @@ Vue.component('answersheet', {
             <div class="sheet_area">
                 <dl v-for="(g,i) in groups" v-if="g.ques.length>0">
                     <dt><icon>&#xe6bd</icon> [ {{g.type}}题 ]</dt>
-                    <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :current="false" :index="q.index"
+                    <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :current="index(i,j)==currindex" :index="q.index"
                     :correct="judge(q)">
                         {{index(i,j)}}
                     </dd>
