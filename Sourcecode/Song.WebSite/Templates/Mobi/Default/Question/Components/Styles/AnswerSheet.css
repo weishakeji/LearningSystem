@@ -73,10 +73,12 @@
 }
 
 .answerSheet dt {
-	padding: 10px 15px;
+	padding: 10px 15px 10px 5px;
 	width: calc(100% - 30px);
 }
-
+.answerSheet dt icon{
+	font-size: 20px;
+}
 .answerSheet dd {
 	width: 30px;
 	height: 30px;

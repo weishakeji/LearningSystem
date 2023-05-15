@@ -7,6 +7,9 @@ Vue.component('answersheet', {
     data: function () {
         return {
             groups: [],    //试题分组，按题型
+             //题型图标：单选，多选，判断，简答，填空
+             icons: ['e85b', 'a057', 'e74c', 'a055', 'e823'],
+
             showsheet: false,     //是否显示
             currindex: 0
         }
@@ -19,7 +22,8 @@ Vue.component('answersheet', {
                     if (k.indexOf('_') < 0) continue;
                     let type = Number(k.substring(k.indexOf('_') + 1));
                     const group = {
-                        'type': this.types[type - 1],
+                        'typename': this.types[type - 1],
+                        'type': type - 1,
                         'ques': this.questions[k]
                     }
                     this.groups.push(group);
@@ -77,7 +81,7 @@ Vue.component('answersheet', {
             </div>
             <div class="sheet_area">
                 <dl v-for="(g,i) in groups" v-if="g.ques.length>0">
-                    <dt><icon>&#xe6bd</icon> [ {{g.type}}题 ]</dt>
+                    <dt><icon v-html="'&#x'+icons[Number(g.type)]">&#xe6bd</icon> [ {{g.typename}}题 ]</dt>
                     <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :current="index(i,j)==currindex" :index="q.index"
                     :correct="judge(q)" :small="index(i,j)>=1000">
                         {{index(i,j)}}
