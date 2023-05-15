@@ -3,12 +3,12 @@ $dom.load.css([$dom.pagepath() + 'Components/Styles/AnswerSheet.css']);
 Vue.component('answersheet', {
     //ansstate:答题的状态
     //data:答题的统计数据
-    props: ['questions', 'types', 'ansstate', 'data','currindex'],
+    props: ['questions', 'types', 'ansstate', 'data'],
     data: function () {
         return {
             groups: [],    //试题分组，按题型
             showsheet: false,     //是否显示
-            //total: 0
+            currindex: 0
         }
     },
     watch: {
@@ -46,12 +46,16 @@ Vue.component('answersheet', {
                 }
             }
             if (item == null) return false;
-            if (item.correct == null) return false;
+            if (item.correct == null || item.correct == 'null') return false;
             return item.correct;
         },
         //显示面板
         show: function () {
             this.showsheet = true;
+        },
+        //设置当前索引
+        setindex: function (index) {
+            this.currindex = index;
         },
         //当点击试题标识时
         clickEvent: function (qid, index) {
@@ -75,7 +79,7 @@ Vue.component('answersheet', {
                 <dl v-for="(g,i) in groups" v-if="g.ques.length>0">
                     <dt><icon>&#xe6bd</icon> [ {{g.type}}题 ]</dt>
                     <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :current="index(i,j)==currindex" :index="q.index"
-                    :correct="judge(q)">
+                    :correct="judge(q)" :small="index(i,j)>=1000">
                         {{index(i,j)}}
                     </dd>
                 </dl>

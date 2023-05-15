@@ -71,7 +71,7 @@ Vue.component('setupmenu', {
     setFont: function (num) {
       var size = 16, min_size = 12, max_size = 30;
       if (num == null) num == 0;
-      ergodic($dom("section"), num);
+      ergodic($dom("dl.quesArea"), num);
       function ergodic(dom, num) {
         var fontsize = parseInt(dom.css("font-size"));
         fontsize = isNaN(fontsize) ? size : fontsize;

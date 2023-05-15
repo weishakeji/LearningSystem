@@ -80,10 +80,6 @@ Vue.component('quesarea', {
         answer: function (state, ques) {
             this.state.data.current = state;
             var data = this.state.update(true);
-            //this.count = data.count;
-            //data.total = this.list.length;
-            //console.log(data);
-            //this.$emit('change', data.count);
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">

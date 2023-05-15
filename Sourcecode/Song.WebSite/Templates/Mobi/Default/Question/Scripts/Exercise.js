@@ -111,9 +111,18 @@
                     th.loading = false;
                 });
             },
+            //手式捏合与缩放事件
+            pinch: function (e) {
+                if (e && e.preventDefault) e.preventDefault();
+                //右上角的菜单组件，用来调用缩小与放大字符的方法
+                let setupmenu = this.$refs['setupmenu'];
+                if (!setupmenu) return;             
+                if (e.type == 'pinchin') setupmenu.setFont(-1);
+                if (e.type == 'pinchout') setupmenu.setFont(1);
+            },
             swipe: function (index) {
                 let sheet = this.$refs['answersheet'];
-                if (sheet) sheet.currindex = index + 1;
+                if (sheet) sheet.setindex(index + 1);
             }
         }
     });

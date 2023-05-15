@@ -162,13 +162,15 @@
                 //向右滑动
                 if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
             },
-            pinchin: function (e) {
+            //手式捏合与缩放事件
+            pinch: function (e) {
                 if (e && e.preventDefault) e.preventDefault();
-                this.$refs['setupmenu'].setFont(-1);
-            },
-            pinchout: function (e) {
-                if (e && e.preventDefault) e.preventDefault();
-                this.$refs['setupmenu'].setFont(1);
+                //右上角的菜单组件，用来调用缩小与放大字符的方法
+                let setupmenu = this.$refs['setupmenu'];
+                if (!setupmenu) return;
+                alert(e.type);
+                if (e.type == 'pinchin') setupmenu.setFont(-1);
+                if (e.type == 'pinchout') setupmenu.setFont(1);
             },
             //试题答题状态变更时
             answer: function (state, ques) {

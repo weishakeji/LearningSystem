@@ -9,8 +9,7 @@
 
 <body>
 
-  <div id="vapp" v-cloak>
-
+  <div id="vapp" v-cloak v-pinchin="pinch" v-pinchout="pinch">
     <loading bubble v-if="loading_init">正在初始化...</loading>
     <template v-else>
       <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>

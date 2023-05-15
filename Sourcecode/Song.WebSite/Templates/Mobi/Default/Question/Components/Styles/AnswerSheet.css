@@ -18,15 +18,18 @@
 
 .answerSheet .sheet_title {
 	height: 50px;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 50px;
 	position: relative;
 	box-sizing: border-box;
 	padding: 0px 50px 0px 0px;
+	color: #999;
 }
 
 .answerSheet .sheet_title>span:first-child {
 	padding: 0px 20px;
+	font-size: 18px;
+	color: #333;
 }
 
 .answerSheet .sheet_title>span:first-child::before {
@@ -34,10 +37,6 @@
 	margin-right: 10px;
 }
 
-.answerSheet .sheet_title>span:last-child {
-	font-size: 14px;
-	color: #999;
-}
 
 .answerSheet .sheet_title b {
 	margin: 0px 3px;
@@ -89,12 +88,16 @@
 	border: solid 1px #666;
 	float: left;
 	position: relative;
+	box-shadow: inset 0 0 10px rgba(255, 255, 255, 1);
 }
-
+.answerSheet dd[small]{
+	font-size: 12px;
+} 
 .answerSheet dd[current] {
-	border: solid 1px rgb(92, 180, 3);
+	border: solid 1px rgb(92, 180, 3) !important;
 	color: rgb(255, 255, 255);
-	background-color: rgb(92, 180, 3) !important;
+	background-color: rgba(92, 180, 3, .6) !important;
+
 }
 
 .answerSheet dd[current]::after {
@@ -109,6 +112,7 @@
 	height: 20px;
 	text-align: right;
 	color: rgb(92, 180, 3);
+
 }
 
 .answerSheet dd[ans] {
@@ -117,11 +121,13 @@
 }
 
 .answerSheet dd[correct="succ"] {
-	background-color: #E8FFE8;
-	color: rgb(0, 0, 0);
+	border: solid 1px rgb(102, 177, 255);
+	background-color: rgb(102, 177, 255);
+	color: #fff;
 }
 
 .answerSheet dd[correct="error"] {
+	border: solid 1px #ebab9f;
 	background-color: #ebab9f;
-	color: rgb(0, 0, 0);
+	color: #fff;	
 }

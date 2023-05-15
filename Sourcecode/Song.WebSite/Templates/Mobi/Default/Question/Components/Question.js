@@ -17,7 +17,7 @@ Vue.component('question', {
             ques: {},                //当前试题   
             knowledge: {},        //试题关联的知识点
 
-            forced_rendering:0,     //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
+            forced_rendering: 0,     //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
             loading: false       //试题加载中
         }
     },
@@ -30,7 +30,7 @@ Vue.component('question', {
         'total': function (nv, ov) {
             if (nv && this.current) {
                 this.initialization();
-            }       
+            }
         },
         //是否是当前显示的试题
         'current': {
@@ -54,7 +54,7 @@ Vue.component('question', {
             if (this.qid == null) return;
             var th = this;
             th.loading = true;
-            $api.cache('Question/ForID', { 'id': th.qid }).then(function (req) {
+            $api.cache('Question/ForID:60', { 'id': th.qid }).then(function (req) {
                 if (req.data.success) {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);
@@ -191,7 +191,7 @@ Vue.component('question', {
             }
             ans.selected = !ans.selected;
             //判断是否正确
-            this.state['ans'] = ans.selected ? ans.Ans_ID : 0;
+            this.state['ans'] = String(ans.selected ? ans.Ans_ID : 0);
             this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
@@ -276,7 +276,7 @@ Vue.component('question', {
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();           
+            this.state['time'] = new Date();
             return this.state['correct'] == 'succ';
         }
     },
