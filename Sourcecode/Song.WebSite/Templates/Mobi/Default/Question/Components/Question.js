@@ -17,8 +17,12 @@ Vue.component('question', {
             ques: {},                //当前试题   
             knowledge: {},        //试题关联的知识点
 
-            forced_rendering: 0,     //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
-            loading: false       //试题加载中
+            error: '',           //错误信息
+            loading: false,       //试题加载中
+
+            //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
+            forced_rendering: 0,
+
         }
     },
     watch: {
@@ -54,12 +58,12 @@ Vue.component('question', {
             if (this.qid == null) return;
             var th = this;
             th.loading = true;
-            $api.cache('Question/ForID:60', { 'id': th.qid }).then(function (req) {
+            $api.cache('Question/ForID:60', { 'id': th.qid}).then(function (req) {
                 if (req.data.success) {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);
                     th.ques = th.parseAnswer(th.ques);
-                    th.init = true;
+
                     th.$nextTick(function () {
                         var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
                         //清理空元素                
@@ -69,11 +73,14 @@ Vue.component('question', {
                         th.$mathjax([dom[0]]);
                     });
                 } else {
-                    console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
+                    console.error(req);
+                    throw req.data.message;
                 }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+            }).catch(err => th.error = err)
+                .finally(() => {
+                    th.loading = false;
+                    th.init = true;
+                });
         },
         //获取知识点
         getKnowledge: function (ques) {
@@ -281,13 +288,18 @@ Vue.component('question', {
         }
     },
     template: `<dd :qid="qid" :current="current" :render="init">
-    <div loading="p1" v-if="loading"></div>
+    <div loading="p1" v-if="loading"></div>  
+    <div v-else-if="error!=''" class="error"> 
+        <div>{{index+1}}/{{total}} 试题加载错误！</div>
+        <alert v-html="error"></alert>
+    </div>
     <template v-else-if="init">
         <info no-font-size>
             {{index+1}}/{{total}}
-            [ {{this.types[ques.Qus_Type - 1]}}题 ] 
+            <span>[ {{this.types[ques.Qus_Type - 1]}}题 ] </span>
             <slot name="buttons" :ques="ques"></slot>          
         </info>
+        <div v-if="error!=''">试题加载错误！</div>
         <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
             <card-title v-html="ques.Qus_Title"></card-title>          
             <card-context>

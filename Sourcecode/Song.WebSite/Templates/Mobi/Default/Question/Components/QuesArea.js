@@ -79,7 +79,7 @@ Vue.component('quesarea', {
         //试题答题状态变更时
         answer: function (state, ques) {
             this.state.data.current = state;
-            var data = this.state.update(true);
+            this.state.update(true);
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">

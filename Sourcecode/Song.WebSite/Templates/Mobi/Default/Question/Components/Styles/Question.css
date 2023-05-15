@@ -3,7 +3,15 @@ dl.quesArea dd {
 	line-height: 150%;
 	float: left;
 }
-
+/*试题加载错误*/
+dl.quesArea dd .error{
+	margin: 20px;
+}
+dl.quesArea dd alert{
+	margin-top: 20px;
+	display: inline-block;
+	font-size: 16px;
+}
 dl.quesArea dd info {
 	display: block;
 	padding: 15px 15px 0px 15px;
