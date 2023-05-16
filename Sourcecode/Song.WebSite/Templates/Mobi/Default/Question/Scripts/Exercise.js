@@ -77,46 +77,52 @@
                 let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
-                        //获取练习记录，获取记录成功再赋值 
-                        th.state.restore(req.data.result).then(function (d) {
+                        th.queslist = req.data.result;
+                        //获取本地学习记录
+                        th.state.gettolocal(req.data.result).then(function (d) {
                             th.data = d.count;
-
-                        }).catch(function (d) {
-                            th.data = d.count;
-                            //如果没有历史练习记录,显示操作指引的面板
-                            th.$refs['prompt'].show();
-                        }).finally(function () {
-                            th.queslist = req.data.result;
                             //初始显示第几条试题
                             th.$nextTick(function () {
                                 let last = th.state.last();
                                 let index = last != null ? last.index : 0;
                                 th.$refs['quesarea'].setindex(null, index);
+                                if (th.data.num > 0) {
+                                    th.$toast.success({
+                                        message: '试题加载成功',
+                                        duration: 800
+                                    });
+                                }
                             });
-                            th.loading = false;
-                            if (th.data.num > 0) {
-                                th.$toast.success({
-                                    message: '试题加载成功',
-                                    duration: 800
+                            //获取服务器端的学习记录，如果本地最新则不再取值
+                            th.state.restore(req.data.result).then(function (d) {
+                                th.data = d.count;
+                                th.$nextTick(function () {
+                                    let last = th.state.last();
+                                    let index = last != null ? last.index : 0;
+                                    th.$refs['quesarea'].setindex(null, index);
                                 });
-                            }
-                        });
+                            }).catch(function (d) {
+                                th.data = d.count;
+                                //如果没有历史练习记录,显示操作指引的面板
+                                th.$refs['prompt'].show();
+                            }).finally(function () {
+
+                            });
+                        })
+
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //手式捏合与缩放事件
             pinch: function (e) {
                 if (e && e.preventDefault) e.preventDefault();
                 //右上角的菜单组件，用来调用缩小与放大字符的方法
                 let setupmenu = this.$refs['setupmenu'];
-                if (!setupmenu) return;             
+                if (!setupmenu) return;
                 if (e.type == 'pinchin') setupmenu.setFont(-1);
                 if (e.type == 'pinchout') setupmenu.setFont(1);
             },

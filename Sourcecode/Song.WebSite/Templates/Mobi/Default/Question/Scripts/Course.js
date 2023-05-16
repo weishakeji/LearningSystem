@@ -206,8 +206,7 @@ $ready(function () {
                 var url = item.url + '?couid=' + this.couid;
                 window.location.href = url;
             }
-        },
-        // 同样也可以在 vm 实例中像 "this.message" 这样使用
+        },    
         template: `<div class="mainmenu">           
                     <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
                         <icon v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>

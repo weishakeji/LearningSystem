@@ -40,7 +40,7 @@ Vue.component('answersheet', {
         //判断答题是否正确
         judge: function (q) {
             //return false;
-            //if (!this.ansstate) return false;
+            if (!this.ansstate) return false;
             var items = this.ansstate.data.items;
             var item = null;
             for (var j = 0; j < items.length; j++) {

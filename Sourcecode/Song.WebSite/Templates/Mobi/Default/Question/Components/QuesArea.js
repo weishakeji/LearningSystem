@@ -39,8 +39,7 @@ Vue.component('quesarea', {
                 if (nv != null && this.list.length > 0)
                     this.state.last(this.list[nv], nv);
                 //更新答题状态（不推送到服务器）
-                //this.state.update(false);
-
+                this.state.update(false);
                 this.$nextTick(function () {
                     window.setTimeout(function () {
                         $dom("dl.quesArea").css('left', -100 * nv + 'vw');

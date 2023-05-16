@@ -159,7 +159,11 @@
             for (let ty in queslist) total += queslist[ty].length;
         }
         var th = this;
-        var localdata = th.gettolocal();
+        //获取本地学习记录
+        var localdata = $api.storage(th.keyname);
+        if (localdata == null) localdata = th.data_init();
+        if (total > 0) localdata.count.num = total;
+        th.data = localdata;
         //获取服务端的数据
         if (th.acid <= 0) return;
         var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid };
@@ -188,12 +192,25 @@
         });
     };
     //读取本地记录
-    fn.gettolocal = function () {
-        var data = $api.storage(this.keyname);
-        if (data == null) data = this.data_init();
-        if (typeof data == "string") return null;
-        if (typeof data == "object") return data;
-        return data;
+    //queslist:当前加载的试题,试题id列表
+    fn.gettolocal = function (queslist) {
+        var total = 0;
+        //计算试题总数，有可能学习记录的数量与实际数量不符
+        if (queslist != null) {
+            for (let ty in queslist) total += queslist[ty].length;
+        }
+        var th = this;
+        return new Promise(function (resolve, reject) {
+            var data = $api.storage(th.keyname);
+            if (data == null) data = th.data_init();
+            if (typeof data == "string") return null;
+            if (typeof data == "object") {
+                if (total > 0) data.count.num = total;
+                th.data = data;
+                resolve(data);
+            }
+        });
+
     };
     //从服务端获取练习记录
     fn.gettoserver = function () {
