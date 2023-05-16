@@ -301,64 +301,65 @@ Vue.component('question', {
             </span>
             <slot name="buttons" :ques="ques"></slot>          
         </info>
-        <div v-if="error!=''">试题加载错误！</div>
-        <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
-            <card-title v-html="ques.Qus_Title"></card-title>          
-            <card-context>
-                <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
-                    :selected="ans.selected" @click="ques_doing(ans,ques)">
-                        <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                </div>
-                <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
-                        <i>{{toletter(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                    <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
-                </div>
-                <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
-                    <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
-                        <i>正确</i> 
-                    </div>
-                    <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
-                        <i>错误</i> 
-                    </div>
-                </div>
-                <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
-                    <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
-                </div>
-                <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
-                    <div v-for="(ans,i) in ques.Qus_Items">                   
-                        <input type="text" v-model="ans.answer"></input>                
-                    </div>
-                    <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
-                </div>    
-            </card-context>
-        </card>
-        <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
-            <card class="answer">   
-                <card-title><icon>&#xe816</icon> 正确答案</card-title>
-                <card-context v-html="sucessAnswer()"></card-context>
-            </card>
-            <card v-if="ques.Qus_Explain!=''" class="explain">   
-                <card-title><icon>&#xe85a</icon> 试题解析</card-title>
+        <section>
+            <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
+                <card-title v-html="ques.Qus_Title"></card-title>          
                 <card-context>
-                    <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                    <span v-else>无</span> 
+                    <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
+                        <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
+                        :selected="ans.selected" @click="ques_doing(ans,ques)">
+                            <i>{{toletter(i)}} .</i>
+                            <span v-html="ans.Ans_Context"></span>
+                        </div>
+                    </div>
+                    <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
+                        <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
+                            <i>{{toletter(i)}} .</i>
+                            <span v-html="ans.Ans_Context"></span>
+                        </div>
+                        <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
+                    </div>
+                    <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
+                        <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
+                            <i>正确</i> 
+                        </div>
+                        <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
+                            <i>错误</i> 
+                        </div>
+                    </div>
+                    <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
+                        <textarea rows="10" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
+                        <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
+                    </div>
+                    <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
+                        <div v-for="(ans,i) in ques.Qus_Items">                   
+                            <input type="text" v-model="ans.answer"></input>                
+                        </div>
+                        <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
+                    </div>    
                 </card-context>
             </card>
-            <card class="knowledge" v-if="existknl" >   
-                <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
-                <card-context>
-                    <div>{{knowledge.Kn_Title}}</div>
-                    <div v-html="knowledge.Kn_Details"></div>
-                </card-context>
-            </card>
-        </div>
+            <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
+                <card class="answer">   
+                    <card-title><icon>&#xe816</icon> 正确答案</card-title>
+                    <card-context v-html="sucessAnswer()"></card-context>
+                </card>
+                <card v-if="ques.Qus_Explain!=''" class="explain">   
+                    <card-title><icon>&#xe85a</icon> 试题解析</card-title>
+                    <card-context>
+                        <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
+                        <span v-else>无</span> 
+                    </card-context>
+                </card>
+                <card class="knowledge" v-if="existknl" >   
+                    <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
+                    <card-context>
+                        <div>{{knowledge.Kn_Title}}</div>
+                        <div v-html="knowledge.Kn_Details"></div>
+                    </card-context>
+                </card>
+            </div>
+        </section>
     </template>
 </dd>`
 });

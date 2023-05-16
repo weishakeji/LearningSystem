@@ -1,18 +1,23 @@
 dl.quesArea dd {
 	width: 100vw;
+	height: 100%;
 	line-height: 150%;
 	float: left;
 	position: relative;
+
 }
+
 /*试题加载错误*/
-dl.quesArea dd .error{
+dl.quesArea dd .error {
 	margin: 20px;
 }
-dl.quesArea dd alert{
+
+dl.quesArea dd alert {
 	margin-top: 20px;
 	display: inline-block;
 	font-size: 16px;
 }
+
 dl.quesArea dd info {
 	display: flex;
 	justify-content: space-between;
@@ -20,7 +25,8 @@ dl.quesArea dd info {
 	margin: 0px 0px 0px 10px;
 	font-size: 15px;
 }
-dl.quesArea dd info span i{
+
+dl.quesArea dd info span i {
 	font-size: 14px;
 	font-style: normal;
 }
@@ -54,9 +60,11 @@ dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-ti
 	line-height: 150%;
 	font-size: 18px;
 }
-dl.quesArea dd card-title{
+
+dl.quesArea dd card-title {
 	word-break: break-all;
 }
+
 .explain, .explain p, .explain span, .explain font,
 .knowledge, .knowledge p, .knowledge span, .knowledge font {
 	line-height: 150%;
@@ -84,7 +92,6 @@ dl.quesArea dd img {
 /*试题选项*/
 
 .ans_area {
-	margin-left: 5px;
 	font-size: 18px;
 }
 
@@ -195,7 +202,7 @@ dl.quesArea textarea {
 }
 
 /*提交的按钮*/
-.type2 button, .type4 button, .type5 button {	
+.type2 button, .type4 button, .type5 button {
 	height: 35px;
 	color: #409eff;
 	background: #ecf5ff;
@@ -219,7 +226,10 @@ dl.quesArea textarea {
 	border-radius: 4px;
 }
 
-
+.type5 button{
+	float: right;
+	margin-right: 8px;
+}
 #vapp[view='night'] *:not([noview]) {
 	background-color: #222222;
 	color: #cecece;
@@ -233,18 +243,28 @@ dl.quesArea textarea {
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
 	dl.quesArea {
-		overflow: hidden;	}
+		overflow: hidden;
+	}
 
 	dl.quesArea dd {
 		width: 100vw;
 		height: 100%;
-		overflow-y: auto;
 	}
-	table{
+
+	dl.quesArea dd section {
+		overflow-y: auto;
+		margin-bottom: 50px;
+		padding-bottom: 50px;
+		box-sizing: border-box;
+		height: calc(100% - 40px);
+	}
+
+	table {
 		overflow: auto;
 		width: 100% !important;
 	}
-	td{
+
+	td {
 		word-break: break-all;
 	}
 }

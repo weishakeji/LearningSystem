@@ -51,7 +51,7 @@
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
       <!--底部按钮区 -->
-      <div class="footer">
+      <footer>
         <div>正确率：{{data.rate}} %</div>
         <div class="count_number">
           <span icon="&#xe67f">{{data.correct}}</span>
@@ -61,7 +61,7 @@
           <icon>&#xe75e</icon>
           <span>{{data.answer}}/{{data.num}}</span>
         </div>
-      </div>
+      </footer>
     </template>
   </div>
 </body>

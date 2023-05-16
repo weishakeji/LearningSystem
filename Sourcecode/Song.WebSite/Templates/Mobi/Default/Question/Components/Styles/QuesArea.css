@@ -15,12 +15,3 @@ dl.quesArea, .quesArea dd {
     padding: 0px;
     margin: 0px;
 }
-
-.quesArea dd {
-    width: 100vw;
-    height: 100%;
-    float: left;
-    margin-bottom: 50px;
-    padding-bottom: 50px;
-    box-sizing: border-box;
-}
