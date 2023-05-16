@@ -8,7 +8,7 @@
     box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.3),
     1px -1px 1px rgba(255, 255, 255, 0.3), -1px 1px 1px rgba(255, 255, 255, 0.3); 
 }
-
+/*选中的按钮背景*/
 .ws_ques_learnmode::before {
     content: '';
     display: block;
@@ -22,7 +22,9 @@
     border-radius: 0px 5px 5px 0px;
     transition: left 0.3s;
 }
-
+#vapp[view='night'] .ws_ques_learnmode::before {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
 .ws_ques_learnmode[even]::before {
     left: 1px;
     border-radius: 5px 0px 0px 5px;

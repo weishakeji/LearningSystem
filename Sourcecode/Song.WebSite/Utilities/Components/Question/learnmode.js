@@ -26,8 +26,8 @@ Vue.component('learnmode', {
             this.$emit('change', this.value);
         }
     },
-    template: `<div class="ws_ques_learnmode" @click="click_event" :even="value%2==0">
-        <div :current="value%2==0">答题</div>
-        <div :current="value%2==1">背题</div>      
+    template: `<div class="ws_ques_learnmode" @click="click_event" :even="value%2==0" noview>
+        <div :current="value%2==0" noview>答题</div>
+        <div :current="value%2==1" noview>背题</div>      
     </div>`
 });

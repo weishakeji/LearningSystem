@@ -71,19 +71,25 @@ dl.quesArea dd card-title {
 	font-size: 18px;
 }
 
-
+/*答对的样式*/
 dl.quesArea dd card[correct="succ"] {
+
+	border: 1px solid rgb(194, 220, 247) !important;
+	box-shadow: 0 2px 12px 0 rgba(194, 220, 247, .8) !important;
+}
+
+dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	background: rgb(217, 236, 255) !important;
-	border: 1px solid rgb(194, 220, 247);
-	box-shadow: 0 2px 12px 0 rgba(194, 220, 247, .8);
 }
-
-dl.quesArea dd card[correct="error"] {
+/*答错的样式*/
+dl.quesArea dd card[correct="error"] {	
+	border: 1px solid #fcdcd5 !important;
+	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%) !important;
+}
+dl.quesArea dd card[correct="error"], card[correct="error"] * {
 	background-color: #FFECE8 !important;
-	border: 1px solid #fcdcd5;
-	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%);
+	color: #333 !important;
 }
-
 dl.quesArea dd img {
 	max-width: 100% !important;
 	height: auto;
@@ -97,7 +103,7 @@ dl.quesArea dd img {
 
 .ans_area>div {
 	position: relative;
-	margin: 10px;
+	margin: 15px 15px 15px 10px;
 }
 
 .ans_area i {
@@ -226,10 +232,11 @@ dl.quesArea textarea {
 	border-radius: 4px;
 }
 
-.type5 button{
+.type5 button {
 	float: right;
 	margin-right: 8px;
 }
+
 #vapp[view='night'] *:not([noview]) {
 	background-color: #222222;
 	color: #cecece;
@@ -237,7 +244,7 @@ dl.quesArea textarea {
 
 #vapp[view='cosy'] *:not([noview]) {
 	background-color: #eaf8ec;
-	color: #222222;
+	color: #459651;
 }
 
 /*竖屏，手机端显示*/
