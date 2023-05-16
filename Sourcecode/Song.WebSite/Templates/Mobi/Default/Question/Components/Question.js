@@ -295,8 +295,10 @@ Vue.component('question', {
     </div>
     <template v-else-if="init">
         <info no-font-size>
-            {{index+1}}/{{total}}
-            <span>[ {{this.types[ques.Qus_Type - 1]}}题 ] </span>
+            <span>
+                <i>{{index+1}}/{{total}}</i>
+                [ {{this.types[ques.Qus_Type - 1]}}题 ] 
+            </span>
             <slot name="buttons" :ques="ques"></slot>          
         </info>
         <div v-if="error!=''">试题加载错误！</div>

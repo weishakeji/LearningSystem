@@ -1,7 +1,7 @@
 /*试题区*/
 
 dl.quesArea {
-    height: calc(100% - 90px);
+    height: calc(100% - 40px);
     background-color: #f2f2f2;
     width: 100%;
     z-index: 4;
@@ -11,13 +11,6 @@ dl.quesArea {
     overflow: hidden;
 }
 
-section dl, section dd {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    float: left;
-}
-
 dl.quesArea, .quesArea dd {
     padding: 0px;
     margin: 0px;
@@ -25,4 +18,9 @@ dl.quesArea, .quesArea dd {
 
 .quesArea dd {
     width: 100vw;
+    height: 100%;
+    float: left;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
 }

@@ -35,7 +35,7 @@ Vue.component('outline_row', {
       handler: function (nv, ov) {
         //创建试题练习状态的记录的操作对象
         if (this.state == null) {
-          this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "Exercises");
+          this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "exercise");
           this.getprogress();
           this.getques_count();
         }
@@ -97,7 +97,7 @@ Vue.component('outline_row', {
           return;
         }
         var couid = $api.url.get(null, 'couid');
-        var uri = $api.url.set('exercises', {
+        var uri = $api.url.set('exercise', {
           'path': outline.Ol_XPath,
           'couid': couid,
           'olid': outline.Ol_ID,

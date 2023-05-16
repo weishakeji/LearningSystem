@@ -29,8 +29,9 @@ input, textarea {
 }
 
 .van-overlay {
-	background-color: rgba(0, 0, 0, 0.3);	
+	background-color: rgba(0, 0, 0, 0.3);
 }
+
 /*模糊*/
 .blur {
 	filter: url(blur.svg#blur);
@@ -88,7 +89,6 @@ card-title.error a {
 	font-size: 14px;
 	line-height: 45px;
 	text-align: center;
-	background-color: #a7dbfd;
 }
 
 .topBox *[icon]::before, .topBox icon {
@@ -116,14 +116,14 @@ card-title.error a {
 
 .footer {
 	height: 44px;
-	background-color: #a7dbfd;
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
 	right: 0px;
-	z-index: 3;
+	z-index: 5;
 	display: flex;
+	background-color: #fff;
 }
 
 .footer>div {
@@ -140,23 +140,29 @@ card-title.error a {
 	color: #0099FF;
 	padding: 0px 0px 0px 20px;
 }
-.footer>div:last-child{
+
+.footer>div:last-child {
 	padding: 0px 20px 0px 0px;
-	box-sizing: border-box;	
+	box-sizing: border-box;
 }
+
 .footer .count_number {
 	display: flex;
 	justify-content: space-between;
 }
-.footer .count_number span{
+
+.footer .count_number span {
 	padding: 0px 10px;
 }
-.footer .count_number span::before{
+
+.footer .count_number span::before {
 	font-size: 17px;
 }
-.footer .count_number span:first-child{
+
+.footer .count_number span:first-child {
 	color: #67C23A;
 }
-.footer .count_number span:last-child{
+
+.footer .count_number span:last-child {
 	color: #E6A23C;
 }
