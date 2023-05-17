@@ -106,6 +106,7 @@ $ready(function () {
                                     th.$refs['quesarea'].setindex(null, index);
                                 });
                             }).catch(function (d) {
+                                th.data = d.count;
                                 //如果没有历史练习记录,显示操作指引的面板
                                 th.$refs['prompt'].show();
                             });
