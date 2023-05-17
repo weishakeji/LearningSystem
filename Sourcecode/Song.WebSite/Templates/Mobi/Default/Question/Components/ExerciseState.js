@@ -9,13 +9,17 @@
         s.acid = acid;
         s.couid = couid;
         s.olid = olid;
-        s.file = file ? file : $dom.file().toLowerCase();
+        s.file = file ? file : $dom.file().toLowerCase();       
         //用于记录在storage中的名字
         s.keyname = (s.file + "_" + acid + "_" + couid + "_" + olid).toLowerCase();
         return s;
     };
     var fn = state.prototype;
     fn.loading = false;
+    //答题后记录到服务器的相关参数，每隔一时间记录一次，当只剩一小部分时，实时记录
+    fn.update_time = new Date();      //递交到服务器的时间
+    fn.update_interval = 5;      //更新到服务器的时间间隔，单位分钟
+    fn.update_residue = 10;      //当剩下指定数量的试题后，实时递交到服务器
     //试题集信息，作为存储在localstorage的数据
     fn.data = {
         items: new Array(),
@@ -113,10 +117,18 @@
         return new Promise(function (resolve, reject) {
             $api.storage(th.keyname, th.data);
             if (!toserver) return resolve(th.data);
+
+            //是否递交到服务器
+            //条件一，少于指定数量
+            let residue = (th.data.count.num - th.data.count.answer) <= th.update_residue;
+            //条件二，答题时间大于指定间隔
+            let span = (new Date()).getTime() - th.update_time.getTime() > th.update_interval * 60 * 1000;
+            if (!(residue || span)) return;
             //保存到服务器 
             var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
             $api.post('Question/ExerciseLogSave', para).then(function (req) {
                 if (req.data.success) {
+                    th.update_time = new Date();
                     resolve(req.data.result);
                 } else {
                     console.error(req.data.exception);
@@ -126,6 +138,23 @@
                 reject(err);
             });
         });
+    };
+    //保存到服务器
+    fn.toserver = function () {
+        var th = this;
+        //保存到服务器 
+        var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
+        $api.post('Question/ExerciseLogSave', para).then(function (req) {
+            if (req.data.success) {
+                //resolve(req.data.result);
+            } else {
+                console.error(req.data.exception);
+                throw req.config.way + ' ' + req.data.message;
+            }
+        }).catch(function (err) {
+            console.error(err);
+        });
+
     };
     //清除当前页面下的记录
     //delserver:是否删除服务端
