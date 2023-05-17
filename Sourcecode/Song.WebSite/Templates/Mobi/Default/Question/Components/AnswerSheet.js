@@ -11,7 +11,7 @@ Vue.component('answersheet', {
             icons: ['e85b', 'a057', 'e74c', 'a055', 'e823'],
 
             showsheet: false,     //是否显示答题卡面板
-            showhelp:false,         //是否显示帮助
+            showhelp: false,         //是否显示帮助
             currindex: 0
         }
     },
@@ -31,6 +31,9 @@ Vue.component('answersheet', {
                 }
             },
             immediate: true
+        },
+        'showsheet': function (nv, ov) {
+            if (!ov) this.showhelp = false;
         }
     },
     computed: {
