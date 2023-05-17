@@ -31,7 +31,7 @@ Vue.component('quesarea', {
                         list.push(nv[k][i]);
                 }
                 this.list = list;
-                console.log(list);
+                //console.log(list);
             },
             immediate: true
         },
