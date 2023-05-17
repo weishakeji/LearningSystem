@@ -1,4 +1,4 @@
-﻿window.starttime = new Date().getTime();//起始时间，用于统计用时
+﻿
 $ready(function () {
 
     window.vapp = new Vue({

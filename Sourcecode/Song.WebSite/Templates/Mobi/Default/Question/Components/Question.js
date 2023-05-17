@@ -58,7 +58,8 @@ Vue.component('question', {
             if (this.qid == null) return;
             var th = this;
             th.loading = true;
-            $api.cache('Question/ForID:60', { 'id': th.qid}).then(function (req) {
+            //缓存一个月
+            $api.cache('Question/ForID:43200', { 'id': th.qid}).then(function (req) {
                 if (req.data.success) {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);

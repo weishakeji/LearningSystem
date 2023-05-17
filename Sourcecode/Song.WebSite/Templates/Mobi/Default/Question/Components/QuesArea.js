@@ -5,13 +5,19 @@ $dom.load.css([$dom.pagepath() + 'Components/Styles/QuesArea.css']);
 Vue.component('quesarea', {
     //ques:试题列表，只有试题类型与id
     //mode:练习模式，练题还是背题
-    //state
+    //state:答对记录，它不是一个记录项，而是管理记录的对象
     props: ['ques', 'types', 'mode', 'account', 'state'],
     data: function () {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
             currid: '',         //当前试题id            
             index: 0,            //当前试题索引 
+
+            //异步加载的试题id,为了加快试题显示，
+            //在练习中，异步加载当前试题的前后试题
+            asynclist: [],
+            asynccount: 6,       //异步加载多少道试题
+            asyncloading: false      //异步加载中
         }
     },
     watch: {
@@ -25,6 +31,7 @@ Vue.component('quesarea', {
                         list.push(nv[k][i]);
                 }
                 this.list = list;
+                console.log(list);
             },
             immediate: true
         },
@@ -45,12 +52,12 @@ Vue.component('quesarea', {
                         $dom("dl.quesArea").css('left', -100 * nv + 'vw');
                     }, 50);
                 });
+                //计算当前试题的前后试题
+                this.asyncload_list(nv);
             }, immediate: true
         }
     },
-    computed: {
-
-    },
+    computed: {},
     mounted: function () { },
     methods: {
         //设置当前试题的id与索引
@@ -79,6 +86,45 @@ Vue.component('quesarea', {
         answer: function (state, ques) {
             this.state.data.current = state;
             this.state.update(true);
+        },
+        //计算要异步加载的试题id
+        asyncload_list: function (index) {
+            //获取当前试题的前后试题的id，           
+            let arr = [];
+            let half = Math.floor(this.asynccount / 3);
+            let init = index - half <= 0 ? 0 : index - half;       //取值的起始索引   
+            let max = init + this.asynccount >= this.list.length ? this.list.length : init + this.asynccount;   //最大索引
+            for (let i = init; i <= max && i < this.list.length; i++) {
+                if (i == index) continue;
+                arr.push(this.list[i]);
+            }
+            //要加载的试题放到列表中，（等待后续异步加载）
+            let n = 0;
+            for (let i = 0; i < arr.length; i++) {
+                if (this.asynclist.indexOf(arr[i]) !== -1)
+                    continue;
+                if (i < half) this.asynclist.push(arr[i]);
+                else
+                    this.asynclist.splice(n++, 0, arr[i]);
+            }
+            //console.log(this.asynclist);
+            if (!this.asyncloading) this.asyncload();
+        },
+        //异步加载
+        asyncload: function () {
+            var th = this;
+            th.asyncloading = th.asynclist.length > 0;
+            if (!th.asyncloading) return;
+            $api.cache('Question/ForID:43200', { 'id': th.asynclist[0] }).then(function (req) {
+                if (req.data.success) {
+                    if (th.asynclist.length > 0)
+                        th.asynclist.splice(0, 1);
+                    th.asyncload();
+                } else {
+                    throw req;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => { });
         }
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
