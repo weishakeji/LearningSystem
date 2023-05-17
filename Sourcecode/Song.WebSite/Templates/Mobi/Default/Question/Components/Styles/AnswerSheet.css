@@ -22,7 +22,7 @@
 	line-height: 50px;
 	position: relative;
 	box-sizing: border-box;
-	padding: 0px 50px 0px 0px;
+	padding: 0px 80px 0px 0px;
 	color: #999;
 }
 
@@ -41,20 +41,59 @@
 .answerSheet .sheet_title b {
 	margin: 0px 3px;
 }
+/*帮助*/
+.answerSheet help{	
+	margin-left: 20px;
+	font-size: 14px;
+	width: calc(100% - 30px);
 
+}
+.answerSheet help[multi]::before{
+	font-size: 18px;
+	top: 2px;
+}
+.answerSheet help dd{
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+}
+.answerSheet help dd[current]::after{
+	bottom: -3px;
+	right: -15px;
+}
+.answerSheet help>div{
+	width: 100%;
+	height: 80px;
+	line-height: 40px;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+}
+.answerSheet help>div>div{
+	width: 50%;
+}
 /*关闭按钮*/
-.answerSheet .sheet_title icon.sheet_close {
+.answerSheet .sheet_title div.sheet_btns {
 	position: absolute;
 	height: 50px;
-	width: 50px;
+	width: 80px;
 	top: 0px;
 	right: 0px;
-	margin: 0px;
-	text-align: center;
-	font-size: 22px;
-	cursor: pointer;
+	display: flex;
 }
 
+.answerSheet .sheet_title div.sheet_btns icon {
+	cursor: pointer;
+	font-size: 22px;
+	width: 30px;
+	height: 50px;
+	margin: 0px;
+	text-align: right;
+}
+.answerSheet .sheet_title div.sheet_btns icon:last-child{
+	width: 50px;
+	text-align: center;
+}
 .answerSheet .sheet_area {
 	height: calc(100vh - 50px - 15px);
 	overflow-y: auto;
@@ -76,9 +115,11 @@
 	padding: 10px 15px 10px 5px;
 	width: calc(100% - 30px);
 }
-.answerSheet dt icon{
+
+.answerSheet dt icon {
 	font-size: 20px;
 }
+
 .answerSheet dd {
 	width: 30px;
 	height: 30px;
@@ -92,9 +133,11 @@
 	position: relative;
 	box-shadow: inset 0 0 10px rgba(255, 255, 255, 1);
 }
-.answerSheet dd[small]{
+
+.answerSheet dd[small] {
 	font-size: 12px;
-} 
+}
+
 .answerSheet dd[current] {
 	border: solid 1px rgb(92, 180, 3) !important;
 	color: rgb(255, 255, 255);
@@ -131,5 +174,5 @@
 .answerSheet dd[correct="error"] {
 	border: solid 1px #ebab9f;
 	background-color: #ebab9f;
-	color: #fff;	
+	color: #fff;
 }

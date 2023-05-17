@@ -1,4 +1,5 @@
-﻿$ready(function () {
+﻿window.starttime = new Date().getTime();//起始时间，用于统计用时
+$ready(function () {
 
     window.vapp = new Vue({
         el: '#vapp',
@@ -29,6 +30,7 @@
                 wrong: 0,           //错误数
                 rate: 0         //正确率
             },
+            starttime: new Date().getTime()    //起始时间，用于统计用时
         },
         mounted: function () {
             var th = this;
@@ -87,9 +89,11 @@
                                 let index = last != null ? last.index : 0;
                                 th.$refs['quesarea'].setindex(null, index);
                                 if (th.data.num > 0) {
+                                    let span = new Date().getTime() - th.starttime;
+                                    span = span / 1000
                                     th.$toast.success({
-                                        message: '试题加载成功',
-                                        duration: 800
+                                        message: '试题加载成功\n 用时 ' + span.toFixed(2) + ' 秒',
+                                        duration: 1500
                                     });
                                 }
                             });
@@ -101,7 +105,7 @@
                                     let index = last != null ? last.index : 0;
                                     th.$refs['quesarea'].setindex(null, index);
                                 });
-                            }).catch(function (d) {                               
+                            }).catch(function (d) {
                                 //如果没有历史练习记录,显示操作指引的面板
                                 th.$refs['prompt'].show();
                             });

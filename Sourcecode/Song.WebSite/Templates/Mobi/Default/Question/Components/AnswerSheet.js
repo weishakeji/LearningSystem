@@ -7,10 +7,11 @@ Vue.component('answersheet', {
     data: function () {
         return {
             groups: [],    //试题分组，按题型
-             //题型图标：单选，多选，判断，简答，填空
-             icons: ['e85b', 'a057', 'e74c', 'a055', 'e823'],
+            //题型图标：单选，多选，判断，简答，填空
+            icons: ['e85b', 'a057', 'e74c', 'a055', 'e823'],
 
-            showsheet: false,     //是否显示
+            showsheet: false,     //是否显示答题卡面板
+            showhelp:false,         //是否显示帮助
             currindex: 0
         }
     },
@@ -77,8 +78,19 @@ Vue.component('answersheet', {
             <div class="sheet_title">
                 <span><icon>&#xe75e</icon>答题卡</span>
                 <span>答题<b>{{data.answer}}</b>道 / 共<b>{{data.num}}</b>道</span>
-                <icon class="sheet_close" @click="showsheet=false">&#xe606</icon>
+                <div class="sheet_btns">
+                    <icon @click="showhelp=!showhelp">&#xa026</icon>
+                    <icon @click="showsheet=false">&#xe606</icon>
+                </div>               
             </div>
+            <help multi v-if="showhelp" @click="showhelp=!showhelp">说明：<br/>
+                <div>
+                    <div><dd>1</dd> 未答题</div>
+                    <div><dd correct='succ'>2</dd> 回答正确</div>
+                    <div><dd correct='error'>3</dd> 回答错误</div>
+                    <div><dd current='true'>4</dd> 当前试题</div>
+                </div>
+            </help>
             <div class="sheet_area">
                 <dl v-for="(g,i) in groups" v-if="g.ques.length>0">
                     <dt><icon v-html="'&#x'+icons[Number(g.type)]">&#xe6bd</icon> [ {{g.typename}}题 ]</dt>
