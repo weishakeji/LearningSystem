@@ -6,7 +6,7 @@ Vue.component('quesarea', {
     //ques:试题列表，只有试题类型与id
     //mode:练习模式，练题还是背题
     //state:答对记录，它不是一个记录项，而是管理记录的对象
-    props: ['ques', 'types', 'mode', 'account', 'state'],
+    props: ['ques', 'types', 'mode', 'account', 'state','fontsize'],
     data: function () {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
@@ -129,7 +129,7 @@ Vue.component('quesarea', {
     },
     template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
            <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
-            :total="list.length" :types="types" :account="account"
+            :total="list.length" :types="types" :account="account" :fontsize="fontsize"
             :mode="mode" :current="i==index" @answer="answer">
                 <template v-slot:buttons="btn">
                     <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>

@@ -13,7 +13,8 @@
     <loading bubble v-if="loading_init">正在初始化...</loading>
     <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">
       <card-title icon="&#xa043">未登录</card-title>
-      <card-context><alert>未登录或登录状态失效</alert>
+      <card-context>
+        <alert>未登录或登录状态失效</alert>
         <p>点击此处登录</p>
       </card-context>
     </card>
@@ -52,7 +53,7 @@
       <!-- 试题区域-->
       <loading star v-show="loading">试题加载中...</loading>
       <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
-        @swipe="swipe"></quesarea>
+        :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>

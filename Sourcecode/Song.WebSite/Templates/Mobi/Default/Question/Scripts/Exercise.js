@@ -20,6 +20,8 @@ $ready(function () {
             loading: false,
             loading_init: false,         //初始信息加载
 
+            fontsize: 0,         //字体增减值
+
             //答题的状态
             state: {},
             //一些数值         
@@ -30,6 +32,7 @@ $ready(function () {
                 wrong: 0,           //错误数
                 rate: 0         //正确率
             },
+            //
             starttime: new Date().getTime()    //起始时间，用于统计用时
         },
         mounted: function () {
@@ -49,7 +52,7 @@ $ready(function () {
                 //如果登录状态，则加载试题
                 if (th.islogin && th.isoutline) {
                     //创建试题练习状态的记录的操作对象
-                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);                   
+                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
@@ -68,7 +71,7 @@ $ready(function () {
             isoutline: (t) => { return !$api.isnull(t.outline); },
         },
         watch: {
-
+            
         },
         methods: {
             //获取试题简要信息，只有试题类型与id

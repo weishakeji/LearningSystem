@@ -10,7 +10,7 @@ Vue.component('question', {
     //types:试题类型，
     //mode:0为练习模式，1为背题模式
     //current:当前显示的试题，即滑动到这个试题
-    props: ['qid', 'state', 'index', 'total', 'types', 'mode', 'current', 'account'],
+    props: ['qid', 'state', 'index', 'total', 'types', 'mode', 'current', 'account', 'fontsize'],
     data: function () {
         return {
             init: false,         //初始化完成     
@@ -43,6 +43,10 @@ Vue.component('question', {
                     this.initialization();
             },
             immediate: true
+        },
+        'fontsize': function (nv, ov) {
+            if (this.init)
+                this.setfontsize(nv - ov);          
         }
     },
     computed: {
@@ -59,7 +63,7 @@ Vue.component('question', {
             var th = this;
             th.loading = true;
             //缓存一个月
-            $api.cache('Question/ForID:43200', { 'id': th.qid}).then(function (req) {
+            $api.cache('Question/ForID:43200', { 'id': th.qid }).then(function (req) {
                 if (req.data.success) {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);
@@ -72,6 +76,10 @@ Vue.component('question', {
                         window.ques.clearempty(dom.find('.ans_area'));
                         //公式渲染
                         th.$mathjax([dom[0]]);
+                        window.setTimeout(function () {
+                            th.setfontsize(th.fontsize);
+                        }, 500);
+
                     });
                 } else {
                     console.error(req);
@@ -82,6 +90,26 @@ Vue.component('question', {
                     th.loading = false;
                     th.init = true;
                 });
+        },
+        //设置字体大小
+        setfontsize: function (num) {
+            //var num = this.fontsize;
+            var size = 16, min_size = 12, max_size = 30;
+            ergodic($dom("dl.quesArea dd[qid='" + this.qid + "']"), num);
+            function ergodic(dom, num) {
+                var fontsize = parseInt(dom.css("font-size"));
+                fontsize = isNaN(fontsize) ? size : fontsize;
+                if (num < 0 && fontsize + num > min_size) fontsize += num;
+                if (num > 0 && fontsize + num < max_size) fontsize += num;
+                dom.css("font-size", fontsize + "px", true);
+                var child = dom.childs();
+                if (child.length < 1) return;
+                child.each(function (node) {
+                    var n = $dom(this);
+                    if (n.attr('no-font-size') != null) return true;
+                    ergodic(n, num);
+                });
+            }
         },
         //获取知识点
         getKnowledge: function (ques) {

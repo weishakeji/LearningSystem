@@ -6,6 +6,7 @@ Vue.component('setupmenu', {
     return {
       //是否显示菜单
       show: false,
+      fontsizekey: 'Exercise_Font_Size',       //用于存储字体大小的值
       //视图模式，night:夜晚模式，day:白天模式，cosy：护眼模式
       view_model: 'day',
       views: [{ name: '日常模式', icon: '&#xe729', val: 'day' },
@@ -34,6 +35,7 @@ Vue.component('setupmenu', {
     }
   },
   mounted: function () {
+    this.setFont();
   },
   methods: {
     //更新试题
@@ -43,7 +45,7 @@ Vue.component('setupmenu', {
         this.$dialog.confirm({
           title: '更新试题',
           message: '将试题保持与服务器端同步',
-          allowHtml:true
+          allowHtml: true
         }).then(function () {
           parent.setup_show = false;
           parent.getQuestion(true);
@@ -63,29 +65,20 @@ Vue.component('setupmenu', {
           message: msg,
         }).then(function () {
           parent.setup_show = false;
-          parent.state.clear(true);         
+          parent.state.clear(true);
         }).catch(function () { });
       }
     },
-    //设置字体大小，默认16px，num为增减数字，例如-1
+    //记录设置字体的大小，num为增减数字，例如-1
     setFont: function (num) {
-      var size = 16, min_size = 12, max_size = 30;
-      if (num == null) num == 0;
-      ergodic($dom("dl.quesArea"), num);
-      function ergodic(dom, num) {
-        var fontsize = parseInt(dom.css("font-size"));
-        fontsize = isNaN(fontsize) ? size : fontsize;
-        if (num < 0 && fontsize + num > min_size) fontsize += num;
-        if (num > 0 && fontsize + num < max_size) fontsize += num;
-        dom.css("font-size", fontsize + "px", true);
-        var child = dom.childs();
-        if (child.length < 1) return;
-        child.each(function (node) {
-          var n = $dom(this);
-          if (n.attr('no-font-size') != null) return true;
-          ergodic(n, num);
-        });
-      }
+      if (num == null || num == '') num = 0;
+      let min = -4, max = 10;
+      let init = $api.storage(this.fontsizekey);
+      init = init == null || init == '' ? 0 : Number(init);
+      let val = init + num;
+      if (val < min || val > max) return;
+      this.$parent.fontsize = val;
+      $api.storage(this.fontsizekey, val);
     },
     //清除所有错题记录
     clearErrors: function () {
