@@ -39,3 +39,10 @@
 .view_model *[current] {
 	background-color: rgb(211, 255, 189) !important;
 }
+/*字体大小的设置*/
+.fontsize{
+	float: right;font-size: 13px;
+}
+.fontsize>span{
+	margin-left: 10px;
+}

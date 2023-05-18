@@ -75,7 +75,7 @@ Vue.component('setupmenu', {
       let min = -4, max = 10;
       let init = $api.storage(this.fontsizekey);
       init = init == null || init == '' ? 0 : Number(init);
-      let val = init + num;
+      let val = num == 0 ? 0 : init + num;
       if (val < min || val > max) return;
       this.$parent.fontsize = val;
       $api.storage(this.fontsizekey, val);
@@ -161,10 +161,17 @@ Vue.component('setupmenu', {
           <van-cell>
             <template #title>
               <icon>&#xe657</icon>字体
-              <span style="float: right;font-size: 13px;">
+              <span class="fontsize">
                 <span @click="setFont(-1)"><icon>&#xe600</icon>缩小</span>
                 <span @click="setFont(1)"><icon>&#xe6ea</icon>放大</span>
               </span>
+            </template>
+          </van-cell>
+          <van-cell>
+            <template #title>
+            <span class="fontsize">
+              <span @click="setFont(0)"><icon>&#xe667</icon>默认大小</span>            
+            </span>
             </template>
           </van-cell>
           <van-cell>
