@@ -60,10 +60,13 @@ $ready(function () {
                 .finally(() => th.loading_init = false);
         },
         created: function () {
+            //当页面退出时，保存学习记录到服务器
             window.addEventListener('beforeunload', function (e) {
                 window.vapp.state.toserver();
                 e.preventDefault();
             });
+            //加载当前课程各个章节的试题到缓存
+            window.setTimeout(window.ques.get_cache_data(), 10 * 1000);
         },
         computed: {
             //是否登录

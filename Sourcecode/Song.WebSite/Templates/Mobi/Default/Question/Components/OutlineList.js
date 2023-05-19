@@ -119,7 +119,7 @@ Vue.component('outline_row', {
       if (outline.Ol_QuesCount < 1) return;
       var th = this;
       var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
-      $api.cache('Question/ForCourse:' + (60 * 24 * 30), form).then(function (req) {
+      $api.cache('Question/Simplify:' + (60 * 24 * 30), form).then(function (req) {
         if (req.data.success) {
           var result = req.data.result;
           th.preload = true;

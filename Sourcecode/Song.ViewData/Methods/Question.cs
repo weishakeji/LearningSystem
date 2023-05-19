@@ -500,20 +500,27 @@ namespace Song.ViewData.Methods
 
         #region 试题收藏
         /// <summary>
-        /// 学员收藏的试题
+        /// 学员收藏的试题,仅包含试题id与类型
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="couid">试题id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Song.Entities.Questions[] CollecQues(int acid, long couid, int type)
+        public Dictionary<string, List<string>> CollecQues(int acid, long couid, int type)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().CollectCount(acid, 0, couid, type, -1);
-            for (int i = 0; i < ques.Length; i++)
+            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+            for (int i = 1; i <= Question.types.Length; i++)
             {
-                ques[i] = _tran(ques[i]);
+                List<string> list = new List<string>();
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Qus_Type != i) continue;
+                    list.Add(q.Qus_ID.ToString());
+                }
+                if (list.Count > 0) dic.Add("type_" + i.ToString(), list);
             }
-            return ques;
+            return dic;
         }
         /// <summary>
         /// 添加试题收藏
@@ -604,20 +611,27 @@ namespace Song.ViewData.Methods
 
         #region 试题笔记
         /// <summary>
-        /// 学员记过笔记的题
+        /// 学员记过笔记的题,仅包含试题id与类型
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="couid">试题id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Song.Entities.Questions[] NotesQues(int acid, long couid, int type)
+        public Dictionary<string, List<string>> NotesQues(int acid, long couid, int type)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().NotesCount(acid, couid, type, -1);
-            for (int i = 0; i < ques.Length; i++)
+            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+            for (int i = 1; i <= Question.types.Length; i++)
             {
-                ques[i] = _tran(ques[i]);
+                List<string> list = new List<string>();
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Qus_Type != i) continue;
+                    list.Add(q.Qus_ID.ToString());
+                }
+                if (list.Count > 0) dic.Add("type_" + i.ToString(), list);
             }
-            return ques;
+            return dic;
         }
         /// <summary>
         /// 编辑试题的笔记
@@ -772,20 +786,27 @@ namespace Song.ViewData.Methods
             }
         }
         /// <summary>
-        /// 学员答错的题，
+        /// 学员答错的题，仅包含试题id与类型
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="couid">试题id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>       
-        public Song.Entities.Questions[] ErrorQues(int acid,long couid,int type)
+        public Dictionary<string, List<string>> ErrorQues(int acid,long couid,int type)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesAll(acid, 0, couid, type);
-            for (int i = 0; i < ques.Length; i++)
+            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+            for (int i = 1; i <= Question.types.Length; i++)
             {
-                ques[i] = _tran(ques[i]);
+                List<string> list = new List<string>();
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Qus_Type != i) continue;
+                    list.Add(q.Qus_ID.ToString());
+                }
+                if (list.Count > 0) dic.Add("type_" + i.ToString(), list);
             }
-            return ques;
+            return dic;
         }
         /// <summary>
         /// 学员答错的题数
@@ -825,21 +846,28 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
-        /// 高频错题，某个课程下做错最多的试题
+        /// 高频错题，某个课程下做错最多的试题,仅包含试题id与类型
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
         [Cache(Expires = 120)]
-        public Song.Entities.Questions[] ErrorOftenQues(long couid, int type, int count)
+        public Dictionary<string, List<string>> ErrorOftenQues(long couid, int type, int count)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesOftenwrong(couid, type, count);
-            for (int i = 0; i < ques.Length; i++)
+            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+            for (int i = 1; i <= Question.types.Length; i++)
             {
-                ques[i] = _tran(ques[i]);
+                List<string> list = new List<string>();
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Qus_Type != i) continue;
+                    list.Add(q.Qus_ID.ToString());
+                }
+                if (list.Count > 0) dic.Add("type_" + i.ToString(), list);
             }
-            return ques;
+            return dic;
         }
         /// <summary>
         /// 删除答错的题
