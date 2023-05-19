@@ -60,7 +60,10 @@ $ready(function () {
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-            //if (window.ques) window.ques.get_cache_data();
+            window.addEventListener('beforeunload', function (e) {
+                window.vapp.state.toserver();
+                e.preventDefault();
+            });
         },
         computed: {
             //是否登录

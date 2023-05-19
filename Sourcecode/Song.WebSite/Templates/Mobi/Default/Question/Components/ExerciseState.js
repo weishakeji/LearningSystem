@@ -147,6 +147,7 @@
         $api.post('Question/ExerciseLogSave', para).then(function (req) {
             if (req.data.success) {
                 //resolve(req.data.result);
+                console.log('保存学习记录到服务器');
             } else {
                 console.error(req.data.exception);
                 throw req.config.way + ' ' + req.data.message;
