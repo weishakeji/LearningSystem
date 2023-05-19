@@ -44,11 +44,13 @@ Vue.component('setupmenu', {
       if (parent != null) {
         this.$dialog.confirm({
           title: '更新试题',
-          message: '将试题保持与服务器端同步',
+          message: '将试题保持与服务器端同步,\n更新过程中不影响做题',
           allowHtml: true
         }).then(function () {
           parent.setup_show = false;
-          parent.getQuestion(true);
+          parent.starttime=new Date()
+          parent.getQuesSimplify(true);
+          parent.updateQues();
         }).catch(function () { });
       }
     },

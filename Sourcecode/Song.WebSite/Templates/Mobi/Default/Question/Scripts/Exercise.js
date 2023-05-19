@@ -33,7 +33,7 @@ $ready(function () {
                 rate: 0         //正确率
             },
             //
-            starttime: new Date().getTime()    //起始时间，用于统计用时
+            starttime: new Date()    //起始时间，用于统计用时
         },
         mounted: function () {
             var th = this;
@@ -71,7 +71,7 @@ $ready(function () {
             isoutline: (t) => { return !$api.isnull(t.outline); },
         },
         watch: {
-            
+
         },
         methods: {
             //获取试题简要信息，只有试题类型与id
@@ -92,7 +92,7 @@ $ready(function () {
                                 let index = last != null ? last.index : 0;
                                 th.$refs['quesarea'].setindex(null, index);
                                 if (th.data.num > 0) {
-                                    let span = new Date().getTime() - th.starttime;
+                                    let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000
                                     th.$toast.success({
                                         message: '试题加载成功\n 用时 ' + span.toFixed(2) + ' 秒',
@@ -121,6 +121,29 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //更新试题
+            updateQues: function () {
+                if (window.temp_ques_list == null) {
+                    const list = [];
+                    for (let k in this.queslist) {
+                        for (let i = 0; i < this.queslist[k].length; i++)
+                            list.push(this.queslist[k][i]);
+                    }
+                    window.temp_ques_list = list;
+                }
+                var arr = window.temp_ques_list;
+                if (arr.length < 1) return;
+                //逐一更新试题
+                var th = this;
+                $api.cache('Question/ForID:update', { 'id': arr[0] }).then(function (req) {
+                    //console.log(req);
+                    //console.log('更新');
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        if (arr.length > 0) arr.splice(0, 1);
+                        if (arr.length > 0) window.setTimeout(th.updateQues(), 1000);
+                    });
             },
             //手式捏合与缩放事件
             pinch: function (e) {
