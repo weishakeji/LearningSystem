@@ -75,11 +75,12 @@ $ready(function () {
         },
         methods: {
             //获取试题简要信息，只有试题类型与id
+            //update:是否更新本地缓存数据
             getQuesSimplify: function (update) {
                 var th = this;
                 th.loading = true;
                 let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
-                let apiurl = 'Question/Simplify:' + (query = update === true ? (60 * 24 * 30) : 'update');
+                let apiurl = 'Question/Simplify:' + (query = update === false ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
                         th.queslist = req.data.result;
