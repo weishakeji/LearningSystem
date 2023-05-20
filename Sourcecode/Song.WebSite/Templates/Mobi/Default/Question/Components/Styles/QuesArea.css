@@ -15,3 +15,21 @@ dl.quesArea, .quesArea dd {
     padding: 0px;
     margin: 0px;
 }
+
+/*没有试题的提示*/
+dl.quesArea .noques {   
+    font-size: 18px;
+    text-align: center;
+    color: #999;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+dl.quesArea .noques icon{
+    display: block;
+    margin: 10px 0px !important;
+    font-size: 80px;
+}

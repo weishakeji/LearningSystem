@@ -90,6 +90,7 @@ $ready(function () {
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
                         th.queslist = req.data.result;
+                        if ($api.isnull(th.queslist)) throw req.config.way + ' 没有读取到数据';
                         //获取本地学习记录
                         th.state.gettolocal(req.data.result).then(function (d) {
                             th.data = d.count;

@@ -4,11 +4,15 @@
 <head resource>
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
+  <link type="text/css" rel="stylesheet" href="styles/public.css">
   <title>试题 - </title>
 </head>
 
 <body>
-
+  <script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+  </script>
   <div id="vapp" v-cloak v-pinchin="pinch" v-pinchout="pinch">
     <loading bubble v-if="loading_init">正在初始化...</loading>
     <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">

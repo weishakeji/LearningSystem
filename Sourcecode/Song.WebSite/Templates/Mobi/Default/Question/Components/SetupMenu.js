@@ -35,6 +35,7 @@ Vue.component('setupmenu', {
     }
   },
   mounted: function () {
+    //刷新页面即重置字体大小
     this.setFont();
   },
   methods: {
@@ -48,7 +49,7 @@ Vue.component('setupmenu', {
           allowHtml: true
         }).then(function () {
           parent.setup_show = false;
-          parent.starttime=new Date()
+          parent.starttime = new Date()
           parent.getQuesSimplify(true);
           parent.updateQues();
         }).catch(function () { });
@@ -84,15 +85,20 @@ Vue.component('setupmenu', {
     },
     //清除所有错题记录
     clearErrors: function () {
+      var th = this;
       var couid = $api.querystring("couid", 0);
-      var acid = this.account.Ac_ID;
+      var acid = th.account.Ac_ID;
       this.$dialog.confirm({
         title: '清空错题',
         message: '清除当前课程的所有错题',
       }).then(function () {
         $api.delete('Question/ErrorClear', { 'acid': acid, 'couid': couid }).then(function (req) {
           if (req.data.success) {
-            window.location.reload();
+            let form = { 'acid': acid, 'couid': couid, 'type': '' };
+            $api.cache('Question/ErrorQues:update', form).then(function (req) {
+            }).finally(() => {
+              th.$parent.state.clear(true);
+            });
           } else {
             console.error(req.data.exception);
             throw req.data.message;

@@ -6,7 +6,7 @@ Vue.component('quesarea', {
     //ques:试题列表，只有试题类型与id
     //mode:练习模式，练题还是背题
     //state:答对记录，它不是一个记录项，而是管理记录的对象
-    props: ['ques', 'types', 'mode', 'account', 'state','fontsize'],
+    props: ['ques', 'types', 'mode', 'account', 'state', 'fontsize'],
     data: function () {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
@@ -24,7 +24,7 @@ Vue.component('quesarea', {
         //初始加载的简要试题信息，只有试题类型与id
         'ques': {
             handler(nv, ov) {
-                if ($api.isnull(nv)) return;
+                if ($api.isnull(nv) || this.list.length > 0) return;
                 const list = [];
                 for (let k in nv) {
                     for (let i = 0; i < nv[k].length; i++)
@@ -110,7 +110,7 @@ Vue.component('quesarea', {
             //console.log(this.asynclist);
             if (!this.asyncloading) this.asyncload();
         },
-        //异步加载
+        //异步加载当前试题临近的试题
         asyncload: function () {
             var th = this;
             th.asyncloading = th.asynclist.length > 0;
@@ -125,10 +125,45 @@ Vue.component('quesarea', {
                 }
             }).catch(err => console.error(err))
                 .finally(() => { });
+        },
+        //通过索引获取试题id
+        getid: function (index) {
+            if (index < 0) return null;
+            if (index > this.list.length - 1) return null;
+            return this.list[index];
+        },
+        //清除指定的试题
+        cleanup: function (index) {
+            if (index == null) index = this.index;
+            //当前试题id
+            let qid = this.getid(index);
+            if (qid == null) return;
+            //清除页面中的试题
+            this.list.splice(index, 1);
+            //index += this.list.length > index ? 1 : -1;
+            if (index >= this.list.length) index = this.list.length - 1;
+            if (index < 0) index = 0;
+
+            //清理父级组件试题列表
+            for (let k in this.ques) {
+                let arr = this.ques[k];
+                let idx = arr.indexOf(qid);
+                if (idx >= 0) arr.splice(idx, 1);
+            }
+            this.$parent.state.del(qid);
+            this.setindex(qid,index);
+            return;
+            var th = this;
+            this.$nextTick(function () {
+                th.index = index;
+            });
+            //this.$parent.data = this.$parent.state.data.count;
+            console.log(index);
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+list.length*100+'vw'" v-swipe="swipe">
-           <question v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
+    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'vw'" v-swipe="swipe">
+           <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
+           <question v-else v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
             :total="list.length" :types="types" :account="account" :fontsize="fontsize"
             :mode="mode" :current="i==index" @answer="answer">
                 <template v-slot:buttons="btn">

@@ -9,7 +9,7 @@
         s.acid = acid;
         s.couid = couid;
         s.olid = olid;
-        s.file = file ? file : $dom.file().toLowerCase();       
+        s.file = file ? file : $dom.file().toLowerCase();
         //用于记录在storage中的名字
         s.keyname = (s.file + "_" + acid + "_" + couid + "_" + olid).toLowerCase();
         return s;
@@ -105,7 +105,7 @@
         this.data.count['answer'] = number;
         this.data.count['correct'] = correct;
         this.data.count['wrong'] = wrong;
-        this.data.count['rate'] = Math.round(correct / items.length * 10000) / 100;
+        this.data.count['rate'] = items.length > 0 ? Math.round(correct / items.length * 10000) / 100 : 0;
         this.data.items = arr;
         this.write(toserver);
         return this.data;
@@ -124,7 +124,9 @@
             //条件二，答题时间大于指定间隔
             let span = (new Date()).getTime() - th.update_time.getTime() > th.update_interval * 60 * 1000;
             if (!(residue || span)) return;
+
             //保存到服务器 
+            if (th.olid == 0 || th.olid == '0') return;
             var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
             $api.post('Question/ExerciseLogSave', para).then(function (req) {
                 if (req.data.success) {
@@ -141,6 +143,7 @@
     };
     //保存到服务器
     fn.toserver = function () {
+        if (this.olid == 0 || this.olid == '0') return;
         var th = this;
         //保存到服务器 
         var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
@@ -179,6 +182,21 @@
                 reject(err);
             });
         });
+    };
+    //删除某一个试题的记录
+    fn.del = function (qid) {
+        if (!this.data) return {};
+        var item = null;
+        for (var j = 0; j < this.data.items.length; j++) {
+            if (qid === this.data.items[j].qid) {
+                item = this.data.items[j];
+                this.data.items.splice(j, 1);
+                break;
+            }
+        }
+        if (item == null) return;
+        this.update(false);
+        this.data.count.num = this.data.items.length;
     };
     //将记录的答题信息，还原到界面
     //queslist:当前加载的试题,试题id列表
@@ -244,6 +262,7 @@
     };
     //从服务端获取练习记录
     fn.gettoserver = function () {
+
         var para = { 'acid': this.acid, 'couid': this.couid, 'olid': this.olid };
         return new Promise(function (resolve, reject) {
             $api.get('Question/ExerciseLogGet', para).then(function (req) {
