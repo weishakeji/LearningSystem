@@ -69,6 +69,8 @@ $ready(function () {
             window.setTimeout(window.ques.get_cache_data(), 10 * 1000);
         },
         computed: {
+            //是否有试题
+            isques: (t) => { return !$api.isnull(t.queslist); },
             //是否登录
             islogin: (t) => { return !$api.isnull(t.account); },
             //课程是否加载正确
@@ -90,7 +92,7 @@ $ready(function () {
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
                         th.queslist = req.data.result;
-                        if ($api.isnull(th.queslist)) throw req.config.way + ' 没有读取到数据';
+                        if (!th.isques) throw req.config.way + ' 没有读取到数据';
                         //获取本地学习记录
                         th.state.gettolocal(req.data.result).then(function (d) {
                             th.data = d.count;

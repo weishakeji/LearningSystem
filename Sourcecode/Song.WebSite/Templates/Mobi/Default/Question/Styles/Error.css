@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -30,9 +31,11 @@ input, textarea {
 .van-overlay {
 	background-color: rgba(0, 0, 0, 0.3);
 }
+
 card-title.error a {
 	float: right;
 }
+
 .blur {
 	filter: url(blur.svg#blur);
 	/* FireFox, Chrome, Opera */
@@ -76,7 +79,7 @@ card-title.error a {
 /*顶部栏*/
 
 .topBox {
-	
+
 	height: 45px;
 	overflow: hidden;
 	font-size: 14px;
@@ -84,10 +87,10 @@ card-title.error a {
 	text-align: center;
 }
 
-	.topBox *[icon]::before, .topBox icon {
-		line-height: 45px;
-		font-size: 18px;
-	}
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
+}
 
 .topBox>.btntop {
 	display: flex;
@@ -103,75 +106,8 @@ card-title.error a {
 .topBox a {
 	text-decoration: none;
 }
-
-/*底部按钮*/
-
-.footer {
-	height: 44px;
-	
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	right: 0px;	
-	z-index: 3;
-}
-
-.footer>div {
-	line-height: 44px;
-	text-align: center;
-	font-size: 14px;
-}
-
-.footer .correct-rate:before {
-	content: "正确率：";
-	margin-left: 5px;
-}
-
-.footer .correct-rate:after {
-	content: "%";
-}
-
-/*正确数*/
-
-.footer .correct-num {
-	text-align: center;
-}
-
-.footer .correct-num:before {
-	content: "\e67f";
-	font-family: "webdesk_icon";
-	color: #0099FF;
-	margin-right: 5px;
-	margin-top: 3px;
-	font-size: 18px;
-}
-
-/*错误数*/
-
-.footer .error-num {
-	text-align: center;
-}
-
-.footer .error-num:before {
-	content: "\e61c";
-	font-family: "webdesk_icon";
-	color: #FF0000;
-	margin-right: 5px;
-	font-size: 17px;
-}
-
-#btnCard {
-	line-height: 40px;
-	text-align: center;
-	font-size: 14px;
-}
-
-#btnCard:before {
-	content: "\e75e";
-	font-family: "webdesk_icon";
-	font-size: 20px;
-	margin-right: 5px;
+*[noques]{
+	color: #ccc;
 }
 
 /*试题区*/
