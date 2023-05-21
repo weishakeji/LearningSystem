@@ -4,7 +4,8 @@
 <head resource>
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
-  <title>试题笔记</title>
+  <link type="text/css" rel="stylesheet" href="styles/public.css">
+  <title>试题笔记 - </title>
 </head>
 
 <body>
@@ -12,92 +13,68 @@
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
   </script>
-  <div id="vapp" v-cloak v-pinchin="pinchin" v-pinchout="pinchout">
-    <prompt_panel ref="prompt"></prompt_panel>
-    <template v-if="loading_init">
-      <van-loading size="24px" type="spinner">加载中...</van-loading>
-    </template>
+  <div id="vapp" v-cloak v-pinchin="pinch" v-pinchout="pinch">
+    <loading bubble v-if="loading_init">正在初始化...</loading>
+    <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">
+      <card-title icon="&#xa043">未登录</card-title>
+      <card-context>
+        <alert>未登录或登录状态失效</alert>
+        <p>点击此处登录</p>
+      </card-context>
+    </card>
     <template v-else>
-      <template v-if="error!=''">
-        <card v-if="!islogin">
-          <card-title icon="&#xa043">未登录！</card-title>
-          <card-context><a :href="commonaddr('signin')">点击此处登录</a></card-context>
-        </card>
-        <card v-else>
-          <card-title class="error" icon="&#xe6fe">错误！
-            <a :href="'../course/Detail.'+couid" icon="&#xe813">
-              返回课程
-            </a>
-          </card-title>
-          <card-context>{{error}}</card-context>
-        </card>
-      </template>
-      <template v-else>
+      <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>
+      <template remark="顶部栏">
         <van-row class="topBox">
-          <van-col span="6" class="btntop">
+          <van-col span="7" class="btntop">
             <a icon="&#xe748" :href="'course?couid='+couid"></a>
             <a icon="&#xa020" href="/mobi/"></a>
             <a icon="&#xe813" @click="showCourse=true"></a>
           </van-col>
-          <van-col span="7">
+          <van-col span="7" :noques="!isques">
             <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
           </van-col>
           <van-col span="8">
             <learnmode @change="v=>learnmode=v"></learnmode>
           </van-col>
-          <van-col span="3" @click="()=>{$refs['setupmenu'].show=true}">
+          <van-col span="2" @click="()=>{$refs['setupmenu'].show=true}">
             <icon>&#xa038</icon>
           </van-col>
         </van-row>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
-        <!--试题区域 -->
-        <template v-if="loading">
-          <van-loading size="24px" type="spinner">试题加载中...</van-loading>
-        </template>
-        <template v-else>
-          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swipe="swipe" remark="试题区域">
-            <dl>
-              <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types"
-                :current="i==swipeIndex" :state="state.getitem(q.Qus_ID,i)" :mode="learnmode%2" @answer="answer">
-                <template v-slot:buttons>
-                  <quesbuttons :question="q" :account="account" :couid="couid" :current="i==swipeIndex"></quesbuttons>
-                </template>
-              </question>
-            </dl>
-          </section>
-          <card v-else>
-            <card-title icon="&#xe839">没有试题！</card-title>
-            <card-context>没有供学习的试题。</card-context>
-          </card>
-        </template>
-        <!--答题卡 -->
-        <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
-          <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state"
-            @click="index=>swipeIndex = index"></answercard>
+        <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
+          <template v-if="iscourse">
+            <row>《 {{course.Cou_Name}} 》</row>         
+            <div>
+              <van-button type="default" @click="showCourse=false">取消</van-button>
+              <van-button type="primary" :url="'../course/Detail.'+couid">
+                <span icon="&#xe813">返回课程</span>
+              </van-button>
+            </div>
+          </template>
+          <row v-else>课程不存在</row>
         </van-popup>
-
-        <!--底部按钮区 -->
-        <van-row class="footer">
-          <van-col span="8" class="correct-rate">{{count.rate}}</van-col>
-          <van-col span="4" class="correct-num">{{count.correct}}</van-col>
-          <van-col span="4" class="error-num">{{count.wrong}}</van-col>
-          <van-col span="8" class="foot-ico" id="btnCard" @click="showCard=true">
-            <span>{{count.answer}}</span>/{{questions.length}}
-          </van-col>
-        </van-row>
       </template>
+      <!-- 试题区域-->
+      <loading star v-show="loading">试题加载中...</loading>
+      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
+        :fontsize="fontsize" @swipe="swipe"></quesarea>
+      <!--答题卡-->
+      <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
+        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
+      <!--底部按钮区 -->
+      <footer>
+        <div>正确率：{{data.rate}} %</div>
+        <div class="count_number">
+          <span icon="&#xe67f">{{data.correct}}</span>
+          <span icon="&#xe61c">{{data.wrong}}</span>
+        </div>
+        <div @click="$refs['answersheet'].show()">
+          <icon>&#xe75e</icon>
+          <span>{{data.answer}}/{{data.num}}</span>
+        </div>
+      </footer>
     </template>
-    <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
-      <row>课程： {{course.Cou_Name}}</row>
-      <div>
-        <van-button type="default" @click="showCourse=false">取消</van-button>
-        <van-button type="primary" :url="'../course/Detail.'+couid">
-          <span icon="&#xe813"></span>
-          返回课程
-        </van-button>
-      </div>
-
-    </van-popup>
   </div>
 
 

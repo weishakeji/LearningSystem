@@ -112,6 +112,7 @@ Vue.component('setupmenu', {
     },
     //清空笔记
     clearNotes: function () {
+      var th = this;
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
       this.$dialog.confirm({
@@ -119,21 +120,15 @@ Vue.component('setupmenu', {
         message: '清除当前课程的所有笔记',
       }).then(function () {
         $api.delete('Question/NotesClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-          if (req.data.success) {
-            window.location.reload();
-          } else {
-            console.error(req.data.exception);
-            throw req.data.message;
-          }
-        }).catch(function (err) {
-          alert(err);
-          console.error(err);
+        }).catch((err) => console.error(err)).finally(() => {
+          th.$parent.state.clear(true);
         });
 
       }).catch(function () { });
     },
     //清空收藏
     clearCollects: function () {
+      var th = this;
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
       this.$dialog.confirm({
@@ -141,17 +136,9 @@ Vue.component('setupmenu', {
         message: '清除当前课程的所有收藏',
       }).then(function () {
         $api.delete('Question/CollectClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-          if (req.data.success) {
-            window.location.reload();
-          } else {
-            console.error(req.data.exception);
-            throw req.data.message;
-          }
-        }).catch(function (err) {
-          alert(err);
-          console.error(err);
+        }).catch((err) => console.error(err)).finally(() => {
+          th.$parent.state.clear(true);
         });
-
       }).catch(function () { });
     },
   },

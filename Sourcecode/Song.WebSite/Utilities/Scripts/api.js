@@ -19,7 +19,7 @@
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
-        apicache_location: true,     //本机是否缓存数据
+        apicache_location: false,     //本机是否缓存数据
         timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
         //返回的结果是否加密
         encrypt: true

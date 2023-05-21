@@ -1,0 +1,154 @@
+﻿@charset "utf-8";
+.blur {
+	filter: url(blur.svg#blur);
+	/* FireFox, Chrome, Opera */
+	-webkit-filter: blur(2px);
+	/* Chrome, Opera */
+	-moz-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
+}
+loading {
+	text-align: center;
+	padding: 20px;
+	margin: 30px auto;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
+}
+
+card-title.error a {
+	float: right;
+}
+
+/*课程信息*/
+
+.showCourse {
+	padding: 20px 20px 10px 20px;
+	width: 60%;
+}
+
+.showCourse>div:last-child {
+	margin: 5px 0px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.showCourse>div:last-child>button {
+	flex-grow: 2;
+}
+
+.showCourse>div:last-child>button:first-child {
+	margin-right: 10px;
+	flex-grow: 1;
+}
+
+/*顶部栏*/
+
+.topBox {
+
+	height: 45px;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 45px;
+	text-align: center;
+}
+
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
+}
+
+.topBox>.btntop {
+	display: flex;
+}
+
+.topBox>.btntop>* {
+	flex: 1;
+	text-align: center;
+	line-height: 45px;
+	font-size: 18px;
+}
+
+.topBox a {
+	text-decoration: none;
+}
+*[noques]{
+	color: #ccc;
+}
+
+/*试题区*/
+
+section {
+	height: calc(100% - 90px);
+	background-color: #f2f2f2;
+	width: 100%;
+	z-index: 4;
+	left: 0px;
+	position: relative;
+	transition: left 0.5s;
+}
+
+section dl, section dd {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	float: left;
+}
+/*底部按钮*/
+
+footer {
+	height: 44px;
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	right: 0px;
+	z-index: 5;
+	display: flex;
+	background-color: #fff;
+}
+
+footer>div {
+	line-height: 44px;
+	text-align: center;
+	font-size: 14px;
+	padding: 0px 20px;
+	white-space: nowrap;
+}
+
+footer>div:first-child {
+	flex: 1;
+	text-align: left;
+	color: #0099FF;
+	padding: 0px 0px 0px 20px;
+}
+
+footer>div:last-child {
+	padding: 0px 20px 0px 0px;
+	box-sizing: border-box;
+}
+
+footer .count_number {
+	display: flex;
+	justify-content: space-between;
+}
+
+footer .count_number span {
+	padding: 0px 10px;
+}
+
+footer .count_number span::before {
+	font-size: 17px;
+}
+
+footer .count_number span:first-child {
+	color: #67C23A;
+}
+
+footer .count_number span:last-child {
+	color: #E6A23C;
+}
