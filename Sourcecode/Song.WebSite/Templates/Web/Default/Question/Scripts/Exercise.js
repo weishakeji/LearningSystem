@@ -8,8 +8,7 @@ $ready(function () {
             olid: $api.querystring("olid", 0),
             back: Boolean($api.querystring("back", false)),  //是否显示返回图标
 
-            learnmode: 0,            //练习模式，0为练习模式，1为背题模式        
-            showCourse: false,           //显示课程  
+            learnmode: 0,            //练习模式，0为练习模式，1为背题模式       
 
             account: {},     //当前登录账号        
             types: [],          //试题类型
@@ -42,16 +41,18 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.cache('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (acc, type, cou) {
+                $api.cache('Course/ForID', { 'id': th.couid }),
+                $api.cache('Outline/ForID', { 'id': th.olid })
+            ).then(axios.spread(function (acc, type, cou, outline) {
                 th.account = acc.data.result;
                 th.types = type.data.result;
                 th.course = cou.data.result;
-                if (th.iscourse) document.title += th.course.Cou_Name;
+                th.outline = outline.data.result;
+                if (th.isoutline) document.title += th.outline.Ol_Name;
                 //如果登录状态，则加载试题
-                if (th.islogin && th.iscourse) {
+                if (th.islogin && th.isoutline) {
                     //创建试题练习状态的记录的操作对象
-                    th.state = $state.create(th.account.Ac_ID, th.couid, 0);
+                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
@@ -74,6 +75,8 @@ $ready(function () {
             islogin: (t) => { return !$api.isnull(t.account); },
             //课程是否加载正确
             iscourse: (t) => { return !$api.isnull(t.course); },
+            //章节是否加载正确
+            isoutline: (t) => { return !$api.isnull(t.outline); },
         },
         watch: {
 
@@ -84,10 +87,9 @@ $ready(function () {
             getQuesSimplify: function (update) {
                 var th = this;
                 th.loading = true;
-                //var query = $api.get('Question/ErrorQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
-                let form = { 'couid': th.couid, 'type': '', 'count': 1000 };
-                let apiurl = 'Question/ErrorOftenQues:' + (query = update === false ? (60 * 24 * 30) : 'update');
-                $api.get(apiurl, form).then(function (req) {
+                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
+                let apiurl = 'Question/Simplify:' + (query = update === false ? (60 * 24 * 30) : 'update');
+                $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {
                         th.queslist = req.data.result;
                         if (!th.isques) throw req.config.way + ' 没有读取到数据';
@@ -103,6 +105,7 @@ $ready(function () {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
                                     th.$message.success('试题加载成功！用时 ' + span.toFixed(2) + ' 秒');
+                                    
                                 }
                             });
                             //获取服务器端的学习记录，如果本地最新则不再取值

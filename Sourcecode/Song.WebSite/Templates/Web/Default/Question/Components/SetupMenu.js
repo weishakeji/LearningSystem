@@ -46,7 +46,9 @@ Vue.component('setupmenu', {
           type: 'warning'
         }).then(() => {
           parent.setup_show = false;
-          parent.getQuestion(true);
+          parent.starttime = new Date()
+          parent.getQuesSimplify(true);
+          parent.updateQues();
         }).catch(() => {
 
         });
@@ -66,39 +68,38 @@ Vue.component('setupmenu', {
           type: 'warning'
         }).then(() => {
           parent.setup_show = false;
-          parent.state.clear(true);          
+          parent.state.clear(true);
         }).catch(() => { });
       }
     },
     //设置字体大小，默认16px，num为增减数字，例如-1
     setFont: function (num) {
-      var size = 16;
-      if (num == null) num == 0;
-      ergodic($dom("section.question"), num);
-      function ergodic(dom, num) {
-        var fontsize = parseInt(dom.css("font-size"));
-        fontsize = isNaN(fontsize) ? size : fontsize + num;
-        dom.css("font-size", fontsize + "px", true);
-        var child = dom.childs();
-        if (child.length < 1) return;
-        child.each(function (node) {
-          var n = $dom(this);
-          if (n.attr('no-font-size') != null) return true;
-          ergodic(n, num);
-        });
-      }
+      if (num == null || num == '') num = 0;
+      let min = -4, max = 10;
+      let init = $api.storage(this.fontsizekey);
+      init = init == null || init == '' ? 0 : Number(init);
+      let val = num == 0 ? 0 : init + num;
+      if (val < min || val > max) return;
+      this.$parent.fontsize = val;
+      $api.storage(this.fontsizekey, val);
     },
     //清除所有错题记录
     clearErrors: function () {
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
-      this.$dialog.confirm({
-        title: '清空错题',
-        message: '清除当前课程的所有错题',
-      }).then(function () {
+      this.$confirm('清除当前课程的所有错题, 是否继续?', '清空错题', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var th = this;
         $api.delete('Question/ErrorClear', { 'acid': acid, 'couid': couid }).then(function (req) {
           if (req.data.success) {
-            window.location.reload();
+            let form = { 'acid': acid, 'couid': couid, 'type': '' };
+            $api.cache('Question/ErrorQues:update', form).then(function (req) {
+            }).finally(() => {
+              th.$parent.state.clear(true);
+            });
           } else {
             console.error(req.data.exception);
             throw req.data.message;
@@ -107,55 +108,42 @@ Vue.component('setupmenu', {
           alert(err);
           console.error(err);
         });
-
-      }).catch(function () { });
+      }).catch(() => { });
     },
     //清空笔记
     clearNotes: function () {
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
-      this.$dialog.confirm({
-        title: '清空笔记',
-        message: '清除当前课程的所有笔记',
-      }).then(function () {
+      var th=this;
+      this.$confirm('清除当前课程所有试题笔记, 是否继续?', '清空笔记', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {      
         $api.delete('Question/NotesClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-          if (req.data.success) {
-            window.location.reload();
-          } else {
-            console.error(req.data.exception);
-            throw req.data.message;
-          }
-        }).catch(function (err) {
-          alert(err);
-          console.error(err);
+        }).catch((err) => console.error(err)).finally(() => {
+          th.$parent.state.clear(true);
         });
-
       }).catch(function () { });
     },
     //清空收藏
     clearCollects: function () {
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
-      this.$dialog.confirm({
-        title: '清空收藏',
-        message: '清除当前课程的所有收藏',
+      var th = this;
+      this.$confirm('清除当前课程的所有收藏, 是否继续?', '清空收藏', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(function () {
         $api.delete('Question/CollectClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-          if (req.data.success) {
-            window.location.reload();
-          } else {
-            console.error(req.data.exception);
-            throw req.data.message;
-          }
-        }).catch(function (err) {
-          alert(err);
-          console.error(err);
+        }).catch((err) => console.error(err)).finally(() => {
+          th.$parent.state.clear(true);
         });
-
       }).catch(function () { });
     },
   },
-  template: `<el-drawer :visible.sync="show" class="setup_show"  direction="rtl" remark="右上角菜单项" noview append-to-body>
+  template: `<el-drawer :visible.sync="show" :size="260" class="setup_show"  direction="rtl" remark="右上角菜单项" noview append-to-body>
           <span slot="title">
             <icon>&#xa038</icon>设置项
           </span>         
@@ -179,7 +167,12 @@ Vue.component('setupmenu', {
               <span class="font_btn">
                 <span @click="setFont(-1)"><icon>&#xe600</icon>缩小</span>
                 <span @click="setFont(1)"><icon>&#xe6ea</icon>放大</span>
-              </span>          
+              </span> 
           </el-row>    
+          <el-row class="font">  
+            <span class="fontsize">
+              <span @click="setFont(0)"><icon>&#xe667</icon>默认大小</span>            
+            </span>    
+          </el-row>
       </el-drawer>`
 });

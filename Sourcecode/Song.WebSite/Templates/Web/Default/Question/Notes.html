@@ -4,7 +4,8 @@
 <head resource>
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
-  <title>试题笔记</title>
+  <link type="text/css" rel="stylesheet" href="styles/public.css">
+  <title>试题笔记 - </title>
 </head>
 
 <body>
@@ -12,76 +13,58 @@
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
   </script>
-  <div id="vapp" v-cloak>
-    <template v-if="loading_init">
-      <loading size="24px" type="spinner">加载中...</loading>
-    </template>
+  <div id="vapp" v-cloak v-pinchin="pinch" v-pinchout="pinch">
+    <loading bubble v-if="loading_init">正在初始化...</loading>
+    <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">
+      <card-title icon="&#xa043">未登录</card-title>
+      <card-context>
+        <alert>未登录或登录状态失效</alert>
+        <p>点击此处登录</p>
+      </card-context>
+    </card>
     <template v-else>
-      <template v-if="error!=''">
-        <card v-if="!islogin">
-          <card-title icon="&#xa043">未登录！</card-title>
-          <card-context><a :href="commonaddr('signin')">点击此处登录</a></card-context>
-        </card>
-        <card v-else>
-          <card-title icon="&#xe6fe">错误！</card-title>
-          <card-context>{{error}}</card-context>
-        </card>
-      </template>
-      <template v-else>
+      <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>
+      <template remark="顶部栏">
         <div class="topBox">
-          <a icon="&#xe748" @click="window.history.back();"></a>
-          <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
-          <div span="9">
-            <learnmode @change="v=>learnmode=v"></learnmode>
-          </div>
           <div class="move_btn">
-            <span @click="swipe({ 'direction': 4 })">
+            <a icon="&#xe748" @click="window.history.back();" v-if="back"></a>
+            <span @click="$refs['quesarea'].swipe({ 'direction': 4 })">
               <icon>&#xe803</icon>上一题
             </span>
-            <span @click="swipe({ 'direction': 2 })">
+            <span @click="$refs['quesarea'].swipe({ 'direction': 2 })">
               <icon>&#xe802</icon>下一题
             </span>
           </div>
-          <div @click="()=>{$refs['setupmenu'].show=true}">
-            <icon v-if="false">&#xa038</icon>
+          <div :noques="!isques">
+            <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
+          </div>
+          <div>
+            <learnmode @change="v=>learnmode=v"></learnmode>
+            <icon @click="()=>{$refs['setupmenu'].show=true}">&#xa038</icon>
           </div>
         </div>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
-        <!--试题区域 -->
-        <template v-if="loading">
-          <loading size="24px" type="spinner">试题加载中...</loading>
-        </template>
-        <template v-else>
-          <section v-if="questions.length>0"  class="question" :style="'width:'+questions.length*100+'vw'" v-swipe="swipe" remark="试题区域">
-            <dl>
-              <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types" :current="i==swipeIndex"
-                :state="state.getitem(q.Qus_ID,i)" :mode="learnmode%2" @answer="answer">
-                <template v-slot:buttons>
-                  <quesbuttons :question="q" :account="account" :couid="couid" :current="i==swipeIndex"></quesbuttons>
-                </template>
-              </question>
-            </dl>
-          </section>
-          <card v-else>
-            <card-title icon="&#xe839">没有试题！</card-title>
-            <card-context>没有供学习的试题。</card-context>
-          </card>
-        </template>
-         <!--答题卡 -->
-       <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state" :width="80"
-       @click="index=>swipeIndex = index"></answercard>
-
-        <!--底部按钮区 -->
-        <div class="footer">
-          <div class="correct-rate">{{count.rate}}</div>
-          <div>
-            <span class="correct-num">{{count.correct}}</span>
-            <span class="error-num">{{count.wrong}}</span>
-          </div>
-          <div class="foot-ico" id="btnCard" @click="$refs.answercard.show=true">
-            <span>{{count.answer}}</span>/{{questions.length}}
-          </div>
+      </template>
+      <!-- 试题区域-->
+      <loading star v-show="loading">试题加载中...</loading>
+      <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
+        :fontsize="fontsize" @swipe="swipe"></quesarea>
+      <!--答题卡-->
+      <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
+        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
+      <!--底部按钮区 -->
+      <footer>
+        <div>正确率：{{data.rate}} %</div>
+        <div class="count_number">
+          <span icon="&#xe67f">{{data.correct}}</span>
+          <span icon="&#xe61c">{{data.wrong}}</span>
         </div>
+        <div @click="$refs['answersheet'].show()">
+          <icon>&#xe75e</icon>
+          <span>{{data.answer}}/{{data.num}}</span>
+        </div>
+      </footer>
+    </template>
   </div>
 
 

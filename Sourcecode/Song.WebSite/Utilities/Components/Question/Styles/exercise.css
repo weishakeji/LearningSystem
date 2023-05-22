@@ -4,7 +4,7 @@ dl.quesArea dd {
 	line-height: 150%;
 	float: left;
 	position: relative;
-
+	text-align: left;
 }
 
 /*试题加载错误*/
@@ -81,15 +81,18 @@ dl.quesArea dd card[correct="succ"] {
 dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	background: rgb(217, 236, 255) !important;
 }
+
 /*答错的样式*/
-dl.quesArea dd card[correct="error"] {	
+dl.quesArea dd card[correct="error"] {
 	border: 1px solid #fcdcd5 !important;
 	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%) !important;
 }
+
 dl.quesArea dd card[correct="error"], card[correct="error"] * {
 	background-color: #FFECE8 !important;
 	color: #333 !important;
 }
+
 dl.quesArea dd img {
 	max-width: 100% !important;
 	height: auto;

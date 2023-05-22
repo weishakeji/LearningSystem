@@ -42,3 +42,10 @@
 	font-size: 13px;
 	margin-right: 2px;
 }
+/*字体大小的设置*/
+.fontsize{
+	float: right;font-size: 13px;
+}
+.fontsize>span{
+	margin-left: 10px;
+}

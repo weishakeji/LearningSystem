@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -6,7 +7,6 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
-	text-align: left;
 }
 
 * {
@@ -22,163 +22,22 @@ html, body, #vapp {
 	/*IE10*/
 	user-select: none;
 }
-*::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width: 5px;
-    /*高宽分别对应横竖滚动条的尺寸*/
-    height: 1px;
-}
-*::-webkit-scrollbar-thumb{
-	background: #ffffff;
-}
+
 input, textarea {
 	-webkit-user-select: auto;
 	/*webkit浏览器*/
 }
 
-
-
-.blur {
-	filter: url(blur.svg#blur);
-	/* FireFox, Chrome, Opera */
-	-webkit-filter: blur(2px);
-	/* Chrome, Opera */
-	-moz-filter: blur(2px);
-	-ms-filter: blur(2px);
-	filter: blur(2px);
-	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
+.van-overlay {
+	background-color: rgba(0, 0, 0, 0.3);
 }
+
+card-title.error a {
+	float: right;
+}
+
 
 .van-loading {
 	text-align: center;
 	padding: 20px;
-}
-
-/*顶部栏*/
-
-.topBox {
-	background-color: rgb(212, 224, 206);
-	height: 45px;
-	overflow: hidden;
-	font-size: 14px;
-	line-height: 45px;
-	text-align: center;
-	display: flex;
-}
-.topBox a:first-child{
-	width: 60px;
-	flex: none;
-}
-	.topBox *[icon]::before, .topBox icon {
-		line-height: 45px;
-		font-size: 18px;
-	}
-
-.topBox>* {
-	flex: 1;
-	text-align: center;
-	line-height: 45px;
-
-}
-.topBox>*:last-child{
-	width: 60px;
-	flex: none;
-}
-.topBox a {
-	text-decoration: none;
-}
-
-
-/*底部按钮*/
-
-.footer {
-	height: 45px;
-	background-color: rgb(212, 224, 206);
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	right: 0px;
-	z-index: 3;
-	display: flex;
-	justify-content: space-between;
-}
-
-.footer>div {
-	line-height: 45px;
-	text-align: center;
-	font-size: 14px;
-	flex: 1;
-}
-
-.footer .correct-rate:before {
-	content: "正确率：";
-	margin-left: 5px;
-}
-
-.footer .correct-rate:after {
-	content: "%";
-}
-
-/*正确数*/
-
-.footer .correct-num {
-	text-align: center;
-	margin-right: 20px;
-}
-
-.footer .correct-num:before {
-	content: "\e67f";
-	font-family: "webdesk_icon";
-	color: #0099FF;
-	margin-right: 5px;
-	margin-top: 3px;
-	font-size: 18px;
-}
-
-/*错误数*/
-
-.footer .error-num {
-	text-align: center;
-}
-
-.footer .error-num:before {
-	content: "\e61c";
-	font-family: "webdesk_icon";
-	color: #FF0000;
-	margin-right: 5px;
-	font-size: 17px;
-}
-
-#btnCard {
-	line-height: 40px;
-	text-align: center;
-	font-size: 14px;
-}
-
-#btnCard:before {
-	content: "\e75e";
-	font-family: "webdesk_icon";
-	font-size: 20px;
-	margin-right: 5px;
-}
-
-
-/*试题区*/
-
-section {
-	height: calc(100% - 90px);
-	background-color: #f2f2f2;
-	width: 100%;
-	z-index: 4;
-	left: 0px;
-	position: relative;
-	transition: left 0.5s;
-}
-
-section dl, section dd {
-	margin: 0px;
-	padding: 0px;
-	height: 100%;
-	float: left;
 }

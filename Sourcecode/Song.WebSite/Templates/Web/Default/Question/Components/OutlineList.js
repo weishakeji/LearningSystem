@@ -33,7 +33,7 @@ Vue.component('outline_row', {
       handler: function (nv, ov) {
         //创建试题练习状态的记录的操作对象
         if (this.state == null) {
-          this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "Exercises");
+          this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "Exercise");
           //console.log(this.state);
           this.getprogress();
           this.getques_count();
@@ -108,7 +108,7 @@ Vue.component('outline_row', {
       if (outline.Ol_QuesCount < 1) return '#';
       if (this.isbuy || this.course.Cou_IsFree || this.course.Cou_IsLimitFree || outline.Ol_IsFree
         || (this.course.Cou_IsTry && outline.Ol_IsFree)) {
-        var url = '/web/question/Exercises';
+        var url = '/web/question/Exercise';
         return $api.url.set(url, {
           'olid': outline.Ol_ID,
           'couid': outline.Cou_ID,

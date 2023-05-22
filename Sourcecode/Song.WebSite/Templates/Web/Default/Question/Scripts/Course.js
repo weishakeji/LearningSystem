@@ -195,7 +195,7 @@ $ready(function () {
             gocontinue: function () {
                 var last = this.last;
                 if (last == null) return;
-                var url = $api.url.set('exercises', {
+                var url = $api.url.set('Exercise', {
                     'couid': this.couid,
                     'olid': last.olid,
                     'back': true
@@ -225,7 +225,8 @@ $ready(function () {
                 var url = $api.url.set(item.url,
                     {
                         'couid': this.couid,
-                        'acid': this.stid
+                        'acid': this.stid,
+                        'back':true
                     });
                 window.location.href = url;
             }

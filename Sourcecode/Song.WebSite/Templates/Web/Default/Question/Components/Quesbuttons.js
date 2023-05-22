@@ -8,7 +8,7 @@ Vue.component('quesbuttons', {
             //试题中的按钮，当used为true时，启用icon2图标
             buttons: [
                 { id: 'error', name: '报错', icon1: '&#xe70e', icon2: '&#xe72c', used: false, evt: this.errorshow },
-                { id: 'notes', name: '笔记', icon1: '&#xe845', icon2: '&#xe85b', used: false, evt: this.noteeditshow },
+                { id: 'notes', name: '笔记', icon1: '&#xa02e', icon2: '&#xa02e', used: false, evt: this.noteeditshow },
                 { id: 'collect', name: '收藏', icon1: '&#xe747', icon2: '&#xe679', used: false, evt: this.addcollect }],
             //供选择的错误项
             errorItems: ['试题没有答案', '试题图片不显示', '试题或答案有错别字',
@@ -133,7 +133,8 @@ Vue.component('quesbuttons', {
                         th.$message({
                             message: '删除收藏成功',
                             type: 'success'
-                        });
+                        });                     
+                        vapp.deleteQues();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -192,8 +193,7 @@ Vue.component('quesbuttons', {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
-                    window.vapp.QuesCacheClear();
+                    });                 
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

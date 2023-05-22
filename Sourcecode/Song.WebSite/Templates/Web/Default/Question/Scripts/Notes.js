@@ -1,10 +1,15 @@
-﻿$ready(function () {
+﻿
+$ready(function () {
 
     window.vapp = new Vue({
         el: '#vapp',
         data: {
             couid: $api.querystring("couid", 0),
-            stid: $api.querystring("acid", 0),
+            olid: $api.querystring("olid", 0),
+            back: Boolean($api.querystring("back", false)),  //是否显示返回图标
+
+            learnmode: 0,            //练习模式，0为练习模式，1为背题模式        
+            showCourse: false,           //显示课程  
 
             account: {},     //当前登录账号        
             types: [],          //试题类型
@@ -12,178 +17,165 @@
             outline: {},        //当前章节   
             error: '',           //错误信息       
 
-            questions: [],
-            swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
-            loading: true,
-            loading_init: true,         //初始信息加载
-            learnmode: 0,            //练习模式，0为练习模式，1为背题模式
+            queslist: [],      //试题简要信息，只有题型与id,按题型分为多个数组
+            loading: false,
+            loading_init: false,         //初始信息加载
+
+            fontsize: 0,         //字体增减值
 
             //答题的状态
             state: {},
             //一些数值         
-            count: {
+            data: {
+                num: 0,        //总数
                 answer: 0,      //答题数量
                 correct: 0,     //正确数
                 wrong: 0,           //错误数
                 rate: 0         //正确率
             },
-
-
-            showCourse: false,           //显示课程
-            setup_show: false        //设置菜单是否显示
+            //
+            starttime: new Date()    //起始时间，用于统计用时
         },
         mounted: function () {
             var th = this;
-            th.getAccount().then(function (d) {
-                th.account = d;
-                th.stid = d ? d.Ac_ID : 0;
-                //创建试题练习状态的记录的操作对象
-                th.state = $state.create(th.account.Ac_ID, th.couid, 0);
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-            });
+            th.loading_init = true;
             $api.bat(
+                $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.cache('Course/ForID', { 'id': this.couid })
-            ).then(axios.spread(function (types, course) {
-                th.loading_init = false;
-                th.types = types.data.result;
-                th.course = course.data.result;
-                th.getQuestion(false);
-            })).catch(function (err) {
-                th.error = err;
-                console.error(err);
-            });
-
+                $api.cache('Course/ForID', { 'id': th.couid })
+            ).then(axios.spread(function (acc, type, cou) {
+                th.account = acc.data.result;
+                th.types = type.data.result;
+                th.course = cou.data.result;
+                if (th.iscourse) document.title += th.course.Cou_Name;
+                //如果登录状态，则加载试题
+                if (th.islogin && th.iscourse) {
+                    //创建试题练习状态的记录的操作对象
+                    th.state = $state.create(th.account.Ac_ID, th.couid, 0);
+                    //加载试题的id列表
+                    th.getQuesSimplify(false);
+                }
+            })).catch(err => alert(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
-            window.onresize = function () {
-                $dom("section").hide();
-                $dom("section").css('left', -($dom("#vapp").width() * vapp.swipeIndex) + 'px');
-                window.setTimeout(function () {
-                    $dom("section").show();
-                }, 300);
-            }
+            //当页面退出时，保存学习记录到服务器
+            window.addEventListener('beforeunload', function (e) {
+                window.vapp.state.toserver();
+                e.preventDefault();
+            });
+            //加载当前课程各个章节的试题到缓存
+            window.setTimeout(window.ques.get_cache_data(), 10 * 1000);
         },
         computed: {
+             //是否有试题
+             isques: (t) => { return !$api.isnull(t.queslist); },
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
+            //课程是否加载正确
+            iscourse: (t) => { return !$api.isnull(t.course); },
         },
         watch: {
-            //滑动试题，滑动到指定试题索引
-            'swipeIndex': function (nv, ov) {
-                if (nv > this.questions.length - 1 || nv < 0) return;
-                //设置当前练习的试题
-                if (nv != null && this.questions.length > 0) {
-                    var ques = this.questions[nv];
-                    this.state.last(ques.Qus_ID, nv);
-                }
-                this.state.update(false);
-                window.setTimeout(function () {
-                    $dom("section[remark]").css('left', -($dom("#vapp").width() * nv) + 'px');
-                }, 100);
-            }
+
         },
         methods: {
-            //获取当前学员
-            getAccount: async function () {
-                var th = this;
-                return new Promise(function (resolve, reject) {
-                    var api = Number(th.stid) > 0 ? $api.get('Account/ForID', { 'id': th.stid }) : $api.get('Account/Current');
-                    api.then(function (req) {
-                        if (req.data.success) {
-                            resolve(req.data.result);
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        reject(err);
-                    });
-                });
-            },
-            //加载试题,update：否更新，true为更新，强制从服务器读取数据；false则读本地缓存       
-            getQuestion: function (update) {
+            //获取试题简要信息，只有试题类型与id
+            //update:是否更新本地缓存数据
+            getQuesSimplify: function (update) {
                 var th = this;
                 th.loading = true;
-                if (update) {
-                    th.questions=[];
-                    th.swipeIndex = 0;
-                }
-                var query = $api.get('Question/NotesQues', { 'acid': th.stid, 'couid': this.couid, 'type': '' });
-                query.then(function (req) {
-                    th.loading = false;
+                let form = { 'acid': th.account.Ac_ID, 'couid': this.couid, 'type': '' };
+                let apiurl = 'Question/NotesQues:' + (query = update === false ? (60 * 24 * 30) : 'update');
+                $api.get(apiurl, form).then(function (req) {
                     if (req.data.success) {
-                        //获取练习记录
-                        th.state.restore().then(function (d) {
-                            th.count = d.count;
-                            //获取记录成功再赋值
-                            th.questions = req.data.result;
+                        th.queslist = req.data.result;
+                        if (!th.isques) throw req.config.way + ' 没有读取到数据';
+                        //获取本地学习记录
+                        th.state.gettolocal(req.data.result).then(function (d) {
+                            th.data = d.count;
                             //初始显示第几条试题
                             th.$nextTick(function () {
-                                var last = th.state.last();
-                                if (last != null) th.swipeIndex = last.index ? last.index : 0;
+                                let last = th.state.last();
+                                let index = last != null ? last.index : 0;
+                                th.$refs['quesarea'].setindex(null, index);
+                                if (th.data.num > 0) {
+                                    let span = new Date().getTime() - th.starttime.getTime();
+                                    span = span / 1000;
+                                    th.$message.success('试题加载成功！用时 ' + span.toFixed(2) + ' 秒');
+                                }
                             });
-                        }).catch(function (d) {
-                            th.count = d.count;
-                            th.questions = req.data.result;
-                        }).finally(function () {
-                            th.loading = false;
-                            if (th.questions.length > 0)
-                                th.$message.success('试题加载成功');
-
+                            //获取服务器端的学习记录，如果本地最新则不再取值
+                            th.state.restore(req.data.result).then(function (d) {
+                                th.data = d.count;
+                                th.$nextTick(function () {
+                                    let last = th.state.last();
+                                    let index = last != null ? last.index : 0;
+                                    th.$refs['quesarea'].setindex(null, index);
+                                });
+                            }).catch(function (d) {
+                                th.data = d.count;
+                                //如果没有历史练习记录,显示操作指引的面板
+                                //th.$refs['prompt'].show();
+                            });
                         });
+
                     } else {
                         console.error(req.data.exception);
-                        throw req.data.message;
+                        throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    vapp.error = err;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
-            //清理本地缓存，但不刷新界面
-            QuesCacheClear: function () {
-                var form = {
-                    'couid': this.couid, 'olid': this.olid, 'type': -1, 'count': 0
+            //更新试题
+            updateQues: function () {
+                if (window.temp_ques_list == null) {
+                    const list = [];
+                    for (let k in this.queslist) {
+                        for (let i = 0; i < this.queslist[k].length; i++)
+                            list.push(this.queslist[k][i]);
+                    }
+                    window.temp_ques_list = list;
                 }
-                var query = $api.cache('Question/ForCourse:clear', form);
-                query.then(function (req) {
-                    console.log(req);
-                });
+                var arr = window.temp_ques_list;
+                if (arr.length < 1) return;
+                //逐一更新试题
+                var th = this;
+                $api.cache('Question/ForID:update', { 'id': arr[0] }).then(function (req) {
+                    //console.log(req);
+                    //console.log('更新');
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        if (arr.length > 0) arr.splice(0, 1);
+                        if (arr.length > 0) window.setTimeout(th.updateQues(), 1000);
+                    });
             },
-            //试题滑动 
-            swipe: function (e) {
-                if (e && e.preventDefault) {
-                    e.preventDefault();
-                    var node = $dom(e.target ? e.target : e.srcElement);
-                    if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
-                        return;
-                }
-                //向左滑动
-                if (e.direction == 2 && this.swipeIndex < this.questions.length - 1) this.swipeIndex++;
-                //向右滑动
-                if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
+            //手式捏合与缩放事件
+            pinch: function (e) {
+                if (e && e.preventDefault) e.preventDefault();
+                //右上角的菜单组件，用来调用缩小与放大字符的方法
+                let setupmenu = this.$refs['setupmenu'];
+                if (!setupmenu) return;
+                if (e.type == 'pinchin') setupmenu.setFont(-1);
+                if (e.type == 'pinchout') setupmenu.setFont(1);
             },
-            //试题答题状态变更时
-            answer: function (state, ques) {
-                var data = this.state.update(true);
-                this.count = data.count;
+            swipe: function (index) {
+                let sheet = this.$refs['answersheet'];
+                if (sheet) sheet.setindex(index + 1);
             },
-            //删
             //删除笔记
             deleteQues: function () {
                 var th = this;
-                var ques = this.questions[this.swipeIndex];
-                Vue.delete(this.questions, this.swipeIndex);
-                if (this.swipeIndex > 0)
-                    this.swipeIndex--;
-                $api.get('Question/NotesModify', { 'acid': vapp.account.Ac_ID, 'qid': ques.Qus_ID, 'note': '' }).then(function (req) {
+                var area = th.$refs['quesarea'];
+                if (!area) return;
+                //当前试题的索引
+                var index = area.index;
+                let qid = area.getid(index);
+                if (qid == null) return;
+                $api.get('Question/NotesModify', { 'acid': th.account.Ac_ID, 'qid': qid, 'note': '' }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.$message.success('删除成功');
+                        area.cleanup(index);
+                        th.$message.success('删除笔记成功');
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -195,10 +187,13 @@
             }
         }
     });
-}, ['/Utilities/Components/question/exercise.js',
-    '/Utilities/Components/question/function.js',
-    '/Utilities/Components/question/learnmode.js',
-    'Components/Quesbuttons.js',
-    'Components/AnswerCard.js',
-    'Components/SetupMenu.js',
-    'Components/ExerciseState.js']);
+}, ['/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
+    'Components/SetupMenu.js',          //右上角的设置项菜单 
+    'Components/AnswerSheet.js',        //答题卡
+    'Components/QuesArea.js',           //试题区域
+    '/Utilities/Components/question/exercise.js',           //单个试题的展示
+    //'Components/PromptPanel.js',        //刚打开时的提示面板，手式操作的指引
+    'Components/Quesbuttons.js',        //试题右上角的按钮，报错、笔记、收藏
+    'Components/ExerciseState.js'       //记录学习状态
+]);

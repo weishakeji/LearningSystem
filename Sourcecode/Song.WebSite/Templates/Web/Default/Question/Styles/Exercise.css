@@ -23,21 +23,6 @@ html, body, #vapp {
 	user-select: none;
 }
 
-input, textarea {
-	-webkit-user-select: auto;
-	/*webkit浏览器*/
-}
-
-.van-overlay {
-	background-color: rgba(0, 0, 0, 0.3);
-}
-
-card-title.error a {
-	float: right;
-}
 
 
-.van-loading {
-	text-align: center;
-	padding: 20px;
-}
+
