@@ -25,22 +25,20 @@
     <template v-else>
       <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>
       <template remark="顶部栏">
-        <van-row class="topBox">
-          <van-col span="7" class="btntop">
+        <div class="topBox">
+          <div class="btntop">
             <a icon="&#xe748" :href="'course?couid='+couid"></a>
             <a icon="&#xa020" href="/mobi/"></a>
             <a icon="&#xe813" @click="showCourse=true"></a>
-          </van-col>
-          <van-col span="7" :noques="!isques">
+          </div>
+          <div :noques="!isques">
             <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
-          </van-col>
-          <van-col span="8">
+          </div>
+          <div>
             <learnmode @change="v=>learnmode=v"></learnmode>
-          </van-col>
-          <van-col span="2" @click="()=>{$refs['setupmenu'].show=true}">
-            <icon>&#xa038</icon>
-          </van-col>
-        </van-row>
+            <icon @click="()=>{$refs['setupmenu'].show=true}">&#xa038</icon>
+          </div>
+        </div>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
         <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
           <template v-if="iscourse">

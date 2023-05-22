@@ -55,6 +55,8 @@ card-title.error a {
 	font-size: 14px;
 	line-height: 45px;
 	text-align: center;
+	display: flex;
+	justify-content: space-between;
 }
 
 .topBox *[icon]::before, .topBox icon {
@@ -64,6 +66,7 @@ card-title.error a {
 
 .topBox>.btntop {
 	display: flex;
+	width: 100px;
 }
 
 .topBox>.btntop>* {
@@ -72,7 +75,14 @@ card-title.error a {
 	line-height: 45px;
 	font-size: 18px;
 }
-
+.topBox>div:last-child {
+	display: flex;
+	width: 150px;
+}
+.topBox>div:last-child>icon{
+	 display: block;
+	 width: 40px;
+}
 .topBox a {
 	text-decoration: none;
 }

@@ -1,64 +1,96 @@
-section dd {
+dl.quesArea dd {
 	width: 100vw;
+	height: 100%;
 	line-height: 150%;
+	float: left;
+	position: relative;
+
 }
 
-section dd info {
-	display: block;
-	padding: 15px 15px 0px 15px;
+/*试题加载错误*/
+dl.quesArea dd .error {
+	margin: 20px;
+}
+
+dl.quesArea dd alert {
+	margin-top: 20px;
+	display: inline-block;
+	font-size: 16px;
+}
+
+dl.quesArea dd info {
+	display: flex;
+	justify-content: space-between;
+	padding: 15px 10px 0px 10px;
 	margin: 0px 0px 0px 10px;
 	font-size: 15px;
 }
 
+dl.quesArea dd info span i {
+	font-size: 14px;
+	font-style: normal;
+}
 
-section dd info buttons {
+dl.quesArea dd info buttons {
 	display: flex;
 	float: right;
 	max-width: 50%;
-	min-width: 180px;
+	min-width: 160px;
 }
 
-section dd info buttons>* {
+dl.quesArea dd info buttons>* {
 	flex: 1;
 	text-align: center;
 	font-size: 13px;
 	color: #999;
 }
 
-section dd info buttons>btn i {
+dl.quesArea dd info buttons>btn i {
 	font-family: "webdesk_icon" !important;
 	margin-right: 1px;
 	font-style: normal;
 }
 
-section dd info buttons>btn.used {
+dl.quesArea dd info buttons>btn.used {
 	color: #000;
 	font-weight: bold;
 }
 
-section dd card-title, section dd card-title p, card-title span, card-title font {
+dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 18px;
 }
-section dd card-title{
+
+dl.quesArea dd card-title {
 	word-break: break-all;
 }
+
 .explain, .explain p, .explain span, .explain font,
 .knowledge, .knowledge p, .knowledge span, .knowledge font {
 	line-height: 150%;
 	font-size: 18px;
 }
 
+/*答对的样式*/
+dl.quesArea dd card[correct="succ"] {
 
-section dd card[correct="succ"] {
-	background-color: #E8FFE8 !important;
+	border: 1px solid rgb(194, 220, 247) !important;
+	box-shadow: 0 2px 12px 0 rgba(194, 220, 247, .8) !important;
 }
 
-section dd card[correct="error"] {
+dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+	background: rgb(217, 236, 255) !important;
+}
+/*答错的样式*/
+dl.quesArea dd card[correct="error"] {	
+	border: 1px solid #fcdcd5 !important;
+	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%) !important;
+}
+dl.quesArea dd card[correct="error"], card[correct="error"] * {
 	background-color: #FFECE8 !important;
+	color: #333 !important;
 }
-
-section dd img {
+dl.quesArea dd img {
 	max-width: 100% !important;
 	height: auto;
 }
@@ -66,16 +98,15 @@ section dd img {
 /*试题选项*/
 
 .ans_area {
-	margin-left: 5px;
 	font-size: 18px;
 }
 
 .ans_area>div {
 	position: relative;
-	margin: 10px;
+	margin: 15px 15px 15px 10px;
 }
 
-card[qid] .ans_area i {
+.ans_area i {
 	font-style: normal;
 	margin-right: 10px;
 	white-space: nowrap;
@@ -124,15 +155,15 @@ card[qid] .ans_area i {
 }
 
 /*判断题*/
-card[qid] .type3 {
+.type3 {
 	display: flex;
 }
 
-card[qid] .type3>div:first-child {
+.type3>div:first-child {
 	margin-right: 40px;
 }
 
-card[qid] .type3>div i::before {
+.type3>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e603';
 	font-style: normal;
@@ -140,7 +171,7 @@ card[qid] .type3>div i::before {
 	font-size: 22px;
 }
 
-card[qid] .type3>div[selected] i::before {
+.type3>div[selected] i::before {
 	content: '\e78b';
 }
 
@@ -171,13 +202,13 @@ card[qid] .type3>div[selected] i::before {
 	padding: 5px 15px;
 }
 
-section textarea {
+dl.quesArea textarea {
 	width: calc(100% - 22px);
 	padding: 10px;
 }
 
 /*提交的按钮*/
-.type2 button, .type4 button, .type5 button {	
+.type2 button, .type4 button, .type5 button {
 	height: 35px;
 	color: #409eff;
 	background: #ecf5ff;
@@ -201,6 +232,10 @@ section textarea {
 	border-radius: 4px;
 }
 
+.type5 button {
+	float: right;
+	margin-right: 8px;
+}
 
 #vapp[view='night'] *:not([noview]) {
 	background-color: #222222;
@@ -209,25 +244,34 @@ section textarea {
 
 #vapp[view='cosy'] *:not([noview]) {
 	background-color: #eaf8ec;
-	color: #222222;
+	color: #459651;
 }
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	section {
+	dl.quesArea {
 		overflow: hidden;
 	}
 
-	section dd {
+	dl.quesArea dd {
 		width: 100vw;
 		height: 100%;
-		overflow: auto;
 	}
-	table{
+
+	dl.quesArea dd section {
+		overflow-y: auto;
+		margin-bottom: 50px;
+		padding-bottom: 50px;
+		box-sizing: border-box;
+		height: calc(100% - 40px);
+	}
+
+	table {
 		overflow: auto;
 		width: 100% !important;
 	}
-	td{
+
+	td {
 		word-break: break-all;
 	}
 }

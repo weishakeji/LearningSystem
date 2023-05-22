@@ -1143,12 +1143,9 @@
     <Content Include="Templates\Mobi\Default\Notice\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Notice\Styles\Detail.css" />
     <Content Include="Templates\Mobi\Default\Notice\Styles\Index.css" />
-    <Content Include="Templates\Mobi\Default\Question\Exercises.html" />
-    <Content Include="Templates\Mobi\Default\Question\Scripts\Exercises.js" />
     <Content Include="Templates\Mobi\Default\Question\Styles\Collects.css" />
     <Content Include="Templates\Mobi\Default\Question\Styles\Notes.css" />
     <Content Include="Templates\Mobi\Default\Question\Styles\Error.css" />
-    <Content Include="Templates\Mobi\Default\Question\Styles\Exercises.css" />
     <Content Include="Templates\Mobi\Default\Reference\Cache_Test.html" />
     <Content Include="Templates\Mobi\Default\Reference\Demo.html" />
     <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Test.js" />

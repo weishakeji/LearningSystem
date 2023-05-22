@@ -100,7 +100,7 @@ $ready(function () {
                                 th.$refs['quesarea'].setindex(null, index);
                                 if (th.data.num > 0) {
                                     let span = new Date().getTime() - th.starttime.getTime();
-                                    span = span / 1000
+                                    span = span / 1000;
                                     th.$toast.success({
                                         message: '试题加载成功\n 用时 ' + span.toFixed(2) + ' 秒',
                                         duration: 1500
@@ -172,7 +172,7 @@ $ready(function () {
     'Components/SetupMenu.js',          //右上角的设置项菜单 
     'Components/AnswerSheet.js',        //答题卡
     'Components/QuesArea.js',           //试题区域
-    'Components/Question.js',           //单个试题的展示
+    '/Utilities/Components/question/exercise.js',           //单个试题的展示
     'Components/PromptPanel.js',        //刚打开时的提示面板，手式操作的指引
     'Components/Quesbuttons.js',        //试题右上角的按钮，报错、笔记、收藏
     'Components/ExerciseState.js'       //记录学习状态

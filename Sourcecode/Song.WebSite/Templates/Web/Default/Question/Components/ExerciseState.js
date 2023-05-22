@@ -16,6 +16,10 @@
     };
     var fn = state.prototype;
     fn.loading = false;
+    //答题后记录到服务器的相关参数，每隔一时间记录一次，当只剩一小部分时，实时记录
+    fn.update_time = new Date();      //递交到服务器的时间
+    fn.update_interval = 5;      //更新到服务器的时间间隔，单位分钟
+    fn.update_residue = 10;      //当剩下指定数量的试题后，实时递交到服务器
     //试题集信息，作为存储在localstorage的数据
     fn.data = {
         items: new Array(),
@@ -29,7 +33,7 @@
         },*/
         //一些数值         
         count: {
-            sum: 0,          //总题数
+            num: 0,          //总题数
             answer: 0,      //答题数量
             correct: 0,     //正确数
             wrong: 0,           //错误数
@@ -43,7 +47,7 @@
         this.data = new Object();
         this.data.items = new Array();
         this.data.current = null;
-        this.data.count = { answer: 0, correct: 0, rate: 0, sum: 0, wrong: 0 };
+        this.data.count = { answer: 0, correct: 0, rate: 0, num: 0, wrong: 0 };
         return this.data;
     };
     //获取一个item项
@@ -52,7 +56,7 @@
         if (!this.data) return {};
         var item = null;
         for (var j = 0; j < this.data.items.length; j++) {
-            if (qid == this.data.items[j].qid) {
+            if (qid === this.data.items[j].qid) {
                 item = this.data.items[j];
                 break;
             }
@@ -72,6 +76,7 @@
         if (qid == null) return this.data.current;
         var item = this.getitem(qid, index);
         item.time = new Date();
+        item.index = index;
         this.data.current = item;
         this.update(false);
         return item;
@@ -97,14 +102,10 @@
             }
             arr.push(state);
         }
-        var count = {
-            sum: items.length,
-            answer: number,
-            correct: correct,
-            wrong: wrong,
-            rate: Math.round(correct / items.length * 10000) / 100
-        }
-        this.data.count = count;
+        this.data.count['answer'] = number;
+        this.data.count['correct'] = correct;
+        this.data.count['wrong'] = wrong;
+        this.data.count['rate'] = items.length > 0 ? Math.round(correct / items.length * 10000) / 100 : 0;
         this.data.items = arr;
         this.write(toserver);
         return this.data;
@@ -116,10 +117,20 @@
         return new Promise(function (resolve, reject) {
             $api.storage(th.keyname, th.data);
             if (!toserver) return resolve(th.data);
+
+            //是否递交到服务器
+            //条件一，少于指定数量
+            let residue = (th.data.count.num - th.data.count.answer) <= th.update_residue;
+            //条件二，答题时间大于指定间隔
+            let span = (new Date()).getTime() - th.update_time.getTime() > th.update_interval * 60 * 1000;
+            if (!(residue || span)) return;
+
             //保存到服务器 
+            if (th.olid == 0 || th.olid == '0') return;
             var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
             $api.post('Question/ExerciseLogSave', para).then(function (req) {
                 if (req.data.success) {
+                    th.update_time = new Date();
                     resolve(req.data.result);
                 } else {
                     console.error(req.data.exception);
@@ -129,6 +140,25 @@
                 reject(err);
             });
         });
+    };
+    //保存到服务器
+    fn.toserver = function () {
+        if (this.olid == 0 || this.olid == '0') return;
+        var th = this;
+        //保存到服务器 
+        var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid, 'json': th.data };
+        $api.post('Question/ExerciseLogSave', para).then(function (req) {
+            if (req.data.success) {
+                //resolve(req.data.result);
+                console.log('保存学习记录到服务器');
+            } else {
+                console.error(req.data.exception);
+                throw req.config.way + ' ' + req.data.message;
+            }
+        }).catch(function (err) {
+            console.error(err);
+        });
+
     };
     //清除当前页面下的记录
     //delserver:是否删除服务端
@@ -153,10 +183,35 @@
             });
         });
     };
+    //删除某一个试题的记录
+    fn.del = function (qid) {
+        if (!this.data) return {};
+        var item = null;
+        for (var j = 0; j < this.data.items.length; j++) {
+            if (qid === this.data.items[j].qid) {
+                item = this.data.items[j];
+                this.data.items.splice(j, 1);
+                break;
+            }
+        }
+        if (item == null) return;
+        this.update(false);
+        this.data.count.num = this.data.items.length;
+    };
     //将记录的答题信息，还原到界面
-    fn.restore = function () {
+    //queslist:当前加载的试题,试题id列表
+    fn.restore = function (queslist) {
+        var total = 0;
+        //计算试题总数，有可能学习记录的数量与实际数量不符
+        if (queslist != null) {
+            for (let ty in queslist) total += queslist[ty].length;
+        }
         var th = this;
-        var localdata = th.gettolocal();
+        //获取本地学习记录
+        var localdata = $api.storage(th.keyname);
+        if (localdata == null) localdata = th.data_init();
+        if (total > 0) localdata.count.num = total;
+        th.data = localdata;
         //获取服务端的数据
         if (th.acid <= 0) return;
         var para = { 'acid': th.acid, 'couid': th.couid, 'olid': th.olid };
@@ -165,33 +220,49 @@
                 if (req.data.success) {
                     var result = req.data.result;
                     var json = $api.parseJson(result.Lse_JsonData);
-                    var statedate = null;
+                    var statedata = null;
                     if (localdata.current == null || localdata.current.time == null) {
-                        statedate = json;
+                        statedata = json;
                     } else {
-                        statedate = json.current.time > localdata.current.time ? json : localdata;
+                        statedata = json.current.time > localdata.current.time ? json : localdata;
                     }
-                    th.data = statedate;
-                    resolve(statedate);
+                    if (total > 0) statedata.count.num = total;
+                    th.data = statedata;
+                    resolve(statedata);
                 } else {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
+                if (total > 0) localdata.count.num = total;
                 th.data = localdata;
                 reject(localdata);
             });
         });
     };
     //读取本地记录
-    fn.gettolocal = function () {
-        var data = $api.storage(this.keyname);
-        if (data == null) data = this.data_init();
-        if (typeof data == "string") return null;
-        if (typeof data == "object") return data;
-        return data;
+    //queslist:当前加载的试题,试题id列表
+    fn.gettolocal = function (queslist) {
+        var total = 0;
+        //计算试题总数，有可能学习记录的数量与实际数量不符
+        if (queslist != null) {
+            for (let ty in queslist) total += queslist[ty].length;
+        }
+        var th = this;
+        return new Promise(function (resolve, reject) {
+            var data = $api.storage(th.keyname);
+            if (data == null) data = th.data_init();
+            if (typeof data == "string") return null;
+            if (typeof data == "object") {
+                if (total > 0) data.count.num = total;
+                th.data = data;
+                resolve(data);
+            }
+        });
+
     };
     //从服务端获取练习记录
     fn.gettoserver = function () {
+
         var para = { 'acid': this.acid, 'couid': this.couid, 'olid': this.olid };
         return new Promise(function (resolve, reject) {
             $api.get('Question/ExerciseLogGet', para).then(function (req) {
