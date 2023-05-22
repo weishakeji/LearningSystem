@@ -89,9 +89,9 @@ Vue.component('outline_row', {
     //获取试题，用于练习之前的预载
     getquestions: function (outline) {
       if (outline.Ol_QuesCount < 1) return;
-      var th = this;
-      var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
-      $api.cache('Question/ForCourse:' + (60 * 24 * 30), form).then(function (req) {
+      var th = this;    
+      let para = { 'couid': outline.Cou_ID, 'olid':outline.Ol_ID, 'type': -1, 'count': 0 };
+      $api.cache('Question/Simplify:' + (60 * 24 * 30), para).then(function (req) {
         if (req.data.success) {
           var result = req.data.result;
           th.preload = true;
