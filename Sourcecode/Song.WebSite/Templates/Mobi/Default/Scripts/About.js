@@ -4,8 +4,10 @@ $ready(function () {
         el: '#vapp',
         data: {
             platinfo: {},
-            organ: {},
-            config: {},      //当前机构配置项     
+            org: {},
+            config: {},      //当前机构配置项   
+            account: {},
+
             editon: {},     //商业版权信息
             version: {},      //版本信息
             copyright_items: [],       //版权信息，来自copyright.xml
@@ -18,21 +20,14 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Platform/Version'),
-                $api.post('Platform/Edition'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
+                $api.post('Platform/Edition'), 
                 $api.cache('Copyright/Datas')
-            ).then(axios.spread(function (ver, editon, platinfo, organ, copyright) {
+            ).then(axios.spread(function (ver, editon, copyright) {
                 th.loading_init = false;
                 //获取结果     
                 th.version = ver.data.result;
-                th.editon = editon.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
+                th.editon = editon.data.result;            
                 th.copyright_items = copyright.data.result;
-
                 th.builbrowser();
             })).catch(function (err) {
                 console.error(err);
@@ -41,11 +36,7 @@ $ready(function () {
         created: function () {
 
         },
-        computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+        computed: {           
             //当前年份
             year: function () {
                 var date = new Date();

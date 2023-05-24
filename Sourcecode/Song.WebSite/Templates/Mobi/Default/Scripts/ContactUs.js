@@ -11,36 +11,20 @@
         el: '#vapp',
         data: {
             center: { lng: 0, lat: 0 },
+            account: {},
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项      
-            loading_init: true
+
         },
         mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                th.loading_init = false;
-                //获取结果              
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
 
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
 
         },
         computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+          
         },
         watch: {
         },
@@ -50,8 +34,8 @@
                 //this.center.lng = 116.404
                 //this.center.lat = 39.915
                 this.center = {
-                    lng: Number(this.organ.Org_Longitude),
-                    lat: Number(this.organ.Org_Latitude)
+                    lng: Number(this.org.Org_Longitude),
+                    lat: Number(this.org.Org_Latitude)
                 }
                 this.zoom = 15
             }
