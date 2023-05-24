@@ -46,7 +46,7 @@ Vue.component('question', {
         },
         'fontsize': function (nv, ov) {
             if (this.init)
-                this.setfontsize(nv - ov);          
+                this.setfontsize(nv - ov);
         }
     },
     computed: {
@@ -196,9 +196,10 @@ Vue.component('question', {
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
+            if (correct == null) return;
+            //
             this.state.index = this.index;
             this.$emit('answer', this.state, this.ques);
-            if (correct == null) return;
             if (!correct) {
                 let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
                 if (acid <= 0) return;
@@ -220,7 +221,8 @@ Vue.component('question', {
         //items:当前试题的所有选项
         //judge: 是否立判断对错，true为判断
         doing_type1: function (ans, ques, judge) {
-            var items = ques.Qus_Items;
+            if (this.state['ans'] == String(ans.selected ? ans.Ans_ID : 0)) return null;
+            let items = ques.Qus_Items;
             for (let i = 0; i < items.length; i++) {
                 if (items[i].Ans_ID == ans.Ans_ID) continue;
                 items[i].selected = false;
@@ -231,7 +233,6 @@ Vue.component('question', {
             this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //多选题的选择
@@ -247,6 +248,7 @@ Vue.component('question', {
                 if (items[i].selected) ans_ids.push(items[i].Ans_ID);
                 if (items[i].Ans_IsCorrect) correct_arr.push(items[i]);
             }
+            if (this.state['ans'] == ans_ids.join(',')) return;
             if (judge == null || !judge) return;
             //判断是否正确
             var correct = true;
@@ -272,43 +274,40 @@ Vue.component('question', {
             this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct) this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
             return correct;
         },
         //判断题的选择,logic为true或false
         doing_type3: function (logic, ques, judge) {
-            if (ques.Qus_Answer == String(logic)) {
-                ques.Qus_Answer = '';
-            } else {
-                ques.Qus_Answer = String(logic);
-            }
-            var correct = ques.Qus_IsCorrect == logic;
-            this.state['ans'] = String(logic);
+            let ans = String(logic).toLowerCase();
+            if (this.state['ans'] == ans) return null;
+            ques.Qus_Answer = ques.Qus_Answer == ans ? '' : ans;
+            let correct = ques.Qus_IsCorrect == logic;
+            this.state['ans'] = ans;
             this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
             if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //简答题
         doing_type4: function (ans, ques, judge) {
-            var correct = this.state.ans == ques.Qus_Answer;
+            let answer = ques.Qus_Answer.replace(/<[^>]+>/g, '').trim();
+            let correct = this.state.ans == answer;
             this.state['ans'] = this.state.ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //填空题
         doing_type5: function (ans, ques, judge) {
-            var ansstr = [];
-            var correct = true;
+            let ansstr = [];
+            let correct = true;
             for (let i = 0; i < ques.Qus_Items.length; i++) {
                 ansstr.push(ques.Qus_Items[i].answer);
                 if (ques.Qus_Items[i].Ans_Context != ques.Qus_Items[i].answer) {
                     correct = false;
                 }
             }
+            if (this.state['ans'] == ansstr.join(',')) return null;
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
@@ -357,8 +356,8 @@ Vue.component('question', {
                         </div>
                     </div>
                     <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                        <textarea rows="10" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
-                        <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
+                        <textarea rows="5" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
+                        <button type="primary" @click="ques_doing(state.ans,ques)">提交答案</button>
                     </div>
                     <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                         <div v-for="(ans,i) in ques.Qus_Items">                   
