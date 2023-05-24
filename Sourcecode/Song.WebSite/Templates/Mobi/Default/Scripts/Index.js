@@ -5,8 +5,9 @@ $ready(function () {
         data: {
             platinfo: {},
             account: {},     //当前登录账号
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项
+            
             showpic: [],        //轮换图片
             notice: [],          //通知公告
             menus: [],        //主导航菜单
@@ -16,44 +17,8 @@ $ready(function () {
             loading: true,
             loading_init: false
         },
-        mounted: function () {           
-            var th = this;
-            th.loading_init = true;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:300'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //vapp.organ.Org_Logo = '';
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                //轮换图片，通知公告,自定义菜单项，专业
-                var orgid = th.organ.Org_ID;
-                th.loading=true;
-                $api.bat(
-                    $api.cache('Showpic/Mobi:60', { 'orgid': orgid }),
-                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 10 }),
-                    $api.cache('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
-                    $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
-                ).then(axios.spread(function (showpic, notice, menus, subject) {
-                    th.loading = false;
-                    //获取结果
-                    th.showpic = showpic.data.success ? showpic.data.result : [];
-                    th.notice = notice.data.success ? notice.data.result : [];
-                    th.menus = menus.data.success ? menus.data.result : [];
-                    th.subject = subject.data.success ? subject.data.result : [];
-                })).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+        mounted: function () {
+            
         },
         created: function () {
         },
@@ -63,8 +28,29 @@ $ready(function () {
             'platinfo': function (nv, ov) {
                 //document.title = nv.title;
             },
-            'organ': function (nv, ov) {    
-                document.title = nv.Org_PlatformName;
+            'org': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    document.title = nv.Org_PlatformName;
+                    var th = this;
+                    th.loading_init = false;
+                    //轮换图片，通知公告,自定义菜单项，专业
+                    var orgid = nv.Org_ID;
+                    th.loading = true;
+                    $api.bat(
+                        $api.cache('Showpic/Mobi:60', { 'orgid': orgid }),
+                        $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 10 }),
+                        $api.cache('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
+                        $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
+                    ).then(axios.spread(function (showpic, notice, menus, subject) {
+                        //获取结果
+                        th.showpic = showpic.data.result;
+                        th.notice = notice.data.success;
+                        th.menus = menus.data.success;
+                        th.subject = subject.data.success;
+                    })).catch(err => console.error(err))
+                        .finally(() => th.loading = false);;
+                }, immediate: true
             },
             'menus': function (nv, ov) {
                 var len = nv.length;

@@ -876,6 +876,8 @@
                 //加载vue组件
                 arr2.push(webdom.path() + 'Components/footer_menu.js');
                 arr2.push(webdom.path() + 'Components/aside_menu.js');
+                //通用组件，用于获取学员登录，机构信息等
+                arr2.push(webdom.path() + 'Components/generic.js');
                 window.$dom.load.js(arr2, f);
             });
         });

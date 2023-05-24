@@ -11,8 +11,9 @@
 <body>
 
     <div id="vapp" v-cloak>
+        <generic  @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <header>
-            <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
+            <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />
             <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
             <van-search v-model="search" placeholder="请输入搜索关键词" background="transparent" show-action>
                 <template #action>
@@ -64,9 +65,9 @@
                 </van-swipe>
             </template>
             <template remark="课程列表">
-                <courses :sbjid="0" title="推荐课程" :orgid="organ.Org_ID" :config="config" count="6"></courses>
+                <courses :sbjid="0" title="推荐课程" :orgid="org.Org_ID" :config="config" count="6"></courses>
                 <template v-if="true">
-                    <courses v-for="item in subject" :sbjid="item.Sbj_ID" :title="item.Sbj_Name" :orgid="organ.Org_ID"
+                    <courses v-for="item in subject" :sbjid="item.Sbj_ID" :title="item.Sbj_Name" :orgid="org.Org_ID"
                         :config="config" count="4">
                     </courses>
                 </template>
@@ -76,7 +77,7 @@
             </van-divider>
         </div>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
         <popup-notice forpage="mobi_home" remark="通知公告的弹出"></popup-notice>
     </div>
 
