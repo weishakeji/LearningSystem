@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-loading type="spinner" class="loading_init" v-if="loading.init" size="24px">加载初始数据...</van-loading>
         <template v-else>
             <header>

@@ -10,6 +10,7 @@
 <body>
     <input id="upload_qrcode" type="file" accept="image/*;" capture="user" style="display: none;" />
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <context>
             <van-sticky>
                 <page_header title="学习卡" icon="&#xe685" :fresh="true"></page_header>
@@ -159,7 +160,7 @@
             <carddetail :card="currentcard"></carddetail>
         </van-popup>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

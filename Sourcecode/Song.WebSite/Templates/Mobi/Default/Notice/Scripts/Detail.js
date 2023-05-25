@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项          
 
             sear_str: '',
@@ -18,21 +18,7 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            th.loading = true;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            th.loading = true;    
             //通知公告
             $api.cache('Notice/ForID', { 'id': this.id }).then(function (req) {
                 th.loading = false;

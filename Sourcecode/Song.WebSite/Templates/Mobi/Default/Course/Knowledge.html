@@ -10,6 +10,7 @@
 <body>
     <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <knl_header></knl_header>
         <div class="context">
             <van-sticky :offset-top="44">

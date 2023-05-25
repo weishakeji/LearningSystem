@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
             datas: {},
             tabmenu: 'my_exam',     //选项卡
@@ -28,34 +28,23 @@ $ready(function () {
             scoreexam: []           //成绩回顾
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                //加载数据
-                vapp.my_exam();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            
         },
         created: function () {
 
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.my_exam();               
+                    this.loading_init = false;
+                }, immediate: true
+            },
             tabmenu: function (nv, ov) {
                 if (nv == ov) return;
                 this.index = 0;
@@ -107,7 +96,7 @@ $ready(function () {
             all_exam: function () {
                 var th = this;
                 var form = {
-                    'orgid': this.organ.Org_ID, 'start': '', 'end': '', 'search': th.search.all_exam,
+                    'orgid': this.org.Org_ID, 'start': '', 'end': '', 'search': th.search.all_exam,
                     'size': this.size, 'index': ++this.index
                 }
                 this.loading = true;

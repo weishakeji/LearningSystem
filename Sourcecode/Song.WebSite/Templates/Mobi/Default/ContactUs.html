@@ -3,13 +3,13 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="inc/meta.inc" />   
+    <include file="inc/meta.inc" />
     <title>联系我们</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <generic  @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <context>
             <van-sticky>
                 <page_header title="联系我们" icon="&#xe766" :fresh="false"></page_header>
@@ -35,18 +35,9 @@
                 </van-cell>
             </van-cell-group>
             <baidumap></baidumap>
-
-
-
-
         </context>
     </div>
-
-    <div id="map">
-
-    </div>
-
-
+    <div id="map"> </div>
 </body>
 
 </html>

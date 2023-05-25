@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项
 
             loading: true,
@@ -13,7 +13,8 @@ $ready(function () {
 
         },
         mounted: function () {
-            var th=this;
+            /*
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -23,64 +24,32 @@ $ready(function () {
                 //获取结果
                 th.account = account.data.result;
                 if (th.account)
-                th.account.Ac_Sex = String(th.account.Ac_Sex);
+                    th.account.Ac_Sex = String(th.account.Ac_Sex);
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 //机构配置信息
-                th.config = $api.organ(th.organ).config;                
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
-            });
+            });*/
         },
         created: function () {
 
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
-
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.account.Ac_Sex = String(nv.Ac_Sex);
+                    this.loading = false;
+                }, immediate: true
+            },
         },
-        methods: {
-            //获取当前登录账号
-            getAccount: function (func) {
-                var th = this;
-                th.loading_init = true;
-                $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
-                    if (req.data.success) {
-                        th.account = req.data.result;
-                        if (func != null) func(th.account);
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
-            },
-            //打开弹窗
-            openbox: function (url, title, icon, width, height) {
-                var pathname = window.location.pathname;
-                if (pathname.indexOf('/') > -1)
-                    url = pathname.substring(0, pathname.lastIndexOf('/') + 1) + url;
-                var obj = {};
-                obj = {
-                    'url': url, 'ico': icon, 'title': title,
-                    'pid': window.name, 'showmask': true, 'min': false, 'max': false,
-                    'width': width ? width : 600, 'height': height ? height : 400
-                }
-                if (window.top.$pagebox)
-                    window.top.$pagebox.create(obj).open();
-            },
-            //刷新页面
-            fresh: function () {
-                window.location.reload();
-            },
+        methods: {            
             //是否绑定
             isbind: function (tag) {
                 let field = 'Ac_' + tag;
@@ -106,9 +75,7 @@ $ready(function () {
                         console.error(err);
                     }).finally(() => th.loading_bind = '');
                 }).catch(function () { });
-
             }
-
         }
     });
     //第三方平台的绑定信息
@@ -130,9 +97,7 @@ $ready(function () {
         },
         computed: {
             //是否存在
-            isexist: function () {
-                return JSON.stringify(this.data) != '{}' && this.data != null;
-            }
+            isexist: t => { return !$api.isnull(t.data); }
         },
         mounted: function () { },
         methods: {

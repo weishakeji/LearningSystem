@@ -10,6 +10,7 @@
 <body>
     <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp">
+        <generic @login="acc=>account = acc"></generic>
         <!--侧滑菜单部分-->
         <outline_tree ref="outline_tree" :course="course" :outlines="outlines" :videolog="videolog" :studied="studied"
             :owned="owned" @change="n=>outline=n"></outline_tree>

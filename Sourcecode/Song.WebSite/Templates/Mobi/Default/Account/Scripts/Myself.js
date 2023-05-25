@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项
             //用于修改密码
             password: {
@@ -19,42 +19,12 @@ $ready(function () {
             activeNames: []
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading = false;
-                //获取结果
-                vapp.account = account.data.result;
-                if (vapp.account)
-                    vapp.account.Ac_Sex = String(vapp.account.Ac_Sex);
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                if (vapp.account != null) {
-                    $api.cache('Share/FriendAll:3', { 'acid': vapp.account.Ac_ID }).then(function (req) {
-                        if (req.data.success) {
-                            vapp.friendsAll = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    });
-                }
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
-
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
             //提交信息中的状态变更
@@ -65,36 +35,54 @@ $ready(function () {
                         forbidClick: true,
                     });
                 }
-            }
+            },
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.account.Ac_Sex = String(nv.Ac_Sex);
+                    var th = this;
+                    $api.cache('Share/FriendAll:3', { 'acid': th.account.Ac_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.friendsAll = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    });
+                    this.loading = false;
+                }, immediate: true
+            },
         },
         methods: {
             update: function () {
-                vapp.uploading = true;
-                $api.post('Account/ModifySelf', { 'acc': this.account }).then(function (req) {
-                    vapp.uploading = false;
+                var th = this;
+                th.uploading = true;
+                $api.post('Account/ModifySelf', { 'acc': th.account }).then(function (req) {
+                    th.uploading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({ type: 'success', message: '修改成功' });
+                        th.$notify({ type: 'success', message: '修改成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$notify({ type: 'danger', message: err });
+                    th.$notify({ type: 'danger', message: err });
                     console.error(err);
                 });
             },
             changePw: function () {
+                var th = this;
                 $api.post('Account/ModifyPassword', { 'oldpw': this.password.oldpw, 'newpw': this.password.newpw }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({ type: 'success', message: '密码修改成功' });
+                        th.$notify({ type: 'success', message: '密码修改成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$notify({ type: 'danger', message: err });
+                    th.$notify({ type: 'danger', message: err });
                     console.error(err);
                 });
             },

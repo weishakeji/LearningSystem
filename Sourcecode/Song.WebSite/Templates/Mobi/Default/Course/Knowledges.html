@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <knl_header ref='knlheader'></knl_header>
 
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">

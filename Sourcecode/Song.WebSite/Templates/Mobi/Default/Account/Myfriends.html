@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-sticky>
 
             <icon>&#xe635</icon>我的朋友
@@ -117,7 +118,7 @@
         <van-popup v-model="show_share" class="show_box" id="show_share">          
         </van-popup>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

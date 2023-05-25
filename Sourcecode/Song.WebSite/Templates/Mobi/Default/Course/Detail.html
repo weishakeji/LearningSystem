@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <div class="loading" v-if="loading"></div>
         <div class="photo">
             <img src="/Utilities/Images/cou_nophoto.jpg" v-if="course.Cou_Logo==''" />

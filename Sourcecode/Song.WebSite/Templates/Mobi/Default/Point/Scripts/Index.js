@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项       
             loading: false,
             loading_init: true,
@@ -17,21 +17,15 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
-                $api.get('Point/Param')
-            ).then(axios.spread(function (account, platinfo, organ, param) {
-                th.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                th.param = param.data.result;
-            })).catch(function (err) {
+            $api.get('Point/Param').then(function (req) {
+                if (req.data.success) {
+                    th.param  = req.data.result;                  
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
                 console.error(err);
             });
         },
@@ -40,11 +34,14 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                }, immediate: true
+            },
             'point_input': function (nv, ov) {
                 if (nv == '') {
                     this.tips = '';

@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项    
 
             couid: 0,
@@ -80,9 +80,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
             'showbtn': function (nv, ov) {

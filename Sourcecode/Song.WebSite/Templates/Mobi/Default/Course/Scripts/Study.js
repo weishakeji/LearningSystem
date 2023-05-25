@@ -32,10 +32,8 @@ $ready(function () {
             }
         },
         computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+           //是否登录
+           islogin: (t) => { return !$api.isnull(t.account); },
         },
         created: function () {
             var th = this;

@@ -9,6 +9,7 @@
 
 <body>
   <div id="vapp" v-cloak>
+    <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
     <div class="header" :login="islogin">
       <van-row>
         <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="window.location.href=commonaddr('signin')">
@@ -89,7 +90,7 @@
       </template>
     </template>
     <aside_menu ref='aside_menu' :account="account"></aside_menu>
-    <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    <footer_menu ref='footer_menu' :organ="org"></footer_menu>
   </div>
 
 

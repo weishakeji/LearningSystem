@@ -47,10 +47,8 @@ $ready(function () {
 
         },
         computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+             //是否登录
+             islogin: (t) => { return !$api.isnull(t.account); },
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
             questions: function () {

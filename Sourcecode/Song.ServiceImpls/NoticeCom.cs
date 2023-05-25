@@ -130,7 +130,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>();
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>();
         }
 
         public Notice[] GetCount(int orgid, int type, bool? isShow, int count)
@@ -140,7 +140,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (type > 0) wc &= Notice._.No_Type == type;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(count);
         }
         /// <summary>
         /// 取具体的数量
@@ -178,7 +178,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             countSum = Gateway.Default.Count<Notice>(wc);
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(size, (index - 1) * size);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(size, (index - 1) * size);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Song.ServiceImpls
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
             if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Notice._.No_Ttl.Like("%" + searTxt + "%"));
             countSum = Gateway.Default.Count<Notice>(wc);
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(size, (index - 1) * size);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(size, (index - 1) * size);
         }
         /// <summary>
         /// 获取通知公告
@@ -222,7 +222,7 @@ namespace Song.ServiceImpls
                 DateTime date = ((DateTime)time).Date;
                 wc &= Notice._.No_StartTime <= date && Notice._.No_EndTime >= date;
             }
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(count);
         }
 
 

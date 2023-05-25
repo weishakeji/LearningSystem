@@ -5,7 +5,7 @@
             tpid: $api.querystring('tpid', 0),
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项 
 
             paper: {},           //试卷信息           
@@ -43,19 +43,11 @@
         },
         mounted: function () {
             var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current'),
+            $api.bat(           
                 $api.cache('Question/Types:9999'),
                 $api.get('TestPaper/ForID', { 'id': this.tpid })
-            ).then(axios.spread(function (account, platinfo, organ, type, paper) {
-                vapp.loading.init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
+            ).then(axios.spread(function (type, paper) {
+                th.loading.init = false;  
                 //考试相关
                 th.types = type.data.result;
                 th.paper = paper.data.result;

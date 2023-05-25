@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项          
             loading: true,
 
@@ -20,24 +20,6 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                //获取结果
-                th.account = account.data.result;
-                if (th.account && !!th.account.Ac_ID)
-                    th.query.acid = th.account.Ac_ID;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                th.tabChange(null, 'purchased');
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
             //默认图片
@@ -46,11 +28,17 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); },
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.query.acid = nv.Ac_ID;
+                    this.tabChange(null, 'purchased');
+                    this.loading = false;
+                }, immediate: true
+            },
         },
         methods: {
             login: function () {

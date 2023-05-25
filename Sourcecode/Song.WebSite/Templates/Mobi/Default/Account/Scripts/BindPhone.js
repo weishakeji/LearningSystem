@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项
 
             form: {
@@ -30,35 +30,16 @@ $ready(function () {
 
         },
         mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading = false;
-                //获取结果
-                th.account = account.data.result;
-                if (th.account) th.form.phone = th.account.Ac_MobiTel1;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
 
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
 
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             //是否绑定手机号了
-            isbind: function () {
-                return this.account.Ac_MobiTel1!='' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
-            }
+            isbind: (t) => { return t.account.Ac_MobiTel1 != '' && t.account.Ac_MobiTel1 == t.account.Ac_MobiTel2; }
         },
         watch: {
             //提交信息中的状态变更
@@ -69,7 +50,14 @@ $ready(function () {
                         forbidClick: true,
                     });
                 }
-            }
+            },
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.form.phone = this.account.Ac_MobiTel1;
+                    this.loading = false;
+                }, immediate: true
+            },
         },
         methods: {
             //取消绑定
@@ -166,7 +154,7 @@ $ready(function () {
                 if (!this.verification({ 'phone': this.form.phone }, this.sms_rules)) return;
                 var th = this;
                 th.loading_sms = true;
-                $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid':th.account.Ac_ID,'len': 6 }).then(function (req) {
+                $api.post('Sms/SendBindVcode', { 'phone': th.form.phone, 'acid': th.account.Ac_ID, 'len': 6 }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;   //校验码
                         th.countdown(result);

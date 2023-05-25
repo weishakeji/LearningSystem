@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
             datas: {},
             loading_init: true,
@@ -26,28 +26,15 @@ $ready(function () {
             profit: null
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
-                $api.get('Share/Param')
-            ).then(axios.spread(function (account, platinfo, organ, param) {
-                vapp.loading_init = false;
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.param = param.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                //
-                if (vapp.account != null) {
-                    vapp.getfriends(vapp.account.Ac_ID);
-                    vapp.getEarn(vapp.account.Ac_ID);
+            var th = this;
+            $api.get('Share/Param').then(function (req) {
+                if (req.data.success) {
+                    th.param = req.data.result;
+                } else {
+                    throw req.data.message;
                 }
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
             this.getProfit();
         },
         created: function () {
@@ -70,52 +57,59 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.getfriends(nv.Ac_ID);
+                    this.getEarn(nv.Ac_ID);
+                    this.loading_init = false;
+                }, immediate: true
+            },
         },
         methods: {
             //获取朋友数量
             getfriends: function (acid) {
+                var th = this;
                 $api.bat(
                     $api.get('Share/Friends', { 'acid': acid }),
                     $api.get('Share/FriendAll', { 'acid': acid })
                 ).then(axios.spread(function (friends, friendsAll) {
-                    vapp.loading_init = false;
                     //获取结果
-                    vapp.friends = friends.data.result;
-                    vapp.friendsAll = friendsAll.data.result;
+                    th.friends = friends.data.result;
+                    th.friendsAll = friendsAll.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
             },
             //获取赚数的金额、卡券等
             getEarn: function (acid) {
+                var th = this;
                 $api.bat(
                     $api.get('Share/EarnCoupon', { 'acid': acid }),
                     $api.get('Share/EarnMoney', { 'acid': acid }),
                     $api.get('Share/EarnPoint', { 'acid': acid })
                 ).then(axios.spread(function (coupon, money, point) {
-                    vapp.loading_init = false;
                     //获取结果
-                    vapp.earn.coupon = coupon.data.result;
-                    vapp.earn.money = money.data.result;
-                    vapp.earn.point = point.data.result;
+                    th.earn.coupon = coupon.data.result;
+                    th.earn.money = money.data.result;
+                    th.earn.point = point.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
             },
             //获取分润方案
             getProfit: function () {
+                var th = this;
                 $api.get('ProfitSharing/ThemeCurrent').then(function (req) {
                     if (req.data.success) {
-                        vapp.profit = req.data.result;
-                        if (vapp.profit == null) return;
-                        $api.get('ProfitSharing/ProfitList', { 'tid': vapp.profit.Ps_ID }).then(function (req) {
+                        th.profit = req.data.result;
+                        if (th.profit == null) return;
+                        $api.get('ProfitSharing/ProfitList', { 'tid': th.profit.Ps_ID }).then(function (req) {
                             if (req.data.success) {
-                                vapp.profit.items = req.data.result;
+                                th.profit.items = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;

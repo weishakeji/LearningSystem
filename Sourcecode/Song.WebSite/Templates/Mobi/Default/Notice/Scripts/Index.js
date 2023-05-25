@@ -5,41 +5,25 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
-            config: {},      //当前机构配置项          
-            loading: true,
-            sear_str: '',
+            org: {},
+            config: {},      //当前机构配置项      
 
-            search: decodeURIComponent($api.querystring('search')),
+
+            loading: true,
+
             datas: [],
             finished: false,
             query: {
-                'orgid': -1, 'search': '', 'size': 3, 'index': 0
+                'orgid': -1, 'search': decodeURIComponent($api.querystring('search')),
+                'size': 3, 'index': 0
             },
             total: 0
 
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.query.orgid = vapp.organ.Org_ID;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.onSearch();
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
-            this.sear_str = this.search;
-            this.onload();
+
         },
         computed: {
             //是否为空，即通知公告不存在
@@ -48,18 +32,24 @@ $ready(function () {
             }
         },
         watch: {
-            'sear_str': function (nv, ov) {
-                if (nv == '') {
-                    vapp.query.search = nv;
-                    this.onSearch();
-                }
-            }
+            'query.search': function (nv, ov) {
+                this.onSearch();
+            },
+            'org': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.query.orgid = nv.Org_ID;                  
+                    this.loading = false;
+                }, immediate: true
+            },
         },
         methods: {
+            onclear: function () {
+                this.query.search = '';
+            },
             onSearch: function () {
-                var url = $api.setpara('search', encodeURIComponent(this.sear_str));
-                history.pushState({}, "", url); //更改地址栏信息
-                this.query.search = this.sear_str;
+                var url = $api.setpara('search', encodeURIComponent(this.query.search));
+                history.pushState({}, "", url); //更改地址栏信息              
                 this.query.index = 0;
                 this.finished = false;
                 this.total = 0;
@@ -69,13 +59,13 @@ $ready(function () {
             onload: function () {
                 var th = this;
                 th.query.index++;
+                console.log(th.query.index);
                 if (th.query.orgid === undefined || th.query.orgid == -1) return;
-                var query = this.query;
-                $api.cache('Notice/ShowPager', query).then(function (req) {
+                $api.cache('Notice/ShowPager', th.query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
-                        var result = req.data.result;
+                        let result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
                             th.datas.push(result[i]);
                         }

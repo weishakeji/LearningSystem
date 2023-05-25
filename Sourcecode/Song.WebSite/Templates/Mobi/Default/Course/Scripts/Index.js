@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项      
             mremove: false,  //移除金额、充值相关
 
@@ -25,6 +25,7 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
+            /*
             var th = this;
             $api.bat(
                 $api.get('Account/Current'),
@@ -46,7 +47,7 @@ $ready(function () {
                 th.tabChange(0, 'rec');
             })).catch(function (err) {
                 console.error(err);
-            });
+            });*/
         },
         created: function () {
             //默认图片
@@ -79,10 +80,20 @@ $ready(function () {
         computed: {},
         watch: {
             'sear_str': function (nv, ov) {
-                if (nv == '') {
-                    this.onSearch();
-                }
-            }
+                if (nv == '') this.onSearch();
+            },
+            'org': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.query.orgid = nv.Org_ID;
+                    //是否移除充值金额相关
+                    if (!!this.config.IsMobileRemoveMoney)
+                        this.mremove = this.config.IsMobileRemoveMoney;
+                    this.popupSubject();
+                    this.tabChange(0, 'rec');
+                    this.loading = false;
+                }, immediate: true
+            },
         },
         methods: {
             onSearch: function () {
@@ -171,8 +182,8 @@ $ready(function () {
             //专业面板打开时
             popupSubject: function () {
                 if (!window.tree.isnull()) return;
-                if (!vapp.organ.Org_ID) return;
-                $api.cache('Subject/TreeFront:60', { orgid: vapp.organ.Org_ID }).then(function (req) {
+                if (!vapp.org.Org_ID) return;
+                $api.cache('Subject/TreeFront:60', { orgid: vapp.org.Org_ID }).then(function (req) {
                     if (req.data.success) {
                         var result = vapp.nodeconvert(req.data.result);
                         if (window.tree.isnull())

@@ -6,7 +6,7 @@ $ready(function () {
             couid: $api.querystring("id") == "" ? $api.dot() : $api.querystring("id"),        //课程id
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项     
 
             course: {},         //当前课程对象
@@ -35,9 +35,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             //课程为空,或课程被禁用
             nullcourse: function () {
                 return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
@@ -73,19 +71,10 @@ $ready(function () {
             var th = this;
             this.loading_init = true;
             //当前的机构、登录学员、课程
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current'),
+            $api.bat(                
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
-            ).then(axios.spread(function (account, platinfo, organ, course, viewnum) {
-                //当前登录学员、平台信息         
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                //机构配置信息
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
+            ).then(axios.spread(function (course, viewnum) {
                 //当前课程
                 th.course = course.data.result;
                 th.course.Cou_Target = th.clearTag(th.course.Cou_Target);

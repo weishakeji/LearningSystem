@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <div class="header">
             <search_input></search_input>
         </div>
@@ -29,7 +30,7 @@
 
         </div>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

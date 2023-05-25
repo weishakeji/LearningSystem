@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项       
             loading: false,
             loading_init: true,
@@ -32,31 +32,13 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () {
 
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             details: function () {
                 var datas = this.datas;
                 var fmt = "yyyy年 M月";
@@ -89,6 +71,12 @@ $ready(function () {
             }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.loading_init = false;
+                }, immediate: true
+            },
         },
         methods: {
             login: function () {

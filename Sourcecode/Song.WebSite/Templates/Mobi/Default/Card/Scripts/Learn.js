@@ -5,7 +5,7 @@ $ready(function () {
         data: {
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项      
             //学习卡信息，  
             carddata: {
@@ -22,35 +22,7 @@ $ready(function () {
             search_code: '',         //用于查询的字符串
             loading_init: true
         },
-        mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                 //获取学员的卡片信息
-                if (vapp.islogin) {                   
-                    $api.bat(
-                        $api.get('Learningcard/AccountOfCount', { 'acid': vapp.account.Ac_ID }),
-                        $api.get('Learningcard/ForAccount', { 'acid': vapp.account.Ac_ID })
-                    ).then(axios.spread(function (count, cards) {
-                        vapp.carddata.count = count.data.result.count;
-                        vapp.carddata.usecount = count.data.result.usecount;
-                        vapp.carddata.cards = cards.data.result;
-                    })).catch(function (err) {
-                        console.error(err);
-                    });
-                }
-            })).catch(function (err) {
-                console.error(err);
-            });
+        mounted: function () {            
             this.init_code();
         },
         created: function () {
@@ -76,9 +48,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             //个人学习卡集合
             'mycards': function () {
                 var cards = this.carddata.cards;
@@ -93,6 +63,23 @@ $ready(function () {
             }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    var th = this;
+                    $api.bat(
+                        $api.get('Learningcard/AccountOfCount', { 'acid': th.account.Ac_ID }),
+                        $api.get('Learningcard/ForAccount', { 'acid': th.account.Ac_ID })
+                    ).then(axios.spread(function (count, cards) {
+                        th.carddata.count = count.data.result.count;
+                        th.carddata.usecount = count.data.result.usecount;
+                        th.carddata.cards = cards.data.result;
+                    })).catch(function (err) {
+                        console.error(err);
+                    });
+                    this.loading_init = false;
+                }, immediate: true
+            },
             'search_code': function (nv, ov) {
                 console.log(nv);
             }

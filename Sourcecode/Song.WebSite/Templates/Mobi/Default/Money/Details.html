@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-sticky>
             <page_header title="资金明细" icon="&#xe749" :fresh="true"></page_header>
         </van-sticky>
@@ -137,7 +138,7 @@
         </van-popup>
         <!-- 底部和侧边导航-->
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

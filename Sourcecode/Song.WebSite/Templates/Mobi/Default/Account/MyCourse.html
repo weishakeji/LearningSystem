@@ -10,6 +10,7 @@
 <body>
     <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <div class="header" :login="islogin">
             <van-row>
                 <div class="header_info" v-if="!islogin" remark="未登录" @click="login">
@@ -44,7 +45,7 @@
             </van-row>
         </div>
         <!--未登录，显示推荐课程-->
-        <courses :sbjid="0" v-if="!islogin" title="推荐课程" :orgid="organ.Org_ID" :config="config" count="6"></courses>
+        <courses :sbjid="0" v-if="!islogin" title="推荐课程" :orgid="org.Org_ID" :config="config" count="6"></courses>
 
         <van-sticky v-if="islogin">
             <van-tabs v-model="active" v-if="islogin" @change="tabChange">
@@ -123,7 +124,7 @@
             </purchase_data>
         </van-list>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

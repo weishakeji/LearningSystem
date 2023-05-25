@@ -7,7 +7,7 @@ $ready(function () {
             account: {},     //当前登录账号
             course: {},       //当前课程
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
 
             loading: false,
@@ -25,23 +25,12 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
+            $api.bat(               
                 $api.cache('Course/ForID', { 'id': $api.querystring("couid", 0) })
-            ).then(axios.spread(function (account, platinfo, organ, course) {
-                th.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
+            ).then(axios.spread(function (course) {
                 th.course = course.data.result;
-                if (th.course)
-                    document.title = th.course.Cou_Name + ' - ' + document.title;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                th.onload();
+                if (th.iscourse)
+                    document.title = th.course.Cou_Name + ' - ' + document.title;               
             })).catch(function (err) {
                 console.error(err);
             });
@@ -50,19 +39,25 @@ $ready(function () {
 
         },
         computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+             //是否登录
+             islogin: (t) => { return !$api.isnull(t.account); },
+             //课程是否存在
+             iscourse: (t) => { return !$api.isnull(t.course); }
         },
         watch: {
+            'org': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.onload();
+                    this.loading_init = false;
+                }, immediate: true
+            },
         },
         methods: {
             onload: function () {
                 var th = this;
                 th.query.index++;
-                var query = $api.clone(this.query);
-                console.log(query);
+                let query = $api.clone(this.query);             
                 $api.get('Knowledge/Pager', query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {

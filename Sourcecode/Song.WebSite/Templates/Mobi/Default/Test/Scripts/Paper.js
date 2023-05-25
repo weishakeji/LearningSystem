@@ -7,7 +7,7 @@ $ready(function () {
             couid: $api.querystring("couid"),
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项 
             paper: {},           //试卷对象
             course: {},          //试卷所属课程
@@ -24,25 +24,13 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
+            $api.bat(         
                 $api.get('TestPaper/ForID', { 'id': th.tpid }),
                 $api.get('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (account, platinfo, organ, paper, course) {
-                th.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                if (vapp.islogin)
-                    th.query.stid = th.account.Ac_ID;
-                th.platinfo = platinfo.data.result;
-                th.paper = paper.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
+            ).then(axios.spread(function (paper, course) {
+                th.loading_init = false;                
+                th.paper = paper.data.result;               
                 th.course = course.data.result;
-
             })).catch(function (err) {
                 console.error(err);
             });
@@ -52,11 +40,15 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); },
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.query.stid = nv.Ac_ID;
+                }, immediate: true
+            },
         },
         methods: {
             onload: function () {

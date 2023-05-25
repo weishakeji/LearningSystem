@@ -5,7 +5,7 @@ $ready(function () {
             examid: $api.querystring('id', 0),
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项   
 
             theme: {},               //考试主题
@@ -111,10 +111,8 @@ $ready(function () {
         },
         created: function () { },
         computed: {
-            //学员是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            //是否登录
+            islogin: (t) => { return !$api.isnull(t.account); },
             //试题总数
             questotal: function () {
                 var total = 0;
@@ -523,7 +521,7 @@ $ready(function () {
                         const q = group.ques[j];
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
-                            if (q.Qus_ID == reclist[n].id) {                               
+                            if (q.Qus_ID == reclist[n].id) {
                                 //单选
                                 if (q.Qus_Type == 1) {
                                     for (let index = 0; index < q.Qus_Items.length; index++) {

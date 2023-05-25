@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak><context>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-sticky>
             <page_header title="缓存管理" icon="&#xe6a4" :fresh="true"></page_header>
         </van-sticky>
@@ -52,7 +53,7 @@
             </card>
         </context>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 

@@ -7,7 +7,7 @@ $ready(function () {
             tpid: 0,         //试卷id
             account: {},     //当前登录账号
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项 
 
             paper: {},           //试卷对象
@@ -27,22 +27,10 @@ $ready(function () {
         mounted: function () {
             var th = this;
             $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current'),
                 $api.get('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (account, platinfo, organ, course) {
-                vapp.loading_init = false;
-                //获取结果
-                th.account = account.data.result;
-                if (th.islogin) {
-                    th.query.stid = th.account.Ac_ID;
-                    th.getpurchase(th.account.Ac_ID, th.couid);
-                }
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
+            ).then(axios.spread(function (course) {
+                th.loading_init = false;
+
                 th.course = course.data.result;
                 if (JSON.stringify(th.course) != '{}' && th.course != null) {
                     $api.get('TestPaper/FinalPaper', { 'couid': th.course.Cou_ID, 'use': true }).then(function (req) {
@@ -69,15 +57,20 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             //是否存在结果考试
             paperexist: function () {
                 return JSON.stringify(this.paper) != '{}' && this.paper != null;
             }
         },
         watch: {
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    th.query.stid = nv.Ac_ID;
+                    th.getpurchase(nv.Ac_ID, th.couid);
+                }, immediate: true
+            },
         },
         methods: {
             //获取购买课程的记录

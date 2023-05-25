@@ -3,15 +3,16 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title>公告</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <div class="header">
             <div icon="&#xe748" @click="window.history.go(-1);"></div>
-            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent" @search="onSearch">
+            <van-search v-model="query.search" placeholder="请输入搜索关键词" background="transparent" @search="onSearch">
                 <template #action>
 
                 </template>
@@ -30,15 +31,15 @@
                 </template>
                 <van-cell :border="false" class="notice" @click="gonotice(item.No_Id)">
                     <template #title>
-                      <icon icon="&#xe840"></icon> {{item.No_Ttl}}
-                      <van-tag round color="#ccc"  type="primary">{{item.No_StartTime|date("MM-dd")}}</van-tag>
+                        <icon icon="&#xe840"></icon> {{item.No_Ttl}}
+                        <van-tag round color="#ccc" type="primary">{{item.No_StartTime|date("MM-dd")}}</van-tag>
                     </template>
-                </van-cell>            
+                </van-cell>
             </van-swipe-cell>
         </van-list>
-       
+
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 
 
