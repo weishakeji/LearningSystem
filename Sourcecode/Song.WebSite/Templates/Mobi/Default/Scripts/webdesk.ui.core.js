@@ -888,7 +888,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备不是手机端，转向web端页面
-        if (!(webdom.ismobi() || webdom.isWeixinApp) && route.indexOf('/mobi/') > -1) {
+        if (!(webdom.ismobi() || webdom.isWeixinApp()) && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
             var href = route.replace('/mobi/', '/web/');
             var pathname = window.location.pathname;
