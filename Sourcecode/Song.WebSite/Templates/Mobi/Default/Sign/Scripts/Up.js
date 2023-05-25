@@ -146,7 +146,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         var vcodebase64 = result.base64;
-                        vapp.form.vcodemd5 = result.value;
+                        th.form.vcodemd5 = result.value;
                         console.log(vapp.form.vcodemd5);
                         //
                         $dom("#vcode").attr('src', vcodebase64);

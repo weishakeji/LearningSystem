@@ -192,6 +192,8 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public string SendLoginVcode(string phone, int len)
         {
+            if (len <= 0) throw new Exception("验证码长度不得小于等于零");
+
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsForMobi(phone, -1, true, true);
             if (acc == null) throw new Exception("当前手机号不存在");
 
@@ -211,6 +213,8 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public string SendBindVcode(string phone,int acid, int len)
         {
+            if (len <= 0) throw new Exception("验证码长度不得小于等于零");
+
             Song.Entities.Accounts acc = Business.Do<IAccounts>().IsAccountsExist(acid, phone, 1);
             if (acc != null) throw new Exception("当前手机号已经存在");
 
