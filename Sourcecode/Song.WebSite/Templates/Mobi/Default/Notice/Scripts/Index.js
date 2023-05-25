@@ -33,7 +33,13 @@ $ready(function () {
         },
         watch: {
             'query.search': function (nv, ov) {
-                this.onSearch();
+                var url = $api.setpara('search', encodeURIComponent(this.query.search));
+                history.pushState({}, "", url); //更改地址栏信息     
+                this.query.index = 0;
+                this.finished = false;
+                this.total = 0;
+                this.datas = [];
+                //this.onSearch();
             },
             'org': {
                 handler: function (nv, ov) {
@@ -43,10 +49,7 @@ $ready(function () {
                 }, immediate: true
             },
         },
-        methods: {
-            onclear: function () {
-                this.query.search = '';
-            },
+        methods: {  
             onSearch: function () {
                 var url = $api.setpara('search', encodeURIComponent(this.query.search));
                 history.pushState({}, "", url); //更改地址栏信息              
@@ -54,7 +57,7 @@ $ready(function () {
                 this.finished = false;
                 this.total = 0;
                 this.datas = [];
-                this.onload();
+                //this.onload();
             },
             onload: function () {
                 var th = this;
