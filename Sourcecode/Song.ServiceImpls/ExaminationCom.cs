@@ -1296,7 +1296,7 @@ namespace Song.ServiceImpls
             if (min >= 0) wc.And(ExamResults._.Exr_ScoreFinal >= min);         
             if (max >= 0)wc.And(ExamResults._.Exr_ScoreFinal <= max);
             if (manual != null) wc.And(ExamResults._.Exr_IsManual == (bool)manual);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Like("%" + name + "%"));           
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Like("%" + idcard + "%"));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
