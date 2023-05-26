@@ -171,7 +171,8 @@ Vue.component('question', {
         },
         //简答题
         doing_type4: function (ans, ques) {
-            var correct = ques.state.ans == ques.Qus_Answer;
+            let answer = ques.Qus_Answer.replace(/<[^>]+>/g, '').trim();
+            let correct = ques.state.ans == answer;
             ques.state['ans'] = ques.state.ans;
             ques.state['correct'] = ques.state.ans != '' ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();

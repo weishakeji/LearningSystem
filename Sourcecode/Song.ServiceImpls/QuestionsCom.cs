@@ -1171,8 +1171,12 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private bool _clacQues4(Questions ques, string ans)
         {
-            if (ans.Trim() == "") return false;
-            return false;
+            if (string.IsNullOrWhiteSpace(ans)) return false;
+            if (string.IsNullOrWhiteSpace(ques.Qus_Answer)) return false;
+            ans = WeiSha.Core.HTML.ClearTag(ans);
+            ques.Qus_Answer = WeiSha.Core.HTML.ClearTag(ques.Qus_Answer);
+            if (ans.Trim() == "" || ques.Qus_Answer.Trim()=="") return false;
+            return ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase);          
         }
         /// <summary>
         /// 填空题
