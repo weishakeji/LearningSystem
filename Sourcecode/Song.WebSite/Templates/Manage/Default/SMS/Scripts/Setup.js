@@ -13,7 +13,8 @@
             this.loadDatas();
         },
         created: function () {
-
+            let url = window.location.host;
+            console.log(url);
         },
         methods: {
             //加载数据页
@@ -56,9 +57,21 @@
                     th.loadingid = '';
                 });
             },
+            //是否作为超链接
+            //当前域名为https而要打开的域名为http时，会由于安全限制无法打在openbox中打开
+            ishyperlink: function (url) {
+                //当前网址是否有ssl证书
+                let selfissl = window.location.href.substring(0, 8).toLowerCase() == 'https://';
+                //要打开的域名是否有ssl证书
+                let urlissl = url.substring(0, 8).toLowerCase() == 'https://';
+                //return true;
+                if (selfissl && !urlissl) return true;
+                return false;
+            },
             //重置密码的弹窗
             openbox: function (url, tag, title, width, height, ico) {
-                var pattern = /^(http|https):\/\/.*/gi;
+                if (this.ishyperlink(url)) return;
+                var pattern = /^(http|https|\/\/).*/gi;
                 if (!pattern.test(url)) {
                     var route = $dom('meta[view]').attr("route");
                     if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);

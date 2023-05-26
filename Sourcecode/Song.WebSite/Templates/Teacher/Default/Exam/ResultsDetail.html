@@ -11,7 +11,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除,清空,导出" ref='btngroup' @delete="deleteData" @clear="clear" @output="output" width="600"
+            <btngroup show="删除,导出,清空" ref='btngroup' @delete="deleteData" @clear="clear" @output="output" width="600"
                 height="600" :selects='selects' idkey='Exr_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
@@ -44,6 +44,7 @@
                 <el-form-item label="">
                     <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
                 </el-form-item>
+               
             </query_panel>
         </div> 
     <template>

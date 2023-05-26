@@ -48,10 +48,14 @@
             <el-table-column label="注册/充值" width="120" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" :disabled="scope.row.RegisterUrl ==''"
+                        :href="ishyperlink(scope.row.RegisterUrl) ? scope.row.RegisterUrl : ''"
+                        :target="ishyperlink(scope.row.RegisterUrl) ? '_blank' : ''"
                         @click="openbox(scope.row.RegisterUrl,'RegisterUrl','注册短信平台',800,600,'e808')">注册
                     </el-link>
                     <el-link type="primary" v-if="scope.row.PayUrl !=''"
-                        @click="openbox(scope.row.PayUrl,'PayUrl','向短信平台充值',600,400,'e808')">充值
+                        :href="ishyperlink(scope.row.PayUrl) ? scope.row.PayUrl : ''"
+                        :target="ishyperlink(scope.row.PayUrl) ? '_blank' : ''"
+                        @click="openbox(scope.row.PayUrl,'PayUrl','向短信平台充值',800,600,'e808')">充值
                     </el-link>
                 </template>
             </el-table-column>

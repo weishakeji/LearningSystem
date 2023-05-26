@@ -363,6 +363,7 @@
             //iframe路径如果不是同域的，直接设置为加载完成，并触发加载完成事件（其实可能并没有加载完成）
             if ((src.length >= 'http://'.length && src.substring(0, 7).toLowerCase() == 'http://')
                 || (src.length >= 'https://'.length && src.substring(0, 8).toLowerCase() == 'https://')
+                || (src.length >= '//'.length && src.substring(0, 2).toLowerCase() == '//')
                 && !(() => {
                     const origin = window.location.origin.toLowerCase();
                     if (src.length < origin) return false;

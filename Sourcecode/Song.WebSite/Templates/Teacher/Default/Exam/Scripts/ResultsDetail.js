@@ -166,15 +166,15 @@ $ready(function () {
             },
             //清空
             clear: function () {
-                this.$confirm('此操作将永久删除所有成绩，且无法恢复, 是否继续?', '提示', {
+                this.$confirm('删除所有成绩，是否继续？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$confirm('删除所有成绩，是否继续?', '再次提示', {
+                    this.$confirm('此操作将永久删除所有成绩，且无法恢复, 是否继续？', '再次提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
-                        type: 'warning'
+                        type: 'error'
                     }).then(() => {
                         var th = this;
                         var loading = this.$fulloading();
