@@ -44,7 +44,11 @@
                 </el-table-column>
                 <el-table-column label="考试主题">
                     <template slot-scope="scope">
-                        <span v-html='scope.row.Exam_Title' class="large"></span>
+                        <el-tooltip content="查看成绩" placement="bottom" effect="light">
+                            <el-link type="primary" @click="btnResultSummarize(scope.row)" class="theme_Name">
+                                <icon>&#xe6ef</icon> <span v-html='scope.row.Exam_Title' class="large"></span>
+                            </el-link>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
                 <el-table-column label="参考人次" width="100" align="center">

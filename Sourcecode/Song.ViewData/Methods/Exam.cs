@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -889,6 +890,61 @@ namespace Song.ViewData.Methods
 
         #region 考试成绩
         /// <summary>
+        /// 当前考试下所有学员的的学员组
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        public Song.Entities.StudentSort[]  Sort4Theme(int examid)
+        {
+            return Business.Do<IExamination>().StudentSort4Theme(examid);
+        }
+        /// <summary>
+        /// 考试中某场次的平均成绩
+        /// </summary>
+        /// <param name="id">考试场次的id</param>
+        /// <returns></returns>
+        public double ExamAvg(int id)
+        {
+            double res = Business.Do<IExamination>().Avg4Exam(id);
+            return Math.Round(Math.Round(res * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
+        }
+        /// <summary>
+        /// 当前考试主题下的所有成绩，包括各个场次
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <param name="sort">分组id</param>
+        /// <returns></returns>
+        public DataTable Results(int examid,int sort)
+        {
+            DataTable dt = null;    //数据源  
+            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
+            if (theme == null) return dt;
+            string stsid = "";
+            switch (sort)
+            {
+                //所有学员
+                case 0:
+                    //当前考试限定的学生分组
+                    Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+                    //如果没有设定分组，则取当前参加考试的学员的分组
+                    if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);
+                    foreach (Song.Entities.StudentSort ss in sts)
+                        stsid += ss.Sts_ID + ",";
+                    stsid += "-1";
+                    dt = Business.Do<IExamination>().Result4Theme(examid, stsid);
+                    break;
+                //未分组学员
+                case -1:
+                    dt = Business.Do<IExamination>().Result4Theme(examid, -1);
+                    break;
+                //当前分组学员
+                default:
+                    dt = Business.Do<IExamination>().Result4Theme(examid, sort);
+                    break;
+            }
+            return dt;
+        }
+        /// <summary>
         /// 通过考试成绩的id，获取成绩信息
         /// </summary>
         /// <param name="id">考试成绩记录的id</param>
@@ -1157,6 +1213,51 @@ namespace Song.ViewData.Methods
             string filename = string.Format("考试成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
             filePath = Business.Do<IExamination>().Export4Excel(filePath, examid);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 导出参加考试的学员成绩
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <param name="sorts">学员组的id</param>
+        /// <returns></returns>
+        public JObject OutputParticipate(int examid)
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("考试成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<IExamination>().OutputParticipate(filePath, examid, null);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 导出所有，包括未参加考试的学员
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public JObject OutputAll(int examid)
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("考试成绩-全部.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<IExamination>().OutputAll(filePath, examid);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));

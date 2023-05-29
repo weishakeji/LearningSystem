@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试成绩</title>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="综合,导出" ref='btngroup' @summari="visibleSummari=true" @output="output" width="600"
+                height="600" idkey='Exr_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-select v-model="form.sort" placeholder="请选择" style="width: 160px;">
+                        <el-option label="-- 所有学员 --" :value="0"> </el-option>
+                        <el-option label="-- 未分组学员 --" :value="-1"> </el-option>
+                        <el-option v-for="item in sorts" :key="item.Sts_ID" :label="item.Sts_Name" :value="item.Sts_ID">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
+                </el-form-item>
+
+            </query_panel>
+        </div>
+        <template>
+
+        </template>
+        <el-drawer title="我是标题" :visible.sync="visibleSummari" direction="ttb">
+            <span>我来啦!</span>
+        </el-drawer>
+
+
+        <el-dialog title="成绩导出" :visible.sync="exportVisible" :show-close="false" :before-close="()=>{}">
+            <dl v-if="files.length>0">
+                <dd v-for="(f,i) in files">
+                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                            {{f.file}}</a>
+                        {{f.size|size}}
+                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </div>
+                </dd>
+            </dl>
+            <div v-else>
+                没有供下载的文件
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="exportVisible = false">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

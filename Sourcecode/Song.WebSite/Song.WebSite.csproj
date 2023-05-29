@@ -379,7 +379,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="copyright.weisha" />
-    <Content Include="crossdomain.xml" />
     <Content Include="Download\readme.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1252,12 +1251,15 @@
     <Content Include="Templates\Teacher\Default\Exam\Components\Styles\group_select.css" />
     <Content Include="Templates\Teacher\Default\Exam\List.html" />
     <Content Include="Templates\Teacher\Default\Exam\Modify.html" />
+    <Content Include="Templates\Teacher\Default\Exam\ResultsSummarize.html" />
     <Content Include="Templates\Teacher\Default\Exam\ResultsManual.html" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\List.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\Modify.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsSummarize.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsManual.js" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\List.css" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\Modify.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsSummarize.css" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsManual.css" />
     <Content Include="Templates\Teacher\Default\Inc\meta.inc" />
     <Content Include="Templates\Teacher\Default\Self\Index.html" />

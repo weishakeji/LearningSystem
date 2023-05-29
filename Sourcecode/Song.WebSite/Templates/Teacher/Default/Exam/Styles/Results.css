@@ -24,3 +24,12 @@
 .Exam_Title *{
     font-size: 15px;
 }
+.theme_Name{
+    color: #333 !important;
+}
+.theme_Name::after{
+    color: #333 !important;
+}
+.theme_Name icon{
+    font-size: 18px;
+}

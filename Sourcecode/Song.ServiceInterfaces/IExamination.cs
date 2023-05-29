@@ -331,6 +331,16 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         string Export4Excel(string filePath, int examid);
         /// <summary>
+        /// 导出参加考试的学员成绩
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid"></param>
+        /// <param name="sorts"></param>
+        /// <returns></returns>
+        string OutputParticipate(string filePath, int examid, StudentSort[] sorts);
+
+        string OutputAll(string filePath, int examid);
+        /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>
         /// <param name="couid"></param>

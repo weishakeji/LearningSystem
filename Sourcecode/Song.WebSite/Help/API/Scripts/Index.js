@@ -276,9 +276,8 @@ var rvue = new Vue({
             }else{\r\
                 console.error(req.data.exception);\r\
                 throw req.config.way + ' ' + req.data.message;\r\
-            }\r}).catch(function (err) {\r\
-            alert(err);\r\
-            console.error(err);\r});";
+            }\r}).catch(err=>console.error(err))\r\
+                .finally(()=>{});";
             //jsstr = rvue.jsonformat(jsstr, false);
             document.getElementById("teststring").innerText = jsstr;
             return jsstr;

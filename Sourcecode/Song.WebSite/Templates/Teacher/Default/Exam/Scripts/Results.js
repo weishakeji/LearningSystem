@@ -8,7 +8,7 @@
                 orgid: -1,
                 start: '',
                 end: '',
-                use:null,
+                use: null,
                 search: '',
                 size: 8,
                 index: 1
@@ -16,7 +16,7 @@
             total: 1, //总记录数
             totalpages: 1, //总页数
             datas: [],
-            loading_init:false,
+            loading_init: false,
             loading: false,
             loadingid: false,
             pickerOptions: {
@@ -158,10 +158,19 @@
                     console.error(err);
                 });
             },
+            //查看综合成绩
+            btnResultSummarize: function (theme) {
+                return;
+                var file = 'ResultsSummarize';
+                var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
+                var title = ' 综述 - “' + theme.Exam_Title + "”";
+                window.vue.$refs.btngroup.pagebox(file + '?id=' + theme.Exam_ID, title, boxid, 900, '80%',
+                    { pid: window.name, resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
+            },
             //表格行点击事件
             clickTable: function (row, index, e) {
                 //调用,table的方法,展开/折叠 行
-                this.$refs.datatable.toggleRowExpansion(row)
+                //this.$refs.datatable.toggleRowExpansion(row)
             }
         },
         components: {

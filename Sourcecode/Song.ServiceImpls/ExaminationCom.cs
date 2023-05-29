@@ -1343,6 +1343,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 成绩导出
         /// </summary>
+        /// <param name="path"></param>
         /// <param name="examid">考试id</param>
         /// <returns></returns>
         public string Export4Excel(string path, int examid)
@@ -1407,6 +1408,101 @@ namespace Song.ServiceImpls
             hssfworkbook.Write(file);
             file.Close();
             return path;
+        }
+        public string OutputParticipate(string filePath, int examid, StudentSort[] sorts)
+        {
+            if (sorts == null) sorts = this.StudentSort4Theme(examid);          
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //考试主题下的所有参考人员（分过组的）成绩
+            foreach (StudentSort sts in sorts)
+            {
+                DataTable dt = Business.Do<IExamination>().Result4Theme(examid, sts.Sts_ID);
+                if (dt.Rows.Count < 1) continue;
+                ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);   //创建工作簿对象                
+                IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
+                for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
+                    rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+                ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
+                style_size.WrapText = true;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    IRow row = sheet.CreateRow(i + 1);
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                        string val = dt.Rows[i][j].ToString();
+                        if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
+                        {
+                            val = val.Substring(0, val.LastIndexOf("$"));
+                        }
+                        row.CreateCell(j).SetCellValue(val);
+                    }
+                }
+            }
+
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return filePath;
+        }
+        public string OutputAll(string filePath, int examid)
+        {  
+            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //当前考试限定的学生分组
+            string stsid = "";
+            Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+            //如果没有设定分组，则取当前参加考试的学员的分组
+            if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(theme.Exam_ID);
+            foreach (Song.Entities.StudentSort ss in sts)
+                stsid += ss.Sts_ID + ",";
+            DataTable dt = Business.Do<IExamination>().Result4Theme(theme.Exam_ID, stsid);
+            dt.TableName = "--所有学员--";
+            buildExcelSql_2_fromData(dt, hssfworkbook);
+
+            //每个分组单独创建工作表
+            foreach (string s in stsid.Split(','))
+            {
+                if (string.IsNullOrWhiteSpace(s)) continue;
+                int sid = 0;
+                int.TryParse(s, out sid);
+                if (sid <= 0) continue;
+                //取每个组的学员的考试成绩
+                DataTable dtTm = Business.Do<IExamination>().Result4Theme(theme.Exam_ID, sid);
+                if (dtTm == null) continue;
+                Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(sid);
+                dtTm.TableName = sort.Sts_Name;
+                buildExcelSql_2_fromData(dtTm, hssfworkbook);
+            }
+
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return filePath;
+        }
+        private void buildExcelSql_2_fromData(DataTable dt, HSSFWorkbook hssfworkbook)
+        {
+            //构建Excel表格结构
+            ISheet sheet = hssfworkbook.CreateSheet(dt.TableName);   //创建工作簿对象                
+            IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
+            for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
+                rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
+            style_size.WrapText = true;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                IRow row = sheet.CreateRow(i + 1);
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                    string val = dt.Rows[i][j].ToString();
+                    if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
+                    {
+                        val = val.Substring(0, val.LastIndexOf("$"));
+                    }
+                    row.CreateCell(j).SetCellValue(val);
+                }
+            }
         }
         /// <summary>
         /// 学员在某个课程下的考试成绩
