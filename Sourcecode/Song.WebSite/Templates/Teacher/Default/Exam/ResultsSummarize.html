@@ -35,7 +35,15 @@
 
         </template>
         <el-drawer title="我是标题" :visible.sync="visibleSummari" direction="ttb">
-            <span>我来啦!</span>
+            <span slot="title">
+                <icon>&#xe810</icon>考试主题：《{{theme.Exam_Title}}》
+            </span>
+            <div v-for="(item,i) in exams" class="exam_row">
+                <div>
+                    <span>{{i+1}}.</span> {{item.Exam_Name}}
+                </div>                
+                <avg :examid="item.Exam_ID"></avg>
+            </div>
         </el-drawer>
 
 

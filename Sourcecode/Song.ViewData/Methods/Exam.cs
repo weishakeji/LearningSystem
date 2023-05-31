@@ -839,21 +839,7 @@ namespace Song.ViewData.Methods
             jo.Add("number", total);
             return jo;
         }
-        /// <summary>
-        /// 某场考试的平均分数
-        /// </summary>
-        /// <param name="examid">考试id</param>
-        /// <returns>id:考试id,average:平均数</returns>
-        [HttpGet]
-        public JObject Average4Exam(int examid)
-        {
-            double avg = Business.Do<IExamination>().Avg4Exam(examid);
-            avg = Math.Round(avg * 100) / 100;
-            JObject jo = new JObject();
-            jo.Add("id", examid);
-            jo.Add("average", avg);
-            return jo;
-        }
+        
         /// <summary>
         /// 是否需要人工批阅
         /// </summary>
@@ -888,6 +874,43 @@ namespace Song.ViewData.Methods
 
         #endregion
 
+        #region 得分
+        /// <summary>
+        /// 某场考试的平均分数
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns>id:考试id,average:平均数</returns>
+        [HttpGet]
+        public JObject Average4Exam(int examid)
+        {
+            double avg = Business.Do<IExamination>().Avg4Exam(examid);
+            avg = Math.Round(Math.Round(avg * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
+            JObject jo = new JObject();
+            jo.Add("id", examid);
+            jo.Add("average", avg);
+            return jo;
+        }
+        /// <summary>
+        /// 场次的成绩统计，平均值、最高分、最低分、通过率
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns>平均值、最高分、最低分、通过率</returns>
+        public JObject Score4Exam(int examid)
+        {
+            double avg = Business.Do<IExamination>().Avg4Exam(examid);
+            double hig = Business.Do<IExamination>().Highest4Exam(examid);
+            double low = Business.Do<IExamination>().Lowest4Exam(examid);
+            double pass = Business.Do<IExamination>().PassRate4Exam(examid);           
+            JObject jo = new JObject();
+            jo.Add("id", examid);
+            jo.Add("average", avg);
+            jo.Add("highest", hig);
+            jo.Add("lowest", low);
+            jo.Add("passrate", pass);  
+            return jo;
+        }
+        #endregion
+
         #region 考试成绩
         /// <summary>
         /// 当前考试下所有学员的的学员组
@@ -897,17 +920,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.StudentSort[]  Sort4Theme(int examid)
         {
             return Business.Do<IExamination>().StudentSort4Theme(examid);
-        }
-        /// <summary>
-        /// 考试中某场次的平均成绩
-        /// </summary>
-        /// <param name="id">考试场次的id</param>
-        /// <returns></returns>
-        public double ExamAvg(int id)
-        {
-            double res = Business.Do<IExamination>().Avg4Exam(id);
-            return Math.Round(Math.Round(res * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
-        }
+        }     
         /// <summary>
         /// 当前考试主题下的所有成绩，包括各个场次
         /// </summary>

@@ -5,6 +5,9 @@ $ready(function () {
         el: '#app',
         data: {
             examid: $api.querystring('id'),
+            theme: {},           //考试主题
+            exams: [],           //考试场次
+
             form: {
                 examid: $api.querystring('id'),
                 sort: 0,
@@ -29,19 +32,21 @@ $ready(function () {
 
         },
         computed: {
+            //是否存在主题
+            existtheme: (t) => { return !$api.isnull(t.theme) },
         },
         watch: {
             //显示考试综合
             visibleSummari: function (nv, ov) {
-                if (nv == false) return;
+                if (nv == false || this.existtheme) return;
+                var th = this;
                 //当前考试
-                $api.get('Exam/ForID', { 'id': '' }).then(function (req) {
+                $api.get('Exam/ForID', { 'id': th.examid }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        $api.get('Exam/Exams', { 'uid': '' }).then(function (req) {
+                        th.theme = req.data.result;
+                        $api.get('Exam/Exams', { 'uid': th.theme.Exam_UID }).then(function (req) {
                             if (req.data.success) {
-                                var result = req.data.result;
-                                //...
+                                th.exams = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
@@ -239,29 +244,38 @@ $ready(function () {
         },
         components: {
             //得分的输出，为了小数点对齐
-            'score': {
-                props: ['number'],
+            'avg': {
+                props: ['examid'],
                 data: function () {
                     return {
-                        prev: '',
-                        dot: '.',
-                        after: ''
+                        avg: 0, high: 0, low: 0, pass: 0,
+                        attend: 0
                     }
                 },
                 created: function () {
-                    var num = String(Math.round(this.number * 100) / 100);
-                    if (num.indexOf('.') > -1) {
-                        this.prev = num.substring(0, num.indexOf('.'));
-                        this.after = num.substring(num.indexOf('.') + 1);
-                    } else {
-                        this.prev = num;
-                        this.dot = '&nbsp;';
-                    }
+                    var th = this;
+                    //批量访问过中会验证结果是否异常，但不会触发catch
+                    $api.bat(
+                        $api.get('Exam/Score4Exam', { 'examid': th.examid }),     //当前场次平均分
+                        $api.get('Exam/AttendNumber', { 'examid': th.examid })     //当前场次参考人数
+                    ).then(axios.spread(function (req, num) {
+                        th.attend = num.data.result.number;
+                        let score = req.data.result;
+                        th.avg = score.average;
+                        th.high == score.highest;
+                        th.low == score.lowest;
+                        th.pass == score.passrate;
+                    })).catch(err => alert(err))
+                        .finally(() => {
+                            console.log('finally');
+                        });
                 },
                 template: `<div class="score">
-                <span class="prev">{{prev}}</span>
-                <span class="dot" v-html="dot"></span>
-                <span class="after">{{after}}</span>
+                    <el-tag type="primary">平均分：{{avg}}</el-tag>
+                    <el-tag type="success">最高分：{{high}}</el-tag>
+                    <el-tag type="info">最低分：{{low}}</el-tag>
+                    <el-tag type="warning">及格率：{{pass}}</el-tag>
+                    <el-tag type="info">参考人数：{{attend}}</el-tag>
                 </div>`
             }
         }

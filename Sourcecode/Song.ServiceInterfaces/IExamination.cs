@@ -281,6 +281,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         double PassRate4Exam(Examination exam);
         /// <summary>
+        /// 计算某场考试的及极率
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        double PassRate4Exam(int examid);
+        /// <summary>
         /// 计算某个考试主题的平均分
         /// </summary>
         /// <param name="uid"></param>
@@ -292,6 +298,18 @@ namespace Song.ServiceInterfaces
         /// <param name="examid"></param>
         /// <returns></returns>
         double Avg4Exam(int examid);
+        /// <summary>
+        /// 某场考试的最高分
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        double Highest4Exam(int examid);
+        /// <summary>
+        /// 某场考试的最低分
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        double Lowest4Exam(int examid);
         /// <summary>
         /// 当前考试的参考人数
         /// </summary>

@@ -1239,11 +1239,19 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="examid"></param>
         /// <returns></returns>
+        public double PassRate4Exam(int examid)
+        {
+         
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
+            if (exam == null) return 0;
+            return this.PassRate4Exam(exam);
+        }
         public double PassRate4Exam(Examination exam)
         {
             int sum = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_Score >= 0);
             if (sum < 1) return 0;
             TestPaper tp = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == exam.Tp_Id).ToFirst<TestPaper>();
+            if (tp == null) return 0;
             int pass = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_Score >= tp.Tp_Total * 0.6);
             double s = (double)sum;
             double p = (double)pass;
@@ -1273,6 +1281,30 @@ namespace Song.ServiceImpls
         public double Avg4Exam(int examid)
         {
             object obj = Gateway.Default.Avg<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
+            if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
+            double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            return tm;
+        }
+        /// <summary>
+        /// 某场考试的最高分
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public double Highest4Exam(int examid)
+        {
+            object obj = Gateway.Default.Max<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
+            if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
+            double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            return tm;
+        }
+        /// <summary>
+        /// 某场考试的最低分
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public double Lowest4Exam(int examid)
+        {
+            object obj = Gateway.Default.Min<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
             return tm;

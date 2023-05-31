@@ -7,7 +7,7 @@ $ready(function () {
             account: {},     //当前登录账号
             org: {},
             config: {},      //当前机构配置项
-            
+
             showpic: [],        //轮换图片
             notice: [],          //通知公告
             menus: [],        //主导航菜单
@@ -18,7 +18,7 @@ $ready(function () {
             loading_init: false
         },
         mounted: function () {
-            
+
         },
         created: function () {
         },
@@ -45,9 +45,9 @@ $ready(function () {
                     ).then(axios.spread(function (showpic, notice, menus, subject) {
                         //获取结果
                         th.showpic = showpic.data.result;
-                        th.notice = notice.data.success;
-                        th.menus = menus.data.success;
-                        th.subject = subject.data.success;
+                        th.notice = notice.data.result;
+                        th.menus = menus.data.result;
+                        th.subject = subject.data.result;
                     })).catch(err => console.error(err))
                         .finally(() => th.loading = false);;
                 }, immediate: true
