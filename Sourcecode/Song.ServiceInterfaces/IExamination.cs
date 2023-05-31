@@ -241,6 +241,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         StudentSort[] StudentSort4Theme(int id);
         /// <summary>
+        /// 考试场次下的学员组
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        StudentSort[] StudentSort4Exam(int examid);
+        /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
         /// <param name="id">当前考试主题的ID</param>
@@ -329,7 +335,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, string idcard, float min, float max,bool? manual, int size, int index, out int countSum);
+        ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max,bool? manual, int size, int index, out int countSum);
         ExamResults[] Results(string examuid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的所有人员成绩

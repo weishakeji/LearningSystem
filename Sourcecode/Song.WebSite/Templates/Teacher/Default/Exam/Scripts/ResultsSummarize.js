@@ -11,7 +11,7 @@ $ready(function () {
             form: {
                 examid: $api.querystring('id'),
                 sort: 0,
-                name: '', idcard: '',
+                name: '', idcard: '',stsid: '',
                 min: -1, max: -1, manual: null,
                 size: 20, index: 1
             },

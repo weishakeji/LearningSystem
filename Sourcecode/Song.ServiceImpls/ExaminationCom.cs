@@ -851,9 +851,22 @@ namespace Song.ServiceImpls
         {
             Examination theme = this.ExamSingle(id);
             string sql = @"select distinct sts.* from studentsort as sts  inner join 
-                        (select  * from ExamResults where ExamResults.Exam_UID='{0}') as exr 
+                        (select Sts_ID from ExamResults where ExamResults.Exam_UID='{0}' group by Sts_ID) as exr 
                         on sts.sts_id=exr.sts_id";
             sql=string.Format(sql,theme.Exam_UID);
+            return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
+        }
+        /// <summary>
+        /// 考试场次下的学员组
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public StudentSort[] StudentSort4Exam(int examid)
+        {
+            string sql = @"select distinct sts.* from studentsort as sts  inner join 
+                        (select  Sts_ID from ExamResults where ExamResults.Exam_ID={0} group by Sts_ID) as exr 
+                        on sts.sts_id=exr.sts_id";
+            sql = string.Format(sql, examid);
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
         /// <summary>
@@ -942,7 +955,7 @@ namespace Song.ServiceImpls
         /// <param name="id">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，多个组用逗号分隔</param>
         /// <returns></returns>
-        public DataTable Result4Theme(int examid, string stsid)
+        public DataTable Result4Theme(int id, string stsid)
         {
             DataTable dtFirst = null; 
             foreach (string s in stsid.Split(','))
@@ -952,7 +965,7 @@ namespace Song.ServiceImpls
                 int.TryParse(s, out sid);
                 //if (sid <= 0) continue;
                 //取每个组的学员的考试成绩
-                DataTable dtSecond = this.Result4Theme(examid, sid);
+                DataTable dtSecond = this.Result4Theme(id, sid);
                 if (dtSecond == null) continue;
                 if (dtFirst == null || dtFirst.Rows.Count < 1) dtFirst = dtSecond;
                 if (!dtFirst.Equals(dtSecond))
@@ -1283,6 +1296,7 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Avg<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
             return tm;
         }
         /// <summary>
@@ -1295,6 +1309,7 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Max<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
             return tm;
         }
         /// <summary>
@@ -1307,6 +1322,7 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Min<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
             return tm;
         }
         /// <summary>
@@ -1322,9 +1338,11 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
             
         }
-        public ExamResults[] Results(int examid, string name, string idcard, float min, float max, bool? manual, int size, int index, out int countSum)
+        public ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {
-            WhereClip wc = ExamResults._.Exam_ID == examid;           
+            WhereClip wc = ExamResults._.Exam_ID == examid;
+            if (stsid > 0) wc.And(ExamResults._.Sts_ID == stsid);
+            if (stsid < 0) wc.And(ExamResults._.Sts_ID == 0);
             if (min >= 0) wc.And(ExamResults._.Exr_ScoreFinal >= min);         
             if (max >= 0)wc.And(ExamResults._.Exr_ScoreFinal <= max);
             if (manual != null) wc.And(ExamResults._.Exr_IsManual == (bool)manual);

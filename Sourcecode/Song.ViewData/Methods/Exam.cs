@@ -894,7 +894,9 @@ namespace Song.ViewData.Methods
         /// 场次的成绩统计，平均值、最高分、最低分、通过率
         /// </summary>
         /// <param name="examid">考试场次id</param>
-        /// <returns>平均值、最高分、最低分、通过率</returns>
+        /// <returns>
+        /// 示例："id":场次id,"average":平均值,"highest":最高分,"lowest":最低分,"passrate":及格率
+        ///</returns>
         public JObject Score4Exam(int examid)
         {
             double avg = Business.Do<IExamination>().Avg4Exam(examid);
@@ -920,7 +922,16 @@ namespace Song.ViewData.Methods
         public Song.Entities.StudentSort[]  Sort4Theme(int examid)
         {
             return Business.Do<IExamination>().StudentSort4Theme(examid);
-        }     
+        }
+        /// <summary>
+        /// 当前场次下的所有学员的学员组
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public Song.Entities.StudentSort[] Sort4Exam(int examid)
+        {
+            return Business.Do<IExamination>().StudentSort4Exam(examid);
+        }
         /// <summary>
         /// 当前考试主题下的所有成绩，包括各个场次
         /// </summary>
@@ -1065,16 +1076,17 @@ namespace Song.ViewData.Methods
         /// <param name="examid">考试id</param>
         /// <param name="name">学员姓名<</param>
         /// <param name="idcard">学员身份证号</param>
+        /// <param name="stsid">学员组的id</param>
         /// <param name="min">按分数区间获取记录，此处是最低分</param>
         /// <param name="max">最高分</param>
         /// <param name="manual">是否批阅</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Result4Exam(int examid, string name, string idcard, float min, float max, bool? manual, int size, int index)
+        public ListResult Result4Exam(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index)
         {
             int count = 0;
-            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, min, max, manual, size, index, out count);
+            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, stsid, min, max, manual, size, index, out count);
             ListResult result = new ListResult(datas);
             result.Index = index;
             result.Size = size;

@@ -6,11 +6,12 @@ $ready(function () {
         data: {
             form: {
                 examid: $api.querystring('id'),
-                name: '', idcard: '',
+                name: '', idcard: '', stsid: 0,
                 min: -1, max: -1, manual: null,
                 size: 20, index: 1
             },
             entity: {}, //当前考试对象
+            sorts:{},       //当前场次的学员组（根据参考学员判断）
             results: [],     //成绩
             account: {},      //当前学员信息
             current: {},     //当前行对象
@@ -40,10 +41,11 @@ $ready(function () {
         },
         created: function () {
             //获取考试信息
+            var th = this;
             $api.get('Exam/ForID', { 'id': this.form.examid }).then(function (req) {
                 if (req.data.success) {
-                    vapp.entity = req.data.result;
-                    vapp.form.max = vapp.entity.Exam_Total;
+                    th.entity = req.data.result;
+                    th.form.max = th.entity.Exam_Total;
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -52,10 +54,24 @@ $ready(function () {
                 //alert(err);
                 console.error(err);
             });
+            this.getsorts();
             this.handleCurrentChange();
             this.getFiles();
         },
         methods: {
+            //获取学员分组
+            getsorts: function () {
+                var th = this;
+                $api.get('Exam/Sort4Exam', { 'examid': this.form.examid }).then(function (req) {
+                    if (req.data.success) {
+                       th.sorts= req.data.result;                      
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
+            },
             //下拉菜单事件
             dorphandle: function (command) {
                 switch (Number(command)) {
@@ -214,10 +230,7 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //导出按钮的事件，显示导出面板
-            output: function (btn) {
-                this.exportVisible = true;
-            },
+
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;

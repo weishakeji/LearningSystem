@@ -8,7 +8,7 @@
             entity: {}, //当前考试对象
             form: {
                 examid: $api.querystring('id'),
-                name: '', idcard: '',
+                name: '', idcard: '',stsid: '',
                 min: -1, max: -1, manual: false,
                 size: 20, index: 1
             },
