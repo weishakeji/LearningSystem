@@ -178,6 +178,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ExamResults ResultForCache(int examid, long tpid, int acid);
         /// <summary>
+        /// 学员在某个考试场次的得分
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        double? ResultScore(int acid, int examid);
+        /// <summary>
         /// 更新答题信息缓存
         /// </summary>
         /// <param name="exr"></param>
@@ -323,11 +330,24 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int Number4Exam(int examid);
         /// <summary>
+        /// 参加考试主题的学员列表
+        /// </summary>
+        /// <param name="id">考试主题的id</param>
+        /// <param name="name"></param>
+        /// <param name="idcard"></param>
+        /// <param name="stsid"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        List<Accounts> AttendThemeAccounts(int id, string name, string idcard, int stsid, int size, int index, out int countSum);
+        /// <summary>
         /// 当前考试场次下的所有人员成绩
         /// </summary>
         /// <param name="examid"></param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard">身份证号</param>
+        /// <param name="stsid"></param>
         /// <param name="min">按分数区间获取记录，此处是最低分</param>
         /// <param name="max">最高分</param>
         /// <param name="manual">是否批阅</param>

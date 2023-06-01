@@ -839,7 +839,26 @@ namespace Song.ViewData.Methods
             jo.Add("number", total);
             return jo;
         }
-        
+        /// <summary>
+        /// 参加考试主题的所学员
+        /// </summary>
+        /// <param name="id">考试主题的id</param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard"></param>
+        /// <param name="stsid"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ListResult AttendThemeAccounts(int id, string name, string idcard, int stsid, int size,int index)
+        {
+            int total = 0;
+            List<Accounts> datas = Business.Do<IExamination>().AttendThemeAccounts(id, name, idcard, stsid,size, index, out total);
+            ListResult result = new ListResult(datas);
+            result.Index = index;
+            result.Size = size;
+            result.Total = total;
+            return result;
+        }
         /// <summary>
         /// 是否需要人工批阅
         /// </summary>
@@ -915,20 +934,20 @@ namespace Song.ViewData.Methods
 
         #region 考试成绩
         /// <summary>
-        /// 当前考试下所有学员的的学员组
+        /// 当前考试下所有学员的的学员组,并统计参考人员数量
         /// </summary>
         /// <param name="examid">考试主题的id</param>
-        /// <returns></returns>
-        public Song.Entities.StudentSort[]  Sort4Theme(int examid)
+        /// <returns>Sts_Count列为学员组下的参考人员数量</returns>
+        public StudentSort[] Sort4Theme(int examid)
         {
             return Business.Do<IExamination>().StudentSort4Theme(examid);
         }
         /// <summary>
-        /// 当前场次下的所有学员的学员组
+        /// 当前场次下的所有学员的学员组,并统计参考人员数量
         /// </summary>
         /// <param name="examid"></param>
-        /// <returns></returns>
-        public Song.Entities.StudentSort[] Sort4Exam(int examid)
+        /// <returns>Sts_Count列为学员组下的参考人员数量</returns>
+        public StudentSort[] Sort4Exam(int examid)
         {
             return Business.Do<IExamination>().StudentSort4Exam(examid);
         }
@@ -1005,6 +1024,32 @@ namespace Song.ViewData.Methods
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, tpid, stid);
             //if(exr==null) exr= Business.Do<IExamination>().ResultSingle(examid, tpid, stid);
             return exr;
+        }
+        /// <summary>
+        /// 学员在某个考试场次的得分
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="acid">学员id</param>
+        /// <returns>"examid":场次id,"acid":学员id,"score":得分,如果没有考试，返回-1,"testpaper":试题id,"exrid":成绩记录的id,</returns>
+        public JObject ResultScore(int acid,int examid)
+        {
+            JObject jo = new JObject();
+            jo.Add("examid",examid);
+            jo.Add("acid", acid);
+
+            ExamResults result = Business.Do<IExamination>().ResultSingle(acid, examid);
+            if (result == null)
+            {
+                jo.Add("score", -1);
+                return jo;
+            }
+            //考试成绩
+            double score = result.Exr_ScoreFinal;
+            score = Math.Round(Math.Round(score * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
+            jo.Add("score", score);
+            jo.Add("testpaper", result.Tp_Id);
+            jo.Add("exrid", result.Exr_ID);
+            return jo;
         }
         /// <summary>
         /// 考试成绩回顾

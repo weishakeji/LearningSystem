@@ -1,59 +1,79 @@
 ﻿@charset "utf-8";
-body,html{
+
+body, html {
     height: 100%;
     width: 100%;
 }
 
-.link{
+/*下拉菜单中学员组的参考人员数量*/
+.sortcount {
+    float: right;
+    color: #8492a6;
+    font-size: 13px
+}
+
+.link {
     cursor: pointer;
 }
-.link:hover{
+
+.link:hover {
     text-decoration: underline;
 }
+
 .accountInfo {
     line-height: 30px;
     font-size: 18px;
 }
-.accountInfo .ws_avatar{
-    
-    float: left;  
-    margin-top: 5px;  
-    margin-right: 10px;   
+
+.accountInfo .ws_avatar {
+
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
 }
-dl,dd{
+
+dl, dd {
     padding: 0px;
     margin: 0px;
 }
-dl dd{
+
+dl dd {
     line-height: 30px;
 }
-dl dd a[href]{
+
+dl dd a[href] {
     display: inline-block;
     min-width: 230px;
     color: #409EFF;
 }
-dl dd a[href]:hover{
+
+dl dd a[href]:hover {
     text-decoration: underline;
 }
+
 /*得分，小数点对齐*/
-.score{
+.score {
     width: 80px;
     display: flex;
 }
-.score span{
+
+.score span {
     display: block;
 }
-.score .after{
+
+.score .after {
     width: 30px;
     float: right;
     text-align: left;
 }
-.score .dot{
+
+.score .dot {
     width: 8px;
     float: right;
     text-align: center;
 }
-.score .prev{
+
+.score .prev {
     width: 45px;
     float: right;
     text-align: right;

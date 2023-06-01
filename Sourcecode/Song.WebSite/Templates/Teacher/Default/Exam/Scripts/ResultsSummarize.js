@@ -5,17 +5,21 @@ $ready(function () {
         el: '#app',
         data: {
             examid: $api.querystring('id'),
-            theme: {},           //考试主题
+            theme: {},           //当前考试主题
             exams: [],           //考试场次
+            sorts: [],       //当前考试主题下参考学员的学员组
 
             form: {
-                examid: $api.querystring('id'),
-                sort: 0,
-                name: '', idcard: '',stsid: '',
-                min: -1, max: -1, manual: null,
+                id: $api.querystring('id'),
+                name: '', idcard: '', stsid: 0,
                 size: 20, index: 1
             },
-            sorts: [],       //学员组
+            accounts: [],            //参考学员
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+            selects: [], //数据表中选中的行
+
+
 
             visibleSummari: false,       //显示综合信息
 
@@ -23,6 +27,7 @@ $ready(function () {
             account: {},      //当前学员信息
 
             accountVisible: false,   //是否显示当前学员
+
 
             //
             exportVisible: false,    //成绩导出信息是否显示
@@ -39,6 +44,26 @@ $ready(function () {
             //显示考试综合
             visibleSummari: function (nv, ov) {
                 if (nv == false || this.existtheme) return;
+            }
+        },
+        mounted: function () {
+            this.$refs['btngroup'].addbtn({
+                text: '综合', tips: '各场次成绩',
+                id: 'summari', type: 'success',
+                icon: 'e6ef'
+            });
+            //加载学员组
+            this.getsort();
+            //考试场次
+            this.getexams();
+            this.handleCurrentChange(1);
+        },
+        created: function () {
+
+        },
+        methods: {
+            //获取考试场次
+            getexams: function () {
                 var th = this;
                 //当前考试
                 $api.get('Exam/ForID', { 'id': th.examid }).then(function (req) {
@@ -59,21 +84,7 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => { });
-            }
-        },
-        mounted: function () {
-            this.$refs['btngroup'].addbtn({
-                text: '综合', tips: '各场次成绩',
-                id: 'summari', type: 'success',
-                icon: 'e6ef'
-            });
-            //加载学员组
-            this.getsort();
-        },
-        created: function () {
-
-        },
-        methods: {
+            },
             //获取当前考试主题下的所有学员组
             getsort: function () {
                 var th = this;
@@ -91,16 +102,14 @@ $ready(function () {
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
-                console.log('最小值' + th.form.min);
-                console.log('最大值' + th.form.max);
                 this.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
-                th.form.size = Math.floor(area / 42);
-                $api.get("Exam/Result4Exam", th.form).then(function (d) {
+                th.form.size = Math.floor(area / 40);
+                $api.get("Exam/AttendThemeAccounts", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
-                        th.results = d.data.result;
+                        th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
@@ -111,35 +120,6 @@ $ready(function () {
                     //alert(err);
                     console.error(err);
                 });
-            },
-            //计算考试用时
-            calcSpan: function (d1, d2) {
-                if (d1 == null || d2 == null) return '';
-                var total = (d2.getTime() - d1.getTime()) / 1000;
-                var span = Math.floor(total / 60);
-                return span <= 0 ? "<1" : span;
-            },
-            //计算考试成绩
-            clacScore: function (exrid) {
-                var th = this;
-                th.loadingid = exrid;
-                $api.get('Exam/ClacScore', { 'exrid': exrid }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.loadingid = 0;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
-            },
-            //查看综述
-            summari: function () {
-
             },
             //当查看学员信息时，获取当前学员信息
             getaccount: function (row) {
@@ -243,13 +223,14 @@ $ready(function () {
             }
         },
         components: {
-            //得分的输出，为了小数点对齐
-            'avg': {
+            //场次得分信息
+            'exam_scores': {
                 props: ['examid'],
                 data: function () {
                     return {
+                        //平均分，最高分，最低分，及格率
                         avg: 0, high: 0, low: 0, pass: 0,
-                        attend: 0
+                        attend: 0       //参加考试的人数
                     }
                 },
                 created: function () {
@@ -260,24 +241,72 @@ $ready(function () {
                         $api.get('Exam/AttendNumber', { 'examid': th.examid })     //当前场次参考人数
                     ).then(axios.spread(function (req, num) {
                         th.attend = num.data.result.number;
-                        let score = req.data.result;
+                        var score = req.data.result;
+                        console.log(score);
                         th.avg = score.average;
-                        th.high == score.highest;
-                        th.low == score.lowest;
-                        th.pass == score.passrate;
+                        th.high = score.highest;
+                        th.low = score.lowest;
+                        th.pass = score.passrate;
                     })).catch(err => alert(err))
                         .finally(() => {
                             console.log('finally');
                         });
                 },
-                template: `<div class="score">
+                template: `<div class="exam_scores">
                     <el-tag type="primary">平均分：{{avg}}</el-tag>
                     <el-tag type="success">最高分：{{high}}</el-tag>
                     <el-tag type="info">最低分：{{low}}</el-tag>
                     <el-tag type="warning">及格率：{{pass}}</el-tag>
                     <el-tag type="info">参考人数：{{attend}}</el-tag>
                 </div>`
-            }
+            },
+            //学员每场次得分
+            'score': {
+                props: ['examid', 'acid'],
+                data: function () {
+                    return {
+                        score: 0,
+                        loading: false
+                    }
+                },
+                computed: {
+                    change: function () {
+                        const { examid, acid } = this
+                        return { examid, acid };
+                    }
+                },
+                watch: {
+                    change: {
+                        handler: function (val) {
+                            this.getscore(val);
+                        }, immediate: true, deep: true
+                    }
+                },
+                methods: {
+                    getscore: function (val) {
+                        var th = this;
+                        th.loading = true;
+                        $api.get('Exam/ResultScore', { 'acid': val.acid, 'examid': val.examid }).then(function (req) {
+                            if (req.data.success) {
+                                let result = req.data.result;
+                                th.score = result.score;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                },
+                created: function () {
+
+                },
+                template: `<span class="score">
+                    <loading bubble v-if="loading"></loading>
+                    <template v-else-if="score<0">-</template>
+                    <span v-else>{{score}}</span>
+                </span>`
+            },
         }
     });
 

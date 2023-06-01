@@ -266,7 +266,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             wc.And(ExamResults._.Ac_ID == accid);
             wc.And(ExamResults._.Exam_ID == examid);
-            return Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_Score.Desc).ToFirst<ExamResults>();
+            return Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToFirst<ExamResults>();
         }
         public Examination ExamSingle(string uid)
         {
@@ -604,6 +604,20 @@ namespace Song.ServiceImpls
             return r;
         }
         /// <summary>
+        /// 学员在某个考试场次的得分
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        public double? ResultScore(int acid, int examid)
+        {
+            object obj = Gateway.Default.Max<ExamResults>(ExamResults._.Exr_ScoreFinal, ExamResults._.Exam_ID == examid && ExamResults._.Ac_ID == acid);
+            if (obj == null || obj.GetType().FullName == "System.DBNull") return null;
+            double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
+            tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
+            return tm;
+        }
+        /// <summary>
         /// 更新答题信息缓存
         /// </summary>
         /// <param name="exr"></param>
@@ -849,11 +863,20 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public StudentSort[] StudentSort4Theme(int id)
         {
-            Examination theme = this.ExamSingle(id);
-            string sql = @"select distinct sts.* from studentsort as sts  inner join 
-                        (select Sts_ID from ExamResults where ExamResults.Exam_UID='{0}' group by Sts_ID) as exr 
-                        on sts.sts_id=exr.sts_id";
-            sql=string.Format(sql,theme.Exam_UID);
+            //Examination theme = this.ExamSingle(id);
+            string sql = @"select  sts.Sts_ID, Sts_Name,exr.count as 'Sts_Count' from studentsort as sts  inner join 
+                  (select   Sts_ID,COUNT(*) as 'count' from
+                         (select ac_id,max(sts_id) as 'sts_id' from ExamResults where  Exam_ID in
+				(
+                    select Exam_ID from Examination
+                    where
+
+                    Exam_UID in (select Exam_UID from Examination where Exam_ID = {0}) 
+					and Exam_IsTheme = 0
+				)  group by ac_id)
+                         as ac group by Sts_ID)  as exr 
+                        on sts.sts_id=exr.sts_id order by sts.Sts_Tax asc";
+            sql=string.Format(sql,id.ToString());
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
         /// <summary>
@@ -863,9 +886,9 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public StudentSort[] StudentSort4Exam(int examid)
         {
-            string sql = @"select distinct sts.* from studentsort as sts  inner join 
-                        (select  Sts_ID from ExamResults where ExamResults.Exam_ID={0} group by Sts_ID) as exr 
-                        on sts.sts_id=exr.sts_id";
+            string sql = @"select sts.Sts_ID, Sts_Name,exr.count as 'Sts_Count' from studentsort as sts  inner join 
+                        (select Sts_ID,COUNT(*) as count from ExamResults where ExamResults.Exam_ID={0} group by Sts_ID) as exr 
+                        on sts.sts_id=exr.sts_id order by sts.Sts_Tax asc";
             sql = string.Format(sql, examid);
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
@@ -1261,11 +1284,11 @@ namespace Song.ServiceImpls
         }
         public double PassRate4Exam(Examination exam)
         {
-            int sum = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_Score >= 0);
+            int sum = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_ScoreFinal >= 0);
             if (sum < 1) return 0;
             TestPaper tp = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == exam.Tp_Id).ToFirst<TestPaper>();
             if (tp == null) return 0;
-            int pass = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_Score >= tp.Tp_Total * 0.6);
+            int pass = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_ScoreFinal >= tp.Tp_Total * 0.6);
             double s = (double)sum;
             double p = (double)pass;
             double rate = Math.Round(p / s * 10000) / 100;
@@ -1293,7 +1316,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public double Avg4Exam(int examid)
         {
-            object obj = Gateway.Default.Avg<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
+            object obj = Gateway.Default.Avg<ExamResults>(ExamResults._.Exr_ScoreFinal, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
             tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
@@ -1306,7 +1329,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public double Highest4Exam(int examid)
         {
-            object obj = Gateway.Default.Max<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
+            object obj = Gateway.Default.Max<ExamResults>(ExamResults._.Exr_ScoreFinal, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
             tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
@@ -1319,7 +1342,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public double Lowest4Exam(int examid)
         {
-            object obj = Gateway.Default.Min<ExamResults>(ExamResults._.Exr_Score, ExamResults._.Exam_ID == examid);
+            object obj = Gateway.Default.Min<ExamResults>(ExamResults._.Exr_ScoreFinal, ExamResults._.Exam_ID == examid);
             if (obj == null || obj.GetType().FullName == "System.DBNull") return 0;
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
             tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
@@ -1337,6 +1360,50 @@ namespace Song.ServiceImpls
             //return erx.Length;
             return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
             
+        }
+        /// <summary>
+        /// 参加考试主题的学员列表
+        /// </summary>
+        /// <param name="id">考试主题的id</param>
+        /// <param name="name"></param>
+        /// <param name="idcard"></param>
+        /// <param name="stsid"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Accounts> AttendThemeAccounts(int id, string name, string idcard, int stsid, int size, int index, out int countSum)
+        {
+            //当前考试主题下的所有参考学员
+            string sql = @"select ac_id,max(ac_name) as 'ac_name',MAX(ac_sex) as 'ac_sex',MAX(Ac_IDCardNumber) as 'Ac_IDCardNumber',
+                            MAX(Exr_OverTime) as 'Exr_OverTime', MAX(Sts_ID) as 'Sts_ID'
+            from ExamResults where Exam_ID in
+				(
+                    select Exam_ID from Examination
+                    where
+
+                    Exam_UID in (select Exam_UID from Examination where Exam_ID = {0}) 
+					and Exam_IsTheme = 0
+				) group by ac_id";
+            sql = string.Format(sql, id);
+            //查询条件
+            string where = "where {stsid} and {name} and {idcard}";
+            where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : "ac_name like '%" + name + "%'");
+            where = where.Replace("{idcard}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "Ac_IDCardNumber like '%" + idcard + "%'");
+            if (stsid > 0) where = where.Replace("{stsid}", "Sts_ID=" + stsid);
+            else if (stsid == -1) where = where.Replace("{stsid}", "Sts_ID=0");
+            else where = where.Replace("{stsid}", "1=1");
+            //计算总数
+            string total = "select COUNT(*) from ( "+sql+ ") as t " + where;
+            object o = Gateway.Default.FromSql(total).ToScalar();
+            countSum = Convert.ToInt32(o);
+            //查询结果
+            int start = (index - 1) * size;
+            int end = (index - 1) * size + size;
+            string result = "select * from (select ROW_NUMBER() OVER(Order by Exr_OverTime desc) AS 'rowid',* from ( " + sql + ") as t " + where + " ) as n where  rowid > {{start}} and rowid<={{end}}";
+            result = result.Replace("{{start}}", start.ToString());
+            result = result.Replace("{{end}}", end.ToString());
+            return Gateway.Default.FromSql(result).ToList<Accounts>();
         }
         public ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {

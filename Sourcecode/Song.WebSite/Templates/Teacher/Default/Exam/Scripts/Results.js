@@ -154,13 +154,12 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
             //查看综合成绩
-            btnResultSummarize: function (theme) {
-                return;
+            btnResultSummarize: function (theme) {               
                 var file = 'ResultsSummarize';
                 var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
                 var title = ' 综述 - “' + theme.Exam_Title + "”";
