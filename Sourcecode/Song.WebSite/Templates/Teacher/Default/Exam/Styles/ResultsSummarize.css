@@ -54,3 +54,19 @@ th div.cell, td div.cell {
     font-size: 14px;
     line-height: 10px;
 }
+
+/*学员信息中的考试场次列表*/
+.acc_exam {
+    box-sizing: border-box;
+    display: flex;
+    font-size: 16px;
+    padding: 8px;
+    justify-content: space-between;
+}
+
+.acc_exam>div {
+    font-size: 16px;
+}
+.acc_exam span.score{
+    white-space: nowrap;
+}

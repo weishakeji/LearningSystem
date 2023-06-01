@@ -48,9 +48,9 @@ $ready(function () {
         },
         mounted: function () {
             this.$refs['btngroup'].addbtn({
-                text: '综合', tips: '各场次成绩',
+                text: '各场次成绩', tips: '各场次成绩',
                 id: 'summari', type: 'success',
-                icon: 'e6ef'
+                icon: 'e6f1'
             });
             //加载学员组
             this.getsort();
@@ -198,12 +198,12 @@ $ready(function () {
                 });
             },
             //打开考试回顾的窗口
-            review: function (row) {
-                var boxid = "ResultsReview_" + row.Exr_ID + "_" + row.Exam_ID;
-                console.log(row);
+            review: function (score,account,exam) {
+                console.log(score);
+                var boxid = "ResultsReview_" + score.exrid + "_" + score.examid;            
                 var url = $api.url.set("/student/exam/review", {
-                    "examid": row.Exam_ID,
-                    "exrid": row.Exr_ID
+                    "examid": score.examid,
+                    "exrid": score.exrid
                 });
                 //创建
                 if (!window.top.$pagebox) {
@@ -218,7 +218,7 @@ $ready(function () {
                     id: boxid,
                     'showmask': true, 'min': false, 'ico': 'e696'
                 });
-                box.title = row.Ac_Name + '在“' + this.entity.Exam_Name + "”中的成绩回顾";
+                box.title = account.Ac_Name + '在“' + exam.Exam_Name + "”中的成绩回顾";
                 box.open();
             }
         },
@@ -265,7 +265,7 @@ $ready(function () {
                 props: ['examid', 'acid'],
                 data: function () {
                     return {
-                        score: 0,
+                        score: {},
                         loading: false
                     }
                 },
@@ -288,8 +288,7 @@ $ready(function () {
                         th.loading = true;
                         $api.get('Exam/ResultScore', { 'acid': val.acid, 'examid': val.examid }).then(function (req) {
                             if (req.data.success) {
-                                let result = req.data.result;
-                                th.score = result.score;
+                                th.score= req.data.result;                              
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
@@ -303,8 +302,8 @@ $ready(function () {
                 },
                 template: `<span class="score">
                     <loading bubble v-if="loading"></loading>
-                    <template v-else-if="score<0">-</template>
-                    <span v-else>{{score}}</span>
+                    <template v-else-if="score.score<0">-</template>
+                    <span class="link" v-else @click="$emit('review',score)">{{score.score}}</span>
                 </span>`
             },
         }
