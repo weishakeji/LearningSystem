@@ -57,6 +57,7 @@ $ready(function () {
             //考试场次
             this.getexams();
             this.handleCurrentChange(1);
+            this.getFiles();
         },
         created: function () {
 
@@ -144,7 +145,7 @@ $ready(function () {
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {
+                $api.get('Exam/ExcelFiles', { 'examid': th.examid }).then(function (req) {
                     th.fileloading = false;
                     if (req.data.success) {
                         th.files = req.data.result;
@@ -161,23 +162,21 @@ $ready(function () {
             toexcel: function () {
                 var th = this;
                 th.fileloading = true;
-                $api.post('Exam/ExcelOutput', { 'examid': this.form.examid }).then(function (req) {
+                $api.post('Exam/OutputParticipate', { 'examid': th.examid }).then(function (req) {
                     if (req.data.success) {
                         th.getFiles();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //删除文件
             deleteFile: function (file) {
                 var th = this;
                 this.fileloading = true;
-                $api.get('Exam/ExcelDelete', { 'examid': this.form.examid, 'filename': file }).then(function (req) {
+                $api.get('Exam/ExcelDelete', { 'examid': th.examid, 'filename': file }).then(function (req) {
                     th.fileloading = false;
                     if (req.data.success) {
                         var result = req.data.result;
@@ -192,15 +191,13 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //打开考试回顾的窗口
-            review: function (score,account,exam) {
+            review: function (score, account, exam) {
                 console.log(score);
-                var boxid = "ResultsReview_" + score.exrid + "_" + score.examid;            
+                var boxid = "ResultsReview_" + score.exrid + "_" + score.examid;
                 var url = $api.url.set("/student/exam/review", {
                     "examid": score.examid,
                     "exrid": score.exrid
@@ -288,7 +285,7 @@ $ready(function () {
                         th.loading = true;
                         $api.get('Exam/ResultScore', { 'acid': val.acid, 'examid': val.examid }).then(function (req) {
                             if (req.data.success) {
-                                th.score= req.data.result;                              
+                                th.score = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;

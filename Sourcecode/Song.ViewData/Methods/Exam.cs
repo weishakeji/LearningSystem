@@ -1295,6 +1295,7 @@ namespace Song.ViewData.Methods
         /// <param name="examid">考试主题的id</param>
         /// <param name="sorts">学员组的id</param>
         /// <returns></returns>
+        [HttpPost]
         public JObject OutputParticipate(int examid)
         {
             //导出文件的位置
@@ -1317,6 +1318,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="examid"></param>
         /// <returns></returns>
+        [HttpPost]
         public JObject OutputAll(int examid)
         {
             //导出文件的位置

@@ -11,7 +11,7 @@ $ready(function () {
                 size: 20, index: 1
             },
             entity: {}, //当前考试对象
-            sorts:{},       //当前场次的学员组（根据参考学员判断）
+            sorts: {},       //当前场次的学员组（根据参考学员判断）
             results: [],     //成绩
             account: {},      //当前学员信息
             current: {},     //当前行对象
@@ -64,7 +64,7 @@ $ready(function () {
                 var th = this;
                 $api.get('Exam/Sort4Exam', { 'examid': this.form.examid }).then(function (req) {
                     if (req.data.success) {
-                       th.sorts= req.data.result;                      
+                        th.sorts = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -258,10 +258,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //删除文件
             deleteFile: function (file) {
@@ -282,10 +280,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //打开考试回顾的窗口
             review: function (row) {

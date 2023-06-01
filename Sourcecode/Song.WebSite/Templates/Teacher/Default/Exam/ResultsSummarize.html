@@ -132,8 +132,8 @@
                 没有供下载的文件
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="exportVisible = false">取 消</el-button>
-                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+                <el-button @click="exportVisible = false" :disabled="fileloading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="fileloading">按学员组导出</el-button>
             </span>
         </el-dialog>
     </div>

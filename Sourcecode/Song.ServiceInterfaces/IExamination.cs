@@ -368,17 +368,17 @@ namespace Song.ServiceInterfaces
 
         #region 成绩导出
         /// <summary>
-        /// 成绩导出
+        /// 某场考试的成绩导出
         /// </summary>
         /// <param name="filePath"></param>
-        /// <param name="examid">考试id</param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
         string Export4Excel(string filePath, int examid);
         /// <summary>
         /// 导出参加考试的学员成绩
         /// </summary>
         /// <param name="filePath"></param>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试主题的id</param>
         /// <param name="sorts"></param>
         /// <returns></returns>
         string OutputParticipate(string filePath, int examid, StudentSort[] sorts);

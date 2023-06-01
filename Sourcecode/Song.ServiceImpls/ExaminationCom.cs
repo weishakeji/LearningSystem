@@ -1528,7 +1528,7 @@ namespace Song.ServiceImpls
         }
         public string OutputParticipate(string filePath, int examid, StudentSort[] sorts)
         {
-            if (sorts == null) sorts = this.StudentSort4Theme(examid);          
+            if (sorts == null) sorts = this.StudentSort4Theme(examid);
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //考试主题下的所有参考人员（分过组的）成绩
             foreach (StudentSort sts in sorts)
@@ -1551,8 +1551,12 @@ namespace Song.ServiceImpls
                         if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
                         {
                             val = val.Substring(0, val.LastIndexOf("$"));
+                            double score = 0;
+                            double.TryParse(val, out score);
+                            row.CreateCell(j).SetCellValue(score);
                         }
-                        row.CreateCell(j).SetCellValue(val);
+                        else
+                            row.CreateCell(j).SetCellValue(val);                      
                     }
                 }
             }
@@ -1616,8 +1620,12 @@ namespace Song.ServiceImpls
                     if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
                     {
                         val = val.Substring(0, val.LastIndexOf("$"));
+                        double score = 0;
+                        double.TryParse(val, out score);
+                        row.CreateCell(j).SetCellValue(score);
                     }
-                    row.CreateCell(j).SetCellValue(val);
+                    else
+                        row.CreateCell(j).SetCellValue(val);
                 }
             }
         }
