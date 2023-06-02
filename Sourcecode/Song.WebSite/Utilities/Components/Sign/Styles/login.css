@@ -31,7 +31,12 @@ input[type="number"] {
     box-sizing: border-box;
     height: 100%;
 }
-
+.login_weisha .login_title_bar>div:first-child{
+    padding: 3px 6px 3px 0px;
+}
+.login_weisha .login_title_bar>div:last-child{
+    padding: 3px 6px 3px 3px;
+}
 .login_weisha .login_title_bar>div:not(:last-child) {
     margin-right: 25px;
 }
@@ -46,7 +51,7 @@ input[type="number"] {
 
 .login_weisha .login_title_bar>div[current] {
     transform: scale(1.05);
-    border-bottom: solid 3px #999;
+    border-bottom: solid 2px #999;
 }
 
 /*账号与密码输入框*/

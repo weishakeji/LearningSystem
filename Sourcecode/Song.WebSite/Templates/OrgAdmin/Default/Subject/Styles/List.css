@@ -9,8 +9,9 @@ html, body, #vapp {
 }
 
 .tree-box {
-    margin: 15px;
-    width: calc(100% - 30px);
+    margin: 15px 5px 15px 15px;
+    padding: 0px 10px 0px 0px;
+    width: calc(100% - 20px);
     height: calc(100% - 30px - 32px);
     box-sizing: border-box;
     position: relative;
