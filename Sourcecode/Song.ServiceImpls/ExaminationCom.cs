@@ -1473,7 +1473,7 @@ namespace Song.ServiceImpls
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
             //创建工作簿对象
             Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
-            ISheet sheet = hssfworkbook.CreateSheet(exam.Exam_Name);          
+            ISheet sheet = hssfworkbook.CreateSheet(exam.Exam_Name);
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             for (int i = 0; i < nodes.Count; i++)
@@ -1481,7 +1481,7 @@ namespace Song.ServiceImpls
             //生成数据行
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
-            WhereClip wc = new WhereClip();          
+            WhereClip wc = new WhereClip();
             wc.And(ExamResults._.Exam_ID == examid);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
             for (int i = 0; i < exr.Length; i++)
@@ -1492,33 +1492,38 @@ namespace Song.ServiceImpls
                     Type type = exr[i].GetType();
                     System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
                     object obj = propertyInfo.GetValue(exr[i], null);
-                    if (obj != null)
+                    if (obj == null) continue;
+                    string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
+                    string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
+                    string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
+                    string value = "";
+                    switch (datatype)
                     {
-                        string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
-                        string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
-                        string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
-                        string value = "";
-                        switch (datatype)
-                        {
-                            case "date":
-                                DateTime tm = Convert.ToDateTime(obj);
-                                value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                                break;
-                            default:
-                                value = obj.ToString();
-                                break;
-                        }
-                        if (defvalue.Trim() != "")
-                        {
-                            foreach (string s in defvalue.Split('|'))
-                            {
-                                string h = s.Substring(0, s.IndexOf("="));
-                                string f = s.Substring(s.LastIndexOf("=") + 1);
-                                if (value.ToLower() == h.ToLower()) value = f;
-                            }
-                        }
-                        row.CreateCell(j).SetCellValue(value);
+                        case "date":
+                            DateTime tm = Convert.ToDateTime(obj);
+                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                            break;
+                        case "float":                         
+                            float f = 0;
+                            float.TryParse(obj.ToString(), out f);
+                            row.CreateCell(j).SetCellValue(f);
+                            continue;
+                            //break;
+                        default:
+                            value = obj.ToString();
+                            break;
                     }
+                    if (defvalue.Trim() != "")
+                    {
+                        foreach (string s in defvalue.Split('|'))
+                        {
+                            string h = s.Substring(0, s.IndexOf("="));
+                            string f = s.Substring(s.LastIndexOf("=") + 1);
+                            if (value.ToLower() == h.ToLower()) value = f;
+                        }
+                    }
+                    row.CreateCell(j).SetCellValue(value);
+
                 }
             }
             FileStream file = new FileStream(path, FileMode.Create);

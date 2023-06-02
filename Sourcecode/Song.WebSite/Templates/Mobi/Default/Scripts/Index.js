@@ -53,6 +53,7 @@ $ready(function () {
                 }, immediate: true
             },
             'menus': function (nv, ov) {
+                if (nv == null) return;
                 var len = nv.length;
                 this.$nextTick(function () {
                     if (len >= 12) return;

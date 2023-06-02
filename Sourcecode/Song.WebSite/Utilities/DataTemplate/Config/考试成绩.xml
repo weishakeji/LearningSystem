@@ -5,5 +5,5 @@
   <item Column="姓名" Field="Ac_Name" />
   <item Column="性别" Field="Ac_Sex" DefautValue="0=未知|1=男|2=女"/>
   <item Column="身份证号" Field="Ac_IDCardNumber" /> 
-  <item Column="得分" Field="Exr_ScoreFinal" />  
+  <item Column="得分" Field="Exr_ScoreFinal" DataType="float" />  
 </config>
