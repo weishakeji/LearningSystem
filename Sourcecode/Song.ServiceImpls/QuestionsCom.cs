@@ -341,7 +341,7 @@ namespace Song.ServiceImpls
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
         {
             WhereClip wc = new WhereClip();
-            if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
             //当前章节，以及当前章节之下的所有试题

@@ -63,8 +63,9 @@ Vue.component('fromtype1', {
         getOutline: function () {
             if (this.outlines != null) return;
             var th = this;
-            var couid = th.testpaper.Cou_ID;
-            if (couid <= 0) return;
+            let couid = th.testpaper.Cou_ID;
+            if (couid <= 0) couid = $api.querystring('couid');
+            if (couid <= 0 || couid == '') return;
             $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
                 if (req.data.success) {
                     th.outlines = req.data.result;
@@ -277,7 +278,7 @@ Vue.component('fromtype1', {
 });
 
 Vue.component('fromtype1_item', {
-    props: ['item', 'types','couid'],
+    props: ['item', 'types', 'couid'],
     data: function () {
         return {
 

@@ -62,7 +62,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        th.$confirm('修改学员密码, 是否继续?', '提示', {
+                        th.$confirm('是否继续?', '重置密码', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
@@ -95,7 +95,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
             }
         },
     });
