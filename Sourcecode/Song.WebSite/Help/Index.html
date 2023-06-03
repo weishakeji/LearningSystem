@@ -24,21 +24,25 @@
             <nav>
                 <template v-for="item in menus">
                     <p v-if="item.type=='line'" class="line"></p>
-                    <div v-else @click="menuclk(item)">
-                        <template v-if="item.type=='link'">
-                            <a :href="item.url" target="_blank">
-                                <icon v-html="'&#x'+item.ico" :style="'font-size:'+item.icosize+'px'"></icon>
-                                <span v-html="item.name"></span>
-                            </a>
-                        </template>
-                        <template v-else>
-                            <icon v-html="'&#x'+item.ico" :style="'font-size:'+item.icosize+'px'"></icon>
+                    <template v-else>
+                        <a :href="item.url" v-if="item.type=='link'" :style="nodestyle(item)" target="_blank">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
                             <span v-html="item.name"></span>
-                        </template>
-                    </div>
+                            <hot v-if="item.hot"></hot>
+                        </a>
+                        <div v-else @click="menuclk(item)" :style="nodestyle(item)">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
+                            <span v-html="item.name"></span>
+                            <hot v-if="item.hot"></hot>
+                        </div>
+                    </template>
                 </template>
+                <a class="copyright" copyright="website" target="_blank"><span copyright="company"></span></a>
             </nav>
-            <aside>侧边栏</aside>
+            <aside>
+                <iframe name="content" id="content" frameborder="0" border="0" marginwidth="0" marginheight="0"
+                    :src="iframeurl"></iframe>
+            </aside>
         </section>
     </div>
 </body>

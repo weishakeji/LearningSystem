@@ -84,7 +84,7 @@ menu .tit::after {
 }
 
 menu dl {
-    height: calc(100% - 40px - 30px);
+    height: calc(100% - 40px);
     overflow-y: auto;
     position: relative;
 }
@@ -499,13 +499,3 @@ fieldset {
     font-size: 12px;
 }
 
-footer {
-    height: 30px;
-    line-height: 30px;
-    text-indent: 10px;
-    font-size: 12px;
-    background: #ccc;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-}
