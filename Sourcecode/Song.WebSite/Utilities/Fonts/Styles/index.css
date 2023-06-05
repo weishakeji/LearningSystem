@@ -66,6 +66,7 @@ li.selected i.icon{
     border-top: solid 1px #ccc;
     margin-top: 10px;
     padding-top: 20px;
+    width: 101%;
 }
 
 .code {

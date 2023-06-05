@@ -286,6 +286,7 @@ loading[star]::before {
 /*更多预载效果*/
 *[loading] {
     margin: 0px auto;
+    display: block;
 }
 
 *[loading=p1] {
@@ -304,6 +305,12 @@ loading[star]::before {
     width: 120px;
     height: 20px;
     border-radius: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    text-align: center;
     background:
         linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
     animation: p2 2s infinite steps(10);
@@ -319,6 +326,12 @@ loading[star]::before {
     width: 120px;
     height: 20px;
     border-radius: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #FFF;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    text-align: center;
     background:
         repeating-linear-gradient(135deg, #f03355 0 10px, #ffa516 0 20px) 0/0% no-repeat,
         repeating-linear-gradient(135deg, #ddd 0 10px, #eee 0 20px) 0/100%;

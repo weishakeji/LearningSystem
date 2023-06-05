@@ -38,6 +38,8 @@ header {
     height: 60px;
     width: calc(100% - 20px);
     margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 0px 0px 0px 15px;
 }
 
 header>div:first-child {
