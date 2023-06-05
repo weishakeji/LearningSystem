@@ -5,7 +5,9 @@ html, body, #vapp {
     padding: 0px;
     overflow: hidden;
 }
-
+#vapp{
+    max-width: 1200px;
+}
 body {
     padding: 20px;
     box-sizing: border-box;
@@ -34,7 +36,7 @@ header {
     display: flex;
     justify-content: space-between;
     height: 60px;
-    width: 100%;
+    width: calc(100% - 20px);
     margin-bottom: 20px;
 }
 
@@ -79,8 +81,8 @@ section aside iframe {
 /*菜单*/
 nav {
     width: 250px;
-    padding: 0px 30px 0px 10px;
-    position: relative;
+    padding: 0px 30px 30px 10px;  
+    overflow: hidden auto; 
 }
 
 nav>div, nav>a {
@@ -89,17 +91,29 @@ nav>div, nav>a {
     font-size: 16px;
     position: relative;
     color: #aaa;
-    margin: 12px 8px;
+    margin: 10px 8px;
     border-radius: 5px;
     background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
     cursor: pointer;
 }
-
+nav>div[current], nav>a[current]{
+    background-color: #67C23A !important;
+    color: #fff !important;
+    background-image: linear-gradient(135deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
+} 
+nav>div[current]::after, nav>a[current]::after{
+    content: '\e777';
+    font-family: "webdesk_icon" !important;
+    color: #fff;
+    position: absolute;
+    bottom: 1px;
+    right: -4px;
+}
 nav>p.line {
-    margin: 15px 0px;
+    margin: 20px 0px;
     height: 1px;
     width: 100%;
-    background: linear-gradient(to right, transparent, #999, transparent);
+    background: linear-gradient(to right, transparent, #ccc, transparent);
 }
 
 nav>* icon {
@@ -111,7 +125,7 @@ nav>* hot {
     display: block;
     position: absolute;
     top: 10px;
-    right: 5px;
+    right: 8px;
 }
 nav>* hot::before{
     content: '\e856';
@@ -122,9 +136,10 @@ nav a.copyright {
     margin: 0px;
     padding: 0px 0px 0px 25px;
     position: absolute;
-    bottom: 0px;
+    bottom: 10px;
+    left: 30px;
     width: 100%;
     text-align: left;
     font-size: 12px;
-    color: #999;
+    color: #999;    
 }

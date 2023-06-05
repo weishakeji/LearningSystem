@@ -1,5 +1,5 @@
 body {
-    padding: 10px 20px;
+    padding: 20px;
     overflow: auto;
 }
 
@@ -17,10 +17,8 @@ p {
 }
 
 p[copyright="intro"] {
-    color: rgb(250, 176, 176);
+    color: #666;
     margin: 20px 0px; 
-    border: 1px solid #eee;
-    padding: 10px;
 }
 
 .opensourse p,
@@ -45,35 +43,15 @@ a:hover {
     display: flex;
 }
 
-
- a {
-    color: #09F;
-    text-decoration: underline;
-  }
-
-dl {
-    margin: 10px 0px 0px 30px;
-  }
-
-dl,
-dt,
-dd {
-    padding: 0px;
-    text-indent: 0px;
-    line-height: 25px;
-  }
-
-dl dt {
-    font-size: 16px;
-  }
-
-dl dd {
-    margin: 0px 0px 5px 0px;
-    padding: 0px 0px 0px 30px;
-    text-indent: 0px;
-  }
-
-dl dd,
-dl dd * {
-    font-size: 15px;
-  }
+#foot {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    box-sizing: border-box;
+    padding: 0px 20px;
+}
