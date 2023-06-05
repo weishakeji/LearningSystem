@@ -1,23 +1,53 @@
 ﻿<!doctype html>
 <html>
+
 <head resource>
     <title>预载效果</title>
     <link type="text/css" rel="stylesheet" href="icon.css">
+    <link type="text/css" rel="stylesheet" href="Styles/Loading.css">
 </head>
-<body>
-   
-    <div><loading fish>...</loading></div>
-    <div><loading bubble></loading></div>
-    <div><loading fresh></loading></div>
 
-    <div><loading star></loading></div>
+<body>
+    <h1>预载小图标</h1>
+    <p>
+        在网页中引用“/Utilities/Fonts/icon.css”，即可使用预载图标，默认在/templates/文件夹下的模板文件中，都已经引用该css文件，可以直接采用下述方法使用。
+    </p> 
+    <p>显示 <loading></loading>，采用如下代码</p>
+    <textarea><loading></loading></textarea>
+    <p>显示 <loading>正在加载中...</loading>，采用如下代码</p>
+    <textarea><loading>正在加载中...</loading></textarea>
+
+    <p>更多样式</p>
+   <div>
+        <loading fish>...</loading>   
+        <loading bubble></loading>  
+        <loading fresh></loading>    
+        <loading star></loading>
+    </div>
+    <textarea rows="5">
+        <loading fish>...</loading>   
+        <loading bubble></loading>  
+        <loading fresh></loading>    
+        <loading star></loading>
+    </textarea>
+    <h1>预载的大图标</h1>
+    <p>大的预载图标往往用于页面加载，效果如下：</p>
     <div loading="p1"></div>
+    <textarea> <div loading="p1"></div></textarea>
     <div loading="p2"></div>
+    <textarea> <div loading="p2"></div></textarea>
     <div loading="p3"></div>
+    <textarea> <div loading="p3"></div></textarea>
     <div loading="p4"></div>
+    <textarea> <div loading="p4"></div></textarea>
     <div loading="p5"></div>
+    <textarea> <div loading="p5"></div></textarea>
     <div loading="p6"></div>
+    <textarea> <div loading="p6"></div></textarea>
     <div loading="p7"></div>
+    <textarea> <div loading="p7"></div></textarea>
     <div loading="p8"></div>
+    <textarea> <div loading="p8"></div></textarea>
 </body>
+
 </html>
