@@ -1,0 +1,79 @@
+body {
+    padding: 10px 20px;
+    overflow: auto;
+}
+
+h1 {
+    margin: 0px; 
+    font-size: 22px;
+    text-indent: 1rem;
+}
+
+p {
+    font-size: 18px;
+    margin: 0.5rem 0px 0px 0px;
+    line-height: 35px;
+    text-indent: 2rem;
+}
+
+p[copyright="intro"] {
+    color: rgb(250, 176, 176);
+    margin: 20px 0px; 
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.opensourse p,
+.opensourse p a {
+    font-size: 13px;
+    line-height: 20px;
+    color: #444;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#head {
+    box-sizing: border-box;
+    padding: 0px 0px 0px 20px;
+    display: flex;
+}
+
+
+ a {
+    color: #09F;
+    text-decoration: underline;
+  }
+
+dl {
+    margin: 10px 0px 0px 30px;
+  }
+
+dl,
+dt,
+dd {
+    padding: 0px;
+    text-indent: 0px;
+    line-height: 25px;
+  }
+
+dl dt {
+    font-size: 16px;
+  }
+
+dl dd {
+    margin: 0px 0px 5px 0px;
+    padding: 0px 0px 0px 30px;
+    text-indent: 0px;
+  }
+
+dl dd,
+dl dd * {
+    font-size: 15px;
+  }

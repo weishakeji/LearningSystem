@@ -385,6 +385,12 @@
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\Index.css" />
+    <Content Include="Help\Contents\Deployment.html" />
+    <Content Include="Help\Contents\Overview.html" />
+    <Content Include="Help\Contents\Scripts\Overview.js" />
+    <Content Include="Help\Contents\Sourcecode.html" />
+    <Content Include="Help\Contents\Styles\Overview.css" />
+    <Content Include="Help\Contents\Templates.html" />
     <Content Include="Help\Datas\Entitiy\TestResults.json" />
     <Content Include="Help\Datas\Scripts\test.js" />
     <Content Include="Help\Datas\Styles\test.css" />
@@ -1445,6 +1451,7 @@
     <Content Include="Utilities\Images\Pay\支付宝手机支付.png" />
     <Content Include="Utilities\Images\Pay\支付宝网页直付.png" />
     <Content Include="Utilities\Images\testpaper.jpg" />
+    <Content Include="Utilities\Images\weishakeji.png" />
     <Content Include="Utilities\MathJax\globalVariable.js" />
     <Content Include="Utilities\MathJax\output\chtml.js" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\tex.js" />

@@ -6,50 +6,47 @@
     <link rel="shortcut icon" href="Images/help.ico" />
     <link type="text/css" rel="stylesheet" href="../Utilities/Fonts/icon.css">
     <link href="Styles/index.css" rel="stylesheet" type="text/css" />
-
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
 </head>
 
 <body>
-    <h1 icon="&#xa026">帮助中心</h1>
-
-    <dl>
-        <dd>
-            <a><icon>&#xa001</icon>系统简述</a>
-        </dd>
-        <dd>
-            <a><icon style="font-size: 16px;">&#xa030</icon>安装部署</a>
-        </dd>
-        <dd>
-            <a href="datas/test.htm"><icon>&#xa058</icon>检测数据库</a>
-        </dd>
-    </dl>
-    <dl>
-        <dd>
-            <a href="api"><icon>&#xa01c</icon>API接口方法说明</a>
-        </dd>
-        <dd>
-            <a href="datas"><icon>&#xe6a4</icon>数据实体说明</a>
-        </dd>
-        <dd>
-            <a href="../Utilities/Fonts/index.html"><icon>&#xe610</icon>图标库</a>
-        </dd>
-        <dd>
-            <a href="../Utilities/Fonts/loading.html"><icon>&#xe601</icon>预载效果</a>
-        </dd>
-    </dl>
-
-    <dl>
-        <dd>
-            <a><icon>&#xa034</icon>源代码（二次开发）说明</a>
-        </dd>
-        <dd>
-            <a><icon>&#xa033</icon>模版使用说明</a>
-        </dd>
-        <dd>
-            <a href="http://www.weisha100.net/" target="_blank"><icon>&#xa026</icon>使用教程</a>
-        </dd>
-    </dl>
-
+    <div id="vapp">
+        <header>
+            <div icon="&#xa026">帮助中心</div>
+            <div>
+                <span icon="&#xa047" copyright="tel"> </span>
+                <a href="/" icon="&#xa020">首页</a>
+            </div>
+        </header>
+        <section>
+            <nav>
+                <template v-for="item in menus">
+                    <p v-if="item.type=='line'" class="line"></p>
+                    <template v-else>
+                        <a :href="item.url" v-if="item.type=='link'" :style="nodestyle(item)"
+                            :current="item.name==current.name" target="_blank">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
+                            <span v-html="item.name"></span>
+                            <hot v-if="item.hot"></hot>
+                        </a>
+                        <div v-else @click="menuclk(item)" :style="nodestyle(item)" :current="item.name==current.name">
+                            <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
+                            <span v-html="item.name"></span>
+                            <hot v-if="item.hot"></hot>
+                        </div>
+                    </template>
+                </template>
+                <a class="copyright" copyright="website" target="_blank"><span copyright="company"></span></a>
+            </nav>
+            <aside>
+                <iframe name="content" id="content" frameborder="0" border="0" marginwidth="0" marginheight="0"
+                    :src="iframeurl"></iframe>
+            </aside>
+        </section>
+    </div>
 </body>
+<script type="text/javascript" src="Scripts/index.js"></script>
 
 </html>

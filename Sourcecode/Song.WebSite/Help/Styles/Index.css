@@ -1,28 +1,147 @@
-h1 {
-    font-size: 25px;
-    padding: 20px;
-}
-dl{
-    display: flex;
-    padding-left: 20px;
-}
-dl dd{
-    font-size: 18px;
-    margin: 10px 30px 10px 0px;
+html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
     padding: 0px;
+    overflow: hidden;
 }
+#vapp{
+    max-width: 1200px;
+}
+body {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 a {
     color: #aaa;
     text-decoration: none;
 }
 
 a[href] {
-    color: #409EFF;
+    color: #333;
 }
-a[href]:hover{
+
+a[href]:hover {
     text-decoration: underline;
 }
-a icon{
+
+a icon {
     font-size: 22px;
     margin-right: 6px;
+}
+
+/*头部*/
+header {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    width: calc(100% - 20px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 0px 0px 0px 15px;
+}
+
+header>div:first-child {
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    color: #666;
+    text-shadow: 2px 2px 1px #aaa;
+
+}
+
+header>div:first-child::before {
+    font-size: 33px;
+    margin-right: 10px;
+}
+
+header>div:last-child>*:not(*:last-child) {
+    margin: 0px 15px;
+}
+
+header>div:last-child *[copyright=tel] {
+    color: #999;
+}
+
+/*内容区域*/
+section {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 80px);
+}
+
+section aside {
+    flex: 1;
+}
+
+section aside iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/*菜单*/
+nav {
+    width: 250px;
+    padding: 0px 30px 30px 10px;  
+    overflow: hidden auto; 
+}
+
+nav>div, nav>a {
+    padding: 10px 6px 10px 45px;
+    display: block;
+    font-size: 16px;
+    position: relative;
+    color: #aaa;
+    margin: 10px 8px;
+    border-radius: 5px;
+    background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
+    cursor: pointer;
+}
+nav>div[current], nav>a[current]{
+    background-color: #67C23A !important;
+    color: #fff !important;
+    background-image: linear-gradient(135deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
+} 
+nav>div[current]::after, nav>a[current]::after{
+    content: '\e777';
+    font-family: "webdesk_icon" !important;
+    color: #fff;
+    position: absolute;
+    bottom: 1px;
+    right: -4px;
+}
+nav>p.line {
+    margin: 20px 0px;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #ccc, transparent);
+}
+
+nav>* icon {
+    position: absolute;
+
+}
+
+nav>* hot {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+}
+nav>* hot::before{
+    content: '\e856';
+    font-family: "webdesk_icon" !important;
+    color: #ff0000;
+}
+nav a.copyright {
+    margin: 0px;
+    padding: 0px 0px 0px 25px;
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+    color: #999;    
 }
