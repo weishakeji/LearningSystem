@@ -93,7 +93,7 @@ nav>div, nav>a {
     font-size: 16px;
     position: relative;
     color: #aaa;
-    margin: 10px 8px;
+    margin: 5px 8px;
     border-radius: 5px;
     background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
     cursor: pointer;
@@ -112,7 +112,7 @@ nav>div[current]::after, nav>a[current]::after{
     right: -4px;
 }
 nav>p.line {
-    margin: 20px 0px;
+    margin: 15px 0px;
     height: 1px;
     width: 100%;
     background: linear-gradient(to right, transparent, #ccc, transparent);

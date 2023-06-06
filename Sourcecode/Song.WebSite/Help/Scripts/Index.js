@@ -37,8 +37,12 @@ window.vapp = new Vue({
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgb(245 241 227)' }
             },
             {
-                name: '数据实体', type: 'link', url: 'datas/',
+                name: '数据实体说明', type: 'link', url: 'datas/',
                 icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgb(237 248 249)' }
+            },
+            {
+                name: '数据实体生成', type: '', url: 'datas/',
+                icon: { i: 'e852', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             { type: 'line' },
             {
@@ -49,7 +53,10 @@ window.vapp = new Vue({
                 name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
                 icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
             },
-         
+            {
+                name: '版权信息修改', type: 'node', url: 'about.html',
+                icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
+            },
            
            
         ],

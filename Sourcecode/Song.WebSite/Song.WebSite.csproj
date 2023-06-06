@@ -408,6 +408,7 @@
     <Content Include="Help\Scripts\About.js" />
     <Content Include="Help\Scripts\Index.js" />
     <Content Include="Help\Service.html" />
+    <Content Include="Help\Styles\About.css" />
     <Content Include="Help\Styles\Index.css" />
     <Content Include="Pay\Alipaywap\notify_url.aspx" />
     <Content Include="Pay\Alipaywap\return_url.aspx" />

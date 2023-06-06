@@ -10,85 +10,23 @@
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <script type="text/javascript" src="Scripts/About.js"></script>
-    <style type="text/css">
-        body {
-            padding: 20px;
-            overflow: auto;
-        }
-
-        h1 {
-            margin: 0px;
-            text-shadow: 1px 1px 2px #666;
-            font-size: 30px;
-            text-indent: 1rem;
-        }
-
-        p {
-            font-size: 18px;
-            margin: 0.5rem 0px 0px 0px;
-            line-height: 35px;
-            text-indent: 2rem;
-        }
-
-        p[copyright="intro"] {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .opensourse p,
-        .opensourse p a {
-            font-size: 13px;
-            line-height: 20px;
-            color: #444;
-        }
-
-        a {
-            color: #000;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        #head {
-            box-sizing: border-box;
-            padding: 0px 0px 0px 20px;
-            display: flex;
-        }
-
-        #foot {
-            display: flex;
-            justify-content: space-between;
-            position: absolute;
-            height: 30px;
-            line-height: 30px;
-            width: 100%;
-            bottom: 0px;
-            left: 0px;
-            box-sizing: border-box;
-            padding: 0px 20px;
-        }
-    </style>
+    <link href="Styles/About.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <div id="head">
-        <img copyright="logo" />
-        <h1 copyright="product"></h1>
-    </div>
+    <h1>
+       版权信息修改
+    </h1>
+    <p>为方便代理商ODM销售（俗称贴牌销售），我们提供了方便修改版权信息的方法。所有涉及版权的内容集中在根文件夹下的Copyright.weisha。可能点击此处查看
+        <a href="/copyright" target="_blank">Copyright.weisha</a>
+    </p>
+    <p>前端Javascript引用方法</p>
+    <p>后端模板引擎中的处理方法</p>
+    <p>如何修改，直接修改xml或通过超管后台的编辑器</p>
     <p copyright="intro"></p>
     <p copyright="detail"></p>
-    <hr />
-    <div class="opensourse">
-        <p><a copyright="github" target="_blank">开源地址：<span copyright="github"></span></a></p>
-        <p><a copyright="gitee" target="_blank">国内镜像：<span copyright="gitee"></span></a></p>
-    </div>
-    <hr />
-    <div id="foot">
-        <span>电话：<span copyright="tel"></span></span>
-        <a copyright="website" target="_blank"><span copyright="company"></span></a>
-    </div>
+   
+ 
 </body>
 
 </html>
