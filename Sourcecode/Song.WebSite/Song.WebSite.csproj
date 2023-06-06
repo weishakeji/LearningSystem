@@ -400,6 +400,7 @@
     <Content Include="Help\Datas\Index.htm" />
     <Content Include="Help\Datas\Scripts\index.js" />
     <Content Include="Help\Datas\Styles\index.css" />
+    <Content Include="Help\Default.html" />
     <Content Include="Help\Images\help.ico" />
     <Content Include="Help\Index.html" />
     <Content Include="Help\Images\api.ico" />
