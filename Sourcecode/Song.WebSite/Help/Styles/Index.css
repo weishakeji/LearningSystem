@@ -23,7 +23,7 @@ a[href] {
 }
 
 a[href]:hover {
-    text-decoration: underline;
+    --text-decoration: underline;
 }
 
 a icon {
@@ -97,12 +97,21 @@ nav>div, nav>a {
     border-radius: 5px;
     background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
     cursor: pointer;
+    box-sizing: border-box;
+}
+nav>div:hover, nav>a:hover{
+    box-shadow: inset 0 0 2px #67C23A;
+    background-color: #eee !important;
 }
 nav>div[current], nav>a[current]{
     background-color: #67C23A !important;
     color: #fff !important;
     background-image: linear-gradient(135deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
 } 
+nav>div[current]:hover, nav>a[current]:hover{
+    box-shadow: none;
+}
+
 nav>div[current]::after, nav>a[current]::after{
     content: '\e777';
     font-family: "webdesk_icon" !important;
@@ -128,6 +137,9 @@ nav>* hot {
     position: absolute;
     top: 10px;
     right: 8px;
+}
+nav>div[current] hot::before, nav>a[current] hot::before{
+   color: #fff;
 }
 nav>* hot::before{
     content: '\e856';
