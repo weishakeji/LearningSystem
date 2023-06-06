@@ -8,8 +8,13 @@ window.vapp = new Vue({
         menus: [
             {
                 name: '系统简述', type: 'node', hot: false, url: 'Contents/Overview.html',
-                icon: { i: 'a051', s: 26, l: 0, t: -2 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+                icon: { i: 'a051', s: 26, l: 0, t: -2 }, color: { f: '67C23A', b: '' }
             },
+             {
+                name: '使用教程', type: 'link', hot: false, url: 'http://www.weisha100.net/',
+                icon: { i: 'a026', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+            },
+            { type: 'line' },
             {
                 name: '安装部署', type: '', url: 'Contents/Deployment.html',
                 icon: { i: 'a030', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
@@ -17,23 +22,6 @@ window.vapp = new Vue({
             {
                 name: '检测数据库', type: 'node', hot: true, url: 'datas/test.htm',
                 icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: 'rgb(251 118 118)', b: 'rgb(249 236 234)' }
-            },
-            { type: 'line' },
-            {
-                name: 'API接口', type: 'link', url: 'api/',
-                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '67C23A', b: 'rgb(245 241 227)' }
-            },
-            {
-                name: '数据实体', type: 'link', url: 'datas/',
-                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: '67C23A', b: 'rgb(237 248 249)' }
-            },
-            {
-                name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
-                icon: { i: 'e610', s: 25, l: 0, t: 0 }, color: { f: '67C23A', b: '' }
-            },
-            {
-                name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
-                icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: '67C23A', b: '' }
             },
             { type: 'line' },
             {
@@ -45,9 +33,25 @@ window.vapp = new Vue({
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: '使用教程', type: 'link', hot: true, url: 'http://www.weisha100.net/',
-                icon: { i: 'a026', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+                name: 'RESTful API接口', type: 'link', url: 'api/',
+                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgb(245 241 227)' }
             },
+            {
+                name: '数据实体', type: 'link', url: 'datas/',
+                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgb(237 248 249)' }
+            },
+            { type: 'line' },
+            {
+                name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
+                icon: { i: 'e610', s: 25, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
+            },
+            {
+                name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
+                icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
+            },
+         
+           
+           
         ],
         //当前点击的对象
         current: {}
