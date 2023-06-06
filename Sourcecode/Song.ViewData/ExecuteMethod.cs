@@ -192,11 +192,11 @@ namespace Song.ViewData
                         return new Song.ViewData.DataResult(except, time);
                     }
                 }
-                if (ex.InnerException is WeiSha.Data.DataException)
-                {
-                    WeiSha.Data.DataException except = (WeiSha.Data.DataException)ex.InnerException;
-                    return new Song.ViewData.DataResult(except, time);
-                }
+                //if (ex.InnerException is WeiSha.Data.DataException)
+                //{
+                //    WeiSha.Data.DataException except = (WeiSha.Data.DataException)ex.InnerException;
+                //    return new Song.ViewData.DataResult(except, time);
+                //}
                 return new Song.ViewData.DataResult(ex, time);
             }
         }
