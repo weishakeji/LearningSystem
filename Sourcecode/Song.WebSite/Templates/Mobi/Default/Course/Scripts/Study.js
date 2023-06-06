@@ -58,8 +58,8 @@ $ready(function () {
                 var couid = this.couid;
                 var th = this;
                 $api.bat(
-                    $api.cache("Course/ForID", { id: couid }),
-                    $api.cache("Outline/TreeList", { couid: couid }),
+                    $api.get("Course/ForID", { id: couid }),
+                    $api.get("Outline/TreeList", { couid: couid }),
                     $api.get('Course/Studied', { 'couid': couid }),
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
                 ).then(axios.spread(function (cur, ol, studied, owned) {

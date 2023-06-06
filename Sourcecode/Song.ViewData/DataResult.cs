@@ -169,23 +169,24 @@ namespace Song.ViewData
         /// <returns></returns>
         public static string ObjectToJson(object obj)
         {
-            return ObjectToJson(obj, true, 0);
+            return ObjectToJson(obj,null, true, 0);
         }
         /// <summary>
         /// 将对象转为json
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">数据对象</param>
+        /// <param name="type">数据对象的类型</param>
         /// <param name="islower">json的属性名是否转小写</param>
         /// <param name="level">输出的层深</param>
         /// <returns></returns>
-        public static string ObjectToJson(object obj, bool islower, int level)
+        public static string ObjectToJson(object obj,Type type, bool islower, int level)
         {
             //当大于最大层深，则不再输出
             if (level >= max_level) return "\"\"";
 
             if (obj == null) return level <= 1 ? "null" : "\"\"";
 
-            Type type = obj.GetType();
+            if (type == null) type = obj.GetType();
             //类型名（包括泛型名称）
             string typename = type.SimpleName();
             if (typename == "DBNull") return "\"\"";          
@@ -242,7 +243,7 @@ namespace Song.ViewData
                 sb.Append("[");
                 for (int i = 0; i < array.Length; i++)
                 {
-                    sb.Append(ObjectToJson(array.GetValue(i), false, lv));
+                    sb.Append(ObjectToJson(array.GetValue(i), null, false, lv));
                     if (i < array.Length - 1) sb.Append(",");
                 }
                 sb.Append("]");
@@ -255,7 +256,7 @@ namespace Song.ViewData
                 sb.Append("[");
                 for (int i = 0; i < list.Count; i++)
                 {
-                    sb.Append(ObjectToJson(list[i], false, lv));
+                    sb.Append(ObjectToJson(list[i], null, false, lv));
                     if (i < list.Count - 1) sb.Append(",");
                 }
                 sb.Append("]");
@@ -288,7 +289,7 @@ namespace Song.ViewData
                     if (objAttrs.Length > 0) continue;
                     //json属性名
                     string attrname = isLower ? pi.Name.ToLower() : pi.Name;
-                    sb.Append(string.Format("\"{0}\":{1}", attrname, ObjectToJson(value, false, lv)));
+                    sb.Append(string.Format("\"{0}\":{1}", attrname, ObjectToJson(value, null, false, lv)));
                     if (j < properties.Length - 1) sb.Append(",");
                 }
                 sb.Append("}");
@@ -309,11 +310,13 @@ namespace Song.ViewData
                 DataRow dr = dt.Rows[i];
                 sb.Append("{");
                 for (int j = 0;j < dt.Columns.Count; j++)
-                {
-                    object val = dr[j];
-                    string keyval = string.Format("{0}:{1}", dt.Columns[j].ColumnName, ObjectToJson(val, false, 1));
-                    if (keyval == "{}") keyval = "";
-                    sb.Append(keyval);
+                {                    
+                    string val = ObjectToJson(dr[j], dt.Columns[j].DataType, false, 1);
+                    if (val == "{}") val = "";
+                    string json = string.Format("{0}:{1}", dt.Columns[j].ColumnName, val);
+                    json = json.Replace(":\"True\"", ":true").Replace(":\"False\"", ":false");
+ 
+                    sb.Append(json);
                     if (j < dt.Columns.Count - 1) sb.Append(",");
                 }
                 sb.Append("}");
