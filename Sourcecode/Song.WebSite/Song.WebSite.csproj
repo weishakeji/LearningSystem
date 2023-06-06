@@ -387,8 +387,10 @@
     <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\Contents\Deployment.html" />
     <Content Include="Help\Contents\Overview.html" />
+    <Content Include="Help\Contents\Scripts\Deployment.html.js" />
     <Content Include="Help\Contents\Scripts\Overview.js" />
     <Content Include="Help\Contents\Sourcecode.html" />
+    <Content Include="Help\Contents\Styles\Deployment.css" />
     <Content Include="Help\Contents\Styles\Overview.css" />
     <Content Include="Help\Contents\Templates.html" />
     <Content Include="Help\Datas\Entitiy\TestResults.json" />
@@ -1437,6 +1439,7 @@
     <Content Include="Utilities\Fonts\iconfont.ico" />
     <Content Include="Utilities\Fonts\Loading.html" />
     <Content Include="Utilities\Fonts\Scripts\index.js" />
+    <Content Include="Utilities\Fonts\Styles\Loading.css" />
     <Content Include="Utilities\Fonts\Styles\index.css" />
     <Content Include="Utilities\Images\alpha.png" />
     <Content Include="Utilities\Images\def_logo.jpg" />
