@@ -5,10 +5,11 @@ $ready(function () {
         data: {
             couid: $api.dot(),        //课程id
             account: {},     //当前登录账号       
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项     
-            subjects: [],        //当前机构下的专业
+            platinfo: {},
 
+            subjects: [],        //当前机构下的专业
             course: {},         //当前课程对象
             videolog: [],        //课程章节的视频学习记录
             sum: 0,              //购买课程的人数
@@ -31,13 +32,48 @@ $ready(function () {
             guide: {},                   //当前要显示的通知公告
         },
         watch: {
-            'course': function (nv, ov) {
-                this.$nextTick(function () {
-                    //this.qrcode();
-                });
+            //当机构加载时
+            'org': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    //获取专业
+                    var th = this;
+                    $api.cache('Subject/TreeFront', { 'orgid': th.org.Org_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.subjects = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        console.error(err);
+                    });
+                }, immediate: true,
+            },
+            //学员登录后
+            'account': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    var th = this;
+                    th.loading = true;
+                    $api.bat(
+                        $api.get('Course/Studied', { 'couid': th.couid }),
+                        $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
+                        $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
+                        $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
+                    ).then(axios.spread(function (studied, purchase, videolog, owned) {
+                        //获取结果
+                        th.studied = studied.data.result;
+                        if (purchase.data.result != null)
+                            th.purchase = purchase.data.result;
+                        th.videolog = videolog.data.result;
+                        th.owned = owned.data.result;
+                    })).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
+                }, immediate: true,
             },
             'nullcourse': function (nv, ov) {
-                console.log(nv);
+                //console.log(nv);
                 this.$nextTick(function () {
                     this.qrcode();
                 });
@@ -45,9 +81,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: (t) => { return !$api.isnull(t.account); },
             //课程为空,或课程被禁用
             nullcourse: function () {
                 return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
@@ -84,24 +118,9 @@ $ready(function () {
             this.loading_init = true;
             //当前的机构、登录学员、课程
             $api.bat(
-                $api.get('Organization/Current'),
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
-            ).then(axios.spread(function (organ, course, viewnum) {
-                //机构配置信息
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
-                //获取专业
-                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    if (req.data.success) {
-                        th.subjects = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+            ).then(axios.spread(function (course, viewnum) {
                 //当前课程
                 th.course = course.data.result;
                 if (th.course != null) {
@@ -112,7 +131,6 @@ $ready(function () {
                     document.title = th.course.Cou_Name;
                 }
                 if (!th.course) return;
-
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
                 $api.bat(
                     $api.cache('Outline/TreeList', { 'couid': th.couid }),
@@ -149,29 +167,6 @@ $ready(function () {
             });
         },
         methods: {
-            //当学员登录后
-            forlogin: function (acc) {
-                var th = this;
-                th.account = acc;
-                th.loading = true;
-                $api.bat(
-                    $api.get('Course/Studied', { 'couid': th.couid }),
-                    $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
-                    $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
-                    $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
-                ).then(axios.spread(function (studied, purchase, videolog, owned) {
-                    //获取结果
-                    th.studied = studied.data.result;
-                    if (purchase.data.result != null)
-                        th.purchase = purchase.data.result;
-                    th.videolog = videolog.data.result;
-                    th.owned = owned.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
-            },
             //清理Html标签
             clearTag: function (html) {
                 if (!html) return "";
@@ -230,26 +225,11 @@ $ready(function () {
             //预载结束，隐藏提示信息
             'loading': function (nv, ov) {
                 if (!nv) this.loading_show = false;
-            },
-            'activeName': function (nv, ov) {
-                console.log(nv);
             }
         },
-        computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
-        },
-        mounted: function () {
-
-        },
-        methods: {
-            tabclick: function (obj) {
-                console.log(obj);
-            }
-        },
-        // 同样也可以在 vm 实例中像 "this.message" 这样使用
+        computed: {},
+        mounted: function () { },
+        methods: {},
         template: `<el-tabs v-model="activeName">
             <el-tab-pane v-for="item in menus" v-if="item.show" :name="item.tab">
                 <template slot="label">

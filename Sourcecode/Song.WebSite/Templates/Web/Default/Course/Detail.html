@@ -8,7 +8,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header ref="header" :organ="organ" @login="forlogin">loading ...</page_header>
+        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">loading ...</page_header>
         <context>
             <breadcrumb ref="breadcrumb" :subjects="subjects" :course="course"></breadcrumb>
         </context>
@@ -73,7 +73,7 @@
                 <el-divider content-position="left">
                     <icon>&#xe81b</icon>课程推荐
                 </el-divider>
-                <courses :sbjid="course ? course.Sbj_ID : 0" :org="organ" :couid="couid" :count="4">
+                <courses :sbjid="course ? course.Sbj_ID : 0" :org="org" :couid="couid" :count="4">
                     <template slot="item" slot-scope="item">
                         <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>
                     </template>
@@ -182,7 +182,7 @@
             </section>
 
         </context>
-        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+        <page_footer :organ="org" :account="account">loading ...</page_footer>
     </div>
 </body>
 

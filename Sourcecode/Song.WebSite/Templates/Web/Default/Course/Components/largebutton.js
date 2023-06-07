@@ -1,28 +1,20 @@
 //课程购买或学习的按钮
 Vue.component('largebutton', {
     //当前课程，当前学员
-    props: ["course", "account", "studied", "finaltest", "purchase","forever","loading"],
+    props: ["course", "account", "studied", "finaltest", "purchase", "forever", "loading"],
     data: function () {
         return {}
     },
     watch: {},
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        },
+        islogin: t => { return !$api.isnull(t.account); },
         //是否存在结课考试
-        istest: function () {
-            return JSON.stringify(this.finaltest) != '{}' && this.finaltest != null;
-        },
+        istest: t => { return !$api.isnull(t.finaltest); },
         //课程为空,或课程被禁用
-        nullcourse: function () {
-            return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
-        },
+        nullcourse: t => { return $api.isnull(t.course) || !this.course.Cou_IsUse; },
         //是否购买记录
-        purchased: function () {
-            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
-        },
+        purchased: t => { return !$api.isnull(t.purchase); },
         //可以学习
         canstudy: function () {
             return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
@@ -37,15 +29,15 @@ Vue.component('largebutton', {
                 { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
                 { 'type': 'test', 'link': '/web/test/paper.' + this.finaltest.Tp_Id },
             ];
-            for (let i = 0; i < urls.length; i++) {                
-                urls[i].link = $api.url.set(urls[i].link, {                    
+            for (let i = 0; i < urls.length; i++) {
+                urls[i].link = $api.url.set(urls[i].link, {
                     'referrer': encodeURIComponent(location.href)
-                });             
+                });
             }
             var url = urls.find(function (item) {
                 return item.type == type;
             });
-           
+
             return url.link;
         }
     },

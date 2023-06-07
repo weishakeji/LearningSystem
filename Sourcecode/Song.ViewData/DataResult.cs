@@ -215,7 +215,14 @@ namespace Song.ViewData
             if (typename == "DateTime")
             {
                 System.DateTime time = System.DateTime.Now;
-                if (obj != null) time = Convert.ToDateTime(obj);
+                try
+                {
+                    if (obj != null) time = Convert.ToDateTime(obj);
+                }
+                catch
+                {
+                    return "\"\"";
+                }
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
                 long timeStamp = (long)(time - startTime).TotalMilliseconds; // 相差毫秒数
                 //将C#时间转换成JS时间字符串    
@@ -311,7 +318,7 @@ namespace Song.ViewData
                 sb.Append("{");
                 for (int j = 0;j < dt.Columns.Count; j++)
                 {                    
-                    string val = ObjectToJson(dr[j], dt.Columns[j].DataType, false, 1);
+                    string val = ObjectToJson(dr[j], null, false, 1);
                     if (val == "{}") val = "";
                     string json = string.Format("{0}:{1}", dt.Columns[j].ColumnName, val);
                     json = json.Replace(":\"True\"", ":true").Replace(":\"False\"", ":false");
