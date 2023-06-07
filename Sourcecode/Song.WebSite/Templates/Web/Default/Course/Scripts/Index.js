@@ -24,7 +24,7 @@ $ready(function () {
 
             loading_cou: false,     //课程加载
             loading: true,
-            loading_init: false
+            loading_init: true
         },
         mounted: function () {},
         created: function () {},

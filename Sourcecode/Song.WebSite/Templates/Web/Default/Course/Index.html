@@ -2,14 +2,15 @@
 <html lang="zh">
 
 <head resource>
-    <include file="../inc/meta.inc" /> 
+    <include file="../inc/meta.inc" />
     <title>课程中心</title>
 </head>
 
 <body>
 
     <div id="vapp" v-cloak>
-        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"  @search="search">
+        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"
+            @search="search">
             loading
             ...
         </page_header>
@@ -31,7 +32,7 @@
                     </el-tag>
                     <el-tag type="info" v-if="!sbj_children" @close="setSbjChilds(sbjCurrent.Sbj_PID)" closable>
                         (没有下级专业)</el-tag>
-                </div>               
+                </div>
                 <div v-if="loading_init">
                     <loading></loading>
                 </div>
@@ -44,8 +45,8 @@
                 <subject_show v-for="sbj in sbjcourses" :subject="sbj" :org="org" :count="6" :mincount="1" order="rec"
                     @complete="()=>sbj_load_count++">
                 </subject_show>
-                <div  loading="p7" v-if="loading_init"></div>
-                <div v-if="!loading_init && sbjcourses.length<1 && sbj_load_count==0" class="nocourse">
+                <div loading="p7" v-if="loading_init"></div>
+                <div v-else-if="sbjcourses.length<1 && sbj_load_count==0" class="nocourse">
                     <icon>&#xe849</icon>
                     没有满足条件的课程
                 </div>
