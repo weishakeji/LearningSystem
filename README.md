@@ -33,8 +33,8 @@
 ## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
- * 机构管理员： ~/orgadmin 账号admin 密码1
- * 超级管理员： ~/manage  账号super 密码1
+ * 机构管理员： /orgadmin 账号admin 密码1
+ * 超级管理员： /manage  账号super 密码1
 
 ### 后台管理
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
