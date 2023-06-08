@@ -101,7 +101,7 @@ $ready(function () {
                                 if (th.data.num > 0) {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
-                                    th.$message.success('试题加载成功！用时 ' + span.toFixed(2) + ' 秒');
+                                    th.$message.success('试题加载完成！用时 ' + span.toFixed(2) + ' 秒');
                                 }
                             });
                             //获取服务器端的学习记录，如果本地最新则不再取值

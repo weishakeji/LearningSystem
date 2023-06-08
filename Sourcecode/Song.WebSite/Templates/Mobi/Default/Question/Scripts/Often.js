@@ -102,7 +102,7 @@ $ready(function () {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
                                     th.$toast.success({
-                                        message: '试题加载成功\n 用时 ' + span.toFixed(2) + ' 秒',
+                                        message: '试题加载完成\n 用时 ' + span.toFixed(2) + ' 秒',
                                         duration: 1500
                                     });
                                 }

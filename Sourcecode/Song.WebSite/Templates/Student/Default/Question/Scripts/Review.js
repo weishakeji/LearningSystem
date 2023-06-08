@@ -99,7 +99,7 @@ $ready(function () {
                         });
                         if (vapp.questions.length > 0)
                             th.$message({
-                                message: '试题加载成功',
+                                message: '试题加载完成',
                                 type: 'success',
                                 showClose: true,
                                 center: true,
