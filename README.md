@@ -27,14 +27,14 @@
 
 ![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
 
->产品v2.0版本已经推出发行版，原version 1版本不再维护，请积极升级到新版本。
+>产品v2.0版本已经推出发行版，原version 1.*版本不再维护，请积极升级到新版本。
 <br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
 
 ## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
- * 机构管理员： ~/orgadmin 账号admin 密码1
- * 超级管理员： ~/manage  账号super 密码1
+ * 机构管理员： /orgadmin 账号admin 密码1
+ * 超级管理员： /manage  账号super 密码1
 
 ### 后台管理
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
