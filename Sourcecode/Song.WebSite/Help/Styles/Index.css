@@ -140,7 +140,7 @@ nav>div[current]::after, nav>a[current]::after{
     right: -4px;
 }
 nav>p.line {
-    margin: 15px 0px;
+    margin: 6px 0px;
     height: 1px;
     width: 100%;
     background: linear-gradient(to right, transparent, #ccc, transparent);

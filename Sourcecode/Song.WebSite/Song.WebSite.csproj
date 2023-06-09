@@ -220,6 +220,7 @@
     <Content Include="Download\readme.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Help\Copyright.html" />
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\Index.css" />
@@ -244,9 +245,11 @@
     <Content Include="Help\Images\api.ico" />
     <Content Include="Help\Images\datas.ico" />
     <Content Include="Help\License.html" />
+    <Content Include="Help\Scripts\Copyrigh.js" />
     <Content Include="Help\Scripts\About.js" />
     <Content Include="Help\Scripts\Index.js" />
     <Content Include="Help\Service.html" />
+    <Content Include="Help\Styles\Copyrigh.css" />
     <Content Include="Help\Styles\About.css" />
     <Content Include="Help\Styles\Index.css" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />

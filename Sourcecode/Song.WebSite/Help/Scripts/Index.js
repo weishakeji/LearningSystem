@@ -17,11 +17,15 @@ window.vapp = new Vue({
             { type: 'line' },
             {
                 name: '安装部署', type: '', url: 'Contents/Deployment.html',
-                icon: { i: 'a030', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
+                icon: { i: 'a030', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
+            },
+            {
+                name: '软件升级', type: '', url: 'Contents/Deployment.html',
+                icon: { i: 'e836', s: 30, l: -2, t: -2 }, color: { f: '', b: '' }
             },
             {
                 name: '检测数据库', type: 'node', hot: true, url: 'datas/test.htm',
-                icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: 'rgb(251 118 118)', b: 'rgb(249 236 234)' }
+                icon: { i: 'e6a4', s: 22, l: 2, t: 0 }, color: { f: 'rgb(251 118 118)', b: 'rgb(249 236 234)' }
             },
             { type: 'line' },
             {
@@ -53,8 +57,9 @@ window.vapp = new Vue({
                 name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
                 icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
             },
+            { type: 'line' },
             {
-                name: '版权信息修改', type: 'node', url: 'about.html',
+                name: '版权信息修改', type: 'node', url: 'copyright.html',
                 icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
            
