@@ -326,6 +326,7 @@ namespace Song.ViewData.Methods
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
+        [HttpGet]
         public JArray MakeoutPaper(int examid, long tpid,int stid)
         {
             //获取答题信息
@@ -531,7 +532,7 @@ namespace Song.ViewData.Methods
 
                 string cacheUid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, stid);    //缓存的uid
                 Business.Do<IExamination>().ResultCacheUpdate(exr, -1, cacheUid);
-                if (patter == 1) return jo;
+                //if (patter == 1) return jo;
                 exr = Business.Do<IExamination>().ResultSubmit(exr);
                 //是否重复提交
                 jo.Add("resubmit", exr.Exr_IsCalc);
@@ -540,7 +541,7 @@ namespace Song.ViewData.Methods
                 if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)
                 {
                     //异步计算成绩
-                    if (async)
+                    if (async) MakeoutPaper
                     {
                         //后台异步计算
                         Exam_Calc handler = new Exam_Calc(exr);

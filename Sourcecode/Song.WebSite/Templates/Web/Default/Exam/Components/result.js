@@ -30,7 +30,7 @@ Vue.component('result', {
         }
     },
 
-    template: ` <div v-if="!state.loading">
+    template: ` <card v-if="!state.loading">
         <card-title>
             成绩递交成功 ！
         </card-title>
@@ -47,5 +47,5 @@ Vue.component('result', {
             </row>               
             <div class="btnEnter" @click="goback">确 定</div>
         </template>
-    </div>`
+    </card>`
 });

@@ -30,7 +30,8 @@
                         <span v-if="!!account.Ac_Name" v-html="account.Ac_Name"></span>
                         <span v-else class="noname">(无名)</span>
                     </icon>
-                    <div icon="&#xa047" v-html="account.Ac_MobiTel1"> </div>
+                    <div icon="&#xa043" v-html="account.Ac_AccName"> </div>
+                    <div icon="&#xa047" v-if="account.Ac_MobiTel1!=''"  v-html="account.Ac_MobiTel1"> </div>
                     <div icon="&#xe68f" v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></div>
                 </div>
             </div>

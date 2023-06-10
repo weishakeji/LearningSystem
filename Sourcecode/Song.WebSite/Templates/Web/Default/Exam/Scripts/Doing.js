@@ -57,13 +57,13 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            th.examid = $api.querystring('id', 0);
+            //th.examid = $api.querystring('id', 0);
             $api.bat(
-                $api.cache('Question/Types:9999'),
-                $api.get('Exam/State', { 'examid': th.examid }),
-                $api.get('Exam/ForID', { 'id': th.examid }),
-                $api.post('Platform/ServerTime')
-            ).then(axios.spread(function (type, state, exam, time) {
+                $api.cache('Question/Types:9999'),      //试题类型
+                $api.post('Platform/ServerTime'),       //服务器端的时间
+                $api.get('Exam/State', { 'examid': th.examid }),        //考试状态
+                $api.get('Exam/ForID', { 'id': th.examid })             //考试场次的对象实体
+            ).then(axios.spread(function (type, time, state, exam) {
                 th.loading.init = false;
                 //考试相关
                 th.types = type.data.result;
@@ -102,7 +102,6 @@ $ready(function () {
         },
         created: function () {
             //当窗体失去焦点
-
             window.onblur = function () {
                 var vapp = window.vapp;
                 if (vapp.exam.Exam_IsToggle) return;
@@ -123,22 +122,18 @@ $ready(function () {
                     confirmButtonText: '确定',
                     callback: action => { }
                 });
-                console.error(3333);
+                //console.error(3333);
             }
         },
         computed: {
             //学员是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => { return !$api.isnull(t.account); },
             //是否存在考试
-            isexam: function () {
-                return JSON.stringify(this.exam) != '{}' && this.exam != null;
-            },
+            isexam: t => { return !$api.isnull(t.exam); },
             //试题总数
             questotal: function () {
-                var total = 0;
-                for (var i = 0; i < this.paperQues.length; i++)
+                let total = 0;
+                for (let i = 0; i < this.paperQues.length; i++)
                     total += Number(this.paperQues[i].count);
                 return total;
             },
@@ -163,7 +158,7 @@ $ready(function () {
             },
             //考试剩余时间
             surplustime: function () {
-                var surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
+                let surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
                 return surplus > 0 ? surplus : 0;
             },
             //考试开始时间
@@ -174,19 +169,15 @@ $ready(function () {
             },
             //离开始考试还有多少时间
             howtime: function () {
-                var how = this.starttime.getTime() - this.nowtime.getTime();
+                let how = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = how;
                 if (how <= 0) return '';
                 how = Math.floor(how / 1000);
-                var mm = Math.floor(how / 60);
-                var ss = how - mm * 60;
-                var hh = Math.floor(mm / 60);
+                let mm = Math.floor(how / 60);
+                let ss = how - mm * 60;
+                let hh = Math.floor(mm / 60);
                 if (hh > 0) mm = mm - hh * 60;
-                if (hh > 0) {
-                    return hh + "小时 " + mm + "分 " + ss + "秒";
-                } else {
-                    return mm + "分 " + ss + "秒";
-                }
+                return (hh > 0 ? hh + '小时 ' : '') + mm + '分 ' + ss + '秒';
             }
         },
         watch: {
@@ -257,7 +248,7 @@ $ready(function () {
                     return;
                 }
                 //出卷                
-                $api.cache('Exam/MakeoutPaper:+' + th.paper.Tp_Span,
+                $api.get('Exam/MakeoutPaper:+' + th.paper.Tp_Span,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
@@ -284,7 +275,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        alert(err);
+                        //alert(err);
                         console.error(err);
                     });
             },

@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试中...</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref='pageheader' v-show="false" @login="acc=>account = acc"
+            @load="(o,c,p)=>{organ=o;config=c;platinfo=p;}">loading ...
+        </page_header>
+      
+    </div>
+</body>
+
+</html>
