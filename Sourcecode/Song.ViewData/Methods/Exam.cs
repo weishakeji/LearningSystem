@@ -170,7 +170,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 当前考试的状态
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次的id</param>
         /// <returns></returns>
         public JObject State(int examid)
         {
@@ -182,11 +182,7 @@ namespace Song.ViewData.Methods
 
             //是否可以考试
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
-
-            if (exam == null || !exam.Exam_IsUse || exam.Exam_IsTheme)
-                jo.Add("exist", false);
-            else
-                jo.Add("exist", true);
+            jo.Add("exist", !(exam == null || !exam.Exam_IsUse || exam.Exam_IsTheme));
             if (exam != null)
             {
                 jo.Add("uid", exam.Exam_UID);
@@ -524,15 +520,15 @@ namespace Song.ViewData.Methods
                 exr.Exr_Results = xml;
                 exr.Exam_UID = uid;
                 exr.Exam_Title = theme;
-                exr.Exr_IsSubmit = patter == 2;
+                //exr.Exr_IsSubmit = patter == 2;
                 if (exr.Exr_IsSubmit) exr.Exr_SubmitTime = DateTime.Now;
                 exr.Exr_OverTime = overTime;
                 exr.Exr_CrtTime = startTime;
                 exr.Exr_LastTime = DateTime.Now;
 
-                string cacheUid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, stid);    //缓存的uid
-                Business.Do<IExamination>().ResultCacheUpdate(exr, -1, cacheUid);
-                //if (patter == 1) return jo;
+                //缓存当前答题信息
+                Business.Do<IExamination>().ResultCacheUpdate(exr, -1, examid, tpid, stid);
+                if (patter == 1) return jo;
                 exr = Business.Do<IExamination>().ResultSubmit(exr);
                 //是否重复提交
                 jo.Add("resubmit", exr.Exr_IsCalc);
@@ -541,7 +537,7 @@ namespace Song.ViewData.Methods
                 if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)
                 {
                     //异步计算成绩
-                    if (async) MakeoutPaper
+                    if (async)
                     {
                         //后台异步计算
                         Exam_Calc handler = new Exam_Calc(exr);
@@ -554,7 +550,7 @@ namespace Song.ViewData.Methods
                         Business.Do<IExamination>().ClacScore(exr);
                     }
                 }
-                if(exr.Exr_IsCalc) score = exr.Exr_ScoreFinal;
+                if (exr.Exr_IsCalc) score = exr.Exr_ScoreFinal;
                 jo.Add("examid", exr.Exam_ID);
                 jo.Add("exrid", exr.Exr_ID);
                 jo.Add("score", score);

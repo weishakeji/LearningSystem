@@ -178,20 +178,20 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ExamResults ResultForCache(int examid, long tpid, int acid);
         /// <summary>
-        /// 学员在某个考试场次的得分
-        /// </summary>
-        /// <param name="examid">考试场次id</param>
-        /// <param name="acid">学员id</param>
-        /// <returns></returns>
-        double? ResultScore(int acid, int examid);
-        /// <summary>
         /// 更新答题信息缓存
         /// </summary>
         /// <param name="exr"></param>
         /// <param name="expires"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        string ResultCacheUpdate(ExamResults exr, int expires, string uid);
+        string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid);
+        /// <summary>
+        /// 学员在某个考试场次的得分
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        double? ResultScore(int acid, int examid);      
         /// <summary>
         /// 获取当前考试的所有考生答题信息
         /// </summary>

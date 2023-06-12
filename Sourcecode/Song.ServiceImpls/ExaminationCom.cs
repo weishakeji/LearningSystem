@@ -442,6 +442,7 @@ namespace Song.ServiceImpls
         /// <param name="result"></param>
         public ExamResults ResultAdd(ExamResults result)
         {
+            if (result.Exam_ID <= 0 || result.Tp_Id <= 0 || result.Ac_ID <= 0) return result;
             WhereClip wc = ExamResults._.Exam_ID == result.Exam_ID && ExamResults._.Tp_Id == result.Tp_Id && ExamResults._.Ac_ID == result.Ac_ID;
             Song.Entities.ExamResults exr = Gateway.Default.From<ExamResults>().Where(wc).ToFirst<ExamResults>();
             if (exr != null)
@@ -483,6 +484,7 @@ namespace Song.ServiceImpls
         /// <param name="result"></param>
         public ExamResults ResultSubmit(ExamResults result)
         {
+            if (result.Exam_ID <= 0 || result.Tp_Id <= 0 || result.Ac_ID <= 0) return result;
             Song.Entities.ExamResults exr = this.ResultSingle(result.Exam_ID, result.Tp_Id, result.Ac_ID);
             if (exr == null)
             {
@@ -520,7 +522,13 @@ namespace Song.ServiceImpls
         {
             ExamResults exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exr_ID == id).ToFirst<ExamResults>();
             if (exr == null) return;
-            ResultDelete(exr.Ac_ID, exr.Exam_ID);
+
+            List<ExamResults> results = Gateway.Default.From<ExamResults>()
+                .Where(ExamResults._.Exam_ID == exr.Exam_ID && ExamResults._.Ac_ID == exr.Ac_ID)
+                .ToList<ExamResults>();
+            if (results.Count <= 1) ResultDelete(exr.Ac_ID, exr.Exam_ID);
+            else
+                Gateway.Default.Delete<ExamResults>(ExamResults._.Exr_ID == id);
         }
         /// <summary>
         /// 删除某个员工的某个考试的成绩
@@ -604,6 +612,18 @@ namespace Song.ServiceImpls
             return r;
         }
         /// <summary>
+        /// 更新答题信息缓存
+        /// </summary>
+        /// <param name="exr"></param>
+        /// <param name="expires"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid)
+        {
+            string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
+            return QuestionsMethod.QuestionsCache.Singleton.Update(exr, expires, uid);
+        }
+        /// <summary>
         /// 学员在某个考试场次的得分
         /// </summary>
         /// <param name="examid">考试场次id</param>
@@ -617,17 +637,7 @@ namespace Song.ServiceImpls
             tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
             return tm;
         }
-        /// <summary>
-        /// 更新答题信息缓存
-        /// </summary>
-        /// <param name="exr"></param>
-        /// <param name="expires"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public string ResultCacheUpdate(ExamResults exr, int expires, string uid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.Update(exr, expires, uid);
-        }
+       
         /// <summary>
         /// 获取当前考试的所有考生答题信息
         /// </summary>

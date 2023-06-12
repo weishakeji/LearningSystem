@@ -1139,11 +1139,14 @@
     <Content Include="Templates\Web\Default\Exam\Components\question.js" />
     <Content Include="Templates\Web\Default\Exam\Components\Styles\result.css" />
     <Content Include="Templates\Web\Default\Exam\Components\Styles\question.css" />
+    <Content Include="Templates\Web\Default\Exam\Examing.html" />
     <Content Include="Templates\Web\Default\Exam\Doing.html" />
     <Content Include="Templates\Web\Default\Exam\Images\exam-banner.jpg" />
     <Content Include="Templates\Web\Default\Exam\Index.html" />
+    <Content Include="Templates\Web\Default\Exam\Scripts\Examing.js" />
     <Content Include="Templates\Web\Default\Exam\Scripts\Doing.js" />
     <Content Include="Templates\Web\Default\Exam\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Exam\Styles\Examing.css" />
     <Content Include="Templates\Web\Default\Exam\Styles\Doing.css" />
     <Content Include="Templates\Web\Default\Exam\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Images\favicon_student.gif" />

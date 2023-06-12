@@ -71,6 +71,7 @@ namespace Song.ServiceImpls.QuestionsMethod
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="expires"></param>
+        /// <param name="uid"></param>
         /// <returns>返回缓存的唯一标识</returns>
         public string Add(Questions[] ques, int expires,string uid)
         {

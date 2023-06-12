@@ -18,6 +18,7 @@ $ready(function () {
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
             paperAnswer: {},          //答题信息
+            recordAnswer:{},            //答题信息,初始的时候与上同，
 
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
@@ -69,6 +70,7 @@ $ready(function () {
                 th.types = type.data.result;
                 th.examstate = state.data.result;   //考试的状态               
                 th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                th.recordAnswer=th.examstate.result;    
                 th.exam = exam.data.result;
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
@@ -268,6 +270,7 @@ $ready(function () {
                             paper = th.restoreAnswer(paper);
                             window.setTimeout(function () {
                                 th.loading.paper = false;
+                                th.submit(1);
                             }, 100);
                             th.paperQues = paper;
                         } else {
@@ -368,10 +371,6 @@ $ready(function () {
                 }).catch(() => {
                     // on cancel
                 });
-            },
-            //自动交卷
-            submitAuto: function () {
-
             },
             //试题向右滑动 
             swiperight: function (e) {
@@ -498,7 +497,8 @@ $ready(function () {
             },
             //将本地记录本的答题信息还原到试卷，用于应对学员刷新页面或重新打开试卷时
             restoreAnswer: function (paper) {
-                var record = this.paperAnswer;
+                var record = this.recordAnswer;
+                console.log(record);
                 if (record == null || JSON.stringify(record) == '{}' || !record.ques) {
                     //固定时间开始
                     if (this.examstate.type == 1) {
