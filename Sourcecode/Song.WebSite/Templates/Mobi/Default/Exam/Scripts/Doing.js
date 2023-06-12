@@ -55,6 +55,7 @@ $ready(function () {
             }
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -63,43 +64,43 @@ $ready(function () {
                 $api.get('Exam/State', { 'examid': this.examid }),
                 $api.post('Platform/ServerTime')
             ).then(axios.spread(function (account, platinfo, organ, type, state, time) {
-                vapp.loading.init = false;
+                th.loading.init = false;
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.config = $api.organ(vapp.organ).config;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                th.config = $api.organ(th.organ).config;
                 //考试相关
-                vapp.types = type.data.result;
-                vapp.examstate = state.data.result;
-                console.log(vapp.examstate);
+                th.types = type.data.result;
+                th.examstate = state.data.result;
+                console.log(th.examstate);
                 //时间信息
-                vapp.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
-                vapp.time.client = new Date();
+                th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
+                th.time.client = new Date();
                 window.setInterval(function () {
-                    vapp.time.now = new Date().getTime();
-                    vapp.paperAnswer.now = vapp.nowtime.getTime();
+                    th.time.now = new Date().getTime();
+                    th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
-                if (!vapp.islogin || !vapp.examstate.exist) return;
+                if (!th.islogin || !th.examstate.exist) return;
                 //获取考试主题和专业、试卷
                 $api.bat(
-                    $api.cache('Exam/ForID', { 'id': vapp.examid }),
-                    $api.cache('Exam/ThemeForUID', { 'uid': vapp.examstate.uid }),
-                    $api.cache('Subject/ForID', { 'id': vapp.examstate.subject }),
-                    $api.get('TestPaper/ForID', { 'id': vapp.examstate.paper }),
-                    $api.get('Exam/Result', { 'examid': vapp.examid, 'tpid': vapp.examstate.paper, 'stid': vapp.account.Ac_ID })
+                    $api.cache('Exam/ForID', { 'id': th.examid }),
+                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
+                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
+                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
+                    $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
                 ).then(axios.spread(function (exam, theme, sbj, paper, result) {
-                    vapp.loading.exam = false;
-                    vapp.exam = exam.data.result;
-                    vapp.time.span = vapp.exam.Exam_Span;
-                    vapp.theme = theme.data.result;
-                    vapp.subject = sbj.data.result;
-                    vapp.paper = paper.data.result;
+                    th.loading.exam = false;
+                    th.exam = exam.data.result;
+                    th.time.span = th.exam.Exam_Span;
+                    th.theme = theme.data.result;
+                    th.subject = sbj.data.result;
+                    th.paper = paper.data.result;
                     //是否已经交过卷
-                    vapp.result = result.data.result;
+                    th.result = result.data.result;
                     if (result.data.result == null || !result.data.result.Exr_IsSubmit) {
                         //生成试卷
-                        vapp.generatePaper();
+                        th.generatePaper();
                     }
                 })).catch(function (err) {
                     console.error(err);
@@ -196,10 +197,11 @@ $ready(function () {
             'surplustime': {
                 handler(nv, ov) {
                     if (nv <= 0) {
+                        var th = this;
                         window.setTimeout(function () {
-                            if (vapp.examstate.isover) return;
-                            if (vapp.surplustime == 0 && !vapp.examstate.issubmit) {
-                                vapp.submit();
+                            if (th.examstate.isover) return;
+                            if (th.surplustime == 0 && !th.examstate.issubmit) {
+                                th.submit(2);
                             }
                         }, 2000);
                     }
@@ -240,6 +242,7 @@ $ready(function () {
                     .then(function (req) {
                         window.setTimeout(function () {
                             th.loading.paper = false;
+                            th.submit(1);
                         }, 1000);
                         if (req.data.success) {
                             var paper = req.data.result;
@@ -250,10 +253,10 @@ $ready(function () {
                                     group.ques[j] = window.ques.parseAnswer(group.ques[j]);
                                 }
                             }
-                            vapp.calcTime();
+                            th.calcTime();
                             //将本地记录的答题信息还原到界面
-                            paper = vapp.restoreAnswer(paper);
-                            vapp.paperQues = paper;
+                            paper = th.restoreAnswer(paper);
+                            th.paperQues = paper;
 
                         } else {
                             console.error(req.data.exception);
@@ -296,46 +299,51 @@ $ready(function () {
                 }
             },
             //交卷
-            submit: function () {
-                if (JSON.stringify(this.paperAnswer) == '{}') return;
-                if (this.examstate.issubmit) return;
-                this.submitState.show = true;
-                this.submitState.loading = true;
-                this.paperAnswer = this.generateAnswerJson(this.paperQues);
+            submit: function (patter) {
+                if (patter == null) patter = 1;
+                var th = this;
+                if (JSON.stringify(th.paperAnswer) == '{}') return;
+                if (th.examstate.issubmit) return;
+                if (patter == 2) {
+                    th.submitState.show = true;
+                    $api.storage('exam_blur_num_' + th.examid, null);
+                }               
+                th.submitState.loading = true;
+                th.paperAnswer = th.generateAnswerJson(th.paperQues);
                 //设置为交卷
-                this.paperAnswer.patter = 2;
-                var xml = this.generateAnswerXml(this.paperAnswer);
+                th.paperAnswer.patter = patter;
+                var xml = th.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
-                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': true }).then(function (req) {
-                    vapp.submitState.loading = false;
+                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.submitState.result = result;
-                        $api.storage(vapp.recordname, null);
+                        if (patter == 2) {
+                            th.submitState.result = result;
+                            $api.storage(th.recordname, null);
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.submitState.loading = false);
             },
             //手动交卷
             submitManual: function () {
                 //没有答的题数
                 var surplus = this.questotal - this.answertotal;
                 var msg = '';
+                var th = this;
                 if (surplus <= 0) {
                     msg = "当前考试" + this.questotal + "道题，您已经全部做完！";
                 } else {
                     msg = "当前考试" + this.questotal + "道题，您还有" + surplus + " 没有做！";
                 }
-                vapp.$dialog.confirm({
+                th.$dialog.confirm({
                     title: '交卷',
                     message: msg + '<br/>是否确认交卷？',
                 }).then(() => {
-                    vapp.submit();
+                    th.submit(2);
                 }).catch(() => {
                     // on cancel
                 });

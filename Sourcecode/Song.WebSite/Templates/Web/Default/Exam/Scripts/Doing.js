@@ -18,7 +18,7 @@ $ready(function () {
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
             paperAnswer: {},          //答题信息
-            recordAnswer:{},            //答题信息,初始的时候与上同，
+            recordAnswer: {},            //答题信息,初始的时候与上同，
 
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
@@ -70,7 +70,7 @@ $ready(function () {
                 th.types = type.data.result;
                 th.examstate = state.data.result;   //考试的状态               
                 th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
-                th.recordAnswer=th.examstate.result;    
+                th.recordAnswer = th.examstate.result;
                 th.exam = exam.data.result;
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
@@ -334,8 +334,7 @@ $ready(function () {
                 th.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
-                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
-                    th.submitState.loading = false;
+                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {                  
                     if (req.data.success) {
                         var result = req.data.result;
                         if (patter == 2)
@@ -344,11 +343,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    th.submitState.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.submitState.loading = false);
             },
             //手动交卷
             submitManual: function () {

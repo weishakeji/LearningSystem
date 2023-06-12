@@ -162,8 +162,6 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 var th = this;
-                //console.log(datas);
-                //return;
                 $api.delete('Exam/ResultDelete', { 'exrid': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
