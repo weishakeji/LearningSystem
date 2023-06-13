@@ -4,7 +4,26 @@
     font-weight: normal;
     font-style: normal;
 }
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 3px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
 
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    background: #808080;
+}
+
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    border-radius: 3px;
+    background: #EDEDED;
+}
 /*  图标引用方式一，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
 	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
 */
