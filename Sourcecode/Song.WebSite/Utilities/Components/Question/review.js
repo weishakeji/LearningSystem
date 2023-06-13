@@ -54,9 +54,11 @@ Vue.component('question', {
         $api.cache('Question/ForID:60', { 'id': this.qans.id }).then(function (req) {
             th.loading = false;
             if (req.data.success) {
-                th.ques = req.data.result;
-                if (th.ques.Qus_Type == 1 || th.ques.Qus_Type == 2 || th.ques.Qus_Type == 5)
-                    th.ques = window.ques.parseAnswer(th.ques);
+                let ques = req.data.result;
+                if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5)
+                    th.ques = th.parseAnswer(ques);
+                else
+                    th.ques = ques;
             } else {
                 console.error(req.data.exception);
                 throw req.data.message;
@@ -93,6 +95,24 @@ Vue.component('question', {
         //选项的序号转字母
         toletter: function (index) {
             return String.fromCharCode(65 + index);
+        },
+        //将试题的选项解析为json，并设置答题项
+        parseAnswer: function (ques) {
+            let q = ques;
+            if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5)
+                    q = window.ques.parseAnswer(ques);               
+            if (q.Qus_Type == 1 || q.Qus_Type == 2) {
+                var answer = this.qans.ans.split(',');
+                for (let j = 0; j < q.Qus_Items.length; j++) {
+                    for (let i = 0; i < answer.length; i++) {
+                        if (answer[i] == '') continue;
+                        if (answer[i] == q.Qus_Items[j].Ans_ID) {
+                            q.Qus_Items[j].selected = true;
+                        }
+                    }
+                }
+            } 
+            return q;
         },
         //正确答案
         sucessAnswer: function () {
@@ -132,9 +152,9 @@ Vue.component('question', {
                 //学员答题信息
                 var answer = this.qans.ans.split(',');
                 var ansstr = '';
-                for (var j = 0; j < this.ques.Qus_Items.length; j++) {
+                for (let j = 0; j < this.ques.Qus_Items.length; j++) {
                     var ishav = false;
-                    for (var i = 0; i < answer.length; i++) {
+                    for (let i = 0; i < answer.length; i++) {
                         if (answer[i] == '') continue;
                         if (answer[i] == this.ques.Qus_Items[j].Ans_ID) {
                             ansstr += this.toletter(j) + "、";
@@ -231,7 +251,7 @@ Vue.component('question', {
         <card-context>
         <div class="ans_area type1" v-if="ques.Qus_Type==1">
             <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
-                <i>{{toletter(i)}} .</i>
+                <i>{{toletter(i)}} .</i>            
                 <span v-html="ans.Ans_Context"></span>
              </div>
         </div>

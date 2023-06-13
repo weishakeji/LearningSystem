@@ -96,14 +96,14 @@ $ready(function () {
                     var qarr = [];
                     var list = gruop.find('q');
                     for (var j = 0; j < list.length; j++) {
-                        var q = $dom(list[j]);
-                        var qid = q.attr('id');
-                        var ans = q.attr('ans');
+                        let q = $dom(list[j]);
+                        let qid = q.attr('id');
+                        let ans = q.attr('ans');
                         //如果是简答题，答题内容与节点文本
                         if (type == 4 || type == 5) ans = q.text();
-                        var num = Number(q.attr('num'));
-                        var sucess = q.attr('sucess') == 'true';
-                        var score = Number(q.attr('score'));
+                        let num = Number(q.attr('num'));                    
+                        let sucess = q.attr('sucess') == 'true';
+                        let score = Number(q.attr('score'));
                         qarr.push({
                             'id': qid, 'type': type, 'num': num,
                             'ans': ans, 'success': sucess, 'score': score
