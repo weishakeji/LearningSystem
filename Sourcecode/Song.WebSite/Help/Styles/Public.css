@@ -1,0 +1,30 @@
+h1 {
+    margin: 0px;
+    font-size: 22px;
+    text-indent: 1rem;
+}
+
+a {
+    color: #09F;   
+}
+
+* {
+    font-size: 16px;
+    line-height: 160%;
+}
+textarea {
+    width: calc(100% - 50px);
+    background-color: rgb(248, 252, 203);
+    padding: 10px 10px 0px 10px;
+    line-height: 20px;
+    border: 1px solid rgb(219, 199, 108);
+    resize:none;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+dt{
+    font-weight: bold;
+}
+dd{
+    
+}

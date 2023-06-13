@@ -252,6 +252,7 @@
     <Content Include="Help\Styles\Copyrigh.css" />
     <Content Include="Help\Styles\About.css" />
     <Content Include="Help\Styles\Index.css" />
+    <Content Include="Help\Styles\Public.css" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
     <Content Include="Templates\Manage\Default\Accounts\Styles\CapitalRecords.css" />

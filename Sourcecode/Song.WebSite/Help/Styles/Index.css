@@ -176,3 +176,13 @@ nav a.copyright {
     color: #999;   
     background-color: #fff; 
 }
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait){
+    section>nav{
+        display: none;
+    }
+    header>div:last-child{
+        display: none;
+    }
+    
+}

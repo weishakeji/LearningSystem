@@ -8,7 +8,9 @@ h1 {
     font-size: 22px;
     text-indent: 1rem;
 }
-
+*{
+  word-wrap: break-word;
+}
 p {
     font-size: 18px;
     margin: 0.5rem 0px 0px 0px;

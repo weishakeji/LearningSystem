@@ -10,23 +10,85 @@
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <script type="text/javascript" src="Scripts/Copyrigh.js"></script>
+    <link href="Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Copyrigh.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
     <h1>
-       版权信息修改
+        版权信息修改
     </h1>
-    <p>为方便代理商ODM销售（俗称贴牌销售），我们提供了方便修改版权信息的方法。所有涉及版权的内容集中在根文件夹下的Copyright.weisha。可能点击此处查看
-        <a href="/copyright" target="_blank">Copyright.weisha</a>
+    <p>为方便代理商ODM销售（俗称贴牌销售），我们提供了方便修改版权信息的方法。产品中所有涉及版权信息的内容都在这里设置。 </p>
+    <p> 包括页面的Html源码中的&lt;meta powerby="..."/&gt;，也是来源于Copyright.weisha文件中的powerby节点。
     </p>
-    <p>前端Javascript引用方法</p>
-    <p>后端模板引擎中的处理方法</p>
-    <p>如何修改，直接修改xml或通过超管后台的编辑器</p>
-    <p copyright="intro"></p>
-    <p copyright="detail"></p>
-   
- 
+    <dl>
+        <dt>1、如何修改版权信息？</dt>
+        <dd>
+            <p>所有涉及版权的内容集中在根文件夹下的Copyright.weisha。可能点击此处查看
+                <a href="/copyright" target="_blank">Copyright.weisha</a>
+            </p>
+        </dd>
+        <dd class="tit">A、直接修改copyring.weisha文件</dd>
+        <dd>
+            <p>文件为xml格式，可以直接记事本修改。例如下面的代码</p>
+        </dd>
+        <dd>
+            <textarea rows="5"><company remark="公司全称" type="text" fixed="true"><![CDATA[郑州微厦计算机科技有限公司]]></company>
+<abbr remark="公司简称" type="text" fixed="true"><![CDATA[微厦科技]]></abbr>
+<powerby remark="版权所有" type="text" fixed="true"><![CDATA[www.weishakeji.net]]></powerby></textarea>
+        </dd>
+        <dd>
+            <p>company为节点名称（在网页中引用版权信息时会用到），标签中间的&lt;![CDATA[ ... ]]&gt;内的文本为要修改的内容。</p>
+            <p> remark、type、fixed不需要修改</p>
+        </dd>
+        <dd class="tit">B、通过可视化界面修改</dd>
+        <dd>
+            <p>如果对xml代码格式不熟悉，可以通过超级管理员，在版权信息的可视化界面修改。</p>
+        </dd>
+        <dd>
+            <p>进入超管登录界面（默认是<a href="/manage" target="_blank">/manage</a>），登录后，在管理界面的右上角菜单，选择“帮助”=>“版权信息”。</p>
+            <p>在“版权信息”的界面中点击“修改版权信息”的按钮，即可编辑。如果编辑后无法保存，可能是Copyright.weisha没有写入权限的问题，手工设置写入权限即可。</p>
+        </dd>
+    </dl>
+    <dl>
+        <dt>2、前端页面引用版权信息的方法</dt>
+        <dd>
+            <p>首先要引用/Utilities/Scripts/Api.js，不过一般在/templates文件下的模板文件都已经默认引用了该文件，所以可以直接使用。</p>
+        </dd>
+        <dd class="tit">A、引用文本内容实例，例如引用公司名称，如下</dd>
+        <dd>
+            <p copyright="company"></p>
+            <textarea> <p copyright="company"></p></textarea>
+        </dd>
+        <dd>
+            简称：<span copyright="abbr"></span>
+            <textarea> 简称：<span copyright="abbr"></span></textarea>
+        </dd>
+        <dd class="tit">B、图片内容的引用，例如引用公司logo，如下</dd>
+        <dd>
+            <p><img copyright="logo" /></p>
+            <textarea>  <img copyright="logo" /></textarea>
+        </dd>
+        <dd>
+            <p>再例如，引用微信二维码</p>
+            <img copyright="weixinqr" />
+            <textarea>  <img copyright="weixinqr" /></textarea>
+        </dd>
+        <dd class="tit">C、超链接内容的引用，例如公司网址，如下</dd>
+        <dd>
+            <p>官方网站：<a copyright="website" target="_blank"><span copyright="website"></span></a></p>
+            <textarea>官方网站：<a copyright="website" target="_blank"><span copyright="website"></span></a></textarea>
+        </dd>
+        <dd>
+            <p>开源地址：<a copyright="gitee" target="_blank"><span copyright="gitee"></span></a></p>
+            <textarea>开源地址：<a copyright="gitee" target="_blank"><span copyright="gitee"></span></a></textarea>
+        </dd>
+    </dl>
+
+
+
+
+
 </body>
 
 </html>

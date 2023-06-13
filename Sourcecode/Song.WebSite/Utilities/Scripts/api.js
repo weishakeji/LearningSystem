@@ -1717,7 +1717,7 @@ window.addEventListener("load", function () {
             for (var i = 0; i < nodes.length; i++) {
                 var node = nodes[i];
                 var name = node.tagName.toLowerCase();
-                var val = node.getAttribute("copyright");
+                var val = $api.trim(node.getAttribute("copyright"));
                 for (var attr in copyright) {
                     if (attr == val) {
                         var txt = copyright[attr];
