@@ -131,7 +131,7 @@
                         }
                     }).catch(function (err) {
                         th.loading_up = false;
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
             },

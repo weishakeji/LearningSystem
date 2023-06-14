@@ -122,7 +122,7 @@
                             if (f != null) f();
                         }
                     }
-                    console.error(func);
+                    //console.error(func);
                 }
             }
         }

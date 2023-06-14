@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>章节附件</title>
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+
+        <dl v-if="datas.length>0" remark="附件列表" class="files">
+            <dd v-for="(data,i) in datas">
+                <a :href="data.As_FileName" v-if="data.As_FileName!=''" target="_blank" type="link"
+                    v-on:click="accessClick(data.As_FileName,data.As_Name,$event)" :download="data.As_Name">{{(i+1)}} .
+                    {{data.As_Name}}</a>
+                <span v-else title="文件不存在">{{(i+1)}} . {{data.As_Name}}</span>
+                <span class="filesize">{{data.As_Size|size}}</span>
+                <el-popconfirm title="确定删除吗？" class="btndel" @confirm="deleteitem(data)">
+                    <el-link icon="el-icon-delete" type="danger" slot="reference">删除</el-link>
+                </el-popconfirm>
+            </dd>
+        </dl>
+        <div v-else class="nofiles">
+            <icon>&#xe849</icon>还没有上传附件
+        </div>
+        <div class="footer">
+            <loading v-if="loading_upload"></loading>
+            <upload-file v-else @change="uploadAccessory" :data="outline" :size="102400" height="30" :ext="ext_limit">
+                <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right" effect="light">
+                    <el-button type="primary" plain>
+                        <icon>&#xe6ea</icon>点击上传文件
+                    </el-button>
+                </el-tooltip>
+            </upload-file>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

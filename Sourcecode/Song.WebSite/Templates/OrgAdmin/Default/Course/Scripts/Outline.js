@@ -65,7 +65,7 @@
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        th.datas = req.data.result;                        
+                        th.datas = req.data.result;
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -171,8 +171,8 @@
                 }
             },
             remove: function (node, data) {
-                console.log(node);
-                console.log(data);
+                //console.log(node);
+                //console.log(data);
                 if (!!data.children && data.children.length > 0) {
                     var msg = '当前章节“' + data.Ol_Name + '”下共有 <b>' + data.children.length + '</b> 个子章节，请先删除子章节。'
                     this.$alert(msg, '不可删除', {
@@ -188,7 +188,7 @@
                     th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$message({
+                        th.$message({
                             type: 'success',
                             message: '删除成功!',
                             center: true
@@ -222,8 +222,7 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
                 //this.modify_show = true;
@@ -301,33 +300,31 @@
                         return false;
                     }
                 });
-            },
-            //视频编辑的按钮事件
-            btnVideoModify: function (outline) {
-                var pagebox = window.top.$pagebox;
+            },    
+            //打开弹窗，编辑子级内容，例如直播、附件、视频等
+            openbox: function (outline, url, title, width, height, icon) {
+                let pagebox = window.top.$pagebox;
                 if (pagebox == null) {
-                    this.$message.error({
+                    return this.$message.error({
                         message: '没有$pagebox对象，无法打开编辑窗！',
                         center: true
                     });
-                    return;
                 }
                 // 要打开的页面
-                var root = String(window.document.location.href);
-                var file = root.substring(0, root.lastIndexOf("/") + 1) + 'video';
+                let root = String(window.document.location.href);
+                let href = root.substring(0, root.lastIndexOf("/") + 1) + url;
                 //标题
-                var title = '视频管理 - ' + (outline ? outline.Ol_Name : '');
+                let tit = title + (outline ? ' - ' + outline.Ol_Name : '');
                 window.top.$pagebox.create({
-                    'url': $api.url.set(file,
+                    'url': $api.url.set(href,
                         {
-                            'couid': this.course.Cou_ID,
+                            'couid': outline.Cou_ID,
                             'olid': outline.Ol_ID,
                             'uid': outline.Ol_UID
                         }),
-                    'pid': window.name,
-                    'title': title, 'ico': 'e83a',
-                    'width': '80%', 'height': '80%',
-                    'min': false, 'full': false, 'showmask': true
+                    'pid': window.name, 'min': false, 'full': false, 'showmask': true,
+                    'title': tit, 'ico': icon,
+                    'width': width, 'height': height
                 }).open();
             },
             //更新后触发的事件
@@ -371,6 +368,6 @@
             },
         }
     });
-}, ['Components/accessory.js',           //章节附件
+}, [
     'Components/outline_live.js'                //章节直播的设置
 ]);

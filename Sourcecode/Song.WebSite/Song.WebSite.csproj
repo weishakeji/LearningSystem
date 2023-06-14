@@ -350,6 +350,9 @@
     <Content Include="Templates\Mobi\_Public\500.html" />
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\OutlineAccessory.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\OutlineAccessory.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineAccessory.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
     <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
     <Content Include="Templates\OrgAdmin\Default\News\Components\article_count.js" />
@@ -486,14 +489,12 @@
     <Content Include="Templates\OrgAdmin\Default\Components\Styles\sbj_cascader.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\video_list.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\outline_live.js" />
-    <Content Include="Templates\OrgAdmin\Default\Course\Components\accessory.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\course_prices.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\course_income.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\course_data.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\video_list.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\outline_live.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_income.css" />
-    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\accessory.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_prices.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_data.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\SetupTeacher.html" />

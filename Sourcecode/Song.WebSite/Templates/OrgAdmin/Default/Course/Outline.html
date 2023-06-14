@@ -40,14 +40,15 @@
                     </div>
                     <div class="btns">
                         <span class="column_video">
-                            <el-tag @click="btnVideoModify(data)" :type="data.Ol_IsVideo ? 'success' : 'info'">
+                            <el-tag @click="openbox(data,'video','视频管理','80%','80%','e83a')"
+                                :type="data.Ol_IsVideo ? 'success' : 'info'">
                                 <icon>&#xe83a</icon>视频
                             </el-tag>
                             <el-tag @click="()=>{$refs['live'].setvalue(data);}"
                                 :type="data.Ol_IsLive ? 'success' : 'info'">
                                 <icon>&#xe6bf</icon> 直播
                             </el-tag>
-                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}"
+                            <el-tag @click="openbox(data,'OutlineAccessory','附件管理',600,300,'e853')"
                                 :type="data.Ol_IsAccessory ? 'success' : 'info'" title="附件">
                                 <icon>&#xe853</icon> 附件
                             </el-tag>
@@ -151,8 +152,7 @@
                 </div>
             </el-dialog>
         </div>
-        <!--章节直播的设置-->
-        <accessory ref="accessory" remark="章节附件的管理" @success="getTreeData"></accessory>
+        <!--章节直播的设置-->   
         <outline_live ref="live" remark="章节直播的管理" @save="()=>{getTreeData()}"></outline_live>
     </div>
 
