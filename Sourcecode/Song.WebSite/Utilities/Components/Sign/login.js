@@ -5,11 +5,12 @@ Vue.component('login', {
     props: ['config'],
     data: function () {
         return {
-
-            data: [],
-            tabs: [{ name: '账号登录', tag: 'pwd', icon: 'e687', show: true },
-            { name: '短信登录', tag: 'sms', icon: 'e76e', show: true }],
-            tabActive: '',
+            //选项卡
+            tabs: [
+                { name: '账号登录', tag: 'pwd', icon: 'e687', show: true },
+                { name: '短信登录', tag: 'sms', icon: 'e76e', show: true }
+            ],
+            tabActive: '',      //活动选项卡
 
             //账号密码登录的表单项与验证码
             acc_form: { acc: '', pwd: '' },
@@ -72,11 +73,13 @@ Vue.component('login', {
         'config': {
             handler: function (val, old) {
                 if (!val || val == undefined || JSON.stringify(val) == '{}') return;
-                //是否显示       
-                this.tabs[0].show = val.IsLoginForPw;
-                this.tabs[1].show = val.IsLoginForSms;
-                this.$set(this.tabs, 0, this.tabs[0]);
-                this.$set(this.tabs, 1, this.tabs[1]);
+                //是否显示,账号密码登录
+                let pwd = this.tabs.find((n) => n.tag == 'pwd');
+                let sms = this.tabs.find((n) => n.tag == 'sms');              
+                if (pwd) pwd.show = val.IsLoginForPw;
+                if (sms) sms.show = val.IsLoginForSms;
+                this.$set(this.tabs, 0, pwd);
+                this.$set(this.tabs, 1, sms);
                 //计算默认选项卡
                 var tag = this.tabActive;
                 var obj = this.tabs.find(item => item.tag == tag && item.show);
@@ -419,7 +422,7 @@ Vue.component('login', {
                     {{data.item.obj.Tl_Name}}
                 </span>
             </config>
-            <div class="login_register">
+            <div class="login_register" v-if="!disabled_login">
                 <a href="up" v-if="config && !config.IsRegStudent"><icon>&#xe7cd</icon>注册</a>
                 <a href="find"><icon>&#xe76a</icon>找回密码</a>
             </div>  
