@@ -4,9 +4,7 @@
         el: '#vapp',
         data: {
             id: $api.querystring('id'),     //章节id
-            uid: $api.querystring('uid'),       //章节的uid         
-
-            outline: {},        //当前章节
+            uid: $api.querystring('uid'),       //章节的uid 
 
             datas: [],       //附件列表
             ext_limit: "zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
@@ -14,12 +12,7 @@
             loading: false
         },
         watch: {
-            //章节对象变化
-            'outline': {
-                handler: function (nv, ov) {
-                    //console.log('变化了');
-                }, immediate: true
-            }
+          
         },
         mounted: function () {
             this.getDatas();

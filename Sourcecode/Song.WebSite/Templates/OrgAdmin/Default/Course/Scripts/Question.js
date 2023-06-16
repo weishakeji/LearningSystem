@@ -43,7 +43,6 @@
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (organ, types) {
-                th.loading_init = false;
                 //获取结果
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
@@ -53,16 +52,12 @@
                 th.getOutlineTree();
                 th.handleCurrentChange(1);
             })).catch(function (err) {
-                th.loading_init = false;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
-        created: function () {
-
-        },
-        computed: {
-        },
+        created: function () { },
+        computed: {},
         watch: {
             'olSelects': function (nv, ov) {
                 console.log(nv);
@@ -85,11 +80,8 @@
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });;
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -125,15 +117,14 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;              
+                th.loading = true;
                 var loading = this.$fulloading();
                 var quesid = datas.split(',');
-                var form = {'qusid':quesid};              
+                var form = { 'qusid': quesid };
                 //要删除的试题,当删除后要重新统计章节、课程、专业下的试题数，所以需要提交更多id
                 var ques = th.getques_selected(quesid);
-                form['olid'] =th.getques_keys(ques, 'Ol_ID'); //章节id
+                form['olid'] = th.getques_keys(ques, 'Ol_ID'); //章节id
                 $api.delete('Question/Delete', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -151,13 +142,12 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
-                    th.$alert(err, '错误');
+                    alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
-             //获取选中的（要删除的）试题
-             getques_selected: function (ids) {
+            //获取选中的（要删除的）试题
+            getques_selected: function (ids) {
                 var arr = [];
                 for (let i = 0; i < ids.length; i++) {
                     const id = ids[i];
@@ -190,11 +180,10 @@
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Qus_ID;
+                th.loadingid = row.Qus_ID;
                 $api.post('Question/ChangeUse', { 'id': row.Qus_ID, 'use': row.Qus_IsUse }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -202,11 +191,8 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => th.loadingid = 0);
             },
             //批量修改状态
             batchState: function (use) {
@@ -231,18 +217,16 @@
                                 center: true
                             });
                             th.handleCurrentChange();
-                            th.$nextTick(function () {
-                                loading.close();
-                            });
                         } else {
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.$alert(err, '错误');
-                    });
-                }).catch(() => {
-
-                });
+                    }).catch(err => alert(err, '错误'))
+                        .finally(() => {
+                            th.$nextTick(function () {
+                                loading.close();
+                            });
+                        });
+                }).catch(() => { });
             }
         }
     });
@@ -261,17 +245,14 @@
                     var th = this;
                     th.loading = true;
                     $api.cache('Outline/ForID', { 'id': nv }).then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.oultine = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 }, immediate: true
             }
         },
@@ -302,17 +283,14 @@
                     th.loading = true;
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': nv.Ol_ID, 'type': '', 'use': '' })
                         .then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 th.count = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            th.loading = false;
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 }, immediate: true
             }
         },

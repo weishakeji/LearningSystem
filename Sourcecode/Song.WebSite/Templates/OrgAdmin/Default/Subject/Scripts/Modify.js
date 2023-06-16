@@ -154,7 +154,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

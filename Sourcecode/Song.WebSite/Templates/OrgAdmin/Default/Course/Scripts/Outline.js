@@ -4,32 +4,22 @@
         data: {
             id: $api.querystring('id'),     //课程Id
             uid: $api.querystring('uid'),       //课程的uid         
+
             course: {},  //当前课程
             datas: [],              //章节
-            defaultProps: {
-                children: 'children',
-                label: 'Ol_Name'
-            },
-            olSelects: [],      //选择中的章节项
+
+
             expanded: [],        //树形默认展开的节点
             expanded_storage: 'outline_for_admin_tree' + $api.querystring('id'),  //用于记录展开节点的storage名称
             filterText: '',      //查询过虑树形的字符
             total: 0,     //章节总数
 
-            modify_show: false,        //编辑内容的面板是否显示
-            //要编辑的对象
-            modify_obj: {
-                Ol_Intro: ''
-            },
-
-            accessory_show: false,       //附件的列表显示
             live_show: false,            //直播的编辑显示
 
             loading: false,
             loadingid: -1,
-            loading_modify: false,       //编辑时加载
-            loading_sumbit: false,   //提交时的预载           
-            loading_init: true
+            loading_sumbit: false,   //提交时的预载          
+
         },
         mounted: function () {
 
@@ -203,6 +193,7 @@
                     console.error(err);
                 });
             },
+            /*
             //新增章节的按钮事件
             addBtn: function () {
                 this.modify_obj = {
@@ -227,9 +218,12 @@
                 });
                 //this.modify_show = true;
 
-            },
+            },*/
+            /*
             //编辑章节的按钮事件
             modifyBtn: function (data) {
+                this.openbox(data,'OutlineModify','章节管理',800,600,'e841');
+                return;
                 var th = this;
                 th.loadingid = data.Ol_ID;
                 $api.get('Outline/ForID', { 'id': data.Ol_ID }).then(function (req) {
@@ -251,14 +245,7 @@
                     th.loadingid = -1;
                 });
 
-            },
-            //当编辑章节中的上级章节变化时
-            casader_change: function (data) {
-                if (data == null) return;
-                this.modify_obj.Ol_PID = data[data.length - 1];
-                //关闭级联菜单的浮动层
-                this.$refs["outlines"].dropDownVisible = false;
-            },
+            },*/
             //计算序号
             calcSerial: function (outline, lvl) {
                 var childarr = outline == null ? this.datas : (outline.children ? outline.children : null);
@@ -270,37 +257,6 @@
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
             },
-            //编辑当前章节
-            btnModify: function (formName) {
-                var th = this;
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        var obj = th.modify_obj;
-                        obj['Cou_ID'] = th.id;
-                        obj['Org_ID'] = th.course.Org_ID;
-                        $api.post('Outline/' + th.modify_obj.state, { 'entity': obj }).then(function (req) {
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
-                                });
-                                $api.put('Outline/ForID', { 'id': obj.Ol_ID });
-                                th.updatedEvent();
-                                th.modify_show = false;
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            th.$alert(err, '错误');
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },    
             //打开弹窗，编辑子级内容，例如直播、附件、视频等
             openbox: function (outline, url, title, width, height, icon) {
                 let pagebox = window.top.$pagebox;
@@ -318,9 +274,9 @@
                 window.top.$pagebox.create({
                     'url': $api.url.set(href,
                         {
-                            'couid': outline.Cou_ID,
-                            'olid': outline.Ol_ID,
-                            'uid': outline.Ol_UID
+                            'couid': outline ? outline.Cou_ID : this.id,
+                            'olid': outline ? outline.Ol_ID : '',
+                            'uid': outline ? outline.Ol_UID : ''
                         }),
                     'pid': window.name, 'min': false, 'full': false, 'showmask': true,
                     'title': tit, 'ico': icon,
@@ -368,6 +324,5 @@
             },
         }
     });
-}, [
-    'Components/outline_live.js'                //章节直播的设置
+}, ['Components/outline_live.js'                //章节直播的设置
 ]);

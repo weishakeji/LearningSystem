@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>章节内容管理</title>
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label">
+                        <icon style="font-size: 16px;">&#xe667</icon> 基本信息
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="detail">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xe628</icon> 图文资料
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="live">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xe6bf</icon> 直播
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form :model="outline" ref="form" label-width="80px"
+                :rules="rules">
+                <div v-show="activeName=='general'" remark="基本信息">
+                    <el-form-item label="章节名称" prop="Ol_Name">
+                        <el-input v-model="outline.Ol_Name" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上级章节" prop="Ol_PID">
+                        <el-cascader style="width: 100%;" ref="outlines" v-model="olSelects" :options="datas"
+                            @change="casader_change" separator="／"
+                            :props="{children: 'children', label: 'Ol_Name',value: 'Ol_ID', disabled: 'Ol_IsUse', expandTrigger: 'hover',checkStrictly: true }"
+                            clearable filterable placeholder=" -- 章节 -- ">
+                            <template slot-scope="{node,data}">
+                                {{data.Ol_Name}}
+                            </template>
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-checkbox v-model="outline.Ol_IsUse">启用</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox v-model="outline.Ol_IsFinish">完结</el-checkbox>
+                        <help>编辑完成的章节，学员才能学习</help>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox v-model="outline.Ol_IsFree">免费</el-checkbox>
+                        <help>课程允许试学时，可以试学免费章节</help>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='detail'" remark="图文资料" class="detail_editor">
+                    <editor :content="outline.Ol_Intro" :menubar="false" model="general" ref="detail_editor"
+                        upload="Outline" :dataid="outline.Ol_ID" @change="text=>outline.Ol_Intro=text"></editor>
+                </div>
+                <div v-show="activeName=='live'" remark="直播">
+                    <div>
+                        <el-checkbox v-model="outline.Ol_IsLive">当前章节为直播课</el-checkbox>
+                    </div>
+                    <template v-if="outline.Ol_IsLive">
+                        <outline_live ref="live" remark="章节直播的管理"></outline_live>
+                    </template>
+                </div>
+            </el-form>
+        </div>
+
+
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('form')">
+                保存
+            </el-button>
+
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

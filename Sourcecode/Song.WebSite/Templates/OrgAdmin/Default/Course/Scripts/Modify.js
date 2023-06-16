@@ -50,13 +50,9 @@
         },
         computed: {
             //是否存在课程
-            exist: function () {
-                return JSON.stringify(this.course) != '{}' && this.course != null;
-            },
+            exist: t => { return !$api.isnull(t.course); },
             //当前窗体name
-            winname: function () {
-                return window.name;
-            }
+            winname: () => { return window.name; }
         },
         watch: {
             //选项卡切换时，切换显示内容（iframe)

@@ -11,7 +11,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar" v-show="!loading">
-            <btngroup show="新增" ref='btngroup' @add="addBtn()" width="800" idkey='Ol_ID' height="600"></btngroup>
+            <btngroup show="新增" ref='btngroup' @add="openbox(null,'OutlineModify','章节管理 - 新增',800,600,'e841')"
+                width="800" idkey='Ol_ID' height="600"></btngroup>
             <query_panel :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">
@@ -24,10 +25,9 @@
                 </el-form-item>
             </query_panel>
         </div>
-
         <div class="tree-box">
-            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="defaultProps" expand-on-click-node
-                default-expand-all :filter-node-method="filterNode" @node-drag-end="handleDragEnd"
+            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="{children: 'children', label: 'Ol_Name'}"
+                expand-on-click-node default-expand-all :filter-node-method="filterNode" @node-drag-end="handleDragEnd"
                 :expand-on-click-node="false" draggable @node-expand="nodeexpand" @node-collapse="nodecollapse"
                 :default-expanded-keys="expanded" v-loading="loading || loading_sumbit">
                 <span class="custom-node" slot-scope="{ node, data }">
@@ -44,7 +44,7 @@
                                 :type="data.Ol_IsVideo ? 'success' : 'info'">
                                 <icon>&#xe83a</icon>视频
                             </el-tag>
-                            <el-tag @click="()=>{$refs['live'].setvalue(data);}"
+                            <el-tag @click="openbox(data,'OutlineModify?active=live','章节管理',800,600,'e841')"
                                 :type="data.Ol_IsLive ? 'success' : 'info'">
                                 <icon>&#xe6bf</icon> 直播
                             </el-tag>
@@ -76,7 +76,7 @@
                         <span class="column_btn">
                             <loading v-if="loadingid==data.Ol_ID" star></loading>
                             <template v-else>
-                                <el-link type="primary" @click="modifyBtn(data)">
+                                <el-link type="primary" @click="openbox(data,'OutlineModify','章节管理',800,600,'e841')">
                                     <icon>&#xa02e</icon>编辑
                                 </el-link>
                                 <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
@@ -90,69 +90,7 @@
                 </span>
             </el-tree>
         </div>
-        <!--新增或编辑-->
-        <div v-show="modify_show">
-            <el-dialog :title="modify_obj.Ol_ID ? '编辑章节' : '新增章节'" :visible="true" :show-close="true" :modal="false"
-                :close-on-click-modal="false" class="modify_show" :before-close="()=>modify_show=false">
-                <el-form :model="modify_obj" ref="modify_obj" label-width="80px"
-                    :rules="{'Ol_Name':[ { required: true, message: '不得为空', trigger: 'blur' }]}">
-                    <el-form-item label="章节名称" prop="Ol_Name">
-                        <el-input v-model="modify_obj.Ol_Name" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="上级章节" prop="Ol_PID" v-if="modify_obj.state=='add'">
-                        <el-cascader style="width: 300px;" ref="outlines" v-model="olSelects" :options="datas"
-                            @change="casader_change" separator="／"
-                            :props="{children: 'children', label: 'Ol_Name',value: 'Ol_ID', expandTrigger: 'hover',checkStrictly: true }"
-                            clearable filterable placeholder=" -- 章节 -- ">
-                            <template slot-scope="{node,data}">
-                                {{data.Ol_Name}}
-                            </template>
-                        </el-cascader>
-                    </el-form-item>
-                    <el-form-item label="状态">
-                        <div>
-                            <el-checkbox v-model="modify_obj.Ol_IsUse">启用</el-checkbox>
-                            <el-checkbox v-model="modify_obj.Ol_IsFinish">完结</el-checkbox>
-                            <help>编辑完成</help>
-                            <el-checkbox v-model="modify_obj.Ol_IsFree">免费</el-checkbox>
-                            <help>课程允许试学时，可以试学免费章节</help>
-                        </div>
-                        <div>
-                            <el-checkbox v-model="modify_obj.Ol_IsLive">当前章节为直播课</el-checkbox>
-                        </div>
-                    </el-form-item>
-                    <template v-if="modify_obj.Ol_IsLive">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="直播时间">
-                                    <el-date-picker v-model="modify_obj.Ol_LiveTime" type="datetime" placeholder="开始时间">
-                                    </el-date-picker>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="直播时长">
-                                    <el-input type="number" v-model="modify_obj.Ol_LiveSpan" style="width: 220px;">
-                                        <template slot="append">分钟</template>
-                                    </el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                    </template>
-                    <el-form-item label="" label-width="0px" prop="Ol_Intro">
-                        <editor :content="modify_obj.Ol_Intro" :menubar="false" model="general" ref="intro_editor"
-                            upload="Outline" :dataid="modify_obj.Ol_ID" style="height: 500px;"
-                            @change="text=>modify_obj.Ol_Intro=text"></editor>
-                    </el-form-item>
-
-                </el-form>
-
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="()=>{$confirm('确认关闭？').then(()=> { modify_show = false;})}">取 消</el-button>
-                    <el-button type="primary" @click="btnModify('modify_obj')">确 定</el-button>
-                </div>
-            </el-dialog>
-        </div>
-        <!--章节直播的设置-->   
+        <!--章节直播的设置-->
         <outline_live ref="live" remark="章节直播的管理" @save="()=>{getTreeData()}"></outline_live>
     </div>
 
