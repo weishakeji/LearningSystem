@@ -2,8 +2,8 @@
 <html lang="zh">
 
 <head resource>
-    <include file="../inc/meta.inc" /> 
-    <title>学员信息-修改信息</title>  
+    <include file="../inc/meta.inc" />
+    <title>学员信息-修改信息</title>
 </head>
 
 
@@ -114,34 +114,20 @@
                             </el-input>
                         </el-form-item>
                     </el-row>
-
-                    <el-row>
-                        <el-col :span="14">
-                            <el-form-item label="移动电话1" prop="Ac_MobiTel2">
-                                <el-input v-model="account.Ac_MobiTel1" style="width:200px">
-                                    <icon slot="prefix">&#xe677</icon>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="10">
-                            <el-form-item label="是否公开">
-                                <el-switch v-model="account.Ac_IsOpenMobile"> </el-switch>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="14">
-                            <el-form-item label="移动电话2" prop="Ac_MobiTel2">
-                                <el-input v-model="account.Ac_MobiTel2" style="width:200px">
-                                    <icon slot="prefix">&#xe677</icon>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="10"></el-col>
-                    </el-row>
-
                 </div>
                 <div v-show="activeName=='contact'" remark="联系方式">
+
+                    <el-form-item label="移动电话" prop="Ac_MobiTel1">
+                        <el-input v-model="account.Ac_MobiTel1" placeholder="移动电话1" style="width:200px">
+                            <icon slot="prefix">&#xe677</icon>
+                        </el-input>
+                        <el-checkbox v-model="account.Ac_IsOpenMobile">是否公开</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="" prop="Ac_MobiTel2">
+                        <el-input v-model="account.Ac_MobiTel2" placeholder="移动电话2" style="width:200px">
+                            <icon slot="prefix">&#xe677</icon>
+                        </el-input>
+                    </el-form-item>
                     <el-form-item label="固定电话" prop="Ac_Tel">
                         <el-input v-model="account.Ac_Tel" style="width:200px">
                             <icon slot="prefix">&#xe66c</icon>
@@ -179,12 +165,10 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item label="紧急联系人" prop="Ac_LinkMan">
-                        <el-input v-model="account.Ac_LinkMan">
+                        <el-input v-model="account.Ac_LinkMan" style="width:200px">
                             <icon slot="prefix">&#xa043</icon>
                         </el-input>
-                    </el-form-item>
-                    <el-form-item label="紧急电话" prop="Ac_LinkManPhone">
-                        <el-input v-model="account.Ac_LinkManPhone" style="width:200px">
+                        <el-input v-model="account.Ac_LinkManPhone" placeholder="紧急电话" style="width:200px">
                             <icon slot="prefix">&#xa047</icon>
                         </el-input>
                     </el-form-item>
@@ -225,21 +209,24 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
-                    <editor :content="account.Ac_Intro" model="mini" ref="editor" 
-                    upload="Student" :dataid="account.Ac_ID"
-                    @change="text=>account.Ac_Intro=text"> </editor>
+                    <editor :content="account.Ac_Intro" model="mini" ref="editor" upload="Student"
+                        :dataid="account.Ac_ID" @change="text=>account.Ac_Intro=text"> </editor>
                 </div>
             </el-form>
         </div>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter"  :loading="loading" plain @click="btnEnter('account')">
-                确认操作
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('account',true)">
+                保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('account',false)">应用
             </el-button>
             <el-button type='close'>
                 取消
             </el-button>
         </div>
-        <el-tag type="success" class="organ" title="所属机构">
+        <el-tag type="info" class="organ" title="所属机构">
             <icon>&#xa02a</icon>
             {{organ.Org_Name}}
         </el-tag>

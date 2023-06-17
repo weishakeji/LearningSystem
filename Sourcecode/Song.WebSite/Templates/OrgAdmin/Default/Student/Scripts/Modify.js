@@ -63,7 +63,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
                 return;
@@ -114,6 +114,8 @@ $ready(function () {
             isexist: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null && this.id != 0;
             },
+            //是否新增账号
+            isadd: t => { return t.id == null || t.id == '' || this.id == 0; },
             //学员的组是否存在
             sortexist: function () {
                 return JSON.stringify(this.accsort) != '{}' && this.accsort != null && !!this.accsort.Sts_ID;
@@ -170,7 +172,7 @@ $ready(function () {
                 this.account.Sts_ID = item.Sts_ID;
                 this.account.Sts_Name = item.Sts_Name;
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName,isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -192,7 +194,7 @@ $ready(function () {
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
@@ -211,7 +213,7 @@ $ready(function () {
             pingyin: function () {
                 this.accPingyin = makePy(this.account.Ac_Name);
                 if (this.accPingyin.length > 0)
-                    this.account.Ac_Pinyin = this.accPingyin[0];                
+                    this.account.Ac_Pinyin = this.accPingyin[0];
             },
             //图片文件上传
             filechange: function (file) {
@@ -255,8 +257,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });

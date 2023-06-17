@@ -38,7 +38,7 @@
                 alert(err);
                 console.error(err);
             });
-            th.getTreeData();
+            th.getTreeData(true);
         },
         computed: {
         },
@@ -49,9 +49,10 @@
         },
         methods: {
             //所取章节数据，为树形数据
-            getTreeData: function () {
+            //showloading:是否出现预载效果
+            getTreeData: function (showloading) {
                 var th = this;
-                this.loading = true;
+                if (showloading) this.loading = true;
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -192,7 +193,7 @@
                     alert(err);
                     console.error(err);
                 });
-            },            
+            },
             //计算序号
             calcSerial: function (outline, lvl) {
                 var childarr = outline == null ? this.datas : (outline.children ? outline.children : null);
@@ -237,12 +238,12 @@
                 $api.cache('Outline/Tree:clear', { 'couid': this.id, 'isuse': true });
                 var th = this;
                 if (freshall == null || freshall == false) {
-                    th.getTreeData();
+                    th.getTreeData(false);
                 } else {
                     $api.put('Outline/FreshCache', { 'couid': this.id }).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
-                            th.getTreeData();
+                            th.getTreeData(false);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

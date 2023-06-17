@@ -180,5 +180,4 @@
         }
     });
 
-}, ['Components/outline_live.js'                //章节直播的设置
-]);
+}, []);
