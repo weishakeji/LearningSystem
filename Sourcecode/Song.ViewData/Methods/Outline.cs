@@ -32,12 +32,11 @@ namespace Song.ViewData.Methods
         [Admin,Teacher]
         [HttpPost]
         [HtmlClear(Not = "entity")]
-        public bool Add(Song.Entities.Outline entity)
+        public Song.Entities.Outline Add(Song.Entities.Outline entity)
         {
             try
             {
-                Business.Do<IOutline>().OutlineAdd(entity);
-                return true;
+                return Business.Do<IOutline>().OutlineAdd(entity);               
             }
             catch (Exception ex)
             {

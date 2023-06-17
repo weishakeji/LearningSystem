@@ -27,7 +27,7 @@ namespace Song.ServiceImpls
         /// 添加章节
         /// </summary>
         /// <param name="entity">业务实体</param>
-        public void OutlineAdd(Outline entity)
+        public Outline OutlineAdd(Outline entity)
         {
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -59,10 +59,10 @@ namespace Song.ServiceImpls
                     //如果是直播章节
                     if (entity.Ol_IsLive)
                     {
-                        string liveid = string.Format("{0}_{1}_{2}", entity.Cou_ID, entity.Ol_ID, entity.Ol_UID);
+                        //string liveid = string.Format("{0}_{1}", entity.Cou_ID, entity.Ol_ID);
                         try
                         {
-                            pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
+                            pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(entity.Ol_ID.ToString());
                             entity.Ol_LiveID = stream.Title;
                         }
                         catch (Exception ex)
@@ -84,6 +84,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Close();
                 }
+                return entity;
             }
         }
         /// <summary>
@@ -194,7 +195,7 @@ namespace Song.ServiceImpls
                 {
                     try
                     {
-                        stream = Business.Do<ILive>().StreamCreat();
+                        stream = Business.Do<ILive>().StreamCreat(entity.Ol_ID.ToString());
                     }
                     catch (Exception ex)
                     {

@@ -16,7 +16,9 @@
                 Ol_IsChecked: true,
                 Ol_IsFree: false
             },
-            datas: [],       //章节列表
+            livestream: {},      //直播流
+
+            datas: [],       //所有章节，用于选择上级章节
             olSelects: [],      //选择中的章节项
 
             rules: { 'Ol_Name': [{ required: true, message: '不得为空', trigger: 'blur' }] },
@@ -37,7 +39,9 @@
         },
         computed: {
             //是否新增章节
-            isadd: t => { return t.id == null || t.id == ''; }
+            isadd: t => { return t.id == null || t.id == ''; },
+            //是否设置了直播
+            islive: t => { return t.outline.Ol_IsLive && !$api.isnull(t.livestream); },
         },
         methods: {
             //所取所有章节数据，为树形数据
@@ -63,13 +67,15 @@
                     var obj = th.traversalQuery(th.outline.Ol_ID, th.datas);
                     if (obj != null) obj.Ol_IsUse = false;
                     th.traversalUse(th.datas);
-                    if (th.isexist) {
+                    if (!th.isadd) {
+                        th.getlivestream();
                         //将当前章节的上级路径，用于在控件中显示
                         var arr = [];
                         arr = th.getParentPath(th.outline, th.datas, arr);
                         th.olSelects = arr;
-                        if (th.outline.Ol_Intro)
+                        if (th.outline.Ol_Intro && th.$refs['detail_editor'])
                             th.$refs['detail_editor'].setContent(th.outline.Ol_Intro);
+
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
@@ -150,11 +156,13 @@
                         $api.post('Outline/' + modify_state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
+                                th.outline = result;
                                 th.$message({
                                     type: 'success',
                                     message: isclose ? '操作成功,关闭当前窗体' : '操作成功!',
                                     center: true
                                 });
+                                th.getlivestream();
                                 $api.put('Outline/ForID', { 'id': obj.Ol_ID });
                                 th.fresh_parent(isclose);
                                 //th.modify_show = false;
@@ -168,6 +176,30 @@
                         console.log('error submit!!');
                         return false;
                     }
+                });
+            },
+            //获取直播流信息
+            getlivestream: function () {
+                var th = this;
+                if (th.outline.Ol_LiveID == null || th.outline.Ol_LiveID == '') return;
+                $api.get('Live/StreamInfo', { 'name': th.outline.Ol_LiveID }).then(function (req) {
+                    if (req.data.success) {
+                        th.livestream = req.data.result;
+                        console.log(th.livestream);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
+            },
+            //复制到粘贴板
+            copytext: function (val) {
+                this.copy(val, null).then(function (th) {
+                    th.$message({
+                        message: '复制 “' + val + '” 到粘贴板',
+                        type: 'success'
+                    });
                 });
             },
             //刷新上级列表

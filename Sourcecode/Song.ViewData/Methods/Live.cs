@@ -9,6 +9,7 @@ using Song.ViewData.Attri;
 using WeiSha.Core;
 using System.Reflection;
 using pili_sdk;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
@@ -17,6 +18,7 @@ namespace Song.ViewData.Methods
     /// </summary>
     public class Live : ViewMethod, IViewAPI
     {
+        #region 七牛云直播的配置管理
         /// <summary>
         /// 记录直播的各种设置项
         /// </summary>
@@ -99,6 +101,48 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
+        }
+        #endregion
+
+        /// <summary>
+        /// 获取七牛云直播流的流信息
+        /// </summary>
+        /// <param name="name">直播流名称</param>
+        /// <returns></returns>
+        public pili_sdk.pili.Stream GetStream(string name)
+        {
+            return pili_sdk.Pili.API<pili_sdk.IStream>().GetForTitle(name);
+        }
+        /// <summary>
+        /// 七牛云直播流的流信息
+        /// </summary>
+        /// <param name="name">直播流名称</param>
+        /// <returns>"liveid":直播流id,"title":直播流名称,"publish":推流地址,"playhls":网页播放地址, "playrtmp":客户端播放地址,"cover":封面</returns>
+        public JObject StreamInfo(string name)
+        {
+            //直播截图的域名
+            string snapshot = Business.Do<ILive>().GetSnapshot;
+            string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+            //直播流
+            pili_sdk.pili.Stream stream = Pili.API<IStream>().GetForTitle(name);
+            //推流地址
+            string publist = string.Format("rtmp://{0}/{1}/{2}", stream.PublishRtmpHost, stream.HubName, stream.Title);
+            //播放地址               
+            string playhls = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+            string playrtmp = string.Format("rtmp://{0}/{1}/{2}.m3u8", stream.PlayRtmpHost, stream.HubName, stream.Title);
+            //封面地址
+            string cover = string.Empty;
+            if (!string.IsNullOrWhiteSpace(snapshot))
+                cover = string.Format("http://{0}/{1}/{2}.jpg", snapshot, stream.HubName, stream.Title);
+
+            JObject jo = new JObject();
+            jo.Add("liveid", stream.StreamID);
+            jo.Add("title", stream.Title);
+            jo.Add("publish", publist);
+            jo.Add("playhls", playhls);
+            jo.Add("playrtmp", playrtmp);
+            jo.Add("cover", cover);       
+            return jo;
         }
     }
 }

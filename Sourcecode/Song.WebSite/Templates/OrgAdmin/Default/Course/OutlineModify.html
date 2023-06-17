@@ -77,17 +77,45 @@
                             </el-input>
                         </el-form-item>
                         <el-divider></el-divider>
-                        <el-form-item label="推流地址">
-
-                        </el-form-item>
-                        <el-form-item label="播放地址">
-                            <div>
-                                <el-tag>HLS地址</el-tag>
-                            </div>
-                            <div>
-                                <el-tag>RTMP地址</el-tag>
-                            </div>
-                        </el-form-item>
+                        <template v-if="!islive">
+                            <el-form-item label="">
+                                <help>点击“应用”或“保存”后，创建直播流</help>
+                            </el-form-item>
+                        </template>
+                        <template v-else>
+                            <el-form-item label="直播流名称">
+                                <span v-html="outline.Ol_LiveID" class="live"></span>
+                                <el-tag type="warning" icon="&#xa060" class="copy" @click="copytext(outline.Ol_LiveID)">
+                                    复制
+                                </el-tag>
+                            </el-form-item>
+                            <el-form-item label="推流地址">
+                                <span v-html="livestream.publish" class="live"></span>
+                                <el-tag type="warning" icon="&#xa060" class="copy"
+                                    @click="copytext(livestream.publish)">复制
+                                </el-tag>
+                            </el-form-item>
+                            <el-form-item label="播放地址">
+                                <div>
+                                    <div>
+                                        <el-tag>HLS地址</el-tag>
+                                        <help>一般用于网页html5播放</help>
+                                    </div>
+                                    <span v-html="livestream.playhls" class="live"></span>
+                                    <el-tag type="warning" icon="&#xa060" class="copy"
+                                        @click="copytext(livestream.playhls)">复制</el-tag>
+                                </div>
+                                <div>
+                                    <div>
+                                        <el-tag>RTMP地址</el-tag>
+                                        <help>一般用于客户端播放器</help>
+                                    </div>
+                                    <span v-html="livestream.playrtmp" class="live"></span>
+                                    <el-tag type="warning" icon="&#xa060" class="copy"
+                                        @click="copytext(livestream.playrtmp)">复制</el-tag>
+                                </div>
+                            </el-form-item>
+                        </template>
                     </template>
                 </div>
             </el-form>

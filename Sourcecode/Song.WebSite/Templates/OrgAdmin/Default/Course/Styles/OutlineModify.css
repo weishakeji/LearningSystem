@@ -64,3 +64,10 @@
 .el-tabs__content {
     display: none;
 }
+/*直播界面*/
+.copy{
+    cursor: pointer;
+}
+.live{
+   color: black;
+}

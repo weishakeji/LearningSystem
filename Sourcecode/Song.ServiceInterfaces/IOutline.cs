@@ -16,7 +16,7 @@ namespace Song.ServiceInterfaces
         /// 添加章节
         /// </summary>
         /// <param name="entity">业务实体</param>
-        void OutlineAdd(Outline entity);
+        Outline OutlineAdd(Outline entity);
         /// <summary>
         /// 批量添加章节，可用于导入时
         /// </summary>
