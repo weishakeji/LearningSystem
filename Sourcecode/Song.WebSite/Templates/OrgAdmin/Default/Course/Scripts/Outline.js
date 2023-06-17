@@ -192,60 +192,7 @@
                     alert(err);
                     console.error(err);
                 });
-            },
-            /*
-            //新增章节的按钮事件
-            addBtn: function () {
-                this.modify_obj = {
-                    Ol_IsUse: true,
-                    Ol_IsFinish: true
-                };
-                var th = this;
-                $api.get('Snowflake/Generate').then(function (req) {
-                    if (req.data.success) {
-                        th.guide_form = {};
-                        th.modify_obj.Ol_ID = req.data.result;
-                        th.modify_obj.state = 'add';
-                        th.modify_show = true;
-                        th.$refs['intro_editor'].setContent('');
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
-                //this.modify_show = true;
-
-            },*/
-            /*
-            //编辑章节的按钮事件
-            modifyBtn: function (data) {
-                this.openbox(data,'OutlineModify','章节管理',800,600,'e841');
-                return;
-                var th = this;
-                th.loadingid = data.Ol_ID;
-                $api.get('Outline/ForID', { 'id': data.Ol_ID }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.modify_obj = result;
-                        th.modify_obj.state = 'modify';
-                        th.modify_show = true;
-                        th.$refs['intro_editor'].setContent(result.Ol_Intro);
-
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loadingid = -1;
-                });
-
-            },*/
+            },            
             //计算序号
             calcSerial: function (outline, lvl) {
                 var childarr = outline == null ? this.datas : (outline.children ? outline.children : null);
@@ -324,5 +271,4 @@
             },
         }
     });
-}, ['Components/outline_live.js'                //章节直播的设置
-]);
+}, []);

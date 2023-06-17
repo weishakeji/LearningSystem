@@ -29,8 +29,8 @@
                     </span>
                 </el-tab-pane>
             </el-tabs>
-            <el-form :model="outline" ref="form" label-width="80px"
-                :rules="rules">
+            <loading v-if="loading"></loading>
+            <el-form v-else :model="outline" ref="form" label-width="80px" :rules="rules">
                 <div v-show="activeName=='general'" remark="基本信息">
                     <el-form-item label="章节名称" prop="Ol_Name">
                         <el-input v-model="outline.Ol_Name" autocomplete="off"></el-input>
@@ -75,10 +75,12 @@
 
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
-                @click="btnEnter('form')">
+                @click="btnEnter('form',true)">
                 保存
             </el-button>
-
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('form',false)">应用
+            </el-button>
             <el-button type='close'>
                 取消
             </el-button>

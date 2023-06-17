@@ -8,7 +8,14 @@
             uid: $api.querystring('uid'),       //章节的uid         
 
             activeName: $api.querystring('active', 'general'),
-            outline: {},
+            //当前章节对象，下面是一些新增时的默认值
+            outline: {
+                Cou_ID: $api.querystring('couid'),
+                Ol_IsUse: true,
+                Ol_IsFinish: true,
+                Ol_IsChecked: true,
+                Ol_IsFree: false
+            },
             datas: [],       //章节列表
             olSelects: [],      //选择中的章节项
 
@@ -29,8 +36,8 @@
 
         },
         computed: {
-            //章节是否存在
-            isexist: t => { return !$api.isnull(t.outline); }
+            //是否新增章节
+            isadd: t => { return t.id == null || t.id == ''; }
         },
         methods: {
             //所取所有章节数据，为树形数据
@@ -44,37 +51,53 @@
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => this.getentity());
+                    .finally(() => this.setentity());
             },
-            //获取章节
-            getentity: function () {
-                if (this.id == null || this.id == '') return;
+            //设置当前章节的信息
+            setentity: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Outline/ForID', { 'id': th.id }).then(function (req) {
-                    if (req.data.success) {
-                        th.outline = req.data.result;
-                        //设置当前节点禁用，防止选择自身
-                        var obj = th.traversalQuery(th.outline.Ol_ID, th.datas);
-                        if (obj != null) obj.Ol_IsUse = false;
-                        th.traversalUse(th.datas);
-                        if (th.isexist) {
-                            //将当前章节的上级路径，用于在控件中显示
-                            var arr = [];
-                            arr = th.getParentPath(th.outline, th.datas, arr);
-                            th.olSelects = arr;
+                th.getentity().then(function (ol) {
+                    th.outline = ol;
+                    //设置当前节点禁用，防止选择自身
+                    var obj = th.traversalQuery(th.outline.Ol_ID, th.datas);
+                    if (obj != null) obj.Ol_IsUse = false;
+                    th.traversalUse(th.datas);
+                    if (th.isexist) {
+                        //将当前章节的上级路径，用于在控件中显示
+                        var arr = [];
+                        arr = th.getParentPath(th.outline, th.datas, arr);
+                        th.olSelects = arr;
+                        if (th.outline.Ol_Intro)
                             th.$refs['detail_editor'].setContent(th.outline.Ol_Intro);
-                        }
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
-            //创建新的章节对象
-            createobj: function () {
-
+            //获取章节对象，如果不存在则创建新的章节对象
+            getentity: function () {
+                var th = this;
+                return new Promise((resolve, reject) => {
+                    if (th.isadd) {
+                        $api.get('Snowflake/Generate').then(function (req) {
+                            if (req.data.success) {
+                                th.outline.Ol_ID = req.data.result;
+                                resolve(th.outline);
+                            } else {
+                                reject(req.config.way + ' ' + req.data.message);
+                            }
+                        });
+                    } else {
+                        $api.get('Outline/ForID', { 'id': th.id }).then(function (req) {
+                            if (req.data.success) {
+                                resolve(req.data.result);
+                            } else {
+                                reject(req.config.way + ' ' + req.data.message);
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                });
             },
             //获取当前专业的上级路径
             getParentPath: function (entity, datas, arr) {
@@ -117,29 +140,29 @@
                 this.$refs["outlines"].dropDownVisible = false;
             },
             //编辑当前章节
-            btnModify: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
+                //是新增还是编辑
+                var modify_state = th.isadd ? 'add' : 'Modify';
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var obj = th.modify_obj;
-                        obj['Cou_ID'] = th.id;
-                        obj['Org_ID'] = th.course.Org_ID;
-                        $api.post('Outline/' + th.modify_obj.state, { 'entity': obj }).then(function (req) {
+                        var obj = th.outline;
+                        $api.post('Outline/' + modify_state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
                                     type: 'success',
-                                    message: '操作成功!',
+                                    message: isclose ? '操作成功,关闭当前窗体' : '操作成功!',
                                     center: true
                                 });
                                 $api.put('Outline/ForID', { 'id': obj.Ol_ID });
-                                th.updatedEvent();
-                                th.modify_show = false;
+                                th.fresh_parent(isclose);
+                                //th.modify_show = false;
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
@@ -148,11 +171,11 @@
                 });
             },
             //刷新上级列表
-            fresh_parent: function () {
+            fresh_parent: function (isclose) {
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
                 if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.getTreeData")', false);
+                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.updatedEvent(true)")', isclose);
             }
         }
     });
