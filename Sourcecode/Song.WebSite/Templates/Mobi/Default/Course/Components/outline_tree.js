@@ -1,6 +1,8 @@
 //附件menutree
 $dom.load.css([$dom.pagepath() + 'Components/Styles/outline_tree.css']);
 // 章节列表组件
+//事件;
+//show:菜单显示的事件，隐藏时也会触发
 Vue.component('outline_tree', {
     //章节列表，课程对象，菜单是否显示
     //studied:是否可以学习该章节
@@ -33,6 +35,10 @@ Vue.component('outline_tree', {
                 if (this.outlines && this.outlines.length > 0)
                     this.init();
             }
+        },
+        //菜单显示的变化
+        'menushow': function (nv, ov) {
+            this.$emit('show', nv);
         }
 
     },

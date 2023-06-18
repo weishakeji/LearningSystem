@@ -13,13 +13,13 @@
         <generic @login="acc=>account = acc"></generic>
         <!--侧滑菜单部分-->
         <outline_tree ref="outline_tree" :course="course" :outlines="outlines" :videolog="videolog" :studied="studied"
-            :owned="owned" @change="n=>outline=n"></outline_tree>
+            :owned="owned" @change="n=>outline=n" @show="n=>$refs['player'].display(!n)"></outline_tree>
         <div id="context-box">
             <div class="loading" v-if="loading_init">
                 <van-loading size="24px" type="spinner">加载中...</van-loading>
             </div>
             <template v-else>
-                <videoplayer :outline="outline" :account="account"></videoplayer>
+                <videoplayer ref="player" :outline="outline" :account="account"></videoplayer>
                 <div tag="视频" v-show="contextShow=='video' || contextShow==''">
                     <message :outline="outline" :account="account" v-if="isMessage"></message>
                 </div>

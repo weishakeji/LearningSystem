@@ -32,8 +32,8 @@ $ready(function () {
             }
         },
         computed: {
-           //是否登录
-           islogin: (t) => { return !$api.isnull(t.account); },
+            //是否登录
+            islogin: (t) => { return !$api.isnull(t.account); },
         },
         created: function () {
             var th = this;
@@ -400,6 +400,11 @@ $ready(function () {
 
         },
         methods: {
+            //是否显示
+            display: function (show) {
+                let visible = show == null ? true : show;
+                $dom('.videobox').css('visibility', visible ? 'visible' : 'hidden');
+            },
             //视频开始播放
             videoPlay: function (state) {
                 var th = this;
