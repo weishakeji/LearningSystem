@@ -34,6 +34,7 @@ Vue.component('study_live', {
         //创建播放器
         createplayer: function (state) {
             if (window.live_player != null) window.live_player.destroy();
+            //console.error(state.urlVideo);
             window.live_player = new QPlayer({
                 url: state.urlVideo,
                 container: document.getElementById("livebox"),

@@ -1655,7 +1655,7 @@ Number.prototype.money = function (len) {
     }
     return float_num > 0 ? mstr + '.' + float_num : mstr;
 };
-//添加加载前后的事件
+//添加axios加载前后的事件
 $api.effect(function () {
 
 }, function (response, err) {

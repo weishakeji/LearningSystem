@@ -162,7 +162,7 @@ namespace Song.ViewData
                     throw VExcept.System("The request mark is incorrect", 102);
 
                 //执行方法
-                object res = Exec(letter);
+                object res = Exec(letter);              
                 //计算耗时                
                 double span = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
                 //
