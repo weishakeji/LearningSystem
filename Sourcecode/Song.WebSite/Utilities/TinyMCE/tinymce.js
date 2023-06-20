@@ -834,3 +834,9 @@
   n};else{var l=(m-n)/m;g={h:cd(60*((g===n?3:k===n?1:5)-(g===n?h-k:k===n?g-h:k-g)/(m-n))),s:cd(100*l),v:cd(100*m)}}return g};b.toHex=function(){var g=function(h){h=parseInt(h,10).toString(16);return 1<h.length?h:"0"+h};return"#"+g(c)+g(d)+g(e)};b.parse=f;return b}},dom:{EventUtils:fd,Sizzle:pa,DomQuery:ea,TreeWalker:Ja,TextSeeker:ql,DOMUtils:xa,ScriptLoader:Rb,RangeUtils:MA,Serializer:fn,ControlSelection:ym,BookmarkManager:wm,Selection:$m,Event:fd.Event},html:{Styles:Jg,Entities:Fc,Node:gb,Schema:ec,
   SaxParser:Xh,DomParser:Ai,Writer:$l,Serializer:ze},Env:ja,AddOnManager:qc,Annotator:Vl,Formatter:Ln,UndoManager:Sn,EditorCommands:Yp,WindowManager:um,NotificationManager:Ej,EditorObservable:bq,Shortcuts:eq,Editor:ug,FocusManager:lm,EditorManager:Ac,DOM:xa.DOM,ScriptLoader:Rb.ScriptLoader,PluginManager:qc.PluginManager,ThemeManager:qc.ThemeManager,IconManager:ii,Resource:OA,trim:E.trim,isArray:E.isArray,is:E.is,toArray:E.toArray,makeMap:E.makeMap,each:E.each,map:E.map,grep:E.grep,inArray:E.inArray,
   extend:E.extend,create:E.create,walk:E.walk,createNS:E.createNS,resolve:E.resolve,explode:E.explode,_addCacheSuffix:E._addCacheSuffix,isOpera:ja.opera,isWebKit:ja.webkit,isIE:ja.ie,isGecko:ja.gecko,isMac:ja.mac});(function(a){window.tinymce=a;window.tinyMCE=a})(tq);if("object"===typeof module)try{module.exports=tq}catch(a){}})(window);
+
+
+  //控件的基础路径去除域名，只采用根路径
+tinymce.baseURL = tinymce.baseURL.replace("http://", "");
+tinymce.baseURL = tinymce.baseURL.replace("https://", "");
+tinymce.baseURL = tinymce.baseURL.substring(tinymce.baseURL.indexOf('/'));
