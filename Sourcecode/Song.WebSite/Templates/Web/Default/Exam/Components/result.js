@@ -5,7 +5,12 @@ Vue.component('result', {
     data: function () {
         return {}
     },
-    computed: {},
+    computed: {
+        //是否成功
+        success: function () {
+            return !$api.isnull(this.state) && this.state.result.exrid != null;
+        }
+    },
     mounted: function () { },
     methods: {
         //得分样式
@@ -19,9 +24,23 @@ Vue.component('result', {
             if (score >= total * 0.8) return "fine";
             return "";
         },
+        //计算得分
+        scoreClac: function (score) {
+            if (score == null) return '（错误）';
+            return Math.floor(score * 100) / 100;
+        },
         //跳转页面
         btnEnter: function () {
-            var url = "/student/exam/Review?examid=" + this.state.result.examid + "&exrid=" + this.state.result.exrid;
+            let examid = this.state.result.examid;
+            let exrid = this.state.result.exrid;
+            if (examid == null || exrid == null) {
+                alert('存在错误，请联系管理员！');
+                return;
+            }
+            let url = $api.url.set('/student/exam/Review', {
+                'examid': examid,
+                'exrid': exrid
+            });
             window.location.href = url;
         },
         //返回
@@ -32,11 +51,12 @@ Vue.component('result', {
 
     template: ` <card v-if="!state.loading">
         <card-title>
-            成绩递交成功 ！
+            <span v-if="success">成绩递交成功 ！</span>
+            <span v-else>提交失败，请联系管理员</span>
         </card-title>
         <template v-if="!state.result.async">
             <row>
-            得分：<score :class="scoreStyle(state.result.score)">{{Math.floor(state.result.score*100)/100}}</score>
+            得分：<score :class="scoreStyle(state.result.score)">{{scoreClac(state.result.score)}}</score>
             </row>
             <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
             <div class="btnEnter" @click="btnEnter">确 定</div>

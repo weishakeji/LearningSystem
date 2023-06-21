@@ -496,7 +496,7 @@ namespace Song.ViewData.Methods
             //
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
             //如果考试不存在
-            if (exam == null) return null;
+            if (exam == null) throw new Exception("当前考试不存在！");
             //如果考试已经结束
             int span = (int)exam.Exam_Span;
             //if (DateTime.Now > ((DateTime)exam.Exam_Date).AddMinutes(span + 5)) return 0;  
@@ -556,9 +556,9 @@ namespace Song.ViewData.Methods
                 jo.Add("score", score);
                 jo.Add("async", async);
             }
-            catch
+            catch(Exception ex)
             {
-                return null;
+                throw ex;
             }
             return jo;
         }
