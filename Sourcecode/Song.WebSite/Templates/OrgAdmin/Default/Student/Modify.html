@@ -23,7 +23,7 @@
                 </el-tab-pane>
                 <el-tab-pane name="detail">
                     <span slot="label">
-                        <icon style="font-size: 18px;">&#xe669</icon> 详细信息
+                        <icon style="font-size: 18px;">&#xe669</icon> 更多信息
                     </span>
                 </el-tab-pane>
                 <el-tab-pane name="intro">
@@ -118,16 +118,15 @@
                 <div v-show="activeName=='contact'" remark="联系方式">
 
                     <el-form-item label="移动电话" prop="Ac_MobiTel1">
-                        <el-input v-model="account.Ac_MobiTel1" placeholder="移动电话1" style="width:200px">
+                        <el-input v-model="account.Ac_MobiTel1" placeholder="手机号" style="width:200px">
                             <icon slot="prefix">&#xe677</icon>
                         </el-input>
                         <el-checkbox v-model="account.Ac_IsOpenMobile">是否公开</el-checkbox>
+
                     </el-form-item>
                     <el-form-item label="" prop="Ac_MobiTel2">
-                        <el-input v-model="account.Ac_MobiTel2" placeholder="移动电话2" style="width:200px">
-                            <icon slot="prefix">&#xe677</icon>
-                        </el-input>
-                    </el-form-item>
+                        <el-checkbox :value="isbindmobi" @change="bindmobi">设置为“绑定手机号”（用于短信登录）</el-checkbox>
+                    </el-form-item>               
                     <el-form-item label="固定电话" prop="Ac_Tel">
                         <el-input v-model="account.Ac_Tel" style="width:200px">
                             <icon slot="prefix">&#xe66c</icon>

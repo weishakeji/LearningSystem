@@ -1220,6 +1220,9 @@ namespace Song.ViewData.Methods
             obj.Org_ID = org.Org_ID;
             obj.Ac_IsPass = true;
             obj.Ac_IsUse = true;
+            //手机号,如果第一个手机号不为空，且第二个手机号为空，则设置相等。相等的意思即绑定手机号，用于短信登录
+            if (!string.IsNullOrWhiteSpace(obj.Ac_MobiTel1) && string.IsNullOrWhiteSpace(obj.Ac_MobiTel2))
+                obj.Ac_MobiTel2 = obj.Ac_MobiTel1;
             if (isExist)
             {
                 Business.Do<IAccounts>().AccountsSave(obj);

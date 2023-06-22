@@ -119,6 +119,15 @@ $ready(function () {
             //学员的组是否存在
             sortexist: function () {
                 return JSON.stringify(this.accsort) != '{}' && this.accsort != null && !!this.accsort.Sts_ID;
+            },
+            //是否已经绑定手机号
+            isbindmobi: function () {
+                if (!this.isexist) return false;
+                let tel1 = this.account.Ac_MobiTel1;
+                let tel2 = this.account.Ac_MobiTel2;
+                if (tel2 == null || tel2 == '') return false;
+                console.log(tel1 == tel2     )
+                return tel1 == tel2;               
             }
         },
         methods: {
@@ -172,7 +181,15 @@ $ready(function () {
                 this.account.Sts_ID = item.Sts_ID;
                 this.account.Sts_Name = item.Sts_Name;
             },
-            btnEnter: function (formName,isclose) {
+            //绑定手机号
+            bindmobi: function (val) {
+                if (val && (this.account.Ac_MobiTel1 != null && this.account.Ac_MobiTel1 != ''))
+                    this.account.Ac_MobiTel2 = this.account.Ac_MobiTel1;
+                if (!val) this.account.Ac_MobiTel2 = '';
+                console.log(val);
+                console.log(this.isbindmobi);
+            },
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

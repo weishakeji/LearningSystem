@@ -6,8 +6,9 @@
 h1:not(h1:first-child){
     margin-top: 40px;
 }
-p{
+p {
     line-height: 30px;
+    width: calc(100% - 50px);
 }
 textarea {
     width: calc(100% - 50px);

@@ -13,8 +13,7 @@
             <btngroup show="新增,修改,删除,导入,导出,批量禁用" ref='btngroup' @delete="deleteData" @output="output" @input="input"
                 @batch="batch_disable" path="Modify" width="600" height="600" :selects='selects' idkey='Ac_ID'
                 table="datatables"></btngroup>
-            <query_panel :rules="rules" :model="form" :width="45" :loading="loading"
-                @search="handleCurrentChange(1)">
+            <query_panel :rules="rules" :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
                 </el-form-item>
@@ -70,8 +69,21 @@
                             </icon>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
                             <div remark="电话" @dblclick.stop="copytext(showmobi(scope.row))">
-                                <icon mobile></icon>
-                                <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
+                                <template
+                                    v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
+                                    <icon mobile></icon>
+                                    <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
+                                </template>
+                                <el-tooltip v-else effect="light" content="已绑定手机号" placement="right">
+                                    <span class="bindmobi">
+                                        <icon> &#xe676 </icon>
+                                        <span v-html='showsearch(showmobi(scope.row),form.phone)'>
+                                        </span>
+                                    </span>
+                                </el-tooltip>
+
+
+
                             </div>
                         </div>
 
