@@ -17,7 +17,7 @@
             </el-tab-pane>
         </el-tabs>
         <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
-            <div v-show="activeName=='register'" remark="登录/注册">
+            <div v-show="activeName=='register'" remark="登录/注册" tab="register">
                 <el-form-item label="用户注册">
                     <el-row>
                         <el-checkbox v-model="config.IsRegTeacher">禁止教师注册</el-checkbox>
@@ -56,7 +56,7 @@
                 </el-form-item>
 
             </div>
-            <div v-show="activeName=='device'" remark="终端设备的设置">
+            <div v-show="activeName=='device'" remark="终端设备的设置" tab="device">
                 <el-form-item label="移动端">
                     <el-row>
                         <el-checkbox v-model="config.DisenableWeixin">禁止在微信中使用</el-checkbox>
@@ -89,7 +89,7 @@
 
                 </el-form-item>
             </div>
-            <div v-show="activeName=='study'" remark="课程学习">
+            <div v-show="activeName=='study'" remark="课程学习" tab="study">
                 <el-form-item label="视频学习" prop="VideoTolerance">
 
                     <el-row>

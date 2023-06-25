@@ -145,7 +145,7 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;              
-                this.$refs[formName].validate((valid, obj) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.error = '';
                         th.loading = true;
@@ -172,14 +172,13 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         console.log('error submit!!');
-                        for (var t in obj) {
-                            th.error = obj[t][0].message;
-                            break;
-                        }
-                        window.setTimeout(function () {
-                            th.error = '';
-                        }, 5000);
                         return false;
                     }
                 });

@@ -126,7 +126,7 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid,fields) => {
                     if (valid) {
                         var sbj = th.clone(th.entity);
                         //return;
@@ -157,7 +157,13 @@ $ready(function () {
                             alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
+                          //未通过验证的字段
+                          let field = Object.keys(fields)[0];
+                          let label = $dom('label[for="' + field + '"]');
+                          while (label.attr('tab') == null)
+                              label = label.parent();
+                          th.activeName = label.attr('tab');
+                          console.log('error submit!!');
                         return false;
                     }
                 });

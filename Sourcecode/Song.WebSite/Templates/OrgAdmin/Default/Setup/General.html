@@ -28,7 +28,7 @@
                 </span></el-tab-pane>
         </el-tabs>
         <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
-            <div v-show="activeName=='general'" remark="常规参数设置">
+            <div v-show="activeName=='general'" remark="常规参数设置" tab="general">
                 <el-form-item label="平台名称" prop="Org_PlatformName">
                     <el-input v-model="organ.Org_PlatformName"></el-input>
                 </el-form-item>
@@ -57,9 +57,9 @@
                     <el-input v-model="organ.Org_GonganBeian"></el-input>
                 </el-form-item>
             </div>
-            <div v-show="activeName=='stamp'" remark="公章">
+            <div v-show="activeName=='stamp'" remark="公章" tab="stamp">
             </div>
-            <div v-show="activeName=='seo'" remark="SEO">
+            <div v-show="activeName=='seo'" remark="SEO" tab="seo">
                 <el-form-item label="Keywords" prop="Org_Keywords">
                     <el-input type="textarea" v-model="organ.Org_Keywords"></el-input>
                 </el-form-item>
@@ -76,7 +76,7 @@
                     <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
                 </el-form-item>
             </div>
-            <div v-show="activeName=='contact'" remark="联系方式">
+            <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
                 <el-row>
                     <el-col :span="21">
                         <el-form-item label="地址" prop="Org_Address">
@@ -151,7 +151,7 @@
                     <div id="map" style="height:250px;width:100%;"></div>
                 </el-dialog>
             </div>
-            <div v-show="activeName=='about'" class="about_editor" remark="关于我们">
+            <div v-show="activeName=='about'" class="about_editor"  tab="b" remark="关于我们">
                 <editor :content="organ.Org_Intro" model="simple" ref="editor" upload="Org" :dataid="organ.Org_ID"
                     @change="text=>organ.Org_Intro=text">
                 </editor>
