@@ -106,7 +106,7 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Teacher/add' : 'Teacher/Modify';
@@ -136,6 +136,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         console.log('error submit!!');
                         return false;
                     }

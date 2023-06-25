@@ -35,7 +35,7 @@
 
             <el-form ref="account" :model="account" :rules="rules" v-loading="loading" @submit.native.prevent
                 label-width="100px">
-                <div v-show="activeName=='general'" remark="基本信息">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item>
                         <upload-img @change="file=>upfile=file" :data="account" size="1024" height="100"
                             ext="jpg,png,gif">
@@ -115,7 +115,7 @@
                         </el-form-item>
                     </el-row>
                 </div>
-                <div v-show="activeName=='contact'" remark="联系方式">
+                <div v-show="activeName=='contact'" remark="联系方式"  tab="contact">
 
                     <el-form-item label="移动电话" prop="Ac_MobiTel1">
                         <el-input v-model="account.Ac_MobiTel1" placeholder="手机号" style="width:200px">
@@ -172,7 +172,7 @@
                         </el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='detail'" remark="详细信息">
+                <div v-show="activeName=='detail'" remark="详细信息" tab="detail">
                     <el-form-item label="出生年月">
                         <el-date-picker v-model="account.Ac_Birthday" type="date" placeholder="选择日期">
                         </el-date-picker>
@@ -207,7 +207,7 @@
                         <el-input v-model="account.Ac_Signature" type="textarea" :rows="3"></el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
+                <div v-show="activeName=='intro'" class="about_editor"  tab="intro" remark="个人介绍">
                     <editor :content="account.Ac_Intro" model="mini" ref="editor" upload="Student"
                         :dataid="account.Ac_ID" @change="text=>account.Ac_Intro=text"> </editor>
                 </div>

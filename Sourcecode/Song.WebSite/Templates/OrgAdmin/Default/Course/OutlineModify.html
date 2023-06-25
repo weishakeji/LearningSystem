@@ -31,7 +31,7 @@
             </el-tabs>
             <loading v-if="loading"></loading>
             <el-form v-else :model="outline" ref="form" label-width="100px" :rules="rules">
-                <div v-show="activeName=='general'" remark="基本信息">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item label="章节名称" prop="Ol_Name">
                         <el-input v-model="outline.Ol_Name" autocomplete="off"></el-input>
                     </el-form-item>
@@ -57,11 +57,11 @@
                         <help>课程允许试学时，可以试学免费章节</help>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='detail'" remark="图文资料" class="detail_editor">
+                <div v-show="activeName=='detail'" remark="图文资料" tab="detail" class="detail_editor">
                     <editor :content="outline.Ol_Intro" :menubar="false" model="general" ref="detail_editor"
                         upload="Outline" :dataid="outline.Ol_ID" @change="text=>outline.Ol_Intro=text"></editor>
                 </div>
-                <div v-show="activeName=='live'" remark="直播">
+                <div v-show="activeName=='live'" remark="直播" tab="live">
                     <el-form-item label="">
                         <el-checkbox v-model="outline.Ol_IsLive">当前章节作为直播课</el-checkbox>
                     </el-form-item>

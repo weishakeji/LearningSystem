@@ -126,8 +126,8 @@ $ready(function () {
                 let tel1 = this.account.Ac_MobiTel1;
                 let tel2 = this.account.Ac_MobiTel2;
                 if (tel2 == null || tel2 == '') return false;
-                console.log(tel1 == tel2     )
-                return tel1 == tel2;               
+                console.log(tel1 == tel2)
+                return tel1 == tel2;
             }
         },
         methods: {
@@ -191,7 +191,7 @@ $ready(function () {
             },
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Account/add' : 'Account/Modify';
@@ -221,6 +221,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         console.log('error submit!!');
                         return false;
                     }

@@ -5,6 +5,7 @@
         data: {
             couid: $api.querystring('couid'),       //课程id
             id: $api.querystring('olid'),     //当前章节id
+            pid: $api.querystring('pid'),     //章节父id
             uid: $api.querystring('uid'),       //章节的uid         
 
             activeName: $api.querystring('active', 'general'),
@@ -67,16 +68,13 @@
                     var obj = th.traversalQuery(th.outline.Ol_ID, th.datas);
                     if (obj != null) obj.Ol_IsUse = false;
                     th.traversalUse(th.datas);
-                    if (!th.isadd) {
-                        th.getlivestream();
-                        //将当前章节的上级路径，用于在控件中显示
-                        var arr = [];
-                        arr = th.getParentPath(th.outline, th.datas, arr);
-                        th.olSelects = arr;
-                        if (th.outline.Ol_Intro && th.$refs['detail_editor'])
-                            th.$refs['detail_editor'].setContent(th.outline.Ol_Intro);
-
-                    }
+                    th.getlivestream();
+                    //将当前章节的上级路径，用于在控件中显示
+                    var arr = [];
+                    arr = th.getParentPath(th.outline, th.datas, arr);
+                    th.olSelects = arr;
+                    if (th.outline.Ol_Intro && th.$refs['detail_editor'])
+                        th.$refs['detail_editor'].setContent(th.outline.Ol_Intro);
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
@@ -88,6 +86,7 @@
                         $api.get('Snowflake/Generate').then(function (req) {
                             if (req.data.success) {
                                 th.outline.Ol_ID = req.data.result;
+                                th.outline.Ol_PID = th.pid;
                                 resolve(th.outline);
                             } else {
                                 reject(req.config.way + ' ' + req.data.message);
@@ -150,8 +149,9 @@
                 var th = this;
                 //是新增还是编辑
                 var modify_state = th.isadd ? 'add' : 'Modify';
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+
                         var obj = th.outline;
                         $api.post('Outline/' + modify_state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
@@ -173,7 +173,12 @@
                             alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         return false;
                     }
                 });

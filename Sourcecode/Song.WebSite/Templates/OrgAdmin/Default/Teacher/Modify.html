@@ -34,7 +34,7 @@
             </el-tabs>
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
-                <div v-show="activeName=='general'" remark="基本信息">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item>
                         <upload-img @change="file=>upfile=file" :data="entity" size="1024" height="100"
                             ext="jpg,png,gif">
@@ -110,7 +110,7 @@
                         <el-checkbox v-model="entity.Th_IsPass">审核通过</el-checkbox>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='contact'" remark="联系方式">
+                <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
                     <el-form-item label="固定电话" prop="Th_Phone">
                         <el-input v-model="entity.Th_Phone" style="width:200px">
                             <icon slot="prefix">&#xe66c</icon>
@@ -158,7 +158,7 @@
                         </el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='detail'" remark="详细信息">
+                <div v-show="activeName=='detail'" remark="详细信息" tab="detail">
                     <el-form-item label="出生年月">
                         <el-date-picker v-model="entity.Th_Birthday" type="date" placeholder="选择日期">
                         </el-date-picker>
@@ -200,7 +200,7 @@
                         <el-input v-model="entity.Th_Signature" type="textarea" :rows="3"></el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
+                <div v-show="activeName=='intro'" class="about_editor" tab="intro"remark="个人介绍">
                     <editor :content="entity.Th_Intro" model="mini" ref="editor" upload="Teacher" :dataid="entity.Th_ID"
                         @change="text=>entity.Th_Intro=text">
                     </editor>

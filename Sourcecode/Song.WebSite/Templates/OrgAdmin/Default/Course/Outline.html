@@ -76,6 +76,10 @@
                         <span class="column_btn">
                             <loading v-if="loadingid==data.Ol_ID" star></loading>
                             <template v-else>
+                                <el-link type="success"
+                                    @click="openbox(null,'OutlineModify?pid='+data.Ol_ID,'新增下级章节',800,600,'e841')">
+                                    <icon>&#xe6ea</icon>新增下级
+                                </el-link>
                                 <el-link type="primary" @click="openbox(data,'OutlineModify','章节管理',800,600,'e841')">
                                     <icon>&#xa02e</icon>编辑
                                 </el-link>
