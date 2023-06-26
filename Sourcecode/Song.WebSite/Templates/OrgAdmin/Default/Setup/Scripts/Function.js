@@ -11,12 +11,15 @@ $ready(function () {
                 { name: '课程学习', tag: 'study', icon: '&#xe813', size: 16 },
                 { name: '终端', tag: 'device', icon: '&#xa021', size: 14 }
             ],
-            activeName: 'register',      //选项卡
+            activeName: 'study',      //选项卡
 
             //图片文件
             upfile: null, //本地上传文件的对象   
             error: '',       //错误信息
             rules: {
+                'random_pause_value': [
+                    { type: 'number', min: 1, max: 99, message: '不得小于0或大于99' }                 
+                ],
             },
 
             loading: false,
@@ -39,7 +42,7 @@ $ready(function () {
 
         },
         computed: {
-         
+
         },
         watch: {
         },
@@ -47,7 +50,7 @@ $ready(function () {
             btnEnter: function (formName) {
                 var th = this;
                 if (!th.verification()) return;
-                this.$refs[formName].validate((valid, obj) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.error = '';
                         th.loading = true;
@@ -75,15 +78,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
-                        for (var t in obj) {
-                            th.error = obj[t][0].message;
-                            break;
-                        }
-                        window.setTimeout(function () {
-                            th.error = '';
-                        }, 5000);
-                        return false;
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                     }
                 });
             },
@@ -97,7 +97,7 @@ $ready(function () {
                 if (finaltest_score != 100) {
                     this.$alert('结课成绩的各项权重必须合计等于100%', '录入错误', {
                         confirmButtonText: '确定',
-                        type:'error',
+                        type: 'error',
                         callback: action => {
 
                         }

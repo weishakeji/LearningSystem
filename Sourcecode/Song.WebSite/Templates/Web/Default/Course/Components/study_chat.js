@@ -123,7 +123,7 @@ Vue.component('study_chat', {
                     }
                 }).catch(function (err) {
                     th.loadingid = -1;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
 

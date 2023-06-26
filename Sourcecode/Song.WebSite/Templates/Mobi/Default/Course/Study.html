@@ -19,7 +19,7 @@
                 <van-loading size="24px" type="spinner">加载中...</van-loading>
             </div>
             <template v-else>
-                <videoplayer ref="player" :outline="outline" :account="account"></videoplayer>
+                <videoplayer ref="player" :outline="outline" :account="account" :config="config"></videoplayer>
                 <div tag="视频" v-show="contextShow=='video' || contextShow==''">
                     <message :outline="outline" :account="account" v-if="isMessage"></message>
                 </div>

@@ -5,6 +5,9 @@ $ready(function () {
         data: {
             couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
             olid: $api.querystring("olid"),
+
+            organ: {},
+            config: {},      //当前机构配置项       
             //数据实体
             account: {}, //当前账号信息
             course: {}, //当前课程
@@ -20,9 +23,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: (t) => { return !$api.isnull(t.account); },
         },
         watch: {
             //左侧选项卡切换
@@ -76,7 +77,20 @@ $ready(function () {
                     console.error(err);
                 });
             }).catch(() => { });
-
+            //获取当前机构
+            $api.get('Organization/Current').then(function (req) {
+                if (req.data.success) {
+                    th.organ = req.data.result;
+                    //机构配置信息
+                    th.config = $api.organ(th.organ).config;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+                console.error(err);
+            });
         },
         mounted: function () {
 

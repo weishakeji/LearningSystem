@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <study_video remark="视频" ref='videoplayer' v-show="titState=='existVideo'" :account="account"
-                    :outline="outline" :state="state" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
+                    :outline="outline" :state="state" :config="config" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
                     @completed="(o,s)=>{$refs['rightArea'].nextOutline(o,s);}">
                 </study_video>
                 <study_live remark="直播" v-show="titState=='isLive'" :account="account" :outline="outline"
@@ -58,7 +58,7 @@
         </div>
         <fold remark="此为分隔线"><span @click="fold = !fold" :class="{'open':fold}"></span> </fold>
         <!--开始右侧菜单区域-->
-        <study_outline ref="rightArea" :account="account" :owned="owned" @switch="(tag,index)=>{}"
+        <study_outline ref="rightArea" :account="account" :config="config" :owned="owned" @switch="(tag,index)=>{}"
             @init="(c,o)=>{course=c;outline=o;}" @change="(s,o)=>{state=s;outline=o;}"
             :style="!fold ? 'width: 25%;' : 'width: 0%'" v-show="!fold">
         </study_outline>

@@ -1635,7 +1635,6 @@
     <Content Include="Templates\Manage\Default\RechargeCode\Styles\OutputExcel.css" />
     <Content Include="Templates\Manage\Default\RechargeCode\Styles\OutputQrcode.css" />
     <Content Include="Templates\Manage\Default\Scripts\Startpage.js" />
-    <Content Include="Templates\Web\_Public\Index_.html" />
     <Content Include="Templates\Web\_Public\Scripts\Index.js" />
     <Content Include="Templates\Web\_Public\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\Web\_Public\Styles\Index.css" />
@@ -1816,7 +1815,6 @@
     <Content Include="Templates\TV\Default\Index.html" />
     <Content Include="Templates\Web\_Public\Scripts\Student.js" />
     <Content Include="Templates\Web\_Public\Styles\Student.css" />
-    <Content Include="Templates\Web\_Public\Teacher.html" />
     <Content Include="Templates\Web\_Public\_self.xml" />
     <Content Include="Upload\readme.html" />
     <Content Include="Utilities\app-logo.jpg" />

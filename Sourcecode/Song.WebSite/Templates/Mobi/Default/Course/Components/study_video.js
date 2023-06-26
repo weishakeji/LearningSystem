@@ -3,7 +3,7 @@
 //completed:播放完成，参数：当前章节
 //playing:播放中，每播一秒触发一次，参数：当前进度（单位秒），累计学习计时（单位：秒），完成度的百分比，
 Vue.component('study_video', {
-    props: ['account', 'state', 'outline'],
+    props: ['account', 'state', 'outline', 'config'],
     data: function () {
         return {
             //当前章节的视频信息

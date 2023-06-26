@@ -16,7 +16,7 @@
                 </span>
             </el-tab-pane>
         </el-tabs>
-        <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
+        <el-form ref="entity" :model="config" :rules="rules" @submit.native.prevent label-width="120px">
             <div v-show="activeName=='register'" remark="登录/注册" tab="register">
                 <el-form-item label="用户注册">
                     <el-row>
@@ -91,7 +91,6 @@
             </div>
             <div v-show="activeName=='study'" remark="课程学习" tab="study">
                 <el-form-item label="视频学习" prop="VideoTolerance">
-
                     <el-row>
                         <el-input placeholder="" type="number" min="1" max="100" v-model.number="config.VideoTolerance"
                             @input="(n)=>{config.VideoTolerance=n>100 ? 100 : config.VideoTolerance }"
@@ -108,7 +107,18 @@
                     <el-row>
                         <el-checkbox v-model="config.IsDisableChat">禁用在课程学习中的“交流”功能</el-checkbox>
                     </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.random_pause_setup">在课程学习中开启“随机暂停”功能</el-checkbox>
+                    </el-row>
                 </el-form-item>
+                <el-form-item label=" " prop="random_pause_value" v-if="config.random_pause_setup">
+                    <el-input placeholder="" type="number" min="0" max="99" v-model.number="config.random_pause_value "
+                        style="width: 400px;">
+                        <template slot="prepend">每个视频随机暂停</template>
+                        <template slot="append">次</template>
+                    </el-input>
+                </el-form-item>
+                <el-divider></el-divider>
                 <el-form-item label="结课考试">
                     <el-row>
                         <el-input placeholder="" type="number" min="0" max="100"
@@ -137,6 +147,7 @@
                         </el-input>
                     </el-row>
                 </el-form-item>
+                <el-divider></el-divider>
                 <el-form-item label="结课成绩">
                     <el-row>
                         <el-input placeholder="" type="number" min="0" max="100"

@@ -4,7 +4,7 @@
 //change:更改章节时，返回 章节状态、章节
 //switch:选项卡切换时，返回 选项卡tag和索引
 Vue.component('study_outline', {
-    props: ['account', 'owned'],
+    props: ['account', 'owned', 'config'],
     data: function () {
         return {
             couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
@@ -37,6 +37,7 @@ Vue.component('study_outline', {
         'config': {
             deep: true, immediate: true,
             handler: function (n, o) {
+                if ($api.isnull(n)) return;              
                 for (let i = 0; i < this.tabs.length; i++) {
                     if (this.tabs[i].tag == 'chat') {
                         this.tabs[i].show = !!this.config.IsDisableChat ? this.config.IsDisableChat : false;
@@ -47,13 +48,9 @@ Vue.component('study_outline', {
     },
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        },
+        islogin: t => { return !$api.isnull(t.account); },
         //课程是否存在
-        couexist: function () {
-            return JSON.stringify(this.course) != '{}' && this.course != null;
-        }
+        couexist: t => { return !$api.isnull(t.course); }
     },
     mounted: function () {
         $dom.load.css([$dom.pagepath() + 'Components/Styles/study_outline.css']);
@@ -117,22 +114,6 @@ Vue.component('study_outline', {
             th.outlines = [];
             console.error(err);
         });
-
-        //获取当前机构
-        $api.get('Organization/Current').then(function (req) {
-            if (req.data.success) {
-                th.organ = req.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            } else {
-                console.error(req.data.exception);
-                throw req.config.way + ' ' + req.data.message;
-            }
-        }).catch(function (err) {
-            //alert(err);
-            Vue.prototype.$alert(err);
-            console.error(err);
-        });
     },
     methods: {
         //选项卡的点击事件
@@ -159,7 +140,7 @@ Vue.component('study_outline', {
         //章节树形列表中的点击事件
         outlineClick: function (outline) {
             var th = this;
-            var olid = outline.Ol_ID;         
+            var olid = outline.Ol_ID;
             this.olid = olid;
             //设置当前节点的样式
             this.$nextTick(function () {

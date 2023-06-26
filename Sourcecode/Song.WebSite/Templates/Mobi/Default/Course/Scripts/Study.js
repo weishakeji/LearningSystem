@@ -4,6 +4,9 @@ $ready(function () {
         el: '#vapp',
         data: {
             couid: $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),
+            organ: {},
+            config: {},      //当前机构配置项       
+
             account: {},		//当前登录学员
             course: {},		//当前课程
             outline: {},		//当前章节
@@ -46,6 +49,20 @@ $ready(function () {
                 });
             }).catch(() => {
                 th.account = {};
+            });
+            //获取当前机构
+            $api.get('Organization/Current').then(function (req) {
+                if (req.data.success) {
+                    th.organ = req.data.result;
+                    //机构配置信息
+                    th.config = $api.organ(th.organ).config;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+                console.error(err);
             });
         },
         methods: {
@@ -308,7 +325,7 @@ $ready(function () {
     });
     //视频播放
     Vue.component('videoplayer', {
-        props: ['outline', 'account'],
+        props: ['outline', 'account', 'config'],
         data: function () {
             return {
                 state: {},		//章节状态
@@ -323,6 +340,10 @@ $ready(function () {
                     percent: 0, //完成度（百分比）
                     loading: false //是否处于加载状态
                 },
+                //随机暂停
+                pausevalue: [],         //要暂停的时间值
+                pausesetup: true,       //是否随机暂停
+
                 playtime: 0, //当前播放时间，单位：秒
                 playpercent: 0, //当前播放完成度百分比
                 studylogUpdate: false, //学习记录是否在递交中
@@ -379,6 +400,26 @@ $ready(function () {
                     this.videoPlay(val);
                 }
             },
+            //机构配置项
+            'config': {
+                deep: true, immediate: true,
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.pausesetup = nv.random_pause_setup ? true : false;
+                    let val = nv.random_pause_value ? 0 : nv.random_pause_value;
+                    if (this.pausesetup) this.pausevalue = this.buildrandom(nv.random_pause_value, this.video.total);
+                }
+            },
+            //视频总时长变化时
+            'video.total': {
+                handler: function (nv, ov) {
+                    if (nv <= 0) return;
+                    //计算需要暂停的时间点
+                    if (this.config.random_pause_setup)
+                        this.pausevalue = this.buildrandom(this.config.random_pause_value, nv);
+                    console.log(this.pausevalue);
+                }, immediate: true
+            },
             //播放进度变化
             playtime: function (val) {
                 this.video.studytime++;
@@ -386,6 +427,20 @@ $ready(function () {
                 var per = Math.floor(this.video.studytime <= 0 ? 0 : this.video.studytime / this.video.total * 100);
                 this.playpercent = per;
                 vdata.playinfo(this.outline.Ol_ID, this.outline.Cou_ID, val, per);
+                if (val >= this.video.total) return this.completed();
+                //是否需要暂停
+                if (this.config.random_pause_setup) {
+                    let ispause = this.pausevalue.find(item => item == val);
+                    if (ispause != null && ispause > 0) {
+                        this.pause();
+                        this.$dialog.alert({
+                            title: '随机暂停',
+                            message: '点击确定，继续播放...',
+                        }).then(() => {
+                            this.play();
+                        });                      
+                    }
+                }
                 //触发视频事件
                 //vdata.videoEvent(vdata.playtime);
             },
@@ -395,6 +450,10 @@ $ready(function () {
                 //学习记录提交
                 if (val <= 100) this.videoLog(val);
             },
+        },
+        computed: {
+            //是否登录
+            islogin: t => { return !$api.isnull(t.account); }
         },
         created: function () {
 
@@ -460,20 +519,41 @@ $ready(function () {
             },
             //页面刷新
             pagefresh: function () {
-                //alert("页面刷新");
                 window.location.reload();
             },
             //播放器是否准备好
             playready: function () {
-                var th = this;
-                if (this.player != null) {
-                    return th.player._isReady && th.player.engine;
-                }
+                let player = this.player;
+                if (player != null && player.engine) return player._isReady;
                 return false;
             },
             //视频播放跳转
-            videoSeek: function (second) {
+            seek: function (second) {
                 if (this.playready()) this.player.seek(second);
+            },
+            //视频播放
+            play: function () {
+                if (this.playready() && this.islogin) {
+                    this.player.play();
+                }
+            },
+            //视频暂停
+            pause: function () {
+                if (this.playready()) {
+                    this.player.pause();
+                }
+            },
+            //生成随机数，平均分布，且不重复
+            buildrandom: function (count, length) {
+                if (count == null || length <= 0) return [];
+                let part = count * 2 + 1;       //分成几段
+                let len = Math.floor(length / part);   //每段多长
+                let arr = [];
+                for (let i = 0; i < count; i++) {
+                    let random = Math.floor(Math.random() * len);
+                    arr.push(len * (i * 2 + 1) + random);
+                }
+                return arr;
             },
             //播放器加载后的事件
             videoready: function () {
@@ -565,7 +645,7 @@ $ready(function () {
                 <div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>
                     <span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
                     <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
-                    <span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>
+                    <span style='cursor: pointer' v-on:click='seek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>
                     <span class='videolog info' v-show='studylogState==1'> 学习进度提交成功!</span >
                     <span class='videolog error' v-show='studylogState==-1'>学习进度提交失败!</span>
                 </div>
