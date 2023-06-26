@@ -1236,6 +1236,7 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Templates\Web\_Public\Inc\meta.inc" />
     <Content Include="Utilities\Components\Sign\login.js" />
     <Content Include="Utilities\Components\Sign\Styles\login.css" />
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />
@@ -1566,7 +1567,6 @@
     <Content Include="Templates\Web\Default\Images\swipe\1.jpg" />
     <Content Include="Templates\Web\Default\Images\swipe\2.jpg" />
     <Content Include="Templates\Web\Default\Images\swipe\3.jpg" />
-    <Content Include="Templates\Web\Default\Inc\header.html" />
     <Content Include="Templates\Web\Default\Inc\meta.inc" />
     <Content Include="Templates\Web\Default\Index.html" />
     <Content Include="Templates\Web\Default\logo.jpg" />
