@@ -349,6 +349,7 @@ namespace Song.ViewData
             for (int j = 0; j < properties.Length; j++)
             {
                 PropertyInfo pi = properties[j];
+                if (pi.Name.Equals("DataType", StringComparison.CurrentCultureIgnoreCase)) continue;
                 //当前属性的值
                 object value = info.GetProperty(pi.Name).GetValue(this, null);
                 //属性名（包括泛型名称）
