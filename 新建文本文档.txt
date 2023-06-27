@@ -1,0 +1,126 @@
+<DataResult>
+    <success>true</success>
+    <message>
+    </message>
+    <state>1</state>
+    <datetime>2023/06/27 18:25:49</datetime>
+    <execspan>10.9884</execspan>
+    <webspan>0</webspan>
+    <timestamp>1687861549425</timestamp>
+    <exception>
+    </exception>
+    <datatype>Teacher</datatype>
+    <result>
+        <Teacher>
+            <Th_ID  type="System.Int32">477</Th_ID>
+            <Th_AccName  type="System.String">
+                <![CDATA[tester]]>
+            </Th_AccName>
+            <Th_Pw  type="System.String">
+                <![CDATA[]]>
+            </Th_Pw>
+            <Th_Qus  type="System.String">
+                <![CDATA[]]>
+            </Th_Qus>
+            <Th_Anwser  type="System.String">
+                <![CDATA[]]>
+            </Th_Anwser>
+            <Th_Name  type="System.String">
+                <![CDATA[tester]]>
+            </Th_Name>
+            <Th_Title  type="System.String">
+                <![CDATA[]]>
+            </Th_Title>
+            <Th_Pinyin  type="System.String">
+                <![CDATA[]]>
+            </Th_Pinyin>
+            <Th_Age  type="System.Int32">0</Th_Age>
+            <Th_Birthday  type="System.DateTime">1753/1/1 星期一 0:00:00</Th_Birthday>
+            <Th_IDCardNumber  type="System.String">
+                <![CDATA[]]>
+            </Th_IDCardNumber>
+            <Th_Photo  type="System.String">
+                <![CDATA[/Upload/Student/]]>
+            </Th_Photo>
+            <Th_Signature  type="System.String">
+                <![CDATA[]]>
+            </Th_Signature>
+            <Th_Intro  type="System.String">
+                <![CDATA[]]>
+            </Th_Intro>
+            <Th_Job  type="System.String">
+                <![CDATA[]]>
+            </Th_Job>
+            <Th_Major  type="System.String">
+                <![CDATA[]]>
+            </Th_Major>
+            <Th_Education  type="System.String">
+                <![CDATA[]]>
+            </Th_Education>
+            <Th_Sex  type="System.Int32">0</Th_Sex>
+            <Th_Native  type="System.String">
+                <![CDATA[]]>
+            </Th_Native>
+            <Th_Nation  type="System.String">
+                <![CDATA[]]>
+            </Th_Nation>
+            <Th_CodeNumber  type="System.String">
+                <![CDATA[]]>
+            </Th_CodeNumber>
+            <Th_Address  type="System.String">
+                <![CDATA[]]>
+            </Th_Address>
+            <Th_AddrContact  type="System.String">
+                <![CDATA[]]>
+            </Th_AddrContact>
+            <Th_Phone  type="System.String">
+                <![CDATA[]]>
+            </Th_Phone>
+            <Th_IsOpenPhone  type="System.Boolean">false</Th_IsOpenPhone>
+            <Th_PhoneMobi  type="System.String">
+                <![CDATA[]]>
+            </Th_PhoneMobi>
+            <Th_IsOpenMobi  type="System.Boolean">false</Th_IsOpenMobi>
+            <Th_Email  type="System.String">
+                <![CDATA[]]>
+            </Th_Email>
+            <Th_Qq  type="System.String">
+                <![CDATA[]]>
+            </Th_Qq>
+            <Th_Weixin  type="System.String">
+                <![CDATA[]]>
+            </Th_Weixin>
+            <Th_Zip  type="System.String">
+                <![CDATA[]]>
+            </Th_Zip>
+            <Th_LinkMan  type="System.String">
+                <![CDATA[]]>
+            </Th_LinkMan>
+            <Th_LinkManPhone  type="System.String">
+                <![CDATA[]]>
+            </Th_LinkManPhone>
+            <Th_IsPass  type="System.Boolean">false</Th_IsPass>
+            <Th_IsUse  type="System.Boolean">true</Th_IsUse>
+            <Th_RegTime  type="System.DateTime">1753/1/1 星期一 0:00:00</Th_RegTime>
+            <Th_LastTime  type="System.DateTime">2023/6/27 星期二 18:25:49</Th_LastTime>
+            <Th_CrtTime  type="System.DateTime">2023/6/27 星期二 17:40:17</Th_CrtTime>
+            <Th_Tax  type="System.Int32">0</Th_Tax>
+            <Th_Score  type="System.Int32">0</Th_Score>
+            <Th_ViewNum  type="System.Int32">0</Th_ViewNum>
+            <Org_ID  type="System.Int32">5</Org_ID>
+            <Org_Name  type="System.String">
+                <![CDATA[爱学教云学院]]>
+            </Org_Name>
+            <Ths_ID  type="System.Int32">0</Ths_ID>
+            <Ths_Name  type="System.String">
+                <![CDATA[]]>
+            </Ths_Name>
+            <Dep_Id  type="System.Int32">0</Dep_Id>
+            <Th_IsShow  type="System.Boolean">false</Th_IsShow>
+            <Ac_ID  type="System.Int32">92375</Ac_ID>
+            <Ac_UID  type="System.String">
+                <![CDATA[]]>
+            </Ac_UID>
+        </Teacher>
+    </result>
+</DataResult>

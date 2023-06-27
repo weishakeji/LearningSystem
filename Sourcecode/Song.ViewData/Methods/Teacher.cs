@@ -222,6 +222,8 @@ namespace Song.ViewData.Methods
                 if (acc != null)
                 {                    
                     th.Ac_ID = acc.Ac_ID;
+                    acc.Ac_IsTeacher = true;
+                    Business.Do<IAccounts>().AccountsSave(acc);
                 }
                 else
                 {
@@ -520,7 +522,7 @@ namespace Song.ViewData.Methods
             if (account == null) return null;
             if (!account.Ac_IsTeacher) return null;
             //
-            Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(account.Ac_ID);
+            Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherForAccount(account.Ac_ID);
             if (teacher != null)
             {
                 teacher = teacher.Clone<Song.Entities.Teacher>();

@@ -52,15 +52,15 @@ namespace Song.ViewData
         /// <summary>
         /// 详细的异常信息
         /// </summary>
-        public Exception Exception { get; set; }       
-        /// <summary>
-        /// 实际返回的数据
-        /// </summary>
-        public object Result { get; set; }
+        public Exception Exception { get; set; }
         /// <summary>
         /// 数据类型
         /// </summary>
         public object DataType { get; set; }
+        /// <summary>
+        /// 实际返回的数据
+        /// </summary>
+        public object Result { get; set; }      
         /// <summary>
         /// 
         /// </summary>
