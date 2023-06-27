@@ -152,7 +152,7 @@ namespace Song.ViewData.Helper
                     //来源网页,http谓词,
                     sb.AppendLine("WEB_PAGE:" + letter.WEB_PAGE);
                     sb.AppendLine("WEB_HOST:" + letter.WEB_HOST);
-                    sb.AppendLine("HTTP_REFERER:" + letter.Referrer.AbsoluteUri);
+                    sb.AppendLine("HTTP_REFERER:" + (letter.Referrer != null ? letter.Referrer.AbsoluteUri : string.Empty));
                     sb.AppendLine("HTTP_METHOD:" + letter.HTTP_METHOD);
                     sb.AppendLine("HTTP_HOST:" + letter.HTTP_HOST);
                     sb.AppendLine("Custom_METHOD:" + letter.Custom_METHOD);

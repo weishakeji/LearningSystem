@@ -21,7 +21,7 @@ namespace Song.ViewData
             get
             {
                 System.Web.HttpContext _context = System.Web.HttpContext.Current;
-                return new Letter(_context);
+                return Letter.Constructor(_context);
             }
         }
         /// <summary>

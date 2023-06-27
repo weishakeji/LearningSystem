@@ -45,7 +45,7 @@ namespace Song.ViewData
         public Song.Entities.Accounts User()
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            Letter letter = new Letter(_context);
+            Letter letter = Letter.Constructor(_context);
             return this.User(letter);
         }
         /// <summary>
@@ -64,7 +64,7 @@ namespace Song.ViewData
         public bool Login()
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            Letter letter = new Letter(_context);
+            Letter letter = Letter.Constructor(_context);
             return this.Login(letter);
         }  
         /// <summary>
@@ -86,7 +86,7 @@ namespace Song.ViewData
         public Song.Entities.Teacher Teacher()
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            Letter letter = new Letter(_context);
+            Letter letter = Letter.Constructor(_context);
             return this.Teacher(letter);
         }
         /// <summary>

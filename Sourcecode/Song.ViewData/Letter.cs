@@ -152,19 +152,29 @@ namespace Song.ViewData
         public Letter(HttpContext context)
         {
             HttpRequest request = context.Request;//定义传统request对象
+                                                  //上传来的文件
+            HttpContextWrapper _context = new HttpContextWrapper(context);
+            this._files = _context.Request.Files;
+            //获取类名与方法名，可以考虑增加默认方法，例如index或default
+            string[] arr = request.Url.Segments;
+            for (int i = 0; i < arr.Length; i++) arr[i] = arr[i].Replace("/", "");
+            this.Version = arr[2];
+            this.ClassName = arr[3];
+            this.MethodName = arr[4];
             //客户端信息
-            this.Browser = request.Browser.Browser + " " + request.Browser.Version;           
+            this.Browser = request.Browser.Browser + " " + request.Browser.Version;
             UserAgent = request.UserAgent;
             //接口的所在页面
-            Referrer = request.UrlReferrer;          
-            WEB_PAGE = Referrer.AbsolutePath;
-            WEB_HOST = Referrer.Authority;
+            Referrer = request.UrlReferrer;
+            WEB_PAGE = Referrer != null ? Referrer.AbsolutePath : string.Empty;
+            WEB_HOST = Referrer != null ? Referrer.Authority : HTTP_HOST;
+            //接口路径与方法
             API_PATH = request.Url.AbsolutePath;
-            HTTP_METHOD = request.HttpMethod;           
+            HTTP_METHOD = request.HttpMethod;
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
-
+            //头信息
             Encrypt = "true".Equals(HeadersParam(request.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
-            HTTP_Mark = HeadersParam(request.Headers, "X-Custom-Header");      
+            HTTP_Mark = HeadersParam(request.Headers, "X-Custom-Header");
             Custom_METHOD = HeadersParam(request.Headers, "X-Custom-Method").ToUpper();
             if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
                 HTTP_METHOD = Custom_METHOD;
@@ -183,56 +193,28 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(s)) continue;
                     users.Add(s);
                 }
-                if (users.Count > 0 && !string.IsNullOrWhiteSpace(WEB_PAGE)) WEB_PAGE = users[0];                
-
+                if (users.Count > 0 && !string.IsNullOrWhiteSpace(WEB_PAGE)) WEB_PAGE = users[0];
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
                 if (!string.IsNullOrWhiteSpace(pwstr)) this.LoginStatus = pwstr.Split(',');
             }
-            ////用于调试，勿删除
-            //string pas = string.Empty;
-            //for (int i = 0; i < request.Params.Count; i++)
-            //{
-            //    string key = request.Params.Keys[i];
-            //    string val = request.Params[key];
-            //    pas += string.Format("{0}、{1}:{2}\n", (i + 1).ToString(), key,val);
-            //}
-            //获取类名与方法名，可以考虑增加默认方法，例如index或default
-            string[] arr = request.Url.Segments;
-            string clasname = arr[3];
-            string action = arr[4];
-            if (clasname.EndsWith("/")) clasname = clasname.Substring(0, clasname.LastIndexOf("/"));
-            if (action.EndsWith("/")) action = action.Substring(0, action.LastIndexOf("/"));
-            this.ClassName = clasname;
-            this.MethodName = action;
-
             #region 获取参数
             //获取get参数
             for (int i = 0; i < context.Request.QueryString.Count; i++)
             {
                 string key = context.Request.QueryString.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.QueryString[i].ToString().Trim());
-                if (_params.ContainsKey(key))
-                    _params[key] = val;
-                else
-                    _params.Add(key, val);
+                SetParameter(key, val);              
             }
             //获取post参数，put,delete,patch,options都从这里获取
             for (int i = 0; i < context.Request.Form.Count; i++)
             {
                 string key = context.Request.Form.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.Form[i].ToString().Trim());
-                if (_params.ContainsKey(key))
-                    _params[key] = val;
-                else
-                    _params.Add(key, val);
+                SetParameter(key, val);              
             }
             //清理脚本与DTD定义
             _params = _params.ToDictionary(x => x.Key, x => Html.ClearScript(x.Value));
-            //上传来的文件
-            HttpContextWrapper _context = new HttpContextWrapper(context);
-            this._files = _context.Request.Files;
-
             this.ID = this["id"].Int64 ?? 0;
             //获取cookies
             for (int i = 0; i < context.Request.Cookies.Count; i++)
@@ -267,8 +249,8 @@ namespace Song.ViewData
             Custom_Action = HeadersParam(httprequest.Headers, "X-Custom-Action");
             ReturnType = HeadersParam(httprequest.Headers, "X-Custom-Return");
             //接口的所在页面
-            WEB_PAGE = Referrer.AbsolutePath;
-            WEB_HOST = Referrer.Authority;
+            WEB_PAGE = Referrer != null ? Referrer.AbsolutePath : string.Empty;
+            WEB_HOST = Referrer != null ? Referrer.Authority : HTTP_HOST;
             //Authorization的解析
             string auth = string.Empty;
             if (httprequest.Headers.Authorization != null)
@@ -292,6 +274,8 @@ namespace Song.ViewData
             }
             //从请求地址中，分析类名与方法名
             string[] arr = httprequest.RequestUri.Segments;
+            for (int i = 0; i < arr.Length; i++) arr[i] = arr[i].Replace("/","");
+            this.Version = arr[2];
             //获取类名与方法名
             string clasname = arr[3];
             string action = arr[4];
@@ -310,10 +294,7 @@ namespace Song.ViewData
             {
                 string key = context.Request.QueryString.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.QueryString[i].ToString().Trim());
-                if (_params.ContainsKey(key))
-                    _params[key] = val;
-                else
-                    _params.Add(key, val);
+                SetParameter(key, val);
             }
             //获取post参数，put,delete,patch,options都从这里获取
             for (int i = 0; i < context.Request.Form.Count; i++)
@@ -321,10 +302,7 @@ namespace Song.ViewData
                 string key = context.Request.Form.Keys[i].ToString().Trim();
                 string tm = context.Request.Form[i];
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.Form[i].ToString().Trim());
-                if (_params.ContainsKey(key))
-                    _params[key] = val;
-                else
-                    _params.Add(key, val);
+                SetParameter(key, val);
             }
             //清理脚本与DTD定义
             _params = _params.ToDictionary(x => x.Key, x => Html.ClearScript(x.Value));
@@ -404,9 +382,9 @@ namespace Song.ViewData
         /// <param name="header"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string HeadersParam(object header,string key)
+        public string HeadersParam(object header, string key)
         {
-            if(header is System.Collections.Specialized.NameValueCollection)
+            if (header is System.Collections.Specialized.NameValueCollection)
             {
                 System.Collections.Specialized.NameValueCollection collection = (System.Collections.Specialized.NameValueCollection)header;
                 return collection[key] == null ? string.Empty : collection[key];
@@ -414,9 +392,16 @@ namespace Song.ViewData
             if (header is System.Net.Http.Headers.HttpRequestHeaders)
             {
                 System.Net.Http.Headers.HttpRequestHeaders headers = (System.Net.Http.Headers.HttpRequestHeaders)header;
-                IEnumerable<string> values= headers.GetValues(key);
-                if (values.Count<string>() > 0) return values.First<string>();
-                return string.Empty;
+                try
+                {
+                    IEnumerable<string> values = headers.GetValues(key);
+                    if (values.Count<string>() > 0) return values.First<string>();
+                    return string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    return string.Empty;
+                }
             }
             return string.Empty;
         }
@@ -449,6 +434,20 @@ namespace Song.ViewData
                 }
             }
             return new ConvertToAnyValue(val);
+        }
+        /// <summary>
+        /// 设置参数
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public Dictionary<string, string> SetParameter(string key, string val)
+        {
+            if (_params.ContainsKey(key))
+                _params[key] = val;
+            else
+                _params.Add(key, val);
+            return _params;
         }
         /// <summary>
         /// 是否存在某参数

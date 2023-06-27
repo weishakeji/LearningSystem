@@ -15,7 +15,7 @@
     var config = {
         //api的版本号
         versions: ["", "1", "2"],
-        versionDefault: "1", //默认版本号
+        versionDefault: "2", //默认版本号
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径

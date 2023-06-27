@@ -187,7 +187,9 @@
     <Compile Include="Helper\OnlineAccounts.cs" />
     <Compile Include="Helper\Server.cs" />
     <Compile Include="IViewAPI.cs" />
-    <Compile Include="Letter.cs" />
+    <Compile Include="Letter\Letter_v2.cs" />
+    <Compile Include="Letter\Letter_v1.cs" />
+    <Compile Include="Letter\Letter.cs" />
     <Compile Include="ListResult.cs" />
     <Compile Include="Methods\Accessory.cs" />
     <Compile Include="Methods\Admin.cs" />

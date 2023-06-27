@@ -266,7 +266,7 @@ var rvue = new Vue({
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
             //语句
-            var urlstr = window.location.protocol + "//" + window.location.host + "/api/v1/" + method;
+            var urlstr = window.location.protocol + "//" + window.location.host + "/api/v" + $api.version + "/" + method;
             document.getElementById("apiurl").innerText = urlstr.toLowerCase();
             var jsstr = "$api." + http + "('" + method + "'" + (params == "{}" ? "" : "," + params) + ")";
             jsstr += ".then(function(req){\r\

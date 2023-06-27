@@ -66,7 +66,7 @@ namespace Song.WebSite.Controllers
         }
         private string GetInfo(string id)
         {
-            Song.ViewData.Letter letter = new Song.ViewData.Letter(this.Request);
+            Song.ViewData.Letter letter = new Song.ViewData.Letter_v1(this.Request);
             DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
             string data = letter.ReturnType == "xml" ? result.ToXml() : result.ToJson();
             if (!letter.Encrypt) return data;
