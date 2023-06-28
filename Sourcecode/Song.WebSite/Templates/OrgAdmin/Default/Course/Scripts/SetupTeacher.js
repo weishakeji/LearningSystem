@@ -11,7 +11,7 @@ $ready(function () {
             teacher: {},     //当课程的教师
             //教师查询
             query: {
-                orgid: '', titid: '', gender: '-1',isuse:'',
+                orgid: '', titid: '', gender: '-1', isuse: '',
                 search: '', phone: '', acc: '', idcard: '',
                 order: '', size: 20, index: 1
             },
@@ -123,6 +123,7 @@ $ready(function () {
                         if (req.data.success) {
                             var result = req.data.result;
                             th.teacher = teach;
+                            th.operateSuccess();
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -137,6 +138,10 @@ $ready(function () {
             showteach: function (teach) {
                 this.drawer = true;
                 this.drawerobj = teach;
+            },
+            //操作成功
+            operateSuccess: function () {
+                window.top.$pagebox.source.tab(window.name, 'vapp.fressingle("' + this.couid + '")', false);
             }
         }
     });
