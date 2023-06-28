@@ -526,8 +526,12 @@ namespace Song.ViewData.Methods
             if (teacher != null)
             {
                 teacher = teacher.Clone<Song.Entities.Teacher>();
-                if (teacher != null) teacher.Th_Pw = string.Empty;
-                teacher.Th_Photo = WeiSha.Core.Upload.Get["Accounts"].Virtual + account.Ac_Photo;
+                if (teacher != null)
+                {
+                    teacher.Th_Pw = string.Empty;
+                    teacher.Th_IsShow = true;
+                    teacher.Th_Photo = WeiSha.Core.Upload.Get["Accounts"].Virtual + account.Ac_Photo;
+                }
             }
             return teacher;
         }

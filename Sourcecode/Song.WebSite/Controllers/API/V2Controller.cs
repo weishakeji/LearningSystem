@@ -12,28 +12,36 @@ using Song.ViewData;
 namespace Song.WebSite.Controllers
 {
     /// <summary>
-    /// api接口调用，1.0版本
+    /// api接口调用，2.0版本
     /// </summary>
-    public class V1Controller : ApiController
+    public class V2Controller : ApiController
     {
         // GET api/values
-        public System.Net.Http.HttpResponseMessage Get()
+        public string Get()
         {
             return GetInfo();
         }
+        //public string Get(int id)
+        //{
+        //    return GetInfo();
+        //}
 
         // POST api/values
         [HttpPost,HttpPut]        
-        public System.Net.Http.HttpResponseMessage Post()
+        public string Post()
         {
             return GetInfo();
         }
 
-        public System.Net.Http.HttpResponseMessage Patch()
+        //public string Post()
+        //{
+        //    return GetInfo();
+        //}
+        public string Patch()
         {
             return GetInfo();
         }
-        public System.Net.Http.HttpResponseMessage Options()
+        public string Options()
         {
             return GetInfo();
         }
@@ -42,27 +50,23 @@ namespace Song.WebSite.Controllers
         //{
         //    return GetInfo();
         //}
-        public System.Net.Http.HttpResponseMessage Put(string value)
+        public string Put(string value)
         {
             return GetInfo();
         }
         // DELETE api/values/5
-        public System.Net.Http.HttpResponseMessage Delete()
+        public string Delete()
         {
             return GetInfo();
         }
 
-        private System.Net.Http.HttpResponseMessage GetInfo()
+        private string GetInfo()
         {
-            return new System.Net.Http.HttpResponseMessage
-            {
-                Content = new System.Net.Http.StringContent(GetInfo(string.Empty)),
-                StatusCode = System.Net.HttpStatusCode.OK
-            };         
+            return GetInfo(string.Empty);
         }
         private string GetInfo(string id)
         {
-            Song.ViewData.Letter letter = new Song.ViewData.Letter_v1(this.Request);
+            Song.ViewData.Letter letter = new Song.ViewData.Letter_v2(this.Request);
             DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
             string data = letter.ReturnType == "xml" ? result.ToXml() : result.ToJson();
             if (!letter.Encrypt) return data;
