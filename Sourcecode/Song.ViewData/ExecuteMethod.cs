@@ -223,7 +223,7 @@ namespace Song.ViewData
             for (int i = 0; i < methods.Count; i++)
             {
                 ParameterInfo[] pis = methods[i].GetParameters();
-                if (pis.Length == 1 && p.GetType().FullName.Equals(pis[0].ParameterType.FullName))
+                if (pis.Length == 1 && (p.GetType().IsSubclassOf(pis[0].ParameterType) || p.GetType().FullName.Equals(pis[0].ParameterType.FullName)))
                 {
                     method = methods[i];
                     methods.Remove(methods[i]);
@@ -310,7 +310,7 @@ namespace Song.ViewData
             {
                 ParameterInfo pi = paramInfos[i];
                 //如果形参是Letter类型，则直接赋值
-                if (letter.GetType().FullName.Equals(pi.ParameterType.FullName))
+                if (letter.GetType().IsSubclassOf(pi.ParameterType) || letter.GetType().FullName.Equals(pi.ParameterType.FullName))
                 {
                     objs[i] = letter;
                     continue;

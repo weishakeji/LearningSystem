@@ -1,5 +1,6 @@
 ﻿$ready(function () {
     window.vm = new Vue({
+        el: '#vapp',
         data: {
             form: {},
             loading: false,
@@ -14,34 +15,50 @@
         },
         watch: {
         },
+        created: function () {
+            var th = this;
+            th.loading = true;
+            $api.get('Live/GetSetup').then(function (req) {
+                if (req.data.success) {
+                    th.form = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => { alert(err); console.error(err); })
+                .finally(() => th.loading = false);
+        },
         methods: {
             //保存信息
             btnEnter: function () {
-                if (vm.loading) return;
+                var th = this;
+                if (th.loading) return;
+                th.loading = true;
                 this.$refs['form'].validate(function (valid) {
                     if (valid) {
-                        $api.post("live/Setup", vm.form).then(function (req) {
-                            var res = req.data;
-                            if (res.success) {
-                                vm.$message({ message: '操作成功', type: 'success' });
+                        $api.post("live/Setup", th.form).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({ message: '操作成功', type: 'success' });
                             } else {
-                                throw res.data.message;
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            vm.$alert('错误信息：' + err, '操作失败', { confirmButtonText: '确定' });
-                        });
+                            alert('错误信息：' + err, '操作失败', { confirmButtonText: '确定' });
+                        }).finally(() => th.loading = false);
                     }
                 });
             },
             //测试链接
             btnTest: function () {
-                var ak = vm.form.AccessKey;
-                var sk = vm.form.SecretKey;
-                var hubname = vm.form.LiveSpace;
+                var th = this;
+                var ak = th.form.AccessKey;
+                var sk = th.form.SecretKey;
+                var hubname = th.form.LiveSpace;
                 $api.get('Live/Test', { 'ak': ak, 'sk': sk, 'hubname': hubname }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vm.$alert('测试通过', '成功',
+                        th.$alert('测试通过', '成功',
                             {
                                 dangerouslyUseHTMLString: true,
                                 confirmButtonText: '确定'
@@ -50,21 +67,14 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    var msg = "可能的原因：<br/>1、信息填写错误；<br/>2、七牛云账号欠费。";
-                    vm.$alert('错误信息：' + err + '<br/>' + msg, '操作失败',
+                    th.$alert('错误信息：' + err, '失败',
                         {
                             dangerouslyUseHTMLString: true,
                             confirmButtonText: '确定'
                         });
                 });
             }
-        },
-        created: function () {
-            $api.get("live/GetSetup").then(function (req) {
-                vm.form = req.data.result;
-            });
         }
     });
-    window.vm.$mount('#app-form');
 
 });

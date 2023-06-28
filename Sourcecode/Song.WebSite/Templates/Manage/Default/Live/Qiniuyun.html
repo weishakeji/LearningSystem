@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div id="app-form"  v-cloak>
+    <div id="vapp"  v-cloak>
         <el-form ref="form" :model="form" :rules="rules" label-width="160px" size="small">
 
             <el-form-item label="AccessKey：" prop="AccessKey">
@@ -18,8 +18,8 @@
             </el-form-item>
             <el-form-item label="直播空间名：">
                 <el-input v-model="form.LiveSpace" style="width: 200px"></el-input>
-                <el-button type="primary" v-on:click="btnTest" v-loading="loading">
-                    <icon>&#xe634</icon>验 证 测 试</el-button>
+                <el-button type="primary" define="apply" v-on:click="btnTest" :loading="loading">
+                    验 证 测 试</el-button>
             </el-form-item>
             <el-divider></el-divider>
             <el-form-item label="HTTPS配置：">
@@ -36,9 +36,8 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" v-on:click="btnEnter" v-loading="loading">
-                    <icon>&#xa048</icon>确 定</el-button>
-
+                <el-button type="primary" define="enter" v-on:click="btnEnter" :loading="loading">
+                    确 定</el-button>
             </el-form-item>
         </el-form>
     </div>
