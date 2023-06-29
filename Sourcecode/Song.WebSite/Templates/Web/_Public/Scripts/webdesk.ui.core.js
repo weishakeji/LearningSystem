@@ -15,7 +15,10 @@
     var webdom = function (query, context) {
         return new webdom.init(query, context);
     };
-    webdom.version = '0.12';
+    webdom.version = function () {
+        var template = webdom('meta[build-number]');
+        return template.attr("build-number");
+    };
     webdom.init = function (query, context) {
         var nodes = [];
         if (typeof (query) == 'string') nodes = (context || document).querySelectorAll(query);
@@ -169,7 +172,9 @@
             });
         } else {
             return this.each(function () {
-                return this.innerText.replace(/(^\s*)|(\s*$)/g, "");
+                var text = this.innerText ? this.innerText : this.textContent;
+                if (text == null || text == "") return "";
+                return text.replace(/(^\s*)|(\s*$)/g, "");
             }, 1);
         }
     };
@@ -309,9 +314,10 @@
             var ele = this[0] ? this[0] : null;
             if (ele == null) return 0;
             var styles = document.defaultView.getComputedStyle(ele, null);
-            var bleft = parseInt(styles.getPropertyValue('border-left-width'));
-            var bright = parseInt(styles.getPropertyValue('border-right-width'));
-            var width = ele.offsetWidth - bleft - bright;
+            var width = ele.offsetWidth;
+            var attr = ['border-left-width', 'border-right-width', 'padding-left', 'padding-right'];
+            for (let i = 0; i < attr.length; i++)
+                width -= parseFloat(styles.getPropertyValue(attr[i]));
             return width;
         } else {
             if (typeof arguments[0] == 'number')
@@ -320,17 +326,15 @@
                 return this.css('width', arguments[0]);
         }
     };
-
     fn.height = function (num) {
         if (arguments.length < 1) {
-            //return this[0] ? this[0].offsetHeight : 0;
-
             var ele = this[0] ? this[0] : null;
             if (ele == null) return 0;
             var styles = document.defaultView.getComputedStyle(ele, null);
-            var bleft = parseInt(styles.getPropertyValue('border-top-width'));
-            var bright = parseInt(styles.getPropertyValue('border-bottom-width'));
-            var height = ele.offsetHeight - bleft - bright;
+            var height = ele.offsetHeight;
+            var attr = ['border-top-width', 'border-bottom-width', 'padding-top', 'padding-bottom'];
+            for (let i = 0; i < attr.length; i++)
+                height -= parseFloat(styles.getPropertyValue(attr[i]));
             return height;
         } else {
             if (typeof arguments[0] == 'number')
@@ -441,27 +445,35 @@
         return new webdom(arr);
     }
     //绑定事件
-    fn.bind = function (event, func, useCapture) {
-        this.each(function () {
-            this.addEventListener(event, func, useCapture);
-            if (event == 'click') {
-                var iframe = this.querySelector('iframe');
-                if (iframe) {
-                    webdom.IframeOnClick.track(iframe, function (sender, boxid) {
-                        sender.click();
-                    });
+    fn.bind = function (events, func, useCapture) {
+        var arr = events.split(',');
+        for (var i = 0; i < arr.length; i++) {
+            var event = arr[i];
+            this.each(function () {
+                this.addEventListener(event, func, useCapture);
+                if (event == 'click') {
+                    var iframe = this.querySelector('iframe');
+                    if (iframe) {
+                        webdom.IframeOnClick.track(iframe, function (sender, boxid) {
+                            sender.click();
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
         return this;
     };
     //触发事件
-    fn.trigger = function (event) {
-        this.each(function () {
-            var eObj = document.createEvent('HTMLEvents');
-            eObj.initEvent(event, true, false);
-            this.dispatchEvent(eObj);
-        });
+    fn.trigger = function (events) {
+        var arr = events.split(',');
+        for (var i = 0; i < arr.length; i++) {
+            var event = arr[i];
+            this.each(function () {
+                var eObj = document.createEvent('HTMLEvents');
+                eObj.initEvent(event, true, false);
+                this.dispatchEvent(eObj);
+            });
+        }
         return this;
     };
     //若含有参数就注册事件，无参数就触发事件
@@ -537,6 +549,10 @@
             }
         }
         return obj;
+    };
+    //是否是IE浏览器
+    webdom.isIE = function () {
+        return !!window.ActiveXObject || "ActiveXObject" in window;
     };
     webdom.ajax = function (options) {
         function empty() { }
@@ -628,6 +644,23 @@
             'y': y
         };
     };
+    //是否是手机端
+    webdom.ismobi = function () {
+        var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
+    //网页是否处于微信内置浏览器
+    webdom.isWeixin = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/MicroMessenger/i) == 'micromessenger';
+    };
+    //网页是否处于微信小程序内置浏览器
+    webdom.isWeixinApp = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/miniProgram/i) == 'miniprogram';
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -667,7 +700,16 @@
             }
         }
     };
-    webdom.ready = (function () { //这个函数返回whenReady()函数
+    //这个函数返回whenReady()函数
+    webdom.ready = (function () {
+        var ie = webdom.isIE();
+        if (ie) {
+            var txt = "当前系统不支持IE浏览器";
+            alert(txt);
+            document.write(txt);
+            return;
+        }
+
         var funcs = []; //当获得事件时，要运行的函数
         var ready = false; //当触发事件处理程序时,切换为true
 
@@ -710,11 +752,22 @@
     webdom.load = {
         css: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
+                //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
+                var exist = false;
+                $dom("link").each(function () {
+                    var href = $dom(this).attr("href");
+                    if (href == null || href == '') return false;
+                    if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
+                    if (one.toLowerCase() == href.toLowerCase()) {
+                        exist = true;
+                        return false;
+                    }
+                });
+                if (exist) return;
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
-                cur_script.charset = 'UTF-8';
                 cur_script.rel = "stylesheet";
-                cur_script.href = one + '?ver=' + webdom.version;
+                cur_script.href = one + '?ver=' + webdom.version();
                 cur_script.setAttribute('tag', tagName);
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
@@ -731,10 +784,23 @@
         },
         js: function (src, callback) {
             webdom.load.arraySync(function (one, i, c) {
+                //判断js文件是否存在，如果存在则不加载
+                var exist = false;
+                var arr = document.querySelectorAll("script");
+                for (let i = 0; i < arr.length; i++) {
+                    let src = arr[i].getAttribute('src');
+                    if (src == null) continue;
+                    if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
+                    if (one.toLowerCase() == src.toLowerCase()) {
+                        exist = true;
+                        break;
+                    }
+                }
+                //if (exist) return;
+
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
-                cur_script.charset = 'UTF-8';
-                cur_script.src = one + '?ver=' + webdom.version;
+                cur_script.src = one + '?ver=' + webdom.version();
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
                 }, false);
@@ -789,33 +855,44 @@
         var template = webdom('meta[template]');
         return template.attr("path");
     };
+    //页面路由，和地址栏Url有一定区别
+    webdom.route = function () {
+        var template = webdom('meta[view]');
+        return template.attr("route");
+    };
     //模版文件的路径
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
         var page = view.attr("page");
         return page.substring(0, page.lastIndexOf("/") + 1);
     };
-    //加载admin面板所需的javascript文件
+    //加载所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
-        var arr = ['vue', 'polyfill.min', 'axios_min', 'api'];
+        var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
         for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         arr.push('/Utilities/Panel/Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
-            var arr2 = new Array();
+            //电脑端拖动与手式拖动的js库,以及其它
+            var arr2 = ['Sortable.min', 'vuedraggable.min', 'hammer.min', 'vue-touch', 'jquery', 'vuecomponent'];
+            for (var t in arr2) arr2[t] = '/Utilities/Scripts/' + arr2[t] + '.js';
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
             arr2.push('/Utilities/Scripts/vuecomponent.js');
-            //加载Sortable拖动
-            arr2.push('/Utilities/Scripts/Sortable.min.js');
-            arr2.push('/Utilities/Scripts/vuedraggable.min.js');
+      
+            arr2.push('/Utilities/TinyMCE/tinymce.js');
+                
+            //mathjax，解析latex公式
+            arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+            arr2.push('/Utilities/MathJax/globalVariable.js');
+          
             window.$dom.load.js(arr2, f);
         });
     };
     //加载组件所需的javascript文件
     webdom.ctrljs = function (f) {
         webdom.corejs(function () {
-            var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            var arr = ['pagebox', 'treemenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
             for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
             window.$dom.load.js(arr, f);
         });
@@ -824,6 +901,16 @@
     //f:加载完成要执行的方法
     //source:要加载的资源
     window.$ready = function (f, source) {
+        var route = webdom.route().toLowerCase();
+        //如果设备是手机端，转向手机页面
+        if ((webdom.ismobi() || webdom.isWeixinApp()) && route.indexOf('/web/') > -1) {
+            var search = window.location.search;
+            var href = route.replace('/web/', '/mobi/');
+            var pathname = window.location.pathname;
+            var dot = pathname.indexOf('.') > -1 ? pathname.substring(pathname.lastIndexOf('.')) : '';
+            window.location.href = href + dot + search;
+            return;
+        }
         webdom.ready(function () {
             webdom.corejs(function () {
                 //设置ElementUI的一些参数
@@ -834,7 +921,61 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 300);
-                if (source != null) window.$dom.load.js(source, f);
+                //渲染函数的方法，需要vue对象中updated中引用this.$mathjax()              
+                //elements可以是一个DOM节点的数组(注意getXXXsByYYY的结果是collection，必须手动转为数组才行)
+                Vue.prototype.$mathjax = function (elements) {
+                    // 判断是否初始配置，若⽆则配置
+                    if (window.globalVariable.isMathjaxConfig)
+                        window.globalVariable.initMathjaxConfig();
+                    window.globalVariable.TypeSet(elements);
+                };
+                //全屏的预载效果
+                Vue.prototype.$fulloading = function () {
+                    return this.$loading({
+                        lock: true,
+                        text: '正在处理...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(255, 255, 255, 0.5)'
+                    });
+                };
+                //将查询结果高亮显示
+                Vue.prototype.showsearch = function (txt, search) {
+                    if (txt == null || txt == '') return '';
+                    if (search == null || search == '') return txt;
+                    var regExp = new RegExp('(' + search + ')', 'ig');
+                    return txt.replace(regExp, `<red>$1</red>`);
+                };
+                //常用地址
+                Vue.prototype.commonaddr = function (key) {
+                    var urls = {
+                        'signin': '/web/sign/in',      //登录地址
+                        'myself': '/mobi/account/myself'        //个人中心
+                    };
+                    if (urls[key] == undefined) return '';
+                    return $api.url.set(urls[key], {
+                        'referrer': encodeURIComponent(location.href)
+                    });
+                };
+                //重构alert
+                window.alert_base = window.alert;
+                window.alert = function (txt) {
+                    //手机端
+                    if (webdom.ismobi()) {
+                        vant.Dialog ? vant.Dialog.alert({ message: txt }) : window.alert_base(txt);
+                    } else {
+                        Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
+                    }
+                };
+                if (source != null) {
+                    //如果引用的js不是绝对路径，则默认取当前默认库的根路径
+                    for (var i = 0; i < source.length; i++) {
+                        if (source[i].substring(0, 1) == "/") continue;
+                        if (source[i].length >= 7 && source[i].substring(0, 7).toLowerCase() == "http://") continue;
+                        if (source[i].length >= 8 && source[i].substring(0, 8).toLowerCase() == "https://") continue;
+                        source[i] = webdom.pagepath() + source[i];
+                    }
+                    window.$dom.load.js(source, f);
+                }
                 if (source == null && f != null) f();
             });
         });
@@ -843,18 +984,16 @@
     window.$dom = webdom;
     window.$dom.load.css([
         '/Utilities/ElementUi/index.css',
-        '/Utilities/styles/public.css',      
+        '/Utilities/styles/public.css',
+        webdom.path() + 'styles/public.css',
+        webdom.path() + 'styles/dropmenu.css',
+        //'/Utilities/katex/katex.min.css',      
         '/Utilities/Fonts/icon.css'
     ]);
-    window.$dom.load.css(['/Utilities/panel/styles/webdesk.ui.core.css']);
-    window.$dom.load.css(['/Utilities/panel/styles/public.css']);
-    //window.$dom.load.css(['/Utilities/styles/public.css']);
-    window.$dom.load.css(['/Utilities/ElementUi/index.css']);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
-        var file = webdom.file();
-        var view = webdom('meta[view]');
-        if (view.length > 0) file = view.attr("view");
+        var file = webdom('meta[view]').attr("view");
+        if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
     }

@@ -1116,6 +1116,7 @@
     <Content Include="Templates\Web\Default\Components\nologin.js" />
     <Content Include="Templates\Web\Default\Components\Styles\courses.css" />
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
+    <Content Include="Templates\Web\_Public\CourseChat.html" />
     <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_live.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_event.js" />
@@ -1239,6 +1240,8 @@
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
     <Content Include="Templates\Web\_Public\Inc\meta.inc" />
+    <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
+    <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
     <Content Include="Utilities\Components\Sign\login.js" />
     <Content Include="Utilities\Components\Sign\Styles\login.css" />
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />

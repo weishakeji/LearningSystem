@@ -65,7 +65,8 @@ namespace Song.WebSite.Controllers
             return new System.Net.Http.HttpResponseMessage
             {
                 Content = new System.Net.Http.StringContent(GetInfo(string.Empty)),
-                StatusCode = System.Net.HttpStatusCode.OK
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Version = new Version("2.0")
             };
         }
         private string GetInfo(string id)

@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+      <title>课程学习交流咨询</title>
+      <include file="inc/meta.inc" />
+</head>
+
+<body>
+      <div id="vapp" v-cloak>
+            <div class="chat rightArea">
+                  <div class="chatlist" id="chatlist">
+                        <dl id="chatlistdl">
+                              <dd v-for="(item,index) in messages">
+                                    <div :playtime="item.Msg_PlayTime">
+                                          <acc><i class="el-icon-chat-dot-round"></i>
+                                                <span v-html="item.Ac_Name+'：'"></span><del class="el-icon-close"></del>
+                                          </acc>
+                                          <msg v-html="item.Msg_Context"></msg>
+                                    </div>
+                                    <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>
+                              </dd>
+                        </dl>
+                  </div>
+                  <div class="chatbox">
+                        <loading v-if="loading_init || loading"></loading>
+                        <div class="msgbox" v-else>
+                              <input type="text" id="messageinput" v-model="msg" name="messageinput" v-on:keyup.enter="msgSend" />
+                              <div id="btnMessage" v-on:click="msgSend">发送</div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</body>
+
+</html>
