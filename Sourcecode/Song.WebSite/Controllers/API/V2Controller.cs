@@ -17,7 +17,7 @@ namespace Song.WebSite.Controllers
     public class V2Controller : ApiController
     {
         // GET api/values
-        public string Get()
+        public System.Net.Http.HttpResponseMessage Get()
         {
             return GetInfo();
         }
@@ -28,7 +28,7 @@ namespace Song.WebSite.Controllers
 
         // POST api/values
         [HttpPost,HttpPut]        
-        public string Post()
+        public System.Net.Http.HttpResponseMessage Post()
         {
             return GetInfo();
         }
@@ -37,11 +37,11 @@ namespace Song.WebSite.Controllers
         //{
         //    return GetInfo();
         //}
-        public string Patch()
+        public System.Net.Http.HttpResponseMessage Patch()
         {
             return GetInfo();
         }
-        public string Options()
+        public System.Net.Http.HttpResponseMessage Options()
         {
             return GetInfo();
         }
@@ -50,19 +50,23 @@ namespace Song.WebSite.Controllers
         //{
         //    return GetInfo();
         //}
-        public string Put(string value)
+        public System.Net.Http.HttpResponseMessage Put(string value)
         {
             return GetInfo();
         }
         // DELETE api/values/5
-        public string Delete()
+        public System.Net.Http.HttpResponseMessage Delete()
         {
             return GetInfo();
         }
 
-        private string GetInfo()
+        private System.Net.Http.HttpResponseMessage GetInfo()
         {
-            return GetInfo(string.Empty);
+            return new System.Net.Http.HttpResponseMessage
+            {
+                Content = new System.Net.Http.StringContent(GetInfo(string.Empty)),
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
         }
         private string GetInfo(string id)
         {

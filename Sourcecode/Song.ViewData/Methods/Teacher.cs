@@ -584,11 +584,23 @@ namespace Song.ViewData.Methods
         public Outline_LiveInfo[] Lives(int thid, long couid)
         {
             Song.Entities.Course cour = Business.Do<ICourse>().CourseSingle(couid);
-            if (cour == null) return null;
-            if (cour.Th_ID != thid) return null;
-            //
-            List<Song.Entities.Outline> outls = Business.Do<IOutline>().OutlineCount(couid, -1, true, null, true, 0);
             List<Outline_LiveInfo> list = new List<Outline_LiveInfo>();
+            if (cour == null)
+            {
+                List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseCount(-1, -1, thid, true, null, true, 0);
+                foreach(Song.Entities.Course cou in courses)
+                    this._Lives(cou, list);
+            }
+            else
+            {
+                this._Lives(cour, list);
+            }
+            return list.ToArray<Outline_LiveInfo>();
+        }
+        private List<Outline_LiveInfo> _Lives(Song.Entities.Course course, List<Outline_LiveInfo> list)
+        {
+            //
+            List<Song.Entities.Outline> outls = Business.Do<IOutline>().OutlineCount(course.Cou_ID, -1, true, null, true, 0);         
             //直播截图的域名
             string snapshot = Business.Do<ILive>().GetSnapshot;
             string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
@@ -607,7 +619,7 @@ namespace Song.ViewData.Methods
                     Name = o.Ol_Name,
                     ID = o.Ol_ID,
                     UID = o.Ol_UID,
-                    Course = cour.Cou_Name,
+                    Course = course.Cou_Name,
                     LiveID = stream.StreamID,
                     LiveTitle = stream.Title,
                     LiveTime = o.Ol_LiveTime,
@@ -618,7 +630,7 @@ namespace Song.ViewData.Methods
                 });
 
             }
-            return list.ToArray<Outline_LiveInfo>();
+            return list;
         }
         #endregion
 
