@@ -140,10 +140,15 @@ namespace Song.ViewData.Methods
             nodes = xml.SelectNodes("/doc/members/member");
             return nodes;
         }
+        /// <summary>
+        /// API输出为word文档，将Song.ViewData项目中所有的 RESTful API 接口方法输出为word文档
+        /// </summary>
+        /// <returns>word文档的url路径</returns>
         public string APItoWord()
         {
             //导出文件的位置
-            string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + "APItoWord\\";
+            string pathname = "APItoWord";
+            string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + pathname + "\\";
             if (!System.IO.Directory.Exists(filePath))
                 System.IO.Directory.CreateDirectory(filePath);
             string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
@@ -221,7 +226,7 @@ namespace Song.ViewData.Methods
                 doc.Write(fs);
             }
 
-            return string.Empty;
+            return WeiSha.Core.Upload.Get["Temp"].Virtual + pathname + "/" + filename;
         }
         private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
         {
