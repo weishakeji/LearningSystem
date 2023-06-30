@@ -14,6 +14,8 @@ using System.Drawing;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data;
+using NPOI.XWPF.UserModel;
+using System.IO;
 
 namespace Song.ViewData.Methods
 {
@@ -32,13 +34,13 @@ namespace Song.ViewData.Methods
         [HttpPost][HttpGet][HttpPut]
         [Cache]
         [Localhost]
-        public Helper_API[] List()
+        public Helper_API[] APIList()
         {           
             List<Helper_API> list = new List<Helper_API>();
             string assemblyName = "Song.ViewData";
             Assembly assembly = Assembly.Load(assemblyName);
             //取注释       
-            XmlNodeList nodes = readXml();
+            XmlNodeList nodes = _readXml();
             Type[] types = assembly.GetExportedTypes()
                 .Where(t => t.GetInterfaces().Contains(typeof(IViewAPI)))
                 .ToArray();
@@ -80,7 +82,7 @@ namespace Song.ViewData.Methods
         /// <exception cref="System.Exception">异常</exception>
         [HttpGet]
         [Localhost]
-        public Helper_API_Method[] Methods(string classname)
+        public Helper_API_Method[] APIMethods(string classname)
         {
             string assemblyName = "Song.ViewData";
             string classFullName = String.Format("{0}.Methods.{1}", assemblyName, classname);
@@ -100,7 +102,7 @@ namespace Song.ViewData.Methods
                 throw new Exception("接口类：" + classFullName + " 不存在");
             }
             //注释文档
-            XmlNodeList nodes = readXml();
+            XmlNodeList nodes = _readXml();
             //类下面的方法，仅获取当前类生成的方法，不包括父类
             List<Helper_API_Method> list = new List<Helper_API_Method>();
             MemberInfo[] mis = classtype.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
@@ -128,7 +130,7 @@ namespace Song.ViewData.Methods
             return list.ToArray<Helper_API_Method>();
         }
 
-        private XmlNodeList readXml()
+        private XmlNodeList _readXml()
         {
             XmlNodeList nodes = null;
             string file = WeiSha.Core.Server.MapPath("/bin/Song.ViewData.XML");
@@ -137,6 +139,113 @@ namespace Song.ViewData.Methods
             xml.Load(file);
             nodes = xml.SelectNodes("/doc/members/member");
             return nodes;
+        }
+        public string APItoWord()
+        {
+            //导出文件的位置
+            string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + "APItoWord\\";
+            if (!System.IO.Directory.Exists(filePath))
+                System.IO.Directory.CreateDirectory(filePath);
+            string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
+
+            // 创建一个新的 Word 文档对象
+            XWPFDocument doc = new XWPFDocument();
+
+            Helper_API[] apis = this.APIList();
+            for(int i = 0; i < apis.Length; i++)
+            {
+                //一级标题，接口类的名称
+                XWPFParagraph h1 = doc.CreateParagraph();
+                h1.Style = "2";
+                h1.SpacingBefore = 20;
+                XWPFRun r = h1.CreateRun();
+                r.SetText((i+1)+". " +apis[i].Name);
+                r.FontSize = 16;
+                r.IsBold = true;
+                //接口类的说明
+                if (!string.IsNullOrWhiteSpace(apis[i].Intro))              
+                    _createParagraph(doc, "简述：" + apis[i].Intro, 720, 14);
+                //接口方法
+                Helper_API_Method[] methods = this.APIMethods(apis[i].Name);
+                for (int j= 0; j < methods.Length; j++)
+                {
+                    //接口方法的名称
+                    string order = (i + 1) + "." + (j + 1) + ". ";
+                    XWPFRun name = _createParagraph(doc, order + apis[i].Name + " / " + methods[j].Name, 360, 14);
+                    name.IsBold = true;
+                    //接口方法的说明
+                    if (!string.IsNullOrWhiteSpace(methods[j].Intro))                   
+                        _createParagraph(doc, "摘要：" + methods[j].Intro, 720, 14); 
+                    //特性
+                    if (methods[j].Attrs.Length > 0)
+                    {                       
+                        string attrstext = string.Empty;
+                        foreach (Helper_API_Method_Attr s in methods[j].Attrs)
+                        {
+                            attrstext += "[" + s.Name;
+                            if (s.Expires > 0) attrstext += "(Expires = " + s.Expires + ")";
+                            attrstext += "] ";
+                        }
+                        _createParagraph(doc, "特性：" + attrstext, 720, 14);
+                    }
+                    //请求地址
+                    _createParagraph(doc, "请求地址：/api/v2/"+ apis[i].Name.ToLower() + "/" + methods[j].Name.ToLower(), 720, 14);
+                    //参数
+                    if (methods[j].Paras.Length < 1)
+                    {
+                        _createParagraph(doc, "参数：（无）", 720, 14);
+                    }
+                    else
+                    {
+                        _createParagraph(doc, "参数：", 720, 14);
+                        Helper_API_Method_Para[] paras = methods[j].Paras;
+                        for (int n = 0; n < paras.Length; n++)
+                        {
+                            string ptext = "(" + (n + 1) + ") " + paras[n].Name+ "：";
+                            ptext += paras[n].Type+"，";
+                            ptext += paras[n].Nullable ? "可以为空" : "不可为空";                           
+                            if (!string.IsNullOrEmpty(paras[n].Intro))
+                                ptext += "；" + paras[n].Intro;
+                            _createParagraph(doc, ptext, 720, 14);
+                        }
+                    }
+                    //返回值
+                    _createParagraph(doc, "返回值说明：" + (string.IsNullOrWhiteSpace(methods[j].Return.Intro) ? "（无）" : methods[j].Return.Intro), 720, 14);
+                    _createParagraph(doc, "返回值类型：" + methods[j].Return.Type, 720, 14);
+                }
+            }
+
+            // 保存文档到文件
+            using (FileStream fs = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
+            {
+                doc.Write(fs);
+            }
+
+            return string.Empty;
+        }
+        private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
+        {
+            //返回值
+            XWPFParagraph p = doc.CreateParagraph();
+            p.IndentationLeft = indent;
+            XWPFRun retnrun = p.CreateRun();           
+            retnrun.SetText(text);           
+            retnrun.FontSize = fontsize;
+            return retnrun;
+        }
+        private void _createParagraph(XWPFTableCell cell, string text)
+        {
+            //返回值
+            XWPFParagraph p = cell.AddParagraph();
+            //p.IndentationLeft = 50;
+            //cell.GetCTTc().AddNewTcPr().noWrap.val = false;
+            //cell.GetCTTc().AddNewTcPr().AddNewWrap().val = ST_OnOff.on;
+            p.Alignment = ParagraphAlignment.CENTER;
+            p.IsWordWrapped = false;
+            p.SpacingBefore = 0;
+            XWPFRun retnrun = p.CreateRun();
+            retnrun.SetText(text);
+            retnrun.FontSize = 12;
         }
         #endregion
 
@@ -217,7 +326,7 @@ namespace Song.ViewData.Methods
         {
             if (string.IsNullOrWhiteSpace(tablename)) return null;
 
-            DataTable dt = Business.Do<ISystemPara>().DataFields(tablename);
+            System.Data.DataTable dt = Business.Do<ISystemPara>().DataFields(tablename);
             JObject fields = new JObject();
             foreach (DataRow dr in dt.Rows)
             {
@@ -409,7 +518,7 @@ namespace Song.ViewData.Methods
                 int cindex = rand.Next(c.Length);
                 int findex = rand.Next(font.Length);
 
-                Font f = new System.Drawing.Font(font[findex], 12, System.Drawing.FontStyle.Bold);
+                System.Drawing.Font f = new System.Drawing.Font(font[findex], 12, System.Drawing.FontStyle.Bold);
                 Brush b = new System.Drawing.SolidBrush(c[cindex]);
                 //字符上下位置不同
                 int ii = 0;
@@ -437,7 +546,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet]
         [Cache(Expires = 999)]
-        public DataTable ProductEdition()
+        public System.Data.DataTable ProductEdition()
         {
             return WeiSha.Core.Parameters.Authorization.VersionLevel.LevelTable;
         }
@@ -514,6 +623,16 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(ret.Intro)) ret.Intro = string.Empty;
             Type nullableType = System.Nullable.GetUnderlyingType(method.ReturnParameter.ParameterType);
             ret.Type = nullableType != null ? nullableType.FullName + "?" : method.ReturnParameter.ToString();
+            if (ret.Type.IndexOf("System.Collections.Generic.List`1[") > -1)
+            {
+                ret.Type = ret.Type.Replace("System.Collections.Generic.List`1[","List<");
+                ret.Type = ret.Type.Replace("]", ">");
+            }
+            if (ret.Type.IndexOf("System.Collections.Generic.Dictionary`2[") > -1)
+            {
+                ret.Type = ret.Type.Replace("System.Collections.Generic.Dictionary`2[", "Dictionary<");
+                ret.Type = ret.Type.Replace("]", ">");
+            }
             ret.Nullable = nullableType != null;
             return ret;
         }
@@ -544,7 +663,10 @@ namespace Song.ViewData.Methods
                 {
                     paras[i].Type = nullableType.FullName + "?";
                     paras[i].Nullable = true;
-                }                
+                }     
+                //如果是字符串型，都可以为空
+                if(pi.ParameterType.FullName.Equals("System.String"))
+                    paras[i].Nullable = true;
             }
             return paras;
         }

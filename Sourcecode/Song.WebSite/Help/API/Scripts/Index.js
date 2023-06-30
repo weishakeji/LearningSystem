@@ -64,7 +64,7 @@
         getapi: function (usecache) {
             var th = this;
             th.loading = true;
-            var way = "helper/List";
+            var way = "helper/apiList";
             way += usecache != null && usecache ? ':' + (60 * 60 * 24) : ':update';
             $api.cache(way).then(function (req) {
                 th.loading = false;
@@ -148,7 +148,7 @@ Vue.component('methods', {
         getmethods: function (usecache) {
             var th = this;
             var name = th.apiobject.Name;
-            var way = "helper/Methods";
+            var way = "helper/apiMethods";
             way += usecache != null && usecache ? ':' + (60 * 60 * 24) : ':update';
             $api.cache(way, { classname: name }).then(function (req) {
                 th.loading = false;
