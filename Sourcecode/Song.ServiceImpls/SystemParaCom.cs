@@ -462,6 +462,29 @@ namespace Song.ServiceImpls
             }
             return dt;
         }
+        public DataTable DataIndexs(string tablename)
+        {
+            if (string.IsNullOrWhiteSpace(tablename)) return null;
+            string sql = @"SELECT
+                        i.name AS IndexName,
+                        OBJECT_NAME(i.object_id) AS TableName,
+                        c.name AS ColumnName,
+                        i.type_desc AS IndexType,
+                        ic.is_descending_key AS IsDescending
+                    FROM
+                        sys.indexes i
+                    INNER JOIN 
+                        sys.index_columns ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+                    INNER JOIN 
+                        sys.columns c ON ic.object_id = c.object_id AND ic.column_id = c.column_id
+                    WHERE
+                        OBJECT_NAME(i.object_id) = '{{tablename}}'
+                    ORDER BY
+                        OBJECT_NAME(i.object_id), i.name, ic.key_ordinal";
+            sql = sql.Replace("{{tablename}}", tablename.Trim());
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
+        }
         /// <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>

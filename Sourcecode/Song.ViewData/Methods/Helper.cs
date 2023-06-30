@@ -277,9 +277,9 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
-        /// 数据实体的列
+        /// 数据实体的信息，包括名称、简述与说明
         /// </summary>
-        /// <returns></returns>
+        /// <returns>例如：{"Accessory":{"mark":"附件表","intro":"..."}}</returns>
         [HttpGet,Localhost]
         public JObject Entities()
         {
@@ -345,6 +345,45 @@ namespace Song.ViewData.Methods
             return fields;
         }
         /// <summary>
+        /// 获取某个实体的数据库索引
+        /// </summary>
+        /// <param name="tablename">数据库表名，这里指对应的实体名称</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Localhost]
+        public JArray EntityIndexs(string tablename)
+        {
+            if (string.IsNullOrWhiteSpace(tablename)) return null;
+            System.Data.DataTable dt = Business.Do<ISystemPara>().DataIndexs(tablename);
+            List<string> list = new List<string>();
+            JArray jarr = new JArray();
+            foreach (DataRow row in dt.Rows)
+            {
+                //索引的列名
+                string column = row["ColumnName"].ToString();
+                bool isexist = false;
+                foreach(string s in list)
+                {
+                    if (s.Equals(column, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isexist = true;
+                        break;
+                    }
+                }
+                if (!isexist)
+                {
+                    list.Add(column);
+                    JObject jo = new JObject();
+                    jo.Add("name", column);
+                    int descending = 0;
+                    int.TryParse(row["IsDescending"].ToString(),out descending);
+                    jo.Add("order", descending == 0 ? "升序" : "降序");
+                    jarr.Add(jo);
+                }
+            }           
+            return jarr;
+        }
+        /// <summary>
         /// 实体详细说明的获取
         /// </summary>       
         /// <param name="name">实体名称</param>
@@ -387,7 +426,7 @@ namespace Song.ViewData.Methods
             return jitem;          
         }
         /// <summary>
-        /// 实体详细说明的获取
+        /// 实体详细说明的写入
         /// </summary>       
         /// <param name="name">实体名称</param>
         /// <param name="detail">实体的详情说明,json格式</param>
@@ -397,15 +436,136 @@ namespace Song.ViewData.Methods
         [Admin]
         public bool EntityDetails(string name, string detail)
         {
-            if (string.IsNullOrWhiteSpace(name)) return false;           
+            if (string.IsNullOrWhiteSpace(name)) return false;
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
             if (!string.IsNullOrWhiteSpace(detail))
             {
                 using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))
                     f.Write(detail);
             }
-            return true;            
-       }
+            return true;
+        }
+        public string EntitiestoWord()
+        {
+            //导出文件的位置
+            string pathname = "EntitiestoWord";
+            string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + pathname + "\\";
+            if (!System.IO.Directory.Exists(filePath))
+                System.IO.Directory.CreateDirectory(filePath);
+            string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
+
+            // 创建一个新的 Word 文档对象
+            XWPFDocument doc = new XWPFDocument();
+            JObject entities = this.Entities();
+            int i = 0;
+            foreach (JProperty entity in entities.Properties())
+            {
+                JObject item = (JObject)entity.Value;
+                //一级标题，实体的名称
+                XWPFParagraph h1 = doc.CreateParagraph();
+                h1.Style = "2";
+                h1.SpacingBefore = 20;
+                XWPFRun r = h1.CreateRun();
+                string title = (++i) + ". " + entity.Name;
+                string mark = item["mark"].ToString();      //实体的简述
+                string intro = item["intro"].ToString();    //实体的说明
+                if (!string.IsNullOrWhiteSpace(mark)) title += "：" + mark;
+                r.SetText(title);
+                r.FontSize = 16;
+                r.IsBold = true;
+                if (!string.IsNullOrWhiteSpace(intro))
+                    _createParagraph(doc, "说明：" + intro, 360, 14);
+                // item.Name 为 键
+                // item.Value 为 值
+
+                //实体的属性（即表的字段）
+                JObject fields = this.EntityFields(entity.Name);   //字段名称与数据类型（来自数据库）
+                JObject details = this.EntityDetails(entity.Name);        //字段说明与简述（来自配置信息）
+                Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
+                string primarykey = string.Empty;       //主键名称
+                JObject primaryval = null;              //主键的属性
+                foreach (JProperty field in fields.Properties())
+                {
+                    JObject attr = (JObject)field.Value;
+                    //记录主键
+                    if (attr["primary"].ToString() == "1")
+                    {
+                        primarykey = field.Name;
+                        primaryval = attr;
+                        continue;
+                    }
+                    //合并字段名称与简述信息
+                    foreach (JProperty detail in details.Properties())
+                    {
+                        if (field.Name.Equals(detail.Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            JObject dattr = (JObject)detail.Value;
+                            foreach (JProperty t in dattr.Properties())
+                            {
+                                attr.Add(t.Name, t.Value.ToString());
+                            }
+                        }
+                    }
+                    dic.Add(field.Name, attr);
+                }
+                if (primaryval != null)
+                    _createParagraph(doc, "主键：" + primarykey + " （" + primaryval["type"] + "）", 360, 14);
+                //索引
+                JArray indexs = this.EntityIndexs(entity.Name);
+                if (indexs.Count > 0)
+                {
+                    string indexstr = "索引：";
+                    for (int n = 0; n < indexs.Count; n++)
+                    {
+                        JObject idx = (JObject)indexs[n];
+                        indexstr += idx["name"].ToString();
+                        //indexstr += " (" + idx["order"].ToString() + ")";
+                        if (n < indexs.Count - 1) indexstr += "，";
+
+                    }                    
+                    _createParagraph(doc, indexstr, 360, 14);
+                }
+
+                //字段输出
+                _createParagraph(doc, "字段：", 360, 14);
+                int j = 0;
+                foreach (KeyValuePair<string, JObject> kv in dic)
+                {
+                    string name = "("+(++j) + "). " + kv.Key;
+                    string type = kv.Value["type"].ToString();
+                    if (type == "nvarchar")
+                    {
+                        int leng = 0;
+                        int.TryParse(kv.Value["length"].ToString(), out leng);
+                        if (leng <= 0) type = "nvarchar(max)";
+                        else
+                            type = "nvarchar(" + (leng / 2) + ")";
+                    }
+                    name += "  (" + type + ") ";
+                    string detailmark = kv.Value["mark"].ToString();
+                    if (!string.IsNullOrWhiteSpace(detailmark))
+                        name += "：" + detailmark;
+                    _createParagraph(doc, name, 720, 14);                  
+                    //关联表
+                    string relation = kv.Value["relation"].ToString();
+                    if (!string.IsNullOrWhiteSpace(relation))
+                        _createParagraph(doc, "关联表：" + relation, 1200, 14);
+                    //字段说明
+                    string detailintro = kv.Value["intro"].ToString();
+                    if (!string.IsNullOrWhiteSpace(detailintro))
+                        _createParagraph(doc, "说明：" + detailintro, 1200, 14);
+
+                }
+                
+            }
+
+            // 保存文档到文件
+            using (FileStream fs = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
+            {
+                doc.Write(fs);
+            }
+            return WeiSha.Core.Upload.Get["Temp"].Virtual + pathname + "/" + filename;
+        }
         #endregion
 
         #region 生成验证码

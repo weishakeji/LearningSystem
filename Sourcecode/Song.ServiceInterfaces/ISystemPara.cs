@@ -170,6 +170,12 @@ namespace Song.ServiceInterfaces
         /// <param name="tablename">表名称</param>
         /// <returns>数据列包括：name,type,length,fulltype,isnullable</returns>
         DataTable DataFields(string tablename);
+        /// <summary>
+        /// 获取表的索引
+        /// </summary>
+        /// <param name="tablename">表名称</param>
+        /// <returns>数据列包括：IndexName,TableName,ColumnName,IndexType(CLUSTERED或NONCLUSTERED),IsDescending(1表示降序排序，为0表示升序排序)</returns>
+        DataTable DataIndexs(string tablename);
         // <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>

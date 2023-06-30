@@ -3052,6 +3052,9 @@
     <Content Include="Help\Datas\Entitiy\SingleSignOn.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Help\Datas\Entitiy\NewsNote.json" />
+    <Content Include="Help\Datas\Entitiy\OutlineEvent.json" />
+    <Content Include="Help\Datas\Entitiy\ThirdpartyAccounts.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
