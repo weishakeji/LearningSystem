@@ -1061,7 +1061,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             //当前课程的所有视频章节
             List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, true);
             //最后学习时间
-            DateTime lasttime = DateTime.MinValue;
+            DateTime lasttime = new System.DateTime(1970, 1, 1);
             //累计学习时间，累计完成度
             double totalStudy = 0, totalComplete = 0;
             int count = 0;
