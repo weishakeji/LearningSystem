@@ -1,6 +1,7 @@
 ﻿@charset "utf-8";
 html,body{
 	text-align: left;
+	background-color: #f2f2f2;
 }
 .blur {
 	filter: url(blur.svg#blur);
@@ -102,22 +103,21 @@ card-title.error a {
 
 /*试题区*/
 
-section {
-	height: calc(100% - 90px);
+dl.quesArea dd section {
+	height: calc(100% - 50px);
 	background-color: #f2f2f2;
 	width: 100%;
 	z-index: 4;
 	left: 0px;
 	position: relative;
 	transition: left 0.5s;
+	padding-bottom: 120px;overflow-y: auto;
+	
+	box-sizing: border-box;
 }
 
-section dl, section dd {
-	margin: 0px;
-	padding: 0px;
-	height: 100%;
-	float: left;
-}
+
+
 /*底部按钮*/
 
 footer {
