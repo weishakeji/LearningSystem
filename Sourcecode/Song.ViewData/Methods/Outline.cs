@@ -174,9 +174,9 @@ namespace Song.ViewData.Methods
             List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, null);
             if (outlines.Count > 0)
             {
-                //foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
+                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
                 //树形章节输出
-                DataTable dt = Business.Do<IOutline>().OutlineTree(outlines.ToArray<Song.Entities.Outline>());
+                DataTable dt = Business.Do<IOutline>().OutlineTree(outlines.ToArray<Song.Entities.Outline>());              
                 return dt;
             }
             return null;

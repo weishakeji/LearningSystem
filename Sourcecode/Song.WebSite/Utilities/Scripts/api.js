@@ -77,7 +77,7 @@
         },
         //是否是本地路径
         islocal: function () {
-            var host = window.location.hostname.toLowerCase();
+            let host = window.location.hostname.toLowerCase();
             return host == 'localhost' || host == '127.0.0.1';
         },
         //将数据url解码
@@ -1157,7 +1157,7 @@
         put: function (way, para, value) {
             var p = this.parse(way, para, value);
             if (!config.apicache_location) {
-                if (window.location.hostname == 'localhost' && !p.compel) return;
+                if ($api.islocal() && !p.compel) return;
             }
             var th = this;
             if (p.active == 'clear') return;
@@ -1209,7 +1209,7 @@
             return new Promise(function (resolve, reject) {
                 var subject = ':' + p.store + '[' + JSON.stringify(p.para) + ']';
                 if (!config.apicache_location) {
-                    if (window.location.hostname == 'localhost' && !p.compel) return reject('本机不允许缓存');
+                    if ($api.islocal() && !p.compel) return reject('本机不允许缓存');
                 }
                 var request = th.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {

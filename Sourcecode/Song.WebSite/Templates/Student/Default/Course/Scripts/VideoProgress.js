@@ -23,8 +23,10 @@ $ready(function () {
             th.loading_init = true;
             $api.cache('Outline/TreeList', { 'couid': th.couid }).then(function (req) {
                 th.loading_init = false;
-                if (req.data.success) {
+                if (req.data.success) {                   
                     th.outlines = req.data.result;
+                    console.log(th.outlines);
+                    //th.calcSerial(null, '');
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -47,6 +49,17 @@ $ready(function () {
         watch: {
         },
         methods: {
+             //计算序号
+             calcSerial: function (outline, lvl) {
+                var childarr = outline == null ? this.outlines : (outline.children ? outline.children : null);
+                if (childarr == null) return;
+                for (let i = 0; i < childarr.length; i++) {
+                    childarr[i].Ol_ModifyTime = new Date(childarr[i].Ol_ModifyTime);
+                    childarr[i].serial = lvl + (i + 1) + '.';
+                    this.total++;
+                    this.calcSerial(childarr[i], childarr[i].serial);
+                }
+            },
             //获取当前学员
             getAccount: async function () {
                 var th = this;

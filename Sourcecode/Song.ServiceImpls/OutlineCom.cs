@@ -596,9 +596,17 @@ namespace Song.ServiceImpls
             //if (ts.TotalMilliseconds >= 500)
             //{
             //    //WeiSha.Core.Log.Debug(this.GetType().Name, string.Format("计算章节树形,耗时：{0}ms", ts.TotalMilliseconds));
+            //}           
+            foreach (DataRow ol in dt.Rows) ol["Ol_XPath"] = string.Empty;
+            dt = buildOutlineTree(dt, 0, 0, "");
+            //for(int i=0;i<dt.Rows.Count;i++)
+            //foreach (DataRow ol in dt.Rows)
+            //{
+            //    if(string.IsNullOrWhiteSpace(ol["Ol_XPath"].ToString()))
+            //        dt.Rows.Remove(ol);
             //}
-
-            return  buildOutlineTree(dt, 0, 0, "");
+            return dt;
+            
         }
         /// <summary>
         /// 生成章节的等级序号
