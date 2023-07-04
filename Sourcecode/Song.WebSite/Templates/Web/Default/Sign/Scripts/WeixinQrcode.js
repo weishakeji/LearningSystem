@@ -31,4 +31,4 @@ $ready(function () {
         }
     });
 
-}, ['http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js']);
+}, ['https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js']);
