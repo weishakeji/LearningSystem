@@ -73,22 +73,24 @@
             parent.obj.childs.push(this);
         }
         this.width = this._method.calcSize(this._width, 'width');
-        this.height = this._method.calcSize(this._height, 'height');
+        this.height = this._method.calcSize(this._height, 'height');       
+        //最前面的窗体，用于设置当前窗体的位置，以免覆盖之前的
+        let topbox = box.gettop();       
         //如果位置没有设置
         if (!this.top && this.bottom) this.top = box.availHeight() - this.height - this.bottom;
         if (!this.top && !this.bottom) {
-            if (this.parent == null || this.showmask)
+            if (topbox == null || this.showmask)
                 this.top = (box.availHeight() - document.body.scrollTop - this.height) / 2;
             else
-                this.top = this.parent.dom.offset().top + 30;
+                this.top = topbox.dom.offset().top + 30;
         }
         if (!this.left && this.right) this.left = box.availWidth() - this.width - this.right;
         if (!this.left && !this.right) {
-            if (this.parent == null || this.showmask)
+            if (topbox == null || this.showmask)
                 this.left = (box.availWidth() - document.body.scrollLeft - this.width) / 2;
             else
-                this.left = this.parent.dom.offset().left + 30;
-        }
+                this.left = topbox.dom.offset().left + 30;
+        }        
         //
         $ctrls.add({
             id: this.id,
@@ -250,8 +252,7 @@
         this.top = this._top;
         this.trigger('shown');
         //生成遮罩
-        if (this.showmask)
-            this.showBgMark();
+        if (this.showmask) this.showBgMark();
         return this.focus();
     };
     //构建pagebox窗体
@@ -662,6 +663,17 @@
             arr.push(boxs[i].obj);
         }
         return arr;
+    };
+    //获取最顶级窗体
+    box.gettop = function () {
+        let boxs = this.all();
+        let box = null;
+        for (var i = 0; i < boxs.length; i++) {
+            if (boxs[i].level == null) continue;
+            if (box == null || boxs[i].level > box.level)
+                box = boxs[i];
+        }
+        return box;
     };
     //获取已经存在窗体对象
     box.get = function (id) {
