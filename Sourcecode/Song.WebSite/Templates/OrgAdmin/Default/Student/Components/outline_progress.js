@@ -74,7 +74,7 @@ Vue.component('outline_progress', {
         },
         //累计学习时间
         studyTime: function (time) {
-            if (time == null) return '';
+            if (time == null || time == '') return '';
             if (time < 60) return "0:" + time + "";
             if (time >= 60) {
                 var ss = time % 60;

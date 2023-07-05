@@ -24,10 +24,11 @@ $ready(function () {
                 //获取结果
                 th.account = account.data.result;
                 th.outlines = outlines.data.result;
+                console.log(th.outlines);
                 if (th.islogin) th.getlogs();
             })).catch(function (err) {
                 th.loading_init = false;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },
@@ -48,18 +49,18 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 var acid = th.account.Ac_ID;
-                $api.cache('Course/LogForOutlineVideo', { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                $api.cache('Course/LogForOutlineVideo:10', { 'stid': acid, 'couid': th.couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;
-                        //console.log(th.logdatas);
+                        console.log(th.logdatas);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             }

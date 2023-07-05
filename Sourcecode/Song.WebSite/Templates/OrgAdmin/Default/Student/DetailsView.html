@@ -17,7 +17,7 @@
         </template>
         <template v-else>
             <div v-if="outlines && outlines.length>0" class="outlines">
-                <div v-for="o in outlines">
+                <div v-for="o in outlines" v-if="o.Ol_XPath!=''">
                     <span :style="'padding-left:'+(o.Ol_Level*20)+'px'">
                         <span class="order">{{o.Ol_XPath}}</span>
                         {{o.Ol_Name}}<icon v-if="o.Ol_IsVideo">&#xe83a</icon>
