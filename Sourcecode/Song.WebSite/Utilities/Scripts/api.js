@@ -299,6 +299,13 @@
             if (null == u) return true;
             return regex_match.exec(u) != null;
         },
+        //是否是平板
+        ispad: function () {
+            var regex_match = /(ipad|Android.*Tablet)/i;
+            var u = navigator.userAgent;
+            if (null == u) return true;
+            return regex_match.exec(u) != null;
+        },
         //对象转Json
         toJson: function (value) {
             //将对象中为的DateTime对象转为数值

@@ -640,6 +640,13 @@
         if (null == u) return true;
         return regex_match.exec(u) != null;
     };
+    //是否是平板
+    webdom.ispad = function () {
+        var regex_match = /(ipad|Android.*Tablet)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
