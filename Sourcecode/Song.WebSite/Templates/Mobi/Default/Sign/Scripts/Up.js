@@ -73,7 +73,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //获取结果           
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
@@ -227,7 +227,7 @@ $ready(function () {
                     return;
                 }
                 referrer = decodeURIComponent(referrer);
-                window.location.href = referrer != '' ? referrer : '/';
+                window.location.href = referrer != '' && referrer != null ? referrer : '/';
             }
         }
     });
