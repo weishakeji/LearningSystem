@@ -10,7 +10,7 @@ $ready(function () {
             outlines: [],        //章节树
             course: {},         //当前课程对象  
             owned: false,       //是否购买或学员组关联课程
-            
+
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
             state_ques: [],      //所有试题的状态，来自state中的items
@@ -175,7 +175,8 @@ $ready(function () {
                     }
                 }
                 //整体的通过率
-                this.rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
+                let rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
+                this.rate = rate === Infinity || rate === -Infinity || isNaN(rate) ? 0 : rate;
                 return;
             },
             //最后练习的章节
@@ -226,7 +227,7 @@ $ready(function () {
                     {
                         'couid': this.couid,
                         'acid': this.stid,
-                        'back':true
+                        'back': true
                     });
                 window.location.href = url;
             }
