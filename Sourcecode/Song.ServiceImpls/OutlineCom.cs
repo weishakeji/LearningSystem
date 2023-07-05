@@ -599,14 +599,7 @@ namespace Song.ServiceImpls
             //}           
             foreach (DataRow ol in dt.Rows) ol["Ol_XPath"] = string.Empty;
             dt = buildOutlineTree(dt, 0, 0, "");
-            //for(int i=0;i<dt.Rows.Count;i++)
-            //foreach (DataRow ol in dt.Rows)
-            //{
-            //    if(string.IsNullOrWhiteSpace(ol["Ol_XPath"].ToString()))
-            //        dt.Rows.Remove(ol);
-            //}
-            return dt;
-            
+            return dt;            
         }
         /// <summary>
         /// 生成章节的等级序号

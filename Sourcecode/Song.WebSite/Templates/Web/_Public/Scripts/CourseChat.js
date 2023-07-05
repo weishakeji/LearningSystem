@@ -20,7 +20,7 @@ $ready(function () {
             //window.setInterval('vapp.msgGet()', 1000 * 6);
         },
         mounted: function () {
-            alert(this.olid);
+            //alert(this.olid);
             this.msgGet(true);
         },
         methods: {
