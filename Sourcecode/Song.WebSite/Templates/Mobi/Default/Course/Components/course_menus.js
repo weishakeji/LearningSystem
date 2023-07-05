@@ -55,9 +55,7 @@ Vue.component('course_menus', {
     },
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        },
+        islogin: t => !$api.isnull(t.account),
         //是否购买记录
         purchased: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
@@ -79,13 +77,6 @@ Vue.component('course_menus', {
         //按钮事件，首先是状态判断
         btnEvt: function (item, outline) {
             if (item != null && item.disabled) return;
-            //如果item为空,则来自于章节列表点击
-            if (item == null && !this.owned) {
-                return this.gobuy();
-            }
-            this.outline = outline;
-            this.curr_menus = item;
-            var olid = outline != null ? outline.Ol_ID : 0;
             //预载中
             if (this.loading) {
                 this.loading_show = true;
@@ -96,13 +87,14 @@ Vue.component('course_menus', {
                 this.login_show = true;
                 return;
             }
-            if (item == null) {
-                for (var i = 0; i < this.menus.length; i++) {
-                    if (!this.menus[i].show) continue;
-                    item = this.menus[i];
-                    break;
-                }
-            }
+            //菜单项与章节都为空，且课程未购买
+            if (item == null && this.outline == null && !this.owned) return this.gobuy();
+            //如果item为空,则来自于章节列表点击
+            if (item == null) item = this.firstitem();
+            this.outline = outline;
+            this.curr_menus = item;
+            let olid = outline != null ? outline.Ol_ID : 0;
+
             //如果菜单项必须课程购买后才能学习，且的确没有购买
             if (item.mustbuy && !this.owned && !this.course.Cou_IsFree) {
                 this.buy_show = true;
@@ -127,6 +119,16 @@ Vue.component('course_menus', {
                     this.buy_show = true;
                 }
             }
+        },
+        //第一个可用的菜单项
+        firstitem: function () {
+            let item = null;
+            for (let i = 0; i < this.menus.length; i++) {
+                if (!this.menus[i].show) continue;
+                item = this.menus[i];
+                break;
+            }
+            return item;
         },
         //跳转，课程id和章节id
         gourl: function (url, couid, olid) {
