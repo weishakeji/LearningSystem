@@ -6,6 +6,7 @@ Vue.component('setupmenu', {
     return {
       //是否显示菜单
       show: false,
+      fontsizekey: 'Exercise_Font_Size',       //用于存储字体大小的值
       //视图模式，night:夜晚模式，day:白天模式，cosy：护眼模式
       view_model: 'day',
       views: [{ name: '日常模式', icon: '&#xe729', val: 'day' },
@@ -34,6 +35,8 @@ Vue.component('setupmenu', {
     }
   },
   mounted: function () {
+      //刷新页面即重置字体大小
+      this.setFont();
   },
   methods: {
     //更新试题
@@ -74,11 +77,10 @@ Vue.component('setupmenu', {
     },
     //设置字体大小，默认16px，num为增减数字，例如-1
     setFont: function (num) {
-      if (num == null || num == '') num = 0;
       let min = -4, max = 10;
-      let init = $api.storage(this.fontsizekey);
-      init = init == null || init == '' ? 0 : Number(init);
-      let val = num == 0 ? 0 : init + num;
+      let init = Number($api.storage(this.fontsizekey));
+      init = isNaN(init) ? 0 : init;
+      let val = num == null ? init : (num == 0 ? num : init + num);
       if (val < min || val > max) return;
       this.$parent.fontsize = val;
       $api.storage(this.fontsizekey, val);

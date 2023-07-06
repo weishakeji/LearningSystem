@@ -45,8 +45,8 @@ Vue.component('question', {
             immediate: true
         },
         'fontsize': function (nv, ov) {
-            if (this.init)
-                this.setfontsize(nv - ov);
+            if ($api.isnull(nv)) return;
+            if (this.init) this.setfontsize(nv - ov);
         }
     },
     computed: {
@@ -56,7 +56,7 @@ Vue.component('question', {
     mounted: function () { },
     methods: {
         //始始化的方法
-        initialization: function () {            
+        initialization: function () {
             if (this.qid == null) return;
             var th = this;
             th.loading = true;

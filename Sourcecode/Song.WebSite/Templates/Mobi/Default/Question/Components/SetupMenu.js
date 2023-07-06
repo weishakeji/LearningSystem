@@ -74,11 +74,10 @@ Vue.component('setupmenu', {
     },
     //记录设置字体的大小，num为增减数字，例如-1
     setFont: function (num) {
-      if (num == null || num == '') num = 0;
       let min = -4, max = 10;
-      let init = $api.storage(this.fontsizekey);
-      init = init == null || init == '' ? 0 : Number(init);
-      let val = num == 0 ? 0 : init + num;
+      let init = Number($api.storage(this.fontsizekey));
+      init = isNaN(init) ? 0 : init;
+      let val = num == null ? init : (num == 0 ? num : init + num);
       if (val < min || val > max) return;
       this.$parent.fontsize = val;
       $api.storage(this.fontsizekey, val);
