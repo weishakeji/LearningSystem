@@ -51,14 +51,12 @@ Vue.component('question', {
     },
     computed: {
         //是否存在知识点
-        existknl: function () {
-            return JSON.stringify(this.knowledge) != '{}' && this.knowledge != null;
-        }
+        existknl: t => !$api.isnull(t.knowledge),
     },
     mounted: function () { },
     methods: {
         //始始化的方法
-        initialization: function () {
+        initialization: function () {            
             if (this.qid == null) return;
             var th = this;
             th.loading = true;
@@ -78,7 +76,7 @@ Vue.component('question', {
                         th.$mathjax([dom[0]]);
                         window.setTimeout(function () {
                             th.setfontsize(th.fontsize);
-                        }, 500);
+                        }, 20);
 
                     });
                 } else {
