@@ -177,7 +177,7 @@ namespace Song.ServiceImpls
         {
             Organization org = Business.Do<IOrganization>().OrganCurrent();
             object max_setid = Gateway.Default.Max<RechargeSet>(RechargeSet._.Rs_ID, new WhereClip());
-            int min_len = (org.Org_ID.ToString() + max_setid.ToString()).Length + 1;
+            int min_len = (max_setid == null ? org.Org_ID.ToString().Length : (org.Org_ID.ToString() + max_setid.ToString()).Length) + 1;
             return min_len;
         }
         /// <summary>

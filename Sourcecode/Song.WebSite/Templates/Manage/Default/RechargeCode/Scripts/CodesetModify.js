@@ -85,7 +85,8 @@ $ready(function () {
                         { validator: checkDate, type: 'date', trigger: ["blur", "change"] }
                     ]
                 },
-                loading: false
+                loading: false,
+                lading_init: true        //初始化
             }
         },
         watch: {
@@ -102,36 +103,26 @@ $ready(function () {
         },
         created: function () {
             var th = this;
-            th.loading = true;
             $api.get('RechargeCode/MinLength').then(function (req) {
                 if (req.data.success) {
                     th.minLength = req.data.result;
-                    if (th.id != '') {
-                        $api.get('RechargeCode/SetForID', { 'id': th.id }).then(function (req) {
-                            th.loading = false;
-                            if (req.data.success) {
-                                th.entity = req.data.result;
-                                th.datespan.push(th.entity.Rs_LimitStart);
-                                th.datespan.push(th.entity.Rs_LimitEnd);
-                            } else {
-                                console.error(req.data.exception);
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            alert(err);
-                            console.error(err);
-                        });
-                    } else {
-                        th.loading = false;
-                        th.entity.Rs_IsEnable = true;
-                    }
+                    if (th.id == '') return;
+                    th.loading = true;
+                    $api.get('RechargeCode/SetForID', { 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            th.entity = req.data.result;
+                            th.datespan.push(th.entity.Rs_LimitStart);
+                            th.datespan.push(th.entity.Rs_LimitEnd);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err)).finally(th.loading = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err)).finally(th.lading_init = false);
         },
         methods: {
             //判断是否已经存在
@@ -156,26 +147,25 @@ $ready(function () {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'RechargeCode/Set' + (th.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                vapp.operateSuccess();
+                                th.operateSuccess();
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
-                            vapp.$alert(err, '错误');
-                        });
+                            console.error(err);
+                            alert(err, '错误');
+                        }).finally(th.loading = false);
                     } else {
-                        console.log('error submit!!');
-                        return false;
+                        console.error('error submit!!');
                     }
                 });
             },
