@@ -2,6 +2,8 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            acid: $api.querystring('acid'),      //刚注册的学员id
+            uid: $api.querystring('uid'),           //校验码
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项    
@@ -28,7 +30,7 @@
         created: function () {
             var th = this;
             $api.bat(
-                $api.get('Account/Current'),
+                $api.get('Account/ForID', { 'id': th.acid }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
@@ -58,6 +60,10 @@
             },
         },
         methods: {
+            //获取当前学员
+            getaccount: function () {
+
+            },
             //分页获取学员组
             sortpaper: function (index) {
                 if (index != null) this.sortquery.index = index;
@@ -92,9 +98,8 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        var apipath = 'Account/Modify';
-                        $api.post(apipath, { 'acc': th.account }).then(function (req) {
-                            th.loading = false;
+                        var apipath = 'Account/RegisterModify';
+                        $api.post(apipath, { 'acc': th.account, 'acid': th.acid, 'uid': th.uid }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -110,7 +115,7 @@
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -138,4 +143,5 @@
         }
     });
 
-}, ['/Utilities/ElementUi/index.js', "/Utilities/Components/education.js"]);
+}, ['/Utilities/ElementUi/index.js',
+    '/Utilities/Components/education.js']);

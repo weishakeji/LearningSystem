@@ -193,14 +193,15 @@ $ready(function () {
                             th.$dialog.alert({
                                 message: '注册成功！',
                             }).then(() => {
-                                th.goback();
+                                th.goback(result);
                             });
                         } else {
+                            $api.loginstatus('account', '');
                             //需要审核
                             th.$dialog.alert({
                                 message: '注册成功，请等待审核！',
                             }).then(() => {
-                                th.goback();
+                                th.goback(result);
                             });
                         }
                         //...
@@ -215,14 +216,16 @@ $ready(function () {
                 });
             },
             //注册成功后的跳转
-            goback: function () {
+            goback: function (account) {
                 var referrer = $api.querystring('referrer');
                 if (referrer == null || referrer == '')
                     referrer = $api.storage('singin_referrer');
                 //注册成功后，是否需要填写详情
                 if (this.config && this.config.IsRegDetail === true) {
                     window.location.href = $api.url.set('detail', {
-                        'referrer': referrer
+                        'referrer': referrer,
+                        'acid': account.Ac_ID,
+                        'uid':account.Ac_CheckUID
                     });
                     return;
                 }

@@ -162,66 +162,77 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts Register(string acc, string pw, string rec, int recid, string vcode, string vcodemd5)
         {
+            //当前机构的配置信息
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            if (!(bool)(config["IsRegStudent"].Value.Boolean ?? false))
-            {
+            if ((bool)(config["IsRegStudent"].Value.Boolean ?? false)) return null;
 
-            }
             string val = new Song.ViewData.ConvertToAnyValue(org.Org_PlatformName + vcode).MD5;
             if (!val.Equals(vcodemd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("校验码错误", 101);
             //账号是否存在
-            try
-            {
-                Song.Entities.Accounts account = Business.Do<IAccounts>().IsAccountsExist(acc);
-                if (account == null && Regex.IsMatch(acc, @"^1\d{10}$"))
-                    account = Business.Do<IAccounts>().IsAccountsExist(-1, acc, 1);
-                if (account != null) throw VExcept.Verify("账号已经存在", 102);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Song.Entities.Accounts account = Business.Do<IAccounts>().IsAccountsExist(acc);
+            if (account == null && Regex.IsMatch(acc, @"^1\d{10}$"))
+                account = Business.Do<IAccounts>().IsAccountsExist(-1, acc, 1);
+            if (account != null) throw VExcept.Verify("账号已经存在", 102);
             //
             //创建新账户
             Song.Entities.Accounts tmp = new Entities.Accounts();
             tmp.Ac_AccName = acc;
             tmp.Ac_Pw = new Song.ViewData.ConvertToAnyValue(pw).MD5;
             //获取推荐人
-            try
+            Song.Entities.Accounts accRec = null;
+            if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsForMobi(rec, -1, true, true);
+            if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
+            if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
             {
-                Song.Entities.Accounts accRec = null;
-                if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsForMobi(rec, -1, true, true);
-                if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
-                if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
-                {
-                    tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
-                    Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
+                Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
             }
             //如果需要审核通过
             tmp.Ac_IsPass = !(bool)(config["IsVerifyStudent"].Value.Boolean ?? false);
             tmp.Ac_IsUse = tmp.Ac_IsPass;
-            try
-            {
-                int id = Business.Do<IAccounts>().AccountsAdd(tmp);
-                //登录，密码被设置成加密状态值
-                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //生成登录校验码
+            tmp.Ac_CheckUID = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
+            tmp.Ac_ID = Business.Do<IAccounts>().AccountsAdd(tmp);
             _tran(tmp);
-            tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
-            tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
-            LoginAccount.Add(tmp);
+            if (tmp.Ac_IsPass)
+            {
+                tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
+                LoginAccount.Add(tmp);
+            }
             return tmp;
+        }
+        /// <summary>
+        /// 账号注册后的修改
+        /// </summary>
+        /// <param name="acc">账号的实体</param>
+        /// <param name="acid">账号的id</param>
+        /// <param name="uid">账号的校验值</param>
+        /// <returns></returns>    
+        [HttpPost]
+        [HtmlClear(Not = "acc")]
+        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
+        public bool RegisterModify(Accounts acc, int acid,string uid)
+        {
+            Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (old == null) throw new Exception("Not found entity for Accounts！");
+            //校验值是否正确
+            if(!uid.Equals(old.Ac_CheckUID,StringComparison.OrdinalIgnoreCase)) throw new Exception("校验值不合法！");
+            //注册后一个小时内可以修改
+            if (old.Ac_RegTime.AddHours(-1) > DateTime.Now) throw new Exception("编辑超时！");
+            //图片
+            string filename = _uploadLogo();
+            //如果有上传的图片，且之前也有图片,则删除原图片
+            if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(acc.Ac_Photo)) && !string.IsNullOrWhiteSpace(old.Ac_Photo))
+                WeiSha.Core.Upload.Get[PathKey].DeleteFile(old.Ac_Photo);
+            if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
+            //账号，密码，登录状态值，不更改
+            old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
+            if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
+            Business.Do<IAccounts>().AccountsSave(old);
+            Song.ViewData.LoginAccount.Fresh(old);
+            return true;
         }
         /// <summary>
         /// 校验证学员安全问题是否回答正确

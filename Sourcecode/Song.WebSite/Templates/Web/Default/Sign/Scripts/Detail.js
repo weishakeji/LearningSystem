@@ -2,6 +2,8 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            acid: $api.querystring('acid'),      //刚注册的学员id
+            uid: $api.querystring('uid'),           //校验码
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项    
@@ -26,7 +28,21 @@
         },
         mounted: function () { },
         created: function () {
-
+            var th = this;
+            $api.bat(
+                $api.get('Account/ForID', { 'id': th.acid }),
+                $api.cache('Platform/PlatInfo'),
+                $api.get('Organization/Current')
+            ).then(axios.spread(function (account, platinfo, organ) {
+                //获取结果
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                //机构配置信息
+                th.config = $api.organ(th.organ).config;
+            })).catch(function (err) {
+                console.error(err);
+            });
         },
         computed: {
             //学员的组是否存在
@@ -78,9 +94,8 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        var apipath = 'Account/Modify';
-                        $api.post(apipath, { 'acc': th.account }).then(function (req) {
-                            th.loading = false;
+                        var apipath = 'Account/RegisterModify';
+                        $api.post(apipath, { 'acc': th.account, 'acid': th.acid, 'uid': th.uid }).then(function (req) {                         
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -94,15 +109,15 @@
                             } else {
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {                           
+                        }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-            },            
+            },
             //跳过
             btnJump: function () {
                 this.$confirm('是否确定要跳过当前操作?', '提示', {
