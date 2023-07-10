@@ -111,7 +111,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts Login(string acc, string pw, string vcode, string vmd5)
         {
-            string val = new ConvertToAnyValue(acc + vcode).MD5;
+            string val = ConvertToAnyValue.Create(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLogin(acc, pw, true);
@@ -136,7 +136,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts LoginSms(string phone, string sms)
         {
-            string val = new Song.ViewData.ConvertToAnyValue(phone + sms).MD5;
+            string val = ConvertToAnyValue.Create(phone + sms).MD5;
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
             if (account == null) throw VExcept.Verify("验证码不正确", 105);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
@@ -167,7 +167,7 @@ namespace Song.ViewData.Methods
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             if ((bool)(config["IsRegStudent"].Value.Boolean ?? false)) return null;
 
-            string val = new Song.ViewData.ConvertToAnyValue(org.Org_PlatformName + vcode).MD5;
+            string val = ConvertToAnyValue.Create(org.Org_PlatformName + vcode).MD5;
             if (!val.Equals(vcodemd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("校验码错误", 101);
             //账号是否存在
@@ -179,7 +179,7 @@ namespace Song.ViewData.Methods
             //创建新账户
             Song.Entities.Accounts tmp = new Entities.Accounts();
             tmp.Ac_AccName = acc;
-            tmp.Ac_Pw = new Song.ViewData.ConvertToAnyValue(pw).MD5;
+            tmp.Ac_Pw = ConvertToAnyValue.Create(pw).MD5;
             //获取推荐人
             Song.Entities.Accounts accRec = null;
             if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsForMobi(rec, -1, true, true);
@@ -449,7 +449,7 @@ namespace Song.ViewData.Methods
         {
             acc.Ac_Photo = _uploadLogo();
             if (!string.IsNullOrWhiteSpace(acc.Ac_Pw))
-                acc.Ac_Pw = new Song.ViewData.ConvertToAnyValue(acc.Ac_Pw).MD5;
+                acc.Ac_Pw = ConvertToAnyValue.Create(acc.Ac_Pw).MD5;
             Business.Do<IAccounts>().AccountsAdd(acc);
             acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
             return acc;

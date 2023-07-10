@@ -585,6 +585,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="leng">长度</param>
         /// <param name="type">类型:0为数字与大小写字母，1为纯数字，2为纯小字母，3为纯大写字母，4为大小写字母，5数字加小写，6数字加大写</param>
+        /// <param name="acc"></param>
         /// <returns></returns>
         [HttpPost]
         public Dictionary<string, string> CodeImg(int leng, int type, string acc)
@@ -592,7 +593,7 @@ namespace Song.ViewData.Methods
             if (leng <= 0) throw new Exception("长度不得小于等于零");
             //设定生成几位随机数
             string tmp = RndNum(leng, type);
-            string val = new Song.ViewData.ConvertToAnyValue(acc + tmp).MD5;
+            string val = ConvertToAnyValue.Create(acc + tmp).MD5;
             //生成图片
             System.Drawing.Bitmap image = CreateImage(tmp);
             string base64 = WeiSha.Core.Images.ImageTo.ToBase64(image);

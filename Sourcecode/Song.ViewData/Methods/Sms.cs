@@ -198,7 +198,7 @@ namespace Song.ViewData.Methods
             if (acc == null) throw new Exception("当前手机号不存在");
 
             string vcode = Business.Do<ISMS>().SendVcode(phone, len);
-            acc.Ac_CheckUID = new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;
+            acc.Ac_CheckUID = ConvertToAnyValue.Create(phone + vcode).MD5;
             Business.Do<IAccounts>().AccountsSave(acc);
 
             return acc.Ac_CheckUID;
@@ -220,7 +220,7 @@ namespace Song.ViewData.Methods
 
             //string vcode = "666888";
             string vcode = Business.Do<ISMS>().SendVcode(phone, len);
-            return new Song.ViewData.ConvertToAnyValue(phone + vcode).MD5;           
+            return ConvertToAnyValue.Create(phone + vcode).MD5;           
         }
     }
 }

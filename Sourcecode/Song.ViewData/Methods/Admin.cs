@@ -39,7 +39,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.EmpAccount Login(string acc, string pw, string vcode, string vmd5)
         {
-            string val = new Song.ViewData.ConvertToAnyValue(acc + vcode).MD5;
+            string val = ConvertToAnyValue.Create(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
             //当前机构等于管理员所在机构
@@ -57,7 +57,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.EmpAccount LoginSuper(string acc, string pw, string vcode, string vmd5)
         {
-            string val = new Song.ViewData.ConvertToAnyValue(acc + vcode).MD5;
+            string val = ConvertToAnyValue.Create(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
             //必须处于根机构

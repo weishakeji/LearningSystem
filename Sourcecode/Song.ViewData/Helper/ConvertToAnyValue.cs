@@ -67,7 +67,7 @@ namespace Song.ViewData
         {
             this._paravlue = para;
         }
-        public static ConvertToAnyValue Get(string para)
+        public static ConvertToAnyValue Create(string para)
         {
             return new ConvertToAnyValue(para);
         }
@@ -316,6 +316,27 @@ namespace Song.ViewData
                 return result.Replace("-","");   
             }
         }
+        public string SHA256
+        {
+            get
+            {
+                if (_paravlue == null) return null;
+                string str = _paravlue.ToString();
+                if(string.IsNullOrWhiteSpace(str)) return null;
+                string shastring = string.Empty;
+                // 创建 SHA-256 哈希算法实例
+                using (System.Security.Cryptography.SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
+                {
+                    // 将数据转换为字节数组
+                    byte[] dataBytes = Encoding.UTF8.GetBytes(str);
+                    // 执行哈希计算
+                    byte[] hashBytes = sha256.ComputeHash(dataBytes);
+                    // 将哈希结果转换为字符串或其他格式
+                    shastring = BitConverter.ToString(hashBytes).Replace("-", "");                   
+                }
+                return shastring;
+            }
+        }
         /// <summary>
         /// 参数的字符串进行 URL 解码并返回已解码的字符串。如果参数不存在或异常，则返回null;
         /// </summary>
@@ -433,7 +454,7 @@ namespace Song.ViewData
         /// <returns></returns>
         public object ChangeType(System.Type type)
         {
-            object obj=null;
+            object obj;
             switch (type.FullName)
             {
                 case "System.DateTime":
