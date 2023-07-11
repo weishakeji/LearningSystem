@@ -301,21 +301,27 @@ namespace Song.ViewData
             }
         }
         /// <summary>
-        /// 参数的SHA1加密值，如果参数不存在或异常，则返回null;
+        /// SHA1加密值，FIPS 180-4标准，产生160位的哈希值
         /// </summary>
         public string SHA1
         {
             get
             {
                 if (_paravlue == null) return null;
-                System.Security.Cryptography.SHA1 sha1 = new SHA1CryptoServiceProvider();//创建SHA1对象
-                byte[] bytes_in = System.Text.Encoding.UTF8.GetBytes(_paravlue.ToString());//将待加密字符串转为byte类型
-                byte[] bytes_out = sha1.ComputeHash(bytes_in);//Hash运算
-                sha1.Dispose();//释放当前实例使用的所有资源
-                string result = BitConverter.ToString(bytes_out);//将运算结果转为string类型
-                return result.Replace("-","");   
+                string result = string.Empty;
+                using (System.Security.Cryptography.SHA1 sha1 = new SHA1CryptoServiceProvider())
+                {
+                    byte[] bytes_in = System.Text.Encoding.UTF8.GetBytes(_paravlue.ToString());
+                    byte[] bytes_out = sha1.ComputeHash(bytes_in);                    
+                    result = BitConverter.ToString(bytes_out);//将运算结果转为string类型                    
+                    sha1.Dispose();
+                }
+                return string.IsNullOrWhiteSpace(result) ? null : result.Replace("-", "");
             }
         }
+        /// <summary>
+        /// SHA2加密值，SHA-2（Secure Hash Algorithm 2）：包括SHA-224、SHA-256、SHA-384和SHA-512等，FIPS 180-4标准。
+        /// </summary>
         public string SHA256
         {
             get

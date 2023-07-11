@@ -71,5 +71,20 @@ namespace Song.ViewData.Methods
             }
             return jo;
         }
+        public string testSHA256(string str)
+        {
+            string hashString = string.Empty;
+            // 创建 SHA-256 哈希算法实例
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // 将数据转换为字节数组
+                byte[] dataBytes = Encoding.UTF8.GetBytes(str);
+                // 执行哈希计算
+                byte[] hashBytes = sha256.ComputeHash(dataBytes);
+                // 将哈希结果转换为字符串或其他格式
+                hashString = BitConverter.ToString(hashBytes).Replace("-", "");            
+            }
+            return hashString;
+        }
     }
 }

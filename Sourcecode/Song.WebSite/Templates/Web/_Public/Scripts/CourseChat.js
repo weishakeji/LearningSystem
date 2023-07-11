@@ -17,10 +17,9 @@ $ready(function () {
         },
         created: function () {
             //定时刷新（加载）咨询留言
-            //window.setInterval('vapp.msgGet()', 1000 * 6);
+            window.setInterval('vapp.msgGet()', 1000 * 6);
         },
-        mounted: function () {
-            //alert(this.olid);
+        mounted: function () {           
             this.msgGet(true);
         },
         methods: {

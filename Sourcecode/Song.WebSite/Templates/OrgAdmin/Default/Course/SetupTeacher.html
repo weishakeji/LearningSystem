@@ -132,12 +132,10 @@
             <span slot="title">{{drawerobj.Th_Name}}</span>
             <photo :teacher="drawerobj" circle="true" size="100"></photo>
             <dl>
-                <dd class="info" :class="{'woman': drawerobj.Th_Sex==2}">
-                    <icon v-if="drawerobj.Th_Sex==2" title="女性">&#xe844</icon>
-                    <icon v-if="drawerobj.Th_Sex==1" title="男性">&#xe645</icon>
-                    <icon v-if="drawerobj.Th_Sex==0" title="性别未知">&#xa043</icon>姓名：
+                <dd :class="drawerobj.Th_Sex==2 ? 'woman' : 'man'">
+                    <icon :woman="drawerobj.Th_Sex==2" :man="drawerobj.Th_Sex!=2"> </icon>姓名：
                     <span v-html='drawerobj.Th_Name' v-if="drawerobj.Th_Name!=''"></span>
-                    <span v-else class="noname">(没有名字)</span>
+                    <span v-else class="noname">(没有名字)</span>                   
                 </dd>
                 <dd>
                     <icon>&#xe677</icon>电话：

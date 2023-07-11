@@ -63,6 +63,12 @@ th .el-input{
 icon .large{
 	cursor: pointer;
 }
+.man{
+	color: rgb(73 128 210);
+}
+.woman{
+	color: rgb(248, 87, 87);
+}
 .noname{
 	color: #aaa;
 	font-size: 12px;
