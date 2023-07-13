@@ -11,14 +11,19 @@ Vue.component('study_live', {
         }
     },
     watch: {
-        'state': function (nv, ov) {
-            if (this.state.DeskAllow) return;
-            //如果直播流不存在
-            this.abnormal = !nv.isLiving;
-            //视频播放
-            if (this.state.canStudy && this.state.isLive)
-                this.startPlay(this.state);
-        },
+        'state': {
+            handler: function (nv, ov) {
+                if (this.state.DeskAllow) return;
+                //如果直播流不存在
+                this.abnormal = !nv.isLiving;
+                var th = this;
+                this.$nextTick(function () {
+                    //视频播放
+                    if (th.state.canStudy && th.state.isLive)
+                        th.startPlay(th.state);
+                });
+            }, immediate: true,
+        },        
         //是否播放异常
         'abnormal': function (nv, ov) {
             var th = this;
