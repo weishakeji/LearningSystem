@@ -297,6 +297,13 @@
     <Content Include="Templates\Mobi\Default\Account\Styles\BindPhone.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\OtherLogin.css" />
     <Content Include="Templates\Mobi\Default\Components\generic.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\study_float.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\study_footer.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\study_live.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\course_message.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_float.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_live.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\course_message.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\Accessory.js" />
@@ -1139,8 +1146,6 @@
     <Content Include="Templates\Web\Default\Course\Components\Styles\study_float.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\study_tabs.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\accessory.css" />
-    <Content Include="Templates\Web\Default\Course\Images\LiveBg.jpg" />
-    <Content Include="Templates\Web\Default\Course\Images\studyBg.jpg" />
     <Content Include="Templates\Web\Default\Course\Scripts\Buy.js" />
     <Content Include="Templates\Web\Default\Course\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Buy.css" />
@@ -2606,6 +2611,7 @@
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
     <Folder Include="Templates\SSO\Default\Components\" />
+    <Folder Include="Templates\Web\Default\Course\Images\" />
     <Folder Include="Utilities\Images\Mobi\" />
   </ItemGroup>
   <ItemGroup>

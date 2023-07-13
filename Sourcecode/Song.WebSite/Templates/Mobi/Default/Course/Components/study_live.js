@@ -1,5 +1,5 @@
 //直播
-$dom.load.css([$dom.path() + 'course/Components/Styles/study_live.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/study_live.css']);
 Vue.component('study_live', {
     props: ['account', 'state', 'outline'],
     data: function () {
@@ -11,13 +11,17 @@ Vue.component('study_live', {
         }
     },
     watch: {
-        'state': function (nv, ov) {
-            if (this.state.DeskAllow) return;
-            //如果直播流不存在
-            this.abnormal = !nv.isLiving;
-            //视频播放
-            if (this.state.canStudy && this.state.isLive)
-                this.startPlay(this.state);
+        'state': {
+            handler: function (nv, ov) {
+                //如果直播流不存在
+                this.abnormal = !nv.isLiving;
+                var th = this;
+                this.$nextTick(function () {
+                    //视频播放
+                    if (th.state.canStudy && th.state.isLive)
+                        th.startPlay(th.state);
+                });
+            }, immediate: true,
         },
         //是否播放异常
         'abnormal': function (nv, ov) {
@@ -53,7 +57,7 @@ Vue.component('study_live', {
             //console.error(state.urlVideo);
             window.live_player = new QPlayer({
                 url: state.urlVideo,
-                container: document.getElementById("livebox"),
+                container: document.getElementById("videoplayer"),
                 isLive: true,
                 autoplay: true
             });
@@ -149,9 +153,9 @@ Vue.component('study_live', {
             // alert(liveid);
         }
     },
-    template: `<div id="study_live"  :video="state.urlVideo">
+    template: `<div id="study_video" class="videobox" :video="state.urlVideo">
         <div v-if="false"> {{state.isLiving}}<span>是否正常：{{!abnormal}}</span></div>
-        <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
+        <div id="videoplayer" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
             remark="直播">
         </div>
         <study_float :account="account" tag="study_live" remark="飘浮信息，防录屏"></study_float>

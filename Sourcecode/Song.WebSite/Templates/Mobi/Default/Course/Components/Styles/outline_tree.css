@@ -1,5 +1,4 @@
-﻿
-/*侧滑菜单的章节列表*/
+﻿/*侧滑菜单的章节列表*/
 
 #menu {
 	height: 100%;
@@ -9,12 +8,21 @@
 
 #menu .van-cell-group {
 	background-color: transparent !important;
+	height: calc(100% - 65px);
+	overflow-y: auto;
+}
+
+[class*=van-hairline]::after {
+	border: none;
 }
 
 #menu .cour-info {
-	margin: 10px;
+	padding: 10px;
 	display: flex;
-	width: calc(100% - 20px);
+	width: 100%;
+	border-bottom: 1px solid #ebedf0;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
 #menu .cour-info img {
@@ -102,17 +110,19 @@
 /*+++++++左侧侧滑菜单*/
 
 #menu .cour-info .cour-info-right {
-	width: 60%;
-	margin-right: 5%;
-	float: left;
+	height: 40px;
+	overflow: hidden;
+
 }
-.cour-info-right icon[course]{
+
+.cour-info-right icon[course] {
 	color: #eee;
 	display: block;
 	line-height: 22px;
 }
-.cour-info-right icon[course]:not(:fisrt-child) {	
-	
+
+.cour-info-right icon[course]:not(:fisrt-child) {
+
 	height: 40px;
 	line-clamp: 2;
 	overflow: hidden;

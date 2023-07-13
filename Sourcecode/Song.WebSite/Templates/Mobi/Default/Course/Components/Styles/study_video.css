@@ -1,56 +1,189 @@
-/*视频播放器*/
-
-#videoplayer {
-	z-index: 10;
-    width: 100%;
-    height: 100%;
+#study_video {
+	width: 100%;
+	height: calc(100vw*9/16);
+	height: -webkit-calc(100vw*9/16);
+	height: -moz-calc(100vw*9/16);
+	position: relative;
+	top: 0px;
+	z-index: 100;
+	background-color: #333;
+	color: #CCC;
 }
-/*视频播放信息栏*/
+
+#videoplayer, #novideo {
+	background-color: #000;
+	color: #999;
+	line-height: 100px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	z-index: -1;
+}
 
 #videoinfo {
-	position: absolute;
-	z-index: 11;
-	color: #999;
-	height: 30px;
-	font-size: 12px;
 	line-height: 30px;
-	top: 5px;
 	width: 100%;
-	text-align: right;
-    box-sizing: border-box;
-    padding: 0px 15px;
-    display: flex;
-    justify-content: space-between;
+	font-size: 12px;
+	position: absolute;
+	top: 0px;
+	z-index: 200;
+	text-align: center;
+	background-color: rgba(255, 255, 255, .6);
 }
 
-/*学习记录递交是否成功的提示信息*/
+video {
+	position: relative;
+	z-index: -1;
+}
+
+video::-internal-media-controls-download-button {
+	display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden !important;
+}
+
+video::-webkit-media-controls {
+	overflow: hidden !important;
+}
+
+video::-webkit-media-controls-panel {
+	--width: calc(100% + 30px) !important;
+	margin-left: auto;
+}
+
+.video {
+	background-color: transparent !important;
+	box-shadow: 0 0px 0px #ccc !important;
+	padding: 0px !important;
+	min-height: 260px;
+}
 
 
-.info {
-	color: #3F6;
+
+
+#playerInfo {
+	height: 20px;
+	line-height: 20px;
+	--background-color: #FFF;
+	--webkit-box-shadow: 0 1px 6px #ccc;
+	--box-shadow: 0 1px 6px #ccc;
+	position: absolute;
+	top: 2px;
+	right: 0px;
+	z-index: 100;
+}
+
+#playerInfo, #playerInfo * {
+	font-size: 8px;
+}
+
+#playerInfo .time {
+	color: #999;
+	font-size: 8px;
+	margin-right: 5px;
+}
+
+#playerInfo .time * {
+	font-size: 10px;
+}
+
+/*上次观看播放进度*/
+
+.historyInfo {
+	display: block;
+	bottom: 40px;
+	left: 20px;
+	position: absolute;
+	z-index: 200;
+	font-size: 10px;
+}
+
+/*学习记录递交成功的提示*/
+
+.StudentStudyLog {
+	display: block;
+	bottom: 40px;
+	right: 20px;
+	position: absolute;
+	z-index: 200;
+	font-size: 10px;
 }
 
 .error {
 	color: red;
 }
 
-.historyInfo {
-	margin-left: 20px;
-	cursor: pointer;
-	color: #06F;
+#videoIframe {
+	width: 100% !important;
 }
 
-/*学习记录的时间进度*/
-#videolog {
-	display: none;
-	position: absolute;
-	z-index: 20;
-	color: #999;
-	height: 10px;
-	font-size: 12px;
-	bottom: 0px;
-	width: 100%;
+#noVideo {
 	text-align: center;
-	background-color: red;
+	line-height: calc(100vw*9/16);
+	height: calc(100vw*9/16);
+	font-size: 17px;
+	color: #ccc;
 }
 
+/*直播加载时*/
+
+#liveLoadingbox {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 110;
+	width: 100%;
+	padding: 10px;
+	max-height: 60px;
+	font-size: 16px;
+	color: #333;
+	background-color: rgb(182, 179, 179, 0.8);
+}
+
+#liveLoadingbox button {
+	float: right;
+}
+
+/*直播，没有直播时*/
+
+#liveStopbox, #livebox {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#liveStopbox .liveStop_Tit, .noSelect {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	line-height: 180px;
+	color: #333;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+	top: 0px;
+	text-shadow: 1px 1px #eee;
+	cursor: default;
+}
+
+/*背景图，带渐变效果*/
+
+.bgPicture {
+	opacity: 0.4;
+	animation: 2s opacity2;
+}
+
+video::-internal-media-controls-download-button {
+	display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+	width: calc(100% + 30px);
+}

@@ -1,6 +1,6 @@
 $ready(function () {
 
-    window.vdata = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             couid: $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),
@@ -36,7 +36,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: (t) => { return !$api.isnull(t.account); },
+            islogin: (t) => !$api.isnull(t.account),
         },
         created: function () {
             var th = this;
@@ -66,10 +66,6 @@ $ready(function () {
             });
         },
         methods: {
-            outline_change: function (node) {
-                console.log(node);
-                this.outline = node;
-            },
             //初始化
             init: function () {
                 var couid = this.couid;
@@ -93,6 +89,11 @@ $ready(function () {
                     alert(err);
                 });
             },
+            //是否显示
+            display: function (show) {
+                let visible = show == null ? true : show;
+                $dom('.videobox').css('visibility', visible ? 'visible' : 'hidden');
+            },
             //获取章节的状态
             getstate: function (olid) {
                 var th = this;
@@ -113,7 +114,7 @@ $ready(function () {
                     //console.log(th.state);
                 })).catch(function (err) {
                     th.loading = false;
-                    alert(err);
+                    //alert(err);
                     console.error(err);
                 });
             },
@@ -160,169 +161,6 @@ $ready(function () {
     });
 
 
-    //底部按钮组件
-    Vue.component('coursestudyfooter', {
-        props: ['course'],
-        data: function () {
-            return {
-                menus: [
-                    { label: '章节列表', id: 'outline', icon: 'e841', show: true },
-                    { label: '视频', id: 'video', icon: 'e761', show: true },
-                    { label: '交流', id: 'message', icon: 'e817', show: false },
-                    { label: '学习内容', id: 'content', icon: 'e813', show: true },
-                    { label: '附件', id: 'accessory', icon: 'e853', show: true },
-                    { label: '返回课程', id: 'goback', icon: 'f007c', show: true }
-                ],
-                loading: true //预载中             
-            }
-        },
-        computed: {},
-        created: function () {
-
-        },
-        methods: {
-            //事件
-            click: function (item) {
-                switch (item.id) {
-                    //显示章节树形菜单
-                    case 'outline':
-                        var tree = this.$parent.$refs['outline_tree'];
-                        tree.show();
-                        break;
-                    case 'goback':
-                        document.location.href = 'detail.' + this.course.Cou_ID;
-                        break;
-                    default:
-                        vdata.contextShow = item.id;
-                        break;
-                }
-                //console.log(this.course);
-            }
-        },
-        template: `<footer id="nav_menu">
-            <div v-for='item in menus' :id='item.id' v-if='item.show' v-on:click='click(item)'>
-                <icon :style="'font-size:'+item.size+'px;'" 
-                v-html="'&#x'+item.icon" v-if="!!item.icon && item.icon!=''"></icon>
-                <icon v-else :style="'font-size:21px;'" v-html="'&#x'+deficon"></icon>   
-                <span>{{item.label}}</span>
-            </div>
-            </footer>`
-    });
-
-    //留言咨询
-    Vue.component('message', {
-        props: ['outline', 'account'],
-        data: function () {
-            return {
-                messages: [],		//信息列表	
-                timer: null,			//	
-                input_text: '',
-                loading: true //预载中
-            }
-        },
-        watch: {
-            'outline': {
-                deep: true,
-                immediate: true,
-                handler: function (newV, oldV) {
-                    if (JSON.stringify(newV) == '{}' || newV == null) return;
-                    this.messages = [];
-                    this.msgGet();
-                }
-            }
-        },
-        created: function () {
-            //定时刷新（加载）咨询留言
-            this.timer = window.setInterval(this.msgGet, 1000 * 10);
-        },
-        methods: {
-            //获取当前章节的留言信息
-            msgGet: function () {
-                if (!this.outline) return;
-                var th = this;
-                $api.get("message/count", {
-                    olid: this.outline.Ol_ID, order: 'desc', count: 100
-                }).then(function (req) {
-                    if (req.data.success) {
-                        th.messages = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert("留言信息加载异常！详情：\r" + err);
-                });
-            },
-            //发送消息
-            msgSend: function () {
-
-                this.msgBlur();
-                var th = this;
-                var msg = this.input_text;
-                if ($api.trim(msg) == '') return;
-                var span = Date.now() - Number($api.cookie("msgtime"));
-                if (span / 1000 < 10) {
-                    th.$dialog.alert({
-                        message: '不要频繁发消息！',
-                        position: 'bottom-right'
-                    });
-                    return;
-                }
-                $api.cookie("msgtime", Date.now());
-                var play = vdata.playinfo(this.outline.Ol_ID);
-                $api.post("message/add", {
-                    acc: this.account.Ac_AccName, msg: msg, playtime: play.time,
-                    couid: this.outline.Cou_ID, olid: this.outline.Ol_ID
-                }).then(function (req) {
-                    var d = req.data;
-                    if (d.success) {
-                        th.input_text = '';
-                        th.msgGet();
-                    } else {
-                        var msg = "信息添加发生异常！详情：\r" + d.message;
-                        th.$dialog.alert({
-                            message: msg,
-                            position: 'bottom-right'
-                        });
-                    }
-                });
-            },
-            //留言输入框失去焦点
-            msgBlur: function () {
-                //document.getElementById("footer").style.display = "";
-                //document.getElementById("messageinput").blur();
-            },
-            //留言输入框获取焦点
-            msgFocus: function (e) {
-                //document.getElementById("footer").style.display = "none";
-                //document.getElementById("messageinput").focus();
-            }
-        },
-        template: `<div id='chatarea'>
-	<div class='outline-name'>
-		<span v-show='!outline'>正在加载...</span>
-		{{outline.Ol_Name}}
-		<button id='msginputBtn' class='el-icon-edit' v-on:click='msgFocus'
-			v-show='outline'> 留言
-		</button>
-	</div>
-    <dl id='chatlist' v-if='messages.length>0'  v-on:click='msgBlur'>
-            <dd v-for='(item,index) in messages'>
-                <span :playtime='item.Msg_PlayTime'>
-                    <acc><i class='el-icon-chat-dot-round'></i>{{item.Ac_Name}}：</acc>
-                    <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>
-                </span>
-                <msg>{{item.Msg_Context}} </msg>
-            </dd>
-        </dl>
-	<dl v-else id='chatlist'><dd  class='nomsg'>没有人留言！</dd></dl>
-	<div id='chatbox' remark='留言录入区域'>
-		<textarea rows='3' id='messageinput' v-model='input_text' name='messageinput' autofocus
-			v-on:keyup.enter='msgSend'></textarea>
-		<button id='btnMessage' v-on:click='msgSend'>发送</button>
-    </div>
-	</div>`
-    });
     //视频播放
     Vue.component('videoplayer', {
         props: ['outline', 'account', 'config'],
@@ -388,7 +226,7 @@ $ready(function () {
                     })).catch(function (err) {
                         th.state_loading = false;
                         th.error = err;
-                        window.alert(err);
+                        //window.alert(err);
                         console.error(err);
                     });
                 }
@@ -426,7 +264,7 @@ $ready(function () {
                 //当前视频播放进度百分比
                 var per = Math.floor(this.video.studytime <= 0 ? 0 : this.video.studytime / this.video.total * 100);
                 this.playpercent = per;
-                vdata.playinfo(this.outline.Ol_ID, this.outline.Cou_ID, val, per);
+                vapp.playinfo(this.outline.Ol_ID, this.outline.Cou_ID, val, per);
                 if (val >= this.video.total) return this.completed();
                 //是否需要暂停
                 if (this.config.random_pause_setup) {
@@ -438,11 +276,11 @@ $ready(function () {
                             message: '点击确定，继续播放...',
                         }).then(() => {
                             this.play();
-                        });                      
+                        });
                     }
                 }
                 //触发视频事件
-                //vdata.videoEvent(vdata.playtime);
+                //vapp.videoEvent(vapp.playtime);
             },
             //播放进度百分比变化，
             playpercent: function (val, oldval) {
@@ -672,8 +510,12 @@ $ready(function () {
 
 
 }, ['/Utilities/Qiniuyun/qiniu-web-player-1.2.3.js',
+    'Components/study_footer.js',
+    'Components/course_message.js',
     'Components/outline_tree.js',
     'Components/progress_video.js',
     'Components/accessory.js',
-    'Components/study_video.js']);
+    'Components/study_video.js',
+    'Components/study_live.js',
+    'Components/study_float.js']);
 

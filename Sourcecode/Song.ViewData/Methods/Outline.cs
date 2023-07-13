@@ -340,6 +340,7 @@ namespace Song.ViewData.Methods
             bool isLive = outline.Ol_IsLive, isLiving = false;
             if (outline.Ol_IsLive)
             {
+                dic.Add("LiveID", outline.Ol_LiveID);       //直播ID
                 string urlVideo = string.Empty;
                 //查询直播状态
                 pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
@@ -375,6 +376,33 @@ namespace Song.ViewData.Methods
             bool isNull = !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0);
             dic.Add("isNull", isNull);
             return dic;
+        }
+        /// <summary>
+        /// 获取章节的直播流信息
+        /// </summary>
+        /// <param name="liveid">直播流id</param>
+        /// <returns>liveid:直播id,urlVideo:直播地址,isLiving:是否在直播中</returns>
+        public JObject Live(string liveid)
+        {
+            if (string.IsNullOrWhiteSpace(liveid)) return null;
+            JObject jo = new JObject();
+            jo.Add("liveid", liveid);
+            //直播  
+            bool isLiving = false;
+            string urlVideo = string.Empty;
+
+            //查询直播状态
+            pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(liveid);
+            if (status != null)
+            {
+                pili_sdk.pili.Stream stream = status.Stream;
+                string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+                isLiving = status.Status == "connected";  //正在直播   
+                jo.Add("urlVideo", urlVideo);
+                jo.Add("isLiving", isLiving);  //是否在直播中
+            }
+            return jo;
         }
         /// <summary>
         /// 判断是否必须在桌面应用中学习

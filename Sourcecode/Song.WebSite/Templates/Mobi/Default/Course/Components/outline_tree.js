@@ -12,7 +12,8 @@ Vue.component('outline_tree', {
     data: function () {
         return {
             current: {}, //当前章节对象		
-            olid: '',		//当前章节id
+            olid: $api.querystring("olid", ''),		//当前章节id
+            couid:$api.querystring("couid", ''),    //课程id
 
             menushow: false,     //是否显示章节面板
             loading: true, //预载中
@@ -25,8 +26,7 @@ Vue.component('outline_tree', {
                 if (nv == '' || nv == ov) return;
                 var url = $api.setpara('olid', nv);
                 history.pushState({}, null, url);
-            },
-            immediate: true
+            }, immediate: true
         },
         //章节数数据
         'outlines': {
@@ -61,7 +61,7 @@ Vue.component('outline_tree', {
             if (this.outlines && this.outlines.length > 0) {
                 if (this.olid == '') {
                     for (var i = 0; i < this.outlines.length; i++) {
-                        if (this.outlines[i].Ol_IsVideo) {
+                        if (this.outlines[i].Ol_IsVideo || this.outlines[i].Ol_IsLive) {
                             current = this.outlines[i];
                             this.olid = current.Ol_ID;
                             break;

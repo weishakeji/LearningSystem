@@ -12,9 +12,10 @@
 	display: flex;
 	justify-content:center;
 	align-items:center;
+	text-align: center;
 }
 #abnormalbox span:first-child{
 	cursor: pointer;
 	display: inline-block;
-	margin: 200px 0px 20px 0px;
+	margin: 60px 0px 20px 0px;
 }

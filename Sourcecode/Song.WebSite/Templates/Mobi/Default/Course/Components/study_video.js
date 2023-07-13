@@ -1,4 +1,5 @@
 //视频点播
+$dom.load.css([$dom.pagepath() + 'Components/Styles/study_video.css']);
 //事件:
 //completed:播放完成，参数：当前章节
 //playing:播放中，每播一秒触发一次，参数：当前进度（单位秒），累计学习计时（单位：秒），完成度的百分比，
@@ -15,6 +16,9 @@ Vue.component('study_video', {
                 studytime: 0, //累计学习时间
                 percent: 0 //完成度（百分比）
             },
+            //随机暂停
+            pausevalue: [],         //要暂停的时间值
+            pausesetup: true,       //是否随机暂停
 
             playtime: 0, //当前播放时间，单位：秒
             playpercent: 0, //当前播放完成度百分比
@@ -24,14 +28,38 @@ Vue.component('study_video', {
         }
     },
     watch: {
-        'state': function (nv, ov) {
-            this.video.studytime = isNaN(nv.StudyTime) ? 0 : nv.StudyTime;
-            this.video.playhistime = isNaN(nv.PlayTime) ? 0 : nv.PlayTime / 1000;
+        'state': {
+            handler: function (nv, ov) {
+                this.video.studytime = isNaN(nv.StudyTime) ? 0 : nv.StudyTime;
+                this.video.playhistime = isNaN(nv.PlayTime) ? 0 : nv.PlayTime / 1000;
+                var th = this;
+                this.$nextTick(function () {
+                    //视频播放
+                    if (th.state.canStudy && (th.state.existVideo || th.state.isLive))
+                        th.startPlay(th.state);
+                });
 
-            if (this.state.DeskAllow) return;
-            //视频播放
-            if (this.state.canStudy && (this.state.existVideo || this.state.isLive))
-                this.startPlay(this.state);
+            }, deep: true, immediate: true,
+        },
+        //机构配置项
+        'config': {
+            deep: true, immediate: true,
+            handler: function (nv, ov) {
+                if ($api.isnull(nv)) return;
+                this.pausesetup = nv.random_pause_setup ? true : false;
+                let val = nv.random_pause_value ? 0 : nv.random_pause_value;
+                if (this.pausesetup) this.pausevalue = this.buildrandom(nv.random_pause_value, this.video.total);
+            }
+        },
+        //视频总时长变化时
+        'video.total': {
+            handler: function (nv, ov) {
+                if (nv <= 0) return;
+                //计算需要暂停的时间点
+                if (this.config.random_pause_setup)
+                    this.pausevalue = this.buildrandom(this.config.random_pause_value, nv);
+                console.log(this.pausevalue);
+            }, immediate: true
         },
         //播放进度时间变化
         playtime: function (val) {
@@ -41,8 +69,19 @@ Vue.component('study_video', {
             this.playpercent = per;
             //播放前进的事件，三个参数：当前播放的时秒进度（单位：秒），累计学习计时（单位：秒），完成度的百分比，
             this.$emit('playing', val, this.video.studytime, per);
-            if (val >= this.video.total) {
-                this.completed();
+            if (val >= this.video.total) return this.completed();
+            //是否需要暂停
+            if (this.config.random_pause_setup) {
+                let ispause = this.pausevalue.find(item => item == val);
+                if (ispause != null && ispause > 0) {
+                    this.$alert('点击确定，继续播放...', '随机暂停', {
+                        confirmButtonText: '确定',
+                        showClose: false,
+                        callback: action => this.play()
+                    });
+                    this.pause();
+                    console.log('是否需要暂停：' + ispause);
+                }
             }
             //触发视频事件
             //this.videoEvent(this.playtime);
@@ -56,13 +95,10 @@ Vue.component('study_video', {
     },
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        }
+        islogin: t => { return !$api.isnull(t.account); }
     },
     mounted: function () {
-        var css = $dom.path() + 'course/Components/Styles/study_video.css';
-        $dom.load.css([css]);
+
     },
     methods: {
         //播放器是否准备好
@@ -108,6 +144,7 @@ Vue.component('study_video', {
         },
         //播放完成
         completed: function () {
+            if (this.state.isLive) return;
             var msg = "当前视频播放完成，是否进入下一个章节?<br/>";
             //msg += "<span style='color:red'>" + window.video_completed_countdown + "</span> 后自动跳转。";
             this.$confirm(msg, '完成', {
@@ -120,7 +157,18 @@ Vue.component('study_video', {
                 this.$emit('completed', this.outline, this.state);
             }).catch(() => {
             });
-
+        },
+        //生成随机数，平均分布，且不重复
+        buildrandom: function (count, length) {
+            if (count == null || length <= 0) return [];
+            let part = count * 2 + 1;       //分成几段
+            let len = Math.floor(length / part);   //每段多长
+            let arr = [];
+            for (let i = 0; i < count; i++) {
+                let random = Math.floor(Math.random() * len);
+                arr.push(len * (i * 2 + 1) + random);
+            }
+            return arr;
         },
         //视频开始播放
         startPlay: function (state) {
@@ -239,11 +287,6 @@ Vue.component('study_video', {
                 <span style="cursor: pointer" v-on:click="seek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>     
             </span>       
         </div>
-        <div id="videolog" v-show="!state.otherVideo && !state.isLive">
-            <template v-for="i in video.total">
-                <i>1</i>
-            </template>
-        </div>
         <iframe id="vedioiframe" height="100%" width="100%"
             v-if="state.outerVideo && state.otherVideo  && !state.isLive" :src="state.urlVideo"
             allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true"
@@ -269,6 +312,7 @@ window.onfocus = function () {
     var playready = false;
     if (player != null && player.engine) playready = player._isReady;
     if (playready) {
+        if ($dom('.el-message-box').length > 0) return;
         if (window.vapp.titState == 'existVideo' || window.vapp.titState == 'isLive') {
             if (window.vapp && window.vapp.islogin)
                 window.video_player.play();

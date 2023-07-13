@@ -5,7 +5,7 @@ Vue.component('study_float', {
     data: function () {
         return {
             //漂浮项的活动区域的html元素id
-            contextArea: 'contextArea'
+            contextArea: 'videoplayer'
         }
     },
     watch: {
@@ -43,14 +43,13 @@ Vue.component('study_float', {
                 }, 200);
             }, immediate: true,
         },
+
     },
     computed: {
-         //是否登录
-         islogin: t => !$api.isnull(t.account),
+        //是否登录
+        islogin: t => !$api.isnull(t.account),
     },
-    mounted: function () {
-      
-    },
+    mounted: function () { },
     methods: {},
     template: `<div class="study_float" :tag="tag" title="仅自己可见" v-if="islogin">    
         {{account.Ac_Name}} {{account.Ac_MobiTel1}}

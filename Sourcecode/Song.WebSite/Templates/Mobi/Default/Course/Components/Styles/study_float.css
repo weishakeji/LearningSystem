@@ -1,0 +1,15 @@
+/*视频上漂浮的学员姓名和电话*/
+
+.study_float {
+    position: absolute;
+    z-index: 20;
+    top: 10px;
+    left: 10px;
+    height: 20px;
+    white-space: nowrap;
+    display: table;
+    transition: top .2s, left .2s;
+    filter: alpha(Opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}

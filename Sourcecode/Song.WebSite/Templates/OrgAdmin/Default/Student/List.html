@@ -15,10 +15,10 @@
                 table="datatables"></btngroup>
             <query_panel :rules="rules" :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:150px"></el-input>
                 </el-form-item>
                 <el-form-item label="电话" prop="phone">
-                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:120px"></el-input>
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:150px"></el-input>
                 </el-form-item>
                 <template slot="more">
                     <el-form-item label="学员组">

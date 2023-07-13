@@ -27,14 +27,19 @@ Vue.component('study_video', {
         }
     },
     watch: {
-        'state': function (nv, ov) {
-            this.video.studytime = isNaN(nv.StudyTime) ? 0 : nv.StudyTime;
-            this.video.playhistime = isNaN(nv.PlayTime) ? 0 : nv.PlayTime / 1000;
+        'state': {
+            handler: function (nv, ov) {
+                this.video.studytime = isNaN(nv.StudyTime) ? 0 : nv.StudyTime;
+                this.video.playhistime = isNaN(nv.PlayTime) ? 0 : nv.PlayTime / 1000;
+                if (this.state.DeskAllow) return;
+                var th = this;
+                this.$nextTick(function () {
+                    //视频播放
+                    if (th.state.canStudy && (th.state.existVideo || th.state.isLive))
+                        th.startPlay(th.state);
+                });
 
-            if (this.state.DeskAllow) return;
-            //视频播放
-            if (this.state.canStudy && (this.state.existVideo || this.state.isLive))
-                this.startPlay(this.state);
+            }, deep: true, immediate: true,
         },
         //机构配置项
         'config': {
@@ -140,6 +145,7 @@ Vue.component('study_video', {
         },
         //播放完成
         completed: function () {
+            if (this.state.isLive) return;
             var msg = "当前视频播放完成，是否进入下一个章节?<br/>";
             //msg += "<span style='color:red'>" + window.video_completed_countdown + "</span> 后自动跳转。";
             this.$confirm(msg, '完成', {
