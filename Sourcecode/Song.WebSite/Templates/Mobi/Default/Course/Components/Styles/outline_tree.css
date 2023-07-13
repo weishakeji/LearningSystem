@@ -50,7 +50,7 @@
 
 #menu .van-cell>span:before {
 	content: "\e681";
-	font-family: iconfont;
+	font-family: "webdesk_icon";
 	margin-right: 5px;
 	font-size: 15px;
 	font-weight: normal;
@@ -69,9 +69,9 @@
 
 /*视频章节的图标*/
 
-#menu li[isvideo=true] a:before {
-	content: "\e66c";
-	font-family: iconfont;
+#menu div[isvideo=true] .van-cell__title>span:first-child::before {
+	content: "\e83a";
+	font-family: "webdesk_icon";
 	margin-right: 5px;
 	font-size: 16px;
 	font-weight: normal;
@@ -79,9 +79,9 @@
 
 /*直播章节的图标*/
 
-#menu li[islive=true] a:before {
+#menu div[islive=true] .van-cell__title>span:first-child::before {
 	content: "";
-	background-image: url(../Images/live-icon.gif);
+	background-image: url(../../../Images/live-icon.gif);
 	background-repeat: no-repeat;
 	width: 24px;
 	height: 24px;
@@ -96,7 +96,7 @@
 
 #menu .current a:before {
 	content: "\e618";
-	font-family: iconfont;
+	font-family: "webdesk_icon";
 	margin-right: 5px;
 	font-size: 14px;
 	font-weight: normal;

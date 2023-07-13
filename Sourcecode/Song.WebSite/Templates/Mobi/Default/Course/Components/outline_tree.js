@@ -124,7 +124,7 @@ Vue.component('outline_tree', {
     <van-cell :current='o.Ol_ID==olid' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'
       :olid='o.Ol_ID' :style='padding(o.Ol_Level)' v-on:click='click(o)'>
       <template #title>
-      <span>{{o.Ol_XPath}}{{o.Ol_Name}}</span> 
+      {{o.Ol_XPath}}<span>{{o.Ol_Name}}</span> 
             <template v-if="course.Cou_IsTry && o.Ol_IsFree">
                 <van-tag type="success" v-if="o.Ol_IsVideo">免费</van-tag>
             </template>
