@@ -278,13 +278,13 @@ Vue.component('study_video', {
 
         <div id="videoinfo" v-show="!state.otherVideo && !state.isLive">
             <span>
-                <span class="info" v-show="studylogState==1">学习进度提交成功!</span>
-                <span class="error" v-show="studylogState==-1">学习进度提交失败!</span>
+                <span class="info" v-show="studylogState==1">记录成功</span>
+                <span class="error" v-show="studylogState==-1">记录失败</span>
             </span>
             <span>
-                <span v-if="video.total>0">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
-                <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
-                <span style="cursor: pointer" v-on:click="seek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>     
+                <span v-if="video.total>0">时长{{video.total}}秒，播放{{playtime}}秒，</span>
+                <span>学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                <span style="cursor: pointer" v-on:click="seek(video.playhistime)">上次播到{{video.playhistime}}秒</span>     
             </span>       
         </div>
         <iframe id="vedioiframe" height="100%" width="100%"
