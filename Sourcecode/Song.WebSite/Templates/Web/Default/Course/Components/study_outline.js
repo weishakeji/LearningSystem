@@ -193,7 +193,7 @@ Vue.component('study_outline', {
                 });
             })).catch(function (err) {
                 th.loading = false;
-                Vue.prototype.$alert(err);
+                //alert(err);
                 console.error(err);
             });
         },
