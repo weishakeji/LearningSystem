@@ -67,7 +67,7 @@
                     <span class="el-icon-loading" v-if="loadingid==scope.row.Sts_ID"></span>
                     <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                         icon-color="red" title="是否更改视频播放方式？"
-                        @confirm="()=>{scope.row.Sts_SwitchPlay=!scope.row.Sts_SwitchPlay;changeState(scope.row)}">
+                        @confirm="()=>{scope.row.Sts_SwitchPlay=!scope.row.Sts_SwitchPlay;update(scope.row)}">
                         <el-tag type="success" v-if="scope.row.Sts_SwitchPlay" slot="reference">
                             <icon>&#xa049</icon>持续播放
                         </el-tag>

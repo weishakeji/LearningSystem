@@ -43,7 +43,7 @@ $ready(function () {
                 console.error(err);
             });
         },
-        methods: {            
+        methods: {
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -100,7 +100,7 @@ $ready(function () {
                 this.loadingid = row.Sts_ID;
                 $api.post('Account/SortUpdateUse', { 'stsid': row.Sts_ID, 'use': row.Sts_IsUse }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -108,11 +108,27 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                }).finally(th.loadingid = 0);
+            },
+            //修改当前行
+            update: function (row) {
+                var th = this;
+                this.loadingid = row.Sts_ID;
+                $api.post('Account/SortModify', { 'entity': row }).then(function (req) {
+                    if (req.data.success) {
+                        th.$notify({
+                            type: 'success',
+                            message: '修改状态成功!',
+                            center: true
+                        });
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err, '错误');
+                }).finally(th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {
@@ -134,13 +150,13 @@ $ready(function () {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         let arr = this.datas; // 获取表数据
@@ -212,7 +228,7 @@ $ready(function () {
                 this.$refs.btngroup.pagebox(url, title, null, 800, '80%');
             }
         }
-    });    
+    });
     //分组下的课程数
     Vue.component('course_count', {
         props: ["sort"],
