@@ -14,7 +14,9 @@
     <van-row class="topBox">
       <van-col span="7" class="btntop">
         <a icon="&#xe748" @click="window.history.back();"></a>
-        <a :href="'../course/Detail.'+couid"><icon course></icon></a>
+        <a :href="'../course/Detail.'+couid">
+          <icon course></icon>
+        </a>
         <a icon="&#xa020" href="/mobi/"></a>
       </van-col>
 
@@ -32,14 +34,18 @@
     <!--按钮组-->
     <menus ref='menus' :couid="couid" :olid="couid"></menus>
     <div class="outlines">
-      <van-cell>
+      <van-cell class="outline-tit">
         <template #title>
-          <span icon="&#xe841">按章节练习</span>
+          <span icon="&#xe841">试题练习</span>
           <van-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</van-tag>
+          <van-tag type="primary" v-if="!showalloutline" class="continue" @click="showalloutline=!showalloutline">显示所有章节
+          </van-tag>
+          <van-tag type="warning" v-else class="continue" @click="showalloutline=!showalloutline">隐藏没有试题章节</van-tag>
         </template>
       </van-cell>
       <template v-if="outlines && outlines.length>0">
-        <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="owned">
+        <outlinelist ref="outlines" :showalloutline="showalloutline" :outlines="outlines" :course="course"
+          :acid="account.Ac_ID" :isbuy="owned">
         </outlinelist>
       </template>
       <van-cell v-else-if="loading">

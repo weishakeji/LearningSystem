@@ -23,7 +23,7 @@ $ready(function () {
             },
             //通过率
             rate: 0,
-
+            showalloutline: false,   //显示所有章节
             loading: true       //加载状态
         },
         watch: {
@@ -106,7 +106,7 @@ $ready(function () {
         methods: {
             //将每个章节的状态都记录下来
             statepush: function (data) {
-                this.state.push(data);
+                this.$set(this.state, this.state.length, data);
                 //将记录数据中的items单独列出来
                 if (data.items && data.items.length > 0) {
                     for (let i = 0; i < data.items.length; i++) {
@@ -135,26 +135,28 @@ $ready(function () {
             },
             //计算各项统计数，包括题量、练习数、通过率等
             calcCount: function () {
-                //计算总题量
-                this.count.sum = 0;
+                //计算总题量               
+                let sum = 0;
                 if (this.outlines != null && this.outlines.length > 0) {
                     for (var i = 0; i < this.outlines.length; i++) {
                         if (parseInt(this.outlines[i].Ol_PID) == 0) {
-                            this.count.sum += parseInt(this.outlines[i].Ol_QuesCount);
+                            sum += parseInt(this.outlines[i].Ol_QuesCount);
                         }
                     }
                 }
-                //计算已经做过的试题数
-                this.count.exercise = 0;
+                this.count.sum = sum;
+                //计算已经做过的试题数              
+                let exercise = 0, correct = 0;
                 for (var i = 0; i < this.state_ques.length; i++) {
                     const qt = this.state_ques[i];
                     if (($api.getType(qt.ans) == "String" && qt.ans != "") ||
                         ($api.getType(qt.ans) == "Number" && qt.ans > 0) || qt.ans != "") {
-                        this.count.exercise++;
-                        if (qt.correct == 'succ')
-                            this.count.correct++;
+                        exercise++;
+                        if (qt.correct == 'succ') correct++;
                     }
                 }
+                this.count.exercise = exercise;
+                this.count.correct = correct;
                 //整体的通过率
                 var rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
                 this.rate = rate === Infinity || rate === -Infinity || isNaN(rate) ? 0 : rate;
@@ -206,7 +208,7 @@ $ready(function () {
                 var url = item.url + '?couid=' + this.couid;
                 window.location.href = url;
             }
-        },    
+        },
         template: `<div class="mainmenu">           
                     <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
                         <icon v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>

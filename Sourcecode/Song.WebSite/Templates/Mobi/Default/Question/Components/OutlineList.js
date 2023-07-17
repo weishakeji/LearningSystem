@@ -1,7 +1,7 @@
 ﻿$dom.load.css([$dom.pagepath() + 'Components/Styles/outlinelist.css']);
 //章节列表
 Vue.component('outlinelist', {
-  props: ["outlines", "course", "acid", "isbuy"],
+  props: ["outlines", "course", "acid", "isbuy", "showalloutline"],
   data: function () {
     return {
 
@@ -14,13 +14,14 @@ Vue.component('outlinelist', {
   },
   methods: {},
   template: `<div v-if="outlines && outlines.length>0" class="outlinelist">
-      <outline_row v-for="(o,i) in outlines" :outline="o" :course="course" :acid="acid" :isbuy="isbuy"></outlines>
+      <outline_row v-for="(o,i) in outlines" :outline="o" :course="course" :acid="acid"
+       :isbuy="isbuy" :showalloutline="showalloutline"></outlines>
   </div>`
 });
 
 //章节显示的行
 Vue.component('outline_row', {
-  props: ["outline", "course", "acid", "isbuy"],
+  props: ["outline", "course", "acid", "isbuy", "showalloutline"],
   data: function () {
     return {
       state: null,
@@ -133,7 +134,7 @@ Vue.component('outline_row', {
   },
   //
   template: `<div class="outline_row">
-  <van-cell @click="goExercises()" class="outline">
+  <van-cell @click="goExercises()" class="outline" v-if="showalloutline || outline.Ol_QuesCount>0">
     <div>
       <span v-html="outline.serial"></span>
       <van-circle :rate="count.rate" v-model="count.rate" size="25px" layer-color="#ebedf0" :stroke-width="60"
@@ -155,6 +156,6 @@ Vue.component('outline_row', {
     <van-button square type="primary" text="答对">答对：{{count.correct}}</van-button>
     <van-button square type="warning" text="答错">答错：{{count.wrong}}</van-button>
   </template>
-  <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid" :isbuy="isbuy"></outlinelist>
+  <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid" :isbuy="isbuy"  :showalloutline="showalloutline"></outlinelist>
 </div>`
 });

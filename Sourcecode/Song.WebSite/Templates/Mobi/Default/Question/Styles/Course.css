@@ -159,13 +159,8 @@
 	text-overflow: ellipsis;
 }
 
-.outline-tit b:before {
-	content: "\e79c";
-	font-family: iconfont;
-	margin-right: 5px;
-	font-size: 16px;
-	font-weight: normal;
-	color: #666;
+.outline-tit .van-tag:last-child {
+	margin-right: 10px;
 }
 
 /*章节列表*/
@@ -182,9 +177,7 @@
 	font-size: 16px;
 }
 
-.outlines .van-cell .tag {
-	
-}
+.outlines .van-cell .tag {}
 
 .outlines .outline>div {
 	display: flex;
@@ -195,9 +188,11 @@
 	font-size: 16px;
 	color: #666;
 }
+
 .olname[preload] {
 	color: #333;
 }
+
 /*正确率的百分比*/
 .van-circle {
 	font-size: 12px;

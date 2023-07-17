@@ -32,12 +32,20 @@
     <div class="outline">
       <loading v-if="loading"> 加载中.... </loading>
       <template v-else>
-        <div>
+        <div class="outline-tit">
           <span icon="&#xe841">按章节练习</span>
-          <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>
+
+          <div>
+            <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>          
+            <el-tag type="primary" v-if="!showalloutline" class="continue" @click="showalloutline=!showalloutline">
+              显示所有章节
+            </el-tag>
+            <el-tag type="warning" v-else class="continue" @click="showalloutline=!showalloutline">隐藏没有试题章节</el-tag>
+          </div>
         </div>
         <template v-if="outlines && outlines.length>0">
-          <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="owned">
+          <outlinelist ref="outlines" :showalloutline="showalloutline" :outlines="outlines" :course="course"
+            :acid="account.Ac_ID" :isbuy="owned">
           </outlinelist>
         </template>
       </template>
