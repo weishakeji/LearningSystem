@@ -733,11 +733,13 @@ namespace Song.ServiceImpls
             {
                 for (int i = 0; i < nodeList.Count; i++)
                 {
-                    double num= Convert.ToDouble(nodeList[i].Attributes["num"].Value);
-                    long id = Convert.ToInt64(nodeList[i].Attributes["id"].Value);
+                    float num = 0;
+                    float.TryParse(nodeList[i].Attributes["num"].Value, out num);
+                    long id = 0;
+                    long.TryParse(nodeList[i].Attributes["id"].Value,out id);                
                     if (q.Qus_ID == id)
                     {
-                        q.Qus_Number = (float)num;
+                        q.Qus_Number = num;
                         break;
                     }
                 }
