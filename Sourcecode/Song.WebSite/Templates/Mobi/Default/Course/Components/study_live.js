@@ -91,7 +91,7 @@ Vue.component('study_live', {
                     //console.error(th.playval);
                 });
                 player.on("play", function (e) {
-                    console.error(e);
+                    //console.error(e);
                     if (window.videoFixed) window.live_player.pause();
                 });
                 player.on("error", function (e) {

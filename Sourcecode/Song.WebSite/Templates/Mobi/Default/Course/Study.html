@@ -18,10 +18,9 @@
             <div class="loading" v-if="loading_init">
                 <van-loading size="24px" type="spinner">加载中...</van-loading>
             </div>
-            <template v-else>                
+            <template v-else>
                 <study_video remark="视频" ref='videoplayer' v-if="state.existVideo && !state.isLive" :account="account"
-                    :outline="outline" :state="state" :config="config" @playing="(t)=>{}"
-                    @completed="(o,s)=>{}">
+                    :outline="outline" :state="state" :config="config" @playing="(t)=>{}" @completed="(o,s)=>{}">
                 </study_video>
                 <study_live remark="直播" ref='liveplayer' v-if="state.isLive" :account="account" :outline="outline"
                     :state="state"></study_live>
@@ -29,7 +28,7 @@
                 <div tag="视频" v-show="contextShow=='video' || contextShow==''">
                     <course_message :outline="outline" :account="account" v-if="isMessage"></course_message>
                 </div>
-                <div tag="学习内容" v-show="contextShow=='content'">
+                <div tag="学习内容" v-show="contextShow=='content'" :class="{'notVideo':!state.existVideo}">
                     <div class="card intro-box">
                         <div class="card-header">
                             <icon course>学习内容</icon>
@@ -38,11 +37,13 @@
                             <div id="details" v-html="outline.Ol_Intro" v-if="outline.Ol_Intro!=''">
                                 {{outline.Ol_Intro}}
                             </div>
-                            <div id="details" v-else>（没有内容）</div>
+                            <div class="nocontent" v-else>
+                                <icon>&#xe849</icon>（没有内容）
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div tag="附件" v-show="contextShow=='accessory'">
+                <div tag="附件" v-show="contextShow=='accessory'" :class="{'notVideo':!state.existVideo}">
                     <div class="card acc-box">
                         <div class="card-header">
                             <span>附件</span>
@@ -51,7 +52,8 @@
                             <accessory :outline="outline" :account="account" :studied="studied" :owned="state.owned">
                             </accessory>
                         </div>
-                        <div class="card-content" v-else>
+                        <div class="nocontent" v-else>
+                            <icon>&#xe849</icon>
                             （没有内容）
                         </div>
                     </div>
@@ -59,7 +61,7 @@
             </template>
         </div>
         <!-- +底部菜单+ -->
-        <study_footer :course="course"></study_footer>
+        <study_footer :course="course" :state="state"></study_footer>
     </div>
 </body>
 

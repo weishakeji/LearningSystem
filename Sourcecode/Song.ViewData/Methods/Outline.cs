@@ -342,16 +342,20 @@ namespace Song.ViewData.Methods
             {
                 dic.Add("LiveID", outline.Ol_LiveID);       //直播ID
                 string urlVideo = string.Empty;
-                //查询直播状态
-                pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
-                if (status != null)
+                try
                 {
-                    pili_sdk.pili.Stream stream = status.Stream;
-                    string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
-                    urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
-                    isLiving = status.Status == "connected";  //正在直播
-                    existVideo = isLiving ? false : existVideo;
+                    //查询直播状态
+                    pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
+                    if (status != null)
+                    {
+                        pili_sdk.pili.Stream stream = status.Stream;
+                        string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                        urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+                        isLiving = status.Status == "connected";  //正在直播
+                        existVideo = isLiving ? false : existVideo;
+                    }
                 }
+                catch { }
                 //直播播放地址
                 if (!dic.ContainsKey("urlVideo"))
                     dic.Add("urlVideo", urlVideo);

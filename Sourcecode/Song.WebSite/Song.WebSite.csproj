@@ -300,6 +300,7 @@
     <Content Include="Templates\Mobi\Default\Course\Components\study_float.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_footer.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_live.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_footer.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\course_message.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_float.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_live.css" />

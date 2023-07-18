@@ -30,6 +30,7 @@ $ready(function () {
                     if (JSON.stringify(n) != '{}' && n != null) {
                         this.getLogForOutlineVideo();
                         this.getstate(n.Ol_ID);
+                        document.title = n.Ol_XPath + n.Ol_Name + " - 《" + this.course.Cou_Name + '》 ';
                     }
                 }
             }
@@ -92,7 +93,7 @@ $ready(function () {
             //是否显示
             display: function (show) {
                 let visible = show == null ? true : show;
-                $dom('.videobox').css('visibility', visible ? 'visible' : 'hidden');
+                $dom('#study_video').css('visibility', visible ? 'visible' : 'hidden');
             },
             //获取章节的状态
             getstate: function (olid) {

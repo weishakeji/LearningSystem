@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -94,7 +95,7 @@ html, body, #vapp {
 }
 
 #details {
-	width: 100%;	
+	width: 100%;
 	box-sizing: border-box;
 }
 
@@ -180,13 +181,14 @@ html, body, #vapp {
 	border-radius: 2px 2px 0 0;
 }
 
-.intro-box .card-header icon[course]:before {	
+.intro-box .card-header icon[course]:before {
 	margin-right: 5px;
 	font-size: 18px;
 	display: block;
 	float: left;
 }
-.card-content{
+
+.card-content {
 	height: calc(100% - 70px);
 	overflow: auto;
 	box-sizing: border-box;
@@ -200,4 +202,18 @@ html, body, #vapp {
 	font-family: "webdesk_icon";
 	margin-right: 5px;
 	font-size: 16px;
+}
+
+/*没有视频的学习区域*/
+.notVideo {
+	height: calc(100vh - 70px) !important;
+}
+/*没有内容*/
+.nocontent{
+	font-size: 18px;
+	padding: 10px 20px;
+	color: #ccc;
+}
+.nocontent>icon{
+	font-size: 35px;
 }
