@@ -255,16 +255,24 @@ $ready(function () {
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
+
                             //将试题对象中的Qus_Items，解析为json
                             for (let i = 0; i < paper.length; i++) {
-                                for (let j = 0; j < paper[i].ques.length; j++) {
-                                    paper[i].ques[j] = window.ques.parseAnswer(paper[i].ques[j]);
-                                    if (paper[i].ques[j].Qus_Type == 5) {
-                                        for (let b = 0; b < paper[i].ques[j].Qus_Items.length; b++)
-                                            paper[i].ques[j].Qus_Items[b]["Ans_Context"] = '';
+                                const group = paper[i];
+                                for (let key in group) {
+                                    if (key == 'ques') {
+                                        for (let j = 0; j < group.ques.length; j++) {
+                                            group.ques[j] = window.ques.parseAnswer(group.ques[j]);
+                                            if (group.ques[j].Qus_Type == 5) {
+                                                for (let b = 0; b < group.ques[j].Qus_Items.length; b++)
+                                                group.ques[j].Qus_Items[b]["Ans_Context"] = '';
+                                            }
+                                        }                                        
+                                        continue;
                                     }
+                                    group[key] = Number(group[key]);
                                 }
-                            }
+                            }                            
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
@@ -334,7 +342,7 @@ $ready(function () {
                 th.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
-                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {                  
+                $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         if (patter == 2)

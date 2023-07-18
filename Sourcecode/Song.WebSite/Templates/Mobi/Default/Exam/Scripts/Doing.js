@@ -116,7 +116,7 @@ $ready(function () {
             islogin: (t) => { return !$api.isnull(t.account); },
             //试题总数
             questotal: function () {
-                var total = 0;
+                let total = 0;
                 for (var i = 0; i < this.paperQues.length; i++) {
                     total += this.paperQues[i].count;
                 }
@@ -249,9 +249,19 @@ $ready(function () {
                             //将试题对象中的Qus_Items，解析为json
                             for (let i = 0; i < paper.length; i++) {
                                 const group = paper[i];
-                                for (let j = 0; j < group.ques.length; j++) {
-                                    group.ques[j] = window.ques.parseAnswer(group.ques[j]);
-                                }
+                                for (let key in group) {
+                                    if (key == 'ques') {
+                                        for (let j = 0; j < group.ques.length; j++) {
+                                            group.ques[j] = window.ques.parseAnswer(group.ques[j]);
+                                            if (group.ques[j].Qus_Type == 5) {
+                                                for (let b = 0; b < group.ques[j].Qus_Items.length; b++)
+                                                group.ques[j].Qus_Items[b]["Ans_Context"] = '';
+                                            }
+                                        }
+                                        continue;
+                                    }
+                                    group[key] = Number(group[key]);
+                                }                              
                             }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
@@ -307,7 +317,7 @@ $ready(function () {
                 if (patter == 2) {
                     th.submitState.show = true;
                     $api.storage('exam_blur_num_' + th.examid, null);
-                }               
+                }
                 th.submitState.loading = true;
                 th.paperAnswer = th.generateAnswerJson(th.paperQues);
                 //设置为交卷
