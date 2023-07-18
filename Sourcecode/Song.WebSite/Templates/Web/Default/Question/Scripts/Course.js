@@ -30,10 +30,10 @@ $ready(function () {
         watch: {
             //所有的章节状态
             state: function (nv, ov) {
-                //if (nv.length >= this.total) {
-                this.last = this.getlast();
-                this.calcCount();
-                //}
+                if (nv.length >= this.total) {
+                    this.last = this.getlast();
+                    this.calcCount();
+                }
             },
             //当通过率变更时，即计算完成
             'rate': function (nv, ov) {

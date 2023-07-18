@@ -134,7 +134,7 @@ Vue.component('outline_row', {
     }
   },
   //
-  template: `<div class="outline_row" v-if="showalloutline || outline.Ol_QuesCount>0">
+  template: `<div class="outline_row" v-show="showalloutline || outline.Ol_QuesCount>0">
     <div>
       <span v-html="outline.serial"></span>  
       <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  

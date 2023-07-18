@@ -134,7 +134,7 @@ Vue.component('outline_row', {
   },
   //
   template: `<div class="outline_row">
-  <van-cell @click="goExercises()" class="outline" v-if="showalloutline || outline.Ol_QuesCount>0">
+  <van-cell @click="goExercises()" class="outline" v-show="showalloutline || outline.Ol_QuesCount>0">
     <div>
       <span v-html="outline.serial"></span>
       <van-circle :rate="count.rate" v-model="count.rate" size="25px" layer-color="#ebedf0" :stroke-width="60"
