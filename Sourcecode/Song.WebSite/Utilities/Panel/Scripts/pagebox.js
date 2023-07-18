@@ -301,12 +301,13 @@
                 if (!obj._min) btnbox.find('btn_min').addClass('btndisable');
                 if (!obj._max) btnbox.find('btn_max').addClass('btndisable');
                 obj._baseEvents.min_max(obj.dom[0]);
-                pbtext_width += 50;
+                pbtext_width += $dom('btn_min').width();
+                pbtext_width += $dom('btn_max').width();
             }
             if (obj._close) {
                 btnbox.append('btn_close');
                 obj._baseEvents.close(obj.dom[0]);
-                pbtext_width += 20;
+                pbtext_width += $dom('btn_close').width();
             }
             //设置标题的宽度
             obj.dom.find('pb-text').width('calc(100% - ' + pbtext_width + 'px)');

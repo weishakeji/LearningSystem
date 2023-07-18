@@ -53,9 +53,7 @@ Vue.component('study_outline', {
         //课程是否存在
         couexist: t => { return !$api.isnull(t.course); }
     },
-    mounted: function () {
-       
-
+    mounted: function () { 
         var th = this;
         th.loading = true;
         $api.bat(

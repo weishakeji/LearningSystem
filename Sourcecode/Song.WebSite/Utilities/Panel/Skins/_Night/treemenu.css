@@ -273,6 +273,7 @@
     margin-right: 5px;
     display: inline-block;
     font-family: "webdesk_icon" !important;
+    float: left;
 }
 
 .treemenu tree-node.folder {
