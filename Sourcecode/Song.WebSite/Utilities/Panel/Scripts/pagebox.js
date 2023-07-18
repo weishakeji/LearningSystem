@@ -73,9 +73,10 @@
             parent.obj.childs.push(this);
         }
         this.width = this._method.calcSize(this._width, 'width');
-        this.height = this._method.calcSize(this._height, 'height');       
+        this.height = this._method.calcSize(this._height, 'height');
         //最前面的窗体，用于设置当前窗体的位置，以免覆盖之前的
-        let topbox = box.gettop();       
+        let topbox = box.gettop();
+        if (topbox != null && topbox.full) topbox = null;
         //如果位置没有设置
         if (!this.top && this.bottom) this.top = box.availHeight() - this.height - this.bottom;
         if (!this.top && !this.bottom) {
@@ -90,7 +91,7 @@
                 this.left = (box.availWidth() - document.body.scrollLeft - this.width) / 2;
             else
                 this.left = topbox.dom.offset().left + 30;
-        }        
+        }
         //
         $ctrls.add({
             id: this.id,
@@ -669,6 +670,7 @@
         let boxs = this.all();
         let box = null;
         for (var i = 0; i < boxs.length; i++) {
+            if (boxs[i].mini) continue;     //最小化的窗体不计算在内
             if (boxs[i].level == null) continue;
             if (box == null || boxs[i].level > box.level)
                 box = boxs[i];
