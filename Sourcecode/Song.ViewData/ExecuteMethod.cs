@@ -412,8 +412,27 @@ namespace Song.ViewData
                         //实体属性的值
                         try
                         {
-                            object tm = string.IsNullOrEmpty(val) ? null : WeiSha.Core.DataConvert.ChangeType(val.Trim(), opi.PropertyType);
-                            opi.SetValue(entity, tm, null);
+                            object piValue = null;
+                            switch (opi.PropertyType.Name)
+                            {
+                                case "DateTime":
+                                    if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                                    {
+                                        piValue = DateTime.Now;
+                                        break;
+                                    }
+                                    DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                                    if (val.IndexOf(".") > -1) val = val.Substring(0, val.IndexOf("."));
+                                    long lTime = long.Parse(val + "0000");
+                                    piValue = lTime > 0 ? dt.Add(new TimeSpan(lTime)) : dt;
+                                    break;
+                                default:
+                                    piValue = string.IsNullOrEmpty(val) ? null : WeiSha.Core.DataConvert.ChangeType(val.Trim(), opi.PropertyType);
+                                    break;
+                            }
+
+                            //object tm = string.IsNullOrEmpty(val) ? null : WeiSha.Core.DataConvert.ChangeType(val.Trim(), opi.PropertyType);
+                            opi.SetValue(entity, piValue, null);
                         }
                         catch (Exception ex)
                         {

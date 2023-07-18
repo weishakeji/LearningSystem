@@ -34,8 +34,9 @@
 
                     <div class="node_name draghandle">
                         <span>{{data.serial}}</span>
-                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>
-                        <span class="date"
+                        <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>                       
+                        <span class="date" v-if="data.Ol_ModifyTime"
+                       
                             :title="data.Ol_ModifyTime|date('yyyy-MM-dd HH:mm:ss')">({{data.Ol_ModifyTime.untilnow()}})</span>
                     </div>
                     <div class="btns">

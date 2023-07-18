@@ -38,7 +38,7 @@ Vue.component('study_outline', {
         'config': {
             deep: true, immediate: true,
             handler: function (n, o) {
-                if ($api.isnull(n)) return;              
+                if ($api.isnull(n)) return;
                 for (let i = 0; i < this.tabs.length; i++) {
                     if (this.tabs[i].tag == 'chat') {
                         this.tabs[i].show = !!this.config.IsDisableChat ? this.config.IsDisableChat : false;
@@ -53,7 +53,7 @@ Vue.component('study_outline', {
         //课程是否存在
         couexist: t => { return !$api.isnull(t.course); }
     },
-    mounted: function () { 
+    mounted: function () {
         var th = this;
         th.loading = true;
         $api.bat(
@@ -82,7 +82,7 @@ Vue.component('study_outline', {
                 if (th.olid == '') {
                     th.olid = ol.data.result[0].Ol_ID;
                     th.outline = th.getOutline(th.olid, null);
-                    if (!th.outline.Ol_IsVideo)
+                    if (!th.outline.Ol_IsVideo && th.outline.Ol_QuesCount <1)
                         th.outline = th.getNext(th.outline);
                     if (th.outline == null) th.outline = th.getOutline(th.olid, null);
                 } else {
@@ -232,7 +232,7 @@ Vue.component('study_outline', {
             var list = outline.children;
             if (list && list.length > 0) {
                 ol = list.find((n) => {
-                    return n.Ol_IsVideo;
+                    return n.Ol_IsVideo || n.Ol_QuesCount > 0;
                 });
                 if (ol == null) {
                     for (let i = 0; i < list.length; i++) {

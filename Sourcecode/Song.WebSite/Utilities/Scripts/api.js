@@ -337,10 +337,10 @@
                 for (var d in obj) obj[d] = methods.restore_time(obj[d]);
             }
             if (typeName == 'String') {
-                if (obj.indexOf('.') > -1) {
-                    var prefix = obj.substring(0, obj.lastIndexOf('.'));
-                    var suffix = obj.substring(obj.lastIndexOf('.') + 1);
-                    if (suffix === '0000' && /^\d+$/.exec(prefix))
+                if (obj.indexOf('.') > -1) {                  
+                    let prefix = obj.substring(0, obj.lastIndexOf('.'));
+                    let suffix = obj.substring(obj.lastIndexOf('.') + 1);
+                    if (suffix === '0000')
                         obj = new Date(Number(prefix));
                 }
             }
@@ -1608,6 +1608,7 @@ Date.prototype.addmonth = function (n) {
     var dd = year + "-" + month + "-" + days;
     return dd;
 };
+//时间值离当现时间有多久
 Date.prototype.untilnow = function () {
     var date = this;
     const now = new Date();

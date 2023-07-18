@@ -121,8 +121,9 @@
             changeState: function (data, field) {
                 data[field] = !data[field];
                 var th = this;
+                let entity = $api.clone(data);
                 this.loadingid = data.Ol_ID;
-                $api.post('Outline/Modify', { 'entity': data }).then(function (req) {
+                $api.post('Outline/Modify', { 'entity': entity }).then(function (req) {
                     th.loadingid = -1;
                     if (req.data.success) {
                         th.$message({
@@ -135,7 +136,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    alert(err, '错误');
                     th.loadingid = -1;
                 });
             },
@@ -194,12 +195,13 @@
                     console.error(err);
                 });
             },
-            //计算序号
+            //计算序号，并将时间值从字符串转为时间对象
             calcSerial: function (outline, lvl) {
                 var childarr = outline == null ? this.datas : (outline.children ? outline.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
                     childarr[i].Ol_ModifyTime = new Date(childarr[i].Ol_ModifyTime);
+                    childarr[i].Ol_LiveTime = new Date(childarr[i].Ol_LiveTime);
                     childarr[i].serial = lvl + (i + 1) + '.';
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);
