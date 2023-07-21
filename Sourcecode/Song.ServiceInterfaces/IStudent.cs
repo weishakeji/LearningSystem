@@ -100,6 +100,7 @@ namespace Song.ServiceInterfaces
         /// <param name="stsid"></param>
         /// <returns></returns>
         int SortUpdateCount(long stsid);
+        void SortUpdateCount();
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>

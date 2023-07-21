@@ -223,6 +223,16 @@ namespace Song.ServiceImpls
                             StudentSort._.Sts_ID == stsid);
             return count;
         }
+        public void SortUpdateCount()
+        {
+            StudentSort[] sorts = this.SortAll(-1, null);
+            foreach(StudentSort sort in sorts)
+            {
+                int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == sort.Sts_ID);
+                Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
+                                StudentSort._.Sts_ID == sort.Sts_ID);
+            }
+        }
         public bool SortIsExist(StudentSort entity)
         {
             //如果是一个已经存在的对象，则不匹配自己

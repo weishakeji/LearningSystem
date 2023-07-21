@@ -1022,7 +1022,7 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
-            Business.Do<IStudent>().SortUpdateCount(stsid);
+            Business.Do<IStudent>().SortUpdateCount();
             return i;
         }
         /// <summary>
