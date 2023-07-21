@@ -1,6 +1,5 @@
-html {
-   
-}
+html {}
+
 html, body, #vapp {
     width: 100%;
     height: 100%;
@@ -8,13 +7,16 @@ html, body, #vapp {
     padding: 0px;
     overflow: hidden;
 }
-#vapp{
+
+#vapp {
     max-width: 1200px;
 }
+
 body {
     padding: 20px;
     box-sizing: border-box;
 }
+
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 3px;
@@ -35,6 +37,7 @@ body {
     border-radius: 3px;
     background: #EDEDED;
 }
+
 a {
     color: #aaa;
     text-decoration: none;
@@ -68,14 +71,14 @@ header>div:first-child {
     font-size: 30px;
     font-weight: bold;
     letter-spacing: 6px;
-    color: #444;   
+    color: #444;
 }
 
 header>div:first-child::before {
     font-size: 33px;
     margin: 8px 10px 0px 0px;
-    display:inline-block;
-    float:left;
+    display: inline-block;
+    float: left;
 }
 
 header>div:last-child>*:not(*:last-child) {
@@ -105,8 +108,8 @@ section aside iframe {
 /*菜单*/
 nav {
     width: 250px;
-    padding: 0px 30px 30px 10px;  
-    overflow: hidden auto; 
+    padding: 0px 30px 30px 10px;
+    overflow: hidden auto;
 }
 
 nav>div, nav>a {
@@ -121,21 +124,24 @@ nav>div, nav>a {
     cursor: pointer;
     box-sizing: border-box;
 }
-    nav > div:hover, nav > a:hover {
-        box-shadow: inset 0 0 2px #67C23A;
-        background-color: #f3f9f5 !important;
-        color: #333;
-    }
-    nav > div[current], nav > a[current] {
-        background-color: #c4fda7 !important;
-        color: #42a15b !important;
-        background-image: linear-gradient( 335deg, transparent 5%, rgb(231 255 230 / 60%) 85%, transparent);
-    } 
-nav>div[current]:hover, nav>a[current]:hover{
+
+nav>div:hover, nav>a:hover {
+    box-shadow: inset 0 0 2px #67C23A;
+    background-color: #fff !important;
+    color: #333;
+}
+
+nav>div[current], nav>a[current] {
+    background-color: #d3d3d3 !important;
+    color: #6f8173 !important;
+    background-image: linear-gradient(335deg, transparent 5%, rgb(231 255 230 / 60%) 85%, transparent);
+}
+
+nav>div[current]:hover, nav>a[current]:hover {
     box-shadow: none;
 }
 
-nav>div[current]::after, nav>a[current]::after{
+nav>div[current]::after, nav>a[current]::after {
     content: '\e777';
     font-family: "webdesk_icon" !important;
     color: #fff;
@@ -143,6 +149,7 @@ nav>div[current]::after, nav>a[current]::after{
     bottom: 1px;
     right: -4px;
 }
+
 nav>p.line {
     margin: 6px 0px;
     height: 1px;
@@ -161,33 +168,38 @@ nav>* hot {
     top: 10px;
     right: 8px;
 }
-nav>div[current] hot::before, nav>a[current] hot::before{
-   color: #fff;
+
+nav>div[current] hot::before, nav>a[current] hot::before {
+    color: #fff;
 }
-nav>* hot::before{
+
+nav>* hot::before {
     content: '\e856';
     font-family: "webdesk_icon" !important;
     color: #ff0000;
 }
+
 nav a.copyright {
     margin: 0px;
     padding: 5px 0px 5px 45px;
     position: absolute;
     bottom: 10px;
-    left: 35px;   
+    left: 35px;
     text-align: left;
     font-size: 12px;
-    color: #999;     
+    color: #999;
     width: 240px;
-    background-color: transparent; 
+    background-color: transparent;
     background-image: none;
 }
+
 /*竖屏，手机端显示*/
-@media only screen and (orientation: portrait){
-    section>nav{
+@media only screen and (orientation: portrait) {
+    section>nav {
         display: none;
     }
-    header>div:last-child{
+
+    header>div:last-child {
         display: none;
     }
 

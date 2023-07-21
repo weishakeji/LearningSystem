@@ -18,12 +18,6 @@ p {
     text-indent: 2rem;
 }
 
-p[copyright="intro"] {
-    color: rgb(250, 176, 176);
-    margin: 20px 0px; 
-    border: 1px solid #eee;
-    padding: 10px;
-}
 
 .opensourse p,
 .opensourse p a {

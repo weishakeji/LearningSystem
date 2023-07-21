@@ -255,13 +255,13 @@ $ready(function () {
                                             group.ques[j] = window.ques.parseAnswer(group.ques[j]);
                                             if (group.ques[j].Qus_Type == 5) {
                                                 for (let b = 0; b < group.ques[j].Qus_Items.length; b++)
-                                                group.ques[j].Qus_Items[b]["Ans_Context"] = '';
+                                                    group.ques[j].Qus_Items[b]["Ans_Context"] = '';
                                             }
                                         }
                                         continue;
                                     }
                                     group[key] = Number(group[key]);
-                                }                              
+                                }
                             }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
@@ -543,19 +543,19 @@ $ready(function () {
                                 //单选
                                 if (q.Qus_Type == 1) {
                                     for (let index = 0; index < q.Qus_Items.length; index++) {
-                                        if (q.Qus_Items[index].Ans_ID == Number(reclist[n].ans)) {
+                                        if (q.Qus_Items[index].Ans_ID == reclist[n].ans) {
                                             q.Qus_Items[index]["selected"] = true;
                                         }
                                     }
                                 }
                                 //多选
                                 if (q.Qus_Type == 2) {
-                                    var arr = reclist[n].ans.split(',');
+                                    let arr = reclist[n].ans.split(',');
                                     if (arr.length <= 0) continue;
-                                    for (var a in arr) {
+                                    for (let a = 0; a < arr.length; a++) {
                                         if (arr[a] == '') continue;
                                         for (let index = 0; index < q.Qus_Items.length; index++) {
-                                            if (q.Qus_Items[index].Ans_ID == Number(arr[a])) {
+                                            if (q.Qus_Items[index].Ans_ID == arr[a]) {
                                                 q.Qus_Items[index]["selected"] = true;
                                             }
                                         }

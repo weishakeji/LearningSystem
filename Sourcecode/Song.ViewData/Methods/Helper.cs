@@ -707,6 +707,23 @@ namespace Song.ViewData.Methods
         #endregion
 
         /// <summary>
+        /// 通过经纬度，获取地理信息
+        /// </summary>
+        /// <param name="lng">经度</param>
+        /// <param name="lat">纬度</param>
+        /// <returns>Province省份，City城市，District县区，Street街道</returns>
+        public JObject Position(string lng,string lat)
+        {
+            //解析地址
+            WeiSha.Core.Param.Method.Position posi = WeiSha.Core.Request.Position(lng, lat);  
+            JObject jo = new JObject();
+            jo.Add("Province", posi.Province);
+            jo.Add("City", posi.City);
+            jo.Add("District", posi.District);
+            jo.Add("Street", posi.Street);
+            return jo;
+        }
+        /// <summary>
         /// 公司产品版本
         /// </summary>
         /// <returns></returns>

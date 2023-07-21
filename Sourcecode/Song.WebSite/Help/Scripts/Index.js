@@ -38,11 +38,11 @@ window.vapp = new Vue({
             },
             {
                 name: 'RESTful API接口', type: 'link', url: 'api/',
-                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgba(245, 241, 227, 0.8)' }
+                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {
                 name: '数据实体说明', type: 'link', url: 'datas/',
-                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: 'rgba(237,248, 249,0.8)' }
+                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {
                 name: '数据实体生成', type: '', url: 'datas/',
@@ -51,11 +51,11 @@ window.vapp = new Vue({
             { type: 'line' },
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
-                icon: { i: 'e610', s: 25, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
+                icon: { i: 'e610', s: 25, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
             {
                 name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
-                icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: 'E6A23C', b: '' }
+                icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
             { type: 'line' },
             {

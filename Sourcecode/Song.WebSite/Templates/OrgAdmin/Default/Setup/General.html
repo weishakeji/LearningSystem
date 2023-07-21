@@ -32,9 +32,14 @@
                 <el-form-item label="平台名称" prop="Org_PlatformName">
                     <el-input v-model="organ.Org_PlatformName"></el-input>
                 </el-form-item>
+                <el-form-item label="机构名称" prop="Org_Name">
+                    <el-input v-model="organ.Org_Name" disabled></el-input>                   
+                </el-form-item>
                 <el-form-item label="域名" prop="Org_TwoDomain">
                     <el-tag type="info">{{twomain}}</el-tag>
-
+                </el-form-item>
+                <el-form-item label="机构等级" prop="Olv_Name">
+                    <el-tag type="info">{{organ.Olv_Name}}</el-tag>
                 </el-form-item>
                 <el-form-item label="标志" prop="">
                     <upload-img @change="filechange" :data="organ" size="1024" height="100" ext="jpg,png,gif">
@@ -90,7 +95,7 @@
                             <icon>&#xe64c</icon>地图
                         </el-link>
                     </el-col>
-                </el-row>
+                </el-row>               
                 <el-form-item label="电话" prop="Org_Phone">
                     <el-input v-model="organ.Org_Phone" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xe66c</icon>
@@ -133,18 +138,14 @@
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-col :span="12">
+                        <el-col :span="8">
                             <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
-                                <el-input v-model="organ.Org_Longitude" :disabled="true">
-                                    <i class="el-icon-map-location" slot="prefix"> </i>
-                                </el-input>
+                                  <span v-html="organ.Org_Longitude"></span>   
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="8">
                             <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
-                                <el-input v-model="organ.Org_Latitude" :disabled="true">
-                                    <i class="el-icon-map-location" slot="prefix"> </i>
-                                </el-input>
+                               <span v-html="organ.Org_Latitude"></span>                              
                             </el-form-item>
                         </el-col>
                     </el-row>
