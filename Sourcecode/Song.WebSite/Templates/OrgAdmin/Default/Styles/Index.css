@@ -285,6 +285,7 @@ panel#admin {
 
 .treemenu tree-node ico {
     font-size: 19px !important;
+    line-height: 40px !important;
 }
 
 #tabs-area tab_tag {
