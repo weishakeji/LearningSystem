@@ -987,7 +987,7 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
-            Business.Do<IStudent>().SortUpdateNumber(stsid);
+            Business.Do<IStudent>().SortUpdateCount(stsid);
             return i;
         }
         /// <summary>
@@ -1022,8 +1022,17 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
-            Business.Do<IStudent>().SortUpdateNumber(stsid);
+            Business.Do<IStudent>().SortUpdateCount(stsid);
             return i;
+        }
+        /// <summary>
+        /// 更新学员组中的学员数量
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <returns></returns>
+        public int SortUpdateCount(long stsid)
+        {
+            return Business.Do<IStudent>().SortUpdateCount(stsid);
         }
         #endregion
 

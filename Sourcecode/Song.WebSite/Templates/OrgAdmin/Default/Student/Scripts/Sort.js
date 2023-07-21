@@ -29,19 +29,18 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(th.loading_init = false);
         },
         methods: {
             //加载数据页
@@ -268,6 +267,54 @@ $ready(function () {
         template: `<span title="课程数" class="course_count" v-if="count>0">
                     <span class="el-icon-loading" v-if="loading"></span>
                     <el-tooltip v-else effect="light" content="当前组的课程数" placement="right">
+                        <span>( {{count}} )</span>
+                    </el-tooltip>      
+                 </span> `
+    });
+    //分组下的学员数
+    Vue.component('student_count', {
+        //sort：学员组对象        
+        props: ["sort"],
+        data: function () {
+            return {
+                count: 0,
+                loading: false
+            }
+        },
+        watch: {
+            'sort': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv)) return;
+                    this.count = nv.Sts_Count;
+                    this.getcount(nv, nv.Sts_ID);
+                }, immediate: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+            //获取学员数量
+            getcount: function (item, sortid) {
+                var th = this;
+                th.loading = true;
+                $api.get('Account/SortOfNumber', { 'sortid': sortid }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.count = req.data.result;
+                        if (th.count != item.Sts_Count)
+                            item.Sts_Count = th.count;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            }
+        },
+        template: `<span title="学员数" class="student_count" v-if="count>0">
+                    <span class="el-icon-loading" v-if="loading"></span>
+                    <el-tooltip v-else effect="light" content="当前组的学员数" placement="right">
                         <span>( {{count}} )</span>
                     </el-tooltip>      
                  </span> `

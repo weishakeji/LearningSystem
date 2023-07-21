@@ -99,7 +99,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        void SortUpdateNumber(long stsid);
+        int SortUpdateCount(long stsid);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>

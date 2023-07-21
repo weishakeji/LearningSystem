@@ -216,11 +216,12 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        public void SortUpdateNumber(long stsid)
+        public int SortUpdateCount(long stsid)
         {
             int count= Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
             Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
                             StudentSort._.Sts_ID == stsid);
+            return count;
         }
         public bool SortIsExist(StudentSort entity)
         {

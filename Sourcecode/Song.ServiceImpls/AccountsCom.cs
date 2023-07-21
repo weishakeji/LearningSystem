@@ -69,7 +69,7 @@ namespace Song.ServiceImpls
             }
             //更新学员组的数量
             if (entity.Sts_ID > 0)            
-                Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
+                Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
            
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
@@ -162,8 +162,8 @@ namespace Song.ServiceImpls
             //更新学员组的学员数量
             if (old.Sts_ID != entity.Sts_ID)
             {
-                Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
-                Business.Do<IStudent>().SortUpdateNumber(old.Sts_ID);
+                Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
+                Business.Do<IStudent>().SortUpdateCount(old.Sts_ID);
             }
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -358,7 +358,7 @@ namespace Song.ServiceImpls
 
                     tran.Commit();
 
-                    Business.Do<IStudent>().SortUpdateNumber(entity.Sts_ID);
+                    Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
                 }
                 catch (Exception ex)
                 {
