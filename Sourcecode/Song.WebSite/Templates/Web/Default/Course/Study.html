@@ -3,8 +3,8 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" /> 
-    <title>课程学习</title>   
+    <include file="../inc/meta.inc" />
+    <title>课程学习</title>
 </head>
 
 <body>
@@ -32,12 +32,14 @@
                     <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
                     </div>
                 </div>
-                <study_video remark="视频" ref='videoplayer' v-if="state.existVideo && !state.isLive" :account="account"
+                <study_video remark="视频" ref='videoplayer'
+                    v-if="titState=='existVideo' && state.existVideo && !state.isLive" :account="account"
                     :outline="outline" :state="state" :config="config" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
                     @completed="(o,s)=>{$refs['rightArea'].nextOutline(o,s);}">
                 </study_video>
-                <study_live remark="直播" v-if="state.isLive" :account="account" :outline="outline"
-                    :state="state"></study_live>
+                <study_live remark="直播" v-if="titState=='isLive' && state.isLive" :account="account" :outline="outline"
+                    :state="state">
+                </study_live>
                 <div remark="内容" v-show="titState=='isContext'" id="details" v-html="outline.Ol_Intro"> </div>
                 <accessory remark="附件" v-show="titState=='isAccess'" :uid="outline.Ol_UID" :outline="outline"
                     :studied="state.isStudy" :owned="state.owned" :account="account">
