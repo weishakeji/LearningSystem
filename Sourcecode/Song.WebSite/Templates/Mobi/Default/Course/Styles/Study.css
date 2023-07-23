@@ -90,13 +90,14 @@ html, body, #vapp {
 
 #context-box>div[tag] {
 	width: 100%;
-	height: calc(100vh - 100vw * 9 / 16 - 65px);
+	height: calc(100vh - 100vw * 9 / 16 - 70px);
 	--margin-top: calc(100vw * 9 / 16);
 }
 
 #details {
 	width: 100%;
 	box-sizing: border-box;
+	word-wrap: break-word;
 }
 
 #details, #details p, #details * {

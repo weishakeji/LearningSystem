@@ -28,14 +28,14 @@
                 <div tag="视频" v-show="contextShow=='video' || contextShow==''">
                     <course_message :outline="outline" :account="account" v-if="isMessage"></course_message>
                 </div>
-                <div tag="学习内容" v-show="contextShow=='content'" :class="{'notVideo':!state.existVideo}">
+                <div tag="学习内容" v-show="contextShow=='content'" :class="{'notVideo':!state.existVideo && !state.isLive}">
                     <div class="card intro-box">
                         <div class="card-header">
                             <icon course>学习内容</icon>
                         </div>
                         <div class="card-content">
-                            <div id="details" v-html="outline.Ol_Intro" v-if="outline.Ol_Intro!=''">
-                                {{outline.Ol_Intro}}
+                            <div id="details" v-html="state.Context" v-if="state.isContext">
+                               
                             </div>
                             <div class="nocontent" v-else>
                                 <icon>&#xe849</icon>（没有内容）

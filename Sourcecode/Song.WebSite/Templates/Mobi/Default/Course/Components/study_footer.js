@@ -23,7 +23,7 @@ Vue.component('study_footer', {
                     const el = this.menus[i];                  
                     if (el.id == 'video') {
                         el.disable = !nv.existVideo;                       
-                        console.error(el);
+                        //console.error(el);
                     }
                     this.$set(this.menus, el, i);
                 }

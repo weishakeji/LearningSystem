@@ -370,6 +370,7 @@ namespace Song.ViewData.Methods
             //是否有课程内容
             bool isContext = !string.IsNullOrWhiteSpace(outline.Ol_Intro);
             dic.Add("isContext", isContext);
+            dic.Add("Context", outline.Ol_Intro);
             //是否有试题
             bool isQues = Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
             dic.Add("isQues", isQues);
