@@ -22,8 +22,10 @@ html, body, #vapp {
 }
 
 /*未登录*/
-
-.acc_photo {
+.nologin card-context{
+	display: flex;	
+}
+.nologin .acc_photo {
 	width: 58px;
 	height: 58px;
 	border-radius: 50%;
@@ -35,7 +37,7 @@ html, body, #vapp {
 	transition: all 0.2s;
 }
 
-.nophoto {
+.nologin .nophoto {
 	background-image: url(/Utilities/images/head1.jpg);
 }
 
@@ -224,7 +226,7 @@ section dd card-title p, card-title span, card-title font{
 }
 
 section dd card {
-	min-height: calc(100% - 20px - 40px);
+	min-height: calc(100% - 20px - 50px);
 }
 
 section dd img {

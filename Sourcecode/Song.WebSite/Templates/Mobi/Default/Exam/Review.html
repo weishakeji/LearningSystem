@@ -9,7 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <generic @login="acc=>account = acc"></generic>
+        <generic @login="acc=>student = acc"></generic>
         <div class="header">
             <a icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
             <a icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
@@ -34,12 +34,9 @@
         </div>
         <context>
             <card v-if="!loading">
-                <card-title>《{{result.Exam_Name ? result.Exam_Name : result.Exam_Title}}》</card-title>
-                <card-context v-if="error!=''" remark="如果考试未结束">
-                    <row> 成绩：<score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
-                        <span class="tag" v-if="exam">（满分{{exam.Exam_Total}}分，{{exam.Exam_PassScore}}分及格）</span>
-                    </row>
-                    <row> 回顾：{{error}}</row>
+                <card-title>《{{exam.Exam_Name ? exam.Exam_Name : exam.Exam_Title}}》</card-title>
+                <card-context v-if="error!=''" remark="如果考试未结束">                   
+                    <alert> {{error}}</alert>
                 </card-context>
                 <card-context v-else>
                     <div class="info"> 亲爱的

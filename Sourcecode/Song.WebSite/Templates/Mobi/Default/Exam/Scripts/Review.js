@@ -26,31 +26,41 @@ $ready(function () {
             th.loading = true;
             $api.bat(
                 $api.cache('Question/Types:9999'),
-                $api.cache('Exam/ForID', { 'id': this.examid }),
-                $api.get('Exam/ResultReview', { 'id': th.exrid })
+                $api.cache('Exam/ForID', { 'id': this.examid })               
             ).then(axios.spread(function (types, exam, result) {
                 //获取结果       
                 th.types = types.data.result;
                 th.exam = exam.data.result;
-                th.result = result.data.result;
-                th.exrxml = $api.loadxml(th.result.Exr_Results);
-                th.scoreFinal = th.result.Exr_ScoreFinal;
-                //获取学员与试卷
-                $api.bat(
-                    $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
-                    $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
-                ).then(axios.spread(function (student, paper) {
-                    th.loading = false;
-                    //获取结果
-                    th.student = student.data.result;
-                    th.paper = paper.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
-
-            })).catch(function (err) {
+            })).catch(function (err) {              
                 console.error(err);
+                th.error = err;
             });
+
+            $api.get('Exam/ResultReview', { 'id': th.exrid }).then(function (req) {
+                if (req.data.success) {
+                    th.result = req.data.result;
+                    th.exrxml = $api.loadxml(th.result.Exr_Results);
+                    th.scoreFinal = th.result.Exr_ScoreFinal;
+                    //获取学员与试卷
+                    $api.bat(
+                        $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
+                        $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
+                    ).then(axios.spread(function (student, paper) {
+                        th.loading = false;
+                        //获取结果
+                        th.student = student.data.result;
+                        th.paper = paper.data.result;
+                    })).catch(function (err) {
+                        console.error(err);
+                    });
+                } else {
+                    throw req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+                console.error(err);
+                th.error = err;
+            }).finally(() => th.loading = false);
         },
         created: function () {
 
@@ -67,24 +77,24 @@ $ready(function () {
                 var arr = [];
                 if (JSON.stringify(exrxml) === '{}') return arr;
                 var elements = exrxml.getElementsByTagName("ques");
-                for (var i = 0; i < elements.length; i++) {
-                    var gruop = $dom(elements[i]);
+                for (let i = 0; i < elements.length; i++) {
+                    let gruop = $dom(elements[i]);
                     //题型,题量，总分
-                    var type = Number(gruop.attr('type'));
-                    var count = Number(gruop.attr('count'));
-                    var number = Number(gruop.attr('number'));
+                    let type = Number(gruop.attr('type'));
+                    let count = Number(gruop.attr('count'));
+                    let number = Number(gruop.attr('number'));
                     //试题
-                    var qarr = [];
-                    var list = gruop.find('q');
-                    for (var j = 0; j < list.length; j++) {
-                        var q = $dom(list[j]);
-                        var qid = q.attr('id');
-                        var ans = q.attr('ans');
+                    let qarr = [];
+                    let list = gruop.find('q');
+                    for (let j = 0; j < list.length; j++) {
+                        let q = $dom(list[j]);
+                        let qid = q.attr('id');
+                        let ans = q.attr('ans');
                         //如果是简答题，答题内容与节点文本
                         if (type == 4 || type == 5) ans = q.text();
-                        var num = Number(q.attr('num'));
-                        var sucess = q.attr('sucess') == 'true';
-                        var score = Number(q.attr('score'));
+                        let num = Number(q.attr('num'));
+                        let sucess = q.attr('sucess') == 'true';
+                        let score = Number(q.attr('score'));
                         qarr.push({
                             'id': qid, 'type': type, 'num': num,
                             'ans': ans, 'success': sucess, 'score': score
@@ -98,7 +108,7 @@ $ready(function () {
             },
             //总题数
             ques_all_count: function () {
-                var count = 0;
+                let count = 0;
                 for (var i = 0; i < this.questions.length; i++)
                     count += this.questions[i].ques.length;
                 return count;

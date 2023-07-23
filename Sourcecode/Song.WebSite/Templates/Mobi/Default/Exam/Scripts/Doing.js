@@ -48,32 +48,23 @@ $ready(function () {
             result: {},                  //答题成绩信息
             //加载中的状态
             loading: {
-                init: true,             //初始化主要参数
+                init: false,             //初始化主要参数
                 exam: true,               //加载考试信息中
+                paper: false,             //试卷加载中
+                ques: true,              //加载试题中
                 submit: false,           //成绩提交中
-                paper: false             //试卷生成中
+
             }
         },
         mounted: function () {
             var th = this;
+            //初始化
+            th.loading.init = true;
             $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.get('Exam/State', { 'examid': this.examid }),
                 $api.post('Platform/ServerTime')
-            ).then(axios.spread(function (account, platinfo, organ, type, state, time) {
-                th.loading.init = false;
-                //获取结果
-                th.account = account.data.result;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
-                //考试相关
-                th.types = type.data.result;
-                th.examstate = state.data.result;
-                console.log(th.examstate);
+            ).then(axios.spread(function (type, time) {
+                th.types = type.data.result;        //试题类型
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
                 th.time.client = new Date();
@@ -81,34 +72,8 @@ $ready(function () {
                     th.time.now = new Date().getTime();
                     th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
-                if (!th.islogin || !th.examstate.exist) return;
-                //获取考试主题和专业、试卷
-                $api.bat(
-                    $api.cache('Exam/ForID', { 'id': th.examid }),
-                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
-                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
-                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
-                    $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
-                ).then(axios.spread(function (exam, theme, sbj, paper, result) {
-                    th.loading.exam = false;
-                    th.exam = exam.data.result;
-                    th.time.span = th.exam.Exam_Span;
-                    th.theme = theme.data.result;
-                    th.subject = sbj.data.result;
-                    th.paper = paper.data.result;
-                    //是否已经交过卷
-                    th.result = result.data.result;
-                    if (result.data.result == null || !result.data.result.Exr_IsSubmit) {
-                        //生成试卷
-                        th.generatePaper();
-                    }
-                })).catch(function (err) {
-                    console.error(err);
-                });
-
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading.init = false);
         },
         created: function () { },
         computed: {
@@ -117,9 +82,8 @@ $ready(function () {
             //试题总数
             questotal: function () {
                 let total = 0;
-                for (var i = 0; i < this.paperQues.length; i++) {
+                for (var i = 0; i < this.paperQues.length; i++)
                     total += this.paperQues[i].count;
-                }
                 return total;
             },
             //已经做的题数
@@ -175,17 +139,56 @@ $ready(function () {
                 var acid = this.account.Ac_ID;
                 var examid = this.exam.Exam_ID;
                 return "exam_answer_record:[stid=" + acid + "],[examid=" + examid + "]";
-            }
+            },
+            
         },
         watch: {
+            //是否登录的状态变化，如果登录，则加载考试信息
+            'islogin': function (nv, ov) {
+                if (!nv) return;    //如果未登录，则退出
+                var th = this;
+                th.loading.exam = true;
+                $api.bat(
+                    $api.get('Exam/State', { 'examid': th.examid }),
+                    $api.get('Exam/ForID', { 'id': th.examid })
+                ).then(axios.spread(function (state, exam) {
+                    th.examstate = state.data.result;
+                    console.error(th.examstate);
+                    th.exam = exam.data.result;
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading.exam = false);
+            },
+            //考试对象加载后，加载试卷
+            'exam': function (nv, ov) {
+                if ($api.isnull(nv)) return;
+                var th = this;
+                th.time.span = nv.Exam_Span;
+                th.loading.paper = true;
+                $api.bat(
+                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
+                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
+                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
+                    $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
+                ).then(axios.spread(function (theme, sbj, paper, result) {
+                    th.theme = theme.data.result;
+                    th.subject = sbj.data.result;
+                    th.paper = paper.data.result;
+                    //是否已经交过卷
+                    th.result = result.data.result;
+                    //生成试卷
+                    if (th.result == null || !th.result.Exr_IsSubmit)
+                        th.generatePaper();
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading.paper = false);
+            },
             //当前时间
             'nowtime': function (nv, ov) {
                 //离考试还有多久
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}' && !this.loading.paper) {
-                        this.loading.paper = true;
+                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}' && !this.loading.ques) {
+                        this.loading.ques = true;
                         this.generatePaper();
                     }
                     if (this.time.wait == 0 && !this.examstate.issubmit) {
@@ -195,7 +198,7 @@ $ready(function () {
             },
             //考试剩余时间
             'surplustime': {
-                handler(nv, ov) {
+                handler: function (nv, ov) {
                     if (nv <= 0) {
                         var th = this;
                         window.setTimeout(function () {
@@ -205,43 +208,41 @@ $ready(function () {
                             }
                         }, 2000);
                     }
-                },
-                immediate: true
+                }, immediate: true
             },
             'paperQues': {
-                handler(nv, ov) {
-                    //if (JSON.stringify(nv) == JSON.stringify(ov)) return;                   
+                handler: function (nv, ov) {
+                    //if (JSON.stringify(nv) == JSON.stringify(ov)) return;         
+                    if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
-                },
-                deep: true
+                }, deep: true
             },
             //答题信息变更时
             'paperAnswer': {
-                handler(nv, ov) {
+                handler: function (nv, ov) {
                     //记录到本地
                     if (!this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
                     //生成xml，用于提交到数据库
                     this.paperAnswerXml = this.generateAnswerXml(nv);
-                },
-                deep: true
+                }, deep: true
             }
         },
         methods: {
             //生成试卷内容
             generatePaper: function () {
-                if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
+                if ($api.isnull(this.paper)) return;
                 if (this.paperQues.length > 0) return;
                 var th = this;
-                th.loading.paper = true;
+                th.loading.ques = true;
                 //试卷缓存过期时间
-                var span = this.exam.Exam_Span;
+                var span = th.exam.Exam_Span;
                 $api.cache('Exam/MakeoutPaper:+' + span * 2,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         window.setTimeout(function () {
-                            th.loading.paper = false;
+                            th.loading.ques = false;
                             th.submit(1);
                         }, 1000);
                         if (req.data.success) {
@@ -267,7 +268,6 @@ $ready(function () {
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
                             th.paperQues = paper;
-
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -275,7 +275,18 @@ $ready(function () {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading.ques = false);
+            },
+            //是否处于考试中
+            isexaming: function () {
+                if ($api.isnull(this.exam) || $api.isnull(this.paper)) return false;
+                //如果已经交卷
+                if ($api.isnull(this.examstate) || this.examstate.issubmit) return false;
+                //如果不在考试人群中
+                if (!this.examstate.allow) return false;
+                //考试时间已过或还未开始
+                if (this.examstate.isover || !this.examstate.isstart) return false;
+                return this.examstate.doing;
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
@@ -310,10 +321,12 @@ $ready(function () {
             },
             //交卷
             submit: function (patter) {
+                if (!this.isexaming()) return;    //没有处于考试中，则不提交
+                if ($api.isnull(this.paperAnswer)) return;
+                if (this.examstate.issubmit) return;
+
                 if (patter == null) patter = 1;
                 var th = this;
-                if (JSON.stringify(th.paperAnswer) == '{}') return;
-                if (th.examstate.issubmit) return;
                 if (patter == 2) {
                     th.submitState.show = true;
                     $api.storage('exam_blur_num_' + th.examid, null);
@@ -599,156 +612,8 @@ $ready(function () {
             }
         }
     });
-    //试题的展示
-    Vue.component('question', {
-        //groupindex:试题题型的分组，用于排序号
-        props: ['ques', 'index', 'groupindex', 'types'],
-        data: function () {
-            return {}
-        },
-        watch: {
-            'ques': {
-                handler(nv, ov) {
 
-                },
-                immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            //计算序号，整个试卷采用一个序号，跨题型排序
-            calcIndex: function (index) {
-                var gindex = this.groupindex - 1;
-                var initIndex = 0;
-                while (gindex >= 0) {
-                    initIndex += vapp.paperQues[gindex].ques.length;
-                    gindex--;
-                };
-                return initIndex + index;
-            },
-            //选项的序号转字母
-            showIndex: function (index) {
-                return String.fromCharCode(65 + index);
-            },
-            //单选题的选择
-            type1_select: function (ans, items) {
-                for (let index = 0; index < items.length; index++) {
-                    const element = items[index];
-                    if (element.Ans_ID == ans.Ans_ID) continue;
-                    element.selected = false;
-                }
-                ans.selected = !ans.selected;
-            },
-            //多选题的选择
-            type2_select: function (ans) {
-                ans.selected = !ans.selected;
-            },
-            //判断题的选择,logic为true或false
-            type3_select: function (logic) {
-                this.ques.Qus_Answer = String(logic);
-            },
-            //填空题
-            type5_input: function (ques) {
-                var ansstr = '';
-                for (let index = 0; index < ques.Qus_Items.length; index++) {
-                    const element = ques.Qus_Items[index];
-                    ansstr += element.Ans_Context + ",";
-                }
-                this.ques.Qus_Answer = ansstr;
-            }
-        },
-        template: `<dd :qid="ques.Qus_ID">
-        <info>
-            {{calcIndex(index+1)}}/{{vapp.questotal}}
-            [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-            <span>（{{ques.Qus_Number}} 分）</span>
-        </info>
-        <card :qid="ques.Qus_ID">   
-            <card-title v-html="ques.Qus_Title"></card-title>
-            <card-context>
-                <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
-                    :selected="ans.selected" @click="type1_select(ans,ques.Qus_Items)">
-                        <i>{{showIndex(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                </div>
-                <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="type2_select(ans)">
-                        <i>{{showIndex(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                </div>
-                <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div :selected="ques.Qus_Answer=='true'" ansid="true"  @click="type3_select(true)">
-                        <i></i> 正确
-                    </div>
-                    <div :selected="ques.Qus_Answer=='false'" ansid="false" @click="type3_select(false)">
-                        <i></i> 错误
-                    </div>
-                </div>
-                <div v-if="ques.Qus_Type==4" remark="答题题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
-                    </div>
-                <div  class="ans_area" v-if="ques.Qus_Type==5" remark="填空题">
-                    <div v-for="(ans,i) in ques.Qus_Items">
-                    <i></i>{{i+1}}.
-                    <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                
-                    </div>
-                </div>    
-            </card-context>
-        </card>
-    </dd>`
-    });
-    //成绩得分
-    Vue.component('result', {
-        props: ['state', 'exam', 'paper'],
-        data: function () {
-            return {}
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            //得分样式
-            scoreStyle: function (score) {
-                //总分和及格分
-                var total = this.exam.Exam_Total;
-                var passscore = this.paper.Tp_PassScore;
-                if (score == total) return "praise";
-                if (score < passscore) return "nopass";
-                if (score < total * 0.8) return "general";
-                if (score >= total * 0.8) return "fine";
-                return "";
-            },
-            //跳转页面
-            btnEnter: function () {
-                var url = "Review?examid=" + this.state.result.examid + "&exrid=" + this.state.result.exrid;
-                window.location.href = url;
-            },
-            //返回
-            goback: function () {
-                window.location.reload();
-            }
-        },
 
-        template: ` <div v-if="!state.loading">
-            <card-title>
-                成绩递交成功 ！
-            </card-title>
-            <template v-if="!state.result.async">
-                <row>
-                得分：<score :class="scoreStyle(state.result.score)">{{Math.floor(state.result.score*100)/100}}</score>
-                </row>
-                <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
-                <div class="btnEnter" @click="btnEnter">确 定</div>
-            </template>
-            <template v-else>
-                <row>
-                成绩计算需要时间，请稍后在成绩回顾中查看成绩信息。
-                </row>               
-                <div class="btnEnter" @click="goback">确 定</div>
-            </template>
-        </div>`
-    });
-}, ['/Utilities/Components/question/function.js']);
+}, ['/Utilities/Components/question/function.js',
+    'Components/result.js',
+    'Components/question.js']);

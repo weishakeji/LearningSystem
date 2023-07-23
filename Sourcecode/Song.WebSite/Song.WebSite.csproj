@@ -312,6 +312,8 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\question.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\QuesArea.js" />

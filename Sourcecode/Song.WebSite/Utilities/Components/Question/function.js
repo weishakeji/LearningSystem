@@ -14,12 +14,12 @@
             var xml = $api.loadxml(ques.Qus_Items);
             var arr = [];
             var items = xml.getElementsByTagName("item");
-            for (var i = 0; i < items.length; i++) {
-                var item = $dom(items[i]);
-                var ansid = item.find("Ans_ID").html();
-                var uid = item.find("Qus_UID").text();
-                var context = item.find("Ans_Context").text();
-                var isCorrect = item.find("Ans_IsCorrect").text() == "True";
+            for (let i = 0; i < items.length; i++) {
+                let item = $dom(items[i]);
+                let ansid = item.find("Ans_ID").html();
+                let uid = item.find("Qus_UID").text();
+                let context = item.find("Ans_Context").text();
+                let isCorrect = item.find("Ans_IsCorrect").text() == "True";
                 arr.push({
                     "Ans_ID": ansid,
                     "Qus_ID": ques.Qus_ID,

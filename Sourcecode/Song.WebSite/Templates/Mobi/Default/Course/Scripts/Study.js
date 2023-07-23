@@ -112,7 +112,7 @@ $ready(function () {
                     }
                     th.state = result;
                     //th.$emit('change', th.state, th.outline);
-                    console.log(th.state);
+                    //console.log(th.state);
                 })).catch(function (err) {
                     th.loading = false;
                     //alert(err);
