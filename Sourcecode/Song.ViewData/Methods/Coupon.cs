@@ -34,6 +34,7 @@ namespace Song.ViewData.Methods
                 card.Ac_AccName = acc.Ac_AccName;
             }
             CouponAccount ca= Business.Do<IRecharge>().CouponUseCode(card);
+            acc.Ac_Coupon = ca.Ca_Total;
             //刷新登录状态的学员信息
             LoginAccount.Fresh(acc);
             return ca;
@@ -107,6 +108,7 @@ namespace Song.ViewData.Methods
                     ca.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
                     Business.Do<IAccounts>().CouponPay(ca);
                 }
+                st.Ac_Coupon = ca.Ca_Total;
                 //刷新登录状态的学员信息
                 LoginAccount.Fresh(st);
                 return true;

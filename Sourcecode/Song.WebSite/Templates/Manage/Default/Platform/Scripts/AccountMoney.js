@@ -53,7 +53,7 @@ $ready(function () {
                         $api.post('Money/AddOrSubtract', th.form).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vue.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true

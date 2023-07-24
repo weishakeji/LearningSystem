@@ -93,8 +93,10 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts acc = this.User;
             try
             {
-                return Business.Do<IAccounts>().CouponExchange(acc, coupon);
-
+                CouponAccount ca= Business.Do<IAccounts>().CouponExchange(acc, coupon);
+                //刷新登录状态的学员信息
+                LoginAccount.Fresh(acc);
+                return ca;
             }
             catch (Exception ex)
             {
@@ -232,6 +234,7 @@ namespace Song.ViewData.Methods
                     pa.Pa_Info = string.Format("管理员{0}（{1},{2}）扣除您{3}个积分", emp.Acc_Name, emp.Acc_AccName, mobi, point);
                     Business.Do<IAccounts>().PointPay(pa);
                 }
+                st.Ac_Point = pa.Pa_Total;
                 //刷新登录状态的学员信息
                 LoginAccount.Fresh(st);
                 return true;
@@ -257,6 +260,8 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts st = this.User;
             if (st == null) return 1;
             Business.Do<IAccounts>().PointAdd4Login(st, source, info, remark);
+            //刷新登录状态的学员信息
+            LoginAccount.Fresh(st);
             return 1;
         }
         #endregion
