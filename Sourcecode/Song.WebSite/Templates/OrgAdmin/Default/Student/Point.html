@@ -15,11 +15,10 @@
                 <avatar :account="account" circle="true" size="100"></avatar>
                 <div class="info_right">
                     <div title="姓名">
-                        <icon v-if="account.Ac_Sex==2" title="性别女">&#xe844</icon>
-                        <icon v-if="account.Ac_Sex==1" title="性别男">&#xe645</icon>
-                        <icon v-if="account.Ac_Sex==0" title="性别未知">&#xa043</icon>
-                        <span v-html='account.Ac_Name' v-if="account.Ac_Name!=''"></span>
-                        <span v-else class="lower">(没有名字)</span>
+                        <icon :woman="account.Ac_Sex==2" :man="account.Ac_Sex!=2">
+                            <span v-html='account.Ac_Name' v-if="account.Ac_Name!=''"></span>
+                            <span v-else class="lower">(没有名字)</span>
+                        </icon>   
                     </div>
                     <div title="账号">
                         <icon>&#xe687</icon>
