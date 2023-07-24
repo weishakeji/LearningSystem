@@ -6,11 +6,19 @@ Vue.component('question', {
         return {}
     },
     watch: {
+        //答题状态变动时
         'ques': {
             handler(nv, ov) {
-
-            },
-            immediate: true
+                if ($api.isnull(nv)) return;              
+                this.$nextTick(function () {
+                    var dom = $dom("card[qid='" + this.ques.Qus_ID + "']");
+                    //清理空元素                
+                    window.ques.clearempty(dom.find('card-title'));
+                    window.ques.clearempty(dom.find('.ans_area'));
+                    //公式渲染
+                    this.$mathjax([dom[0]]);                  
+                });              
+            }, immediate: true
         }
     },
     computed: {},
@@ -18,8 +26,8 @@ Vue.component('question', {
     methods: {
         //计算序号，整个试卷采用一个序号，跨题型排序
         calcIndex: function (index) {
-            var gindex = this.groupindex - 1;
-            var initIndex = 0;
+            let gindex = this.groupindex - 1;
+            let initIndex = 0;
             while (gindex >= 0) {
                 initIndex += vapp.paperQues[gindex].ques.length;
                 gindex--;
@@ -30,6 +38,7 @@ Vue.component('question', {
         showIndex: function (index) {
             return String.fromCharCode(65 + index);
         },
+        /*  */
         //单选题的选择
         type1_select: function (ans, items) {
             for (let index = 0; index < items.length; index++) {
@@ -38,6 +47,7 @@ Vue.component('question', {
                 element.selected = false;
             }
             ans.selected = !ans.selected;
+            if (ans.selected) this.$parent.swipeleft();
         },
         //多选题的选择
         type2_select: function (ans) {
@@ -45,7 +55,12 @@ Vue.component('question', {
         },
         //判断题的选择,logic为true或false
         type3_select: function (logic) {
-            this.ques.Qus_Answer = String(logic);
+            let answer = String(logic);
+            if (this.ques.Qus_Answer == answer) this.ques.Qus_Answer = '';
+            else {
+                this.ques.Qus_Answer = answer;
+                this.$parent.swipeleft();
+            }
         },
         //填空题
         type5_input: function (ques) {
@@ -89,11 +104,11 @@ Vue.component('question', {
             </div>
             <div v-if="ques.Qus_Type==4" remark="答题题">
                 <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
-                </div>
+            </div>
             <div  class="ans_area" v-if="ques.Qus_Type==5" remark="填空题">
                 <div v-for="(ans,i) in ques.Qus_Items">
-                <i></i>{{i+1}}.
-                <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                
+                    <i></i>{{i+1}}.
+                    <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                
                 </div>
             </div>    
         </card-context>

@@ -543,7 +543,7 @@ Vue.component('exam_item_modify', {
        </el-form>
        <template slot="footer">
             <el-button @click="show = false"><icon>&#xe748</icon>取 消</el-button>
-            <el-button type="primary" @click="btnSave('state')"><icon>&#xe634</icon>保 存</el-button>
+            <el-button type="primary" @click="btnSave('state')"><icon>&#xe634</icon>确  定</el-button>
         </template>
     </el-dialog>`
 });

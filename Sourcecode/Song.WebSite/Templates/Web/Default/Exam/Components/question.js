@@ -27,27 +27,17 @@ Vue.component('question', {
                     //公式渲染
                     this.$mathjax([qbox[0]]);
                 });
-            },
-            immediate: true
+            }, immediate: true
         }
     },
     computed: {},
-    updated: function () {
-        return;
-        //没有内容的html元素，不显示
-        var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-        window.ques.clearempty(qbox.find('card-title'));
-        window.ques.clearempty(qbox.find('.ans_area'));
-        //公式渲染
-        this.$mathjax([qbox[0]]);
-    },
+    updated: function () { },
     mounted: function () { },
     methods: {
-
         //计算序号，整个试卷采用一个序号，跨题型排序
         calcIndex: function (index) {
-            var gindex = this.groupindex - 1;
-            var initIndex = 0;
+            let gindex = this.groupindex - 1;
+            let initIndex = 0;
             while (gindex >= 0) {
                 initIndex += vapp.paperQues[gindex].ques.length;
                 gindex--;
@@ -58,6 +48,7 @@ Vue.component('question', {
         showIndex: function (index) {
             return String.fromCharCode(65 + index);
         },
+        /*  */
         //单选题的选择
         type1_select: function (ans, items) {
             for (let index = 0; index < items.length; index++) {
@@ -66,7 +57,7 @@ Vue.component('question', {
                 element.selected = false;
             }
             ans.selected = !ans.selected;
-            this.$parent.swipeleft();
+            if (ans.selected) this.$parent.swipeleft();
         },
         //多选题的选择
         type2_select: function (ans) {
@@ -74,8 +65,12 @@ Vue.component('question', {
         },
         //判断题的选择,logic为true或false
         type3_select: function (logic) {
-            this.ques.Qus_Answer = String(logic);
-            this.$parent.swipeleft();
+            let answer = String(logic);
+            if (this.ques.Qus_Answer == answer) this.ques.Qus_Answer = '';
+            else {
+                this.ques.Qus_Answer = answer;
+                this.$parent.swipeleft();
+            }
         },
         //填空题
         type5_input: function (ques) {
@@ -86,6 +81,7 @@ Vue.component('question', {
             }
             this.ques.Qus_Answer = ansstr;
         },
+        /*  */
         //附件文件上传
         accessoryUpload: function (file) {
             var th = this;
@@ -179,7 +175,7 @@ Vue.component('question', {
                 obj['showmask'] = true; //始终显示遮罩
                 obj['min'] = false;
                 var box = window.$pagebox.create(obj).open();
-            }else{
+            } else {
                 alert('该文件类型不可预览');
             }
             return false;

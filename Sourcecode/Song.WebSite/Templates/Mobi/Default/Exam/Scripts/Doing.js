@@ -53,7 +53,6 @@ $ready(function () {
                 paper: false,             //试卷加载中
                 ques: true,              //加载试题中
                 submit: false,           //成绩提交中
-
             }
         },
         mounted: function () {
@@ -89,7 +88,7 @@ $ready(function () {
             //已经做的题数
             answertotal: function () {
                 if (!this.paperAnswer.ques) return 0;
-                var total = 0;
+                let total = 0;
                 for (var i = 0; i < this.paperAnswer.ques.length; i++) {
                     for (let j = 0; j < this.paperAnswer.ques[i].q.length; j++) {
                         const q = this.paperAnswer.ques[i].q[j];
@@ -108,8 +107,7 @@ $ready(function () {
             //考试剩余时间
             surplustime: function () {
                 var surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
-                return surplus > 0 ? surplus : 0;
-                return surplus;
+                return surplus > 0 ? surplus : 0;              
             },
             //考试开始时间
             starttime: function () {
@@ -153,7 +151,7 @@ $ready(function () {
                     $api.get('Exam/ForID', { 'id': th.examid })
                 ).then(axios.spread(function (state, exam) {
                     th.examstate = state.data.result;
-                    console.error(th.examstate);
+                    //console.error(th.examstate);
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.exam = false);
@@ -187,7 +185,7 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}' && !this.loading.ques) {
+                    if (this.time.wait < this.time.requestlimit * 60 && !$api.isnull(this.exam) && !this.loading.ques) {
                         this.loading.ques = true;
                         this.generatePaper();
                     }
@@ -211,8 +209,7 @@ $ready(function () {
                 }, immediate: true
             },
             'paperQues': {
-                handler: function (nv, ov) {
-                    //if (JSON.stringify(nv) == JSON.stringify(ov)) return;         
+                handler: function (nv, ov) {                  
                     if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
@@ -242,7 +239,7 @@ $ready(function () {
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         window.setTimeout(function () {
-                            th.loading.ques = false;
+                            //th.loading.ques = false;
                             th.submit(1);
                         }, 1000);
                         if (req.data.success) {
@@ -323,7 +320,8 @@ $ready(function () {
             submit: function (patter) {
                 if (!this.isexaming()) return;    //没有处于考试中，则不提交
                 if ($api.isnull(this.paperAnswer)) return;
-                if (this.examstate.issubmit) return;
+                if (this.examstate.issubmit || this.submitState.loading) return;
+                if (this.paper.Tp_Count < 1) return;
 
                 if (patter == null) patter = 1;
                 var th = this;
@@ -527,14 +525,14 @@ $ready(function () {
                 //开始时间与剩余时间
                 var begin = new Date(record.begin);
                 var over = new Date(record.overtime);
-                if (vapp.nowtime > over) {
+                if (this.nowtime > over) {
                     $api.storage(this.recordname, null);
                     return paper;
                 } else {
-                    vapp.time.begin = begin;
-                    vapp.time.over = over;
+                    this.time.begin = begin;
+                    this.time.over = over;
                 }
-                vapp.time.start = new Date(record.starttime);
+                this.time.start = new Date(record.starttime);
                 //console.log(begin);
                 this.paperAnswer = record;
                 //答题记录，转成一层数组，方便遍历

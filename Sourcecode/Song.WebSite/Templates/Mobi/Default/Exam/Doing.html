@@ -118,17 +118,15 @@
             </footer>
             <section :style="'width:'+questotal*100+'vw'" v-swiperight="swiperight" v-swipeleft="swipeleft"
                 remark="试题区域">
-                <template v-if="loading.ques">
-                    <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'">
-                        <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types">
-                        </question>
-                    </dl>
-                </template>
-                <div class="loading_paper" v-else>
+                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="loading.ques">
+                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types">
+                    </question>
+                </dl>
+                <div class="loading_paper" v-if="!loading.ques">
                     <van-loading type="spinner" size="24px">试题加载中...</van-loading>
                 </div>
             </section>
-
+            <!--各种弹出消息-->
             <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
                 <div class="cardTit">
                     <span icon="&#xe75e">答题卡</span>
@@ -139,10 +137,9 @@
                         <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                             <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                         </dt>
-                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))" :ans="q.ans!=''">
-
+                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))"
+                            :ans="q.ans!=''  || !(q.file==null || q.file=='' )" :current="calcIndex(n,i)==swipeIndex">
                             {{calcIndex(n,i)+1}}
-
                         </dd>
                     </dl>
                 </div>

@@ -29,10 +29,16 @@
                     <icon :woman="account.Ac_Sex==2" :man="account.Ac_Sex!=2">
                         <span v-if="!!account.Ac_Name" v-html="account.Ac_Name"></span>
                         <span v-else class="noname">(无名)</span>
-                    </icon>
-                    <div icon="&#xa043" v-html="account.Ac_AccName"> </div>
-                    <div icon="&#xa047" v-if="account.Ac_MobiTel1!=''"  v-html="account.Ac_MobiTel1"> </div>
-                    <div icon="&#xe68f" v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></div>
+                        （{{account.Ac_AccName}})
+                    </icon>                 
+                    <div icon="&#xa047">
+                        <span v-if="account.Ac_MobiTel1!=''" v-html="account.Ac_MobiTel1"></span>
+                        <span v-else>(无）</span>
+                    </div>
+                    <div icon="&#xe68f">
+                        <span v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></span>
+                        <span v-else>(无）</span>
+                    </div>
                 </div>
             </div>
             <div class="account" v-else>
@@ -160,15 +166,13 @@
 
                     <section :style="'width:'+questotal*100+'%'" v-swiperight="swiperight" v-swipeleft="swipeleft"
                         remark="试题区域">
-                        <template v-if="!loading.paper">
-                            <dl v-for="(group,i) in paperQues"
-                                :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
-                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"
-                                    :total="questotal" :types="types" :exam="exam">
-                                </question>
-                            </dl>
-                        </template>
-                        <loading class="loading_paper" v-else>试卷生成中...</loading>
+                        <dl v-for="(group,i) in paperQues" v-show="loading.ques"
+                            :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
+                            <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
+                                :account="account" :total="questotal" :types="types" :exam="exam">
+                            </question>
+                        </dl>
+                        <loading class="loading_paper" v-if="!loading.ques">试题加载中...</loading>
                     </section>
                 </template>
             </div>
@@ -178,14 +182,14 @@
                     <span icon="&#xe75e">答题卡</span>
                     <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
                 </div>
-                <div class="cardBox" v-if="!loading.paper">
+                <div class="cardBox" v-if="loading.ques">
                     <dl v-for="(group,i) in paperAnswer.ques">
                         <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                             <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                         </dt>
-                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))" :ans="q.ans!='' || !(q.file==null || q.file=='' )"
-                            :current="calcIndex(n,i)==swipeIndex">                          
-                            {{calcIndex(n,i)+1}}                          
+                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))"
+                            :ans="q.ans!='' || !(q.file==null || q.file=='' )" :current="calcIndex(n,i)==swipeIndex">
+                            {{calcIndex(n,i)+1}}
                         </dd>
                     </dl>
                 </div>

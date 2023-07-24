@@ -50,57 +50,31 @@ $ready(function () {
 
             //加载中的状态
             loading: {
-                init: true,             //初始化主要参数
+                init: false,             //初始化主要参数
                 exam: true,               //加载考试信息中
+                paper: false,             //试卷加载中
+                ques: true,              //加载试题中
                 submit: false,           //成绩提交中
-                paper: false             //试卷生成中
             }
         },
         mounted: function () {
             var th = this;
-            //th.examid = $api.querystring('id', 0);
+            //初始化
+            th.loading.init = true;
             $api.bat(
-                $api.cache('Question/Types:9999'),      //试题类型
-                $api.post('Platform/ServerTime'),       //服务器端的时间
-                $api.get('Exam/State', { 'examid': th.examid }),        //考试状态
-                $api.get('Exam/ForID', { 'id': th.examid })             //考试场次的对象实体
-            ).then(axios.spread(function (type, time, state, exam) {
-                th.loading.init = false;
-                //考试相关
-                th.types = type.data.result;
-                th.examstate = state.data.result;   //考试的状态               
-                th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
-                th.recordAnswer = th.examstate.result;
-                th.exam = exam.data.result;
+                $api.cache('Question/Types:9999'),
+                $api.post('Platform/ServerTime')
+            ).then(axios.spread(function (type, time) {
+                th.types = type.data.result;        //试题类型
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
                 th.time.client = new Date();
                 window.setInterval(function () {
                     th.time.now = new Date().getTime();
-                    if (th.paperAnswer)
-                        th.paperAnswer.now = th.nowtime.getTime();
+                    th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
-                if (!th.islogin || !th.examstate.exist) return;
-                //获取考试主题和专业、试卷
-                $api.bat(
-                    $api.get('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
-                    $api.get('Subject/ForID', { 'id': th.examstate.subject }),
-                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper })
-                ).then(axios.spread(function (theme, sbj, paper) {
-                    th.loading.exam = false;
-                    th.time.span = th.exam.Exam_Span;
-                    th.theme = theme.data.result;
-                    th.subject = sbj.data.result;
-                    th.paper = paper.data.result;
-                })).catch(function (err) {
-                    alert(err)
-                    console.error(err);
-                });
-
-            })).catch(function (err) {
-                alert(err)
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading.init = false);
         },
         created: function () {
             //当窗体失去焦点
@@ -142,7 +116,7 @@ $ready(function () {
             //已经做的题数
             answertotal: function () {
                 if (!this.paperAnswer.ques) return 0;
-                var total = 0;
+                let total = 0;
                 for (var i = 0; i < this.paperAnswer.ques.length; i++) {
                     for (let j = 0; j < this.paperAnswer.ques[i].q.length; j++) {
                         const q = this.paperAnswer.ques[i].q[j];
@@ -180,16 +154,63 @@ $ready(function () {
                 let hh = Math.floor(mm / 60);
                 if (hh > 0) mm = mm - hh * 60;
                 return (hh > 0 ? hh + '小时 ' : '') + mm + '分 ' + ss + '秒';
-            }
+            },
+            //答题记录存储时的名称
+            recordname: function () {
+                var acid = this.account.Ac_ID;
+                var examid = this.exam.Exam_ID;
+                return "exam_answer_record:[stid=" + acid + "],[examid=" + examid + "]";
+            },
         },
         watch: {
+            //是否登录的状态变化，如果登录，则加载考试信息
+            'islogin': function (nv, ov) {
+                if (!nv) return;    //如果未登录，则退出
+                var th = this;
+                th.loading.exam = true;
+                $api.bat(
+                    $api.get('Exam/State', { 'examid': th.examid }),
+                    $api.get('Exam/ForID', { 'id': th.examid })
+                ).then(axios.spread(function (state, exam) {
+                    th.examstate = state.data.result;
+                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                    th.recordAnswer = th.examstate.result;
+                    //console.error(th.examstate);
+                    th.exam = exam.data.result;
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading.exam = false);
+            },
+            //考试对象加载后，加载试卷
+            'exam': function (nv, ov) {
+                if ($api.isnull(nv)) return;
+                var th = this;
+                th.time.span = nv.Exam_Span;
+                th.loading.paper = true;
+                $api.bat(
+                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
+                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
+                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
+                    $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
+                ).then(axios.spread(function (theme, sbj, paper, result) {
+                    th.theme = theme.data.result;
+                    th.subject = sbj.data.result;
+                    th.paper = paper.data.result;
+                    //是否已经交过卷
+                    th.result = result.data.result;
+                    //生成试卷
+                    if (th.result == null || !th.result.Exr_IsSubmit)
+                        th.generatePaper();
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading.paper = false);
+            },
             //当前时间
             'nowtime': function (nv, ov) {
                 //离考试还有多久
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}') {
+                    if (this.time.wait < this.time.requestlimit * 60 && !$api.isnull(this.exam) && !this.loading.ques) {
+                        this.loading.ques = true;
                         this.generatePaper();
                     }
                     if (this.time.wait == 0 && !this.examstate.issubmit) {
@@ -204,7 +225,7 @@ $ready(function () {
                         var th = this;
                         window.setTimeout(function () {
                             if (th.examstate.isover) return;
-                            if (!th.loading.paper && th.surplustime == 0 && !th.examstate.issubmit) {
+                            if (th.surplustime == 0 && !th.examstate.issubmit) {
                                 th.submit(2);
                             }
                         }, 2000);
@@ -214,7 +235,7 @@ $ready(function () {
             },
             'paperQues': {
                 handler(nv, ov) {
-                    //if (JSON.stringify(nv) == JSON.stringify(ov)) return;                   
+                    if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
                     console.log(this.paperAnswer);
@@ -223,7 +244,13 @@ $ready(function () {
             //答题信息变更时
             'paperAnswer': {
                 handler(nv, ov) {
-                    if (!this.loading.paper && !this.examstate.issubmit)
+                    //记录到本地
+                    if (!this.examstate.issubmit)
+                        $api.storage(this.recordname, nv);
+                    //生成xml，用于提交到数据库
+                    this.paperAnswerXml = this.generateAnswerXml(nv);
+
+                    if (this.loading.ques && !this.examstate.issubmit)
                         this.submit(1);
                 },
                 deep: true
@@ -232,11 +259,11 @@ $ready(function () {
         methods: {
             //生成试卷内容
             generatePaper: function () {
-                if (JSON.stringify(this.paper) == '{}' || this.paper == null) return;
+                if ($api.isnull(this.paper)) return;
                 if (this.paperQues.length > 0) return;
-                if (this.loading.paper) return;
+
                 var th = this;
-                th.loading.paper = true;
+                th.loading.ques = true;
                 //th.paper.Tp_Count = 0;
                 if (th.paper.Tp_Count < 1) {
                     this.$alert("试卷题量为零，无法出卷", '错误', {
@@ -246,7 +273,7 @@ $ready(function () {
                             window.location.href = '/web/exam';
                         }
                     });
-                    th.loading.paper = false;
+                    th.loading.ques = false;
                     return;
                 }
                 //出卷                
@@ -277,7 +304,7 @@ $ready(function () {
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
                             window.setTimeout(function () {
-                                th.loading.paper = false;
+                                th.loading.ques = false;
                                 th.submit(1);
                             }, 100);
                             th.paperQues = paper;
@@ -289,6 +316,17 @@ $ready(function () {
                         //alert(err);
                         console.error(err);
                     });
+            },
+            //是否处于考试中
+            isexaming: function () {
+                if ($api.isnull(this.exam) || $api.isnull(this.paper)) return false;
+                //如果已经交卷
+                if ($api.isnull(this.examstate) || this.examstate.issubmit) return false;
+                //如果不在考试人群中
+                if (!this.examstate.allow) return false;
+                //考试时间已过或还未开始
+                if (this.examstate.isover || !this.examstate.isstart) return false;
+                return this.examstate.doing;
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
@@ -327,11 +365,12 @@ $ready(function () {
             //交卷
             //patter:提交方式，1为自动提交，2为交卷
             submit: function (patter) {
+                if (!this.isexaming()) return;    //没有处于考试中，则不提交
+                if ($api.isnull(this.paperAnswer)) return;
+                if (this.examstate.issubmit || this.submitState.loading) return;
+                if (this.paper.Tp_Count < 1) return;
+
                 var th = this;
-                if (th.paper.Tp_Count < 1) return;
-                if (!th.islogin || !th.isexam) return;
-                if (JSON.stringify(th.paperAnswer) == '{}') return;
-                if (th.examstate.issubmit || th.submitState.loading) return;
                 if (patter == 2) {
                     th.submitState.show = true;
                     $api.storage('exam_blur_num_' + th.examid, null);
@@ -345,8 +384,10 @@ $ready(function () {
                 $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        if (patter == 2)
+                        if (patter == 2) {
                             th.submitState.result = result;
+                            $api.storage(th.recordname, null);
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -526,6 +567,7 @@ $ready(function () {
                 var begin = new Date(Number(record.begin));
                 var over = new Date(Number(record.overtime));
                 if (this.nowtime > over) {
+                    $api.storage(this.recordname, null);
                     return paper;
                 } else {
                     this.time.begin = begin;
