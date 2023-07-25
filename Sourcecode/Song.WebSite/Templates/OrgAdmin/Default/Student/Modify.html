@@ -115,7 +115,7 @@
                         </el-form-item>
                     </el-row>
                 </div>
-                <div v-show="activeName=='contact'" remark="联系方式"  tab="contact">
+                <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
 
                     <el-form-item label="移动电话" prop="Ac_MobiTel1">
                         <el-input v-model="account.Ac_MobiTel1" placeholder="手机号" style="width:200px">
@@ -126,7 +126,7 @@
                     </el-form-item>
                     <el-form-item label="" prop="Ac_MobiTel2">
                         <el-checkbox :value="isbindmobi" @change="bindmobi">设置为“绑定手机号”（用于短信登录）</el-checkbox>
-                    </el-form-item>               
+                    </el-form-item>
                     <el-form-item label="固定电话" prop="Ac_Tel">
                         <el-input v-model="account.Ac_Tel" style="width:200px">
                             <icon slot="prefix">&#xe66c</icon>
@@ -207,7 +207,7 @@
                         <el-input v-model="account.Ac_Signature" type="textarea" :rows="3"></el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='intro'" class="about_editor"  tab="intro" remark="个人介绍">
+                <div v-show="activeName=='intro'" class="about_editor" tab="intro" remark="个人介绍">
                     <editor :content="account.Ac_Intro" model="mini" ref="editor" upload="Student"
                         :dataid="account.Ac_ID" @change="text=>account.Ac_Intro=text"> </editor>
                 </div>
