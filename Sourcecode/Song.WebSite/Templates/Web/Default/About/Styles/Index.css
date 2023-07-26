@@ -1,12 +1,14 @@
 ﻿@charset "utf-8";
+
 #bodyTop {
-    background-image: url(../Images/about.jpg);
-    background-repeat: no-repeat;
-    background-position: center 0px;
-    height: 200px;
-    width: 100%;
+	background-image: url(../Images/about.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
 	margin: 20px 0px 0px 0px;
 }
+
 context {
 	margin-top: 30px;
 	display: flex;
@@ -51,10 +53,12 @@ context>aside .el-divider {
 	line-height: 35px;
 	color: #323233;
 }
-.intro img, .intro table{
+
+.intro img, .intro table {
 	max-width: 100%;
 }
-.intro table td{
+
+.intro table td {
 	word-break: break-all;
 }
 
@@ -62,7 +66,8 @@ context>aside .el-divider {
 dl.infoBox>dd {
 	box-sizing: border-box;
 	padding: 5px 5px 5px 110px;
-	height: 30px;
+	height: 35px;
+	line-height: 35px;
 	position: relative;
 }
 
