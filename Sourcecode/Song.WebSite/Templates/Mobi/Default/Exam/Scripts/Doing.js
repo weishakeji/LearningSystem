@@ -613,5 +613,6 @@ $ready(function () {
 
 
 }, ['/Utilities/Components/question/function.js',
+'/Utilities/Components/upload-file.js',
     'Components/result.js',
     'Components/question.js']);

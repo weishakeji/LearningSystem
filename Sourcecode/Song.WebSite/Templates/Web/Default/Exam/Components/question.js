@@ -166,7 +166,7 @@ Vue.component('question', {
                 if (ext == 'pdf') url = $api.pdfViewer(url);
                 var obj =
                 {
-                    'url': url, 'ico': 'e6ef',
+                    'url': url, 'ico': 'a022',
                     'pid': window.name,
                     'title': '预览',
                     'width': 900,

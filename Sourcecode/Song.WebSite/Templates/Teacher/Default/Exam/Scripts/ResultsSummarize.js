@@ -235,7 +235,7 @@ $ready(function () {
                     //批量访问过中会验证结果是否异常，但不会触发catch
                     $api.bat(
                         $api.get('Exam/Score4Exam', { 'examid': th.examid }),     //当前场次平均分
-                        $api.get('Exam/AttendNumber', { 'examid': th.examid })     //当前场次参考人数
+                        $api.get('Exam/AttendCount', { 'examid': th.examid })     //当前场次参考人数
                     ).then(axios.spread(function (req, num) {
                         th.attend = num.data.result.number;
                         var score = req.data.result;

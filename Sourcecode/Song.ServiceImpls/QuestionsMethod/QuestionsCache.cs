@@ -128,6 +128,7 @@ namespace Song.ServiceImpls.QuestionsMethod
                 if (exr != null) qci.Result = exr;
                 qci.UID = uid;
                 this.list.Add(qci);
+                Business.Do<IExamination>().ResultAdd(exr);
             }
             //如果交卷
             if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)qci.Calculate();
@@ -280,17 +281,17 @@ namespace Song.ServiceImpls.QuestionsMethod
             for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].Result == null) continue;
-                if (list[i].Result.Exr_OverTime >= DateTime.Now)
+                if (list[i].Result.Exr_OverTime >= DateTime.Now || list[i].Result.Exr_IsSubmit)
                 {
                     //如果有答题信息，在清除前计算成功，并存储
-                    if (list[i].Result != null && list[i].IsProcessing==false && !list[i].Result.Exr_IsCalc)
+                    if (list[i].IsProcessing == false && !list[i].Result.Exr_IsCalc)
                     {
                         list[i].Calculate();    //清除之前计算成绩
                     }
                     list.Remove(list[i]);
                 }
             }
-        }       
+        }
         /// <summary>
         /// 保存到数据库
         /// </summary>

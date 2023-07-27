@@ -182,7 +182,9 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="exr"></param>
         /// <param name="expires"></param>
-        /// <param name="uid"></param>
+        /// <param name="examid"></param>
+        /// <param name="tpid"></param>
+        /// <param name="acid"></param>
         /// <returns></returns>
         string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid);
         /// <summary>

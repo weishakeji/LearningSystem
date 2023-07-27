@@ -804,7 +804,7 @@ namespace Song.ViewData.Methods
         /// <param name="examid">考试id</param>
         /// <returns>id:考试id,number:参考人数</returns>
         [HttpGet]
-        public JObject AttendNumber(int examid)
+        public JObject AttendCount(int examid)
         {            
             int num = Business.Do<IExamination>().Number4Exam(examid);
             JObject jo = new JObject();
@@ -812,6 +812,7 @@ namespace Song.ViewData.Methods
             jo.Add("number", num);
             return jo;
         }
+
         /// <summary>
         /// 考试主题下的参考人数
         /// </summary>
@@ -823,7 +824,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
             if (!theme.Exam_IsTheme)
             {
-                return this.AttendNumber(examid);
+                return this.AttendCount(examid);
             }
             int total = 0;
             Song.Entities.Examination[] exams = Business.Do<IExamination>().ExamItem(theme.Exam_UID);

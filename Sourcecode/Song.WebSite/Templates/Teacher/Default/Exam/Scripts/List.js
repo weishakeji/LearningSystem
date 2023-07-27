@@ -302,7 +302,7 @@ $ready(function () {
                                 for (var i = 0; i < th.examlist.length; i++) {
                                     $api.bat(
                                         $api.cache('Exam/Average4Exam', { 'examid': th.examlist[i].Exam_ID }),
-                                        $api.get("Exam/AttendNumber", { 'examid': th.examlist[i].Exam_ID }),
+                                        $api.get("Exam/", { 'examid': th.examlist[i].Exam_ID }),
                                         $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
                                     ).then(axios.spread(function (avg, num, manual) {
                                         for (var n = 0; n < th.examlist.length; n++) {
