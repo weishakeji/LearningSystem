@@ -512,6 +512,9 @@ namespace Song.ServiceImpls
                 exr.Exr_Mac = result.Exr_Mac;
                 Gateway.Default.Save<ExamResults>(exr);
             }
+            //如果交卷，则删除缓存
+            if (exr.Exr_IsSubmit)            
+                Cache.ExamResultsCache.Delete(exr);           
             return exr;
         }
         /// <summary>

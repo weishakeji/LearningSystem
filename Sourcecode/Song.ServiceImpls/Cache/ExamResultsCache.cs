@@ -68,6 +68,15 @@ namespace Song.ServiceImpls.Cache
             }
         }
         /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="exr"></param>
+        public static void Delete(ExamResults exr)
+        {
+            if (exr != null)
+                Delete(exr.Exam_ID, exr.Tp_Id, exr.Ac_ID);
+        }
+        /// <summary>
         /// 删除当前考试的所有缓存
         /// </summary>
         /// <param name="examid"></param>
@@ -154,7 +163,7 @@ namespace Song.ServiceImpls.Cache
                 for (int i = 0; i < list.Count; i++)
                 {
                     if (list[i].Result == null) continue;
-                    if (list[i].Result.Exr_OverTime >= DateTime.Now || list[i].Result.Exr_IsSubmit)
+                    if (list[i].Result.Exr_OverTime < DateTime.Now || list[i].Result.Exr_IsSubmit)
                     {
                         //如果有答题信息，在清除前计算成功，并存储
                         if (list[i].IsProcessing == false && !list[i].Result.Exr_IsCalc)
