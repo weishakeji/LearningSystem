@@ -539,9 +539,8 @@ namespace Song.ServiceImpls
         {
             Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
             if (exam != null)
-            {
-                string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, exam.Tp_Id, stid);    //缓存的uid
-                QuestionsMethod.QuestionsCache.Singleton.Delete(uid);
+            {                
+                Cache.ExamResultsCache.Delete(examid, exam.Tp_Id, stid);
                 //删除上传的附件
                 string filepath = Upload.Get["Exam"].Physics + examid + "\\" + stid + "\\";
                 if (System.IO.Directory.Exists(filepath)) System.IO.Directory.Delete(filepath, true);
@@ -560,8 +559,8 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {
-                    QuestionsMethod.QuestionsCache.Singleton.Delete(examid);
+                {                   
+                    Cache.ExamResultsCache.Delete(examid);
                     tran.Delete<ExamResults>(ExamResults._.Exam_ID == examid);
 
                     //删除上传的附件
@@ -606,8 +605,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public ExamResults ResultForCache(int examid, long tpid, int acid)
         {
-            string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
-            ExamResults r = QuestionsMethod.QuestionsCache.Singleton.GetExamResults(uid);
+            ExamResults r = Cache.ExamResultsCache.GetResults(examid, tpid, acid);
             if (r == null || r.Exr_IsSubmit) r = this.ResultSingle(examid, tpid, acid);
             return r;
         }
@@ -622,8 +620,16 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid)
         {
-            string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
-            return QuestionsMethod.QuestionsCache.Singleton.Update(exr, expires, uid);
+            return Cache.ExamResultsCache.Update(exr, expires, examid, tpid, acid);
+        }
+        /// <summary>
+        /// 答题缓存的数量
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns></returns>
+        public int ResultCacheCount(int examid)
+        {
+            return Cache.ExamResultsCache.Count(examid);
         }
         /// <summary>
         /// 学员在某个考试场次的得分

@@ -159,10 +159,10 @@
     <Compile Include="AccountLogin\AccountObject.cs" />
     <Compile Include="AccountLogin\Buffer.cs" />
     <Compile Include="Cache\EntitiesCache.cs" />
+    <Compile Include="Cache\ExamResultsCache.cs" />
     <Compile Include="DepartCom.cs" />
     <Compile Include="GuideCom.cs" />
     <Compile Include="ManageMenuCom.cs" />
-    <Compile Include="QuestionsMethod\QuestionsCache.cs" />
     <Compile Include="RechargeCom.cs" />
     <Compile Include="OutlineCom.cs" />
     <Compile Include="PayInterfaceCom.cs" />
@@ -239,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="QuestionsMethod\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

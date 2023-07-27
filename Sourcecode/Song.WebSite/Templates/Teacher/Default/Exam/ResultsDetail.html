@@ -138,7 +138,9 @@
                 :page-size="form.size" :pager-count="12" v-show="!loading" layout="total, prev, pager, next, jumper"
                 :total="total">
             </el-pagination>
+            <el-tag v-if="examiningCount>0">正在考试：{{examiningCount}} 人</el-tag>
         </div>
+        <!--考生信息-->
         <el-dialog title="考生信息" :visible.sync="accountVisible">
             <div slot="title">
                 <icon style="font-size: 25px;">&#xe669</icon>考生信息
@@ -204,6 +206,7 @@
                 </el-row>
             </div>
         </el-dialog>
+        <!--成绩导出-->
         <el-dialog title="成绩导出" :visible.sync="exportVisible" :show-close="false" :before-close="()=>{}">
             <dl v-if="files.length>0">
                 <dd v-for="(f,i) in files">

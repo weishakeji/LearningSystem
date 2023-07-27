@@ -25,7 +25,10 @@ $ready(function () {
             loadingid: 0,
             total: 1, //总记录数
             totalpages: 1, //总页数
-            selects: [] //数据表中选中的行
+            selects: [], //数据表中选中的行
+
+            //考试中的人数
+            examiningCount: 0
         },
         computed: {
         },
@@ -50,13 +53,13 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                console.error(err);
-            });
-            this.getsorts();
-            this.handleCurrentChange();
-            this.getFiles();
+            }).catch((err) => console.error(err));
+            th.getsorts();
+            th.handleCurrentChange();
+            th.getFiles();
+
+            //获取正在考试中的人数 
+            th.getExamingcount();
         },
         methods: {
             //获取学员分组
@@ -230,7 +233,23 @@ $ready(function () {
                     console.error(err);
                 });
             },
-
+            //获取正在考试的人数
+            getExamingcount: function () {
+                var th = this;
+                $api.get('Exam/ExaminingCount', { 'examid': th.form.examid }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.examiningCount = result.count;
+                        window.setTimeout(function () {
+                            th.getExamingcount();
+                        }, 60 * 1000);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
+            },
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;

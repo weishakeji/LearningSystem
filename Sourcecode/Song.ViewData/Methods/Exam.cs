@@ -838,6 +838,19 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
+        /// 考试中的人员数，通过答题缓存的数量计算
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns></returns>
+        public JObject ExaminingCount(int examid)
+        {
+            int count = Business.Do<IExamination>().ResultCacheCount(examid);
+            JObject jo = new JObject();
+            jo.Add("id", examid);
+            jo.Add("count", count);
+            return jo;
+        }
+        /// <summary>
         /// 参加考试主题的所学员
         /// </summary>
         /// <param name="id">考试主题的id</param>
@@ -1240,7 +1253,7 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-        #region
+        #region 我的课程
         /// <summary>
         /// 学员今天以及之后的考试，过期的不再显示
         /// </summary>

@@ -20,26 +20,41 @@ body, html {
     text-decoration: underline;
 }
 
+#pager-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+#pager-box .el-tag {
+    margin: 3px 6px auto auto;
+}
+
+/*学员详情*/
 .accountInfo {
     line-height: 30px;
     font-size: 18px;
 }
-.accountInfo *::before{
+
+.accountInfo *::before {
     font-size: 20px;
 }
+
 .accountInfo .ws_avatar {
 
     float: left;
     margin-top: 5px;
     margin-right: 10px;
 }
-.examInfo .el-row{
+
+.examInfo .el-row {
     line-height: 30px;
     font-size: 18px;
 }
-.examInfo .el-row:last-child{
+
+.examInfo .el-row:last-child {
     margin-top: 20px;
 }
+
 /*导出文件的样式*/
 dl, dd {
     padding: 0px;

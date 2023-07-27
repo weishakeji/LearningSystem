@@ -340,35 +340,22 @@ namespace Song.ServiceImpls.QuestionsMethod
         public DateTime Deadline
         {
             get { return _deadline; }
-        }
-        private List<Questions> _questions = new List<Questions>();
+        }       
         /// <summary>
         /// 被缓存的试题
         /// </summary>
-        public List<Questions> Questions
-        {
-            get { return _questions; }
-            set { _questions = value; }
-        }
-        private Song.Entities.ExamResults _result=null;
+        public List<Questions> Questions { get; set; }      
+      
         /// <summary>
         /// 考试的答题信息
         /// </summary>
-        public Song.Entities.ExamResults Result
-        {
-            get { return _result; }
-            set { _result = value; }
-        }
+        public Song.Entities.ExamResults Result { get; set; }
+       
         private readonly object _lock = new object();
-        private bool _isProcessing = false;
         /// <summary>
         /// 是否正在处理数据
         /// </summary>
-        public bool IsProcessing
-        {
-            get { return _isProcessing; }
-            set { _isProcessing = value; }
-        }
+        public bool IsProcessing { get; set; }     
         #region 构造方法
         public QuestionsCache_Item()
         {
@@ -376,14 +363,14 @@ namespace Song.ServiceImpls.QuestionsMethod
         }
         public QuestionsCache_Item(List<Questions> ques,int expires)
         {
-            _questions = ques;
+            Questions = ques;
             _expires = expires;
             _deadline = DateTime.Now.AddMinutes(_expires);
             UID = Guid.NewGuid().ToString();
         }
         public QuestionsCache_Item(Questions[] ques, int expires)
         {
-            _questions = ques.ToList<Questions>();
+            Questions = ques.ToList<Questions>();
             _expires = expires;
             _deadline = DateTime.Now.AddMinutes(_expires);
             UID = Guid.NewGuid().ToString();
@@ -396,11 +383,11 @@ namespace Song.ServiceImpls.QuestionsMethod
         /// <returns></returns>
         public double Calculate()
         {
-            this._isProcessing = true;
+            this.IsProcessing = true;
             lock (this._lock)
             {
                 Business.Do<IExamination>().ClacScore(this.Result);
-                this._isProcessing = false;
+                this.IsProcessing = false;
             }
             return this.Result.Exr_ScoreFinal;
         }

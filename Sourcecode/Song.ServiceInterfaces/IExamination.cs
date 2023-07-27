@@ -188,6 +188,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid);
         /// <summary>
+        /// 答题缓存的数量
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns></returns>
+        int ResultCacheCount(int examid);
+        /// <summary>
         /// 学员在某个考试场次的得分
         /// </summary>
         /// <param name="examid">考试场次id</param>
