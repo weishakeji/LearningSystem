@@ -437,7 +437,7 @@ $ready(function () {
 
             //生成答题信息
             generateAnswerJson: function (paper) {
-                var results = {
+                let results = {
                     "examid": this.exam.Exam_ID,
                     "tpid": this.paper.Tp_Id,
                     //"now": this.nowtime.getTime(),
@@ -457,10 +457,10 @@ $ready(function () {
                     "ques": []
                 }
                 //实际答题内容
-                var questionAnswer = function (ques) {
+                let questionAnswer = function (ques) {
                     if (ques.Qus_Type == 1 || ques.Qus_Type == 2) {
-                        var ansstr = '';
-                        for (var j = 0; j < ques.Qus_Items.length; j++) {
+                        let ansstr = '';
+                        for (let j = 0; j < ques.Qus_Items.length; j++) {
                             if (ques.Qus_Items[j].selected)
                                 ansstr += ques.Qus_Items[j].Ans_ID + ",";
                         }
@@ -478,7 +478,7 @@ $ready(function () {
                 //记录答题信息
                 for (let i = 0; i < paper.length; i++) {
                     const group = paper[i];
-                    var ques = { "type": group.type, "count": group.count, "number": group.number, "q": [] }
+                    let ques = { "type": group.type, "count": group.count, "number": group.number, "q": [] }
                     for (let j = 0; j < group.ques.length; j++) {
                         const qus = group.ques[j];
                         ques.q.push({
