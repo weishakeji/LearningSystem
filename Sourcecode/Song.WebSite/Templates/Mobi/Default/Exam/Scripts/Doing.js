@@ -297,7 +297,7 @@ $ready(function () {
                 return initIndex + index;
             },
             //跳转到查看成绩
-            goreviwe: function () {
+            goreview: function () {
                 var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
                 window.location.href = url;
             },
