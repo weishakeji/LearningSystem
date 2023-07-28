@@ -116,7 +116,7 @@
                 <div id="btnSubmit" icon="&#xe6cf" @click="submitManual">
                     交&nbsp;卷</div>
             </footer>
-            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swiperight" v-swipeleft="swipeleft"
+            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe"
                 remark="试题区域">
                 <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="loading.ques">
                     <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"

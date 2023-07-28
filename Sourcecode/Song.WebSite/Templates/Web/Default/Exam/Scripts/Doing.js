@@ -417,24 +417,23 @@ $ready(function () {
                     // on cancel
                 });
             },
-            //试题向右滑动 
-            swiperight: function (e) {
-                if (e && e.preventDefault) e.preventDefault();
-                if (this.swipeIndex > 0) this.swipeIndex--;
-                this.swipe(this.swipeIndex);
-            },
-            //试题向左滑动
-            swipeleft: function (e) {
-                if (e && e.preventDefault) e.preventDefault();
-                if (this.swipeIndex < this.questotal - 1) this.swipeIndex++;
-                this.swipe(this.swipeIndex);
-            },
             //滑动试题，滑动到指定试题索引
-            swipe: function (index) {
-                this.swipeIndex = index;
-                $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
+            swipe: function (e) {
+                if ($api.getType(e) == 'Number') {
+                    this.swipeIndex = e;
+                    $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
+                }
+                if (e && $api.getType(e) == 'Object') {
+                    if (e.preventDefault) e.preventDefault();
+                    let node = $dom(e.target ? e.target : e.srcElement);
+                    if (node.length > 0 && (node.hasClass("van-overlay") || node.hasClass("van-popup"))) return;
+                    //向左滑动
+                    if (e.direction == 2 && this.swipeIndex < this.questotal - 1) this.swipeIndex++;
+                    //向右滑动
+                    if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
+                    this.swipe(this.swipeIndex);
+                }
             },
-
             //生成答题信息
             generateAnswerJson: function (paper) {
                 let results = {

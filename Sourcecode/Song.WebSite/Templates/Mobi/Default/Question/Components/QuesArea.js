@@ -69,11 +69,10 @@ Vue.component('quesarea', {
         },
         //试题滑动 
         swipe: function (e) {
-            if (e && e.preventDefault) {
-                e.preventDefault();
-                var node = $dom(e.target ? e.target : e.srcElement);
-                if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
-                    return;
+            if (e) {
+                if (e.preventDefault) e.preventDefault();
+                let node = $dom(e.target ? e.target : e.srcElement);
+                if (node.length > 0 && (node.hasClass("van-overlay") || node.hasClass("van-popup"))) return;
             }
             //向左滑动
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;

@@ -30,7 +30,7 @@
                         <span v-if="!!account.Ac_Name" v-html="account.Ac_Name"></span>
                         <span v-else class="noname">(无名)</span>
                         （{{account.Ac_AccName}})
-                    </icon>                 
+                    </icon>
                     <div icon="&#xa047">
                         <span v-if="account.Ac_MobiTel1!=''" v-html="account.Ac_MobiTel1"></span>
                         <span v-else>(无）</span>
@@ -156,16 +156,15 @@
                 <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
 
                     <div class="move_btn">
-                        <span @click="swiperight()">
+                        <span @click="swipe({ 'direction': 4 })">
                             <icon>&#xe803</icon>上一题
                         </span>
-                        <span @click="swipeleft()">
+                        <span @click="swipe({ 'direction': 2 })">
                             <icon>&#xe802</icon>下一题
                         </span>
                     </div>
 
-                    <section :style="'width:'+questotal*100+'%'" v-swiperight="swiperight" v-swipeleft="swipeleft"
-                        remark="试题区域">
+                    <section :style="'width:'+questotal*100+'%'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
                         <dl v-for="(group,i) in paperQues" v-show="loading.ques"
                             :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
                             <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
