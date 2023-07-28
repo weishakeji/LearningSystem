@@ -8,7 +8,7 @@ $ready(function () {
             org: {},
             config: {},      //当前机构配置项        
             datas: {},
-            tabmenu: 'my_exam',     //选项卡
+            tabmenu: $api.querystring('tab', 'my_exam'),     //选项卡
 
             loading: true,
             loading_init: true,      //初始数所据加载
@@ -28,7 +28,7 @@ $ready(function () {
             scoreexam: []           //成绩回顾
         },
         mounted: function () {
-            
+
         },
         created: function () {
 
@@ -41,20 +41,22 @@ $ready(function () {
             'account': {
                 handler: function (nv, ov) {
                     if ($api.isnull(nv)) return;
-                    this.my_exam();               
+                    this.my_exam();
                     this.loading_init = false;
                 }, immediate: true
             },
-            tabmenu: function (nv, ov) {
-                if (nv == ov) return;
-                this.index = 0;
-                this.loading = true;
-                this.finished = false;
-                this.total = 0;
-                this.myexam = [];
-                this.allexam = [];
-                this.scoreexam = [];
-                eval('this.' + nv + '')();
+            'tabmenu': {
+                handler: function (nv, ov) {
+                    if (nv == ov) return;
+                    this.index = 0;
+                    this.loading = true;
+                    this.finished = false;
+                    this.total = 0;
+                    this.myexam = [];
+                    this.allexam = [];
+                    this.scoreexam = [];
+                    eval('this.' + nv + '')();
+                }, immediate: true
             }
         },
         methods: {
@@ -378,7 +380,7 @@ $ready(function () {
                 return "";
             },
             gourl: function () {
-                var url = $api.url.set("Review", {
+                var url = $api.url.set("/mobi/exam/Review", {
                     "examid": this.result.Exam_ID,
                     "exrid": this.result.Exr_ID
                 });

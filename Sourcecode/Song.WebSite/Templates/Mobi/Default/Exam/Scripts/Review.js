@@ -16,7 +16,7 @@ $ready(function () {
 
             scoreFinal: 0,       //考试得分
 
-            tabactive: '',      //选项卡的状态
+            tabactive: '',      //答题选项卡的状态，即：所有、正确、错误等
             error: '',           //错误提示信息，例如不能查看考虑成绩时
             loading: false
         },
@@ -26,12 +26,12 @@ $ready(function () {
             th.loading = true;
             $api.bat(
                 $api.cache('Question/Types:9999'),
-                $api.cache('Exam/ForID', { 'id': this.examid })               
+                $api.cache('Exam/ForID', { 'id': this.examid })
             ).then(axios.spread(function (types, exam, result) {
                 //获取结果       
                 th.types = types.data.result;
                 th.exam = exam.data.result;
-            })).catch(function (err) {              
+            })).catch(function (err) {
                 console.error(err);
                 th.error = err;
             });
@@ -67,9 +67,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.student) != '{}' && this.student != null;
-            },
+            islogin: t => !$api.isnull(t.student),
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
             questions: function () {
@@ -163,6 +161,11 @@ $ready(function () {
                 if (score < total * 0.8) return "general";
                 if (score >= total * 0.8) return "fine";
                 return "";
+            },
+            //返回按钮事件
+            goback: function () {
+                let url = '/mobi/exam';
+                window.location.href = $api.url.set(url, { 'tab': 'score_exam' });
             }
         }
     });

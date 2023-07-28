@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <generic @login="acc=>student = acc"></generic>
         <div class="header">
-            <a icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
+            <a icon="&#xe748" style="font-size: 22px;" @click="goback()"></a>
             <a icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
             <div class="header_info" v-if="!islogin" remark="未登录">
                 <div class="acc_photo nophoto"></div>
