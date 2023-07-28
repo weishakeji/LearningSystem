@@ -867,6 +867,12 @@
         var template = webdom('meta[view]');
         return template.attr("route");
     };
+    //页面路由的路径（不包括当前页面）
+    webdom.routepath = function () {
+        let route = this.route();
+        if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);
+        return route;
+    };
     //模版文件的路径
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
@@ -891,7 +897,7 @@
             //页面的头部和底部
             arr2.push(webdom.path() + 'Components/page_header.js');
             arr2.push(webdom.path() + 'Components/page_footer.js');
-            arr2.push(webdom.path() + 'Components/course.js');         
+            arr2.push(webdom.path() + 'Components/course.js');
             //mathjax，解析latex公式
             arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
             arr2.push('/Utilities/MathJax/globalVariable.js');

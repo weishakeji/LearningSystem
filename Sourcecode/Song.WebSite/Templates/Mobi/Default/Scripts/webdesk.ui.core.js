@@ -650,6 +650,13 @@
         if (null == u) return true;
         return regex_match.exec(u) != null;
     };
+    //是否是平板
+    webdom.ispad = function () {
+        var regex_match = /(ipad|Android.*Tablet)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
     //网页是否处于微信内置浏览器
     webdom.isWeixin = function () {
         var ua = window.navigator.userAgent.toLowerCase();
@@ -775,7 +782,7 @@
             });
         },
         js: function (src, callback) {
-            webdom.load.arraySync(function (one, i, c) {                
+            webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
@@ -851,6 +858,12 @@
         var template = webdom('meta[view]');
         return template.attr("route");
     };
+    //页面路由的路径（不包括当前页面）
+    webdom.routepath = function () {
+        let route = this.route();
+        if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);
+        return route;
+    };
     //模版文件的路径
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
@@ -888,7 +901,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备不是手机端，转向web端页面
-        if (!(webdom.ismobi() || webdom.isWeixinApp()) && route.indexOf('/mobi/') > -1) {
+        if (!((webdom.ismobi() && !webdom.ispad()) || webdom.isWeixinApp()) && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
             var href = route.replace('/mobi/', '/web/');
             var pathname = window.location.pathname;

@@ -495,11 +495,11 @@ $ready(function () {
             },
             //生成答题的状态记录
             generateAnswerXml: function (quesAnswer) {
-                var results = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+                let results = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
                 results += "<results ";
                 //生成主参数
-                var queslist = {};
-                for (var att in quesAnswer) {
+                let queslist = {};
+                for (let att in quesAnswer) {
                     if (att == 'ques') {
                         queslist = quesAnswer[att];
                         continue;
@@ -508,11 +508,11 @@ $ready(function () {
                 }
                 results += ">";
                 //生成试题
-                for (var i = 0; i < queslist.length; i++) {
-                    var quesgroup = queslist[i];
-                    var ques = "<ques ";
-                    var q = [];
-                    for (var att in quesgroup) {
+                for (let i = 0; i < queslist.length; i++) {
+                    let quesgroup = queslist[i];
+                    let ques = "<ques ";
+                    let q = [];
+                    for (let att in quesgroup) {
                         if (att == 'q') {
                             q = quesgroup[att];
                             continue;
@@ -520,9 +520,9 @@ $ready(function () {
                         ques += att + '="' + quesgroup[att] + '" ';
                     }
                     ques += ">";
-                    for (var j = 0; j < q.length; j++) {
+                    for (let j = 0; j < q.length; j++) {
                         ques += '<q ';
-                        for (var att in q[j]) {
+                        for (let att in q[j]) {
                             if ((quesgroup.type == 4 || quesgroup.type == 5) && att == "ans") continue;
                             ques += att + '="' + q[j][att] + '" ';
                         }

@@ -196,7 +196,8 @@ $ready(function () {
         },
         methods: {
             goexaming: function (exam) {
-                window.location.href = "doing?id=" + exam.Exam_ID;
+                let url = $dom.routepath() + 'doing';
+                window.location.href = $api.url.set(url, { 'id': exam.Exam_ID });
             }
         },
         template: `<card>
@@ -380,7 +381,8 @@ $ready(function () {
                 return "";
             },
             gourl: function () {
-                var url = $api.url.set("/mobi/exam/Review", {
+                let url = $dom.routepath() + 'Review';
+                url = $api.url.set(url, {
                     "examid": this.result.Exam_ID,
                     "exrid": this.result.Exr_ID
                 });
