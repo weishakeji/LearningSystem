@@ -57,7 +57,7 @@ Vue.component('question', {
                 element.selected = false;
             }
             ans.selected = !ans.selected;
-            if (ans.selected) this.$parent.swipeleft();
+            if (ans.selected) this.$parent.swipe({ 'direction': 2 });
         },
         //多选题的选择
         type2_select: function (ans) {
@@ -69,7 +69,7 @@ Vue.component('question', {
             if (this.ques.Qus_Answer == answer) this.ques.Qus_Answer = '';
             else {
                 this.ques.Qus_Answer = answer;
-                this.$parent.swipeleft();
+                this.$parent.swipe({ 'direction': 2 });
             }
         },
         //填空题

@@ -36,6 +36,17 @@
                 </div>
             </card-context>
         </card>
+        <card v-else-if="!examstate.allow">
+            <card-title>
+                <span icon="&#xe748" @click="window.history.go(-1);"></span>
+                不需要参加此次考试
+            </card-title>
+            <card-context>
+                <div class="null_icon" icon="&#xe60e">
+                    您不在考试人员范围内！
+                </div>
+            </card-context>
+        </card>
         <template v-else-if="!examstate.doing">
             <card>
                 <card-title><span icon="&#xe748" @click="window.history.go(-1);"></span>《{{exam.Exam_Name}}》
@@ -56,16 +67,6 @@
                     <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
                     <row>专业：{{subject.Sbj_Name}} </row>
                     <row>课程：{{paper.Cou_Name}}</row>
-                </card-context>
-            </card>
-            <card v-if="!examstate.allow">
-                <card-title>
-                    <span icon="&#xe6bd"></span> 不需要参加此次考试
-                </card-title>
-                <card-context>
-                    <div class="null_icon" icon="&#xe60e">
-                        您不在考试人员范围内！
-                    </div>
                 </card-context>
             </card>
             <card v-else-if="examstate.issubmit">
@@ -101,7 +102,7 @@
             </card>
         </template>
         <!-- 开始考试-->
-        <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
+        <template v-if="!loading.init && examstate.doing && examstate.allow" mark="允许考试时，才输出">
             <header>
                 <div icon="&#xe748" @click="window.history.go(-1);"></div>
                 <div class="title" @click="showExam=true">{{exam.Exam_Name}}</div>
@@ -116,12 +117,11 @@
                 <div id="btnSubmit" icon="&#xe6cf" @click="submitManual">
                     交&nbsp;卷</div>
             </footer>
-            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe"
-                remark="试题区域">
+            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
                 <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="loading.ques">
-                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
-                    :account="account" :total="questotal" :types="types" :exam="exam">
-                </question>
+                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"
+                        :total="questotal" :types="types" :exam="exam">
+                    </question>
                 </dl>
                 <div class="loading_paper" v-if="!loading.ques">
                     <van-loading type="spinner" size="24px">试题加载中...</van-loading>
