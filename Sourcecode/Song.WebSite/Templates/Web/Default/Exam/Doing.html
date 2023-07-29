@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <page_header ref='pageheader' v-show="false" @login="acc=>account = acc"
-            @load="(o,c,p)=>{organ=o;config=c;platinfo=p;}">loading ...
+            @load="(o,c,p)=>{org=o;config=c;platinfo=p;}">loading ...
         </page_header>
         <header>
             <div class="title" @click="showExam=true" v-if="isexam">

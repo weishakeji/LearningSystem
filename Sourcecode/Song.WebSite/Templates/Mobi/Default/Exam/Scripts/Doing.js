@@ -41,10 +41,7 @@ $ready(function () {
                 start: new Date(),        //学员真正开始考试的时间，例如9:00 begin开始，学员9:10进场
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
-            //考试中的状态
-            state: {
-                loading: false, //是否正在加载试卷               
-            },
+            blur_maxnum: 3,          //失去焦点的最大次数
             result: {},                  //答题成绩信息
             //加载中的状态
             loading: {
@@ -76,12 +73,14 @@ $ready(function () {
         },
         created: function () { },
         computed: {
-            //是否登录
-            islogin: (t) => { return !$api.isnull(t.account); },
+            //学员是否登录
+            islogin: t => !$api.isnull(t.account),
+            //是否存在考试
+            isexam: t => !$api.isnull(t.exam),
             //试题总数
             questotal: function () {
                 let total = 0;
-                for (var i = 0; i < this.paperQues.length; i++)
+                for (let i = 0; i < this.paperQues.length; i++)
                     total += this.paperQues[i].count;
                 return total;
             },
@@ -89,7 +88,7 @@ $ready(function () {
             answertotal: function () {
                 if (!this.paperAnswer.ques) return 0;
                 let total = 0;
-                for (var i = 0; i < this.paperAnswer.ques.length; i++) {
+                for (let i = 0; i < this.paperAnswer.ques.length; i++) {
                     for (let j = 0; j < this.paperAnswer.ques[i].q.length; j++) {
                         const q = this.paperAnswer.ques[i].q[j];
                         if (q.ans != '') total++;
@@ -100,37 +99,31 @@ $ready(function () {
             //当前时间，经过服务器时间校正过的
             nowtime: function () {
                 try {
-                    var curr = new Date(this.time.server.getTime() + (this.time.now - this.time.client.getTime()));
-                    return curr;
+                    return new Date(this.time.server.getTime() + (this.time.now - this.time.client.getTime()));
                 } catch { }
             },
             //考试剩余时间
             surplustime: function () {
-                var surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
-                return surplus > 0 ? surplus : 0;              
+                let surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
+                return surplus > 0 ? surplus : 0;
             },
             //考试开始时间
             starttime: function () {
                 try {
-                    var curr = new Date(this.examstate.startTime);
-                    return curr;
+                    return new Date(this.examstate.startTime);
                 } catch { }
             },
             //离开始考试还有多少时间
             howtime: function () {
-                var how = this.starttime.getTime() - this.nowtime.getTime();
+                let how = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = how;
                 if (how <= 0) return '';
                 how = Math.floor(how / 1000);
-                var mm = Math.floor(how / 60);
-                var ss = how - mm * 60;
-                var hh = Math.floor(mm / 60);
+                let mm = Math.floor(how / 60);
+                let ss = how - mm * 60;
+                let hh = Math.floor(mm / 60);
                 if (hh > 0) mm = mm - hh * 60;
-                if (hh > 0) {
-                    return hh + "小时 " + mm + "分 " + ss + "秒";
-                } else {
-                    return mm + "分 " + ss + "秒";
-                }
+                return (hh > 0 ? hh + '小时 ' : '') + mm + '分 ' + ss + '秒';
             },
             //答题记录存储时的名称
             recordname: function () {
@@ -138,7 +131,7 @@ $ready(function () {
                 var examid = this.exam.Exam_ID;
                 return "exam_answer_record:[stid=" + acid + "],[examid=" + examid + "]";
             },
-            
+
         },
         watch: {
             //是否登录的状态变化，如果登录，则加载考试信息
@@ -210,11 +203,11 @@ $ready(function () {
                 }, immediate: true
             },
             'paperQues': {
-                handler: function (nv, ov) {                  
+                handler: function (nv, ov) {
                     if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
-                }, deep: true
+                }, immediate: false, deep: true
             },
             //答题信息变更时
             'paperAnswer': {
@@ -224,6 +217,8 @@ $ready(function () {
                         $api.storage(this.recordname, nv);
                     //生成xml，用于提交到数据库
                     this.paperAnswerXml = this.generateAnswerXml(nv);
+                    if (this.loading.ques && !this.examstate.issubmit)
+                        this.submit(1);
                 }, deep: true
             }
         },
@@ -242,7 +237,7 @@ $ready(function () {
                         window.setTimeout(function () {
                             //th.loading.ques = false;
                             th.submit(1);
-                        }, 1000);
+                        }, 100);
                         if (req.data.success) {
                             var paper = req.data.result;
                             //将试题对象中的Qus_Items，解析为json
@@ -288,17 +283,21 @@ $ready(function () {
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
-                var gindex = groupindex - 1;
-                var initIndex = 0;
+                let gindex = groupindex - 1;
+                let initIndex = 0;
                 while (gindex >= 0) {
-                    initIndex += vapp.paperQues[gindex].ques.length;
+                    if (this.paperQues && this.paperQues.length > 0)
+                        initIndex += this.paperQues[gindex].ques.length;
                     gindex--;
                 };
                 return initIndex + index;
             },
             //跳转到查看成绩
             goreview: function () {
-                var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
+                let url = $api.url.set($dom.routepath() + "review", {
+                    "examid": this.exam.Exam_ID,
+                    "exrid": this.examstate.exrid
+                });
                 window.location.href = url;
             },
             calcTime: function () {
@@ -318,6 +317,7 @@ $ready(function () {
                 }
             },
             //交卷
+            //patter:提交方式，1为自动提交，2为交卷
             submit: function (patter) {
                 if (!this.isexaming()) return;    //没有处于考试中，则不提交
                 if ($api.isnull(this.paperAnswer)) return;
@@ -503,7 +503,7 @@ $ready(function () {
                 if (record == null || record == "") {
                     //固定时间开始
                     if (this.examstate.type == 1) {
-                        this.time.begin = new Date(this.examstate.startTime);
+                        this.time.begin = new Date(Number(this.examstate.startTime));
                         this.time.over = new Date(this.time.begin.getTime() + this.time.span * 60 * 1000);
                     }
                     //限定时间段
@@ -512,16 +512,16 @@ $ready(function () {
                             this.time.begin = this.nowtime;
                             this.time.over = new Date(this.nowtime.getTime() + this.time.span * 60 * 1000);
                         } else {
-                            this.time.begin = new Date(this.examstate.startTime);
-                            this.time.over = new Date(this.examstate.startTime + this.time.span * 60 * 1000);
+                            this.time.begin = new Date(Number(this.examstate.startTime));
+                            this.time.over = new Date(Number(this.examstate.startTime) + this.time.span * 60 * 1000);
                         }
                     }
                     return paper;
                 }
                 console.info("此处应该做考试过期的判断，利用overtime属性");
                 //开始时间与剩余时间
-                var begin = new Date(record.begin);
-                var over = new Date(record.overtime);
+                var begin = new Date(Number(record.begin));
+                var over = new Date(Number(record.overtime));
                 if (this.nowtime > over) {
                     $api.storage(this.recordname, null);
                     return paper;
@@ -529,7 +529,7 @@ $ready(function () {
                     this.time.begin = begin;
                     this.time.over = over;
                 }
-                this.time.start = new Date(record.starttime);
+                this.time.start = new Date(Number(record.starttime));
                 //console.log(begin);
                 this.paperAnswer = record;
                 //答题记录，转成一层数组，方便遍历
@@ -545,6 +545,7 @@ $ready(function () {
                     var group = paper[i];
                     for (let j = 0; j < group.ques.length; j++) {
                         const q = group.ques[j];
+                        if (q == null) continue;
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
                             if (q.Qus_ID == reclist[n].id) {
@@ -610,6 +611,6 @@ $ready(function () {
 
 
 }, ['/Utilities/Components/question/function.js',
-'/Utilities/Components/upload-file.js',
+    '/Utilities/Components/upload-file.js',
     'Components/result.js',
     'Components/question.js']);

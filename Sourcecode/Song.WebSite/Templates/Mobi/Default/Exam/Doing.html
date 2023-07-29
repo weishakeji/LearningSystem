@@ -68,8 +68,8 @@
                     <row>专业：{{subject.Sbj_Name}} </row>
                     <row>课程：{{paper.Cou_Name}}</row>
                 </card-context>
-            </card>
-            <card v-else-if="examstate.issubmit">
+            </card>           
+            <card v-if="examstate.issubmit">
                 <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                 </card-title>
                 <card-context>
