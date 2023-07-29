@@ -1430,22 +1430,15 @@ namespace Song.ServiceImpls
         }
         public ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {
-            //获取考试项
-            Examination exam = this.ExamSingle(examid);
-            if (exam == null) throw new Exception("考试不存在");
-            //计算是否是结束的考试
-            //DateTime overtime=
-            WhereClip wc = ExamResults._.Exam_ID == examid;
+            WhereClip wc = new WhereClip();
+            if(examid>0) wc.And(ExamResults._.Exam_ID == examid);
             if (stsid > 0) wc.And(ExamResults._.Sts_ID == stsid);
             if (stsid < 0) wc.And(ExamResults._.Sts_ID == 0);
             if (min >= 0) wc.And(ExamResults._.Exr_ScoreFinal >= min);         
             if (max >= 0)wc.And(ExamResults._.Exr_ScoreFinal <= max);
-            //答题开始时间+考试时长，要小于当前时间。即考试已经结束
-            WhereClip w = new WhereClip("Exr_CrtTime+"+exam.Exam_Span+ "<GETDATE()");
-            w.Or(ExamResults._.Exr_IsSubmit == true);
-            wc.And(w);
-           
-            wc.And(ExamResults._.Exr_LastTime <= DateTime.Now.AddMinutes(exam.Exam_Span));
+            //是否考试结束，或已经交卷
+            wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);           
+
             if (manual != null) wc.And(ExamResults._.Exr_IsManual == (bool)manual);
             if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Like("%" + name + "%"));           
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Like("%" + idcard + "%"));
