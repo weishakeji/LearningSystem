@@ -42,7 +42,7 @@ $ready(function () {
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
             blur_maxnum: 3,          //失去焦点的最大次数
-            result: {},                  //答题成绩信息
+            //result: {},                  //答题成绩信息
             //加载中的状态
             loading: {
                 init: false,             //初始化主要参数
@@ -161,15 +161,14 @@ $ready(function () {
                     $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
                     $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
                     $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
-                ).then(axios.spread(function (theme, sbj, paper, result) {
+                ).then(axios.spread(function (theme, sbj, paper, exr) {
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;
                     th.paper = paper.data.result;
                     //是否已经交过卷
-                    th.result = result.data.result;
-                    //生成试卷
-                    if (th.result == null || !th.result.Exr_IsSubmit)
-                        th.generatePaper();
+                    let result = exr.data.result;
+                    if (result == null || !result.Exr_IsSubmit)
+                        th.generatePaper(); //生成试卷
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.paper = false);
             },
