@@ -425,6 +425,9 @@ namespace Song.ServiceImpls
             if (stid > 0) wc.And(ExamResults._.Ac_ID == stid);
             if (sbjid > 0) wc.And(ExamResults._.Sbj_ID == sbjid);
             if (orgid > 0) wc.And(ExamResults._.Org_ID == orgid);
+            //是否考试结束，或已经交卷
+            wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);
+
             if (sear != null && sear != "") wc.And(ExamResults._.Exam_Title.Like("%" + sear + "%"));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
@@ -659,6 +662,8 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (examid > 0) wc.And(ExamResults._.Exam_ID == examid);
+            //是否考试结束，或已经交卷
+            wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(count);
             for (int i = 0; i < exr.Length; i++)
             {
@@ -679,6 +684,8 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (examid > 0) wc.And(ExamResults._.Exam_ID == examid);          
             if (stid > 0) wc.And(ExamResults._.Ac_ID == stid);
+            //是否考试结束，或已经交卷
+            wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);
             Song.Entities.ExamResults exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToFirst<ExamResults>();
             //
             Song.Entities.ExamResults next = null;
@@ -1452,18 +1459,6 @@ namespace Song.ServiceImpls
             return exr;
         }
 
-        public ExamResults[] Results(string examuid, int size, int index, out int countSum)
-        {
-            WhereClip wc = ExamResults._.Exam_UID == examuid;
-            countSum = Gateway.Default.Count<ExamResults>(wc);
-            ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
-            for (int i = 0; i < exr.Length; i++)
-            {
-                if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
-                    exr[i] = ClacScore(exr[i]);
-            }
-            return exr;
-        }
         /// <summary>
         /// 当前考试场次下的所有人员成绩
         /// </summary>
