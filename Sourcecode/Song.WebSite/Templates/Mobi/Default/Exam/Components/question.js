@@ -1,4 +1,5 @@
 //试题的展示
+$dom.load.css([$dom.pagepath() + 'Components/Styles/question.css']);
 Vue.component('question', {
     //exam:当前考试
     //account:当前登录的学员账号
@@ -14,11 +15,13 @@ Vue.component('question', {
         }
     },
     watch: {
-        //答题状态变动时
+        //试题状态变动时
         'ques': {
             handler(nv, ov) {
                 if ($api.isnull(nv)) return;
+                if (nv && nv.Qus_Type == 4) this.accessoryLoad();
                 this.$nextTick(function () {
+                    //没有内容的html元素，不显示
                     var dom = $dom("card[qid='" + this.ques.Qus_ID + "']");
                     //清理空元素                
                     window.ques.clearempty(dom.find('card-title'));
@@ -30,6 +33,7 @@ Vue.component('question', {
         }
     },
     computed: {},
+    updated: function () { },
     mounted: function () { },
     methods: {
         //计算序号，整个试卷采用一个序号，跨题型排序
@@ -165,7 +169,7 @@ Vue.component('question', {
                 if (ext == 'pdf') url = $api.pdfViewer(url);
                 var obj =
                 {
-                    'url': url, 'ico': 'e6ef',
+                    'url': url, 'ico': 'a022',
                     'pid': window.name,
                     'title': '预览',
                     'width': 900,
@@ -182,7 +186,7 @@ Vue.component('question', {
     },
     template: `<dd :qid="ques.Qus_ID">
     <info>
-        {{calcIndex(index+1)}}/{{vapp.questotal}}
+        {{calcIndex(index+1)}}/{{total}}
         [ {{this.types[ques.Qus_Type - 1]}}题 ] 
         <span>（{{ques.Qus_Number}} 分）</span>
     </info>
@@ -203,14 +207,14 @@ Vue.component('question', {
                 </div>
             </div>
             <div class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
-                <div :selected="ques.Qus_Answer=='true'" ansid="true"  @click="type3_select(true)">
+                <div :selected="ques.Qus_Answer=='true'" ansid="true" @click="type3_select(true)">
                     <i> 正确</i>
                 </div>
                 <div :selected="ques.Qus_Answer=='false'" ansid="false" @click="type3_select(false)">
                     <i> 错误</i>
                 </div>
             </div>
-            <div v-if="ques.Qus_Type==4" remark="答题题">
+            <div v-if="ques.Qus_Type==4" class="ans_area type4" remark="简答题">
                 <textarea rows="5" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
                 <loading v-if="loading_upload">正在上传...</loading>
                 <div v-else-if="accessory.state" class="accessory">
@@ -228,7 +232,7 @@ Vue.component('question', {
                     </el-tooltip>
                 </upload-file>
             </div>
-            <div  class="ans_area" v-if="ques.Qus_Type==5" remark="填空题">
+            <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                 <div v-for="(ans,i) in ques.Qus_Items">
                     <i></i>{{i+1}}.
                     <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                

@@ -316,6 +316,7 @@
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\Styles\question.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\AnswerSheet.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\PromptPanel.js" />

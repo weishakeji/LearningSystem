@@ -15,17 +15,19 @@ Vue.component('question', {
         }
     },
     watch: {
+        //试题状态变动时
         'ques': {
             handler(nv, ov) {
-                if (nv && nv.Qus_Type == 4)
-                    this.accessoryLoad();
+                if ($api.isnull(nv)) return;
+                if (nv && nv.Qus_Type == 4) this.accessoryLoad();
                 this.$nextTick(function () {
                     //没有内容的html元素，不显示
-                    var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-                    window.ques.clearempty(qbox.find('card-title'));
-                    window.ques.clearempty(qbox.find('.ans_area'));
+                    var dom = $dom("card[qid='" + this.ques.Qus_ID + "']");
+                    //清理空元素  
+                    window.ques.clearempty(dom.find('card-title'));
+                    window.ques.clearempty(dom.find('.ans_area'));
                     //公式渲染
-                    this.$mathjax([qbox[0]]);
+                    this.$mathjax([dom[0]]);
                 });
             }, immediate: true
         }
@@ -204,10 +206,10 @@ Vue.component('question', {
                     </div>
                 </div>
                 <div class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div :selected="ques.Qus_Answer=='true'"  @click="type3_select(true)">
+                    <div :selected="ques.Qus_Answer=='true'" ansid="true" @click="type3_select(true)">
                         <i> 正确</i>
                     </div>
-                    <div :selected="ques.Qus_Answer=='false'"  @click="type3_select(false)">
+                    <div :selected="ques.Qus_Answer=='false'" ansid="false" @click="type3_select(false)">
                         <i> 错误</i>
                     </div>
                 </div>
@@ -231,7 +233,8 @@ Vue.component('question', {
                 </div>
                 <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
-                        <input type="text" v-model="ans.Ans_Context" @input="type5_input(ques)"/>               
+                        <i></i>{{i+1}}.
+                        <input type="text" v-model="ans.Ans_Context" @input="type5_input(ques)"></input>     
                     </div>
                 </div>    
             </card-context>
