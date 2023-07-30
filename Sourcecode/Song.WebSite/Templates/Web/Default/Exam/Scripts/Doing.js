@@ -319,7 +319,7 @@ $ready(function () {
             },
             //跳转到查看成绩
             goreview: function () {
-                let url = $api.url.set($dom.routepath() + "review", {
+                let url = $api.url.set("/student/exam/review", {
                     "examid": this.exam.Exam_ID,
                     "exrid": this.examstate.exrid
                 });
