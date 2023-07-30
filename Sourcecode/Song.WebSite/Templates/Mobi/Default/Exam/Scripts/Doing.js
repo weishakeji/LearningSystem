@@ -11,7 +11,7 @@ $ready(function () {
             theme: {},               //考试主题
             exam: {},             //考试 
             examstate: {
-                islogin: true
+                islogin: true, loading: true
             },           //考试状态
             paper: {},           //试卷信息   
             subject: {},             //试卷所属专业
@@ -45,7 +45,7 @@ $ready(function () {
             //result: {},                  //答题成绩信息
             //加载中的状态
             loading: {
-                init: false,             //初始化主要参数
+                init: true,             //初始化主要参数
                 exam: true,               //加载考试信息中
                 paper: false,             //试卷加载中
                 ques: true,              //加载试题中
@@ -131,7 +131,6 @@ $ready(function () {
                 var examid = this.exam.Exam_ID;
                 return "exam_answer_record:[stid=" + acid + "],[examid=" + examid + "]";
             },
-
         },
         watch: {
             //是否登录的状态变化，如果登录，则加载考试信息
@@ -144,6 +143,7 @@ $ready(function () {
                     $api.get('Exam/ForID', { 'id': th.examid })
                 ).then(axios.spread(function (state, exam) {
                     th.examstate = state.data.result;
+                    th.examstate.loading = false;
                     //th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     //th.recordAnswer = th.examstate.result;
                     th.exam = exam.data.result;
@@ -230,7 +230,7 @@ $ready(function () {
                 th.loading.ques = true;
                 //试卷缓存过期时间
                 var span = th.exam.Exam_Span;
-                $api.cache('Exam/MakeoutPaper:+' + span * 2,
+                $api.get('Exam/MakeoutPaper:+' + span * 2,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         window.setTimeout(function () {

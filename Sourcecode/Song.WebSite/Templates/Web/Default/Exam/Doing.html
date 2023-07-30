@@ -12,6 +12,7 @@
         <page_header ref='pageheader' v-show="false" @login="acc=>account = acc"
             @load="(o,c,p)=>{org=o;config=c;platinfo=p;}">loading ...
         </page_header>
+        <span loading="p2" v-if="loading.init" style="margin-top: 20px;">加载初始数据...</span>
         <header>
             <div class="title" @click="showExam=true" v-if="isexam">
                 <icon>&#xe810</icon>{{exam.Exam_Name}}

@@ -11,7 +11,7 @@ $ready(function () {
             theme: {},               //考试主题
             exam: {},             //考试 
             examstate: {
-                islogin: true
+                islogin: true, loading: true
             },           //考试状态
             paper: {},           //试卷信息   
             subject: {},             //试卷所属专业
@@ -22,6 +22,7 @@ $ready(function () {
 
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
+            showCard: false,          //是否显示答题卡  
             showTime: false,             //显示时间信息
             showExam: false,             //显示考试信息
 
@@ -45,7 +46,7 @@ $ready(function () {
 
             //加载中的状态
             loading: {
-                init: false,             //初始化主要参数
+                init: true,             //初始化主要参数
                 exam: true,               //加载考试信息中
                 paper: false,             //试卷加载中
                 ques: true,              //加载试题中
@@ -167,6 +168,7 @@ $ready(function () {
                     $api.get('Exam/ForID', { 'id': th.examid })
                 ).then(axios.spread(function (state, exam) {
                     th.examstate = state.data.result;
+                    th.examstate.loading = false;
                     th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     th.recordAnswer = th.examstate.result;
                     //console.error(th.examstate);
@@ -254,7 +256,7 @@ $ready(function () {
                 th.loading.ques = true;
                 //试卷缓存过期时间
                 var span = th.exam.Exam_Span;
-                $api.cache('Exam/MakeoutPaper:+' + span * 2,
+                $api.get('Exam/MakeoutPaper:+' + span * 2,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         window.setTimeout(function () {
@@ -348,7 +350,6 @@ $ready(function () {
                 if (this.paper.Tp_Count < 1) return;
 
                 if (patter == null) patter = 1;
-
                 var th = this;
                 if (patter == 2) {
                     th.submitState.show = true;

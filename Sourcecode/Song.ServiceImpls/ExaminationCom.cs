@@ -501,7 +501,7 @@ namespace Song.ServiceImpls
                     exr.Org_ID = org.Org_ID;
                     exr.Org_Name = org.Org_Name;
                 }
-                Gateway.Default.Save<ExamResults>(exr);
+                Gateway.Default.Save<ExamResults>(exr);               
                 return exr;
             }
             else
@@ -516,8 +516,9 @@ namespace Song.ServiceImpls
                 Gateway.Default.Save<ExamResults>(exr);
             }
             //如果交卷，则删除缓存
-            if (exr.Exr_IsSubmit)            
-                Cache.ExamResultsCache.Delete(exr);           
+            if (exr.Exr_IsSubmit)          
+                Cache.ExamResultsCache.Delete(exr);
+       
             return exr;
         }
         /// <summary>
@@ -612,7 +613,7 @@ namespace Song.ServiceImpls
         public ExamResults ResultForCache(int examid, long tpid, int acid)
         {
             ExamResults r = Cache.ExamResultsCache.GetResults(examid, tpid, acid);
-            if (r == null || r.Exr_IsSubmit) r = this.ResultSingle(examid, tpid, acid);
+            if (r == null || r.Exr_IsSubmit || r.Exr_OverTime > DateTime.Now) r = this.ResultSingle(examid, tpid, acid);
             return r;
         }
         /// <summary>

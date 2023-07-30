@@ -12,10 +12,11 @@ context#scene {
 }
 
 context#scene div.testinfo {
-	width: 400px;
+	width: 380px;
 	box-sizing: border-box;
 	overflow: hidden;
 	position: relative;
+	margin-right: 20px;
 }
 
 context#scene div.exam {
@@ -25,8 +26,7 @@ context#scene div.exam {
 }
 
 section {
-	height: calc(100%);
-	background-color: #f2f2f2;
+	height: calc(101%);	
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -118,11 +118,13 @@ section {
 /*上一题，下一题*/
 .move_btn {
 	position: absolute;
-	right: 10px;
-	top: 10px;
+	right: 0px;
+	top: 0px;
 	width: 180px;
 	z-index: 10;
 	display: flex;	
+	padding: 10px;
+	background-color: #fff;
 }
 
 .move_btn span {
