@@ -7,8 +7,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    overflow-y: auto;
-    background: linear-gradient(#ccd1cc, rgba(255, 255, 255, 1));
+    overflow-y: auto;  
 }
 
 .header {
@@ -24,7 +23,7 @@
     position: relative;
     z-index: 1;
     padding: 20px;
-   
+   color: #666;
 }
 
 .header_info {
@@ -40,15 +39,13 @@
     overflow: hidden;
     margin-right: 20px;
     float: left;
-    background-size: cover;
-    box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+    background-size: cover;   
 }
 
 .header_info .accInfo {
     width: calc(100% - 80px);
     float: left;
-    position: relative;
-    color: #fff;
+    position: relative;   
 }
 .header_info .acc-name {
     font-size: 18px;
@@ -67,8 +64,7 @@
     position: absolute;
     right: 25px;
     top: 40px;
-    transform: rotate(180deg);
-    color: #fff;
+    transform: rotate(180deg);  
     z-index: -1;
 }
 
