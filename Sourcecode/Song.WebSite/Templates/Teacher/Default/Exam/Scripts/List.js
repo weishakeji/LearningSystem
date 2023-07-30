@@ -99,7 +99,7 @@ $ready(function () {
             selectDate: '',
         },
         mounted: function () {
-            var th=this;
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
@@ -140,11 +140,11 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    th.$nextTick(function () {                     
+                    th.$nextTick(function () {
                         loading.close();
                     });
                 }).catch(function (err) {
-                    loading.close();    
+                    loading.close();
                     console.error(err);
                 });
             },
@@ -288,40 +288,41 @@ $ready(function () {
                     }
                 },
                 methods: {
+                    //获取考试场次的信息
                     getexams: function () {
                         var th = this;
                         $api.get('Exam/Exams', { 'uid': this.uid }).then(function (req) {
                             if (req.data.success) {
-                                for (var j = 0; j < req.data.result.length; j++) {
-                                    req.data.result[j].avg = -1;
-                                    req.data.result[j].number = -1;
-                                    //是否需要人工批阅
-                                    req.data.result[j].manual = false;
+                                let result = req.data.result;
+                                for (let j = 0; j < result.length; j++) {
+                                    result[j].avg = -1;
+                                    result[j].number = -1;
+                                    result[j].manual = false;   //是否需要人工批阅
                                 }
-                                th.examlist = req.data.result;
-                                for (var i = 0; i < th.examlist.length; i++) {
-                                    $api.bat(
-                                        $api.cache('Exam/Average4Exam', { 'examid': th.examlist[i].Exam_ID }),
-                                        $api.get("Exam/", { 'examid': th.examlist[i].Exam_ID }),
-                                        $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
-                                    ).then(axios.spread(function (avg, num, manual) {
-                                        for (var n = 0; n < th.examlist.length; n++) {
-                                            if (th.examlist[n].Exam_ID == avg.data.result.id) {
-                                                th.examlist[n].avg = avg.data.result.average;
-                                                th.examlist[n].number = num.data.result.number;
-                                                th.examlist[n].manual = manual.data.result.number;
-                                            }
-                                        }
-                                    })).catch(function (err) {
-                                        console.error(err);
-                                    });
+                                th.examlist = result;
+                                for (let i = 0; i < th.examlist.length; i++) {
+                                    th.getexaminfo(th.examlist[i], i);                                   
                                 }
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            //alert(err);
+                        }).catch(err => console.error(err));
+                    },
+                    //获取考试场景的数据，例如平均数、参考人数
+                    getexaminfo: function (exam, index) {
+                        var th = this;
+                        var examid = exam.Exam_ID;    //考试场次id
+                        $api.bat(
+                            $api.cache('Exam/Average4Exam', { 'examid': examid }),
+                            $api.get("Exam/AttendCount", { 'examid': examid }),
+                            $api.cache("Exam/Manual4Exam", { 'examid': examid })
+                        ).then(axios.spread(function (avg, num, manual) {
+                            exam.avg = avg.data.result.average;
+                            exam.number = num.data.result.number;
+                            exam.manual = manual.data.result.number;
+                            th.$set(th.examlist, index, exam);
+                        })).catch(function (err) {
                             console.error(err);
                         });
                     }
