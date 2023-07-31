@@ -1,3 +1,4 @@
+/*试题区*/
 
 section dl, section dd {
 	margin: 0px;
@@ -7,9 +8,9 @@ section dl, section dd {
 }
 
 section dd {
-	width: 870px;
-	
+	overflow-y: auto;
 	line-height: 150%;
+	font-size: 18px;
 }
 
 section dd info {
@@ -21,27 +22,31 @@ section dd info {
 }
 
 section dd info span {
-	font-size: 14px;
+	font-size: 18px;
 	color: #999;
 }
 
-section dd card-title p, card-title span, card-title font{
+section dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 20px;
 }
-section dd card-title>*, section dd card-title p{
+
+section dd card-title>*, section dd card-title p {
 	line-height: 150% !important;
 	font-size: 20px !important;
 }
-section dd card {
-	height: calc(100% - 32px - 35px);
-	overflow: auto;
-	font-size: 20px;
-}
-
 
 section dd img {
 	max-width: 100% !important;
+}
+
+section dd table {
+	overflow: auto;
+	width: 100% !important;
+}
+
+section dd td {
+	word-break: break-all;
 }
 
 /*试题选项*/
@@ -52,31 +57,32 @@ section dd img {
 
 .ans_area>div {
 	position: relative;
-	margin: 15px;
+	margin: 10px;
 }
-card[qid] .ans_area i {
+
+.ans_area>div[ansid] i {
 	font-style: normal;
 	margin-right: 15px !important;
 	display: inline-block;
 	white-space: nowrap;
 }
+
 .ans_area div[selected] {
 	color: #409EFF !important;
 }
-
 
 .ans_area>div[ansid] i::before {
 	font-family: "webdesk_icon" !important;
 	font-style: normal;
 	font-size: 25px;
-	margin-right: 5px;
+	margin-right: 10px;
 }
 
-.type1>div[ansid] i::before {	
-	content: '\e85c';	
+.type1>div[ansid] i::before {
+	content: '\e85c';
 }
 
-.type1>div[selected] i::before {	
+.type1>div[selected] i::before {
 	content: '\e85b';
 }
 
@@ -93,33 +99,39 @@ card[qid] .ans_area i {
 	content: '\a048';
 }
 
-.type2>div i::before {	
+.type2>div i::before {
 	content: '\e603';
 }
 
 .type2>div[selected] i::before {
 	content: '\e78b';
 }
+
 /*判断题*/
 card[qid] .type3 {
-	display: flex;	
+	display: flex;
 }
+
 card[qid] .type3>div:first-child {
 	margin-right: 40px;
 }
-card[qid] .type3 i{
+
+card[qid] .type3 i {
 	font-size: 18px;
 }
+
 card[qid] .type3>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e603';
 	font-style: normal;
-	margin-right: 5px;	
+	margin-right: 5px;
 	font-size: 22px;
 }
-card[qid] .type3>div[selected] i::before {	
-	content: '\e78b';	
+
+card[qid] .type3>div[selected] i::before {
+	content: '\e78b';
 }
+
 /*填空题*/
 
 .type5 {
@@ -151,24 +163,50 @@ card[qid] .type3>div[selected] i::before {
 
 section textarea {
 	width: calc(100% - 22px);
+	height: 300px;
 	padding: 10px;
 	font-size: 20px;
 }
+
 /*附件*/
-.upload_file_area .error{
+.upload_file_area .error {
 	bottom: -40px !important;
 }
-.accessory{
+
+.accessory {
 	font-size: 16px;
 }
-.accessory a{
+
+.accessory a {
 	color: #409EFF;
 }
-.accessory a[download]{
+
+.accessory a[download] {
 	font-size: 14px;
 }
-.accessory>icon{
+
+.accessory>icon {
 	font-size: 14px;
 	color: #F56C6C;
 	margin-left: 10px;
+}
+
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+	section dd {
+		width: 100vw;
+	}
+
+	section dd card {
+		min-height: calc(100% - 20px - 50px);
+	}
+
+}
+
+/*横屏，web端显示*/
+@media only screen and (orientation: landscape) {
+	section dd card {
+		height: calc(100% - 32px - 35px);
+	}
 }

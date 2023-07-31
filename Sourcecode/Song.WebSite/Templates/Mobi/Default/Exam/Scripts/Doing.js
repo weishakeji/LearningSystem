@@ -17,8 +17,8 @@ $ready(function () {
             subject: {},             //试卷所属专业
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
-            paperAnswer: {},          //答题信息
-            paperAnswerXml: '',          //答题信息的xml格式数据
+            paperAnswer: {},          //答题信息         
+
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
             showCard: false,          //是否显示答题卡   
@@ -42,7 +42,7 @@ $ready(function () {
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
             blur_maxnum: 3,          //失去焦点的最大次数
-            //result: {},                  //答题成绩信息
+
             //加载中的状态
             loading: {
                 init: true,             //初始化主要参数
@@ -214,8 +214,6 @@ $ready(function () {
                     //记录到本地
                     if (!this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
-                    //生成xml，用于提交到数据库
-                    this.paperAnswerXml = this.generateAnswerXml(nv);
                     if (this.loading.ques && !this.examstate.issubmit)
                         this.submit(1);
                 }, deep: true
@@ -229,14 +227,10 @@ $ready(function () {
                 var th = this;
                 th.loading.ques = true;
                 //试卷缓存过期时间
-                var span = th.exam.Exam_Span;
-                $api.get('Exam/MakeoutPaper:+' + span * 2,
+                var span = th.exam.Exam_Span + 5;
+                $api.cache('Exam/MakeoutPaper:+' + span,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
-                        window.setTimeout(function () {
-                            //th.loading.ques = false;
-                            th.submit(1);
-                        }, 100);
                         if (req.data.success) {
                             var paper = req.data.result;
                             //将试题对象中的Qus_Items，解析为json
@@ -260,6 +254,10 @@ $ready(function () {
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
                             th.paperQues = paper;
+                            window.setTimeout(function () {
+                                //th.loading.ques = false;
+                                th.submit(1);
+                            }, 1000);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -496,6 +494,10 @@ $ready(function () {
                 //console.log(results);
                 return results
             },
+            //获取答题信息，func参数：获取成功后的回调函数
+            getAnswerinfo: function (func) {
+
+            },
             //将本地记录本的答题信息还原到试卷，用于应对学员刷新页面或重新打开试卷时
             restoreAnswer: function (paper) {
                 var record = $api.storage(this.recordname);
@@ -610,6 +612,6 @@ $ready(function () {
 
 
 }, ['/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/exam.js',
     '/Utilities/Components/upload-file.js',
-    'Components/result.js',
-    'Components/question.js']);
+    'Components/result.js']);

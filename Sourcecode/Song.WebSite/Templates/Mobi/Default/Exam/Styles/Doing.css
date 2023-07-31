@@ -120,6 +120,20 @@ header>div.title {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+/*试题区*/
+
+section {
+	height: calc(100% - 88px);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 44px;
+	left: 0px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
 
 /*页面底部*/
 

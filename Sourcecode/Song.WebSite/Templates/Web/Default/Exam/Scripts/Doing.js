@@ -17,8 +17,7 @@ $ready(function () {
             subject: {},             //试卷所属专业
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
-            paperAnswer: {},          //答题信息
-            recordAnswer: {},            //答题信息,初始的时候与上同，
+            paperAnswer: {},          //答题信息 
 
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
@@ -169,8 +168,8 @@ $ready(function () {
                 ).then(axios.spread(function (state, exam) {
                     th.examstate = state.data.result;
                     th.examstate.loading = false;
-                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
-                    th.recordAnswer = th.examstate.result;
+                    //th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                    //th.recordAnswer = th.examstate.result;
                     //console.error(th.examstate);
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
@@ -240,8 +239,6 @@ $ready(function () {
                     //记录到本地
                     if (!this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
-                    //生成xml，用于提交到数据库
-                    this.paperAnswerXml = this.generateAnswerXml(nv);
                     if (this.loading.ques && !this.examstate.issubmit)
                         this.submit(1);
                 }, deep: true
@@ -255,8 +252,8 @@ $ready(function () {
                 var th = this;
                 th.loading.ques = true;
                 //试卷缓存过期时间
-                var span = th.exam.Exam_Span;
-                $api.get('Exam/MakeoutPaper:+' + span * 2,
+                var span = th.exam.Exam_Span + 5;
+                $api.cache('Exam/MakeoutPaper:+' + span,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         window.setTimeout(function () {
@@ -635,7 +632,8 @@ $ready(function () {
 }, ['/Utilities/Components/avatar.js',
     '/Utilities/Components/upload-file.js',
     '/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/exam.js',
     '../scripts/pagebox.js',
-    'Components/question.js',
+    //'Components/question.js',
     'Components/result.js']);
 $dom.load.css([$dom.path() + 'styles/pagebox.css']);

@@ -312,11 +312,9 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
-    <Content Include="Templates\Mobi\Default\Exam\Components\question.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
-    <Content Include="Templates\Mobi\Default\Exam\Components\Styles\question.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\AnswerSheet.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\PromptPanel.js" />
@@ -1154,9 +1152,7 @@
     <Content Include="Templates\Web\Default\Course\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Buy.css" />
     <Content Include="Templates\Web\Default\Exam\Components\result.js" />
-    <Content Include="Templates\Web\Default\Exam\Components\question.js" />
     <Content Include="Templates\Web\Default\Exam\Components\Styles\result.css" />
-    <Content Include="Templates\Web\Default\Exam\Components\Styles\question.css" />
     <Content Include="Templates\Web\Default\Exam\Examing.html" />
     <Content Include="Templates\Web\Default\Exam\Doing.html" />
     <Content Include="Templates\Web\Default\Exam\Images\exam-banner.jpg" />
@@ -1252,6 +1248,8 @@
     <Content Include="Templates\Web\_Public\Inc\meta.inc" />
     <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Utilities\Components\Question\exam.js" />
+    <Content Include="Utilities\Components\Question\Styles\exam.css" />
     <Content Include="Utilities\Components\Sign\login.js" />
     <Content Include="Utilities\Components\Sign\Styles\login.css" />
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />
