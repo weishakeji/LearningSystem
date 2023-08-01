@@ -78,6 +78,7 @@ $ready(function () {
                 var vapp = window.vapp;
                 if (vapp.exam == null || vapp.exam.Exam_IsToggle) return;
                 if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
+                if (vapp.examstate.issubmit) return;
                 var key = 'exam_blur_num_' + vapp.examid;
                 var blurnum = Number($api.storage(key));
                 if (isNaN(blurnum)) blurnum = vapp.blur_maxnum;
