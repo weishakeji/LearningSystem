@@ -66,7 +66,8 @@ $ready(function () {
                 th.time.client = new Date();
                 window.setInterval(function () {
                     th.time.now = new Date().getTime();
-                    th.paperAnswer.now = th.nowtime.getTime();
+                    if (th.paperAnswer)
+                        th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
             })).catch(err => console.error(err))
                 .finally(() => th.loading.init = false);
@@ -75,7 +76,7 @@ $ready(function () {
             //当窗体失去焦点
             window.onblur = function () {
                 var vapp = window.vapp;
-                if (vapp.exam.Exam_IsToggle) return;
+                if (vapp.exam == null || vapp.exam.Exam_IsToggle) return;
                 if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
                 var key = 'exam_blur_num_' + vapp.examid;
                 var blurnum = Number($api.storage(key));
@@ -171,7 +172,7 @@ $ready(function () {
                     th.examstate.loading = false;
                     th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     //th.recordAnswer = th.examstate.result;
-                    console.error(th.paperAnswer);
+                    //console.error(th.paperAnswer);
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.exam = false);
@@ -195,6 +196,15 @@ $ready(function () {
                     let result = exr.data.result;
                     if (result == null || !result.Exr_IsSubmit)
                         th.generatePaper(); //生成试卷
+                    //禁用鼠标右键 //禁止选择文本
+                    if (th.theme && th.theme.Exam_IsRightClick) {
+                        document.addEventListener('contextmenu', function (e) {
+                            e.preventDefault();
+                        });
+                        document.addEventListener('selectstart', function (e) {
+                            e.preventDefault();
+                        });
+                    }
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.paper = false);
             },
@@ -208,7 +218,7 @@ $ready(function () {
                         this.loading.ques = true;
                         this.generatePaper();
                     }
-                    if (this.time.wait == 0 && !this.examstate.issubmit) {
+                    if (this.time.wait == 0 && !this.examstate.issubmit && this.examstate.allow) {
                         this.examstate.doing = true;
                     }
                 }
@@ -238,7 +248,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (JSON.stringify(nv) == JSON.stringify(ov)) return;
                     //记录到本地
-                    if (!this.examstate.issubmit)
+                    if (this.examstate.exist && !this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
                     if (this.loading.ques && !this.examstate.issubmit) {
                         var th = this;
@@ -264,6 +274,7 @@ $ready(function () {
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = th.parseAnswer(req.data.result);
+                            th.calcTime();
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
                             th.paperQues = paper;
@@ -280,7 +291,6 @@ $ready(function () {
                         console.error(err);
                         th.examstate.iserror = true;
                     }).finally(() => {
-                        th.calcTime();
                         th.loading.ques = false;
                     });
             },

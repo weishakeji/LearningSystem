@@ -245,7 +245,7 @@ namespace Song.ViewData.Methods
             jo.Add("issubmit", isSubmit);
             //正在考试
             bool doing = startTime <= DateTime.Now && overTime > DateTime.Now && !isSubmit;
-            jo.Add("doing", doing && !isOver);
+            jo.Add("doing", doing && !isOver && isAllow);
             //答题详情
             jo.Add("result", _resultJson(exr));
             return jo;

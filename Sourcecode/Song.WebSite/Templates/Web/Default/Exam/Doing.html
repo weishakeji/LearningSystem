@@ -61,7 +61,7 @@
                 </div>
             </header>
             <content>
-                <div class="body">
+                <div class="body">                  
                     <loading class="loading_init" v-if="loading.init">正在加载初始数据...</loading>
                     <div v-if="!loading.init && !examstate.doing" class="context" remark="无法考试的各种原因">
                         <template v-if="!examstate.islogin">
@@ -219,7 +219,7 @@
             <template slot="title">
                 <icon>&#xe6b0</icon>考试信息
             </template>
-            <card>
+            <card v-if="exam">
                 <card-title>《{{exam.Exam_Name}}》
                 </card-title>
                 <card-context>
