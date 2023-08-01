@@ -25,7 +25,9 @@ section dd info span {
 	font-size: 18px;
 	color: #999;
 }
-
+section dd card {  
+    overflow: auto;
+}
 section dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 20px;
@@ -108,19 +110,19 @@ section dd td {
 }
 
 /*判断题*/
-card[qid] .type3 {
+dd[qid] card .type3 {
 	display: flex;
 }
 
-card[qid] .type3>div:first-child {
+dd[qid] card .type3>div:first-child {
 	margin-right: 40px;
 }
 
-card[qid] .type3 i {
+dd[qid] card .type3 i {
 	font-size: 18px;
 }
 
-card[qid] .type3>div i::before {
+dd[qid] card .type3>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e603';
 	font-style: normal;
@@ -128,7 +130,7 @@ card[qid] .type3>div i::before {
 	font-size: 22px;
 }
 
-card[qid] .type3>div[selected] i::before {
+dd[qid] card .type3>div[selected] i::before {
 	content: '\e78b';
 }
 
@@ -141,8 +143,21 @@ card[qid] .type3>div[selected] i::before {
 .type5>div {
 	position: relative;
 	margin-left: 30px;
+	display: flex;	
 }
-
+.type5>div i{
+	position: absolute;
+	top: 8px;
+	left: 12px;
+}
+.type5>div i::before{
+	font-family: "webdesk_icon" !important;
+	content: '\a02e';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;	
+	color: #999;
+}
 .type5>div::before {
 	counter-increment: section;
 	content: counter(section) ". ";
@@ -156,11 +171,11 @@ card[qid] .type3>div[selected] i::before {
 
 .type5>div input {
 	width: calc(100% - 30px);
-	padding: 5px 15px;
+	padding: 5px 15px 5px 40px;
 	height: 30px;
 	font-size: 20px;
 }
-
+/*简答题*/
 section textarea {
 	width: calc(100% - 22px);
 	height: 300px;
@@ -196,10 +211,14 @@ section textarea {
 @media only screen and (orientation: portrait) {
 	section dd {
 		width: 100vw;
+		height: calc(100% + 50px);
+		padding-bottom: 50px;
+		box-sizing: border-box;
+		overflow: hidden;
 	}
 
 	section dd card {
-		min-height: calc(100% - 20px - 50px);
+		height: calc(100% - 20px - 45px);
 	}
 
 }

@@ -189,7 +189,7 @@ Vue.component('question', {
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
             <span>（{{ques.Qus_Number}} 分）</span>
         </info>
-        <card :qid="ques.Qus_ID">   
+        <card>   
             <card-title v-html="ques.Qus_Title"></card-title>
             <card-context>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
@@ -233,7 +233,7 @@ Vue.component('question', {
                 </div>
                 <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
-                        <i></i>{{i+1}}.
+                        <i></i>
                         <input type="text" v-model="ans.Ans_Context" @input="type5_input(ques)"></input>     
                     </div>
                 </div>    

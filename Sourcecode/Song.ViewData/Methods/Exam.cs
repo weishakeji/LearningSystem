@@ -183,16 +183,12 @@ namespace Song.ViewData.Methods
             //是否可以考试
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
             jo.Add("exist", !(exam == null || !exam.Exam_IsUse || exam.Exam_IsTheme));
-            if (exam != null)
-            {
-                jo.Add("uid", exam.Exam_UID);
-                jo.Add("subject", exam.Sbj_ID.ToString());
-                jo.Add("paper", exam.Tp_Id.ToString());
-            }
-            else
-            {
-                return jo;
-            }
+            if (exam == null) return jo;
+            jo.Add("uid", exam.Exam_UID);               //考试主题的uid
+            jo.Add("subject", exam.Sbj_ID.ToString());  //专业id
+            jo.Add("paper", exam.Tp_Id.ToString());     //试卷id
+            jo.Add("timespan", exam.Exam_Span);         //考试限时 
+
             //1为固定时间开始，2为限定时间区间考试
             if (exam != null) jo.Add("type", exam.Exam_DateType);
             //当前考生是否可以参加该场考试
@@ -336,10 +332,8 @@ namespace Song.ViewData.Methods
             else
             {
                 //如果已经交过卷
-                if (exr.Exr_IsSubmit)
-                {                   
-                    throw new Exception("已经交过卷");
-                }
+                if (exr.Exr_IsSubmit)                                
+                    throw new Exception("已经交过卷");             
                 array = _putout(exr); 
             }
             return array;
@@ -395,30 +389,34 @@ namespace Song.ViewData.Methods
             for (int i = 0; i < quesnodes.Count; i++)
             {
                 XmlNode node = quesnodes[i];
-                string type = node.Attributes["type"].Value;
-                string count = node.Attributes["count"].Value;
-                string num = node.Attributes["number"].Value;
+                int type, count; float num;
+                int.TryParse(node.Attributes["type"].Value, out type);      //试题类型
+                int.TryParse(node.Attributes["count"].Value, out count);        //试题类型下的试题数
+                float.TryParse(node.Attributes["number"].Value, out num);   //试题类型下的试题总分                   
                 JObject quesObj = new JObject();
                 quesObj.Add("type", type);
                 quesObj.Add("count", count);
                 quesObj.Add("number", num);
-              
-                //Song.Entities.Questions[] ques = new Questions[node.ChildNodes.Count];
+
                 JArray ques = new JArray();
                 for (int n = 0; n < node.ChildNodes.Count; n++)
                 {
-                    long id = Convert.ToInt64(node.ChildNodes[n].Attributes["id"].Value);
-                    Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(id);
+                    XmlNode qn = node.ChildNodes[n];
+                    long qid = 0;       //试题id
+                    long.TryParse(qn.Attributes["id"].Value, out qid);
+                    if (qid <= 0) continue;
+                    Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(qid);
                     if (q == null) continue;
-                    float qnum = 0;
+                    //试题分数，答题记录
+                    float qnum = 0; string ans = string.Empty; string file = string.Empty;
                     if (node.ChildNodes[n].Attributes["num"] != null)
-                    {
-                        float.TryParse(node.ChildNodes[n].Attributes["num"].Value, out qnum);
-                    }
+                        float.TryParse(qn.Attributes["num"].Value, out qnum);
+                    ans = qn.Attributes["ans"]==null ? qn.InnerText : qn.Attributes["ans"].Value;    //答题内容
+                    file = qn.Attributes["file"].Value;                             //附件
+
                     q.Qus_Number = qnum;
                     q.Qus_Explain = "";
                     q.Qus_Answer = "";
-                    //ques[n] = q;
                     string json = q.ToJson("", "Qus_CrtTime,Qus_LastTime");
                     ques.Add(JObject.Parse(json));
                 }

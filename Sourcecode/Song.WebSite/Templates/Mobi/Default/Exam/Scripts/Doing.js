@@ -144,7 +144,7 @@ $ready(function () {
                 ).then(axios.spread(function (state, exam) {
                     th.examstate = state.data.result;
                     th.examstate.loading = false;
-                    //th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     //th.recordAnswer = th.examstate.result;
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
@@ -194,7 +194,7 @@ $ready(function () {
                         var th = this;
                         window.setTimeout(function () {
                             if (th.examstate.isover) return;
-                            if (th.surplustime == 0 && !th.examstate.issubmit) {
+                            if (!th.examstate.issubmit) {
                                 th.submit(2);
                             }
                         }, 2000);
@@ -211,6 +211,7 @@ $ready(function () {
             //答题信息变更时
             'paperAnswer': {
                 handler: function (nv, ov) {
+                    if (JSON.stringify(nv) == JSON.stringify(ov)) return;
                     //记录到本地
                     if (!this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
@@ -228,7 +229,7 @@ $ready(function () {
                 th.loading.ques = true;
                 //试卷缓存过期时间
                 var span = th.exam.Exam_Span + 5;
-                $api.cache('Exam/MakeoutPaper:+' + span,
+                $api.cache('Exam/MakeoutPaper:' + span,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
@@ -252,12 +253,17 @@ $ready(function () {
                             }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
-                            paper = th.restoreAnswer(paper);
-                            th.paperQues = paper;
-                            window.setTimeout(function () {
-                                //th.loading.ques = false;
-                                th.submit(1);
-                            }, 1000);
+                            th.getAnswerinfo(function (answer) {
+                                paper = th.restoreAnswer(answer, paper);
+                                th.paperQues = paper;
+                                window.setTimeout(function () {
+                                    //th.loading.ques = false;
+                                    th.submit(1);
+                                }, 1000);
+                            });
+                            //paper = th.restoreAnswer(paper);
+
+
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -366,10 +372,6 @@ $ready(function () {
                 }).catch(() => {
                     // on cancel
                 });
-            },
-            //自动交卷
-            submitAuto: function () {
-
             },
             //滑动试题，滑动到指定试题索引
             swipe: function (e) {
@@ -496,11 +498,26 @@ $ready(function () {
             },
             //获取答题信息，func参数：获取成功后的回调函数
             getAnswerinfo: function (func) {
-
+                var th = this;
+                var promise = new Promise((resolve, reject) => {
+                    var record = $api.storage(th.recordname);
+                    if (record != null && record != "") return resolve(record);
+                    $api.get('Exam/state', { 'examid': th.examid }).then(function (req) {
+                        if (req.data.success) {
+                            let result = req.data.result;
+                            th.paperAnswer = result.result;     //答题详情，也许不存在
+                            //th.recordAnswer = th.examstate.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                }).then(func);
+                return promise;
             },
             //将本地记录本的答题信息还原到试卷，用于应对学员刷新页面或重新打开试卷时
-            restoreAnswer: function (paper) {
-                var record = $api.storage(this.recordname);
+            restoreAnswer: function (record, paper) {
                 if (record == null || record == "") {
                     //固定时间开始
                     if (this.examstate.type == 1) {

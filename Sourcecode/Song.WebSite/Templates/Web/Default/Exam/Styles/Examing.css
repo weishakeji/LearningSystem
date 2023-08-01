@@ -369,3 +369,7 @@ a.null_icon {
 	display: block;
 	width: 200px;
 }
+.el-dialog card{
+	box-shadow:none;
+	border: none;
+}
