@@ -169,9 +169,9 @@ $ready(function () {
                     th.examstate = state.data.result;
                     th.time.span = th.examstate.timespan; //考试限时
                     th.examstate.loading = false;
-                    //th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     //th.recordAnswer = th.examstate.result;
-                    //console.error(th.examstate);                   
+                    console.error(th.paperAnswer);
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.exam = false);
@@ -240,8 +240,12 @@ $ready(function () {
                     //记录到本地
                     if (!this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
-                    if (this.loading.ques && !this.examstate.issubmit)
-                        this.submit(1);
+                    if (this.loading.ques && !this.examstate.issubmit) {
+                        var th = this;
+                        //window.setTimeout(function () {
+                        th.submit(1);
+                        //}, 2000);
+                    }
                 }, deep: true
             }
         },
@@ -364,6 +368,7 @@ $ready(function () {
                 //设置为交卷
                 th.paperAnswer.patter = patter;
                 var xml = th.generateAnswerXml(th.paperAnswer);
+                $api.storage(th.recordname, th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
                     if (req.data.success) {
@@ -440,6 +445,7 @@ $ready(function () {
                     "sbjid": this.subject.Sbj_ID,
                     "sbjname": this.subject.Sbj_Name,
                     "patter": 1,    //提交方式，1为自动提交，2为交卷
+                    "index": this.swipeIndex,    //当前试题索引
                     "ques": []
                 }
                 //实际答题内容
@@ -528,8 +534,8 @@ $ready(function () {
             },
             //将本地记录本的答题信息还原到试卷，用于应对学员刷新页面或重新打开试卷时
             restoreAnswer: function (paper) {
-                var record = this.paperAnswer;
-                console.log(record);
+                var record = $api.storage(this.recordname);
+                if ($api.isnull(record)) record = this.paperAnswer;
                 if (record == null || JSON.stringify(record) == '{}' || !record.ques) {
                     //固定时间开始
                     if (this.examstate.type == 1) {
@@ -625,7 +631,11 @@ $ready(function () {
                         }
                     }
                 }
-                //console.log(reclist);
+                //滑动的最后答题的试题
+                this.$nextTick(function () {
+                    this.swipe(record.index);
+                });
+
                 return paper;
             }
         },
