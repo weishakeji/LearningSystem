@@ -339,7 +339,10 @@ a.null_icon {
 	line-height: 30px;
 	font-size: 16px;
 }
-
+.time_icon red{
+	margin-top: 10px;
+	display: block;
+}
 
 
 

@@ -35,10 +35,11 @@ $ready(function () {
                 server: {},          //服务器端时间
                 client: {},            //客户端时间
                 span: 0,            //考试时长（单位分钟）
-                wait: 0,           //离开始考试还有多久，单位秒
+                wait: 0,            //离开始考试还有多久，单位秒
                 begin: new Date(),  //考试开始时间,如果固定时间考试，此时间来自系统设置
                 over: new Date(),    //考试结束时间               
                 start: new Date(),        //学员真正开始考试的时间，例如9:00 begin开始，学员9:10进场
+                load: 0,               //试题加载时间，如果开始考试则立即加载，如果未开始考试，这里是预加载的时间
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
             blur_maxnum: 3,          //失去焦点的最大次数
@@ -144,11 +145,14 @@ $ready(function () {
                 this.time.wait = how;
                 if (how <= 0) return '';
                 how = Math.floor(how / 1000);
-                let mm = Math.floor(how / 60);
+                let mm = Math.floor(how / 60);      //分钟
                 let ss = how - mm * 60;
                 let hh = Math.floor(mm / 60);
                 if (hh > 0) mm = mm - hh * 60;
-                return (hh > 0 ? hh + '小时 ' : '') + mm + '分 ' + ss + '秒';
+                if (hh >= 24) return '超过24小时';
+                let msg = hh > 0 ? hh + '小时 ' : '';
+                if (mm > 0) msg += mm + '分 ';
+                return msg + ss + '秒';
             },
             //答题记录存储时的名称
             recordname: function () {
@@ -214,6 +218,7 @@ $ready(function () {
                 //离考试还有多久
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
+                if (this.time.wait <= 0 && !this.examstate.isstart) this.examstate.isstart = true;
                 if (!this.examstate.isover) {
                     if (this.time.wait < this.time.requestlimit * 60 && !$api.isnull(this.exam) && !this.loading.ques) {
                         this.loading.ques = true;
@@ -355,12 +360,22 @@ $ready(function () {
                     if (this.time.begin > this.nowtime) this.time.start = this.nowtime;
                     else
                         this.time.start = this.time.begin;
+                    //计算试题加载时间
+                    if (this.time.begin < this.nowtime) this.time.load = this.nowtime;
+                    else {
+                        let span = this.time.begin.getTime() - this.nowtime.getTime();
+                        let maxspan = 10 * 60 * 1000;
+                        span = span > maxspan ? maxspan : span;
+                        let rd = Math.floor(Math.random() * span);
+                        this.time.load = new Date(this.time.begin.getTime() - rd);
+                    }
                 }
                 //限定时间段
                 if (this.examstate.type == 2) {
                     this.time.begin = this.nowtime;
                     this.time.over = new Date(this.nowtime.getTime() + this.time.span * 60 * 1000);
                     this.time.start = this.nowtime;
+                    this.time.load = this.nowtime;  //试题加载时间
                 }
             },
             //交卷

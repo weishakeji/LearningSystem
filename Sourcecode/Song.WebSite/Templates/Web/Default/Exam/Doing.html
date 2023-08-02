@@ -130,6 +130,13 @@
                                         <div class="null_icon" icon="&#xe854">
                                             好像错过了什么！
                                         </div>
+                                        <el-tag type="success">开始时间：                                         
+                                            {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
+                                        </el-tag>
+                                        <el-tag type="warning">结束时间：
+                                            <!--开始时间-->
+                                            {{time.over|date('yyyy-MM-dd HH:mm:ss')}}
+                                        </el-tag>
                                     </card-context>
                                 </card>
                             </template>
@@ -147,7 +154,9 @@
                                             <!--当前时间-->
                                             {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
                                             <br />
-                                            <el-tag type="danger">距离开考</el-tag> <br />{{howtime}}
+                                            <el-tag type="danger">距离开考</el-tag> <br /><red>{{howtime}}</red>
+                                            <hr/>
+                                            {{time.load|date('yyyy-MM-dd HH:mm:ss')}}
                                         </div>
                                     </card-context>
                                 </card>

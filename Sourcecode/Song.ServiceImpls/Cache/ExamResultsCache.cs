@@ -28,8 +28,10 @@ namespace Song.ServiceImpls.Cache
         /// <param name="tpid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        public static string Update(ExamResults exr, int expires, int examid, long tpid, int acid)
+        public static string Update(ExamResults exr, int expires)
         {
+            int examid = exr.Exam_ID, acid = exr.Ac_ID;
+            long tpid = exr.Tp_Id;
             ExamResultsCache_Item erc = GetCache(examid, tpid, acid);
             if (erc != null)
             {

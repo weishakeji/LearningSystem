@@ -141,7 +141,9 @@ $ready(function () {
             calcSpan: function (d1, d2) {
                 if (d1 == null || d2 == null) return '';
                 var total = (d2.getTime() - d1.getTime()) / 1000;
+                console.error(total);
                 var span = Math.floor(total / 60);
+
                 return span <= 0 ? "<1" : span;
             },
             //计算考试成绩

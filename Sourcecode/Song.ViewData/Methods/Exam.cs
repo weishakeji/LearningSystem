@@ -525,7 +525,7 @@ namespace Song.ViewData.Methods
                 exr.Exr_LastTime = DateTime.Now;
 
                 //缓存当前答题信息
-                Business.Do<IExamination>().ResultCacheUpdate(exr, -1, examid, tpid, stid);
+                Business.Do<IExamination>().ResultCacheUpdate(exr, -1);
                 if (patter == 1) return jo;
                 exr = Business.Do<IExamination>().ResultSubmit(exr);
                 //是否重复提交

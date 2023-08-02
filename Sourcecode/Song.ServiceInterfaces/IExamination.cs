@@ -182,11 +182,8 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="exr"></param>
         /// <param name="expires"></param>
-        /// <param name="examid"></param>
-        /// <param name="tpid"></param>
-        /// <param name="acid"></param>
         /// <returns></returns>
-        string ResultCacheUpdate(ExamResults exr, int expires, int examid, long tpid, int acid);
+        string ResultCacheUpdate(ExamResults exr, int expires);
         /// <summary>
         /// 答题缓存的数量
         /// </summary>

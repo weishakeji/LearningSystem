@@ -16,7 +16,7 @@ $ready(function () {
 
         },
         computed: {
-
+            nowtime: () => 123,
         },
         watch: {
         },
@@ -27,7 +27,7 @@ $ready(function () {
                 let len = Math.floor(length / part);   //每段多长
                 let arr = [];
                 for (let i = 0; i < count; i++) {
-                    let random = Math.floor(Math.random() * len);                
+                    let random = Math.floor(Math.random() * len);
                     arr.push(len * (i * 2 + 1) + random);
                 }
                 return arr;
