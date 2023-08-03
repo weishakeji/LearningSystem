@@ -61,7 +61,7 @@
                 </div>
             </header>
             <content>
-                <div class="body">                  
+                <div class="body">
                     <loading class="loading_init" v-if="loading.init">正在加载初始数据...</loading>
                     <div v-if="!loading.init && !examstate.doing" class="context" remark="无法考试的各种原因">
                         <template v-if="!examstate.islogin">
@@ -130,7 +130,7 @@
                                         <div class="null_icon" icon="&#xe854">
                                             好像错过了什么！
                                         </div>
-                                        <el-tag type="success">开始时间：                                         
+                                        <el-tag type="success">开始时间：
                                             {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
                                         </el-tag>
                                         <el-tag type="warning">结束时间：
@@ -154,9 +154,11 @@
                                             <!--当前时间-->
                                             {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
                                             <br />
-                                            <el-tag type="danger">距离开考</el-tag> <br /><red>{{howtime}}</red>
-                                            <hr/>
+                                            <el-tag type="danger">距离开考</el-tag> <br />
+                                            <red>{{howtime}}</red>
+                                            <hr />
                                             {{time.load|date('yyyy-MM-dd HH:mm:ss')}}
+                                            <red>试卷是否生成：{{isgenerate}}</red>
                                         </div>
                                     </card-context>
                                 </card>

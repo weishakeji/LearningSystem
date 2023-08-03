@@ -49,7 +49,7 @@ $ready(function () {
                 init: true,             //初始化主要参数  
                 exam: true,               //加载考试信息中           
                 paper: false,             //试卷加载中
-                ques: true,              //加载试题中
+                ques: false,              //加载试题中
                 submit: false,           //成绩提交中
             }
         },
@@ -99,10 +99,9 @@ $ready(function () {
             }
         },
         computed: {
-            //学员是否登录
-            islogin: t => !$api.isnull(t.account),
-            //是否存在考试
-            isexam: t => !$api.isnull(t.exam),
+            islogin: t => !$api.isnull(t.account),      //学员是否登录
+            isexam: t => !$api.isnull(t.exam),          //是否存在考试
+            isgenerate: t => t.paperQues.length > 0,     //是否已经出卷
             //试题总数
             questotal: function () {
                 let total = 0;
@@ -135,9 +134,11 @@ $ready(function () {
             },
             //考试开始时间
             starttime: function () {
-                try {
+                //try {
+                if (this.examstate.startTime)
                     return new Date(this.examstate.startTime);
-                } catch { }
+                return new Date();
+                //} catch { }
             },
             //离开始考试还有多少时间
             howtime: function () {
@@ -219,6 +220,7 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (this.time.wait <= 0 && !this.examstate.isstart) this.examstate.isstart = true;
+                if (this.time.load > nv) this.generatePaper(); //生成试卷
                 if (!this.examstate.isover) {
                     if (this.time.wait < this.time.requestlimit * 60 && !$api.isnull(this.exam) && !this.loading.ques) {
                         this.loading.ques = true;
@@ -268,6 +270,7 @@ $ready(function () {
         methods: {
             //生成试卷内容
             generatePaper: function () {
+                if (this.loading.ques) return;      //如果正在加载中
                 if ($api.isnull(this.paper)) return;
                 if (this.paperQues.length > 0) return;
                 if (this.examstate.iserror || this.examstate.issubmit) return;
@@ -288,6 +291,7 @@ $ready(function () {
                                 //th.loading.ques = false;
                                 th.submit(1);
                             }, 2000);
+                            console.error('试卷生成');
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -359,12 +363,12 @@ $ready(function () {
                     this.time.over = new Date(this.time.begin.getTime() + this.time.span * 60 * 1000);
                     if (this.time.begin < this.nowtime) this.time.start = this.nowtime;
                     else
-                        this.time.start = this.time.begin;                  
+                        this.time.start = this.time.begin;
                     //计算试题加载时间
-                    if (this.time.begin < this.nowtime) this.time.load = this.nowtime;
+                    if (this.time.begin > this.nowtime) this.time.load = this.nowtime;
                     else {
                         let span = this.time.begin.getTime() - this.nowtime.getTime();
-                        let maxspan = 10 * 60 * 1000;
+                        let maxspan = 20 * 60 * 1000;
                         span = span > maxspan ? maxspan : span;
                         let rd = Math.floor(Math.random() * span);
                         this.time.load = new Date(this.time.begin.getTime() - rd);
