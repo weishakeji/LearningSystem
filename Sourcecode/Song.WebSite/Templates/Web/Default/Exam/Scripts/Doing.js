@@ -248,6 +248,8 @@ $ready(function () {
             'paperQues': {
                 handler: function (nv, ov) {
                     if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
+                    //第一次加载
+                    if ($api.isnull(ov) || ov.length < 1) return;
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
                 }, immediate: false, deep: true
@@ -259,7 +261,7 @@ $ready(function () {
                     //记录到本地
                     if (this.examstate.exist && !this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
-                    if (this.loading.ques && !this.examstate.issubmit) {
+                    if (!this.loading.ques && !this.examstate.issubmit) {
                         var th = this;
                         //window.setTimeout(function () {
                         th.submit(1);
@@ -665,8 +667,8 @@ $ready(function () {
                 //滑动的最后答题的试题
                 this.$nextTick(function () {
                     var th = this;
-                    Window.setTimeout(function () {
-                        th.swipe(record.index);
+                    window.setTimeout(function () {
+                        if (record.index >= 0) th.swipe(record.index);
                     }, 1000);
 
                 });
