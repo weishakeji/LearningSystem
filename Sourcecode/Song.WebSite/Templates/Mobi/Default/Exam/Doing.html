@@ -118,12 +118,12 @@
                     交&nbsp;卷</div>
             </footer>
             <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
-                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="loading.ques">
+                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="!loading.ques">
                     <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"
                         :total="questotal" :types="types" :exam="exam">
                     </question>
                 </dl>
-                <div class="loading_paper" v-if="!loading.ques">
+                <div class="loading_paper" v-if="loading.ques">
                     <van-loading type="spinner" size="24px">试题加载中...</van-loading>
                 </div>
             </section>

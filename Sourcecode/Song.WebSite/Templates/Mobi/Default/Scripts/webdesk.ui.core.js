@@ -956,12 +956,12 @@
                 };
                 //重构alert
                 window.alert_base = window.alert;
-                window.alert = function (txt) {
+                window.alert = function (txt, title) {
                     //手机端
                     if (webdom.ismobi()) {
-                        vant.Dialog ? vant.Dialog.alert({ message: txt }) : window.alert_base(txt);
+                        vant.Dialog ? vant.Dialog.alert({ message: txt, title: title  }) : window.alert_base(txt);
                     } else {
-                        Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
+                        Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
                     }
                 };
                 //重构确认

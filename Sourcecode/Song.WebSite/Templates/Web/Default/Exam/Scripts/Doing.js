@@ -6,18 +6,18 @@ $ready(function () {
             account: {},     //当前登录账号           
 
             theme: {},               //考试主题
-            exam: {},             //考试 
+            exam: {},                //考试场次对象 
+            //考试状态
             examstate: {
                 islogin: true, loading: true,
                 issubmit: false,     //是否交卷
                 iserror: false           //是否存在错误
-            },           //考试状态
+            },
             paper: {},           //试卷信息   
             subject: {},             //试卷所属专业
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
-            paperAnswer: {},          //答题信息 
-            //recordAnswer: {},          //答题信息，初始时同上
+            paperAnswer: {},          //答题信息         
 
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
@@ -39,7 +39,7 @@ $ready(function () {
                 begin: new Date(),  //考试开始时间,如果固定时间考试，此时间来自系统设置
                 over: new Date(),    //考试结束时间               
                 start: new Date(),        //学员真正开始考试的时间，例如9:00 begin开始，学员9:10进场
-                load: 0,               //试题加载时间，如果开始考试则立即加载，如果未开始考试，这里是预加载的时间
+                load: 0,               //试题加载的开始时间，开始考试则立即加载，如果未开始考试，提前加载的时间
                 requestlimit: 10,    //离开考多久的时候，开始预加载试题，单位：分钟
             },
             blur_maxnum: 3,          //失去焦点的最大次数
@@ -91,11 +91,8 @@ $ready(function () {
                     $api.storage(key, null);
                     return;
                 }
-                vapp.$alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
-                    '禁止切换考试界面', {
-                    confirmButtonText: '确定',
-                    callback: action => { }
-                });
+                alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
+                    '禁止切换考试界面');
             }
         },
         computed: {
@@ -134,11 +131,9 @@ $ready(function () {
             },
             //考试开始时间
             starttime: function () {
-                //try {
                 if (this.examstate.startTime)
                     return new Date(this.examstate.startTime);
                 return new Date();
-                //} catch { }
             },
             //离开始考试还有多少时间
             howtime: function () {
@@ -176,9 +171,7 @@ $ready(function () {
                     th.examstate = state.data.result;
                     th.time.span = th.examstate.timespan; //考试限时
                     th.examstate.loading = false;
-                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
-                    //th.recordAnswer = th.examstate.result;
-                    //console.error(th.paperAnswer);
+                    th.paperAnswer = th.examstate.result;     //答题详情，也许不存在                  
                     th.calcTime();
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
@@ -201,8 +194,6 @@ $ready(function () {
                     th.paper = paper.data.result;
                     //是否已经交过卷
                     let result = exr.data.result;
-                    //if (result == null || !result.Exr_IsSubmit)
-                    //th.generatePaper(); //生成试卷
                     //禁用鼠标右键 //禁止选择文本
                     if (th.theme && th.theme.Exam_IsRightClick) {
                         document.addEventListener('contextmenu', function (e) {
@@ -221,10 +212,8 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (this.time.wait <= 0 && !this.examstate.isstart) this.examstate.isstart = true;
-                //if (this.time.load > nv) this.generatePaper(); //生成试卷
                 if (!this.examstate.isover) {
                     if (this.time.load < nv && !$api.isnull(this.exam) && !this.isgenerate) {
-                        //this.loading.ques = true;
                         this.generatePaper();
                     }
                     if (this.time.wait == 0 && !this.examstate.issubmit && this.examstate.allow) {
@@ -262,10 +251,7 @@ $ready(function () {
                     if (this.examstate.exist && !this.examstate.issubmit)
                         $api.storage(this.recordname, nv);
                     if (!this.loading.ques && !this.examstate.issubmit) {
-                        var th = this;
-                        //window.setTimeout(function () {
-                        th.submit(1);
-                        //}, 2000);
+                        this.submit(1);
                     }
                 }, deep: true
             }
@@ -383,8 +369,7 @@ $ready(function () {
                     this.time.over = new Date(this.nowtime.getTime() + this.time.span * 60 * 1000);
                     this.time.start = this.nowtime;
                     this.time.load = this.nowtime;  //试题加载时间
-                }
-                //console.error(this.time.start);
+                }              
             },
             //交卷
             //patter:提交方式，1为自动提交，2为交卷
@@ -434,13 +419,14 @@ $ready(function () {
                 var th = this;
                 confirm('交卷', msg, function () {
                     th.submit(2);
-                });              
-            },           
+                });
+            },
             //滑动试题，滑动到指定试题索引
             swipe: function (e) {
                 if ($api.getType(e) == 'Number') {
                     this.swipeIndex = e;
                     $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
+                    this.showCard = false;
                 }
                 if (e && $api.getType(e) == 'Object') {
                     if (e.preventDefault) e.preventDefault();
@@ -665,7 +651,6 @@ $ready(function () {
                     }, 1000);
 
                 });
-
                 return paper;
             }
         },
