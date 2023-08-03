@@ -90,7 +90,7 @@ Vue.component('exam_items', {
                 Exam_DateOver: th.theme.Exam_DateOver,
                 Exam_GroupType: this.theme.Exam_GroupType,
                 Exam_UID: this.theme.Exam_UID,
-                Exam_Span:0
+                Exam_Span: 0
             };
         },
         //增加场次
@@ -302,6 +302,9 @@ Vue.component('exam_item_modify', {
 
             }, immediate: true
         },
+        'exam.Exam_Date': function (nv, ov) {
+            //alert(nv);
+        },
         'subjects': {
             handler: function (nv, ov) {
                 if (nv) {
@@ -461,6 +464,11 @@ Vue.component('exam_item_modify', {
             }
             console.log(val);
         },
+        //考试时间变更时
+        examdate_change: function (val) {
+            if (val < new Date())
+                alert('考试开始时间小于当前时间');
+        },
         //保存
         btnSave: function (formName) {
             var th = this;
@@ -470,7 +478,7 @@ Vue.component('exam_item_modify', {
                     if (th.exam.Exam_ID <= 0) {
                         this.$emit('add', th.exam, th.index);
                     } else {
-                        this.$emit('modify', th.exam, th.index+1);
+                        this.$emit('modify', th.exam, th.index + 1);
                     }
                     th.show = false;
                 } else {
@@ -526,7 +534,7 @@ Vue.component('exam_item_modify', {
             <el-form-item label="开始时间"  prop="Exam_Date">
                 <span v-if="theme.Exam_DateType==1">
                     <!--准时开始-->
-                    <el-date-picker v-model="exam.Exam_Date" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker v-model="exam.Exam_Date" @change="examdate_change" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>                  
                 </span>
                 <span v-else>

@@ -110,7 +110,7 @@
                                     </card-context>
                                 </card>
                             </template>
-                           
+
                             <template v-else-if="examstate.issubmit">
                                 <card>
                                     <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
@@ -151,15 +151,20 @@
                                     </card-title>
                                     <card-context>
                                         <div class="time_icon" icon="&#xa039">
-                                            <el-tag type="primary">当前时间</el-tag> <br />
-                                            <!--当前时间-->
-                                            {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
-                                            <br />
-                                            <el-tag type="danger">距离开考</el-tag> <br />
-                                            <red>{{howtime}}</red>
-                                            <hr />
-                                            {{time.load|date('yyyy-MM-dd HH:mm:ss')}}
-                                            <red>试卷是否生成：{{isgenerate}}</red>
+                                            <div>
+                                                <el-tag type="primary">当前时间</el-tag>
+                                                <!--当前时间-->
+                                                {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
+                                            </div>
+                                            <div>
+                                                <el-tag type="danger">距离开考</el-tag>
+                                                <red>{{howtime}}</red>                                             
+                                            </div>
+                                            <template v-if="isgenerate">
+                                                <hr />
+                                                <span v-if="false">{{time.load|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                                                <div>试卷加载完成，请静待考试开始</div>
+                                            </template>
                                         </div>
                                     </card-context>
                                 </card>
@@ -207,7 +212,7 @@
                                 {{calcIndex(n,i)+1}}
                             </dd>
                         </dl>
-                    </div>                  
+                    </div>
                     <footer>
                         <div icon="&#xe81a" @click="showTime=true"> {{surplustime|surplus}} </div>
                         <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>

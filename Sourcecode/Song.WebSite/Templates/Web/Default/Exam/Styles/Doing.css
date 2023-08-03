@@ -8,11 +8,13 @@ html, body {
 	overflow: hidden;
 	position: relative;
 	text-align: center;
-	background-color: #666;		
+	background-color: #666;
 }
-body{
-	background-image: linear-gradient(to bottom right,#999, #ccc, #666);
+
+body {
+	background-image: linear-gradient(to bottom right, #999, #ccc, #666);
 }
+
 #vapp {
 	width: 1200px;
 	height: calc(100% - 20px);
@@ -23,8 +25,9 @@ body{
 	box-sizing: border-box;
 	border-radius: 5px;
 }
+
 /*头部*/
-#vapp>header{
+#vapp>header {
 	height: 100px;
 	box-sizing: border-box;
 	padding: 10px;
@@ -33,8 +36,9 @@ body{
 	box-shadow: #aaa;
 	border-bottom: 1px solid #e4e7f1;
 }
-header>div.title {	
-	font-size: 21px;	
+
+header>div.title {
+	font-size: 21px;
 	line-height: 50px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -44,18 +48,22 @@ header>div.title {
 	box-sizing: border-box;
 	padding: 0px 0px 0px 10px;
 }
-header>div.title icon{
+
+header>div.title icon {
 	font-size: 25px;
 }
-header>div.title .info{
+
+header>div.title .info {
 	font-size: 14px;
 	line-height: 30px;
 	color: #666;
 	margin-right: 20px;
 }
-header>div.title .info span{
+
+header>div.title .info span {
 	margin-right: 20px;
 }
+
 /*学员信息的面板*/
 header div.account {
 	height: 100%;
@@ -78,15 +86,17 @@ header div.account>div:last-child {
 	flex-direction: column;
 	justify-content: space-between;
 }
-content{
+
+content {
 	display: flex;
 	height: calc(100% - 100px);
 	justify-content: space-between;
 }
+
 /*右侧答题卡*/
 
 .quesCard {
-	width: 320px;	
+	width: 320px;
 	position: relative;
 	box-sizing: border-box;
 	padding: 15px 15px 65px 15px;
@@ -100,14 +110,15 @@ content{
 	display: flex;
 	justify-content: space-between;
 }
+
 .quesCard .cardTit>span:last-child {
 	font-size: 14px;
-	color: #999;	
+	color: #999;
 }
 
 .quesCard .cardBox {
 	height: calc(100% - 30px);
-	overflow-y: auto;	
+	overflow-y: auto;
 }
 
 .quesCard dl, .quesCard dt, .quesCard dd {
@@ -123,7 +134,7 @@ content{
 
 .quesCard dt {
 	padding: 10px 10px 10px 15px;
-	box-sizing: border-box;	
+	box-sizing: border-box;
 }
 
 .quesCard dt span {
@@ -151,13 +162,13 @@ content{
 	border: solid 1px rgb(102, 177, 255);
 	background-color: rgb(102, 177, 255);
 	color: #fff;
-	
+
 }
 
 .quesCard dd[current] {
 	border: solid 1px rgb(92, 180, 3);
 	color: #fff;
-	background-color: rgba(92, 180, 3, .6)  !important;
+	background-color: rgba(92, 180, 3, .6) !important;
 }
 
 .quesCard dd[current]::after {
@@ -178,14 +189,14 @@ content{
 
 .quesCard footer {
 	height: 44px;
-	background-color: rgb(212, 224, 206);	
+	background-color: rgb(212, 224, 206);
 	position: absolute;
 	width: calc(100% - 30px);
 	display: flex;
 	bottom: 15px;
-	z-index: 3;	
+	z-index: 3;
 	border-radius: 3px;
-	line-height: 44px;	
+	line-height: 44px;
 	font-size: 18px;
 	cursor: pointer;
 	text-align: center;
@@ -195,10 +206,11 @@ content{
 .quesCard footer div:first-child {
 	flex: 2;
 }
-.quesCard  footer div:last-child {
+
+.quesCard footer div:last-child {
 	flex: 3;
 	background-color: #009900;
-	color: #fff;	
+	color: #fff;
 }
 
 /*试题区*/
@@ -206,16 +218,18 @@ div.body {
 	display: block;
 	position: relative;
 	flex: 1;
-	overflow: hidden;		
+	overflow: hidden;
 }
+
 /*上一题，下一题*/
-.move_btn{
+.move_btn {
 	position: absolute;
 	right: 20px;
 	top: 15px;
 	z-index: 10;
 	background-color: #f2f2f2;
 }
+
 .move_btn span {
 	font-size: 13px;
 	cursor: pointer;
@@ -238,8 +252,9 @@ section {
 	position: relative;
 	transition: left 0.5s;
 }
+
 section dd {
-	width: 880px !important;	
+	width: 880px !important;
 }
 
 row {
@@ -339,15 +354,6 @@ a.null_icon {
 	line-height: 30px;
 	font-size: 16px;
 }
-.time_icon red{
-	margin-top: 10px;
-	display: block;
-}
-
-
-
-
-
 
 /*一些面板*/
 
@@ -372,7 +378,8 @@ a.null_icon {
 	display: block;
 	width: 200px;
 }
-.el-dialog card{
-	box-shadow:none;
+
+.el-dialog card {
+	box-shadow: none;
 	border: none;
 }
