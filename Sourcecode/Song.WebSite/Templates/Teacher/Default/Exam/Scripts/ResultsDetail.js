@@ -138,11 +138,14 @@ $ready(function () {
                 });
             },
             //计算考试用时
-            calcSpan: function (d1, d2) {
+            calcSpan: function (item) {
+                if (item == null) return '';
+                let d1 = item.Exr_CrtTime;      //考试开始时间
+                let d2 = item.Exr_IsSubmit ? item.Exr_SubmitTime : item.Exr_LastTime;     //最后答题时间
+                d2 = item.Exr_OverTime > d2 ? d2 : item.Exr_OverTime;
                 if (d1 == null || d2 == null) return '';
-                var total = (d2.getTime() - d1.getTime()) / 1000;               
-                var span = Math.round(total / 60);
-                return span <= 0 ? "<1" : span;
+                let minute = Math.round((d2.getTime() - d1.getTime()) / 1000 / 60);      //考试用时（分钟）                        
+                return (minute <= 0 ? "<1" : minute) + ' 分钟';
             },
             //计算考试成绩
             clacScore: function (exrid) {

@@ -179,6 +179,7 @@ $ready(function () {
                     th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                     //th.recordAnswer = th.examstate.result;
                     //console.error(th.paperAnswer);
+                    th.calcTime();
                     th.exam = exam.data.result;
                 })).catch(err => console.error(err))
                     .finally(() => th.loading.exam = false);
@@ -200,8 +201,8 @@ $ready(function () {
                     th.paper = paper.data.result;
                     //是否已经交过卷
                     let result = exr.data.result;
-                    if (result == null || !result.Exr_IsSubmit)
-                        th.generatePaper(); //生成试卷
+                    //if (result == null || !result.Exr_IsSubmit)
+                    //th.generatePaper(); //生成试卷
                     //禁用鼠标右键 //禁止选择文本
                     if (th.theme && th.theme.Exam_IsRightClick) {
                         document.addEventListener('contextmenu', function (e) {
@@ -220,10 +221,10 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (this.time.wait <= 0 && !this.examstate.isstart) this.examstate.isstart = true;
-                if (this.time.load > nv) this.generatePaper(); //生成试卷
+                //if (this.time.load > nv) this.generatePaper(); //生成试卷
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && !$api.isnull(this.exam) && !this.loading.ques) {
-                        this.loading.ques = true;
+                    if (this.time.load < nv && !$api.isnull(this.exam) && !this.isgenerate) {
+                        //this.loading.ques = true;
                         this.generatePaper();
                     }
                     if (this.time.wait == 0 && !this.examstate.issubmit && this.examstate.allow) {
@@ -283,7 +284,7 @@ $ready(function () {
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = th.parseAnswer(req.data.result);
-                            th.calcTime();
+                            //th.calcTime();
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
                             th.paperQues = paper;
@@ -312,8 +313,8 @@ $ready(function () {
                 //如果不在考试人群中
                 if (!this.examstate.allow) return false;
                 //考试时间已过或还未开始
-                if (this.examstate.isover || !this.examstate.isstart) return false;
-                return this.examstate.doing;
+                if (this.examstate.isover) return false;
+                return this.examstate.doing || this.isgenerate;
             },
             //解析试题的选项，由xml转为json
             parseAnswer: function (ques) {
@@ -365,10 +366,10 @@ $ready(function () {
                     else
                         this.time.start = this.time.begin;
                     //计算试题加载时间
-                    if (this.time.begin > this.nowtime) this.time.load = this.nowtime;
+                    if (this.time.begin < this.nowtime) this.time.load = this.nowtime;
                     else {
                         let span = this.time.begin.getTime() - this.nowtime.getTime();
-                        let maxspan = 20 * 60 * 1000;
+                        let maxspan = this.requestlimit * 60 * 1000;
                         span = span > maxspan ? maxspan : span;
                         let rd = Math.floor(Math.random() * span);
                         this.time.load = new Date(this.time.begin.getTime() - rd);
@@ -609,19 +610,19 @@ $ready(function () {
                     }
                 }
                 //遍历试卷试题，进行还原
-                for (var i = 0; i < paper.length; i++) {
-                    var group = paper[i];
+                for (let i = 0; i < paper.length; i++) {
+                    const group = paper[i];
                     for (let j = 0; j < group.ques.length; j++) {
                         const q = group.ques[j];
                         if (q == null) continue;
                         //通过答题记录还原
-                        for (var n = 0; n < reclist.length; n++) {
+                        for (let n = 0; n < reclist.length; n++) {
                             if (q.Qus_ID == reclist[n].id) {
                                 //单选
                                 if (q.Qus_Type == 1) {
-                                    for (let index = 0; index < q.Qus_Items.length; index++) {
-                                        if (q.Qus_Items[index].Ans_ID == reclist[n].ans) {
-                                            q.Qus_Items[index]["selected"] = true;
+                                    for (let a = 0; a < q.Qus_Items.length; a++) {
+                                        if (q.Qus_Items[a].Ans_ID == reclist[n].ans) {
+                                            q.Qus_Items[a]["selected"] = true;
                                         }
                                     }
                                 }
@@ -631,10 +632,9 @@ $ready(function () {
                                     if (arr.length <= 0) continue;
                                     for (let a = 0; a < arr.length; a++) {
                                         if (arr[a] == '') continue;
-                                        for (let index = 0; index < q.Qus_Items.length; index++) {
-                                            if (q.Qus_Items[index].Ans_ID == arr[a]) {
-                                                q.Qus_Items[index]["selected"] = true;
-                                            }
+                                        for (let b = 0; b < q.Qus_Items.length; b++) {
+                                            if (q.Qus_Items[b].Ans_ID == arr[a])
+                                                q.Qus_Items[b]["selected"] = true;
                                         }
                                     }
                                 }
@@ -651,10 +651,9 @@ $ready(function () {
                                 if (q.Qus_Type == 5) {
                                     for (let b = 0; b < q.Qus_Items.length; b++)
                                         q.Qus_Items[b]["Ans_Context"] = '';
-                                    var arr = reclist[n].ans.split(',');
+                                    let arr = reclist[n].ans.split(',');
                                     if (arr.length < 1) continue;
-                                    for (var a = 0; a < arr.length && a < q.Qus_Items.length; a++) {
-                                        //if (arr[a] == '') continue;
+                                    for (let a = 0; a < arr.length && a < q.Qus_Items.length; a++) {
                                         q.Qus_Items[a]["Ans_Context"] = arr[a];
                                     }
                                     q.Qus_Answer = reclist[n].ans;
@@ -665,7 +664,11 @@ $ready(function () {
                 }
                 //滑动的最后答题的试题
                 this.$nextTick(function () {
-                    this.swipe(record.index);
+                    var th = this;
+                    Window.setTimeout(function () {
+                        th.swipe(record.index);
+                    }, 1000);
+
                 });
 
                 return paper;

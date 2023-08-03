@@ -179,13 +179,13 @@
 
                         <section :style="'width:'+questotal*100+'%'" v-swiperight="swipe" v-swipeleft="swipe"
                             remark="试题区域">
-                            <dl v-for="(group,i) in paperQues" v-show="loading.ques"
+                            <dl v-for="(group,i) in paperQues" v-show="!loading.ques"
                                 :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
                                 <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
                                     :account="account" :total="questotal" :types="types" :exam="exam">
                                 </question>
                             </dl>
-                            <loading class="loading_paper" v-if="!loading.ques">试题加载中...</loading>
+                            <loading class="loading_paper" v-if="loading.ques">试题加载中...</loading>
                         </section>
                     </template>
                 </div>
@@ -195,7 +195,7 @@
                         <span icon="&#xe75e">答题卡</span>
                         <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
                     </div>
-                    <div class="cardBox" v-if="loading.ques">
+                    <div class="cardBox" v-if="!loading.ques">
                         <dl v-for="(group,i) in paperAnswer.ques">
                             <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                                 <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>

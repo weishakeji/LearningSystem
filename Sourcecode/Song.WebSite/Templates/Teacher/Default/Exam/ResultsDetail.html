@@ -91,8 +91,7 @@
                 </el-table-column>
                 <el-table-column label="考试用时" width="120" align="center">
                     <template slot-scope="scope">
-
-                        {{calcSpan(scope.row.Exr_CrtTime,scope.row.Exr_LastTime)}} 分钟
+                        {{calcSpan(scope.row)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="成绩" width="80" align="center">
