@@ -9,7 +9,7 @@ $ready(function () {
             account: {
                 Ac_IsUse: true,
                 Ac_IsPass: true,
-                Ac_Photo: '',
+                Ac_Photo: '', Sts_ID: '',
                 Ac_Name: '',
                 Ac_AccName: ''
             },
@@ -102,8 +102,7 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 }
@@ -118,7 +117,7 @@ $ready(function () {
             isadd: t => { return t.id == null || t.id == '' || this.id == 0; },
             //学员的组是否存在
             sortexist: function () {
-                return JSON.stringify(this.accsort) != '{}' && this.accsort != null && !!this.accsort.Sts_ID;
+                return !$api.isnull(this.account) && this.account.Sts_ID != '' && !$api.isnull(this.accsort);
             },
             //是否已经绑定手机号
             isbindmobi: function () {
@@ -188,7 +187,7 @@ $ready(function () {
                 if (!val) this.account.Ac_MobiTel2 = '';
                 console.log(val);
                 console.log(this.isbindmobi);
-            },
+            },           
             btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
