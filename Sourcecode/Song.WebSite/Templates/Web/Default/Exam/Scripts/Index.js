@@ -273,7 +273,7 @@ $ready(function () {
         },
         template: `<card>
         <card-title>{{index+1}}.《{{exam.Exam_Name}}》
-            <a type="button" :examid="exam.Exam_ID" :href="goexaming(exam)" target="_blank">
+            <a type="button" :examid="exam.Exam_ID" :href="goexaming(exam)">
                 参加考试<icon>&#xe6c6</icon>
             </a>
         </card-title>
