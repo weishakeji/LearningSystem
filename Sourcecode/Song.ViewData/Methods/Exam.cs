@@ -209,7 +209,7 @@ namespace Song.ViewData.Methods
                 isOver = DateTime.Now > exam.Exam_Date.AddMinutes(exam.Exam_Span);   //是否结束
                 startTime = exam.Exam_Date;           //开始时间
                 overTime = exam.Exam_Date.AddMinutes(exam.Exam_Span);     //结束时间
-                isSubmit = exr != null ? exr.Exr_IsSubmit : false;    //是否交卷
+                isSubmit = exr != null ? DateTime.Now > exr.Exr_OverTime || exr.Exr_IsSubmit : false;    //是否交卷
             }
             else
             {
@@ -235,7 +235,7 @@ namespace Song.ViewData.Methods
                     overTime = dtStart.Add(new TimeSpan(lover));    //得到转换后的结束时间
                     startTime = exam.Exam_Date <= beginTime ? beginTime : exam.Exam_Date;        //开始时间
                     isOver = DateTime.Now > overTime;
-                    isSubmit = DateTime.Now > overTime || exr.Exr_IsSubmit; //是否交卷
+                    isSubmit = DateTime.Now > overTime || DateTime.Now > exr.Exr_OverTime || exr.Exr_IsSubmit; //是否交卷
                 }
             }
             jo.Add("isstart", isStart);

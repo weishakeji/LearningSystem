@@ -110,6 +110,7 @@
                                     </card-context>
                                 </card>
                             </template>
+                           
                             <template v-else-if="examstate.issubmit">
                                 <card>
                                     <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
@@ -195,7 +196,7 @@
                         <span icon="&#xe75e">答题卡</span>
                         <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
                     </div>
-                    <div class="cardBox" v-if="!loading.ques">
+                    <div class="cardBox" v-if="examstate.doing">
                         <dl v-for="(group,i) in paperAnswer.ques">
                             <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                                 <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
@@ -206,8 +207,7 @@
                                 {{calcIndex(n,i)+1}}
                             </dd>
                         </dl>
-                    </div>
-
+                    </div>                  
                     <footer>
                         <div icon="&#xe81a" @click="showTime=true"> {{surplustime|surplus}} </div>
                         <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>

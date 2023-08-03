@@ -372,9 +372,9 @@ $ready(function () {
                     else {
                         let span = this.time.begin.getTime() - this.nowtime.getTime();
                         let maxspan = this.requestlimit * 60 * 1000;
-                        span = span > maxspan ? maxspan : span;
+                        span = (span > maxspan ? maxspan : span) / 2;
                         let rd = Math.floor(Math.random() * span);
-                        this.time.load = new Date(this.time.begin.getTime() - rd);
+                        this.time.load = new Date(this.time.begin.getTime() - span - rd);
                     }
                 }
                 //限定时间段
