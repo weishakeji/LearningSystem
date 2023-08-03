@@ -116,7 +116,7 @@
                                     <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                                     </card-title>
                                     <card-context>
-                                        <a class="null_icon" icon="&#xe654" :href="goreview()">
+                                        <a class="null_icon" icon="&#xe654" :href="goreview('/student/exam/review')">
                                             点击此处查看成绩！
                                         </a>
                                     </card-context>
@@ -158,7 +158,7 @@
                                             </div>
                                             <div>
                                                 <el-tag type="danger">距离开考</el-tag>
-                                                <red>{{howtime}}</red>                                             
+                                                <red>{{howtime}}</red>
                                             </div>
                                             <template v-if="isgenerate">
                                                 <hr />
@@ -213,7 +213,7 @@
                             </dd>
                         </dl>
                     </div>
-                    <footer>
+                    <footer v-show="examstate.record">
                         <div icon="&#xe81a" @click="showTime=true"> {{surplustime|surplus}} </div>
                         <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>
                     </footer>

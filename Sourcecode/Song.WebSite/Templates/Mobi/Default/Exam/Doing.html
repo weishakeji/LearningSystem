@@ -73,9 +73,9 @@
                 <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                 </card-title>
                 <card-context>
-                    <div class="null_icon" icon="&#xe654" @click="goreview">
+                    <a class="null_icon" icon="&#xe654" :href="goreview('review')">
                         点击此处查看成绩！
-                    </div>
+                    </a>
                 </card-context>
             </card>
             <card v-else-if="examstate.isover">
@@ -97,6 +97,11 @@
                         <van-tag type="primary">当前时间</van-tag> <br />{{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
                         <br />
                         <van-tag type="danger">距离开考</van-tag> <br />{{howtime}}
+                        <template v-if="isgenerate">
+                            <hr />
+                            <span v-if="false">{{time.load|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                            <div>试卷加载完成，请静待考试开始</div>
+                        </template>
                     </div>
                 </card-context>
             </card>
@@ -106,11 +111,12 @@
             <header>
                 <div icon="&#xe748" @click="window.history.go(-1);"></div>
                 <div class="title" @click="showExam=true">{{exam.Exam_Name}}</div>
-                <div icon="&#xe81a" @click="showTime=true">
+                <div icon="&#xe81a" @click="showTime=true"  v-if="examstate.record">
                     {{surplustime|surplus}}
                 </div>
+                <loading v-else></loading>
             </header>
-            <footer>
+            <footer v-show="examstate.record">
                 <div id="btnCard" icon="&#xe75e" @click="showCard=true">
                     <span>{{answertotal}}</span>/<span>{{questotal}}</span>
                 </div>

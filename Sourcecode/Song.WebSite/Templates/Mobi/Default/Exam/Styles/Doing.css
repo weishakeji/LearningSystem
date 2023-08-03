@@ -53,6 +53,7 @@ html, body, #vapp {
 .null_icon {
 	padding: 10px;
 	text-align: center;
+	display: block;
 }
 
 .time_icon::before {
@@ -313,6 +314,7 @@ attended {
 	line-height: 50px;
 	text-align: center;
 	color: darkgreen;
+	display: block;
 }
 
 /*得分样式*/

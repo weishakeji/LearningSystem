@@ -10,6 +10,7 @@ $ready(function () {
             //考试状态
             examstate: {
                 islogin: true, loading: true,
+                record: false,       //是否还原答题数据
                 issubmit: false,     //是否交卷
                 iserror: false           //是否存在错误
             },
@@ -238,7 +239,10 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if ($api.isnull(this.exam) || $api.isnull(this.paper)) return;
                     //第一次加载
-                    if ($api.isnull(ov) || ov.length < 1) return;
+                    if ($api.isnull(ov) || ov.length < 1) {
+                        this.examstate.record = true;
+                        return;
+                    }
                     //生成答题信息（Json格式）
                     this.paperAnswer = this.generateAnswerJson(nv);
                 }, immediate: false, deep: true
@@ -337,12 +341,11 @@ $ready(function () {
                 return initIndex + index;
             },
             //跳转到查看成绩
-            goreview: function () {
-                let url = $api.url.set("/student/exam/review", {
+            goreview: function (url) {
+                return $api.url.set(url, {
                     "examid": this.exam.Exam_ID,
                     "exrid": this.examstate.exrid
                 });
-                return url;
             },
             //计算初始时间
             calcTime: function () {
@@ -369,7 +372,7 @@ $ready(function () {
                     this.time.over = new Date(this.nowtime.getTime() + this.time.span * 60 * 1000);
                     this.time.start = this.nowtime;
                     this.time.load = this.nowtime;  //试题加载时间
-                }              
+                }
             },
             //交卷
             //patter:提交方式，1为自动提交，2为交卷
@@ -579,9 +582,6 @@ $ready(function () {
                     this.time.over = over;
                 }
                 this.time.start = new Date(Number(record.starttime));
-                //console.error(this.time.start);
-                //console.log(begin);
-                //this.paperAnswer = record;
                 //答题记录，转成一层数组，方便遍历
                 var reclist = []
                 for (var i = 0; i < record.ques.length; i++) {
@@ -648,6 +648,7 @@ $ready(function () {
                     var th = this;
                     window.setTimeout(function () {
                         if (record.index >= 0) th.swipe(record.index);
+                        th.examstate.record = true;
                     }, 1000);
 
                 });
@@ -664,11 +665,10 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/avatar.js',
-    '/Utilities/Components/upload-file.js',
-    '/Utilities/Components/question/function.js',
+}, ['/Utilities/Components/question/function.js',
     '/Utilities/Components/question/exam.js',
+    '/Utilities/Components/upload-file.js',
+    '/Utilities/Components/avatar.js',
     '../scripts/pagebox.js',
-    //'Components/question.js',
     'Components/result.js']);
 $dom.load.css([$dom.path() + 'styles/pagebox.css']);

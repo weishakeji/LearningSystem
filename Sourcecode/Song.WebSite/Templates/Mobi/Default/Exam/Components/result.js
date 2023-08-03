@@ -1,5 +1,5 @@
- //成绩得分
- Vue.component('result', {
+//成绩得分
+Vue.component('result', {
     props: ['state', 'exam', 'paper'],
     data: function () {
         return {}
@@ -18,10 +18,12 @@
             if (score >= total * 0.8) return "fine";
             return "";
         },
-        //跳转页面
-        btnEnter: function () {
-            var url = "Review?examid=" + this.state.result.examid + "&exrid=" + this.state.result.exrid;
-            window.location.href = url;
+        //跳转到查看成绩
+        goreview: function (url) {
+            return $api.url.set(url, {
+                "examid": this.exam.Exam_ID,
+                "exrid": this.state.result.exrid
+            });
         },
         //返回
         goback: function () {
@@ -38,7 +40,7 @@
             得分：<score :class="scoreStyle(state.result.score)">{{Math.floor(state.result.score*100)/100}}</score>
             </row>
             <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
-            <div class="btnEnter" @click="btnEnter">确 定</div>
+            <a class="btnEnter" :href="goreview('review')">确 定</a>
         </template>
         <template v-else>
             <row>

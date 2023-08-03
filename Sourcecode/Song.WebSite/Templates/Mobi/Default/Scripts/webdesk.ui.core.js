@@ -959,7 +959,7 @@
                 window.alert = function (txt, title) {
                     //手机端
                     if (webdom.ismobi()) {
-                        vant.Dialog ? vant.Dialog.alert({ message: txt, title: title  }) : window.alert_base(txt);
+                        vant.Dialog ? vant.Dialog.alert({ message: txt, title: title }) : window.alert_base(txt);
                     } else {
                         Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
                     }
@@ -971,7 +971,8 @@
                     if (webdom.ismobi()) {
                         if (vant.Dialog) {
                             vant.Dialog.confirm({ title: title, message: msg, })
-                                .then(evtConfirm).catch(evtCancel);
+                                .then(evtConfirm != null ? evtConfirm : () => { })
+                                .catch(evtCancel != null ? evtCancel : () => { });
                         }
                     } else {
                         if (Vue.prototype.$confirm) {

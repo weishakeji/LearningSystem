@@ -990,7 +990,8 @@
                     if (webdom.ismobi()) {
                         if (vant.Dialog) {
                             vant.Dialog.confirm({ title: title, message: msg, })
-                                .then(evtConfirm).catch(evtCancel);
+                                .then(evtConfirm != null ? evtConfirm : () => { })
+                                .catch(evtCancel != null ? evtCancel : () => { });
                         }
                     } else {
                         if (Vue.prototype.$confirm) {
