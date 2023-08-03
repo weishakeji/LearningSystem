@@ -275,7 +275,7 @@ $ready(function () {
                 th.loading.ques = true;
                 //试卷缓存过期时间
                 var span = th.exam.Exam_Span + 5;
-                $api.cache('Exam/MakeoutPaper:' + span,
+                $api.get('Exam/MakeoutPaper:' + span,
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
@@ -357,9 +357,9 @@ $ready(function () {
                 if (this.examstate.type == 1) {
                     this.time.begin = new Date(Number(this.examstate.startTime));
                     this.time.over = new Date(this.time.begin.getTime() + this.time.span * 60 * 1000);
-                    if (this.time.begin > this.nowtime) this.time.start = this.nowtime;
+                    if (this.time.begin < this.nowtime) this.time.start = this.nowtime;
                     else
-                        this.time.start = this.time.begin;
+                        this.time.start = this.time.begin;                  
                     //计算试题加载时间
                     if (this.time.begin < this.nowtime) this.time.load = this.nowtime;
                     else {
@@ -377,6 +377,7 @@ $ready(function () {
                     this.time.start = this.nowtime;
                     this.time.load = this.nowtime;  //试题加载时间
                 }
+                //console.error(this.time.start);
             },
             //交卷
             //patter:提交方式，1为自动提交，2为交卷
@@ -592,6 +593,7 @@ $ready(function () {
                     this.time.over = over;
                 }
                 this.time.start = new Date(Number(record.starttime));
+                //console.error(this.time.start);
                 //console.log(begin);
                 //this.paperAnswer = record;
                 //答题记录，转成一层数组，方便遍历
