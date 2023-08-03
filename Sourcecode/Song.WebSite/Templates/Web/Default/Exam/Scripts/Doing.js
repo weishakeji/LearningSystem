@@ -294,7 +294,7 @@ $ready(function () {
                                 //th.loading.ques = false;
                                 th.submit(1);
                             }, 2000);
-                            console.error('试卷生成');
+                            //console.error('试卷生成');
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -432,17 +432,10 @@ $ready(function () {
                     msg = "当前考试" + this.questotal + "道题，您还有" + surplus + " 没有做！";
                 }
                 var th = this;
-                this.$confirm(msg + '<br/>是否确认交卷？', '交卷', {
-                    dangerouslyUseHTMLString: true,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
+                confirm('交卷', msg, function () {
                     th.submit(2);
-                }).catch(() => {
-                    // on cancel
-                });
-            },
+                });              
+            },           
             //滑动试题，滑动到指定试题索引
             swipe: function (e) {
                 if ($api.getType(e) == 'Number') {

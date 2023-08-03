@@ -983,6 +983,25 @@
                         Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
                     }
                 };
+                //重构确认
+                window.confirm_base = window.confirm;
+                window.confirm = function (title, msg, evtConfirm, evtCancel) {
+                    //手机端
+                    if (webdom.ismobi()) {
+                        if (vant.Dialog) {
+                            vant.Dialog.confirm({ title: title, message: msg, })
+                                .then(evtConfirm).catch(evtCancel);
+                        }
+                    } else {
+                        if (Vue.prototype.$confirm) {
+                            Vue.prototype.$confirm(msg, title, {
+                                dangerouslyUseHTMLString: true, type: 'warning',
+                                confirmButtonText: '确定', cancelButtonText: '取消'
+                            }).then(evtConfirm != null ? evtConfirm : () => { })
+                                .catch(evtCancel != null ? evtCancel : () => { });
+                        }
+                    }
+                };
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {

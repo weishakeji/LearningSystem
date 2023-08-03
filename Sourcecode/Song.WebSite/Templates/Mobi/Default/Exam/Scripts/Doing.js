@@ -364,6 +364,11 @@ $ready(function () {
                 } else {
                     msg = "当前考试" + this.questotal + "道题，您还有" + surplus + " 没有做！";
                 }
+                th.confirm('交卷', msg, function () {
+                    //th.submit(2);
+                    alert(33);
+                });
+                return;
                 th.$dialog.confirm({
                     title: '交卷',
                     message: msg + '<br/>是否确认交卷？',
@@ -372,6 +377,23 @@ $ready(function () {
                 }).catch(() => {
                     // on cancel
                 });
+            },
+            confirm: function (title, msg, evtConfirm, evtCancel) {
+                //手机端
+                if ($dom.ismobi()) {
+                    if (vant.Dialog) {
+                        vant.Dialog.confirm({ title: title, message: msg, })
+                            .then(evtConfirm).catch(evtCancel);
+                    }
+                } else {
+                    if (Vue.prototype.$confirm) {
+                        Vue.prototype.$confirm(msg, title, {
+                            dangerouslyUseHTMLString: true, type: 'warning',
+                            confirmButtonText: '确定', cancelButtonText: '取消'
+                        }).then(evtConfirm != null ? evtConfirm : () => { })
+                            .catch(evtCancel != null ? evtCancel : () => { });
+                    }
+                }
             },
             //滑动试题，滑动到指定试题索引
             swipe: function (e) {
