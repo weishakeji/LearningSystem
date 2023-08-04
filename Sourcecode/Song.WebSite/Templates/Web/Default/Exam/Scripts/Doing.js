@@ -275,7 +275,9 @@ $ready(function () {
                     { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
-                            var paper = th.parseAnswer(req.data.result);
+                            let ques = req.data.result;
+                            if (ques.length < 1) throw '没有加载到试题！';
+                            var paper = th.parseAnswer(ques);
                             //th.calcTime();
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);

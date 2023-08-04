@@ -24,9 +24,6 @@ namespace Song.ServiceImpls.Cache
         /// </summary>
         /// <param name="exr">答题内容</param>
         /// <param name="expires"></param>
-        /// <param name="examid"></param>
-        /// <param name="tpid"></param>
-        /// <param name="acid"></param>
         /// <returns></returns>
         public static string Update(ExamResults exr, int expires)
         {

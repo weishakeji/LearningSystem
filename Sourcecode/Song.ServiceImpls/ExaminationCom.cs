@@ -121,7 +121,10 @@ namespace Song.ServiceImpls
                 {
                     tran.Save<Examination>(entity);
                     tran.Update<Examination>(new Field[] { Examination._.Exam_IsUse }, new object[] { entity.Exam_IsUse }, Examination._.Exam_UID == entity.Exam_UID);
-                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name }, new object[] { entity.Exam_Name }, ExamResults._.Exam_UID == entity.Exam_UID);
+                    if (entity.Exam_IsTheme)
+                        tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Title }, new object[] { entity.Exam_Title }, ExamResults._.Exam_UID == entity.Exam_UID);
+                    else
+                        tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name }, new object[] { entity.Exam_Name }, ExamResults._.Exam_ID == entity.Exam_ID);
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -153,7 +156,7 @@ namespace Song.ServiceImpls
                         Examination[] exams = Gateway.Default.From<Examination>()
                             .Where(Examination._.Exam_UID == theme.Exam_UID && Examination._.Exam_IsTheme == false)
                             .OrderBy(Examination._.Exam_CrtTime.Asc).ToArray<Examination>();
-                        foreach(Examination old in exams)
+                        foreach (Examination old in exams)
                         {
                             bool isexist = false;
                             foreach (Examination newly in items)
@@ -164,7 +167,7 @@ namespace Song.ServiceImpls
                                     break;
                                 }
                             }
-                            if(!isexist) tran.Delete<Examination>(Examination._.Exam_ID == old.Exam_ID);
+                            if (!isexist) tran.Delete<Examination>(Examination._.Exam_ID == old.Exam_ID);
                         }
 
                         //考试主题时间
@@ -194,8 +197,12 @@ namespace Song.ServiceImpls
                                 it.Exam_IsRightClick = theme.Exam_IsRightClick;
                                 it.Exam_IsShowBtn = theme.Exam_IsShowBtn;
                                 it.Exam_IsToggle = theme.Exam_IsToggle;
-                                tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name },
-                                    new object[] { it.Exam_Name }, ExamResults._.Exam_UID == it.Exam_UID);
+                                if (it.Exam_IsTheme)
+                                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Title },
+                                    new object[] { it.Exam_Title }, ExamResults._.Exam_UID == it.Exam_UID);
+                                else
+                                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name },
+                                  new object[] { it.Exam_Name }, ExamResults._.Exam_ID == it.Exam_ID);
                                 tran.Save<Examination>(it);
                             }
                         }
@@ -209,8 +216,8 @@ namespace Song.ServiceImpls
                     tran.Save<Examination>(theme);
                     //参考人员范围
                     tran.Delete<ExamGroup>(ExamGroup._.Exam_UID == theme.Exam_UID);
-                     foreach (ExamGroup g in groups ?? new ExamGroup[0])                       
-                            tran.Save<ExamGroup>(g); 
+                    foreach (ExamGroup g in groups ?? new ExamGroup[0])
+                        tran.Save<ExamGroup>(g);
 
                     tran.Commit();
                 }
