@@ -44,8 +44,18 @@ Vue.component('general', {
         },
         'course': {
             handler: function (nv, ov) {
-                if (JSON.stringify(nv) != '{}' && nv != null)
+                if (!$api.isnull(nv)) {
                     this.couid = nv.Cou_ID;
+                    let sbjid = nv.Sbj_ID;
+                    var th = this;
+                    var arr = [];
+                    arr.push(sbjid);
+                    var sbj = th.traversalQuery(sbjid, th.subjects);
+                    if (sbj != null) {
+                        arr = th.getParentPath(sbj, th.subjects, arr);
+                        th.sbjids = arr;
+                    }
+                }
             }, immediate: true
         },
         'couid': {

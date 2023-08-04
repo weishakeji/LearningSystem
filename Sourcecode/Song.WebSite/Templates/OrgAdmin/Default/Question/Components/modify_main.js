@@ -1,4 +1,5 @@
 ﻿//试题编辑中的主要组件
+$dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);
 //事件:
 //load,
 Vue.component('modify_main', {
@@ -78,69 +79,58 @@ Vue.component('modify_main', {
         }
     },
     mounted: function () {
-        $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);
-        //
         var th = this;
-        th.getEntity();
         th.loading_init = true;
         $api.bat(
             $api.get('Organization/Current'),
             $api.cache('Question/Types:99999')
         ).then(axios.spread(function (organ, types) {
-            th.loading_init = false;
             //获取结果
             th.organ = organ.data.result;
             th.config = $api.organ(th.organ).config;
             th.types = types.data.result;
             th.$emit('init', th.organ, th.config, th.types);
-        })).catch(function (err) {
-            th.loading_init = false;
-            Vue.prototype.$alert(err);
-            console.error(err);
-        });
+        })).catch((err) => console.error(err))
+            .finally(() => th.loading_init = false);
+        th.getEntity();
     },
     methods: {
         //获取试题信息
         getEntity: function () {
             var th = this;
-            if (th.id == '') {
-                //th.$emit('load', th.question);
-                $api.get('Snowflake/Generate').then(function (req) {
-                    if (req.data.success) {
-                        th.question.Qus_ID = req.data.result;
-                        th.getCourse();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
-                return;
-            }
             th.loading = true;
-            $api.put('Question/ForID', { 'id': th.id }).then(function (req) {
-                th.loading = false;
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.question = window.ques.parseAnswer(result);
-                    th.getCourse();
-                    //th.$emit('load', th.question);
+            var promise = new Promise((resolve, reject) => {
+                if (th.id == '') {
+                    $api.get('Snowflake/Generate').then(function (req) {
+                        if (req.data.success) {
+                            th.question.Qus_ID = req.data.result;
+                            resolve(th.question);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch((err) => reject(err));
                 } else {
-                    //th.$emit('load', th.question);
-                    throw '未查询到数据';
+                    $api.put('Question/ForID', { 'id': th.id }).then(function (req) {
+                        if (req.data.success) {
+                            let result = req.data.result;
+                            th.question = window.ques.parseAnswer(result);
+                            resolve(th.question);
+                        } else {
+                            throw '未查询到数据';
+                        }
+                    }).catch((err) => reject(err));
                 }
-            }).catch(function (err) {
-                th.$alert(err, '错误');
             });
+            promise.then(function (req) {
+                th.getCourse();
+            }).catch((err) => alert(err, '错误'))
+                .finally(() => th.loading = false);           
         },
         //获取课程
         getCourse: function () {
             //课程uid
             var uid = $api.querystring("uid");
-
             var th = this;
             var apipath = uid != '' ? 'Course/ForUID' : 'Course/ForID';
             var apipara = uid != '' ? { 'uid': uid } : { 'id': th.question.Cou_ID };
