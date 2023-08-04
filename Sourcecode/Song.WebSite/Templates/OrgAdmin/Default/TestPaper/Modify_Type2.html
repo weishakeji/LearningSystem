@@ -171,7 +171,7 @@
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
                 @click="btnEnter('form',true)">确认</el-button>
-            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain v-if="exist"
                 @click="btnEnter('form',false)">应用</el-button>
             <el-button type='close'>取消</el-button>
         </div>

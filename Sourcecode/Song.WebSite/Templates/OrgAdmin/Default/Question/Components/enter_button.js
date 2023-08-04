@@ -42,7 +42,7 @@ Vue.component('enter_button', {
             return true;
         },
         //提交
-        btnEnter: function () {
+        btnEnter: function (isclose) {
             //通用验证
             if (!this.general_verify()) return;
             //自定义验证
@@ -68,7 +68,7 @@ Vue.component('enter_button', {
                     //var url = $api.dot(result, window.location.href);
                     //window.location.href = url;
                     window.setTimeout(function () {
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     }, 300);
                     //}
                 } else {
@@ -98,7 +98,7 @@ Vue.component('enter_button', {
             return false;
         },
         //操作成功
-        operateSuccess: function () {
+        operateSuccess: function (isclose) {
             var from = $api.querystring('from');
             //如果是在课程管理中
             if (from == "course_modify") {
@@ -106,17 +106,17 @@ Vue.component('enter_button', {
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
                 if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', true);
+                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
             } else {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         }
     },
     template: `<div class="footer" v-if="!quesnull">
         <el-button type="primary" define="enter" native-type="submit" :disabled="loading || disabled" 
-        :loading="loading" plain @click="btnEnter('entity')">
-            保存
-        </el-button>
+        :loading="loading" plain @click="btnEnter(true)">保存</el-button>
+        <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain v-if="id != ''"
+            @click="btnEnter(false)">应用</el-button>
         <el-button type='close' :disabled="loading" >
             取消
         </el-button>
