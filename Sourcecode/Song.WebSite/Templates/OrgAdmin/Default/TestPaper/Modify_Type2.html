@@ -109,7 +109,7 @@
                 </div>
                 <div v-show="activeName=='range'" remark="出题范围">
                     <el-row :gutter="10">
-                        <el-col :span="12">
+                        <el-col :span="10">
                             <el-form-item label="" label-width="0px">
                                 <el-radio-group v-model="entity.Tp_FromType">
                                     <el-radio :label="0">当前课程所有试题</el-radio>
@@ -117,7 +117,7 @@
                                 </el-radio-group>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="14">
                             <el-form-item label="" prop="Tp_Total" label-width="0px">
                                 <el-input v-model="entity.Tp_Total" type="number" :min="1">
                                     <template slot="prepend">试卷满分</template>

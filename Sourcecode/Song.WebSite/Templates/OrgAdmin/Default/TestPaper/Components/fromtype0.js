@@ -157,7 +157,7 @@ Vue.component('fromtype0', {
             if (this.sumPercent != 100) {
                 this.error = '各题型占比的合计必须等于 100%';
                 return false;
-            }         
+            }
             return true;
         },
         inputCheck: function () {
@@ -181,11 +181,17 @@ Vue.component('fromtype0', {
             else if (val > 100) return 'danger';
             else if (val == 100) return 'success';
             return 'info';
+        },
+        //计算每道题的分数
+        calcQuesnum: function (number, count) {
+            if (number <= 0 || count <= 0) return 0;
+            let val = count / number;
+            return Math.floor(val * 100) / 100;
         }
     },
     template: `<div class="fromtype0">
         <el-row :gutter="10" v-for="(m,i) in items">
-            <el-col :span="12">
+            <el-col :span="10">
                 <el-input v-model.number="m.TPI_Count" type="number" :min="1">
                     <div slot="prepend" class="ques_type">
                         <ques_type :type="i+1" :types="types" :showname="true"></ques_type>                    
@@ -195,16 +201,26 @@ Vue.component('fromtype0', {
                     </template>
                 </el-input>
             </el-col>
-            <el-col :span="12" :class="{'is-null':m.TPI_Count>0 && m.TPI_Percent<=0}">
+            <el-col :span="14" :class="{'is-null':m.TPI_Count>0 && m.TPI_Percent<=0}">
                 <el-input v-model.number="m.TPI_Percent" type="number" :min="1" :max="100" @input="changePercent">
                     <template slot="prepend"> 占总分</template>
-                    <template slot="append">%， 计 {{m.TPI_Number}} 分</template>
+                    <div slot="append" class="tpinumber">%， 计 {{m.TPI_Number}} 分，
+                    每道 {{calcQuesnum(m.TPI_Count,m.TPI_Number)}} 分</div>
                 </el-input>
             </el-col>                           
         </el-row>    
         <el-row class="taginfo" :gutter="10"> 
             <el-tag :type="sumPercentType(sumPercent)">各题型占比合计 {{sumPercent}} %</el-tag>
-            <el-tag type="info">各题型分数合计 {{sumNumber}} 分</el-tag>            
+            <el-tag type="info">各题型分数合计 {{sumNumber}} 分
+                <span v-if="sumNumber>total">，超过了试卷满分 {{total}} 分</span>
+                <span v-if="sumNumber<total">，未达到试卷满分 {{total}} 分</span>
+            </el-tag>   
+            <div>
+                <help multi>每道题的分数计算：<br/>
+                1、题型总分除以题数，如果除不尽，取小数点后两位，余出的分数累加到最后一道题。<br/>
+                2、如果设置了5道题，题库中只有3道，实际考试中，会用题型总分除以3，而不是5。
+                </help>
+            </div>         
         </el-row>   
         <el-row class="alert" v-if="error!=''">
             <alert>{{error}}</alert>
