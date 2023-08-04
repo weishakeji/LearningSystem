@@ -123,7 +123,7 @@ context .course:last-child {
 }
 
 .cour_img:hover {
-	transform: scale(1.1);
+	transform: scale(1.05);
 }
 
 .rec {
@@ -151,20 +151,24 @@ context .course:last-child {
 	left: 0px;
 	bottom: 3px;
 	font-size: 14px;
-	color: #666;
-	line-height: 30px;
+	color: #666;	
 	box-sizing: border-box;
-	padding: 0px 10px;
+	padding: 3px 10px;
 	background-color: rgba(255, 255, 255, 0.3);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
 }
 
 .subject::before {
-	content: "\e750";
-	color: #333;
+	content: "\e750";	
 	font-size: 18px;
 	font-family: webdesk_icon;
 }
-
+.subject a{
+	color: #666;	
+}
 .view {
 	position: absolute;
 	bottom: 3px;

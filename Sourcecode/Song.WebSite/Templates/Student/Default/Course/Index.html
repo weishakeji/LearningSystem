@@ -50,12 +50,11 @@
                             <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID">
                                 <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
                                 <img src="/Utilities/images/cou_nophoto.jpg" v-else />
+                                <div class="subject" title="课程专业">
+                                    {{item.Sbj_Name}}
+                                </div>
                             </a>
                             <span class="rec" v-if="item.Cou_IsRec"></span>
-                            <div class="subject" title="课程专业"><a :href="'/web/Course?sbjid='+item.Sbj_ID"
-                                    target="_blank">
-                                    {{item.Sbj_Name}}
-                                </a> </div>
                         </div>
                         <div class="info">
                             <div class="info_row datainfo">
