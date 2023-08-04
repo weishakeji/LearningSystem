@@ -201,7 +201,7 @@ $ready(function () {
                         console.error(err);
                     });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var errmsg = '存在错误，请检查填写项';
                 var th = this;
                 var checked = this.$refs['fromtype0'].check();
@@ -228,7 +228,7 @@ $ready(function () {
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 300);
                             } else {
                                 throw req.data.message;
@@ -265,11 +265,11 @@ $ready(function () {
                 this.entity.Tp_Logo = '';
             },
             //操作成功
-            operateSuccess: function () {
+            operateSuccess: function (isclose) {
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
                 if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame', true);
+                    pagebox.source.box(window.name, 'vapp.fresh_frame', isclose);
             }
         }
     });

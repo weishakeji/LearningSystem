@@ -29,7 +29,7 @@ Vue.component('ques_count', {
             var th = this;
             th.loading = true;
             var query = { 'orgid': '-1', 'sbjid': '-1', 'couid': th.couid, 'olid': th.olid, 'type': th.qtype, 'use': true };
-            console.log(query);
+            //console.log(query);
             $api.get('Question/Count', query)
                 .then(function (req) {
                     th.loading = false;

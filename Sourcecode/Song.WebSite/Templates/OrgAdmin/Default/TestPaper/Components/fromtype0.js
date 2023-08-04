@@ -154,10 +154,10 @@ Vue.component('fromtype0', {
                 console.log(max_item);
             }
             //如果大于100%
-            if (this.sumPercent > 100) {
-                this.error = '各题型占比的合计不得大于100%';
+            if (this.sumPercent != 100) {
+                this.error = '各题型占比的合计必须等于 100%';
                 return false;
-            }
+            }         
             return true;
         },
         inputCheck: function () {
@@ -172,17 +172,25 @@ Vue.component('fromtype0', {
                 if (this.items[i].TPI_Count > 0 && this.items[i].TPI_Percent <= 0)
                     return false;
             }
+            if (this.sumPercent != 100) ispass = false;
             return ispass;
+        },
+        //各题型占比合计的样式
+        sumPercentType: function (val) {
+            if (val < 100) return 'warning';
+            else if (val > 100) return 'danger';
+            else if (val == 100) return 'success';
+            return 'info';
         }
     },
-    template: `<div>
-        <el-row :gutter="10" v-for="(m,i) in items" class="fromtype0">
+    template: `<div class="fromtype0">
+        <el-row :gutter="10" v-for="(m,i) in items">
             <el-col :span="12">
                 <el-input v-model.number="m.TPI_Count" type="number" :min="1">
                     <div slot="prepend" class="ques_type">
                         <ques_type :type="i+1" :types="types" :showname="true"></ques_type>                    
                     </div>
-                    <template slot="append">道试题
+                    <template slot="append">道，
                         <ques_count :couid='testpaper.Cou_ID' :qtype='i+1' :olid='0'> </ques_count>
                     </template>
                 </el-input>
@@ -194,11 +202,11 @@ Vue.component('fromtype0', {
                 </el-input>
             </el-col>                           
         </el-row>    
-        <el-row class="fromtype0" :gutter="10"> 
-                <el-tag type="info">各题型占比合计 {{sumPercent}} %</el-tag>
-                <el-tag type="info">各题型分数合计 {{sumNumber}} 分</el-tag>            
+        <el-row class="taginfo" :gutter="10"> 
+            <el-tag :type="sumPercentType(sumPercent)">各题型占比合计 {{sumPercent}} %</el-tag>
+            <el-tag type="info">各题型分数合计 {{sumNumber}} 分</el-tag>            
         </el-row>   
-        <el-row class="fromtype0 alert" v-if="error!=''">
+        <el-row class="alert" v-if="error!=''">
             <alert>{{error}}</alert>
         </el-row>   
     </div> `

@@ -1,8 +1,24 @@
 ﻿/*按课程抽题的布局*/
-.fromtype0 {
+.fromtype0>div {
     margin-bottom: 8px;
 }
-
+.fromtype0 .taginfo>span::before{
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    font-size: 16px;     
+}
+.fromtype0 .taginfo>span.el-tag--warning::before{
+    content: "\e70e";
+    margin-right: 10px; 
+}
+.fromtype0 .taginfo>span.el-tag--success::before{
+    content: "\a048";
+    margin-right: 5px; 
+}
+.fromtype0 .taginfo>span.el-tag--danger::before{
+    content: "\e6fe";
+    margin-right: 5px; 
+}
 .alert {
     text-align: left;
 }

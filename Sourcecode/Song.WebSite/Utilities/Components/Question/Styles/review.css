@@ -105,7 +105,7 @@ card[qid] card-title>p{
 }
 card[qid] card-title p, card-title span, card-title font{
 	line-height: 150%;
-	font-size: 16px;
+	font-size: 18px;
 }
 card[qid] card-title .null {
 	font-size: 13px;
