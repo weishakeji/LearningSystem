@@ -113,7 +113,7 @@ Vue.component('video_progress', {
         },
         gourl:function(){
             var url="/mobi/course/study";
-            url = $api.url.set(url, { 'couid': this.couid });
+            url = $api.url.set(url, { 'couid': this.course.Cou_ID });
             window.location.href = url;
         }
     },
