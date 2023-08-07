@@ -25,7 +25,8 @@ $ready(function () {
             loading: false,
             loading_sumbit: false,   //提交时的预载
             loading_up: false,       //上传图片的预载
-            loading_init: true
+            loading_init: true,
+            loading_id: -1           //正在操作id
         },
         mounted: function () {
             var th = this;
@@ -57,11 +58,8 @@ $ready(function () {
             //选项卡（也是导航分类）切换时
             'type': function (nv, ov) {
                 var href = window.location.href;
-                var url = $api.url.set(href, {
-                    'type': nv
-                });
+                var url = $api.url.set(href, { 'type': nv });
                 window.history.pushState({}, '', url);
-                //window.location.href = url;
             }
         },
         methods: {
@@ -89,8 +87,7 @@ $ready(function () {
                     type: 'warning'
                 }).then(() => {
                     th.submitSave(datas);
-                }).catch(() => {
-                });
+                }).catch(() => { });
             },
             //提交保存事件
             submitSave: function (datas) {
@@ -193,38 +190,28 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            handleDragStart(node, ev) {
-                //console.log('drag start', node);
-            },
-            handleDragEnter(draggingNode, dropNode, ev) {
-                //console.log('tree drag enter: ', dropNode.label);
-            },
-            handleDragLeave(draggingNode, dropNode, ev) {
-                //console.log('tree drag leave: ', dropNode.label);
-            },
-            handleDragOver(draggingNode, dropNode, ev) {
-                //console.log('tree drag over: ', dropNode.label);
-            },
-            handleDragEnd(draggingNode, dropNode, dropType, ev) {
-                //console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-                //console.log(this.data);
-            },
-            handleDrop(draggingNode, dropNode, dropType, ev) {
-                console.log('tree drop: ', dropNode.label, dropType);
-            },
-            allowDrop(draggingNode, dropNode, type) {
-                return true;
-            },
-            allowDrag(draggingNode) {
-                return true;
-            },
-            //字体颜色变化时
-            colorChange: function (color) {
-                this.curr.Nav_Color = color == null ? '' : color;
-            },
-            //当图标选择变更时
-            iconChange: function (icon) {
-                this.curr.Nav_Icon = icon;
+            //更改导航菜单的显示状态
+            changeState: function (item) {
+                item.Nav_IsShow = !item.Nav_IsShow;
+                if (item.Nav_ID <= 0) {
+                    return this.$notify({
+                        title: '警告',
+                        message: '新增项更改状态后，请点击右下方的“保存导航菜单”的按钮',
+                        type: 'warning'
+                    });
+                }
+                var th = this;
+                th.loading_id = item.Nav_ID;
+                $api.post('Navig/ModifyState', { 'id': item.Nav_ID, 'show': item.Nav_IsShow }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;   
+                        th.freshcache(item);                    
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_id = -1);
             },
             //图片上传
             fileupload: function (file, data, id) {

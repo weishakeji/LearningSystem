@@ -79,6 +79,20 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<Navigation>(entity);
         }
         /// <summary>
+        /// 修改导航的显示状态
+        /// </summary>
+        /// <param name="id">导航id</param>
+        /// <param name="show">是否显示</param>
+        /// <returns></returns>
+        public bool NaviState(int id, bool show)
+        {
+            Gateway.Default.Update<Navigation>(
+                          new Field[] { Navigation._.Nav_IsShow },
+                          new object[] { show },
+                          Navigation._.Nav_ID == id);
+            return true;
+        }
+        /// <summary>
         /// 单独修改导航的图片地址
         /// </summary>
         /// <param name="entity"></param>

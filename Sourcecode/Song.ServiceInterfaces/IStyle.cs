@@ -23,6 +23,13 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void NaviSave(Navigation entity);
         /// <summary>
+        /// 修改导航的显示状态
+        /// </summary>
+        /// <param name="id">导航id</param>
+        /// <param name="show">是否显示</param>
+        /// <returns></returns>
+        bool NaviState(int id, bool show);
+        /// <summary>
         /// 单独修改导航的图片地址
         /// </summary>
         /// <param name="entity"></param>

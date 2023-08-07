@@ -8,14 +8,13 @@
 
 <body>
   <div id="vapp" v-cloak>
+    <div loading="p1" v-if="loading_init"></div>
     <el-tabs v-model="type" type="border-card">
       <!-- 主导航-->
       <el-tab-pane label="主导航菜单" name="main">
 
-        <el-tree :data="data_main" node-key="id" :props="defaultProps" default-expand-all
-          @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave"
-          @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd" @node-drop="handleDrop"
-          :expand-on-click-node="false" draggable :allow-drop="allowDrop" :allow-drag="allowDrag" v-loading="loading">
+        <el-tree :data="data_main" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false"
+          draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
           <span class="custom-tree-node" slot-scope="{ node, data }">
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
@@ -28,30 +27,29 @@
               <el-tooltip class="item" effect="light" content="链接打开的方式" placement="bottom">
                 <el-tag type="info" v-if="data.Nav_Target!=''">{{data.Nav_Target}}</el-tag>
               </el-tooltip>
-
-
               <span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
 
             </span>
-            <span style="display: inline-block;width: 50px;" @click="data.Nav_IsShow=!data.Nav_IsShow">
-              <el-tag type="success" v-if="data.Nav_IsShow">启用</el-tag>
-              <el-tag type="danger" v-else>禁用</el-tag>
-            </span>
+            <loading v-if="data.Nav_ID==loading_id"></loading>
+            <template v-else>
+              <span style="display: inline-block;width: 50px;" @click="changeState(data)">
+                <el-tag type="success" v-if="data.Nav_IsShow">启用</el-tag>
+                <el-tag type="danger" v-else>禁用</el-tag>
+              </span>
 
-            <el-button type="text" size="mini" @click="append(data,data_main)">
-              新增下级
-            </el-button>
-            <el-button type="text" size="mini" @click="drawer=true;curr=data">
-              编辑
-            </el-button>
-            <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
-              <el-button type="text" slot="reference">
-                删除
+              <el-button type="text" size="mini" @click="append(data,data_main)">
+                新增下级
               </el-button>
-            </el-popconfirm>
-
-          </span>
-          </span>
+              <el-button type="text" size="mini" @click="drawer=true;curr=data">
+                编辑
+              </el-button>
+              <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                <el-button type="text" slot="reference">
+                  删除
+                </el-button>
+              </el-popconfirm>
+            </template>
+          </span>        
         </el-tree>
         <div class="tree_root">
           <el-button type="text" size="mini" @click="append(null,data_main)" v-loading="loading">
@@ -66,37 +64,41 @@
       </el-tab-pane>
       <!--底部导航-->
       <el-tab-pane label="底部导航" name="foot">
-        <el-tree :data="data_foot" node-key="id" :props="defaultProps" default-expand-all
-          @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave"
-          @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd" @node-drop="handleDrop"
-          :expand-on-click-node="false" draggable :allow-drop="allowDrop" :allow-drag="allowDrag" v-loading="loading">
+        <el-tree :data="data_foot" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false"
+          draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
           <span class="custom-tree-node" slot-scope="{ node, data }">
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
               :style="'color:'+data.Nav_Color">
               <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup>&#xa038;</icon>
               <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
-              {{ data.Nav_Name }}<span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
+              {{ data.Nav_Name }}
+              <el-tooltip class="item" effect="light" content="链接打开的方式" placement="bottom">
+                <el-tag type="info" v-if="data.Nav_Target!=''">{{data.Nav_Target}}</el-tag>
+              </el-tooltip>
+              <span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
             </span>
-            <span style="display: inline-block;width: 50px;" @click="data.Nav_IsShow=!data.Nav_IsShow">
-              <el-tag type="success" v-if="data.Nav_IsShow">启用</el-tag>
-              <el-tag type="danger" v-if="!data.Nav_IsShow">禁用</el-tag>
-            </span>
+            <loading v-if="data.Nav_ID==loading_id"></loading>
+            <template v-else>
+              <span style="display: inline-block;width: 50px;" @click="changeState(data)">
+                <el-tag type="success" v-if="data.Nav_IsShow">启用</el-tag>
+                <el-tag type="danger" v-if="!data.Nav_IsShow">禁用</el-tag>
+              </span>
 
-            <el-button type="text" size="mini" @click="append(data,data_foot)">
-              新增下级
-            </el-button>
-            <el-button type="text" size="mini" @click="drawer=true;curr=data">
-              编辑
-            </el-button>
-            <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
-              <el-button type="text" slot="reference">
-                删除
+              <el-button type="text" size="mini" @click="append(data,data_foot)">
+                新增下级
               </el-button>
-            </el-popconfirm>
+              <el-button type="text" size="mini" @click="drawer=true;curr=data">
+                编辑
+              </el-button>
+              <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                <el-button type="text" slot="reference">
+                  删除
+                </el-button>
+              </el-popconfirm>
 
           </span>
-          </span>
+          </template>
         </el-tree>
         <div class="tree_root">
           <el-button type="text" size="mini" @click="append(null,data_foot)" v-loading="loading">
@@ -122,8 +124,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
-
-              <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标">
+              <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
                 <icon v-if="curr.Nav_Icon==null || curr.Nav_Icon==''" setup></icon>
                 <icon v-else v-html="'&#x'+curr.Nav_Icon+';'"></icon>
               </el-link>
@@ -141,16 +142,11 @@
         </el-form-item>
         <el-form-item label="打开方式">
           <el-select v-model="curr.Nav_Target" :style="{width: '50%'}" placeholder="请选择">
-            <el-option key="_blank" label="_blank" value="_blank">
-            </el-option>
-            <el-option key="_self" label="_self" value="_self">
-            </el-option>
-            <el-option key="_parent" label="_parent" value="_parent">
-            </el-option>
-            <el-option key="_top" label="_top" value="_top">
-            </el-option>
-            <el-option key="_open" label="_open" value="_open">
-            </el-option>
+            <el-option key="_blank" label="_blank" value="_blank"> </el-option>
+            <el-option key="_self" label="_self" value="_self"> </el-option>
+            <el-option key="_parent" label="_parent" value="_parent"> </el-option>
+            <el-option key="_top" label="_top" value="_top"> </el-option>
+            <el-option key="_open" label="_open" value="_open"> </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="字体">
@@ -158,14 +154,15 @@
           <el-checkbox v-model="curr.Nav_IsBold" label="粗体"></el-checkbox>
         </el-form-item>
         <el-form-item label="颜色">
-          <el-color-picker v-model="curr.Nav_Color" @change="colorChange" @active-change="colorChange">
+          <el-color-picker v-model="curr.Nav_Color" @change="color=>curr.Nav_Color=color"
+            @active-change="color=>curr.Nav_Color=color">
           </el-color-picker>
         </el-form-item>
 
         <el-form-item label="状态">
           <el-checkbox v-model="curr.Nav_IsShow" label="显示"></el-checkbox>
         </el-form-item>
-        <el-form-item label="图片">
+        <el-form-item label="图片" v-if="site!='web'">
           <template v-if="!loading_up">
             <upload-img @change="fileupload" id="fileupload" :data="curr">
               <img v-if="curr.Nav_Logo" :src="curr.Nav_Logo" class="avatar">

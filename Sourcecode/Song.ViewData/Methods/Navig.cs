@@ -217,6 +217,18 @@ namespace Song.ViewData.Methods
             }
             return mm;
         }
+
+        /// <summary>
+        /// 修改显示状态
+        /// </summary>
+        /// <param name="id">导航id</param>
+        /// <param name="show">是否显示</param>
+        /// <returns></returns>
+        [HttpPost]
+        public bool ModifyState(int id,bool show)
+        {
+            return Business.Do<IStyle>().NaviState(id, show);
+        }
         /// <summary>
         /// 修改导航菜单的图片
         /// </summary>

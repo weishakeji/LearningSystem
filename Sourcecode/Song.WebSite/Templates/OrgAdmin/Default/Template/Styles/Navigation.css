@@ -1,16 +1,19 @@
 ﻿@charset "utf-8";
+
 .el-tabs {
     margin: 20px 20px 20px 20px;
     width: calc(100% - 40px);
     height: calc(100% - 40px);
 
 }
-.el-tabs__content{
-	width: calc(100% - 30px);
+
+.el-tabs__content {
+    width: calc(100% - 30px);
     height: calc(100% - 30px - 40px);
-	position: relative;
+    position: relative;
 
 }
+
 .tree_root {
     height: 30px;
     font-size: 15px;
@@ -22,10 +25,12 @@
     float: right;
     margin-right: 5px;
 }
-.el-tab-pane{
-	height: calc(100% - 40px);
-	overflow-y: auto;
+
+.el-tab-pane {
+    height: calc(100% - 40px);
+    overflow-y: auto;
 }
+
 .custom-tree-node {
     flex: 1;
     display: flex;
@@ -34,11 +39,12 @@
     font-size: 14px;
     padding-right: 8px;
 }
+
 .el-tree-node__content {
     cursor: default !important;
 }
 
-.tree-node{
+.tree-node {
     display: inline-block;
     width: calc(100% - 210px);
     white-space: nowrap;
@@ -46,6 +52,7 @@
     overflow: hidden;
     word-break: break-all;
 }
+
 .tree-node[color] {
     color: attr(color);
 }
@@ -57,25 +64,30 @@
 .tree-node[italic=true] {
     font-style: italic;
 }
-.link{
+
+.link {
     font-size: 12px;
     margin-left: 10px;
     color: #aaa;
     max-width: 200px;
     display: inline-block;
-   
+
 }
-.tree-handle{
+
+.tree-handle {
     display: inline-block;
     width: 300px;
 }
-.el-checkbox{
+
+.el-checkbox {
     margin-right: 10px;
 }
-.img_logo{
+
+.img_logo {
     width: 12px;
     height: 12px;
 }
+
 /*菜单图标选择*/
 
 #dialog_icons .el-dialog__body span {
@@ -97,16 +109,19 @@
 #dialog_icons .el-dialog__body span[selected] {
     color: brown;
 }
-.el-dialog{
+
+.el-dialog {
     width: 80% !important;
     height: 70% !important;
 }
-.el-dialog__body{   
+
+.el-dialog__body {
     width: calc(100% - 50px) !important;
-    height:calc(100% - 100px) !important;
+    height: calc(100% - 100px) !important;
     padding: 10px 10px 10px 20px !important;
     overflow-y: auto;
 }
+
 /*底部按钮*/
 
 .btnFooter {
@@ -118,22 +133,30 @@
     left: 0px;
     text-align: right;
 }
+
 /*详情展示*/
 .drawer_item {
     width: 50% !important;
 }
+
 .drawer-title {
     padding: 10px;
     border-bottom: #aaa 1px solid;
 }
-.upload_img_area img{
-	width: 100px;
+
+.upload_img_area img {
+    width: 100px;
 }
+
 /*浮动图片*/
-#logo_img_hover{
-    width: 200px;  
+#logo_img_hover {
+    width: 200px;
     height: 200px;
     position: absolute;
     background-color: salmon;
     z-index: 1000;
+}
+
+.setup_icon icon {
+    font-size: 28px;
 }
