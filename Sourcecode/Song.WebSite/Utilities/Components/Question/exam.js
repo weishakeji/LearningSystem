@@ -22,7 +22,7 @@ Vue.component('question', {
                 if (nv && nv.Qus_Type == 4) this.accessoryLoad();
                 this.$nextTick(function () {
                     //没有内容的html元素，不显示
-                    var dom = $dom("card[qid='" + this.ques.Qus_ID + "']");
+                    var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
                     //清理空元素  
                     window.ques.clearempty(dom.find('card-title'));
                     window.ques.clearempty(dom.find('.ans_area'));

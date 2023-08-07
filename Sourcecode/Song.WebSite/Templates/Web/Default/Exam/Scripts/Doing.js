@@ -33,8 +33,8 @@ $ready(function () {
             },
             time: {
                 now: new Date().getTime(),             //当前时间的毫秒数              
-                server: {},          //服务器端时间
-                client: {},            //客户端时间
+                server: new Date(),          //服务器端时间
+                client: new Date(),            //客户端时间
                 span: 0,            //考试时长（单位分钟）
                 wait: 0,            //离开始考试还有多久，单位秒
                 begin: new Date(),  //考试开始时间,如果固定时间考试，此时间来自系统设置
@@ -121,9 +121,9 @@ $ready(function () {
             },
             //当前时间，经过服务器时间校正过的
             nowtime: function () {
-                try {
+                try {                   
                     return new Date(this.time.server.getTime() + (this.time.now - this.time.client.getTime()));
-                } catch { }
+                } catch { return new Date()}
             },
             //考试剩余时间
             surplustime: function () {
