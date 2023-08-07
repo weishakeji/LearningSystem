@@ -26,7 +26,8 @@ Vue.component('page_header', {
             visible_userdrop: false,     //用户登录后的菜单面板的显示与隐藏
 
             error: [],       //错误信息
-            loading: false
+            loading: false,
+            loading_menu: false          //导航菜单的加载
         }
     },
     watch: {
@@ -73,13 +74,9 @@ Vue.component('page_header', {
     },
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        },
+        islogin: t => !$api.isnull(t.account),
         //是否存在教师角色
-        isteacher: function () {
-            return JSON.stringify(this.teacher) != '{}' && this.teacher != null;
-        }
+        isteacher: t => !$api.isnull(t.teacher),
     },
     mounted: function () {
         var th = this;
@@ -111,24 +108,22 @@ Vue.component('page_header', {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                th.loading = false;
                 //获取结果             
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
-                document.title += ' - '+ th.organ.Org_PlatformName;
+                document.title += ' - ' + th.organ.Org_PlatformName;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 //加载成功的事件
                 th.$emit('load', th.organ, th.config, th.platinfo);
-            })).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //获取导航菜单
         getnavi: function () {
             if (!(this.organ && this.organ.Org_ID)) return;
             var th = this;
+            th.loading_menu = true;
             $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'main' }).then(function (req) {
                 if (req.data.success) {
                     th.menus = req.data.result;
@@ -137,16 +132,14 @@ Vue.component('page_header', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.error.push(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_menu = false);
         },
         //导航菜单的点击事件
         menuClick: function (sender, eventArgs) {
             var data = eventArgs.data;
             if (!data || data.url == '') return;
-            window.location.href = data.url;         
+            window.location.href = data.url;
         },
         //节点转换
         nodeconvert: function (obj) {
@@ -158,6 +151,7 @@ Vue.component('page_header', {
             result = result.replace(/Nav_Name/g, "tit");
             result = result.replace(/Nav_Icon/g, "ico");
             result = result.replace(/children/g, "childs");
+            result = result.replace(/Nav_Target/g, "target");
             result = result.replace(/Nav_Url/g, "url");
             return JSON.parse(result);
         },
@@ -173,7 +167,7 @@ Vue.component('page_header', {
                 this.$emit('search', this.search);
             } else {
                 window.location.href = url;
-            }          
+            }
         },
         //搜索字符串被改变
         changesearch: function (str) {
@@ -201,8 +195,8 @@ Vue.component('page_header', {
             }).catch(function () { });
         },
         //页面跳转,路径上增加当前页地址作为来源页
-        gourl:function(url){
-            return $api.url.set(url, {               
+        gourl: function (url) {
+            return $api.url.set(url, {
                 'referrer': encodeURIComponent(location.href)
             });
         }
@@ -243,9 +237,9 @@ Vue.component('page_header', {
                     </el-dropdown-menu>
                 </el-dropdown>
                 </userbar>            
-        </header>
+        </header>        
         <span v-else v-for="(e,i) in error" >{{i+1}}.{{e}}</span>
-        <div id="menubar">           
-        </div>
+        <div loading="p1" v-show="loading_menu"></div>
+        <div id="menubar" v-show="!loading_menu"></div>
     </weisha_header_navi>`
 });

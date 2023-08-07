@@ -8,7 +8,7 @@ $ready(function () {
             config: {},      //当前机构配置项    
             site: $api.dot("web"),    //电脑端为web,手机端为mobi
             type: $api.querystring("type", "main"),   //主菜单为main,底部为foot
-    
+
             drawer: false,       //是否显示详情
             curr: {},            //当前要显示的项           
             defaultProps: {
@@ -28,21 +28,21 @@ $ready(function () {
             loading_init: true
         },
         mounted: function () {
+            var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
                 //获取结果          
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //获取导航菜单
-                vapp.getdata();
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.getdata();
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);;
         },
         created: function () {
 
@@ -150,7 +150,7 @@ $ready(function () {
                     "Nav_IsShow": true,
                     "Nav_IsBold": false,
                     "Nav_Logo": "",
-                    "Nav_Icon":"",
+                    "Nav_Icon": "",
                     "id": 0,
                     "label": "",
                     "ico": ""

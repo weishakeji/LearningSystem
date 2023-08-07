@@ -346,7 +346,7 @@
 			} else {
 				link.add('ico').html(item.ico ? '&#x' + item.ico : '');
 			}
-			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
+			link.attr('href', item.url).attr('target', item.target ? item.target : '_self');
 			span = link.add('span');
 		} else {
 			if (item.img) {

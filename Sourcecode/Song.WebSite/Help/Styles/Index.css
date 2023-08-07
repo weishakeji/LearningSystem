@@ -108,7 +108,8 @@ section aside iframe {
 /*菜单*/
 nav {
     width: 250px;
-    padding: 0px 30px 30px 10px;
+    padding: 0px 10px 30px 10px;
+    margin-right: 20px;
     overflow: hidden auto;
 }
 

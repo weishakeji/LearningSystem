@@ -25,11 +25,17 @@
               <img :src="data.Nav_Logo" v-if="data.Nav_Logo!=''" class="img_logo" @mouseover="hoverlogo(data.Nav_Logo)"
                 @mouseout="mouseleave" />
               {{ data.Nav_Name }}
+              <el-tooltip class="item" effect="light" content="链接打开的方式" placement="bottom">
+                <el-tag type="info" v-if="data.Nav_Target!=''">{{data.Nav_Target}}</el-tag>
+              </el-tooltip>
+
+
               <span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
+
             </span>
             <span style="display: inline-block;width: 50px;" @click="data.Nav_IsShow=!data.Nav_IsShow">
               <el-tag type="success" v-if="data.Nav_IsShow">启用</el-tag>
-              <el-tag type="danger" v-if="!data.Nav_IsShow">禁用</el-tag>
+              <el-tag type="danger" v-else>禁用</el-tag>
             </span>
 
             <el-button type="text" size="mini" @click="append(data,data_main)">
