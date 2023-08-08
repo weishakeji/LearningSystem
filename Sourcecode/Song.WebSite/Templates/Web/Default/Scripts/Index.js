@@ -79,7 +79,8 @@ $ready(function () {
                         th.total = req.data.total;
                         var result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
-                            th.subject.push(result[i]);
+                            const exist = th.subject.some(obj => obj.Sbj_ID === result[i].Sbj_ID);
+                            if (!exist) th.subject.push(result[i]);
                         }
                         var totalpages = req.data.totalpages;
                         // 数据全部加载完成
