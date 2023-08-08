@@ -40,7 +40,7 @@ $ready(function () {
                     if (date.getFullYear() - 100 > new Date().getFullYear() || date.getFullYear() + 100 < new Date().getFullYear())
                         date = new Date();
                     if (over.getFullYear() - 100 > new Date().getFullYear() || over.getFullYear() + 100 < new Date().getFullYear())
-                        over = date.setMonth(date.getMonth() + 1);;
+                        over = date.setMonth(date.getMonth() + 1);
                     this.dateRange[0] = this.entity.Exam_Date = date;
                     this.dateRange[1] = this.entity.Exam_DateOver = over;
                 }
@@ -67,6 +67,10 @@ $ready(function () {
         },
         mounted: function () {
 
+        },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
         methods: {
             //获取考试主题
@@ -95,7 +99,7 @@ $ready(function () {
                 this.$forceUpdate();
             },
             //保存
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 //考试场次
                 var exams = th.$refs['exam_items'].getexams();
@@ -115,7 +119,7 @@ $ready(function () {
                                     position: 'bottom-left'
                                 });
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 200);
                             } else {
                                 console.error(req.data.exception);
@@ -133,7 +137,7 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
+            operateSuccess: function (isclose) {
                 //当处理教师管理状态时
                 var pagebox = window.top.$pagebox;
                 var box = pagebox.get(window.name);
@@ -146,7 +150,7 @@ $ready(function () {
                 }
                 else {
                     //当处于机构管理界面时
-                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
                 }
             }
         },

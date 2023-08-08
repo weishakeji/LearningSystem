@@ -114,7 +114,7 @@
                 <div icon="&#xe81a" @click="showTime=true"  v-if="examstate.record">
                     {{surplustime|surplus}}
                 </div>
-                <loading v-else></loading>
+            
             </header>
             <footer v-show="examstate.record">
                 <div id="btnCard" icon="&#xe75e" @click="showCard=true">
@@ -123,6 +123,9 @@
                 <div id="btnSubmit" icon="&#xe6cf" @click="submitManual">
                     交&nbsp;卷</div>
             </footer>
+          
+            
+            <div loading="p4" v-if="!examstate.record && questotal<=0"></div>
             <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
                 <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="!loading.ques">
                     <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"

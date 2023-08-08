@@ -7,7 +7,9 @@ html, body, #vapp {
 	overflow: hidden;
 	position: relative;
 }
-
+div[loading]{
+	margin: 30% auto 10px auto;
+}
 /*不能考试的区域*/
 
 .context {

@@ -66,7 +66,7 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='exams'">
-                    <exam_items ref="exam_items" :theme="entity" :organ="organ" @addexam="addexam"></exam_items>   
+                    <exam_items ref="exam_items" :theme="entity" :organ="organ" @addexam="addexam"></exam_items>
                 </div>
                 <div v-show="activeName=='range'">
                     <el-form-item label="" prop="Exam_GroupType" label-width="10px">
@@ -79,13 +79,18 @@
                             </el-radio-button>
                         </el-radio-group>
                     </el-form-item>
-                    <group_select ref="group_select" :type="entity.Exam_GroupType" :theme="entity" :organ="organ"></group_select>                  
+                    <group_select ref="group_select" :type="entity.Exam_GroupType" :theme="entity" :organ="organ">
+                    </group_select>
                 </div>
             </el-form>
         </div>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                <icon v-if="!loading">&#xa048</icon>保存
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">
+                保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>
                 取消

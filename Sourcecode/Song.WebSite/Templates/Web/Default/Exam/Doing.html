@@ -173,14 +173,16 @@
                     </div>
 
                     <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
-
                         <div class="move_btn">
-                            <span @click="swipe({ 'direction': 4 })">
-                                <icon>&#xe803</icon>上一题
-                            </span>
-                            <span @click="swipe({ 'direction': 2 })">
-                                <icon>&#xe802</icon>下一题
-                            </span>
+                            <div loading="p4" v-if="questotal<=0"></div>
+                            <template v-else>
+                                <span @click="swipe({ 'direction': 4 })">
+                                    <icon>&#xe803</icon>上一题
+                                </span>
+                                <span @click="swipe({ 'direction': 2 })">
+                                    <icon>&#xe802</icon>下一题
+                                </span>
+                            </template>
                         </div>
 
                         <section :style="'width:'+questotal*100+'%'" v-swiperight="swipe" v-swipeleft="swipe"
@@ -196,7 +198,7 @@
                     </template>
                 </div>
 
-                <div class="quesCard" remark="答题卡" v-if="!loading.init && examstate.doing">
+                <div class="quesCard" remark="答题卡" v-if="!loading.init && examstate.doing && questotal>0">
                     <div class="cardTit">
                         <span icon="&#xe75e">答题卡</span>
                         <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
