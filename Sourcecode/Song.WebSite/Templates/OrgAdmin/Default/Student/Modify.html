@@ -59,64 +59,60 @@
                         {{account.Ac_AccName}}
                     </el-form-item>
                     <el-form-item label="账号" prop="Ac_AccName" v-else>
-                        <el-input v-model="account.Ac_AccName" style="width:200px"> </el-input>
+                        <el-input v-model="account.Ac_AccName" style="width:200px">
+                            <icon slot="prefix" style="font-size: 17px;">&#xe804</icon>
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="Ac_Pw" v-if="!isexist">
                         <el-input v-model="account.Ac_Pw" style="width:200px">
                         </el-input>
                         <help>默认密码:{{defaultpw}}</help>
                     </el-form-item>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="姓名" prop="Ac_Name">
-                                <el-input v-model="account.Ac_Name" style="width:200px" clearable @input="pingyin"
-                                    @blur="pingyin"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-form-item label="拼音缩写" prop="Ac_Pinyin">
-                            <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
-                            <span v-show="accPingyin.length>1" class="pingyin">
-                                （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">{{d}}
-                                    <span v-show='i<accPingyin.length-1'>,</span>
-                                </span>）
-                        </el-form-item>
-                    </el-row>
-                    <el-row>
-                        <el-form-item label="学员组">
-                            <template v-if="sortexist">
-                                <el-tooltip content="点击更改学员组" effect="light" placement="right">
-                                    <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
-                                    </el-tag>
-                                </el-tooltip>
-                                <el-tag type="warning" class="el-icon-close" style="cursor:pointer;"
-                                    @click="account.Sts_ID = ''">取消学员组</el-tag>
-                            </template>
-                            <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
-                                <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
+                    <el-form-item label="姓名" prop="Ac_Name">
+                        <el-input v-model="account.Ac_Name" style="width:200px" clearable @input="pingyin"
+                            @blur="pingyin">
+                            <icon slot="prefix">&#xe808</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="拼音缩写" prop="Ac_Pinyin">
+                        <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
+                        <span v-show="accPingyin.length>1" class="pingyin">
+                            （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">{{d}}
+                                <span v-show='i<accPingyin.length-1'>,</span>
+                            </span>）
+                    </el-form-item>
+                    <el-form-item label="学员编号" prop="Ac_CodeNumber">
+                        <el-input v-model="account.Ac_CodeNumber" style="width:200px" clearable>
+                            <icon slot="prefix" style="font-size: 17px;">&#xe687</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="学员组">
+                        <template v-if="sortexist">
+                            <el-tooltip content="点击更改学员组" effect="light" placement="right">
+                                <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
+                                </el-tag>
                             </el-tooltip>
-                        </el-form-item>
-                    </el-row>
-                    <el-row>
-                        <el-form-item label="性别">
-                            <el-radio-group v-model="account.Ac_Sex">
-                                <el-radio-button label="1">男</el-radio-button>
-                                <el-radio-button label="2">女</el-radio-button>
-                                <el-radio-button label="0">未知</el-radio-button>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-row>
-                    <el-row>
-                        <el-form-item label="身份证" prop="Ac_IDCardNumber">
-                            <el-input v-model="account.Ac_IDCardNumber">
-                                <icon slot="prefix">&#xe68f</icon>
-                            </el-input>
-                        </el-form-item>
-                    </el-row>
+                            <el-tag type="warning" class="el-icon-close" style="cursor:pointer;"
+                                @click="account.Sts_ID = ''">取消学员组</el-tag>
+                        </template>
+                        <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
+                            <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item label="性别">
+                        <el-radio-group v-model="account.Ac_Sex">
+                            <el-radio-button label="1">男</el-radio-button>
+                            <el-radio-button label="2">女</el-radio-button>
+                            <el-radio-button label="0">未知</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+
+                    <el-form-item label="身份证" prop="Ac_IDCardNumber">
+                        <el-input v-model="account.Ac_IDCardNumber">
+                            <icon slot="prefix">&#xe68f</icon>
+                        </el-input>
+                    </el-form-item>
+
                 </div>
                 <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
 

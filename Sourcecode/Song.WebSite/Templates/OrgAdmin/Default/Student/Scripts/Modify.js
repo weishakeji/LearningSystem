@@ -9,7 +9,7 @@ $ready(function () {
             account: {
                 Ac_IsUse: true,
                 Ac_IsPass: true,
-                Ac_Photo: '', Sts_ID: '',
+                Ac_Photo: '', Sts_ID: '', Ac_Pinyin: '',
                 Ac_Name: '',
                 Ac_AccName: ''
             },
@@ -26,9 +26,10 @@ $ready(function () {
             accPingyin: [],  //账号名称的拼音
             organ: {},       //当前登录账号所在的机构
             rules: {
+                /*
                 Ac_Name: [
                     { required: true, message: '姓名不得为空', trigger: 'blur' }
-                ],
+                ],*/
                 Ac_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },
                     { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
@@ -52,26 +53,10 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
-            if (th.id == '' || th.id == 0) {
-                $api.put('Snowflake/Generate').then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        //th.account.Ac_ID = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    alert(err);
-                    console.error(err);
-                });
-                return;
-            }
-            $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.account = result;
+            th.getaccount().then(function (acc) {
+                th.account = acc;
+                th.getorgan();      //获取机构信息
+                if (th.account.Sts_ID != '' && th.account.Sts_ID != '0') {
                     $api.get('Account/SortForID', { 'id': th.account.Sts_ID }).then(function (req) {
                         if (req.data.success) {
                             th.accsort = req.data.result;
@@ -80,41 +65,19 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        //Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
                 }
-            }).catch(function (err) {
+            }).catch(err => {
+                alert(err);
                 console.error(err);
-            }).finally(function () {
-                th.loading = false;
-                th.getorgan();
-                if (!th.isexist) {
-                    $api.get('Account/DefaultPw').then(function (req) {
-                        if (req.data.success) {
-                            th.defaultpw = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
-                    });
-                }
-            });
+            }).finally(() => th.loading = false);
         },
         computed: {
             //是否存在账号
-            isexist: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null && this.id != 0;
-            },
+            isexist: t => !$api.isnull(t.account) && t.id != 0,
             //是否新增账号
-            isadd: t => { return t.id == null || t.id == '' || this.id == 0; },
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
             //学员的组是否存在
             sortexist: function () {
                 return !$api.isnull(this.account) && this.account.Sts_ID != '' && !$api.isnull(this.accsort);
@@ -130,6 +93,32 @@ $ready(function () {
             }
         },
         methods: {
+            //获取账号信息
+            getaccount: function () {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    if (th.id == '' || th.id == 0) {
+                        $api.get('Account/DefaultPw').then(function (req) {
+                            if (req.data.success) {
+                                th.defaultpw = req.data.result;
+                                resolve(th.account);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => reject(err));
+                    } else {
+                        $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
+                            if (req.data.success) {
+                                resolve(req.data.result);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => reject(err));
+                    }
+                });
+            },
             //获取机构
             getorgan: function (orgid) {
                 var th = this;
@@ -187,7 +176,7 @@ $ready(function () {
                 if (!val) this.account.Ac_MobiTel2 = '';
                 console.log(val);
                 console.log(this.isbindmobi);
-            },           
+            },
             btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
