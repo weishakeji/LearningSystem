@@ -48,15 +48,10 @@ window.vapp = new Vue({
                 name: '数据实体生成', type: '', url: 'datas/',
                 icon: { i: 'e852', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
-            { type: 'line' },
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
-                icon: { i: 'e610', s: 25, l: 0, t: 0 }, color: { f: '333', b: '' }
-            },
-            {
-                name: '预载效果', type: 'node', url: '../Utilities/Fonts/loading.html',
-                icon: { i: 'e601', s: 21, l: 0, t: 0 }, color: { f: '333', b: '' }
-            },
+                icon: { i: 'a007', s: 28, l: -3, t: 0 }, color: { f: '333', b: '' }
+            },           
             { type: 'line' },
             {
                 name: '版权信息修改', type: 'node', url: 'copyright.html',

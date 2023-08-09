@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+    <title>图标引用说明</title>
+    <link type="text/css" rel="stylesheet" href="icon.css">
+    <link type="text/css" rel="stylesheet" href="Styles/Help.css">
+</head>
+
+<body>
+    <h1>图标引用说明</h1>
+    <p>
+        在网页中引用“/Utilities/Fonts/icon.css”，即可使用相关图标，默认在/templates/文件夹下的模板文件中，都已经引用该css文件，可以直接采用下述方法使用。
+    </p>
+    <h2>一般引用</h2>
+    <dl>
+        <dt>1、用icon标签</dt>
+        <dd>
+            <icon>&#xa003</icon>
+            <icon>&#xa059</icon>
+            <icon>&#xa032</icon>
+            <icon>&#xa034</icon>
+            <icon>&#xe650</icon>
+        </dd>
+        <dd>
+            <textarea><icon>&amp;#xa003</icon> <icon>&amp;#xa059</icon>
+<icon>&amp;#xa032</icon> <icon>&amp;#xa034</icon> <icon>&amp;#xe650</icon></textarea>
+        </dd>
+    </dl>
+    <dl>
+        <dt>2、用icon属性</dt>
+        <dd>
+            <span icon="&#xa00d">人脸识别</span>
+            <span icon="&#xe639">优秀学员</span>
+        </dd>
+        <dd>
+            <textarea><span icon="&amp;#xa00d">人脸识别</span>
+<span icon="&amp;#xe639">优秀学员</span></textarea>
+        </dd>
+    </dl>
+    <h2>特定图标的引用</h2>
+    <p>
+        <icon student>学员</icon>
+        <icon teacher></icon>
+        <icon course></icon>
+        <icon subject></icon>
+        <icon outline></icon>
+        <icon question></icon>
+        <icon test></icon>
+        <icon video></icon>
+        <icon view></icon>
+        <icon exam>考试</icon>
+        <icon setup></icon>
+        <icon money></icon>
+        <icon coupon></icon>
+        <icon point></icon>
+        <icon idcard></icon>
+        <icon phone></icon>
+        <icon mobile></icon>
+        <icon close></icon>
+        <icon man></icon>
+        <icon woman></icon>
+        <icon copy></icon>
+        <icon help></icon>
+        <icon paste></icon>
+        <icon delete></icon>
+    </p>
+    <textarea style="height: 200px;"><icon student>学员</icon> <icon teacher></icon>
+<icon course></icon> <icon subject></icon>
+<icon outline></icon> <icon question></icon>
+<icon test></icon> <icon video></icon>
+<icon view></icon> <icon exam>考试</icon>
+<icon setup></icon> <icon money></icon>
+<icon coupon></icon> <icon point></icon>
+<icon idcard></icon> <icon phone></icon>
+<icon mobile></icon> <icon close></icon>
+<icon man></icon> <icon woman></icon>
+<icon copy></icon> <icon help></icon>
+<icon paste></icon> <icon delete></icon></textarea>
+
+    <h2>提示文本的图标</h2>
+    <p>主要有两个，help、alert</p>
+    <p>
+        <help>可以写一些说明信息</help>
+        <help multi>用于多行的说明信息<br/>
+            这里可以换行，用&lt;br/&gt;实现多行的说明信息
+        </help>
+        <alert>一些提示信息，同样支持multi属性</alert>
+    </p>
+    <textarea style="height: 100px;"><help>可以写一些说明信息</help>
+<help multi>用于多行的说明信息<br/>
+    这里可以换行，用&lt;br/&gt;实现多行的说明信息
+</help>
+<alert>一些提示信息，同样支持multi属性</alert></textarea>
+</body>
+
+</html>

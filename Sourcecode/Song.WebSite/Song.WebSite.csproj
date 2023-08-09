@@ -1278,9 +1278,11 @@
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
     <Content Include="Utilities\ElementUi\version.txt" />
+    <Content Include="Utilities\Fonts\Help.html" />
     <Content Include="Utilities\Fonts\iconfont.ico" />
     <Content Include="Utilities\Fonts\Loading.html" />
     <Content Include="Utilities\Fonts\Scripts\index.js" />
+    <Content Include="Utilities\Fonts\Styles\Help.css" />
     <Content Include="Utilities\Fonts\Styles\Loading.css" />
     <Content Include="Utilities\Fonts\Styles\index.css" />
     <Content Include="Utilities\Images\alpha.png" />

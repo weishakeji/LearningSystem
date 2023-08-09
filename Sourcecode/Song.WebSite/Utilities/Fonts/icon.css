@@ -4,6 +4,7 @@
     font-weight: normal;
     font-style: normal;
 }
+
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 3px;
@@ -24,6 +25,7 @@
     border-radius: 3px;
     background: #EDEDED;
 }
+
 /*  图标引用方式一，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
 	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
 */
@@ -167,29 +169,35 @@ icon[woman] {
 icon[woman]::before {
     content: '\e647';
 }
-    icon[help]::before {
-        content: '\a026';
-    }
+
+icon[help]::before {
+    content: '\a026';
+}
+
 /*复制*/
 icon[copy]::before {
     content: '\a060';
 }
+
 /*粘贴*/
 icon[paste]::before {
     content: '\a061';
 }
-    icon[delete]::before {
-        content: '\e800';
-    }
-    icon[delete]{
-        cursor:pointer;
-    }
-    /*帮助、提示*/
-    help, alert {
-        color: #999;
-        font-size: 13px;
-        cursor: default;
-    }
+
+icon[delete]::before {
+    content: '\e800';
+}
+
+icon[delete] {
+    cursor: pointer;
+}
+
+/*帮助、提示*/
+help, alert {
+    color: #999;
+    font-size: 13px;
+    cursor: default;
+}
 
 help::before, alert::before {
     font-family: "webdesk_icon" !important;
@@ -422,7 +430,7 @@ loading[star]::before {
 }
 
 *[loading=p6] {
-   
+
     height: 22px;
     border-radius: 20px;
     color: #d8d8d8;

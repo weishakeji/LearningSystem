@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' path="Modify" width="800" height="600" idkey='Exam_ID' table="datatable"
-                :modal="true"></btngroup>
+                :modal="false"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
