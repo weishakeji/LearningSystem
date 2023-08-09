@@ -1,10 +1,9 @@
 $(function () {
     //统计图标数量
-    var list = document.querySelectorAll('.iconfont-list li');
-    for (var i = 0; i < list.length; i++) {
-        var code = list[i].querySelectorAll('.code')[0];
-        var icon = list[i].querySelectorAll('i')[0];
-        //console.log(code.innerText);
+    let list = document.querySelectorAll('.iconfont-list li');
+    for (let i = 0; i < list.length; i++) {
+        const code = list[i].querySelectorAll('.code')[0];
+        const icon = list[i].querySelectorAll('i')[0];
         icon.innerHTML = '&#x' + code.innerText.substring(1);
     }
     //显示总共有多少个图标
@@ -12,20 +11,20 @@ $(function () {
     //查询
     $("#search").submit(function () {
         //结果显示区域，清空
-        var result = $("#result");
+        let result = $("#result");
         result.html("");
         $(".iconfont-list li").removeClass('selected');
         $(this).find('span').html('');
         //查询的字符
-        var text = $(this).find("input[type='text']").val();
+        let text = $(this).find("input[type='text']").val();
         if (text == '') return false;
         //查询图标
-        var items = $(".iconfont-list li");
-        var html = "";
-        var count = 0;
+        let items = $(".iconfont-list li");
+        let html = "";
+        let count = 0;
         items.each(function () {
-            var name = $(this).find("div.name").text();
-            var code = $(this).find("div.code").text().replace('\\', '');
+            const name = $(this).find("div.name").text();
+            const code = $(this).find("div.code").text().replace('\\', '');
             if (name.indexOf(text) > -1 || code.indexOf(text) > -1) {
                 html += $(this).prop("outerHTML");
                 $(this).addClass('selected');
@@ -56,5 +55,4 @@ function buildpanel(url) {
     panel.click(function () {
         $(this).remove();
     });
-    //alert(url)
 }
