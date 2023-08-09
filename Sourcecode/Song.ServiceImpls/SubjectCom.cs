@@ -261,7 +261,7 @@ namespace Song.ServiceImpls
             wc.And(Subject._.Sbj_ID > -1);
             if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
             count = count > 0 ? count : int.MaxValue;
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
+            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToList<Subject>(count);
         }
 
         public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, int count)
@@ -271,7 +271,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Subject._.Sbj_Name.Like("%" + sear + "%"));
             if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
+            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToList<Subject>(count);
         }
         public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, string order, int index, int count)
         {
@@ -281,12 +281,12 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Subject._.Sbj_Name.Like("%" + sear + "%"));
             if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
             OrderByClip wcOrder = new OrderByClip();
-            if (order == "def") wcOrder = Subject._.Sbj_IsRec.Desc & Subject._.Sbj_Tax.Asc;
-            if (order == "tax") wcOrder = Subject._.Sbj_Tax.Asc;
+            if (order == "def") wcOrder = Subject._.Sbj_IsRec.Desc & Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc;
+            if (order == "tax") wcOrder = Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc;
             if (order == "rec")
             {
                 //wc &= Subject._.Sbj_IsRec == true;
-                wcOrder = Subject._.Sbj_IsRec.Desc && Subject._.Sbj_Tax.Asc;
+                wcOrder = Subject._.Sbj_IsRec.Desc && Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc;
             }
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(wcOrder).ToList<Subject>(count, index);
         }
@@ -323,7 +323,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Subject._.Sbj_Name.Like("%" + sear + "%"));
             if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
+            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToList<Subject>(count);
         }
 
         public int SubjectOfCount(int orgid, long pid, bool? isUse, bool children)
@@ -365,7 +365,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
             if (string.IsNullOrWhiteSpace(searTxt)) wc.And(Subject._.Sbj_Name.Like("%" + searTxt + "%"));
             countSum = Gateway.Default.Count<Subject>(wc);
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToArray<Subject>(size, (index - 1) * size);
+            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToArray<Subject>(size, (index - 1) * size);
         }
 
         public Questions[] QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count)

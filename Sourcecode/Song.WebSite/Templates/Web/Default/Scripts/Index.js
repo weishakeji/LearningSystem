@@ -78,7 +78,7 @@ $ready(function () {
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
-                        for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result.length; i++) {                            
                             const exist = th.subject.some(obj => obj.Sbj_ID === result[i].Sbj_ID);
                             if (!exist) th.subject.push(result[i]);
                         }
