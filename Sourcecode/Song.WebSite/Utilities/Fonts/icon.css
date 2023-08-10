@@ -210,7 +210,7 @@ help::before, alert::before {
 help[multi], alert[multi] {
     position: relative;
     display: block;
-    padding-left: 30px;
+    padding-left: 25px;
     box-sizing: border-box;
     line-height: 25px;
 

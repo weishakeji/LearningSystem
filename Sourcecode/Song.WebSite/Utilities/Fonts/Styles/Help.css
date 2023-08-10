@@ -3,33 +3,39 @@
     font-size: 22px;
     text-indent: 1rem;
 }
-h1:not(h1:first-child){
+
+h1:not(h1:first-child) {
     margin-top: 40px;
 }
+
 h2 {
-    font-weight: bolder;   
+    font-weight: bolder;
     font-size: 18px;
-    margin: 0;   
+    margin: 0;
     margin: 10px;
 }
+
 p {
     line-height: 30px;
     width: calc(100% - 50px);
 }
+
 textarea {
     width: calc(100% - 50px);
     background-color: rgb(248, 252, 203);
     padding: 10px 10px 0px 10px;
     line-height: 20px;
     border: 1px solid rgb(219, 199, 108);
-    resize:none;
+    resize: none;
     overflow: hidden;
     overflow-y: auto;
     margin-bottom: 20px;
 }
-*[loading]{
-    margin: 10px 30px 10px 0px;   
+
+*[loading] {
+    margin: 10px 30px 10px 0px;
 }
+
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 10px;
@@ -58,11 +64,23 @@ textarea {
     background-repeat: no-repeat;
     background-position: bottom;
 }
-dl,dt,dd{
+
+dl, dt, dd {
     margin: 0px;
     padding: 0px;
     line-height: 30px;
 }
-dd{
+
+dd {
     line-height: 25px;
+}
+
+icon, span[icon] {
+    font-size: 14px;
+    color: #666;
+  
+}
+
+icon::before, span[icon]::before {
+    font-size: 16px;
 }
