@@ -172,10 +172,10 @@ $ready(function () {
             },
             //实际支付多少钱（价格扣除卡券）
             actualpay: function (item) {
-                //var account = this.account;
-                //var mycoupon = account.Ac_Coupon;
-                var price = item.CP_Price;      //价格
-                var coupon = item.CP_Coupon;   //卡券
+                //实际拥有的卡券数
+                let mycoupon = this.account.Ac_Coupon;
+                let price = item.CP_Price;      //价格
+                let coupon = item.CP_Coupon > mycoupon ? mycoupon : item.CP_Coupon;   //卡券
                 return (price - coupon) <= 0 ? 0 : price - coupon;
             },
             //选中价格

@@ -230,8 +230,7 @@ context#couHead {
 
 .prices>div.selected {
 	border-radius: 5px;
-	background-color: #d1f8e4;
-	box-shadow: 1px 1px 3px #a4f7cb, -1px -1px 3px #a4f7cb, 1px -1px 3px #a4f7cb, -1px 1px 3px #a4f7cb;
+	background-color: #edfff6;	
 	position: relative;
 }
 

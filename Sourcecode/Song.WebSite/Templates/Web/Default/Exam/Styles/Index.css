@@ -1,11 +1,13 @@
 ﻿@charset "utf-8";
+
 #bodyTop {
-    background-position: center 0px;
-    width: 100%;
-    height: 256px;
-    background-image: url(../Images/exam-banner.jpg);
-    background-repeat: no-repeat;
+	background-position: center 0px;
+	width: 100%;
+	height: 256px;
+	background-image: url(../Images/exam-banner.jpg);
+	background-repeat: no-repeat;
 }
+
 context {
 	display: block;
 	width: 1200px;
@@ -14,42 +16,45 @@ context {
 	margin-top: 10px;
 	min-height: 600px;
 }
+
 /*课程内容区*/
 context {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: stretch;
+	margin-top: 30px;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
 }
 
 context>section {
-    flex: 1;
-    padding-left: 20px;
-    box-sizing: border-box;
-    margin-left: 60px;
+	flex: 1;
+	padding-left: 20px;
+	box-sizing: border-box;
+	margin-left: 60px;
 }
 
 context>aside {
-    width: 260px;
-    margin-left: 20px;
-    min-height: 500px;
+	width: 260px;
+	margin-left: 20px;
+	min-height: 500px;
 }
 
 context>aside .el-divider {
-    color: #999 !important;
-    margin-top: 38px;
+	color: #999 !important;
+	margin-top: 38px;
 
 }
 
 .el-divider__text {
-    color: #999 !important;
+	color: #999 !important;
 }
-loading{
+
+loading {
 	margin: 20px auto;
 	text-align: center;
 	display: block;
 }
+
 /*顶部选项卡*/
 .tabs-box {
 	display: flex;
@@ -90,18 +95,21 @@ loading{
 	right: 0px;
 	top: 8px;
 }
+
 /*考试详情*/
 
 card-title {
 	position: relative;
 	padding: 15px 100px 15px 15px;
 }
-card-title .search{
+
+card-title .search {
 	position: absolute;
 	right: 10px;
-	top: 15px;	
+	top: 15px;
 }
-card-title .search input[type='search']{
+
+card-title .search input[type='search'] {
 	border: 1px solid #ddd;
 	width: 120px;
 	height: 30px;
@@ -110,7 +118,8 @@ card-title .search input[type='search']{
 	border-radius: 5px;
 	font-size: 13px;
 }
-card-title .search::before{
+
+card-title .search::before {
 	content: '\a00b';
 	font-family: webdesk_icon;
 	display: block;
@@ -124,6 +133,7 @@ card-title .search::before{
 	text-align: center;
 	z-index: 10;
 }
+
 .theme card-title {
 	padding: 15px;
 }
@@ -143,9 +153,18 @@ card-title a {
 
 card-context {
 	font-size: 16px;
+	padding-left: 30px;
 }
+
 .item {
 	line-height: 30px;
+}
+
+card-context>div>div.item:first-child {
+	margin-top: 10px;
+}
+card-context>div>div.item:not(:first-child) {
+	margin-left: 20px;
 }
 /*得分样式*/
 
@@ -158,13 +177,15 @@ score {
 	height: 20px;
 }
 
-score.general{
+score.general {
 	color: #07c160;
 }
-score.praise{
+
+score.praise {
 	color: #409EFF;
 	font-weight: bold;
 }
+
 score::before {
 	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
@@ -188,8 +209,8 @@ score.fine::before {
 score.praise::before {
 	content: '\e8c9';
 	font-size: 20px;
-	color:coral;
-	font-weight: normal;	
+	color: coral;
+	font-weight: normal;
 }
 
 /*没有考试*/
