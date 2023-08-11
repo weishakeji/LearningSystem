@@ -25,7 +25,7 @@ window.vapp = new Vue({
             },
             {
                 name: '检测数据库', type: 'node', hot: true, url: 'datas/test.htm',
-                icon: { i: 'e6a4', s: 22, l: 2, t: 0 }, color: { f: 'rgba(251, 118, 118,1)', b: 'rgba(249, 236, 234,0.8)' }
+                icon: { i: 'e6a4', s: 22, l: 2, t: 0 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
             },
             { type: 'line' },
             {

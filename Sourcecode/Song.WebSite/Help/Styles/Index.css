@@ -119,27 +119,42 @@ nav>div, nav>a {
     font-size: 16px;
     position: relative;
     color: #999;
-    margin: 5px 8px;
-    border-radius: 5px;
+    margin: 0px 8px;
+    border-radius: 3px;
     --background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
     cursor: pointer;
     box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid transparent;
 }
 
 nav>div:hover, nav>a:hover {
-    box-shadow: inset 0 0 2px #67C23A;
-    background-color: #fff !important;
     color: #333;
 }
 
 nav>div[current], nav>a[current] {
-    background-color: #d3d3d3 !important;
-    color: #6f8173 !important;
-    background-image: linear-gradient(335deg, transparent 5%, rgb(231 255 230 / 60%) 85%, transparent);
+    border-image-source: linear-gradient(172deg, #fff 35%, #67C23A);
+    border-image-slice: 1;
+    box-shadow: inset 0px 0px 8px #fff;
 }
 
 nav>div[current]:hover, nav>a[current]:hover {
-    box-shadow: none;
+    color: #67C23A;
+}
+
+nav>div[current]::before, nav>a[current]::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #67C23A;
+    transform: rotate(3deg);
+    z-index: -1;
+
 }
 
 nav>div[current]::after, nav>a[current]::after {
@@ -148,11 +163,12 @@ nav>div[current]::after, nav>a[current]::after {
     color: #fff;
     position: absolute;
     bottom: 1px;
-    right: -4px;
+    right: -6px;
+    transform: rotate(-10deg);
 }
 
 nav>p.line {
-    margin: 6px 0px;
+    margin: 15px 0px;
     height: 1px;
     width: 100%;
     background: linear-gradient(to right, transparent, #ccc, transparent);
