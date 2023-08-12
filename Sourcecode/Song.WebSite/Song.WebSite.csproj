@@ -221,6 +221,12 @@
     <Content Include="Download\readme.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Help\Contents\DataEntity.html" />
+    <Content Include="Help\Contents\Styles\Upgrade.css" />
+    <Content Include="Help\Contents\Styles\Templates.css" />
+    <Content Include="Help\Contents\Styles\Sourcecode.css" />
+    <Content Include="Help\Contents\Styles\DataEntity.css" />
+    <Content Include="Help\Contents\Upgrade.html" />
     <Content Include="Help\Copyright.html" />
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\Index.js" />

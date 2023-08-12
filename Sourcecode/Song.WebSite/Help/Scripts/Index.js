@@ -16,11 +16,11 @@ window.vapp = new Vue({
             },
             { type: 'line' },
             {
-                name: '安装部署', type: '', url: 'Contents/Deployment.html',
+                name: '安装部署', type: 'node', url: 'Contents/Deployment.html',
                 icon: { i: 'a030', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: '软件升级', type: '', url: 'Contents/Deployment.html',
+                name: '软件升级', type: 'node', url: 'Contents/Upgrade.html',
                 icon: { i: 'e836', s: 30, l: -2, t: -2 }, color: { f: '', b: '' }
             },
             {
@@ -29,11 +29,11 @@ window.vapp = new Vue({
             },
             { type: 'line' },
             {
-                name: '源代码（二次开发）说明', type: '', url: 'Contents/Sourcecode.html',
+                name: '源代码（二次开发）', type: 'node', url: 'Contents/Sourcecode.html',
                 icon: { i: 'a034', s: 24, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: '模版使用说明', type: '', url: 'Contents/Templates.html',
+                name: '模版使用', type: 'node', url: 'Contents/Templates.html',
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
@@ -41,11 +41,11 @@ window.vapp = new Vue({
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {
-                name: '数据实体说明', type: 'link', url: 'datas/',
+                name: '数据实体说明', type: 'link', url: 'datas/index.htm',
                 icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {
-                name: '数据实体生成', type: '', url: 'datas/',
+                name: '数据实体生成', type: 'node', url: 'Contents/DataEntity.html',
                 icon: { i: 'e852', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
