@@ -164,9 +164,9 @@ Vue.component('modify_main', {
     template: `<div class="panel" v-show="!loading">
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
-                <span slot="label">
+                <template slot="label">
                     <ques_type :type="quesType" :types="types" :showname="true"></ques_type>
-                </span>
+                </template>
             </el-tab-pane>   
             <el-tab-pane v-for="(item,index) in tabs" :name="item.name" v-if="tabshow(item)">
                 <span slot="label" :style="'color:'+item.color">
