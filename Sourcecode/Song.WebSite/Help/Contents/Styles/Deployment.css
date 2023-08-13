@@ -9,8 +9,8 @@ h1 {
     text-indent: 1rem;
 }
 
-p {
-    font-size: 18px;
+p,dd {
+    font-size: 16px;
     margin: 0.5rem 0px 0px 0px;
     line-height: 35px;
     text-indent: 2rem;
@@ -28,30 +28,9 @@ p[copyright="intro"] {
     color: #444;
 }
 
-a {
-    color: #000;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 #head {
     box-sizing: border-box;
     padding: 0px 0px 0px 20px;
     display: flex;
 }
 
-#foot {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    height: 30px;
-    line-height: 30px;
-    width: 100%;
-    bottom: 0px;
-    left: 0px;
-    box-sizing: border-box;
-    padding: 0px 20px;
-}
