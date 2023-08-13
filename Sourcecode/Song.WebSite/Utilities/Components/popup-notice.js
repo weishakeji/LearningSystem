@@ -207,7 +207,7 @@ Vue.component('popup-notice', {
                     @load="imgload" @click="goUrl(item)"/>
                 <template v-else>
                     <div class="open_notice_title"  @click="goUrl(item)">{{item.No_Ttl}}</div>
-                    <div class="open_notice_context"  @click="goUrl(item)" v-html="item.No_Context"></div>
+                    <div class="open_notice_context"  @click.self="goUrl(item)" v-html="item.No_Context"></div>
                 </template>
                 <div remark="关闭" class="open_notice_close" @click="btnClose(item.No_Id)">&#xe72c</div>
                 <div remark="数秒" class="open_notice_second" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>                

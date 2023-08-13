@@ -24,7 +24,17 @@
     overflow: auto;
     height: calc(100% - 90px);
 }
-
+#notice_box .open_notice_context a{
+    color: #09F;
+    text-decoration: underline;
+}
+#notice_box .open_notice_context *{
+    margin: 0px;
+}
+#notice_box .open_notice_context p{
+    margin: 10px auto;
+    text-indent: 2rem;
+}
 .open_notice_view {
     text-align: center;
     line-height: 100%;
