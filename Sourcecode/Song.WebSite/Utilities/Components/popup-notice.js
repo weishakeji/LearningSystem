@@ -86,17 +86,23 @@ Vue.component('popup-notice', {
             if (!this.ismoblie) return;
             const width = event.target.width;
             const height = event.target.height;
-            //const max = width > height ? width : height;
             var parent = $dom(event.target).parent();
             parent.height(height);
-            //parent.css('background-color', '#fff');
-            //console.log(width);
         },
         //打开网址
-        goUrl: function (item) {
-            var mobi = this.ismoblie();
-            var page = mobi ? '/mobi/notice/Detail' : '/web/notice/Detail'
-            window.location.href = item.No_Linkurl != '' ? item.No_Linkurl : page + '.' + item.No_Id;
+        goUrl: function (event) {
+            event.stopPropagation();
+            let element = event.target;
+            if (element.nodeName == 'A') return;
+            //获取弹窗的html对象
+            while ($dom(element).attr('noid') == null || element.nodeName == 'BODY')
+                element = element.parentNode;
+            let noid = $dom(element).attr('noid');  //通知id
+            let url = $dom(element).attr('url');        //通知的链接地址
+            if (noid == null) return;
+            let mobi = this.ismoblie();
+            let page = mobi ? '/mobi/notice/Detail' : '/web/notice/Detail'
+            window.location.href = url != '' && url != null ? url : page + '.' + noid;
         },
         //关闭公告
         btnClose: function (id) {
@@ -202,12 +208,12 @@ Vue.component('popup-notice', {
     //
     template: `<div id="notice_box" :style="'width:calc(100vw * ' + items.length + ')'" class="open_notice_shell" remark="区域" :mobi="ismoblie()" >
         <div v-for="(item,index) in items" class="open_notice_view" remark="通知视图">
-            <div :style="notice(item)" remark="通知内容">
+            <div :style="notice(item)" remark="通知内容" :url="item.No_Linkurl" :noid="item.No_Id">
                 <img :src="item.No_BgImage" class="open_notice_img" v-if="item.No_BgImage!=''" 
                     @load="imgload" @click="goUrl(item)"/>
                 <template v-else>
-                    <div class="open_notice_title"  @click="goUrl(item)">{{item.No_Ttl}}</div>
-                    <div class="open_notice_context"  @click.self="goUrl(item)" v-html="item.No_Context"></div>
+                    <div class="open_notice_title" @click="goUrl">{{item.No_Ttl}}</div>
+                    <div class="open_notice_context"  @click="goUrl" v-html="item.No_Context"></div>
                 </template>
                 <div remark="关闭" class="open_notice_close" @click="btnClose(item.No_Id)">&#xe72c</div>
                 <div remark="数秒" class="open_notice_second" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>                
