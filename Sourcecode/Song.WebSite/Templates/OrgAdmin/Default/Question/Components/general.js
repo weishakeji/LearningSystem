@@ -46,7 +46,7 @@ Vue.component('general', {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
                     this.couid = nv.Cou_ID;
-                    let sbjid = nv.Sbj_ID;
+                    let sbjid = nv.Sbj_ID;                  
                     var th = this;
                     var arr = [];
                     arr.push(sbjid);

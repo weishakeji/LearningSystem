@@ -18,7 +18,7 @@ Vue.component('enter_button', {
         //试题是否为空
         'quesnull': function () {
             var ques = JSON.stringify(this.question) != '{}' && this.question != null;
-            return !ques || this.question.Qus_ID  == 0;
+            return !ques || this.question.Qus_ID == 0;
         }
     },
     methods: {
@@ -31,14 +31,15 @@ Vue.component('enter_button', {
             if (!qus.Qus_Title || qus.Qus_Title == '') {
                 return this.alert('试题题干不得为空！', 0);
             }
-            //是否设置专业
-            if (!qus.Sbj_ID || qus.Sbj_ID <= 0) {
-                return this.alert('试题必须设置所属专业', 1);
-            }
             //是否设置课程
             if (!qus.Cou_ID || qus.Cou_ID <= 0) {
                 return this.alert('试题必须设置所属课程', 1);
             }
+            //是否设置专业
+            if (!qus.Sbj_ID || qus.Sbj_ID <= 0) {
+                return this.alert('试题必须设置所属专业', 1);
+            }
+
             return true;
         },
         //提交
@@ -62,7 +63,7 @@ Vue.component('enter_button', {
                         type: 'success',
                         message: '操作成功!',
                         center: true
-                    });                   
+                    });
                     //如果是新增
                     //if (isadd) {
                     //var url = $api.dot(result, window.location.href);

@@ -236,12 +236,13 @@
         data: function () {
             return {
                 oultine: {},
-                loading: true
+                loading: false
             }
         },
         watch: {
             'olid': {
                 handler: function (nv) {
+                    if (nv == null || nv == '' || Number(nv) <= 0) return;
                     var th = this;
                     th.loading = true;
                     $api.cache('Outline/ForID', { 'id': nv }).then(function (req) {
