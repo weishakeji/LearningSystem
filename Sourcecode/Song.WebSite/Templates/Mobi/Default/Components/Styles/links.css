@@ -1,0 +1,45 @@
+
+/*友情链接*/
+weisha.linksorts{
+	margin-right: auto;
+	margin-left: auto;
+    display: flex;	
+}
+weisha.linksorts div.links{
+	flex: 1;
+	display: flex;
+    flex-flow: column;
+}
+weisha.linksorts .links-tit{	
+	float: left;		
+}
+weisha.linksorts .links-tit a{	
+	font-weight: bold;
+	font-size: 30px;
+	color: #666;
+	text-decoration: none;
+}
+weisha.linksorts weisha.links{
+	display: block;
+	width: 100%;	
+	margin-bottom: 20px;
+}
+weisha.linksorts  div.linksarea{
+	display: flex;
+	flex-wrap:wrap;
+}
+weisha.linksorts .link-item{
+	line-height: 30px;
+	float: left;
+	margin-right: 30px;
+	display: flex;
+	flex-flow: column;
+	white-space: nowrap;
+}
+weisha.linksorts .link-item img{
+	height: 60px;
+}
+weisha.linksorts .link-item a{
+	color: #333;
+	font-size: 16px;
+}

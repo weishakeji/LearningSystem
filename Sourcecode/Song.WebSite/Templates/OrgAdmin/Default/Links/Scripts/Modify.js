@@ -6,6 +6,7 @@ $ready(function () {
         data: {
             id: $api.querystring('id'),
             organ: {},
+            activeName: 'general',      //选项卡
             //当前数据实体
             entity: {
                 Lk_IsUse: true,
@@ -79,7 +80,7 @@ $ready(function () {
         methods: {
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
                         //接口路径
@@ -108,6 +109,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
+                         //未通过验证的字段
+                         let field = Object.keys(fields)[0];
+                         let label = $dom('label[for="' + field + '"]');
+                         while (label.attr('tab') == null)
+                             label = label.parent();
+                         th.activeName = label.attr('tab');
                         console.log('error submit!!');
                         return false;
                     }

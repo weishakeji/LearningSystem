@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>友情链接</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <page_header title="友情链接" icon="&#xa029" home="true"></page_header>
+        <context>
+            
+            <linksorts :sort="null" :org="org" :count="0">
+                <div slot="sortname" slot-scope="data" class="sortname">
+                    <icon>&#xa029</icon>
+                    {{data.sort.Ls_Name}}
+                </div>
+            </linksorts>
+        </context>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

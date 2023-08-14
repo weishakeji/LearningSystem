@@ -17,7 +17,7 @@
         </div>
         <div id="link_area">
             <div class="toolsbar">
-                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
+                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="400"
                     :selects='selects' idkey='Lk_Id' table="datatables"></btngroup>
                 <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                     <el-form-item label="">
