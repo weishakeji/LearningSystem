@@ -2,8 +2,8 @@
 <html lang="zh">
 
 <head resource>
-    <include file="../inc/meta.inc" /> 
-    <title>修改信息</title>      
+    <include file="../inc/meta.inc" />
+    <title>修改信息</title>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
                 <el-input v-model="entity.Ls_Name" maxlength="140"></el-input>
 
             </el-form-item>
-            <el-form-item label="状态" prop="Ls_IsShow">               
+            <el-form-item label="状态" prop="Ls_IsShow">
                 <el-switch v-model="entity.Ls_IsShow" :active-text="entity.Ls_IsShow ? '显示' : '隐藏'">
                 </el-switch>
                 <help>该链接分类下的链接是否在前端页面展示</help>
@@ -22,12 +22,12 @@
             <el-form-item label="" prop="Ls_IsUse">
                 <el-switch v-model="entity.Ls_IsUse" active-color="#13ce66" inactive-color="#ff4949"
                     :active-text="entity.Ls_IsUse ? '启用' : '禁用'">
-                </el-switch>               
+                </el-switch>
                 <help multi>禁用后不仅无法在前端页面展示，在编辑链接时，也无法选择该分类</help>
             </el-form-item>
-          
+
             <el-form-item label="提示信息" prop="Ls_Tootip">
-                <el-input type="textarea" :rows="3" placeholder="请输入内容"  maxlength="250" v-model="entity.Ls_Tootip">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Ls_Tootip">
                 </el-input>
             </el-form-item>
             <el-form-item label="样式" prop="Ls_IsImg">
@@ -41,8 +41,13 @@
 
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter"  :loading="loading" plain @click="btnEnter('entity')">
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity',true)">
                 保存
+            </el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
             </el-button>
             <el-button type='close'>
                 取消

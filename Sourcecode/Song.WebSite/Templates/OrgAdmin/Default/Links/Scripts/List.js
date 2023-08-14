@@ -22,25 +22,26 @@ $ready(function () {
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.form.orgid = vapp.organ.Org_ID;
+                th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
                 $api.get('Link/SortCount',
-                    { 'orgid': vapp.organ.Org_ID, 'use': true, 'show': '', 'search': '', 'count': 0 })
+                    { 'orgid': th.organ.Org_ID, 'use': true, 'show': '', 'search': '', 'count': 0 })
                     .then(function (req) {
                         if (req.data.success) {
-                            vapp.sorts = req.data.result;
+                            th.sorts = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                        vapp.handleCurrentChange(1);
+                        th.handleCurrentChange(1);
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
@@ -88,7 +89,7 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -114,7 +115,7 @@ $ready(function () {
                 $api.post('Link/Modify', { 'entity': row }).then(function (req) {
                     this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -124,7 +125,7 @@ $ready(function () {
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.$alert(err, '错误');
                     th.loadingid = 0;
                 });
             }

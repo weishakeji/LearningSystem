@@ -109,14 +109,14 @@ Vue.component('links', {
         <div class="linksarea">
             <div class="link-item" v-for="d in datas">
                 <template v-if="sort.Ls_IsImg">
-                    <a :href="d.Lk_Url" target="_blank"  v-if="d.Lk_Logo!=''">
+                    <a :href="d.Lk_Url" target="_blank"  v-if="d.Lk_Logo!=''" :title="d.Lk_Tootip">
                         <img :src="d.Lk_Logo"/>
                     </a>
-                    <a :href="d.Lk_Url" target="_blank"  v-if="sort.Ls_IsText">
+                    <a :href="d.Lk_Url" target="_blank"  v-if="sort.Ls_IsText" :title="d.Lk_Tootip">
                         {{d.Lk_Name}}
                     </a>
                 </template>
-                <a :href="d.Lk_Url" target="_blank"  v-else>
+                <a :href="d.Lk_Url" target="_blank"  v-else :title="d.Lk_Tootip">
                     {{d.Lk_Name}}
                 </a>
             </div>    

@@ -22,22 +22,22 @@ $ready(function () {
                 //console.log(val);
             }
         },
-        computed: {},
+        computed: {
+
+        },
         created: function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         methods: {
             //加载数据页
@@ -58,17 +58,14 @@ $ready(function () {
                         throw d.data.message;
                     }
                     th.rowdrop();
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Link/SortDelete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -82,9 +79,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //更改使用状态
             changeState: function (row) {
@@ -100,11 +97,9 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {
@@ -126,13 +121,13 @@ $ready(function () {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         let arr = this.datas; // 获取表数据

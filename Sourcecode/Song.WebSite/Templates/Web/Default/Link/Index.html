@@ -20,7 +20,7 @@
 
             </el-breadcrumb>
             <linksorts :sort="null" :org="org" :count="0">
-                <div slot="sortname" slot-scope="data" class="sortname">
+                <div slot="sortname" slot-scope="data" class="sortname" :title="data.sort.Ls_Tootip">
                     <icon>&#xa029</icon>
                     {{data.sort.Ls_Name}}
                 </div>

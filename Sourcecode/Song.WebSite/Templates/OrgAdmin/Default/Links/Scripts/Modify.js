@@ -26,16 +26,21 @@ $ready(function () {
             loading: false,
             loading_init: true
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         created: function () {
+            var th=this;
             $api.get('Organization/Current').then(function (req) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
+                    th.organ = req.data.result;
                     $api.get('Link/SortCount',
-                        { 'orgid': vapp.organ.Org_ID, 'use': true, 'show': '', 'search': '', 'count': 0 })
+                        { 'orgid': th.organ.Org_ID, 'use': true, 'show': '', 'search': '', 'count': 0 })
                         .then(function (req) {
                             if (req.data.success) {
-                                vapp.sorts = req.data.result;
+                                th.sorts = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -48,7 +53,6 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-
 
             }).catch(function (err) {
                 console.error(err);
@@ -69,11 +73,11 @@ $ready(function () {
                     throw '未查询到数据';
                 }
             }).catch(function (err) {
-                vapp.$alert(err, '错误');
+                th.$alert(err, '错误');
             });
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -89,19 +93,19 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$notify({
                                     type: 'success',
                                     message: '操作成功!',
-                                    center: true
+                                    position: 'bottom-left'
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
@@ -113,8 +117,6 @@ $ready(function () {
             filechange: function (file) {
                 var th = this;
                 th.upfile = file;
-
-                console.log(file);
             },
             //清除图片
             fileremove: function () {
@@ -123,8 +125,8 @@ $ready(function () {
                 this.entity.Lk_LogoSmall = '';
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });

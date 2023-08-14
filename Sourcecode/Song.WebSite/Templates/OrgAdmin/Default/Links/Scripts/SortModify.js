@@ -23,20 +23,23 @@ $ready(function () {
             if (th.id == '') return;
             th.loading = true;
             $api.get('Link/SortForID', { 'id': th.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
-                    vapp.entity = result;
+                    th.entity = result;
                 } else {
                     throw '未查底到数据';
                 }
             }).catch(function (err) {
-                vapp.$alert(err, '错误');
-            });
+                alert(err, '错误');
+            }).finally(() => th.loading = false);
 
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -46,19 +49,19 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
@@ -67,8 +70,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });
