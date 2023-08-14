@@ -191,7 +191,9 @@ icon[delete]::before {
 icon[delete] {
     cursor: pointer;
 }
-
+    icon[qq]::before {
+        content: '\e82a';
+    }
 /*帮助、提示*/
 help, alert {
     color: #999;

@@ -10,7 +10,7 @@ $ready(function () {
             //当前数据实体
             entity: {
                 Lk_IsUse: true,
-                Lk_IsShow: true,
+                Lk_IsShow: false,
                 Lk_Logo: '',
                 Lk_LogoSmall: ''
             },
@@ -19,7 +19,13 @@ $ready(function () {
                 Lk_Name: [
                     { required: true, message: '名称不得为空', trigger: 'blur' },
                     { min: 2, max: 255, message: '长度在 2 到 255 个字符', trigger: 'blur' }
-                ]
+                ],
+                Lk_QQ: [
+                    { pattern: /^[1-9][0-9]{4,10}$/, message: '请输入正确的QQ号码', trigger: ['blur', 'change'] }
+                ],
+                Lk_Mobile: [
+                    { pattern: /^[1-9][0-9]{10}$/, message: '请输入正确的移动电话', trigger: ['blur', 'change'] }
+                ],
             },
             //图片文件
             upfile: null, //本地上传文件的对象              
@@ -32,7 +38,7 @@ $ready(function () {
             isadd: t => { return t.id == null || t.id == ''; },
         },
         created: function () {
-            var th=this;
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
                 th.loading_init = false;
                 if (req.data.success) {
@@ -109,12 +115,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
-                         //未通过验证的字段
-                         let field = Object.keys(fields)[0];
-                         let label = $dom('label[for="' + field + '"]');
-                         while (label.attr('tab') == null)
-                             label = label.parent();
-                         th.activeName = label.attr('tab');
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         console.log('error submit!!');
                         return false;
                     }

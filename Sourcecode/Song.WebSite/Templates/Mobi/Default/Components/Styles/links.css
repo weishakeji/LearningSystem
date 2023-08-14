@@ -33,8 +33,7 @@ weisha.linksorts .link-item{
 	float: left;
 	margin-right: 30px;
 	display: flex;
-	flex-flow: column;
-	white-space: nowrap;
+	flex-flow: column;	
 }
 weisha.linksorts .link-item img{
 	height: 60px;
@@ -42,4 +41,17 @@ weisha.linksorts .link-item img{
 weisha.linksorts .link-item a{
 	color: #333;
 	font-size: 16px;
+}
+weisha.linksorts .link-item[show=true] {
+	width: 100%;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+}
+weisha.linksorts .link-item[show=true] div.detail{
+	margin: 10px 0px 15px 0px;	
+}
+weisha.linksorts .link-item[show=true] div.detail * {
+	line-height: 28px;
+	color: #666;
+	font-size: 15px;	
 }

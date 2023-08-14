@@ -19,7 +19,7 @@
                 <el-breadcrumb-item>友情链接</el-breadcrumb-item>
 
             </el-breadcrumb>
-            <linksorts :sort="null" :org="org" :count="0">
+            <linksorts :sort="null" :org="org" :count="0" :showdetail="true">
                 <div slot="sortname" slot-scope="data" class="sortname" :title="data.sort.Ls_Tootip">
                     <icon>&#xa029</icon>
                     {{data.sort.Ls_Name}}

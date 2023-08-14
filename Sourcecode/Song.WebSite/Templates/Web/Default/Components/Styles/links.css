@@ -1,46 +1,66 @@
-
 /*友情链接*/
-weisha.linksorts{
+weisha.linksorts {
 	width: 1200px;
 	margin-right: auto;
 	margin-left: auto;
-    display: flex;	
+	display: flex;
 }
-weisha.linksorts div.links{
+
+weisha.linksorts div.links {
 	flex: 1;
 	display: flex;
-    flex-flow: column;
+	flex-flow: column;
 }
-weisha.linksorts .links-tit{	
-	float: left;	
+
+weisha.linksorts .links-tit {
+	float: left;
 	width: 200px;
 }
-weisha.linksorts .links-tit a{	
+
+weisha.linksorts .links-tit a {
 	font-weight: bold;
 	font-size: 30px;
 	color: #666;
 	text-decoration: none;
 }
-weisha.linksorts weisha.links{
+
+weisha.linksorts weisha.links {
 	display: block;
-	width: 100%;	
+	width: 100%;
 }
-weisha.linksorts  div.linksarea{
+
+weisha.linksorts div.linksarea {
 	display: flex;
-	flex-wrap:wrap;
+	flex-wrap: wrap;
 }
-weisha.linksorts .link-item{
+
+weisha.linksorts .link-item {
 	line-height: 30px;
 	float: left;
 	margin-right: 30px;
 	display: flex;
 	flex-flow: column;
-	white-space: nowrap;
 }
-weisha.linksorts .link-item img{
+
+weisha.linksorts .link-item[show=true] {
+	width: 100%;
+	word-wrap: break-word !important;
+	overflow-wrap: break-word !important;
+}
+weisha.linksorts .link-item[show=true] div.detail{
+	margin: 10px 0px 15px 0px;	
+}
+weisha.linksorts .link-item[show=true] div.detail * {
+	line-height: 28px;
+	color: #666;
+	font-size: 15px;	
+}
+
+weisha.linksorts .link-item img {
 	height: 60px;
 }
-weisha.linksorts .link-item a{
+
+weisha.linksorts .link-item a {
 	color: #333;
 	font-size: 16px;
 }

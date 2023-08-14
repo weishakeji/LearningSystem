@@ -363,7 +363,7 @@ namespace Song.ViewData.Methods
         [HttpPost, HttpGet]
         public Song.Entities.Links[] Count(int orgid,int sortid, bool? use, bool? show, string search, int count)
         {
-            Song.Entities.Links[] entities = Business.Do<ILinks>().GetLinks(orgid, sortid, use, show, count);
+            Song.Entities.Links[] entities = Business.Do<ILinks>().GetLinks(orgid, sortid, show, use, count);
             foreach(Song.Entities.Links l in entities)          
                 _tran(l);           
             return entities;
