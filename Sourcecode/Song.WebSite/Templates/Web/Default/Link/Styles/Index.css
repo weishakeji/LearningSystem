@@ -3,11 +3,17 @@
 weisha.linksorts .link-item a{
 	font-size: 18px !important;
 }
-
+weisha.linksorts{
+    display: flex;	
+	flex-direction: column;
+}
 .sortname {
 	margin-top: 50px;
 	font-weight: bold;
 	font-size: 30px;
 	color: #666;
 	margin-bottom: 10px;
+}
+weisha.linksorts  div.linksarea{
+	margin-left: 50px;
 }

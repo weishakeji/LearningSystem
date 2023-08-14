@@ -216,7 +216,23 @@ namespace Song.ServiceImpls
             wc &= Notice._.No_Type == type;
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            if (!string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
+            if (!string.IsNullOrWhiteSpace(forpage))
+            {
+                if (forpage.IndexOf(",") < 0)
+                {
+                    wc &= Notice._.No_Page == forpage;
+                }
+                else
+                {
+                    WhereClip wcpage = new WhereClip();
+                    foreach(string s in forpage.Split(','))
+                    {
+                        if (string.IsNullOrWhiteSpace(s)) continue;
+                        wcpage.Or(Notice._.No_Page == s);
+                    }
+                    wc.And(wcpage);
+                }
+            }
             if (time != null)
             {
                 DateTime date = ((DateTime)time).Date;

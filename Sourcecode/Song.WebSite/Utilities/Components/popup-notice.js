@@ -1,6 +1,7 @@
 ﻿
 // 通知公告的弹窗
 Vue.component('popup-notice', {
+    //要显示的页面的标识
     props: ['forpage'],
     data: function () {
         return {
@@ -18,11 +19,11 @@ Vue.component('popup-notice', {
         //通知内容区域
         notice: function () {
             return function (item) {
-                var mobi = this.ismoblie();
+                var mobi = this.ismoblie();     //如果是手机端
                 var width, height;
                 if (mobi) {
-                    width = (item.No_Width > 100 || item.No_Width <= 0 ? 100 : item.No_Width) + '%';
-                    height = (item.No_Height > 100 || item.No_Height <= 0 ? 100 : item.No_Height) + '%';
+                    width = (item.No_Width > 100 || item.No_Width <= 0 ? 80 : item.No_Width) + '%';
+                    height = (item.No_Height > 100 || item.No_Height <= 0 ? 80 : item.No_Height) + '%';
                 } else {
                     width = (item.No_Width < 100 ? 100 : item.No_Width) + 'px';
                     height = (item.No_Height < 100 ? 100 : item.No_Height) + 'px';

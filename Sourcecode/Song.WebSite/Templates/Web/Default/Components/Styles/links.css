@@ -4,7 +4,7 @@ weisha.linksorts{
 	width: 1200px;
 	margin-right: auto;
 	margin-left: auto;
-    display: flex;
+    display: flex;	
 }
 weisha.linksorts div.links{
 	flex: 1;
@@ -23,8 +23,11 @@ weisha.linksorts .links-tit a{
 }
 weisha.linksorts weisha.links{
 	display: block;
-	width: 100%;
-	margin-bottom: 50px;
+	width: 100%;	
+}
+weisha.linksorts  div.linksarea{
+	display: flex;
+	flex-wrap:wrap;
 }
 weisha.linksorts .link-item{
 	line-height: 30px;
@@ -32,6 +35,7 @@ weisha.linksorts .link-item{
 	margin-right: 30px;
 	display: flex;
 	flex-flow: column;
+	white-space: nowrap;
 }
 weisha.linksorts .link-item img{
 	height: 60px;

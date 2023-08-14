@@ -19,17 +19,23 @@
 #notice_box .open_notice_context {
     padding: 0px 30px;
     line-height: 30px;
-    font-size: 16px;
+  
     text-align: left;
     overflow: auto;
     height: calc(100% - 90px);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
 #notice_box .open_notice_context a{
     color: #09F;
     text-decoration: underline;
 }
 #notice_box .open_notice_context *{
     margin: 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 16px !important;
 }
 #notice_box .open_notice_context p{
     margin: 10px auto;

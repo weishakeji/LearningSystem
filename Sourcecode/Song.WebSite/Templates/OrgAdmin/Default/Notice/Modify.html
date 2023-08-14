@@ -91,6 +91,7 @@
                                 <template>
                                     <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
                                     <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
+                                    <el-radio v-model="formData.No_Page" label="all_home">所有首页</el-radio>
                                 </template>
                             </el-form-item>
 
@@ -160,16 +161,16 @@
                                         {{timeformat(item.end,'HH:mm')}} <el-link type="primary"
                                             @click="No_Interval.splice(index, 1)">移除</el-link>
                                     </div>
-                                    <div v-if="No_Interval.length==0">
-                                        (没有设置时间段，默认为全天显示)
-                                    </div>
+                                    <help v-if="No_Interval.length==0">
+                                        如果没有设置时间段，默认为全天显示
+                                    </help>
                                 </div>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item label="图片" style="margin-bottom: 0px;">
-                                <upload-img @change="filechange" @load="fileload" :data="formData" size="1024" height="100"
-                                    ext="jpg,png,gif">
+                                <upload-img @change="filechange" @load="fileload" :data="formData" size="1024"
+                                    height="100" ext="jpg,png,gif">
                                     <template v-if="formData.No_BgImage!='' || upfile!=null">
                                         <img v-if="upfile!=null" :src="upfile.base64" />
                                         <img v-else :src="formData.No_BgImage" />
@@ -211,12 +212,14 @@
                 </el-tabs>
             </el-form>
             <div class="footer">
-                <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('formData')">
+                <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                    @click="btnEnter('formData')">
                     保存
-                </el-button>      
-                <el-button type="primary" native-type="submit" v-if="id!=''" define="apply" :loading="loading" plain @click="btnApply('formData')">
+                </el-button>
+                <el-button type="primary" native-type="submit" v-if="id!=''" define="apply" :loading="loading" plain
+                    @click="btnApply('formData')">
                     应用
-                </el-button>    
+                </el-button>
                 <el-button type='close'>取消</el-button>
             </div>
         </template>

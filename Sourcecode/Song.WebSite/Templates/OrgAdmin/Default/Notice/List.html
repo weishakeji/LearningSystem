@@ -57,13 +57,16 @@
                     </span>
                 </template>
             </el-table-column>
-            <el-table-column label="位置" width="150" align="center">
+            <el-table-column label="响应页面" width="150" align="center">
                 <template slot-scope="scope" v-if="scope.row.No_Type=='2'">
                     <span v-if="scope.row.No_Page=='mobi_home'">
                         <icon>&#xe66b</icon>手机端首页
                     </span>
                     <span v-if="scope.row.No_Page=='web_home'">
                         <icon>&#xe609</icon>电脑端首页
+                    </span>
+                    <span v-if="scope.row.No_Page=='all_home'">
+                        <icon>&#xe6cb</icon>所有首页
                     </span>
                 </template>
             </el-table-column>
