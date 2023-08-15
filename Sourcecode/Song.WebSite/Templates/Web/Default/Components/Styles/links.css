@@ -48,7 +48,7 @@ weisha.linksorts .link-item[show=true] {
 	overflow-wrap: break-word !important;
 }
 weisha.linksorts .link-item[show=true] div.detail{
-	margin: 10px 0px 15px 0px;	
+	margin: 0px 0px 15px 0px;	
 }
 weisha.linksorts .link-item[show=true] div.detail * {
 	line-height: 28px;

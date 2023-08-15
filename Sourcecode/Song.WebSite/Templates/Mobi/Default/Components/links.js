@@ -128,7 +128,9 @@ Vue.component('links', {
                 </a>
                 <div v-if="isshowdetail(d)" class="detail">
                     <div v-html="d.Lk_Explain"></div>
-                    <div>{{d.Lk_SiteMaster}} <icon mobile v-if="d.Lk_Mobile!=''">{{d.Lk_Mobile}}</icon> <icon QQ v-if="d.Lk_QQ!=''">{{d.Lk_QQ}}</icon></div>
+                    <div>{{d.Lk_SiteMaster}} 
+                    <a :href="'tel:'+d.Lk_Mobile+'#mp.weixin.qq.com'" v-if="d.Lk_Mobile!=''"><icon mobile>{{d.Lk_Mobile}}</icon></a>
+                    <icon QQ v-if="d.Lk_QQ!=''">{{d.Lk_QQ}}</icon></div>
                 </div>
             </div>    
         </div>       
