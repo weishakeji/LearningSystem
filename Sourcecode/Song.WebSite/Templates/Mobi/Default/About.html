@@ -3,13 +3,13 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="inc/meta.inc" />   
+    <include file="inc/meta.inc" />
     <title>关于</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <generic  @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <context>
             <van-sticky>
                 <page_header title="关于" icon="&#xa031" :fresh="false" :home="true">
@@ -21,22 +21,44 @@
             <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />
             <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
             <div v-html="org.Org_PlatformName" class="platinfo"></div>
-            <div v-html="editon.Edition" class="editon" v-if="false"></div>
 
-            <van-cell-group v-if="false">
-                <van-cell title="Published version" :value="version.major+'.'+version.minor"></van-cell>
-                <van-cell title="Build version" :value="version.version"></van-cell>
-                <van-cell title="Release date" :value="version.release"></van-cell>
-            </van-cell-group>
+
+
 
             <div class="intro" v-html="org.Org_Intro" v-if="org.Org_Intro && org.Org_Intro.length>0">
             </div>
             <card class="browser">
-                <card-title>设备信息</card-title>
+                <card-title icon="&#xa030">设备信息</card-title>
                 <card-context>
+                    <div>
+                        <span class="key">doman:</span>
+                        <span class="val" v-html="window.location.host"></span>
+                    </div>
                     <div v-for="(v,k) in browser">
                         <span class="key">{{k}}:</span>
                         <span class="val">{{v}}</span>
+                    </div>
+                </card-context>
+            </card>
+
+            <card class="version">
+                <card-title icon="&#xa037">版本<span v-html="editon.Edition" class="editon"></span></card-title>
+                <card-context>
+                    <div>
+                        <span class="key">Published version:</span>
+                        <span class="val" v-html="version.major+'.'+version.minor"></span>
+                    </div>
+                    <div>
+                        <span class="key">Version stage:</span>
+                        <span class="val" v-html="version.stage"></span>
+                    </div>
+                    <div>
+                        <span class="key">Build version:</span>
+                        <span class="val" v-html="version.version"></span>
+                    </div>
+                    <div>
+                        <span class="key">Release date:</span>
+                        <span class="val" v-html="version.release"></span>
                     </div>
                 </card-context>
             </card>

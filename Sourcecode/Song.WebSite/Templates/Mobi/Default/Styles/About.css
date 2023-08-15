@@ -17,6 +17,7 @@ context {
 	padding: 44px 0px 0px 0px;
 	text-align: center;
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 img.logo {
@@ -57,13 +58,18 @@ img.logo {
 	font-size: 16px;
 	line-height: 30px;
 	color: #323233;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
-.intro img, .intro table{
+
+.intro img, .intro table {
 	max-width: 100%;
 }
-.intro table td{
+
+.intro table td {
 	word-break: break-all;
 }
+
 .copyright {
 	height: 44px;
 	font-size: 12px;
@@ -75,17 +81,33 @@ img.logo {
 	line-height: 44px;
 	color: #666;
 }
-card.browser{
+
+card {
 	text-align: left;
 }
-card.browser div{
+
+card div {
 	padding: 3px 8px;
 }
-card.browser span.key{
+
+card span.key {
 	display: inline-block;
 	width: 120px;
 }
-card.browser span.val{
+
+card span.val {
 	font-size: 12px;
 	line-height: 16px;
+}
+
+card-title span {
+	float: right;
+}
+
+card.version card-context>div span.key {
+	width: 160px;
+}
+
+iframe {
+	max-width: 100% !important;
 }

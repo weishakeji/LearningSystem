@@ -58,7 +58,7 @@ $ready(function () {
                 }
                 return text;
             },
-            builbrowser: function () {
+            builbrowser: function () {               
                 var md = new MobileDetect(window.navigator.userAgent);
                 var browser = {
                     'OS': md.os(),

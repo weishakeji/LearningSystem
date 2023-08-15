@@ -92,8 +92,8 @@ namespace Song.ViewData.Methods
         [Cache(Expires = int.MaxValue)]
         public JObject Version()
         {
-            string dllPath = System.AppDomain.CurrentDomain.BaseDirectory;
-            Assembly assembly = Assembly.LoadFrom(dllPath + "\\bin\\Song.WebSite.dll");
+            string dllfile = System.AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.WebSite.dll";
+            Assembly assembly = Assembly.LoadFrom(dllfile);
             JObject jo = new JObject();
             //内部版本号    
             Version version = assembly.GetName().Version;
@@ -110,10 +110,10 @@ namespace Song.ViewData.Methods
                     jo.Add("product", ((AssemblyProductAttribute)obj).Product);
                 //产品介绍
                 if (obj is AssemblyDescriptionAttribute)
-                    jo.Add("desc", ((AssemblyDescriptionAttribute)obj).Description);
-                //发布日期
+                    jo.Add("desc", ((AssemblyDescriptionAttribute)obj).Description);             
+                //版本状态
                 if (obj is AssemblyConfigurationAttribute)
-                    jo.Add("release", ((AssemblyConfigurationAttribute)obj).Configuration);
+                    jo.Add("stage", ((AssemblyConfigurationAttribute)obj).Configuration);
                 //版权所有
                 if (obj is AssemblyCopyrightAttribute)
                     jo.Add("copyright", ((AssemblyCopyrightAttribute)obj).Copyright);
@@ -121,6 +121,8 @@ namespace Song.ViewData.Methods
                 if (obj is AssemblyCompanyAttribute)
                     jo.Add("company", ((AssemblyCompanyAttribute)obj).Company);
             }
+            DateTime lasttime = System.IO.File.GetLastWriteTime(dllfile);
+            jo.Add("release", lasttime.ToString("yyyy-MM-dd HH:mm:ss"));
             return jo;
         }
         /// <summary>
