@@ -176,28 +176,22 @@ $ready(function () {
             },
             //生成二维码
             qrcode: function () {
-                var box = $("#course-qrcode");
+                var box = $dom("#course-qrcode");
                 if (box.length < 1) {
                     window.setTimeout(this.qrcode, 200);
                 }
                 box.each(function () {
-                    if ($(this).find("img").length > 0) return;
-                    //var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/Detail");
+                    if ($dom(this).find("img").length > 0) return;
                     var url = window.location.href;
-                    //console.error(url);
-
-                    jQuery($(this)).qrcode({
-                        render: "canvas", //也可以替换为table
+                    new QRCode(this, {
+                        text: url,
                         width: 75,
                         height: 75,
-                        foreground: "#000",
-                        background: "#FFF",
-                        text: url
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        render: "canvas",
+                        correctLevel: QRCode.CorrectLevel.L
                     });
-                    //将canvas转换成img标签，否则无法打印
-                    var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
-                    var img = $(this).append("<img/>").find("img")[0]; /// get image element
-                    img.src = canvas.toDataURL();
                 });
             },
         }
@@ -245,4 +239,4 @@ $ready(function () {
     "Components/guides.js",
     "Components/progress_video.js",
     "../Components/courses.js",
-    '/Utilities/Scripts/jquery.qrcode.min.js',]);
+    '/Utilities/Scripts/qrcode.js',]);

@@ -125,19 +125,18 @@ $ready(function () {
             },
             //生成二维码
             qrcode: function () {
-                $("#qrcode").each(function () {
-                    if ($(this).find("img").length > 0) return;
-                    var url = $(this).attr('pay_url');
-                    jQuery($(this)).qrcode({
-                        render: "canvas", //也可以替换为table
-                        width: 150, height: 150,
-                        foreground: "#0db711", background: "#FFF",
-                        text: url
-                    });
-                    //将canvas转换成img标签，否则无法打印
-                    var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
-                    var img = $(this).append("<img/>").find("img")[0]; /// get image element
-                    img.src = canvas.toDataURL();
+                $dom("#qrcode").each(function () {
+                    if ($dom(this).find("img").length > 0) return;
+                    var url = $dom(this).attr('pay_url');
+                    new QRCode(this, {
+                        text: url,
+                        width: 150,
+                        height: 150,
+                        colorDark: "#0db711",
+                        colorLight: "#ffffff",
+                        render: "canvas",
+                        correctLevel: QRCode.CorrectLevel.L
+                    }); 
                 });
             },
             //验证是否成功
@@ -161,4 +160,4 @@ $ready(function () {
     });
 
 }, ['/Utilities/Components/avatar.js',
-    '/Utilities/Scripts/jquery.qrcode.min.js']);
+    '/Utilities/Scripts/qrcode.js']);

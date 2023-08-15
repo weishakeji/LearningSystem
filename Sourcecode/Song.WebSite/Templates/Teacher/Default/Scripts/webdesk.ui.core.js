@@ -860,8 +860,7 @@
         for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         arr.push('/Utilities/Panel/Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
-            var arr2 = new Array();
-            //arr2.push('/Utilities/Scripts/jquery.js');
+            var arr2 = new Array();       
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
             arr2.push('/Utilities/Scripts/vuecomponent.js');

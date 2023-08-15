@@ -11,8 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="page">
             <div class="page-title">学习证明
-
-                <el-button type="primary" @click="print()" :disabled="!loadcomplete">
+                <el-button type="primary" @click="window.print()" :disabled="!loadcomplete">
                     <icon>&#xa046</icon>打印
                 </el-button>
             </div>
@@ -125,6 +124,7 @@
                                 v-if="c && isexist">
                                 <template slot-scope="item">
                                     <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
+                                    <!--学习时间-->
                                     <div class="date" v-if="item.course && item.course.lastTime">
                                         {{ item.course.lastTime|date('yyyy-MM-dd')}} </div>
                                     <div class="date" v-else>&nbsp;</div>
@@ -138,7 +138,7 @@
                             <div class="output-date"> {{ new Date()|date('yyyy-MM-dd')}} </div>
                         </div>
                         <div class="qrcode"></div>
-                        <img :src="stamp.path" :class="'stamp '+stamp.positon" remark="公章" />
+                        <img :src="stamp.path" v-if="stamp.path!=''" :class="'stamp '+stamp.positon" remark="公章" />
                     </div>
                 </template>
             </div>

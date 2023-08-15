@@ -75,7 +75,7 @@ context#couHead {
 .headinfo {
 	position: relative;
 	height: 100px;
-	padding-left: 90px;
+	padding-left: 120px;
 }
 
 #couHead .headRight #course-qrcode {
@@ -90,7 +90,7 @@ context#couHead {
 	height: 25px;
 }
 
-.headinfo>div::before {
+.headinfo>div:not(:first-child)::before {
 	content: attr(title);
 }
 

@@ -89,7 +89,7 @@ context#couHead {
     height: 25px;
 }
 
-.headinfo>div::before {
+.headinfo>div:not(:first-child)::before {
     content: attr(title);
 }
 

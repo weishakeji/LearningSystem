@@ -17,13 +17,11 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            th.loading_init = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/Uploadpath:9999', { 'key': 'Org' }),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, upload, org) {
-                vapp.loading_init = false;
                 //获取结果
                 th.acc = account.data.result;
                 th.upload = upload.data.result;
@@ -31,14 +29,19 @@ $ready(function () {
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 //公章信息
-                th.stamp = {
-                    'positon': th.config.StampPosition ? th.config.StampPosition : 'right-bottom',
-                    'path': th.config.Stamp && th.config.Stamp != '' ? th.upload.virtual + th.config.Stamp : ''
-                };
+                $api.get('Organization/Stamp', { 'orgid': th.org.Org_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.stamp = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             })).catch(function (err) {
                 Vue.prototype.$alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
             //获取课程
             var arr = this.courseids.split(',');
             this.courseids.split(',').forEach(function (item, index) {
@@ -52,9 +55,7 @@ $ready(function () {
         },
         computed: {
             //学员是存在
-            isexist: function () {
-                return JSON.stringify(this.acc) != '{}' && this.acc != null;
-            },
+            isexist: t => !$api.isnull(t.acc),
             //加载是否全部完成
             loadcomplete: function () {
                 //初始数据加载
@@ -98,10 +99,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //获取学历
             getedu: function (val) {
@@ -130,43 +128,34 @@ $ready(function () {
             },
             //生成二维码
             qrcode: function () {
-                var len = $(".qrcode").length;
+                var len = $dom(".qrcode").length;
                 if (len <= 0) window.setTimeout(this.qrcode, 100);;
                 ///console.log('qrcode:'+$(".qrcode").length);
                 //console.log('img:'+$(".qrcode img").length);
-                if ($(".qrcode").length > $(".qrcode img").length) {
+                if ($dom(".qrcode").length > $dom(".qrcode img").length) {
                     window.setTimeout(this.qrcode, 100);
                 }
                 //生成学员学习证明的二维码 
-                $(".qrcode").each(function () {
-                    if ($(this).find("img").length > 0) return;
+                $dom(".qrcode").each(function () {
+                    if ($dom(this).find("img").length > 0) return;
                     var acid = $api.dot();
                     var cous = $api.querystring('courses');
                     var md5 = $api.md5(acid + cous);
                     var url = $api.url.set(window.location.origin + "/mobi/certify",
                         { "acid": acid, "cous": cous, "secret": md5 });
-                    jQuery($(this)).qrcode({
-                        render: "canvas", //也可以替换为table
+                    new QRCode(this, {
+                        text: url,
                         width: 100,
                         height: 100,
-                        foreground: "#000",
-                        background: "#FFF",
-                        text: url
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        render: "canvas",
+                        correctLevel: QRCode.CorrectLevel.L
                     });
-                    //将canvas转换成img标签，否则无法打印
-                    var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
-                    var img = $(this).append("<img/>").find("img")[0]; /// get image element
-                    img.src = canvas.toDataURL();
                 });
             },
-            //打印
-            print: function () {
-                //$("body .page").jqprint();
-                window.print();
-            }
         }
     });
 
 }, ['Components/progress_value.js',
-    '/Utilities/Scripts/jquery.qrcode.min.js',
-    '/Utilities/Scripts/jquery.jqprint-0.3.js']);
+    '/Utilities/Scripts/qrcode.js']);

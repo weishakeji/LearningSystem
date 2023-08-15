@@ -125,26 +125,22 @@ $ready(function () {
             },
             //生成二维码
             qrcode: function () {
-                var box = $("#course-qrcode");
+                var box = $dom("#course-qrcode");
                 if (box.length < 1) {
                     window.setTimeout(this.qrcode, 200);
                 }
                 box.each(function () {
-                    if ($(this).find("img").length > 0) return;
-                    //var url = $api.url.dot($api.dot(), window.location.origin + "/mobi/course/buy");
+                    if ($dom(this).find("img").length > 0) return;
                     var url = window.location.href;
-                    jQuery($(this)).qrcode({
-                        render: "canvas", //也可以替换为table
-                        width: 75,
-                        height: 75,
-                        foreground: "#000",
-                        background: "#FFF",
-                        text: url
-                    });
-                    //将canvas转换成img标签，否则无法打印
-                    var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
-                    var img = $(this).append("<img/>").find("img")[0]; /// get image element
-                    img.src = canvas.toDataURL();
+                    new QRCode(this, {
+                        text: url,
+                        width: 100,
+                        height: 100,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        render: "canvas",
+                        correctLevel: QRCode.CorrectLevel.L
+                    });                   
                 });
             },
             //计算日均多少钱
@@ -302,4 +298,4 @@ $ready(function () {
 }, ["Components/largebutton.js",        //购买课程的按钮
     "Components/breadcrumb.js",         //顶部面包屑    
     "../Components/courses.js",
-    '/Utilities/Scripts/jquery.qrcode.min.js']);
+    '/Utilities/Scripts/qrcode.js']);

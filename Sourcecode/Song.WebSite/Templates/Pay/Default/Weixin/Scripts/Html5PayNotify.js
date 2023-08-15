@@ -93,5 +93,4 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/avatar.js',
-    '/Utilities/Scripts/jquery.qrcode.min.js']);
+}, ['/Utilities/Components/avatar.js']);

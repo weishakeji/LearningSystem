@@ -50,7 +50,7 @@ $ready(function () {
         },
         created: function () {
             //当文件选择输入框变更时
-            $("#upload_qrcode").change(function (e) {
+            $dom("#upload_qrcode").bind('change', function (e) {
                 var files = e.target.files;
                 if (files && files.length > 0) {
                     console.log(files[0]);
@@ -86,18 +86,18 @@ $ready(function () {
             },
             //获取当前登录账号
             getAccount: function () {
-                var th=this;
+                var th = this;
                 $api.post('Account/Current').then(function (req) {
                     if (req.data.success) {
-                        th.account  = req.data.result;                       
+                        th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     console.error(err);
-                    th.$toast.success(err);                   
-                   
+                    th.$toast.success(err);
+
                 });
             },
             //初始化充值卡号，当扫码时，会带参数跳转到这里
@@ -186,8 +186,8 @@ $ready(function () {
             },
             //打开二维码图片
             openqrcode: function () {
-                var upload = $("#upload_qrcode");
-                upload.click();
+                var upload = $dom("#upload_qrcode");
+                upload[0].click();
             },
             //*** 在线支付 */
             //设置或获取当前支付接口
@@ -276,7 +276,6 @@ $ready(function () {
         }
     });
 }, ['../Components/page_header.js',
-    '/Utilities/Scripts/jquery.js',
     '/Utilities/Scripts/reqrcode.js']);
 
 

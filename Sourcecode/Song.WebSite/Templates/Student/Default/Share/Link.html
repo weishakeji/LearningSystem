@@ -10,17 +10,18 @@
 <body>
     <div id="vapp" v-cloak>
         <card class="link">
-            <icon>&#xa029</icon>分享链接：
-            <div>
+            <card-title icon="&#xe690">分享链接</card-title>
+
+            <card-context>
                 <a :href="shareurl()" target="_blank">{{shareurl()}}</a>
                 <el-tag type="info" @click="copytext(shareurl(),'链接')">复制</el-tag>
-            </div>
+            </card-context>
         </card>
         <card class="qrcode">
-            <icon>&#xe690</icon>分享二维码：
-            <div>
+            <card-title icon="&#xa053">分享二维码</card-title>
+            <card-context>
                 <div id="qrcode"></div>
-            </div>
+            </card-context>
         </card>
     </div>
 </body>

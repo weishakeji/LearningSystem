@@ -52,16 +52,18 @@ $ready(function () {
             buildQrcode: function () {
                 //生成课程二维码
                 var url = this.shareurl();
-                jQuery('#qrcode').qrcode({
-                    render: "canvas", //也可以替换为table
+                //未使用的，生成二维码
+                new QRCode($dom("#qrcode")[0], {
+                    text: url,
                     width: 150,
                     height: 150,
-                    foreground: "#666",
-                    background: "#FFF",
-                    text: url
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    render: "img",
+                    correctLevel: QRCode.CorrectLevel.H
                 });
             }
         }
     });
 
-}, ['/Utilities/Scripts/jquery.qrcode.min.js']);
+}, ['/Utilities/Scripts/qrcode.js']);

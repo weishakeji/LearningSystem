@@ -22,16 +22,16 @@ $ready(function () {
             search_code: '',         //用于查询的字符串
             loading_init: true
         },
-        mounted: function () {            
+        mounted: function () {
             this.init_code();
         },
         created: function () {
             //当文件选择输入框变更时
-            $("#upload_qrcode").change(function (e) {
+            $dom("#upload_qrcode").bind('change', function (e) {
                 var files = e.target.files;
                 if (files && files.length > 0) {
                     console.log(files[0]);
-                    var url = window.getObjectURL(files[0]);
+                    var url = window.getObjectURL(files[0]);                   
                     qrcode.decode(url);
 
                     qrcode.callback = function (imgMsg) {
@@ -181,8 +181,8 @@ $ready(function () {
             },
             //打开二维码图片
             openqrcode: function () {
-                var upload = $("#upload_qrcode");
-                upload.click();
+                var upload = $dom("#upload_qrcode");
+                upload[0].click();
             },
             //显示卡号，如果有查询，红色显示
             showcode: function (val) {
@@ -282,8 +282,7 @@ $ready(function () {
                 </template>              
             </div>`
     });
-}, ['../Components/page_header.js',
-    '/Utilities/Scripts/jquery.js',
+}, ['../Components/page_header.js',    
     '/Utilities/Scripts/reqrcode.js']);
 
 
