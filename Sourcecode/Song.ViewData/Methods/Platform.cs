@@ -121,6 +121,7 @@ namespace Song.ViewData.Methods
                 if (obj is AssemblyCompanyAttribute)
                     jo.Add("company", ((AssemblyCompanyAttribute)obj).Company);
             }
+            //发布时间
             DateTime lasttime = System.IO.File.GetLastWriteTime(dllfile);
             jo.Add("release", lasttime.ToString("yyyy-MM-dd HH:mm:ss"));
             return jo;

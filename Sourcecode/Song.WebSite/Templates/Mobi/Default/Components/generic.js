@@ -40,7 +40,7 @@ Vue.component('generic', {
                 }
                 //是否在手机APP中
                 //..(还没有编写)
-                console.log(nv);
+                //console.log(nv);
             }, immediate: true
         },
     },

@@ -72,7 +72,7 @@ $ready(function () {
                     if (window.navigator[s] == '') continue;
                     browser[s] = window.navigator[s];
                 }
-                console.log(browser);
+                //console.log(browser);
                 this.browser = browser;
             }
         }
