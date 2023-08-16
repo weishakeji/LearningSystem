@@ -82,14 +82,6 @@ card-context>div[title]::before {
 	display: block;
 	margin-bottom: 15px;
 }
-.course_info>span>div:last-child{
-	font-size: 14px;
-	margin: 5px 0px;
-}
-.complete{
-	padding: 0px 15px;
-}
-
 .org_info{
 	height: 40px;
 	padding: 10px 15px;
@@ -99,4 +91,25 @@ card-context>div[title]::before {
 	text-align: center;
 	margin-top: 40px;
 	font-size: 14px;
+}
+.cou{
+	font-size: 18px;
+}
+.info{
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	padding: 5px 0px 0px 30px;
+}
+.info icon::before{
+	font-size: 20px;
+}
+.info icon{
+	font-size: 16px;
+}
+.score, .score *{
+	font-size: 18px;
+}
+.score span{
+	font-weight: bold;
 }

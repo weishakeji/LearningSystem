@@ -40,17 +40,17 @@
       </card>
       <card v-if="isexist">
         <card-context>
-          <div title="学号" v-html="account.Ac_CodeNumber"></div>
+          <div title="学号" v-if="account.Ac_CodeNumber!=''" v-html="account.Ac_CodeNumber"></div>
           <div title="性别" v-html="account.Ac_Sex== 0 ? '' : (account.Ac_Sex== 1 ? '男' : '女')"> </div>
           <div title="年龄" v-html="account.Ac_Age > 200 || account.Ac_Age<=0 ? '' : account.Ac_Age"> </div>
-          <div title="身份证" v-html="account.Ac_IDCardNumber"></div>
+          <div title="身份证" v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></div>
         </card-context>
       </card>
       <card v-if="isexist">
         <card-context>
           <div title="学历" v-html="getedu(account.Ac_Education)"></div>
           <div title="专业" v-html="account.Ac_Major"> </div>
-          <div title="院校" v-html="account.Ac_School"> </div>
+          <div title="院校" v-if="account.Ac_School!=''" v-html="account.Ac_School"> </div>
         </card-context>
       </card>
       <card v-if="courses.length>0">
@@ -59,13 +59,17 @@
         </card-title>
         <card-context class="course_info">
           <loading v-if="loading"></loading>
-          <progress_value ref="progress" :stid="account.Ac_ID" :course="c"  :config="config" v-for="(c,index) in courses" v-if="c && isexist">
+          <progress_value ref="progress" :stid="account.Ac_ID" :course="c" :config="config" v-for="(c,index) in courses"
+            v-if="c && isexist">
             <template slot-scope="item">
               <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
-              <div>
-                <span class="date" v-if="item.course && item.course.lastTime">
-                  {{ item.course.lastTime|date('yyyy-MM-dd')}} </span>
-                <span class="complete">完成度： {{item.value}} %</span>
+              <div class="info">
+                <icon video>视频学习： {{showcomplete(item.purchase.Stc_StudyScore)}} %</icon>
+                <icon question>试题练习： {{showcomplete(item.purchase.Stc_QuesScore)}} %</icon>
+                <icon exam>结课考试： {{showcomplete(item.purchase.Stc_ExamScore)}} 分</icon>
+              </div>
+              <div class="score">
+                成绩： <span>{{item.score}}</span> 分
               </div>
 
             </template>
@@ -73,7 +77,7 @@
         </card-context>
       </card>
       <div class="org_info">
-        <div class="plate-name"> {{org.Org_Name}} </div>      
+        <div class="plate-name"> {{org.Org_Name}} </div>
       </div>
     </context>
 
