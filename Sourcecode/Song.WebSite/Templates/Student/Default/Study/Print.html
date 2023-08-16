@@ -117,18 +117,26 @@
                         <dl>
                             <dt>
                                 <div class="cou"> 课程</div>
-                                <div class="date"> 学习时间</div>
-                                <div class="complete"> 完成度</div>
+                                <div class="info"> 学习情况</div>
+                                <div class="score"> 成绩</div>
                             </dt>
-                            <progress_value ref="progress" :stid="acc.Ac_ID" :course="c" v-for="(c,index) in courses"
-                                v-if="c && isexist">
+                            <progress_value ref="progress" :stid="acc.Ac_ID" :course="c" :config="config"
+                                v-for="(c,index) in courses" v-if="c && isexist">
                                 <template slot-scope="item">
-                                    <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
-                                    <!--学习时间-->
-                                    <div class="date" v-if="item.course && item.course.lastTime">
-                                        {{ item.course.lastTime|date('yyyy-MM-dd')}} </div>
-                                    <div class="date" v-else>&nbsp;</div>
-                                    <div class="complete"> {{item.value}} %</div>
+
+                                    <div class="cou" :couid="c.Cou_ID"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
+                                    <template v-if="false">
+                                        <!--学习时间-->
+                                        <div class="date" v-if="lastTime(item)">
+                                            {{ item.course.lastTime|date('yyyy-MM-dd')}}</div>
+                                        <div class="date" v-else>&nbsp;</div>
+                                    </template>
+                                    <div class="info">
+                                        <icon video> {{showcomplete(item.purchase.Stc_StudyScore)}} %</icon>
+                                        <icon question> {{showcomplete(item.purchase.Stc_QuesScore)}} %</icon>
+                                        <icon exam> {{showcomplete(item.purchase.Stc_ExamScore)}} 分</icon>
+                                    </div>
+                                    <div class="score"> {{item.score}} 分</div>
                                 </template>
                             </progress_value>
                         </dl>

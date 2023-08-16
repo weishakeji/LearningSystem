@@ -191,7 +191,7 @@
         watch: {
             'account': {
                 handler: function (nv, ov) {
-                    this.result = this.calcScore();
+                    this.result = this.resultScore();
                 }, immediate: true
             }
         },
@@ -199,7 +199,7 @@
         mounted: function () { },
         methods: {
             //综合得分
-            calcScore: function () {
+            resultScore: function () {
                 var purchase = this.account;
                 var th = this;
                 //视频得分

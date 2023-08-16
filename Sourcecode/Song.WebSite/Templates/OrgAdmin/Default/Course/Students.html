@@ -16,7 +16,8 @@
             </btngroup>
             <query_panel :model="form" :loading="loading" @search="getdata(1)">
                 <el-form-item label="学员账号">
-                    <el-input v-model="form.acc" placeholder="账号" :disabled="loading" tabindex="0" clearable style="width:180px">
+                    <el-input v-model="form.acc" placeholder="账号" :disabled="loading" tabindex="0" clearable
+                        style="width:180px">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
@@ -59,12 +60,8 @@
                 </template>
             </el-table-column>
             <el-table-column label="学员组">
-                <template slot-scope="scope">
-                    <div title="学员组">
-                        <el-tag type="info" v-if="scope.row.Sts_Name!=''">
-                            <span v-html='scope.row.Sts_Name'></span>
-                        </el-tag>
-                    </div>
+                <template slot-scope="scope" v-if="scope.row.Sts_Name!=''">
+                    <span title="学员组" v-html='scope.row.Sts_Name'></span>
                 </template>
             </el-table-column>
             <el-table-column label="学习情况" width="260">
@@ -73,7 +70,7 @@
                         <icon video>{{showcomplete(scope.row.Stc_StudyScore)}} %</icon>
                     </el-tooltip>
                     <el-tooltip class="item" effect="light" content="试题通过率" placement="bottom">
-                        <icon quesion>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
+                        <icon question>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
                     </el-tooltip>
                     <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
                         <icon exam>{{scope.row.Stc_ExamScore}} 分</icon>

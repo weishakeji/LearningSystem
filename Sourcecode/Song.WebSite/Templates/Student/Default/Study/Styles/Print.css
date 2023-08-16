@@ -38,6 +38,7 @@
 		font-size: 16px;
 		border-collapse: collapse;
 	}
+
 	div.table {
 		width: 100%;
 		height: calc(100% - 40px);
@@ -74,13 +75,15 @@
 	bottom: 5px;
 	right: 2px;
 }
-table{
+
+table {
 	border: 1px solid #333;
 }
+
 div.table {
 	width: 100%;
 	height: calc(100% - 40px);
-	
+
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -111,7 +114,7 @@ td {
 	height: 30px;
 	box-sizing: border-box;
 	border-collapse: collapse;
-	border:1px solid #333;
+	border: 1px solid #333;
 }
 
 td[title] {
@@ -147,16 +150,20 @@ td.info {
 /*课程学习情况*/
 .three {
 	position: relative;
-	
+
 }
-.three dl{
+
+.three dl {
 	min-height: 600px;
 }
-.three dl dt {
+
+.three dl dt, .three dl dd {
 	padding: 10px;
 	display: flex;
+	justify-content: space-between;
 	box-sizing: border-box;
 	width: 100%;
+	line-height: 30px;
 }
 
 .three dl dt>* {
@@ -164,24 +171,24 @@ td.info {
 }
 
 .three .cou {
-	width: 70%;
+	flex: 1;
 	font-size: 16px;
 }
 
-.three .date {
-	width: 20%;
+.three .info {
+	width: 260px;
 	font-size: 14px;
-}
-
-.three .complete {
-	width: 10%;
-	font-size: 14px;
-}
-
-.three dl dd {
 	display: flex;
-	line-height: 30px;
 }
+.three .info *{
+	flex: 1;
+}
+.three .score {
+	width: 60px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
 
 /*课程详情区域*/
 .info-foot {

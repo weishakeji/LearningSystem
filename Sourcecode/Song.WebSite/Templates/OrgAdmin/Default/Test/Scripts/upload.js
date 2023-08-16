@@ -109,40 +109,7 @@ $ready(function () {
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                }
-                /*
-                for (let i = 0; i < chunkedArr.length; i++) {
-                    $.ajax({
-                        url: "/Upload/Chunked",
-                        type: "POST",
-                        data: chunkedArr[i],
-                        async: true,        //异步
-                        processData: false,  //很重要，告诉jquery不要对form进行处理
-                        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
-                        success: function (r) {
-                            console.log(r);
-                        }
-
-                    });
-                }*/
-                return;
-                var that = this;
-                form.append('file', param.file)
-                form.append('dir', 'temp1')
-                that.$axios.post('http://192.168.1.65/upload', form, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress: progressEvent => {
-                        that.uploadPercent = (progressEvent.loaded / progressEvent.total * 100) | 0
-                    }
-                }).then((res) => {
-                    console.log('上传结束')
-                    console.log(res)
-                }).catch((err) => {
-                    console.log('上传错误')
-                    console.log(err)
-                })
+                }                
             },
 
         }

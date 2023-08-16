@@ -126,12 +126,21 @@ $ready(function () {
                 if ((new Date().getFullYear() - date.getFullYear()) > 100) return '';
                 return date.format(fmt);
             },
+            lastTime: function (item) {
+                if (!item.course || !item.course.lastTime) return false;
+                let year = item.course.lastTime.getFullYear();
+                return (new Date().getFullYear() - 10) < year;
+            },
+            //显示完成度
+            showcomplete: function (num) {
+                num = num > 100 ? 100 : num;
+                num = Math.round(num * 10000) / 10000;
+                return num;
+            },
             //生成二维码
             qrcode: function () {
                 var len = $dom(".qrcode").length;
                 if (len <= 0) window.setTimeout(this.qrcode, 100);;
-                ///console.log('qrcode:'+$(".qrcode").length);
-                //console.log('img:'+$(".qrcode img").length);
                 if ($dom(".qrcode").length > $dom(".qrcode img").length) {
                     window.setTimeout(this.qrcode, 100);
                 }
@@ -144,9 +153,7 @@ $ready(function () {
                     var url = $api.url.set(window.location.origin + "/mobi/certify",
                         { "acid": acid, "cous": cous, "secret": md5 });
                     new QRCode(this, {
-                        text: url,
-                        width: 100,
-                        height: 100,
+                        text: url, width: 100, height: 100,
                         colorDark: "#000000",
                         colorLight: "#ffffff",
                         render: "canvas",
