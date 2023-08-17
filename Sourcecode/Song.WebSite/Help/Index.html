@@ -24,7 +24,7 @@
         </header>
         <section>
             <nav>
-                <template v-for="item in menus">
+                <template v-for="(item,i) in menus">
                     <p v-if="item.type=='line'" class="line"></p>
                     <template v-else>
                         <a :href="item.url" v-if="item.type=='link'" :style="nodestyle(item)"
@@ -33,7 +33,8 @@
                             <span v-html="item.name"></span>
                             <hot v-if="item.hot"></hot>
                         </a>
-                        <div v-else @click="menuclk(item)" :style="nodestyle(item)" :current="item.name==current.name">
+                        <div v-else @click="menuclk(item,i)" :style="nodestyle(item)"
+                            :current="item.name==current.name">
                             <icon v-html="'&#x'+item.icon.i" :style="iconstyle(item.icon)"></icon>
                             <span v-html="item.name"></span>
                             <hot v-if="item.hot"></hot>

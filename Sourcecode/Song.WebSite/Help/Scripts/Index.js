@@ -51,7 +51,7 @@ window.vapp = new Vue({
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
                 icon: { i: 'a007', s: 28, l: -3, t: 0 }, color: { f: '333', b: '' }
-            },           
+            },
             { type: 'line' },
             {
                 name: '版权信息修改', type: 'node', url: 'copyright.html',
@@ -73,22 +73,26 @@ window.vapp = new Vue({
     watch: {
 
     },
-    created: function () {
-        if ($api.isnull(this.current)) {
-            for (let i = 0; i < this.menus.length; i++) {
-                if (this.menus[i].type == 'node') {
-                    this.current = this.menus[i];
-                    break;
-                }
+    mounted: function () {
+        let index = Number($api.hash());
+        if (isNaN(index) || index < 0 || index > this.menus.length - 1) index = 0;
+        for (let i = index; i < this.menus.length; i++) {
+            if (this.menus[i].type == 'node') {
+                this.current = this.menus[i];
+                break;
             }
         }
+        // 获取地址栏中的#值
+        var hashValue =$api.hash(9);
+        console.log(hashValue);
     },
     methods: {
         //菜单项点击事件
-        menuclk: function (item) {
+        menuclk: function (item, index) {
             if (item.type != 'node') return;
             this.current = item;
-            console.log(item);
+            //let url = $api.url.set(window.location.href, { 'index': index });
+            window.history.pushState({}, '', $api.hash(index));
         },
         //图标样式
         iconstyle: function (icon) {
@@ -107,32 +111,5 @@ window.vapp = new Vue({
                 + 'background-color:' + bg + ';';
         }
     },
-    components: {
-        //左侧菜单节点项
-        'menunode': {
-            props: ['item'],
-            data: function () {
-                return {
-                    prev: '',
-                    dot: '.',
-                    aftet: ''
-                }
-            },
-            created: function () {
-                var num = String(Math.round(this.number * 100) / 100);
-                if (num.indexOf('.') > -1) {
-                    this.prev = num.substring(0, num.indexOf('.'));
-                    this.after = num.substring(num.indexOf('.') + 1);
-                } else {
-                    this.prev = num;
-                    this.dot = '&nbsp;';
-                }
-            },
-            template: `<div class="score">
-            <span class="prev">{{prev}}</span>
-            <span class="dot" v-html="dot"></span>
-            <span class="after">{{after}}</span>
-            </div>`
-        }
-    }
+
 });

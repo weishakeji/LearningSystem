@@ -58,6 +58,14 @@
             var url = String(window.document.location.href);
             return $api.url.set(url, key, value);
         },
+        //设置url中的#后的值
+        hash: function (val, url) {
+            if (url == null) url = window.location.href;
+            let hashValue = url.indexOf('#') > -1 ? url.substring(url.lastIndexOf('#') + 1) : '';
+            if (val == null || val == '') return hashValue;
+            return url.indexOf('#') > -1 ? url.substring(0, url.lastIndexOf('#') + 1) + val : url + '#' + val;
+
+        },
         //地址栏最后一个.后面的字符
         //如果只有一参数，val为默认值，即.后面没有值时，返回默认值
         //如果有两个参数，用于设置url的dot值
@@ -337,7 +345,7 @@
                 for (var d in obj) obj[d] = methods.restore_time(obj[d]);
             }
             if (typeName == 'String') {
-                if (obj.indexOf('.') > -1) {                  
+                if (obj.indexOf('.') > -1) {
                     let prefix = obj.substring(0, obj.lastIndexOf('.'));
                     let suffix = obj.substring(obj.lastIndexOf('.') + 1);
                     if (suffix === '0000')
