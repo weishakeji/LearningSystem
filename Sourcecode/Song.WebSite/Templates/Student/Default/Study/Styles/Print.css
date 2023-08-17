@@ -180,9 +180,25 @@ td.info {
 	font-size: 14px;
 	display: flex;
 }
-.three .info *{
+
+.three .info * {
 	flex: 1;
 }
+
+.info icon::before {
+	font-size: 20px;
+	margin-right: 0px;
+}
+
+.info icon::after {
+	content: attr(unit);
+	font-size: 14px;
+}
+
+.info icon {
+	font-size: 16px;
+}
+
 .three .score {
 	width: 60px;
 	font-size: 14px;

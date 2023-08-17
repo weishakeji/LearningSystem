@@ -74,6 +74,7 @@ window.vapp = new Vue({
 
     },
     mounted: function () {
+        //第一次打开，获取索引值，用于触发默认菜单项
         let index = Number($api.hash());
         if (isNaN(index) || index < 0 || index > this.menus.length - 1) index = 0;
         for (let i = index; i < this.menus.length; i++) {
@@ -82,17 +83,13 @@ window.vapp = new Vue({
                 break;
             }
         }
-        // 获取地址栏中的#值
-        var hashValue =$api.hash(9);
-        console.log(hashValue);
     },
     methods: {
         //菜单项点击事件
         menuclk: function (item, index) {
             if (item.type != 'node') return;
             this.current = item;
-            //let url = $api.url.set(window.location.href, { 'index': index });
-            window.history.pushState({}, '', $api.hash(index));
+            window.history.pushState({}, '', $api.hash(index == 0 ? '' : String(index)));
         },
         //图标样式
         iconstyle: function (icon) {

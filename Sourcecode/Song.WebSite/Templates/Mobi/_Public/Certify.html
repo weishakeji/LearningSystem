@@ -64,9 +64,9 @@
             <template slot-scope="item">
               <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
               <div class="info">
-                <icon video>视频学习： {{showcomplete(item.purchase.Stc_StudyScore)}} %</icon>
-                <icon question>试题练习： {{showcomplete(item.purchase.Stc_QuesScore)}} %</icon>
-                <icon exam>结课考试： {{showcomplete(item.purchase.Stc_ExamScore)}} 分</icon>
+                <icon video unit="%">视频学习： {{showcomplete(item.purchase.Stc_StudyScore)}}</icon>
+                <icon question unit="%">试题练习： {{showcomplete(item.purchase.Stc_QuesScore)}}</icon>
+                <icon exam unit="分">结课考试： {{showcomplete(item.purchase.Stc_ExamScore)}}</icon>
               </div>
               <div class="score">
                 成绩： <span>{{item.score}}</span> 分

@@ -104,9 +104,15 @@ card-context>div[title]::before {
 .info icon::before{
 	font-size: 20px;
 }
+.info icon::after {
+	content: attr(unit);
+	font-size: 14px;
+	margin-left: 10px;
+}
 .info icon{
 	font-size: 16px;
 }
+
 .score, .score *{
 	font-size: 18px;
 }

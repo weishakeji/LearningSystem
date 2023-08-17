@@ -62,7 +62,8 @@
         hash: function (val, url) {
             if (url == null) url = window.location.href;
             let hashValue = url.indexOf('#') > -1 ? url.substring(url.lastIndexOf('#') + 1) : '';
-            if (val == null || val == '') return hashValue;
+            if (val == null) return hashValue;
+            if (val == '') return url.substring(0, url.lastIndexOf('#'));
             return url.indexOf('#') > -1 ? url.substring(0, url.lastIndexOf('#') + 1) + val : url + '#' + val;
 
         },

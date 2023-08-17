@@ -132,9 +132,9 @@
                                         <div class="date" v-else>&nbsp;</div>
                                     </template>
                                     <div class="info">
-                                        <icon video> {{showcomplete(item.purchase.Stc_StudyScore)}} %</icon>
-                                        <icon question> {{showcomplete(item.purchase.Stc_QuesScore)}} %</icon>
-                                        <icon exam> {{showcomplete(item.purchase.Stc_ExamScore)}} 分</icon>
+                                        <icon video unit="%"> {{showcomplete(item.purchase.Stc_StudyScore)}}</icon>
+                                        <icon question  unit="%"> {{showcomplete(item.purchase.Stc_QuesScore)}}</icon>
+                                        <icon exam unit="分"> {{showcomplete(item.purchase.Stc_ExamScore)}}</icon>
                                     </div>
                                     <div class="score"> {{item.score}} 分</div>
                                 </template>
