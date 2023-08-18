@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Upgrade.css" rel="stylesheet" type="text/css" />
 </head>
@@ -18,23 +19,24 @@
         <h1>软件升级</h1>
     </div>
     <p>
-        我们会提供免费升级包，需您自主升级，如果需要人工协助请联系: <span copyright="tel"></span>
+        我们永久提供免费升级包，需要您自主升级，如果需要人工协助请联系: <span copyright="tel" icon="&#xa047"></span>
     </p>
-    <p>安装程序云盘地址：
+    <p  icon="&#xe69e">安装程序云盘地址：
         <a copyright="download" target="_blank"><span copyright="download"></span></a>
     </p>
 
     <h2>升级大约分为三种情况</h2>
     <dl>
         <dt>1、仅程序升级，不涉及数据</dt>
+        <dd>大部情况下是这种情况，只是修正或优化了程序，不涉及数据相关的问题。</dd>
         <dd>
-            用新版本程序覆盖原来的程序即可，<b>注意web.config覆盖后修改里面的数据库链接</b>,不要覆盖数据库链接。
+            用新版本程序覆盖原来的程序即可，<b>注意web.config覆盖后修改里面的数据库链接</b>，不要覆盖数据库链接。
         </dd>
     </dl>
     <dl>
         <dt>2、升级涉及数据结构调整</dt>
         <dd>
-            不仅要升级程序，还需要执行SQL升级脚本；相关升级脚本在云盘中“数据库升级脚本”文件夹中获取，或从源码库中获取
+            如果升级涉及数据相关，例如增删了一些表或字段，不仅要升级程序，还需要执行SQL升级脚本；相关升级脚本在云盘中“数据库升级脚本”文件夹中获取，或从源码库中获取
             <a copyright="gitee" target="_blank"><span copyright="gitee"></span></a>
         </dd>
         <dd>
@@ -43,7 +45,7 @@
     </dl>
     <dl>
         <dt>3、升级涉及的数据结构有大幅调整</dt>
-        <dd>例如从version1.0 升级到versiong2.0版本时，代码与数据库都有很大的调整。不仅要执行SQL升级脚本，可能还要执行一些特殊的代码。</dd>
+        <dd>例如从version 1.0 升级到version 2.0版本时，代码与数据库都有很大的调整。不仅要执行SQL升级脚本，可能还要执行一些特殊的代码。</dd>
         <dd>
 
             这种情况不多见，会单独编写详细的升级说明，并强烈建议申请人工协助。
