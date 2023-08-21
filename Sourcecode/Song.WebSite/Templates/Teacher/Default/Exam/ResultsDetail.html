@@ -189,7 +189,7 @@
                     <el-col :span="20">
                         <el-tag>交卷时间</el-tag>
                         <el-tag type="info">{{current.Exr_LastTime|date('yyyy-MM-dd HH:mm:ss')}}</el-tag>
-                        <el-tag type="info">用时 {{calcSpan(current.Exr_CrtTime,current.Exr_LastTime)}}分钟</el-tag>
+                        <el-tag type="info">用时 {{calcSpan(current)}}</el-tag>
                     </el-col>
                 </el-row>
                 <el-row :gutter="20">
