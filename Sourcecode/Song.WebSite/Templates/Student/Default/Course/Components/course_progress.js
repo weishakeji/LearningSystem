@@ -97,17 +97,17 @@ Vue.component('course_progress', {
     },
     template: `<div class="info_column">
         <div clalss="info_row">                
-                    <el-tag type="warning" v-if="!(course.Cou_IsFree || course.Cou_IsLimitFree)">
-                        <purchase_data :couid="course.Cou_ID" :stid="stid"></purchase_data>
-                        {{course.endtime|date("yyyy年M月d日")}}
-                    </el-tag>
-                    <el-tag type="success" v-if="course.Cou_IsLimitFree">
-                        免费至 {{course.Cou_FreeEnd|date('yyyy-MM-dd')}}
-                    </el-tag>                 
-                <template v-if=" JSON.stringify(data) != '{}' && data != null">
-                    <el-tag type="success"><icon>&#xa039</icon>最后学习时间：{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</el-tag>
-                    <el-tag type="info"><icon>&#xe6bf</icon>累计学习时长：{{studyTime(data.studyTime)}}</el-tag>
-                </template>                            
+            <el-tag type="warning" v-if="!(course.Cou_IsFree || course.Cou_IsLimitFree)">
+                <purchase_data :couid="course.Cou_ID" :stid="stid"></purchase_data>
+                {{course.endtime|date("yyyy年M月d日")}}
+            </el-tag>
+            <el-tag type="success" v-if="course.Cou_IsLimitFree">
+                免费至 {{course.Cou_FreeEnd|date('yyyy-MM-dd')}}
+            </el-tag>                 
+            <template v-if=" JSON.stringify(data) != '{}' && data != null">
+                <el-tag type="success"><icon>&#xa039</icon>最后学习时间：{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</el-tag>
+                <el-tag type="info"><icon>&#xe6bf</icon>累计学习时长：{{studyTime(data.studyTime)}}</el-tag>
+            </template>                            
         </div>  
         <div class="progress">         
             <el-progress :text-inside="true" :format="format" :stroke-width="20" :color="color" :status="progress>=100 ? 'success' : ''" :percentage="progress"

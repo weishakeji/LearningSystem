@@ -164,8 +164,9 @@ Vue.component('video_progress', {
         //判断是否是一个有效时间
         judgmenttime: function (date) {
             if ($api.getType(date) != 'Date') return false;
-            date = date.setDate(date.getFullYear() + 100);
-            if (date < new Date()) return false;
+            let d = new Date(date.getTime());
+            d = d.setDate(d.getFullYear() + 100);
+            if (d < new Date()) return false;
             return true;
         }
     },
