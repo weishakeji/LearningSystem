@@ -378,7 +378,15 @@ namespace Song.ServiceInterfaces
         /// <param name="filePath"></param>
         /// <param name="examid">考试场次id</param>
         /// <returns></returns>
-        string Export4Excel(string filePath, int examid);
+        string OutputResults(string filePath, int examid);
+        /// <summary>
+        /// 按学员组导出考试成绩
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid"></param>
+        /// <param name="sorts"></param>
+        /// <returns></returns>
+        string ResultsOutputSorts(string filePath, int examid, long[] sorts);
         /// <summary>
         /// 导出参加考试的学员成绩
         /// </summary>
@@ -387,8 +395,13 @@ namespace Song.ServiceInterfaces
         /// <param name="sorts"></param>
         /// <returns></returns>
         string OutputParticipate(string filePath, int examid, StudentSort[] sorts);
-
-        string OutputAll(string filePath, int examid);
+        /// <summary>
+        /// 导出所有，包括未参加考试的学员
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        string OutputEvery(string filePath, int examid);
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>

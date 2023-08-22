@@ -1491,7 +1491,7 @@ namespace Song.ServiceImpls
         /// <param name="path"></param>
         /// <param name="examid">考试id</param>
         /// <returns></returns>
-        public string Export4Excel(string path, int examid)
+        public string OutputResults(string path, int examid)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -1521,43 +1521,94 @@ namespace Song.ServiceImpls
                     System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
                     object obj = propertyInfo.GetValue(exr[i], null);
                     if (obj == null) continue;
-                    string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
-                    string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
-                    string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
-                    string value = "";
-                    switch (datatype)
-                    {
-                        case "date":
-                            DateTime tm = Convert.ToDateTime(obj);
-                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                            break;
-                        case "float":                         
-                            float f = 0;
-                            float.TryParse(obj.ToString(), out f);
-                            row.CreateCell(j).SetCellValue(f);
-                            continue;
-                            //break;
-                        default:
-                            value = obj.ToString();
-                            break;
-                    }
-                    if (defvalue.Trim() != "")
-                    {
-                        foreach (string s in defvalue.Split('|'))
-                        {
-                            string h = s.Substring(0, s.IndexOf("="));
-                            string f = s.Substring(s.LastIndexOf("=") + 1);
-                            if (value.ToLower() == h.ToLower()) value = f;
-                        }
-                    }
-                    row.CreateCell(j).SetCellValue(value);
-
+                    this.setCellValue(obj, nodes[j], row.CreateCell(j));
                 }
             }
             FileStream file = new FileStream(path, FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();
             return path;
+        }
+        public string ResultsOutputSorts(string filePath, int examid, long[] sorts)
+        {         
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "考试成绩.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //考试主题下的所有参考人员（分过组的）成绩
+            foreach (long sid in sorts)
+            {
+                StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                if (sts == null) continue;
+                WhereClip wc = new WhereClip();
+                wc.And(ExamResults._.Exam_ID == examid && ExamResults._.Sts_ID == sid);
+                ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
+
+                ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);   //创建工作簿对象                
+                 IRow rowHead = sheet.CreateRow(0);
+                for (int i = 0; i < nodes.Count; i++)
+                    rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+                //生成数据行
+                ICellStyle style_size = hssfworkbook.CreateCellStyle();
+                style_size.WrapText = true;
+                for (int i = 0; i < exr.Length; i++)
+                {
+                    IRow row = sheet.CreateRow(i + 1);
+                    for (int j = 0; j < nodes.Count; j++)
+                    {
+                        Type type = exr[i].GetType();
+                        System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
+                        object obj = propertyInfo.GetValue(exr[i], null);
+                        if (obj == null) continue;
+                        this.setCellValue(obj, nodes[j], row.CreateCell(j));
+                    }
+                }
+            }
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return filePath;
+        }
+        /// <summary>
+        /// 设置考试成绩的导出的单元格数据
+        /// </summary>
+        /// <param name="obj">单元格的值</param>
+        /// <param name="node">节点类型</param>
+        /// <param name="cell">单元格</param>
+        private void setCellValue(object obj, XmlNode node,ICell cell)
+        {
+            string format = node.Attributes["Format"] != null ? node.Attributes["Format"].Value : "";
+            string datatype = node.Attributes["DataType"] != null ? node.Attributes["DataType"].Value : "";
+            string defvalue = node.Attributes["DefautValue"] != null ? node.Attributes["DefautValue"].Value : "";
+            string value = "";
+            switch (datatype)
+            {
+                case "date":
+                    DateTime tm = Convert.ToDateTime(obj);
+                    value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                    break;
+                case "float":
+                    float f = 0;
+                    float.TryParse(obj.ToString(), out f);
+                    cell.SetCellValue(f);
+                    break;
+                //break;
+                default:
+                    value = obj.ToString();
+                    break;
+            }
+            if (defvalue.Trim() != "")
+            {
+                foreach (string s in defvalue.Split('|'))
+                {
+                    string h = s.Substring(0, s.IndexOf("="));
+                    string f = s.Substring(s.LastIndexOf("=") + 1);
+                    if (value.ToLower() == h.ToLower()) value = f;
+                }
+            }
+            cell.SetCellValue(value);
         }
         public string OutputParticipate(string filePath, int examid, StudentSort[] sorts)
         {
@@ -1599,7 +1650,8 @@ namespace Song.ServiceImpls
             file.Close();
             return filePath;
         }
-        public string OutputAll(string filePath, int examid)
+       
+        public string OutputEvery(string filePath, int examid)
         {  
             Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();

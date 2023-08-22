@@ -37,7 +37,7 @@ namespace Song.ServiceInterfaces
         /// <returns>如果删除成功，返回0；如果组包括学员，返回-1；如果是默认组，返回-2</returns>
         int SortDelete(long identify);
         /// <summary>
-        /// 获取单一实体对象，按主键ID；
+        /// 学员组的实体，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>

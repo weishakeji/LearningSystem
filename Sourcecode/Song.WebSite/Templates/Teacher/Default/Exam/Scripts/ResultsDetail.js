@@ -21,6 +21,12 @@ $ready(function () {
             exportVisible: false,    //成绩导出信息是否显示
             files: [],               //导出的文件列表
             fileloading: false,      //导出时的加载状态
+            //导出的查询对象
+            exportquery: {
+                'scope': 1,          //导出范围，1为所有，2为按学员组
+                'sorts': []              //学员组id,多个id用逗号分隔
+            },
+
             loading: false,
             loadingid: 0,
             total: 1, //总记录数
@@ -33,7 +39,9 @@ $ready(function () {
         computed: {
         },
         watch: {
-
+            'exportquery.sorts': function (nv, ov) {
+                console.log(nv);
+            }
         },
         mounted: function () {
             this.$refs['btngroup'].addbtn({
@@ -222,19 +230,17 @@ $ready(function () {
             },
             //当查看学员信息时，获取当前学员信息
             getaccount: function (row) {
+                var th = this;
                 this.accountVisible = true;
                 this.current = row;
                 $api.get('Account/ForID', { 'id': row.Ac_ID }).then(function (req) {
                     if (req.data.success) {
-                        vapp.account = req.data.result;
+                        th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //获取正在考试的人数
             getExamingcount: function () {
@@ -272,16 +278,35 @@ $ready(function () {
             //生成导出文件
             toexcel: function () {
                 var th = this;
-                th.fileloading = true;
-                $api.post('Exam/ExcelOutput', { 'examid': this.form.examid }).then(function (req) {
-                    if (req.data.success) {
-                        th.getFiles();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => alert(err))
+
+                //导出所有参考学员
+                if (th.exportquery.scope == 1) {
+                    th.fileloading = true;
+                    $api.post('Exam/ResultsOutputAll', { 'examid': th.form.examid }).then(function (req) {
+                        if (req.data.success) {
+                            th.getFiles();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => alert(err))
+                        .finally(() => th.fileloading = false);
+                }
+                //按学员组导出
+                if (th.exportquery.scope == 2) {
+                    th.fileloading = true;
+                    let sort = th.exportquery.sorts.join(',');
+                    $api.post('Exam/ResultsOutputSorts', { 'examid': th.form.examid, 'sorts': sort }).then(function (req) {
+                        if (req.data.success) {
+                            th.getFiles();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
                     .finally(() => th.fileloading = false);
+                }
+
             },
             //删除文件
             deleteFile: function (file) {
