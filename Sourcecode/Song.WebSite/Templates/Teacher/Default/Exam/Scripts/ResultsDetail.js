@@ -39,9 +39,7 @@ $ready(function () {
         computed: {
         },
         watch: {
-            'exportquery.sorts': function (nv, ov) {
-                console.log(nv);
-            }
+
         },
         mounted: function () {
             this.$refs['btngroup'].addbtn({
@@ -278,7 +276,6 @@ $ready(function () {
             //生成导出文件
             toexcel: function () {
                 var th = this;
-
                 //导出所有参考学员
                 if (th.exportquery.scope == 1) {
                     th.fileloading = true;
@@ -294,6 +291,10 @@ $ready(function () {
                 }
                 //按学员组导出
                 if (th.exportquery.scope == 2) {
+                    if (th.exportquery.sorts.length < 1) {
+                        alert('未选择学员组');
+                        return;
+                    }
                     th.fileloading = true;
                     let sort = th.exportquery.sorts.join(',');
                     $api.post('Exam/ResultsOutputSorts', { 'examid': th.form.examid, 'sorts': sort }).then(function (req) {
@@ -304,7 +305,7 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
-                    .finally(() => th.fileloading = false);
+                        .finally(() => th.fileloading = false);
                 }
 
             },

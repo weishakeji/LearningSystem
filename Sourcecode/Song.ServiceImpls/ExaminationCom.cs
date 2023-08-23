@@ -931,7 +931,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
-        /// <param name="id">当前考试主题的ID</param>
+        /// <param name="examid">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
         /// <returns></returns>
         public DataTable Result4Theme(int examid, long stsid)
@@ -949,8 +949,11 @@ namespace Song.ServiceImpls
             {
                 dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));               
             }
+
             //取出所有的成绩
-            WhereClip wc = ExamResults._.Exam_UID == theme.Exam_UID;
+            WhereClip wc = new WhereClip();
+            foreach (Examination item in exams)           
+                wc.Or(ExamResults._.Exam_ID == item.Exam_ID);           
             if (stsid > 0) wc.And(ExamResults._.Sts_ID == stsid);   //取所有已分组的学员
             if (stsid < 0) wc.And(ExamResults._.Sts_ID <= 0);   //取所有未分组的学员
             ExamResults[] results = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToArray<ExamResults>();
@@ -1610,14 +1613,23 @@ namespace Song.ServiceImpls
             }
             cell.SetCellValue(value);
         }
-        public string OutputParticipate(string filePath, int examid, StudentSort[] sorts)
+        public string OutputParticipate(string filePath, int examid, long[] sorts)
         {
-            if (sorts == null) sorts = this.StudentSort4Theme(examid);
+            if (sorts == null || sorts.Length < 1)
+            {
+                StudentSort[] list = this.StudentSort4Theme(examid);
+                sorts = new long[list.Length];
+                for (int i = 0; i < list.Length; i++)              
+                    sorts[i] = list[i].Sts_ID;
+               
+            }
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //考试主题下的所有参考人员（分过组的）成绩
-            foreach (StudentSort sts in sorts)
+            foreach (long sid in sorts)
             {
-                DataTable dt = Business.Do<IExamination>().Result4Theme(examid, sts.Sts_ID);
+                StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                if (sts == null) continue;
+                DataTable dt = this.Result4Theme(examid, sts.Sts_ID);
                 if (dt.Rows.Count < 1) continue;
                 ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);   //创建工作簿对象                
                 IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
@@ -1674,7 +1686,7 @@ namespace Song.ServiceImpls
                 int.TryParse(s, out sid);
                 if (sid <= 0) continue;
                 //取每个组的学员的考试成绩
-                DataTable dtTm = Business.Do<IExamination>().Result4Theme(theme.Exam_ID, sid);
+                DataTable dtTm = this.Result4Theme(theme.Exam_ID, sid);
                 if (dtTm == null) continue;
                 Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(sid);
                 dtTm.TableName = sort.Sts_Name;

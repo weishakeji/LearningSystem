@@ -273,7 +273,7 @@
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
                         window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
-                            { pid: window.name, resize: true, 'showmask': true, 'min': false, 'ico': 'e696' });
+                            { pid: window.name, resize: true, 'showmask': false, 'min': false, 'ico': 'e696' });
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {
@@ -281,7 +281,7 @@
                         var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
                         var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
                         window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
-                            { pid: window.name, resize: true, 'showmask': false, 'min': true, 'ico': 'e696' });
+                            { pid: window.name, resize: true, 'showmask': false, 'min': false, 'ico': 'e696' });
                     }
                 },
                 template: `<div><el-row :gutter="20" class="row_title">

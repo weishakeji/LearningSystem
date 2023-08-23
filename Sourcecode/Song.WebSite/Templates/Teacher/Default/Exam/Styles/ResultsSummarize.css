@@ -71,6 +71,12 @@ th div.cell, td div.cell {
     white-space: nowrap;
 }
 /*导出文件的样式*/
+.exportquery_sorts{
+    display: flex;
+    flex-direction: column;
+    height: 160px;
+    overflow-y: auto;
+}
 dl, dd {
     padding: 0px;
     margin: 0px;

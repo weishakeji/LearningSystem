@@ -33,6 +33,12 @@ $ready(function () {
             exportVisible: false,    //成绩导出信息是否显示
             files: [],               //导出的文件列表
             fileloading: false,      //导出时的加载状态
+            //导出的查询对象
+            exportquery: {
+                'scope': 1,          //导出范围，1为所有，2为按学员组
+                'sorts': []              //学员组id,多个id用逗号分隔
+            },
+
             loading: false,
 
         },
@@ -161,16 +167,36 @@ $ready(function () {
             //生成导出文件
             toexcel: function () {
                 var th = this;
-                th.fileloading = true;
-                $api.post('Exam/OutputParticipate', { 'examid': th.examid }).then(function (req) {
-                    if (req.data.success) {
-                        th.getFiles();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
+                //导出所有参考学员
+                if (th.exportquery.scope == 1) {
+                    th.fileloading = true;
+                    $api.post('Exam/OutputParticipate', { 'examid': th.examid, 'sorts': '' }).then(function (req) {
+                        if (req.data.success) {
+                            th.getFiles();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => alert(err))
+                        .finally(() => th.fileloading = false);
+                }
+                //按学员组导出
+                if (th.exportquery.scope == 2) {
+                    if (th.exportquery.sorts.length < 1) {
+                        alert('未选择学员组');
+                        return;
                     }
-                }).catch(err => alert(err))
-                    .finally(() => th.fileloading = false);
+                    let sort = th.exportquery.sorts.join(',');
+                    $api.post('Exam/OutputParticipate', { 'examid': th.examid, 'sorts': sort }).then(function (req) {
+                        if (req.data.success) {
+                            th.getFiles();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => alert(err))
+                        .finally(() => th.fileloading = false);
+                }
             },
             //删除文件
             deleteFile: function (file) {

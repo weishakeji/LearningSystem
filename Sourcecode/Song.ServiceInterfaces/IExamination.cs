@@ -394,7 +394,7 @@ namespace Song.ServiceInterfaces
         /// <param name="examid">考试主题的id</param>
         /// <param name="sorts"></param>
         /// <returns></returns>
-        string OutputParticipate(string filePath, int examid, StudentSort[] sorts);
+        string OutputParticipate(string filePath, int examid, long[] sorts);
         /// <summary>
         /// 导出所有，包括未参加考试的学员
         /// </summary>
