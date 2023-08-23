@@ -9,7 +9,7 @@
             columns: [],         //课程公告的分类          
             //当前要操作的公告的对象
             guide_form: {
-                Gu_IsUse: true
+                Gu_IsUse: true, Gu_IsShow: true
             },
             guide_rules: {
                 Gu_Title: [

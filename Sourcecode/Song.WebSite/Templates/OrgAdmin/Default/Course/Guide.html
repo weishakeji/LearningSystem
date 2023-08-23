@@ -12,8 +12,8 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading_init"></loading>
         <div class="toolsbar">
-            <btngroup show="新增,删除" ref='btngroup' path="GuideModify" @delete="deleteData" width="880"
-                height="600" ico="e840" :selects='selects' idkey='Gu_ID' table="guides" :modal="true">
+            <btngroup show="新增,删除" ref='btngroup' path="GuideModify" @delete="deleteData" width="880" height="600"
+                ico="e840" :selects='selects' idkey='Gu_ID' table="guides" :modal="true">
                 <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsModify()">编辑公告的分类
                 </el-button>
             </btngroup>
@@ -35,7 +35,8 @@
         </div>
 
         <el-table ref="datatables" :stripe="true" :data="guides" tooltip-effect="dark" style="width: 100%"
-            @selection-change="val=>selects=val" @row-dblclick="row=>guideShow(true,row)">
+            @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
+            :row-class-name="data=>{return data.row.Gu_IsUse ? 'enable' : 'disabled';}">
             <el-table-column type="selection" width="35">
             </el-table-column>
             <el-table-column type="index" width="50" align="center">
