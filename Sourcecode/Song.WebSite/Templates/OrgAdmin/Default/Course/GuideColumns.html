@@ -15,11 +15,6 @@
             <btngroup show="新增" ref='btngroup' @add="columnsShow(true,null)"></btngroup>
             <query_panel :loading="loading">
                 <el-form-item label="">
-                    <el-tag type="success">
-                        <icon>&#xe750</icon>总计 {{total}} 个专业
-                    </el-tag>
-                </el-form-item>
-                <el-form-item label="">
                     <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
                         suffix-icon="el-icon-search"></el-input>
                 </el-form-item>
@@ -27,15 +22,10 @@
 
         </div>
 
-        <div class="bar">
-            <div>
-                <el-button type="primary" icon="el-icon-edit" plain @click="columnsShow(true,null)">新增分类</el-button>
-                <help>拖动树形中的节点可以改变顺序</help>
-            </div>
-        </div>
         <el-tree :data="columns" node-key="Gc_ID" ref="tree" :props="{children: 'children',label: 'Gc_Title'}"
             :default-expand-all="true" expand-on-click-node @node-drag-end="handleDragEnd" :expand-on-click-node="false"
-            draggable empty-text="没有数据，请点击左上角“新增分类”" v-loading="loading || loading_sumbit">
+            :filter-node-method="filterNode"
+            draggable empty-text="没有数据，请点击左上角“新增”" v-loading="loading || loading_sumbit">
             <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span class="tree-node draghandle" v-html="data.Gc_Title">
                 </span>
@@ -54,21 +44,21 @@
             </span>
             </span>
         </el-tree>
-        <el-dialog :title="column_title" :visible.sync="columnsVisible" :before-close="()=>{}" :show-close="false">
+        <el-drawer :title="column_title" :visible.sync="columnsVisible" size="60%" direction="ltr"
+            :destroy-on-close="true" wrapperClosable="false" :show-close="false" :before-close="()=>{}">
             <el-form :model="column_form" ref="column_form" :rules="column_rules">
-                <el-form-item label="分类名称" label-width="100px" prop="Gc_Title">
+                <el-form-item label="名称" label-width="100px" prop="Gc_Title">
                     <el-input v-model="column_form.Gc_Title"></el-input>
                 </el-form-item>
                 <el-form-item label="简介" label-width="100px" prop="Gc_Intro">
                     <el-input v-model="column_form.Gc_Intro" type="textarea" :rows="2"></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <div class="drawer-footer">
                 <el-button @click="columnsVisible = false">取 消</el-button>
-                <el-button type="primary" @click="columnsEnter('column_form')">确 定</el-button>
+                <el-button type="primary" define="enter" @click="columnsEnter('column_form')">保存</el-button>
             </div>
-        </el-dialog>
-
+        </el-drawer>
 
     </div>
 </body>

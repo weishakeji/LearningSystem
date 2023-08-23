@@ -1,3 +1,27 @@
 ﻿@charset "utf-8";
 
+.el-drawer{
+	position: absolute;
+}
+.drawer-footer {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	text-align: right;
+	padding: 5px 10px;
+}
+.el-tree {
+	height: calc(100% - 40px);	
+	padding: 5px 8px 0px 0px;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
 
+.custom-tree-node {
+	display: block;
+	width: 100%;
+}
+
+.column_btn {
+	float: right;
+}

@@ -16,7 +16,7 @@
                     { min: 0, max: 1000, message: '长度在 0 到 1000 个字符', trigger: 'blur' }
                 ]
             },
-            filterText:'',      
+            filterText: '',
             columnsVisible: false,
             loading: false,
             loadingid: false,
@@ -27,14 +27,13 @@
             this.getColumnsTree();
         },
         created: function () {
-
         },
         computed: {
-            total: function () {
-
-            }
         },
         watch: {
+            filterText: function (val) {
+                this.$refs.tree.filter(val);
+            }
         },
         methods: {
             //获取分类的数据，为树形数据
@@ -52,13 +51,13 @@
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
-             //过滤树形
-             filterNode: function (value, data) {
+            //过滤树形
+            filterNode: function (value, data) {
                 if (!value) return true;
                 var txt = $api.trim(value.toLowerCase());
                 //console.log(txt.length);
                 if (txt == '') return true;
-                return data.Sbj_Name.toLowerCase().indexOf(txt) !== -1;
+                return data.Gc_Title.toLowerCase().indexOf(txt) !== -1;
             },
             //分类的拖动改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
@@ -74,7 +73,8 @@
                             message: '更改排序成功!',
                             center: true
                         });
-                        th.getTreeData();
+                        th.getColumnsTree();
+                        th.fresh_parent(false);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -121,7 +121,7 @@
                     if (valid) {
                         var apipath = 'Guide/Columns' + (th.columnsObject == null ? 'Add' : 'Modify');
                         var obj = th.column_form;
-                        obj['Cou_ID'] = th.id;
+                        obj['Cou_ID'] = th.couid;
                         if (th.columnsObject == null) {
                             obj['Gc_PID'] = '0';
                             obj['Gc_IsUse'] = true;
@@ -135,7 +135,8 @@
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.getTreeData();
+                                th.getColumnsTree();
+                                th.fresh_parent(false);
                                 th.columnsShow(false, null);
                             } else {
                                 throw req.data.message;
@@ -162,7 +163,8 @@
                             message: '修改状态成功!',
                             center: true
                         });
-                        th.getTreeData();
+                        th.getColumnsTree();
+                        th.fresh_parent(false);
                     } else {
                         throw req.data.message;
                     }
@@ -208,7 +210,8 @@
                             message: '删除成功!',
                             center: true
                         });
-                        th.getTreeData();
+                        th.getColumnsTree();
+                        th.fresh_parent(false);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -218,113 +221,12 @@
                     console.error(err);
                 });
             },
-            /*
-            
-            */
-            handleCurrentChange: function (index) {
-                if (index != null) this.form.index = index;
-                var th = this;
-                //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 100;
-                th.form.size = Math.floor(area / 41);
-                if ($api.getType(th.form.uid) == "Array" && th.form.uid.length > 0) {
-                    th.form.uid = th.form.uid[th.form.uid.length - 1];
-                }
-                $api.get("Guide/Pager", th.form).then(function (d) {
-                    if (d.data.success) {
-                        th.guides = d.data.result;
-                        th.totalpages = Number(d.data.totalpages);
-                        th.total = d.data.total;
-                    } else {
-                        console.error(d.data.exception);
-                        throw d.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-
-                });
-            },
-            //公告的编辑状态
-            //show：是否显示编辑面板
-            //obj:要编辑的对象，如果是新增则为null
-            guideShow: function (show, obj) {
-                this.guide_title = obj == null ? '新增课程公告' : '编辑课程公告';
-                var th = this;
-                if (obj == null) {
-                    $api.get('Snowflake/Generate').then(function (req) {
-                        if (req.data.success) {
-                            th.guide_form = {};
-                            th.guide_form.Gu_ID = req.data.result;
-                            th.guide_form.state = 'add';
-                            th.guideVisible = show;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-
-                        Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
-                } else {
-                    this.guide_form = $api.clone(obj);
-                    th.guide_form.state = 'Modify';
-                    th.guideVisible = show;
-                }
-                this.$refs['details_editor'].setContent(this.guide_form.Gu_Details);
-            },
-            guideEnter: function (formName) {
-                var th = this;
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        var obj = th.guide_form;
-                        obj['Cou_ID'] = th.id;
-                        if (obj.Gc_UID && $api.getType(obj.Gc_UID) == "Array") {
-                            if (obj.Gc_UID.length > 0)
-                                obj.Gc_UID = obj.Gc_UID[obj.Gc_UID.length - 1];
-                        }
-                        $api.post('Guide/' + th.guide_form.state, { 'entity': obj }).then(function (req) {
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
-                                });
-                                th.handleCurrentChange();
-                                th.guideShow(false, null);
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            th.$alert(err, '错误');
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            //删除课程公告
-            deleteData: function (datas) {
-                if (datas == '') return;
-                var th = this;
-                $api.delete('Guide/Delete', { 'id': datas }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        th.handleCurrentChange();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+            //刷新上级列表
+            fresh_parent: function (isclose) {
+                //如果处于课程编辑页，则刷新
+                var pagebox = window.top.$pagebox;
+                if (pagebox && pagebox.source.box)
+                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.getColumnsTree(true)")', isclose);
             }
         }
     });
