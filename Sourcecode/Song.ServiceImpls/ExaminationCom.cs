@@ -63,7 +63,7 @@ namespace Song.ServiceImpls
                             it.Exam_DateType = theme.Exam_DateType;
                             if (theme.Exam_DateType == 1)
                             {
-                                if (it.Exam_Date.AddYears(100) > DateTime.Now)
+                                if (it.Exam_Date.AddYears(30) > DateTime.Now)
                                     examDate = it.Exam_Date < examDate ? it.Exam_Date : examDate;                               
                             }
                             if (theme.Exam_DateType == 2)
@@ -177,7 +177,7 @@ namespace Song.ServiceImpls
                             it.Exam_DateType = theme.Exam_DateType;
                             if (theme.Exam_DateType == 1)
                             {
-                                if (it.Exam_Date.AddYears(100) > DateTime.Now)
+                                if (it.Exam_Date.AddYears(30) > DateTime.Now)
                                     examDate = it.Exam_Date < examDate ? it.Exam_Date : examDate;
                             }
                             if (theme.Exam_DateType == 2)
@@ -466,7 +466,7 @@ namespace Song.ServiceImpls
             }
             else
             {
-                if(result.Exr_CrtTime<DateTime.Now.AddYears(-100))
+                if(result.Exr_CrtTime<DateTime.Now.AddYears(-30))
                     result.Exr_CrtTime = DateTime.Now;
                 result.Exr_Score = -1;
                 //考试主题
@@ -1590,7 +1590,7 @@ namespace Song.ServiceImpls
             {
                 case "date":
                     DateTime tm = Convert.ToDateTime(obj);
-                    value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                    value = tm > DateTime.Now.AddYears(-30) ? tm.ToString(format) : "";
                     break;
                 case "float":
                     float f = 0;

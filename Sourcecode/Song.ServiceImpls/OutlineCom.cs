@@ -51,7 +51,7 @@ namespace Song.ServiceImpls
                     //唯一id
                     entity.Ol_UID = WeiSha.Core.Request.SnowID().ToString();
                     //编辑时间
-                    if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-100))
+                    if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-30))
                         entity.Ol_ModifyTime = DateTime.Now;
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
@@ -173,7 +173,7 @@ namespace Song.ServiceImpls
                 entity.Ol_Tax = obj is int ? (int)obj + 1 : 0;
             }
             //编辑时间
-            if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-100))
+            if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-30))
                 entity.Ol_ModifyTime = DateTime.Now;
             //如果有下级，设置为章节节点
             int childCount = Gateway.Default.Count<Outline>(Outline._.Ol_PID == entity.Ol_ID);
@@ -344,7 +344,7 @@ namespace Song.ServiceImpls
                     {
                         case "date":
                             DateTime tm = Convert.ToDateTime(obj);
-                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                            value = tm > DateTime.Now.AddYears(-30) ? tm.ToString(format) : "";
                             break;
                         default:
                             value = obj.ToString();

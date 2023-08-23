@@ -93,7 +93,7 @@ namespace Song.ServiceImpls
                 //如果用户自己设置了年龄，则记录出生年份
                 if (entity.Ac_Age > 0) entity.Ac_Age = DateTime.Now.Year - entity.Ac_Age;
                 //计算年龄，如果设置了生日，则自动计算出生年月
-                if (entity.Ac_Birthday > DateTime.Now.AddYears(-100))
+                if (entity.Ac_Birthday > DateTime.Now.AddYears(-30))
                     entity.Ac_Age = entity.Ac_Birthday.Year;
             }
             //如果密码为空
