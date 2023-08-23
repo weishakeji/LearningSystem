@@ -115,7 +115,7 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            this.loading_init = true;
+            th.loading_init = true;
             //当前的机构、登录学员、课程
             $api.bat(
                 $api.get('Course/ForID', { 'id': th.couid }),
@@ -143,7 +143,7 @@ $ready(function () {
                     //章节
                     th.outlines = outlines.data.result;
                     //试卷,结课考试
-                    var papers = paper.data.result;
+                    let papers = paper.data.result;
                     if (papers != null && papers.length > 0) {
                         for (let i = 0; i < papers.length; i++) {
                             if (papers[i].Tp_IsFinal) {
@@ -157,14 +157,10 @@ $ready(function () {
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading_init = false;
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         methods: {
             //清理Html标签

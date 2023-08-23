@@ -370,10 +370,16 @@
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\GuideModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\GuideColumns.html" />
     <Content Include="Templates\OrgAdmin\Default\Course\OutlineModify.html" />
     <Content Include="Templates\OrgAdmin\Default\Course\OutlineAccessory.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\GuideModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\GuideColumns.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Scripts\OutlineModify.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Scripts\OutlineAccessory.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\GuideModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\GuideColumns.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineModify.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineAccessory.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />

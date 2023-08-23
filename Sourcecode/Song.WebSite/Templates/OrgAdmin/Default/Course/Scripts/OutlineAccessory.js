@@ -12,7 +12,7 @@
             loading: false
         },
         watch: {
-          
+
         },
         mounted: function () {
             this.getDatas();
@@ -79,7 +79,6 @@
                 th.loading_upload = true;
                 var uid = this.uid;
                 $api.post('Accessory/Upload', { 'uid': uid, 'type': 'Course', 'file': file }).then(function (req) {
-                    th.loading_upload = false;
                     if (req.data.success) {
                         // var result = req.data.result;
                         //th.getDatas(uid);
@@ -89,11 +88,8 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_upload = false;
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading_upload = false);
             },
             //刷新上级列表
             fresh_parent: function () {
