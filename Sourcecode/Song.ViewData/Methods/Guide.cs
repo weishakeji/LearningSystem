@@ -35,7 +35,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost]
         public bool ColumnsAdd(Song.Entities.GuideColumns entity)
         {
@@ -54,7 +54,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity">友情课程公告的分类</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost]
         public bool ColumnsModify(GuideColumns entity)
         {
@@ -70,7 +70,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">账户id，可以是多个，用逗号分隔</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpDelete]
         public int ColumnsDelete(string id)
         {
@@ -146,7 +146,7 @@ namespace Song.ViewData.Methods
         /// <param name="items">课程公告分类的数组</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin]
+        [Admin,Teacher]
         public bool ColumnsUpdateTaxis(Song.Entities.GuideColumns[] items)
         {
             try
@@ -176,7 +176,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Guide Add(Song.Entities.Guide entity)
@@ -189,7 +189,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost]   
         [HtmlClear(Not = "entity")]
         public Song.Entities.Guide Modify(Song.Entities.Guide entity)
@@ -202,11 +202,46 @@ namespace Song.ViewData.Methods
             return old;
         }
         /// <summary>
+        /// 批量更改状态
+        /// </summary>
+        /// <param name="guid">公告id</param>
+        /// <param name="show">显示</param>
+        /// <param name="use">使用状态</param>
+        /// <returns>修改的数量</returns>
+        [HttpPost]
+        [Admin, Teacher]
+        public int ModifyState(string guid, bool show, bool use)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(guid)) return i;
+            string[] arr = guid.Split(',');
+            foreach (string s in arr)
+            {
+                long idval = 0;
+                long.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IGuide>().GuideUpdate(idval,
+                    new WeiSha.Data.Field[] {
+                        Song.Entities.Guide._.Gu_IsShow,
+                        Song.Entities.Guide._.Gu_IsUse },
+                    new object[] { show, use });
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
+        /// <summary>
         /// 删除课程公告
         /// </summary>
         /// <param name="id">账户id，可以是多个，用逗号分隔</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpDelete]
         public int Delete(string id)
         {
@@ -236,15 +271,16 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="uid">课程公告的分类uid</param>
         /// <param name="show">是否在前端显示，默认为null，即显示所有</param>
+        /// <param name="use">是否启用，默认为null，即显示所有</param>
         /// <param name="search">检索字符</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(long couid,string uid, bool? show, string search, int size, int index)
+        public ListResult Pager(long couid,string uid, bool? show, bool? use,string search, int size, int index)
         {
             //总记录数
             int count = 0;
-            Song.Entities.Guide[] eas = Business.Do<IGuide>().GuidePager(-1, couid, uid, search, show, size, index, out count);
+            Song.Entities.Guide[] eas = Business.Do<IGuide>().GuidePager(-1, couid, uid, search, show, use, size, index, out count);
             ListResult result = new ListResult(eas);
             result.Index = index;
             result.Size = size;
@@ -256,12 +292,14 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程的id</param>
         /// <param name="count">取多少条通知</param>
+        /// <param name="show">是否在前端显示，默认为null，即显示所有</param>
+        /// <param name="use">是否启用，默认为null，即显示所有</param>
         /// <returns></returns>
         [HttpGet, HttpPut]
         [Cache(Expires = 60)]
-        public Song.Entities.Guide[] Guides(long couid, int count)
+        public Song.Entities.Guide[] Guides(long couid, bool? show, bool? use, int count)
         {
-            return Business.Do<IGuide>().GuideCount(-1, couid, string.Empty, count);
+            return Business.Do<IGuide>().GuideCount(-1, couid, string.Empty, show, use, count);
         }
         #endregion
 

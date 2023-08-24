@@ -331,7 +331,7 @@ namespace Song.ViewData.Methods
             //知识点
             int knl = Business.Do<IKnowledge>().KnowledgeOfCount(-1, couid, -1, true);
             //课程通知
-            int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, true);
+            int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
             //视频数
             int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
             //学习人数

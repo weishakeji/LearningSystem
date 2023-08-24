@@ -8,7 +8,7 @@
             //公告内容
             selects: [],
             guides: [],
-            form: { 'couid': '', 'uid': '', 'show': '', 'search': '', 'size': 10, 'index': 1 },
+            form: { 'couid': '', 'uid': '', 'show': '', 'use': '', 'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数         
 
@@ -65,7 +65,7 @@
             columnsModify: function () {
                 let url = $api.url.set('GuideColumns', { 'couid': this.id });
                 let toolsbar = this.$refs['btngroup'];
-                toolsbar.pagebox(url, '分类管理', this.id, 500, 400, null);              
+                toolsbar.pagebox(url, '分类管理', this.id, 500, 400, null);
             },
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -171,7 +171,75 @@
                     alert(err);
                     console.error(err);
                 });
-            }
+            },
+            //更改使用状态
+            changeState: function (row) {
+                var th = this;
+                th.loadingid = row.Gu_ID;
+                $api.post('Guide/ModifyState', { 'guid': row.Gu_ID, 'show': row.Gu_IsShow, 'use': row.Gu_IsUse }).then(function (req) {
+                    if (req.data.success) {
+                        th.$notify({
+                            type: 'success',
+                            message: '修改状态成功!',
+                            center: true
+                        });
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loadingid = -1);
+            },
+            //批量修改状态
+            batchState: function (use) {
+                use = Boolean(use);
+                var th = this;
+                var num = 0;
+                for (let i = 0; i < th.guides.length; i++)
+                    if (th.guides[i].Gu_IsUse != use) num++;
+                if (num == 0) {
+                    this.$alert('当前页面所有信息均为“' + (use ? '启用' : '禁用') + '”状态，无须操作', '提示', {
+                        confirmButtonText: '确定'
+                    });
+                } else {
+                    var msg = '批量更改当前页面的<b>' + num + '</b>个信息为“' + (use ? '启用' : '禁用') + '”, 是否继续?';
+                    this.$confirm(msg, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        dangerouslyUseHTMLString: true,
+                        type: 'warning'
+                    }).then(() => {
+                        let ids = '';
+                        for (var i = 0; i < th.guides.length; i++) {
+                            if (th.guides[i].Gu_IsUse != use)
+                                ids += th.guides[i].Gu_ID + ',';
+                        }
+                        th.loading = true;
+                        var loading = th.$fulloading();
+                        $api.post('Guide/ModifyState', { 'guid': ids, 'show': true, 'use': use }).then(function (req) {
+
+                            if (req.data.success) {
+                                var result = req.data.result;
+                                th.$message({
+                                    type: 'success',
+                                    message: '成功修改' + result + '个信息的状态!',
+                                    center: true
+                                });
+                                th.handleCurrentChange();
+                                th.$nextTick(function () {
+                                    loading.close();
+                                });
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+
+                            th.$alert(err, '错误');
+                        }).finally(() => th.loading = false);
+                    }).catch(() => { });
+                }
+            },
         }
     });
 

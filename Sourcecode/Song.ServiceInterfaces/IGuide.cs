@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Song.Entities;
+using WeiSha.Data;
 
 namespace Song.ServiceInterfaces
 {
@@ -22,6 +23,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity">业务实体</param>
         void GuideSave(Guide entity);
+        /// <summary>
+        /// 修改，按条件修改
+        /// </summary>
+        /// <param name="guid">公告id</param>
+        /// <param name="fiels"></param>
+        /// <param name="objs"></param>
+        void GuideUpdate(long guid, Field[] fiels, object[] objs);
         /// <summary>
         /// 删除
         /// </summary>
@@ -58,16 +66,17 @@ namespace Song.ServiceInterfaces
         /// <param name="gcuid">分类uid</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Guide[] GuideCount(int orgid, long couid, string gcuid, int count);
+        Guide[] GuideCount(int orgid, long couid, string gcuid, bool? isShow, bool? isUse, int count);
         /// <summary>
         /// 课程公告的数量
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="couid"></param>
-        /// <param name="gcuid"></param>
-        /// <param name="isShow"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="gcuid">公告分类的uid</param>
+        /// <param name="isShow">是否显示</param>
+        /// <param name="isUse">是否启用</param>
         /// <returns></returns>
-        int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow);
+        int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow, bool? isUse);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -76,11 +85,12 @@ namespace Song.ServiceInterfaces
         /// <param name="gcuid">分类</param>
         /// <param name="searTxt"></param>
         /// <param name="isShow">是否显示</param>
+        /// <param name="isUse">是否启用</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum); 
+        Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, bool? isUse, int size, int index, out int countSum);
         #endregion
 
         #region 指南分类

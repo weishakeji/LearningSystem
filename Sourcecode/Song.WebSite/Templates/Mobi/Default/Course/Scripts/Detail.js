@@ -71,7 +71,7 @@ $ready(function () {
             var th = this;
             this.loading_init = true;
             //当前的机构、登录学员、课程
-            $api.bat(                
+            $api.bat(
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
             ).then(axios.spread(function (course, viewnum) {
@@ -89,7 +89,7 @@ $ready(function () {
                     $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
                     $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/Datainfo', { 'couid': th.couid }),
-                    $api.cache('Guide/Guides:3', { 'couid': th.couid, 'count': 20 }),
+                    $api.cache('Guide/Guides:3', { 'couid': th.couid, 'show': '', 'use': true, 'count': 20 }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
                 ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {
                     th.loading_init = false;

@@ -111,9 +111,8 @@ $ready(function () {
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Lk_Id;
+                th.loadingid = row.Lk_Id;
                 $api.post('Link/Modify', { 'entity': row }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',
@@ -123,11 +122,10 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loadingid = -1);
             }
         }
     });

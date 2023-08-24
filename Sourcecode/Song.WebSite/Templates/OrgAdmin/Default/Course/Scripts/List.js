@@ -222,6 +222,7 @@
                                 ids += th.datas[i].Cou_ID + ',';
                         }
                         th.loading = true;
+                        var loading = th.$fulloading();
                         $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null, 'edit': null }).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {

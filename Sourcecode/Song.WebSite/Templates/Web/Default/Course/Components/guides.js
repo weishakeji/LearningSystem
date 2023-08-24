@@ -6,7 +6,7 @@ Vue.component('guides', {
     data: function () {
         return {
             guides: [],             //课程公告
-            form: { 'couid': '', 'uid': '', 'show': '', 'search': '', 'size': 10, 'index': 1 },
+            form: { 'couid': '', 'uid': '', 'show': '', 'use': true,'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数
             loading: false,

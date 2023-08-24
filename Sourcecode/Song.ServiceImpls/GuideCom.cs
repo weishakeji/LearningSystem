@@ -66,6 +66,16 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<Guide>(entity);  
         }
         /// <summary>
+        /// 修改，按条件修改
+        /// </summary>
+        /// <param name="guid">公告id</param>
+        /// <param name="fiels"></param>
+        /// <param name="objs"></param>
+        public void GuideUpdate(long guid, Field[] fiels, object[] objs)
+        {
+            Gateway.Default.Update<Guide>(fiels, objs, Guide._.Gu_ID == guid);
+        }
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -118,6 +128,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             wc &= Guide._.Gu_IsShow == true;
+            wc &= Guide._.Gu_IsUse == true;
             wc &= Guide._.Cou_ID == entity.Cou_ID;
             wc &= Guide._.Gu_CrtTime > entity.Gu_CrtTime;
             return Gateway.Default.From<Guide>().OrderBy(Guide._.Gu_CrtTime.Asc)
@@ -132,6 +143,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             wc &= Guide._.Gu_IsShow == true;
+            wc &= Guide._.Gu_IsUse == true;
             wc &= Guide._.Cou_ID == entity.Cou_ID;
             wc &= Guide._.Gu_CrtTime < entity.Gu_CrtTime;
             return Gateway.Default.From<Guide>().OrderBy(Guide._.Gu_CrtTime.Desc)
@@ -146,12 +158,13 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<Guide>().Where(Guide._.Gu_ID == identify).ToFirst<Guide>();
         }
-        public Guide[] GuideCount(int orgid, long couid, string gcuid, int count)
+        public Guide[] GuideCount(int orgid, long couid, string gcuid, bool? isShow, bool? isUse, int count)
         {
-            WhereClip wc = new WhereClip();
-            wc &= Guide._.Gu_IsShow == true;
+            WhereClip wc = new WhereClip();          
             if (orgid > 0) wc &= Guide._.Org_ID == orgid;
             if (couid > 0) wc &= Guide._.Cou_ID == couid;
+            if (isShow != null) wc &= Guide._.Gu_IsShow == (bool)isShow;
+            if (isUse != null) wc &= Guide._.Gu_IsUse == (bool)isUse;
             if (!string.IsNullOrWhiteSpace(gcuid))
             {
                 WhereClip wcUid = new WhereClip();
@@ -170,12 +183,13 @@ namespace Song.ServiceImpls
         /// <param name="gcuid"></param>
         /// <param name="isShow"></param>
         /// <returns></returns>
-        public int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow)
+        public int GuideOfCount(int orgid, long couid, string gcuid, bool? isShow, bool? isUse)
         {
-            WhereClip wc = new WhereClip();
-            wc &= Guide._.Gu_IsShow == true;
+            WhereClip wc = new WhereClip();          
             if (orgid > 0) wc &= Guide._.Org_ID == orgid;
             if (couid > 0) wc &= Guide._.Cou_ID == couid;
+            if (isShow != null) wc &= Guide._.Gu_IsShow == (bool)isShow;
+            if (isUse != null) wc &= Guide._.Gu_IsUse == (bool)isUse;
             if (!string.IsNullOrWhiteSpace(gcuid))
             {
                 WhereClip wcUid = new WhereClip();
@@ -197,11 +211,13 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum)
+        public Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, bool? isUse, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Guide._.Org_ID == orgid);
             if (couid > 0) wc.And(Guide._.Cou_ID == couid);
+            if (isShow != null) wc &= Guide._.Gu_IsShow == (bool)isShow;
+            if (isUse != null) wc &= Guide._.Gu_IsUse == (bool)isUse;
             if (!string.IsNullOrWhiteSpace(gcuid))
             {
                 WhereClip wcUid = new WhereClip();
@@ -209,8 +225,7 @@ namespace Song.ServiceImpls
                 foreach (string l in list)
                     wcUid.Or(Guide._.Gc_UID == l);
                 wc.And(wcUid);
-            }
-            if (isShow != null) wc.And(Guide._.Gu_IsShow == (bool)isShow);
+            }      
             if (searTxt != null && searTxt.Trim() != "")
                 wc.And(Guide._.Gu_Title.Like("%" + searTxt + "%"));
             countSum = Gateway.Default.Count<Guide>(wc);
