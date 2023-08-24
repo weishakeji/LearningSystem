@@ -8,7 +8,7 @@
             //课程公告分类
             columns: [],         //课程公告的分类          
             //当前要操作的公告的对象
-            guide_form: {
+            entity: {
                 Gu_IsUse: true, Gu_IsShow: true
             },
             guide_rules: {
@@ -17,6 +17,7 @@
                     { min: 2, max: 200, message: '长度在 2 到 200 个字符', trigger: 'blur' }
                 ]
             },
+            activeName: 'general',       //选项卡
             loading: false,
             loading_sumbit: false,
         },
@@ -25,7 +26,7 @@
             var th = this;
             th.loading = true;
             th.getguide().then(function (data) {
-                th.guide_form = data;     
+                th.entity = data;
             }).catch(err => {
                 alert(err);
                 console.error(err);
@@ -61,7 +62,7 @@
                 var th = this;
                 return new Promise(function (resolve, reject) {
                     if (th.id == '' || th.id == 0) {
-                        resolve(th.guide_form);
+                        resolve(th.entity);
                     } else {
                         $api.get('Guide/ForID', { 'id': th.id }).then(function (req) {
                             if (req.data.success) {
@@ -76,9 +77,9 @@
             },
             guideEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid,fields) => {
                     if (valid) {
-                        var obj = th.guide_form;
+                        var obj = th.entity;
                         obj['Cou_ID'] = th.couid;
                         if (obj.Gc_UID && $api.getType(obj.Gc_UID) == "Array") {
                             if (obj.Gc_UID.length > 0)
@@ -100,8 +101,14 @@
                             th.$alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
-                        return false;
+                         //未通过验证的字段
+                         let field = Object.keys(fields)[0];
+                         let label = $dom('label[for="' + field + '"]');
+                         while (label.attr('tab') == null)
+                             label = label.parent();
+                         th.activeName = label.attr('tab');
+                         console.log('error submit!!');
+                         return false;
                     }
                 });
             },

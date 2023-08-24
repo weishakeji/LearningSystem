@@ -5,41 +5,74 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
-    <title>课程公告-</title>
+    <title>课程公告-编辑</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form :model="guide_form" ref="guide_form" :rules="guide_rules" label-width="60px">
-            <el-form-item label="标题" prop="Gu_Title">
-                <el-input v-model="guide_form.Gu_Title"></el-input>
-            </el-form-item>
-            <el-form-item label="分类" prop="Gc_UID">
-                <el-cascader style="width: 100%;" ref="columns" v-model="guide_form.Gc_UID" :options="columns"
-                    @change="()=>$refs['columns'].dropDownVisible = false" separator="／" :props="{
-                                children: 'children',
-                                label: 'Gc_Title',
-                                value: 'Gc_UID',
-                                expandTrigger: 'hover',
-                                checkStrictly: true
-                            }" filterable>
-                </el-cascader>
-            </el-form-item>
-            <div class="Gu_Details">
-                <el-form-item label="内容" prop="Gu_Details">
-                    <editor :content="guide_form.Gu_Details" model="general" ref="details_editor" upload="Guide"
-                        :dataid="guide_form.Gu_ID" @change="text=>guide_form.Gu_Details=text">
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label">
+                        <icon style="font-size: 16px;">&#xe840</icon> 基本信息
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="detail">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xe6cb</icon> 公告内容
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+
+            <!-- 编辑区域-->
+            <el-form :model="entity" ref="entity" :rules="guide_rules" label-width="80px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item label="标题" prop="Gu_Title">
+                        <el-input v-model="entity.Gu_Title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="长标题" prop="Gu_TitleFull">
+                        <el-input v-model="entity.Gu_TitleFull"  type="textarea" :rows="2"></el-input>
+                        <help>当展示公告详情时，优先显示长标题</help>
+                    </el-form-item>
+                    <el-form-item label="分类" prop="Gc_UID">
+                        <el-cascader style="width: 100%;" ref="columns" v-model="entity.Gc_UID" :options="columns"
+                            @change="()=>$refs['columns'].dropDownVisible = false" separator="／" :props="{
+                                        children: 'children',
+                                        label: 'Gc_Title',
+                                        value: 'Gc_UID',
+                                        expandTrigger: 'hover',
+                                        checkStrictly: true
+                                    }" filterable>
+                        </el-cascader>
+                    </el-form-item>
+                    
+                    <el-form-item label="简述" prop="Gu_Intro">
+                        <el-input v-model="entity.Gu_Intro" type="textarea" :rows="5"></el-input>
+                    </el-form-item>
+                    <el-form-item label="来源" prop="Gu_Source">
+                        <el-input v-model="entity.Gu_Source" placeholder="信息来源"></el-input>
+                    </el-form-item>
+                    <el-form-item label="" prop="Gu_IsUse">
+                        <el-switch v-model="entity.Gu_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                            active-text="使用">
+                        </el-switch>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='detail'" remark="详细信息" tab="detail" class="about_editor">
+                    <editor :content="entity.Gu_Details" model="general" ref="details_editor" upload="Guide"
+                        :dataid="entity.Gu_ID" @change="text=>entity.Gu_Details=text">
                     </editor>
-                </el-form-item>
-            </div>
-        </el-form>
+                </div>
+            </el-form>
+        </div>
+
         <div class="footer">
             <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
-                @click="guideEnter('guide_form',true)">
+                @click="guideEnter('entity',true)">
                 保存
             </el-button>
             <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
-                @click="guideEnter('guide_form',false)">应用
+                @click="guideEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>
                 取消
