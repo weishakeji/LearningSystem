@@ -127,7 +127,7 @@
                             <template v-else>{{guide.Gu_Title}}</template>
                         </div>                      
                         <div v-if="guide.Gu_Details !=''" v-html="guide.Gu_Details"></div>
-                        <div v-else>{{clearTag(guide.Gu_Details,6000)}} ...</div>
+                        <div  v-if="guide.Gu_Source!=''">来源 ： {{guide.Gu_Source}}</div>
                     </div>
                 </van-popup>
             </template>
