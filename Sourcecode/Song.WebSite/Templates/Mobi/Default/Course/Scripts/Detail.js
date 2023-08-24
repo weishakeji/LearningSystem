@@ -128,9 +128,11 @@ $ready(function () {
         },
         methods: {
             //清理Html标签
-            clearTag: function (html) {
+            clearTag: function (html, len) {
                 var txt = html.replace(/<\/?.+?>/g, "");
                 txt = $api.trim(txt);
+                if (len != null && len < txt.length)
+                    txt = txt.substring(0, len);
                 return txt;
             }
         }

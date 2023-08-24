@@ -1,5 +1,5 @@
 //课程通知公告的列表
-$dom.load.css([$dom.pagepath() + 'Styles/guides.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/guides.css']);
 Vue.component('guides', {
     //课程id，分类uid
     props: ["couid", "gcuid"],
@@ -73,7 +73,11 @@ Vue.component('guides', {
         没有可查阅的信息
     </div>
     <el-dialog  :title="detailObj.Gu_Title"  :visible.sync="dtailShow" custom-class="guide_dialog" append-to-body>
-        <div v-html="detailObj.Gu_Details" v-if="detailObj.Gu_Details!=''"></div>
+        <div v-html="detailObj.Gu_TitleFull" v-if="detailObj.Gu_TitleFull!=''" class="Gu_TitleFull"></div>
+        <template v-if="detailObj.Gu_Details!=''">
+            <div v-html="detailObj.Gu_Details"  class="Gu_Details"></div>
+            <div  v-if="detailObj.Gu_Source!=''">来源 ： {{detailObj.Gu_Source}}</div>
+        </template>        
         <div v-else>(没有内容)</div>
     </el-dialog>
     </div>`

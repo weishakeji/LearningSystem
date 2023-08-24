@@ -31,7 +31,7 @@
                             - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）
                         </template>
                         <template v-else>
-                            <span class="money" v-if="prices && prices.length>0">                              
+                            <span class="money" v-if="prices && prices.length>0">
                                 {{prices[0].CP_Price}}元/{{prices[0].CP_Span}}{{prices[0].CP_Unit}}
                             </span>
                             <span class="money" v-else>未设置价格</span>
@@ -52,7 +52,7 @@
         <van-sticky>
             <!--按钮组-->
             <course_menus ref='menus' :course="course" :account="account" :canstudy="canstudy" :purchase="purchase"
-                :studied="studied" :owned="owned"  :loading="loading" :datainfo="datainfo">
+                :studied="studied" :owned="owned" :loading="loading" :datainfo="datainfo">
             </course_menus>
             <!--选项卡-->
             <van-tabs v-model="tabActive">
@@ -120,7 +120,16 @@
                         <span>{{g.Gu_CrtTime|date('MM-dd')}}</span>
                     </div>
                 </div>
-                <van-popup v-model="guides_show" class="guides_show">{{guide.Gu_Title}}</van-popup>
+                <van-popup v-model="guides_show" class="guides_show">
+                    <div>
+                        <div class="Gu_Title">
+                            <template v-if="guide.Gu_TitleFull !='' ">{{guide.Gu_TitleFull}}</template>
+                            <template v-else>{{guide.Gu_Title}}</template>
+                        </div>                      
+                        <div v-if="guide.Gu_Details !=''" v-html="guide.Gu_Details"></div>
+                        <div v-else>{{clearTag(guide.Gu_Details,6000)}} ...</div>
+                    </div>
+                </van-popup>
             </template>
             <!--学习目标-->
             <template v-if="tabActive==2">
