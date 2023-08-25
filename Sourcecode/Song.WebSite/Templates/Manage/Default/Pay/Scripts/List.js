@@ -36,7 +36,7 @@
                     }).catch(function (err) {
                         alert(err);
                     });
-                }).catch(() => { });               
+                }).catch(() => { });
             },
             //加载数据页
             handleCurrentChange: function () {
@@ -154,8 +154,7 @@
         watch: {
             'entity': {
                 handler: function (nv, ov) {
-                    if (JSON.stringify(nv) != '{}' && nv != null)
-                        this.getval();
+                    if (!$api.isnull(nv)) this.getval();
                 }, immediate: true, deep: true
             }
         },

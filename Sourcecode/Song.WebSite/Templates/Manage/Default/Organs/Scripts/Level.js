@@ -1,86 +1,48 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
+            form: { 'search': '', 'use': '' },
             datas: [],
+            selects: [], //数据表中选中的行   
             loading: false,
             loadingid: false,
-            selects: [], //数据表中选中的行   
-            tmCount: 0,      //数据集的个数，用于获取机构数的返回结果是否完成
-            tmProfit: 0      //用于获取分润方案的返回结果是否完成
         },
         created: function () {
-            this.handleCurrentChange();
+            this.getlist();
         },
         methods: {
             //删除
             deleteData: function (datas) {
-                $api.delete('Organization/LevelDelete', {
-                    'id': datas
-                }).then(function (req) {
+                var th = this;
+                th.loading = true;
+                $api.delete('Organization/LevelDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        vue.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
+                        th.$notify({
+                            type: 'success', center: true,
+                            message: '成功删除' + result + '条数据'
                         });
-                        window.vue.handleCurrentChange();
+                        th.getlist();
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
             },
             //加载数据页
-            handleCurrentChange: function () {
+            getlist: function () {
                 var th = this;
-                $api.get('Organization/LevelAll').then(function (req) {
+                th.loading = true;
+                $api.get('Organization/LevelAll', th.form).then(function (req) {
                     if (req.data.success) {
-                        window.vue.datas = req.data.result;
-                        vue.tmCount = vue.tmProfit = req.data.result.length;
-                        for (var i = 0; i < window.vue.datas.length; i++) {
-                            var item = window.vue.datas[i];
-                            $api.get('Organization/LevelOrgcount', { 'id': item.Olv_ID }).then(function (req) {
-                                if (req.data.success) {
-                                    var id = req.config.parameters['id'];
-                                    for (var j = 0; j < window.vue.datas.length; j++) {
-                                        if (window.vue.datas[j].Olv_ID == id) {
-                                            window.vue.datas[j]['count'] = req.data.result;
-                                        }
-                                    }
-                                }
-                                if (--vue.tmCount <= 0)
-                                    window.vue.datas = $api.clone(window.vue.datas);
-                            }).catch(function (err) {
-                                console.error(err);
-                            });
-                            $api.get('ProfitSharing/ThemeForID', { 'id': item.Ps_ID }).then(function (req) {
-                                if (req.data.success) {
-                                    var id = req.config.parameters['id'];
-                                    for (var j = 0; j < window.vue.datas.length; j++) {
-                                        if (window.vue.datas[j].Ps_ID == id) {
-                                            window.vue.datas[j]['psname'] = req.data.result.Ps_Name;
-                                        }
-                                    }
-
-                                }
-                                if (--vue.tmProfit <= 0)
-                                    window.vue.datas = $api.clone(window.vue.datas);
-                            }).catch(function (err) {
-                                console.error(err);
-                            });
-                        }
+                        th.datas = req.data.result;
                         th.rowdrop();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -90,10 +52,10 @@
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Olv_ID;
+                th.loadingid = row.Olv_ID;
                 $api.post('Organization/LevelModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -101,37 +63,32 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loadingid = 0);
             },
             //更改默认等级
             changeDefault: function (row) {
                 var th = this;
-                this.loadingid = row.Olv_ID;
+                th.loadingid = row.Olv_ID;
                 $api.post('Organization/LevelSetDefault', { 'id': row.Olv_ID }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
-                            type: 'success',
-                            message: '修改状态成功!',
-                            center: true
+                        th.$notify({
+                            type: 'success', center: true,
+                            message: '修改状态成功!'
                         });
-                        th.handleCurrentChange();
+                        th.getlist();
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loadingid = 0);
             },
             //设置等级权限
             setPurview: function (row) {
-                var th = this;
-                var url = '/manage/organs/LevelPurview?id=' + row.Olv_ID;
-                var title = "“" + row.Olv_Name + "”的权限设置";
-                var boxid = window.name + '_' + row.Olv_ID + '[purview';
+                //let url = '/manage/organs/LevelPurview?id=' + row.Olv_ID;
+                let url = $api.url.set('LevelPurview', { 'id':  row.Olv_ID });
+                let title = "“" + row.Olv_Name + "”的权限设置";
+                let boxid = window.name + '_' + row.Olv_ID + '[purview';
                 this.$refs.btngroup.pagebox(url, title, boxid, 800, 600, { full: true });
             },
             //行的拖动
@@ -147,16 +104,13 @@
                         pull: false,
                         put: false
                     },
-                    onStart: function (evt) {
-                    },
+                    onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
-                        
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
@@ -175,21 +129,81 @@
             },
             //更新排序
             changeTax: function () {
-                var arr = $api.clone(this.datas);
-                $api.post('Organization/LevelModifyTaxis', { 'items': arr }).then(function (req) {
+                var th = this;
+                th.loading = true;
+                $api.post('Organization/LevelModifyTaxis', { 'items': th.datas }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
-                            type: 'success',
-                            message: '修改顺序成功!',
-                            center: true
+                        th.$notify({
+                            type: 'success', center: true,
+                            message: '修改顺序成功!'
                         });
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
+            }
+        },
+        components: {
+            //机构数
+            'orgcount': {
+                props: ['lvid'],    //机构等级id
+                data: function () {
+                    return {
+                        count: 0,
+                        loading: false
+                    }
+                },
+                watch: {
+                    'lvid': {
+                        handler: function (nv, ov) {
+                            if ($api.isnull(nv)) return;
+                            var th = this;
+                            th.loading = true;
+                            $api.get('Organization/LevelOrgcount', { 'id': nv }).then(function (req) {
+                                if (req.data.success) {
+                                    th.count = req.data.result;
+                                }
+                            }).catch(function (err) {
+                                console.error(err);
+                            }).finally(() => th.loading = false);
+                        }, immediate: true,
+                    }
+                },
+                template: `<span>
+                        <loading v-if="loading"></loading>
+                        <template v-else>{{count}}</template>
+                </span>`
+            },
+            //分润方案
+            'profit': {
+                props: ['psid'],    //分润信息的id
+                data: function () {
+                    return {
+                        name: '',       //分润方案的名称
+                        loading: false
+                    }
+                },
+                watch: {
+                    'psid': {
+                        handler: function (nv, ov) {
+                            if ($api.isnull(nv)) return;
+                            var th = this;
+                            th.loading = true;
+                            $api.get('ProfitSharing/ThemeForID', { 'id': nv }).then(function (req) {
+                                if (req.data.success) {
+                                    th.name = req.data.result.Ps_Name;
+                                }
+                            }).catch(function (err) {
+                                console.error(err);
+                            }).finally(() => th.loading = false);
+                        }, immediate: true,
+                    }
+                },
+                template: `<span>
+                        <loading v-if="loading"></loading>
+                        <template v-else>{{name}}</template>
+                </span>`
             }
         }
     });

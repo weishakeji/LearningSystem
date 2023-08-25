@@ -2,10 +2,13 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
-            entity: {}, //当前对象    
+            //当前对象    
+            entity: {
+                Org_IsUse: true, Org_IsShow: true, Org_IsPass: true
+            },
             levels: [], //机构等列表
             domain: '',  //主域
             lv_id: '',   //当前机构等级
@@ -37,7 +40,7 @@ $ready(function () {
                     { required: true, message: '平台域名不得为空', trigger: 'blur' },
                     { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' },
                     {
-                        validator: function (rule, value, callback) {                        
+                        validator: function (rule, value, callback) {
                             var pat = /^[a-zA-Z0-9_-]{1,20}$/;
                             if (!pat.test(value))
                                 callback(new Error('域名仅限字母与数字!'));
@@ -108,6 +111,24 @@ $ready(function () {
             });
         },
         methods: {
+            //获取实体信息
+            getentity: function () {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    if (th.id == '' || th.id == 0) {
+                        resolve(th.entity);
+                    } else {
+                        $api.get('Organization/ForID', { 'id': th.id }).then(function (req) {
+                            if (req.data.success) {
+                                resolve(req.data.result);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => reject(err));
+                    }
+                });
+            },
             //显示地图
             showMap: function (organ) {
                 var lng = organ.Org_Longitude;
@@ -260,7 +281,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
             }
         },
     });

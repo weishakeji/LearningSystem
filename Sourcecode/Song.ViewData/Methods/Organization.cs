@@ -377,11 +377,12 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 获取所有机构等级
         /// </summary>
+        /// <param name="search">按等级名称检索</param>
+        /// <param name="use">是否启用的</param>
         /// <returns></returns>
-        [SuperAdmin]
-        public Ett.OrganLevel[] LevelAll()
+        public Ett.OrganLevel[] LevelAll(string search, bool? use)
         {
-            return Business.Do<IOrganization>().LevelAll(null);          
+            return Business.Do<IOrganization>().LevelAll(search, use);          
         }
         /// <summary>
         /// 批量删除机构等级

@@ -612,10 +612,11 @@ namespace Song.ServiceImpls
         /// 获取所有对象
         /// </summary>
         /// <returns></returns>
-        public OrganLevel[] LevelAll(bool? isUse)
+        public OrganLevel[] LevelAll(string search, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(OrganLevel._.Olv_IsUse == (bool)isUse);
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(OrganLevel._.Olv_Name.Like("%" + search + "%"));
             return Gateway.Default.From<OrganLevel>().Where(wc).OrderBy(OrganLevel._.Olv_Tax.Asc).ToArray<OrganLevel>();
 
         }

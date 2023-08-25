@@ -127,7 +127,9 @@ table.el-table__body tr.disabled td img {
     color: yellow !important;
     padding: 2px 5px 2px 5px !important;
 }
-
+.el-input input[type='number']{
+    padding: 5px 0px 5px 15px !important;
+}
 /*消息框*/
 
 .el-message-box {

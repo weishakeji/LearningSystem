@@ -1,17 +1,14 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
-                lvid: '',
-                search: '',
-                size: 20,
-                index: 1
+                lvid: '', search: '', size: 20, index: 1
             },
             organs: [],
             current: {},         //当前机构
 
-            levels: [],
+            levels: [],         //机构等级列表
             domain: '',  //主域
 
             loading: false,
@@ -29,32 +26,29 @@
                 $api.get('Organization/Current'),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (level, current, domain) {
-                th.loading = false;
                 //获取结果
                 th.levels = level.data.result;
                 th.current = current.data.result;
                 th.handleCurrentChange(1);
                 th.domain = domain.data.result;
             })).catch(function (err) {
-                th.loading = false;
                 console.error(err);
-                Vue.prototype.$alert(err);
-            });
-
-
+                alert(err);
+            }).finally(() => th.loading = false);
         },
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('Organization/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -95,10 +89,10 @@
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Org_ID;
+                th.loadingid = row.Org_ID;
                 $api.post('Organization/Modify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -106,18 +100,17 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //更改默认状态
             changeDefault: function (row) {
                 var th = this;
-                this.loadingid = row.Org_ID;
+                th.loadingid = row.Org_ID;
                 $api.post('Organization/SetDefault', { 'id': row.Org_ID }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -126,10 +119,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //下拉菜单的事件
             handleCommand: function (cmd) {
@@ -142,24 +134,20 @@
                         console.log(cmd);
                         break;
                 }
-
-
             },
             //查看机构参数
             viewConfig: function (row) {
-                var th = this;
-                var url = '/manage/organs/config?id=' + row.Org_ID;
-                var title = "“" + row.Org_Name + "”的参数";
-                var boxid = window.name + '_' + row.Org_ID + '[config]';
+                let url = '/manage/organs/config?id=' + row.Org_ID;
+                let title = "“" + row.Org_Name + "”的参数";
+                let boxid = window.name + '_' + row.Org_ID + '[config]';
                 this.$refs.btngroup.pagebox(url, title, boxid, 800, 600, { full: false });
                 console.log(row);
             },
             //设置管理员
             setAdministrator: function (row) {
-                var th = this;
-                var url = '/manage/organs/Administrator?id=' + row.Org_ID;
-                var title = "“" + row.Org_Name + "”的管理员";
-                var boxid = window.name + '_' + row.Org_ID + '[administrator]';
+                let url = '/manage/organs/Administrator?id=' + row.Org_ID;
+                let title = "“" + row.Org_Name + "”的管理员";
+                let boxid = window.name + '_' + row.Org_ID + '[administrator]';
                 this.$refs.btngroup.pagebox(url, title, boxid, 800, 600, { full: false });
                 console.log(row);
             }

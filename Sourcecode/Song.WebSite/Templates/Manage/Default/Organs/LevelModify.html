@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource>  
+<head resource>
     <include file="../inc/meta.inc" />
-    <title>机构等级修改</title> 
+    <title>机构等级修改</title>
 </head>
 
 <body>
@@ -38,9 +38,10 @@
             </el-form-item>
         </el-form>
         <div class="footer">
-            <el-button type="primary" define="enter" :loading="loading" plain
-                @click="btnEnter('entity_form')">
-                确认修改</el-button>
+            <el-button type="primary" define="enter" :loading="loading" plain @click="btnEnter('entity_form',true)"> 保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity_form',false)">应用 </el-button>
             <el-button type='close'>取消</el-button>
         </div>
     </div>

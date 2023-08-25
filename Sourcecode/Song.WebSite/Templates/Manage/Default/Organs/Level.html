@@ -8,10 +8,16 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LevelModify" width="600" height="500"
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LevelModify" width="600" height="400"
                 :selects='selects' idkey='Olv_ID' table="datatable"></btngroup>
+            <query_panel :model="form" :loading="loading" @search="getlist()">
+                <el-form-item label="">
+                    <el-input v-model="form.search" style="width:120px" @clear="getlist()" clearable placeholder="名称">
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
         <template>
             <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
@@ -26,9 +32,10 @@
                 </el-table-column>
                 <el-table-column label="名称">
                     <template slot-scope="scope">
-
-                        <span v-html='scope.row.Olv_Name' class="draghandle" :title="scope.row.Olv_Intro"></span>
-                        <span v-if='scope.row.Olv_IsDefault' title="默认等级" icon="&#xa006" style="font-size: 16px; color: red;"></span>
+                        <span v-html='showsearch(scope.row.Olv_Name,form.search)' class="draghandle"
+                            :title="scope.row.Olv_Intro"></span>
+                        <span v-if='scope.row.Olv_IsDefault' title="默认等级" icon="&#xa006"
+                            style="font-size: 16px; color: red;"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="等级" width="60" align="center">
@@ -43,13 +50,12 @@
                 </el-table-column>
                 <el-table-column label="机构数" width="60" align="center">
                     <template slot-scope="scope">
-
-                        {{scope.row.count}}
+                        <orgcount :lvid="scope.row.Olv_ID"></orgcount>                       
                     </template>
                 </el-table-column>
                 <el-table-column label="分润方案" width="100" align="center">
-                    <template slot-scope="scope">
-                        {{scope.row.psname}}
+                    <template slot-scope="scope">                       
+                        <profit :psid="scope.row.Ps_ID"></profit>     
                     </template>
                 </el-table-column>
 

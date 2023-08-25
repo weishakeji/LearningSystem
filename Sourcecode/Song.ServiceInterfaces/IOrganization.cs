@@ -153,7 +153,7 @@ namespace Song.ServiceInterfaces
         /// 获取所有对象
         /// </summary>
         /// <returns></returns>
-        OrganLevel[] LevelAll(bool? isUse);
+        OrganLevel[] LevelAll(string search, bool? isUse);
         /// <summary>
         /// 当前机构等级下，有几个机构
         /// </summary>

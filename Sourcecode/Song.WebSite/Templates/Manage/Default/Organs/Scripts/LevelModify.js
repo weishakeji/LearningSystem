@@ -46,13 +46,17 @@ $ready(function () {
                 this.entity.Ps_ID = nl;
             }
         },
+        computed: {
+            //是否新增
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         created: function () {
             var th = this;
             if (th.id != '') {
                 $api.get('Organization/LevelForID', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         th.entity = req.data.result;
-                        th.profit_id = th.entity.Ps_ID==0 ? '' : th.entity.Ps_ID;
+                        th.profit_id = th.entity.Ps_ID == 0 ? '' : th.entity.Ps_ID;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -66,8 +70,7 @@ $ready(function () {
             }
             $api.get('ProfitSharing/ThemeUselist').then(function (req) {
                 if (req.data.success) {
-                    vapp.profits = req.data.result;
-
+                    th.profits = req.data.result;
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -94,8 +97,8 @@ $ready(function () {
                     });
                 });
             },
-             //判断tag标识是否存在
-             isTagExist: function (val) {
+            //判断tag标识是否存在
+            isTagExist: function (val) {
                 var th = this;
                 return new Promise(function (resolve, reject) {
                     $api.get('Organization/LevelTagExist', { 'tag': val, 'id': th.id }).then(function (req) {
@@ -110,13 +113,13 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
-                th.$refs[formName].validate((valid) => {                   
+                th.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Organization/Level' + (th.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {                           
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -124,23 +127,22 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
-                });               
+                });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.getlist', isclose);
             }
         },
     });
