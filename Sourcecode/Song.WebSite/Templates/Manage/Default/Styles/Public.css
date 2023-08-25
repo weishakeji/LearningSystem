@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
     width: 100%;
     height: 100%;
@@ -47,18 +48,21 @@ a {
     text-decoration: none;
     color: black;
 }
+
 .large {
-	line-height: 24px;
+    line-height: 24px;
     font-size: 16px;
 }
-.large a, .large span{
+
+.large a, .large span {
     line-height: 24px !important;
     font-size: 16px;
 }
+
 /*拖动柄*/
 
 .draghandle {
-    cursor:  s-resize;
+    cursor: s-resize;
 }
 
 /*表格的内容滚动（标题栏固定）*/
@@ -89,17 +93,19 @@ a {
     --background-color: transparent !important;
 }
 
-table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag,red) {
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag, red) {
     color: #aaa !important;
 }
+
 table.el-table__body tr.disabled td img {
-	-webkit-filter: grayscale(100%);
-	-moz-filter: grayscale(100%);
-	-ms-filter: grayscale(100%);
-	-o-filter: grayscale(100%);
-	filter: grayscale(100%);
-	filter: gray;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
 }
+
 /*表单行距*/
 
 .el-form-item {
@@ -127,9 +133,11 @@ table.el-table__body tr.disabled td img {
     color: yellow !important;
     padding: 2px 5px 2px 5px !important;
 }
-.el-input input[type='number']{
+
+.el-input input[type='number'] {
     padding: 5px 0px 5px 15px !important;
 }
+
 /*消息框*/
 
 .el-message-box {
@@ -151,47 +159,54 @@ table.el-table__body tr.disabled td img {
 }
 
 /*关闭按钮的样式*/
-.el-button--close:hover{
-	background: #eee;
-	color: #333;
+.el-button--close:hover {
+    background: #eee;
+    color: #333;
 }
+
 .el-button--close::before {
-	content: '\e72c';
-	font-size: 15px;
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
+    content: '\e72c';
+    font-size: 15px;
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
 }
+
 .el-button--cancel::before {
-	content: '\e748';
-	font-size: 15px;
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
+    content: '\e748';
+    font-size: 15px;
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
 }
+
 /*确定保存按钮的样式*/
 .el-button[define="enter"]:not(.is-loading)::before {
-	content: '\a048';
-	font-size: 15px;
-	font-family: "webdesk_icon" !important;
+    content: '\a048';
+    font-size: 15px;
+    font-family: "webdesk_icon" !important;
 }
+
 /*应用按钮的样式*/
 .el-button[define="apply"] {
-	color: #3c8d13;
+    color: #3c8d13;
     background: #f0f9eb;
     border-color: #c2e7b0;
 }
+
 .el-button[define="apply"]:hover {
-	color: #f0f9eb;
+    color: #f0f9eb;
     background: #7bbb5b;
     border-color: #c2e7b0;
 }
+
 .el-button[define="apply"]:not(.is-loading)::before {
-	content: '\e634';
-	font-size: 15px;
-	margin-right: 5px;
-	font-family: "webdesk_icon" !important;
+    content: '\e634';
+    font-size: 15px;
+    margin-right: 5px;
+    font-family: "webdesk_icon" !important;
 }
+
 .el-button icon {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 /*分页控件条的区域*/
@@ -235,17 +250,55 @@ hr {
 .el-card {
     background-color: rgba(255, 255, 255, .3) !important;
 }
+
 /*elementUI 的遮罩*/
 .v-modal {
-	background: rgba(255, 255, 255, 1);
-	opacity: 0.4;
+    background: rgba(255, 255, 255, 1);
+    opacity: 0.4;
 }
 
 .el-drawer {
-	-webkit-box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
-	box-shadow: 0 8px 10px -5px rgb(158 158 158 / 10%), 0 16px 24px 2px rgb(158 158 158 / 7%), 0 6px 30px 5px rgb(158 158 158 / 6%);
+    -webkit-box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
+    box-shadow: 0 8px 10px -5px rgb(158 158 158 / 10%), 0 16px 24px 2px rgb(158 158 158 / 7%), 0 6px 30px 5px rgb(158 158 158 / 6%);
 }
 
 .el-dialog {
-	box-shadow: 0px 0px 8px rgba(0, 0, 0, .7) !important;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, .7) !important;
+}
+
+/*选项卡的面板*/
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
+    box-sizing: border-box;
+}
+
+.panel>div:not(:first-child) {
+    border: 1px solid #DCDFE6;
+    border-top: none;
+}
+
+.panel .el-form {
+    height: calc(100% - 40px);
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.panel .el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.panel .el-tabs--border-card {
+    box-shadow: none;
+    border: none;
+}
+
+.panel .el-tabs__content {
+    display: none;
 }

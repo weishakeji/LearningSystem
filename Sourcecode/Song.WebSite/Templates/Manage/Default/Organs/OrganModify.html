@@ -10,142 +10,164 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xa006</icon> 基本信息
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="contact">
+                    <span slot="label">
+                        <icon>&#xa047</icon> 联系方式
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item label="机构名称" prop="Org_Name">
+                        <el-input v-model="entity.Org_Name" clearable>
+                            <icon slot="prefix">&#xa006</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="平台名称" prop="Org_PlatformName">
+                        <el-input v-model="entity.Org_PlatformName">
+                            <icon slot="prefix">&#xa03b</icon>
+                        </el-input>
+                    </el-form-item>
 
-            <el-form-item label="平台名称" prop="Org_PlatformName">
-                <el-input v-model="entity.Org_PlatformName"></el-input>
-            </el-form-item>
-            <el-row>
-                <el-col :span="16">
-                    <el-form-item label="机构全称" prop="Org_Name">
-                        <el-input v-model="entity.Org_Name" clearable></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
                     <el-form-item label="中文简称" prop="Org_AbbrName">
-                        <el-input v-model="entity.Org_AbbrName" clearable></el-input>
+                        <el-input v-model="entity.Org_AbbrName" clearable>
+                            <icon slot="prefix">&#xa055</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="16">
                     <el-form-item label="英文全称" prop="Org_EnName">
-                        <el-input v-model="entity.Org_EnName" clearable></el-input>
+                        <el-input v-model="entity.Org_EnName" clearable>
+                            <icon slot="prefix">&#xe6fd</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="8">
                     <el-form-item label="英文简称" prop="Org_AbbrEnName">
-                        <el-input v-model="entity.Org_AbbrEnName" clearable></el-input>
+                        <el-input v-model="entity.Org_AbbrEnName" clearable>
+                            <icon slot="prefix">&#xe6a2</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="16">
                     <el-form-item label="机构等级" prop="levels">
-                        <el-select v-model="lv_id" placeholder="请选择" style="width:200px">
+                        <el-select v-model="lv_id" placeholder="请选择" style="width:300px">
                             <el-option v-for="item in levels" :value-key="item.Olv_ID" :label="item.Olv_Name"
                                 :value="item.Olv_ID">
                             </el-option>
+                            <icon slot="prefix">&#xe81b</icon>
                         </el-select>
                     </el-form-item>
-                </el-col>
-                <el-col :span="8">
-
-                </el-col>
-            </el-row>
-            <el-form-item label="域名" prop="Org_TwoDomain">
-                <el-input v-model="entity.Org_TwoDomain" clearable style="width:200px"></el-input>.
-                {{domain}}
-                </span>
-            </el-form-item>
-            <el-form-item label="状态" prop="Org_IsUse">
-                <el-switch v-model="entity.Org_IsUse" :active-text="entity.Org_IsUse ? '启用' : '禁用'">
-                </el-switch>
-            </el-form-item>
-            <el-divider></el-divider>
-            <el-row>
-                <el-col :span="21">
-                    <el-form-item label="地址" prop="Org_Address">
-                        <el-input v-model="entity.Org_Address" clearable></el-input>
+                    <el-form-item label="域名" prop="Org_TwoDomain">
+                        <el-input v-model="entity.Org_TwoDomain" clearable style="width:200px">
+                            <icon slot="prefix">&#xa03d</icon>
+                        </el-input>.
+                        {{domain}}
+                        </span>
                     </el-form-item>
-                </el-col>
-                <el-col :span="3" style="padding-left: 10px;">
-                    <el-link icon="el-icon-location-information" type="primary" @click="mapshow=true">地图</el-link>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
+                    <el-form-item label="状态" prop="Org_IsUse">
+                        <el-switch v-model="entity.Org_IsUse" :active-text="entity.Org_IsUse ? '启用' : '禁用'">
+                        </el-switch> 
+                        <el-switch v-model="entity.Org_IsShow" :active-text="entity.Org_IsShow ? '显示' : '隐藏'">
+                        </el-switch> 
+                        <el-switch v-model="entity.Org_IsPass" :active-text="entity.Org_IsPass ? '通过' : '未审核'">
+                        </el-switch>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
+                    <el-row>
+                        <el-col :span="21">
+                            <el-form-item label="地址" prop="Org_Address">
+                                <el-input v-model="entity.Org_Address" clearable>
+                                    <icon slot="prefix">&#xe64f</icon>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="3" style="padding-left: 10px;">
+                            <el-link type="primary" @click="mapshow=true">
+                                <icon>&#xe64c</icon>
+                                地图
+                            </el-link>
+                        </el-col>
+                        <!-- 地图-->
+                        <el-dialog :visible.sync="mapshow" width="80%">
+                            <span slot="title">
+                                <icon style="font-size:22px;">&#xe64c</icon>地址的GPS坐标（点击地图选择位置）
+                            </span>
+                            <el-row>
+                                <el-form-item label="地址" prop="Org_Address" label-width="60px">
+                                    <el-input v-model="entity.Org_Address" clearable @input="addressChange">
+                                        <icon slot="prefix">&#xe6a2</icon>
+                                    </el-input>
+                                </el-form-item>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
+                                        <el-input v-model="entity.Org_Longitude" clearable>
+                                            <icon slot="prefix">&#xe64f</icon>
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
+                                        <el-input v-model="entity.Org_Latitude" clearable>
+                                            <icon slot="prefix">&#xe64f</icon>
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <div id="map" style="height:250px;width:100%;"></div>
+                        </el-dialog>
+                    </el-row>
                     <el-form-item label="电话" prop="Org_Phone">
-                        <el-input v-model="entity.Org_Phone" clearable></el-input>
+                        <el-input v-model="entity.Org_Phone" clearable>
+                            <icon slot="prefix">&#xe66c</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
                     <el-form-item label="传真" prop="Org_Fax">
-                        <el-input v-model="entity.Org_Fax" clearable></el-input>
+                        <el-input v-model="entity.Org_Fax" clearable>
+                            <icon slot="prefix">&#xa046</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="电子邮箱" prop="Org_Email">
-                        <el-input v-model="entity.Org_Email" clearable></el-input>
+                        <el-input v-model="entity.Org_Email" clearable>
+                            <icon slot="prefix">&#xe76e</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
                     <el-form-item label="微信" prop="Org_Weixin">
-                        <el-input v-model="entity.Org_Weixin" clearable></el-input>
+                        <el-input v-model="entity.Org_Weixin" clearable>
+                            <icon slot="prefix">&#xe730</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="联系人" prop="Org_Linkman">
-                        <el-input v-model="entity.Org_Linkman" clearable></el-input>
+                        <el-input v-model="entity.Org_Linkman" clearable>
+                            <icon slot="prefix">&#xa043</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
                     <el-form-item label="联系电话" prop="Org_LinkmanPhone">
-                        <el-input v-model="entity.Org_LinkmanPhone" clearable></el-input>
+                        <el-input v-model="entity.Org_LinkmanPhone" clearable>
+                            <icon slot="prefix">&#xa047</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="邮编" prop="Org_Zip">
-                        <el-input v-model="entity.Org_Zip" clearable></el-input>
+                        <el-input v-model="entity.Org_Zip" clearable>
+                            <icon slot="prefix">&#xe751</icon>
+                        </el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-
-                </el-col>
-            </el-row>
-            <el-dialog title="地址的GPS坐标（点击地图选择位置）" :visible.sync="mapshow" width="80%">
-                <el-row>
-                    <el-form-item label="地址" prop="Org_Address" label-width="60px">
-                        <el-input v-model="entity.Org_Address" clearable @input="addressChange"></el-input>
-                    </el-form-item>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
-                            <el-input v-model="entity.Org_Longitude" clearable></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
-                            <el-input v-model="entity.Org_Latitude" clearable></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <div id="map" style="height:250px;width:100%;"></div>
-            </el-dialog>
-        </el-form>
-
+                </div>
+            </el-form>
+        </div>
         <div class="footer">
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                确认修改</el-button>
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)"> 保存</el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
+            </el-button>
             <el-button type='close'>取消</el-button>
         </div>
+
     </div>
 
 </body>

@@ -22,7 +22,7 @@
             var th = this;
             th.loading = true;
             $api.bat(
-                $api.get('Organization/LevelAll'),
+                $api.get('Organization/LevelAll', { 'search': '', 'use': '' }),
                 $api.get('Organization/Current'),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (level, current, domain) {

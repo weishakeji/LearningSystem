@@ -63,6 +63,7 @@ $ready(function () {
                     }
                 ]
             },
+            activeName: 'general',   //选项卡
             mapshow: false,      //是否显示地图信息
             loading: false
         },
@@ -80,10 +81,14 @@ $ready(function () {
                 }
             }
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0
+        },
         created: function () {
             var th = this;
             $api.bat(
-                $api.get('Organization/LevelAll'),
+                $api.get('Organization/LevelAll', { 'search': '', 'use': '' }),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (level, domain) {
                 //获取结果
@@ -251,9 +256,9 @@ $ready(function () {
                 });
             },
             //保存信息
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid,fields) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Organization/' + (this.id == '' ? api = 'add' : 'Modify');
@@ -265,23 +270,26 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            th.loading = false;
-                            alert(err, '错误');
-                        });
+                        }).catch(err => alert(err)).finally(() => th.loading = false);
                     } else {
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });

@@ -190,7 +190,6 @@ $ready(function () {
                         else
                             para = { 'file': th.upfile, 'acc': th.account };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -205,9 +204,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
-                            th.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
