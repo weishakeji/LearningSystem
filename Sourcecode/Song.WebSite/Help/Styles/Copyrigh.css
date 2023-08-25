@@ -8,3 +8,7 @@ textarea {
 .tit{
     font-weight: bold;
 }
+p{
+    word-break: break-all;
+    overflow-wrap: break-word;
+}

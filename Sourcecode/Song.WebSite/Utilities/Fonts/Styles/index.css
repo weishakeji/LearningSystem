@@ -180,7 +180,20 @@ div.panel iframe {
     padding: 20px 5px 20px 30px;
     height: 100%;
     width: 50%;
-    float: right;  
+    float: right;
     box-shadow: -1px 0px 5px #999;
     box-sizing: border-box;
+}
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    header{
+        flex-direction: column;
+    }
+    header div.right{
+        position: static;
+    }
+    header form#search{
+        margin-left: 0px;
+    }
 }

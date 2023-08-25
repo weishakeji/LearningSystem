@@ -124,7 +124,7 @@ $ready(function () {
                 var th = this;
                 console.log('最小值' + th.form.min);
                 console.log('最大值' + th.form.max);
-                this.loading = true;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 42);

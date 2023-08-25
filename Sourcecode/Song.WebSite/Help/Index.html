@@ -17,13 +17,15 @@
     <div id="vapp">
         <header>
             <div icon="&#xa026">帮助中心</div>
+            <div copyright="title"></div>
             <div>
                 <span icon="&#xa047" copyright="tel"> </span>
                 <a href="/" icon="&#xa020">首页</a>
             </div>
+            <div mobi icon="&#xa00c" @click="showmenu=true"></div>
         </header>
         <section>
-            <nav>
+            <nav :mobi="showmenu">
                 <template v-for="(item,i) in menus">
                     <p v-if="item.type=='line'" class="line"></p>
                     <template v-else>
@@ -41,14 +43,21 @@
                         </div>
                     </template>
                 </template>
-                <a class="copyright" copyright="website" target="_blank"><span copyright="company"></span></a>
+
             </nav>
             <aside>
                 <iframe name="content" id="content" frameborder="0" border="0" marginwidth="0" marginheight="0"
                     :src="iframeurl"></iframe>
             </aside>
         </section>
-    </div>
+        <footer>
+            <a class="copyright" copyright="website" target="_blank"><span copyright="company"></span></a>
+            <span> <a class="powerby" copyright="powerby" target="_blank">
+                    Copyright © <span copyright="powerby"></span> All rights reserved </a> </span>
+            <a class="website" copyright="website" target="_blank">《<span copyright="product"></span>》</a>
+        </footer>
+
+    </div> <img copyright="weixinqr" />
 </body>
 <script type="text/javascript" src="Scripts/index.js"></script>
 

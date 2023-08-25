@@ -25,7 +25,7 @@ window.vapp = new Vue({
             },
             {
                 name: '检测数据库', type: 'node', hot: true, url: 'datas/test.htm',
-                icon: { i: 'e6a4', s: 22, l: 2, t: 0 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
+                icon: { i: 'e6a4', s: 20, l: 4, t: 1 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
             },
             { type: 'line' },
             {
@@ -50,16 +50,15 @@ window.vapp = new Vue({
             },
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
-                icon: { i: 'a007', s: 28, l: -3, t: 0 }, color: { f: '333', b: '' }
+                icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '333', b: '' }
             },
             { type: 'line' },
             {
                 name: '版权信息修改', type: 'node', url: 'copyright.html',
                 icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
-
-
         ],
+        showmenu: false,
         //当前点击的对象
         current: {}
     },
@@ -89,6 +88,7 @@ window.vapp = new Vue({
         menuclk: function (item, index) {
             if (item.type != 'node') return;
             this.current = item;
+            this.showmenu = false;
             window.history.pushState({}, '', $api.hash(index == 0 ? '' : String(index)));
         },
         //图标样式
