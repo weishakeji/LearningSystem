@@ -100,8 +100,10 @@ header>div:last-child>*:not(*:last-child) {
     margin: 0px 15px;
 }
 
-header>div:last-child *[copyright=tel] {
-    color: #999;
+header *[copyright=tel] {
+    color: #409EFF;
+    margin-right: 10px;
+    font-size: 18px;
 }
 
 /*底部区域*/
