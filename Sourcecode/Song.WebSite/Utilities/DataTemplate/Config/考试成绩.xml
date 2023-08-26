@@ -4,6 +4,13 @@
 <config>
   <item Column="姓名" Field="Ac_Name" />
   <item Column="性别" Field="Ac_Sex" DefautValue="0=未知|1=男|2=女"/>
-  <item Column="身份证号" Field="Ac_IDCardNumber" /> 
-  <item Column="得分" Field="Exr_ScoreFinal" DataType="float" />  
+  <item Column="账号" Field="Ac_AccName"/>
+  <item Column="学号" Field="Ac_CodeNumber"/>
+  <item Column="手机号" Field="Ac_MobiTel1"/>
+  <item Column="身份证号" Field="Ac_IDCardNumber"/>
+  <item Column="组" Field="Sts_Name"/>
+  <item Column="考试时间" Field="Exr_CrtTime"  DataType="date" Format="yyyy-MM-dd HH:mm" />
+  <!--下列为计算方法，需要程序中单独处理，TimeSpan仅作为标识-->
+  <item Column="考试用时" Calc="TimeSpan" DataType="int" />
+  <item Column="得分" Field="Exr_ScoreFinal" DataType="float" />    
 </config>

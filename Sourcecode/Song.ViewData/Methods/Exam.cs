@@ -1276,7 +1276,7 @@ namespace Song.ViewData.Methods
         #region 导出考试成绩
         private static string outputPath = "ExamresultToExcel";
         /// <summary>
-        /// 导出所有参考学员的成绩
+        /// 某场考试的成绩导出，导出所有参考学员的成绩
         /// </summary>
         /// <param name="examid">考试的id</param> 
         /// <returns></returns>
@@ -1291,7 +1291,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("考试成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().OutputResults(filePath, examid);
+            filePath = Business.Do<IExamination>().ResultsOutputAll(filePath, examid);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
@@ -1299,7 +1299,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 按学员组导出考试成绩
+        /// 某场考试的考试成绩按学员组导出
         /// </summary>
         /// <param name="examid">考试id</param>
         /// <param name="sorts">学员组的id，多个id用逗号分隔</param>

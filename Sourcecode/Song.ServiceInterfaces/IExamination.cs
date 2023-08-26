@@ -373,14 +373,14 @@ namespace Song.ServiceInterfaces
 
         #region 成绩导出
         /// <summary>
-        /// 某场考试的成绩导出
+        /// 某场考试的成绩导出，全部学员
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid">考试场次id</param>
         /// <returns></returns>
-        string OutputResults(string filePath, int examid);
+        string ResultsOutputAll(string filePath, int examid);
         /// <summary>
-        /// 按学员组导出考试成绩
+        /// 某场考试的考试成绩按学员组导出
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid"></param>
