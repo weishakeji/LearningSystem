@@ -42,7 +42,7 @@
                 <el-table-column label="机构名称">
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
-                            <span class="root" icon="&#xa003" style="font-size: 20px;"></span>
+                            <span class="root" icon="&#xa003"></span>
                         </el-tooltip>
                         <el-tooltip v-if='scope.row.Org_IsDefault' effect="light" content="默认机构" placement="left-start">
                             <span class="def" icon="&#xa006" style="font-size: 16px;"></span>

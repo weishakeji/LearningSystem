@@ -36,6 +36,8 @@ $ready(function () {
             num: 0
         },
         computed: {
+            //是否新增账号
+            'isadd': t => t.id == null || t.id == '' || this.id == 0,
             //有没有图片
             'islogo': function () {
                 var et = this.entity;
@@ -48,7 +50,7 @@ $ready(function () {
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.getTreeData(th.organ.Org_ID);
@@ -124,9 +126,9 @@ $ready(function () {
                     th.loading = false;
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid,fields) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         var sbj = th.clone(th.entity);
                         //return;
@@ -148,7 +150,7 @@ $ready(function () {
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
@@ -157,13 +159,13 @@ $ready(function () {
                             alert(err, '错误');
                         });
                     } else {
-                          //未通过验证的字段
-                          let field = Object.keys(fields)[0];
-                          let label = $dom('label[for="' + field + '"]');
-                          while (label.attr('tab') == null)
-                              label = label.parent();
-                          th.activeName = label.attr('tab');
-                          console.log('error submit!!');
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
+                        console.log('error submit!!');
                         return false;
                     }
                 });
@@ -185,9 +187,9 @@ $ready(function () {
                 return obj;
             },
             //操作成功
-            operateSuccess: function () {
+            operateSuccess: function (isclose) {
                 $api.cache('Subject/ForID:clear', { 'id': this.id });
-                window.top.$pagebox.source.tab(window.name, 'vapp.fresh_operateSuccess', true);
+                window.top.$pagebox.source.tab(window.name, 'vapp.fresh_operateSuccess', isclose);
             },
             //获取当前专业的上级路径
             getParentPath: function (entity, datas, arr) {

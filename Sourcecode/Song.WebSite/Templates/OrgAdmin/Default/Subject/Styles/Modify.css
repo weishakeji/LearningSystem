@@ -71,6 +71,8 @@
 }
 .nophoto icon{   
     font-size:35px;
+    text-align: center;
+    margin: 0px 0px 0px 10px;
 }
 .upload_img_area{
     display: table;

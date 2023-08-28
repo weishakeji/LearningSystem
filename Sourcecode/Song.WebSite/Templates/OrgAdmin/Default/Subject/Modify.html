@@ -71,16 +71,18 @@
                     </upload-img>
                 </div>
                 <div v-show="activeName=='detail'" class="about_editor" tab="detail" remark="详情">
-                    <editor ref="editor" :content="entity.Sbj_Details" :menubar="false" model="general"
-                        upload="Subject" :dataid="entity.Sbj_ID"
-                        @change="text=>entity.Sbj_Details=text"></editor>
+                    <editor ref="editor" :content="entity.Sbj_Details" :menubar="false" model="mini" upload="Subject"
+                        :dataid="entity.Sbj_ID" @change="text=>entity.Sbj_Details=text"></editor>
                 </div>
             </el-form>
         </div>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
-                @click="btnEnter('entity')">
+                @click="btnEnter('entity',true)">
                 保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>
                 取消
