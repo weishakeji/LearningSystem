@@ -276,6 +276,10 @@
                 this.$refs.btngroup.pagebox('create', '新增', window.name + '[add]', 600, 300);
                 console.log(btn);
             },
+            //打开编辑界面
+            btnmodify: function (id) {
+                this.$refs.btngroup.modify(id);
+            },
             //设置教师
             btnsetteacher: function (couid) {
                 var url = 'SetupTeacher.' + couid;

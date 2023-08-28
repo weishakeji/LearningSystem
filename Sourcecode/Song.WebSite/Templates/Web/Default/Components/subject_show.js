@@ -21,7 +21,7 @@ Vue.component('subject_show', {
         },
         'org': {
             handler: function (nv, ov) {
-                if (JSON.stringify(nv) == '{}' || nv == null) return;
+                if ($api.isnull(nv)) return;
                 this.getcourse();
             }, immediate: true
         }
@@ -62,11 +62,8 @@ Vue.component('subject_show', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //跳转
         godetail: function (id) {
