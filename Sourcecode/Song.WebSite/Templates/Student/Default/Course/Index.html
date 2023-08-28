@@ -35,7 +35,7 @@
             </template>
             <template v-else>
                 <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account" v-slot="scope">
-                    <el-card class="course">
+                    <el-card class="course"  shadow="hover">
                         <template slot="header">
                             <div>
                                 <span>{{(query.index - 1) * query.size + index + 1}}.</span>

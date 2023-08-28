@@ -2,9 +2,8 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
-            loading: false,  //
             id: $api.querystring('id'),
             entity: {}, //当前数据对象
             organ: {},           //当前登录账号所在的机构
@@ -20,12 +19,14 @@ $ready(function () {
                         }, trigger: 'blur'
                     }
                 ]
-            }
+            },
+            loading: false,  //
         },
         watch: {
-            'loading': function (val, old) {
-                console.log('loading:' + val);
-            }
+        },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
         created: function () {
             //如果是新增界面
@@ -75,13 +76,13 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 if (this.loading) return;
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
-                        var apiurl = th.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
+                        let apiurl = th.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 th.$message({
@@ -89,14 +90,13 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -105,8 +105,8 @@ $ready(function () {
 
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             }
         },
     });

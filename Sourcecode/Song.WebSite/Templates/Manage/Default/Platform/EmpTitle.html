@@ -25,6 +25,11 @@
                         <span v-html='scope.row.Title_Name' class="draghandle" ></span>
                     </template>
                 </el-table-column>
+                <el-table-column label="说明"  header-align="left">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Title_Intro'></span>
+                    </template>
+                </el-table-column>
                 <el-table-column label="启用" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Title_Id"></span>
@@ -33,7 +38,7 @@
                         </el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip width="110" fixed="right"  align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Title_Id"></span>
                         <el-button-group v-show="loadingid!=scope.row.Title_Id">

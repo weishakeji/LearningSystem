@@ -8,106 +8,130 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
-            <el-form-item>
-                <upload-img @change="file=>upfile=file" :data="account" :size="1024" height="100" ext="jpg,png,gif">
-                    <template v-if="account.Acc_Photo!='' || upfile!=null">
-                        <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
-                        <img v-else :src="account.Acc_Photo" />
-                        <el-link type="danger" class="photo-txt" @click.stop="()=>upfile=null">清除图片</el-link>
-                    </template>
-                    <div class="nophoto" v-else>
-                        <img class="photo" src="/Utilities/images/head1.jpg" />
-                        <el-tooltip content="点击上传图片" placement="right" effect="light">
-                            <span class="photo-txt">上传头像</span>
-                        </el-tooltip>
-                    </div>
-                </upload-img>
-            </el-form-item>
-            <el-form-item label="账号" prop="Acc_AccName">
-                <el-input v-model="account.Acc_AccName" style="width:200px" :disabled="id!=''"></el-input>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label">
+                        <icon style="font-size: 18px;">&#xe639</icon> 基本信息
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="contact">
+                    <span slot="label">
+                        <icon>&#xa047</icon> 联系方式
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
 
-                </span>
-            </el-form-item>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="姓名" prop="Acc_Name">
-                        <el-input v-model="account.Acc_Name" style="width:200px" clearable @input="pingyin"
-                            @blur="pingyin"></el-input>
+            <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                    <el-form-item>
+                        <upload-img @change="file=>upfile=file" :data="account" :size="1024" height="100"
+                            ext="jpg,png,gif">
+                            <template v-if="account.Acc_Photo!='' || upfile!=null">
+                                <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
+                                <img v-else :src="account.Acc_Photo" />
+                                <el-link type="danger" class="photo-txt" @click.stop="()=>upfile=null">清除图片</el-link>
+                            </template>
+                            <div class="nophoto" v-else>
+                                <img class="photo" src="/Utilities/images/head1.jpg" />
+                                <el-tooltip content="点击上传图片" placement="right" effect="light">
+                                    <span class="photo-txt">上传头像</span>
+                                </el-tooltip>
+                            </div>
+                        </upload-img>
+                    </el-form-item>
+                    <el-form-item label="账号" prop="Acc_AccName">
+                        <el-input v-model="account.Acc_AccName" style="width:200px" :disabled="id!=''"></el-input>
 
                         </span>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="姓名" prop="Acc_Name">
+                                <el-input v-model="account.Acc_Name" style="width:200px" clearable @input="pingyin"
+                                    @blur="pingyin"></el-input>
 
-                </el-col>
-            </el-row>
+                                </span>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
 
-            <el-form-item label="拼音缩写" prop="Acc_NamePinyin">
-                <el-input v-model="account.Acc_NamePinyin" style="width:100px"></el-input>
-                <span v-show="accPingyin.length>1" class="pingyin">
-                    （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Acc_NamePinyin=d">{{d}}
-                        <span v-show='i<accPingyin.length-1'>,</span>
-                    </span>）
-            </el-form-item>
+                        </el-col>
+                    </el-row>
 
-            <el-form-item label="岗位/角色" prop="Posi_Id">
-                <template>
-                    <el-select v-model="account.Posi_Id" placeholder="请选择">
-                        <el-option v-for="item in position" :value-key="item.Posi_Id" :label="item.Posi_Name"
-                            :value="item.Posi_Id">
-                            <span>{{ item.Posi_Name }}</span>
-                            <icon v-show='item.Posi_IsAdmin' class="red" title="系统管理岗">&#xe645</icon>
-                        </el-option>
-                    </el-select>
-                </template>
-            </el-form-item>
+                    <el-form-item label="拼音缩写" prop="Acc_NamePinyin">
+                        <el-input v-model="account.Acc_NamePinyin" style="width:100px"></el-input>
+                        <span v-show="accPingyin.length>1" class="pingyin">
+                            （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Acc_NamePinyin=d">{{d}}
+                                <span v-show='i<accPingyin.length-1'>,</span>
+                            </span>）
+                    </el-form-item>
 
-            <el-form-item label="职务" prop="Title_Id">
-                <template>
-                    <el-select v-model="account.Title_Id" placeholder="请选择">
-                        <el-option v-for="item in titles" :value-key="item.Title_Id" :label="item.Title_Name"
-                            :value="item.Title_Id">
-                        </el-option>
-                    </el-select>
-                </template>
-            </el-form-item>
-            <el-form-item label="性别" prop="Acc_NamePinyin">
-                <el-radio-group v-model="account.Acc_Sex">
-                    <el-radio-button label="1">男</el-radio-button>
-                    <el-radio-button label="2">女</el-radio-button>
-                    <el-radio-button label="0">未知</el-radio-button>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="生日" prop="Acc_Birthday">
-                <el-date-picker v-model="account.Acc_Birthday" type="date" format="yyyy-MM-dd" placeholder="选择日期">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="电话" prop="Acc_Tel">
-                <el-input v-model="account.Acc_Tel">
-                    <icon slot="prefix">&#xe66c</icon>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="移动电话" prop="Acc_MobileTel">
-                <el-input v-model="account.Acc_MobileTel">
-                    <icon slot="prefix">&#xe677</icon>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="Email" prop="Acc_Email">
-                <el-input v-model="account.Acc_Email">
-                    <icon slot="prefix">&#xe76e</icon>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="QQ" prop="Acc_QQ">
-                <el-input v-model="account.Acc_QQ">
-                    <icon slot="prefix">&#xe82a</icon>
-                </el-input>
-            </el-form-item>
-        </el-form>
+                    <el-form-item label="岗位/角色" prop="Posi_Id">
+                        <template>
+                            <el-select v-model="account.Posi_Id" placeholder="请选择">
+                                <el-option v-for="item in position" :value-key="item.Posi_Id" :label="item.Posi_Name"
+                                    :value="item.Posi_Id">
+                                    <span>{{ item.Posi_Name }}</span>
+                                    <icon v-show='item.Posi_IsAdmin' class="red" title="系统管理岗">&#xe645</icon>
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </el-form-item>
+
+                    <el-form-item label="职务" prop="Title_Id">
+                        <template>
+                            <el-select v-model="account.Title_Id" placeholder="请选择">
+                                <el-option v-for="item in titles" :value-key="item.Title_Id" :label="item.Title_Name"
+                                    :value="item.Title_Id">
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="性别" prop="Acc_NamePinyin">
+                        <el-radio-group v-model="account.Acc_Sex">
+                            <el-radio-button label="1">男</el-radio-button>
+                            <el-radio-button label="2">女</el-radio-button>
+                            <el-radio-button label="0">未知</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="生日" prop="Acc_Birthday">
+                        <el-date-picker v-model="account.Acc_Birthday" type="date" format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
+                    <el-form-item label="电话" prop="Acc_Tel">
+                        <el-input v-model="account.Acc_Tel">
+                            <icon slot="prefix">&#xe66c</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="移动电话" prop="Acc_MobileTel">
+                        <el-input v-model="account.Acc_MobileTel">
+                            <icon slot="prefix">&#xe677</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="Email" prop="Acc_Email">
+                        <el-input v-model="account.Acc_Email">
+                            <icon slot="prefix">&#xe76e</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="QQ" prop="Acc_QQ">
+                        <el-input v-model="account.Acc_QQ">
+                            <icon slot="prefix">&#xe82a</icon>
+                        </el-input>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
-                @click="btnEnter('account')">
+                @click="btnEnter('account',true)">
                 保存</el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('account',false)">应用
+            </el-button>
             <el-button type='close'>取消</el-button>
         </div>
     </div>

@@ -230,17 +230,18 @@ label.is-disabled+*::after {
 
 card {
 	display: block;
-	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 	border-radius: 4px;
 	border: 1px solid #ebeef5;
 	background-color: #fff;
 	overflow: hidden;
 	color: #303133;
 	transition: .3s;
-	margin: 15px;
+	margin: 20px;
 	width: calc(100% - 30px);
 }
-
+card:hover{
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+}
 card-title {
 	display: block;
 	padding: 15px;

@@ -39,7 +39,7 @@ $ready(function () {
                     }
                 ]
             },
-
+            activeName: 'general',   //选项卡
             //图片文件
             upfile: null, //本地上传文件的对象   
 
@@ -49,10 +49,12 @@ $ready(function () {
             'upfile': {
                 handler(n, o) {
                     if (n == null) this.account.Acc_Photo = '';
-                },
-                deep: true,
-                immediate: true
+                }, deep: true, immediate: true
             }
+        },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
         created: function () {
             var th = this;
@@ -115,20 +117,19 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
-                        var apipath = th.id == '' ? api = 'Admin/add' : 'Admin/Modify';
+                        let apipath = th.id == '' ? api = 'Admin/add' : 'Admin/Modify';
                         if (th.id == '') th.account.Org_ID = th.organ.Org_ID;
                         //接口参数，如果有上传文件，则增加file
-                        var para = {};
+                        let para = {};
                         if (th.upfile == null || JSON.stringify(th.upfile) == '{}') para = { 'acc': th.account };
                         else
                             para = { 'file': th.upfile, 'acc': th.account };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -136,17 +137,22 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             th.$alert(err, '错误');
-                        });
+                        }).finally(()=> th.loading = false);
                     } else {
-                        console.log('error submit!!');
-                        return false;
+                         //未通过验证的字段
+                         let field = Object.keys(fields)[0];
+                         let label = $dom('label[for="' + field + '"]');
+                         while (label.attr('tab') == null)
+                             label = label.parent();
+                         th.activeName = label.attr('tab');
+                         console.log('error submit!!');
+                         return false;
                     }
                 });
             },
@@ -157,8 +163,8 @@ $ready(function () {
                     this.account.Acc_NamePinyin = this.accPingyin[0];
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });

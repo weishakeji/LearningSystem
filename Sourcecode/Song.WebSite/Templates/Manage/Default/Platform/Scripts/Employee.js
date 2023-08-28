@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 name: '',
@@ -20,17 +20,16 @@
         methods: {
             //删除
             deleteData: function (datas) {
-                $api.delete('Admin/Delete', {
-                    'id': datas
-                }).then(function (req) {
+                var th = this;
+                $api.delete('Admin/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -62,10 +61,10 @@
                             }).then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
-                                    for (var j = 0; j < window.vue.accounts.length; j++) {
-                                        if (window.vue.accounts[j].Posi_Id == result.Posi_Id) {
+                                    for (var j = 0; j < th.accounts.length; j++) {
+                                        if (th.accounts[j].Posi_Id == result.Posi_Id) {
                                             //if(result.Posi_IsAdmin)
-                                            window.vue.accounts[j].isAdminPosi = result.Posi_IsAdmin
+                                            th.accounts[j].isAdminPosi = result.Posi_IsAdmin
                                         }
 
                                     }
@@ -97,7 +96,7 @@
                 this.loadingid = row.Acc_Id;
                 $api.post('Admin/Modify', { 'acc': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -107,11 +106,11 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    th.$alert(err, '错误');
                 });
             },
             //重置密码的弹窗
-            EmployeePwreset:function(row){
+            EmployeePwreset: function (row) {
                 var pbox = top.$pagebox.create({
                     width: this.width ? this.width : 400,
                     height: this.height ? this.height : 300,

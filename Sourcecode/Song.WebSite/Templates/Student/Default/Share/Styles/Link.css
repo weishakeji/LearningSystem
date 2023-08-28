@@ -1,8 +1,5 @@
 ﻿@charset "utf-8";
-card{
-    display: block;
-    margin: 10px;
-}
+
 .link>div{
     line-height: 40px;
 }
@@ -11,7 +8,4 @@ card{
 }
 .link .el-tag{
     cursor: pointer;
-}
-#qrcode{
-    margin: 10px;
 }
