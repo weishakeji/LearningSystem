@@ -2,7 +2,7 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -24,6 +24,10 @@ $ready(function () {
             editindex: -1,       //编辑行的id
             newitem: {}  //用于记录新增分润项的对象
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         created: function () {
             this.newitem = this.createitem();
             //如果是新增界面
@@ -37,8 +41,8 @@ $ready(function () {
                         th.entity = req.data.result;
                         $api.get('ProfitSharing/ProfitList', { 'tid': th.entity.Ps_ID }).then(function (req) {
                             if (req.data.success) {
-                                vapp.childs = req.data.result;
-                                vapp.rowdrop();
+                                th.childs = req.data.result;
+                                th.rowdrop();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -72,15 +76,15 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
-                        th.modify();
+                        th.modify(isclose);
                     }
                 });
             },
-            modify: function () {
+            modify: function (isclose) {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
@@ -93,15 +97,14 @@ $ready(function () {
                             message: '修改成功!',
                             center: true
                         });
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }                   
+                    }
                 }).catch(function (err) {
-                    th.loading = false;
                     alert(err, '错误');
-                });
+                }).finally(() => th.loading = false);
             },
             //增加分润项
             additem: function () {
@@ -172,8 +175,8 @@ $ready(function () {
                 return 100 - n;
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             },
             //行的拖动
             rowdrop: function () {
@@ -194,13 +197,13 @@ $ready(function () {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatables;
@@ -211,7 +214,7 @@ $ready(function () {
                             this.datas = arr;
                             for (var i = 0; i < this.datas.length; i++) {
                                 this.datas[i][indexkey] = i * 1;
-                            }                           
+                            }
                         });
                     }
                 });

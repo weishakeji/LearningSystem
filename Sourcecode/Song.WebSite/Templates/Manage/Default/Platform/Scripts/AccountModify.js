@@ -24,15 +24,17 @@ $ready(function () {
                                 if (res === true) {
                                     callback(new Error('账号已经存在'));
                                 }
-                            }).catch(err=>callback(new Error(err)));
+                            }).catch(err => callback(new Error(err)));
                         }, trigger: 'blur'
                     }
                 ]
             },
+            activeName: 'general',      //选项卡
             loading: false
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -56,8 +58,26 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
-
+            }).finally(() => th.loading = false);
+        },
+        computed: {
+            //是否存在账号
+            isexist: t => !$api.isnull(t.account) && t.id != 0,
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+            //学员的组是否存在
+            sortexist: function () {
+                return !$api.isnull(this.account) && this.account.Sts_ID != '' && !$api.isnull(this.accsort);
+            },
+            //是否已经绑定手机号
+            isbindmobi: function () {
+                if (!this.isexist) return false;
+                let tel1 = this.account.Ac_MobiTel1;
+                let tel2 = this.account.Ac_MobiTel2;
+                if (tel2 == null || tel2 == '') return false;
+                console.log(tel1 == tel2)
+                return tel1 == tel2;
+            }
         },
         methods: {
             //验证账号是否已经存在
@@ -66,7 +86,7 @@ $ready(function () {
                 return new Promise(function (resolve, reject) {
                     $api.get('Account/IsExistAcc', { 'acc': val, 'id': id }).then(function (req) {
                         if (req.data.success) {
-                            var result = req.data.result;                         
+                            var result = req.data.result;
                             return resolve(result);
                         } else {
                             console.error(req.data.exception);
@@ -77,29 +97,36 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+             //绑定手机号
+             bindmobi: function (val) {
+                if (val && (this.account.Ac_MobiTel1 != null && this.account.Ac_MobiTel1 != ''))
+                    this.account.Ac_MobiTel2 = this.account.Ac_MobiTel1;
+                if (!val) this.account.Ac_MobiTel2 = '';
+                console.log(val);
+                console.log(this.isbindmobi);
+            },
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        th.loading = true;
                         var apipath = 'Account/Modify';
                         $api.post(apipath, { 'acc': th.account }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                    type: 'success', center: true,
+                                    message: '操作成功!'
                                 });
-
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -111,7 +138,6 @@ $ready(function () {
                 this.accPingyin = makePy(this.account.Ac_Name);
                 if (this.accPingyin.length > 0)
                     this.account.Ac_Pinyin = this.accPingyin[0];
-                //console.log(this.accPingyin);
             },
             handleAvatarSuccess: function (res, file) {
                 if (file.status == "success") {
@@ -120,7 +146,6 @@ $ready(function () {
                 }
             },
             beforeAvatarUpload: function (file) {
-                //console.log(file);
                 const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -133,10 +158,11 @@ $ready(function () {
                 return isJPG && isLt2M;
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
             }
         },
     });
 
-});
+}, ["../Scripts/hanzi2pinyin.js",
+"/Utilities/Components/education.js"]);

@@ -1,6 +1,6 @@
 ﻿$ready(function () {
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             loading: false,
             loadingid: 0,        //当前操作中的对象id
@@ -18,17 +18,16 @@
         methods: {
             //删除
             deleteData: function (datas) {
-                $api.delete('ProfitSharing/ThemeDelete', {
-                    'id': datas
-                }).then(function (req) {
+                var th = this;
+                $api.delete('ProfitSharing/ThemeDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vapp.loadDatas();
+                        th.loadDatas();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -39,10 +38,11 @@
             },
             //加载数据页
             loadDatas: function () {
+                var th = this;
                 $api.get('ProfitSharing/ThemeList').then(function (req) {
                     if (req.data.success) {
-                        vapp.datas = req.data.result;
-                        vapp.rowdrop();
+                        th.datas = req.data.result;
+                        th.rowdrop();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -62,7 +62,7 @@
                 this.loadingid = row.Ps_ID;
                 $api.post('ProfitSharing/ThemeModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -72,7 +72,7 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.$alert(err, '错误');
                     th.loadingid = 0;
                 });
             },
@@ -95,13 +95,13 @@
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatables;
@@ -121,9 +121,10 @@
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
                 $api.post('ProfitSharing/ModifyTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true

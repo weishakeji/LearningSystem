@@ -1,15 +1,4 @@
 ﻿@charset "utf-8";
-html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-body>#vapp {
-    height: calc(100% - 40px);
-    overflow-y: auto;
-    width: 100%;
-}
 
 img.photo {
     width: 100px;
@@ -41,6 +30,7 @@ img.photo {
     cursor: pointer;
     color: #409EFF;
 }
+
 .organ {
     position: absolute;
     bottom: 8px;
@@ -49,4 +39,16 @@ img.photo {
 
 .organ icon {
     margin-right: 2px;
+}
+
+/*编辑框*/
+.about_editor {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px !important;
+}
+
+.about_editor .tox-tinymce {
+    border: none !important;
 }

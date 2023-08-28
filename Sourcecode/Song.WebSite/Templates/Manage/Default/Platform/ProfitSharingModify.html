@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
             <el-row>
                 <el-col :span="12">
@@ -31,77 +31,66 @@
                 </el-form-item>
             </el-row>
             <el-divider content-position="left">分润比例设置</el-divider>
-            <el-row>
 
+            <el-table ref="datatables" :data="childs" v-show="childs.length>0" tooltip-effect="dark" style="width: 100%"
+                v-loading="loading" row-key="Ps_ID" index-key="Ps_Level" draggable>
+                <el-table-column type="index" label="级别" width="50">
+                    <template slot-scope="scope">
+                        <span class="draghandle">{{scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
 
-                <el-table ref="datatables" :data="childs" v-show="childs.length>0" tooltip-effect="dark"
-                    style="width: 100%" v-loading="loading" row-key="Ps_ID" index-key="Ps_Level" draggable>
-                    <el-table-column type="index" label="级别" width="50">
-                        <template slot-scope="scope">
-                            <span class="draghandle">{{scope.$index + 1}}</span>
-                        </template>
-                    </el-table-column>
+                <el-table-column prop="Ps_Moneyratio" label="资金比例">
+                    <div slot-scope="scope" v-if="editindex!=scope.row.Ps_ID">
+                        <span class="draghandle">{{scope.row.Ps_Moneyratio}} %</span>
+                    </div>
+                    <div slot-scope="scope" v-else>
+                        <span>
+                            <el-input type="number" style="width: 120px;" v-model="scope.row.Ps_Moneyratio"
+                                :max="getmax('Ps_Moneyratio')" min="0">
+                                <template slot="append">%</template>
+                            </el-input>
+                        </span>
+                    </div>
+                </el-table-column>
+                <el-table-column prop="MM_Marker" label="卡券比例">
+                    <div slot-scope="scope" v-if="editindex!=scope.row.Ps_ID">
+                        <span class="draghandle">{{scope.row.Ps_Couponratio}} %</span>
+                    </div>
+                    <div slot-scope="scope" v-else>
+                        <el-input type="number" style="width: 120px;" v-model="scope.row.Ps_Couponratio"
+                            :max="getmax('Ps_Moneyratio')" min="0">
+                            <template slot="append">%</template>
+                        </el-input>
+                    </div>
 
-                    <el-table-column prop="Ps_Moneyratio" label="资金比例">
-                        <div slot-scope="scope" v-if="editindex!=scope.row.Ps_ID">
-                            <span class="draghandle">{{scope.row.Ps_Moneyratio}} %</span>
-                        </div>
-                        <div slot-scope="scope" v-else>
-                            <span>
-                                <el-input type="number" v-model="scope.row.Ps_Moneyratio" :max="getmax('Ps_Moneyratio')"
-                                    min="0">
-                                    <template slot="append">%</template>
-                                </el-input>
-                            </span>
-                        </div>
-                    </el-table-column>
-                    <el-table-column prop="MM_Marker" label="卡券比例">
-                        <div slot-scope="scope" v-if="editindex!=scope.row.Ps_ID">
-                            <span class="draghandle">{{scope.row.Ps_Couponratio}} %</span>
-                        </div>
-                        <div slot-scope="scope" v-else>
-                            <span>
-                                <el-input type="number" v-model="scope.row.Ps_Couponratio"
-                                    :max="getmax('Ps_Moneyratio')" min="0">
-                                    <template slot="append">%</template>
-                                </el-input>
-                            </span>
-                        </div>
+                </el-table-column>
+                <el-table-column label="启用" width="80">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.Ps_IsUse">
+                        </el-switch>
+                    </template>
+                </el-table-column>
 
-                    </el-table-column>
-                    <el-table-column label="启用" width="80">
-                        <template slot-scope="scope">
-                            <el-switch v-model="scope.row.Ps_IsUse">
-                            </el-switch>
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column label="操作" show-overflow-tooltip width="120">
-
-                        <el-button-group slot-scope="scope">
-                            <div v-if="editindex!=scope.row.Ps_ID">
-                                <el-link type="primary" plain icon="el-icon-edit" @click="editindex=scope.row.Ps_ID">修改
+                <el-table-column label="操作" show-overflow-tooltip width="120">
+                    <template slot-scope="scope">
+                        <template v-if="editindex!=scope.row.Ps_ID">
+                            <el-link type="primary" plain icon="el-icon-edit" @click="editindex=scope.row.Ps_ID">修改
+                            </el-link>
+                            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                icon-color="red" title="确定删除吗？" @confirm="childs.splice(scope.$index, 1)">
+                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
                                 </el-link>
-
-                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    icon-color="red" title="确定删除吗？" @confirm="childs.splice(scope.$index, 1)">
-                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
-                                    </el-link>
-
-                                </el-popconfirm>
-
-                            </div>
-                            <div v-else>
-                                <el-button type="primary" @click="modifyitem(scope.row)">确定</el-button>
-
-                            </div>
+                            </el-popconfirm>
+                        </template>
+                        <el-button-group v-else>
+                            <el-button type="primary" @click="modifyitem(scope.row)">确定</el-button>
+                            <el-button type="info" @click="editindex = -1">返回</el-button>
                         </el-button-group>
-
-                    </el-table-column>
-                </el-table>
-
-            </el-row>
-            <el-row>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-row :gutter="20">
                 <el-col :span="10">
                     <el-form-item label="资金比例" prop="Ps_Couponratio">
                         <el-input type="number" v-model="newitem.Ps_Moneyratio" :max="getmax('Ps_Moneyratio')" min="0">
@@ -117,14 +106,17 @@
                         </el-switch>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="3">
                     <el-button type="success" @click="additem">新增</el-button>
                 </el-col>
             </el-row>
         </el-form>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
-                @click="btnEnter('entity')">保存
+                @click="btnEnter('entity',true)">保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>取消</el-button>
         </div>
