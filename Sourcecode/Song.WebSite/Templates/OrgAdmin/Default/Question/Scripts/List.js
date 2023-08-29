@@ -163,7 +163,6 @@ $ready(function () {
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 var loading = this.$fulloading();
                 $api.get("Question/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         for (var i = 0; i < result.length; i++) {
@@ -180,20 +179,19 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loading = false;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;              
+                th.loading = true;
                 var loading = this.$fulloading();
                 var quesid = datas.split(',');
-                var form = {'qusid':quesid};              
+                var form = { 'qusid': quesid };
                 //要删除的试题,当删除后要重新统计章节、课程、专业下的试题数，所以需要提交更多id
                 var ques = th.getques_selected(quesid);
-                form['olid'] =th.getques_keys(ques, 'Ol_ID'); //章节id
+                form['olid'] = th.getques_keys(ques, 'Ol_ID'); //章节id
                 //form['couid'] =th.getques_keys(ques, 'Cou_ID'); //课程id
                 //form['sbjid'] =th.getques_keys(ques, 'Sbj_ID'); //专业id   
                 //console.log(form['couid'] );
