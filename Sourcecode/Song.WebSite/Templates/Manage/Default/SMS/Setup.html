@@ -25,7 +25,7 @@
             <el-table-column label="账号" header-align="left">
                 <template slot-scope="scope">
                     <el-link type="primary"
-                        @click="openbox('Modify?mark='+scope.row.Mark,'Mark','设置账号与密码',600,400,'e808')">
+                        @click="openbox('Modify?mark='+scope.row.Mark,'Mark','设置账号与密码',400,300,'e808')">
                         <icon>&#xa043</icon>
                         <span v-if="scope.row.User!=''">{{scope.row.User}}</span>
                         <span v-else>未设置，点击设置</span>

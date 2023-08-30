@@ -34,10 +34,11 @@ html, body, #vapp {
 #footer-box {
 	background-color: #fff;
 	height: 50px;
-	text-align: right;
-	padding: 10px 10px 0px 10px;
+	text-align: left;
+	padding: 10px 10px 0px 130px;
 	box-sizing: border-box;
 	position: relative;
+	max-width: 1000px;
 }
 
 #footer-box .el-tag {

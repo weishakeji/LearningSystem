@@ -30,7 +30,6 @@ context.first section {
 
 .box-card {
     width: 300px;
-    height: 400px;
     left: calc((100% - 300px) / 2);
     top: calc((100% - 400px) / 2);
     position: absolute;
@@ -38,27 +37,38 @@ context.first section {
     background-color: rgba(255, 255, 255, .8) !important;
 }
 
+.box-title {
+    font-size: 18px;
+}
+
 .box-title icon {
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .box-title a {
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 35px;
     color: rgb(39, 148, 250);
 }
 
 .el-form-item {
     margin-bottom: 10px;
+
+}
+
+.el-form-item>div:first-child {
     position: relative;
 }
 
 .el-form-item icon {
     font-size: 25px;
 }
+
 .box-card .el-input--medium .el-input__inner {
-   height: 40px;
+    height: 40px;
     /* line-height: 36px; */
 }
+
 .el-input-group__prepend {
     width: 36px;
     padding: 0px 5px;
@@ -67,6 +77,7 @@ context.first section {
     overflow: hidden;
 
 }
+
 .el-form-item__error {
     --right: 5px !important;
     top: auto !important;
@@ -99,10 +110,31 @@ context.first section {
 }
 
 img#vcode {
-    width: 100px;
-    height: 35px;
+    height: 38px;
+    margin: 1px 0px 0px 6px;
 }
 
+.vcode>div:first-child {
+    display: flex;
+}
+
+.vcode>div:first-child img {
+    flex: 1;
+}
+
+/*短信验证*/
+.smscode>div:first-child {
+    display: flex;
+}
+.smscode>div:first-child .sms_handler{
+    flex: 1;
+    height: 38px;
+    margin: 1px 0px 0px 6px;
+    text-align: center;
+    line-height: 38px;
+    cursor: pointer;
+}
+/*提交按钮*/
 button.submit {
     width: calc(100% - 20px);
     margin: 0px 10px;
@@ -163,15 +195,18 @@ button.submit {
     padding: 10px 0px;
     box-sizing: border-box;
 }
+
 /*禁止注册*/
-section.disable_reg{
-    background-image:none !important;    
+section.disable_reg {
+    background-image: none !important;
 }
-section.disable_reg .disable_body{
+
+section.disable_reg .disable_body {
     text-align: center;
     line-height: 40px;
 }
-section.disable_reg .disable_body icon{
+
+section.disable_reg .disable_body icon {
     font-size: 50px;
     margin: 30px 0px;
     color: #999;

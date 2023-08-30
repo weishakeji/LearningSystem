@@ -184,7 +184,7 @@ namespace Song.ViewData.Methods
             return Business.Do<ISMS>().MessageFormat(msg, DateTime.Now.ToString("mmss"));
         }
         /// <summary>
-        /// 发送短信验证码
+        /// 发送登录用的短信验证码
         /// </summary>
         /// <param name="phone"></param>
         /// <param name="len"></param>
@@ -204,7 +204,7 @@ namespace Song.ViewData.Methods
             return acc.Ac_CheckUID;
         }
         /// <summary>
-        /// 发送短信验证码
+        /// 发送绑定用的短信验证码
         /// </summary>
         /// <param name="phone"></param>
         /// <param name="acid"></param>
@@ -221,6 +221,23 @@ namespace Song.ViewData.Methods
             //string vcode = "666888";
             string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             return ConvertToAnyValue.Create(phone + vcode).MD5;           
+        }
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="len"></param>
+        /// <returns>返回 SHA256 密码</returns>
+        [HttpPost]
+        public string SendVcode(string phone, int len)
+        {
+            if (len <= 0) throw new Exception("验证码长度不得小于等于零");
+            string vcode = "666888";
+            //当前机构的配置信息
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+
+            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+            return ConvertToAnyValue.Create(org.Org_PlatformName + vcode).SHA256;
         }
     }
 }

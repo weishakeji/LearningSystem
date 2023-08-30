@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
   <title>注册</title>
+  <link type="text/css" rel="stylesheet" href="/Utilities/ElementUi/index.css">
 </head>
 
 <body>
@@ -15,74 +16,115 @@
   </header>
 
   <div id="vapp" v-cloak>
-    <context>
+    <generic @login="acc=>account = acc" @load="(o,c,p)=>{organ=o;config=c;plate=p;}"></generic>
+    <login ref="login" v-show="false"></login>
+    <context class="first">
       <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
       <img src="../Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
-      <!---->
-      <van-form @submit="btn_submit" v-if="!config.IsRegStudent">
-        <card>
-          <card-title>
-            <icon>&#xe687</icon>注册
-            <a href="in">已经有账号？登录</a>
-          </card-title>
-          <card-context>
-
-            <van-field v-model="form.acc" label="账号" required placeholder="账号/手机号" :rules="acc_rules">
-            </van-field>
-            <van-field v-model="form.pw" label="登录密码" required type="password" placeholder="登录密码" :rules="pw_rules">
-            </van-field>
-            <van-field v-model="password2" label="密码确认" required type="password" placeholder="登录密码" :rules="pw2_rules">
-            </van-field>
-            <van-field v-model="form.rec" label="推荐人" placeholder="非必填"  :disabled="existref" v-if="existref">
-            </van-field>
-            <van-cell>
-              <template #title>
-                <van-field class="vcode_input" v-model="form.vcode" type="digit" label="校验码" placeholder="校验码"
-                  :rules="vcode_rules">
-                </van-field>
-                <van-loading type="spinner" v-if="loading_vcode"></van-loading>
+      <section v-if="!config.IsRegStudent">
+        <el-form ref="register" :model="form" :rules="rules" size="medium" @submit.native.prevent label-width="80px">
+          <el-card class="box-card">
+            <div slot="header" class="box-title">
+              <span>
+                <icon>&#xe7cd</icon>注册
+              </span>
+              <a href="in" style="float: right; padding: 3px 0">已经有账号？登录</a>
+            </div>
+            <div class="card-context">
+              <el-form-item label-width="0px" label="" prop="acc">
+                <el-input :placeholder="isRegSms ? '手机号' : '账号/手机号'" v-model="form.acc" minlength="6">
+                  <template slot="prepend">
+                    <icon>&#xe622</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="pw1">
+                <el-input placeholder="登录密码" show-password v-model="form.pw1">
+                  <template slot="prepend">
+                    <icon>&#xe76a</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="pw2">
+                <el-input placeholder="密码确认" show-password v-model="form.pw2">
+                  <template slot="prepend">
+                    <icon>&#xe76a</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="rec" v-if="existref">
+                <el-input placeholder="推荐人" v-model="form.rec" :disabled="existref">
+                  <template slot="prepend">
+                    <icon>&#xe804</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="code" class="vcode">
+                <el-input placeholder="校验码" v-model="form.code" maxlength="4" style="width: calc(100% - 120px);">
+                  <template slot="prepend">
+                    <icon>&#xa050</icon>
+                  </template>
+                </el-input>
+                <loading v-if="loading_vcode"></loading>
                 <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
-              </template>
-            </van-cell>
-            <van-cell class="agreement">
-              <template #title>
-                <van-checkbox v-model="agreement.checked">我已经阅读，并同意<a href="#" @click.stop="showagreement">《平台协议》</a>
-                </van-checkbox>
-              </template>
-            </van-cell>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="sms" v-if="isRegSms" class="smscode">
+                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref"  style="width: calc(100% - 120px);">
+                  <template slot="prepend">
+                    <icon>&#xe76e</icon>
+                  </template>
+                </el-input>
+                <div class="sms_handler">
+                  <loading bubble v-if="loading_sms"></loading>
+                  <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                  <span class="getsms" v-else @click="getsms">获取验证码</span>
+                </div>
+              </el-form-item>
+              <el-row class="agreement">
+                <el-checkbox v-model="agreement.checked">我已经阅读，并同意</el-checkbox>
+                <el-link type="primary" @click.stop="showagreement">《平台协议》</el-link>
+              </el-row>
+              <el-row class="btnrow">
+                <el-button type="primary" :loading="loading_submit" @click="btn_submit()"
+                  :disabled="loading_submit || !agreement.checked">
+                  同意协议并注册</el-button>
+              </el-row>
 
-          </card-context>
-        </card>
-
-        <van-button class="submit" type="info" :loading="loading_submit" :disabled="loading_submit"
-          loading-text="正在执行...">
-          立即注册
-        </van-button>
-      </van-form>
-      <card v-else>
-        <card-title>
-          <icon>&#xe687</icon>注册
-          <a href="in">已经有账号？登录</a>
-        </card-title>
-        <card-context class="disable_body">
-          <icon>&#xe7ad</icon>
-          <div>
-            禁止注册
+            </div>
+          </el-card>
+        </el-form>
+      </section>
+      <section v-else class="disable_reg">
+        <el-card class="box-card">
+          <div slot="header" class="box-title">
+            <span>
+              <icon>&#xe7cd</icon>注册
+            </span>
+            <a href="in" style="float: right; padding: 3px 0">已经有账号？登录</a>
           </div>
-        </card-context>
-      </card>
-      <!-- 平台注册协议-->
-      <van-popup v-model="agreement.show" class="showAgreement" closeable>
+          <div class="disable_body">
+            <icon>&#xe7ad</icon>
+            <div>
+              禁止注册
+            </div>
+          </div>
+        </el-card>
+      </section>
+    </context>
+    <!-- 平台注册协议-->
+    <el-dialog :visible.sync="agreement.show" class="showAgreement" closeable>
+      <template slot="title">
         <div class="agreement_title">
-          <icon>&#xa050</icon>
+          <icon>&#xa037</icon>
           平台协议
         </div>
-        <div class="agreement_text" v-html="agreement.text"></div>
-        <div class="agreement_radio">
-          <van-checkbox v-model="agreement.checked">我已经阅读，并同意《平台协议》</van-checkbox>
-        </div>
-      </van-popup>
-    </context>
+      </template>
+      <div class="agreement_text" v-html="agreement.text"></div>
+      <div class="agreement_radio">
+        <el-checkbox v-model="agreement.checked">我已经阅读，并同意《平台协议》</el-checkbox>
+      </div>
+    </el-dialog>
+ 
   </div>
 
 </body>

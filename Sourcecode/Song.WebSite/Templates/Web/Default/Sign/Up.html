@@ -12,7 +12,8 @@
 
 
   <div id="vapp" v-cloak>
-    <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">loading ...</page_header>
+    <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">loading ...
+    </page_header>
     <login ref="login" v-show="false"></login>
     <context class="first">
       <section v-if="!config.IsRegStudent">
@@ -26,7 +27,7 @@
             </div>
             <div class="card-context">
               <el-form-item label-width="0px" label="" prop="acc">
-                <el-input placeholder="账号/手机号" v-model="form.acc" minlength="6">
+                <el-input :placeholder="isRegSms ? '手机号' : '账号/手机号'" v-model="form.acc" minlength="6">
                   <template slot="prepend">
                     <icon>&#xe622</icon>
                   </template>
@@ -53,8 +54,8 @@
                   </template>
                 </el-input>
               </el-form-item>
-              <el-form-item label-width="0px" prop="vcode">
-                <el-input placeholder="校验码" v-model="form.vcode" maxlength="4" style="width: calc(100% - 110px);">
+              <el-form-item label-width="0px" prop="code" class="vcode">
+                <el-input placeholder="校验码" v-model="form.code" maxlength="4" style="width: calc(100% - 120px);">
                   <template slot="prepend">
                     <icon>&#xa050</icon>
                   </template>
@@ -62,12 +63,24 @@
                 <loading v-if="loading_vcode"></loading>
                 <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
               </el-form-item>
+              <el-form-item label-width="0px" prop="sms" v-if="isRegSms" class="smscode">
+                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref"  style="width: calc(100% - 120px);">
+                  <template slot="prepend">
+                    <icon>&#xe76e</icon>
+                  </template>
+                </el-input>
+                <div class="sms_handler">
+                  <loading bubble v-if="loading_sms"></loading>
+                  <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                  <span class="getsms" v-else @click="getsms">获取验证码</span>
+                </div>
+              </el-form-item>
               <el-row class="agreement">
                 <el-checkbox v-model="agreement.checked">我已经阅读，并同意</el-checkbox>
                 <el-link type="primary" @click.stop="showagreement">《平台协议》</el-link>
               </el-row>
               <el-row class="btnrow">
-                <el-button type="primary" :loading="loading_submit" @click="btn_submit('register')"
+                <el-button type="primary" :loading="loading_submit" @click="btn_submit()"
                   :disabled="loading_submit || !agreement.checked">
                   同意协议并注册</el-button>
               </el-row>

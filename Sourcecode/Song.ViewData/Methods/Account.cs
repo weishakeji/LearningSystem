@@ -156,20 +156,24 @@ namespace Song.ViewData.Methods
         /// <param name="pw">密码（明文）</param>
         /// <param name="rec">推荐人的账号，可以为空</param>
         /// <param name="recid">推荐人id</param>
-        /// <param name="vcode">校验码（明文）</param>
-        /// <param name="vcodemd5">校验码的密文</param>
+        /// <param name="code">校验码（明文）</param>
+        /// <param name="vcode">校验码的密文</param>
+        /// <param name="sms">短信验证码</param>
+        /// <param name="vsms">短信验证码的密文</param>
         /// <returns></returns>
         [HttpPost]
-        public Song.Entities.Accounts Register(string acc, string pw, string rec, int recid, string vcode, string vcodemd5)
+        public Song.Entities.Accounts Register(string acc, string pw, string rec, int recid, string code, string vcode, string sms, string vsms)
         {
             //当前机构的配置信息
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             if ((bool)(config["IsRegStudent"].Value.Boolean ?? false)) return null;
+            //验证图形校验码
+            if (!this.RegisterVerifyVcode(code, vcode)) throw VExcept.Verify("校验码错误", 101);
+            //验证短信验证码
+            if ((bool)(config["IsRegSms"].Value.Boolean ?? false))
+                if (!this.RegisterSMSVcode(sms, vsms)) throw VExcept.Verify("短信验证错误", 102);
 
-            string val = ConvertToAnyValue.Create(org.Org_PlatformName + vcode).MD5;
-            if (!val.Equals(vcodemd5, StringComparison.CurrentCultureIgnoreCase))
-                throw VExcept.Verify("校验码错误", 101);
             //账号是否存在
             Song.Entities.Accounts account = Business.Do<IAccounts>().IsAccountsExist(acc);
             if (account == null && Regex.IsMatch(acc, @"^1\d{10}$"))
@@ -180,6 +184,9 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts tmp = new Entities.Accounts();
             tmp.Ac_AccName = acc;
             tmp.Ac_Pw = ConvertToAnyValue.Create(pw).MD5;
+            //是否是手机号注册
+            if ((bool)(config["IsRegSms"].Value.Boolean ?? false))
+                tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = acc;
             //获取推荐人
             Song.Entities.Accounts accRec = null;
             if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsForMobi(rec, -1, true, true);
@@ -199,9 +206,36 @@ namespace Song.ViewData.Methods
             if (tmp.Ac_IsPass)
             {
                 tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
+                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
                 LoginAccount.Add(tmp);
             }
             return tmp;
+        }
+        /// <summary>
+        /// 校验注册时的验证码是否正确
+        /// </summary>
+        /// <param name="code">录入的校验码</param>
+        /// <param name="vcode">加密的校验码</param>
+        /// <returns>正确返回true</returns>
+        public bool RegisterVerifyVcode(string code, string vcode)
+        {
+            //当前机构的配置信息
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            string val = ConvertToAnyValue.Create(org.Org_PlatformName + code).MD5;
+            return val.Equals(vcode, StringComparison.CurrentCultureIgnoreCase);
+        }
+        /// <summary>
+        /// 验证短信验证码
+        /// </summary>
+        /// <param name="sms">验证码</param>
+        /// <param name="vsms">验证码的密文</param>
+        /// <returns></returns>
+        public bool RegisterSMSVcode(string sms, string vsms)
+        {
+            //当前机构的配置信息
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            string val = ConvertToAnyValue.Create(org.Org_PlatformName + sms).SHA256;
+            return val.Equals(vsms, StringComparison.CurrentCultureIgnoreCase);
         }
         /// <summary>
         /// 账号注册后的修改
@@ -429,7 +463,7 @@ namespace Song.ViewData.Methods
         /// 账号是否存在
         /// </summary>
         /// <param name="acc">账号名称</param>
-        /// <param name="id">账号id，如果账号已经存在，则不断判断自身</param>
+        /// <param name="id">账号id，如果账号已经存在，则不判断自身</param>
         /// <returns></returns>
         [HttpGet]
         public bool IsExistAcc(string acc, int id)
