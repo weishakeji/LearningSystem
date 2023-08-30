@@ -82,7 +82,7 @@ $ready(function () {
             //页面跳转
             gourl: function (page) {
                 var url = $api.url.set(page, {});
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //获取当前登录账号
             getAccount: function () {
@@ -148,7 +148,7 @@ $ready(function () {
                                         'code': null,
                                         'pw': null
                                     });
-                                    window.location.href = url;
+                                    window.navigateTo(url);
                                 }, 1000);*/
                             } else {
                                 console.error(req.data.exception);
@@ -267,7 +267,7 @@ $ready(function () {
                 console.log(url);
                 this.paypanel = true;
                 this.payurl = url;
-                //window.location.href = url;
+                //window.navigateTo( url);
                 //支付成功后跳转到的页面
                 $api.storage('recharge_returl', '/mobi/Recharge/index');
             }

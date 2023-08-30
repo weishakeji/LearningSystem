@@ -24,7 +24,7 @@ Vue.component('knl_header', {
                         'sortid': $api.querystring("sortid", 0)
                     });
                     history.pushState({}, "", url);
-                    window.location.href = url;
+                    window.navigateTo(url);
                 }
             },
             deep: true
@@ -32,7 +32,7 @@ Vue.component('knl_header', {
     },
     computed: {
         defimg: function () {
-            return '/Utilities/Images/cou_nophoto.jpg';           
+            return '/Utilities/Images/cou_nophoto.jpg';
         }
     },
     mounted: function () {
@@ -60,7 +60,7 @@ Vue.component('knl_header', {
                 'couid': $api.querystring("couid")
             });
             history.pushState({}, "", url);
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //返回上一页
         goback: function () {
@@ -76,7 +76,7 @@ Vue.component('knl_header', {
         gocourse: function () {
             var couid = $api.querystring("couid", 0);
             var url = $api.url.dot(couid, '/mobi/course/Detail');
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //生成树形
         buildTree: function (array, level, order) {
@@ -95,7 +95,7 @@ Vue.component('knl_header', {
         buildLink: function (item) {
             var url = $api.url.set("Knowledges", {
                 'couid': this.couid,
-                'sortid': item.Kns_ID,              
+                'sortid': item.Kns_ID,
                 's': this.search
             });
             return url;
@@ -124,7 +124,7 @@ Vue.component('knl_header', {
                 'couid': $api.querystring("couid")
             });
             //history.pushState({}, "", url);
-            window.location.href = url;
+            window.navigateTo(url);
         }
     },
     template: `<div><div class="header">

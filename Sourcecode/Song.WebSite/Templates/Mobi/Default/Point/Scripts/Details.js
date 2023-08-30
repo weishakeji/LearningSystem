@@ -18,7 +18,7 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
-            
+
         },
         created: function () {
 
@@ -61,12 +61,12 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                var url =this.commonaddr('signin');
-                window.location.href = url;
+                var url = this.commonaddr('signin');
+                window.navigateTo(url);
             },
             myself: function () {
                 var url = $api.url.set("/mobi/account/myself", {});
-                window.location.href = url;
+                window.navigateTo(url);
             },
             onload: function () {
                 var th = this;

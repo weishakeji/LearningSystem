@@ -122,9 +122,9 @@ $ready(function () {
                 return (price - coupon) <= 0 ? 0 : price - coupon;
             },
             //选中价格
-            select: function (data) { 
+            select: function (data) {
                 if (data == null || (this.selected_price.CP_ID && this.selected_price.CP_ID == data.CP_ID)) {
-                    return;                   
+                    return;
                 } else {
                     this.selected_price = data;
                     this.showbtn = true;
@@ -236,21 +236,20 @@ $ready(function () {
                     messageAlign: 'left'
                 }).then(() => {
                     var link = $api.querystring('link');
-                    if (link != '') window.location.href = decodeURIComponent(link);
+                    if (link != '') window.navigateTo(decodeURIComponent(link));
                     else
-                        window.location.href = '/mobi/Account/MyCourse';
+                        window.navigateTo('/mobi/Account/MyCourse');
                 });
             },
             //学员登录
             gologin: function () {
-                var link = window.location.href;
+                let link = window.location.href;
                 link = link.substring(link.indexOf(window.location.pathname));
-                var url=this.commonaddr('signin');
+                let url = this.commonaddr('signin');
                 url = $api.url.set(url, {
                     'link': encodeURIComponent(link)
                 });
-                // console.log(url);               
-                window.location.href = url;
+                window.navigateTo(url);
             }
         }
     });

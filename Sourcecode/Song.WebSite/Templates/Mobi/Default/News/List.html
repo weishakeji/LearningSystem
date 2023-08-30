@@ -3,8 +3,8 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
-    <title>新闻</title>  
+    <include file="../inc/meta.inc" />
+    <title>新闻</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         </div>
         <div class="context">
             <card v-for="(item,index) in chilren">
-                <card-title arrow @click="window.location.href='list?colid='+item.Col_ID">
+                <card-title arrow @click="navigateTo('list?colid='+item.Col_ID)">
                     <span icon="&#xe75c"></span>
                     {{item.Col_Name}}
                 </card-title>
@@ -31,7 +31,7 @@
                         {{column.Col_Name}}
                     </card-title>
                     <card-context>
-                        <row v-for="(art,i) in articles" @click="window.location.href='article.'+art.Art_ID">
+                        <row v-for="(art,i) in articles" @click="navigateTo('article.'+art.Art_ID)">
                             <a href="#">{{art.Art_Title}}
 
                                 <van-tag color="#eee" text-color="#666">{{art.Art_PushTime|date("yyyy-MM-dd")}}

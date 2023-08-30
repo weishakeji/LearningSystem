@@ -67,11 +67,11 @@ $ready(function () {
             gopaper: function (item) {
                 var file = "Paper";
                 var url = $api.dot(item.Tp_Id, file);
-                url = $api.url.set(url, {                   
+                url = $api.url.set(url, {
                     'couid': $api.querystring("couid")
                 });
                 //history.pushState({}, "", url);
-                window.location.href = url;
+                window.navigateTo(url);
             }
         }
     });

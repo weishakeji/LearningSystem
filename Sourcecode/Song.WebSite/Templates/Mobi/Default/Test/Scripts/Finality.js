@@ -153,17 +153,17 @@ $ready(function () {
                     'tpid': this.tpid,
                     'couid': $api.querystring("couid")
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //返回课程
             gocourse: function () {
                 var couid = $api.querystring("couid", 0);
                 var url = $api.url.dot(couid, '/mobi/course/Detail');
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //返回主页
             gohome: function () {
-                window.location.href = '/mobi/index';
+                window.navigateTo('/mobi/index');
             },
             //进入详情页
             godetail: function (item) {
@@ -173,7 +173,7 @@ $ready(function () {
                     'tp': item.Tp_Id,
                     'couid': $api.querystring("couid")
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //得分样式
             scoreStyle: function (score) {

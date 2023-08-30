@@ -27,7 +27,7 @@
         </card>
         <card v-else-if="!examstate.exist">
             <card-title>
-                <span icon="&#xe748" @click="window.location.href='index'"></span>
+                <span icon="&#xe748" @click="navigateTo('index')"></span>
                 当前考试不存在，或考试被禁！
             </card-title>
             <card-context>

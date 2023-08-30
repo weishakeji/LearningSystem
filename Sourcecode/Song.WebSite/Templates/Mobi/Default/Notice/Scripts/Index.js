@@ -44,12 +44,12 @@ $ready(function () {
             'org': {
                 handler: function (nv, ov) {
                     if ($api.isnull(nv)) return;
-                    this.query.orgid = nv.Org_ID;                  
+                    this.query.orgid = nv.Org_ID;
                     this.loading = false;
                 }, immediate: true
             },
         },
-        methods: {  
+        methods: {
             onSearch: function () {
                 var url = $api.setpara('search', encodeURIComponent(this.query.search));
                 history.pushState({}, "", url); //更改地址栏信息              
@@ -90,8 +90,7 @@ $ready(function () {
             },
             //转向通知公告详情页
             gonotice: function (id) {
-                var url = 'Detail.' + id;
-                window.location.href = url;
+                window.navigateTo('Detail.' + id);
             }
         }
     });

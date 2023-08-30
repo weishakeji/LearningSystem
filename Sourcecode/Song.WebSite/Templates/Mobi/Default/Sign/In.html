@@ -22,7 +22,7 @@
         <div class="accname" v-if="account.Ac_Name!=''" v-html="account.Ac_Name"></div>
         <div class="accname" v-else> (名称为空) </div>
       </template>
-      <van-button type="info" @click="window.location.href=commonaddr('myself')">个人信息</van-button>
+      <van-button type="info" @click="navigateTo(commonaddr('myself'))">个人信息</van-button>
       <van-button type="default" @click="logout">退出登录</van-button>    
     </div>
   </div>

@@ -183,7 +183,7 @@ $ready(function () {
                     'couid': this.couid,
                     'olid': last.olid
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             }
         }
     });
@@ -206,7 +206,7 @@ $ready(function () {
         methods: {
             btnEvt: function (item) {
                 var url = item.url + '?couid=' + this.couid;
-                window.location.href = url;
+                window.navigateTo(url);
             }
         },
         template: `<div class="mainmenu">           

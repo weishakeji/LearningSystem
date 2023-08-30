@@ -12,7 +12,7 @@
     <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
     <div class="header" :login="islogin">
       <van-row>
-        <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="window.location.href=commonaddr('signin')">
+        <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="navigateTo(commonaddr('signin'))">
           <div class="acc_photo nophoto"></div>
           <div class="accInfo">
             <div class="acc-name">未登录

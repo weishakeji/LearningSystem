@@ -2,8 +2,8 @@
 $dom.load.css([$dom.pagepath() + 'Components/Styles/video_progress.css']);
 Vue.component('video_progress', {
     //config:机构的配置项，其实包括了视频完成度的容差值（VideoTolerance）
-     //purchase:购买记录
-    props: ['course', 'stid', 'config','purchase'],
+    //purchase:购买记录
+    props: ['course', 'stid', 'config', 'purchase'],
     data: function () {
         return {
             data: {},        //进度信息
@@ -111,10 +111,10 @@ Vue.component('video_progress', {
                     //th.percent = 60;
                 });;
         },
-        gourl:function(){
-            var url="/mobi/course/study";
+        gourl: function () {
+            var url = "/mobi/course/study";
             url = $api.url.set(url, { 'couid': this.course.Cou_ID });
-            window.location.href = url;
+            window.navigateTo(url);
         }
     },
     template: `<div @click="gourl()">

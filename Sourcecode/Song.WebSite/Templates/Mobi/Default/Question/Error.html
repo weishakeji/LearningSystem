@@ -15,7 +15,7 @@
   </script>
   <div id="vapp" v-cloak v-pinchin="pinch" v-pinchout="pinch">
     <loading bubble v-if="loading_init">正在初始化...</loading>
-    <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">
+    <card v-else-if="!islogin" @click="navigateTo(commonaddr('signin'))">
       <card-title icon="&#xa043">未登录</card-title>
       <card-context>
         <alert>未登录或登录状态失效</alert>

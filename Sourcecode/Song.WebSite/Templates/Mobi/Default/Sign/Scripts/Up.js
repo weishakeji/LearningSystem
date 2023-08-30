@@ -387,15 +387,15 @@ $ready(function () {
                     referrer = $api.storage('singin_referrer');
                 //注册成功后，是否需要填写详情
                 if (this.config && this.config.IsRegDetail === true) {
-                    window.location.href = $api.url.set('detail', {
+                    window.navigateTo($api.url.set('detail', {
                         'referrer': referrer,
                         'acid': account.Ac_ID,
                         'uid': account.Ac_CheckUID
-                    });
+                    }));
                     return;
                 }
                 referrer = decodeURIComponent(referrer);
-                window.location.href = referrer != '' ? referrer : '/';
+                window.navigateTo(referrer != '' ? referrer : '/');
             }
         }
     });

@@ -86,10 +86,10 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                window.location.href = this.commonaddr('signin');
+                window.navigateTo(this.commonaddr('signin'));
             },
             myself: function () {
-                window.location.href = "/mobi/account/myself";
+                window.navigateTo("/mobi/account/myself");
             },
             //初始化学习卡号，当扫码时，会带参数跳转到这里
             init_code: function () {

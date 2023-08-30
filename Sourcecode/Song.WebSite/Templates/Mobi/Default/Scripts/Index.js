@@ -70,7 +70,7 @@ $ready(function () {
                 var url = $api.url.set('/mobi/course/index', {
                     'search': search
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             }
         }
     });

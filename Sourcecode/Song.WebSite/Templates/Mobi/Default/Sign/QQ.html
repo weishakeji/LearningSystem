@@ -38,7 +38,7 @@
             <div v-else class="btns">
                 <loading v-if="loading_crt"></loading>
                 <template v-else>
-                    <div type="success" @click="window.location.href=commonaddr('signin')">我已经有账号，返回登录</div>
+                    <div type="success" @click="navigateTo(commonaddr('signin'))">我已经有账号，返回登录</div>
                     <help>登录后，在个人中心绑定第三方账号</help>
                     <div type="primary" v-if="entity.Tl_IsRegister" @click="createuser">我还没有账号，直接创建</div>
                 </template>

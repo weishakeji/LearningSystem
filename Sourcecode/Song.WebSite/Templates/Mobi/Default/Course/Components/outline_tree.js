@@ -13,7 +13,7 @@ Vue.component('outline_tree', {
         return {
             current: {}, //当前章节对象		
             olid: $api.querystring("olid", ''),		//当前章节id
-            couid:$api.querystring("couid", ''),    //课程id
+            couid: $api.querystring("couid", ''),    //课程id
 
             menushow: false,     //是否显示章节面板
             loading: true, //预载中
@@ -97,7 +97,7 @@ Vue.component('outline_tree', {
                     'olid': this.olid,
                     'link': encodeURIComponent(window.location.href)
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             }
         },
         //节点的事件

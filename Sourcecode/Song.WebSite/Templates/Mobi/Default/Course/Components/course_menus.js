@@ -132,16 +132,15 @@ Vue.component('course_menus', {
         },
         //跳转，课程id和章节id
         gourl: function (url, couid, olid) {
-            var url = $api.url.set(url, {
+            window.navigateTo($api.url.set(url, {
                 'couid': couid,
                 'olid': olid
-            });
-            window.location.href = url;
+            }));
         },
         //组件内部的按钮事件
         //跳转，登录页
         gologin: function () {
-            window.location.href = this.commonaddr('signin');
+            window.navigateTo(this.commonaddr('signin'));
         },
         //跳转，试学
         gotry: function () {
@@ -158,8 +157,7 @@ Vue.component('course_menus', {
                 'olid': olid,
                 'link': encodeURIComponent(link)
             });
-            // console.log(url);               
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //外部方法
         //从章节列表点击进入视频学习

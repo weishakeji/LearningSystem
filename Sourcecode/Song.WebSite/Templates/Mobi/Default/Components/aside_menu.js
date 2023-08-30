@@ -19,7 +19,7 @@ Vue.component('aside_menu', {
                 { name: '我的朋友', login: 0, url: 'Account/Myfriends', icon: '&#xe635', size: 20, evt: null },
                 { name: '新闻资讯', login: -1, url: 'News/index', icon: '&#xe75c', size: 20, evt: null },
                 { name: '通知', login: -1, url: 'Notice/index', icon: '&#xe697', size: 20, evt: null },
-              
+
                 { name: 'hr', login: 0 },
                 { name: '缓存管理', login: -1, url: 'Cache/Index', icon: '&#xe6a4', size: 19, evt: null },
                 { name: '注销登录', login: 0, url: '', icon: '&#xe70a', size: 20, evt: this.logout }
@@ -32,8 +32,8 @@ Vue.component('aside_menu', {
     },
     watch: {},
     computed: {
-         //是否登录
-         islogin: (t) => { return !$api.isnull(t.account); },
+        //是否登录
+        islogin: (t) => { return !$api.isnull(t.account); },
     },
     mounted: function () { },
     methods: {
@@ -52,7 +52,7 @@ Vue.component('aside_menu', {
         //默认事件
         evtDefault: function (item) {
             if (item.url == "") return;
-            if (item.url.substring(0, 1) == '/') return window.location.href = item.url;
+            if (item.url.substring(0, 1) == '/') return window.navigateTo(item.url);
             var root = "";
             var route = $dom("meta[route]").attr("route");
             var i = 1;
@@ -63,11 +63,11 @@ Vue.component('aside_menu', {
             }
             while (route.indexOf("/") > -1 && i == 2)
             var url = $api.url.set(root + item.url, {});
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //编辑个人信息
         goself: function () {
-            window.location.href = '/mobi/account/myself';
+            window.navigateTo('/mobi/account/myself');
         }
     },
     // 同样也可以在 vm 实例中像 "this.message" 这样使用

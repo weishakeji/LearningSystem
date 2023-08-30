@@ -31,7 +31,7 @@ $ready(function () {
             });
         },
         created: function () {
-           
+
         },
         computed: {
             //是否登录
@@ -53,7 +53,7 @@ $ready(function () {
                 this.account = account;
                 var th = this;
                 window.setTimeout(function () {
-                    if (th.referrer != '') window.location.href = th.referrer;
+                    if (th.referrer != '') window.navigateTo(th.referrer);
                 }, 200);
             },
             //退出登录
@@ -64,7 +64,7 @@ $ready(function () {
                     $api.loginstatus('account', '');
                     this.account = {};
                     window.setTimeout(function () {
-                        window.location.href = '/mobi/';
+                        window.navigateTo('/mobi/');
                     }, 500);
                 }).catch(function () { });
             }

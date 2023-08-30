@@ -94,7 +94,7 @@ $ready(function () {
                     $api.loginstatus('account', '');
                     this.account = null;
                     window.setTimeout(() => {
-                        window.location.href = "/mobi/"
+                        window.navigateTo("/mobi/");
                     }, 200);
                 }).catch(() => { });
             }

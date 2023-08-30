@@ -42,10 +42,10 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                window.location.href = this.commonaddr('signin');
+                window.navigateTo(this.commonaddr('signin'));
             },
             myself: function () {
-                window.location.href = "/mobi/account/myself";
+                window.navigateTo("/mobi/account/myself");
             },
             //选项卡切换,index没有用，title为选项卡标识，作为排序类型用
             tabChange: function (index, title) {
@@ -90,13 +90,13 @@ $ready(function () {
             },
             //进入课程详情页
             godetail: function (id) {
-                var url = $api.url.dot(id, '/mobi/course/Detail');
-                window.location.href = url;
+                let url = $api.url.dot(id, '/mobi/course/Detail');
+                window.navigateTo(url);
             },
             //页面跳转
             gourl: function (page) {
-                var url = $api.url.set(page, {});
-                window.location.href = url;
+                let url = $api.url.set(page, {});
+                window.navigateTo(url);
             },
             //课程单元格滑动时
             cell_swipe: function (event) {

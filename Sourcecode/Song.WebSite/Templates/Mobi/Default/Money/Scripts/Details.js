@@ -80,14 +80,14 @@ $ready(function () {
         },
         methods: {
             login: function () {
-                window.location.href = this.commonaddr('signin');
+                window.navigateTo(this.commonaddr('signin'));
             },
             myself: function () {
-                window.location.href = "/mobi/account/myself";
+                window.navigateTo("/mobi/account/myself");
             },
             toRecharge: function () {
                 var url = "/mobi/Recharge/index";
-                window.location.href = url;
+                window.navigateTo(url);
             },
             onload: function () {
                 var th = this;

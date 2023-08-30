@@ -74,7 +74,7 @@ $ready(function () {
                 if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/ZzGongshang', user);
-                    window.location.href = url;
+                    window.navigateTo(url);
                     return;
                 }
                 this.openid = user.openid;
@@ -93,9 +93,9 @@ $ready(function () {
                         th.$refs['login'].success(th.binduser, '手机端', '郑州工商学院账号登录', '');
                         window.setTimeout(function () {
                             var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
+                            if (singin_referrer != '') window.navigateTo(singin_referrer);
                             else
-                                window.location.href = '/mobi/';
+                                window.navigateTo('/mobi/');
                         }, 300);
 
                     } else {
@@ -135,12 +135,12 @@ $ready(function () {
                 //obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.userId, 'field': th.tag  }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.userId, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '郑州工商学院账号登录', '');
                         window.setTimeout(function () {
-                            window.location.href = '/mobi/';
+                            window.navigateTo('/mobi/');
                         }, 300);
                     } else {
                         console.error(req.data.exception);

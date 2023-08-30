@@ -3,8 +3,8 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />     
-    <title>新闻</title> 
+    <include file="../inc/meta.inc" />
+    <title>新闻</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <a icon="&#xa020" href="/mobi/index"> </a>
             <search_input></search_input>
         </div>
-        <div class="context">          
+        <div class="context">
             <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
                 @load="onload">
                 <card>
@@ -24,7 +24,7 @@
                         检索：“{{search}}”
                     </card-title>
                     <card-context>
-                        <row v-for="(art,i) in articles" @click="window.location.href='article.'+art.Art_ID">
+                        <row v-for="(art,i) in articles" @click="navigateTo('article.'+art.Art_ID)">
                             <a href="#">{{art.Art_Title}}
 
                                 <van-tag color="#eee" text-color="#666">{{art.Art_PushTime|date("yyyy-MM-dd")}}

@@ -138,7 +138,7 @@
                 if (referrer == null || referrer == '')
                     referrer = $api.storage('singin_referrer');
                 referrer = decodeURIComponent(referrer);
-                window.location.href = referrer != '' ? referrer : '/';
+                window.navigateTo(referrer != '' ? referrer : '/');
             }
         }
     });

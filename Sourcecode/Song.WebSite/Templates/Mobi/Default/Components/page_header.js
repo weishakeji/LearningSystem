@@ -33,7 +33,7 @@ Vue.component('page_header', {
         },
         //返回主页
         btnHome: function () {
-            window.location.href = "/mobi/";
+            window.navigateTo("/mobi/");
         }
     },
     // 同样也可以在 vm 实例中像 "this.message" 这样使用

@@ -25,9 +25,9 @@ $ready(function () {
         methods: {
             //跳转到api缓存管理页面
             goApipage: function () {
-                var url = $api.url.set('api', {});
+                let url = $api.url.set('api', {});
                 //history.pushState({}, "", url);
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //清除试题练习的记录
             clearQues: function () {

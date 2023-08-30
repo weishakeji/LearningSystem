@@ -61,22 +61,20 @@ Vue.component('courses', {
         },
         //打开课程详情
         open: function (cour) {
-            var url = $api.url.dot(cour.Cou_ID, '/mobi/course/Detail');
-            window.location.href = url;
+            let url = $api.url.dot(cour.Cou_ID, '/mobi/course/Detail');
+            window.navigateTo(url);
         },
         //查看更多
         gomore: function () {
             var url = "/mobi/course/index";
             if (this.sbjid == 0 || this.sbjid == '') {
-                window.location.href = url;
-                return;
+                return window.navigateTo(url);
             }
             url = $api.url.set(url, {
                 'sbjid': this.sbjid,
                 'sbjname': encodeURIComponent(this.title)
             });
-
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //显示价格
         price: function (cour) {

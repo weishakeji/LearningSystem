@@ -84,11 +84,11 @@ $ready(function () {
             },
             //进入详情页
             detail: function (id) {
-                var url = $api.url.set('Knowledge', {
+                let url = $api.url.set('Knowledge', {
                     'id': id,
                     'couid': $api.querystring("couid")
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             }
         }
     });

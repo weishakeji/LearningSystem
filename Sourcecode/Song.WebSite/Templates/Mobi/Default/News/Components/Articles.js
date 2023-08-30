@@ -28,7 +28,7 @@ Vue.component('articles', {
     methods: {},
     template: `<card-context> 
         <div v-if="loading"><van-loading size="24px">加载中...</van-loading></div>
-        <row v-for="(art,i) in datas" v-if="datas.length>0" @click="window.location.href='article.'+art.Art_ID">
+        <row v-for="(art,i) in datas" v-if="datas.length>0" @click="navigateTo('article.'+art.Art_ID)">
         <a href="#">{{art.Art_Title}}        
             <van-tag color="#eee" text-color="#666">{{art.Art_PushTime|date("yyyy-MM-dd")}}</van-tag>
         </a>

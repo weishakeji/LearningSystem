@@ -1,7 +1,7 @@
 //搜索框
 $dom.load.css([$dom.pagepath() + 'Components/Styles/TestHeader.css']);
 Vue.component('test_header', {
-    props: ['title','icon'],
+    props: ['title', 'icon'],
     data: function () {
         return {
             couid: $api.querystring("couid"),
@@ -23,7 +23,7 @@ Vue.component('test_header', {
                         'sortid': $api.querystring("sortid", '')
                     });
                     history.pushState({}, "", url);
-                    window.location.href = url;
+                    window.navigateTo(url);
                 }
             },
             deep: true
@@ -34,7 +34,7 @@ Vue.component('test_header', {
             if (this.title) return this.title;
             return '在线测试';
         },
-        'ico':function(){
+        'ico': function () {
             if (this.icon) return this.icon;
             return 'e84b';
         }
@@ -51,7 +51,7 @@ Vue.component('test_header', {
                 'couid': $api.querystring("couid")
             });
             //history.pushState({}, "", url);
-            window.location.href = url;
+            window.navigateTo(url);
         },
         //返回上一页
         goback: function () {
@@ -67,7 +67,7 @@ Vue.component('test_header', {
         gocourse: function () {
             var couid = $api.querystring("couid", 0);
             var url = $api.url.dot(couid, '/mobi/course/Detail');
-            window.location.href = url;
+            window.navigateTo(url);
         }
     },
     template: `<div class="header">

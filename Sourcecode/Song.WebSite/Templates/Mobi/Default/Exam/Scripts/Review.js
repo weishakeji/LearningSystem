@@ -165,7 +165,7 @@ $ready(function () {
             //返回按钮事件
             goback: function () {
                 let url = '/mobi/exam';
-                window.location.href = $api.url.set(url, { 'tab': 'score_exam' });
+                window.navigateTo($api.url.set(url, { 'tab': 'score_exam' }));
             }
         }
     });

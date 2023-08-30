@@ -68,7 +68,7 @@ Vue.component('footer_menu', {
         },
         btnDefault: function (item) {
             if (!item.url || item.url == '') return;
-            window.location.href = item.url;
+            window.navigateTo(item.url);
         }
     },
     template: `<footer id="nav_menu">

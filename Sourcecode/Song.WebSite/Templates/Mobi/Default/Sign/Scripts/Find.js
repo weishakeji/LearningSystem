@@ -143,7 +143,7 @@
                         th.$dialog.alert({
                             message: '设置密码成功',
                         }).then(() => {
-                            window.location.href = 'in';
+                            window.navigateTo('in');
                         });
                     } else {
                         th.pw.error = true;

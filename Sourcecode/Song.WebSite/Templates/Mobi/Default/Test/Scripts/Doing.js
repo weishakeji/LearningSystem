@@ -43,11 +43,11 @@
         },
         mounted: function () {
             var th = this;
-            $api.bat(           
+            $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.get('TestPaper/ForID', { 'id': this.tpid })
             ).then(axios.spread(function (type, paper) {
-                th.loading.init = false;  
+                th.loading.init = false;
                 //考试相关
                 th.types = type.data.result;
                 th.paper = paper.data.result;
@@ -157,7 +157,7 @@
             //跳转到查看成绩
             goreview: function () {
                 var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //计算时间，参数：初始时间、考试时长
             calcTime: function () {
@@ -178,7 +178,7 @@
 
                 this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
-                this.paperAnswer.patter = patter;               
+                this.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(this.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
@@ -370,7 +370,7 @@
                     'tp': th.paper.Tp_Id,
                     'couid': $api.querystring("couid")
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
         },
         filters: {

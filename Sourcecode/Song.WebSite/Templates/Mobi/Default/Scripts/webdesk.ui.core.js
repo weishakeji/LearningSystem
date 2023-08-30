@@ -906,7 +906,7 @@
             var href = route.replace('/mobi/', '/web/');
             var pathname = window.location.pathname;
             var dot = pathname.indexOf('.') > -1 ? pathname.substring(pathname.lastIndexOf('.')) : '';
-            window.location.href = href + dot + search;
+            window.navigateTo(href + dot + search);
             return;
         }
         webdom.ready(function () {
@@ -1012,6 +1012,16 @@
         if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+    }
+    //重构一些方法
+    //页面跳转
+    window.navigateTo = function (url) {
+        //如果处在微信小程序中
+        if ($dom.isWeixinApp()) {
+            wx.navigateTo({ url: url });
+        } else {
+            window.location.href = url;
+        }
     }
 })();
 

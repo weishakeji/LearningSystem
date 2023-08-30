@@ -21,7 +21,7 @@
             </card>
 
             <card v-for="(item,index) in columns">
-                <card-title arrow @click="window.location.href='list.'+item.Col_UID">
+                <card-title arrow @click="navigateTo('list.'+item.Col_UID)">
                     <span icon="&#xe75c"></span>
                     {{item.Col_Name}}
                 </card-title>

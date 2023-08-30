@@ -103,7 +103,7 @@ Vue.component('outline_row', {
           'couid': couid,
           'olid': outline.Ol_ID,
         });
-        window.location.href = uri;
+        window.navigateTo(uri);
       } else {
         var link = window.location.href;
         link = link.substring(link.indexOf(window.location.pathname));
@@ -112,7 +112,7 @@ Vue.component('outline_row', {
           'olid': outline.Ol_ID,
           'link': encodeURIComponent(link)
         });
-        window.location.href = url;
+        window.navigateTo(url);
       }
     },
     //获取试题，用于练习之前的预载

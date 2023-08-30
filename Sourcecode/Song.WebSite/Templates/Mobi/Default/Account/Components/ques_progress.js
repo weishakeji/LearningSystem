@@ -46,7 +46,7 @@ Vue.component('ques_progress', {
         gourl:function(){
             var url="/mobi/question/course";
             url = $api.url.set(url, { 'couid': this.course.Cou_ID });
-            window.location.href = url;
+            window.navigateTo(url);
         }
     },
     template: `<div @click="gourl()">

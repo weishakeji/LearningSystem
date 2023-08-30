@@ -18,7 +18,7 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            th.loading = true;    
+            th.loading = true;
             //通知公告
             $api.cache('Notice/ForID', { 'id': this.id }).then(function (req) {
                 th.loading = false;
@@ -63,8 +63,8 @@ $ready(function () {
         },
         methods: {
             onSearch: function () {
-                var url = '/mobi/Notice/index?search=' + encodeURIComponent(this.sear_str);
-                window.location.href = url;
+                let url = '/mobi/Notice/index?search=' + encodeURIComponent(this.sear_str);
+                window.navigateTo(url);
             }
         }
     });

@@ -40,7 +40,7 @@
             </van-sticky>
             <template v-if="islogin">
                 <card class="first">
-                    <van-cell is-link @click="window.location.href='/mobi/Recharge/index'">
+                    <van-cell is-link @click="navigateTo('/mobi/Recharge/index')">
                         <template #title>
                             <span icon="&#xe73b">充值</span>
                         </template>
@@ -49,7 +49,7 @@
                         </template>
 
                     </van-cell>
-                    <van-cell is-link @click="window.location.href='/mobi/Money/Details'">
+                    <van-cell is-link @click="navigateTo('/mobi/Money/Details')">
                         <template #title>
                             <span icon="&#xe749">资金明细</span>
                         </template>
@@ -58,7 +58,7 @@
                         </template>
                     </van-cell>
 
-                    <van-cell is-link @click="window.location.href='Myfriends'">
+                    <van-cell is-link @click="navigateTo('Myfriends')">
                         <template #title>
                             <span icon="&#xe67d">我的朋友</span>
                         </template>
@@ -168,7 +168,7 @@
                 </card>
                 <card>
                     <van-collapse v-model="activeNames">
-                        <van-cell is-link @click="window.location.href='BindPhone'">
+                        <van-cell is-link @click="navigateTo('BindPhone')">
                             <template #title>
                                 <span icon="&#xe677">绑定手机</span>
                             </template>
@@ -219,7 +219,7 @@
                                 </van-cell>
                             </van-cell-group>
                         </van-collapse-item>
-                        <van-cell is-link @click="window.location.href='OtherLogin'">
+                        <van-cell is-link @click="navigateTo('OtherLogin')">
                             <template #title>
                                 <span icon="&#xe808">第三方账号绑定</span>
                             </template>

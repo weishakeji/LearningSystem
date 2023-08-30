@@ -18,10 +18,10 @@ Vue.component('search_input', {
             if (file != 'search' && this.search == '') return;
             if (this.uid != '') {
                 var url = "/mobi/News/search." + this.uid + "?s=" + encodeURIComponent(this.search);
-                window.location.href = url;
-            }else{
+                window.navigateTo(url);
+            } else {
                 var url = "/mobi/News/search?s=" + encodeURIComponent(this.search);
-                window.location.href = url;
+                window.navigateTo(url);
             }
         },
     },

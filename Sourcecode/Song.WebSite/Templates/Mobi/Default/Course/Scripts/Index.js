@@ -167,17 +167,17 @@ $ready(function () {
             },
             //课程单元格滑动时
             cell_swipe: function (event) {
-                var position = event.position;
+                let position = event.position;
                 if (position == "right") {
                     //console.log("显示详情");
                 }
             },
             //进入课程详情页
             godetail: function (id) {
-                var url = $api.url.set('Detail', {
+                let url = $api.url.set('Detail', {
                     'id': id
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //专业面板打开时
             popupSubject: function () {

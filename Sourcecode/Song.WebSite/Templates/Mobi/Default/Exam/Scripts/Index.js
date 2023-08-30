@@ -197,7 +197,7 @@ $ready(function () {
         methods: {
             goexaming: function (exam) {
                 let url = $dom.routepath() + 'doing';
-                window.location.href = $api.url.set(url, { 'id': exam.Exam_ID });
+                window.navigateTo($api.url.set(url, { 'id': exam.Exam_ID }));
             }
         },
         template: `<card>
@@ -386,7 +386,7 @@ $ready(function () {
                     "examid": this.result.Exam_ID,
                     "exrid": this.result.Exr_ID
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             }
         },
         template: `<card @click="gourl">

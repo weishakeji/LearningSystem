@@ -87,9 +87,9 @@ Vue.component('generic', {
         },
         //跳转到禁用页
         goAccessDenied(para) {
-            window.location.href = $api.url.set('/mobi/AccessDenied', {
+            window.navigateTo($api.url.set('/mobi/AccessDenied', {
                 'msg': para
-            });
+            }));
         }
     },
     template: ``

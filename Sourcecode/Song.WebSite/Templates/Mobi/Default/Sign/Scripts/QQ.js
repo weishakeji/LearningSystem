@@ -41,8 +41,7 @@ $ready(function () {
                 if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/qq', user);
-                    window.location.href = url;
-                    return;
+                    return window.navigateTo(url);
                 }
                 this.openid = user.openid;
                 this.tag = user.tag;
@@ -59,9 +58,9 @@ $ready(function () {
                         th.$refs['login'].success(th.binduser, '手机端', 'QQ登录', '');
                         window.setTimeout(function () {
                             var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
+                            if (singin_referrer != '') window.navigateTo(singin_referrer);
                             else
-                                window.location.href = '/mobi/';
+                                window.navigateTo('/mobi/');
                         }, 300);
 
                     } else {
@@ -105,7 +104,7 @@ $ready(function () {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', 'QQ登录', '');
                         window.setTimeout(function () {
-                            window.location.href = '/mobi/';
+                            window.navigateTo('/mobi/');
                         }, 300);
                     } else {
                         console.error(req.data.exception);

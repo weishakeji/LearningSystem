@@ -24,12 +24,12 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(         
+            $api.bat(
                 $api.get('TestPaper/ForID', { 'id': th.tpid }),
                 $api.get('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (paper, course) {
-                th.loading_init = false;                
-                th.paper = paper.data.result;               
+                th.loading_init = false;
+                th.paper = paper.data.result;
                 th.course = course.data.result;
             })).catch(function (err) {
                 console.error(err);
@@ -154,7 +154,7 @@ $ready(function () {
                     'tpid': this.tpid,
                     'couid': this.couid
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //单元格滑动时
             cell_swipe: function (event) {
@@ -171,7 +171,7 @@ $ready(function () {
                     'tp': item.Tp_Id,
                     'couid': this.couid
                 });
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //得分样式
             scoreStyle: function (score) {

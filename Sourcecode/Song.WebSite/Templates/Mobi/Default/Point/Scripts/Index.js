@@ -19,7 +19,7 @@ $ready(function () {
             var th = this;
             $api.get('Point/Param').then(function (req) {
                 if (req.data.success) {
-                    th.param  = req.data.result;                  
+                    th.param = req.data.result;
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -68,15 +68,15 @@ $ready(function () {
         methods: {
             login: function () {
                 var url = $api.url.set(this.commonaddr('signin'), {});
-                window.location.href = url;
+                window.navigateTo(url);
             },
             myself: function () {
                 var url = $api.url.set("/mobi/account/myself", {});
-                window.location.href = url;
+                window.navigateTo(url);
             },
             godetails: function () {
                 var url = $api.url.set("details", {});
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //计算示例
             calc_demo: function (point, ratio) {

@@ -56,8 +56,7 @@ $ready(function () {
                 if (type == 2 || type == '2') {
                     for (k in user) user[k] = encodeURIComponent(user[k]);
                     var url = $api.url.set('/student/OtherLogin/weixin', user);
-                    window.location.href = url;
-                    return;
+                    return window.navigateTo(url);
                 }
                 this.unionid = user.unionid;
                 this.tag = user.tag;
@@ -74,9 +73,9 @@ $ready(function () {
                         th.$refs['login'].success(th.binduser, '手机端', '微信登录', '');
                         window.setTimeout(function () {
                             var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
+                            if (singin_referrer != '') window.navigateTo(singin_referrer);
                             else
-                                window.location.href = '/mobi/';
+                                window.navigateTo('/mobi/');
                         }, 300);
 
                     } else {
@@ -124,7 +123,7 @@ $ready(function () {
                         th.$refs['login'].success(result, '手机端', '微信登录', '');
                         window.setTimeout(function () {
                             th.loading_crt = false;
-                            window.location.href = '/mobi/';
+                            window.navigateTo('/mobi/');
                         }, 300);
                     } else {
                         console.error(req.data.exception);
@@ -135,7 +134,7 @@ $ready(function () {
                     th.loading_crt = false;
                     console.error(err);
                 }).finally(function () {
-                   
+
                 });
             }
         }
