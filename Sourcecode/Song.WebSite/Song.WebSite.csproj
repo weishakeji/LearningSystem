@@ -384,6 +384,7 @@
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineModify.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineAccessory.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
+    <Content Include="Templates\OrgAdmin\Default\Default.html" />
     <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
     <Content Include="Templates\OrgAdmin\Default\News\Components\article_count.js" />
     <Content Include="Templates\OrgAdmin\Default\News\Components\Styles\article_count.css" />
@@ -397,6 +398,7 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Import.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Export.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Default.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortCourse.js" />
@@ -406,6 +408,7 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Default.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Export.js" />

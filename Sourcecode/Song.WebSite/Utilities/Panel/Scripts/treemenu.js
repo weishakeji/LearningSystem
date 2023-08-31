@@ -324,7 +324,7 @@
 			if (item.font.italic) fonts.css('font-style', item.font.italic ? 'italic' : 'normal', true);
 		}
 		span.html(item.title);
-		span.width('calc(100% - ' + ((item.level - 1) * 15 + 40) + 'px)');
+		span.width('calc(100% - ' + ((item.level - 2) * 15 + 40) + 'px)');
 
 		//如果有下级节点
 		if (item.type != 'node' && item.childs && item.childs.length > 0) {

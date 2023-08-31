@@ -3,13 +3,26 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="inc/meta.inc" />   
-    <title></title>
+    <include file="inc/meta.inc" />
+    <title>欢迎页</title>
 </head>
 
 <body>
-    <div id="vapp" v-cloak>
-     
+    <div id="vapp" v-cloak><span v-show="false">{{loading_init}}</span>
+        <div class="data_piece">
+            <piece title="学员总数" ico="e804" :iconsize="108" leftcolor="rgb(255 96 96)" rightcolor="rgb(253 135 135)">
+                1589
+            </piece>
+            <piece title="课程统计" ico="e813" :iconsize="101" leftcolor="#b8d8ff" rightcolor="#311bdb52">
+
+            </piece>
+            <piece title="师资力量" ico="e650" leftcolor="#92cb65" rightcolor="#28950e52">
+
+            </piece>
+            <piece title="在线人数" ico="e67d" leftcolor="rgb(95 198 255)" rightcolor="rgb(176 215 255)">
+
+            </piece>
+        </div>
     </div>
 </body>
 

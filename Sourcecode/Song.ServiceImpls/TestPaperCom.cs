@@ -821,7 +821,7 @@ namespace Song.ServiceImpls
             if (stid > 0) wc &= TestResults._.Ac_ID == stid;
             if (tpid > 0) wc &= TestResults._.Tp_Id == tpid;
             countSum = Gateway.Default.Count<TestResults>(wc);
-            TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_Score.Desc).ToArray<TestResults>(size, (index - 1) * size);
+            TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
             return exr;
         }
         #endregion
