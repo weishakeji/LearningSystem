@@ -17,12 +17,12 @@
             <div id="platname"><icon style="font-size: 23px;">&#xe687</icon>详细信息</div>
           </header>
         <context>
-            <card>
+            <card>           
                 <card-context>
                     <el-form ref="account" :model="account" :rules="accrules" size="medium" @submit.native.prevent
                         label-width="80px">
                         <el-form-item label="姓名" prop="Ac_Name">
-                            <el-input v-model="account.Ac_Name" style="width:180px" clearable>
+                            <el-input v-model.trim="account.Ac_Name" clearable>
                                 <icon slot="prefix">&#xe808</icon>
                             </el-input>
                         </el-form-item>
@@ -37,7 +37,7 @@
                             <el-input-number v-model="account.Ac_Age" style="width:180px"></el-input-number>
                         </el-form-item>
                         <el-form-item label="身份证" prop="Ac_IDCardNumber">
-                            <el-input v-model="account.Ac_IDCardNumber">
+                            <el-input v-model.trim="account.Ac_IDCardNumber">
                                 <icon slot="prefix">&#xe68f</icon>
                             </el-input>
                         </el-form-item>
@@ -52,7 +52,7 @@
                             </el-tooltip>
                         </el-form-item>
                         <el-form-item label="电子邮箱" prop="Ac_Email">
-                            <el-input v-model="account.Ac_Email">
+                            <el-input v-model.trim="account.Ac_Email">
                                 <icon slot="prefix">&#xe76e</icon>
                             </el-input>
                         </el-form-item>
@@ -62,7 +62,7 @@
                             </education>
                         </el-form-item>
                         <el-form-item label="专业" prop="Ac_Major">
-                            <el-input v-model="account.Ac_Major">
+                            <el-input v-model.trim="account.Ac_Major">
                                 <icon slot="prefix">&#xe84b</icon>
                             </el-input>
                         </el-form-item>
@@ -71,7 +71,8 @@
                                 @click="btnEnter('account')">
                                 确认
                             </el-button>
-                            <el-button type="success" native-type="submit" :loading="loading" plain @click="btnJump()">
+                            <el-button type="success" native-type="submit" :loading="loading" plain
+                                @click="btnJump()">
                                 跳过 <icon>&#xe6c6</icon>
                             </el-button>
                         </el-form-item>
