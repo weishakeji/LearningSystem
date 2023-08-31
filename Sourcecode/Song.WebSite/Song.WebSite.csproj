@@ -355,6 +355,7 @@
     <Content Include="Templates\Mobi\Default\Sign\Styles\Detail.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Find.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\In.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\Public.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Out.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\QQ.css" />
     <Content Include="Templates\Mobi\Default\Sign\Styles\Up.css" />

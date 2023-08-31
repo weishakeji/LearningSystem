@@ -1,13 +1,16 @@
-﻿html, body {
+﻿html, body, #vapp {
     width: 100%;
     height: 100%;
     margin: 0px;
-    padding: 0px;
-    background-color: #58c198;
+    padding: 0px;   
     overflow: hidden;
-    --background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
-    background-image: linear-gradient(to bottom right, #e5eff9, #58c198, #ffdda0);
+}
 
+#vapp {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
 }
 
 header {
@@ -35,13 +38,16 @@ header {
     position: static !important;
     margin-top: 20px;
 }
-.login_weisha{
-   min-height: 600px;
+
+.login_weisha {
+    min-height: 600px;
 }
-.config{
+
+.config {
     bottom: 30px !important;
 }
-.config::before{
+
+.config::before {
     content: '其它登录方式';
     display: block;
     width: 100%;
@@ -49,25 +55,29 @@ header {
     text-align: center;
     font-size: 14px;
 }
+
 .config>span:not(:last-child) {
     margin: 8px 10px 0px 0px !important;
 }
+
 /*已经登录*/
-#logged-area {     
+#logged-area {
     text-align: center;
     margin: auto;
     padding: 30px;
-    box-sizing: border-box;   
+    box-sizing: border-box;
 }
 
-#logged-area .ws_avatar{
+#logged-area .ws_avatar {
     margin: auto;
 }
-#logged-area .accname{
+
+#logged-area .accname {
     margin: 5px;
     color: #000;
     margin: 30px auto;
 }
+
 #logged-area button {
     font-size: 16px;
 }
@@ -92,3 +102,4 @@ a {
     background: rgba(33, 161, 255, .5) !important;
 
 }
+

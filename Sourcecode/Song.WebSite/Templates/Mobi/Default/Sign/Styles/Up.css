@@ -2,10 +2,8 @@
     width: 100%;
     height: 100%;
     margin: 0px;
-    padding: 0px;
-    background-color: #58c198;
-    overflow: hidden;
-    background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
+    padding: 0px;   
+    overflow: hidden;   
 }
 
 #vapp {

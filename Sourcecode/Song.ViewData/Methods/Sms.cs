@@ -232,11 +232,11 @@ namespace Song.ViewData.Methods
         public string SendVcode(string phone, int len)
         {
             if (len <= 0) throw new Exception("验证码长度不得小于等于零");
-            string vcode = "666888";
+            //string vcode = "666888";
             //当前机构的配置信息
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 
-            //string vcode = Business.Do<ISMS>().SendVcode(phone, len);
+            string vcode = Business.Do<ISMS>().SendVcode(phone, len);
             return ConvertToAnyValue.Create(org.Org_PlatformName + vcode).SHA256;
         }
     }

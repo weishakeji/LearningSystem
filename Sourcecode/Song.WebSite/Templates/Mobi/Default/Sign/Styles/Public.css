@@ -1,0 +1,43 @@
+﻿
+section.color {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section.color>div {
+    filter: blur(150px);
+    flex: 1;
+    width: 100%;
+}
+
+section.color>div:nth-child(1) {
+    background: #fb4b5feb;
+}
+
+section.color>div:nth-child(2) {
+    background: #07c160;
+}
+
+section.color>div:nth-child(3) {
+    background: #fff;
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    top: 20%;
+    left: 30%;
+}
+
+section.color>div:nth-child(4) {
+    background: #fff;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    bottom: 0%;
+    right: 0%;
+}
