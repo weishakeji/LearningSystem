@@ -273,7 +273,7 @@ Vue.component('study_video', {
             }
         },
     },
-    template: `<div id="study_video"  :video="state.urlVideo">    
+    template: `<div id="study_video"  :video="state.urlVideo"> 
         <div id="videoplayer" v-show="!state.otherVideo && !state.isLive"></div>
         <study_float :account="account" tag="study_video" remark="飘浮信息，防录屏"></study_float>
 

@@ -147,16 +147,11 @@ Vue.component('study_video', {
             if (this.state.isLive) return;
             var msg = "当前视频播放完成，是否进入下一个章节?<br/>";
             //msg += "<span style='color:red'>" + window.video_completed_countdown + "</span> 后自动跳转。";
-            this.$confirm(msg, '完成', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                dangerouslyUseHTMLString: true,
-                closeOnClickModal: false,
-                type: 'success'
+            this.$dialog.confirm({
+                message: '当前视频播放完成，是否进入下一个章节?',
             }).then(() => {
                 this.$emit('completed', this.outline, this.state);
-            }).catch(() => {
-            });
+            }).catch(() => { });           
         },
         //生成随机数，平均分布，且不重复
         buildrandom: function (count, length) {
@@ -272,7 +267,7 @@ Vue.component('study_video', {
             }
         },
     },
-    template: `<div id="study_video"  :video="state.urlVideo">    
+    template: `<div id="study_video"  :video="state.urlVideo">      
         <div id="videoplayer" v-show="!state.otherVideo && !state.isLive"></div>
         <study_float :account="account" tag="study_video" remark="飘浮信息，防录屏"></study_float>
 

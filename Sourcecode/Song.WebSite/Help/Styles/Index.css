@@ -11,7 +11,7 @@ html, body, #vapp {
 #vapp {
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: calc((100% - 1200px)/2);
     max-width: 1200px;
     padding: 20px 20px 0px 20px;
     box-sizing: border-box;
@@ -287,6 +287,6 @@ img[copyright='weixinqr'] {
         display: block;
         position: absolute;
         right: 10px;
-        bottom: 0px;
+        bottom: -10px;
     }
 }

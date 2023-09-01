@@ -76,7 +76,7 @@ Vue.component('outline_tree', {
                     }
                 }
             }
-            this.node_click_event(current);
+            this.outlineClick(current);
         },
         //计算缩进
         padding: function (level) {
@@ -90,7 +90,7 @@ Vue.component('outline_tree', {
             if (this.owned || this.course.Cou_IsFree || this.course.Cou_IsLimitFree) allow = true;
             if (allow) {
                 if (node.Ol_ID == this.olid) return;
-                this.node_click_event(node);
+                this.outlineClick(node);
             } else {
                 var url = $api.url.set('/mobi/course/buy', {
                     'couid': this.course.Cou_ID,
@@ -101,11 +101,46 @@ Vue.component('outline_tree', {
             }
         },
         //节点的事件
-        node_click_event: function (node) {
+        outlineClick: function (node) {
             this.olid = node.Ol_ID;
             this.current = node;
             this.$emit('change', node);
             this.menushow = false;
+        },
+        //下一个章节（视频章节）
+        nextOutline: function (outline, state) {
+            alert(3)
+            var videoarr = rebuild(this.outlines, []);
+            let next = getnext(outline, videoarr);
+            if (next != null) return this.outlineClick(next);
+            this.$alert('没有视频章节了！请学习其它章节。', '提示', {
+                confirmButtonText: '确定',
+                callback: action => { }
+            });
+            //获取所有的视频章节，生成一维队列，而不是树形数据了
+            function rebuild(list, arr) {
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i].Ol_IsVideo) arr.push(list[i]);
+                    if (list[i].children != null)
+                        arr = rebuild(list[i].children, arr);
+                }
+                return arr;
+            }
+            //获取下一个视频章节
+            function getnext(curr, list) {
+                let next = null, isfind = false;
+                for (let i = 0; i < list.length; i++) {
+                    if (curr.Ol_ID == list[i].Ol_ID) {
+                        isfind = true;
+                        continue;
+                    }
+                    if (isfind && list[i].Ol_IsVideo) {
+                        next = list[i];
+                        break;
+                    }
+                }
+                return next;
+            }
         },
         show: function () {
             this.menushow = true;

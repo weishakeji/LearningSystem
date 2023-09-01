@@ -60,7 +60,6 @@ Vue.component('study_outline', {
             $api.cache("Outline/tree", { 'couid': th.couid, 'isuse': true }),
             $api.cache("Course/ForID", { id: th.couid })
         ).then(axios.spread(function (ol, cur) {
-            th.loading = false;
             if (cur.data.success) {
                 th.course = cur.data.result;
                 document.title = th.course.Cou_Name;
@@ -82,7 +81,7 @@ Vue.component('study_outline', {
                 if (th.olid == '') {
                     th.olid = ol.data.result[0].Ol_ID;
                     th.outline = th.getOutline(th.olid, null);
-                    if (!th.outline.Ol_IsVideo && th.outline.Ol_QuesCount <1)
+                    if (!th.outline.Ol_IsVideo && th.outline.Ol_QuesCount < 1)
                         th.outline = th.getNext(th.outline);
                     if (th.outline == null) th.outline = th.getOutline(th.olid, null);
                 } else {
@@ -102,7 +101,6 @@ Vue.component('study_outline', {
                 th.$emit('init', th.course, th.outline);
                 th.outlineClick(th.outline, null);
             } else {
-                th.loading = false;
                 th.outlines = [];
                 th.$emit('init', th.course, {});
                 //if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
@@ -112,7 +110,7 @@ Vue.component('study_outline', {
             //Vue.prototype.$alert(err);
             th.outlines = [];
             console.error(err);
-        });
+        }).finally(() => th.loading = false);
     },
     methods: {
         //选项卡的点击事件
@@ -153,7 +151,6 @@ Vue.component('study_outline', {
                 $api.get('Outline/State', { 'olid': olid, 'acid': th.account.Ac_ID }),
                 $api.cache("Outline/Info", { 'olid': olid })
             ).then(axios.spread(function (state, info) {
-                th.loading = false;
                 //获取结果
                 var result = info.data.result;
                 for (let key in state.data.result) {
@@ -189,83 +186,43 @@ Vue.component('study_outline', {
                     alert(err);
                     console.error(err);
                 });
-            })).catch(function (err) {
-                th.loading = false;
-                //alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //下一个章节（视频章节）
         nextOutline: function (outline, state) {
-            //下一个章节
-            var next = this.getNext(outline);
+            var videoarr = rebuild(this.outlines, []);
+            let next = getnext(outline, videoarr);
             if (next != null) return this.outlineClick(next);
-
             this.$alert('没有视频章节了！请学习其它章节。', '提示', {
                 confirmButtonText: '确定',
                 callback: action => { }
             });
-        },
-        getNext: function (outline, list) {
-            var next = null;
-            next = this.getVideo_forChild(outline);
-            if (next != null) return next;
-            next = this.getVideo_forNext(outline, true);
-            if (next != null) return next;
-            //
-            var parent = this.getOutline(outline.Ol_PID);
-            var brother = null;
-            while (parent != null && next == null) {
-                var brother = this.getVideo_forNext(parent, false);
-                if (brother == null) parent = this.getOutline(parent.Ol_PID);
-                else
-                    break;
-            }
-            if (brother != null)
-                next = this.getNext(brother);
-            return next;
-        },
-        //在树形列表中查找视频章节
-        getVideo_forChild: function (outline) {
-            if (outline == null) return null;
-            var ol = null;
-            var list = outline.children;
-            if (list && list.length > 0) {
-                ol = list.find((n) => {
-                    return n.Ol_IsVideo || n.Ol_QuesCount > 0;
-                });
-                if (ol == null) {
-                    for (let i = 0; i < list.length; i++) {
-                        if (list[i].children && list[i].children.length > 0)
-                            ol = this.getVideo_forChild(list[i]);
-                        if (ol != null) break;
-                    }
-                }
-            }
-            return ol;
-        },
-        //获取同级的下一个
-        getVideo_forNext: function (outline, isvideo) {
-            var next = null;
-            var parent = this.getOutline(outline.Ol_PID);
-            var list = parent != null ? parent.children : this.outlines;
-            if (list && list.length > 0) {
+            //获取所有的视频章节，生成一维队列，而不是树形数据了
+            function rebuild(list, arr) {
                 for (let i = 0; i < list.length; i++) {
-
-                    if (list[i].Ol_ID == outline.Ol_ID && i < list.length - 1) {
-                        next = list[i + 1];
+                    if (list[i].Ol_IsVideo) arr.push(list[i]);
+                    if (list[i].children != null)
+                        arr = rebuild(list[i].children, arr);
+                }
+                return arr;
+            }
+            //获取下一个视频章节
+            function getnext(curr, list) {
+                let next = null, isfind = false;
+                for (let i = 0; i < list.length; i++) {
+                    if (curr.Ol_ID == list[i].Ol_ID) {
+                        isfind = true;
+                        continue;
+                    }
+                    if (isfind && list[i].Ol_IsVideo) {
+                        next = list[i];
                         break;
                     }
                 }
+                return next;
             }
-            if (next != null) {
-                if (!isvideo) return next;
-                if (isvideo && next.Ol_IsVideo) return next;
-                next = this.getVideo_forNext(next, isvideo);
-                if (next != null) return next;
-            }
-            return next;
-        }
+        },
     },
     template: `<div id="rightBox">          
         <div class="tabs">            
