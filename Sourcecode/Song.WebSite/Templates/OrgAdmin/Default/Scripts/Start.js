@@ -4,22 +4,24 @@ $ready(function () {
         el: '#vapp',
         data: {
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
-            datas: {},
-            loading_init: true
+            stat: {},       //机构的各种统计数据
+            loading_init: true,
+            loading_stat: true
         },
         mounted: function () {
             var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(axios.spread(function (platinfo, org) {
                 //获取结果           
                 th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
+                th.org = org.data.result;
                 //机构配置信息
-                th.config = $api.organ(th.organ).config;
+                th.config = $api.organ(th.org).config;
+                th.getStatistics(th.org);
             })).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -31,6 +33,20 @@ $ready(function () {
         watch: {
         },
         methods: {
+            //获取统计数据
+            getStatistics: function (org) {
+                var th = this;
+                th.loading_stat = true;
+                $api.get('Organization/Statistics', { 'orgid': org.Org_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.stat = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_stat = false);
+            }
         }
     });
     Vue.component('piece', {

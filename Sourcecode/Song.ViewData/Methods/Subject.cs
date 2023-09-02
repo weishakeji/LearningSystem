@@ -307,7 +307,7 @@ namespace Song.ViewData.Methods
         public int CountOfCourse(long sbjid, bool? use)
         {
             Business.Do<ICourse>().CourseOfCount(sbjid);
-            return Business.Do<ICourse>().CourseOfCount(-1, sbjid, -1, use);
+            return Business.Do<ICourse>().CourseOfCount(-1, sbjid, -1, use, null);
         }
         /// <summary>
         /// 当前专业所包含的所有下级专业数量（不包括自身）

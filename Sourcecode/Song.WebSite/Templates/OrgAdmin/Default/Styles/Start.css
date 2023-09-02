@@ -8,7 +8,7 @@ div.data_piece {
 }
 
 div.data_piece>div:not(:last-child) {
-	margin-right: 10px;
+	margin-right: 20px;
 }
 
 div.piece {
@@ -54,6 +54,10 @@ div.piece div.area div.tit {
 
 div.piece div.area div.contx {
 	flex: 1;
-	padding: 5px 20px 10px 20px;
+	padding: 10px 20px 10px 20px;
 	color: #fff;
+	font-size: 18px;
+}
+div.piece div.area div.contx b{
+	font-size: 22px;
 }

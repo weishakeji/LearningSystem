@@ -166,8 +166,9 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="thid">教师id</param>
         /// <param name="isuse">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
+        /// <param name="isfree">是否免费</param>
         /// <returns></returns>
-        int CourseOfCount(int orgid, long  sbjid, int thid, bool? isuse);
+        int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse, bool? isfree);
         /// <summary>
         /// 专业下的课程数，包括启用、不启用的，所有课程
         /// </summary>
@@ -378,7 +379,7 @@ namespace Song.ServiceInterfaces
         /// <param name="istry"></param>
         /// <returns></returns>
         List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry);
-       
+        
         /// <summary>
         /// 课程收益
         /// </summary>

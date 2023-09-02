@@ -317,7 +317,7 @@ namespace Song.ViewData.Methods
         {
             JObject jo = new JObject();
             //课程数
-            jo.Add("course", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null));
+            jo.Add("course", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null, null));
             //专业数
             jo.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));
             //试题数

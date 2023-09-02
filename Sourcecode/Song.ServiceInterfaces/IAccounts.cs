@@ -277,7 +277,7 @@ namespace Song.ServiceInterfaces
         /// <param name="orgs">机构id,用逗号分隔</param>
         /// <returns></returns>
         string AccountsExport4Excel(string path, string orgs);
-        #endregion
+        #endregion       
 
         #region 第三方平台绑定
         /// <summary>
@@ -586,13 +586,27 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         MoneyAccount MoneySingle(string serial);
         /// <summary>
-        /// 计算资金收益
+        /// 某个学员的资金收益
         /// </summary>
         /// <param name="accid">账号id</param>
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
         /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
         /// <returns></returns>
         decimal MoneySum(int accid, int type, int from);
+        /// <summary>
+        /// 充过值或消费过的学员人数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <returns></returns>
+        int MoneyForAccount(int orgid, int type, int from);       
+        /// <summary>
+        /// 充值的资金量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        decimal MoneyForTotal(int orgid, int type, int from);
         /// <summary>
         /// 修改流水信息
         /// </summary>
