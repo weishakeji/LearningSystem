@@ -69,7 +69,7 @@ namespace Song.ServiceImpls.AccountLogin
         public static void Init()
         {
             int size = 1000;
-            int total = Business.Do<IAccounts>().AccountsOfCount(-1, true);
+            int total = Business.Do<IAccounts>().AccountsOfCount(-1, true, -1);
             int pager = total % size == 0 ? total / size : total / size + 1;
             for(int i = 1; i <= pager; i++)
             {

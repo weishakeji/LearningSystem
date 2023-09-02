@@ -49,6 +49,7 @@ $ready(function () {
             }
         }
     });
+    //头部的数据块
     Vue.component('piece', {
         props: ["title",    //标题
             "ico",          //右侧大图标
@@ -77,9 +78,7 @@ $ready(function () {
                 if ($api.isnull(this.leftcolor) && $api.isnull(this.rightcolor)) return '';
                 let left = $api.isnull(this.leftcolor) ? '#fff' : this.leftcolor;
                 let right = $api.isnull(this.rightcolor) ? '#fff' : this.rightcolor;
-                let c = 'background: linear-gradient(to right, ' + left + ', ' + right + ');';
-                console.log(c);
-                return c;
+                return 'background: linear-gradient(to right, ' + left + ', ' + right + ');';
             }
         },
         mounted: function () {
@@ -93,6 +92,46 @@ $ready(function () {
                     <div class="contx">
                         <slot></slot>
                     </div>
+                </div>
+        </div>`
+    });
+    //数据项
+    Vue.component('dataitem', {
+        props: ["title", "ico", "iconsize", "color"],
+        data: function () {
+            return {}
+        },
+        watch: {},
+        computed: {
+            //左侧图标
+            'icon': function () {
+                if ($api.isnull(this.ico)) return '&#xe729';
+                return '&#x' + this.ico;
+            },
+            //背景图标的字号
+            'icon_size': function () {
+                let fontsize = 20;
+                if (!$api.isnull(this.iconsize) && !(isNaN(Number(this.iconsize))))
+                    fontsize = Number(this.iconsize);
+                return 'font-size: ' + fontsize + 'px;';
+            },
+            //颜色
+            "icon_color": function () {
+                if ($api.isnull(this.color)) return '';
+                return 'color: ' + this.color + ';';
+            }
+        },
+        mounted: function () {
+        },
+        methods: {
+        },
+        template: `<div class="dataitem">        
+                <icon v-html="icon"  :style="icon_size + icon_color"></icon>
+                <div class="area">                    
+                    <div class="contx">
+                        <slot></slot>
+                    </div>
+                    <div class="tit">{{title}}</div>
                 </div>
         </div>`
     });

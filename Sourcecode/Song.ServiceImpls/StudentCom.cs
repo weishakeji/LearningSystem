@@ -1830,16 +1830,20 @@ on c.qus_id=sq.qus_id order by sq.count desc";
 
         #region 统计
         /// <summary>
-        /// 购买课程的学员人数，不记录重复的，购买多次也算一次
+        /// 购买课程的学员人数
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="persontime">是否按人次计算，如果为true,则取Student_Course表所有记录数；如果为false，不记录重复的，购买多次也算一次</param>
         /// <returns></returns>
-        public int ForCourseCount(int orgid)
+        public int ForCourseCount(int orgid, bool persontime)
         {
             WhereClip wc = new WhereClip();
-            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;        
-            int total = Gateway.Default.From<Student_Course>().Where(wc).GroupBy(Student_Course._.Ac_ID.Group).Select(new Field[] { Student_Course._.Ac_ID }).Count();
-            return total;
+            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;
+            if (persontime)
+            {
+                return Gateway.Default.Count<Student_Course>(wc);
+            }
+            return Gateway.Default.From<Student_Course>().Where(wc).GroupBy(Student_Course._.Ac_ID.Group).Select(new Field[] { Student_Course._.Ac_ID }).Count();
         }
         /// <summary>
         /// 参加模拟测试的人数

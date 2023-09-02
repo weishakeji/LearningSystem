@@ -39,12 +39,14 @@ namespace Song.ViewData.Methods
             JObject jo = new JObject();
             //学员数
             JObject jacc = new JObject();
-            jacc.Add("total", Business.Do<IAccounts>().AccountsOfCount(orgid, null));     //学员总数
-            jacc.Add("usecount", Business.Do<IAccounts>().AccountsOfCount(orgid, true));     //启用的学员数
-            jacc.Add("online", Song.ViewData.LoginAccount.list.Count);                  //在线人数           
+            jacc.Add("total", Business.Do<IAccounts>().AccountsOfCount(orgid, null, -1));     //学员总数
+            jacc.Add("usecount", Business.Do<IAccounts>().AccountsOfCount(orgid, true, -1));     //启用的学员数
+            jacc.Add("man", Business.Do<IAccounts>().AccountsOfCount(orgid, true, 1));            //男性人数    
+            jacc.Add("woman", Business.Do<IAccounts>().AccountsOfCount(orgid, true, 2));            //女性人数
+            jacc.Add("online", Song.ViewData.LoginAccount.list.Count);                       //在线人数           
             jacc.Add("recharge", Business.Do<IAccounts>().MoneyForAccount(orgid, 2, 3));         //付费学员数，即充过值的人数            
             jacc.Add("pay", Business.Do<IAccounts>().MoneyForAccount(orgid, 1, 4));         //消费学员数，即购买过课程的人数
-            jacc.Add("course", Business.Do<IStudent>().ForCourseCount(orgid));             //正在学习的人数,即选修过课程的人数
+            jacc.Add("course", Business.Do<IStudent>().ForCourseCount(orgid, false));             //正在学习的人数,即选修过课程的人数
             jacc.Add("test", Business.Do<IStudent>().ForTestCount(orgid));              //参与过模拟测试的人数
             jacc.Add("exercise", Business.Do<IStudent>().ForExerciseCount(orgid));      //参与过试题练习的人数
             jacc.Add("study", Business.Do<IStudent>().ForStudyCount(orgid));            //参与过视频学习的人数
@@ -55,6 +57,7 @@ namespace Song.ViewData.Methods
             jcoud.Add("total", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null, null));   //课程总数
             jcoud.Add("usecount", Business.Do<ITeacher>().TeacherOfCount(orgid, true));   //可用课程数
             jcoud.Add("free", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null, true));   //免费的课程数  
+            jcoud.Add("buycount", Business.Do<IStudent>().ForCourseCount(orgid, true));     //课程的选修人次
             jo.Add("course", jcoud);
 
             //教师
@@ -62,6 +65,15 @@ namespace Song.ViewData.Methods
             jteach.Add("total", Business.Do<ITeacher>().TeacherOfCount(orgid, null));   //教师总数
             jteach.Add("usecount", Business.Do<ITeacher>().TeacherOfCount(orgid, true));   //启用的教师数
             jo.Add("teacher", jteach);
+
+            //资源
+            JObject jres = new JObject();
+            jres.Add("video", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "CourseVideo"));   //视频数
+            jres.Add("document", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "Course"));   //资料数
+            jres.Add("testpaper", Business.Do<ITestPaper>().PaperOfCount(orgid, -1, -1, -1, null));       //试卷数         
+            jres.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1, -1, -1, -1, null));      //试题数
+            jres.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));         //专业数
+            jo.Add("resource", jres);
             return jo;
         }
         /// <summary>

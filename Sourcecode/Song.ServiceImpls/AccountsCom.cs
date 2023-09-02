@@ -771,11 +771,12 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public int AccountsOfCount(int orgid, bool? isUse)
+        public int AccountsOfCount(int orgid, bool? isUse, int gender)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            if (gender > 0) wc.And(Accounts._.Ac_Sex == gender);
             return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>
@@ -2228,6 +2229,28 @@ namespace Song.ServiceImpls
             hssfworkbook.Write(file);
             file.Close();
             return path;
+        }
+        #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 统计各个年龄段的学员
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">年龄间隔，即某个年龄段</param>
+        /// <returns></returns>
+        public DataTable AgeGroup(int orgid, int interval)
+        {
+            if (interval <= 0) interval = 10;
+            string sql = @"select interval*{interval} as 'group',COUNT(0) as 'count' from
+                            (select FLOOR(age / {interval}) as interval, age  from
+                            (select * from
+                            (select  YEAR(GETDATE()) - Ac_Age as 'age' from Accounts where {orgid}) as agedata where age < 100 and age > 0) as tt
+                            ) as result group by interval order by interval asc";
+            sql = sql.Replace("{interval}", interval.ToString());
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
         }
         #endregion
 

@@ -219,8 +219,9 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="isUse"></param>
+        /// <param name="gender">性别</param>
         /// <returns></returns>
-        int AccountsOfCount(int orgid, bool? isUse);
+        int AccountsOfCount(int orgid, bool? isUse, int gender);
         /// <summary>
         /// 分页获取所有的网站账户帐号；
         /// </summary>
@@ -694,6 +695,16 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 考试成绩
+        #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 统计各个年龄段的学员
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">年龄间隔，即某个年龄段</param>
+        /// <returns></returns>
+        DataTable AgeGroup(int orgid, int interval);
         #endregion
     }
 }

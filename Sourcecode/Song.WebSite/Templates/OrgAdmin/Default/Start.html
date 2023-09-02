@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak><span v-show="false">{{loading_init}}</span>
+        <!--主要数据项-->
         <div class="data_piece">
             <div loading="p1" v-if="loading_stat"></div>
             <template v-else>
@@ -27,6 +28,12 @@
                 </piece>
             </template>
         </div>
+        <!--详细数据项-->
+        <template v-if="!loading_stat">
+            <dataitem title="参加模拟测试的人数" :iconsize="30" color="#b8d8ff" ico="e810">{{stat.account.test}}</dataitem>
+            <dataitem title="练习过试题的人数" :iconsize="30" color="#b8d8ff" ico="e755">{{stat.account.exercise}}</dataitem>
+            <dataitem title="视频学习的人数" :iconsize="30" color="#b8d8ff" ico="e761">{{stat.account.study}}</dataitem>
+        </template>
     </div>
 </body>
 
