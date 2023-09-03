@@ -3,7 +3,8 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-
+            ispad: $dom.ispad(),
+            ua:navigator.userAgent
         },
         mounted: function () {
             this.mobile_to_mobi();
@@ -27,7 +28,7 @@ $ready(function () {
                 if (href.indexOf('mobile') > -1) {
                     href = href.replace('mobile', 'mobi');
                     window.location.href = href;
-                }               
+                }
             }
         }
     });

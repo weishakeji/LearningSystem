@@ -40,9 +40,9 @@ $ready(function () {
         watch: {
             'account': {
                 handler: function (nv, ov) {
-                    if ($api.isnull(nv)) return;
-                    this.my_exam();
                     this.loading_init = false;
+                    if ($api.isnull(nv)) return;
+                    this.my_exam();                
                 }, immediate: true
             },
             'tabmenu': {

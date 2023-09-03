@@ -316,7 +316,7 @@
             var styles = document.defaultView.getComputedStyle(ele, null);
             var width = ele.offsetWidth;
             var attr = ['border-left-width', 'border-right-width', 'padding-left', 'padding-right'];
-            for (let i = 0; i < attr.length; i++)
+            for (var i = 0; i < attr.length; i++)
                 width -= parseFloat(styles.getPropertyValue(attr[i]));
             return width;
         } else {
@@ -333,7 +333,7 @@
             var styles = document.defaultView.getComputedStyle(ele, null);
             var height = ele.offsetHeight;
             var attr = ['border-top-width', 'border-bottom-width', 'padding-top', 'padding-bottom'];
-            for (let i = 0; i < attr.length; i++)
+            for (var i = 0; i < attr.length; i++)
                 height -= parseFloat(styles.getPropertyValue(attr[i]));
             return height;
         } else {
@@ -786,8 +786,8 @@
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
-                for (let i = 0; i < arr.length; i++) {
-                    let src = arr[i].getAttribute('src');
+                for (var i = 0; i < arr.length; i++) {
+                    var src = arr[i].getAttribute('src');
                     if (src == null) continue;
                     if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
                     if (one.toLowerCase() == src.toLowerCase()) {
@@ -895,6 +895,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备不是手机端，转向web端页面
+       
         if (!(webdom.ismobi() || webdom.isWeixinApp() || webdom.ispad()) && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
             var href = route.replace('/mobi/', '/web/');

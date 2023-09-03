@@ -146,7 +146,7 @@
     display: flex;
 }
 
-.cour-box .van-cell__title>* {
+.cour-box .van-cell__title>*:not(:first-child) {
     flex: 1;
 }
 

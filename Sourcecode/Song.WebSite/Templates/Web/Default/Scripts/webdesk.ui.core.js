@@ -316,7 +316,7 @@
             var styles = document.defaultView.getComputedStyle(ele, null);
             var width = ele.offsetWidth;
             var attr = ['border-left-width', 'border-right-width', 'padding-left', 'padding-right'];
-            for (let i = 0; i < attr.length; i++)
+            for (var i = 0; i < attr.length; i++)
                 width -= parseFloat(styles.getPropertyValue(attr[i]));
             return width;
         } else {
@@ -333,7 +333,7 @@
             var styles = document.defaultView.getComputedStyle(ele, null);
             var height = ele.offsetHeight;
             var attr = ['border-top-width', 'border-bottom-width', 'padding-top', 'padding-bottom'];
-            for (let i = 0; i < attr.length; i++)
+            for (var i = 0; i < attr.length; i++)
                 height -= parseFloat(styles.getPropertyValue(attr[i]));
             return height;
         } else {
@@ -794,8 +794,8 @@
                 //判断js文件是否存在，如果存在则不加载
                 var exist = false;
                 var arr = document.querySelectorAll("script");
-                for (let i = 0; i < arr.length; i++) {
-                    let src = arr[i].getAttribute('src');
+                for (var i = 0; i < arr.length; i++) {
+                    var src = arr[i].getAttribute('src');
                     if (src == null) continue;
                     if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
                     if (one.toLowerCase() == src.toLowerCase()) {
@@ -869,7 +869,7 @@
     };
     //页面路由的路径（不包括当前页面）
     webdom.routepath = function () {
-        let route = this.route();
+        var route = this.route();
         if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);
         return route;
     };
