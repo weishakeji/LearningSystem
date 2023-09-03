@@ -705,6 +705,24 @@ namespace Song.ServiceInterfaces
         /// <param name="interval">年龄间隔，即某个年龄段</param>
         /// <returns></returns>
         DataTable AgeGroup(int orgid, int interval);
+        /// <summary>
+        /// 统计学员注册的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        DataTable RegTimeGroup(int orgid, string interval, DateTime start, DateTime end);
+        /// <summary>
+        /// 统计学员登录情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        DataTable LoginTimeGroup(int orgid, string interval, DateTime start, DateTime end);
         #endregion
     }
 }
