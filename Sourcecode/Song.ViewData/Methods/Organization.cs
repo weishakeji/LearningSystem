@@ -48,6 +48,7 @@ namespace Song.ViewData.Methods
             jacc.Add("pay", Business.Do<IAccounts>().MoneyForAccount(orgid, 1, 4));         //消费学员数，即购买过课程的人数
             jacc.Add("course", Business.Do<IStudent>().ForCourseCount(orgid, false));             //正在学习的人数,即选修过课程的人数
             jacc.Add("test", Business.Do<IStudent>().ForTestCount(orgid));              //参与过模拟测试的人数
+            jacc.Add("exam", Business.Do<IStudent>().ForExamCount(orgid));              //参加考试的人数
             jacc.Add("exercise", Business.Do<IStudent>().ForExerciseCount(orgid));      //参与过试题练习的人数
             jacc.Add("study", Business.Do<IStudent>().ForStudyCount(orgid));            //参与过视频学习的人数
             jo.Add("account", jacc);
@@ -59,6 +60,12 @@ namespace Song.ViewData.Methods
             jcoud.Add("free", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null, true));   //免费的课程数  
             jcoud.Add("buycount", Business.Do<IStudent>().ForCourseCount(orgid, true));     //课程的选修人次
             jo.Add("course", jcoud);
+
+            //考试
+            JObject jexam = new JObject();
+            jexam.Add("theme", Business.Do<IExamination>().ExamOfCount(orgid,null, true));   //考试主题数
+            jexam.Add("exam", Business.Do<IExamination>().ExamOfCount(orgid, null, false));   //考试场次数
+            jo.Add("exam", jexam);
 
             //教师
             JObject jteach = new JObject();
@@ -73,6 +80,8 @@ namespace Song.ViewData.Methods
             jres.Add("testpaper", Business.Do<ITestPaper>().PaperOfCount(orgid, -1, -1, -1, null));       //试卷数         
             jres.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1, -1, -1, -1, null));      //试题数
             jres.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));         //专业数
+            jres.Add("news", Business.Do<IContents>().ArticleOfCount(orgid, null, true));           //新闻数
+            jres.Add("notice", Business.Do<INotice>().OfCount(orgid, true));           //通知数
             jo.Add("resource", jres);
             return jo;
         }

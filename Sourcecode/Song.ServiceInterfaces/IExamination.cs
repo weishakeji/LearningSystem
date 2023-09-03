@@ -80,6 +80,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Examination> ExamCount(int orgid, bool? isUse, int count);
         /// <summary>
+        /// 考试数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isUse"></param>
+        /// <param name="istheme">为true取考试主题数；false时，取场次数</param>
+        /// <returns></returns>
+        int ExamOfCount(int orgid, bool? isUse, bool istheme);
+        /// <summary>
         /// 获取当前学生要参加的考试
         /// </summary>
         /// <param name="stid"></param>
@@ -411,5 +419,8 @@ namespace Song.ServiceInterfaces
         ExamResults StudentForCourseExam(long couid, int acid);
         #endregion
 
+        #region 统计
+
+        #endregion
     }
 }

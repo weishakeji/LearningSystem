@@ -1858,6 +1858,18 @@ on c.qus_id=sq.qus_id order by sq.count desc";
             return total;
         }
         /// <summary>
+        /// 参加考试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public int ForExamCount(int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= ExamResults._.Org_ID == orgid;
+            int total = Gateway.Default.From<ExamResults>().Where(wc).GroupBy(ExamResults._.Ac_ID.Group).Select(new Field[] { ExamResults._.Ac_ID }).Count();
+            return total;
+        }
+        /// <summary>
         /// 参加试题练习的人数
         /// </summary>
         /// <param name="orgid"></param>

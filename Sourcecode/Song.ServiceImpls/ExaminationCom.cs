@@ -322,7 +322,9 @@ namespace Song.ServiceImpls
 
         public List<Examination> ExamCount(int orgid, bool? isUse, int count)
         {
-            WhereClip wc = Examination._.Org_ID == orgid && Examination._.Exam_IsTheme == true;
+            WhereClip wc = new WhereClip();
+            wc &= Examination._.Exam_IsTheme == true;
+            if (orgid > 0) wc &= Examination._.Org_ID == orgid;
             if (isUse != null) wc.And(Examination._.Exam_IsUse == (bool)isUse);
             count = count > 0 ? count : int.MaxValue;
             Song.Entities.Examination[] all = Gateway.Default.From<Examination>().Where(wc).OrderBy(Examination._.Exam_Date.Desc).ToArray<Examination>(count);
@@ -330,6 +332,21 @@ namespace Song.ServiceImpls
             foreach (Song.Entities.Examination t in all)
                 _GetSelfExam_Add(exams, t);
             return exams;
+        }
+        /// <summary>
+        /// 考试数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isUse"></param>
+        /// <param name="istheme">为true取考试主题数；false时，取场次数</param>
+        /// <returns></returns>
+        public int ExamOfCount(int orgid, bool? isUse, bool istheme)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Examination._.Org_ID == orgid;
+            if (isUse != null) wc.And(Examination._.Exam_IsUse == (bool)isUse);
+            wc &= Examination._.Exam_IsTheme == istheme;
+            return Gateway.Default.Count<Examination>(wc);
         }
         public List<Examination> GetSelfExam(int stid, DateTime? start, DateTime? end, string search)
         {

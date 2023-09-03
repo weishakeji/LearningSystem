@@ -635,11 +635,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int ForTestCount(int orgid);
         /// <summary>
+        /// 参加考试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        int ForExamCount(int orgid);
+        /// <summary>
         /// 参加试题练习的人数
         /// </summary>
         /// <param name="orgid"></param>
         /// <returns></returns>
-        int ForExerciseCount(int orgid);
+        int ForExerciseCount(int orgid);       
         /// <summary>
         /// 视频学习的人数
         /// </summary>
