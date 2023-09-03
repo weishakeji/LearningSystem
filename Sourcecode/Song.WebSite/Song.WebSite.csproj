@@ -420,6 +420,17 @@
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Results.js" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentlogin.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentage.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\piece.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\dataitem.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\studentlogin.css" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\studentage.css" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\piece.css" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\dataitem.css" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Index.html" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Scripts\Index.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Styles\Index.css" />
     <Content Include="Templates\Pad\Default\_self.xml" />
     <Content Include="Templates\Pay\Default\Alibaba\Scripts\Mobi.js" />
     <Content Include="Templates\Pay\Default\Alibaba\Styles\Mobi.css" />
@@ -1297,6 +1308,7 @@
     <Content Include="Utilities\Components\Styles\upload-excel.css" />
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\echarts\echarts.min.js" />
     <Content Include="Utilities\ElementUi\version.txt" />
     <Content Include="Utilities\Fonts\Help.html" />
     <Content Include="Utilities\Fonts\iconfont.ico" />
@@ -1871,7 +1883,6 @@
     <Content Include="Utilities\echarts\chart\venn.js" />
     <Content Include="Utilities\echarts\chart\wordCloud.js" />
     <Content Include="Utilities\echarts\echarts-all.js" />
-    <Content Include="Utilities\echarts\echarts.js" />
     <Content Include="Utilities\ElementUi\index.css" />
     <Content Include="Utilities\ElementUi\index.html" />
     <Content Include="Utilities\ElementUi\index.js" />

@@ -1827,5 +1827,72 @@ on c.qus_id=sq.qus_id order by sq.count desc";
                .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Student_Notes>(size, (index - 1) * size);
         }
         #endregion
+
+        #region 统计
+        /// <summary>
+        /// 购买课程的学员人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="persontime">是否按人次计算，如果为true,则取Student_Course表所有记录数；如果为false，不记录重复的，购买多次也算一次</param>
+        /// <returns></returns>
+        public int ForCourseCount(int orgid, bool persontime)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;
+            if (persontime)
+            {
+                return Gateway.Default.Count<Student_Course>(wc);
+            }
+            return Gateway.Default.From<Student_Course>().Where(wc).GroupBy(Student_Course._.Ac_ID.Group).Select(new Field[] { Student_Course._.Ac_ID }).Count();
+        }
+        /// <summary>
+        /// 参加模拟测试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public int ForTestCount(int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= TestResults._.Org_ID == orgid;
+            int total = Gateway.Default.From<TestResults>().Where(wc).GroupBy(TestResults._.Ac_ID.Group).Select(new Field[] { TestResults._.Ac_ID }).Count();
+            return total;
+        }
+        /// <summary>
+        /// 参加考试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public int ForExamCount(int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= ExamResults._.Org_ID == orgid;
+            int total = Gateway.Default.From<ExamResults>().Where(wc).GroupBy(ExamResults._.Ac_ID.Group).Select(new Field[] { ExamResults._.Ac_ID }).Count();
+            return total;
+        }
+        /// <summary>
+        /// 参加试题练习的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public int ForExerciseCount(int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= LogForStudentExercise._.Org_ID == orgid;
+            int total = Gateway.Default.From<LogForStudentExercise>().Where(wc).GroupBy(LogForStudentExercise._.Ac_ID.Group).Select(new Field[] { LogForStudentExercise._.Ac_ID }).Count();
+            return total;
+        }
+        /// <summary>
+        /// 视频学习的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public int ForStudyCount(int orgid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= LogForStudentStudy._.Org_ID == orgid;
+            int total = Gateway.Default.From<LogForStudentStudy>().Where(wc).GroupBy(LogForStudentStudy._.Ac_ID.Group).Select(new Field[] { LogForStudentStudy._.Ac_ID }).Count();
+            return total;
+        }
+        #endregion
     }
 }

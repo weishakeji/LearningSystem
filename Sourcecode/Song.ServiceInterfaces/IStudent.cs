@@ -619,5 +619,39 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Notes[] NotesPager(int stid, long quesid, string searTxt, int size, int index, out int countSum);
         #endregion
+
+        #region 统计
+        /// <summary>
+        /// 购买课程的学员人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="persontime">是否按人次计算，如果为true,则取Student_Course表所有记录数；如果为false，不记录重复的，购买多次也算一次</param>
+        /// <returns></returns>
+        int ForCourseCount(int orgid, bool persontime);
+        /// <summary>
+        /// 参加模拟测试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        int ForTestCount(int orgid);
+        /// <summary>
+        /// 参加考试的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        int ForExamCount(int orgid);
+        /// <summary>
+        /// 参加试题练习的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        int ForExerciseCount(int orgid);       
+        /// <summary>
+        /// 视频学习的人数
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        int ForStudyCount(int orgid);
+        #endregion
     }
 }

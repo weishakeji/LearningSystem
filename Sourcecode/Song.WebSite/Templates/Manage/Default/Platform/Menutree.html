@@ -65,8 +65,8 @@
         </span>
       </span>
     </el-tree>
-    <el-drawer title="编辑菜单项" :visible.sync="drawer" :with-header="false" custom-class="drawer_item">
-      <div class="drawer-title">编辑菜单项</div>
+    <el-drawer :visible.sync="drawer" :with-header="false" custom-class="drawer_item">
+      <div class="drawer-title" icon="&#xa00c">编辑菜单项</div>
       <el-form ref="form" :model="curr" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="20">
@@ -84,22 +84,17 @@
             </el-form-item>
           </el-col>
         </el-row>
-
-
+        <el-form-item label="简称" prop="MM_AbbrName">
+          <el-input v-model="curr.MM_AbbrName"></el-input>
+        </el-form-item>
         <el-form-item label="菜单类型">
           <el-select v-model="curr.MM_Type" :style="{width: '120px'}" placeholder="请选择">
-            <el-option key="item" label="菜单项" value="item">
-            </el-option>
-            <el-option key="link" label="超链接" value="link">
-            </el-option>
-            <el-option key="open" label="窗体" value="open">
-            </el-option>
-            <el-option key="event" label="Js事件" value="event">
-            </el-option>
-            <el-option key="node" label="节点" value="node">
-            </el-option>
-            <el-option key="hr" label="分隔线" value="hr">
-            </el-option>
+            <el-option key="item" label="菜单项" value="item"> </el-option>
+            <el-option key="link" label="超链接" value="link"> </el-option>
+            <el-option key="open" label="窗体" value="open"> </el-option>
+            <el-option key="event" label="Js事件" value="event"> </el-option>
+            <el-option key="node" label="节点" value="node"> </el-option>
+            <el-option key="hr" label="分隔线" value="hr"> </el-option>
           </el-select>
         </el-form-item>
         <template v-if="curr.MM_Type=='open'">
@@ -110,7 +105,6 @@
             <el-input v-model="curr.MM_WinHeight" :style="{width: '180px'}"> <template slot="prepend">高</template>
               <template slot="append">px</template>
             </el-input>
-
           </el-form-item>
           <el-form-item label="窗体功能">
             <el-checkbox v-model="curr.MM_WinMin" title="是否允许窗体最小化">最小化</el-checkbox>
@@ -126,7 +120,7 @@
         <template v-if="curr.MM_Type!='hr'">
           <template v-if="curr.MM_Type=='event'">
             <el-form-item label="事件脚本">
-              <el-input v-model="curr.MM_Link"></el-input>
+              <el-input v-model="curr.MM_Link" type="textarea"></el-input>
             </el-form-item>
           </template>
           <el-form-item label="链接" v-if="curr.MM_Type!='event' && curr.MM_Type!='node' ">
@@ -183,7 +177,7 @@
     <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
 
     <div class="btnFooter">
-      <el-button type="primary" v-loading="loading" @click="btnSave()">保存菜单树</el-button>
+      <el-button type="primary" define="enter" v-loading="loading" @click="btnSave()">保存菜单树</el-button>
       <el-button type="close">关闭</el-button>
     </div>
   </div>

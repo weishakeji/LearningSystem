@@ -649,7 +649,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Message>(Message._.Cou_ID == couid);
             Gateway.Default.Delete<MessageBoard>(MessageBoard._.Cou_ID == couid);
         }
-        public int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse)
+        public int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse, bool? isfree)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
@@ -663,6 +663,7 @@ namespace Song.ServiceImpls
             }
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (isuse != null) wc.And(Course._.Cou_IsUse == (bool)isuse);
+            if (isfree != null) wc.And(Course._.Cou_IsFree == (bool)isfree);
             return Gateway.Default.Count<Course>(wc);
         }
         /// <summary>
@@ -672,7 +673,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int CourseOfCount(long sbjid)
         {
-            int count = this.CourseOfCount(-1, sbjid, -1, null);
+            int count = this.CourseOfCount(-1, sbjid, -1, null, null);
             Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CouNumber }, new object[] { count }, Subject._.Sbj_ID == sbjid);
             return count;
         }

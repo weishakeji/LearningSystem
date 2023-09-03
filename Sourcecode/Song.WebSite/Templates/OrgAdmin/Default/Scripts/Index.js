@@ -139,16 +139,7 @@ function ready(result) {
         if (req.data.success) {
             var result = nodeconvert(req.data.result);
             if (result[0].childs.length > 0)
-                tree.add(result[0]);
-            //启起页 
-            window.setTimeout(function () {
-                var data = window.tree.getData('node_a76471634c09b23347199ee23682d1ed');
-                window.tree.trigger('click', {
-                    treeid: data.id,
-                    data: data
-                });
-            }, 1000);
-
+                tree.add(result[0]);            
         } else {
             throw req.data.message;
         }

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>数据展示</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="main-header">
+            <dv-decoration-1 style="width:200px;height:50px;"></dv-decoration-1>
+            <dv-decoration-11 style="height:60px;" class="title"><span v-html="platinfo.title"></span>
+            </dv-decoration-11>
+            <dv-decoration-3 style="width:200px;height:30px;"></dv-decoration-3>
+        </div>
+        <div class="main-body">
+            <dv-border-box-11 :color="['rgb(66, 185, 131)', '#08477e']"  title="正在学习的学员">
+                <studylog></studylog>
+            </dv-border-box-11>
+            <dv-border-box-12 :reverse="true" style="max-width: 600px;min-width: 500px;">
+                <map_henan></map_henan>
+            </dv-border-box-12>
+        </div>
+        <div class="main-foot">
+            <dv-border-box-8 class="data1">
+                <number :number="quantity.course" title="课程" unit="门" icon="e813"></number>
+                <dv-decoration-4></dv-decoration-4>
+                <number :number="quantity.subject" title="专业" unit="科" icon="e750"></number>
+                <dv-decoration-4></dv-decoration-4>
+                <number :number="quantity.video" title="视频" unit="个" icon="e761"></number>
+                <dv-decoration-4></dv-decoration-4>
+                <number :number="quantity.question" title="试题" unit="道" icon="e75e"></number>
+                <dv-decoration-4></dv-decoration-4>
+                <number :number="quantity.document" title="资料" unit="件" icon="e6a3"></number>
+            </dv-border-box-8>
+            <dv-border-box-12 class="data2">
+                <number :number="quantity.teacher" title="教师" unit="位" icon="e6a1"></number>
+                <dv-decoration-2 :reverse="true" ></dv-decoration-2>
+                <number :number="quantity.account" title="学员" unit="名" icon="e804"></number>
+            </dv-border-box-12>
+        </div>
+
+    </div>
+</body>
+
+</html>

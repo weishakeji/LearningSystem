@@ -9,20 +9,57 @@
 
 <body>
     <div id="vapp" v-cloak><span v-show="false">{{loading_init}}</span>
-        <div class="data_piece" v-if="false">
-            <piece title="学员总数" ico="e804" :iconsize="108" leftcolor="rgb(255 96 96)" rightcolor="rgb(253 135 135)">
-                1589
-            </piece>
-            <piece title="课程统计" ico="e813" :iconsize="101" leftcolor="#b8d8ff" rightcolor="#311bdb52">
-
-            </piece>
-            <piece title="师资力量" ico="e650" leftcolor="#92cb65" rightcolor="#28950e52">
-
-            </piece>
-            <piece title="在线人数" ico="e67d" leftcolor="rgb(95 198 255)" rightcolor="rgb(176 215 255)">
-
-            </piece>
+        <div loading="p1" v-if="loading_stat"></div>
+        <!--主要数据项-->
+        <div class="data_piece" v-else>
+            <template>
+                <piece title="注册账户" ico="e67d" :iconsize="108" leftcolor="rgb(255 147 59)"
+                    rightcolor="rgb(255 232 122)">
+                    <b>{{stat.account.total|commas}} </b>
+                </piece>
+                <piece title="课程" ico="e813" :iconsize="101" leftcolor="#b8d8ff" rightcolor="#311bdb52">
+                    <b>{{stat.course.total|commas}}</b> 门
+                </piece>
+                <piece title="师资力量" ico="e650" leftcolor="#92cb65" rightcolor="#28950e52">
+                    <b>{{stat.teacher.total|commas}}</b> 名教师
+                </piece>
+                <piece title="学习人员" ico="e804" leftcolor="rgb(95 198 255)" rightcolor="rgb(176 215 255)">
+                    <b>{{stat.account.course|commas}} </b>
+                </piece>
+            </template>
         </div>
+        <!--详细数据项-->
+        <div v-if="!loading_stat" class="data_items">
+            <div>
+                <dataitem title="参加模拟测试的人数" color="rgb(83, 168, 255)" :iconsize="43" ico="e735">
+                    {{stat.account.test|commas}}
+                </dataitem>
+                <dataitem title="练习过试题的人数" color="rgb(83, 168, 255)" :iconsize="40" ico="e75e">
+                    {{stat.account.exercise|commas}}
+                </dataitem>
+                <dataitem title="专业数" :iconsize="50" color="rgb(83, 168, 255)" ico="e750">
+                    {{stat.resource.subject|commas}}
+                </dataitem>
+            </div>
+            <div>
+                <dataitem title="参加考试的人数" :iconsize="45" ico="e810">{{stat.account.study|commas}}</dataitem>
+            </div>
+            <div>
+                <dataitem title="视频学习的人数" color="#311bdb52" :iconsize="40" ico="e761">{{stat.account.study|commas}}
+                </dataitem>
+
+            </div>
+            <!--学员的年龄段分布图-->
+            <studentage :show="!loading_stat" :org="org"></studentage>
+            <div>
+                <dataitem title="视频资源" :iconsize="45" ico="e6bf">{{stat.resource.video|commas}}</dataitem>
+                <dataitem title="文档资料" :iconsize="45" ico="e6a3">{{stat.resource.document|commas}}</dataitem>
+                <dataitem title="试题库" :iconsize="42" ico="e755">{{stat.resource.question|commas}}</dataitem>
+            </div>
+
+        </div>
+        <!--学员的登录与注册数据的图表-->
+        <studentlogin class="studentlogin" :show="!loading_stat" :org="org" :month="24" title="学员登录与注册"></studentlogin>
     </div>
 </body>
 

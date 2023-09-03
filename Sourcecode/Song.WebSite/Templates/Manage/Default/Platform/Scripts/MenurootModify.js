@@ -33,18 +33,22 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-            }          
+            }
+        },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        th.id == '' ? th.add() : th.modify();
+                        th.id == '' ? th.add(isclose) : th.modify(isclose);
                     }
                 });
             },
-            add: function () {
+            add: function (isclose) {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
@@ -55,18 +59,18 @@ $ready(function () {
                             message: '添加成功!',
                             center: true
                         });
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }                  
+                    }
                 }).catch(function (err) {
                     alert(err);
                 }).finally(function () {
                     th.loading = false;
                 });
             },
-            modify: function () {
+            modify: function (isclose) {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
@@ -77,11 +81,11 @@ $ready(function () {
                             message: '修改成功!',
                             center: true
                         });
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }                  
+                    }
                 }).catch(function (err) {
                     alert(err, '错误');
                 }).finally(function () {
@@ -89,8 +93,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', isclose);
             }
         },
     });

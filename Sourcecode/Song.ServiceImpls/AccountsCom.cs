@@ -771,11 +771,12 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public int AccountsOfCount(int orgid, bool? isUse)
+        public int AccountsOfCount(int orgid, bool? isUse, int gender)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            if (gender > 0) wc.And(Accounts._.Ac_Sex == gender);
             return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>
@@ -1958,7 +1959,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="accid">账号id</param>
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
-        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3为在线支付；4购买课程,5分润</param>
         /// <returns></returns>
         public decimal MoneySum(int accid, int type, int from)
         {
@@ -1971,6 +1972,35 @@ namespace Song.ServiceImpls
             sum = tm is decimal ? (decimal)tm : 0;
             return sum;
         }
+        /// <summary>
+        /// 充过值的学员数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        public int MoneyForAccount(int orgid, int type, int from)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
+            if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
+            if (from > 0) wc &= MoneyAccount._.Ma_From == from;
+            int total = Gateway.Default.From<MoneyAccount>().Where(wc).GroupBy(MoneyAccount._.Ac_ID.Group).Select(new Field[] { MoneyAccount._.Ac_ID }).Count();
+            return total;
+        }       
+        /// <summary>
+        /// 充值的资金量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public decimal MoneyForTotal(int orgid, int type, int from)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
+            if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
+            if (from > 0) wc &= MoneyAccount._.Ma_From == from;
+            object total = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
+            return total == null ? 0 : Convert.ToDecimal(total);
+        }
+
         /// <summary>
         /// 修改流水信息
         /// </summary>
@@ -2199,6 +2229,94 @@ namespace Song.ServiceImpls
             hssfworkbook.Write(file);
             file.Close();
             return path;
+        }
+        #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 统计各个年龄段的学员
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">年龄间隔，即某个年龄段</param>
+        /// <returns></returns>
+        public DataTable AgeGroup(int orgid, int interval)
+        {
+            if (interval <= 0) interval = 10;
+            string sql = @"select interval*{interval} as 'group',COUNT(0) as 'count' from
+                            (select FLOOR(age / {interval}) as interval, age  from
+                            (select * from
+                            (select  YEAR(GETDATE()) - Ac_Age as 'age' from Accounts where {orgid}) as agedata where age < 100 and age > 0) as tt
+                            ) as result group by interval order by interval asc";
+            sql = sql.Replace("{interval}", interval.ToString());
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
+        }
+        /// <summary>
+        /// 统计学员注册的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        public DataTable RegTimeGroup(int orgid, string interval, DateTime start, DateTime end)
+        {
+            string sql = @"select CONVERT(varchar, dt, 23) as 'group', COUNT(*) as 'count' from
+                    (
+	                    select DATEADD({d}, DATEDIFF({d}, 0, Ac_RegTime), 0) AS dt from Accounts 
+	                    where {orgid} and Ac_RegTime>'{start}' and Ac_RegTime<='{end}'
+                    ) as ym
+                    group by dt order by dt asc";
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            //时间区间
+            sql = sql.Replace("{start}", start.ToString("yyyy-MM-dd"));
+            sql = sql.Replace("{end}", end.ToString("yyyy-MM-dd"));
+            //按时间间隔
+            if("y".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "YEAR");
+            else if("d".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "DAY");
+            else if ("w".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "WEEK");
+            else
+                sql = sql.Replace("{d}", "MONTH");
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
+        }
+        /// <summary>
+        /// 统计学员登录情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        public DataTable LoginTimeGroup(int orgid, string interval, DateTime start, DateTime end)
+        {
+            string sql = @"select CONVERT(varchar, dt, 23) as 'group', COUNT(*) as 'count' from
+                    (
+	                    select DATEADD({d}, DATEDIFF({d}, 0, Ac_LastTime), 0) AS dt from Accounts 
+	                    where {orgid} and Ac_LastTime>'{start}' and Ac_LastTime<='{end}'
+                    ) as ym
+                    group by dt order by dt asc";
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            //时间区间
+            sql = sql.Replace("{start}", start.ToString("yyyy-MM-dd"));
+            sql = sql.Replace("{end}", end.ToString("yyyy-MM-dd"));
+            //按时间间隔
+            if ("y".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "YEAR");
+            else if ("d".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "DAY");
+            else if ("w".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "WEEK");
+            else
+                sql = sql.Replace("{d}", "MONTH");
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
         }
         #endregion
 

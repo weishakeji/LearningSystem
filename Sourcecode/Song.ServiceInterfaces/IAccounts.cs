@@ -219,8 +219,9 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="isUse"></param>
+        /// <param name="gender">性别</param>
         /// <returns></returns>
-        int AccountsOfCount(int orgid, bool? isUse);
+        int AccountsOfCount(int orgid, bool? isUse, int gender);
         /// <summary>
         /// 分页获取所有的网站账户帐号；
         /// </summary>
@@ -277,7 +278,7 @@ namespace Song.ServiceInterfaces
         /// <param name="orgs">机构id,用逗号分隔</param>
         /// <returns></returns>
         string AccountsExport4Excel(string path, string orgs);
-        #endregion
+        #endregion       
 
         #region 第三方平台绑定
         /// <summary>
@@ -586,13 +587,27 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         MoneyAccount MoneySingle(string serial);
         /// <summary>
-        /// 计算资金收益
+        /// 某个学员的资金收益
         /// </summary>
         /// <param name="accid">账号id</param>
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
         /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
         /// <returns></returns>
         decimal MoneySum(int accid, int type, int from);
+        /// <summary>
+        /// 充过值或消费过的学员人数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <returns></returns>
+        int MoneyForAccount(int orgid, int type, int from);       
+        /// <summary>
+        /// 充值的资金量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        decimal MoneyForTotal(int orgid, int type, int from);
         /// <summary>
         /// 修改流水信息
         /// </summary>
@@ -680,6 +695,34 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 考试成绩
+        #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 统计各个年龄段的学员
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">年龄间隔，即某个年龄段</param>
+        /// <returns></returns>
+        DataTable AgeGroup(int orgid, int interval);
+        /// <summary>
+        /// 统计学员注册的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        DataTable RegTimeGroup(int orgid, string interval, DateTime start, DateTime end);
+        /// <summary>
+        /// 统计学员登录情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        DataTable LoginTimeGroup(int orgid, string interval, DateTime start, DateTime end);
         #endregion
     }
 }

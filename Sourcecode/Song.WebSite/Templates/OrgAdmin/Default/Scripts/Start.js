@@ -4,24 +4,33 @@ $ready(function () {
         el: '#vapp',
         data: {
             platinfo: {},
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
-            datas: {},
-            loading_init: true
+            stat: {},       //机构的各种统计数据
+            loading_init: true,
+            loading_stat: true
         },
         mounted: function () {
             var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(axios.spread(function (platinfo, org) {
                 //获取结果           
                 th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
+                th.org = org.data.result;
                 //机构配置信息
-                th.config = $api.organ(th.organ).config;
+                th.config = $api.organ(th.org).config;
+                th.getStatistics(th.org);
             })).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
+
+            window.setTimeout(function () {
+
+            }, 1000);
+            this.$nextTick(function () {
+
+            });
         },
         created: function () {
 
@@ -29,55 +38,35 @@ $ready(function () {
         computed: {
         },
         watch: {
-        },
-        methods: {
-        }
-    });
-    Vue.component('piece', {
-        props: ["title",    //标题
-            "ico",          //右侧大图标
-            "iconsize",     //图标的大小，默认是100像素
-            "leftcolor",        //左侧背景色，背景是过渡色
-            "rightcolor"],      //右侧背景色
-        data: function () {
-            return {}
-        },
-        watch: {},
-        computed: {
-            //作为背景用的图标
-            'background_ico': function () {
-                if ($api.isnull(this.ico)) return '';
-                return '&#x' + this.ico;
-            },
-            //背景图标的字号
-            'background_size': function () {
-                let fontsize = 100;
-                if (!$api.isnull(this.iconsize) && !(isNaN(Number(this.iconsize))))
-                    fontsize = Number(this.iconsize);
-                return 'font-size: ' + fontsize + 'px';
-            },
-            //背景色
-            "background_color": function () {
-                if ($api.isnull(this.leftcolor) && $api.isnull(this.rightcolor)) return '';
-                let left = $api.isnull(this.leftcolor) ? '#fff' : this.leftcolor;
-                let right = $api.isnull(this.rightcolor) ? '#fff' : this.rightcolor;
-                let c = 'background: linear-gradient(to right, ' + left + ', ' + right + ');';
-                console.log(c);
-                return c;
+            'loading_stat': function (nv, ov) {
+                if (nv) return;             
             }
         },
-        mounted: function () {
-        },
         methods: {
+            //获取统计数据
+            getStatistics: function (org) {
+                var th = this;
+                th.loading_stat = true;
+                $api.cache('Organization/Statistics', { 'orgid': org.Org_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.stat = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_stat = false);
+            }
         },
-        template: `<div class="piece" :style="background_color">        
-                <icon class="bg" v-html="background_ico" v-if="background_ico!=''" :style="background_size"></icon>              
-                <div class="area">
-                    <div class="tit">{{title}}</div>
-                    <div class="contx">
-                        <slot></slot>
-                    </div>
-                </div>
-        </div>`
+        filters: {
+            //数字转三位带逗号
+            'commas': function (number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+        }
     });
-});
+}, ['Viewport/Components/piece.js',
+    'Viewport/Components/dataitem.js',
+    'Viewport/Components/studentage.js',
+    'Viewport/Components/studentlogin.js',
+    '/Utilities/echarts/echarts.min.js']);

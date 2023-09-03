@@ -1,0 +1,88 @@
+﻿html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+body {
+
+	background-image: radial-gradient(circle, #08477e 0%, #2e4641 100%);
+
+}
+
+#vapp {
+	display: flex;
+	flex-direction: column;
+}
+
+#vapp>div {
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.main-header {
+	color: #fff;
+	display: flex;
+	height: 90px;
+}
+
+.main-header>*.title {
+	flex: 1;
+	box-sizing: border-box;
+	padding: 0px 20px;
+	font-size: 25px;
+	font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;
+}
+
+.border-box-content {
+	color: rgb(66, 185, 131);
+	font-size: 40px;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+/*中间部分*/
+.main-body {
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+}
+
+.main-bod>div {
+	
+}
+
+.main-body>div:not(:last-child) {
+	margin-right: 10px;
+	flex: 1;
+}
+
+.main-foot {
+	height: 160px;
+	display: flex;
+}
+
+.main-foot .dv-decoration-4, .dv-decoration-2 {
+	width: 30px !important;
+}
+
+.data1 {
+	margin-right: 15px;
+	display: flex;
+}
+
+.data1 .border-box-content {
+	display: flex;
+	justify-content: space-between;
+}
+
+.border-box-content .number_show {
+	flex: 1 !important;
+}
+
+.data2 {
+	width: 500px !important;
+}

@@ -165,7 +165,7 @@ namespace Song.ServiceImpls
             new Task(() =>
             {
                 foreach (long id in idarray)
-                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(id.ToString());
+                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(id.ToString());               
             }).Start();          
            
             new Task(() =>
