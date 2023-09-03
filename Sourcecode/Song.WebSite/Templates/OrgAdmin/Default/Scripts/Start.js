@@ -57,9 +57,16 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading_stat = false);
             }
+        },
+        filters: {
+            //数字转三位带逗号
+            'commas': function (number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         }
     });
 }, ['Viewport/Components/piece.js',
     'Viewport/Components/dataitem.js',
     'Viewport/Components/studentage.js',
+    'Viewport/Components/studentlogin.js',
     '/Utilities/echarts/echarts.min.js']);

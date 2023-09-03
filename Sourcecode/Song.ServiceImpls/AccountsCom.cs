@@ -2252,6 +2252,72 @@ namespace Song.ServiceImpls
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             return ds.Tables[0];
         }
+        /// <summary>
+        /// 统计学员注册的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        public DataTable RegTimeGroup(int orgid, string interval, DateTime start, DateTime end)
+        {
+            string sql = @"select CONVERT(varchar, dt, 23) as 'group', COUNT(*) as 'count' from
+                    (
+	                    select DATEADD({d}, DATEDIFF({d}, 0, Ac_RegTime), 0) AS dt from Accounts 
+	                    where {orgid} and Ac_RegTime>'{start}' and Ac_RegTime<='{end}'
+                    ) as ym
+                    group by dt order by dt asc";
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            //时间区间
+            sql = sql.Replace("{start}", start.ToString("yyyy-MM-dd"));
+            sql = sql.Replace("{end}", end.ToString("yyyy-MM-dd"));
+            //按时间间隔
+            if("y".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "YEAR");
+            else if("d".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "DAY");
+            else if ("w".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "WEEK");
+            else
+                sql = sql.Replace("{d}", "MONTH");
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
+        }
+        /// <summary>
+        /// 统计学员登录情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">间隔单位，y为年,m为月,d为日</param>
+        /// <param name="start">统计区间的起始时间</param>
+        /// <param name="end">统计区间的结束时间</param>
+        /// <returns></returns>
+        public DataTable LoginTimeGroup(int orgid, string interval, DateTime start, DateTime end)
+        {
+            string sql = @"select CONVERT(varchar, dt, 23) as 'group', COUNT(*) as 'count' from
+                    (
+	                    select DATEADD({d}, DATEDIFF({d}, 0, Ac_LastTime), 0) AS dt from Accounts 
+	                    where {orgid} and Ac_LastTime>'{start}' and Ac_LastTime<='{end}'
+                    ) as ym
+                    group by dt order by dt asc";
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            //时间区间
+            sql = sql.Replace("{start}", start.ToString("yyyy-MM-dd"));
+            sql = sql.Replace("{end}", end.ToString("yyyy-MM-dd"));
+            //按时间间隔
+            if ("y".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "YEAR");
+            else if ("d".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "DAY");
+            else if ("w".Equals(interval, StringComparison.OrdinalIgnoreCase))
+                sql = sql.Replace("{d}", "WEEK");
+            else
+                sql = sql.Replace("{d}", "MONTH");
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
+        }
         #endregion
 
         /// <summary>
