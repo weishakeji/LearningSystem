@@ -9,10 +9,10 @@
 
 <body>
     <div id="vapp" v-cloak><span v-show="false">{{loading_init}}</span>
+        <div loading="p1" v-if="loading_stat"></div>
         <!--主要数据项-->
-        <div class="data_piece">
-            <div loading="p1" v-if="loading_stat"></div>
-            <template v-else>
+        <div class="data_piece" v-else>
+            <template>
                 <piece title="学员总数" ico="e67d" :iconsize="108" leftcolor="rgb(255 147 59)"
                     rightcolor="rgb(255 232 122)">
                     <b>{{stat.account.total}} </b>
@@ -29,11 +29,32 @@
             </template>
         </div>
         <!--详细数据项-->
-        <template v-if="!loading_stat">
-            <dataitem title="参加模拟测试的人数" :iconsize="30" color="#b8d8ff" ico="e810">{{stat.account.test}}</dataitem>
-            <dataitem title="练习过试题的人数" :iconsize="30" color="#b8d8ff" ico="e755">{{stat.account.exercise}}</dataitem>
-            <dataitem title="视频学习的人数" :iconsize="30" color="#b8d8ff" ico="e761">{{stat.account.study}}</dataitem>
-        </template>
+        <div v-if="!loading_stat" class="data_items">
+            <div>
+                <dataitem title="参加模拟测试的人数" color="#67C23A" :iconsize="43" ico="e735">{{stat.account.test}}
+                </dataitem>
+                <dataitem title="练习过试题的人数" color="#67C23A" :iconsize="40" ico="e75e">{{stat.account.exercise}}
+                </dataitem>
+                <dataitem title="专业数" :iconsize="50" color="#67C23A" ico="e750">{{stat.resource.subject}}
+                </dataitem>
+            </div>
+            <div>
+                <dataitem title="参加考试的人数" :iconsize="45" ico="e810">{{stat.account.study}}</dataitem>
+            </div>
+            <div>
+                <dataitem title="视频学习的人数" color="#409EFF" :iconsize="40" ico="e761">{{stat.account.study}}
+                </dataitem>
+
+            </div>
+            <!--学员的年龄段分布图-->
+            <studentage :show="!loading_stat" :org="org"></studentage>
+            <div>
+                <dataitem title="视频资源" :iconsize="45" ico="e6bf">{{stat.resource.video}}</dataitem>
+                <dataitem title="文档资料" :iconsize="45" ico="e6a3">{{stat.resource.document}}</dataitem>
+                <dataitem title="试题库" :iconsize="42" ico="e755">{{stat.resource.question}}</dataitem>
+            </div>
+
+        </div>
     </div>
 </body>
 

@@ -1509,6 +1509,22 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-
+        #region 统计信息
+        /// <summary>
+        /// 统计各个年龄段的学员
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="interval">年龄间隔，即某个年龄段</param>
+        /// <returns></returns>
+        public DataTable AgeGroup(int orgid, int interval)
+        {
+            if (orgid <= 0)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                orgid = org.Org_ID;
+            }
+            return Business.Do<IAccounts>().AgeGroup(orgid, interval);
+        }
+        #endregion
     }
 }

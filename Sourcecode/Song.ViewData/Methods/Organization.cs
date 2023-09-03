@@ -29,6 +29,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="orgid"></param>
         /// <returns></returns>
+        [Cache]
         public JObject Statistics(int orgid)
         {
             if (orgid <= 0)
