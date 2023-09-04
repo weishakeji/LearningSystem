@@ -52,6 +52,11 @@
    left: 2px;
    top: 3px;
 }
+/*工作簿*/
+.upload_excel_area .nodata{
+   margin-left: 8px;
+    margin-top: 8px;
+}
 
 /*行*/
 .upload_excel_area div[remark]>* {

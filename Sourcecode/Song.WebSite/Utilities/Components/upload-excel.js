@@ -177,10 +177,12 @@ Vue.component('upload-excel', {
         <div v-if="step==1" remark="选择工作簿">
             <div label="操作对象"> 正在操作文档 《{{filename}}》</div>
             <div label="工作簿">
-                <el-button type="primary" plain v-for="(item,i) in book.sheets" @click="handleSheet(item,i)"
-                    :disabled="item.count<1" :loading="loading">
-                    {{item.name}} : {{item.count}}条数据
-                </el-button>
+                <template v-for="(item,i) in book.sheets">
+                    <el-button type="primary" plain  @click="handleSheet(item,i)" v-if="item.count>0" :loading="loading">
+                            {{item.name}} : {{item.count}}条数据
+                    </el-button>
+                    <el-tag type="info" v-else class="nodata"> {{item.name}} : {{item.count}}条数据</el-tag>
+                </template>
             </div>
             <div label="说明">
                 1、当前Excel文档包含了{{book.sheets.length}}个工作簿； <br/>

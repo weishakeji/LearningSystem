@@ -14,6 +14,8 @@ $ready(function () {
             subject: [],         //专业
             search: '',      //搜索框
 
+            
+
             loading: true,
             loading_init: false
         },

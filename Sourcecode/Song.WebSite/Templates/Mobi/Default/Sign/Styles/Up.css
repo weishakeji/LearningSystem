@@ -3,7 +3,8 @@
     height: 100%;
     margin: 0px;
     padding: 0px;   
-    overflow: hidden;   
+    overflow: hidden;  
+    background-color: #fff; 
 }
 
 #vapp {

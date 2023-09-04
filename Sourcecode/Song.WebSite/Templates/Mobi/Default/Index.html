@@ -11,6 +11,7 @@
 <body>
 
     <div id="vapp" v-cloak>
+        
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <header>
             <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />

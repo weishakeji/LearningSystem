@@ -46,7 +46,7 @@
             </van-row>
         </div>
 
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
+        <van-list v-if="islogin" v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
             <template v-for="(m,i) in details">
                 <div class="month">
                     <icon>&#xe666</icon>{{m.month}}
