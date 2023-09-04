@@ -109,7 +109,6 @@ Vue.component('outline_tree', {
         },
         //下一个章节（视频章节）
         nextOutline: function (outline, state) {
-            alert(3)
             var videoarr = rebuild(this.outlines, []);
             let next = getnext(outline, videoarr);
             if (next != null) return this.outlineClick(next);

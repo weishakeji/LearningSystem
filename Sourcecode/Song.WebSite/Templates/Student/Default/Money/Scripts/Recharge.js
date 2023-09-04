@@ -167,7 +167,7 @@ $ready(function () {
                     'height': '500px'
                 }
                 window.top.vapp.open(obj, function (sender, event) {
-                    //alert(3);
+
                     console.log(sender);
                     window.top.vapp.shut(window.name);
                 });
