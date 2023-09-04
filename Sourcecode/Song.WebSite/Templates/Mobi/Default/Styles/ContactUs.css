@@ -6,6 +6,7 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
+	background-color: #fff;
 }
 
 context {

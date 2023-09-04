@@ -92,14 +92,15 @@ card div {
 
 card span.key {
 	display: inline-block;
-	width: 120px;
+	width: 150px;
 }
 
 card span.val {
 	font-size: 12px;
-	line-height: 16px;
 }
-
+card span.nowrap{
+	white-space: nowrap;
+} 
 card-title span {
 	float: right;
 }
@@ -107,7 +108,12 @@ card-title span {
 card.version card-context>div span.key {
 	width: 160px;
 }
-
+card.version card-context>div span.val {
+	flex: 1;
+}
+card.version card-context>div {
+	display: flex;
+}
 iframe {
 	max-width: 100% !important;
 }
