@@ -26,7 +26,7 @@ Vue.component('interface_type', {
                 },
                 {
                     pattern: 'WeixinAppPay', platform: 'mobi', name: '微信小程序支付',
-                    icon: '&#xe832', enable: false, scene: 'weixin,mini', tips: '在微信小程序中使用'
+                    icon: '&#xe832', enable: true, scene: 'weixin,mini', tips: '在微信小程序中使用'
                 },
                 {
                     pattern: 'WeixinH5Pay', platform: 'mobi', name: '微信Html5支付',
@@ -63,10 +63,10 @@ Vue.component('interface_type', {
                 current = this.navigation.find(item => item.pattern.toLowerCase() == view);
             }
             return current == null ? {} : current;
-        }
+        },
     },
     mounted: function () {
-        console.log(this.layout_value);
+       
     },
     methods: {
         //跳转,item是支付接口项,compel是否强制跳转，默认item.enable为false不跳转
@@ -89,7 +89,31 @@ Vue.component('interface_type', {
         getpattern: function (pattern) {
             if (pattern.indexOf('支付宝') > -1) return 'zhifubao';
             if (pattern.indexOf('微信') > -1) return 'weixin';
-        }
+        },
+        //判断接口名称是否重复
+        isexist: function (val) {
+            var th = this;
+            th.entity.Pai_Name = val;
+            var type = th.current;
+            th.entity.Pai_Scene = type.scene;
+            th.entity.Pai_Pattern = type.name;
+            th.entity.Pai_InterfaceType = type.pattern;
+            th.entity.Pai_Platform = type.platform;
+            return new Promise(function (resolve, reject) {
+                $api.post('Pay/IsExist', { 'entity': th.entity, 'scope': 2 }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        console.log(result);
+                        return resolve(result);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    return reject(err);
+                });
+            });
+        },
     },
     template: `<div>
         <dl class="interface_type" v-if="layout_value=='list'">   

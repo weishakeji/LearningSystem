@@ -279,6 +279,8 @@
     <Content Include="Templates\Manage\Default\OtherLogin\Scripts\QqOpenID.js" />
     <Content Include="Templates\Manage\Default\OtherLogin\Styles\WeixinOpenID.css" />
     <Content Include="Templates\Manage\Default\OtherLogin\Styles\QqOpenID.css" />
+    <Content Include="Templates\Manage\Default\Pay\Components\modifybox.js" />
+    <Content Include="Templates\Manage\Default\Pay\Components\Styles\modifybox.css" />
     <Content Include="Templates\Manage\Default\Platform\AccountBathDel.html" />
     <Content Include="Templates\Manage\Default\Platform\Scripts\AccountBathDel.js" />
     <Content Include="Templates\Manage\Default\Platform\Styles\AccountBathDel.css" />

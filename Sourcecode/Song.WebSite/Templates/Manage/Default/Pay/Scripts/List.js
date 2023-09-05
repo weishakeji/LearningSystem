@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             datas: [],
             loading: false,
@@ -43,8 +43,8 @@
                 var th = this;
                 $api.get('Pay/List', { 'platform': '' }).then(function (req) {
                     if (req.data.success) {
-                        vue.datas = req.data.result;
-                        vue.rowdrop();
+                        th.datas = req.data.result;
+                        th.rowdrop();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -65,7 +65,7 @@
                 this.loadingid = row.Pai_ID;
                 $api.post('Pay/Modify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -75,7 +75,7 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    th.$alert(err, '错误');
                 });
             },
             //行的拖动
@@ -119,9 +119,10 @@
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
                 $api.post('Pay/ModifyTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true

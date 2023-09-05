@@ -9,60 +9,55 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
-            <el-form-item label="" prop="Pai_Pattern">
-                <interface_type ref="interface_type" :entity="entity"></interface_type>
-            </el-form-item>
-            <el-form-item label="支付名称" prop="Pai_Name">
-                <el-input v-model="entity.Pai_Name" style="width:calc(100% - 100px)"></el-input>
-                <el-switch v-model="entity.Pai_IsEnable" active-color="#13ce66" inactive-color="#ff4949"
-                :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
-            </el-switch>
-            </el-form-item>
-         
-            <el-divider content-position="left">以下信息来自微信小程序</el-divider>
-          
-            <el-form-item label="AppID" prop="Pai_ParterID">
-                <el-input v-model="entity.Pai_ParterID" style="width: 50%"></el-input>
-                <help>即：小程序ID</help>
-            </el-form-item>
-            <el-form-item label="AppSecret" prop="Pai_Key">
-                <el-input v-model.trim="entity.Pai_Key"></el-input>
-            </el-form-item>
-            <el-form-item label="回调域" prop="Pai_Returl">
-                <el-input v-model.trim="entity.Pai_Returl">
-                    <template slot="append">/Pay/Weixin/</template>
-                </el-input>
-            </el-form-item>
-            <el-divider content-position="left">以下信息来自微信商户号</el-divider>
-            <el-form-item label="商户ID" prop="MCHID">
-                <el-input v-model.trim="config.MCHID"></el-input>
-            </el-form-item>
-            <el-form-item label="支付密钥" prop="Paykey">
-                <el-input v-model.trim="config.Paykey"></el-input>
-            </el-form-item>
-        
-            <el-form-item label="" prop="">
-               
-            </el-form-item>
-            <el-form-item label="费率" prop="Pai_Feerate">
-                <el-input v-model="entity.Pai_Feerate" style="width: 50%">
-                    <template slot="append">%</template>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="简介" prop="Pai_Intro">
-                <el-input type="textarea" v-model="entity.Pai_Intro" :rows="2" placeholder="请输入内容"></el-input>
-            </el-form-item>
+        <modifybox :entity="entity" formref="entity" :loading="loading" @enter="enter">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+                <el-form-item label="" prop="Pai_Pattern">
+                    <interface_type ref="interface_type" :entity="entity"></interface_type>
+                </el-form-item>
+                <el-form-item label="支付名称" prop="Pai_Name">
+                    <el-input v-model="entity.Pai_Name" style="width:calc(100% - 100px)"></el-input>
+                    <el-switch v-model="entity.Pai_IsEnable" active-color="#13ce66" inactive-color="#ff4949"
+                        :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
+                    </el-switch>
+                </el-form-item>
 
-        </el-form>
-        <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                <icon v-if="!loading">&#xa048</icon>保存
-            </el-button>
-            <el-button type='close'>
-                取消
-            </el-button>
-        </div>
+                <el-divider content-position="left">以下信息来自微信小程序</el-divider>
+
+                <el-form-item label="AppID" prop="Pai_ParterID">
+                    <el-input v-model="entity.Pai_ParterID" style="width: 50%"></el-input>
+                    <help>即：小程序ID</help>
+                </el-form-item>
+                <el-form-item label="AppSecret" prop="Pai_Key">
+                    <el-input v-model.trim="entity.Pai_Key"></el-input>
+                </el-form-item>
+                <el-form-item label="回调域" prop="Pai_Returl">
+                    <el-input v-model.trim="entity.Pai_Returl">
+                        <template slot="append">/Pay/Weixin/</template>
+                    </el-input>
+                </el-form-item>
+                <el-divider content-position="left">以下信息来自微信商户号</el-divider>
+                <el-form-item label="商户ID" prop="MCHID">
+                    <el-input v-model.trim="config.MCHID"></el-input>
+                </el-form-item>
+                <el-form-item label="支付密钥" prop="Paykey">
+                    <el-input v-model.trim="config.Paykey"></el-input>
+                </el-form-item>
+
+                <el-form-item label="" prop="">
+
+                </el-form-item>
+                <el-form-item label="费率" prop="Pai_Feerate">
+                    <el-input v-model="entity.Pai_Feerate" style="width: 50%">
+                        <template slot="append">%</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="简介" prop="Pai_Intro">
+                    <el-input type="textarea" v-model="entity.Pai_Intro" :rows="2" placeholder="请输入内容"></el-input>
+                </el-form-item>
+
+            </el-form>
+        </modifybox>
+
     </div>
 
 </body>
