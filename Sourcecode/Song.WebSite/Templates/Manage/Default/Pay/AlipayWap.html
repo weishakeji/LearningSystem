@@ -3,24 +3,24 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>支付宝手机支付</title> 
+    <title>支付宝手机支付</title>
 </head>
 
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+        <modifybox :entity="entity" :config='config' :rules="rules" @init="(e,c)=>{entity=e;config=c;}">
             <el-form-item label="" prop="Pai_Pattern">
-                <interface_type ref="interface_type" :entity="entity"></interface_type>    
+                <interface_type ref="interface_type" :entity="entity"></interface_type>
             </el-form-item>
             <el-form-item label="支付名称" prop="Pai_Name">
                 <el-input v-model="entity.Pai_Name"></el-input>
             </el-form-item>
             <el-form-item label="" prop="Pai_IsEnable">
                 <el-switch v-model="entity.Pai_IsEnable" active-color="#13ce66" inactive-color="#ff4949"
-                :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
-            </el-switch>
-            
+                    :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
+                </el-switch>
+
             </el-form-item>
             <el-form-item label="合作者身份" prop="Pai_ParterID">
                 <el-input v-model="entity.Pai_ParterID" style="width: 50%"></el-input>
@@ -33,23 +33,16 @@
                 <el-input v-model.trim="entity.Pai_Returl"></el-input>
             </el-form-item>
 
-            <el-form-item label="费率"  prop="Pai_Feerate">
+            <el-form-item label="费率" prop="Pai_Feerate">
                 <el-input v-model="entity.Pai_Feerate" style="width: 50%">
-                    <template slot="append">%</template></el-input>
+                    <template slot="append">%</template>
+                </el-input>
             </el-form-item>
             <el-form-item label="简介" prop="Pai_Intro">
-                <el-input type="textarea" v-model="entity.Pai_Intro"  :rows="2" placeholder="请输入内容"></el-input>
+                <el-input type="textarea" v-model="entity.Pai_Intro" :rows="2" placeholder="请输入内容"></el-input>
             </el-form-item>
 
-        </el-form>   
-        <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                <icon v-if="!loading">&#xa048</icon>保存
-            </el-button>
-            <el-button type='close'>
-               取消
-            </el-button>
-        </div>
+        </modifybox>
     </div>
 
 

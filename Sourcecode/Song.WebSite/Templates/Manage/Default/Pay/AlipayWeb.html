@@ -5,11 +5,9 @@
     <include file="../inc/meta.inc" />
     <title>支付宝网页直付</title>
 </head>
-
-
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+        <modifybox :entity="entity" :config='config' :rules="rules" @init="(e,c)=>{entity=e;config=c;}">
             <el-form-item label="" prop="Pai_Pattern">
                 <interface_type ref="interface_type" :entity="entity"></interface_type>
             </el-form-item>
@@ -42,15 +40,7 @@
                 <el-input type="textarea" v-model="entity.Pai_Intro" :rows="2" placeholder="请输入内容"></el-input>
             </el-form-item>
 
-        </el-form>
-        <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                <icon v-if="!loading">&#xa048</icon>保存
-            </el-button>
-            <el-button type='close'>
-                取消
-            </el-button>
-        </div>
+        </modifybox>
     </div>
 
 
