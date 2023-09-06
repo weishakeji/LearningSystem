@@ -1,5 +1,7 @@
 ﻿@charset "utf-8";
-
+html,body{
+	background-color: #fff;
+}
 #vapp {
 	overflow-y: auto;
 }

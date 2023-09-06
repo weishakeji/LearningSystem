@@ -31,7 +31,7 @@
         <!--详细数据项-->
         <div v-if="!loading_stat" class="data_items">
             <div>
-                <dataitem title="参加模拟测试的人数" color="rgb(83, 168, 255)" :iconsize="43" ico="e735">
+                <dataitem title="参加模拟测试的人数" color="rgb(83, 168, 255)" :iconsize="43" ico="a02e">
                     {{stat.account.test|commas}}
                 </dataitem>
                 <dataitem title="练习过试题的人数" color="rgb(83, 168, 255)" :iconsize="40" ico="e75e">
@@ -59,7 +59,7 @@
 
         </div>
         <!--学员的登录与注册数据的图表-->
-        <studentlogin class="studentlogin" :show="!loading_stat" :org="org" :month="24" title="学员登录与注册"></studentlogin>
+        <studentlogin class="studentlogin" :show="!loading_stat" :org="org" :month="12" title="学员登录与注册"></studentlogin>
     </div>
 </body>
 

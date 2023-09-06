@@ -23,36 +23,10 @@ Vue.component('studentlogin', {
             if ($api.isnull(nv)) return;
             var th = this;
             th.$nextTick(function () {
-                var box = $dom('#studentlogin');
-                var myChart = echarts.init(box[0]);
-                var option = {
-                    xAxis: {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: []
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [
-                        {
-                            name: 'login', type: 'line', stack: 'Total', smooth: true,
-                            data: []
-                        },
-                        {
-                            name: 'register', type: 'line', stack: 'Total', smooth: true,
-                            data: []
-                        },
-                    ],
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow'
-                        }
-                    }
-                };
-                option = th.build_option(option);
+                var myChart = echarts.init($dom('#studentlogin')[0]);
+                option = th.createOption();
                 myChart.setOption(option);
+                window.addEventListener('resize', myChart.resize);
             });
 
         }
@@ -66,7 +40,7 @@ Vue.component('studentlogin', {
             return m;
         }
     },
-    mounted: function () {
+    mounted: function () {      
     },
     methods: {
         //获取数据
@@ -85,8 +59,38 @@ Vue.component('studentlogin', {
             })).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
-        //生成图表数据
-        build_option: function (option) {
+        //生成图给的选项
+        createOption: function () {
+            var option = {
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'login', type: 'line', stack: 'Total', smooth: true,
+                        data: []
+                    },
+                    {
+                        name: 'register', type: 'line', stack: 'Total', smooth: true,
+                        data: []
+                    },
+                ],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            };
+            return this.process_option(option);
+        },
+        //处理图表数据
+        process_option: function (option) {
             //x坐标轴  
             for (let i = this.datalen - 1; i >= 0; i--) {
                 let date = new Date();

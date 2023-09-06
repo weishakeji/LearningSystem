@@ -64,6 +64,7 @@ Vue.component('studentage', {
                     //console.log(nv[i]);
                 }
                 myChart.setOption(option);
+                window.addEventListener('resize', myChart.resize);
             });
 
         }
