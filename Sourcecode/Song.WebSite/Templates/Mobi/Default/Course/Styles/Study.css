@@ -209,12 +209,21 @@ html, body, #vapp {
 .notVideo {
 	height: calc(100vh - 70px) !important;
 }
+
 /*没有内容*/
-.nocontent{
+.nocontent {
 	font-size: 18px;
 	padding: 10px 20px;
 	color: #ccc;
 }
-.nocontent>icon{
+
+.nocontent>icon {
 	font-size: 35px;
+}
+
+/*禁止交流咨询*/
+.disableChat {
+	text-align: center;
+	padding: 40px 20px;
+	color: #666;
 }

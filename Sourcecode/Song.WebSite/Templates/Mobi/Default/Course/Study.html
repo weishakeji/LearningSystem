@@ -27,7 +27,9 @@
                     :state="state"></study_live>
 
                 <div tag="视频" v-show="contextShow=='video' || contextShow==''">
-                    <course_message :outline="outline" :account="account" v-if="isMessage"></course_message>
+                    <course_message :outline="outline" :account="account" :config="config" v-if="isMessage">
+                    </course_message>
+                    <div v-else icon="&#xe7ad" class="disableChat">禁用“交流”功能</div>
                 </div>
                 <div tag="学习内容" v-show="contextShow=='content'"
                     :class="{'notVideo':!state.existVideo && !state.isLive}">

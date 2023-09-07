@@ -17,7 +17,7 @@ $ready(function () {
             owned: false,        //当前学员是否购买该课程或学员组关联
             messages: [], //咨询留言
             menuShow: false,		//章节菜单是否显示
-            isMessage: true,         //是否启用留言咨询
+            //isMessage: true,         //是否启用留言咨询
             contextShow: 'content',		//内容显示的判断
             //playtime: 0, //当前播放时间，单位：秒
             loading_init: true
@@ -38,6 +38,10 @@ $ready(function () {
         computed: {
             //是否登录
             islogin: (t) => !$api.isnull(t.account),
+            //是否启用留言咨询
+            'isMessage': function () {
+                return !(!!this.config.IsDisableChat ? this.config.IsDisableChat : false);
+            }
         },
         created: function () {
             var th = this;

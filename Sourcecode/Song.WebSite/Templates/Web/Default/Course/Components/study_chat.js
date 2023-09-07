@@ -16,18 +16,16 @@ Vue.component('study_chat', {
         }
     },
     watch: {
-        'outline': function (val, old) {
-            if (val) this.msgGet();
-        },
-        'playtime': function (nv, ov) {
-            //console.log(nv);
-        },
+        'outline': {
+            handler: function (nv, ov) {
+                if ($api.isnull(nv) || nv.Ol_ID == null) return;
+                this.msgGet();
+            }, immediate: true,
+        }
     },
     computed: {
         //是否登录
-        islogin: function () {
-            return JSON.stringify(this.account) != '{}' && this.account != null;
-        }
+        'islogin': t => !$api.isnull(t.account)
     },
     mounted: function () {
         var css = $dom.path() + 'course/Components/Styles/study_chat.css';
@@ -43,11 +41,14 @@ Vue.component('study_chat', {
     methods: {
         //获取当前章节的留言信息
         msgGet: function () {
-            if (!this.islogin) return;
+            var th = this;
+            if (!this.islogin) {
+                window.setTimeout(function () { th.msgGet(); }, 100);
+                return;
+            }
             var olid = this.outline ? this.outline.Ol_ID : 0;
             if (olid <= 0) return;
 
-            var th = this;
             $api.post("message/count", { olid: olid, order: 'asc', count: 100 })
                 .then(function (req) {
                     var d = req.data;

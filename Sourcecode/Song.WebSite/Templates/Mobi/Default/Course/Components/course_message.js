@@ -1,7 +1,7 @@
 //留言咨询
 $dom.load.css([$dom.pagepath() + 'Components/Styles/course_message.css']);
 Vue.component('course_message', {
-    props: ['outline', 'account'],
+    props: ['outline', 'account','config'],
     data: function () {
         return {
             messages: [],		//信息列表	
@@ -12,14 +12,17 @@ Vue.component('course_message', {
     },
     watch: {
         'outline': {
-            deep: true,
-            immediate: true,
-            handler: function (newV, oldV) {
-                if (JSON.stringify(newV) == '{}' || newV == null) return;
+            deep: true, immediate: true,
+            handler: function (nv, ov) {
+                if ($api.isnull(nv) || nv.Ol_ID == null) return;
                 this.messages = [];
                 this.msgGet();
             }
         }
+    },
+    computed: {
+        //是否登录
+        'islogin': t => !$api.isnull(t.account)
     },
     created: function () {
         //定时刷新（加载）咨询留言
@@ -28,8 +31,11 @@ Vue.component('course_message', {
     methods: {
         //获取当前章节的留言信息
         msgGet: function () {
-            if (!this.outline) return;
             var th = this;
+            if (!this.islogin) {
+                window.setTimeout(function () { th.msgGet(); }, 100);
+                return;
+            }
             $api.get("message/count", {
                 olid: this.outline.Ol_ID, order: 'desc', count: 100
             }).then(function (req) {
