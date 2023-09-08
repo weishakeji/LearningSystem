@@ -36,6 +36,16 @@ html, body, #vapp {
 *[v-cloak] {
     display: none;
 }
+/* 设置滚动条宽度和高度 */
+.el-table__body-wrapper::-webkit-scrollbar {
+    width: 20px; /* 横向滚动条 */
+    height: 8px; /* 纵向滚动条 必写 */
+}
+/* 设置滚动条样式 */
+.el-table__body-wrapper::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 3px;
+}
 
 /*特殊字体*/
 
@@ -67,7 +77,7 @@ a {
 
 /*表格的内容滚动（标题栏固定）*/
 .el-table {
-    height: calc(100% - 63px);
+    height: calc(100% - 70px);
 }
 
 .el-table__body-wrapper {

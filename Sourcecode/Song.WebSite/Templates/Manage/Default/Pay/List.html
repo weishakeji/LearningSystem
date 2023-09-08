@@ -14,7 +14,7 @@
                 :selects='selects' idkey='Pai_ID' table="datatable"></btngroup>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%;overflow-x: auto;" stripe
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" index-key="Pai_Tax" row-key="Pai_ID"
                 draggable :row-class-name="data=>{return data.row.Pai_IsEnable ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">
@@ -65,13 +65,13 @@
                         <moneysummary :entity="scope.row"></moneysummary>
                     </template>
                 </el-table-column>
-                <el-table-column label="费率" width="100" align="center">
+                <el-table-column label="费率" width="60" align="center">
                     <template slot-scope="scope">
                         {{scope.row.Pai_Feerate}}%
                     </template>
                 </el-table-column>
 
-                <el-table-column label="使用" show-overflow-tooltip width="60">
+                <el-table-column label="使用" show-overflow-tooltip width="60"  align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Pai_ID"></span>
                         <el-switch v-model="scope.row.Pai_IsEnable" @change="changeUse(scope.row)"
@@ -79,7 +79,7 @@
                         </el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="120" align="center" fixed="right">
+                <el-table-column label="操作" width="100" align="center" fixed="right">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Pai_ID"></span>
                         <el-button-group v-show="loadingid!=scope.row.Pai_ID">

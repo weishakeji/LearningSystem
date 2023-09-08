@@ -39,7 +39,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="机构名称">
+                <el-table-column label="机构名称" min-width="200">
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
                             <span class="root" icon="&#xa003"></span>
@@ -51,7 +51,7 @@
                         <span v-html='showsearch(scope.row.Org_Name,form.search)'></span>
                     </template>
                 </el-table-column>
-                <el-table-column label="平台名称">
+                <el-table-column label="平台名称" min-width="180">
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_ID==current.Org_ID' effect="light" content="当前机构"
                             placement="left-start">
