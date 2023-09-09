@@ -2,7 +2,7 @@
 $dom.load.css(['/Utilities/Components/Styles/sbj_cascader.css']);
 Vue.component('sbj_cascader', {
     //sbjid:专业id
-    props: ['sbjid', 'orgid','disabled'],
+    props: ['sbjid', 'orgid', 'disabled'],
     data: function () {
         return {
             //专业树形下拉选择器的配置项
@@ -21,7 +21,7 @@ Vue.component('sbj_cascader', {
     watch: {
         'orgid': {
             handler: function (nv, ov) {
-                if (nv != null && nv!='' && (nv != ov))
+                if (nv != null && nv != '' && (nv != ov))
                     this.getSubjects(nv);
             }, immediate: true
         },
@@ -34,7 +34,7 @@ Vue.component('sbj_cascader', {
     created: function () {
         var th = this;
         window.clac_sbjids_setInterval = window.setInterval(function () {
-            if (th.sbjid != null && th.subjects.length > 0) {
+            if (th.sbjid != null && th.sbjid != 0 && th.subjects.length > 0) {
                 th.sbjids = th.clac_sbjids();
                 th.$nextTick(function () {
                     th.evetChange(th.sbjids);

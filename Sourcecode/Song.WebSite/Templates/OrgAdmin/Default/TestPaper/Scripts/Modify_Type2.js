@@ -79,52 +79,42 @@ $ready(function () {
                     }
                 ]
             },
+            loading_init: false,
             loading: false
         },
         mounted: function () {
             var th = this;
-            //当前试卷
-            $api.put('TestPaper/ForID', { 'id': this.id }).then(function (req) {
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.entity = result;
-                    th.Tp_Diff = [];
-                    Vue.set(th.Tp_Diff, 0, th.entity.Tp_Diff);
-                    Vue.set(th.Tp_Diff, 1, th.entity.Tp_Diff2);
-                } else {
-                    //th.entity = {};
-                    th.getCourse();
-                }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
-
             //获取当前机构
+            th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (organ, types) {
-                th.loading_init = false;
-                //获取结果
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
-
-            })).catch(function (err) {
-                th.loading_init = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+                //当前试卷
+                th.loading = true;
+                $api.put('TestPaper/ForID', { 'id': th.id }).then(function (req) {
+                    if (req.data.success) {
+                        th.entity = req.data.result;
+                        th.Tp_Diff = [];
+                        Vue.set(th.Tp_Diff, 0, th.entity.Tp_Diff);
+                        Vue.set(th.Tp_Diff, 1, th.entity.Tp_Diff2);
+                    } else {
+                        //th.entity = {};
+                        th.getCourse();
+                    }
+                }).catch(err => console.error(err)).finally(() => th.loading = false);
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
         },
         computed: {
             //是否存在试卷对象
-            exist: function () {
-                return this.entity != null && this.entity.Tp_Id > 0;
-            },
+            exist: t => !$api.isnull(t.entity) && t.entity.Tp_Id > 0,
             //是否是编辑状态
             edit: function () {
                 if (!this.exist) return false;
@@ -196,52 +186,65 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
             },
+            //确定操作
             btnEnter: function (formName, isclose) {
-                var errmsg = '存在错误，请检查填写项';
                 var th = this;
-                var checked = this.$refs['fromtype0'].check();
-                if (!checked) {
-                    th.$message.error(errmsg);
-                    return;
-                }
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
-                        th.entity.Tp_FromConfig = th.buildFromConfig();
-                        th.entity.Tp_Type = 2;    //试卷类型为随时抽题
-                        th.loading = true;
-                        var apipath = 'TestPaper/' + (th.edit ? 'Modify' : 'add');
-                        //接口参数，如果有上传文件，则增加file
-                        var para = { 'entity': th.entity };
-                        if (th.upfile != null) para['file'] = th.upfile;
-                        $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
-                                });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 300);
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                        var errmsg = '存在错误，请检查填写项';
+                        let fromtype = th.$refs['fromtype' + th.entity.Tp_FromType];
+                        //var checked = this.$refs['fromtype0'].check();
+                        if (fromtype != null && !fromtype.check()) {
+                            th.$message.error(errmsg);
+                            th.activeName = 'range';
+                            return;
+                        }
+                        th.update_save(isclose);
                     } else {
-                        console.log('error submit!!');
-                        th.$message.error(errmsg);
-                        return false;
+                        let field = Object.keys(fields)[0];
+                        th.setErrorlabel(field);
                     }
+                });
+            },
+            //当有错误时，显示对应的选项卡
+            setErrorlabel: function (field) {
+                //未通过验证的字段                
+                let label = $dom('label[for="' + field + '"]');
+                if (label.length < 1) return false;
+                while (label.attr('tab') == null)
+                    label = label.parent();
+                this.activeName = label.attr('tab');
+                return false;
+            },
+            //提交保存操作
+            update_save: function (isclose) {
+                var th = this;
+                th.entity.Tp_FromConfig = th.buildFromConfig();
+                th.entity.Tp_Type = 2;    //试卷类型为随时抽题
+                th.loading = true;
+                var apipath = 'TestPaper/' + (th.edit ? 'Modify' : 'add');
+                //接口参数，如果有上传文件，则增加file
+                var para = { 'entity': th.entity };
+                if (th.upfile != null) para['file'] = th.upfile;
+                $api.post(apipath, para).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$message({
+                            type: 'success',
+                            message: '操作成功!',
+                            center: true
+                        });
+                        window.setTimeout(function () {
+                            th.operateSuccess(isclose);
+                        }, 300);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.$alert(err, '错误');
                 });
             },
             //生成配置项
@@ -251,18 +254,8 @@ $ready(function () {
                 xml += this.$refs['fromtype0'].buildXml();
                 xml += this.$refs['fromtype1'].buildXml();
                 xml += '</Config>';
-                console.log(xml);
+                //console.log(xml);
                 return xml;
-            },
-            //图片文件上传
-            filechange: function (file) {
-                var th = this;
-                th.upfile = file;
-            },
-            //清除图片
-            fileremove: function () {
-                this.upfile = null;
-                this.entity.Tp_Logo = '';
             },
             //操作成功
             operateSuccess: function (isclose) {

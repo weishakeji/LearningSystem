@@ -20,7 +20,7 @@
 
             <el-form ref="form" :model="entity" :rules="rules" v-loading="loading" @submit.native.prevent
                 label-width="100px">
-                <div v-show="activeName=='general'" remark="基本信息">
+                <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item label="试卷标题" prop="Tp_Name">
                         <el-input v-model="entity.Tp_Name"></el-input>
                     </el-form-item>
@@ -37,9 +37,7 @@
                         </el-switch>
                         <el-switch v-model="entity.Tp_IsRec" active-color="#13ce66" active-text="推荐">
                         </el-switch>
-
                     </el-form-item>
-
                     <el-row :gutter="10">
                         <el-col :span="14">
                             <el-form-item label="" prop="Tp_Span">
@@ -50,11 +48,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-
                         </el-col>
                     </el-row>
-
-
                     <el-row :gutter="10">
                         <el-col :span="14">
                             <el-form-item label="" prop="Tp_Total">
@@ -107,7 +102,7 @@
                         <el-input v-model="entity.Tp_Author" style="width: 180px;"></el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='range'" remark="出题范围">
+                <div v-show="activeName=='range'" remark="出题范围" tab="range">
                     <el-row :gutter="10">
                         <el-col :span="10">
                             <el-form-item label="" label-width="0px">
@@ -138,18 +133,18 @@
                         </fromtype1>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='intro'" remark="简介" class="intro_editor">
+                <div v-show="activeName=='intro'" remark="简介" class="intro_editor" tab="intro">
                     <editor :content="entity.Tp_Intro" id="intro" :menubar="false" model="general" upload="TestPaper"
                         :dataid="entity.Tp_Id" @change="text=>entity.Tp_Intro=text"></editor>
                 </div>
-                <div v-show="activeName=='remind'" remark="注意事项" class="intro_editor">
+                <div v-show="activeName=='remind'" remark="注意事项" class="intro_editor" tab="remind">
                     <editor :content="entity.Tp_Remind" id="remind" :menubar="false" model="general" upload="TestPaper"
                         :dataid="entity.Tp_Id" @change="text=>entity.Tp_Remind=text"></editor>
                 </div>
-                <div v-show="activeName=='other'" remark="其它">
+                <div v-show="activeName=='other'" remark="其它" tab="other">
                     <el-form-item label="试卷Logo">
                         <div class="img_tools">
-                            <upload-img @change="filechange" :data="entity" size="1024" height="30" ext="jpg,png,gif">
+                            <upload-img @change="f=>upfile=f" :data="entity" size="1024" height="30" ext="jpg,png,gif">
                                 <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
                                     <span style="cursor: pointer;">
                                         <icon>&#xe6ea</icon>点击上传图片
@@ -157,7 +152,8 @@
                                 </el-tooltip>
                             </upload-img>
                             <template v-if="entity.Tp_Logo!='' || upfile!=null">
-                                <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                                <el-link type="primary" @click.stop="()=>{upfile=null;entity.Tp_Logo = '';}">清除图片
+                                </el-link>
                             </template>
                         </div>
                         <div v-if="entity.Tp_Logo!='' || upfile!=null" class="img_div">

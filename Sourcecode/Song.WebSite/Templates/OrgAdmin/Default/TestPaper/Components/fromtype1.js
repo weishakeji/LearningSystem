@@ -235,6 +235,7 @@ Vue.component('fromtype1', {
             }
             if (surplus < 0) {
                 this.error = '各题型分数合计后大于总分 ' + this.total;
+                return false;
             }
             //有没有分完的分数
             if (this.sumPercent == 100 && surplus > 0) {
@@ -246,12 +247,29 @@ Vue.component('fromtype1', {
                 console.log(max_item);
             }
             //如果大于100%
-            if (this.sumPercent > 100) {
-                this.error = '各题型占比的合计不得大于100%'
+            if (this.sumPercent != 100) {
+                this.error = '各题型占比的合计必须等于 100%';
+                return false;
             }
-        }
+            return true;
+        },
+        //检验输入
+        check: function () {
+            var ispass = this.changePercent();
+            if (!ispass) return ispass;
+            //检查当有试题时，占分比不得为空
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].TPI_Count > 0 && this.items[i].TPI_Percent <= 0)
+                    return false;
+            }
+            if (this.sumPercent != 100) ispass = false;
+            return ispass;
+        },
     },
     template: `<div class="fromtype1">
+        <el-row class="alert" v-if="error!=''">
+            <alert>{{error}}</alert>
+        </el-row>  
         <div>
         各题型占总分百分比： <el-tag type="info">各题型占比合计 {{sumPercent}} %</el-tag>
         </div>
