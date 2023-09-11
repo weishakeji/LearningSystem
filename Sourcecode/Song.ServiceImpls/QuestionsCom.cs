@@ -121,6 +121,7 @@ namespace Song.ServiceImpls
             if (old == null)
             {
                 entity.Qus_ID = WeiSha.Core.Request.SnowID();
+                entity.Qus_Diff = entity.Qus_Diff <= 0 ? 3 : (entity.Qus_Diff > 5 ? 5 : entity.Qus_Diff);
                 entity.Qus_CrtTime = DateTime.Now;
                 Gateway.Default.Save<Questions>(entity);
             }
