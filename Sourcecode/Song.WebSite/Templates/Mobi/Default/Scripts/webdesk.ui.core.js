@@ -873,27 +873,29 @@
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
-        var first = ['polyfill.min', 'vue.min'];
+        var first = ['vue.min', 'axios_min', 'api'];
         for (var t in first) first[t] = '/Utilities/Scripts/' + first[t] + '.js';
         window.$dom.load.js(first, function () {
-            var arr = ['axios_min', 'api', 'hammer.min', 'vue-touch'];
-            for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
-            //arr.push('/Utilities/Panel/Scripts/ctrls.js');
-            window.$dom.load.js(arr, function () {
-                var arr2 = new Array();
-                //加载Vant
-                arr2.push('/Utilities/Vant/vant.min.js');
-                //mathjax，解析latex公式
-                arr2.push('/Utilities/MathJax/globalVariable.js');
-                arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
-                //加载vue组件
-                arr2.push(webdom.path() + 'Components/footer_menu.js');
-                arr2.push(webdom.path() + 'Components/aside_menu.js');
-                //通用组件，用于获取学员登录，机构信息等
-                arr2.push(webdom.path() + 'Components/generic.js');
-                window.$dom.load.js(arr2, f);
-            });
+            var arr = [];
+            //加载Vant
+            arr.push('/Utilities/Vant/vant.min.js');
+            //加载vue组件
+            arr.push(webdom.path() + 'Components/footer_menu.js');
+            arr.push(webdom.path() + 'Components/aside_menu.js');
+            //通用组件，用于获取学员登录，机构信息等
+            arr.push(webdom.path() + 'Components/generic.js');
+            window.$dom.load.js(arr.concat(window.$dom.quesjs()), f);
+
         });
+    };
+    //试题所有的js
+    webdom.quesjs = function () {
+        var arr = ['hammer.min', 'vue-touch'];
+        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        //mathjax，解析latex公式
+        arr.push('/Utilities/MathJax/globalVariable.js');
+        arr.push('/Utilities/MathJax/tex-mml-chtml.js');
+        return arr;
     };
     //加载必要的资源完成
     //f:加载完成要执行的方法
@@ -901,7 +903,7 @@
     window.$ready = function (f, source) {
         var route = webdom.route().toLowerCase();
         //如果设备不是手机端，转向web端页面
-       // if (!((webdom.ismobi() && !webdom.ispad()) || webdom.isWeixinApp()) && route.indexOf('/mobi/') > -1) {
+        // if (!((webdom.ismobi() && !webdom.ispad()) || webdom.isWeixinApp()) && route.indexOf('/mobi/') > -1) {
         if (!(webdom.ismobi() || webdom.isWeixinApp() || webdom.ispad()) && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
             var href = route.replace('/mobi/', '/web/');

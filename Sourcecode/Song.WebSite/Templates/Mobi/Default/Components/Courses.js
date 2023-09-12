@@ -76,6 +76,48 @@ Vue.component('courses', {
             });
             window.navigateTo(url);
         },
+
+    },
+    template: `<div class="cour-card" :sbjid="sbjid" v-if="datas.length>0">
+            <div class="cour-title" @click="gomore">
+                <van-loading type="spinner" v-if="loading" size="14"></van-loading>
+                <icon v-else>&#xa011</icon>
+                <b v-html="title"></b>
+                <more remark="更多"></more>                
+            </div>
+            <div class="cour-content">
+                <cour-box v-for="(c,i) in datas" :course="c" :mremove="mremove" @open="open"></cour-box>           
+            </div>               
+        </div>`
+});
+Vue.component('cour-box', {
+    //mremove:是否移除资金相关信息
+    props: ['course', 'mremove'],
+    data: function () {
+        return {
+            defpic: '/Utilities/images/cou_nophoto.jpg'
+        }
+    },
+    watch: {
+        'course': {
+            handler: function (val, old) {
+                if ($api.isnull(val)) return;
+                var th = this;
+                this.$nextTick(function () {
+                    let box = $dom('.cour-box[couid="' + val.Cou_ID + '"]');
+                    let img = box.find('img');
+                    // 
+                    let src = val.Cou_LogoSmall;
+                    if (src == undefined || src == null || src == '') return;
+                    img[0].setAttribute('src', src);
+                });
+            },
+            immediate: true
+        },
+    },
+    created: function () {
+    },
+    methods: {
         //显示价格
         price: function (cour) {
             var price = "";
@@ -86,30 +128,25 @@ Vue.component('courses', {
                 var date = end.format("yyyy-M-d");
                 price = "<l>免费至" + date + "</l>";
             } else if (cour.Cou_Price > 0) {
-                price = "<m>" + unescape(cour.Cou_PriceSpan) + unescape(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
+                price = "<m>" + decodeURIComponent(cour.Cou_PriceSpan) + decodeURIComponent(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
             }
-
             return price;
+        },
+        //点击事件
+        clickevent: function () {
+            this.$emit("open", this.course);
+        },
+        imgonload: function (event) {
+           
         }
     },
-    template: `<div class="cour-card" :sbjid="sbjid" v-if="datas.length>0">
-            <div class="cour-title" @click="gomore">
-                <van-loading type="spinner" v-if="loading" size="14"></van-loading>
-                <icon v-else>&#xa011</icon>
-                <b v-html="title"></b>
-                <more remark="更多"></more>                
-            </div>
-            <div class="cour-content">
-                <div class="cour-box" :couid="c.Cou_ID" v-for="(c,i) in datas" v-on:click.stop="open(c)">
-                    <rec v-if="c.Cou_IsRec"></rec>
-                    <img :src="c.Cou_LogoSmall" v-if="c.Cou_LogoSmall!=''"/>
-                    <img src="/Utilities/images/cou_nophoto.jpg" v-else />
-                    <name>
-                        <live v-if="c.Cou_ExistLive"></live>                     
-                        <t v-if="c.Cou_IsTry"></t>{{c.Cou_Name}}
-                    </name>
-                    <price v-html="price(c)" v-if="!mremove">{{price(c)}}</price>
-                </div>
-            </div>               
-        </div>`
+    template: `<div class="cour-box" :couid="course.Cou_ID" v-on:click.stop="clickevent">
+                <rec v-if="course.Cou_IsRec"></rec>
+                <img :src="defpic" @load='imgonload'/>
+                <name>
+                    <live v-if="course.Cou_ExistLive"></live>                     
+                    <t v-if="course.Cou_IsTry"></t>{{course.Cou_Name}}
+                </name>
+                <price v-html="price(course)" v-if="!mremove">{{price(course)}}</price>
+        </div> `
 });
