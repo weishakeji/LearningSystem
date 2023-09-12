@@ -1,6 +1,7 @@
 ﻿#vapp {
     width: 100%;
     height: 100%;
+    background-color: #fff;
 }
 
 .header {
@@ -94,6 +95,7 @@
 .cour-box {
     padding: 20px 16px 0px 16px;
     height: 110px;
+    margin-bottom: 5px;
 }
 
 .cour-box picture {
