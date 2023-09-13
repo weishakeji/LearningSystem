@@ -165,11 +165,20 @@ nav>div:hover, nav>a:hover {
 }
 
 nav>div[current], nav>a[current] {
-    border-image-source: linear-gradient(172deg, #fff 35%, #67C23A);
+    --border-image-source: linear-gradient(172deg, #fff 35%, #67C23A);
     border-image-slice: 1;
+    border-radius: 5px 5px 0px 5px;
+    background-color: #d5fdc0;
     box-shadow: inset 0px 0px 8px #fff;
+    border: 1px solid #80e34e;
+    color: #67C23A !important;   
 }
-
+nav>div[current], nav>a[current], div[current] *:first{
+    color: #67C23A !important;
+}
+nav>div[current] hot::before, nav>a[current] hot::before {
+    color: #67C23A;
+}
 nav>div[current]:hover, nav>a[current]:hover {
     color: #67C23A;
 }
@@ -185,7 +194,7 @@ nav>div[current]::before, nav>a[current]::before {
     border-right: 20px solid transparent;
     border-bottom: 40px solid #67C23A;
     transform: rotate(3deg);
-    z-index: -1;
+    z-index: 1;
 
 }
 
@@ -196,6 +205,7 @@ nav>div[current]::after, nav>a[current]::after {
     position: absolute;
     bottom: 1px;
     right: -6px;
+    z-index: 2;
     transform: rotate(-10deg);
 }
 
@@ -217,9 +227,7 @@ nav>* hot {
     right: 8px;
 }
 
-nav>div[current] hot::before, nav>a[current] hot::before {
-    color: #fff;
-}
+
 
 nav>* hot::before {
     content: '\e856';
@@ -247,6 +255,11 @@ img[copyright='weixinqr'] {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
+    #vapp {
+        top: 0px;
+        left: 0px;      
+    }
+    
     section{
         height: calc(100% - 100px);
     }
