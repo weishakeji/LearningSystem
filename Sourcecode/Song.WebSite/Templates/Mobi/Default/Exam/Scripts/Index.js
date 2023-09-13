@@ -45,21 +45,7 @@ $ready(function () {
                     if ($api.isnull(nv)) return;
                     this.my_exam();
                 }, immediate: true
-            },
-            'tabmenu': {
-                handler: function (nv, ov) {
-                    if (nv == ov) return;
-                    return;
-                    this.index = 0;
-                    this.loading = true;
-                    this.finished = false;
-                    this.total = 0;
-                    this.myexam = [];
-                    this.allexam = [];
-                    this.scoreexam = [];
-                    eval('this.' + nv + '')();
-                }, immediate: true
-            }
+            },            
         },
         methods: {
             //当前学员今天以及之后的考试
