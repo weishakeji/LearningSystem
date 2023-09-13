@@ -355,7 +355,7 @@ namespace Song.ServiceImpls
             #region 查询条件
             //查询条件
             WhereClip wc = Examination._.Exam_IsTheme == false && Examination._.Exam_IsUse == true; //基础条件
-            if (!string.IsNullOrWhiteSpace(search)) wc.And(Examination._.Exam_Title.Like("%" + search + "%"));
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(Examination._.Exam_Name.Like("%" + search + "%"));
             //准时开始的条件
             WhereClip wcType1 = Examination._.Exam_DateType == 1;
             if (start != null) wcType1.And(Examination._.Exam_Date >= (DateTime)start);
@@ -396,9 +396,14 @@ namespace Song.ServiceImpls
         }
         public List<Examination> GetSelfExam(int stid, DateTime? start, DateTime? end, string search, int size, int index, out int countSum)
         {
-            List<Song.Entities.Examination> exams = this.GetSelfExam(stid, start, end, search);
-            countSum = exams.Count;
             List<Song.Entities.Examination> list = new List<Examination>();
+            List<Song.Entities.Examination> exams = this.GetSelfExam(stid, start, end, search);
+            if (exams == null)
+            {
+                countSum = 0;
+                return list;
+            }
+            countSum = exams.Count;           
             index = index <= 0 ? 0 : index - 1;
             for (int i = 0; i < exams.Count; i++)
             {
@@ -452,7 +457,7 @@ namespace Song.ServiceImpls
             //是否考试结束，或已经交卷
             wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);
 
-            if (sear != null && sear != "") wc.And(ExamResults._.Exam_Title.Like("%" + sear + "%"));
+            if (sear != null && sear != "") wc.And(ExamResults._.Exam_Name.Like("%" + sear + "%"));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)

@@ -320,6 +320,7 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
@@ -1159,6 +1160,7 @@
     <Content Include="Templates\Web\Default\Components\Styles\courses.css" />
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
+    <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Web\_Public\CourseChat.html" />
     <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_live.js" />

@@ -128,7 +128,7 @@ html, body, #vapp {
 	white-space:nowrap;
 }
 
-.menu-box>div::before {
+.menu-box>div icon {
 	display: block;
 	font-size: 28px;
 }
@@ -145,7 +145,7 @@ html, body, #vapp {
 	text-align: left;
 }
 
-.van-sticky--fixed .menu-box>div::before {
+.van-sticky--fixed .menu-box>div icon {
 	display: inline-block;
 }
 

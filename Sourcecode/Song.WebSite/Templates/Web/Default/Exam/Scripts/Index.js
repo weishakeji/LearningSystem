@@ -10,7 +10,8 @@ $ready(function () {
 
             tabmenu: 'my_exam',     //选项卡
 
-            loading: true,
+            loading: false,
+            loading_login: false,       //是否请求过登录
             loading_init: true,      //初始数所据加载
             finished: false,
 
@@ -28,43 +29,39 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                th.loading_init = false;
-                //获取结果           
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 document.title += th.platinfo.title;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             $dom.load.css([$dom.path() + 'styles/pagebox.css']);
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: t => !$api.isnull(t.account)
         },
         watch: {
+            'loading_login': {
+                handler: function (nv, ov) {
+                    //console.log("loading_login:" + nv);
+                }, immediate: true
+            },
+
         },
         methods: {
             //当前学员今天以及之后的考试
             my_exam: function (index) {
-                if (!this.islogin) {
-                    this.tabmenu = 'all_exam';
-                    return;
-                }
                 var th = this;
                 if (index != null) this.form.index = index;
                 this.loading = true;
                 var form = $api.clone(this.form);
-                form['acid'] = this.account.Ac_ID;
+                form['acid'] = th.account.Ac_ID;
                 console.log(form);
                 $api.get('Exam/SelfExam4Todaylate', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -73,10 +70,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取所有考试
             all_exam: function (index) {
@@ -86,9 +81,8 @@ $ready(function () {
                 form['orgid'] = this.organ.Org_ID;
                 form['start'] = '';
                 form['end'] = '';
-                this.loading = true;
+                th.loading = true;
                 $api.get('Exam/ThemePager', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.total = req.data.total;
@@ -97,10 +91,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //成绩回顾的加载
             score_exam: function (index) {
@@ -110,9 +102,8 @@ $ready(function () {
                 form['acid'] = this.account.Ac_ID;
                 form['orgid'] = -1;
                 form['sbjid'] = -1;
-                this.loading = true;
+                th.loading = true;
                 $api.get('Exam/Result4Student', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         th.scoreexam = req.data.result;
@@ -120,10 +111,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //查询
             onsearch: function (search, tabitem) {
@@ -137,106 +126,7 @@ $ready(function () {
                 eval('this.' + tabitem.tag + '')(1);
             }
         }
-    });
-    //顶部的选项卡
-    Vue.component('exam_tabs', {
-        //islogin:学员是否登录,
-        //tab:当前选中的项
-        props: ["islogin", "tab"],
-        data: function () {
-            return {
-                //选项卡，search为搜索字符
-                tabs: [
-                    { 'name': '我的考试', 'tag': 'my_exam', 'icon': 'e811', 'curr': true, 'search': '', 'login': true },
-                    { 'name': '所有考试', 'tag': 'all_exam', 'icon': 'e810', 'curr': false, 'search': '', 'login': false },
-                    { 'name': '成绩查看', 'tag': 'score_exam', 'icon': 'e6ef', 'curr': false, 'search': '', 'login': true },
-                ],
-            }
-        },
-        watch: {
-            //当前选中的项
-            'tab': {
-                handler: function (nv, ov) {
-                    var curr = null;
-                    for (let i = 0; i < this.tabs.length; i++) {
-                        if (this.tabs[i].tag == nv) {
-                            this.tabs[i].curr = true;
-                            curr = this.tabs[i];
-                        } else {
-                            this.tabs[i].curr = false;
-                        }
-                    }
-                    if (curr == null) {
-                        if (this.islogin) {
-                            this.tabs[0].curr = true;
-                        } else {
-                            for (let i = 0; i < this.tabs.length; i++) {
-                                if (!this.tabs[i].login) {
-                                    this.tabs[i].curr = true;
-                                    break;
-                                }
-                            }
-                        }
-                        for (let i = 0; i < this.tabs.length; i++) {
-                            if (this.tabs[i].curr == true) {
-                                curr = this.tabs[i];
-                                break;
-                            }
-                        }
-                    }
-                    if (nv != ov) {
-                        var existEvent = this.$listeners['change'];
-                        if (existEvent) this.$emit('change', this.tab, curr);
-                        this.search(curr);
-                    }
-                }, immediate: true
-            }
-        },
-        computed: {
-            //当前选中的项
-            'selected': function () {
-                var curr = null;
-                for (let i = 0; i < this.tabs.length; i++) {
-                    if (this.tabs[i].curr == true) {
-                        curr = this.tabs[i];
-                        break;
-                    }
-                }
-                this.tab = curr.tag;
-                return curr;
-            }
-        },
-        mounted: function () {
-        },
-        methods: {
-            //选项卡点击事件
-            clickEvent: function (tab, item) {
-                this.selected = item;
-                this.tab = tab;
-            },
-            //搜索事件
-            search: function (item) {
-                var existEvent = this.$listeners['search'];
-                if (existEvent) this.$emit('search', item.search, item);
-            },
-            //当搜索框内容变更多时触，如果为空，则触发搜索事件
-            changesearch: function (item) {
-                item.search = $api.trim(item.search);
-                if (item.search == '') this.search(item);
-            }
-        },
-        template: `<div class="tabs-box" :login="islogin">
-            <div v-for="(item,index) in tabs" :current="item.tag==tab " 
-                v-if="islogin || (!islogin && !item.login)" @click="clickEvent(item.tag,item)">
-                <icon v-html="'&#x'+item.icon"></icon>
-                <span>{{item.name}}</span>
-            </div>
-            <el-input class="tab_search" v-for="item in tabs"  v-model="item.search" clearable  @input="changesearch(item)"
-                v-show="item.tag==tab" placeholder="搜索" @keyup.enter.native="search(item)">
-                <el-button slot="append" icon="el-icon-search" @click="search(item)"></el-button>
-            </el-input>
-        </div>`
-    });
+    });   
     //考试详情（用于“我的考试”）
     Vue.component('exam_data', {
         //exam:考试场次
@@ -266,7 +156,7 @@ $ready(function () {
         },
         methods: {
             goexaming: function (exam) {
-                var url=$api.url.set("/web/exam/doing",{"id":exam.Exam_ID});
+                var url = $api.url.set("/web/exam/doing", { "id": exam.Exam_ID });
                 //window.location.href = "/web/exam/doing?id=" + exam.Exam_ID;
                 return url
             }
@@ -484,4 +374,5 @@ $ready(function () {
     });
 }, ["../Components/courses.js",
     "../Components/course.js",
-    '../scripts/pagebox.js']);
+    '../scripts/pagebox.js',
+    'Components/exam_tabs.js']);

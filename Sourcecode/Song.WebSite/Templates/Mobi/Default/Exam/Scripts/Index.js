@@ -11,6 +11,7 @@ $ready(function () {
             tabmenu: $api.querystring('tab', 'my_exam'),     //选项卡
 
             loading: true,
+            loading_login: false,       //是否请求过登录
             loading_init: true,      //初始数所据加载
             finished: false,
             total: 0,
@@ -42,12 +43,13 @@ $ready(function () {
                 handler: function (nv, ov) {
                     this.loading_init = false;
                     if ($api.isnull(nv)) return;
-                    this.my_exam();                
+                    this.my_exam();
                 }, immediate: true
             },
             'tabmenu': {
                 handler: function (nv, ov) {
                     if (nv == ov) return;
+                    return;
                     this.index = 0;
                     this.loading = true;
                     this.finished = false;
@@ -62,24 +64,18 @@ $ready(function () {
         methods: {
             //当前学员今天以及之后的考试
             my_exam: function () {
-                if (!this.islogin) {
-                    this.tabmenu = 'all_exam';
-                    return;
-                }
-                this.loading = true;
-                var th = this;
-                this.index++;
-                console.log(th.search.my_exam);
+                var th = this;           
+                th.loading = true;
+                th.index++;
                 $api.get('Exam/SelfExam4Todaylate', {
-                    'acid': vapp.account.Ac_ID, 'search': th.search.my_exam,
-                    'size': this.size, 'index': this.index
+                    'acid': th.account.Ac_ID, 'search': th.search.my_exam,
+                    'size': th.size, 'index': th.index
                 }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
-                            vapp.myexam.push(result[i]);
+                            th.myexam.push(result[i]);
                         }
                         // 数据全部加载完成
                         if (th.myexam.length >= th.total || result.length == 0) {
@@ -89,27 +85,24 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取所有考试
             all_exam: function () {
                 var th = this;
                 var form = {
-                    'orgid': this.org.Org_ID, 'start': '', 'end': '', 'search': th.search.all_exam,
-                    'size': this.size, 'index': ++this.index
+                    'orgid': th.org.Org_ID, 'start': '', 'end': '', 'search': th.search.all_exam,
+                    'size': th.size, 'index': ++th.index
                 }
-                this.loading = true;
+                th.loading = true;
                 $api.get('Exam/ThemePager', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.total = req.data.total;
                         var result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
-                            vapp.allexam.push(result[i]);
+                            th.allexam.push(result[i]);
                         }
                         // 数据全部加载完成
                         if (th.allexam.length >= th.total || result.length == 0) {
@@ -119,20 +112,18 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //成绩回顾的加载
             score_exam: function () {
                 var th = this;
                 var form = {
-                    'acid': this.account.Ac_ID,
+                    'acid': th.account.Ac_ID,
                     'orgid': -1, 'sbjid': -1, 'search': th.search.score_exam,
-                    'size': this.size, 'index': ++this.index
+                    'size': th.size, 'index': ++th.index
                 }
-                this.loading = true;
+                th.loading = true;
                 $api.get('Exam/Result4Student', form).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -140,7 +131,7 @@ $ready(function () {
                         th.total = req.data.total;
                         var result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
-                            vapp.scoreexam.push(result[i]);
+                            th.scoreexam.push(result[i]);
                         }
                         // 数据全部加载完成
                         if (th.scoreexam.length >= th.total || result.length == 0) {
@@ -150,10 +141,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //查询
             onsearch: function (type) {
@@ -164,7 +153,11 @@ $ready(function () {
                 this.myexam = [];
                 this.allexam = [];
                 this.scoreexam = [];
+
                 eval('this.' + type + '')();
+            },
+            search: function (type) {
+
             }
         }
     });
@@ -407,4 +400,4 @@ $ready(function () {
         </card-context>
       </card>`
     });
-});
+}, ['Components/exam_tabs.js']);

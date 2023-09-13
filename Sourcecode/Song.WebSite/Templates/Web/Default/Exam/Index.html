@@ -9,7 +9,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header ref="header" :organ="organ" @login="acc=>account = acc">loading ...</page_header>
+        <page_header ref="header" :organ="organ" @login="(acc,login)=>{account = acc;loading_login=login;}">loading ...
+        </page_header>
         <div id="bodyTop">&nbsp;</div>
         <context>
             <aside>
@@ -21,47 +22,52 @@
                 </courses>
             </aside>
             <section>
-                <exam_tabs ref="tabs" :islogin="islogin" :tab="tabmenu" @change="(tab,item)=>{tabmenu=tab}"
+                <exam_tabs ref="tabs" :loaded="loading_login" :account="account" @change="tab=>tabmenu = tab"
                     @search="onsearch">
                 </exam_tabs>
                 <loading v-if="loading" size="24px" type="spinner">加载中...</loading>
-                <template v-if="tabmenu=='my_exam' && islogin" remark="我的考试">
-                    <exam_data v-for="(e,index) in myexam" :exam="e" :index="(form.index - 1) * form.size + index" :account="account"></exam_data>
-                    <div v-if="myexam.length<=0 && !loading" class="noexam">
-                        <icon>&#xe723</icon>好嗨哟，没有考试
-                    </div>
-                    <div class="pager-box" v-if="myexam.length>0 && !loading" >
-                        <el-pagination v-on:current-change="my_exam" :current-page="form.index" :page-sizes="[1]"
-                            :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
-                    </div>
-                </template>
-                <template v-if="tabmenu=='all_exam' || !islogin" remark="所有考试">
-                    <exam_theme v-for="(theme,index) in allexam" :theme="theme"  :index="(form.index - 1) * form.size + index" :account="account">
-                    </exam_theme>
-                    <div v-if="allexam.length<=0 && !loading" class="noexam">
-                        <icon>&#xe723</icon>好嗨哟，没有考试
-                    </div>
-                    <div class="pager-box" v-if="allexam.length>0 && !loading" >
-                        <el-pagination v-on:current-change="all_exam" :current-page="form.index" :page-sizes="[1]"
-                            :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
-                    </div>
-                </template>
-                <template v-if="tabmenu=='score_exam'" remark="成绩查看">
-                    <score_item v-for="(result,index) in scoreexam" :result="result"  :index="(form.index - 1) * form.size + index" :account="account">
-                    </score_item>
-                    <div v-if="scoreexam.length<=0 && !loading" class="noexam">
-                        <icon>&#xe849</icon>没有考试成绩
-                    </div>
-                    <div class="pager-box" v-if="scoreexam.length>0 && !loading" >
-                        <el-pagination v-on:current-change="score_exam" :current-page="form.index" :page-sizes="[1]"
-                            :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
-                    </div>
+                <template v-else>
+                    <template v-if="tabmenu=='my_exam'" remark="我的考试">
+                        <exam_data v-for="(e,index) in myexam" :exam="e" :index="(form.index - 1) * form.size + index"
+                            :account="account"></exam_data>
+                        <div v-if="myexam.length<=0" class="noexam">
+                            <icon>&#xe723</icon>好嗨哟，没有考试
+                        </div>
+                        <div class="pager-box" v-if="myexam.length>0">
+                            <el-pagination v-on:current-change="my_exam" :current-page="form.index" :page-sizes="[1]"
+                                :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
+                                :total="total">
+                            </el-pagination>
+                        </div>
+                    </template>
+                    <template v-if="tabmenu=='all_exam'" remark="所有考试">
+                        <exam_theme v-for="(theme,index) in allexam" :theme="theme"
+                            :index="(form.index - 1) * form.size + index" :account="account">
+                        </exam_theme>
+                        <div v-if="allexam.length<=0" class="noexam">
+                            <icon>&#xe723</icon>好嗨哟，没有考试
+                        </div>
+                        <div class="pager-box" v-if="allexam.length>0">
+                            <el-pagination v-on:current-change="all_exam" :current-page="form.index" :page-sizes="[1]"
+                                :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
+                                :total="total">
+                            </el-pagination>
+                        </div>
+                    </template>
+                    <template v-if="tabmenu=='score_exam'" remark="成绩查看">
+                        <score_item v-for="(result,index) in scoreexam" :result="result"
+                            :index="(form.index - 1) * form.size + index" :account="account">
+                        </score_item>
+                        <div v-if="scoreexam.length<=0" class="noexam">
+                            <icon>&#xe849</icon>没有考试成绩
+                        </div>
+                        <div class="pager-box" v-if="scoreexam.length>0">
+                            <el-pagination v-on:current-change="score_exam" :current-page="form.index" :page-sizes="[1]"
+                                :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
+                                :total="total">
+                            </el-pagination>
+                        </div>
+                    </template>
                 </template>
             </section>
         </context>

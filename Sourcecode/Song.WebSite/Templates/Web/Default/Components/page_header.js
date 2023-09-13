@@ -85,13 +85,13 @@ Vue.component('page_header', {
         th.loading_login = true;
         $api.login.account().then(function (acc) {
             th.account = acc;
-            th.$emit('login', th.account);
-            th.loading_login = false;
+            //触发登录后的事件,第二个参数表示是否登录，用于判断登录判断的操作是否完成
+            th.$emit('login', th.account, true);
             $api.login.account_fresh();
         }).catch((err) => {
             console.log(err);
-            th.loading_login = false;
-        });
+            th.$emit('login', {}, true);
+        }).finally(() => th.loading_login = false);
         //教师登录
         $api.login.teacher().then(function (teach) {
             th.teacher = teach;
