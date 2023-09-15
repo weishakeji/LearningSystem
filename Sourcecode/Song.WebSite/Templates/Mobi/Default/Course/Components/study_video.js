@@ -74,13 +74,12 @@ Vue.component('study_video', {
             if (this.config.random_pause_setup) {
                 let ispause = this.pausevalue.find(item => item == val);
                 if (ispause != null && ispause > 0) {
-                    this.$alert('点击确定，继续播放...', '随机暂停', {
-                        confirmButtonText: '确定',
-                        showClose: false,
-                        callback: action => this.play()
-                    });
                     this.pause();
-                    console.log('是否需要暂停：' + ispause);
+                    alert('点击确定，继续播放...', '随机暂停')
+                        .then(() => {
+                            this.play();
+                        });
+                    //console.log('是否需要暂停：' + ispause);
                 }
             }
             //触发视频事件
@@ -151,7 +150,7 @@ Vue.component('study_video', {
                 message: '当前视频播放完成，是否进入下一个章节?',
             }).then(() => {
                 this.$emit('completed', this.outline, this.state);
-            }).catch(() => { });           
+            }).catch(() => { });
         },
         //生成随机数，平均分布，且不重复
         buildrandom: function (count, length) {

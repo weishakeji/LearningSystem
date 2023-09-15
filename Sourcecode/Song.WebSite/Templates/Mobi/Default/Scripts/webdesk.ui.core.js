@@ -962,9 +962,9 @@
                 window.alert = function (txt, title) {
                     //手机端
                     if (webdom.ismobi()) {
-                        vant.Dialog ? vant.Dialog.alert({ message: txt, title: title }) : window.alert_base(txt);
+                        return vant.Dialog ? vant.Dialog.alert({ message: txt, title: title }) : window.alert_base(txt);
                     } else {
-                        Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
+                        return Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
                     }
                 };
                 //重构确认
