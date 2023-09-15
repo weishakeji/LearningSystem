@@ -140,8 +140,8 @@ card-title .search::before {
 
 card-title a {
 	position: absolute;
-	top: 20px;
-	right: 5px;
+	top: 15px;
+	right: 15px;
 	color: #fff;
 	background-color: #07c160;
 	border: 1px solid #07c160;

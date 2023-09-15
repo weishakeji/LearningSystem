@@ -124,7 +124,7 @@
     width: 90%;
     margin: 5px auto 0px auto;
     text-overflow: ellipsis;
-    --white-space: nowrap;
+    white-space: nowrap;
 }
 
 live {

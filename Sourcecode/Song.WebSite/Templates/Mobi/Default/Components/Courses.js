@@ -102,17 +102,13 @@ Vue.component('cour-box', {
         'course': {
             handler: function (val, old) {
                 if ($api.isnull(val)) return;
-                var th = this;
+                let src = val.Cou_LogoSmall;
+                if (src == undefined || src == null || src == '') return;
                 this.$nextTick(function () {
-                    let box = $dom('.cour-box[couid="' + val.Cou_ID + '"]');
-                    let img = box.find('img');
-                    // 
-                    let src = val.Cou_LogoSmall;
-                    if (src == undefined || src == null || src == '') return;
-                    img[0].setAttribute('src', src);
+                    let img = this.$el.getElementsByTagName('img');
+                    if (img.length > 0) img[0].setAttribute('src', src);
                 });
-            },
-            immediate: true
+            }, immediate: true
         },
     },
     created: function () {
@@ -135,14 +131,11 @@ Vue.component('cour-box', {
         //点击事件
         clickevent: function () {
             this.$emit("open", this.course);
-        },
-        imgonload: function (event) {
-           
         }
     },
     template: `<div class="cour-box" :couid="course.Cou_ID" v-on:click.stop="clickevent">
                 <rec v-if="course.Cou_IsRec"></rec>
-                <img :src="defpic" @load='imgonload'/>
+                <img :src="defpic"/>
                 <name>
                     <live v-if="course.Cou_ExistLive"></live>                     
                     <t v-if="course.Cou_IsTry"></t>{{course.Cou_Name}}
