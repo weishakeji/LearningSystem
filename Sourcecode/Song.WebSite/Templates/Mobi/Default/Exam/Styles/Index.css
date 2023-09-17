@@ -189,14 +189,14 @@ card-title .search::before{
 
 card-title button {
 	position: absolute;
-	top: 20px;
-	right: 5px;
+	top: 15px;
+	right: 15px;
 	color: #fff;
 	background-color: #07c160;
 	border: 1px solid #07c160;
 	font-size: 14px;
-	line-height: 20px;
-	height: 20px;
+	line-height: 25px;
+	height: 30px;
 }
 
 card-context {

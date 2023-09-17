@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body {
     width: 100%;
     height: 100%;
@@ -62,11 +63,13 @@ body {
         opacity: 0.3;
         color: #eee;
     }
+
     50% {
         opacity: .8;
         color: #fff;
         text-shadow: .1rem 0rem .2rem #fff, -.1rem 0rem .2rem #fff, 0rem .1rem .2rem #fff, 0rem -.1rem .2rem #fff;
     }
+
     100% {
         opacity: 0.3;
         color: #eee;
@@ -132,9 +135,11 @@ a.go-home:before {
     margin-right: 5px;
     margin-left: 5px;
 }
-.van-sticky{
+
+.van-sticky {
     background: rgb(255, 255, 255);
 }
+
 /*主菜单*/
 
 .mainmenuBox {
@@ -154,14 +159,17 @@ a.go-home:before {
     padding: 10px 5px 0px 5px;
     position: relative;
 }
-.mainmenuBox>div[disabled]{
+
+.mainmenuBox>div[disabled] {
     color: #666;
 }
-.mainmenuBox>div icon{
+
+.mainmenuBox>div icon {
     display: block;
     margin-bottom: 4px;
 }
-.mainmenuBox span{  
+
+.mainmenuBox span {
     display: block;
     font-size: 12px;
     text-align: center;
@@ -179,7 +187,7 @@ a.go-home:before {
 /*内容区*/
 
 #Context {
-    min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 40px );
+    min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 40px);
 
 }
 
@@ -190,15 +198,15 @@ a.go-home:before {
     border-radius: 2px;
     background-color: #fff;
     background-clip: padding-box;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .1),-1px -1px 2px rgba(0, 0, 0, .1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .1), -1px -1px 2px rgba(0, 0, 0, .1);
     min-height: 200px;
-    
+
 }
 
 
 /*学习目标*/
 
-.couTarget {   
+.couTarget {
     word-wrap: break-word;
 }
 
@@ -210,7 +218,7 @@ a.go-home:before {
 /*课程公告*/
 
 .guids {
-   
+
     padding: 20px;
     padding-top: 0px;
 }
@@ -235,29 +243,34 @@ a.go-home:before {
     color: #999;
     display: block;
 }
-.guides_show{
+
+.guides_show {
     padding: 20px;
     width: 80%;
-    height:80%;
-    box-sizing: border-box;   
+    height: 80%;
+    box-sizing: border-box;
 }
-.guides_show>div{
+
+.guides_show>div {
     font-size: 16px !important;
     width: 100%;
-    height:100%;
+    height: 100%;
     overflow: auto;
 }
-.guides_show .Gu_Title{
+
+.guides_show .Gu_Title {
     font-size: 22px;
-	line-height: 2rem;
-	font-weight: bold;
+    line-height: 2rem;
+    font-weight: bold;
 }
+
 /*课程详情*/
 
 .noinfo {
     text-align: center;
     color: #CCC;
 }
+
 .introBox img {
     width: 100% !important;
     height: 100%;
@@ -266,6 +279,8 @@ a.go-home:before {
 .introBox, .introBox * {
     font-size: 16px !important;
     line-height: 30px !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /*章节列表*/
@@ -273,39 +288,49 @@ a.go-home:before {
 .outline .van-cell {
     padding: 8px 40px 8px 0px;
 }
-.outline .van-cell__title{
+
+.outline .van-cell__title {
     font-size: 16px;
 }
-.outline .van-cell .tag{
+
+.outline .van-cell .tag {
     position: absolute;
-    top:8px;
+    top: 8px;
     right: 0px;
 }
+
 /*弹出面板*/
-.mainmenu .van-popup button{
+.mainmenu .van-popup button {
     font-size: 16px;
-    letter-spacing:8px;
+    letter-spacing: 8px;
 }
-.mainmenu .van-popup icon{
+
+.mainmenu .van-popup icon {
     font-size: 20px;
 }
-.login button{
+
+.login button {
     width: 100%;
 }
-.mainmenu .van-popup{
+
+.mainmenu .van-popup {
     text-align: center;
     padding: 15px 15px 30px 15px;
     width: calc(100% - 30px);
 }
-.buy button{
+
+.buy button {
     width: 100%;
 }
-.try{
+
+.try {
     display: flex;
 }
-.try button:first-child{
+
+.try button:first-child {
     margin-right: 10px;
 }
-.try button{
+
+.try button {
     flex: 1 auto;
 }
