@@ -11,8 +11,7 @@ $ready(function () {
             tabmenu: $api.querystring('tab', 'my_exam'),     //选项卡
 
             loading: true,
-            loading_login: false,       //是否请求过登录
-            loading_init: true,      //初始数所据加载
+            loading_login: false,       //是否请求过登录      
             finished: false,
             total: 0,
             size: 3,
@@ -41,9 +40,9 @@ $ready(function () {
         watch: {
             'account': {
                 handler: function (nv, ov) {
-                    this.loading_init = false;
-                    if ($api.isnull(nv)) return;
-                    this.my_exam();
+                    //this.loading_init = false;
+                    //if ($api.isnull(nv)) return;
+                    //this.my_exam();
                 }, immediate: true
             },            
         },

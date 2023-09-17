@@ -38,7 +38,7 @@
         </exam_tabs>
       </van-sticky>
     </div>
-    <template v-if="loading_init">
+    <template v-if="!loading_login">
       <van-loading size="24px" type="spinner">加载中...</van-loading>
     </template>
     <template v-else>
