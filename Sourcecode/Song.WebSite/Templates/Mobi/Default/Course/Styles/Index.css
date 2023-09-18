@@ -53,6 +53,8 @@
     width: 100%;
     height: calc(100% - 90px - 50px);
     overflow: auto;
+    box-sizing: border-box;
+	padding-bottom: 30px;
 }
 
 /*专业面板*/

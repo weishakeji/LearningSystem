@@ -29,6 +29,8 @@ card-title{
     top: 44px;
     height: calc(100% - 44px - 50px);
     overflow-y: auto;
+    box-sizing: border-box;
+    padding-bottom: 30px;
 }
 
 
@@ -42,7 +44,11 @@ row span.van-tag{
     right: 0px;
 }
 .noarticle{
-    font-size: 12px;
+    font-size: 14px;
+    text-indent: 10px;
+}
+.noarticle icon{
+    font-size: 18px;
 }
 row a{
     font-size: 16px;

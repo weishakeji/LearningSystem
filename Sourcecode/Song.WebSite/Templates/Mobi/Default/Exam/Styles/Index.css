@@ -148,7 +148,10 @@ html, body, #vapp {
 .van-sticky--fixed .menu-box>div icon {
 	display: inline-block;
 }
-
+.van-list{
+	box-sizing: border-box;
+	padding-bottom: 80px;
+}
 /*考试详情*/
 
 card-title {
@@ -197,6 +200,7 @@ card-title button {
 	font-size: 14px;
 	line-height: 25px;
 	height: 30px;
+	
 }
 
 card-context {

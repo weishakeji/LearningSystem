@@ -93,7 +93,7 @@
     width: calc(100% - 20px);
     box-sizing: border-box;
     margin: 0px 10px;
-    padding: 0px 0px 30px 0px;
+    padding: 0px 0px 80px 0px;
 }
 
 .cour_box {
@@ -233,7 +233,7 @@
 
 .van-list__finished-text {
     background-color: #fff;
-    min-height: 100px;
+    min-height: 60px;
 }
 
 /*进度条*/
