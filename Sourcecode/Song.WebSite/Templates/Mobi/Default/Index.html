@@ -11,7 +11,7 @@
 <body>
 
     <div id="vapp" v-cloak>
-        
+
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <header>
             <img :src="org.Org_Logo" v-if="org.Org_Logo!=''" class="logo" />
@@ -24,7 +24,7 @@
         </header>
         <div id="context">
             <template v-if="!loading" remark="轮换图片">
-                <van-swipe :autoplay="3000" v-if="!loading && showpic && showpic.length>0" class="swip_pic">
+                <van-swipe :autoplay="3000" v-if="showpic && showpic.length>0" class="swip_pic">
                     <van-swipe-item v-for="(pic, index) in showpic" :key="index">
                         <a :href="pic.Shp_Url!='' ? pic.Shp_Url : '#'" :target="pic.Shp_Target">
                             <img :src="pic.Shp_File" v-if="pic.Shp_File!=''" />
@@ -44,7 +44,7 @@
                     </van-swipe-item>
                 </van-swipe>
             </template>
-            <van-loading size="24px" type="spinner" v-show="loading">加载中...</van-loading>
+            <van-loading size="24px" type="spinner" v-show="loading" class="swip_loading">加载中...</van-loading>
             <div class="custom-menu" remark="导航按钮" v-if="menus && menus.length>0">
                 <a v-for="m in menus" :type="m.Nav_Url=='' ? 'none' : 'link'" :href="m.Nav_Url"
                     :style="'color:'+m.Nav_Color+';font-family:'+m.Nav_Font+';'">
