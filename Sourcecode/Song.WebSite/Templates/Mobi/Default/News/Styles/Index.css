@@ -9,18 +9,29 @@
 
 .header {
     height: 44px;
-    
+
     font-size: 14px;
     position: fixed;
     width: 100%;
     top: 0px;
     z-index: 2;
 }
-card-title{
+
+card-title {
     font-size: 18px;
 }
+
 .header .van-search {
     padding: 5px 6px !important;
+}
+
+card:has(card-context[notnull]) card-title::after {
+    content: '\e670';
+    position: absolute;
+    top: 15px;
+    right: 8px;
+    font-size: 18px;
+    font-family: "webdesk_icon" !important;
 }
 
 .context {
@@ -34,22 +45,16 @@ card-title{
 }
 
 
-row {
-    padding-right: 70px;
-}
-row span.van-tag{
-    display: block;
-    position: absolute;
-    top: 16px;
-    right: 0px;
-}
-.noarticle{
+.noarticle {
     font-size: 14px;
     text-indent: 10px;
+    color: #999;
 }
-.noarticle icon{
+
+.noarticle icon {
     font-size: 18px;
 }
-row a{
+
+row a {
     font-size: 16px;
 }

@@ -327,6 +327,7 @@
     <Content Include="Templates\Mobi\Default\Link\Index.html" />
     <Content Include="Templates\Mobi\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\News\Components\Styles\Articles.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\AnswerSheet.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\PromptPanel.js" />

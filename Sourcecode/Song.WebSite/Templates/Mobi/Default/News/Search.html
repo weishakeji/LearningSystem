@@ -24,13 +24,10 @@
                         检索：“{{search}}”
                     </card-title>
                     <card-context>
-                        <row v-for="(art,i) in articles" @click="navigateTo('article.'+art.Art_ID)">
-                            <a href="#">{{art.Art_Title}}
-
-                                <van-tag color="#eee" text-color="#666">{{art.Art_PushTime|date("yyyy-MM-dd")}}
-                                </van-tag>
-                            </a>
-                        </row>
+                        <artrow v-for="(art,i) in articles" :art="art"></artrow>
+                        <div v-if="articles.length==0 && !loading" class="noarticle">
+                            <icon>&#xe839</icon>没有内容
+                        </div>
                     </card-context>
                 </card>
             </van-list>

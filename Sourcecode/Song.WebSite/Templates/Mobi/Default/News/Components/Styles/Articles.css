@@ -1,0 +1,52 @@
+﻿
+/*新闻列表行*/
+row {
+    padding-right: 70px;
+}
+
+row span.van-tag {
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 0px;
+}
+
+row[logo] {
+    display: flex;
+    padding-right: 0px;
+}
+
+row[logo]  img {
+    width: 120px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+row[logo] >div {
+    position: relative;
+    flex: 1;
+    width: calc(100% - 130px);
+}
+row[logo]>div span {
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    /* 显示三行文本 */
+    text-overflow: ellipsis;
+}
+row[logo]  i{
+    font-style: normal;
+    font-size: 12px;
+    position: absolute;
+    bottom: -8px;
+    left: 0px;
+    color: #999;
+}
+row[logo] span.van-tag {
+    position: absolute;
+    right: 0px;
+    top: auto;
+    bottom: -5px;
+}

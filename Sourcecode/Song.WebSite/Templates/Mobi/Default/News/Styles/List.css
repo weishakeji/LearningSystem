@@ -40,15 +40,3 @@ card-title{
     height: calc(100% - 44px - 50px);
     overflow-y: auto;
 }
-row {
-    padding-right: 70px;
-}
-row span.van-tag{
-    display: block;
-    position: absolute;
-    top: 16px;
-    right: 0px;
-}
-row a{
-    font-size: 16px;
-}
