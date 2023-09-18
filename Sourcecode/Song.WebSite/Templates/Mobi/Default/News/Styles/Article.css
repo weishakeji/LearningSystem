@@ -63,6 +63,7 @@
     line-height: 40px;
     padding: 0px 10px;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 .artAttrBar {
