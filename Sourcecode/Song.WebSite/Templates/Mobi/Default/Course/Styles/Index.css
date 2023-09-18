@@ -161,9 +161,9 @@
 }
 
 .cour-box info .curname {
-    font-size: 15px;
-    line-height: 20px;
-    max-height: 40px;
+    font-size: 17px;
+    line-height: 25px;
+    max-height: 50px;
     line-clamp: 2;
 	overflow: hidden;
 	text-overflow: ellipsis;
