@@ -52,7 +52,7 @@
                                  'Posi_'+scope.row.Posi_Id,600,380)">权限</el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip  width="100"  align="center" fixed="right">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Posi_Id"></span>
                         <el-button-group v-show="loadingid!=scope.row.Posi_Id">

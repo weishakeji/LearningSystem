@@ -71,7 +71,7 @@
                         <group :exam="scope.row"></group>
                     </template>
                 </el-table-column>
-                <el-table-column label="管理" width="120" align="center">
+                <el-table-column label="管理"  width="100"  align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-edit"
                             @click.stop='$refs.btngroup.modify(scope.row.Exam_ID)'>
