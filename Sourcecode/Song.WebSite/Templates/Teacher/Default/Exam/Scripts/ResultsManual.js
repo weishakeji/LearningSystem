@@ -8,7 +8,7 @@
             entity: {}, //当前考试对象
             form: {
                 examid: $api.querystring('id'),
-                name: '', idcard: '',stsid: '',
+                name: '', idcard: '', stsid: '',
                 min: -1, max: -1, manual: false,
                 size: 20, index: 1
             },
@@ -45,21 +45,17 @@
                 th.types = types.data.result;
                 th.organ = org.data.result;
                 th.entity = exam.data.result;
-
-            })).catch(function (err) {
-                th.loading = false;
-                alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
             this.handleCurrentChange(1, 0);
         },
         methods: {
-            //加载数据页
+            //加载考试成绩数据
             handleCurrentChange: function (index, move) {
                 if (move == null) move = 0;
                 if (index != null) this.form.index = index;
                 var th = this;
-                this.loading = true;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 40);
@@ -79,10 +75,8 @@
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //计算考试用时
             calcSpan: function (d1, d2) {
@@ -90,6 +84,19 @@
                 var total = (d2.getTime() - d1.getTime()) / 1000;
                 var span = Math.floor(total / 60);
                 return span <= 0 ? "<1" : span;
+            },
+            //身份证的数据脱敏
+            desensitizeIDcard: function (data) {
+                // 替换身份证号码中间十位为*
+                return data.replace(/(\d{4})\d{10}(\w{4})/, '$1**********$2');
+            },
+            //学员名字的脱敏
+            desensitizeName: function (name) {
+                return name.length > 1 ? name.substr(0, 1) + '*'.repeat(name.length - 1) : name;               
+            },
+            //电话的脱敏
+            desensitizePhone: function (phone) {
+                return phone.replace(/^(\d{3})\d+(\d{1})$/, '$1*******$2');             
             },
             //设置为当前学员
             setCurrent: function (row, column, event) {

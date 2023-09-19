@@ -35,14 +35,14 @@
                     <el-table-column label="姓名" width="120">
                         <template slot-scope="scope">
                             <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
-                                v-html='showsearch(scope.row.Ac_Name,form.name)' class="large">
+                                v-html='showsearch(desensitizeName(scope.row.Ac_Name),form.name)' class="large">
                             </icon>
                             <icon v-if="scope.row.Exr_IsManual" title="已经批阅">&#xa048</icon>
                         </template>
                     </el-table-column>
                     <el-table-column label="身份证">
                         <template slot-scope="scope">
-                            <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
+                            <span v-html='showsearch(desensitizeIDcard(scope.row.Ac_IDCardNumber),form.idcard)'></span>
                         </template>
                     </el-table-column>
                     <el-table-column label="成绩" width="80" align="center">
@@ -65,7 +65,7 @@
                 <div class="account_bar" @click="accountVisible=true" v-if="!loading && account.Ac_ID">
                     <template v-if="account.Ac_ID">
                         <avatar :account="account" circle="true" size="35"></avatar>
-                        <b>{{account.Ac_Name}}</b>
+                        <b>{{desensitizeName(account.Ac_Name)}}</b>
                     </template>
                     <el-tag :type="current.Ac_Sex=='2' ? 'danger' : ''" v-else>{{current.Ac_Name}}</el-tag>
                     <el-tag>
@@ -121,18 +121,15 @@
                         <avatar :account="account" circle="true" size="80"></avatar>
                         <div>
                             <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
-                                <b>{{account.Ac_Name}}</b>
+                                <b>{{desensitizeName(account.Ac_Name)}}</b>
                             </icon>
                             <span title="账号">({{account.Ac_AccName}})</span>
                         </div>
                         <div icon="&#xe60f" title="身份证">
-                            {{account.Ac_IDCardNumber}}
+                            {{desensitizeIDcard(account.Ac_IDCardNumber)}}
                         </div>
                         <div icon="&#xa047" title="电话">
-                            <span v-html='account.Ac_MobiTel1'></span>
-                            <span
-                                v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
-                            <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                            <span v-html='desensitizePhone(account.Ac_MobiTel1)'></span>                            
                         </div>
                     </template>
                     <icon :woman="current.Ac_Sex=='2'" v-else :man="current.Ac_Sex!='2'" class="large">
