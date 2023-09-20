@@ -50,7 +50,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="链接名称">
+                <el-table-column label="链接名称" min-width="200">
                     <template slot-scope="scope">
                         <icon v-if="scope.row.Lk_Logo!=''" title="图片" style="font-size: 18px;">&#xe672</icon>
                         <span v-html="showsearch(scope.row.Lk_Name,form.name)" class="large"></span>
