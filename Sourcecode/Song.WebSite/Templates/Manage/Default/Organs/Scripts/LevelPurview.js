@@ -22,38 +22,30 @@ $ready(function () {
                     console.log(th.datas);
                     //获取已经选择的菜单项
                     $api.get('ManageMenu/OrganPurviewUID', { 'lvid': th.id }).then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             var arr = req.data.result;
-                            for (var i = 0; i < arr.length; i++) {
+                            for (var i = 0; i < arr.length; i++)
                                 arr[i] = 'node_' + arr[i];
-                            }
                             window.setTimeout(function () {
                                 var trees = window.vue.$refs.tree;
-                                for (var i = 0; i < trees.length; i++) {
+                                for (var i = 0; i < trees.length; i++)
                                     trees[i].setCheckedKeys(arr, true);
-                                }
-
                             }, 100);
-
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        Vue.prototype.$alert(err);
-                    });
+                    }).catch(err => alert(err))
+                        .finally(() => th.loading = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-            });
+            }).catch(err => alert(err))
+                .finally(() => { });
         },
         methods: {
-            btnEnter: function () {
+            btnEnter: function (isclose) {
                 var th = this;
                 if (th.loading) return;
                 th.loading = true;
@@ -70,12 +62,10 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
-                            type: 'success',
-                            message: '操作成功!',
-                            center: true
+                            type: 'success', center: true,
+                            message: '操作成功!'
                         });
-
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -96,13 +86,13 @@ $ready(function () {
                 this.$refs.tree[index].setCheckedKeys(arr);
             },
             //操作成功
-            operateSuccess: function () {
+            operateSuccess: function (isclose) {
                 //更新后触发的事件
                 for (let i = 0; i < this.datas.length; i++) {
                     $api.cache('ManageMenu/OrganMarkerMenus:update', { 'marker': this.datas[i].MM_Marker });
                 }
                 if (window.top && window.top.$pagebox)
-                    window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.getlist', isclose);
             }
         },
     });

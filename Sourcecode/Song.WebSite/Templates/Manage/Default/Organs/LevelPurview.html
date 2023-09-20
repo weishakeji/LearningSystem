@@ -33,8 +33,11 @@
             </el-card>
         </div>
         <div class="footer">
-            <el-button type="primary" define="enter" native-type="submit" v-loading="loading" plain @click="btnEnter">
-                确认修改</el-button>
+            <el-button type="primary" define="enter" native-type="submit" v-loading="loading" plain
+                @click="btnEnter(true)"> 保存</el-button>
+            <el-button type="primary" native-type="submit" define="apply" v-loading="loading" plain
+                @click="btnEnter(false)"> 应用
+            </el-button>
             <el-button type='close'>取消</el-button>
         </div>
     </div>

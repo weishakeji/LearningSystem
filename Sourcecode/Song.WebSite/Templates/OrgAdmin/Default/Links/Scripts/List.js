@@ -26,7 +26,6 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -46,9 +45,8 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     });
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -67,7 +65,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
                 $api.cache("Link/Pager:update", th.form).then(function (d) {
-                    th.loading = false;
                     console.log(3);
                     if (d.data.success) {
                         th.datas = d.data.result;
@@ -79,14 +76,13 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Link/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -102,7 +98,7 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
