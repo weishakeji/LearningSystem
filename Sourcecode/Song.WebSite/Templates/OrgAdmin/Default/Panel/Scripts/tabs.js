@@ -624,51 +624,47 @@
     };
     //最大化内容区域
     tabs.full = function (obj, tabid) {
-        let fbox = $dom('tabs_fullbox');
-        if (fbox.length < 1) fbox = $dom(document.body).add('tabs_fullbox');
-        //当前内容区，放到全屏fullbox中
         let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
-        fbox.append(tabpace.find('iframe')).attr({
-            crtid: obj.id,
-            tabid: tabid
-        });
-        //fbox.find("iframe").width('100%').height('100%');
-        tabpace.find('iframe').remove();
-        //设置fullbox的初始位置
-        let offset = tabpace.offset();
-        fbox.left(offset.left).top(offset.top);
-        fbox.width(tabpace.width()).height(tabpace.height()).show();
-        fbox.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
+        var iframe = tabpace.find('iframe');
+        //获取坐标与宽高
+        var offset = iframe.offset();
+        //设置位置与放大致全屏       
+        obj.dom.css('position', 'static');
+        iframe.css({ 'position': 'absolute', 'background-color': '#fff', 'z-index': 999998 })
+            .left(offset.left).top(offset.top).width(offset.width).height(offset.height)
+            .attr({ 'left': offset.left, 'top': offset.top, 'wd': offset.width, 'hg': offset.height });
+        //添加返回按钮，默认是隐藏的
+        let close = obj.dom.add('tabs_fullbox_back');
+        //全屏
         window.setTimeout(function () {
-            fbox.left(0).top(0);
-            fbox.width('100%').height('100%');
+            iframe.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
+            iframe.left(0).top(0);
+            iframe.width('100%').height('100%');
+            //触发全屏事件
+            obj.trigger('full', {
+                tabid: tabid,
+                data: obj.getData(tabid)
+            });
+            close.show();
         }, 300);
-        //添加返回按钮
-        let close = fbox.add('tabs_fullbox_back');
+        //返回按钮的点击事件
         close.click(function (e) {
-            let fbox = $dom('tabs_fullbox');
-            fbox.find('tabs_fullbox_back').hide();
-            let crt = $ctrls.get(fbox.attr('crtid'));
-            let tbody = crt.obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
-            tbody.append(fbox.find('iframe'));
-            //
-            let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
-            let offset = tabpace.offset();
-            fbox.left(offset.left).top(offset.top);
-            fbox.width(tabpace.width()).height(tabpace.height());
+            let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
+            var iframe = tabpace.find('iframe');
+            iframe.left(Number(iframe.attr('left'))).top(Number(iframe.attr('top')))
+                .width(Number(iframe.attr('wd'))).height(Number(iframe.attr('hg')));
+            close.remove();
             window.setTimeout(function () {
-                $dom('tabs_fullbox').remove();
+                //去除之前添加的属性
+                iframe.css({ 'transition': 'none', 'position': 'static', 'background-color': 'transparent' }).width('100%').height('100%');
+                obj.dom.css('position', 'relative');
+                //触发全屏还事件
+                obj.trigger('restore', {
+                    tabid: tabid,
+                    data: obj.getData(tabid)
+                });
             }, 300);
-        });
-        window.setTimeout(function () {
-            $dom('tabs_fullbox_back').show();
-        }, 500);
-        //触发事件
-        let data = obj.getData(tabid);
-        obj.trigger('full', {
-            tabid: tabid,
-            data: data
-        });
+        });        
     }
     win.$tabs = tabs;
     win.$tabs._baseEvents();

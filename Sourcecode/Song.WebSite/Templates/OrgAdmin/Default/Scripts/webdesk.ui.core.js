@@ -381,7 +381,9 @@
         var docElement = node.ownerDocument.documentElement;
         return {
             top: offset.top + window.pageYOffset - docElement.clientTop,
-            left: offset.left + window.pageXOffset - docElement.clientLeft
+            left: offset.left + window.pageXOffset - docElement.clientLeft,
+            width: this.width(),
+            height: this.height()
         };
     };
     //追加一个子节点，返回自身对象
@@ -892,7 +894,7 @@
     };
     //加载组件所需的javascript文件
     webdom.ctrljs = function (f) {
-        webdom.corejs(function () {            
+        webdom.corejs(function () {
             var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
             for (var t in arr) arr[t] = webdom.path() + 'Panel/Scripts/' + arr[t] + '.js';
             window.$dom.load.js(arr, f);

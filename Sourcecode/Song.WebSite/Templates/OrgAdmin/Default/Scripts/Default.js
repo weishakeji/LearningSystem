@@ -167,7 +167,9 @@ function ready(result) {
             ico: 'a020'
         }
     });
-    tabs.onshut(tabsShut).onchange(tabsChange);
+    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function(s,e){
+        //alert(s);
+    });
     tabs.onhelp(function (s, e) {
         let url = e.data.help && e.data.help != '' ? e.data.help : '/help' + e.data.url + '.html';
         $pagebox.create({

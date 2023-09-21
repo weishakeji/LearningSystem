@@ -35,7 +35,7 @@ tabs_tagbox tab_tag {
     width: 100px;
     height: 35px;
     position: relative;
-    font-size: 13px;
+   
     line-height: 36px;
     padding-left: 15px;
     padding-right: 22px;
@@ -110,14 +110,14 @@ tabs_tagbox tab_tag ico {
     font-size: 16px;
     width: 30px;
     height: 32px;
-    color: #999;
     font-family: "webdesk_icon" !important;
 }
 
 tabs_tagbox tab_tag tagtxt {
+    font-size: 14px;
     left: 38px;
     height: 32px;
-    line-height: 36px;
+    line-height: 34px;
     bottom: 0px;
     width: calc(100% - 50px);
     overflow: hidden;
@@ -482,31 +482,17 @@ tabs_morebox tab_tag close:before {
     content: '\e606';
 }
 
-/*最大化区域*/
-
-tabs_fullbox {
-    position: absolute;
-    z-index: 9999;
-    --background-color: rgba(255, 0, 0, .6);
-    background-color: #fff;
-    display: none;
-}
-
-tabs_fullbox iframe {
-    width: 100% !important;
-    height: 100% !important;
-}
-
 /*最大化返回按钮*/
 
-tabs_fullbox tabs_fullbox_back {
+.tabsbox tabs_fullbox_back {
     position: absolute;
     width: 100px;
     height: 22px;
-    left: calc(100vw/2 - 50px);
+    left: calc(100vw/2 - 50px);    
+    top: -19px;
+    z-index: 999999;
     line-height: 20px;
     text-align: center;
-    top: -19px;
     color: #fff;
     background-color: rgb(139, 139, 139);
     cursor: pointer;
@@ -516,7 +502,7 @@ tabs_fullbox tabs_fullbox_back {
     display: none;
 }
 
-tabs_fullbox tabs_fullbox_back:after {
+.tabsbox tabs_fullbox_back:after {
     content: '\e606';
     display: block;
     float: right;
@@ -528,12 +514,12 @@ tabs_fullbox tabs_fullbox_back:after {
     font-family: "webdesk_icon" !important;
 }
 
-tabs_fullbox tabs_fullbox_back:hover {
+.tabsbox tabs_fullbox_back:hover {
     background-color: rgb(19, 19, 19);
     top: 0px;
 }
 
-tabs_fullbox tabs_fullbox_back:before {
+.tabsbox tabs_fullbox_back:before {
     content: '退出满屏';
     font-size: 10px;
     line-height: 16px;
