@@ -23,12 +23,11 @@ panel#admin {
 
 #treemenu-area {
     box-shadow: none !important;
+    float: left;
 }
 
 #mainbody {
-    margin: 0px !important;
-    width: calc(100% - 5px) !important;
-    height: calc(100% - 50px) !important;
+    height: calc(100% - 45px) !important;
 }
 
 /*顶部条*/

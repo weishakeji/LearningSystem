@@ -26,7 +26,7 @@
             morebox: false, //更多标签的面板是否显示
             cntmenu: false //右键菜单是否显示
         };
-        for (var t in param) this.attrs[t] = param[t];
+        for (let t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
         //shut:关闭标签; add:添加标签；change:切换标签;load:内页加载完成; full:标签项全屏
@@ -99,12 +99,12 @@
     fn._open = function () {
         this._initialization();
         //创建控件html对象
-        for (var t in this._builder) this._builder[t](this);
-        for (var t in this._baseEvents) this._baseEvents[t](this);
+        for (let t in this._builder) this._builder[t](this);
+        for (let t in this._baseEvents) this._baseEvents[t](this);
     };
     fn._builder = {
         shell: function (obj) {
-            var area = $dom(obj.target);
+            let area = $dom(obj.target);
             if (area.length < 1) {
                 console.log('tabs所在区域不存在');
                 return;
@@ -113,11 +113,11 @@
             obj.dom = area;
         },
         title: function (obj) {
-            var tagarea = obj.dom.add('tabs_tagarea');
-            var tagsbox = tagarea.add('tabs_tagbox');
+            let tagarea = obj.dom.add('tabs_tagarea');
+            let tagsbox = tagarea.add('tabs_tagbox');
             obj.domtit = tagsbox;
             //右上角的更多按钮
-            obj.dom.append('tabs_more');
+            tagarea.append('tabs_more');
         },
         body: function (obj) {
             obj.dombody = obj.dom.add('tabs_body');
@@ -128,7 +128,7 @@
         },
         //右键菜单
         contextmenu: function (obj) {
-            var menu = obj.dom.add('tabs_contextmenu');
+            let menu = obj.dom.add('tabs_contextmenu');
             menu.add('menu_fresh').html('刷新');
             //menu.add('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
             menu.add('menu_print').html('打印');
@@ -154,22 +154,22 @@
         //右上角按钮事件
         morebtn: function (obj) {
             obj.dom.find('tabs_more').click(function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
-                var crt = $ctrls.get($dom(node).attr('ctrid'));
+                let crt = $ctrls.get($dom(node).attr('ctrid'));
                 crt.obj.morebox = !crt.obj.morebox;
             });
             //当鼠标滑动到面板上时
             obj.domore.bind('mouseover', function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
-                var crt = $ctrls.get($dom(node).attr('ctrid'));
+                let crt = $ctrls.get($dom(node).attr('ctrid'));
                 crt.obj.morebox = true;
             });
             obj.domore.bind('mouseleave', function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
                 var crt = $ctrls.get($dom(node).attr('ctrid'));
@@ -184,11 +184,11 @@
         //右键菜单事件
         dropmenu: function (obj) {
             obj.domenu.bind('mouseover', function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 tabs._getObj(node).cntmenu = true;
             });
             obj.domenu.bind('mouseleave', function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 var obj = tabs._getObj(node);
                 obj._cntmenu = false;
                 window.setTimeout(function () {
@@ -198,35 +198,35 @@
             //菜单项的事件
             obj.dom.find('tabs_contextmenu>*').click(function (event) {
                 //识别按钮，获取事件动作             
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 if (node.tagName.indexOf('_') < 0) return;
-                var action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
+                let action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
                 //当前tabid和索引号
-                var obj = tabs._getObj(node);
-                var tabid = obj.domenu.attr('tabid');
-                var index = Number(obj.domenu.attr('index'));
+                let obj = tabs._getObj(node);
+                let tabid = obj.domenu.attr('tabid');
+                let index = Number(obj.domenu.attr('index'));
                 //刷新
                 if (action == 'fresh') {
-                    var iframe = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
+                    let iframe = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
                     iframe.attr('src', iframe.attr('src'));
                 }
                 //打印
                 if (action == 'print') obj.print(tabid);
                 //关闭
                 if (action.indexOf('close') > -1) {
-                    var tabids = new Array();
+                    let tabids = new Array();
                     if (action == 'close') tabids.push(tabid);
                     if (action == 'closeall') {
-                        for (var i = 0; i < obj.childs.length; i++) tabids.push(obj.childs[i].id);
+                        for (let i = 0; i < obj.childs.length; i++) tabids.push(obj.childs[i].id);
                     }
                     if (action == 'closeright') {
-                        for (var i = obj.childs.length - 1; i > index; i--) tabids.push(obj.childs[i].id);
+                        for (let i = obj.childs.length - 1; i > index; i--) tabids.push(obj.childs[i].id);
                     }
                     if (action == 'closeleft') {
-                        for (var i = 0; i < index; i++) tabids.push(obj.childs[i].id);
+                        for (let i = 0; i < index; i++) tabids.push(obj.childs[i].id);
                     }
                     //批量关闭
-                    for (var i = 0; i < tabids.length; i++) {
+                    for (let i = 0; i < tabids.length; i++) {
                         obj.remove(tabids[i], true, true);
                     }
                 }
@@ -246,39 +246,39 @@
     fn.add = function (tab) {
         if (tab == null) return;
         if (tab instanceof Array) {
-            for (var i = 0; i < tab.length; i++)
+            for (let i = 0; i < tab.length; i++)
                 this.add(tab[i]);
             return this;
         }
         //如果id已经存在，则不再添加，设置原有标签为焦点
-        for (var i = 0; tab.id && i < this.childs.length; i++) {
+        for (let i = 0; tab.id && i < this.childs.length; i++) {
             if (this.childs[i].id == tab.id) {
                 this.focus(String(tab.id), true);
                 return;
             }
         }
         //添加tab到控件	
-        var size = this.childs.length;
+        let size = this.childs.length;
         if (!tab.id) tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
         if (!tab.index) tab.index = size + 1;
         if (!tab.ico) tab.ico = 'a01d';
         this.childs.push(tab);
         //添加标签
-        var tabtag = this.domtit.add('tab_tag');
+        let tabtag = this.domtit.add('tab_tag');
         tabtag.attr('title', tab.title).attr('tabid', tab.id);
         tabtag.add('ico').html('&#x' + tab.ico);
         tabtag.add('tagtxt').html(tab.title);
         tabtag.add('close');
         //添加更多标签区域
-        var mtag = this.domore.add('tab_tag');
+        let mtag = this.domore.add('tab_tag');
         mtag.add('ico').html('&#x' + tab.ico);
         mtag.attr('tabid', tab.id);
         mtag.add('tagtxt').html(tab.title).attr('title', tab.path.replace(/\,/g, ">"));
         mtag.add('close');
         //添加内容区
-        var space = this.dombody.add('tabpace');
+        let space = this.dombody.add('tabpace');
         space.attr('tabid', tab.id);
-        var iframe = $dom(document.createElement('iframe'));
+        let iframe = $dom(document.createElement('iframe'));
         iframe.attr({
             'name': tab.id,
             'id': tab.id,
@@ -289,15 +289,15 @@
             'src': tab.url ? tab.url : ''
         });
         iframe.bind('load', function (event) {
-            var node = event.target ? event.target : event.srcElement;
-            var obj = tabs._getObj(node);
+            let node = event.target ? event.target : event.srcElement;
+            let obj = tabs._getObj(node);
             obj.trigger('load', {
                 tabid: $dom(node).attr('id'), //标签id
                 data: tab, //标签数据源
                 iframe: iframe[0] //内页iframe对象
             });
             //禁用右键菜单
-            var doc = node.contentDocument || node.contentWindow.document;
+            let doc = node.contentDocument || node.contentWindow.document;
             doc.oncontextmenu = function () {
                 return false
             }
@@ -305,14 +305,14 @@
         //如果有帮助，但没有路径，那么路径等于标题
         if (!!tab.help && !tab.path) tab.path = tab.title;
         if (!!tab.path) {
-            var path = space.add('tabpath');
-            var paths = tab.path.split(',');
-            for (var i = 0; i < paths.length; i++) {
+            let path = space.add('tabpath');
+            let paths = tab.path.split(',');
+            for (let i = 0; i < paths.length; i++) {
                 path.html(path.html() + paths[i]);
                 if (i < paths.length - 1) path.html(path.html() + '<i>></i>');
             }
             //右侧按钮
-            var btn = path.add('tabbar-btnbox');
+            let btn = path.add('tabbar-btnbox');
             btn.add('div').attr('title', 'print').html('&#xa046');
             if (!!tab.help) btn.add('div').attr('title', 'help').html('&#xa026');
             path.width('100%').height(35);
@@ -322,7 +322,7 @@
         }
         space.append(iframe[0]);
         this.order();
-        for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
+        for (let t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
         //新增标签的事件
         this.trigger('add', {
             tabid: tab.id,
@@ -333,8 +333,8 @@
     };
     //标签栏的可视区域,没有用到此代码
     fn._tagVisiblearea = function () {
-        var offset = this.dom.offset();
-        var tt = $dom('tabs_offset');
+        let offset = this.dom.offset();
+        let tt = $dom('tabs_offset');
         tt.left(offset.left);
         tt.top(offset.top);
         tt.height(this.domtit.height());
@@ -348,15 +348,15 @@
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
                 .merge(obj.domore.find('tab_tag[tabid=\'' + tabid + '\']'))
                 .click(function (event) {
-                    var node = event.target ? event.target : event.srcElement;
+                    let node = event.target ? event.target : event.srcElement;
                     //是否移除
-                    var isremove = node.tagName.toLowerCase() == 'close';
+                    let isremove = node.tagName.toLowerCase() == 'close';
                     //获取标签id
                     while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
-                    var tabid = $dom(node).attr('tabid');
+                    let tabid = $dom(node).attr('tabid');
                     //获取组件id
                     while (!node.classList.contains('tabsbox')) node = node.parentNode;
-                    var obj = tabs._getObj(node);
+                    let obj = tabs._getObj(node);
                     //是否移除标签
                     if (isremove) return obj.remove(tabid, true, true);
                     //切换焦点
@@ -364,10 +364,10 @@
                 });
             //双击标签关闭
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').dblclick(function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
-                var tabid = $dom(node).attr('tabid');
-                var obj = tabs._getObj(node);
+                let tabid = $dom(node).attr('tabid');
+                let obj = tabs._getObj(node);
                 obj.remove(tabid, true);
             });
         },
@@ -376,22 +376,22 @@
             if (obj.nowheel) return;
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').bind('mousewheel', function (e) {
                 e = e || window.event;
-                var whell = e.wheelDelta ? e.wheelDelta : e.detail;
-                var action = whell > 0 ? "up" : "down"; //上滚或下滚
+                let whell = e.wheelDelta ? e.wheelDelta : e.detail;
+                let action = whell > 0 ? "up" : "down"; //上滚或下滚
                 //获取组件
-                var node = e.target ? e.target : e.srcElement;
+                let node = e.target ? e.target : e.srcElement;
                 while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
-                var ctrid = $dom(node).parent().attr('ctrid');
-                var crt = $ctrls.get(ctrid);
+                let ctrid = $dom(node).parent().attr('ctrid');
+                let crt = $ctrls.get(ctrid);
                 //当前活动标签
-                var tag = crt.obj.domtit.find('.tagcurr');
+                let tag = crt.obj.domtit.find('.tagcurr');
                 if (action == 'up') {
-                    var next = tag.prev();
+                    let next = tag.prev();
                     if (next.length < 1) next = crt.obj.domtit.childs().last();
                     crt.obj.focus(next, true);
                 }
                 if (action == 'down') {
-                    var next = tag.next();
+                    let next = tag.next();
                     if (next.length < 1) next = crt.obj.domtit.childs().first();
                     crt.obj.focus(next, true);
                 }
@@ -402,20 +402,20 @@
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
                 .merge(obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] tabpath'))
                 .bind('contextmenu', function (event) {
-                    var node = event.target ? event.target : event.srcElement;
+                    let node = event.target ? event.target : event.srcElement;
                     while ($dom(node).attr('tabid') == null) node = node.parentNode;
                     //当前tabs对象
-                    var obj = tabs._getObj(node);
+                    let obj = tabs._getObj(node);
                     //当前标签id和索引号，用于关闭右侧或左侧时使用
-                    var tabid = $dom(node).attr('tabid');
-                    var data = obj.getData(tabid);    //当前节点的数据源
-                    var index = obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').attr('index');
+                    let tabid = $dom(node).attr('tabid');
+                    let data = obj.getData(tabid);    //当前节点的数据源
+                    let index = obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').attr('index');
                     //菜单显示的位置
                     obj.cntmenu = true; //显示右键菜单
-                    var maxwid = obj.dombody.width() + obj.dombody.offset().left; //右侧最大区域               
-                    var off = obj.dom.offset();
-                    var mouse = $dom.mouse(event);
-                    var left = (mouse.x + obj.domenu.width()) > maxwid ? mouse.x - off.left - obj.domenu.width() + 10 : mouse.x - off.left - 10;
+                    let maxwid = obj.dombody.width() + obj.dombody.offset().left; //右侧最大区域               
+                    let off = obj.dom.offset();
+                    let mouse = $dom.mouse(event);
+                    let left = (mouse.x + obj.domenu.width()) > maxwid ? mouse.x - off.left - obj.domenu.width() + 10 : mouse.x - off.left - 10;
                     obj.domenu.left(left).top(mouse.y - off.top - 5);
                     obj.domenu.attr('tabid', tabid).attr('index', index);
                     obj.domenu.find('menu_link a').attr('href', data.url);
@@ -426,11 +426,11 @@
         //帮助按钮点击事件
         help: function (obj, tabid) {
             obj.dombody.find('tabpace[tabid=\'' + tabid + '\']  div[title=help]').click(function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
-                var tabid = $dom(node).attr('tabid');
-                var obj = tabs._getObj(node);
-                var data = obj.getData(tabid); //当前数据项
+                let tabid = $dom(node).attr('tabid');
+                let obj = tabs._getObj(node);
+                let data = obj.getData(tabid); //当前数据项
                 //触发帮助信息打开的事件
                 obj.trigger('help', {
                     tabid: tabid,
@@ -441,10 +441,10 @@
         //打印按钮的事件
         print: function (obj, tabid) {
             obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] div[title=print]').click(function (event) {
-                var node = event.target ? event.target : event.srcElement;
+                let node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
-                var tabid = $dom(node).attr('tabid');
-                var obj = tabs._getObj(node);
+                let tabid = $dom(node).attr('tabid');
+                let obj = tabs._getObj(node);
                 obj.print(tabid);
             });
         }
@@ -456,16 +456,16 @@
         th.domtit.childs().each(function (index) {
             //设置索引
             $dom(this).level(tags.length - index).attr('index', index);
-            var tabid = $dom(this).attr('tabid');
+            let tabid = $dom(this).attr('tabid');
             //索引号同步到tab对象上
-            for (var i = 0; i < th.childs.length; i++) {
+            for (let i = 0; i < th.childs.length; i++) {
                 if (th.childs[i].id == tabid) th.childs[i].index = index;
             }
         });
     };
     //获取数据源的某个标签对象
     fn.getData = function (id) {
-        for (var i = 0; i < this.childs.length; i++) {
+        for (let i = 0; i < this.childs.length; i++) {
             if (this.childs[i].id == id)
                 return this.childs[i];
         }
@@ -475,17 +475,16 @@
     //istrigger:是否触发事件
     fn.focus = function (tabid, istrigger) {
         if (tabid == null) return false;
-
         //如果tabid是数字，则按序号
         if (typeof tabid === 'number' && !isNaN(tabid)) {
-            var tag = this.domtit.find('tab_tag').get(tabid);
+            let tag = this.domtit.find('tab_tag').get(tabid);
             if (tag == null) return false;
             return this.focus(tag.attr('tabid'));
         }
-        var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
-        var data = this.getData(tag.attr('tabid'));
+        let tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
+        let data = this.getData(tag.attr('tabid'));
         //当前处于焦点的标签
-        var tagcurr = this.domtit.find('.tagcurr');
+        let tagcurr = this.domtit.find('.tagcurr');
         if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) {
             tag.level(this.domtit.childs().level() + 1);
             return false;
@@ -506,12 +505,12 @@
         });
         //***********
         //计算标签区域的可视区域，左侧坐标与宽度
-        var visiLeft = this.dom.offset().left;
-        var visiWidth = this.domtit.parent().width() - 30;
-        var area = this.domtit.parent();
+        let visiLeft = this.dom.offset().left;
+        let visiWidth = this.domtit.parent().width() - 30;
+        let area = this.domtit.parent();
         ///*
         //向左滚动
-        var tagleft = (Number(tag.attr('index')) + 1) * 125;
+        let tagleft = (Number(tag.attr('index')) + 1) * 125;
         if (tagleft - visiLeft > visiWidth)
             area[0].scrollLeft = tagleft - visiLeft - visiWidth;
         //向右滚动
@@ -522,13 +521,13 @@
     };
     //判断当前标签是否为焦点
     fn.isfocus = function (tabid) {
-        var tagcurr = this.domtit.find('tab_tag.tagcurr[tabid=' + tabid + ']');
+        let tagcurr = this.domtit.find('tab_tag.tagcurr[tabid=' + tabid + ']');
         return tagcurr.length > 0;
     };
     //打印选项卡的iframe中的内容页
     fn.print = function (tabid) {
         if (window.frames[tabid] == null) {
-            var doc = $dom('iframe[name=\'' + tabid + '\']');
+            let doc = $dom('iframe[name=\'' + tabid + '\']');
             if (doc.length > 0) doc[0].contentWindow.print();
         } else {
             window.frames[tabid].focus();
@@ -539,18 +538,18 @@
     //istrigger：是否触发事件
     //isdefault: 当移除所有选项卡，是否打开默认页
     fn.remove = function (tabid, istrigger, isdefault) {
-        var data = this.getData(tabid);
+        let data = this.getData(tabid);
         //触发关闭事件,如果返回false,则不再关闭
         if (istrigger) {
-            var t = this.trigger('shut', {
+            let t = this.trigger('shut', {
                 tabid: tabid,
                 data: data
             });
             if (!t) return this;
         }
-        var tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
+        let tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
         //设置关闭后的焦点选项卡
-        var next = null;
+        let next = null;
         if (tittag.hasClass('tagcurr')) {
             next = tittag.next();
             if (next.length < 1) next = tittag.prev();
@@ -562,7 +561,7 @@
         this.dombody.find('tabpace[tabid=\'' + tabid + '\']').remove();
         this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
         //从对象childs数组中移除
-        for (var i = 0; i < this.childs.length; i++) {
+        for (let i = 0; i < this.childs.length; i++) {
             if (this.childs[i].id == tabid)
                 this.childs.splice(i, 1);
         }
@@ -578,8 +577,8 @@
     };
     //清空所有选项卡
     fn.clear = function () {
-        var arr = Object.assign({}, this.childs);
-        for (var i in arr) {
+        let arr = Object.assign({}, this.childs);
+        for (let i in arr) {
             this.remove(arr[i].id, false, false);
         }
     };
@@ -588,29 +587,29 @@
     *****/
     tabs.create = function (param) {
         if (param == null) param = {};
-        var tobj = new tabs(param);
+        let tobj = new tabs(param);
         //pbox._initialization();
         return tobj;
     };
     //用于事件中，取点击的对象
     tabs._getObj = function (node) {
-        //var node = event.target ? event.target : event.srcElement;
+        //let node = event.target ? event.target : event.srcElement;
         while (node.classList.contains && !node.classList.contains('tabsbox'))
             node = node.parentNode;
-        var ctrl = $ctrls.get(node.getAttribute('ctrid'));
+        let ctrl = $ctrls.get(node.getAttribute('ctrid'));
         return ctrl.obj;
     };
     //刷新标签下的iframe
     tabs.fresh = function (tabname, func) {
         //tabs.js标签页的页面区域
-        var iframe = $dom('iframe[name=' + tabname + ']');
+        let iframe = $dom('iframe[name=' + tabname + ']');
         if (iframe.length > 0) {
-            var win = iframe[0].contentWindow;
+            let win = iframe[0].contentWindow;
             //刷新父页面数据
             if (win && func != null) {
                 if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
                 else {
-                    var f = eval('win.' + func);
+                    let f = eval('win.' + func);
                     if (f != null) f();
                 }
             }
@@ -625,10 +624,10 @@
     };
     //最大化内容区域
     tabs.full = function (obj, tabid) {
-        var fbox = $dom('tabs_fullbox');
+        let fbox = $dom('tabs_fullbox');
         if (fbox.length < 1) fbox = $dom(document.body).add('tabs_fullbox');
         //当前内容区，放到全屏fullbox中
-        var tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
+        let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
         fbox.append(tabpace.find('iframe')).attr({
             crtid: obj.id,
             tabid: tabid
@@ -636,7 +635,7 @@
         //fbox.find("iframe").width('100%').height('100%');
         tabpace.find('iframe').remove();
         //设置fullbox的初始位置
-        var offset = tabpace.offset();
+        let offset = tabpace.offset();
         fbox.left(offset.left).top(offset.top);
         fbox.width(tabpace.width()).height(tabpace.height()).show();
         fbox.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
@@ -645,16 +644,16 @@
             fbox.width('100%').height('100%');
         }, 300);
         //添加返回按钮
-        var close = fbox.add('tabs_fullbox_back');
+        let close = fbox.add('tabs_fullbox_back');
         close.click(function (e) {
-            var fbox = $dom('tabs_fullbox');
+            let fbox = $dom('tabs_fullbox');
             fbox.find('tabs_fullbox_back').hide();
-            var crt = $ctrls.get(fbox.attr('crtid'));
-            var tbody = crt.obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
+            let crt = $ctrls.get(fbox.attr('crtid'));
+            let tbody = crt.obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
             tbody.append(fbox.find('iframe'));
             //
-            var tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
-            var offset = tabpace.offset();
+            let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
+            let offset = tabpace.offset();
             fbox.left(offset.left).top(offset.top);
             fbox.width(tabpace.width()).height(tabpace.height());
             window.setTimeout(function () {
@@ -665,7 +664,7 @@
             $dom('tabs_fullbox_back').show();
         }, 500);
         //触发事件
-        var data = obj.getData(tabid);
+        let data = obj.getData(tabid);
         obj.trigger('full', {
             tabid: tabid,
             data: data

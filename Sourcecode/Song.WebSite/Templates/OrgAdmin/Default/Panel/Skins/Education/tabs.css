@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .tabsbox {
     position: relative;
     overflow: hidden;
@@ -13,14 +14,14 @@
 
 .tabsbox tabs_tagarea {
     height: 35px;
-    width: calc(100% - 30px);
-    padding-right: 30px;
+    width: 100%;
+    padding-right: 50px;
     box-sizing: border-box;
     overflow: hidden;
+    position: relative;
 }
 
 .tabsbox tabs_tagbox {
-    position: relative;
     width: 100%;
     height: 34px;
     display: flex;
@@ -31,7 +32,7 @@
 /*选项卡标签*/
 
 tabs_tagbox tab_tag {
-    width: 100px;  
+    width: 100px;
     height: 35px;
     position: relative;
     font-size: 13px;
@@ -39,7 +40,7 @@ tabs_tagbox tab_tag {
     padding-left: 15px;
     padding-right: 22px;
     cursor: default;
-    user-select: none;   
+    user-select: none;
     margin-right: -18px;
 }
 
@@ -118,8 +119,8 @@ tabs_tagbox tab_tag tagtxt {
     height: 32px;
     line-height: 36px;
     bottom: 0px;
-    width: calc(100% - 60px);
-    overflow: hidden;   
+    width: calc(100% - 50px);
+    overflow: hidden;
     white-space: nowrap;
 }
 
@@ -140,12 +141,22 @@ tabs_tagbox tab_tag:first-child.tagcurr close {
     right: 3px;
 }
 
+tabs_tagbox tab_tag close {
+    border-radius: 7px;
+}
+
 tabs_tagbox tab_tag.tagcurr close {
     right: 6px;
+    background-color: #fff;
+    display: block;
 }
 
 tabs_tagbox tab_tag close:before {
     content: "×";
+}
+
+tabs_tagbox tab_tag:hover close {
+    background-color: #ccc;
 }
 
 tabs_tagbox tab_tag:hover close, tabs_tagboxtab_tag.tagcurr close {
@@ -155,7 +166,6 @@ tabs_tagbox tab_tag:hover close, tabs_tagboxtab_tag.tagcurr close {
 tabs_tagbox tab_tag close:hover {
     color: red;
     background-color: #ccc;
-    border-radius: 7px;
     cursor: pointer;
 }
 
@@ -196,7 +206,7 @@ tabs_tagbox tab_tag close:hover {
     height: calc(100% - 36px);
     --background-color: #fff;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
-    
+
 }
 
 .tabsbox tabs_body tabpace {
@@ -397,7 +407,7 @@ tabs_morebox tab_tag close:before {
     line-height: 25px;
     color: #666;
     position: relative;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):before {
