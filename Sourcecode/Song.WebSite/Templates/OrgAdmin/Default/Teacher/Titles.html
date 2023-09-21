@@ -36,10 +36,10 @@
                 </el-table-column>
                 <el-table-column label="名称" show-overflow-tooltip width="150">
                     <template slot-scope="scope">
-                        <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle"> </span>
+                        <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle large"> </span>
                     </template>
                 </el-table-column>
-                <el-table-column label="备注" show-overflow-tooltip>
+                <el-table-column label="备注" show-overflow-tooltip min-width="150">
                     <template slot-scope="scope">
                         {{scope.row.Ths_Intro}}
                     </template>
@@ -72,7 +72,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" show-overflow-tooltip width="120"  align="center"  fixed="right">
 
                     <el-button-group slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-edit"
