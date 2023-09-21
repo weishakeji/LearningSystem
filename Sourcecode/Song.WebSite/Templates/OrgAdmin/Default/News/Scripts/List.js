@@ -79,7 +79,6 @@ $ready(function () {
                 th.form.uid = this.curr_column ? this.curr_column.Col_UID : '';
                 th.loading = true;
                 $api.get("News/ArticlePager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -87,12 +86,10 @@ $ready(function () {
                     } else {
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
+            //刷新
             fresh: function () {
                 this.getColumnsTree();
                 this.handleCurrentChange();
@@ -102,7 +99,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.delete('News/ArticleDelete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -115,10 +111,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //设置置顶
             btnsettop: function (row) {
@@ -129,10 +123,8 @@ $ready(function () {
             changeState: function (row) {
                 var th = this;
                 th.loadingid = row.Art_ID;
-                $api.post('News/ArticleModifyState',
-                    { 'id': row.Art_ID, 'use': row.Art_IsUse, 'top': row.Art_IsTop })
+                $api.post('News/ArticleModifyState', { 'id': row.Art_ID, 'use': row.Art_IsUse, 'top': row.Art_IsTop })
                     .then(function (req) {
-                        th.loadingid = -1;
                         if (req.data.success) {
                             th.$notify({
                                 type: 'success',
@@ -141,11 +133,8 @@ $ready(function () {
                         } else {
                             throw req.data.message;
                         }
-                        th.loadingid = 0;
-                    }).catch(function (err) {
-                        th.$alert(err, '错误');
-                        th.loadingid = 0;
-                    });
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
         }
     });
