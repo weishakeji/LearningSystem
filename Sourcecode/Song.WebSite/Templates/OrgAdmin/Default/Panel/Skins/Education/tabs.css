@@ -191,12 +191,12 @@ tabs_tagbox tab_tag close:hover {
 /*内容区*/
 
 .tabsbox tabs_body {
-    width: calc(100% - 2px);
+    width: 100%;
+    box-sizing: border-box;
     height: calc(100% - 36px);
     --background-color: #fff;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
-    border: 1px solid #aaa;
-    border-top: none;
+    
 }
 
 .tabsbox tabs_body tabpace {

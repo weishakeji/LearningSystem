@@ -65,7 +65,7 @@
 		//清除之前的
 		$dom('link[tag=skin]').remove();
 		//加载控件资源
-		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
+		var resources = ['treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
 		var skin = this.isnight() ? this._night : this.current();
 		for (var i = 0; i < resources.length; i++) {
 			resources[i] = this.rootpath + skin + '/' + resources[i] + '.css';

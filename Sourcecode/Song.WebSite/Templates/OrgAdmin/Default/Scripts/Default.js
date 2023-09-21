@@ -162,8 +162,7 @@ function ready(result) {
         width: 1,
         default: {
             title: '启始页',
-            path: '树形菜单,启始页',
-            //url: 'help/startpage.html',
+            path: '机构管理,启始页',           
             url: '/orgadmin/start',
             ico: 'a020'
         }

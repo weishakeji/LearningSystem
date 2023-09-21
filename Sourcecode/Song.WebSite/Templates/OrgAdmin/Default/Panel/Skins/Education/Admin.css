@@ -31,12 +31,7 @@ panel#admin {
     box-shadow: 1px 1px 1px 1px rgba(232, 232, 232, .3);
 }
 
-#dropmenu-area {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 110px;
-}
+
 
 #headbar {
     position: absolute;
@@ -117,7 +112,13 @@ timer {
     font-size: 18px !important;
 }
 
-/*样式*/
+/*下拉菜单样式*/
+#dropmenu-area {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 110px;
+}
 #dropmenu-area.dropmenu {
     background-color: rgba(150, 150, 150, .3) !important;
 
