@@ -14,14 +14,16 @@
 .tabsbox tabs_tagarea {
     height: 35px;
     width: calc(100% - 30px);
+    padding-right: 30px;
+    box-sizing: border-box;
     overflow: hidden;
 }
 
 .tabsbox tabs_tagbox {
     position: relative;
-    width: 9000%;
+    width: 100%;
     height: 34px;
-    display: block;
+    display: flex;
     z-index: 1;
     border-bottom: 1px solid #aaa;
 }
@@ -29,8 +31,7 @@
 /*选项卡标签*/
 
 tabs_tagbox tab_tag {
-    width: 100px;
-    float: left;
+    width: 100px;  
     height: 35px;
     position: relative;
     font-size: 13px;
@@ -38,9 +39,7 @@ tabs_tagbox tab_tag {
     padding-left: 15px;
     padding-right: 22px;
     cursor: default;
-    user-select: none;
-    /*禁用事件*/
-    --pointer-events: none;
+    user-select: none;   
     margin-right: -18px;
 }
 
@@ -120,8 +119,7 @@ tabs_tagbox tab_tag tagtxt {
     line-height: 36px;
     bottom: 0px;
     width: calc(100% - 60px);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: hidden;   
     white-space: nowrap;
 }
 

@@ -287,23 +287,6 @@ panel#admin {
     line-height: 40px !important;
 }
 
-#tabs-area tab_tag {
-    width: 172px !important;
-    padding: 0px 0px 0px 10px !important;
-}
-
-tabs_tagbox tab_tag tagtxt {
-    width: calc(100% - 50px) !important;
-}
-
-#tabs-area {
-    height: calc(100% - 5px) !important;
-    margin-top: 5px;
-}
-
-tabs_tagbox tab_tag ico {
-    left: 20px !important;
-}
 
 #pageboxcollect {
     bottom: 35px !important;
