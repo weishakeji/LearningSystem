@@ -37,7 +37,6 @@
  * 超级管理员： /manage  账号super 密码1
 ### 手机端
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.png)
-
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/手机端课程页.png)
 ### 后台管理
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/机构管理6.png)
