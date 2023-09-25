@@ -52,3 +52,10 @@ dd .btndel {
     margin-right: 10px;
 
 }
+.footer>div[loading]{
+    width: 30%;
+    float: right;
+}
+.footer:has(div[loading]){
+    display: block;
+}

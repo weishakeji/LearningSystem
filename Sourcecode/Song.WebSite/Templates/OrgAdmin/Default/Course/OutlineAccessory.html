@@ -28,17 +28,19 @@
             <icon>&#xe849</icon>还没有上传附件
         </div>
         <div class="footer">
-            <loading v-if="loading_upload"></loading>
-            <upload-file v-else @change="uploadAccessory" :size="102400" height="30" :ext="ext_limit">
-                <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right" effect="light">
-                    <el-button type="primary" plain>
-                        <icon>&#xe6ea</icon>点击上传文件
-                    </el-button>
-                </el-tooltip>
-            </upload-file>
-            <el-button type='close'>
-                取消
-            </el-button>
+            <div loading="p2" v-if="loading_upload">loading...</div>
+            <template v-else>
+                <upload-file @change="uploadAccessory" :size="102400" height="30" :ext="ext_limit">
+                    <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right" effect="light">
+                        <el-button type="primary" plain>
+                            <icon>&#xe6ea</icon>点击上传文件
+                        </el-button>
+                    </el-tooltip>
+                </upload-file>
+                <el-button type='close'>
+                    取消
+                </el-button>
+            </template>
         </div>
     </div>
 </body>
