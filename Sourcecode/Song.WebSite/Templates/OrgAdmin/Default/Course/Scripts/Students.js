@@ -14,7 +14,12 @@
             total: 1, //总记录数
             totalpages: 1, //总页数
 
+            //导出相关
             exportVisible: false,    //显示导出面板
+            exportform: {
+                couid: $api.querystring('id'), start: '', end: ''
+            },
+            export_interval: {},      //导出时间间隔
             files: [],               //导出的文件列表
             fileloading: false,      //导出时的加载状态
 
@@ -44,6 +49,13 @@
         computed: {
         },
         watch: {
+            //导出时间间隔
+            export_interval: function (nv, ov) {
+                if (nv && nv.length > 0) {
+                    this.exportform['start'] = nv[0];
+                    this.exportform['end'] = nv[1];
+                }
+            }
         },
         methods: {
             //加载数据页
@@ -91,7 +103,7 @@
             //显示帮助
             btnhelp: function () {
                 var msg = "课程的“学员数”与课程的“学习记录数”之间，可能会存在差异；<br/>";
-                msg += "课程的学员数是购买该课程的学员总数；有可能存在学员购买课程后并没有学习，没有生成学习记录。";
+                msg += "课程的学员数是选修该课程的学员总数；有可能存在学员选修课程后并没有学习，没有生成学习记录。";
                 this.$alert(msg, '说明', {
                     dangerouslyUseHTMLString: true
                 });
@@ -115,14 +127,14 @@
             toexcel: function () {
                 var th = this;
                 th.fileloading = true;
-                $api.post('Course/StudentsLogOutputExcel', { 'couid': this.form.couid }).then(function (req) {
+                $api.post('Course/StudentsLogOutputExcel', th.exportform).then(function (req) {
                     if (req.data.success) {
                         th.getFiles();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
+                }).catch(err => {alert(err);console.error(err);})
                     .finally(() => th.fileloading = false);
             },
             //删除文件

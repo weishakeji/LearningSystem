@@ -35,9 +35,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).finally(() => th.loading = false);
             },
             //更改使用状态
             changeUse: function (row) {
@@ -55,16 +53,13 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err, '错误');
-                }).finally(function () {
-                    th.loadingid = 0;
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loadingdel = true;
                 $api.delete('Sso/Delete', { 'id': datas }).then(function (req) {
-                    th.loadingdel = false;
                     if (req.data.success) {
                         var result = Number(req.data.result);
                         if (result > 0) {
@@ -78,14 +73,12 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingdel = false;
-                    th.$alert(err);
-                });
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => th.loadingdel = false);
             },
-            copytext:function(txt){
-                var th=this;
-                th.copy(txt, 'textarea').then(function(data){
+            copytext: function (txt) {
+                var th = this;
+                th.copy(txt, 'textarea').then(function (data) {
                     data.$message({
                         message: '复制 “' + txt + '” 到粘贴板',
                         type: 'success'

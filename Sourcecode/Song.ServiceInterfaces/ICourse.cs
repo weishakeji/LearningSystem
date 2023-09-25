@@ -498,14 +498,16 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        DataTable StudentPager(long couid, string acc,string name, int size, int index, out int countSum);
+        DataTable StudentPager(long couid, string acc,string name, DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 当前课程的学员（即学习该课程的学员），并计算出完成度,导出为excel
         /// </summary>
         /// <param name="filepath"></param>
         /// <param name="course"></param>
+        /// <param name="start">学员选修课程的开始时间的区间</param>
+        /// <param name="end">学员选修课程的开始时间的区间</param>
         /// <returns></returns>
-        string StudentToExcel(string filepath, Course course);
+        string StudentToExcel(string filepath, Course course, DateTime? start, DateTime? end);
         #endregion
         
     }

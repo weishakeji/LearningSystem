@@ -890,7 +890,7 @@ namespace Song.ViewData.Methods
         public ListResult Students(long couid, string acc, string name, int size, int index)
         {
             int total = 0;
-            DataTable dt = Business.Do<ICourse>().StudentPager(couid, acc, name, size, index, out total);
+            DataTable dt = Business.Do<ICourse>().StudentPager(couid, acc, name, null, null, size, index, out total);
             //处理返回结果
             string virPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
             string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
@@ -1241,7 +1241,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程的id</param> 
         /// <returns></returns>
         [HttpPost]
-        public JObject StudentsLogOutputExcel(long couid)
+        public JObject StudentsLogOutputExcel(long couid, DateTime? start, DateTime? end)
         {
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
@@ -1250,19 +1250,20 @@ namespace Song.ViewData.Methods
 
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) throw new Exception("当前课程不存在");
-            return _StudentsLogOutputExcel(course, rootpath);
+            return _StudentsLogOutputExcel(course, start, end, rootpath);
         }
-        public static JObject _StudentsLogOutputExcel(Song.Entities.Course course, string path)
+        public static JObject _StudentsLogOutputExcel(Song.Entities.Course course, DateTime? start, DateTime? end ,string path)
         {
             DateTime date = DateTime.Now;
             string filename = string.Format("{0}.{1}.({2}).xls", course.Cou_ID, WeiSha.Core.Upload.NameFilter(course.Cou_Name), date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = path + filename;
             try
             {
-                filePath = Business.Do<ICourse>().StudentToExcel(filePath, course);
+                filePath = Business.Do<ICourse>().StudentToExcel(filePath, course, start, end);
             }catch(Exception ex)
             {
                 WeiSha.Core.Log.Error("StudentsLogOutputExcel", ex);
+                throw ex;
             }
             JObject jo = new JObject();
             jo.Add("file", filename);
@@ -1366,7 +1367,7 @@ namespace Song.ViewData.Methods
                 {
                     sw.Write(jo.ToString());
                 }
-                _StudentsLogOutputExcel(c, rootpath);
+                _StudentsLogOutputExcel(c, null, null, rootpath);
             }
             WeiSha.Core.Compress.ZipDirectory(rootpath,"*.xls");
         }
@@ -1466,7 +1467,7 @@ namespace Song.ViewData.Methods
         {
             foreach (Song.Entities.Course course in courses)
             {
-                Course._StudentsLogOutputExcel(course, this.path);
+                Course._StudentsLogOutputExcel(course, null, null, this.path);
             }                  
         }
     }

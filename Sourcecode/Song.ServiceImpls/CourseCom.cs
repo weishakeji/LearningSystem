@@ -1741,7 +1741,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public DataTable StudentPager(long couid, string acc, string name, int size, int index, out int countSum)
+        public DataTable StudentPager(long couid, string acc, string name, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             //计算总数的脚本
             //string sqlsum = @"select COUNT(*) from (
@@ -1754,18 +1754,20 @@ namespace Song.ServiceImpls
 	           //                     ) as tm on c.ac_id = tm.ac_id  {{where}}
             //                    ) as total";
             string sqlsum = @"select COUNT(*) as total from 
-                     (select * from Student_Course where Student_Course.Cou_ID = {{couid}}) as sc  inner join
+                     (select * from Student_Course where ({{start}} and {{end}}) and Student_Course.Cou_ID = {{couid}}) as sc  inner join
                      Accounts as a on sc.Ac_ID = a.Ac_ID {{where}}";
             //查询条件
             string where = "";
             if (!string.IsNullOrWhiteSpace(acc) || !string.IsNullOrWhiteSpace(name))
             {
-                where = "where {{acc}} and {{name}}";
+                where = "where {{acc}} and {{name}}";              
                 where = where.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
                 where = where.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");               
             }
             //计算满足条件的记录总数
             sqlsum = sqlsum.Replace("{{couid}}", couid.ToString());
+            sqlsum = sqlsum.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqlsum = sqlsum.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqlsum = sqlsum.Replace("{{where}}", where);
             object o = Gateway.Default.FromSql(sqlsum).ToScalar();
             countSum = Convert.ToInt32(o);
@@ -1785,14 +1787,16 @@ namespace Song.ServiceImpls
             //    ) as pager where rowid > {{start}} and rowid<={{end}} ";
             string sqljquery = @"select * from
                        (select a.*,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
-                         (select * from Student_Course where  Student_Course.Cou_ID={{couid}}) as sc  inner join      
-                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where}}) as pager  where  rowid > {{start}} and rowid<={{end}} ";
+                         (select * from Student_Course where  ({{start}} and {{end}}) and  Student_Course.Cou_ID={{couid}}) as sc  inner join      
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";
             sqljquery = sqljquery.Replace("{{couid}}", couid.ToString());
+            sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{where}}", where);
-            int start = (index - 1) * size;
-            int end = (index - 1) * size + size;
-            sqljquery = sqljquery.Replace("{{start}}", start.ToString());
-            sqljquery = sqljquery.Replace("{{end}}", end.ToString());
+            int startindex = (index - 1) * size;
+            int endindex = (index - 1) * size + size;
+            sqljquery = sqljquery.Replace("{{startindex}}", startindex.ToString());
+            sqljquery = sqljquery.Replace("{{endindex}}", endindex.ToString());
             DataSet ds = Gateway.Default.FromSql(sqljquery).ToDataSet();
             //完成度大于100，则等于100
             DataTable dt = ds.Tables[0];
@@ -1821,7 +1825,7 @@ namespace Song.ServiceImpls
         /// <param name="path"></param>
         /// <param name="course"></param>
         /// <returns></returns>
-        public string StudentToExcel(string path, Course course)
+        public string StudentToExcel(string path, Course course,DateTime? start, DateTime? end)
         {
             //课程所在机构
             Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
@@ -1853,8 +1857,12 @@ namespace Song.ServiceImpls
             int total = 0, totalPage = 0;
             do
             {
-                DataTable dt = this.StudentPager(course.Cou_ID, null, null, size, index, out total);
-                if (total < 1) return path;
+                DataTable dt = this.StudentPager(course.Cou_ID, null, null, start, end, size, index, out total);
+                if (total < 1)
+                {
+                    throw new Exception("未获取到选修该课程的学员信息");
+                    return path;
+                }
                 totalPage = (total + size - 1) / size;
 
                 ISheet sheet = _studentToExcel_CreateSheet(hssfworkbook, nodes, index);
