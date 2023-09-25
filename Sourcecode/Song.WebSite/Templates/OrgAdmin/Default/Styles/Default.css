@@ -3,7 +3,7 @@
     height: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: rgb(155, 199, 243);
+    background-color: rgb(27, 87, 148);
     overflow: hidden;
 }
 
@@ -15,20 +15,15 @@ panel {
     top: 0px;
     left: 0px;
 }
-
 panel#admin {
-    background: none !important;
-    background-image: linear-gradient(to bottom right, rgba(2, 48, 82, .9), #0d6aa8, #005564) !important;
+    background-image: linear-gradient(to bottom right,  #6dbcff,#58c198,#ffb83c);
 }
-
 #treemenu-area {
     box-shadow: none !important;
 }
 
 #mainbody {
-    margin: 0px !important;
-    width: calc(100% - 5px) !important;
-    height: calc(100% - 50px) !important;
+    height: calc(100% - 45px) !important;
 }
 
 /*顶部条*/
@@ -239,11 +234,33 @@ panel#admin {
     z-index: 2;
     display: none;
 }
-
-#tabs-area {
-    margin-right: 0px !important;
+/*用户登录后的下拉菜单*/
+#user-area {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
 }
 
+#user-area drop_roots drop-node {
+    background-color: transparent !important;
+    color: #eee !important;
+    text-align: center !important;
+}
+
+#user-area span {
+    color: #eee !important;
+}
+
+/*选项卡*/
+#tabs-area {
+    float: right;   
+}
+#treemenu-area {
+    float: left;
+}
 .slot {
     text-align: center;
 }
@@ -259,7 +276,15 @@ panel#admin {
     --color: #fff !important;
 }
 
-.treemenu tree_body {}
+timer {
+    display: block;
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, .8);
+    cursor: default;
+}
 
 .treemenu tree_area tree_tit {
     font-size: 17px !important;
@@ -287,24 +312,20 @@ panel#admin {
     line-height: 40px !important;
 }
 
-#tabs-area tab_tag {
-    width: 172px !important;
-    padding: 0px 0px 0px 10px !important;
+#pageboxcollect {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    z-index: 99999;
+    width: 30px;
+    height: 25px;
+    line-height: 30px;
+    font-size: 16px !important;
 }
 
-tabs_tagbox tab_tag tagtxt {
-    width: calc(100% - 50px) !important;
+#pageboxcollect:after {
+    font-size: 18px !important;
 }
-
-#tabs-area {
-    height: calc(100% - 5px) !important;
-    margin-top: 5px;
-}
-
-tabs_tagbox tab_tag ico {
-    left: 20px !important;
-}
-
 #pageboxcollect {
     bottom: 35px !important;
     right: -3px !important;

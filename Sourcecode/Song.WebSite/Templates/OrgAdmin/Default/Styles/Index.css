@@ -23,12 +23,11 @@ panel#admin {
 
 #treemenu-area {
     box-shadow: none !important;
+    float: left;
 }
 
 #mainbody {
-    margin: 0px !important;
-    width: calc(100% - 5px) !important;
-    height: calc(100% - 50px) !important;
+    height: calc(100% - 45px) !important;
 }
 
 /*顶部条*/
@@ -305,7 +304,25 @@ tabs_tagbox tab_tag tagtxt {
 tabs_tagbox tab_tag ico {
     left: 20px !important;
 }
+/*用户登录后的下拉菜单*/
+#user-area {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+}
 
+#user-area drop_roots drop-node {
+    background-color: transparent !important;
+    color: #eee !important;
+    text-align: center !important;
+}
+
+#user-area span {
+    color: #eee !important;
+}
 #pageboxcollect {
     bottom: -2px !important;
     right: -3px !important;

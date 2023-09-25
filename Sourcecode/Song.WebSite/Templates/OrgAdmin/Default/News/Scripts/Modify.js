@@ -39,12 +39,15 @@ $ready(function () {
             loading_init: true,
             loading_upload: false        //附件上传的预载
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         watch: {
         },
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     $api.get('News/ColumnsTree', { 'orgid': th.organ.Org_ID })
@@ -56,19 +59,15 @@ $ready(function () {
                                 console.error(req.data.exception);
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err))
+                        .finally(() => { });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
 
-
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         mounted: function () {
 
@@ -115,7 +114,7 @@ $ready(function () {
                     th.$alert(err, '错误');
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -144,7 +143,7 @@ $ready(function () {
                                 $api.cache('News/Article:clear', { 'id': th.id })
                                     .catch(err => console.error(err))
                                     .finally(() => {
-                                        th.operateSuccess();
+                                        th.operateSuccess(isclose);
                                     });
                             } else {
                                 throw req.data.message;
@@ -192,7 +191,7 @@ $ready(function () {
             getAccessory: function () {
                 var th = this;
                 var uid = this.entity.Art_Uid;
-                $api.cache('News/Accessory:clear', { 'uid': uid}).then(function (req) {
+                $api.cache('News/Accessory:clear', { 'uid': uid }).then(function (req) {
                     if (req.data.success) {
                         th.accessories = req.data.result;
                     } else {
@@ -241,8 +240,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.fresh', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.fresh', isclose);
             }
         },
     });

@@ -18,7 +18,7 @@ $ready(function () {
             error: '',       //错误信息
             rules: {
                 'random_pause_value': [
-                    { type: 'number', min: 1, max: 99, message: '不得小于0或大于99' }                 
+                    { type: 'number', min: 1, max: 99, message: '不得小于0或大于99' }
                 ],
             },
 
@@ -26,17 +26,16 @@ $ready(function () {
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.config = $api.organ(th.organ).config;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

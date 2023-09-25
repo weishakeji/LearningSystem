@@ -140,15 +140,15 @@ function ready(result) {
             var result = nodeconvert(req.data.result);
             if (result[0].childs.length > 0)
                 tree.add(result[0].childs);
-                 /*
-            //启起页 
-            window.setTimeout(function () {
-                var data = window.tree.getData('node_a76471634c09b23347199ee23682d1ed');
-                window.tree.trigger('click', {
-                    treeid: data.id,
-                    data: data
-                });
-            }, 1000);
+            /*
+       //启起页 
+       window.setTimeout(function () {
+           var data = window.tree.getData('node_a76471634c09b23347199ee23682d1ed');
+           window.tree.trigger('click', {
+               treeid: data.id,
+               data: data
+           });
+       }, 1000);
 */
         } else {
             throw req.data.message;
@@ -162,19 +162,21 @@ function ready(result) {
         width: 1,
         default: {
             title: '启始页',
-            path: '树形菜单,启始页',
-            //url: 'help/startpage.html',
+            path: '机构管理,启始页',           
             url: '/orgadmin/start',
             ico: 'a020'
         }
     });
-    tabs.onshut(tabsShut).onchange(tabsChange);
+    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function(s,e){
+        //alert(s);
+    });
     tabs.onhelp(function (s, e) {
+        let url = e.data.help && e.data.help != '' ? e.data.help : '/help' + e.data.url + '.html';
         $pagebox.create({
             pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
-            width: 600,
-            height: 400,
-            url: e.data.help,
+            width: '80%',
+            height: '80%',
+            url: url,
             title: e.data.title + '- 帮助'
         }).open();
     });
@@ -275,7 +277,7 @@ function tabsShut(sender, eventArgs) {
                 arr.push(childs[j]);
             }
         }
-    }    
+    }
     //关闭当前标签生成的窗体
     if (arr.length > 0) {
         if (confirm('当前选项卡“' + data.title + '”有 ' + arr.length + '个 窗体未关闭，\n是否全部关闭？')) {
