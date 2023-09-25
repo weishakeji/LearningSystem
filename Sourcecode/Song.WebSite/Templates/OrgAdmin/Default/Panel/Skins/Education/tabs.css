@@ -35,7 +35,7 @@ tabs_tagbox tab_tag {
     width: 100px;
     height: 35px;
     position: relative;
-   
+    color: #333;
     line-height: 36px;
     padding-left: 15px;
     padding-right: 22px;
