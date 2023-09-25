@@ -56,7 +56,9 @@ html, body, #vapp {
 .large {
 	font-size: 16px;
 }
-
+.medium{
+	font-size: 14px;
+}
 .van-dialog {
 	border-radius: 3px;
 }

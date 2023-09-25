@@ -414,6 +414,15 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Effects\Starrysky\Images\big-bg.jpg" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Effects\Starrysky\index.html" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Effects\Tree\index.html" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\ctrls.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\dropmenu.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\Login.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\pagebox.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\Skins.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\tabs.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\timer.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\treemenu.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\verticalbar.js" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\Admin.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\bg.jpg" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\dropmenu.css" />
@@ -448,6 +457,9 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Slider\Slider.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Slider\Slider.html" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Slider\Slider.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Index.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Public.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansedit.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansitem.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_ansedit.css" />

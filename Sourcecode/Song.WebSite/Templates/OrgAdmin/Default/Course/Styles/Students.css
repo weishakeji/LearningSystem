@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 .ws_avatar{
 	float: left;
-	margin-right: 10px;
+	margin-right: 0px;
 }
 .acname::before{
 	content: '' !important;

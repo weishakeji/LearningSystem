@@ -28,19 +28,15 @@
                 $api.get('Course/ForID', { 'id': th.form.couid }),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (course, organ) {
-                th.loading_init = false;
                 //获取结果
                 th.course = course.data.result;
                 document.title = '学习记录-《' + th.course.Cou_Name + '》';
-                th.getdata(1);
-                th.getFiles();
-
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+                th.getdata(1);
+                th.getFiles();
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -59,20 +55,18 @@
                 th.form.size = Math.floor(area / 41);
                 th.loading = true;
                 $api.get("Course/Students", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //console.log(th.accounts);
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //显示电话
             showTel: function (row) {
@@ -102,27 +96,10 @@
                     dangerouslyUseHTMLString: true
                 });
             },
-            //在列中显示学员账号
-            showacc: function (txt) {
-                if (txt != '' && this.form.acc != '') {
-                    var regExp = new RegExp(this.form.acc, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.acc}</red>`);
-                }
-                return txt;
-            },
-            //在列中显示学员姓名
-            showname: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.name, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.name}</red>`);
-                }
-                return txt;
-            },
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;
                 $api.get('Course/StudentsLogOutputFiles', { 'couid': this.form.couid }).then(function (req) {
-                    th.fileloading = false;
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -132,32 +109,27 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.fileloading = false);
             },
             //生成导出文件
             toexcel: function () {
                 var th = this;
                 th.fileloading = true;
                 $api.post('Course/StudentsLogOutputExcel', { 'couid': this.form.couid }).then(function (req) {
-                    th.fileloading = false;
                     if (req.data.success) {
                         th.getFiles();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    th.fileloading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.fileloading = false);
             },
             //删除文件
             deleteFile: function (file) {
                 var th = this;
-                this.fileloading = true;
-                $api.get('Course/StudentsLogOutputDelete', { 'couid': this.form.couid, 'filename': file }).then(function (req) {
-                    th.fileloading = false;
+                th.fileloading = true;
+                $api.get('Course/StudentsLogOutputDelete', { 'couid': th.form.couid, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();
@@ -171,10 +143,8 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.fileloading = false);
             },
         }
     });
@@ -226,7 +196,7 @@
             },
             //显示所有价格信息
             showdetail: function () {
-                var price = '';
+                let price = '';
                 for (let i = 0; i < this.prices.length; i++) {
                     const item = this.prices[i];
                     price += item.CP_Span + item.CP_Unit + item.CP_Price + "元\n";
@@ -236,6 +206,6 @@
         },
         template: `<div class="exam_result">
                {{result}}
-                </div> `
+            </div> `
     });
 });

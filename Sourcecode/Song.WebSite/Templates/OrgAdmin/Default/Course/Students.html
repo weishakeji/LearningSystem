@@ -41,8 +41,8 @@
                 <template slot-scope="scope">
                     <avatar :account="scope.row" circle="true" size="20"></avatar>
 
-                    <icon :woman="scope.row.Ac_Sex==2" class="acname" :man="scope.row.Ac_Sex!=2">
-                        <span v-html='showname(scope.row.Ac_Name)' v-if="scope.row.Ac_Name!=''"></span>
+                    <icon :woman="scope.row.Ac_Sex==2" class="acname medium" :man="scope.row.Ac_Sex!=2">
+                        <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"></span>
                         <span v-else class="noname">(没有名字)</span>
                     </icon>
                 </template>
@@ -50,7 +50,7 @@
             <el-table-column label="账号">
                 <template slot-scope="scope">
                     <icon :woman="scope.row.Ac_Sex==2" class="acc" :man="scope.row.Ac_Sex!=2"
-                        v-html='showacc(scope.row.Ac_AccName)'></icon>
+                        v-html='showsearch(scope.row.Ac_AccName,form.acc)'></icon>
                 </template>
             </el-table-column>
             <el-table-column label="电话">
