@@ -15,9 +15,11 @@ $ready(function () {
             }
         },
         watch: {
-            'loading': function (val, old) {
-                console.log('loading:' + val);
-            }
+
+        },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
         },
         created: function () {
             var th = this;
@@ -50,7 +52,7 @@ $ready(function () {
             });
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 if (this.loading) return;
                 this.$refs[formName].validate((valid) => {
@@ -63,7 +65,7 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
@@ -77,8 +79,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             }
         },
     });

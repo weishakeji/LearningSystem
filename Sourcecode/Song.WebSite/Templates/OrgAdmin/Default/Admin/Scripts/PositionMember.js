@@ -137,7 +137,7 @@ $ready(function () {
                 this.posiselects = [];
                 console.log(sel);
             },
-            btnEnter: function () {
+            btnEnter: function (isclose) {
                 var arr = [];
                 var acc = this.posiacconts;
                 for (var j = 0; j < acc.length; j++) {
@@ -149,12 +149,13 @@ $ready(function () {
                     .then(function (req) {
                         th.loading.update = false;
                         if (req.data.success) {
-                            var result = req.data.result;                           
+                            var result = req.data.result;
                             th.$message({
                                 type: 'success',
                                 message: '操作成功!',
                                 center: true
                             });
+                            th.operateSuccess(isclose);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -164,6 +165,10 @@ $ready(function () {
                         th.$alert(err, '错误');
                         console.error(err);
                     });
+            },
+            //操作成功
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             }
         }
     });

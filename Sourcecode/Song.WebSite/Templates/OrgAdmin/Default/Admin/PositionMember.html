@@ -45,7 +45,7 @@
                 </el-button>
                 <br />
                 <el-button type="warning" plain @click="toLeft">
-                    <icon style="transform: rotate(180deg);">&#xe6c6</icon>取消
+                    <icon style="transform: rotate(180deg);">&#xe6c6</icon>移除
                 </el-button>
             </div>
             <div class="right">
@@ -81,8 +81,11 @@
             </el-pagination>
         </div>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading.update" plain @click="btnEnter()">
-                <icon v-if="!loading.update">&#xa048</icon>保存
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading.update" plain
+                @click="btnEnter(true)"> 保存
+            </el-button>
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading.update" plain
+                @click="btnEnter(false)">应用
             </el-button>
             <el-button type='close'>
                 取消

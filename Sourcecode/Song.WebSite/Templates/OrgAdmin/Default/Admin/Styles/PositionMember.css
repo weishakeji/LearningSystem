@@ -73,7 +73,7 @@ workarea>div .tit .el-input {
 }
 
 #pager-box {
-    max-width: calc(100% - 200px);
+    max-width: calc(100% - 280px);
     overflow: hidden;
     padding: 8px 6px 8px 8px;
 }

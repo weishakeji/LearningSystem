@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 name: '',
@@ -20,15 +20,16 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 if (datas == '') return;
+                var th = this;
                 $api.delete('Position/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.loadDatas();
+                        th.loadDatas();
                     } else {
                         throw req.data.message;
                     }
@@ -59,18 +60,16 @@ $ready(function () {
                 this.loadingid = row.Posi_Id;
                 $api.post('Position/Modify', { 'posi': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
                         });
                     } else {
                         throw req.data.message;
-                    }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    }                  
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => th.loadingid = 0);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -92,13 +91,13 @@ $ready(function () {
                     onStart: function (evt) {
                     },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
