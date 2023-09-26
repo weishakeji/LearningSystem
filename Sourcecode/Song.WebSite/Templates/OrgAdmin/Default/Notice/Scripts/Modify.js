@@ -179,16 +179,14 @@ $ready(function () {
                                     message: message,
                                     center: true
                                 });
-                                if (isclose) {
-                                    window.setTimeout(function () {
-                                        th.operateSuccess();
-                                    }, 600);
-                                };
+                                window.setTimeout(function () {
+                                    th.operateSuccess(isclose);
+                                }, 600);
+
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
                             th.$alert(err, '错误');
                         });
                     } else {
@@ -283,8 +281,8 @@ $ready(function () {
                 return time.format(fmt);
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         }
     });

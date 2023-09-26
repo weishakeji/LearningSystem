@@ -17,19 +17,18 @@ $ready(function () {
             loadingid: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.form.orgid = vapp.organ.Org_ID;
-                vapp.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
+                th.handleCurrentChange(1);
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -64,15 +63,34 @@ $ready(function () {
                     console.error(err);
                 });
             },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.No_Id == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Notice/ForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.No_Id == id);
+                        th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
+            },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Notice/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -85,16 +103,15 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
-            },         
+                }).finally(() => th.loading = false);
+            },
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.No_Id;
+                th.loadingid = row.No_Id;
                 $api.post('Notice/Modify', { 'entity': row }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -102,11 +119,9 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    th.$alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             }
         }
     });

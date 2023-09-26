@@ -15,7 +15,7 @@ $ready(function () {
                         }
                     }
                 ]
-            },       
+            },
             organ: {},       //当前机构
             sorts: [],      //学员组             
 
@@ -103,6 +103,26 @@ $ready(function () {
                     console.error(err);
                 });
             },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.accounts.length < 1) return;
+                //要刷新的行数据
+                let entity = this.accounts.find(item => item.Ac_ID.toString() == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Account/ForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.accounts.findIndex(item => item.Ac_ID.toString() == id);
+                        th.$set(th.accounts, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
+            },
             //删除
             deleteData: function (datas) {
                 var th = this;
@@ -144,7 +164,7 @@ $ready(function () {
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Ac_ID;
-                var form = { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass };                
+                var form = { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass };
                 $api.post('Account/ModifyState', form).then(function (req) {
                     if (req.data.success) {
                         th.$notify({

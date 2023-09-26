@@ -82,7 +82,7 @@ $ready(function () {
                         let index = th.datas.findIndex(item => item.Sts_ID == id);
                         th.$set(th.datas, index, result);
                     } else {
-                        throw d.data.message;
+                        throw req.data.message;
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);

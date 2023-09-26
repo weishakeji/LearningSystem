@@ -213,11 +213,11 @@
             </el-form>
             <div class="footer">
                 <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
-                    @click="btnEnter('formData')">
+                    @click="btnEnter('formData',true)">
                     保存
                 </el-button>
                 <el-button type="primary" native-type="submit" v-if="id!=''" define="apply" :loading="loading" plain
-                    @click="btnApply('formData')">
+                    @click="btnApply('formData',false)">
                     应用
                 </el-button>
                 <el-button type='close'>取消</el-button>
