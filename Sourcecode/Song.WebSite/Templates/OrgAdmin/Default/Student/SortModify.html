@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource> 
+<head resource>
     <include file="../inc/meta.inc" />
     <title>修改学员组信息</title>
 </head>
@@ -16,6 +16,11 @@
                 <el-switch v-model="entity.Sts_IsUse" active-color="#13ce66" inactive-color="#ff4949"
                     :active-text="entity.Sts_IsUse ? '启用' : '禁用'">
                 </el-switch>
+            </el-form-item>
+            <el-form-item label="排序号" prop="Sts_Tax">
+                <el-tooltip class="item" effect="dark" content="数值越小越靠前" placement="right">
+                    <el-input v-model="entity.Sts_Tax" type="number" style="width: 100px;"></el-input>
+                </el-tooltip>              
             </el-form-item>
             <el-form-item label="备注" prop="Sts_Intro">
                 <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Sts_Intro">
@@ -36,8 +41,11 @@
         </el-form>
         <div class="footer">
             <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
-                @click="btnEnter('entity')">
+                @click="btnEnter('entity',true)">
                 保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>
                 取消

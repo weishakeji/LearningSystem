@@ -28,6 +28,10 @@ $ready(function () {
             loading_init: false,
             loading: false
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         created: function () {
             var th = this;
             th.loading_init = true;
@@ -53,16 +57,15 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('Account/SortForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
-                        var result = req.data.result;                  
+                        var result = req.data.result;
                         th.entity = result;
                     } else {
                         throw '未查底到数据';
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loading = false);
             },
             //判断名称是否存在
             isExist: function (val) {
@@ -81,31 +84,29 @@ $ready(function () {
                 });
             },
             //保存信息
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Account/Sort' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$notify({
                                     type: 'success',
                                     message: '操作成功!',
-                                    center: true
+                                    position: 'bottom-left'
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -113,8 +114,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });

@@ -39,6 +39,8 @@ $ready(function () {
             isexist: function () {
                 return JSON.stringify(this.entity) != '{}' && this.entity != null && this.id != 0;
             },
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
         watch: {
             'organ': function (n, o) {
@@ -104,7 +106,7 @@ $ready(function () {
                     });
                 }
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
@@ -126,7 +128,7 @@ $ready(function () {
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    th.operateSuccess();
+                                    th.operateSuccess(isclose);
                                 }, 600);
                             } else {
                                 throw req.data.message;
@@ -151,11 +153,11 @@ $ready(function () {
             pingyin: function () {
                 this.accPingyin = makePy(this.entity.Th_Name);
                 if (this.accPingyin.length > 0)
-                    this.entity.Th_Pinyin = this.accPingyin[0];               
+                    this.entity.Th_Pinyin = this.accPingyin[0];
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', isclose);
             }
         }
     });

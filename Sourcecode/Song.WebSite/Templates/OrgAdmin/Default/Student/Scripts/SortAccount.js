@@ -132,7 +132,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', false);
             },
             //新增学员到当前组
             studentadd_show: function () {

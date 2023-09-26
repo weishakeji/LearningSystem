@@ -56,7 +56,6 @@ $ready(function () {
                 th.form.size = th.form.size >= 100 ? 100 : th.form.size;
                 th.loading = true;
                 $api.get("Account/SortPager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -65,17 +64,34 @@ $ready(function () {
                         throw d.data.message;
                     }
                     th.rowdrop();
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => th.$alert(err, '错误'))
+                    .finally(() => th.loading = false);
+            },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Sts_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Account/SortForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Sts_ID == id);
+                        th.$set(th.datas, index, result);
+                    } else {
+                        throw d.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Account/SortDelete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -88,10 +104,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => th.$alert(err, '错误'))
+                    .finally(() => th.loading = false);
             },
             //更改使用状态
             changeState: function (row) {
@@ -123,6 +137,7 @@ $ready(function () {
                             center: true
                         });
                     } else {
+                        console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
@@ -143,13 +158,11 @@ $ready(function () {
                         pull: false,
                         put: false
                     },
-                    onStart: function (evt) {
-                    },
+                    onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
@@ -162,8 +175,9 @@ $ready(function () {
                         arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
                         this.$nextTick(function () {
                             this.datas = arr;
-                            for (var i = 0; i < this.datas.length; i++) {
-                                this.datas[i].Sts_Tax = (this.form.size * (this.form.index - 1)) + i + 1;
+                            let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;                           
+                            for (let i = 0; i < this.datas.length; i++) {                              
+                                this.datas[i].Sts_Tax = initindex + i;
                             }
                             this.changeTax();
                         });
@@ -173,12 +187,13 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
-                for (var i = 0; i < arr.length; i++) {
+                for (let i = 0; i < arr.length; i++) {
                     delete arr[i]['childs'];
                 }
+                var th = this;
                 $api.post('Account/SortUpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
@@ -189,7 +204,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //设置默认组
             setDefault: function (id) {
@@ -209,21 +224,19 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //设置成员的按钮事件
             setaccount: function (item) {
-                var title = '设置“' + item.Sts_Name + '”的成员';
-                var url = $api.url.set('SortAccount', { id: item.Sts_ID });
+                let title = '设置“' + item.Sts_Name + '”的成员';
+                let url = $api.url.set('SortAccount', { id: item.Sts_ID });
                 this.$refs.btngroup.pagebox(url, title, null, 800, 600);
             },
             //设置课程的按钮事件
             setcourse: function (item) {
-                var title = '设置“' + item.Sts_Name + '”的关联课程';
-                var url = $api.url.set('SortCourse', { id: item.Sts_ID });
+                let title = '设置“' + item.Sts_Name + '”的关联课程';
+                let url = $api.url.set('SortCourse', { id: item.Sts_ID });
                 this.$refs.btngroup.pagebox(url, title, null, 800, '80%');
             }
         }

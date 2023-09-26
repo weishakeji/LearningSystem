@@ -72,7 +72,6 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-
                 });
             },
             //打开添加课程的面板
@@ -126,22 +125,20 @@ $ready(function () {
                         });
                         th.$nextTick(function () {
                             th.operateSuccess();
-                            loading.close();
                         });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => loading.close());
             },
             //操作成功
             operateSuccess: function () {
                 try {
-                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', false);
                 } catch { }
             },
         },
