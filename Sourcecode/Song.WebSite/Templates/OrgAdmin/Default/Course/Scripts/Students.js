@@ -111,7 +111,7 @@
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Course/StudentsLogOutputFiles', { 'couid': this.form.couid }).then(function (req) {
+                $api.get('Course/StudentsLogOutputFiles', { 'couid': th.form.couid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {

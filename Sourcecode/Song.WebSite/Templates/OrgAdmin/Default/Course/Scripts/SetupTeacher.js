@@ -141,7 +141,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.fressingle("' + this.couid + '")', false);
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.couid + '")', false);
             }
         }
     });

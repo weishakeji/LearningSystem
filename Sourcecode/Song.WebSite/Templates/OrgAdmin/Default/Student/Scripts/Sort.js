@@ -80,7 +80,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.datas.findIndex(item => item.Sts_ID == id);
-                        th.$set(th.datas, index, result);
+                        if (index >= 0) th.$set(th.datas, index, result);
                     } else {
                         throw req.data.message;
                     }
@@ -175,8 +175,8 @@ $ready(function () {
                         arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
                         this.$nextTick(function () {
                             this.datas = arr;
-                            let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;                           
-                            for (let i = 0; i < this.datas.length; i++) {                              
+                            let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;
+                            for (let i = 0; i < this.datas.length; i++) {
                                 this.datas[i].Sts_Tax = initindex + i;
                             }
                             this.changeTax();

@@ -502,11 +502,11 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 当前课程的学员（即学习该课程的学员），并计算出完成度,导出为excel
         /// </summary>
-        /// <param name="filepath"></param>
+        /// <param name="filepath">要导出的excel文件物理路径</param>
         /// <param name="course"></param>
         /// <param name="start">学员选修课程的开始时间的区间</param>
         /// <param name="end">学员选修课程的开始时间的区间</param>
-        /// <returns></returns>
+        /// <returns>要导出的excel文件物理路径</returns>
         string StudentToExcel(string filepath, Course course, DateTime? start, DateTime? end);
         #endregion
         

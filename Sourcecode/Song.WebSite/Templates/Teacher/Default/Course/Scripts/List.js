@@ -118,7 +118,7 @@ $ready(function () {
                 });
             },
             //刷新单一课程
-            fressingle: function (id) {
+            freshrow: function (id) {
                 var th = this;
                 th.loadingid = id;
                 $api.get('Course/ForID', { 'id': id }).then(function (req) {

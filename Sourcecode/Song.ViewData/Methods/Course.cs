@@ -1234,143 +1234,33 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 导出课程的学习记录
-        private static string outputPath = "StudentsLogToExcel";
+        private static string outputPath_StudentsLog = "StudentsLogToExcel";      
         /// <summary>
         /// 学员学习记录生成excel
         /// </summary>
-        /// <param name="couid">课程的id</param> 
+        /// <param name="couid">课程的id</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param> 
         /// <returns></returns>
         [HttpPost]
         public JObject StudentsLogOutputExcel(long couid, DateTime? start, DateTime? end)
         {
             //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLog + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) throw new Exception("当前课程不存在");
-            return _StudentsLogOutputExcel(course, start, end, rootpath);
-        }
-        public static JObject _StudentsLogOutputExcel(Song.Entities.Course course, DateTime? start, DateTime? end ,string path)
-        {
             DateTime date = DateTime.Now;
             string filename = string.Format("{0}.{1}.({2}).xls", course.Cou_ID, WeiSha.Core.Upload.NameFilter(course.Cou_Name), date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = path + filename;
-            try
-            {
-                filePath = Business.Do<ICourse>().StudentToExcel(filePath, course, start, end);
-            }catch(Exception ex)
-            {
-                WeiSha.Core.Log.Error("StudentsLogOutputExcel", ex);
-                throw ex;
-            }
+            Business.Do<ICourse>().StudentToExcel(rootpath + filename, course, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, filename));
+            jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_StudentsLog, filename));
             jo.Add("date", date);
-            return jo;
-        }
-        /// <summary>
-        /// 生成当前机构下的所有课程的学习记录excel文档
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <returns></returns>
-        public bool StudentsLogBatExcel(int orgid)
-        {
-            //判断之前的生成是否完成
-            JObject jo = StudentsLogBatExcelProgress(orgid);
-            if (jo != null)
-            {
-                int total, complete;
-                int.TryParse(jo["total"].ToString(), out total);
-                int.TryParse(jo["complete"].ToString(), out complete);
-                if (total != 0 || complete != 0)
-                {
-                    if (total > complete) return false;
-                }
-            }
-            //开始生成
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            if (System.IO.Directory.Exists(rootpath))
-            {
-                foreach (string file in System.IO.Directory.GetFiles(rootpath))
-                {
-                    try
-                    {
-                        System.IO.File.Delete(file);
-                    }
-                    catch
-                    {
-
-                    }
-                }
-            }
-            else
-            {
-                System.IO.Directory.CreateDirectory(rootpath);
-            }
-            //
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseAll(orgid, -1, -1, null);
-            Thread thread = new Thread(new ParameterizedThreadStart(_studentsLogBatExcel_Mwthod));
-            thread.Start(courses);
-
-            return true;
-        }
-        private static object _lock_StudentsLogBatExcelProgress = new object();
-        /// <summary>
-        /// 获取批量
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <returns></returns>
-        public JObject StudentsLogBatExcelProgress(int orgid)
-        {
-            lock (_lock_StudentsLogBatExcelProgress)
-            {
-                //导出文件的位置
-                string file = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + "progress.json";
-                if (System.IO.File.Exists(file))
-                {
-                    string text = System.IO.File.ReadAllText(file);
-                    JObject jo = (JObject)JsonConvert.DeserializeObject(text);
-                    return jo;
-                }
-                return null;
-            }    
-        }
-        //用于批量生成学员学习记录的类（用于多线程）
-        private static void _studentsLogBatExcel_Mwthod(object courses)
-        {
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            List<Song.Entities.Course> list = courses as List<Song.Entities.Course>;
-            //记录执行状态
-            JObject jo = new JObject();
-            jo.Add("total", list.Count);
-            int complete = 0;
-            DateTime start = DateTime.Now;
-            jo.Add("complete", complete);
-            jo.Add("starttime", start.ToString());
-            jo.Add("couid", string.Empty);
-            jo.Add("course", string.Empty);
-            jo.Add("timespan", 0);
-            jo.Add("zipurl", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + outputPath + ".zip");
-            jo.Add("zipfile", outputPath + ".zip");
-            foreach (Song.Entities.Course c in list)
-            {
-                jo["complete"] = ++complete;
-                jo["couid"] = c.Cou_ID;
-                jo["course"] = c.Cou_Name;
-                jo["timespan"] = (DateTime.Now - start).ToString(@"hh\:mm\:ss");
-                using (StreamWriter sw = new StreamWriter(rootpath + "progress.json", false, System.Text.Encoding.UTF8))
-                {
-                    sw.Write(jo.ToString());
-                }
-                _StudentsLogOutputExcel(c, null, null, rootpath);
-            }
-            WeiSha.Core.Compress.ZipDirectory(rootpath,"*.xls");
-        }
+            return jo;           
+        }      
         /// <summary>
         /// 删除Excel文件
         /// </summary>
@@ -1380,7 +1270,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool StudentsLogOutputDelete(long couid,string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLog + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             string filePath = rootpath + couid + "." + filename;
@@ -1398,7 +1288,7 @@ namespace Song.ViewData.Methods
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         public JArray StudentsLogOutputFiles(long couid)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLog + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
@@ -1413,13 +1303,112 @@ namespace Song.ViewData.Methods
                 JObject jo = new JObject();
                 string name = f.Name.Substring(f.Name.IndexOf(".") + 1);
                 jo.Add("file", name);
-                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, f.Name));
+                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_StudentsLog, f.Name));
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
             }
             return jarr;
         }
+        #endregion
+
+        #region 批量导出课程的学习记录
+        private static string outputPath_StudentsLogBat = "StudentsLogBatToExcel";      //按课程批量导出学员学习记录的文件夹
+        /// <summary>
+        /// 按机构导出所有课程的学习记录文件
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray StudentsLogBatOutputFiles(int orgid)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLogBat + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            foreach (System.IO.FileInfo f in dir.GetFiles("*.zip"))
+            {
+                if (f.Name.IndexOf(".") < 0) continue;
+                string prefix = f.Name.Substring(0, f.Name.IndexOf("."));
+                if (prefix.Length < 1) continue;
+                if (prefix != orgid.ToString()) continue;
+
+                JObject jo = new JObject();
+                string name = f.Name.Substring(f.Name.IndexOf(".") + 1);
+                jo.Add("name", name);
+                jo.Add("file", f.Name);
+                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_StudentsLogBat, f.Name));
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 删除学习记录批量导出的Excel文件
+        /// </summary>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool StudentsLogBatOutputDelete(string filename)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLogBat + "\\";
+            if (!System.IO.Directory.Exists(rootpath)) return false;
+            string filePath = rootpath + filename;
+            if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
+            return true;
+        }
+        /// <summary>
+        /// 清理批量导出学习记录的冗余数据，不包括打包文件，仅excel文件与progress.json
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <returns>是否删除成功，成功返回true</returns>
+        [HttpDelete]
+        public bool StudentsLogBatOutputClear(int orgid)
+        {
+            studentsLogBatExcel battoexcel = new studentsLogBatExcel(orgid, outputPath_StudentsLogBat);
+            battoexcel.DeleteExcel();           
+            return true;
+        }
+        /// <summary>
+        /// 生成当前机构下的所有课程的学习记录excel文档
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns>完成返回true,未完成返回false</returns>
+        [HttpPost]
+        public JObject StudentsLogBatExcel(int orgid, DateTime? start, DateTime? end)
+        {
+            //判断之前的生成是否完成
+            JObject jo = StudentsLogBatExcelProgress(orgid);
+            if (jo != null)
+            {
+                bool successed = false;
+                bool.TryParse(jo["successed"].ToString(), out successed);
+                if (!successed) return jo;
+                HttpRuntime.Cache.Remove(orgid.ToString() + ".progress.json");
+            }
+            //开始生成
+            //List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseAll(orgid, -1, -1, null);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseCount(orgid, -1, -1, -1, null, null, 20);
+            studentsLogBatExcel battoexcel = new studentsLogBatExcel(orgid, courses, outputPath_StudentsLogBat, start, end);
+            battoexcel.DeleteExcel();
+            Thread thread = new Thread(battoexcel.run);
+            thread.Start();
+
+            return battoexcel.SetProgress(courses.Count, 0, false, 30, "00:00:00");
+        }      
+        /// <summary>
+        /// 获取批量生成的进度
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
+        public JObject StudentsLogBatExcelProgress(int orgid)
+        {
+            studentsLogBatExcel battoexcel = new studentsLogBatExcel(orgid);
+            return battoexcel.GetProgress();
+        }    
         #endregion
 
         #region 私有方法，处理对象的关联信息
@@ -1451,24 +1440,174 @@ namespace Song.ViewData.Methods
         }
         #endregion
     }
+    #region
     /// <summary>
     /// 用于批量生成学员学习记录的类（用于多线程）
     /// </summary>
-    class studentsLogBatExcel
+    internal class studentsLogBatExcel
     {
-        private List<Song.Entities.Course> courses;
-        private string path = string.Empty;
-        public studentsLogBatExcel(List<Song.Entities.Course> courses, string path)
+        public int orgid { get; set; }
+        //要生成学员学习记录的课程
+        public List<Song.Entities.Course> Courses { get; set; }
+        //导出文件的路径
+        public string Path{ get; set; }
+        //选修课程的时间区间的开始时间
+        public DateTime? Start { get; set; }    
+        public DateTime? End { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Zipfile { get; set; }
+        public studentsLogBatExcel(int orgid,List<Song.Entities.Course> courses, string path, DateTime? start, DateTime? end)
         {
-            this.courses = courses;
-            this.path = path;
+            this.orgid = orgid;
+            this.Courses = courses;
+            this.Path = path;
+            this.Start = start;
+            this.End = end;
+            this.Zipfile = this._setZipfile();
         }
-        public void _start()
+        public studentsLogBatExcel(int orgid,string path)
         {
-            foreach (Song.Entities.Course course in courses)
+            this.orgid = orgid;
+            this.Path = path;
+            this.Zipfile = this._setZipfile();
+        }
+        public studentsLogBatExcel(int orgid)
+        {
+            this.orgid = orgid;
+            this.Zipfile = this._setZipfile();
+        }
+        private string _setZipfile()
+        {
+            return orgid.ToString() + ".StudentsLogToExcel(" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ").zip";
+        }
+        //用于批量生成学员学习记录的类（用于多线程）
+        public void run()
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + this.Path + "\\"; 
+            int complete = 0;
+            DateTime startspan = DateTime.Now;
+            List<string> xlslist = new List<string>();
+            foreach (Song.Entities.Course c in this.Courses)
             {
-                Course._StudentsLogOutputExcel(course, null, null, this.path);
-            }                  
+                try
+                {
+                    string xls=this._outputExcel(c, this.Start, this.End, rootpath, this.Path);
+                    xlslist.Add(xls);
+                }
+                catch { }
+                finally
+                {
+                    this.SetProgress(this.Courses.Count, ++complete, c.Cou_ID, c.Cou_Name, false, 30, (DateTime.Now - startspan).ToString(@"hh\:mm\:ss"));
+                    Thread.Sleep(1000);
+                }
+            }
+            //生成压缩包        
+            WeiSha.Core.Compress.ZipFiles(xlslist, rootpath + this.Zipfile);
+            //删除冗余
+            this.DeleteExcel();
+            //先写入完成的数据，1分钟删除缓存
+            this.SetProgress(true, 1);      
+        }
+        private string _outputExcel(Song.Entities.Course course, DateTime? start, DateTime? end, string rootpath, string outpath)
+        {
+            DateTime date = DateTime.Now;
+            string filename = string.Format("{0}.{1}.{2}.({3}).xls",
+                course.Org_ID,
+                course.Cou_ID,
+                WeiSha.Core.Upload.NameFilter(course.Cou_Name),
+                date.ToString("yyyy-MM-dd hh-mm-ss"));
+
+            return Business.Do<ICourse>().StudentToExcel(rootpath + filename, course, start, end);
+        }
+        /// <summary>
+        /// 设置进度信息
+        /// </summary>
+        /// <param name="total">总课程数</param>
+        /// <param name="complete">完成的课程数</param>
+        /// <param name="successed">是否完成</param>
+        /// <param name="expires">缓存过期时间，单位分钟</param>
+        /// <returns></returns>
+        public JObject SetProgress(int total, int complete, bool successed, int expires, string span)
+        {
+            return this.SetProgress(total, complete, 0, string.Empty, successed, expires, span);
+        }
+        public JObject SetProgress(bool successed, int expires)
+        {
+            return this.SetProgress(-1, -1, 0, string.Empty, successed, expires, string.Empty);
+        }
+        private static object _lock_StudentsLogBatExcelProgress = new object();
+        public JObject SetProgress(int total, int complete, long couid, string couname, bool successed, int expires, string span)
+        {
+            string cacheName = this.orgid.ToString() + ".progress.json";
+            lock (_lock_StudentsLogBatExcelProgress)
+            {
+                //记录执行状态
+                object obj = HttpRuntime.Cache.Get(cacheName);
+                JObject jo = obj == null ? new JObject() : (JObject)obj;
+                if (total >= 0) jo["total"] = total;        //课程总数
+                jo["successed"] = successed;         //是否成功完成
+                if (complete >= 0) jo["complete"] = complete;
+                //开始时间
+                if (!jo.ContainsKey("starttime"))
+                    jo.Add("starttime", DateTime.Now.ToString());
+                //正在处理中的课程信息
+                if (couid > 0) jo["couid"] = couid.ToString();
+                if (!string.IsNullOrWhiteSpace(couname)) jo["course"] = couname;
+
+                if (!jo.ContainsKey("zipfile"))
+                {
+                    string zipfile = orgid.ToString() + ".StudentsLogToExcel(" + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ").zip";
+                    jo["zipurl"] = WeiSha.Core.Upload.Get["Temp"].Virtual + this.Path + "/" + zipfile;
+                    jo["zipfile"] = zipfile;
+                }
+                //累计用时
+                if (!string.IsNullOrWhiteSpace(couname))
+                    jo["timespan"] = span;
+
+                HttpRuntime.Cache.Insert(cacheName, jo, null, DateTime.Now.AddMinutes(expires), TimeSpan.Zero);
+                return jo;
+            }
+        }
+        /// <summary>
+        /// 获取进度信息
+        /// </summary>
+        /// <returns></returns>
+        public JObject GetProgress()
+        {
+            lock (_lock_StudentsLogBatExcelProgress)
+            {
+                string cacheName = this.orgid.ToString() + ".progress.json";
+                object obj = HttpRuntime.Cache.Get(cacheName);
+                JObject jo = obj == null ? null : (JObject)obj;
+                return jo;
+            }
+        }
+        public void DeleteExcel()
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + this.Path + "\\";
+            //删除冗余
+            foreach (string f in System.IO.Directory.GetFiles(rootpath,"*.xls"))
+            {
+                FileInfo file = new FileInfo(f);           
+                //前缀是机构id的，全部删除
+                if (file.Name.IndexOf(".") > -1)
+                {
+                    string prefix = file.Name.Substring(0, file.Name.IndexOf("."));
+                    if (orgid.ToString() == prefix)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch { }
+                    }
+                }
+            }            
         }
     }
+    #endregion
 }

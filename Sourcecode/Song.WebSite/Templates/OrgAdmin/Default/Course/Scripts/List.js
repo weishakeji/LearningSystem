@@ -24,12 +24,7 @@
             selects: [], //数据表中选中的行
 
             drawer: false,   //显示滑出的课程详情
-            curr: {},        //当前要展示的项
-
-            batchVisible: false,     //批量处理的面板显示
-            fileloading: false,
-            progressloading: false,          //进度
-            excelProgress: {},       //批量生成的进度
+            curr: {},        //当前要展示的项       
 
             loading: false,
             loadingid: 0,
@@ -38,8 +33,8 @@
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
-                text: '批量', tips: '批量处理',
-                id: 'bat', type: 'success',
+                text: '学习记录', tips: '批量处理',
+                id: 'log', type: 'success',
                 class: 'el-icon-magic-stick'
             });
         },
@@ -78,12 +73,6 @@
                     //console.log(nv)
                 }, deep: true,
             },
-            //批量处理的面板显示
-            'batchVisible': function (nv, ov) {
-                if (nv && window.excelProgress == null) {
-                    this.batch2excelProgress();
-                }
-            }
         },
         methods: {
             //加载数据页
@@ -95,20 +84,17 @@
                 th.form.size = Math.floor(area / 57);
                 th.loading = true;
                 $api.get("Course/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         console.log(th.datas);
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //console.log(th.accounts);
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取教师列表
             teacher_query: function (search) {
@@ -131,30 +117,32 @@
 
             },
             //刷新单一课程
-            fressingle: function (id) {
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Cou_ID == id);
+                if (entity == null) return;
                 var th = this;
                 th.loadingid = id;
                 $api.put('Course/ForID', { 'id': id }).then(function (req) {
-                    th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         var index = th.datas.findIndex(item => {
                             return item.Cou_ID == result.Cou_ID;
                         });
-                        th.$set(th.datas, index, result);
-                        th.$message({
-                            message: '刷新课程 “' + result.Cou_Name + '” 成功',
-                            type: 'success'
-                        });
+                        if (index >= 0) {
+                            th.$set(th.datas, index, result);
+                            th.$message({
+                                message: '刷新课程 “' + result.Cou_Name + '” 成功',
+                                type: 'success'
+                            });
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //更改状态
             changeState: function (row) {
@@ -271,14 +259,16 @@
                     console.error(err);
                 });
             },
+            //打开学习记录的面板
+            openlog: function (btn) {
+                this.$refs.btngroup.pagebox('StudyLogExport?orgid=' + this.organ.Org_ID,
+                    '学习记录导出', window.name + '[studylog]', 650, 400);
+                //console.log(btn);
+            },
             //新增课程的按钮事件
             btnadd: function (btn) {
                 this.$refs.btngroup.pagebox('create', '新增', window.name + '[add]', 600, 300);
-                console.log(btn);
-            },
-            //打开编辑界面
-            btnmodify: function (id) {
-                this.$refs.btngroup.modify(id);
+                //console.log(btn);
             },
             //设置教师
             btnsetteacher: function (couid) {
@@ -287,62 +277,13 @@
                     'showmask': true, 'min': false, 'ico': 'e650'
                 });
             },
+            //专业路径
             subjectPath: function (sbj, course) {
                 var subjects = this.$refs['subject'];
                 if (subjects != null)
                     return subjects.subjectPath(sbj, course);
                 return '';
             },
-            //批量导出excel
-            batch2excel: function () {
-                var th = this;
-                th.fileloading = true;
-                window.setTimeout(function () {
-                    th.batch2excelProgress();
-                }, 3000);
-
-                $api.get('Course/StudentsLogBatExcel', { 'orgid': th.organ.Org_ID }).then(function (req) {
-
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        //...
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
-            },
-            //获取进度
-            batch2excelProgress: function () {
-                getprogress();
-                window.excelProgress = window.setInterval(function () { getprogress(); }, 3000);
-                function getprogress() {
-                    vapp.fileloading = true;
-                    $api.get('Course/StudentsLogBatExcelProgress', { 'orgid': vapp.organ.Org_ID }).then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            vapp.excelProgress = result;
-                            vapp.excelProgress["progress"] = Math.floor(result["complete"] / result["total"] * 1000) / 10;
-                            if (vapp.excelProgress["progress"] >= 100) {
-                                vapp.fileloading = false;
-                                window.clearInterval(window.excelProgress);
-                            }
-                        } else {
-                            vapp.fileloading = false;
-                            window.clearInterval(window.excelProgress);
-                            // console.log('没有数据');
-                            //console.error(req.data.exception);
-                            //throw req.data.message;
-                        }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
-                }
-            }
         }
     });
 

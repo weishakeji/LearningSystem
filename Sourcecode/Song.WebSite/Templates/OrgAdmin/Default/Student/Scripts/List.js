@@ -116,7 +116,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.accounts.findIndex(item => item.Ac_ID.toString() == id);
-                        th.$set(th.accounts, index, result);
+                        if (index >= 0) th.$set(th.accounts, index, result);
                     } else {
                         throw req.data.message;
                     }

@@ -1,0 +1,50 @@
+﻿@charset "utf-8";
+section{
+    height: calc(100% - 55px);
+    overflow: auto;
+}
+.footer{
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+}
+.progress_panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 0px auto;
+    padding: 10px 10%;
+    text-align: center;
+}
+.progress_panel>div:not(:first-child){
+    margin-top: 10px;
+}
+/*文件列表*/
+
+.filepanel dl, dd {
+    padding: 0px;
+    margin: 0px;
+}
+
+.filepanel dl {
+    margin: 0px 40px;    
+}
+
+.filepanel dl dd {
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.filepanel dl dd span.size{
+    font-size: 13px;
+    color: #999;
+}
+.filepanel dl dd a[href] {
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+
+.filepanel dl dd a[href]:hover {
+    text-decoration: underline;
+}

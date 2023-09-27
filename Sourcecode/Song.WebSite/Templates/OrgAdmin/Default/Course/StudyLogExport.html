@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程学习记录导出</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <section>
+            <el-form ref="form" :model="form" @submit.native.prevent label-width="100px"
+                :disabled="exportloading || loading">
+                <el-form-item label="选修时间">
+                    <el-date-picker v-model="export_interval" type="daterange" range-separator="至"
+                        start-placeholder="开始日期" end-placeholder="结束日期">
+                    </el-date-picker>
+                    <br />
+                    <help>学员选修课程的开始时间的区间</help>
+                </el-form-item>
+            </el-form>
+            <!-- 批量导出时的进度数据-->
+            <div v-if="exportloading" class="progress_panel">
+                <el-progress :text-inside="true" :stroke-width="24" :percentage="exportProgress.progress"
+                    status="success">
+                </el-progress>
+                <template v-if="exportProgress.progress<100">
+                    <div>
+                        <el-tag><i class="el-icon-loading"></i> 正在处理第 {{exportProgress.complete}} 个</el-tag>
+                        <el-tag type="success">用时：{{exportProgress.timespan}}</el-tag>
+
+                    </div>
+                    <div>
+                        <el-tag v-if="exportProgress.course">当前课程：《{{exportProgress.course}}》</el-tag>
+                        <el-tag type="info" v-if="exportProgress.total">共计 {{exportProgress.total}} 个课程</el-tag>
+                    </div>
+                    <div>
+                        <el-tag type="warning">用时较长，请耐心等待，程序后台执行，其间不影响其它操作</el-tag>
+                    </div>
+                </template>
+                <div v-else>
+                    <el-tag type="warning">正在将生成的Excel打包...</el-tag>
+                </div>
+            </div>
+            <!--导出后的文件件列表-->
+            <div v-if="files.length>0" class="filepanel">
+                <el-divider content-position="left">已经生成的文件<span>({{files.length}})</span></el-divider>
+                <dl>
+                    <dd v-for="(f,i) in files">
+                        <span>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                {{f.name}}</a></span>
+                        <span class="size">{{f.size|size}}</span>
+                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </dd>
+                </dl>
+            </div>
+        </section>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" define="enter" :loading="exportloading"
+                :disabled="exportloading || loading" plain @click="batch2excel()">
+                导出学习记录
+            </el-button>
+            <el-button type="warning" native-type="submit" define="delete" :loading="exportloading" v-if="false"
+                :disabled="exportloading || loading" plain @click="clearredundance(false)">
+                删除冗余
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

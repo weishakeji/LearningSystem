@@ -187,6 +187,13 @@ table.el-table__body tr.disabled td img, .disabled  * {
 	margin-right: 5px;
 	font-family: "webdesk_icon" !important;
 }
+/*删除按钮*/
+.el-button[define="delete"]:not(.is-loading)::before {
+	content: '\e800';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+}
+
 .el-button icon {
 	font-size: 14px;
 }

@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除,批量" ref='btngroup' @delete="deleteData" @add="btnadd" @bat="batchVisible=true"
+            <btngroup show="新增,修改,删除,学习记录" ref='btngroup' @delete="deleteData" @add="btnadd" @log="openlog"
                 path="Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="专业">
@@ -150,7 +150,7 @@
                         inactive-color="#ccc" v-show="loadingid!=scope.row.Cou_ID"> </el-switch>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="90" fixed="right" align="center" >
+            <el-table-column label="操作" width="90" fixed="right" align="center">
                 <template slot-scope="scope">
                     <div>
                         <el-link type="primary" plain @click="()=>{drawer=true;curr=scope.row;}">
@@ -279,37 +279,7 @@
                 </div>
 
             </div>
-        </el-drawer>
-        <!-- 批量处理的面板-->
-        <el-dialog title="批量处理" :visible.sync="batchVisible" :show-close="false" :before-close="()=>{}">
-            <template v-if="fileloading">
-                <el-progress :text-inside="true" :stroke-width="24" :percentage="excelProgress.progress"
-                    status="success"></el-progress>
-                <div style="margin-top: 10px;">
-                    <el-tag type="success">{{excelProgress.timespan}}</el-tag>
-                    <el-tag type="info">共计 {{excelProgress.total}} 个课程</el-tag>
-
-                </div>
-                <div style="margin-top: 10px;">
-                    <el-tag><i class="el-icon-loading"></i> 正在处理第 {{excelProgress.complete}} 个</el-tag>
-                    <el-tag>《{{excelProgress.course}}》</el-tag>
-                </div>
-                <div style="margin-top: 10px;">
-                    <el-tag type="warning">用时较长，请耐心等待，程序后台执行，其间不影响其它操作</el-tag>
-                </div>
-            </template>
-            <template v-else>
-                <a :href="excelProgress.zipurl" target="_blank" title="点击下载" :download="excelProgress.zipfile">
-                    {{excelProgress.zipfile}}
-                    <span v-if="excelProgress.zipfile"
-                        style="font-size: 14px;margin-left: 10px; color: #999;">点击下载</span>
-                </a>
-            </template>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="batchVisible = false" :disabled="fileloading">取 消</el-button>
-                <el-button type="primary" @click="batch2excel" :loading="fileloading">批量生成学习记录的Excel</el-button>
-            </span>
-        </el-dialog>
+        </el-drawer>      
     </div>
 </body>
 

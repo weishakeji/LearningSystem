@@ -76,7 +76,7 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.datas.findIndex(item => item.No_Id == id);
-                        th.$set(th.datas, index, result);
+                        if (index >= 0) th.$set(th.datas, index, result);
                     } else {
                         throw req.data.message;
                     }
