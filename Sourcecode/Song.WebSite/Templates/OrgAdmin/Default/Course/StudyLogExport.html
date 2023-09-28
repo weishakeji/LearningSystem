@@ -28,7 +28,7 @@
                 <template v-if="exportProgress.progress<100">
                     <div>
                         <el-tag><i class="el-icon-loading"></i> 正在处理第 {{exportProgress.complete}} 个</el-tag>
-                        <el-tag type="success">用时：{{exportProgress.timespan}}</el-tag>
+                        <el-tag type="success" v-if="exportProgress.timespan">用时：{{exportProgress.timespan}}</el-tag>
 
                     </div>
                     <div>

@@ -1390,8 +1390,8 @@ namespace Song.ViewData.Methods
                 HttpRuntime.Cache.Remove(orgid.ToString() + ".progress.json");
             }
             //开始生成
-            //List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseAll(orgid, -1, -1, null);
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseCount(orgid, -1, -1, -1, null, null, 20);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseAll(orgid, -1, -1, null);
+            //List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseCount(orgid, -1, -1, -1, null, null, 20);
             studentsLogBatExcel battoexcel = new studentsLogBatExcel(orgid, courses, outputPath_StudentsLogBat, start, end);
             battoexcel.DeleteExcel();
             Thread thread = new Thread(battoexcel.run);
@@ -1501,7 +1501,7 @@ namespace Song.ViewData.Methods
                 finally
                 {
                     this.SetProgress(this.Courses.Count, ++complete, c.Cou_ID, c.Cou_Name, false, 30, (DateTime.Now - startspan).ToString(@"hh\:mm\:ss"));
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                 }
             }
             //生成压缩包        
@@ -1564,7 +1564,7 @@ namespace Song.ViewData.Methods
                     jo["zipfile"] = zipfile;
                 }
                 //累计用时
-                if (!string.IsNullOrWhiteSpace(couname))
+                if (!string.IsNullOrWhiteSpace(span))
                     jo["timespan"] = span;
 
                 HttpRuntime.Cache.Insert(cacheName, jo, null, DateTime.Now.AddMinutes(expires), TimeSpan.Zero);
