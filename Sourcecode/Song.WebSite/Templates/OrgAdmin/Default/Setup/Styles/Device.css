@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 
 .el-form {
-	height: calc(100% - 70px);
+	height: calc(100% - 60px);
 	padding-bottom: 0px;
 	overflow-y: auto;
 	box-sizing: border-box;
@@ -11,7 +11,7 @@
 
 .el-card {
 	width: 600px;	
-	margin: 10px 10px 10px 5px;
+	margin: 0px 10px 10px 0px;
 	background-color: #fff !important;
 }
 
