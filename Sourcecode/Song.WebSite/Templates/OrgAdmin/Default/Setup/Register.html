@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>登录注册相关</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="config" :rules="rules" v-loading="loading" @submit.native.prevent
+            label-width="100px">
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe7cd">用户注册</span>
+                </div>
+                <el-form-item label="学员" prop="IsRegStudent">
+                    <icon slot="label" student>学员</icon>
+                    <el-switch v-model="config.IsRegStudent" active-text="禁止学员注册"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="IsVerifyStudent">
+                    <el-switch v-model="config.IsVerifyStudent" active-text="启用学生注册审核"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="IsRegSms">
+                    <el-checkbox v-model="config.IsRegSms">注册时采用短信验证</el-checkbox>
+                </el-form-item>
+                <el-form-item label="" prop="IsRegDetail">
+                    <el-checkbox v-model="config.IsRegDetail">注册后填写详细信息</el-checkbox>
+                </el-form-item>
+
+                <el-form-item label="教师" prop="IsRegTeacher">
+                    <icon slot="label" teacher>教师</icon>
+                    <el-switch v-model="config.IsRegTeacher" active-text="禁止教师注册"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="IsVerifyTeahcer">
+                    <el-switch v-model="config.IsVerifyTeahcer" active-text="启用教师注册审核"> </el-switch>
+                </el-form-item>
+            </el-card>
+
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe808">登录设置</span>
+                </div>
+                <el-form-item label="登录方式" prop="IsLoginForPw">
+                    <el-switch v-model="config.IsLoginForPw" active-text="启用账号密码登录"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="IsLoginForSms">
+                    <el-switch v-model="config.IsLoginForSms" active-text="启用手机短信验证登录"> </el-switch>
+                </el-form-item>
+                <el-form-item label="微信" prop="IsLoginForWeixin">
+                    <icon slot="label" icon="&#xe730">微信</icon>
+                    <el-checkbox v-model="config.IsLoginForWeixin">微信中仅限微信登录（禁用账号、手机验证等方式登录）</el-checkbox>
+                </el-form-item>
+                <el-form-item label="其它" prop="IsTraningLogin">
+                    <el-checkbox v-model="config.IsTraningLogin">试题练习需要学员登录后才能操作</el-checkbox>
+                </el-form-item>
+            </el-card>
+        </el-form>
+        <div id="footer-box">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading"
+                @click="btnEnter('entity')">
+                确认修改
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程学习相关设置</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="config" :rules="rules" @submit.native.prevent label-width="120px">
+
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe761">视频学习</span>
+                </div>
+                <el-form-item label=" " prop="VideoTolerance">
+                    <icon slot="label" icon="&#xa00a">完成度</icon>
+                    <el-input placeholder="" type="number" min="1" max="100" v-model.number="config.VideoTolerance"
+                        @input="(n)=>{config.VideoTolerance=n>100 ? 100 : config.VideoTolerance }"
+                        style="width: 300px;">
+                        <template slot="prepend">视频学习完成度的容差：</template>
+                        <template slot="append">% </template>
+                    </el-input>
+                    <br />
+                    <help>说明：假如为5%，则学习完成度大于95%时，显示100%</help>
+                </el-form-item>
+                <el-form-item label="" prop="IsSwitchPlay">
+                    <icon slot="label" icon="&#xa017">切换窗体</icon>
+                    <el-switch v-model="config.IsSwitchPlay" active-text="禁用“视频课程学习时的切换窗体暂停视频播放”功能"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="IsDisableChat">
+                    <icon slot="label" icon="&#xe6ee">交流</icon>
+                    <el-switch v-model="config.IsDisableChat" active-text="禁用在课程学习中的“交流”功能"> </el-switch>
+                </el-form-item>
+                <el-form-item label="" prop="random_pause_setup">
+                    <icon slot="label" icon="&#xe6cc">随机暂停</icon>
+                    <el-switch v-model="config.random_pause_setup" active-text="在课程学习中开启“随机暂停”功能"> </el-switch>
+                </el-form-item>
+                <el-form-item label=" " prop="random_pause_value" v-if="config.random_pause_setup">
+                    <el-input placeholder="" type="number" min="0" max="99" v-model.number="config.random_pause_value "
+                        style="width: 300px;">
+                        <template slot="prepend">每个视频随机暂停</template>
+                        <template slot="append">次</template>
+                    </el-input>
+                </el-form-item>
+            </el-card>
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe810">结课考试</span>
+                </div>
+                <el-form-item label="" prop="finaltest_condition_video">
+                    <icon slot="label" icon="&#xe6b0">考试条件</icon>
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_condition_video ">
+                        <template slot="prepend">条件1：<icon>&#xe83a</icon>视频学习完成度达到</template>
+                        <template slot="append">% </template>
+                    </el-input>
+                    <help multi>此处不记入容差值，例如：学员视频完成度为80%，视频完成度的容差是10%，而完成要达到90%才可以参加结果考试，这里是按实际的完成度80%计算，
+                        而不是80%+10%
+                    </help>
+                </el-form-item>
+                <el-form-item label="" prop="finaltest_condition_ques">
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_condition_ques">
+                        <template slot="prepend">条件2：<icon>&#xe75e</icon>试题练习完成度达到</template>
+                        <template slot="append">% </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="" prop="finaltest_count">
+                    <icon slot="label" icon="&#xe6db">次数</icon>
+                    <el-input placeholder="" type="number" min="0" max="100" v-model.number="config.finaltest_count">
+                        <template slot="prepend">最多可以考试</template>
+                        <template slot="append">次，取最高分为结课成绩 </template>
+                    </el-input>
+                </el-form-item>
+            </el-card>
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe6ef">课程综合成绩权重</span>
+                </div>
+                <el-form-item label="" prop="finaltest_weight_video">
+                    <icon slot="label" icon="&#xe6bf">视频学习</icon>
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_weight_video">
+                        <template slot="prepend">
+                            视频学习的完成度，占成绩的权重比为
+                        </template>
+                        <template slot="append">%</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="" prop="finaltest_weight_ques">
+                    <icon slot="label" icon="&#xe755">试题练习</icon>
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_weight_ques">
+                        <template slot="prepend">
+                            试题练习的完成度，占成绩的权重比为
+                        </template>
+                        <template slot="append">%</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="" prop="finaltest_weight_exam">
+                    <icon slot="label" icon="&#xe816">结课考试</icon>
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_weight_exam">
+                        <template slot="prepend">
+                            结课考试的得分数，占成绩的权重比为
+                        </template>
+                        <template slot="append">%</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <help multi>权重得分包含容差值，例如：学员实际视频学习完成80%，容差值为10%，这里将是（80%+10%）×权重值。
+                    </help>
+                </el-form-item>
+
+            </el-card>
+            <el-card shadow="hover">
+                <div slot="header">
+                    <span icon="&#xe634">课程综合成绩的及格分</span>
+                </div>
+                <el-form-item label="" prop="finaltest_score_pass">
+                    <icon slot="label" icon="&#xe826">及格分</icon>
+                    <el-input placeholder="" type="number" min="0" v-model.number="config.finaltest_score_pass">
+                        <template slot="prepend">结课成绩默认为百分制，其及格分为</template>
+                        <template slot="append">分</template>
+                    </el-input>
+                </el-form-item>
+            </el-card>
+        </el-form>
+        <div id="footer-box">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading"
+                @click="btnEnter('entity')">
+                确认修改
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>
