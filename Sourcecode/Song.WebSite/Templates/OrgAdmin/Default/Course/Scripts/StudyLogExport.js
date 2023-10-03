@@ -111,7 +111,7 @@ $ready(function () {
                 th.exportloading = true;
                 $api.post('Course/StudentsLogBatExcel', th.form).then(function (req) {
                     if (req.data.success) {
-                        th.exportProgress= req.data.result;
+                        th.exportProgress = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -127,10 +127,14 @@ $ready(function () {
                 $api.get('Course/StudentsLogBatExcelProgress', { 'orgid': orgid }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        result["progress"]=Math.floor(result["complete"] / result["total"] * 1000) / 10;
-                        th.exportProgress = result; 
+                        let progress = Math.floor(result["complete"] / result["total"] * 1000) / 10;
+                        result["progress"] = isNaN(progress) ? 0 : progress;
+                        th.exportProgress = result;
                         if (th.exportProgress["successed"] === true) {
                             th.exportloading = false;
+                            if (th.exportProgress["complete"] <= 0) {
+                                alert('没有可供导出的课程学习信息');
+                            }
                             window.setTimeout(function () {
                                 th.getFiles();
                             }, 300);
@@ -141,7 +145,7 @@ $ready(function () {
                             }, 3000);
                         }
                     } else {
-                        th.exportloading = false;                       
+                        th.exportloading = false;
                     }
                 }).catch(function (err) {
                     console.error(err);
