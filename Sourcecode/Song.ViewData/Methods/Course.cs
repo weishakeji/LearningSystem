@@ -1243,6 +1243,7 @@ namespace Song.ViewData.Methods
         /// <param name="end"></param> 
         /// <returns></returns>
         [HttpPost]
+        [Admin, Teacher]
         public JObject StudentsLogOutputExcel(long couid, DateTime? start, DateTime? end)
         {
             //导出文件的位置
@@ -1378,6 +1379,7 @@ namespace Song.ViewData.Methods
         /// <param name="end"></param>
         /// <returns>完成返回true,未完成返回false</returns>
         [HttpPost]
+        [Admin,Teacher]
         public JObject StudentsLogBatExcel(int orgid, DateTime? start, DateTime? end)
         {
             //判断之前的生成是否完成
@@ -1504,10 +1506,13 @@ namespace Song.ViewData.Methods
                     //Thread.Sleep(1000);
                 }
             }
-            //生成压缩包        
-            WeiSha.Core.Compress.ZipFiles(xlslist, rootpath + this.Zipfile);
-            //删除冗余
-            this.DeleteExcel();
+            if (xlslist.Count > 0)
+            {
+                //生成压缩包        
+                WeiSha.Core.Compress.ZipFiles(xlslist, rootpath + this.Zipfile);
+                //删除冗余
+                this.DeleteExcel();
+            }
             //先写入完成的数据，1分钟删除缓存
             this.SetProgress(true, 1);      
         }
@@ -1582,6 +1587,16 @@ namespace Song.ViewData.Methods
                 string cacheName = this.orgid.ToString() + ".progress.json";
                 object obj = HttpRuntime.Cache.Get(cacheName);
                 JObject jo = obj == null ? null : (JObject)obj;
+                //是否完成,完成后清除进度数据             
+                if (jo != null && jo.ContainsKey("successed"))
+                {
+                    bool successed = false;
+                    bool.TryParse(jo["successed"].ToString(), out successed);
+                    if (successed)
+                    {
+                        HttpRuntime.Cache.Remove(cacheName);
+                    }
+                }
                 return jo;
             }
         }

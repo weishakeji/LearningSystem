@@ -380,17 +380,17 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 更改配置项
+        /// 更改机构的配置项，如果递交的信息中包括配置项的键值对，则修改，否则跳过
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="config"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="config">配置项数据，如果递交的信息中包括配置项的键值对，则修改，否则跳过</param>
         /// <returns></returns>
         [HttpPost, Admin]
         public bool ConfigUpdate(int orgid, JObject config)
         {
             Song.Entities.Organization org = null;
             if (orgid > 0) org = Business.Do<IOrganization>().OrganSingle(orgid);
-            if(org==null) throw new Exception("Not found entity for Organization");
+            if (org == null) throw new Exception("Not found entity for Organization");
             try
             {
                 WeiSha.Core.CustomConfig history = CustomConfig.Load(org.Org_Config);
@@ -404,7 +404,8 @@ namespace Song.ViewData.Methods
                 org.Org_Config = history.XmlString;
                 Business.Do<IOrganization>().OrganSave(org);
                 return true;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
