@@ -6,6 +6,7 @@
     overflow: hidden;
     transition: width 0.3s, height 0.3s;
     --background-color: rgba(200, 200, 200, .6);
+    user-select: none;
 }
 
 .treemenu * {
@@ -36,6 +37,7 @@
     background-color: rgba(66, 89, 113, 0.6);
     transform: background-color .1s;
     color: #eee;
+    user-select: none;
 }
 .treemenu tree_tags tree_tag ico {
     height: 30px;
@@ -97,6 +99,7 @@
     line-height: 25px;
     font-size: 14px;
     padding: 0px 5px 0px 5px;
+    user-select: none;
 }
 
 .treemenu tree_tags tree_tag.curr {

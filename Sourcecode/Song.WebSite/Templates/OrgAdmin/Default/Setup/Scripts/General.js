@@ -20,7 +20,6 @@ $ready(function () {
             },
             //图片文件
             upfile: null, //本地上传文件的对象   
-            error: '',       //错误信息
             mapshow: false,     //是否显示地图
 
             loading: false,
@@ -33,18 +32,16 @@ $ready(function () {
                 $api.get('Platform/Domain'),
                 $api.get('Platform/ServerPort')
             ).then(axios.spread(function (organ, domain, port) {
-                th.loading_init = false;
                 //获取结果             
-                th.organ = organ.data.result;               
+                th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 //域名
                 th.domain.two = th.organ.Org_TwoDomain;
                 th.domain.root = domain.data.result;
                 th.domain.port = port.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -76,11 +73,6 @@ $ready(function () {
             }
         },
         methods: {
-            //图片文件上传
-            filechange: function (file) {
-                var th = this;
-                th.upfile = file;
-            },
             //清除图片
             fileremove: function () {
                 this.upfile = null;
@@ -141,13 +133,11 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 });
-                console.log(val);
             },
             btnEnter: function (formName) {
-                var th = this;              
+                var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
-                        th.error = '';
                         th.loading = true;
                         var apipath = 'Organization/Modify';
                         //接口参数，如果有上传文件，则增加file
@@ -156,21 +146,17 @@ $ready(function () {
                         else
                             para = { 'file': th.upfile, 'entity': th.organ };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                    type: 'success', center: true,
+                                    message: '操作成功!'
                                 });
                             } else {
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                        }).catch(err => alert(err, '错误'))
+                            .finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
@@ -178,7 +164,6 @@ $ready(function () {
                         while (label.attr('tab') == null)
                             label = label.parent();
                         th.activeName = label.attr('tab');
-                        console.log('error submit!!');
                         return false;
                     }
                 });

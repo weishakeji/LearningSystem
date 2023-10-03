@@ -6,13 +6,26 @@ html, body, #vapp {
 }
 
 .el-form {
-	height: calc(100% - 20px - 90px);
-	width: calc(100% - 20px);
-	padding-right: 10px;
+	height: calc(100% - 100px);
+	width: 100%;
+    margin: 0px;
+    padding: 0px;
 	overflow-y: auto;
 	box-sizing: border-box;
 }
-
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+.el-form>div.editor {
+    padding: 0px;
+}
+.el-form>div.editor .tox-tinymce {
+	border: none none auto none !important;
+}
+.el-form>div.editor .tox-statusbar{
+	border: none !important;
+}
 .el-tabs {
 	--height: 100%;
 }
@@ -44,6 +57,8 @@ html, body, #vapp {
 
 .nophoto icon {
 	font-size: 35px;
+	margin: 0px 0px 0px 10px;
+	text-align: center;
 }
 
 
@@ -53,7 +68,7 @@ html, body, #vapp {
 }
 
 /*关于我们的编辑框*/
-.about_editor {
+.editor {
 	width: 100%;
 	height: 100%;
 }
@@ -62,9 +77,8 @@ html, body, #vapp {
 /*底部按钮区*/
 #footer-box {
 	background-color: #fff;
-	height: 50px;
-	text-align: right;
-	padding: 10px 10px 0px 10px;
+	height: 60px;
+	padding: 10px 10px 0px 135px;
 	box-sizing: border-box;
 	position: relative;
 }
