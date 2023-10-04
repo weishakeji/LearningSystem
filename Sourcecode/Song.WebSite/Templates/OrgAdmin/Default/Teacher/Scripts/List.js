@@ -36,10 +36,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

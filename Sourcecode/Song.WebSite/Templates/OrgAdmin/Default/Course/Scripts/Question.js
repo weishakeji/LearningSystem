@@ -114,6 +114,27 @@
                     console.error(err);
                 });
             },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Qus_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Question/ForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        result.Qus_Title = result.Qus_Title.replace(/(<([^>]+)>)/ig, "");
+                        let index = th.datas.findIndex(item => item.Qus_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
+            },
             //删除
             deleteData: function (datas) {
                 var th = this;

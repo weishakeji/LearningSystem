@@ -107,9 +107,11 @@ Vue.component('enter_button', {
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
                 if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.fresh_frame(\'vapp.freshrow("' + this.id + '")\')', isclose);
+                    //pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
             } else {
-                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
+                //window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         }
     },

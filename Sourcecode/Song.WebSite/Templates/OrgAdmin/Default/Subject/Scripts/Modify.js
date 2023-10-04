@@ -72,7 +72,6 @@ $ready(function () {
                 this.loading = true;
                 $api.get('Subject/Tree', { orgid: orgid, search: '', isuse: null })
                     .then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.subjects = req.data.result;
                         } else {
@@ -81,6 +80,7 @@ $ready(function () {
                     }).catch(function (err) {
                         console.error(err);
                     }).finally(function () {
+                        th.loading = false;
                         th.getEntity();
                     });
             },
@@ -90,7 +90,6 @@ $ready(function () {
                 th.loading = true;
                 if (th.id == '' || th.id == null) {
                     $api.get('Snowflake/Generate').then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.entity.Sbj_ID = req.data.result;
                             th.traversalUse(th.subjects);
@@ -98,15 +97,10 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
-                    return;
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 }
                 $api.get('Subject/ForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.entity = result;
@@ -121,10 +115,8 @@ $ready(function () {
                     } else {
                         throw '未查询到数据';
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             btnEnter: function (formName, isclose) {
                 var th = this;
@@ -144,10 +136,9 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '修改成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);

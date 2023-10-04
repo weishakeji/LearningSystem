@@ -14,8 +14,7 @@
             <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
                 path="../Question/Modify" ico="e75e" width="900" height="80%" :selects='selects' idkey='Qus_ID'
                 table="datatables" :modal="true"></btngroup>
-            <query_panel :model="form" :width="45" :loading="loading"
-                @search="handleCurrentChange(1)">
+            <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="章节">
                     <el-cascader style="width: 200px;" ref="outlines" v-model="olSelects" :options="outlines"
                         separator="／" :props="defaultProps" clearable filterable placeholder=" -- 章节 -- ">
@@ -139,17 +138,20 @@
             </el-table-column>
 
             <el-table-column label="操作" show-overflow-tooltip width="120">
-
-                <el-button-group slot-scope="scope">
-                    <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Qus_ID)'>
-                        修改
-                    </el-link>
-                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
-                        title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Qus_ID)">
-                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Qus_ID"></span>
+                    <el-button-group v-else>
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click='$refs.btngroup.modify(scope.row.Qus_ID)'>
+                            修改
                         </el-link>
-                    </el-popconfirm>
-                </el-button-group>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Qus_ID)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </el-button-group>
+                </template>
             </el-table-column>
         </el-table>
 

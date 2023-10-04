@@ -45,18 +45,16 @@ $ready(function () {
         watch: {
             'organ': function (n, o) {
                 var th = this;
+                th.loading = true;
                 $api.get('Teacher/Titles', { 'orgid': th.organ.Org_ID, 'name': '', 'use': true }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.titles = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         methods: {
@@ -156,7 +154,7 @@ $ready(function () {
                     this.entity.Th_Pinyin = this.accPingyin[0];
             },
             //操作成功
-            operateSuccess: function (isclose) {   
+            operateSuccess: function (isclose) {
                 window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         }
