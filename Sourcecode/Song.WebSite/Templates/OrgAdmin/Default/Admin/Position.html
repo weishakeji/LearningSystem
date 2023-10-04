@@ -30,6 +30,11 @@
                         <span class="el-icon-s-custom red" v-show='scope.row.Posi_IsAdmin' title="系统管理岗"></span>
                     </template>
                 </el-table-column>
+                <el-table-column label="说明" show-overflow-tooltip min-width="150">
+                    <template slot-scope="scope">
+                        {{scope.row.Posi_Intro}}
+                    </template>
+                </el-table-column>
                 <el-table-column label="启用" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Posi_Id"></span>

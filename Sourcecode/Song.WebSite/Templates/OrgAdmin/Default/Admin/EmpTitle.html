@@ -29,6 +29,11 @@
                         <span v-html='scope.row.Title_Name' class="draghandle large" ></span>
                     </template>
                 </el-table-column>
+                <el-table-column label="说明" show-overflow-tooltip min-width="150">
+                    <template slot-scope="scope">
+                        {{scope.row.Title_Intro}}
+                    </template>
+                </el-table-column>
                 <el-table-column label="启用" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Title_Id"></span>

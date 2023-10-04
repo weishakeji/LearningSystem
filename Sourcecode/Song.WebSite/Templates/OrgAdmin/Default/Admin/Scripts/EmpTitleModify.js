@@ -83,7 +83,11 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function (isclose) {
-                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
+                //刷新列表页中的单条数据
+                //window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
+                
+                //刷新列表页，原本只用刷新单条数据，考虑到编辑页中有排序号的更改
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas()', isclose);
             }
         },
     });
