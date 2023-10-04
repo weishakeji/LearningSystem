@@ -20,32 +20,33 @@ $ready(function () {
             loading_init: false,
             loading: false
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         created: function () {
             var th = this;
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
                 th.getEntity();
-            })).catch(function (err) {
-                console.error(err);
-            });            
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
 
         },
         methods: {
             //获取实体
             getEntity: function () {
-                if (this.id == '') return;
+                if (this.isadd) return;
                 var th = this;
                 th.loading = true;
                 $api.get('Teacher/TitleForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.entity = result;
@@ -54,33 +55,31 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loading = false);
             },
             //保存信息
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Teacher/Title' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
-                                }, 600);
+                                    th.operateSuccess(isclose);
+                                }, 300);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vapp.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -88,8 +87,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.getdatalist', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });

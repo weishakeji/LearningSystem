@@ -27,8 +27,12 @@
 
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('entity')">
-               保存
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity',true)">
+                保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
             </el-button>
             <el-button type='close'>
                 取消

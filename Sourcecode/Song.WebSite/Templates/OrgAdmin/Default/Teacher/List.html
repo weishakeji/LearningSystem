@@ -40,21 +40,21 @@
                             <el-radio-button :label="1">男</el-radio-button>
                             <el-radio-button :label="2">女</el-radio-button>
                             <el-radio-button :label="0">未知</el-radio-button>
-                          </el-radio-group>
+                        </el-radio-group>
                     </el-form-item>
                     <el-form-item label="状态">
                         <el-radio-group v-model="form.isuse">
                             <el-radio-button label="">所有</el-radio-button>
                             <el-radio-button label="true">启用</el-radio-button>
-                            <el-radio-button label="false">禁用</el-radio-button>                           
-                          </el-radio-group>
+                            <el-radio-button label="false">禁用</el-radio-button>
+                        </el-radio-group>
                     </el-form-item>
                 </template>
             </query_panel>
 
         </div>
         <template>
-            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
                 style="width: 100%" @selection-change="val=>selects=val"
                 @row-dblclick="row=> $refs.btngroup.modifyrow(row)"
                 :row-class-name="data=>{return data.row.Th_IsUse ? 'enable' : 'disabled';}">
@@ -73,9 +73,10 @@
                             <span v-html='showsearch(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Th_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
-                            <div remark="电话" @dblclick.stop="copytext(showmobi(scope.row))">
+                            <div remark="电话">
                                 <icon>&#xe677</icon>
-                                <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
+                                <span v-html='showsearch(showmobi(scope.row),form.phone)'
+                                    @dblclick.stop="copytext(showmobi(scope.row))"></span>
                             </div>
                         </div>
 
@@ -83,9 +84,10 @@
                 </el-table-column>
                 <el-table-column label="身份证号">
                     <template slot-scope="scope">
-                        <div title="身份证号" @dblclick.stop="copytext(scope.row.Th_IDCardNumber)">
+                        <div title="身份证号">
                             <icon>&#xe68f</icon>
-                            <span v-html='showsearch(scope.row.Th_IDCardNumber,form.idcard)'></span>
+                            <span v-html='showsearch(scope.row.Th_IDCardNumber,form.idcard)'
+                                @dblclick.stop="copytext(scope.row.Th_IDCardNumber)"></span>
                         </div>
                         <div title="民族">
                             <icon>&#xa04e</icon>
@@ -101,7 +103,7 @@
                             <education :value="scope.row.Th_Education" ctr="span"></education>
                         </div>
                         <div title="职称">
-                            <icon>&#xe698</icon>
+                            <icon>&#xe81b</icon>
                             {{scope.row.Ths_Name}}
                         </div>
                     </template>
@@ -142,7 +144,7 @@
                         </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                        <div @dblclick.stop="copytext(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</div>
+                        <span @dblclick.stop="copytext(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</span>
                         <div>
                             <span class="el-icon-loading" v-if="loadingid==scope.row.Th_ID"></span>
                             <template v-else>
@@ -176,7 +178,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="操作" show-overflow-tooltip width="120"  align="center"  fixed="right">
+                <el-table-column label="操作" show-overflow-tooltip width="100" align="center" fixed="right">
                     <template slot-scope="scope">
                         <div>
                             <el-button-group>

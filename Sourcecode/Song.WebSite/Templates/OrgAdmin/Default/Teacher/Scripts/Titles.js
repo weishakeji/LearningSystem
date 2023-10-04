@@ -16,28 +16,21 @@ $ready(function () {
 
             selects: [] //数据表中选中的行
         },
-        watch: {
-            'loading': function (val, old) {
-                //console.log(val);
-            }
-        },
-        computed: {
-          
-        },
+        watch: {},
+        computed: {},
         created: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
-                vapp.form.orgid = vapp.organ.Org_ID;
+                th.organ = organ.data.result;
+                th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.getdatalist();
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.config = $api.organ(th.organ).config;
+                th.getdatalist();
+            })).catch(err => console.error(err))
+                .finally(() => { });
         },
         methods: {
             //加载数据页
@@ -45,27 +38,43 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get("Teacher/Titles", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                     } else {
                         throw d.data.message;
                     }
                     th.rowdrop();
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Ths_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Teacher/TitleForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Ths_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Teacher/TitleDelete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -75,18 +84,16 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Sts_ID;
+                th.loadingid = row.Sts_ID;
                 $api.post('Teacher/TitleModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -94,11 +101,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {
@@ -114,19 +118,17 @@ $ready(function () {
                         pull: false,
                         put: false
                     },
-                    onStart: function (evt) {
-                    },
+                    onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         let arr = this.datas; // 获取表数据
@@ -144,12 +146,13 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
-                for (var i = 0; i < arr.length; i++) {
+                for (var i = 0; i < arr.length; i++)
                     delete arr[i]['childs'];
-                }
+                var th = this;
+                th.loading = true;
                 $api.post('Teacher/TitleUpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
@@ -157,17 +160,14 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //设置默认组
             setDefault: function (id) {
                 var th = this;
                 this.loadingid = id;
                 $api.get('Teacher/TitleSetDefault', { 'orgid': th.organ.Org_ID, 'id': id }).then(function (req) {
-                    th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -180,11 +180,47 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             }
         }
+    });
+    //职称下的教师数
+    Vue.component('teacher_count', {
+        //sortid:职称id
+        props: ['sortid',],
+        data: function () {
+            return {
+                count: 0,
+                loading: true       //预载
+            }
+        },
+        watch: {
+            'sortid': {
+                handler: function (nv, ov) {
+                    if ($api.isnull(nv) || nv == ov) return;
+                    var th = this;
+                    th.loading = true;
+                    $api.get('Teacher/TitleOfNumber', { 'id': nv }).then(function (req) {
+                        if (req.data.success) {
+                            th.count = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
+                }, immediate: true
+            }
+        },
+        created: function () {
+
+        },
+        methods: {
+        },
+        template: `<span class="teacher_count">
+            <span class="el-icon-loading" v-if="loading"></span>
+            <template v-else>{{count}}</template>
+        </span>`
     });
 });

@@ -1,9 +1,9 @@
 $ready(function () {
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             form: {
-                orgid: '', titid: '', gender: '-1',isuse:'',
+                orgid: '', titid: '', gender: '-1', isuse: '',
                 search: '', phone: '', acc: '', idcard: '',
                 order: '', size: 20, index: 1
             },
@@ -12,7 +12,7 @@ $ready(function () {
 
             loading: false,
             loadingid: 0,        //当前操作中的对象id
-            accounts: [], //账号列表
+            datas: [], //账号列表
             total: 1, //总记录数
             totalpages: 1, //总页数
             selects: [] //数据表中选中的行
@@ -55,21 +55,22 @@ $ready(function () {
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
+                th.loading = true;
                 $api.delete('Teacher/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -80,18 +81,36 @@ $ready(function () {
                 th.form.size = Math.floor(area / 67);
                 th.loading = true;
                 $api.get("Teacher/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
-                        th.accounts = d.data.result;
+                        th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Th_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Teacher/ForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Th_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //显示手机号
             showmobi: function (row) {
@@ -110,11 +129,11 @@ $ready(function () {
             //更改使用状态，包括使用、审核
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Th_ID;
+                th.loadingid = row.Th_ID;
                 var form = { 'id': row.Th_ID, 'use': row.Th_IsUse, 'pass': row.Th_IsPass };
                 $api.post('Teacher/ModifyState', form).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -123,9 +142,8 @@ $ready(function () {
                         throw req.data.message;
                     }
                     th.loadingid = 0;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //导出
             output: function (btn) {

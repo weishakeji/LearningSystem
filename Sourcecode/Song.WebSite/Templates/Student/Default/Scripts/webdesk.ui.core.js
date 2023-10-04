@@ -899,12 +899,21 @@
             webdom.corejs(function () {
                 //设置ElementUI的一些参数
                 Vue.prototype.$ELEMENT = { size: 'medium', zIndex: 3000 };
-                window.setTimeout(function () {
-                    //关闭按钮的事件
-                    $dom('button.el-button--close').click(function () {
-                        if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
-                    });
-                }, 300);
+                 //关闭按钮的事件
+                 window.closebtn_event_count = 100;
+                 window.closebtn_event = window.setInterval(function () {
+                     if (window.closebtn_event_count-- < 0) window.clearInterval(window.closebtn_event);
+                     let btns = $dom('button.el-button--close:not([event_close])');
+                     btns.each(function () {
+                         let btn = $dom(this);
+                         if (btn.attr('event_close') == null || btn.attr('event_close') == '') {
+                             btn.attr('event_close', true);
+                             btn.click(function () {
+                                 window.top.$pagebox.shut($dom.trim(window.name));
+                             });
+                         }
+                     });
+                 }, 300);
                 //渲染函数的方法，需要vue对象中updated中引用this.$mathjax()              
                 //elements可以是一个DOM节点的数组(注意getXXXsByYYY的结果是collection，必须手动转为数组才行)
                 Vue.prototype.$mathjax = function (elements) {

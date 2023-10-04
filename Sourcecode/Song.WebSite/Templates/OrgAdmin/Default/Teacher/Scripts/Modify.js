@@ -129,7 +129,7 @@ $ready(function () {
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);
-                                }, 600);
+                                }, 300);
                             } else {
                                 throw req.data.message;
                             }
@@ -156,8 +156,8 @@ $ready(function () {
                     this.entity.Th_Pinyin = this.accPingyin[0];
             },
             //操作成功
-            operateSuccess: function (isclose) {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', isclose);
+            operateSuccess: function (isclose) {   
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         }
     });
