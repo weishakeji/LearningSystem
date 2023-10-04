@@ -241,7 +241,7 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function (isclose) {
-                window.top.$pagebox.source.tab(window.name, 'vapp.fresh', isclose);
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });

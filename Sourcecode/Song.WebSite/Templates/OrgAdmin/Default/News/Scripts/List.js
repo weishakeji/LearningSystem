@@ -88,11 +88,28 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
-            },
-            //刷新
-            fresh: function () {
+            },         
+            //刷新行数据，id:学员组的id，为字符串
+            freshrow: function (id) {
                 this.getColumnsTree();
-                this.handleCurrentChange();
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Art_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('News/Article', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Art_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
+
             },
             //删除
             deleteData: function (datas) {
