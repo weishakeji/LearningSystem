@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             form: {
                 orgid: 0,
@@ -18,11 +18,12 @@ $ready(function () {
             selects: [] //数据表中选中的行
         },
         created: function () {
+            var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    vapp.form.orgid = vapp.organ.Org_ID;
-                    vapp.loadDatas();
+                    th.organ = req.data.result;
+                    th.form.orgid = th.organ.Org_ID;
+                    th.loadDatas();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -36,49 +37,68 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 if (datas == '') return;
+                var th = this;
+                th.loading = true;
                 $api.delete('Admin/TitleDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vapp.loadDatas();
+                        th.loadDatas();
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //加载数据页
             loadDatas: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
-                $api.post("Admin/TitlePager",this.form).then(function (d) {
+                $api.post("Admin/TitlePager", this.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.rowdrop();
                     } else {
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //刷新行数据，
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Title_Id == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Admin/TitleForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Title_Id == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Title_Id;
+                th.loadingid = row.Title_Id;
                 $api.post('Admin/TitleModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -87,13 +107,12 @@ $ready(function () {
                         throw req.data.message;
                     }
                     th.loadingid = 0;
-                }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);                
+                this.$refs.btngroup.modifyrow(row);
             },
             //行的拖动
             rowdrop: function () {
@@ -111,13 +130,13 @@ $ready(function () {
                     onStart: function (evt) {
                     },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
@@ -137,9 +156,11 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
+                th.loading = true;
                 $api.post('Admin/TitleTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
@@ -150,7 +171,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         }
     });

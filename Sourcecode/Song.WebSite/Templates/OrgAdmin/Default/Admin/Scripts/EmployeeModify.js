@@ -38,6 +38,10 @@ $ready(function () {
                 immediate: true
             }
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         created: function () {
             var th = this;
             $api.get('Admin/Organ').then(function (req) {
@@ -83,7 +87,7 @@ $ready(function () {
 
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -99,12 +103,11 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
@@ -123,13 +126,12 @@ $ready(function () {
                 this.accPingyin = makePy(this.account.Acc_Name);
                 if (this.accPingyin.length > 0)
                     this.account.Acc_NamePinyin = this.accPingyin[0];
-                //console.log(this.accPingyin);
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });
 
-},["../Scripts/hanzi2pinyin.js"]);
+}, ["../Scripts/hanzi2pinyin.js"]);

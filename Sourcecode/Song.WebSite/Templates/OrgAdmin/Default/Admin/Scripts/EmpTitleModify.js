@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -19,14 +19,19 @@ $ready(function () {
                 console.log('loading:' + val);
             }
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         created: function () {
             //如果是新增界面
-            if (this.id == '') {
-                this.entity.Title_IsUse = true;
+            if (this.isadd) {
+                var th = this;
+                th.entity.Title_IsUse = true;
                 $api.get('Admin/Organ').then(function (req) {
                     if (req.data.success) {
-                        vue.organ = req.data.result;
-                        vue.entity.Org_ID = vue.organ.Org_ID;
+                        th.organ = req.data.result;
+                        th.entity.Org_ID = th.organ.Org_ID;
 
                     } else {
                         console.error(req.data.exception);
@@ -51,20 +56,19 @@ $ready(function () {
             });
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var th = this;
-                        if (this.loading) return;
+                        if (th.loading) return;
                         var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
@@ -78,8 +82,8 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });

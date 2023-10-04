@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
 
             <el-form-item label="名称" prop="Title_Name">
@@ -29,7 +29,12 @@
             </el-form-item>
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('entity')">保存
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity',true)">保存
+            </el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
             </el-button>
             <el-button type='close'>取消</el-button>
         </div>

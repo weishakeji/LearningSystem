@@ -67,7 +67,7 @@ $ready(function () {
                         });
                     } else {
                         throw req.data.message;
-                    }                  
+                    }
                 }).catch(err => alert(err, '错误'))
                     .finally(() => th.loadingid = 0);
             },
@@ -117,9 +117,10 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
                 $api.post('Position/UpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true

@@ -11,7 +11,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
+        <el-form ref="entity" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item>
                 <upload-img @change="file=>upfile=file" :data="account" :size="1024" height="100" ext="jpg,png,gif">
                     <template v-if="account.Acc_Photo!='' || upfile!=null">
@@ -99,8 +99,13 @@
             </el-form-item>
         </el-form>
         <div class="footer">
-            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain @click="btnEnter('account')">
+            <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain
+                @click="btnEnter('entity',true)">
                 保存
+            </el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
             </el-button>
             <el-button type='close'>取消</el-button>
         </div>

@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -25,7 +25,7 @@ $ready(function () {
             var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vue.organ = req.data.result;
+                    th.organ = req.data.result;
                     //如果是新增界面
                     if (th.id == '') {
                         th.entity.Posi_IsUse = true;
@@ -60,10 +60,9 @@ $ready(function () {
                         var apiurl = this.id == '' ? "Position/Add" : 'Position/Modify';
                         $api.post(apiurl, { 'posi': th.entity }).then(function (req) {
                             if (req.data.success) {
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
                                 th.operateSuccess(isclose);
                             } else {

@@ -1,15 +1,15 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
-            form: {               
+            form: {
                 name: '',
                 size: 20,
                 index: 1
             },
             loading: false,
             loadingid: 0,        //当前操作中的对象id
-            accounts: [], //账号列表
+            datas: [], //账号列表
             total: 1, //总记录数
             totalpages: 1, //总页数
             selects: [] //数据表中选中的行
@@ -20,17 +20,18 @@
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('Admin/Delete', {
                     'id': datas
                 }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -50,26 +51,26 @@
                         for (var i = 0; i < d.data.result.length; i++) {
                             d.data.result[i].isAdminPosi = false;
                         }
-                        th.accounts = d.data.result;
+                        th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                         //th.result = d.data;
                         //是否处于管理岗
-                        for (var i = 0; i < th.accounts.length; i++) {
+                        for (var i = 0; i < th.datas.length; i++) {
 
                             $api.get('Position/ForID', {
-                                'id': th.accounts[i].Posi_Id
+                                'id': th.datas[i].Posi_Id
                             }).then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
-                                    for (var j = 0; j < window.vue.accounts.length; j++) {
-                                        if (window.vue.accounts[j].Posi_Id == result.Posi_Id) {
+                                    for (var j = 0; j < th.datas.length; j++) {
+                                        if (th.datas[j].Posi_Id == result.Posi_Id) {
                                             //if(result.Posi_IsAdmin)
-                                            window.vue.accounts[j].isAdminPosi = result.Posi_IsAdmin
+                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin
                                         }
 
                                     }
-                                    //th.accounts[i].isAdminPosi = result.Posi_IsAdmin;
+                                    //th.datas[i].isAdminPosi = result.Posi_IsAdmin;
 
                                 } else {
                                     throw req.data.message;
@@ -87,6 +88,26 @@
                     console.error(err);
                 });
             },
+            //刷新行数据，
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Acc_Id == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Admin/ForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Acc_Id == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
+            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modify(row.Acc_Id)
@@ -97,7 +118,7 @@
                 this.loadingid = row.Acc_Id;
                 $api.post('Admin/Modify', { 'acc': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -105,13 +126,11 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => th.loadingid = 0);
             },
             //重置密码的弹窗
-            EmployeePwreset:function(row){
+            EmployeePwreset: function (row) {
                 var pbox = top.$pagebox.create({
                     width: this.width ? this.width : 400,
                     height: this.height ? this.height : 300,

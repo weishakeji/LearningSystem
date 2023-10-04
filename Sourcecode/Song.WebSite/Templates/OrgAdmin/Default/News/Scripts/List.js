@@ -88,8 +88,8 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
-            },         
-            //刷新行数据，id:学员组的id，为字符串
+            },
+            //刷新行数据，
             freshrow: function (id) {
                 this.getColumnsTree();
                 if (this.datas.length < 1) return;
@@ -109,7 +109,6 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);
-
             },
             //删除
             deleteData: function (datas) {
