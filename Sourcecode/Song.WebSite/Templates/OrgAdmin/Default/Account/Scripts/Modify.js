@@ -37,7 +37,7 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vue.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '修改成功!',
                                     center: true
@@ -53,7 +53,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vue.$alert(err, '错误');
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

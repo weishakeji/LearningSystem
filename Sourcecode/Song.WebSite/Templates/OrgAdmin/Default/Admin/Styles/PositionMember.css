@@ -4,6 +4,7 @@ workarea {
     display: flex;
     width: 100%;
     height: calc(100% - 50px);
+    overflow: hidden;
 }
 
 workarea>div {
@@ -14,10 +15,14 @@ workarea>div {
     --background-color: transparent !important;
     right: 0px;
     left: auto;
-    width: 180px;
+    width: 300px;
 }
 
 #pager-box {
+    max-width: calc(100% - 280px);
+    overflow: hidden;
+    padding: 8px 6px 8px 8px;
+    box-sizing: border-box;
     z-index: 1;
 }
 
@@ -35,8 +40,7 @@ workarea>div .tit .el-input {
 
 .left {
     --background-color: cadetblue;
-    flex-grow: 3;
-    position: relative;
+    flex-grow: 3; 
     max-width: 50%;
 }
 
@@ -72,8 +76,3 @@ workarea>div .tit .el-input {
     font-weight: normal;
 }
 
-#pager-box {
-    max-width: calc(100% - 280px);
-    overflow: hidden;
-    padding: 8px 6px 8px 8px;
-}

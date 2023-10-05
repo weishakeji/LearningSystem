@@ -192,10 +192,9 @@ $ready(function () {
                         $api.post(apipath, para).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);

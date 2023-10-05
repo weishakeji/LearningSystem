@@ -150,10 +150,9 @@ $ready(function () {
                         th.loading.update = false;
                         if (req.data.success) {
                             var result = req.data.result;
-                            th.$message({
-                                type: 'success',
-                                message: '操作成功!',
-                                center: true
+                            th.$notify({
+                                type: 'success', position: 'bottom-left', duration: 2000,
+                                message: '操作成功!'
                             });
                             th.operateSuccess(isclose);
                         } else {
@@ -168,7 +167,8 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function (isclose) {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
+                if (window.top.$pagebox)
+                    window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             }
         }
     });
