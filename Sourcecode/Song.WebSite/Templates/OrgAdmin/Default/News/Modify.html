@@ -9,26 +9,27 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-tabs v-model="activeName" type="card">
-            <el-tab-pane name="tab1"> <span slot="label">
-                    <icon>&#xe731</icon> 基本信息
-                </span> </el-tab-pane>
-            <el-tab-pane name="tab2"> <span slot="label">
-                    <icon>&#xe60d</icon> 文章内容
-                </span></el-tab-pane>
-            <el-tab-pane name="tab3"> <span slot="label">
-                    <icon>&#xe628</icon> 预览图
-                </span></el-tab-pane>
-            <el-tab-pane name="tab4"> <span slot="label">
-                    <icon>&#xe853</icon> 附件
-                </span></el-tab-pane>
-            <el-tab-pane name="tab5"> <span slot="label">
-                    <icon>&#xe834</icon> 其它
-                </span></el-tab-pane>
-        </el-tabs>
-        <div class="context">
+        <div class="panel">
+            <el-tabs  type="border-card" v-model="activeName">
+                <el-tab-pane name="tab1"> <span slot="label">
+                        <icon>&#xe731</icon> 基本信息
+                    </span> </el-tab-pane>
+                <el-tab-pane name="tab2"> <span slot="label">
+                        <icon>&#xe60d</icon> 文章内容
+                    </span></el-tab-pane>
+                <el-tab-pane name="tab3"> <span slot="label">
+                        <icon>&#xe628</icon> 预览图
+                    </span></el-tab-pane>
+                <el-tab-pane name="tab4"> <span slot="label">
+                        <icon>&#xe853</icon> 附件
+                    </span></el-tab-pane>
+                <el-tab-pane name="tab5"> <span slot="label">
+                        <icon>&#xe834</icon> 其它
+                    </span></el-tab-pane>
+            </el-tabs>
+
             <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-                <template v-if="activeName=='tab1'">
+                <div v-show="activeName=='tab1'" tab="tab1">
                     <el-form-item label="标题" prop="Art_Title">
                         <el-input v-model="entity.Art_Title" maxlength="140"></el-input>
                     </el-form-item>
@@ -59,12 +60,12 @@
                             v-model="entity.Art_Intro">
                         </el-input>
                     </el-form-item>
-                </template>
-                <template v-if="activeName=='tab2'">
+                </div>
+                <div v-show="activeName=='tab2'" tab="tab2" class="about_editor" >
                     <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor" upload="News"
                         :dataid="entity.Art_ID" placeholder="请输入内容" @change="text=>entity.Art_Details=text"> </editor>
-                </template>
-                <template v-if="activeName=='tab3'">
+                </div>
+                <div v-show="activeName=='tab3'" tab="tab3">
                     <div class="art_logo">
                         <div class="img_tools">
                             <upload-img @change="file=>upfile = file" :data="entity" :size="1024" height="30"
@@ -84,8 +85,8 @@
                             <img v-else :src="entity.Art_Logo" />
                         </div>
                     </div>
-                </template>
-                <template v-if="activeName=='tab4'" remark="附件">
+                </div>
+                <div v-show="activeName=='tab4'" remark="附件" tab="tab4">
                     <div class="art_access">
                         <div class="file_tools">
                             <loading v-if="loading_upload">
@@ -103,19 +104,20 @@
                         </div>
                         <dl>
                             <dd v-for="(f,i) in accessories">
-                                <a :href="f.As_FileName" target="_blank"
-                                    :download="f.As_Name"><span>{{i+1}}.</span><span v-html="f.As_Name"></span>
+                                <span><span>{{i+1}}.</span>
+                                    <a :href="f.As_FileName" target="_blank" :download="f.As_Name"><span
+                                            v-html="f.As_Name"></span>
+                                    </a>
                                     <span class="filesize">{{f.As_Size|size}}</span>
-                                </a>
-
+                                </span>
                                 <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
                                     <el-link type="danger" class="el-icon-delete" slot="reference"> 删除</el-link>
                                 </el-popconfirm>
                             </dd>
                         </dl>
                     </div>
-                </template>
-                <template v-if="activeName=='tab5'">
+                </div>
+                <div v-show="activeName=='tab5'" tab="tab5">
                     <el-form-item label="标签" prop="Art_Label">
                         <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250"
                             v-model="entity.Art_Label">
@@ -128,8 +130,9 @@
                     <el-form-item label="来源" prop="Art_Source">
                         <el-input v-model="entity.Art_Source" type="text" maxlength="140"> </el-input>
                     </el-form-item>
-                </template>
+                </div>
             </el-form>
+
         </div>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain

@@ -656,7 +656,8 @@
             close.remove();
             window.setTimeout(function () {
                 //去除之前添加的属性
-                iframe.css({ 'transition': 'none', 'position': 'static', 'background-color': 'transparent' }).width('100%').height('100%');
+                iframe.css({ 'transition': 'none', 'position': 'static', 'background-color': 'transparent' })
+                    .width('100%').height('calc(100% - 35px)');
                 obj.dom.css('position', 'relative');
                 //触发全屏还事件
                 obj.trigger('restore', {
@@ -664,7 +665,7 @@
                     data: obj.getData(tabid)
                 });
             }, 300);
-        });        
+        });
     }
     win.$tabs = tabs;
     win.$tabs._baseEvents();

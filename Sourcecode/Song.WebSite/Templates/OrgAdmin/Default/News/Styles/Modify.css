@@ -1,46 +1,53 @@
 ﻿@charset "utf-8";
-
-#vapp {
-    overflow: hidden;
-}
-
-.el-tabs {
-    margin: 10px 10px 0px 10px;
-}
-
-.el-tabs icon {
-    font-size: 18px;
-}
-
-.el-tabs .el-tabs__header {
-    margin-bottom: 0px;
-}
-
-.el-tabs .el-tabs__content {
-    display: none;
-}
-
-.context {
-    margin: 0px 0px 0px 10px;
-    height: calc(100% - 105px);
-    width: calc(100% - 20px);
-    overflow: auto;
-    border: 1px solid #E4E7ED;
-    border-top: none;
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
     box-sizing: border-box;
+}
 
+.panel>div:not(:first-child) {
+    border: 1px solid #DCDFE6;
+    border-top: none;
 }
 
 .el-form {
-    box-sizing: border-box;
+    height: calc(100% - 40px);
+    width: 100%;
     margin: 0px;
-    padding: 10px;
+    padding: 0px;
+
     overflow: auto;
-    height: 100%;
     box-sizing: border-box;
 }
 
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+.el-tabs--border-card {
+    box-shadow: none;
+    border: none;
+}
+
+.el-tabs__content {
+    display: none;
+}
 /*内容输入框*/
+.el-form>div.about_editor {
+    padding: 0px;
+}
+.el-form>div.about_editor .tox-tinymce {
+	border: none !important;
+}
+.el-form>div.about_editor .tox-statusbar{
+	border: none !important;
+}
+.about_editor {
+    width: 100%;
+    height: 100%;
+}
+
 /*图片上传*/
 .art_logo {
     margin: 0px 0px 0px 20px;
@@ -77,9 +84,9 @@
 
 /*附件管理*/
 .art_access {
-    margin: 0px 0px 0px 20px;
+    margin: 10px 20px 0px 10px;
     width: calc(100% - 20px);
-    height: calc(100% - 10px) !important;
+    height: calc(100% - 20px) !important;
     overflow: hidden;
 }
 
@@ -103,34 +110,32 @@
 }
 
 .art_access dd {
-    display: block;
+    display: flex;
     line-height: 30px;
-    position: relative;
-    padding: 0px 10px 0px 15px;
+    padding: 0px 10px 0px 0px;
     box-sizing: border-box;
+    justify-content: space-between;
+    color: #999;
 }
-
-.art_access dd:nth-child(even) {
-    background-color: #eee;
+.art_access dd:hover{
+    background-color: #efefef;
 }
 
 .art_access dd a span:first-child {
     margin-right: 8px;
 }
 
-.art_access dd .el-link {
-    position: absolute;
-    right: 0px;
-    top: 10px;
-}
-.art_access dd .el-link::before{
+
+.art_access dd .el-link::before {
     margin-right: 8px;
 }
+
 .filesize {
-    font-size: 14px;
+    font-size: 13px;
     color: #999;
     margin-left: 10px;
 }
+
 .upload_file_area {
     margin-right: 40px;
 }

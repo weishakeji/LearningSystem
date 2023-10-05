@@ -225,7 +225,6 @@ table.el-table__body tr.disabled td img, .disabled  * {
 /*文件下载链接*/
 a[download] {
 	display: inline-block;
-	min-width: 230px;
 	color: #409EFF;
 	font-size: 16px;
 }

@@ -116,7 +116,7 @@ $ready(function () {
             },
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid,fields) => {
                     if (valid) {
                         th.loading = true;
                         //为上传数据作处理
@@ -152,7 +152,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         return false;
                     }
                 });
