@@ -50,7 +50,10 @@
                 </el-form-item>
                 <el-form-item label="微信" prop="IsLoginForWeixin">
                     <icon slot="label" icon="&#xe730">微信</icon>
-                    <el-checkbox v-model="config.IsLoginForWeixin">微信中仅限微信登录（禁用账号、手机验证等方式登录）</el-checkbox>
+                    <el-checkbox v-model="config.IsLoginForWeixin">仅限微信登录</el-checkbox>
+                    <help multi>
+                        微信中禁用账号、手机验证等方式登录；仅允许使用微信账号登录
+                    </help>
                 </el-form-item>
                 <el-form-item label="其它" prop="IsTraningLogin">
                     <el-checkbox v-model="config.IsTraningLogin">试题练习需要学员登录后才能操作</el-checkbox>

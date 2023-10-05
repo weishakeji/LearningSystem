@@ -28,7 +28,7 @@
                 </el-form-item>
                 <el-form-item label="" prop="IsSwitchPlay">
                     <icon slot="label" icon="&#xa017">切换窗体</icon>
-                    <el-switch v-model="config.IsSwitchPlay" active-text="禁用“视频课程学习时的切换窗体暂停视频播放”功能"> </el-switch>
+                    <el-switch v-model="config.IsSwitchPlay" active-text="禁用“切换窗体暂停视频播放”功能"> </el-switch>
                 </el-form-item>
                 <el-form-item label="" prop="IsDisableChat">
                     <icon slot="label" icon="&#xe6ee">交流</icon>
@@ -72,8 +72,10 @@
                     <icon slot="label" icon="&#xe6db">次数</icon>
                     <el-input placeholder="" type="number" min="0" max="100" v-model.number="config.finaltest_count">
                         <template slot="prepend">最多可以考试</template>
-                        <template slot="append">次，取最高分为结课成绩 </template>
+                        <template slot="append">次 </template>
                     </el-input>
+                    <help multi>取最高分为结课成绩
+                    </help>
                 </el-form-item>
             </el-card>
             <el-card shadow="hover">
@@ -85,7 +87,7 @@
                     <el-input placeholder="" type="number" min="0" max="100"
                         v-model.number="config.finaltest_weight_video">
                         <template slot="prepend">
-                            视频学习的完成度，占成绩的权重比为
+                            占综合成绩的权重比为
                         </template>
                         <template slot="append">%</template>
                     </el-input>
@@ -95,7 +97,7 @@
                     <el-input placeholder="" type="number" min="0" max="100"
                         v-model.number="config.finaltest_weight_ques">
                         <template slot="prepend">
-                            试题练习的完成度，占成绩的权重比为
+                            占综合成绩的权重比为
                         </template>
                         <template slot="append">%</template>
                     </el-input>
@@ -105,7 +107,7 @@
                     <el-input placeholder="" type="number" min="0" max="100"
                         v-model.number="config.finaltest_weight_exam">
                         <template slot="prepend">
-                            结课考试的得分数，占成绩的权重比为
+                            占综合成绩的权重比为
                         </template>
                         <template slot="append">%</template>
                     </el-input>
@@ -122,10 +124,13 @@
                 </div>
                 <el-form-item label="" prop="finaltest_score_pass">
                     <icon slot="label" icon="&#xe826">及格分</icon>
-                    <el-input placeholder="" type="number" min="0" v-model.number="config.finaltest_score_pass">
-                        <template slot="prepend">结课成绩默认为百分制，其及格分为</template>
+                    <el-input placeholder="" type="number" min="0" max="100"
+                        v-model.number="config.finaltest_score_pass">
+                        <template slot="prepend"></template>
                         <template slot="append">分</template>
                     </el-input>
+                    <help multi>结课成绩默认为百分制
+                    </help>
                 </el-form-item>
             </el-card>
         </el-form>
