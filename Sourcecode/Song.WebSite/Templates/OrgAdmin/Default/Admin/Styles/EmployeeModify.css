@@ -1,11 +1,38 @@
 ﻿@charset "utf-8";
 
-.el-form{
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
     box-sizing: border-box;
+}
+
+.panel>div:not(:first-child) {
+    border: 1px solid #DCDFE6;
+    border-top: none;
+}
+
+.el-form {
+    height: calc(100% - 40px);
+    width: 100%;
     margin: 0px;
-    height: calc(100% - 50px);
-    padding: 20px 5px 0px 0px;
+    padding: 0px;
+
     overflow: auto;
+    box-sizing: border-box;
+}
+
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+.el-tabs--border-card {
+    box-shadow: none;
+    border: none;
+}
+
+.el-tabs__content {
+    display: none;
 }
 .upload_img_area img {
     width: 100px;

@@ -5,6 +5,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
+            activeName: 'general',      //选项卡
             //当前登录账号对象
             account: {
                 Acc_IsUse: true,
@@ -89,7 +90,7 @@ $ready(function () {
         methods: {
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Admin/add' : 'Admin/Modify';
@@ -116,7 +117,12 @@ $ready(function () {
                             th.$alert(err, '错误');
                         });
                     } else {
-                        console.log('error submit!!');
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
                         return false;
                     }
                 });
