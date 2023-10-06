@@ -389,10 +389,10 @@
 	fn.getData = function (treeid) {
 		if (this.datas.length < 1) return null;
 		return $dom.clone(getdata(treeid, this.datas));
-		//
+		//根据节点id，获取节点对象
 		function getdata(treeid, datas) {
-			var d = null;
-			for (var i = 0; i < datas.length; i++) {
+			let d = null;
+			for (let i = 0; i < datas.length; i++) {
 				if (datas[i].id == treeid) return datas[i];
 				if (datas[i].childs && datas[i].childs.length > 0)
 					d = getdata(treeid, datas[i].childs);
@@ -412,18 +412,40 @@
 		obj.trigger('change', {
 			data: obj.getData(tag.attr('treeid'))
 		});
-	}
+	};
+	//设置当前菜单项的样式，并打开关联的上级菜单
+	fn.currentnode = function (treeid) {
+		$dom('tree_box').removeClass('current');
+		if (treeid == null) return;
+		let data = this.getData(treeid);	//获取数据源节点对象
+		if (data == null) return;
+		console.log(data);
+		//设置当前节点的样式
+		let menu = $dom('tree_box[treeid=\'' + treeid + '\']');
+		$dom('tree_box').removeClass('current');
+		menu.addClass('current');
+		//
+		data = this.getData(data.pid);
+		while (data != null) {
+			//上级折叠菜单
+			let n = $dom('tree_box[treeid=\'' + data.id + '\']>tree-node.folderclose');
+			if (n.length > 0) n.click();
+			//根菜单，即最左侧选项卡
+			let r = $dom('tree_tag[treeid=\'' + data.id + '\']:not(.curr)');
+			if (r.length > 0) r.click();
+			data = this.getData(data.pid);
+		}
+	};
 	/*
 	treemenu的静态方法
 	*/
 	treemenu.create = function (param) {
 		if (param == null) param = {};
-		var tobj = new treemenu(param);
-		return tobj;
+		return new treemenu(param);
 	};
 	treemenu._initEvent = function () {
 		window.addEventListener("resize", function () {
-			var treebody = $dom('.treemenu tree_body');
+			let treebody = $dom('.treemenu tree_body');
 			treebody.height(treebody.parent().height());
 		}, false);
 	}

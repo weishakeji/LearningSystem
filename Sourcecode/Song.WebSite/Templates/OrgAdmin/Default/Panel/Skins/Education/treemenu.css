@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .treemenu {
     border-radius: 2px 0px 0px 2px;
     width: 100%;
@@ -39,6 +40,7 @@
     color: #eee;
     user-select: none;
 }
+
 .treemenu tree_tags tree_tag ico {
     height: 30px;
     width: 100%;
@@ -60,6 +62,7 @@
     from {
         -webkit-transform: rotate(0deg)
     }
+
     to {
         -webkit-transform: rotate(360deg)
     }
@@ -69,6 +72,7 @@
     from {
         -moz-transform: rotate(0deg)
     }
+
     to {
         -moz-transform: rotate(359deg)
     }
@@ -78,6 +82,7 @@
     from {
         -o-transform: rotate(0deg)
     }
+
     to {
         -o-transform: rotate(359deg)
     }
@@ -87,6 +92,7 @@
     from {
         transform: rotate(0deg)
     }
+
     to {
         transform: rotate(359deg)
     }
@@ -103,7 +109,7 @@
 }
 
 .treemenu tree_tags tree_tag.curr {
-    background-color: rgba(41,57,55, .9);
+    background-color: rgba(41, 57, 55, .9);
     color: #7fb19e;
     text-shadow: 1px 1px 1px #000;
 }
@@ -156,7 +162,7 @@
 /*树形菜单区域*/
 
 .treemenu tree_body {
-    background-color: rgba(41,57,55, .9);
+    background-color: rgba(41, 57, 55, .9);
     height: 100%;
     float: right;
     overflow: hidden;
@@ -185,7 +191,7 @@
     display: block;
     color: #999;
     font-size: 35px;
-    font-family: "webdesk_icon" !important;   
+    font-family: "webdesk_icon" !important;
     -webkit-animation: rotate 2s linear infinite;
     -moz-animation: rotate 2s linear infinite;
     -o-animation: rotate 2s linear infinite;
@@ -202,22 +208,25 @@
     border-radius: 3px;
     text-align: center;
     --border: solid 1px #aaa;
-    background-color:rgb(249, 184, 63);    
+    background-color: rgb(249, 184, 63);
     text-shadow: 1px 1px 2px #333;
-    position:absolute;
+    position: absolute;
     top: 0px;
     left: 0px;
 }
-.treemenu tree_area tree_tit *{
+
+.treemenu tree_area tree_tit * {
     display: inline;
     color: #ffffff;
 }
-.treemenu tree_area tree_tit i{
-    font-style:normal;
+
+.treemenu tree_area tree_tit i {
+    font-style: normal;
     margin-right: 5px;
     font-family: "webdesk_icon" !important;
 }
-.treemenu tree_area>div{
+
+.treemenu tree_area>div {
     height: calc(100%);
     width: calc(100%);
     overflow-y: auto;
@@ -235,10 +244,11 @@
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;  
+    white-space: nowrap;
     border-image-slice: 10;
 }
-.treemenu tree-node complete{   
+
+.treemenu tree-node complete {
     color: #ffffff;
     width: 20px;
     height: 20px;
@@ -249,14 +259,21 @@
     position: absolute;
     background-color: red;
     bottom: -5px;
-    left: 1px;   
+    left: 1px;
 }
+
 .treemenu tree_box {
     display: block;
     overflow: hidden;
     transition: all 0.3s;
 }
 
+.treemenu tree_box.current {
+    font-weight: bold;
+}
+.treemenu tree_box.current *{
+    color: #fff !important;
+}
 .treemenu tree-node span {
     width: auto;
     display: inline-block;
@@ -277,7 +294,6 @@
     margin-right: 5px;
     display: inline-block;
     font-family: "webdesk_icon" !important;
-    float: left;
 }
 
 .treemenu tree-node.folder {
@@ -293,7 +309,7 @@
     display: block;
     position: absolute;
     text-align: center;
-    top: 0px;
+    top: 5px;
     right: 5px;
     transition: transform 0.3s;
     font-family: "webdesk_icon" !important;

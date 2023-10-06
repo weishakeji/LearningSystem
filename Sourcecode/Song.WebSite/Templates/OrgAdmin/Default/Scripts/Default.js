@@ -162,12 +162,12 @@ function ready(result) {
         width: 1,
         default: {
             title: '启始页',
-            path: '机构管理,启始页',           
+            path: '机构管理,启始页',
             url: '/orgadmin/start',
             ico: 'a020'
         }
     });
-    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function(s,e){
+    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function (s, e) {
         //alert(s);
     });
     tabs.onhelp(function (s, e) {
@@ -342,7 +342,9 @@ function tabsChange(sender, eventArgs) {
         }
         return arr;
     }
-
+    //当前选项卡id
+    let tabid = eventArgs.tabid;
+    window.tree.currentnode(tabid);
 }
 
 //执行vue对象
