@@ -175,7 +175,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(()=>{});
             },
             //创建课程
             create_course: function () {
@@ -183,9 +183,7 @@
                 th.loading = true;
                 var para = $api.clone(th.form);
                 if (th.upfile != null) para.file = th.upfile;
-
-                $api.post('Course/Add', para).then(function (req) {
-                    th.loading = false;
+                $api.post('Course/Add', para).then(function (req) {    
                     if (req.data.success) {
                         th.entity = req.data.result;
                         //console.error('课程id:'+th.entity.Cou_ID);
@@ -202,7 +200,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(()=> th.loading = false);
             },
             //回调课程编辑（创建课程成功后，打开更详细的课程编辑界面）
             callback_modify: function (id) {
