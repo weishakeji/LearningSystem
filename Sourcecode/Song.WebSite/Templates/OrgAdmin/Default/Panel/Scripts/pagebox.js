@@ -60,7 +60,9 @@
         this.childs = new Array(); //子级窗体
         this.dom = null; //html对象  
         this._watchlist = new Array(); //自定义监听  
-        this._isinit = false; //是否初始化         
+        this._isinit = false; //是否初始化   
+        //增加窗体的总数
+        box.total(1);
     };
     var fn = box.prototype;
     //初始化相关参数
@@ -621,8 +623,22 @@
             box.mask.hide();
     };
     /*** 
-    以下是静态方法
+    以下是静态方法或属性
     *****/
+    //当前所有窗体的总数
+    box.total = function (num) {
+        let total = !window.pagebox_total ? 0 : window.pagebox_total;
+        if (num == null || Number.isNaN(num)) return total;
+        total += num;
+        window.pagebox_total = total;
+        //设置窗体集中管理处的窗体数量
+        let collect = $dom(window.$pageboxcollect + '>div');
+        if (total > 0)
+            collect.attr('total', total);
+        else
+            collect.removeAttr('total');
+        return total;
+    };
     //创建一个窗体对象
     box.create = function (param) {
         if (param == null) param = {};
@@ -738,21 +754,22 @@
             if (ctrl.obj.parent && $dom('.pagebox[boxid=\'' + ctrl.obj.parent.id + '\']').length > 0) {
                 //父级的子级，即兄弟
                 var siblings = ctrl.obj.parent.childs;
-                for (var i = 0; i < siblings.length; i++) {
+                for (let i = 0; i < siblings.length; i++) {
                     if (siblings[i].id == ctrl.obj.id) {
                         ctrl.obj.parent.childs.splice(i, 1);
                     }
                 }
                 ctrl.obj.parent.focus();
             } else {
-                var last = $dom('.pagebox').last();
+                let last = $dom('.pagebox').last();
                 if (last != null) box.focus(last.attr('boxid'));
             }
             //子级
             var childs = ctrl.obj.getChilds();
-            for (var i = 0; i < childs.length; i++) {
+            for (let i = 0; i < childs.length; i++) {
                 box.shut(childs[i].id);
             }
+            box.total(-1);
             box.pageboxcollect_boxsize();
         }, 300);
     };
@@ -974,20 +991,20 @@
     //最小化管理区的盒子图标
     box.pageboxcollect = function () {
         window.addEventListener('load', function (e) {
-            var collect = $dom(window.$pageboxcollect);
-            collect.attr('title', '窗体管理');
-            var area = $dom('pagebox-minarea');
+            let collect = $dom(window.$pageboxcollect);
+            collect.add('div').attr('title', '窗体管理');
+            let area = $dom('pagebox-minarea');
             if (area.length < 1) area = $dom('body').add('pagebox-minarea');
             //窗体管理的点击事件
             collect.addClass('pagebox-collect').click(function () {
-                var state = collect.attr('state');
+                let state = collect.attr('state');
                 collect.attr('state', state == 'open' ? 'close' : 'open');
                 if (collect.attr('state') == 'open')
                     box.pageboxcollect_boxcreate();
             });
             //窗体集中管理中的右键菜单
             collect.merge($dom('pagebox-minarea')).bind('contextmenu', function (e) {
-                var menu = box.pageboxcollect_contextmenu($dom.mouse(e));
+                let menu = box.pageboxcollect_contextmenu($dom.mouse(e));
             });
         });
 

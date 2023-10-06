@@ -908,12 +908,13 @@
             webdom.corejs(function () {
                 //设置ElementUI的一些参数
                 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+                /*
                 window.setTimeout(function () {
                     //关闭按钮的事件
                     $dom('button.el-button--close').click(function () {
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
-                }, 1000);
+                }, 1000);*/
                 //关闭按钮的事件
                 window.closebtn_event_count = 100;
                 window.closebtn_event = window.setInterval(function () {

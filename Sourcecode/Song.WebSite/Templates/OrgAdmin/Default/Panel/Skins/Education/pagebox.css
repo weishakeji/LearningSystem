@@ -434,7 +434,8 @@ pagebox_bg_mask {
     left: 0px;
     background-color: rgba(255, 255, 255, .3);
 }
-body.pagebox_overflow, body.pagebox_overflow>*{
+
+body.pagebox_overflow, body.pagebox_overflow>* {
     overflow: hidden !important;
 }
 
@@ -474,8 +475,12 @@ body.pagebox_overflow, body.pagebox_overflow>*{
     color: #666;
     transform: scale(1.2, 1.2);
 }
-
-.pagebox-collect::after {
+.pagebox-collect>div{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+.pagebox-collect>div::after {
     content: '\a01a';
     display: block;
     height: 100%;
@@ -483,6 +488,24 @@ body.pagebox_overflow, body.pagebox_overflow>*{
     line-height: 100%;
     font-family: "webdesk_icon" !important;
     font-size: 40px;
+}
+
+.pagebox-collect>div[total]::before {
+    content: attr(total);
+    z-index: 10;
+    top: -12px;
+    right: -5px;
+    font-size: 10px;
+    position: absolute;
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px 0px;
+    width: 20px;
+    height: 20px;
+    line-height: 10px;
+    border-radius: 50%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 pagebox-minarea {

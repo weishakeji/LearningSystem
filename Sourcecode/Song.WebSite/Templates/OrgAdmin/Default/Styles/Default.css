@@ -311,27 +311,23 @@ timer {
     font-size: 19px !important;
     line-height: 40px !important;
 }
-
 #pageboxcollect {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
     z-index: 99999;
+    bottom: 35px !important;
+    right: -3px !important;
+    left: 5px !important;
+    text-shadow:none !important;
+    color: #ddd !important;
     width: 30px;
     height: 25px;
     line-height: 30px;
     font-size: 16px !important;
 }
 
-#pageboxcollect:after {
+
+#pageboxcollect>div:after {
     font-size: 18px !important;
-}
-#pageboxcollect {
-    bottom: 35px !important;
-    right: -3px !important;
-    left: 5px !important;
-    text-shadow:none !important;
-    color: #ddd !important;
 }
 
 .treemenu tree_tags tree-foldbtn:before {
