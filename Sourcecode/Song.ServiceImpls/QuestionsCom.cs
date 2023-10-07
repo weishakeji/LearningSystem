@@ -265,7 +265,7 @@ namespace Song.ServiceImpls
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc)
                 .ToArray<Questions>(count);
         }
         /// <summary>
@@ -300,7 +300,7 @@ namespace Song.ServiceImpls
             if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc)
                 .ToArray<Questions>(count, index);
         }
         /// <summary>
@@ -336,7 +336,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (fields == null) fields = new Field[] { };
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc).Select(fields)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).Select(fields)
                 .ToArray<Questions>(count);
         }
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
@@ -476,7 +476,7 @@ namespace Song.ServiceImpls
                 wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>()
-                .Where(wc).OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
+                .Where(wc).OrderBy(Questions._.Qus_ID.Desc)
                 .ToArray<Questions>(size, (index - 1) * size);
         }
 
@@ -508,7 +508,7 @@ namespace Song.ServiceImpls
             }
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
+                .OrderBy(Questions._.Qus_ID.Desc)
                 .ToArray<Questions>(size, (index - 1) * size);
         }
         #endregion

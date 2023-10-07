@@ -51,6 +51,7 @@ $ready(function () {
                 th.types = types.data.result;
                 th.getSubjects();
                 th.getCourses();
+                th.handleCurrentChange(1);
             })).catch(function (err) {
                 alert(err);
                 console.error(err);
@@ -137,19 +138,20 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
-                    if (req.data.success) {
-                        th.courses_all = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.handleCurrentChange(1);
-                });
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid <= 0 ? '' : sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.courses_all = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    }).finally(function () {
+                        //th.handleCurrentChange(1);
+                    });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -163,7 +165,7 @@ $ready(function () {
                 $api.get("Question/Pager", th.form).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;
-                        for (var i = 0; i < result.length; i++) {
+                        for (let i = 0; i < result.length; i++) {
                             result[i].Qus_Title = result[i].Qus_Title.replace(/(<([^>]+)>)/ig, "");
                         }
                         th.datas = result;
@@ -352,21 +354,18 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.cache('Course/ForID', { 'id': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.course = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         template: `<span>
-            <loading v-if="loading"></loading>
+            <i class="el-icon-loading" v-if="loading"></i>
             <template v-else>{{course.Cou_Name}}</template>
         </span>`
     });
