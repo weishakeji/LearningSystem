@@ -180,9 +180,7 @@
 		title: function (obj) {
 			//if (obj.taghide) return;
 			obj.domtit = obj.dom.add('tree_tags');
-			//隐藏左侧标签栏
-			if (obj.taghide) obj.domtit.hide();
-			obj.domtit.add('tree-foldbtn');
+			obj.domtit.add('tree-tagspace').height('10px');
 			//左侧选项卡
 			for (var i = 0; i < obj.datas.length; i++) {
 				var item = obj.datas[i];
@@ -192,10 +190,14 @@
 				tabtag.add('itemtxt').html(item.tit);
 				if (item.type == 'loading') tabtag.addClass('loading');
 			}
+			//隐藏左侧标签栏
+			if (obj.taghide) obj.domtit.hide();
+			obj.domtit.add('tree-foldbtn');
+/*
 			//左侧空白区的高度
 			var tags = obj.domtit.find('tree_tag');
 			var hg = tags.height();
-			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * 60) + 'px)');
+			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * 60) + 'px)');*/
 		},
 		//右侧内容区
 		body: function (obj) {
@@ -404,8 +406,8 @@
 	//切换选项卡
 	fn.switch = function (obj, tag) {
 		if (tag == null) return;
-		this.domtit.find('tree_tag').removeClass('curr');
-		tag.addClass('curr');
+		this.domtit.find('tree_tag').removeClass('selected');
+		tag.addClass('selected');
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=\'' + tag.attr('treeid') + '\']').show();
 		var datanode = obj.getData(tag.attr('treeid')); //数据源节点
@@ -419,7 +421,7 @@
 		if (treeid == null) return;
 		let data = this.getData(treeid);	//获取数据源节点对象
 		if (data == null) return;
-		console.log(data);
+		//console.log(data);
 		//设置当前节点的样式
 		let menu = $dom('tree_box[treeid=\'' + treeid + '\']');
 		$dom('tree_box').removeClass('current');
@@ -431,7 +433,7 @@
 			let n = $dom('tree_box[treeid=\'' + data.id + '\']>tree-node.folderclose');
 			if (n.length > 0) n.click();
 			//根菜单，即最左侧选项卡
-			let r = $dom('tree_tag[treeid=\'' + data.id + '\']:not(.curr)');
+			let r = $dom('tree_tag[treeid=\'' + data.id + '\']:not(.selected)');
 			if (r.length > 0) r.click();
 			data = this.getData(data.pid);
 		}

@@ -222,7 +222,7 @@ function nodeconvert(obj) {
 */
 //节点点击事件，tree,drop,统一用这一个
 function nodeClick(sender, eventArgs) {
-    console.log(eventArgs);
+    //console.log(eventArgs);
     var data = eventArgs.data;
     //如果有下级节点，则不响应事件
     if ((!!data.childs && data.childs.length > 0) && data.type != 'node') {

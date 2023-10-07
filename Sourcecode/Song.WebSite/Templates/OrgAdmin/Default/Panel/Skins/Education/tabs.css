@@ -15,7 +15,6 @@
 .tabsbox tabs_tagarea {
     height: 35px;
     width: 100%;
-    padding-right: 50px;
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
@@ -27,6 +26,8 @@
     display: flex;
     z-index: 1;
     border-bottom: 1px solid #aaa;
+    padding-right: 50px;
+    box-sizing: border-box;
 }
 
 /*选项卡标签*/
@@ -177,7 +178,6 @@ tabs_tagbox tab_tag close:hover {
     right: 0px;
     z-index: 2;
     text-align: center;
-    border-bottom: solid 1px #aaa;
     border-radius: 3px;
     cursor: pointer;
 }

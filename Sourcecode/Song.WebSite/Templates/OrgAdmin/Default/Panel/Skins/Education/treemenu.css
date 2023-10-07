@@ -1,12 +1,30 @@
 ﻿@charset "utf-8";
 
+:root {
+    /*选项卡的字体颜色*/
+    --tag-color: #c5fdf6;
+    /*选项卡背景色*/
+    --tag-bg: rgba(66, 89, 113, 0.6);
+    /*选项卡被选中时的背景色*/
+    --tag-selected-bg: rgb(18 74 67);
+    /*选项卡被选中是的字体色*/
+    --tag-selected-color: #7fb19e;
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(249, 184, 63);
+    /*菜单项，滑标滑过的效色*/
+    --node-hover-color: #eef5e8;
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: #fff;
+    --node-curr-bg: transparent;
+}
+
 .treemenu {
     border-radius: 2px 0px 0px 2px;
     width: 100%;
     height: 100%;
     overflow: hidden;
     transition: width 0.3s, height 0.3s;
-    --background-color: rgba(200, 200, 200, .6);
     user-select: none;
 }
 
@@ -21,32 +39,44 @@
 .treemenu a,
 .treemenu span,
 .treemenu tree-node ico {
-    color: #7fb19e;
+    color: var(--tag-selected-color);
 }
 
 .treemenu tree_tags {
+    background-color: var(--tag-bg);
     width: 40px;
     height: 100%;
     float: left;
     position: relative;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.treemenu tree_tags>*:not(tree-tagspace) {
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.treemenu tree_tags * {
+    text-align: center;
+    display: block;
 }
 
 .treemenu tree_tags tree_tag {
-    cursor: pointer;
     height: 60px;
-    background-color: rgba(66, 89, 113, 0.6);
     transform: background-color .1s;
-    color: #eee;
-    user-select: none;
+    color: var(--tag-color);
+    border-left: 3px solid transparent;
+    position: relative;
 }
 
 .treemenu tree_tags tree_tag ico {
     height: 30px;
     width: 100%;
     line-height: 40px;
-    text-align: center;
-    display: block;
     font-size: 20px;
     font-family: "webdesk_icon" !important;
 }
@@ -100,20 +130,45 @@
 
 .treemenu tree_tags tree_tag itemtxt {
     height: 25px;
-    width: calc(100% - 10px);
-    overflow: hidden;
+    width: 100%;
     line-height: 25px;
     font-size: 14px;
-    padding: 0px 5px 0px 5px;
-    user-select: none;
+    overflow: hidden;
 }
 
-.treemenu tree_tags tree_tag.curr {
-    background-color: rgba(41, 57, 55, .9);
-    color: #7fb19e;
+/*当前选中的左侧选项卡*/
+.treemenu tree_tags tree_tag.selected {
+    background-color: var(--tag-selected-bg);
+    color: var(--tag-selected-color);
     text-shadow: 1px 1px 1px #000;
+    border-left: 3px solid rgb(253, 72, 0);
+    border-radius: 6px 0px 0px 6px;
 }
 
+/*选中的选项卡倒角效果*/
+.treemenu tree_tags tree_tag.selected::before, .treemenu tree_tags tree_tag.selected::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    border-radius: 100%;
+    z-index: 1;
+    box-shadow: 0 0 0 10px var(--tag-selected-bg);
+}
+
+.treemenu tree_tags tree_tag.selected::before {
+    right: 0px;
+    top: -10px;
+    clip-path: inset(50% 0 0 50%);
+}
+
+.treemenu tree_tags tree_tag.selected::after {
+    right: 0px;
+    bottom: -10px;
+    clip-path: inset(0 0 50% 50%);
+}
 
 /*折叠按钮*/
 
@@ -122,12 +177,8 @@
     bottom: 0px;
     width: 100%;
     height: 40px;
-    display: block;
-    text-align: center;
-    cursor: pointer;
     z-index: 2;
-    color: #555;
-    --transition: transform 0.3s;
+    color: var(--tag-color);
 }
 
 .treemenu tree_tags tree-foldbtn.fold {
@@ -142,27 +193,13 @@
 }
 
 .treemenu tree_tags tree-foldbtn:hover {
-    color: #eee;
+    transform: scale(1.05);
 }
-
-
-/*左侧标签区，用于填充空白的*/
-
-.treemenu tree_tags tree-tagspace {
-    width: 100%;
-    display: block;
-    height: 150px;
-    position: absolute;
-    background-color: rgba(66, 89, 113, 0.6);
-    bottom: 0px;
-    z-index: 1;
-}
-
 
 /*树形菜单区域*/
 
 .treemenu tree_body {
-    background-color: rgba(41, 57, 55, .9);
+    background-color: var(--tag-selected-bg);
     height: 100%;
     float: right;
     overflow: hidden;
@@ -207,8 +244,7 @@
     font-size: 15px;
     border-radius: 3px;
     text-align: center;
-    --border: solid 1px #aaa;
-    background-color: rgb(249, 184, 63);
+    background-color: var(--title-bg);
     text-shadow: 1px 1px 2px #333;
     position: absolute;
     top: 0px;
@@ -217,7 +253,7 @@
 
 .treemenu tree_area tree_tit * {
     display: inline;
-    color: #ffffff;
+    color: var(--title-color);
 }
 
 .treemenu tree_area tree_tit i {
@@ -270,10 +306,13 @@
 
 .treemenu tree_box.current {
     font-weight: bold;
+    background-color: var(--node-curr-bg);
 }
-.treemenu tree_box.current *{
-    color: #fff !important;
+
+.treemenu tree_box.current * {
+    color: var(--node-curr-color) !important;
 }
+
 .treemenu tree-node span {
     width: auto;
     display: inline-block;
@@ -296,16 +335,12 @@
     font-family: "webdesk_icon" !important;
 }
 
-.treemenu tree-node.folder {
-    --background-color: #ccc;
-}
-
 .treemenu tree-node:after {
     line-height: 30px;
     font-size: 10px;
     height: 30px;
     width: 20px;
-    color: #7fb19e;
+    color: var(--tag-selected-color);
     display: block;
     position: absolute;
     text-align: center;
@@ -316,16 +351,15 @@
 }
 
 .treemenu tree-node:hover {
-    --background-color: rgba(200, 200, 200, 1);
     text-shadow: 1px 1px 2px #000;
 }
 
-.treemenu tree-node:hover * {
-    color: #eef5e8;
+.treemenu tree-node:hover, .treemenu tree-node:hover * {
+    color: var(--node-hover-color);
 }
 
-.treemenu tree-node:hover:after {
-    color: #eef5e8;
+.treemenu tree-node:hover:before, .treemenu tree-node:hover:after {
+    color: var(--node-hover-color);
 }
 
 .treemenu tree-node:hover:before {
@@ -340,7 +374,6 @@
     border-radius: 3px;
     background: rgba(200, 200, 200, 0.2);
     box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
-    --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
 
 
