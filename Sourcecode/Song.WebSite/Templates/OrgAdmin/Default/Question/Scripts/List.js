@@ -44,7 +44,6 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (organ, types) {
-                th.loading_init = false;
                 //获取结果
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
@@ -53,10 +52,9 @@ $ready(function () {
                 th.getSubjects();
                 th.getCourses();
             })).catch(function (err) {
-                th.loading_init = false;
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -227,17 +225,18 @@ $ready(function () {
                             center: true
                         });
                         th.handleCurrentChange();
-                        th.$nextTick(function () {
-                            loading.close();
-                        });
+
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    loading.close();
                     console.error(err);
+                }).finally(() => {
+                    th.$nextTick(function () {
+                        loading.close();
+                    });
                 });
             },
             //获取选中的（要删除的）试题
@@ -270,11 +269,10 @@ $ready(function () {
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Qus_ID;
+                th.loadingid = row.Qus_ID;
                 $api.post('Question/ChangeUse', { 'id': row.Qus_ID, 'use': row.Qus_IsUse }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -282,11 +280,9 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //批量修改状态
             batchState: function (use) {
