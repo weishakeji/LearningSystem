@@ -237,7 +237,7 @@ panel#admin {
 /*用户登录后的下拉菜单*/
 #user-area {
     position: absolute;
-    top: 5px;
+    top: 7px;
     right: 5px;
     height: 30px;
     width: 100px;

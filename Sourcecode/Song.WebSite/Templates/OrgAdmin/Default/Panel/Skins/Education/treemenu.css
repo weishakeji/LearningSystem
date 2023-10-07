@@ -1,6 +1,6 @@
 ﻿@charset "utf-8";
 
-:root {
+.treemenu {
     /*选项卡的字体颜色*/
     --tag-color: #c5fdf6;
     /*选项卡背景色*/
@@ -20,12 +20,8 @@
 }
 
 .treemenu {
-    border-radius: 2px 0px 0px 2px;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    transition: width 0.3s, height 0.3s;
-    user-select: none;
 }
 
 .treemenu * {
@@ -49,7 +45,6 @@
     float: left;
     position: relative;
     overflow: hidden;
-
     display: flex;
     flex-direction: column;
 }
@@ -268,7 +263,7 @@
     overflow-y: auto;
 }
 
-/*树形节点*/
+/*树形菜单的节点对象*/
 
 .treemenu tree-node {
     position: relative;
