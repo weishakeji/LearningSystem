@@ -1,0 +1,377 @@
+﻿@charset "utf-8";
+
+.treemenu {
+    /*选项卡的字体颜色*/
+    --tag-color: #c5fdf6;
+    /*选项卡背景色*/
+    --tag-bg: rgba(66, 89, 113, 0.6);
+    /*选项卡被选中时的背景色*/
+    --tag-selected-bg: rgb(18 74 67);
+    /*选项卡被选中是的字体色*/
+    --tag-selected-color: #7fb19e;
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(249, 184, 63);
+    /*菜单项，滑标滑过的效色*/
+    --node-hover-color: #eef5e8;
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: #fff;
+    --node-curr-bg: transparent;
+}
+
+.treemenu {
+    width: 100%;
+    height: 100%;
+}
+
+.treemenu * {
+    display: block;
+}
+
+.treemenu a {
+    text-decoration: none;
+}
+
+.treemenu a,
+.treemenu span,
+.treemenu tree-node ico {
+    color: var(--tag-selected-color);
+}
+
+.treemenu tree_tags {
+    background-color: var(--tag-bg);
+    width: 40px;
+    height: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.treemenu tree_tags>*:not(tree-tagspace) {
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.treemenu tree_tags * {
+    text-align: center;
+    display: block;
+}
+
+.treemenu tree_tags tree_tag {
+    height: 60px;
+    transform: background-color .1s;
+    color: var(--tag-color);
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.treemenu tree_tags tree_tag ico {
+    height: 30px;
+    width: 100%;
+    line-height: 40px;
+    font-size: 20px;
+    font-family: "webdesk_icon" !important;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-moz-keyframes rotate {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+
+    to {
+        -moz-transform: rotate(359deg)
+    }
+}
+
+@-o-keyframes rotate {
+    from {
+        -o-transform: rotate(0deg)
+    }
+
+    to {
+        -o-transform: rotate(359deg)
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(359deg)
+    }
+}
+
+.treemenu tree_tags tree_tag itemtxt {
+    height: 25px;
+    width: 100%;
+    line-height: 25px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+/*当前选中的左侧选项卡*/
+.treemenu tree_tags tree_tag.selected {
+    background-color: var(--tag-selected-bg);
+    color: var(--tag-selected-color);
+    text-shadow: 1px 1px 1px #000;
+    border-left: 3px solid rgb(253, 72, 0);
+    border-radius: 6px 0px 0px 6px;
+}
+
+/*选中的选项卡倒角效果*/
+.treemenu tree_tags tree_tag.selected::before, .treemenu tree_tags tree_tag.selected::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    border-radius: 100%;
+    z-index: 1;
+    box-shadow: 0 0 0 10px var(--tag-selected-bg);
+}
+
+.treemenu tree_tags tree_tag.selected::before {
+    right: 0px;
+    top: -10px;
+    clip-path: inset(50% 0 0 50%);
+}
+
+.treemenu tree_tags tree_tag.selected::after {
+    right: 0px;
+    bottom: -10px;
+    clip-path: inset(0 0 50% 50%);
+}
+
+/*折叠按钮*/
+
+.treemenu tree_tags tree-foldbtn {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    z-index: 2;
+    color: var(--tag-color);
+}
+
+.treemenu tree_tags tree-foldbtn.fold {
+    transform: rotate(180deg);
+}
+
+.treemenu tree_tags tree-foldbtn:before {
+    content: '\a016';
+    line-height: 40px;
+    font-size: 16px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_tags tree-foldbtn:hover {
+    transform: scale(1.05);
+}
+
+/*树形菜单区域*/
+
+.treemenu tree_body {
+    background-color: var(--tag-selected-bg);
+    height: 100%;
+    float: right;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.3s, height 0.3s;
+}
+
+.treemenu tree_area {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    cursor: default;
+    position: relative;
+    padding: 50px 0px 0px 0px;
+    overflow: hidden;
+}
+
+.treemenu tree_area tree-loading {
+    height: 200px;
+    width: 100%;
+    line-height: 200px;
+    text-align: center;
+    display: block;
+    color: #999;
+    font-size: 35px;
+    font-family: "webdesk_icon" !important;
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+}
+
+.treemenu tree_area tree_tit {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    margin: 10px 10px 10px 10px;
+    font-size: 15px;
+    border-radius: 3px;
+    text-align: center;
+    background-color: var(--title-bg);
+    text-shadow: 1px 1px 2px #333;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.treemenu tree_area tree_tit * {
+    display: inline;
+    color: var(--title-color);
+}
+
+.treemenu tree_area tree_tit i {
+    font-style: normal;
+    margin-right: 5px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_area>div {
+    height: calc(100%);
+    width: calc(100%);
+    overflow-y: auto;
+}
+
+/*树形菜单的节点对象*/
+
+.treemenu tree-node {
+    position: relative;
+    font-size: 14px;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding-right: 30px;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-image-slice: 10;
+}
+
+.treemenu tree-node complete {
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 6px;
+    position: absolute;
+    background-color: red;
+    bottom: -5px;
+    left: 1px;
+}
+
+.treemenu tree_box {
+    display: block;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.treemenu tree_box.current {
+    font-weight: bold;
+    background-color: var(--node-curr-bg);
+}
+
+.treemenu tree_box.current * {
+    color: var(--node-curr-color) !important;
+}
+
+.treemenu tree-node span {
+    width: auto;
+    display: inline-block;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.treemenu tree-node ico {
+    line-height: 30px;
+    font-size: 18px;
+    height: 30px;
+    font-weight: normal;
+    width: 20px;
+    margin-right: 5px;
+    display: inline-block;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree-node:after {
+    line-height: 30px;
+    font-size: 10px;
+    height: 30px;
+    width: 20px;
+    color: var(--tag-selected-color);
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 5px;
+    right: 5px;
+    transition: transform 0.3s;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree-node:hover {
+    text-shadow: 1px 1px 2px #000;
+}
+
+.treemenu tree-node:hover, .treemenu tree-node:hover * {
+    color: var(--node-hover-color);
+}
+
+.treemenu tree-node:hover:before, .treemenu tree-node:hover:after {
+    color: var(--node-hover-color);
+}
+
+.treemenu tree-node:hover:before {
+    content: '';
+    width: calc(100% - 7px);
+    height: calc(100% - 6px);
+    border: solid 1px rgba(160, 160, 160, 0.6);
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
+    border-radius: 3px;
+    background: rgba(200, 200, 200, 0.2);
+    box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
+}
+
+
+/*子节点右侧的三角号*/
+
+.treemenu tree-node.folder:after {
+    content: '\a01e';
+    transform: rotate(90deg);
+}
+
+.treemenu tree-node.folderclose:after {
+    content: '\a01e';
+}

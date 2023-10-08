@@ -24,7 +24,7 @@
 			id: '',
 			bind: true //是否实时数据绑定
 		};
-		for (var t in param) this.attrs[t] = param[t];
+		for (let t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//data:数据项源变动时;click:点击菜单项
@@ -62,7 +62,7 @@
 	//添加数据源
 	fn.add = function (item) {
 		if (item instanceof Array) {
-			for (var i = 0; i < item.length; i++)
+			for (let i = 0; i < item.length; i++)
 				this.add(item[i]);
 		} else {
 			this.datas.push(item);
@@ -71,7 +71,7 @@
 	//当属性更改时触发相应动作
 	fn._watch = {
 		'target': function (obj, val, old) {
-			var area = $dom(obj.target);
+			let area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('dropmenu的target不正确');
 				return;
@@ -85,7 +85,7 @@
 				obj.dom.width(val);
 				//第一次下拉菜单的宽度，不受plwidth属性限制
 				if (obj.datas && obj.datas.length > 0) {
-					var wd = val / obj.datas.length;
+					let wd = val / obj.datas.length;
 					wd = wd > obj.plwidth ? wd : obj.plwidth;
 					obj.dombody.find('drop-panel.level1').width(wd);
 				}
@@ -102,8 +102,8 @@
 		'level': function (obj, val, old) {
 			if (obj.dom) obj.dom.level(val);
 			obj.dombody.find('drop-panel').each(function () {
-				var id = $dom(this).attr('pid');
-				var data = obj.getData(id);
+				let id = $dom(this).attr('pid');
+				let data = obj.getData(id);
 				if (data == null) return;
 				$dom(this).level(data.level + val);
 			});
@@ -112,10 +112,10 @@
 		'bind': function (obj, val, old) {
 			if (val) {
 				obj._setinterval = window.setInterval(function () {
-					var str = JSON.stringify(obj.datas);
+					let str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//去除loading信息
-						for (var i = 0; i < obj.datas.length; i++) {
+						for (let i = 0; i < obj.datas.length; i++) {
 							if (obj.datas[i].type && obj.datas[i].type == 'loading')
 								obj.datas.splice(i, 1);
 						}
@@ -135,15 +135,15 @@
 	};
 	//重构
 	fn._restructure = function () {
-		var area = $dom(this.target);
+		let area = $dom(this.target);
 		if (area.length < 1) {
 			console.log('dropmenu所在区域不存在');
 		} else {
 			area.html(''); //清空原html节点
 			$dom('drop-body[ctrid=\'' + this.id + '\']').remove();
 			//生成Html结构和事件
-			for (var t in this._builder) this._builder[t](this);
-			for (var t in this._baseEvents) this._baseEvents[t](this);
+			for (let t in this._builder) this._builder[t](this);
+			for (let t in this._baseEvents) this._baseEvents[t](this);
 			this.target = this._target;
 			if (this._width > 0)
 				this.width = this._width;
@@ -155,7 +155,7 @@
 	//生成结构
 	fn._builder = {
 		shell: function (obj) {
-			var area = $dom(obj.target);
+			let area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('dropmenu所在区域不存在');
 				return;
@@ -169,12 +169,12 @@
 			if (obj.datas == null || obj.datas.length < 1) return;
 			//如果数据源不是数组，转为数组
 			if (!(obj.datas instanceof Array)) {
-				var tm = obj.datas;
+				let tm = obj.datas;
 				obj.datas = new Array();
 				obj.datas.push(tm);
 			}
-			for (var i = 0; i < obj.datas.length; i++) {
-				var node = obj._createNode(obj.datas[i]);
+			for (let i = 0; i < obj.datas.length; i++) {
+				let node = obj._createNode(obj.datas[i]);
 				if (obj.datas[i].type == 'loading') node.addClass('loading');
 				if (node != null) obj.domtit.append(node);
 			}
@@ -183,7 +183,7 @@
 		body: function (obj) {
 			obj.dombody = $dom(document.body).add('drop-body');
 			obj.dombody.addClass('dropmenu').attr('ctrid', obj.id);
-			for (var i = 0; i < obj.datas.length; i++) {
+			for (let i = 0; i < obj.datas.length; i++) {
 				if (obj.datas[i] == null) continue;
 
 				if (obj.datas[i].type == 'loading') continue;
@@ -192,13 +192,13 @@
 			}
 
 			function _childs(item, obj) {
-				var panel = $dom(document.createElement('drop-panel'));
+				let panel = $dom(document.createElement('drop-panel'));
 				panel.attr('root',obj.target);
 				panel.attr('pid', item.id).level(item.level + item.index + 1);
 				if (item.level == 1) panel.addClass('level1');
 				//计算高度
-				var height = 0;
-				for (var i = 0; i < item.childs.length; i++) {
+				let height = 0;
+				for (let i = 0; i < item.childs.length; i++) {
 					if (item.childs[i].type && item.childs[i].type == 'hr') {
 						panel.append('hr');
 						height += 1;
@@ -232,32 +232,32 @@
 		//根菜单滑过事件
 		root_hover: function (obj) {
 			obj.domtit.find('drop-node').bind('mouseover', function (event) {
-				var n = event.target ? event.target : event.srcElement;
+				let n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				var node = $dom(n);				
-				var obj = dropmenu._getObj(n);
-				var nid = node.attr('nid');
+				let node = $dom(n);				
+				let obj = dropmenu._getObj(n);
+				let nid = node.attr('nid');
 				//隐藏其它面板
-				var brother = obj.getBrother(nid);
+				let brother = obj.getBrother(nid);
 				if (brother == null) return;
-				for (var i = 0; brother != null && i < brother.length; i++) {
+				for (let i = 0; brother != null && i < brother.length; i++) {
 					obj.domtit.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
 					$dom('drop-panel[pid=\'' + brother[i].id + '\'] drop-node').removeClass('hover');
-					var childs = obj.getChilds(brother[i].id);
-					for (var j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
+					let childs = obj.getChilds(brother[i].id);
+					for (let j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 				}
 				node.addClass('hover');
 				//显示当前面板
-				var offset = node.offset();
-				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
+				let offset = node.offset();
+				let panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
 					panel.show();
 					panel.width(node.width());		//第一级面板宽度，与根菜单宽度相同
-					var maxwd = window.innerWidth;
-					var maxhg = window.innerHeight;
-					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;
-					var top = offset.top + obj.height + panel.height() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
+					let maxwd = window.innerWidth;
+					let maxhg = window.innerHeight;
+					let left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;
+					let top = offset.top + obj.height + panel.height() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
 				}
@@ -268,32 +268,32 @@
 		//子菜单滑过事件
 		node_hover: function (obj) {
 			obj.dombody.find('drop-panel drop-node').bind('mouseover', function (event) {
-				var n = event.target ? event.target : event.srcElement;
+				let n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				var node = $dom(n);
-				var obj = dropmenu._getObj(n);
-				var nid = node.attr('nid');
+				let node = $dom(n);
+				let obj = dropmenu._getObj(n);
+				let nid = node.attr('nid');
 				//隐藏其它面板
-				var brother = obj.getBrother(nid);
-				for (var i = 0; i < brother.length; i++) {
+				let brother = obj.getBrother(nid);
+				for (let i = 0; i < brother.length; i++) {
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').find('drop-node').removeClass('hover');
 					obj.dombody.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
-					var childs = obj.getChilds(brother[i].id);
-					for (var j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
+					let childs = obj.getChilds(brother[i].id);
+					for (let j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 				}
 				node.addClass('hover');
 				//显示当前面板
-				var offset = node.offset();
-				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
+				let offset = node.offset();
+				let panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
 					panel.show();
-					var maxwd = window.innerWidth;
-					var maxhg = window.innerHeight;
-					var x = Number(node.parent().attr('x'));
-					var y = Number(node.parent().attr('y'));
-					var left = x < 0 || offset.left + node.width() + panel.width() > maxwd ? offset.left - panel.width() + 5 : offset.left + node.width() - 5;
-					var top = y <= 0 || offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() + node.height() * 3 / 4 : offset.top + node.height() * 1 / 4;
+					let maxwd = window.innerWidth;
+					let maxhg = window.innerHeight;
+					let x = Number(node.parent().attr('x'));
+					let y = Number(node.parent().attr('y'));
+					let left = x < 0 || offset.left + node.width() + panel.width() > maxwd ? offset.left - panel.width() + 5 : offset.left + node.width() - 5;
+					let top = y <= 0 || offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() + node.height() * 3 / 4 : offset.top + node.height() * 1 / 4;
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
 				}
@@ -310,12 +310,12 @@
 			obj.dombody.find('drop-node:not([type=link])')
 				.merge(obj.dom.find('drop-node:not([type=link])'))
 				.click(function (event) {
-					var n = event.target ? event.target : event.srcElement;
+					let n = event.target ? event.target : event.srcElement;
 					while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 					//节点id
-					var nid = $dom(n).attr('nid');
-					var obj = dropmenu._getObj(n);
-					var data = obj.getData(nid);
+					let nid = $dom(n).attr('nid');
+					let obj = dropmenu._getObj(n);
+					let data = obj.getData(nid);
 					//
 					obj.trigger('click', {
 						data: data
@@ -330,7 +330,7 @@
 	//创建节点
 	fn._createNode = function (item) {
 		if (item == null) return null;
-		var node = $dom(document.createElement('drop-node'));
+		let node = $dom(document.createElement('drop-node'));
 		node.attr('nid', item.id).css({
 			'line-height': this._height + 'px',
 			'height': this._height + 'px'
@@ -338,9 +338,9 @@
 		//节点类型
 		item.type = item.type ? item.type : this.deftype;
 		node.attr('type', item.type);
-		var span = null;
+		let span = null;
 		if (item.type == 'link') {
-			var link = node.add('a');
+			let link = node.add('a');
 			if (item.img) {
 				link.add('ico').add('img').attr('src', item.img);
 			} else {
@@ -373,8 +373,8 @@
 	};
 	//计算层深
 	fn._calcLevel = function (items, level) {
-		for (var i = 0; i < items.length; i++) {
-			var item = items[i];
+		for (let i = 0; i < items.length; i++) {
+			let item = items[i];
 			//补全一些信息
 			if (!item.id || item.id < 0) item.id = 'nid_' + Math.floor(Math.random() * 100000);
 			if (!item.pid || item.pid < 0) item.pid = 0;
@@ -384,7 +384,7 @@
 			if (!item.tit || item.tit == '') item.tit = item.title;
 			if (!item.index) item.index = i;
 			if (item.childs && item.childs.length > 0) {
-				for (var j = 0; j < item.childs.length; j++) {
+				for (let j = 0; j < item.childs.length; j++) {
 					item.childs[j].pid = item.id;
 					item.childs[j].path = item.path + ',' + item.childs[j].title;
 					item.childs = this._calcLevel(item.childs, level + 1);
@@ -399,8 +399,8 @@
 		return $dom.clone(getdata(treeid, this.datas));
 		//
 		function getdata(treeid, datas) {
-			var d = null;
-			for (var i = 0; i < datas.length; i++) {
+			let d = null;
+			for (let i = 0; i < datas.length; i++) {
 				if (datas[i].id == treeid) return datas[i];
 				if (datas[i].childs && datas[i].childs.length > 0)
 					d = getdata(treeid, datas[i].childs);
@@ -411,25 +411,25 @@
 	};
 	//获取当前节点的兄弟节点（数据源）
 	fn.getBrother = function (treeid) {
-		var d = this.getData(treeid);
+		let d = this.getData(treeid);
 		if (d == null) return null;
-		var brt = [];
-		var datas = d.pid == 0 ? this.datas : this.getData(d.pid).childs;
-		for (var i = 0; i < datas.length; i++) {
+		let brt = [];
+		let datas = d.pid == 0 ? this.datas : this.getData(d.pid).childs;
+		for (let i = 0; i < datas.length; i++) {
 			if (datas[i].id != treeid) brt.push(datas[i]);
 		}
 		return brt;
 	};
 	//当前节点的所有子级（递归）
 	fn.getChilds = function (treeid) {
-		var childs = [];
-		var d = this.getData(treeid);
+		let childs = [];
+		let d = this.getData(treeid);
 		if (d == null) return childs;
 		getdata(d.childs, childs);
 
 		function getdata(datas, childs) {
 			if (!datas) return;
-			for (var i = 0; i < datas.length; i++) {
+			for (let i = 0; i < datas.length; i++) {
 				childs.push(datas[i]);
 				if (datas[i].childs && datas[i].childs.length > 0)
 					getdata(datas[i].childs, childs);
@@ -442,14 +442,14 @@
 	*/
 	dropmenu.create = function (param) {
 		if (param == null) param = {};
-		var tobj = new dropmenu(param);
+		let tobj = new dropmenu(param);
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
 	dropmenu._getObj = function (node) {
-		//var node = event.target ? event.target : event.srcElement;
+		//let node = event.target ? event.target : event.srcElement;
 		while (!node.classList.contains('dropmenu')) node = node.parentNode;
-		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
+		let ctrl = $ctrls.get(node.getAttribute('ctrid'));
 		return ctrl.obj;
 	};
 	win.$dropmenu = dropmenu;

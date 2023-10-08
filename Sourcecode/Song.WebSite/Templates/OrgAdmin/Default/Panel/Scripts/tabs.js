@@ -8,8 +8,8 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年1月1日
- * 最后修订：2020年2月4日
- * github开源地址:https://github.com/weishakeji/WebdeskUI
+ * 最后修订：2023年10月8日
+ * Git开源地址:https://gitee.com/weishakeji/WebdeskUI
  */
 (function (win) {
     var tabs = function (param) {
@@ -38,7 +38,9 @@
         this.dombody = null; //控件内容区
         this.domenu = null; //控件右键菜单的html对象
         this.domore = null; //控件右侧更多标签的区域名		
-
+        //更多面板是否显示，当鼠标滑过时如果为false，3秒后隐藏面板
+        this.leavetime = 3;
+        this.leaveshow = false;
         this._open();
         this.width = this._width;
         this.height = this._height;
@@ -81,11 +83,8 @@
         //更多标签的面板是否显示
         'morebox': function (obj, val, old) {
             if (obj.domore) {
-                if (val) obj.domore.show().width(200).css('opacity', 1);
-                if (!val) obj.domore.width(0).css('opacity', 0);
-                window.setTimeout(function () {
-                    if (!val) obj.domore.hide();
-                }, 300);
+                if (val) obj.domore.show().width(200).css({ 'opacity': 1, 'right': '0px' });
+                if (!val) obj.domore.width(0).css({ 'opacity': 0, 'right': '-5px' });
             }
         },
         //右键菜单的显示
@@ -147,10 +146,6 @@
     };
     //tabs的基础事件
     fn._baseEvents = {
-        //设置自动执行的方法,用于一些菜单项的定时隐藏
-        setinterval: function (obj) {
-
-        },
         //右上角按钮事件
         morebtn: function (obj) {
             obj.dom.find('tabs_more').click(function (event) {
@@ -158,15 +153,19 @@
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
                 let crt = $ctrls.get($dom(node).attr('ctrid'));
-                crt.obj.morebox = !crt.obj.morebox;
+                crt.obj.morebox = true;
+                crt.obj.leavetime = 3;
+                crt.obj.leaveshow = true;
             });
             //当鼠标滑动到面板上时
-            obj.domore.bind('mouseover', function (event) {
+            obj.domore.bind('mouseover,mousemove,mousedown', function (event) {
                 let node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
                 let crt = $ctrls.get($dom(node).attr('ctrid'));
                 crt.obj.morebox = true;
+                crt.obj.leavetime = 3;
+                crt.obj.leaveshow = true;
             });
             obj.domore.bind('mouseleave', function (event) {
                 let node = event.target ? event.target : event.srcElement;
@@ -174,12 +173,14 @@
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
                 var crt = $ctrls.get($dom(node).attr('ctrid'));
                 crt.obj._morebox = false;
-                window.setTimeout(function () {
-                    if (!crt.obj._morebox)
-                        crt.obj.morebox = false;
-                }, 3000);
-                //crt.obj.morebox = false;
+                crt.obj.leavetime = 3;
+                crt.obj.leaveshow = false;
+
             });
+            obj.leaveInterval = window.setInterval(function () {
+                if (!obj.leaveshow && --obj.leavetime <= 0)
+                    obj.morebox = false;
+            }, 200);
         },
         //右键菜单事件
         dropmenu: function (obj) {
