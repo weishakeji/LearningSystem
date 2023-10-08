@@ -7,8 +7,8 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年1月1日
- * 最后修订：2020年2月4日
- * github开源地址:https://github.com/weishakeji/WebdeskUI
+ * 最后修订：2023年10月8日
+ * Git开源地址:https://gitee.com/weishakeji/WebdeskUI
  */
 (function (win) {
 	var treemenu = function (param) {
@@ -37,9 +37,7 @@
 		//默认数据
 		this.def_data = {
 			title: '数据加载...',
-			tit: 'load',
-			type: 'loading',
-			ico: 'e621'
+			tit: 'load', type: 'loading', ico: 'e621'
 		};
 		this.datas.push(this.def_data);
 		//初始化并生成控件
@@ -47,9 +45,7 @@
 		this.bind = this._bind;
 		//
 		$ctrls.add({
-			id: this.id,
-			obj: this,
-			dom: this.dom,
+			id: this.id, obj: this, dom: this.dom,
 			type: 'treemenu'
 		});
 	};
@@ -74,23 +70,16 @@
 				if (obj.taghide) obj.dombody.width(val)
 				else
 					obj.dombody.width(val - 40);
-				obj.trigger('resize', {
-					width: val,
-					height: obj._height,
-					action: 'width'
-				});
+				//触发尺寸变化事件
+				obj.trigger('resize', { width: val, height: obj._height, action: 'width' });
 			}
 		},
 		'height': function (obj, val, old) {
 			if (obj.dom) {
 				obj.dom.height(val);
 				obj.domtit.height(val);
-				//obj.dombody.height(obj.dom.height());
-				obj.trigger('resize', {
-					width: obj._width,
-					height: val,
-					action: 'height'
-				});
+				//触发尺寸变化事件
+				obj.trigger('resize', { width: obj._width, height: val, action: 'height' });
 			}
 		},
 		//是否显示完成度的进度条
@@ -118,9 +107,7 @@
 				}, 300);
 			}
 			//折叠事件
-			obj.trigger('fold', {
-				action: val ? 'fold' : 'open'
-			});
+			obj.trigger('fold', { action: val ? 'fold' : 'open' });
 		},
 		//是否启动实时数据绑定
 		'bind': function (obj, val, old) {
@@ -136,9 +123,8 @@
 						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
 						obj._datas = JSON.stringify(obj.datas);
-						obj.trigger('data', {
-							data: obj.datas
-						});
+						//触发数据变更事件
+						obj.trigger('data', { data: obj.datas });
 					}
 				}, 10);
 			} else {
@@ -189,7 +175,7 @@
 			}
 			//隐藏左侧标签栏
 			if (obj.taghide) obj.domtit.hide();
-			obj.domtit.add('tree-foldbtn');			
+			obj.domtit.add('tree-foldbtn');
 		},
 		//右侧内容区
 		body: function (obj) {
@@ -347,10 +333,8 @@
 					while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
 					let crt = $ctrls.get($dom(tree).attr('ctrid'));
 					let datanode = crt.obj.getData(treeid); //数据源节点
-					crt.obj.trigger('click', {
-						treeid: treeid,
-						data: datanode
-					});
+					//触发节点点击事件
+					crt.obj.trigger('click', { treeid: treeid, data: datanode });
 				});
 			}
 		}
@@ -401,10 +385,8 @@
 		tag.addClass('selected');
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=\'' + tag.attr('treeid') + '\']').show();
-		let datanode = obj.getData(tag.attr('treeid')); //数据源节点
-		obj.trigger('change', {
-			data: obj.getData(tag.attr('treeid'))
-		});
+		//触发左侧选项卡切换事件,参数：数据源节点
+		obj.trigger('change', { data: obj.getData(tag.attr('treeid')) });
 	};
 	//设置当前菜单项的样式，并打开关联的上级菜单
 	fn.currentnode = function (treeid) {
