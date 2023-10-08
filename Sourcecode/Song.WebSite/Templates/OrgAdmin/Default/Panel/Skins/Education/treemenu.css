@@ -76,13 +76,6 @@
     font-family: "webdesk_icon" !important;
 }
 
-.treemenu tree_tags tree_tag.loading ico {
-    -webkit-animation: rotate 1s linear infinite;
-    -moz-animation: rotate 1s linear infinite;
-    -o-animation: rotate 1s linear infinite;
-    animation: rotate 1s linear infinite;
-}
-
 @-webkit-keyframes rotate {
     from {
         -webkit-transform: rotate(0deg)
@@ -215,7 +208,7 @@
     overflow: hidden;
 }
 
-.treemenu tree_area loading {
+.treemenu tree_area tree-loading {
     height: 200px;
     width: 100%;
     line-height: 200px;
@@ -224,10 +217,10 @@
     color: #999;
     font-size: 35px;
     font-family: "webdesk_icon" !important;
-    -webkit-animation: rotate 2s linear infinite;
-    -moz-animation: rotate 2s linear infinite;
-    -o-animation: rotate 2s linear infinite;
-    animation: rotate 2s linear infinite;
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
 }
 
 .treemenu tree_area tree_tit {

@@ -34,6 +34,9 @@
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
+		//面板是否显示，当鼠标滑过时如果为false，3秒后隐藏面板
+		this.leavetime = 3;
+		this.leaveshow = false;
 		//默认数据
 		this.def_data = {
 			title: '数据加载...',
@@ -60,6 +63,11 @@
 				this.add(item[i]);
 		} else {
 			this.datas.push(item);
+		}
+		//一旦加载数据，则去除最初的预载信息
+		for (let i = 0; i < this.datas.length; i++) {
+			if (this.datas[i].type && this.datas[i].type == 'loading')
+				this.datas.splice(i, 1);
 		}
 	};
 	//当属性更改时触发相应动作
@@ -115,11 +123,7 @@
 				obj._setinterval = window.setInterval(function () {
 					let str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
-						//计算数据源的层深等信息
-						for (let i = 0; i < obj.datas.length; i++) {
-							if (obj.datas[i].type && obj.datas[i].type == 'loading')
-								obj.datas.splice(i, 1);
-						}
+						//计算数据源的层深等信息	
 						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
 						obj._datas = JSON.stringify(obj.datas);
@@ -187,11 +191,10 @@
 				area.attr('treeid', item.id).hide();
 				//右侧菜单的大标题
 				let tit = area.add('tree_tit');
-				if (item.ico != '')
-					tit.add("i").html("&#x" + item.ico);
+				if (item.ico != '') tit.add("i").html("&#x" + item.ico);
 				tit.add("span").html(item.title);
 				if (item.type == 'loading') {
-					area.add('loading').html('&#x' + item.ico);
+					area.add('tree-loading').html('&#x' + item.ico);
 					continue;
 				}
 				let div = area.add('div');
@@ -215,6 +218,27 @@
 	};
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
+		//鼠标滑过事件，整个组件都响应
+		mouseover: function (obj) {
+			obj.dom.bind('mouseover,mousemove,mousedown', function (event) {
+				let node = event.target ? event.target : event.srcElement;
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				if (node == null || $dom(node).length < 1) return;
+				let crt = $ctrls.get($dom(node).attr('ctrid'));
+				if (crt == null) return;
+				crt.obj.leavetime = 3;
+				crt.obj.leaveshow = true;
+			});
+			obj.dom.bind('mouseout', function (event) {
+				let node = event.target ? event.target : event.srcElement;
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				if (node == null || $dom(node).length < 1) return;
+				let crt = $ctrls.get($dom(node).attr('ctrid'));
+				if (crt == null) return;
+				crt.obj.leavetime = 3;
+				crt.obj.leaveshow = false;
+			});
+		},
 		//树形菜单的收缩与展开
 		fold: function (obj) {
 			//左下角折叠按钮的事件
@@ -233,37 +257,43 @@
 				crt.obj.leavetime = 3;
 			});
 			obj.leaveInterval = window.setInterval(function () {
-				if (obj.fold && --obj.leavetime <= 0) obj.dombody.width(0);
-			}, 1000);
+				if (obj.fold && !obj.leaveshow && --obj.leavetime <= 0) obj.dombody.width(0);
+			}, 200);
 		},
 		//左侧标签点击事件
 		rootclick: function (obj) {
 			obj.domtit.find('tree_tag').click(function (event) {
 				let node = event.target ? event.target : event.srcElement;
-				//获取标签id
+				//选项卡html元素对象
+				let tag = null;
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				let tag = $dom(node);
-				//获取组件id
-				while (!node.classList.contains('treemenu')) node = node.parentNode;
-				let ctrid = $dom(node).attr('ctrid');
-				//获取组件对象
-				let crt = $ctrls.get(ctrid);
+				tag = $dom(node);
+				//树形菜单控件的对象
+				let crt = null;
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				crt = $ctrls.get($dom(node).attr('ctrid'));
 				//切换选项卡
 				crt.obj.switch(obj, tag);
 			});
 			obj.domtit.find('tree_tag').bind('mouseover', function (event) {
 				let node = event.target ? event.target : event.srcElement;
-				//获取标签id
+				//选项卡html元素对象
+				let tag = null;
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				let tag = $dom(node);
+				tag = $dom(node);
+				//树形菜单控件的对象
+				let crt = null;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				let crt = $ctrls.get($dom(node).attr('ctrid'));
+				crt = $ctrls.get($dom(node).attr('ctrid'));
+				//如果菜单不是折叠状态，则滑过事件不响应
 				if (!crt.obj.fold) return;
+
 				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
 				crt.obj.leavetime = 3;
+				crt.obj.leaveshow = true;
 				crt.obj.switch(obj, tag);
 			});
-			obj.switch(obj, obj.domtit.find('tree_tag').first())
+			obj.switch(obj, obj.domtit.find('tree_tag').first());
 		}
 	};
 	//创建树形节点

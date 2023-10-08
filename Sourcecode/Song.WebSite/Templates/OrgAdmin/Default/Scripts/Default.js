@@ -137,7 +137,7 @@ function ready(result) {
     //加载左侧菜单树
     $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
-            var result = nodeconvert(req.data.result);
+            var result = nodeconvert(req.data.result);//return;
             if (result[0].childs.length > 0)
                 tree.add(result[0].childs);
             /*
