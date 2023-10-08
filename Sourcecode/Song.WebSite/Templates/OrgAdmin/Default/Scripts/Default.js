@@ -127,7 +127,7 @@ function ready(result) {
     window.tree = $treemenu.create({
         target: '#treemenu-area',
         width: 200,
-        taghide: false
+        taghide: false, query: true, fold: false
     }).onresize(function (s, e) { //当宽高变更时
         $dom('#tabs-area').width('calc(100% - ' + (e.width + 5) + 'px )');
     }).onfold(function (s, e) { //当右侧树形折叠时
@@ -184,12 +184,12 @@ function ready(result) {
 
     //风格切换事件
     window.$skins.onchange(function (s, e) {
-        $dom('body>*:not(#loading)').css('opacity', 0);
+        $dom('body>*:not(#loading,[crtid])').css('opacity', 0);
         $dom('#loading').show();
     });
     window.$skins.onloadcss(function (s, e) {
         window.setTimeout(function () {
-            $dom('body>*:not(#loading)').css('opacity', 1);
+            $dom('body>*:not(#loading,[crtid])').css('opacity', 1);
             $dom('#loading').hide();
         }, 500);
 

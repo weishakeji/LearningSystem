@@ -375,3 +375,82 @@
 .treemenu tree-node.folderclose:after {
     content: '\a01e';
 }
+
+/*查询面板*/
+div.querypanel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 99999;
+    background-color: rgba(200, 200, 200, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.querypanel>section {
+    width: 800px;
+    max-width: 80%;
+    height: 80%;
+    background-color: #fff;
+    position: relative;
+}
+
+div.querypanel>section header {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+div.querypanel .query_close {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
+
+div.querypanel .query_close::before {
+    content: '\e606';
+    font-size: 28px;
+    font-family: "webdesk_icon" !important;
+}
+
+div.querypanel>section>section {
+    display: flex;
+    height: calc(100% - 40px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+div.querypanel>section>section>* {
+    flex: 1;
+    margin: 15px 15px 15px 0px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 10px;
+
+    position: relative;
+}
+
+div.querypanel>section>section>*:first-child {
+    margin-left: 15px;
+
+}
+
+div.querypanel>section>section>tree_area {
+    padding: 50px 0px 0px 0px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+}
+
+div.querypanel tree_area>div {
+    width: calc(100% - 2px);
+    height: calc(100% - 3px);
+    overflow-y: auto;
+}
+
+div.querypanel tree_box.current * {
+    color: #333 !important;
+}

@@ -152,9 +152,10 @@
             this.style.display = "none";
         });
     };
-    fn.show = function () {
+    fn.show = function (display) {
+        if (display == null) display = 'block';
         return this.each(function () {
-            this.style.display = "block";
+            this.style.display = display;
         });
     };
     fn.toggle = function () {
