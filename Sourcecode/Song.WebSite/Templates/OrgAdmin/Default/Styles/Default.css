@@ -3,7 +3,8 @@
     height: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: rgb(27, 87, 148);
+    background-color: rgb(102 169 237);
+    background: radial-gradient(ellipse at left top, #fdb7b9 20%, #5d9dde 50%, #104f9d);
     overflow: hidden;
 }
 
@@ -24,6 +25,8 @@ panel#admin {
 
 #mainbody {
     height: calc(100% - 45px) !important;
+    display: flex;
+    justify-content: space-between;
 }
 
 /*顶部条*/
@@ -129,21 +132,25 @@ drop-panel[root='#menubar'] drop-node ico {
 /*预载效*/
 
 panel#loading {
+   
+    display: none;
+    text-align: center;
+}
+panel#loading>div{
     width: 100px;
     height: 100px;
     margin: 200px auto 0px auto;
     position: relative;
-    display: none;
 }
-
 panel#loading b {
     display: block;
-    position: absolute;
-    width: 100%;
+    width: 300px;   
     text-align: center;
-    bottom: 20px;
+    margin: 10px auto 0px auto;
     color: #fff;
-    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+    font-size: 20px;
+    text-shadow: 1px 0 50px #fff, 0 1px 50px #fff, 0 -1px 50px #fff, -1px 0 50px #fff;
+    letter-spacing: 0.5em;
 }
 
 panel#loading span {
@@ -151,7 +158,7 @@ panel#loading span {
     width: 16px;
     height: 16px;
     border-radius: 999px;
-    background: rgb(178, 166, 248);
+    background: rgb(255, 255, 255);
     animation: bounce 1s infinite linear;
 }
 
@@ -233,6 +240,18 @@ panel#admin {
     min-height: 200px;
     z-index: 2;
     display: none;
+}
+.loginbox .login_body button{
+    background: radial-gradient(ellipse at left top, #fdb7b9 10%, #71b0ef 50%, #357fdb) !important;
+    border-radius: 5px;
+   
+}
+.loginbox .login_body>*:before{
+    color: #777 !important;
+}
+.loginbox .login_body login_row:last-child{
+    border: none;
+    background-color:transparent !important;
 }
 /*用户登录后的下拉菜单*/
 #user-area {

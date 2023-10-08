@@ -11,7 +11,10 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+ /*
   background: radial-gradient(ellipse at left top, #fdb7b9 20%, #de5d6f 50%, #b1414d);
+*/
+  background: radial-gradient(ellipse at left top, #fdb7b9 20%, #5d9dde 50%, #104f9d);
 }
 
 div {

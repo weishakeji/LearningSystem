@@ -23,7 +23,7 @@
 			fold: false, //是否折叠
 			taghide: false		//是否隐藏标签项
 		};
-		for (var t in param) this.attrs[t] = param[t];
+		for (let t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//fold,折叠或展开;data，数据源变化时; change，切换根菜单,click点击菜单项
@@ -60,7 +60,7 @@
 	//添加数据源
 	fn.add = function (item) {
 		if (item instanceof Array) {
-			for (var i = 0; i < item.length; i++)
+			for (let i = 0; i < item.length; i++)
 				this.add(item[i]);
 		} else {
 			this.datas.push(item);
@@ -93,13 +93,11 @@
 				});
 			}
 		},
+		//是否显示完成度的进度条
 		'complete': function (obj, val, old) {
 			if (obj.dom) {
-				if (val) {
-					obj.dom.find('complete').show();
-				} else {
-					obj.dom.find('complete').hide();
-				}
+				let el = obj.dom.find('complete');
+				val ? el.show() : el.hide();
 			}
 		},
 		//折叠与展开
@@ -108,7 +106,6 @@
 			if (val) {
 				//折叠
 				obj.dom.width(40);
-				//var offset = obj.dom.offset();
 				obj.dombody.css('position', 'absolute');
 				obj.dombody.left(obj.domtit.width());
 				obj.dombody.height(obj.dom.height()).width(0);
@@ -129,10 +126,10 @@
 		'bind': function (obj, val, old) {
 			if (val) {
 				obj._setinterval = window.setInterval(function () {
-					var str = JSON.stringify(obj.datas);
+					let str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//计算数据源的层深等信息
-						for (var i = 0; i < obj.datas.length; i++) {
+						for (let i = 0; i < obj.datas.length; i++) {
 							if (obj.datas[i].type && obj.datas[i].type == 'loading')
 								obj.datas.splice(i, 1);
 						}
@@ -151,14 +148,14 @@
 	};
 	//重构
 	fn._restructure = function () {
-		var area = $dom(this.target);
+		let area = $dom(this.target);
 		if (area.length < 1) {
 			console.log('treemenu所在区域不存在');
 		} else {
 			area.html(''); //清空原html节点
 			//生成Html结构和事件
-			for (var t in this._builder) this._builder[t](this);
-			for (var t in this._baseEvents) this._baseEvents[t](this);
+			for (let t in this._builder) this._builder[t](this);
+			for (let t in this._baseEvents) this._baseEvents[t](this);
 			this.width = this._width;
 			this.height = this._height;
 			this.complete = this._complete;
@@ -168,7 +165,7 @@
 	//生成结构
 	fn._builder = {
 		shell: function (obj) {
-			var area = $dom(obj.target);
+			let area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('treemenu所在区域不存在');
 				return;
@@ -182,9 +179,9 @@
 			obj.domtit = obj.dom.add('tree_tags');
 			obj.domtit.add('tree-tagspace').height('10px');
 			//左侧选项卡
-			for (var i = 0; i < obj.datas.length; i++) {
-				var item = obj.datas[i];
-				var tabtag = obj.domtit.add('tree_tag');
+			for (let i = 0; i < obj.datas.length; i++) {
+				const item = obj.datas[i];
+				let tabtag = obj.domtit.add('tree_tag');
 				tabtag.attr('title', item.title).attr('treeid', item.id);
 				tabtag.add('ico').html('&#x' + item.ico);
 				tabtag.add('itemtxt').html(item.tit);
@@ -192,23 +189,18 @@
 			}
 			//隐藏左侧标签栏
 			if (obj.taghide) obj.domtit.hide();
-			obj.domtit.add('tree-foldbtn');
-/*
-			//左侧空白区的高度
-			var tags = obj.domtit.find('tree_tag');
-			var hg = tags.height();
-			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * 60) + 'px)');*/
+			obj.domtit.add('tree-foldbtn');			
 		},
 		//右侧内容区
 		body: function (obj) {
 			obj.dombody = obj.dom.add('tree_body');
-			for (var i = 0; i < obj.datas.length; i++) {
-				var item = obj.datas[i];
+			for (let i = 0; i < obj.datas.length; i++) {
+				const item = obj.datas[i];
 				//右侧树形菜单区
-				var area = obj.dombody.add('tree_area');
+				let area = obj.dombody.add('tree_area');
 				area.attr('treeid', item.id).hide();
 				//右侧菜单的大标题
-				var tit = area.add('tree_tit');
+				let tit = area.add('tree_tit');
 				if (item.ico != '')
 					tit.add("i").html("&#x" + item.ico);
 				tit.add("span").html(item.title);
@@ -216,20 +208,19 @@
 					area.add('loading').html('&#x' + item.ico);
 					continue;
 				}
-				var div = area.add('div');
+				let div = area.add('div');
 				if (item.childs) {
-					for (var j = 0; j < item.childs.length; j++) {
+					for (let j = 0; j < item.childs.length; j++)
 						_addchild(div, item.childs[j], obj);
-					}
 				}
 			}
 			//添加树形的子级节点
 			function _addchild(area, item, obj) {
-				var box = area.add('tree_box');
+				let box = area.add('tree_box');
 				box.attr('treeid', item.id);
 				obj._createNode(item, box);
 				if (item.type != 'node' && item.childs && item.childs.length > 0) {
-					for (var i = 0; i < item.childs.length; i++) {
+					for (let i = 0; i < item.childs.length; i++) {
 						_addchild(box, item.childs[i], obj);
 					}
 				}
@@ -242,17 +233,17 @@
 		fold: function (obj) {
 			//左下角折叠按钮的事件
 			obj.domtit.find('tree-foldbtn').click(function (event) {
-				var node = event.target ? event.target : event.srcElement;
+				let node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				let crt = $ctrls.get($dom(node).attr('ctrid'));
 				crt.obj.fold = !crt.obj.fold;
 			});
 			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
 			obj.leavetime = 3;
 			obj.dombody.bind('mouseover', function (event) {
-				var node = event.target ? event.target : event.srcElement;
+				let node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				let crt = $ctrls.get($dom(node).attr('ctrid'));
 				crt.obj.leavetime = 3;
 			});
 			obj.leaveInterval = window.setInterval(function () {
@@ -262,25 +253,25 @@
 		//左侧标签点击事件
 		rootclick: function (obj) {
 			obj.domtit.find('tree_tag').click(function (event) {
-				var node = event.target ? event.target : event.srcElement;
+				let node = event.target ? event.target : event.srcElement;
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				var tag = $dom(node);
+				let tag = $dom(node);
 				//获取组件id
 				while (!node.classList.contains('treemenu')) node = node.parentNode;
-				var ctrid = $dom(node).attr('ctrid');
+				let ctrid = $dom(node).attr('ctrid');
 				//获取组件对象
-				var crt = $ctrls.get(ctrid);
+				let crt = $ctrls.get(ctrid);
 				//切换选项卡
 				crt.obj.switch(obj, tag);
 			});
 			obj.domtit.find('tree_tag').bind('mouseover', function (event) {
-				var node = event.target ? event.target : event.srcElement;
+				let node = event.target ? event.target : event.srcElement;
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				var tag = $dom(node);
+				let tag = $dom(node);
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				let crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
 				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
 				crt.obj.leavetime = 3;
@@ -291,15 +282,15 @@
 	};
 	//创建树形节点
 	fn._createNode = function (item, box) {
-		var node = box.add('tree-node');
+		let node = box.add('tree-node');
 		node.css('padding-left', ((item.level - 1) * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
 		//节点类型
 		node.attr('type', item.type ? item.type : 'node');
 		node.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
-		var span = null;
+		let span = null;
 		if (item.type == 'link') {
-			var link = node.add('a');
+			let link = node.add('a');
 			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
 			span = link.add('span');
 		} else {
@@ -307,8 +298,8 @@
 		}
 		//完成度	
 		if (item.complete < 100 && this.complete) {
-			var surplus = 100 - item.complete;
-			var color = "#00ca08";
+			let surplus = 100 - item.complete;
+			let color = "#00ca08";
 			if (surplus >= 90) color = "#ff0000";
 			else if (surplus >= 70) color = "#ff8a49";
 			else if (surplus >= 50) color = "#e6a23c";
@@ -320,7 +311,7 @@
 		}
 		//字体样式
 		if (item.font) {
-			var fonts = span.merge(node.find('ico'));
+			let fonts = span.merge(node.find('ico'));
 			if (item.font.color) fonts.css('color', item.font.color, true);
 			if (item.font.bold) fonts.css('font-weight', item.font.bold ? 'bold' : 'normal', true);
 			if (item.font.italic) fonts.css('font-style', item.font.italic ? 'italic' : 'normal', true);
@@ -331,9 +322,9 @@
 		//如果有下级节点
 		if (item.type != 'node' && item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function (event) {
-				var n = event.target ? event.target : event.srcElement;
+				let n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
-				var tnode = $dom(n);
+				let tnode = $dom(n);
 				if (tnode.hasClass('folder')) {
 					tnode.attr('class', 'folderclose');
 					tnode.siblings('tree_box').hide();
@@ -347,15 +338,15 @@
 			if (item.type != 'link') {
 				//节点点击事件
 				node.click(function (event) {
-					var n = event.target ? event.target : event.srcElement;
+					let n = event.target ? event.target : event.srcElement;
 					while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
 					//节点id
-					var treeid = $dom(n).attr('treeid');
+					let treeid = $dom(n).attr('treeid');
 					//对象
-					var tree = n;
+					let tree = n;
 					while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
-					var crt = $ctrls.get($dom(tree).attr('ctrid'));
-					var datanode = crt.obj.getData(treeid); //数据源节点
+					let crt = $ctrls.get($dom(tree).attr('ctrid'));
+					let datanode = crt.obj.getData(treeid); //数据源节点
 					crt.obj.trigger('click', {
 						treeid: treeid,
 						data: datanode
@@ -367,8 +358,8 @@
 	};
 	//计算层深，并补全一些信息
 	fn._calcLevel = function (items, level) {
-		for (var i = 0; i < items.length; i++) {
-			var item = items[i];
+		for (let i = 0; i < items.length; i++) {
+			const item = items[i];
 			//补全一些信息
 			if (!item.id || item.id < 0) item.id = 'node_' + (i + Math.floor(Math.random() * 100000));
 			if (!item.pid || item.pid < 0) item.pid = 0;
@@ -378,7 +369,7 @@
 			if (!item.tit || item.tit == '') item.tit = item.title;
 			if (!item.index) item.index = i;
 			if (item.childs && item.childs.length > 0) {
-				for (var j = 0; j < item.childs.length; j++) {
+				for (let j = 0; j < item.childs.length; j++) {
 					item.childs[j].pid = item.id;
 					item.childs[j].path = item.path + ',' + item.childs[j].title;
 					item.childs = this._calcLevel(item.childs, level + 1);
@@ -410,7 +401,7 @@
 		tag.addClass('selected');
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=\'' + tag.attr('treeid') + '\']').show();
-		var datanode = obj.getData(tag.attr('treeid')); //数据源节点
+		let datanode = obj.getData(tag.attr('treeid')); //数据源节点
 		obj.trigger('change', {
 			data: obj.getData(tag.attr('treeid'))
 		});
