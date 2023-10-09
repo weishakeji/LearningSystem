@@ -396,14 +396,20 @@ div.querypanel>section {
     height: 80%;
     background-color: #fff;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 div.querypanel>section header {
     height: 40px;
-    box-sizing: border-box;
-    padding: 15px;
+    box-sizing: border-box;  
 }
-
+div.querypanel>section header>div{
+    line-height: 40px;
+    height: 100%;
+    padding-left: 15px;
+}
 div.querypanel .query_close {
     position: absolute;
     cursor: pointer;
