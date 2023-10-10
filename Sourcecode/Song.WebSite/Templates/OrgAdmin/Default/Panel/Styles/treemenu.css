@@ -14,6 +14,8 @@
     --title-bg: rgb(249, 184, 63);
     /*菜单项，滑标滑过的效色*/
     --node-hover-color: #eef5e8;
+    --node-hover-bg: #eef5e8;
+    --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: #fff;
     --node-curr-bg: transparent;
@@ -128,7 +130,6 @@
 .treemenu tree_tags tree_tag.selected {
     background-color: var(--tag-selected-bg);
     color: var(--tag-selected-color);
-    text-shadow: 1px 1px 1px #000;
     border-left: 3px solid rgb(253, 72, 0);
     border-radius: 6px 0px 0px 6px;
 }
@@ -232,8 +233,7 @@
     font-size: 15px;
     border-radius: 3px;
     text-align: center;
-    background-color: var(--title-bg);
-    text-shadow: 1px 1px 2px #333;
+    background-color: var(--title-bg);  
     position: absolute;
     top: 0px;
     left: 0px;
@@ -339,7 +339,7 @@
 }
 
 .treemenu tree-node:hover {
-    text-shadow: 1px 1px 2px #000;
+    background-color: var(--node-hover-bg);
 }
 
 .treemenu tree-node:hover, .treemenu tree-node:hover * {
@@ -354,14 +354,12 @@
     content: '';
     width: calc(100% - 7px);
     height: calc(100% - 6px);
-    border: solid 1px rgba(160, 160, 160, 0.6);
+    border: var(--node-hover-border);
     position: absolute;
     left: 3px;
     top: 3px;
     z-index: 1;
-    border-radius: 3px;
-    background: rgba(200, 200, 200, 0.2);
-    box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
+    border-radius: 3px;   
 }
 
 
@@ -384,7 +382,7 @@ div.querypanel {
     left: 0px;
     top: 0px;
     z-index: 99999;
-    background-color: rgba(200, 200, 200, 0.2);
+    background-color: rgba(200, 200, 200, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -403,13 +401,15 @@ div.querypanel>section {
 
 div.querypanel>section header {
     height: 40px;
-    box-sizing: border-box;  
+    box-sizing: border-box;
 }
-div.querypanel>section header>div{
+
+div.querypanel>section header>div {
     line-height: 50px;
     height: 100%;
     padding-left: 20px;
 }
+
 div.querypanel .query_close {
     position: absolute;
     cursor: pointer;
@@ -449,6 +449,7 @@ div.querypanel>section>section>tree_area {
     padding: 50px 0px 0px 0px;
     box-sizing: border-box;
     height: calc(100% - 30px);
+    background-color: #f3fdff;
 }
 
 div.querypanel tree_area>div {

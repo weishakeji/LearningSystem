@@ -262,6 +262,12 @@
 			obj.domquery = $dom('body').add('div').hide();
 			let panel = obj.domquery;
 			panel.attr('ctrid', obj.id).addClass('querypanel').addClass('treemenu');
+			panel.click(function (event) {
+				let node = event.target ? event.target : event.srcElement;
+				if (!$dom(node).hasClass('querypanel')) return;
+				let ctrl = $ctrls.get(node.getAttribute('ctrid'));
+				if (ctrl != null) ctrl.obj.querypanel = false;
+			});
 			//创建查询内容区
 			let sect = panel.add('section');
 			//头部

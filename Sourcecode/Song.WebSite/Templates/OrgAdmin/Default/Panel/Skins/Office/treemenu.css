@@ -1,0 +1,22 @@
+﻿@charset "utf-8";
+
+.treemenu {
+    /*选项卡的字体颜色*/
+    --tag-color: #666;
+    /*选项卡背景色*/
+    --tag-bg: rgb(66 89 113 / 0%);
+    /*选项卡被选中时的背景色*/
+    --tag-selected-bg: rgb(255 255 255);
+    /*选项卡被选中是的字体色*/
+    --tag-selected-color: #555;
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(6 148 191);
+    /*菜单项，滑标滑过的效色*/
+    --node-hover-color: rgb(1, 129, 44);
+    --node-hover-bg: #eef5e8;
+    --node-hover-border: solid 1px transparent;
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: rgb(6 148 191);
+    --node-curr-bg: rgb(223 239 255);
+}

@@ -116,8 +116,8 @@ function ready(result) {
         window.login.loading = false;
         $dom('panel#login').hide();
         $dom('panel#admin').show().css('opacity', 0);
-        window.$skins.onchange();
-        //window.$skins.setup('Education')
+        //window.$skins.onchange();
+        window.$skins.setup('Education')
         //右侧菜单信息
         window.usermenu.datas[0].title = result.Acc_Name;
         if (result.Acc_Photo != '')

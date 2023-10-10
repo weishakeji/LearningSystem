@@ -1347,7 +1347,7 @@
             "MM_Name": "单点登录",
             "MM_Type": "item",
             "MM_Root": 88,
-            "MM_Link": "site/ssoapi.aspx",
+            "MM_Link": "site/ssoapi",
             "MM_Marker": "",
             "MM_Tax": 3,
             "MM_PatId": "742f03375a49149ef533668189ec0777",

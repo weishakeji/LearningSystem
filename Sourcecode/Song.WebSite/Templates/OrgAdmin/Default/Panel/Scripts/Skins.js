@@ -20,7 +20,7 @@
 		this.crts = ['treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
 		//风格样式库
 		this.list = [];
-		this._list = ['education', 'win10', 'win7'];
+		this._list = ['education', 'office', 'win10', 'win7'];
 		this._night = '_Night'; //夜间模式
 		this._cookies = {
 			curr: 'WebdeskUI-' + window.module + '-skin',

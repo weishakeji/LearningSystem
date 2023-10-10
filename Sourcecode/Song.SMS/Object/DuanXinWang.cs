@@ -92,15 +92,6 @@ namespace Song.SMS.Object
                 }
             }
             return state;
-
-            //UTF8Encoding encoding = new UTF8Encoding();
-            //byte[] b = encoding.GetBytes(postString);
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost/t/default.aspx");
-            //request.Timeout = 1000 * 5;
-            //request.Method = "POST";
-            //request.ContentType = "application/x-www-form-urlencoded";
-            //request.ContentLength = b.Length;
-            //request.BeginGetRequestStream(new AsyncCallback(ReadCallback), request);
         }
 
         public int Query()

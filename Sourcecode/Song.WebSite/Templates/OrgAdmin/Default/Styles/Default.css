@@ -4,7 +4,7 @@
     margin: 0px;
     padding: 0px;
     background-color: rgb(102 169 237);
-    background: radial-gradient(ellipse at left top, #fdb7b9 20%, #5d9dde 50%, #104f9d);
+   
     overflow: hidden;
 }
 
@@ -17,7 +17,9 @@ panel {
     left: 0px;
 }
 panel#admin {
-    background-image: linear-gradient(to bottom right,  #6dbcff,#58c198,#ffb83c);
+    background-color: #d5e9fd;
+    /*
+    background-image: linear-gradient(to right,  #d5e9fd 50px,#fdd1d1,#ffe8c0);*/
 }
 #treemenu-area {
     box-shadow: none !important;
@@ -270,7 +272,7 @@ panel#admin {
 }
 
 #user-area span {
-    color: #eee !important;
+    color: #01689b !important
 }
 
 /*选项卡*/
@@ -290,10 +292,6 @@ panel#admin {
     text-align: center;
 }
 
-.treemenu tree_area tree_tit {
-    --background-color: rgb(255, 114, 98) !important;
-    --color: #fff !important;
-}
 
 timer {
     display: block;
@@ -301,7 +299,7 @@ timer {
     top: 60px;
     right: 40px;
     font-size: 10px;
-    color: rgba(255, 255, 255, .8);
+    color: rgb(6 133 46 / 80%);
     cursor: default;
 }
 
@@ -337,7 +335,7 @@ timer {
     right: -3px !important;
     left: 5px !important;
     text-shadow:none !important;
-    color: #ddd !important;
+    color: #444 !important;
     width: 30px;
     height: 25px;
     line-height: 30px;
