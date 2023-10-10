@@ -167,7 +167,8 @@
     width: 100%;
     height: 40px;
     z-index: 2;
-    color: var(--tag-color);
+    color: var(--tag-color);  
+    transition: all 0.3s;
 }
 
 .treemenu tree_tags tree-foldbtn.fold {
@@ -178,11 +179,12 @@
     content: '\a016';
     line-height: 40px;
     font-size: 16px;
+    display: block;
     font-family: "webdesk_icon" !important;
 }
 
-.treemenu tree_tags tree-foldbtn:hover {
-    transform: scale(1.05);
+.treemenu tree_tags tree-foldbtn:hover:before {
+    transform: scale(1.05) ;
 }
 
 /*树形菜单区域*/
@@ -233,7 +235,7 @@
     font-size: 15px;
     border-radius: 3px;
     text-align: center;
-    background-color: var(--title-bg);  
+    background-color: var(--title-bg);
     position: absolute;
     top: 0px;
     left: 0px;
@@ -359,7 +361,7 @@
     left: 3px;
     top: 3px;
     z-index: 1;
-    border-radius: 3px;   
+    border-radius: 3px;
 }
 
 
