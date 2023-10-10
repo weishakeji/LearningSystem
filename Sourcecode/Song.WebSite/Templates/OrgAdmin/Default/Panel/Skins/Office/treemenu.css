@@ -13,10 +13,13 @@
     --title-color: #fff;
     --title-bg: rgb(6 148 191);
     /*菜单项，滑标滑过的效色*/
-    --node-hover-color: rgb(1, 129, 44);
-    --node-hover-bg: #eef5e8;
-    --node-hover-border: solid 1px transparent;
+    --node-hover-color: rgb(6 148 191);
+    --node-hover-bg: rgb(194 219 245);
+    --node-hover-border: none;
     /*菜单项，当前选中的颜色与背景色*/
-    --node-curr-color: rgb(6 148 191);
-    --node-curr-bg: rgb(223 239 255);
+    --node-curr-color: rgb(1, 129, 44);
+    --node-curr-bg: #eef5e8;
+}
+.treemenu tree-node:hover:before {
+    border: none !important;   
 }
