@@ -49,7 +49,7 @@
 		//查询按钮
 		this.query_data = {
 			title: '菜单项检索', id: 'query',
-			tit: '搜索', type: 'query', ico: 'f004c'
+			tit: '检索', type: 'query', ico: 'f004c'
 		};
 		//初始化并生成控件
 		this._initialization();
