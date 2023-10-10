@@ -110,7 +110,7 @@
 		'querypanel': function (obj, val, old) {
 			if (obj.domquery) {
 				if (!val) return obj.domquery.hide();
-				//显示查询面板
+				//将树形菜单的html直接放入查询面板，不再直接生成
 				let sect = obj.domquery.find('section>section');
 				sect.html(obj.dombody.html());
 				sect.find('tree_area').show();
@@ -120,15 +120,12 @@
 					while (node.nodeName.toLowerCase() != 'tree_box') node = node.parentNode;
 					let treeid = node.getAttribute('treeid');
 					let ctrobj = treemenu._getObj(e);	//控件对象
-					let datanode = ctrobj.getData(treeid); //数据源节点
-					//console.error(datanode);
+					let datanode = ctrobj.getData(treeid); //数据源节点					
 					//触发节点点击事件
 					if (datanode.type != 'link' && datanode.childs.length < 1) {
 						ctrobj.trigger('click', { treeid: treeid, data: datanode });
-						//console.error(ctrobj);
 						ctrobj.querypanel = false;
 					}
-					//alert(treeid);
 				});
 			}
 		},

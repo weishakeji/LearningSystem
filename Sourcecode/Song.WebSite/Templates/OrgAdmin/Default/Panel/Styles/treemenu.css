@@ -406,9 +406,9 @@ div.querypanel>section header {
     box-sizing: border-box;  
 }
 div.querypanel>section header>div{
-    line-height: 40px;
+    line-height: 50px;
     height: 100%;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 div.querypanel .query_close {
     position: absolute;
