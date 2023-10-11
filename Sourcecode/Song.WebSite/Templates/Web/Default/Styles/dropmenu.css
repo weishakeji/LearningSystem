@@ -121,8 +121,6 @@
     border-radius: 10px;
 }
 
-.dropmenu drop_roots drop-node span {}
-
 /*子菜单面板*/
 .dropmenu drop-panel {
     position: absolute;

@@ -113,7 +113,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop-panel[root='#menubar'] {
-    background-color: rgb(191, 219, 250) !important;
+    background-color: rgb(191, 219, 250, 0.75) !important;
 }
 
 .dropmenu drop-panel[root='#menubar']>*:not(hr):hover,
@@ -276,6 +276,8 @@ panel#admin {
 /*选项卡*/
 #tabs-area {
     float: right;
+    margin-top: 5px;
+    height: calc(100% - 5px);
 }
 
 #treemenu-area {
@@ -296,7 +298,7 @@ panel#admin {
 timer {
     display: block;
     position: absolute;
-    top: 60px;
+    top: 65px;
     right: 40px;
     font-size: 10px;
     color: rgb(6 133 46 / 80%);
