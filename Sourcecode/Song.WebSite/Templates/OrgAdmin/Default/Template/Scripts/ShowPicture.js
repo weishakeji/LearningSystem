@@ -16,20 +16,19 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
+            th.loading_init = false;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
                 //获取结果
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.getShowpic();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -52,20 +51,21 @@ $ready(function () {
             getShowpic: function (orgid) {
                 var th = this;
                 orgid = orgid ? orgid : th.organ.Org_ID;
-                this.loading = true;
+                th.loading = true;
                 $api.get('Showpic/All', { 'orgid': orgid, 'site': th.site }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
-                        th.rowdrop();
+                        if (th.datas.length > 0) {
+                            th.$nextTick(function () {
+                                th.rowdrop();
+                            });
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //行的拖动
             rowdrop: function () {
@@ -82,13 +82,13 @@ $ready(function () {
                     },
                     onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         let old = $api.clone(this.datas); // 获取表数据
@@ -122,6 +122,7 @@ $ready(function () {
                 if (this.datas.length <= 1) return;
                 var th = this;
                 var arr = $api.clone(this.datas);
+                th.loading = true;
                 $api.post('Showpic/ModifyTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -135,18 +136,14 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
-                //console.log(arr);
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除轮换图片项
             deleteImg: function (item) {
                 var th = this;
                 th.loading_id = item.Shp_ID;
                 $api.delete('Showpic/Delete', { 'id': item.Shp_ID }).then(function (req) {
-                    th.loading_id = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.freshcache();
@@ -162,7 +159,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_id = -1);
             },
             //更改显示状态
             changeShow: function (item, show) {
@@ -170,7 +167,6 @@ $ready(function () {
                 this.loading_id = item.Shp_ID;
                 var th = this;
                 $api.post('Showpic/Modify', { 'entity': item }).then(function (req) {
-                    th.loading_id = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -185,14 +181,13 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_id = -1);
             },
             //更新
             update: function (item) {
                 this.loading_id = item.Shp_ID;
                 var th = this;
                 $api.post('Showpic/Modify', { 'entity': item }).then(function (req) {
-                    th.loading_id = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.edit_id = -1;
@@ -204,11 +199,12 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_id = -1);
             },
             //上传新的轮换图片
             fileupload: function (file) {
                 var th = this;
+                th.loading = true;
                 $api.post('Showpic/AddPicture', { 'file': file, 'orgid': th.organ.Org_ID, 'site': th.site }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -221,14 +217,13 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //更改轮换图片
             filechange: function (file, data, id) {
                 var th = this;
                 th.loading_id = id;
                 $api.post('Showpic/ModifyPicture', { 'file': file, 'entity': data }).then(function (req) {
-                    th.loading_id = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         for (var i = 0; i < th.datas.length; i++) {
@@ -245,7 +240,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_id = -1);
             },
             //字体颜色变化时
             colorChange: function (color) {

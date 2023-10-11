@@ -70,7 +70,7 @@
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
               :style="'color:'+data.Nav_Color">
-              <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup>&#xa038;</icon>
+              <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup></icon>
               <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
               {{ data.Nav_Name }}
               <el-tooltip class="item" effect="light" content="链接打开的方式" placement="bottom">

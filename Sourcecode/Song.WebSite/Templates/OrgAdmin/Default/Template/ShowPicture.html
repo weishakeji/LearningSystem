@@ -8,8 +8,8 @@
 
 <body>
   <div id="vapp" v-cloak>
-    <div id="imglist">
-      <div class="imgitem draghandle" v-for="(img,i) in datas"  :disabled="!img.Shp_IsShow">
+    <div id="imglist" v-if="datas.length>0">
+      <div class="imgitem draghandle" v-for="(img,i) in datas" :disabled="!img.Shp_IsShow">
         <div class="loading_panel" v-if="loading_id==img.Shp_ID">
           <span class="el-icon-loading"></span>
           正在处理中....
@@ -78,7 +78,7 @@
         </el-button-group>
       </div>
     </div>
-    
+
     <upload-img @change="fileupload" text="新增图片" id="add"></upload-img>
 
   </div>
