@@ -113,7 +113,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop-panel[root='#menubar'] {
-    background-color: rgb(191, 219, 250, 0.75) !important;
+    background-color: rgb(191, 219, 250, 0.85) !important;
 }
 
 .dropmenu drop-panel[root='#menubar']>*:not(hr):hover,
