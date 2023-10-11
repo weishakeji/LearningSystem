@@ -20,6 +20,11 @@
     --node-curr-color: rgb(1, 129, 44);
     --node-curr-bg: #eef5e8;
 }
+
 .treemenu tree-node:hover:before {
-    border: none !important;   
+    border: none !important;
+}
+
+.treemenu tree_box.current {
+    font-weight: normal;
 }
