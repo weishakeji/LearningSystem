@@ -46,7 +46,7 @@ $ready(function () {
                 console.error(err);
             });
 
-            this.getFiles();
+            this.getFiles(false);
         },
         watch: {
             //选择当前页的所有
@@ -80,16 +80,15 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get("Teacher/Titles", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.sorts = d.data.result;
                     } else {
                         throw d.data.message;
-                    }                  
+                    }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //全选,nv:为true全选,false取消全选
             selectAll: function (nv) {
@@ -182,40 +181,40 @@ $ready(function () {
                 //创建生成Excel
                 th.loading_export = true;
                 $api.get('Teacher/ExcelOutputForSort', { 'orgid': th.organ.Org_ID, 'sorts': sorts }).then(function (req) {
-                    th.loading_export = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
                             message: '成功生成Excel文件！',
                             type: 'success',
-                            position: 'top-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
-                        th.getFiles();
+                        th.filepanel = true;
+                        th.getFiles(false);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_export = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_export = false);
             },
             //获取文件列表
-            getFiles: function () {
+            getFiles: function (hide) {
                 var th = this;
+                th.loading = true;
                 $api.get('Teacher/ExcelFiles', { 'path': 'TeacherToExcelForTitle' }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
-                        th.loading = false;
+                        //如果文件数小于1，则隐藏文件面板
+                        if (hide && th.files.length < 1) {
+                            th.filepanel = false;
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除文件
             deleteFile: function (file) {
@@ -224,11 +223,11 @@ $ready(function () {
                 $api.delete('Teacher/ExcelDelete', { 'filename': file, 'path': 'TeacherToExcelForTitle' }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.getFiles();
+                        th.getFiles(true);
                         th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                     } else {
@@ -238,12 +237,9 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
-            //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', true);
-            }
         },
     });
     //当前职称下的教师数

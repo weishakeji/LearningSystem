@@ -33,7 +33,7 @@ div[role=treeitem] {
     padding-right: 8px;
 }
 
-.custom-tree-node:hover {
+.el-tree-node__content:hover {
     background-color: #eee;
 }
 

@@ -29,7 +29,10 @@
     z-index: 2;
 }
 
-.pagebox margin nw {}
+.pagebox margin nw {
+    top: 0px;
+    left: 0px;
+}
 
 .pagebox margin w {
     height: calc(100% - 20px);
@@ -294,8 +297,6 @@
     background-color: #eee;
 }
 
-.pagebox btnbox>*:first-child {}
-
 .pagebox btnbox>*:last-child {
     border-top: none;
 }
@@ -311,8 +312,6 @@
     line-height: 18px;
     cursor: pointer;
 }
-
-.pagebox btnbox btn_min {}
 
 .pagebox btnbox btn_min::before {
     content: "\e600";
