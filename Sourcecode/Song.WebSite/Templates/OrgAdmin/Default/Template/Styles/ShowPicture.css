@@ -171,11 +171,17 @@
 	padding: 10px 15px;
 	border: 1px solid #dcdfe6;
 	text-align: center;
-	box-shadow: 1px 1px 2px #ccc;
+	
 	border-radius: 4px;
 	box-sizing: border-box;
 	cursor: pointer;
-	background-color: #409eff;
-	color: #fff;
+	color: #409eff;
+    background: #ecf5ff;
+    border-color: #b3d8ff;
 	margin: 20px 15px 15px 20px;
+}
+.upload_img_area[ctrid='upload_add']:hover{
+	box-shadow: 1px 1px 2px #ccc;
+	background: #409eff;
+	color: #ecf5ff;
 }

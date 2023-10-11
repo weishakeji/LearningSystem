@@ -13,8 +13,8 @@
       <!-- 主导航-->
       <el-tab-pane label="主导航菜单" name="main">
 
-        <el-tree :data="data_main" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false"
-          draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
+        <el-tree :data="data_main" node-key="id" v-if="data_main.length>0" :props="defaultProps" default-expand-all
+          :expand-on-click-node="false" draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
           <span class="custom-tree-node" slot-scope="{ node, data }">
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
@@ -49,7 +49,7 @@
                 </el-button>
               </el-popconfirm>
             </template>
-          </span>        
+          </span>
         </el-tree>
         <div class="tree_root">
           <el-button type="text" size="mini" @click="append(null,data_main)" v-loading="loading">
@@ -64,8 +64,8 @@
       </el-tab-pane>
       <!--底部导航-->
       <el-tab-pane label="底部导航" name="foot">
-        <el-tree :data="data_foot" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false"
-          draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
+        <el-tree :data="data_foot" node-key="id" v-if="data_foot.length>0" :props="defaultProps" default-expand-all
+          :expand-on-click-node="false" draggable :allow-drop="true" :allow-drag="true" v-loading="loading">
           <span class="custom-tree-node" slot-scope="{ node, data }">
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
@@ -102,7 +102,7 @@
         </el-tree>
         <div class="tree_root">
           <el-button type="text" size="mini" @click="append(null,data_foot)" v-loading="loading">
-            新增下级
+            新增
           </el-button>
         </div>
         <div class="btnFooter">

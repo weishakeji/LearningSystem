@@ -78,8 +78,10 @@
         </el-button-group>
       </div>
     </div>
-
-    <upload-img @change="fileupload" text="新增图片" id="add"></upload-img>
+    <div loading="p1" v-if="loading"></div>
+    <upload-img @change="fileupload" text="新增图片" id="add" v-else>
+      <span icon="&#xe6ea">新增图片</span>
+    </upload-img>
 
   </div>
 </body>
