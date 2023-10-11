@@ -28,3 +28,8 @@
 .treemenu tree_box.current {
     font-weight: normal;
 }
+/*当前选中的左侧选项卡*/
+.treemenu tree_tags tree_tag.selected {   
+    color: var(--title-bg);
+    border-left: 3px solid rgb(253, 72, 0);
+}

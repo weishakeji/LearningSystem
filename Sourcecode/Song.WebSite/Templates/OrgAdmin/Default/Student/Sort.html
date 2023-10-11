@@ -35,8 +35,7 @@
             </el-table-column>
             <el-table-column label="组名称">
                 <template slot-scope="scope">
-                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>
-                    {{scope.row.Sts_Tax}}
+                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>                 
                 </template>
             </el-table-column>
             <el-table-column label="课程" width="160">

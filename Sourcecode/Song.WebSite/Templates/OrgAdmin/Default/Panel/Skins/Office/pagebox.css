@@ -532,8 +532,7 @@ pagebox-min {
     height: 30px;
     user-select: none;
     cursor: default;
-    background-color: rgba(161, 197, 247, 0.4);
-    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    background-color: rgba(161, 197, 247, 0.4); 
     border-radius: 3px;
     border: 1px solid rgba(62, 63, 63, 0.3);
     overflow: hidden;

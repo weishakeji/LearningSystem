@@ -180,7 +180,7 @@ userbar .user-dropdown-show .el-icon--right {
 weisha_header_navi .dropmenu drop_roots drop-node {
     padding: 0px !important;
     text-align: center !important;
-    flex: 3;
+    flex: 4;
 }
 
 weisha_header_navi .dropmenu drop_roots drop-node:first-child {
@@ -191,7 +191,7 @@ weisha_header_navi .dropmenu drop_roots drop-node:first-child {
 
 weisha_header_navi .dropmenu drop_roots drop-node:last-child {
     text-align: right !important;
-    flex: 2;
+    flex: 3;
 }
 
 weisha_header_navi .dropmenu drop_roots drop-node:last-child>a {

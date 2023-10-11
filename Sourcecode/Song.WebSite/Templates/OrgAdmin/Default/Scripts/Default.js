@@ -102,7 +102,7 @@ $dom.ctrljs(function () {
         target: '#user-area',
         width: 100,
         plwidth: 120,
-        level: 2000
+        level: 30000
     }).onclick(nodeClick);
     //用户信息的下拉菜单
     $dom.get($dom.path() + '../_public/datas/usermenu.json', function (req) {
@@ -403,7 +403,7 @@ window.createVapp = function () {
                             deftype: 'link',
                             plwidth: 180,
                             height: 45,
-                            level: 40000
+                            level: 20000
                         }).onclick(this.menuClick);
                         window.menubar.add(this.nodeconvert(nv));
                     });
