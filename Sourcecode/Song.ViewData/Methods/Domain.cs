@@ -10,7 +10,7 @@ using Song.ViewData.Attri;
 namespace Song.ViewData.Methods
 {
     /// <summary>
-    /// 域名管理
+    /// 平台二级域名的管理
     /// </summary>
     [HttpPut, HttpGet]
     public class Domain : ViewMethod, IViewAPI

@@ -22,7 +22,7 @@ namespace Song.ViewData.Methods
 {
 
     /// <summary>
-    /// 账号
+    /// 账号管理，涉及学员账号的注册、登录（包括第三方账号登录）、修改、列表查询；以及学员组等
     /// </summary>
     [HttpPut, HttpGet]
     public class Account : ViewMethod, IViewAPI

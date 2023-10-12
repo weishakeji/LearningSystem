@@ -16,7 +16,7 @@ using System.IO;
 namespace Song.ViewData.Methods
 {
     /// <summary>
-    /// 专业管理
+    /// 专业管理，或叫学科管理
     /// </summary>
     [HttpPut, HttpGet]
     public class Subject : ViewMethod, IViewAPI

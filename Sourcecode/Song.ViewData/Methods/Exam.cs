@@ -19,7 +19,7 @@ using WeiSha.Core;
 namespace Song.ViewData.Methods
 {
     /// <summary>
-    /// 考试管理
+    /// 专项考试的管理，包括出卷、考试、成绩查看等
     /// </summary>
     [HttpPut, HttpGet]
     public class Exam : ViewMethod, IViewAPI
