@@ -6,11 +6,13 @@
 	overflow-y: auto;
 	box-sizing: border-box;
 	display: flex;
-	flex-wrap:wrap;
+    justify-content: flex-start;
+    max-width: 1000px;
 }
 
 .el-card {
 	width: 500px;	
+	flex: 1;
 	margin: 0px 10px 10px 0px;
 	background-color: #fff !important;
 }
