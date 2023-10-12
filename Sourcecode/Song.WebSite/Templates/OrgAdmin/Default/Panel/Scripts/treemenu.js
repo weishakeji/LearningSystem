@@ -114,6 +114,11 @@
 				let sect = obj.domquery.find('section>section');
 				sect.html(obj.dombody.html());
 				sect.find('tree_area').show();
+				//计算菜单项数量
+				let total = obj.getNodeCount(true);
+				let count = obj.getNodeCount(false);
+				obj.domquery.find('header>div').html('全部菜单项 (' + count + '/' + total + '个)');
+
 				obj.domquery.show('flex');
 				obj.domquery.find('tree-node').click(function (e) {
 					let node = e.target ? e.target : e.srcElement;
@@ -272,7 +277,7 @@
 			let sect = panel.add('section');
 			//头部
 			let head = sect.add('header');
-			head.add('div').html('菜单查询');
+			head.add('div').attr('title', '全部菜单项');
 			//关闭按钮
 			sect.add('div').addClass('query_close').bind('click', function (event) {
 				let node = event.target ? event.target : event.srcElement;
@@ -448,7 +453,7 @@
 		}
 		return items;
 	};
-	//获取数据源的节点
+	//通过节点id,获取数据源的节点项
 	fn.getData = function (treeid) {
 		if (this.datas.length < 1) return null;
 		return $dom.clone(getdata(treeid, this.datas));
@@ -464,6 +469,24 @@
 			return d;
 		}
 	};
+	//计算节点数量，如果isall为flase,则只取最底一级，节点不计入
+	fn.getNodeCount = function (isall, childs) {
+		let list = childs == null ? this.datas : childs;
+		let count = 0;
+		for (let i = 0; i < list.length; i++) {
+			if (isall) {
+				count++;
+				count += this.getNodeCount(isall, list[i].childs);
+			} else {
+				if (list[i].childs == null || list[i].childs.length < 1)
+					count++;
+				else
+					count += this.getNodeCount(isall, list[i].childs);
+			}
+
+		}
+		return count;
+	}
 	//切换选项卡
 	fn.switch = function (obj, tag) {
 		if (tag == null) return;
