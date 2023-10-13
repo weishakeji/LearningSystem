@@ -114,10 +114,12 @@
 				let sect = obj.domquery.find('section>section');
 				sect.html(obj.dombody.html());
 				sect.find('tree_area').show();
+				sect.find('tree_area tree_box').show();
+				sect.find('tree_area tree-node.folderclose').attr('class', 'folder');
 				//计算菜单项数量
 				let total = obj.getNodeCount(true);
 				let count = obj.getNodeCount(false);
-				obj.domquery.find('header>div').html('全部菜单项 (' + count + '/' + total + '个)');
+				obj.domquery.find('header>div[title]').html('全部菜单项 (' + count + '/' + total + '个)');
 
 				obj.domquery.show('flex');
 				obj.domquery.find('tree-node').click(function (e) {
@@ -132,6 +134,10 @@
 						ctrobj.querypanel = false;
 					}
 				});
+				//重新设置查询结果的状态
+				let input = obj.domquery.find('input');
+				obj.queryEffect(input.val());
+				input.focus();		//设置焦点
 			}
 		},
 		//是否显示完成度的进度条
@@ -277,13 +283,26 @@
 			let sect = panel.add('section');
 			//头部
 			let head = sect.add('header');
-			head.add('div').attr('title', '全部菜单项');
+			head.add('div').attr('title', '全部菜单项').add('span');
+			head.add('div').attr('query', '检索菜单项').append('input').add('clear');
 			//关闭按钮
 			sect.add('div').addClass('query_close').bind('click', function (event) {
 				let node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('querypanel')) node = node.parentNode;
 				let ctrl = $ctrls.get(node.getAttribute('ctrid'));
 				if (ctrl != null) ctrl.obj.querypanel = false;
+			});
+			//查询事件
+			head.find('input').bind('change,input', function (event) {
+				let node = event.target ? event.target : event.srcElement;
+				let crtobj = treemenu._getObj(event);
+				if (crtobj != null) crtobj.queryEffect(node.value);
+			});
+			head.find('clear').click(function (event) {
+				let crtobj = treemenu._getObj(event);
+				if (crtobj == null) return;
+				crtobj.domquery.find('input').val('');
+				crtobj.queryEffect('');
 			});
 			//菜单列表区
 			let menuarea = sect.add('section');
@@ -474,19 +493,60 @@
 		let list = childs == null ? this.datas : childs;
 		let count = 0;
 		for (let i = 0; i < list.length; i++) {
-			if (isall) {
-				count++;
-				count += this.getNodeCount(isall, list[i].childs);
-			} else {
-				if (list[i].childs == null || list[i].childs.length < 1)
-					count++;
-				else
-					count += this.getNodeCount(isall, list[i].childs);
-			}
-
+			if (isall || list[i].childs.length < 1) count++;
+			count += this.getNodeCount(isall, list[i].childs);
 		}
 		return count;
 	}
+	//查询节点，返回满足条件的节点数组
+	//search:查询值
+	//isall:sall为flase,则只取最底一级，节点不计入
+	fn.queryData = function (search, isall, childs) {
+		let list = childs == null ? this.datas : childs;
+		let arr = [];
+		for (let i = 0; i < list.length; i++) {
+			const item = list[i];
+			if (isall || item.childs.length < 1) {
+				if (item.title.indexOf(search) > -1 ||
+					item.tit.indexOf(search) > -1 ||
+					item.intro.indexOf(search) > -1
+				) arr.push(item);
+			}
+			if (item.childs.length > 0)
+				arr = arr.concat(this.queryData(search, isall, item.childs));
+		}
+		return arr;
+	};
+	//查询节点后的显示效果
+	fn.queryEffect = function (search) {
+		//去除之前的高亮显示效果
+		this.domquery.find('tree_box tree-node').removeAttr('queried');
+		let div = this.domquery.find('section header>div').first();
+		div.removeAttr('total');
+		this.domquery.find('tree_area tree_tit').removeAttr('count');
+		if (search == null || search.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "") == '') {
+			this.domquery.find('section header clear').hide();
+			return;
+		}
+		//计算出查询结果
+		let list = this.queryData(search, false);
+		for (let i = 0; i < list.length; i++) {
+			let treebox = this.domquery.find('tree_box[treeid=' + list[i].id + ']');
+			treebox.find('tree-node').first().attr('queried', true);
+		}
+		//查询出的结果总数
+		let total = list.length;
+		div.attr('total', '查询到 ' + total + ' 个菜单项');
+		//各个根节点下的查询到的总数
+		for (let i = 0; i < this.datas.length; i++) {
+			const item = this.datas[i];
+			let count = this.queryData(search, false, item.childs).length;
+			let tit = this.domquery.find('tree_area[treeid=' + item.id + '] tree_tit');
+			count > 0 ? tit.attr('count', count) : tit.removeAttr('count');
+		}
+		//显示清除查询字符的按钮
+		this.domquery.find('section header clear').show();
+	};
 	//切换选项卡
 	fn.switch = function (obj, tag) {
 		if (tag == null) return;
