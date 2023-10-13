@@ -68,19 +68,21 @@
                                 <icon v-if="scope.row.Ac_IsTeacher" teacher title="教师"></icon>
                             </icon>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
-                            <div remark="电话" @dblclick.stop="copytext(showmobi(scope.row))">
-                                <template
-                                    v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
-                                    <icon mobile></icon>
-                                    <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
-                                </template>
-                                <el-tooltip v-else effect="light" content="已绑定手机号" placement="right">
-                                    <span class="bindmobi">
-                                        <icon> &#xe676 </icon>
-                                        <span v-html='showsearch(showmobi(scope.row),form.phone)'>
+                            <div remark="电话">
+                                <span @dblclick.stop="copytext(showmobi(scope.row))">
+                                    <template
+                                        v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
+                                        <icon mobile></icon>
+                                        <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
+                                    </template>
+                                    <el-tooltip v-else effect="light" content="已绑定手机号" placement="right">
+                                        <span class="bindmobi">
+                                            <icon> &#xe676 </icon>
+                                            <span v-html='showsearch(showmobi(scope.row),form.phone)'>
+                                            </span>
                                         </span>
-                                    </span>
-                                </el-tooltip>
+                                    </el-tooltip>
+                                </span>
                             </div>
                         </div>
 
@@ -100,7 +102,7 @@
                 </el-table-column>
                 <el-table-column label="账号/学员组">
                     <template slot-scope="scope">
-                        <div @dblclick.stop="copytext(scope.row.Ac_AccName)">
+                        <div>
                             <icon copy title="复制账号" @click.stop="copytext(scope.row.Ac_AccName)"></icon>
                             <span v-html='showsearch(scope.row.Ac_AccName,form.acc)' class="large"></span>
                         </div>
@@ -136,7 +138,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="80" align="center"  fixed="right">
+                <el-table-column label="操作" show-overflow-tooltip width="80" align="center" fixed="right">
                     <template slot-scope="scope">
                         <div>
                             <el-button-group>
