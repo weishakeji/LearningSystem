@@ -41,7 +41,7 @@ $ready(function () {
             updateDetails: function () {
                 var th = this;
                 th.loading = true;
-                $api.post('Organization/Modify', { 'entity': this.organ }).then(function (req) {
+                $api.post('Organization/ModifyIntro', { 'orgid': th.organ.Org_ID, 'text': th.organ.Org_Intro }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;

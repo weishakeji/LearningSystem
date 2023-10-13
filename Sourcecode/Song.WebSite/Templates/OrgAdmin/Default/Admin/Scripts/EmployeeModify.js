@@ -69,7 +69,7 @@ $ready(function () {
 
             //如果是新增界面
             if (th.id == '') return;
-            $api.get('Admin/ForID', { 'id': th.id }).then(function (req) {
+            $api.post('Admin/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;

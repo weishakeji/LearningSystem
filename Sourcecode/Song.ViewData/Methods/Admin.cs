@@ -241,7 +241,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost][Admin]
         public Song.Entities.EmpAccount ForID(int id)
         {
             Song.Entities.EmpAccount acc = Business.Do<IEmployee>().GetSingle(id);

@@ -458,12 +458,15 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Export.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\Default.js" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\About.html" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\About.js" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Study.js" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Device.js" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Study.html" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Device.html" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Register.html" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Register.js" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Styles\About.css" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Styles\Study.css" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Styles\Device.css" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Styles\Register.css" />

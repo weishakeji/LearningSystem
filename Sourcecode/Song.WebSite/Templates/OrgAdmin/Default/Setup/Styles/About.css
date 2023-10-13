@@ -1,12 +1,6 @@
 ﻿@charset "utf-8";
-
-html, body, #vapp {
-	overflow: hidden;
-	background-color: #fff;
-}
-
 .el-form {
-	height: calc(100% - 100px);
+	height: calc(100% - 60px);
 	width: 100%;
     margin: 0px;
     padding: 0px;
@@ -39,32 +33,12 @@ html, body, #vapp {
 	display: none;
 }
 
-/*Logo图片*/
-.upload_img_area {
-	display: table;
-	float: left;
-}
-
-.nophoto {
-	width: 100px;
-	height: 100px;
-	line-height: 100px;
-	color: #aaa;
-	background-color: #eee;
-	text-align: center;
-	cursor: pointer;
-}
-
-.nophoto icon {
-	font-size: 35px;
-	margin: 0px 0px 0px 10px;
-	text-align: center;
-}
 
 
-
-.upload_img_area img {
-	height: 100px;
+/*关于我们的编辑框*/
+.editor {
+	width: 100%;
+	height: 100%;
 }
 
 
@@ -72,7 +46,7 @@ html, body, #vapp {
 #footer-box {
 	background-color: #fff;
 	height: 60px;
-	padding: 10px 10px 0px 135px;
+	padding: 10px 10px 0px 10px;
 	box-sizing: border-box;
 	position: relative;
 }

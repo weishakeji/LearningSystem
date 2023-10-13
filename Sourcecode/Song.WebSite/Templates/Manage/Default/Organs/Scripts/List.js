@@ -90,7 +90,11 @@
             changeUse: function (row) {
                 var th = this;
                 th.loadingid = row.Org_ID;
-                $api.post('Organization/Modify', { 'entity': row }).then(function (req) {
+                let exclude = '';
+                for (var key in row) {
+                    if (key != 'Org_IsUse') exclude += key + ',';
+                }
+                $api.post('Organization/Modify', { 'entity': row, 'exclude': exclude }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',

@@ -39,13 +39,14 @@ $ready(function () {
             }
         },
         created: function () {
+            var th = this;
             $api.post('Admin/Super').then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    vapp.account = result;
+                    th.account = result;
                     $api.get('Organization/ForID', { 'id': result.Org_ID }).then(function (req) {
                         if (req.data.success) {
-                            vapp.entity = req.data.result;
+                            th.entity = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -58,7 +59,7 @@ $ready(function () {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
-                vapp.account = null;
+                th.account = null;
                 alert(err);
             });
         },
@@ -108,8 +109,8 @@ $ready(function () {
                         var point = new BMap.Point(lng, lat);
                         var marker = new BMap.Marker(point);  // 创建标注
                         window.map.addOverlay(marker);
-                        window.vapp.entity.Org_Longitude = lng;
-                        window.vapp.entity.Org_Latitude = lat;
+                        th.entity.Org_Longitude = lng;
+                        th.entity.Org_Latitude = lat;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -122,24 +123,24 @@ $ready(function () {
             },
             //保存信息
             btnEnter: function (formName) {
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var apipath = 'Organization/Modify';
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
+                        $api.post('Organization/Modify', { 'entity': th.entity, 'exclude': '' }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                vapp.operateSuccess();
+                                th.operateSuccess();
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             //window.top.ELEMENT.MessageBox(err, '错误');
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

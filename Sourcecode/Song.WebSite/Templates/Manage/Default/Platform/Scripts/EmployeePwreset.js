@@ -28,7 +28,7 @@ $ready(function () {
         },
         created: function () {
             var th=this;
-            $api.get('Admin/ForID', { 'id': th.id }).then(function (req) {
+            $api.post('Admin/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;                    

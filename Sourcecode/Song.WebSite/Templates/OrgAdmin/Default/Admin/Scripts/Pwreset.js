@@ -30,7 +30,7 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
-            $api.get('Admin/ForID', { 'id': th.id }).then(function (req) {
+            $api.post('Admin/ForID', { 'id': th.id }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;

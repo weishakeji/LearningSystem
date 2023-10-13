@@ -139,13 +139,21 @@ $ready(function () {
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
-                        var apipath = 'Organization/Modify';
+                        //仅保留当前页要修改的字段
+                        let fields = th.$refs[formName].fields;
+                        let props = [];
+                        for (let i = 0; i < fields.length; i++)
+                            props.push(fields[i].prop);
+                        let exclude = '';
+                        for (var key in th.organ) {
+                            let index = props.indexOf(key);
+                            if (index < 0) exclude += key + ',';
+                        }
+                        //console.error(exclude);
                         //接口参数，如果有上传文件，则增加file
-                        var para = {};
-                        if (th.upfile == null) para = { 'entity': th.organ };
-                        else
-                            para = { 'file': th.upfile, 'entity': th.organ };
-                        $api.post(apipath, para).then(function (req) {
+                        var para = { 'entity': th.organ, 'exclude': exclude };
+                        if (th.upfile != null) para['file'] = th.upfile;
+                        $api.post('Organization/Modify', para).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({

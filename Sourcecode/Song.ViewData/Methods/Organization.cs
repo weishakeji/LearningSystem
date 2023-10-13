@@ -243,13 +243,14 @@ namespace Song.ViewData.Methods
         /// 修改机构信息
         /// </summary>
         /// <param name="entity">机构对象</param>
+        /// <param name="exclude">不予修改的字段</param>
         /// <returns></returns>
         [HttpPost]
         [HttpGet(Ignore = true)]
         [Admin]
         [HtmlClear(Not = "entity")]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
-        public bool Modify(Ett.Organization entity)
+        public bool Modify(Ett.Organization entity, string exclude)
         {
             Ett.Organization old = Business.Do<IOrganization>().OrganSingle(entity.Org_ID);
             if (old == null) throw new Exception("Not found entity for Organization");
@@ -266,9 +267,8 @@ namespace Song.ViewData.Methods
             if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(entity.Org_Logo)) && !string.IsNullOrWhiteSpace(old.Org_Logo))
                 WeiSha.Core.Upload.Get["Org"].DeleteFile(old.Org_Logo);
 
-            old.Copy<Ett.Organization>(entity, "Org_Config");
+            old.Copy<Ett.Organization>(entity, "Org_Config," + exclude);
             if (!string.IsNullOrWhiteSpace(filename)) old.Org_Logo = filename;
-
           
             Business.Do<IOrganization>().OrganSave(old);
             return true;
@@ -283,6 +283,21 @@ namespace Song.ViewData.Methods
         public bool SetDefault(int id)
         {
             Business.Do<IOrganization>().OrganSetDefault(id);
+            return true;
+        }
+        /// <summary>
+        /// 修改机构的关于我们的信息
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="text">图文信息的文本内容，为html</param>
+        /// <returns></returns>
+        [HtmlClear(Not = "text")][HttpPost]
+        public bool ModifyIntro(int orgid,string text)
+        {
+            Ett.Organization old = Business.Do<IOrganization>().OrganSingle(orgid);
+            if (old == null) throw new Exception("Not found entity for Organization");
+            old.Org_Intro = text;
+            Business.Do<IOrganization>().OrganSave(old);
             return true;
         }
         #endregion

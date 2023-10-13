@@ -97,7 +97,7 @@
                 //获取最新数据，刷新
                 var th = this;
                 th.loadingid = id;
-                $api.get('Admin/ForID', { 'id': id }).then(function (req) {
+                $api.post('Admin/ForID', { 'id': id }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.datas.findIndex(item => item.Acc_Id == id);
