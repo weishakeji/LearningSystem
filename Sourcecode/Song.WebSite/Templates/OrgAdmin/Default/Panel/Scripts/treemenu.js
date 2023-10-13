@@ -524,10 +524,8 @@
 		let div = this.domquery.find('section header>div').first();
 		div.removeAttr('total');
 		this.domquery.find('tree_area tree_tit').removeAttr('count');
-		if (search == null || search.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "") == '') {
-			this.domquery.find('section header clear').hide();
-			return;
-		}
+		if (search != null) search = search.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
+		if (search == null || search == '') return this.domquery.find('section header clear').hide();
 		//计算出查询结果
 		let list = this.queryData(search, false);
 		for (let i = 0; i < list.length; i++) {
