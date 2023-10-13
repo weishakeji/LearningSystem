@@ -547,6 +547,10 @@ div.querypanel tree_area>div {
     overflow-y: auto;
 }
 
+div.querypanel tree_box tree-node *{
+    font-size: 16px;
+}
+
 div.querypanel tree_box tree-node[queried] * {
     color: red !important;
     font-weight: bold;

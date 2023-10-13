@@ -16,16 +16,17 @@
                     常规
                 </span>
             </el-tab-pane>
-            <el-tab-pane label="SEO" name="seo">
-                <span slot="label" icon="&#xe7d4">
-                    SEO
-                </span>
-            </el-tab-pane>
             <el-tab-pane label="联系方式" name="contact">
                 <span slot="label" icon="&#xa047">
                     联系方式
                 </span>
             </el-tab-pane>
+            <el-tab-pane label="SEO" name="seo">
+                <span slot="label" icon="&#xe7d4">
+                    SEO
+                </span>
+            </el-tab-pane>
+
             <el-tab-pane label="关于我们" name="about">
                 <span slot="label" icon="&#xe67d">
                     关于我们
@@ -65,23 +66,6 @@
                 </el-form-item>
                 <el-form-item label="公案备案号" prop="Org_GonganBeian">
                     <el-input v-model="organ.Org_GonganBeian"></el-input>
-                </el-form-item>
-            </div>
-            <div v-show="activeName=='seo'" remark="SEO" tab="seo">
-                <el-form-item label="Keywords" prop="Org_Keywords">
-                    <el-input type="textarea" v-model="organ.Org_Keywords"></el-input>
-                </el-form-item>
-                <el-form-item label="Description" prop="Org_Description">
-                    <el-input type="textarea" v-model="organ.Org_Description"></el-input>
-                </el-form-item>
-                <el-form-item label="附属代码" prop="Org_Extracode">
-                    <template slot="label">
-                        <el-tooltip class="item" effect="light" placement="bottom">
-                            <div slot="content">（例如流量统计代码）</div>
-                            <help>附属代码</help>
-                        </el-tooltip>
-                    </template>
-                    <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
                 </el-form-item>
             </div>
             <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
@@ -155,6 +139,24 @@
                     <div id="map" style="height:250px;width:100%;"></div>
                 </el-dialog>
             </div>
+            <div v-show="activeName=='seo'" remark="SEO" tab="seo">
+                <el-form-item label="Keywords" prop="Org_Keywords">
+                    <el-input type="textarea" v-model="organ.Org_Keywords"></el-input>
+                </el-form-item>
+                <el-form-item label="Description" prop="Org_Description">
+                    <el-input type="textarea" v-model="organ.Org_Description"></el-input>
+                </el-form-item>
+                <el-form-item label="附属代码" prop="Org_Extracode">
+                    <template slot="label">
+                        <el-tooltip class="item" effect="light" placement="bottom">
+                            <div slot="content">（例如流量统计代码）</div>
+                            <help>附属代码</help>
+                        </el-tooltip>
+                    </template>
+                    <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
+                </el-form-item>
+            </div>
+
             <div v-show="activeName=='about'" class="editor" tab="about" remark="关于我们">
                 <editor :content="organ.Org_Intro" model="simple" ref="editor" upload="Org" :dataid="organ.Org_ID"
                     @change="text=>organ.Org_Intro=text">

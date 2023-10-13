@@ -11,21 +11,18 @@ $ready(function () {
             loading_init: true,
             loading_map: true
         },
-        mounted: function () {           
+        mounted: function () {
         },
         created: function () {
             var th = this;
-            window.setTimeout(function () {
-                th.loading_map = false;
-                th.showMap(th.org);
-            }, 500);
+            th.$nextTick(function () {
+                window.setTimeout(function () {
+                    th.loading_map = false;
+                    th.showMap(th.org);
+                }, 300);
+            });
         },
-        computed: {
-            //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
-        },
+        computed: {},
         watch: {
         },
         methods: {
@@ -40,13 +37,24 @@ $ready(function () {
                 map.enableScrollWheelZoom();
                 map.enableKeyboard();
                 map.addControl(new BMap.NavigationControl());
-                map.centerAndZoom(new BMap.Point(lng, lat), 16);
-                var marker = new BMap.Marker(new BMap.Point(lng, lat));  // 创建标注
+                var point = new BMap.Point(lng, lat);
+                map.centerAndZoom(point, 16);
+                var marker = new BMap.Marker(point);  // 创建标注
                 map.addOverlay(marker);
-                //map.addEventListener("click", this.setMap);                
+                marker.setAnimation("BMAP_ANIMATION_BOUNCE");
+                map.centerAndZoom(point, 12);             
+                //核心代码 （监听map加载完毕）
+                var loadCount = 1;
+                map.addEventListener("tilesloaded", function () {
+                    if (loadCount == 1) {
+                        map.setCenter(point);
+                        map.centerAndZoom(point, 12);
+                    }
+                    loadCount = loadCount + 1;
+                });
             },
         }
     });
 
 }, ["../Components/courses.js",
-"../Components/course.js"]);
+    "../Components/course.js"]);
