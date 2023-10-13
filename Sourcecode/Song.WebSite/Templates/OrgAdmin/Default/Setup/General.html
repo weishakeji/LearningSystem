@@ -139,16 +139,7 @@
                 </el-form-item>
                 <el-form-item label="Description" prop="Org_Description">
                     <el-input type="textarea" v-model="organ.Org_Description"></el-input>
-                </el-form-item>
-                <el-form-item label="附属代码" prop="Org_Extracode">
-                    <template slot="label">
-                        <el-tooltip class="item" effect="light" placement="bottom">
-                            <div slot="content">（例如流量统计代码）</div>
-                            <help>附属代码</help>
-                        </el-tooltip>
-                    </template>
-                    <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
-                </el-form-item>
+                </el-form-item>              
             </div>
           
         </el-form>

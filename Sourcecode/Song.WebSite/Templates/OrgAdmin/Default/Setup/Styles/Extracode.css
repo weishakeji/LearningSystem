@@ -1,0 +1,37 @@
+﻿@charset "utf-8";
+
+.el-form {
+	height: calc(100% - 60px);
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+.el-form>div {
+	box-sizing: border-box;
+	padding: 15px 15px 0px 15px;
+	height: 100%;
+}
+
+.el-form-item__content, .el-textarea {
+	height: 100%;
+}
+.el-textarea textarea{
+	height: 100%;
+}
+
+/*底部按钮区*/
+#footer-box {
+	background-color: #fff;
+	height: 60px;
+	padding: 10px 10px 0px 15px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+#footer-box .el-tag {
+	position: absolute;
+	left: 10px;
+	top: 15px;
+}

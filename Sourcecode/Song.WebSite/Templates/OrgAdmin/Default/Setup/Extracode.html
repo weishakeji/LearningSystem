@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+
+    <title>关于我们</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <el-form ref="entity" :model="organ" @submit.native.prevent label-width="120px">
+            <el-form-item label="" prop="Org_Extracode" label-width="0px">              
+                <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
+            </el-form-item>
+           
+        </el-form>
+        <div id="footer-box">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading"
+                v-loading.fullscreen.lock="loading" @click="btnEnter('entity')">
+                确认修改
+            </el-button>
+            <help>前端页面的附属代码，例如流量统计代码</help>
+        </div>
+    </div>
+</body>
+
+</html>
