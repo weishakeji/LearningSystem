@@ -73,11 +73,6 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">主键id</param>
         void OrganDelete(int identify);
         /// <summary>
-        /// 生成当前机构的手机端二维码
-        /// </summary>
-        void OrganBuildQrCode();
-        void OrganBuildQrCode(Organization entity);
-        /// <summary>
         /// 取所有机构
         /// </summary>
         /// <param name="isUse">是否启用</param>

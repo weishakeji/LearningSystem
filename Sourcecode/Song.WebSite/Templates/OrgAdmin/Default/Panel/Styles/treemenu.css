@@ -239,11 +239,14 @@
     position: absolute;
     top: 0px;
     left: 0px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .treemenu tree_area tree_tit * {
     display: inline;
     color: var(--title-color);
+
 }
 
 .treemenu tree_area tree_tit i {
@@ -391,7 +394,7 @@ div.querypanel {
 }
 
 div.querypanel>section {
-    width: 800px;
+   
     max-width: 80%;
     height: 80%;
     background-color: #fff;
@@ -521,7 +524,7 @@ div.querypanel>section>section>tree_area tree_tit {
     text-align: left;
     box-sizing: border-box;
     padding-left: 7px;
-    padding-right: 40px;
+    padding-right: 7px;
     position: relative;
 }
 

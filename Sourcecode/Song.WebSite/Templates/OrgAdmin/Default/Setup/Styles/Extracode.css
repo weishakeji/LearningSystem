@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 
 .el-form {
-	height: calc(100% - 60px);
+	height: calc(100% - 100px);
 	width: 100%;
 	margin: 0px;
 	padding: 0px;
@@ -9,11 +9,23 @@
 }
 
 .el-form>div {
-	box-sizing: border-box;
-	padding: 15px 15px 0px 15px;
+    box-sizing: border-box;
+    padding: 15px 15px 5px 15px;
 	height: 100%;
 }
 
+.el-tabs--border-card {
+	box-shadow: none;
+	border: none;
+}
+
+.el-tabs__content {
+	display: none;
+}
+
+.el-form>div *{
+	height: 100%;
+}
 .el-form-item__content, .el-textarea {
 	height: 100%;
 }

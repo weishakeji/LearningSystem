@@ -5,25 +5,50 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
 
-    <title>关于我们</title>
+    <title>附加代码管理</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
+        <el-tabs type="border-card" v-model="activeName">
+            <el-tab-pane name="web">
+                <span slot="label" icon="&#xe609">
+                    Web页面附加代码
+                </span>
+            </el-tab-pane>
+            <el-tab-pane name="mobi">
+                <span slot="label" icon="&#xe66b">
+                    移动端页面附加代码
+                </span>
+            </el-tab-pane>
 
-        <el-form ref="entity" :model="organ" @submit.native.prevent label-width="120px">
-            <el-form-item label="" prop="Org_Extracode" label-width="0px">              
-                <el-input type="textarea" :rows="20" v-model="organ.Org_Extracode"></el-input>
-            </el-form-item>
-           
+        </el-tabs>
+
+
+        <el-form ref="webform" :model="org" @submit.native.prevent label-width="120px">
+            <div v-show="activeName=='web'" remark="Web页面附加代码" tab="web">
+                <el-form-item label="" prop="Org_ExtraWeb" label-width="0px">
+                    <el-input type="textarea" :rows="20" v-model="org.Org_ExtraWeb"></el-input>
+                </el-form-item>
+            </div>
+            <div v-show="activeName=='mobi'" remark="手机端页面附加代码" tab="mobi">
+                <el-form-item label="" prop="Org_ExtraMobi" label-width="0px">
+                    <el-input type="textarea" :rows="20" v-model="org.Org_ExtraMobi"></el-input>
+                </el-form-item>
+            </div>
         </el-form>
         <div id="footer-box">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading"
-                v-loading.fullscreen.lock="loading" @click="btnEnter('entity')">
+                v-loading.fullscreen.lock="loading" @click="btnEnter('webform')">
                 确认修改
             </el-button>
             <help>前端页面的附属代码，例如流量统计代码</help>
         </div>
+
+
+
+
+
     </div>
 </body>
 

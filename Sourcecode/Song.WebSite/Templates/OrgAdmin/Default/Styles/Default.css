@@ -21,6 +21,7 @@ panel#admin {
     background-color: #d5e9fd;
     /*
     background-image: linear-gradient(to right,  #d5e9fd 50px,#fdd1d1,#ffe8c0);*/
+    background-image: linear-gradient(to right bottom, #d5e9fd 30%,#ffffff,#d5e9fd );
 }
 
 #treemenu-area {

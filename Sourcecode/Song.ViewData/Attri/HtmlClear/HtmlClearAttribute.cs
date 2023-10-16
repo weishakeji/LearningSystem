@@ -66,6 +66,9 @@ namespace Song.ViewData.Attri
         private static string ClearTag(string html, int length = 0)
         {
             if (string.IsNullOrWhiteSpace(html)) return html;
+            //清理脚本
+            html = Html.ClearScript(html);
+            //清理html标签
             string strText = System.Text.RegularExpressions.Regex.Replace(html, "<[^>]+>", "");
             strText = System.Text.RegularExpressions.Regex.Replace(strText, "&[^;]+;", "");
 

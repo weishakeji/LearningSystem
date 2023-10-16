@@ -136,7 +136,8 @@ namespace Song.ServiceImpls
                     info.MobiTemplateName = o.Org_TemplateMobi;
                     info.IsDefault = o.Org_IsDefault;
                     info.IsRoot = o.Org_IsRoot;
-                    info.Org_Extracode = o.Org_Extracode;
+                    info.Org_ExtraWeb = o.Org_ExtraWeb;
+                    info.Org_ExtraMobi = o.Org_ExtraMobi;
                     WeiSha.Core.PlateOrganInfo.Add(info);
                 }
             }

@@ -73,14 +73,12 @@ Vue.component('footer_menu', {
     },
     template: `<footer id="nav_menu">
        <div v-for="item in menus" @click="!!item.evt ? item.evt(item) : btnDefault(item)" v-if="item.show">
-       <img :src="item.img" v-if="item.img!=''"/>
-       <template v-else>
-            <icon :style="'font-size:'+item.size+'px;'" v-html="'&#x'+item.icon" v-if="!!item.icon && item.icon!=''"></icon>
-            <icon v-else :style="'font-size:21px;'" v-html="'&#x'+deficon"></icon>            
-       </template>
-       <span>{{item.name}}</span>
+            <img :src="item.img" v-if="item.img!=''"/>
+            <template v-else>
+                <icon :style="'font-size:'+item.size+'px;'" v-html="'&#x'+item.icon" v-if="!!item.icon && item.icon!=''"></icon>
+                <icon v-else :style="'font-size:21px;'" v-html="'&#x'+deficon"></icon>            
+            </template>
+            <span>{{item.name}}</span>
        </div>
-        <span v-html="organ.Org_Extracode" style="display:none"></span>     
-       </div>  
     </footer>`
 });

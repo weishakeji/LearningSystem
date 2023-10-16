@@ -291,13 +291,33 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <param name="text">图文信息的文本内容，为html</param>
         /// <returns></returns>
-        [HtmlClear(Not = "text")][HttpPost]
+        [HtmlClear(Not = "text")][HttpPost][Admin]
         public bool ModifyIntro(int orgid,string text)
         {
             Ett.Organization old = Business.Do<IOrganization>().OrganSingle(orgid);
             if (old == null) throw new Exception("Not found entity for Organization");
             old.Org_Intro = text;
             Business.Do<IOrganization>().OrganSave(old);
+            return true;
+        }
+        /// <summary>
+        /// 编辑机构的附加代码
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="web">web端附加代码</param>
+        /// <param name="mobi">手机端的附加代码</param>
+        /// <returns></returns>
+        [HtmlClear(Not = "web,mobi")]
+        [HttpPost]
+        [Admin]
+        public bool ModifyExtra(int orgid,string web,string mobi)
+        {
+            if (orgid <= 0) return false;
+            Ett.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
+            if (org == null) throw new Exception("Not found entity for Organization");
+            org.Org_ExtraWeb = web;
+            org.Org_ExtraMobi = mobi;
+            Business.Do<IOrganization>().OrganSave(org);
             return true;
         }
         #endregion

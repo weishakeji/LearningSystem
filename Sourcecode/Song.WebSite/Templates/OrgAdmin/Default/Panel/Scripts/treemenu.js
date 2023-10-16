@@ -110,8 +110,9 @@
 		'querypanel': function (obj, val, old) {
 			if (obj.domquery) {
 				if (!val) return obj.domquery.hide();
+				obj.domquery.find('section:first-child').css('min-width', obj.datas.length * 180 + 'px');
 				//将树形菜单的html直接放入查询面板，不再直接生成
-				let sect = obj.domquery.find('section>section');
+				let sect = obj.domquery.find('section>section');				
 				sect.html(obj.dombody.html());
 				sect.find('tree_area').show();
 				sect.find('tree_area tree_box').show();
@@ -280,7 +281,7 @@
 				if (ctrl != null) ctrl.obj.querypanel = false;
 			});
 			//创建查询内容区
-			let sect = panel.add('section');
+			let sect = panel.add('section');			
 			//头部
 			let head = sect.add('header');
 			head.add('div').attr('title', '全部菜单项').add('span');

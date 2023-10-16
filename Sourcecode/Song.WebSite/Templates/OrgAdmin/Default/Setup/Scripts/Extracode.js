@@ -2,19 +2,20 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            organ: {},
+            org: {},
             config: {},
+            activeName: 'web',
             loading: false,
         },
         mounted: function () {
             var th = this;
             th.loading = true;
             $api.bat($api.get('Organization/Current'))
-                .then(axios.spread(function (organ) {
+                .then(axios.spread(function (org) {
                     //获取结果             
-                    th.organ = organ.data.result;
+                    th.org = org.data.result;
                     //机构配置信息
-                    th.config = $api.organ(th.organ).config;
+                    th.config = $api.organ(th.org).config;
                 })).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
@@ -34,18 +35,8 @@ $ready(function () {
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
-                        //仅保留当前页要修改的字段
-                        let fields = th.$refs[formName].fields;
-                        let props = [];
-                        for (let i = 0; i < fields.length; i++)
-                            props.push(fields[i].prop);
-                        let exclude = '';
-                        for (var key in th.organ) {
-                            let index = props.indexOf(key);
-                            if (index < 0) exclude += key + ',';
-                        }
-                        var para = { 'entity': th.organ, 'exclude': exclude };
-                        $api.post('Organization/Modify', para)
+                        var para = { 'orgid': th.org.Org_ID, 'web': th.org.Org_ExtraWeb, 'mobi': th.org.Org_ExtraMobi };
+                        $api.post('Organization/ModifyExtra', para)
                             .then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
@@ -65,5 +56,4 @@ $ready(function () {
             },
         }
     });
-
-}, ['/Utilities/baiduMap/convertor.js']);
+});

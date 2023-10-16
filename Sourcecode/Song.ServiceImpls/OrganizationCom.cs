@@ -112,7 +112,6 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
-            this.OrganBuildQrCode(entity);
             this.OrganBuildCache();  //重新构建缓存    
         }
         public void OrganSetDefault(int identify)
@@ -343,53 +342,7 @@ namespace Song.ServiceImpls
                 }
             }
             this.OrganBuildCache();  //重新构建缓存
-        }
-        public void OrganBuildQrCode()
-        {
-            this.OrganBuildCache();  //重新构建缓存  
-            //批量生成二维码
-            List<Organization> orgs = Cache.EntitiesCache.GetList<Organization>();
-            if (orgs != null)
-            {
-                for (int i = 0; i < orgs.Count; i++)
-                {
-                    OrganBuildQrCode(orgs[i]);
-                }
-            }
-        }
-        /// <summary>
-        /// 生成当前机构的手机端二维码
-        /// </summary>
-        /// <param name="entity"></param>
-        public void OrganBuildQrCode(Organization entity)
-        {
-            //如果没有二级域名，则直接退出
-            if (string.IsNullOrWhiteSpace(entity.Org_TwoDomain)) return;
-            //二维码的Url路径
-            string url = entity.Org_QrCodeUrl;
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                string domain = WeiSha.Core.Server.MainName;
-                string port = WeiSha.Core.Server.Port;
-                url = "http://" + entity.Org_TwoDomain + "." + domain + ":" + port + "/Mobile/default.ashx";
-            } 
-            //各项配置           
-            WeiSha.Core.CustomConfig config = CustomConfig.Load(entity.Org_Config);   //自定义配置项           
-            string color = config["QrColor"].Value.String;  //二维码前景色            
-            bool isQrcenter = config["IsQrConterImage"].Value.Boolean ?? false; //是否启用中心图片           
-            string centerImg = Upload.Get["Org"].Virtual + config["QrConterImage"].Value.String;     //中心图片
-            centerImg=WeiSha.Core.Server.MapPath(centerImg);
-            //二维码图片对象
-            System.Drawing.Image image = null;
-            //if (isQrcenter && System.IO.File.Exists(centerImg))
-            //    image = WeiSha.Core.QrcodeHepler.Encode(url, 200, centerImg, color, "#fff");           
-            //else            
-            //    image = WeiSha.Core.QrcodeHepler.Encode(url, 200, color, "#fff");
-            //将image转为base64
-            string base64 = WeiSha.Core.Images.ImageTo.ToBase64(image);
-            entity.Org_QrCode = base64;
-            Gateway.Default.Save<Organization>(entity);                    
-        }
+        }       
         public List<Organization> OrganAll(bool? isUse, int level, string search)
         {
             List<Organization> list = Cache.EntitiesCache.GetList<Organization>();

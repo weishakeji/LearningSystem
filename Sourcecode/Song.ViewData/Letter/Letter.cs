@@ -245,8 +245,8 @@ namespace Song.ViewData
         /// <returns></returns>
         public Dictionary<string, string> SetParameter(string key, string val)
         {
-            if (!string.IsNullOrWhiteSpace(val)) 
-                val = Html.ClearScript(val);
+            //if (!string.IsNullOrWhiteSpace(val)) 
+            //    val = Html.ClearScript(val);
             if (_params.ContainsKey(key))
                 _params[key] = val;
             else

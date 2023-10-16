@@ -50,9 +50,9 @@ namespace Song.Entities {
     		
     		protected String _Org_Owner;
     		
-    		protected String _Org_License;
+    		protected String _Org_USCI;
     		
-    		protected String _Org_LicensePic;
+    		protected String _Org_ExtraMobi;
     		
     		protected String _Org_Longitude;
     		
@@ -67,8 +67,6 @@ namespace Song.Entities {
     		protected String _Org_Street;
     		
     		protected String _Org_Logo;
-    		
-    		protected String _Org_QrCodeUrl;
     		
     		protected DateTime _Org_RegTime;
     		
@@ -92,7 +90,7 @@ namespace Song.Entities {
     		
     		protected String _Org_Template;
     		
-    		protected String _Org_Extracode;
+    		protected String _Org_ExtraWeb;
     		
     		protected String _Org_Config;
     		
@@ -101,8 +99,6 @@ namespace Song.Entities {
     		protected Boolean _Org_IsShow;
     		
     		protected String _Org_ICP;
-    		
-    		protected String _Org_QrCode;
     		
     		protected String _Org_GonganBeian;
     		
@@ -370,26 +366,26 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public String Org_License {
+    		public String Org_USCI {
     			get {
-    				return this._Org_License;
+    				return this._Org_USCI;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Org_License, _Org_License, value);
-    				this._Org_License = value;
+    				this.OnPropertyValueChange(_.Org_USCI, _Org_USCI, value);
+    				this._Org_USCI = value;
     			}
     		}
     		
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public String Org_LicensePic {
+    		public String Org_ExtraMobi {
     			get {
-    				return this._Org_LicensePic;
+    				return this._Org_ExtraMobi;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Org_LicensePic, _Org_LicensePic, value);
-    				this._Org_LicensePic = value;
+    				this.OnPropertyValueChange(_.Org_ExtraMobi, _Org_ExtraMobi, value);
+    				this._Org_ExtraMobi = value;
     			}
     		}
     		
@@ -469,19 +465,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Org_Logo, _Org_Logo, value);
     				this._Org_Logo = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public String Org_QrCodeUrl {
-    			get {
-    				return this._Org_QrCodeUrl;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_QrCodeUrl, _Org_QrCodeUrl, value);
-    				this._Org_QrCodeUrl = value;
     			}
     		}
     		
@@ -595,13 +578,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Org_Extracode {
+    		public String Org_ExtraWeb {
     			get {
-    				return this._Org_Extracode;
+    				return this._Org_ExtraWeb;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Org_Extracode, _Org_Extracode, value);
-    				this._Org_Extracode = value;
+    				this.OnPropertyValueChange(_.Org_ExtraWeb, _Org_ExtraWeb, value);
+    				this._Org_ExtraWeb = value;
     			}
     		}
     		
@@ -642,16 +625,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Org_ICP, _Org_ICP, value);
     				this._Org_ICP = value;
-    			}
-    		}
-    		
-    		public String Org_QrCode {
-    			get {
-    				return this._Org_QrCode;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_QrCode, _Org_QrCode, value);
-    				this._Org_QrCode = value;
     			}
     		}
     		
@@ -713,8 +686,8 @@ namespace Song.Entities {
     					_.Org_CoBank,
     					_.Org_BankAcc,
     					_.Org_Owner,
-    					_.Org_License,
-    					_.Org_LicensePic,
+    					_.Org_USCI,
+    					_.Org_ExtraMobi,
     					_.Org_Longitude,
     					_.Org_Latitude,
     					_.Org_Province,
@@ -722,7 +695,6 @@ namespace Song.Entities {
     					_.Org_District,
     					_.Org_Street,
     					_.Org_Logo,
-    					_.Org_QrCodeUrl,
     					_.Org_RegTime,
     					_.Org_IsRoot,
     					_.Org_IsUse,
@@ -734,12 +706,11 @@ namespace Song.Entities {
     					_.Org_LinkmanPhone,
     					_.Org_LinkmanQQ,
     					_.Org_Template,
-    					_.Org_Extracode,
+    					_.Org_ExtraWeb,
     					_.Org_Config,
     					_.Org_TemplateMobi,
     					_.Org_IsShow,
     					_.Org_ICP,
-    					_.Org_QrCode,
     					_.Org_GonganBeian};
     		}
     		
@@ -769,8 +740,8 @@ namespace Song.Entities {
     					this._Org_CoBank,
     					this._Org_BankAcc,
     					this._Org_Owner,
-    					this._Org_License,
-    					this._Org_LicensePic,
+    					this._Org_USCI,
+    					this._Org_ExtraMobi,
     					this._Org_Longitude,
     					this._Org_Latitude,
     					this._Org_Province,
@@ -778,7 +749,6 @@ namespace Song.Entities {
     					this._Org_District,
     					this._Org_Street,
     					this._Org_Logo,
-    					this._Org_QrCodeUrl,
     					this._Org_RegTime,
     					this._Org_IsRoot,
     					this._Org_IsUse,
@@ -790,12 +760,11 @@ namespace Song.Entities {
     					this._Org_LinkmanPhone,
     					this._Org_LinkmanQQ,
     					this._Org_Template,
-    					this._Org_Extracode,
+    					this._Org_ExtraWeb,
     					this._Org_Config,
     					this._Org_TemplateMobi,
     					this._Org_IsShow,
     					this._Org_ICP,
-    					this._Org_QrCode,
     					this._Org_GonganBeian};
     		}
     		
@@ -866,11 +835,11 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Org_Owner))) {
     				this._Org_Owner = reader.GetString(_.Org_Owner);
     			}
-    			if ((false == reader.IsDBNull(_.Org_License))) {
-    				this._Org_License = reader.GetString(_.Org_License);
+    			if ((false == reader.IsDBNull(_.Org_USCI))) {
+    				this._Org_USCI = reader.GetString(_.Org_USCI);
     			}
-    			if ((false == reader.IsDBNull(_.Org_LicensePic))) {
-    				this._Org_LicensePic = reader.GetString(_.Org_LicensePic);
+    			if ((false == reader.IsDBNull(_.Org_ExtraMobi))) {
+    				this._Org_ExtraMobi = reader.GetString(_.Org_ExtraMobi);
     			}
     			if ((false == reader.IsDBNull(_.Org_Longitude))) {
     				this._Org_Longitude = reader.GetString(_.Org_Longitude);
@@ -892,9 +861,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Logo))) {
     				this._Org_Logo = reader.GetString(_.Org_Logo);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_QrCodeUrl))) {
-    				this._Org_QrCodeUrl = reader.GetString(_.Org_QrCodeUrl);
     			}
     			if ((false == reader.IsDBNull(_.Org_RegTime))) {
     				this._Org_RegTime = reader.GetDateTime(_.Org_RegTime);
@@ -929,8 +895,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Org_Template))) {
     				this._Org_Template = reader.GetString(_.Org_Template);
     			}
-    			if ((false == reader.IsDBNull(_.Org_Extracode))) {
-    				this._Org_Extracode = reader.GetString(_.Org_Extracode);
+    			if ((false == reader.IsDBNull(_.Org_ExtraWeb))) {
+    				this._Org_ExtraWeb = reader.GetString(_.Org_ExtraWeb);
     			}
     			if ((false == reader.IsDBNull(_.Org_Config))) {
     				this._Org_Config = reader.GetString(_.Org_Config);
@@ -943,9 +909,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_ICP))) {
     				this._Org_ICP = reader.GetString(_.Org_ICP);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_QrCode))) {
-    				this._Org_QrCode = reader.GetString(_.Org_QrCode);
     			}
     			if ((false == reader.IsDBNull(_.Org_GonganBeian))) {
     				this._Org_GonganBeian = reader.GetString(_.Org_GonganBeian);
@@ -1082,14 +1045,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_Owner = new WeiSha.Data.Field<Organization>("Org_Owner");
     			
     			/// <summary>
-    			/// -1 - 字段名：Org_License - 数据类型：String
+    			/// -1 - 字段名：Org_USCI - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Org_License = new WeiSha.Data.Field<Organization>("Org_License");
+    			public static WeiSha.Data.Field Org_USCI = new WeiSha.Data.Field<Organization>("Org_USCI");
     			
     			/// <summary>
-    			/// -1 - 字段名：Org_LicensePic - 数据类型：String
+    			/// -1 - 字段名：Org_ExtraMobi - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Org_LicensePic = new WeiSha.Data.Field<Organization>("Org_LicensePic");
+    			public static WeiSha.Data.Field Org_ExtraMobi = new WeiSha.Data.Field<Organization>("Org_ExtraMobi");
     			
     			/// <summary>
     			/// -1 - 字段名：Org_Longitude - 数据类型：String
@@ -1125,11 +1088,6 @@ namespace Song.Entities {
     			/// -1 - 字段名：Org_Logo - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Logo = new WeiSha.Data.Field<Organization>("Org_Logo");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Org_QrCodeUrl - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_QrCodeUrl = new WeiSha.Data.Field<Organization>("Org_QrCodeUrl");
     			
     			/// <summary>
     			/// 字段名：Org_RegTime - 数据类型：DateTime
@@ -1187,9 +1145,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_Template = new WeiSha.Data.Field<Organization>("Org_Template");
     			
     			/// <summary>
-    			/// 字段名：Org_Extracode - 数据类型：String
+    			/// 字段名：Org_ExtraWeb - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Org_Extracode = new WeiSha.Data.Field<Organization>("Org_Extracode");
+    			public static WeiSha.Data.Field Org_ExtraWeb = new WeiSha.Data.Field<Organization>("Org_ExtraWeb");
     			
     			/// <summary>
     			/// 字段名：Org_Config - 数据类型：String
@@ -1212,15 +1170,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_ICP = new WeiSha.Data.Field<Organization>("Org_ICP");
     			
     			/// <summary>
-    			/// 字段名：Org_QrCode - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_QrCode = new WeiSha.Data.Field<Organization>("Org_QrCode");
-    			
-    			/// <summary>
     			/// 字段名：Org_GonganBeian - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_GonganBeian = new WeiSha.Data.Field<Organization>("Org_GonganBeian");
     		}
     	}
     }
-    
