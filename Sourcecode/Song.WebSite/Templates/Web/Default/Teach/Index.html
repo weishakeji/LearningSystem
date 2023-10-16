@@ -70,8 +70,8 @@
                     <el-tabs v-model="tabName" v-if="select_menus.length>1">
                         <el-tab-pane v-for='(node,index) in select_menus' :name="node.MM_UID">
                             <span slot="label">
-                                <icon v-if="node.MM_IcoS==''">&#xa038</icon>
-                                <icon v-html="'&#x'+node.MM_IcoS" v-else></icon>
+                                <icon v-if="node.MM_IcoCode==''">&#xa038</icon>
+                                <icon v-html="'&#x'+node.MM_IcoCode" v-else></icon>
                                 {{node.MM_Name}}
                             </span>
                         </el-tab-pane>

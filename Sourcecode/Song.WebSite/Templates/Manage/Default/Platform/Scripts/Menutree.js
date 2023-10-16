@@ -100,8 +100,8 @@ $ready(function () {
                 var temp = {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
-                    "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoS": "",
-                    "MM_IcoB": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
+                    "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
+                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
                     "MM_IcoX": 0, "MM_IcoY": 0, "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
@@ -169,7 +169,7 @@ $ready(function () {
             },
             //当图标选择变更时
             iconChange: function (icon) {
-                this.curr.MM_IcoS = icon;
+                this.curr.MM_IcoCode = icon;
                 console.log('选中图标:' + icon);
             },
             //保存菜单项

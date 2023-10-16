@@ -233,7 +233,7 @@ Vue.component('btngroup', {
             var node = this.getnode();
             var tit = node ? node.title : $dom('title').text();
             if ($dom('title').text() != '' && (!title || title != '')) tit += ' - ';
-            var ico = this.ico ? this.ico : (node && node.MM_IcoS != '' ? node.MM_IcoS : 'a021');
+            var ico = this.ico ? this.ico : (node && node.MM_IcoCode != '' ? node.MM_IcoCode : 'a021');
             var attrs = {
                 width: width ? width : 400,
                 height: height ? height : 300,

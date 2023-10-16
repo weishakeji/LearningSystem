@@ -307,7 +307,7 @@ $ready(function () {
                     //打开窗体
                     if (menu.MM_Type == 'open') {
                         var result = JSON.stringify(menu);
-                        result = result.replace(/MM_IcoS/g, "ico");
+                        result = result.replace(/MM_IcoCode/g, "ico");
                         result = result.replace(/MM_Link/g, "url");
                         result = result.replace(/MM_WinWidth/g, "width");
                         result = result.replace(/MM_WinHeight/g, "height");
@@ -332,8 +332,8 @@ $ready(function () {
             <weisha_menu_node :type="menu.MM_Type" v-if="menu.MM_Type!='hr'"
             @click="nodeClick" :style="styleObject" 
             :class="{'children':menu.MM_Type!='node' && menu.children.length>0}">
-                <icon v-if="menu.MM_IcoS==''">&#xa038</icon>
-                <icon v-html="'&#x'+menu.MM_IcoS" v-else></icon>
+                <icon v-if="menu.MM_IcoCode==''">&#xa038</icon>
+                <icon v-html="'&#x'+menu.MM_IcoCode" v-else></icon>
                 <a v-if="menu.MM_Type=='link'" :href="menu.MM_Link" target="_blank">{{menu.MM_Name}}</a>       
                 <span v-else>{{menu.MM_Name}}</span>
             </weisha_menu_node>

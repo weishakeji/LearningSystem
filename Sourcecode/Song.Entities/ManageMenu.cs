@@ -32,9 +32,7 @@ namespace Song.Entities {
     		
     		protected Boolean _MM_IsItalic;
     		
-    		protected String _MM_IcoS;
-    		
-    		protected String _MM_IcoB;
+    		protected String _MM_IcoCode;
     		
     		protected Boolean _MM_IsUse;
     		
@@ -73,6 +71,10 @@ namespace Song.Entities {
     		protected String _MM_Help;
     		
     		protected Int32 _MM_Complete;
+    		
+    		protected String _MM_IcoColor;
+    		
+    		protected Int32 _MM_IcoSize;
     		
     		/// <summary>
     		/// -1
@@ -233,26 +235,13 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public String MM_IcoS {
+    		public String MM_IcoCode {
     			get {
-    				return this._MM_IcoS;
+    				return this._MM_IcoCode;
     			}
     			set {
-    				this.OnPropertyValueChange(_.MM_IcoS, _MM_IcoS, value);
-    				this._MM_IcoS = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public String MM_IcoB {
-    			get {
-    				return this._MM_IcoB;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.MM_IcoB, _MM_IcoB, value);
-    				this._MM_IcoB = value;
+    				this.OnPropertyValueChange(_.MM_IcoCode, _MM_IcoCode, value);
+    				this._MM_IcoCode = value;
     			}
     		}
     		
@@ -467,6 +456,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String MM_IcoColor {
+    			get {
+    				return this._MM_IcoColor;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_IcoColor, _MM_IcoColor, value);
+    				this._MM_IcoColor = value;
+    			}
+    		}
+    		
+    		public Int32 MM_IcoSize {
+    			get {
+    				return this._MM_IcoSize;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_IcoSize, _MM_IcoSize, value);
+    				this._MM_IcoSize = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -506,8 +515,7 @@ namespace Song.Entities {
     					_.MM_Font,
     					_.MM_IsBold,
     					_.MM_IsItalic,
-    					_.MM_IcoS,
-    					_.MM_IcoB,
+    					_.MM_IcoCode,
     					_.MM_IsUse,
     					_.MM_IsShow,
     					_.MM_Intro,
@@ -526,7 +534,9 @@ namespace Song.Entities {
     					_.MM_AbbrName,
     					_.MM_IsFixed,
     					_.MM_Help,
-    					_.MM_Complete};
+    					_.MM_Complete,
+    					_.MM_IcoColor,
+    					_.MM_IcoSize};
     		}
     		
     		/// <summary>
@@ -546,8 +556,7 @@ namespace Song.Entities {
     					this._MM_Font,
     					this._MM_IsBold,
     					this._MM_IsItalic,
-    					this._MM_IcoS,
-    					this._MM_IcoB,
+    					this._MM_IcoCode,
     					this._MM_IsUse,
     					this._MM_IsShow,
     					this._MM_Intro,
@@ -566,7 +575,9 @@ namespace Song.Entities {
     					this._MM_AbbrName,
     					this._MM_IsFixed,
     					this._MM_Help,
-    					this._MM_Complete};
+    					this._MM_Complete,
+    					this._MM_IcoColor,
+    					this._MM_IcoSize};
     		}
     		
     		/// <summary>
@@ -609,11 +620,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.MM_IsItalic))) {
     				this._MM_IsItalic = reader.GetBoolean(_.MM_IsItalic);
     			}
-    			if ((false == reader.IsDBNull(_.MM_IcoS))) {
-    				this._MM_IcoS = reader.GetString(_.MM_IcoS);
-    			}
-    			if ((false == reader.IsDBNull(_.MM_IcoB))) {
-    				this._MM_IcoB = reader.GetString(_.MM_IcoB);
+    			if ((false == reader.IsDBNull(_.MM_IcoCode))) {
+    				this._MM_IcoCode = reader.GetString(_.MM_IcoCode);
     			}
     			if ((false == reader.IsDBNull(_.MM_IsUse))) {
     				this._MM_IsUse = reader.GetBoolean(_.MM_IsUse);
@@ -671,6 +679,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.MM_Complete))) {
     				this._MM_Complete = reader.GetInt32(_.MM_Complete);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_IcoColor))) {
+    				this._MM_IcoColor = reader.GetString(_.MM_IcoColor);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_IcoSize))) {
+    				this._MM_IcoSize = reader.GetInt32(_.MM_IcoSize);
     			}
     		}
     		
@@ -759,14 +773,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field MM_IsItalic = new WeiSha.Data.Field<ManageMenu>("MM_IsItalic");
     			
     			/// <summary>
-    			/// -1 - 字段名：MM_IcoS - 数据类型：String
+    			/// -1 - 字段名：MM_IcoCode - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field MM_IcoS = new WeiSha.Data.Field<ManageMenu>("MM_IcoS");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：MM_IcoB - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field MM_IcoB = new WeiSha.Data.Field<ManageMenu>("MM_IcoB");
+    			public static WeiSha.Data.Field MM_IcoCode = new WeiSha.Data.Field<ManageMenu>("MM_IcoCode");
     			
     			/// <summary>
     			/// -1 - 字段名：MM_IsUse - 数据类型：Boolean
@@ -862,7 +871,16 @@ namespace Song.Entities {
     			/// 字段名：MM_Complete - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field MM_Complete = new WeiSha.Data.Field<ManageMenu>("MM_Complete");
+    			
+    			/// <summary>
+    			/// 字段名：MM_IcoColor - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_IcoColor = new WeiSha.Data.Field<ManageMenu>("MM_IcoColor");
+    			
+    			/// <summary>
+    			/// 字段名：MM_IcoSize - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_IcoSize = new WeiSha.Data.Field<ManageMenu>("MM_IcoSize");
     		}
     	}
     }
-    

@@ -322,7 +322,7 @@ namespace Song.ViewData.Methods
                 JObject jo = JObject.Parse(j);
                 jo.Add("id", "node_" + m.MM_UID.ToString());
                 jo.Add("label", m.MM_Name);
-                jo.Add("ico", string.IsNullOrWhiteSpace(m.MM_IcoS) ? "" : m.MM_IcoS);
+                jo.Add("ico", string.IsNullOrWhiteSpace(m.MM_IcoCode) ? "" : m.MM_IcoCode);
                 //字体样式
                 JObject jfont = new JObject();
                 jfont.Add("bold", m.MM_IsBold);

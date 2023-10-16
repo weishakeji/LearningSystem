@@ -13,3 +13,5 @@ go
 --删除机构二维码的字段，现在采用js在前端实现了
 ALTER TABLE Organization DROP COLUMN Org_QrCode;
 ALTER TABLE Organization DROP COLUMN Org_QrCodeUrl;
+
+--图改系统菜单的图标项

@@ -22,8 +22,8 @@
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color">
           <template v-if="data.MM_Type!='hr'">
-            <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''" setup></icon>
-            <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>{{ data.MM_Name }}
+            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''" setup></icon>
+            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'"></icon>{{ data.MM_Name }}
             <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
           </template>
           <span v-else class="hr">-----------（分隔线）-----------</span>
@@ -72,8 +72,8 @@
             <el-form-item label="" label-width="5px">
 
               <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" v-if="curr.MM_Type!='hr'">
-                <icon v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" setup>&#xa038;</icon>
-                <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
+                <icon v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''" setup>&#xa038;</icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'"></icon>
               </el-link>
             </el-form-item>
           </el-col>
@@ -159,7 +159,7 @@
       </el-form>
     </el-drawer>
 
-    <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
+    <icons @change='val=>{curr.MM_IcoCode=val}' ref="icons" :selected="curr.MM_IcoCode"></icons>
 
     <div class="btnFooter">
       <el-button type="primary" v-loading="loading" @click="btnSave()">保存系统菜单</el-button>

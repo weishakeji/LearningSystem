@@ -11,8 +11,8 @@
 
   <div id="app" v-cloak>
     <div class="tree_root">
-      <icon v-if="rootMenu.MM_IcoS==null || rootMenu.MM_IcoS==''" setup></icon>
-      <icon v-else v-html="'&#x'+rootMenu.MM_IcoS+';'"></icon>
+      <icon v-if="rootMenu.MM_IcoCode==null || rootMenu.MM_IcoCode==''" setup></icon>
+      <icon v-else v-html="'&#x'+rootMenu.MM_IcoCode+';'"></icon>
       <span>{{rootMenu.MM_Name}}</span>
       <el-button type="text" size="mini" @click="() => append()" v-loading="loading">
         新增下级
@@ -27,8 +27,8 @@
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgba(255, 255, 255,0) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
           <template v-if="data.MM_Type!='hr'">
-            <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''">&#xa038;</icon>
-            <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
+            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''">&#xa038;</icon>
+            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'"></icon>
             {{ data.MM_Name }}
             <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
           </template>
@@ -78,8 +78,8 @@
             <el-form-item label="" label-width="5px">
 
               <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
-                <icon setup v-if="curr.MM_IcoS==null || curr.MM_IcoS==''"></icon>
-                <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
+                <icon setup v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''"></icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'"></icon>
               </el-link>
             </el-form-item>
           </el-col>
@@ -161,8 +161,8 @@
           <el-select v-model="MM_PatId" placeholder="请选择" @change="move2Root">
             <el-option v-for="(item,index) in rootdata" :key="item.MM_UID" :label="item.MM_Name" :value="item.MM_UID">
               <span style="float: left">
-                <icon v-if="item.MM_IcoS==null || item.MM_IcoS==''" setup></icon>
-                <icon v-else v-html="'&#x'+item.MM_IcoS+';'"></icon>
+                <icon v-if="item.MM_IcoCode==null || item.MM_IcoCode==''" setup></icon>
+                <icon v-else v-html="'&#x'+item.MM_IcoCode+';'"></icon>
                 {{ item.MM_Name }}
               </span>
             </el-option>
@@ -174,7 +174,7 @@
       </el-form>
     </el-drawer>
 
-    <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
+    <icons @change='val=>{curr.MM_IcoCode=val}' ref="icons" :selected="curr.MM_IcoCode"></icons>
 
     <div class="btnFooter">
       <el-button type="primary" define="enter" v-loading="loading" @click="btnSave()">保存菜单树</el-button>

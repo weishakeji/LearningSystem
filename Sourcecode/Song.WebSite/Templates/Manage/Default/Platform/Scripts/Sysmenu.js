@@ -67,7 +67,7 @@ $ready(function () {
                     "MM_Tax": 0, "MM_PatId": 0,
                     "MM_Color": "", "MM_Font": "",
                     "MM_IsBold": false, "MM_IsItalic": false,
-                    "MM_IcoS": "", "MM_IcoB": "",
+                    "MM_IcoCode": "", "MM_IcoSize": "",
                     "MM_IsUse": true, "MM_IsShow": true,
                     "MM_Intro": "", "MM_IsChilds": false,
                     "MM_Func": "sys", "MM_WinWidth": 0,
@@ -101,7 +101,7 @@ $ready(function () {
             },
             //当图标选择变更时
             iconChange: function (icon) {
-                this.curr.MM_IcoS = icon;
+                this.curr.MM_IcoCode = icon;
                 console.log('选中图标:' + icon);
             },
             //保存菜单项

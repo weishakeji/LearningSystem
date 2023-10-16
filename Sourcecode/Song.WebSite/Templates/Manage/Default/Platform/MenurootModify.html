@@ -29,12 +29,12 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="图标" prop="MM_IcoS">
+                    <el-form-item label="图标" prop="MM_IcoCode">
                         <el-link type="primary" @click="$refs['icons'].show=true">
-                            <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''">
+                            <span v-if="entity.MM_IcoCode==null || entity.MM_IcoCode==''">
                                 <icon setup></icon>
                             </span>
-                            <icon v-else style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoS+';'"></icon>&nbsp;点击选择
+                            <icon v-else style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoCode+';'"></icon>&nbsp;点击选择
                         </el-link>
                     </el-form-item>
                 </el-col>
@@ -64,7 +64,7 @@
             </el-button>
             <el-button type='close'>取消</el-button>
         </div>
-        <icons @change='val=>{entity.MM_IcoS=val}' ref="icons" :selected="entity.MM_IcoS"></icons>
+        <icons @change='val=>{entity.MM_IcoCode=val}' ref="icons" :selected="entity.MM_IcoCode"></icons>
 
     </div>
 

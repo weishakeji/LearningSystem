@@ -63,7 +63,7 @@ Vue.component('course_data', {
                 width: '80%',
                 height: '80%',
                 url: url + '?id=' + course.Cou_ID,
-                ico: node && node.MM_IcoS != '' ? node.MM_IcoS : 'e77c',
+                ico: node && node.MM_IcoCode != '' ? node.MM_IcoCode : 'e77c',
                 pid: window.name,
                 title: tit + '《' + course.Cou_Name + '》' + '的学员学习记录'
             };
