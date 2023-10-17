@@ -73,14 +73,6 @@ html, body {
 
 }
 
-.tree-node[bold=true] {
-    font-weight: bold;
-}
-
-.tree-node[italic=true] {
-    font-style: italic;
-}
-
 .tree-node span.hr {
     color: #aaa;
     font-size: 12px;

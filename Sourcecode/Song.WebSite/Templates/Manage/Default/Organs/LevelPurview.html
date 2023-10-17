@@ -22,10 +22,9 @@
                 <el-tree :data="root.children" show-checkbox default-expand-all node-key="id" ref="tree"
                     highlight-current :props="defaultProps">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
-                        <span class="tree-node" :uid="data.id" :bold="data.MM_IsBold" :italic="data.MM_IsItalic"
-                            :color="data.MM_Color" :style="'color:'+data.MM_Color+';'">
-                            <icon v-if="data.ico==null || data.ico==''">&#xa038;</icon>
-                            <icon v-else v-html="'&#x'+data.ico+';'"></icon>
+                        <span class="tree-node" :uid="data.id" :style="setTextstyle(data)">
+                            <icon v-if="data.ico==null || data.ico==''" :style="setIcostyle(data,16)">&#xa038;</icon>
+                            <icon v-else v-html="'&#x'+data.ico+';'" :style="setIcostyle(data,16)"></icon>
                             {{ data.MM_Name }}
                         </span>
                     </span>

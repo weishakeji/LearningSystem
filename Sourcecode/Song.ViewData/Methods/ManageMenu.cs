@@ -210,7 +210,7 @@ namespace Song.ViewData.Methods
             if (mm.Count > 0)
             {
                 Song.Entities.ManageMenu root=Business.Do<IManageMenu>().GetSingle(uid);
-                JArray ja = _MenuNode(root, mm);
+                JArray ja = _MenuNode(root, mm, false);
                 return ja;
             }
             return null;
@@ -226,7 +226,7 @@ namespace Song.ViewData.Methods
             List<Song.Entities.ManageMenu> mm = Business.Do<IManageMenu>().GetFunctionMenu("0", true, false);
             if (mm.Count > 0)
             {
-                return _MenuNode(null, mm);
+                return _MenuNode(null, mm, false);
             }
             return null;
         }
@@ -269,7 +269,7 @@ namespace Song.ViewData.Methods
             //JArray ja = new JArray();
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             List<Song.Entities.ManageMenu> mm = Business.Do<IPurview>().GetOrganPurview(org, marker);
-            return mm.Count > 0 ? _MenuNode(null, mm) : null;
+            return mm.Count > 0 ? _MenuNode(null, mm,false) : null;
         }
         /// <summary>
         /// 系统菜单，即超级管理左上角菜单
@@ -280,7 +280,7 @@ namespace Song.ViewData.Methods
         public JArray SystemMenu()
         {
             Song.Entities.ManageMenu[] mm = Business.Do<IManageMenu>().GetAll(null, null, "sys");
-            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>()) : null;
+            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>(),false) : null;
         }
         /// <summary>
         /// 显示系统菜单项
@@ -291,15 +291,16 @@ namespace Song.ViewData.Methods
         public JArray SystemMenuShow()
         {
             Song.Entities.ManageMenu[] mm = Business.Do<IManageMenu>().GetAll(true, true, "sys");
-            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>()) : null;
+            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>(),true) : null;
         }
         /// <summary>
         /// 生成菜单子节点
         /// </summary>
         /// <param name="item">当前菜单项</param>
         /// <param name="items">所有菜单项</param>
+        /// <param name="simplify">简化的，如果为true则去除一些字段，false取全部字段</param>
         /// <returns></returns>
-        private JArray _MenuNode(Song.Entities.ManageMenu item, List<Song.Entities.ManageMenu> items)
+        private JArray _MenuNode(Song.Entities.ManageMenu item, List<Song.Entities.ManageMenu> items,bool simplify)
         {
             JArray jarr = new JArray();
             bool islocal = WeiSha.Core.Server.IsLocalIP;
@@ -317,7 +318,10 @@ namespace Song.ViewData.Methods
                 //如果不是本机id，则显示项单项完成（因为完成度只是为了在开发时记录一下完成状态）
                 if (!islocal) m.MM_Complete = 100;
 
-                string j = m.ToJson();
+                string j = m.ToJson(string.Empty, simplify ? @"MM_UID,MM_Marker,MM_IsFixed,MM_Func,MM_Tax,MM_IsChilds,MM_IsShow,
+                                                    MM_PatId,MM_Root,
+                                                    MM_Font,MM_IsBold,MM_IsItalic,MM_Color,
+                                                    MM_IcoCode,MM_IcoSize,MM_IcoColor,MM_IcoX,MM_IcoY" : string.Empty);
 
                 JObject jo = JObject.Parse(j);
                 jo.Add("id", "node_" + m.MM_UID.ToString());
@@ -327,10 +331,18 @@ namespace Song.ViewData.Methods
                 JObject jfont = new JObject();
                 jfont.Add("bold", m.MM_IsBold);
                 jfont.Add("italic", m.MM_IsItalic);
+                jfont.Add("font", m.MM_Font);
                 jfont.Add("color", m.MM_Color);
                 jo.Add("font", jfont);
+                //图标样式
+                JObject jicon = new JObject();
+                jicon.Add("size", m.MM_IcoSize);
+                jicon.Add("color", m.MM_IcoColor);
+                jicon.Add("x", m.MM_IcoX);
+                jicon.Add("y", m.MM_IcoY);
+                jo.Add("icon", jicon);
                 //计算下级
-                jo.Add("children", _MenuNode(m, items));
+                jo.Add("children", _MenuNode(m, items, simplify));
                 jarr.Add(jo);
             }
             return jarr;
@@ -425,7 +437,7 @@ namespace Song.ViewData.Methods
                 List<Song.Entities.ManageMenu> mm = Business.Do<IManageMenu>().GetFunctionMenu("0", true, true);
                 if (mm.Count > 0)
                 {
-                    return _MenuNode(null, mm);
+                    return _MenuNode(null, mm, true);
                 }
                 return null;
             }

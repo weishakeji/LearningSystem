@@ -32,15 +32,13 @@
 
 .custom-tree-node{
     font-size: 14px;
+    flex: 1;
+    display: flex;
 }
-.tree-node[color] {
-    color: attr(color);
+.el-tree-node__content{
+    display: flex;
 }
-
-.tree-node[bold=true] {
-    font-weight: bold;
-}
-
-.tree-node[italic=true] {
-    font-style: italic;
+.custom-tree-node>span{
+    display: block;
+    width: 100%;
 }

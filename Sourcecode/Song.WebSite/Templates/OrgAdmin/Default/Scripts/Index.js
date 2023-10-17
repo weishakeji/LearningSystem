@@ -188,16 +188,18 @@ function ready(result) {
 */
 function nodeconvert(obj) {
     var result = JSON.stringify(obj);
-    //result = result.replace(/MM_WinID/g, "id");
+    result = result.replace(/MM_Id/g, "menuid");
     result = result.replace(/MM_Name/g, "title");
     result = result.replace(/MM_AbbrName/g, "tit");
     result = result.replace(/children/g, "childs");
     result = result.replace(/MM_Intro/g, "intro");
     result = result.replace(/MM_Type/g, "type");
     result = result.replace(/MM_Link/g, "url");
-    result = result.replace(/MM_Help/g, "help");
-    result = result.replace(/MM_WinWidth/g, "width");
+    result = result.replace(/MM_Help/g, "help"); 
+    result = result.replace(/MM_IsUse/g, "use"); 
+    result = result.replace(/MM_WinWidth/g, "width");   //弹窗相关
     result = result.replace(/MM_WinHeight/g, "height");
+    result = result.replace(/MM_WinID/g, "winid");
     result = result.replace(/MM_WinMin/g, "min");
     result = result.replace(/MM_WinMax/g, "max");
     result = result.replace(/MM_WinMove/g, "move");

@@ -282,6 +282,7 @@
             //图标和标题文字
             let title = obj.dom.add('pagebox_title');
             title.add('pb-ico').html('&#x' + obj.ico);
+            console.error(obj.ico);
             if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.add('pb-ico').addClass('pb-loading').html('&#xe621');

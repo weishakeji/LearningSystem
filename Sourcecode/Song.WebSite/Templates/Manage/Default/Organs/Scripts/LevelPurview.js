@@ -57,8 +57,8 @@ $ready(function () {
                     for (var j = 0; j < nodes.length; j++)
                         arr.push(nodes[j].MM_UID);
                 }
-                $api.post('ManageMenu/OrganPurviewSelected', { 'lvid': th.id, 'mms': arr }).then(function (req) {
-                    th.loading = false;
+                $api.post('ManageMenu/OrganPurviewSelected', { 'lvid': th.id, 'mms': arr })
+                .then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -70,11 +70,27 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
-                });
-                //console.log(arr);                          
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
+            },
+            //设置菜单文本样式
+            setTextstyle: function (data) {
+                let css = 'background-image: linear-gradient(to right, rgba(255, 255, 255,0) '
+                    + (data.MM_IsUse ? data.MM_Complete : 100) + '%,rgb(255, 0, 0) ' + (100 - data.MM_Complete) + '%);';
+                if (!$api.isnull(data.MM_Color) && data.MM_Color != '') css += 'color:' + data.MM_Color + ';';
+                if (data.MM_IsBold) css += 'font-weight: bold;';
+                if (data.MM_IsItalic) css += 'font-style: italic;';
+                return css;
+            },
+            //设置图标样式
+            setIcostyle: function (data, size) {
+                let fontsize = data.MM_IcoSize == null ? size : (size + data.MM_IcoSize * size / 10);
+                let css = 'font-size: ' + fontsize + 'px;';
+                if (!$api.isnull(data.MM_IcoColor) && data.MM_IcoColor != '') css += 'color:' + data.MM_IcoColor + ';'
+                css += 'top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
+                css += 'left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
+                console.log(css);
+                return css;
             },
             //全选或清空
             selected: function (root, index) {
