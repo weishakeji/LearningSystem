@@ -284,8 +284,11 @@
             //图标和标题文字
             let title = obj.dom.add('pagebox_title');
             let ico = title.add('pb-ico').html('&#x' + obj.ico);
-            if (obj.attrs.iconstyle != null && JSON.stringify(obj.attrs.iconstyle == '{}'))
-                if (obj.attrs.iconstyle.color) ico.css('color', obj.attrs.iconstyle.color, true);
+            let iconstyle = obj.attrs.iconstyle;
+            if (iconstyle != null && JSON.stringify(iconstyle == '{}')) {
+                if (iconstyle.color) ico.css('color', iconstyle.color, true);
+                if (iconstyle.size != 0) ico.css('transform', 'scale(' + (1 + iconstyle.size / 100) + ')');
+            }
             if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.add('pb-ico').addClass('pb-loading').html('&#xe621');
@@ -537,8 +540,11 @@
             min.attr('title', target.title);
             //图标         
             let ico = min.add('pb-ico').html('&#x' + target.ico);
-            if (target.attrs.iconstyle != null && JSON.stringify(target.attrs.iconstyle == '{}'))
-                if (target.attrs.iconstyle.color) ico.css('color', target.attrs.iconstyle.color, true);
+            let iconstyle = target.attrs.iconstyle;
+            if (iconstyle != null && JSON.stringify(iconstyle == '{}')) {
+                if (iconstyle.color) ico.css('color', iconstyle.color, true);
+                if (iconstyle.size != 0) ico.css('transform', 'scale(' + (1 + iconstyle.size / 100) + ')');
+            }
             //标题文字
             let tit = min.add('pb-text').html(target.title);
             if (target.attrs.titstyle != null && JSON.stringify(target.attrs.titstyle == '{}'))

@@ -270,7 +270,7 @@
         //图标样式
         let ico = tabtag.add('ico').html('&#x' + tab.ico);
         if (tab.icon) {
-            if (tab.icon.color) ico.css('color', tab.icon.color, true);
+            if (tab.icon.color) ico.css('color', tab.icon.color);
             if (tab.icon.size != 0) ico.css('transform', 'scale(' + (1 + tab.icon.size / 100) + ')');
         }
         //标签文本
