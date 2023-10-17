@@ -23,8 +23,8 @@
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <div class="tree-node draghandle" :style="setTextstyle(data)">
           <template v-if="data.MM_Type!='hr'">
-            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''" :style="setIcostyle(data,16)">&#xa038;</icon>
-            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'" :style="setIcostyle(data,16)"></icon>
+            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''" :style="setIcostyle(data)">&#xa038;</icon>
+            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'" :style="setIcostyle(data)"></icon>
             {{ data.MM_Name }}
             <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
           </template>
@@ -75,8 +75,8 @@
             <el-form-item label="" label-width="5px">
 
               <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
-                <icon setup v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''" :style="setIcostyle(curr,20)"></icon>
-                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'" :style="setIcostyle(curr,20)"></icon>
+                <icon setup v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''" :style="setIcostyle(curr)"></icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'" :style="setIcostyle(curr)"></icon>
               </el-link>
             </el-form-item>
           </el-col>

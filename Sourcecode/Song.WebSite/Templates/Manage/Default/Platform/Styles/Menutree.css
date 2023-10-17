@@ -48,7 +48,7 @@ html, body {
 
 .el-link icon {
     font-size: 20px;
-    margin-right: 5px;
+    margin: 0px 5px;
 }
 
 .el-tree-node__content {
@@ -56,21 +56,22 @@ html, body {
 }
 
 .tree-node {
-    display: block;
+    display: flex;
     width: calc(100% - 310px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
     border-radius: 3px;
-    position: relative;
+    height: 20px;
     padding-left: 20px;
 }
 
 .tree-node icon {
-    position: absolute;
     display: block;
-
+    margin-right: 5px;
+    height: 20px;
+    line-height: 20px;
 }
 
 .tree-node span.hr {

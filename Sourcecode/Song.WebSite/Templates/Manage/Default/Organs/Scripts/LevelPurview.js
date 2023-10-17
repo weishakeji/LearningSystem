@@ -83,13 +83,14 @@ $ready(function () {
                 return css;
             },
             //设置图标样式
-            setIcostyle: function (data, size) {
-                let fontsize = data.MM_IcoSize == null ? size : (size + data.MM_IcoSize * size / 10);
-                let css = 'font-size: ' + fontsize + 'px;';
+            setIcostyle: function (data) {
+                let css = '';
+                if (data.MM_IcoSize && data.MM_IcoSize != 0)
+                    css += 'transform:' + 'scale(' + (1 + data.MM_IcoSize / 100) + ');';
                 if (!$api.isnull(data.MM_IcoColor) && data.MM_IcoColor != '') css += 'color:' + data.MM_IcoColor + ';'
-                css += 'top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
-                css += 'left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
-                console.log(css);
+                css += 'margin-top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
+                css += 'margin-left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
+                //console.log(css);
                 return css;
             },
             //全选或清空

@@ -23,8 +23,8 @@
                     highlight-current :props="defaultProps">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span class="tree-node" :uid="data.id" :style="setTextstyle(data)">
-                            <icon v-if="data.ico==null || data.ico==''" :style="setIcostyle(data,16)">&#xa038;</icon>
-                            <icon v-else v-html="'&#x'+data.ico+';'" :style="setIcostyle(data,16)"></icon>
+                            <icon v-if="data.ico==null || data.ico==''" :style="setIcostyle(data)">&#xa038;</icon>
+                            <icon v-else v-html="'&#x'+data.ico+';'" :style="setIcostyle(data)"></icon>
                             {{ data.MM_Name }}
                         </span>
                     </span>

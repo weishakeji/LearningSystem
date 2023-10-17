@@ -303,6 +303,7 @@
 
 .treemenu tree_box.current>tree-node {
     color: var(--node-curr-color) !important;
+    
 }
 
 .treemenu tree-node span {

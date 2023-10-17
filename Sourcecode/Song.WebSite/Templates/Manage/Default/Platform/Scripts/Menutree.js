@@ -142,18 +142,19 @@ $ready(function () {
                 let css = 'background-image: linear-gradient(to right, rgba(255, 255, 255,0) '
                     + (data.MM_IsUse ? data.MM_Complete : 100) + '%,rgb(255, 0, 0) ' + (100 - data.MM_Complete) + '%);';
                 if (!$api.isnull(data.MM_Color) && data.MM_Color != '') css += 'color:' + data.MM_Color + ';';
-                if(data.MM_IsBold)css += 'font-weight: bold;';
-                if(data.MM_IsItalic)css += 'font-style: italic;';
+                if (data.MM_IsBold) css += 'font-weight: bold;';
+                if (data.MM_IsItalic) css += 'font-style: italic;';
                 return css;
             },
             //设置图标样式
-            setIcostyle: function (data, size) {
-                let fontsize = data.MM_IcoSize == null ? size : (size + data.MM_IcoSize * size / 10);
-                let css = 'font-size: ' + fontsize + 'px;';
+            setIcostyle: function (data) {
+                let css = '';
+                if (data.MM_IcoSize && data.MM_IcoSize != 0)
+                    css += 'transform:' + 'scale(' + (1 + data.MM_IcoSize / 100) + ');';
                 if (!$api.isnull(data.MM_IcoColor) && data.MM_IcoColor != '') css += 'color:' + data.MM_IcoColor + ';'
-                css += 'top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
-                css += 'left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
-                console.log(css);
+                css += 'margin-top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
+                css += 'margin-left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
+                //console.log(css);
                 return css;
             },
             //保存菜单项

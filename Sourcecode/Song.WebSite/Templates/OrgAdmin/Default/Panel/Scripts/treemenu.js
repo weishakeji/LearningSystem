@@ -389,9 +389,10 @@
 		//图标，图标样式
 		let ico = node.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
 		if (item.icon) {
-			if (item.icon.color) ico.css('color', item.icon.color, true);
-			if (item.icon.x > 0) ico.css('margin-top', item.icon.x + 'px', true);
-			if (item.icon.y > 0) ico.css('margin-left', item.icon.y + 'px', true);
+			if (item.icon.color) ico.css('color', item.icon.color,);
+			if (item.icon.x != 0) ico.css('margin-left', item.icon.x + 'px');
+			if (item.icon.y != 0) ico.css('margin-top', item.icon.y + 'px');
+			if (item.icon.size != 0) ico.css('transform', 'scale(' + (1 + item.icon.size / 100) + ')');
 		}
 		if (item.type == 'link') {
 			let link = node.add('a');

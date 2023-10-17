@@ -269,7 +269,10 @@
         tabtag.attr('title', tab.title).attr('tabid', tab.id);
         //图标样式
         let ico = tabtag.add('ico').html('&#x' + tab.ico);
-        if (tab.icon && tab.icon.color) ico.css('color', tab.icon.color, true);
+        if (tab.icon) {
+            if (tab.icon.color) ico.css('color', tab.icon.color, true);
+            if (tab.icon.size != 0) ico.css('transform', 'scale(' + (1 + tab.icon.size / 100) + ')');
+        }
         //标签文本
         let txt = tabtag.add('tagtxt').html(tab.title);
         if (tab.font) {
