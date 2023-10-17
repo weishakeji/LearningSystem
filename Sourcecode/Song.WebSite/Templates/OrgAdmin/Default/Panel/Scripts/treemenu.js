@@ -112,7 +112,7 @@
 				if (!val) return obj.domquery.hide();
 				obj.domquery.find('section:first-child').css('min-width', obj.datas.length * 180 + 'px');
 				//将树形菜单的html直接放入查询面板，不再直接生成
-				let sect = obj.domquery.find('section>section');				
+				let sect = obj.domquery.find('section>section');
 				sect.html(obj.dombody.html());
 				sect.find('tree_area').show();
 				sect.find('tree_area tree_box').show();
@@ -281,7 +281,7 @@
 				if (ctrl != null) ctrl.obj.querypanel = false;
 			});
 			//创建查询内容区
-			let sect = panel.add('section');			
+			let sect = panel.add('section');
 			//头部
 			let head = sect.add('header');
 			head.add('div').attr('title', '全部菜单项').add('span');
@@ -386,14 +386,18 @@
 		if (item.intro) node.attr('title', item.intro);
 		//节点类型
 		node.attr('type', item.type ? item.type : 'node');
-		node.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
-		let span = null;
+		//图标，图标样式
+		let ico = node.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
+		if (item.icon) {
+			if (item.icon.color) ico.css('color', item.icon.color, true);
+			if (item.icon.x > 0) ico.css('margin-top', item.icon.x + 'px', true);
+			if (item.icon.y > 0) ico.css('margin-left', item.icon.y + 'px', true);
+		}
 		if (item.type == 'link') {
 			let link = node.add('a');
 			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
-			span = link.add('span');
 		} else {
-			span = node.add('span');
+			node.add('span').html(item.title);
 		}
 		//完成度	
 		if (item.complete < 100 && this.complete) {
@@ -410,14 +414,11 @@
 		}
 		//字体样式
 		if (item.font) {
-			let fonts = span.merge(node.find('ico'));
+			let fonts = node;
 			if (item.font.color) fonts.css('color', item.font.color, true);
 			if (item.font.bold) fonts.css('font-weight', item.font.bold ? 'bold' : 'normal', true);
 			if (item.font.italic) fonts.css('font-style', item.font.italic ? 'italic' : 'normal', true);
 		}
-		span.html(item.title);
-		span.width('calc(100% - ' + ((item.level - 2) * 15 + 40) + 'px)');
-
 		//如果有下级节点
 		if (item.type != 'node' && item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function (event) {

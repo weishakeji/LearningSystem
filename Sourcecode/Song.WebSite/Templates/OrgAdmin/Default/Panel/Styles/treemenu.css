@@ -35,8 +35,7 @@
 }
 
 .treemenu a,
-.treemenu span,
-.treemenu tree-node ico {
+.treemenu tree-node{
     color: var(--tag-selected-color);
 }
 
@@ -49,6 +48,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  
 }
 
 .treemenu tree_tags>*:not(tree-tagspace) {
@@ -269,7 +269,6 @@
     line-height: 30px;
     height: 30px;
     cursor: pointer;
-    padding-right: 30px;
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -302,7 +301,7 @@
     background-color: var(--node-curr-bg);
 }
 
-.treemenu tree_box.current * {
+.treemenu tree_box.current>tree-node {
     color: var(--node-curr-color) !important;
 }
 

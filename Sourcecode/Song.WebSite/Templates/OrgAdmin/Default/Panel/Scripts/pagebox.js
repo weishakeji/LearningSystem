@@ -28,7 +28,9 @@
             level: null, //窗体的层深
             initLvl: 10000, //初始层深
             title: '默认标题',
+            titstyle: {},    //标题的样式数据
             ico: 'a021', //图标
+            iconstyle: {},   //图标的样式数据
             url: '',
             id: 0,
             pid: '', //父级窗体名称
@@ -281,13 +283,17 @@
         title: function (obj) {
             //图标和标题文字
             let title = obj.dom.add('pagebox_title');
-            title.add('pb-ico').html('&#x' + obj.ico);
-            console.error(obj.ico);
+            let ico = title.add('pb-ico').html('&#x' + obj.ico);
+            if (obj.attrs.iconstyle != null && JSON.stringify(obj.attrs.iconstyle == '{}'))
+                if (obj.attrs.iconstyle.color) ico.css('color', obj.attrs.iconstyle.color, true);
             if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.add('pb-ico').addClass('pb-loading').html('&#xe621');
             }
-            title.add('pb-text').html(obj.title);
+            //标题
+            let tit = title.add('pb-text').html(obj.title);
+            if (obj.attrs.titstyle != null && JSON.stringify(obj.attrs.titstyle == '{}'))
+                if (obj.attrs.titstyle.color) tit.css('color', obj.attrs.titstyle.color, true);
             //移动窗体的响应条
             obj.dom.append('pagebox_dragbar');
         },
@@ -529,9 +535,14 @@
         title: function (target, area) {
             let min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
             min.attr('title', target.title);
-            //图标和标题文字           
-            min.add('pb-ico').html('&#x' + target.ico);
-            min.add('pb-text').html(target.title);
+            //图标         
+            let ico = min.add('pb-ico').html('&#x' + target.ico);
+            if (target.attrs.iconstyle != null && JSON.stringify(target.attrs.iconstyle == '{}'))
+                if (target.attrs.iconstyle.color) ico.css('color', target.attrs.iconstyle.color, true);
+            //标题文字
+            let tit = min.add('pb-text').html(target.title);
+            if (target.attrs.titstyle != null && JSON.stringify(target.attrs.titstyle == '{}'))
+                if (target.attrs.titstyle.color) tit.css('color', target.attrs.titstyle.color, true);
             min.find('pb-ico,pb-text').click(function (e) {
                 let obj = box._getObj(e);
                 //如果窗体不处于焦点，则设置为焦点；如果已经是焦点，则最小化

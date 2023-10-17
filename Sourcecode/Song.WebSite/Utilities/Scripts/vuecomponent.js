@@ -233,15 +233,15 @@ Vue.component('btngroup', {
             var node = this.getnode();
             var tit = node ? node.title : $dom('title').text();
             if ($dom('title').text() != '' && (!title || title != '')) tit += ' - ';
-            var ico = this.ico ? this.ico : (node && node.ico != '' ? node.ico : 'a021');
+            var ico = this.ico ? this.ico : (node && node.ico != '' ? node.ico : 'a021');           
             var attrs = {
                 width: width ? width : 400,
                 height: height ? height : 300,
                 url: url,
-                ico: ico,
+                ico: ico, iconstyle: node.icon,
                 pid: window.name,
                 id: boxid,
-                title: tit + title
+                title: tit + title, titstyle: node.font
             };
             if (param != null) {
                 for (var t in param) attrs[t] = param[t];

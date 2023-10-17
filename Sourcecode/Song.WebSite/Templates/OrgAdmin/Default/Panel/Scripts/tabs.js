@@ -267,8 +267,16 @@
         //添加标签
         let tabtag = this.domtit.add('tab_tag');
         tabtag.attr('title', tab.title).attr('tabid', tab.id);
-        tabtag.add('ico').html('&#x' + tab.ico);
-        tabtag.add('tagtxt').html(tab.title);
+        //图标样式
+        let ico = tabtag.add('ico').html('&#x' + tab.ico);
+        if (tab.icon && tab.icon.color) ico.css('color', tab.icon.color, true);
+        //标签文本
+        let txt = tabtag.add('tagtxt').html(tab.title);
+        if (tab.font) {
+            if (tab.font.color) txt.css('color', tab.font.color, true);
+            if (tab.font.bold) txt.css('font-weight', tab.font.bold ? 'bold' : 'normal', true);
+            if (tab.font.italic) txt.css('font-style', tab.font.italic ? 'italic' : 'normal', true);
+        }
         tabtag.add('close');
         //添加更多标签区域
         let mtag = this.domore.add('tab_tag');
