@@ -271,6 +271,8 @@
         let ico = tabtag.add('ico').html('&#x' + tab.ico);
         if (tab.icon) {
             if (tab.icon.color) ico.css('color', tab.icon.color);
+            if (tab.icon.x != 0) ico.css('padding-left', tab.icon.x + 'px');
+            if (tab.icon.y != 0) ico.css('padding-top', tab.icon.y + 'px');
             if (tab.icon.size != 0) ico.css('transform', 'scale(' + (1 + tab.icon.size / 100) + ')');
         }
         //标签文本
@@ -283,9 +285,20 @@
         tabtag.add('close');
         //添加更多标签区域
         let mtag = this.domore.add('tab_tag');
-        mtag.add('ico').html('&#x' + tab.ico);
+        ico = mtag.add('ico').html('&#x' + tab.ico);
+        if (tab.icon) {
+            if (tab.icon.color) ico.css('color', tab.icon.color);
+            if (tab.icon.x != 0) ico.css('padding-left', tab.icon.x + 'px');
+            if (tab.icon.y != 0) ico.css('padding-top', tab.icon.y + 'px');
+            if (tab.icon.size != 0) ico.css('transform', 'scale(' + (1 + tab.icon.size / 100) + ')');
+        }
         mtag.attr('tabid', tab.id);
-        mtag.add('tagtxt').html(tab.title).attr('title', tab.path.replace(/\,/g, ">"));
+        txt = mtag.add('tagtxt').html(tab.title).attr('title', tab.path.replace(/\,/g, ">"));
+        if (tab.font) {
+            if (tab.font.color) txt.css('color', tab.font.color, true);
+            if (tab.font.bold) txt.css('font-weight', tab.font.bold ? 'bold' : 'normal', true);
+            if (tab.font.italic) txt.css('font-style', tab.font.italic ? 'italic' : 'normal', true);
+        }
         mtag.add('close');
         //添加内容区
         let space = this.dombody.add('tabpace');

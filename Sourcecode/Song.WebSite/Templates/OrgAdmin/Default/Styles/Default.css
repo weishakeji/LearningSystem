@@ -18,10 +18,10 @@ panel {
 }
 
 panel#admin {
-    background-color: #d5e9fd;
+    background-color: rgb(0,135,189);
     /*
     background-image: linear-gradient(to right,  #d5e9fd 50px,#fdd1d1,#ffe8c0);*/
-    background-image: linear-gradient(to right bottom, #d5e9fd 30%,#ffffff,#d5e9fd );
+    background-image: linear-gradient(to right, rgb(0,135,189) 30%,rgb(203, 240, 255) ,#8ec6ff );
 }
 
 #treemenu-area {
@@ -302,7 +302,7 @@ timer {
     top: 65px;
     right: 40px;
     font-size: 10px;
-    color: rgb(6 133 46 / 80%);
+    color: rgb(208 245 220 / 80%);
     cursor: default;
 }
 
@@ -339,7 +339,7 @@ timer {
     right: -3px !important;
     left: 5px !important;
     text-shadow: none !important;
-    color: #444 !important;
+    color: #cdcdcd !important;
     width: 30px;
     height: 25px;
     line-height: 30px;

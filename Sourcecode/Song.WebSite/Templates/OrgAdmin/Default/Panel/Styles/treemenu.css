@@ -35,7 +35,7 @@
 }
 
 .treemenu a,
-.treemenu tree-node{
+.treemenu tree-node {
     color: var(--tag-selected-color);
 }
 
@@ -48,7 +48,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-  
+
 }
 
 .treemenu tree_tags>*:not(tree-tagspace) {
@@ -303,7 +303,7 @@
 
 .treemenu tree_box.current>tree-node {
     color: var(--node-curr-color) !important;
-    
+
 }
 
 .treemenu tree-node span {
@@ -387,21 +387,25 @@ div.querypanel {
     left: 0px;
     top: 0px;
     z-index: 99999;
-    background-color: rgba(200, 200, 200, 0.5);
+    background-color: rgb(255 255 255 / 50%);
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 div.querypanel>section {
-   
+
     max-width: 80%;
     height: 80%;
-    background-color: #fff;
+    background-color: rgb(229 247 255);
+    background-image: linear-gradient(135deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    border: solid 2px #5d9ead;
+    border-radius: 5px;
 }
 
 div.querypanel>section header {
@@ -415,6 +419,8 @@ div.querypanel>section header>div:first-child {
     line-height: 50px;
     height: 100%;
     padding-left: 20px;
+    color: #222;
+    cursor: default;
 }
 
 div.querypanel>section header>div[title]::before {
@@ -517,7 +523,10 @@ div.querypanel>section>section>tree_area {
     padding: 0px;
     box-sizing: border-box;
     height: calc(100% - 30px);
-    background-color: #f3fdff;
+    background-color: #c7e8ef;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%,
+            transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
 }
 
 div.querypanel>section>section>tree_area tree_tit {
@@ -550,11 +559,19 @@ div.querypanel tree_area>div {
     overflow-y: auto;
 }
 
-div.querypanel tree_box tree-node *{
+div.querypanel tree_box tree-node * {
     font-size: 16px;
+}
+
+/*查询选中的节点样式*/
+div.querypanel tree_box tree-node[queried] {
+    transform: scale(1.2);
+    margin-left: 8px;
+
 }
 
 div.querypanel tree_box tree-node[queried] * {
     color: red !important;
     font-weight: bold;
+    text-shadow: 1px 1px 3px #666;
 }

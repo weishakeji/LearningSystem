@@ -542,7 +542,7 @@
             let ico = min.add('pb-ico').html('&#x' + target.ico);
             let iconstyle = target.attrs.iconstyle;
             if (iconstyle != null && JSON.stringify(iconstyle == '{}')) {
-                if (iconstyle.color) ico.css('color', iconstyle.color, true);
+                if (iconstyle.color) ico.css('color', iconstyle.color, true);              
                 if (iconstyle.size != 0) ico.css('transform', 'scale(' + (1 + iconstyle.size / 100) + ')');
             }
             //标题文字

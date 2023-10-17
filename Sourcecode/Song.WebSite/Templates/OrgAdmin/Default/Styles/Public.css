@@ -7,9 +7,12 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 }
-
+body{
+	background-color: rgb(255, 255, 255);
+}
 #vapp {
 	position: relative;
+	
 }
 
 *::-webkit-scrollbar {
