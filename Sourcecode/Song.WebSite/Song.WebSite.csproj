@@ -446,6 +446,7 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Index.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Login.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Public.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\tabs.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Styles\treemenu.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansedit.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansitem.js" />
