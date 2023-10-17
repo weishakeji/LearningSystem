@@ -1,6 +1,7 @@
-html,body{
+html, body {
     overflow: hidden;
 }
+
 #app {
     margin: 10px 0px 60px 20px;
     padding: 0px 20px 0px 0px;
@@ -8,10 +9,12 @@ html,body{
     max-height: calc(100% - 70px);
     overflow-y: auto;
 }
-.el-tree{
+
+.el-tree {
     background-color: transparent !important;
     background: transparent !important;
 }
+
 .drawer_item {
     width: 50% !important;
 }
@@ -25,12 +28,12 @@ html,body{
     padding-right: 8px;
 }
 
-
 .tree_root {
     height: 30px;
     font-size: 15px;
     line-height: 30px;
     color: #606266;
+
 }
 
 .tree_root *:last-child {
@@ -43,25 +46,31 @@ html,body{
     border-bottom: #d1cfcf 1px solid;
 }
 
-.el-link icon{
+.el-link icon {
     font-size: 20px;
     margin-right: 5px;
 }
+
 .el-tree-node__content {
     cursor: default !important;
 }
-.tree-node{
-    display: inline-block;
+
+.tree-node {
+    display: block;
     width: calc(100% - 310px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
     border-radius: 3px;
-   
+    position: relative;
+    padding-left: 20px;
 }
-.tree-node[color] {
-    color: attr(color);
+
+.tree-node icon {
+    position: absolute;
+    display: block;
+
 }
 
 .tree-node[bold=true] {
@@ -71,35 +80,41 @@ html,body{
 .tree-node[italic=true] {
     font-style: italic;
 }
-.tree-node span.hr{
+
+.tree-node span.hr {
     color: #aaa;
     font-size: 12px;
 }
-.mmlink{
+
+.mmlink {
     font-size: 12px;
     margin-left: 10px;
     color: #aaa;
     max-width: 200px;
     display: inline-block;
-   
+
 }
-.el-checkbox{
+
+.el-checkbox {
     margin-right: 10px;
 }
-.icon[setup]{
+
+.icon[setup] {
     font-size: 20px;
 }
 
-.el-dialog{
+.el-dialog {
     width: 80% !important;
     height: 70% !important;
 }
-.el-dialog__body{   
+
+.el-dialog__body {
     width: calc(100% - 50px) !important;
-    height:calc(100% - 100px) !important;
+    height: calc(100% - 100px) !important;
     padding: 10px 10px 10px 20px !important;
     overflow-y: auto;
 }
+
 /*底部按钮*/
 
 .btnFooter {

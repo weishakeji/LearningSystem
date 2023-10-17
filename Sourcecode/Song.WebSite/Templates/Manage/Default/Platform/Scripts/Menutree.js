@@ -35,6 +35,7 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.bat(
                 $api.get('ManageMenu/ForUID', { 'uid': this.uid }),
                 $api.get('ManageMenu/FuncMenu', { 'uid': this.uid }),
@@ -53,43 +54,14 @@ $ready(function () {
                 if (menus.data.result != null)
                     th.data = menus.data.result; //当前菜单树             
                 th.rootdata = root.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         methods: {
-            handleDragStart(node, ev) {
-                //console.log('drag start', node);
-            },
-            handleDragEnter(draggingNode, dropNode, ev) {
-                //console.log('tree drag enter: ', dropNode.label);
-            },
-            handleDragLeave(draggingNode, dropNode, ev) {
-                //console.log('tree drag leave: ', dropNode.label);
-            },
-            handleDragOver(draggingNode, dropNode, ev) {
-                //console.log('tree drag over: ', dropNode.label);
-            },
-            handleDragEnd(draggingNode, dropNode, dropType, ev) {
-                //console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-                //console.log(this.data);
-            },
-            handleDrop(draggingNode, dropNode, dropType, ev) {
-                console.log('tree drop: ', dropNode.label, dropType);
-            },
-            allowDrop(draggingNode, dropNode, type) {
-                return true;
-            },
-            allowDrag(draggingNode) {
-                return true;
-            }
-            ,
             append: function (d) {
                 var obj = this.clone();
                 if (d != null) {
-                    if (!d.children) {
-                        this.$set(d, 'children', []);
-                    }
+                    if (!d.children) this.$set(d, 'children', []);
                     d.children.push(obj);
                 } else {
                     this.data.push(obj);
@@ -97,7 +69,7 @@ $ready(function () {
             },
             //克隆一个新节点
             clone: function (data) {
-                var temp = {
+                let temp = {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
@@ -107,7 +79,7 @@ $ready(function () {
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
                     "id": 0, "label": "", "ico": "", "MM_Complete": 0
                 }
-                var obj = $api.clone(temp);
+                let obj = $api.clone(temp);
                 obj.MM_Id = obj.id = -parseInt(Math.random() * 9999, 10) + 1;
                 obj.MM_Name = "newnode" + obj.id;
                 obj.children = [];
@@ -159,60 +131,68 @@ $ready(function () {
                         console.error(err);
                     });
 
-                }).catch(function () {
-                });
-               
+                }).catch(() => { });
             },
             //字体颜色变化时
-            colorChange: function (color) {
-                this.curr.MM_Color = color == null ? '' : color;
+            colorChange: function (color, field) {
+                this.curr[field] = color == null ? '' : color;
             },
-            //当图标选择变更时
-            iconChange: function (icon) {
-                this.curr.MM_IcoCode = icon;
-                console.log('选中图标:' + icon);
+            //设置菜单文本样式
+            setTextstyle: function (data) {
+                let css = 'background-image: linear-gradient(to right, rgba(255, 255, 255,0) '
+                    + (data.MM_IsUse ? data.MM_Complete : 100) + '%,rgb(255, 0, 0) ' + (100 - data.MM_Complete) + '%);';
+                if (!$api.isnull(data.MM_Color) && data.MM_Color != '') css += 'color:' + data.MM_Color + ';';
+                if(data.MM_IsBold)css += 'font-weight: bold;';
+                if(data.MM_IsItalic)css += 'font-style: italic;';
+                return css;
+            },
+            //设置图标样式
+            setIcostyle: function (data, size) {
+                let fontsize = data.MM_IcoSize == null ? size : (size + data.MM_IcoSize * size / 10);
+                let css = 'font-size: ' + fontsize + 'px;';
+                if (!$api.isnull(data.MM_IcoColor) && data.MM_IcoColor != '') css += 'color:' + data.MM_IcoColor + ';'
+                css += 'top:' + ($api.isnull(data.MM_IcoY) || data.MM_IcoY == 0 ? 0 : data.MM_IcoY) + 'px;';
+                css += 'left:' + ($api.isnull(data.MM_IcoX) || data.MM_IcoX == 0 ? 0 : data.MM_IcoX) + 'px;';
+                console.log(css);
+                return css;
             },
             //保存菜单项
             btnSave: function () {
                 if (this.loading) return;
-                this.$confirm('将保存菜单树的修改, 是否继续?', '提示', {
+                var th = this;
+                th.$confirm('将保存菜单树的修改, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(function () {
-                    window.vapp.updateSave();
-                }).catch(function () {
-                });
+                    th.updateSave();
+                }).catch(() => { });
             },
             updateSave: function () {
-                var th=this;
+                var th = this;
                 th.loading = true;
-                $api.post('ManageMenu/FuncMenuUpdate', { 'uid': this.uid, 'tree': this.data }).then(function (req) {
-                    th.loading = false;
+                $api.post('ManageMenu/FuncMenuUpdate', { 'uid': th.uid, 'tree': th.data }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         $api.cache('ManageMenu/Menus:clear');
                         th.$notify({
-                            type: 'success',
+                            type: 'success', center: true,
                             message: '菜单保存成功！',
-                            position: 'bottom-left',
-                            center: true
+                            position: 'bottom-left'
                         });
                         th.updatedEvent();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                  
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //更改完成状态
             changeComplete: function (val) {
                 var th = this;
-                $api.post('ManageMenu/UpdateComplete', { 'uid': this.curr.MM_UID, 'complete': val }).then(function (req) {
+                th.loading = true;
+                $api.post('ManageMenu/UpdateComplete', { 'uid': th.curr.MM_UID, 'complete': val }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -229,7 +209,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //更新后触发的事件
             updatedEvent: function () {

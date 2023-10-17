@@ -15,3 +15,16 @@ ALTER TABLE Organization DROP COLUMN Org_QrCode;
 ALTER TABLE Organization DROP COLUMN Org_QrCodeUrl;
 
 --图改系统菜单的图标项
+EXEC sp_rename 'ManageMenu.MM_IcoS', 'MM_IcoCode', 'COLUMN';
+ALTER TABLE ManageMenu DROP COLUMN MM_IcoB;
+go
+alter table [ManageMenu] add MM_IcoSize int NULL
+go
+update [ManageMenu] set MM_IcoSize=0
+go
+alter table [ManageMenu] ALTER COLUMN MM_IcoSize int not null
+
+go
+alter table [ManageMenu] add MM_IcoColor  nvarchar(100) null
+go
+ALTER TABLE [ManageMenu] ALTER COLUMN MM_IcoCode nvarchar(50) null

@@ -18,22 +18,18 @@
         新增下级
       </el-button>
     </div>
-    <el-tree :data="data" node-key="id" :props="defaultProps" default-expand-all @node-drag-start="handleDragStart"
-      @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver"
-      @node-drag-end="handleDragEnd" @node-drop="handleDrop" :expand-on-click-node="false" draggable
-      :allow-drop="allowDrop" :allow-drag="allowDrag" v-loading="loading">
+    <el-tree :data="data" node-key="id" :props="defaultProps" default-expand-all :expand-on-click-node="false" draggable
+      v-loading="loading">
       <span class="custom-tree-node" slot-scope="{ node, data }">
-
-        <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
-          :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgba(255, 255, 255,0) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
+        <div class="tree-node draghandle" :style="setTextstyle(data)">
           <template v-if="data.MM_Type!='hr'">
-            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''">&#xa038;</icon>
-            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'"></icon>
+            <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''" :style="setIcostyle(data,16)">&#xa038;</icon>
+            <icon v-else v-html="'&#x'+data.MM_IcoCode+';'" :style="setIcostyle(data,16)"></icon>
             {{ data.MM_Name }}
             <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
           </template>
           <span v-else class="hr">-----------（分隔线）-----------</span>
-        </span>
+        </div>
         <span> <span style="display: inline-block;width: 80px;">
             <el-tag type="info" v-if="data.MM_Type=='item'">菜单项</el-tag>
             <el-tag type="primary" v-if="data.MM_Type=='link'">超链接</el-tag>
@@ -65,6 +61,7 @@
         </span>
       </span>
     </el-tree>
+    <!--编辑菜单项-->
     <el-drawer :visible.sync="drawer" :with-header="false" custom-class="drawer_item">
       <div class="drawer-title" icon="&#xa00c">编辑菜单项</div>
       <el-form ref="form" :model="curr" :rules="rules" label-width="80px">
@@ -78,8 +75,8 @@
             <el-form-item label="" label-width="5px">
 
               <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
-                <icon setup v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''"></icon>
-                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'"></icon>
+                <icon setup v-if="curr.MM_IcoCode==null || curr.MM_IcoCode==''" :style="setIcostyle(curr,20)"></icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoCode+';'" :style="setIcostyle(curr,20)"></icon>
               </el-link>
             </el-form-item>
           </el-col>
@@ -138,19 +135,51 @@
           </el-form-item>
           <el-row>
             <el-col :span="17">
-              <el-form-item label="样式">
+              <el-form-item label="字体">
                 <el-checkbox v-model="curr.MM_IsBold" label="粗体"></el-checkbox>
                 <el-checkbox v-model="curr.MM_IsItalic" label="斜体"></el-checkbox>
               </el-form-item>
             </el-col>
             <el-col :span="7">
               <el-form-item label="颜色" label-width="60px">
-                <el-color-picker v-model="curr.MM_Color" @change="colorChange" @active-change="colorChange">
+                <el-color-picker v-model="curr.MM_Color" @change="c=>colorChange(c,'MM_Color')"
+                  @active-change="c=>colorChange(c,'MM_Color')">
+                </el-color-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="17">
+              <el-form-item label="图标">
+                <el-input v-model="curr.MM_IcoSize" type="number" min="-100" max="100">
+                  <template slot="prepend">缩放</template>
+                  <template slot="append">%</template>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="颜色" label-width="60px">
+                <el-color-picker v-model="curr.MM_IcoColor" @change="c=>colorChange(c,'MM_IcoColor')"
+                  @active-change="c=>colorChange(c,'MM_IcoColor')">
                 </el-color-picker>
               </el-form-item>
             </el-col>
           </el-row>
 
+          <el-form-item label="" label-width="74px">
+            <el-row style="display: flex; justify-content: space-between;">
+              <el-col :span="13">
+                <el-input v-model="curr.MM_IcoX" type="number" min="-50" max="50">
+                  <template slot="prepend">偏移：X</template>
+                </el-input>
+              </el-col>
+              <el-col :span="10">
+                <el-input v-model="curr.MM_IcoY" type="number" min="-50" max="50">
+                  <template slot="prepend">Y</template>
+                </el-input>
+              </el-col>
+            </el-row>
+          </el-form-item>
         </template>
         <el-form-item label="状态">
           <el-checkbox v-model="curr.MM_IsUse" label="启用"></el-checkbox>
@@ -173,7 +202,7 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-
+    <!--图标选择组件-->
     <icons @change='val=>{curr.MM_IcoCode=val}' ref="icons" :selected="curr.MM_IcoCode"></icons>
 
     <div class="btnFooter">
