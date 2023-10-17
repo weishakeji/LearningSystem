@@ -96,7 +96,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop_roots drop-node:hover, .dropmenu drop_roots drop-node.hover {
-    background-color: rgb(191, 219, 250) !important;
+    background-color: rgb(0,135,189) !important;
     text-shadow: 1px 1px 2px #666;
 }
 
@@ -114,7 +114,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop-panel[root='#menubar'] {
-    background-color: rgb(191, 219, 250, 0.85) !important;
+    background-color: rgb(0,135,189, 0.85) !important;
 }
 
 .dropmenu drop-panel[root='#menubar']>*:not(hr):hover,
@@ -122,7 +122,20 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
     box-shadow: none !important;
     text-shadow: 1px 1px 2px #666;
 }
+#menubar.dropmenu drop-node a, [root='#menubar'] drop-node span, [root='#menubar'] drop-node ico {
+    color: #fff !important;
+}
+#menubar.dropmenu drop-node.hover *{
+    color: #fff !important;
+}
+.dropmenu drop-panel>*:not(hr):hover * {
+    color: #fff !important;
+}
 
+.dropmenu drop-panel>*:not(hr):hover child:after,
+.dropmenu drop-panel>*:not(hr).hover child:after {
+    color: #fff !important;
+}
 
 /*预载效*/
 
@@ -302,7 +315,7 @@ timer {
     top: 65px;
     right: 40px;
     font-size: 10px;
-    color: rgb(208 245 220 / 80%);
+    color: rgb(105 106 106 / 80%);
     cursor: default;
 }
 

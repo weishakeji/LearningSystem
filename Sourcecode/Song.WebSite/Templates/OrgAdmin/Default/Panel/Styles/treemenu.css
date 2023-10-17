@@ -391,11 +391,10 @@ div.querypanel {
     display: flex;
     align-items: center;
     justify-content: center;
-
+   
 }
 
 div.querypanel>section {
-
     max-width: 80%;
     height: 80%;
     background-color: rgb(229 247 255);
@@ -406,6 +405,8 @@ div.querypanel>section {
     justify-content: space-evenly;
     border: solid 2px #5d9ead;
     border-radius: 5px;
+    box-shadow: inset 0 0 10px 5px #ff0000;
+ 
 }
 
 div.querypanel>section header {

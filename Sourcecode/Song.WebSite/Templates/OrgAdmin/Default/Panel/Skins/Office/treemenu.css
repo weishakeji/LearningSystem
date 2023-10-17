@@ -28,8 +28,17 @@
 .treemenu tree_box.current {
     font-weight: normal;
 }
+
 /*当前选中的左侧选项卡*/
-.treemenu tree_tags tree_tag.selected {   
+.treemenu tree_tags tree_tag.selected {
     color: var(--title-bg);
     border-left: 3px solid rgb(253, 72, 0);
+}
+
+div.querypanel>section {
+    background-color: rgb(229 247 255/30%);
+    box-shadow: inset 0 0 30px 15px rgb(64 158 255 / 20%);
+}
+div.querypanel>section>section>tree_area {
+    background-color: rgb(199 232 239 / 30%);
 }

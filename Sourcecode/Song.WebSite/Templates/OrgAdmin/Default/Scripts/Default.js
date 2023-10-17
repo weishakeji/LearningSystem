@@ -134,6 +134,13 @@ function ready(result) {
         var width = e.action == 'fold' ? 45 : s.width + 5;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
+    //监听树形菜单的菜单查询面板状态，给背景加模糊效果
+    window.tree.watch({
+        'querypanel': function (obj, val, old) {
+            $dom("#admin").css('filter', val ? 'blur(3px)' : 'none');
+        }
+    });
+
     //加载左侧菜单树
     $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
@@ -208,8 +215,8 @@ function nodeconvert(obj) {
     result = result.replace(/MM_Intro/g, "intro");
     result = result.replace(/MM_Type/g, "type");
     result = result.replace(/MM_Link/g, "url");
-    result = result.replace(/MM_Help/g, "help"); 
-    result = result.replace(/MM_IsUse/g, "use"); 
+    result = result.replace(/MM_Help/g, "help");
+    result = result.replace(/MM_IsUse/g, "use");
     result = result.replace(/MM_WinWidth/g, "width");   //弹窗相关
     result = result.replace(/MM_WinHeight/g, "height");
     result = result.replace(/MM_WinID/g, "winid");

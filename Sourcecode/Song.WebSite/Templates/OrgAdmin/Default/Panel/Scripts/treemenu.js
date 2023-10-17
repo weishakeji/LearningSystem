@@ -507,12 +507,14 @@
 	fn.queryData = function (search, isall, childs) {
 		let list = childs == null ? this.datas : childs;
 		let arr = [];
+		if (search == null || search == '') return arr;
+		search = search.toLowerCase();
 		for (let i = 0; i < list.length; i++) {
 			const item = list[i];
 			if (isall || item.childs.length < 1) {
-				if (item.title.indexOf(search) > -1 ||
-					item.tit.indexOf(search) > -1 ||
-					item.intro.indexOf(search) > -1
+				if (item.title.toLowerCase().indexOf(search) > -1 ||
+					item.tit.toLowerCase().indexOf(search) > -1 ||
+					item.intro.toLowerCase().indexOf(search) > -1
 				) arr.push(item);
 			}
 			if (item.childs.length > 0)
