@@ -14,6 +14,13 @@ dl,dd{
 }
 dl dd{
     line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0px 15px 0px 5px;
+}
+dl dd:hover{
+    background-color: #eee;
 }
 dl dd a[href]{
     display: inline-block;
@@ -22,4 +29,8 @@ dl dd a[href]{
 }
 dl dd a[href]:hover{
     text-decoration: underline;
+}
+dl dd>div span{
+    margin-left: 15px;
+    color: #999;
 }
