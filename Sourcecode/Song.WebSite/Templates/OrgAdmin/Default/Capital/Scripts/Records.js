@@ -1,0 +1,218 @@
+﻿$ready(function () {
+    window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            form: {
+                orgid: -1,       //机构id
+                start: '',       //时间区间的开始时间
+                end: '',         //结束时间
+                account: '',      //学员名称或账号
+                from: '-1',     //来源
+                type: '-1',     //类型，支出或充值
+                moneymin: 0,      //金额的选择范围，最小值
+                moneymax: '',     //同上,最大值
+                serial: '',          //流水号
+                state: '-1',       //状态，成功为1，失败为2,-1为所有
+                size: 20,
+                index: 1
+            },
+            selectDate: '',
+            accounts: [],        //当前页的学员账号
+            loading: false,
+            loadingid: 0,        //当前操作中的对象id
+
+            datas: [],          //数据集
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+            selects: [], //数据表中选中的行
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(p) {
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        p.$emit('pick', [start, new Date()]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(1))
+                }, {
+                    text: '最近三个月',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(3))
+                }, {
+                    text: '最近半年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(6))
+                }, {
+                    text: '最近一年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(12))
+                }]
+            },
+            //资金来源
+            moneyform: [{ value: '-1', label: '-来源-' },
+            { value: '3', label: '在线支付' },
+            { value: '1', label: '管理员充扣' },
+            { value: '4', label: '购买课程' }],
+            //操作类型
+            moneytype: [{ value: '-1', label: '全部' },
+            { value: '1', label: '支出' },
+            { value: '2', label: '充值' }],
+            //操作状态
+            moneystate: [{ value: '-1', label: '全部' },
+            { value: '1', label: '成功' },
+            { value: '2', label: '失败' }],
+
+            loading_query: 0     //订单查询
+        },
+        mounted: function () {
+            this.selectDate = this.setTimeInterval(1);
+            var th = this;
+            $api.get('Organization/Current').then(function (req) {
+                if (req.data.success) {
+                    let result = req.data.result;
+                    th.form.orgid = result.Org_ID;
+                    th.handleCurrentChange();
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => {
+                alert('获取当前机构信息错误');
+                console.error(err);
+            }).finally(() => { });
+
+        },
+        created: function () { },
+        computed: {
+            //表格高度
+            tableHeight: function () {
+                var height = document.body.clientHeight;
+                return height - 75;
+            }
+        },
+        watch: {
+            //选择时间区间
+            selectDate: function (nv, ov) {
+                if (!nv) return;
+                this.form.start = nv[0];
+                this.form.end = nv[1];
+            }
+        },
+        methods: {
+            //设置时间区间，从当前时间到之前的时间，subtract：要减去的月份
+            //返回时间数组
+            setTimeInterval: function (subtract) {
+                let end = new Date();           // 获取当前时间     
+                let month = end.getMonth();     // 获取当前月份
+                let year = end.getFullYear();    //当前年份
+                // 计算要减去的月份后的目标月份            
+                month = month - subtract;
+                year = month < 0 ? end.getFullYear() - 1 : end.getFullYear();
+                if (month < 0) month += 12;
+                // 设置目标日期为当前日期
+                let start = new Date(end);
+                start.setFullYear(year, month); // 设置目标年份和月份
+                return [start, end];
+            },
+            //删除
+            deleteData: function (datas) {
+                var th = this;
+                $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
+            },
+            //加载数据页
+            handleCurrentChange: function (index) {
+                if (index != null) this.form.index = index;
+                var th = this;
+                th.loading = true;
+                //每页多少条，通过界面高度自动计算
+                var area = document.documentElement.clientHeight - 105;
+                th.form.size = Math.round(area / 43);
+                $api.get('Money/Pager', th.form).then(function (d) {
+                    if (d.data.success) {
+                        th.datas = d.data.result;
+                        th.totalpages = Number(d.data.totalpages);
+                        th.total = d.data.total;
+                    } else {
+                        console.error(d.data.exception);
+                        throw d.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
+            },
+            //双击事件
+            rowdblclick: function (row, column, event) {
+                console.log(row);
+                this.$refs.btngroup.modifyrow(row, '查看');
+            },
+            //导出按钮的事件
+            btnOutput: function () {
+                var file = 'RecordOutput';
+                var title = ' - 导出';
+                var boxid = 'Capital_' + file;
+                this.$refs.btngroup.pagebox(file, title, boxid, 800, 400,
+                    { pid: window.name, resize: true });
+            },
+            //查询订单
+            queryOrder: function (detail) {
+                var th = this;
+                th.loading_query = detail.Ma_ID;
+                var query = { 'serial': detail.Ma_Serial };
+                $api.get('Pay/Interface', { 'id': detail.Pai_ID }).then(function (req) {
+                    if (req.data.success) {
+                        var pi = req.data.result;
+                        //如果是微信支付
+                        if (pi.Pai_Pattern.indexOf('微信') > -1) {
+                            query['appid'] = pi.Pai_ParterID;
+                            //接口配置项
+                            let config = $api.xmlconfig.tojson(pi.Pai_Config);
+                            query['mchid'] = config["MCHID"];    //商户id
+                            query['paykey'] = config["Paykey"];  //支付密钥
+                            $api.get('Pay/WxOrderQuery', query).then(function (req) {
+                                if (req.data.success) {
+                                    var result = req.data.result;
+                                    if (result['trade_state'] == 'SUCCESS') {
+                                        $api.get('Pay/MoneyAccount', { 'serial': result['out_trade_no'] }).then(function (req) {
+                                            if (req.data.success) {
+                                                let item = req.data.result;
+                                                var index = th.datas.findIndex(n => n.Ma_Serial == item.Ma_Serial);
+                                                if (index > -1)
+                                                    th.$set(th.datas, index, item);
+                                            } else {
+                                                console.error(req.data.exception);
+                                                throw req.config.way + ' ' + req.data.message;
+                                            }
+                                        }).catch(function (err) {
+                                            alert(err);
+                                            console.error(err);
+                                        });
+                                    }
+                                    console.log(result);
+                                } else {
+                                    console.error(req.data.exception);
+                                    throw req.config.way + ' ' + req.data.message;
+                                }
+                            }).catch(err => console.error(err))
+                                .finally(() => th.loading_query = 0);
+                        }
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_query = 0);
+            }
+        }
+    });
+
+});

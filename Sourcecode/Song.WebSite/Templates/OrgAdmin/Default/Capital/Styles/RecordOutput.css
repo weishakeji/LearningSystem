@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+.el-form{
+    box-sizing: border-box;
+    height: calc(100% - 20px);
+}
+.files{
+    height: calc(100% - 210px);
+    overflow-y: auto;
+}
+
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}

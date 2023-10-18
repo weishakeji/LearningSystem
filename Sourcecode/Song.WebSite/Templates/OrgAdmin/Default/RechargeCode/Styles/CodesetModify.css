@@ -1,0 +1,37 @@
+﻿#app {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    width: 100%;
+}
+
+.el-card__body {
+   
+}
+
+.item {
+    font-size: 13px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    height: 60px;
+    width: calc(33% - 10px);
+    float: left;
+    overflow: hidden;
+}
+
+.item>img {
+    height: 60px;
+    float: left;
+    margin-right: 10px;
+   
+}
+.item>span{
+    line-height: 20px;
+    word-break:break-all;
+}
+.tax{
+    display: inline-block;
+    font-weight: bold;
+}
+.name{
+
+}

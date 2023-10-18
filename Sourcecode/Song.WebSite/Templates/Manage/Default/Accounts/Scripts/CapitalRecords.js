@@ -230,7 +230,7 @@
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Money/ExcelFiles', { 'path': this.query.path }).then(function (req) {
+                $api.get('Money/ExcelFiles', { 'path': this.query.path, 'orgid': -1 }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                         th.loading_out = false;
@@ -248,7 +248,7 @@
             deleteFile: function (file) {
                 var th = this;
                 th.loading_out = true;
-                $api.get('Money/ExcelDelete', { 'path': th.query.path, 'filename': file }).then(function (req) {
+                $api.get('Money/ExcelDelete', { 'path': th.query.path, 'orgid': -1, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();

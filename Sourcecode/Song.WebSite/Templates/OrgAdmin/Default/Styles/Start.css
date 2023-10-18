@@ -20,6 +20,7 @@ div.data_piece {
 
 div.data_piece>div {
 	flex: 1;
+	box-shadow: 1px 1px 3px #ccc
 }
 
 div.data_piece>div:not(:last-child) {

@@ -1,5 +1,4 @@
-﻿
-div.piece {
+﻿div.piece {
 	position: relative;
 	width: 300px;
 	height: 100px;
@@ -13,11 +12,11 @@ div.piece {
 div.piece icon.bg {
 	position: absolute;
 	font-size: 100px;
-	color: #ffffff70;
-	right: 8px;	
+	color: rgb(255 255 255);
+	right: 8px;
 	bottom: -30px;
 	z-index: 3;
-	text-shadow: 1px 1px 40px #fff;
+	text-shadow: 5px 5px 40px #fff, -5px -5px 40px #fff;
 	margin-right: 0px;
 	text-align: right;
 }
@@ -46,6 +45,7 @@ div.piece div.area div.contx {
 	color: #fff;
 	font-size: 18px;
 }
-div.piece div.area div.contx b{
+
+div.piece div.area div.contx b {
 	font-size: 25px;
 }

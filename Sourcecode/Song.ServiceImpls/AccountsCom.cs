@@ -2155,7 +2155,7 @@ namespace Song.ServiceImpls
         /// <param name="start">按时间检索区间，此为开始时间</param>
         /// <param name="end">按时间检索区间，此为结束时间</param>
         /// <returns></returns>
-        public string MoneyRecords4Excel(string path, int[] acid, int type, int from, DateTime? start, DateTime? end)
+        public string MoneyRecords4Excel(string path, int orgid, int[] acid, int type, int from, DateTime? start, DateTime? end)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -2173,12 +2173,13 @@ namespace Song.ServiceImpls
             //生成数据行
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
-            WhereClip wc = new WhereClip();           
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
             if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;           
             if (start != null && ((DateTime)start) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime >= ((DateTime)start).Date;
             if (end != null && ((DateTime)end) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime < ((DateTime)end).AddDays(1).Date;
-            if(acid!=null && acid.Length > 0)
+            if (acid != null && acid.Length > 0)
             {
                 WhereClip wcacid = new WhereClip();
                 foreach (int id in acid)

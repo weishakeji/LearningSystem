@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学习卡批量派发</title>   
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <student_batch bathadd_text="全部派发" add_icon="e6c6" @add="distribution"></student_batch>
+        <div class="cardset">
+            <loading v-if="loading"></loading>
+            <template v-else>
+                <div>
+                    <el-row :gutter="20">
+                        <el-col :span="6">主题</el-col>
+                        <el-col :span="18"> {{cardset.Lcs_Theme}} </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="6">有效期</el-col>
+                        <el-col :span="18">
+                            {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                            至
+                            {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="6">学习时长</el-col>
+                        <el-col :span="18">
+                            {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}
+                        </el-col>
+                    </el-row>
+
+                    <el-row :gutter="20">
+                        <el-col :span="6">数量</el-col>
+                        <el-col :span="18">
+                            <el-tag effect="dark" type="success" class="usable_num">
+                                <loading v-if="loadingcard"></loading> 可用 {{num.usable}} 张
+                            </el-tag>
+
+                        </el-col>
+
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="6">&nbsp;</el-col>
+                        <el-col :span="18" class="datainfo">
+                            总数量 {{cardset.Lcs_Count}} 张，
+                            已使用 {{num.used}} 张
+                            <br />
+                            被禁用 {{num.disable}} 张， 被回滚 {{num.rollbak}} 张
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="6">面额</el-col>
+                        <el-col :span="18">
+                            <icon money>{{cardset.Lcs_Price}}</icon>
+                            <span style="font-size: 13px;color: #606266;">(可用卡券抵扣 {{cardset.Lcs_Coupon}}元)</span>
+                        </el-col>
+
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="6">课程（{{cardset.Lcs_CoursesCount}}）</el-col>
+                        <el-col :span="18">
+
+                        </el-col>
+
+                    </el-row>
+                </div>
+                <div class="courses">
+                    <div v-for="(c,i) in courses" :key="c" class="item" :title="c.Cou_Name">
+                        {{i+1}}.
+                        {{c.Cou_Name }}
+
+                    </div>
+                </div>
+            </template>
+
+        </div>
+        <div class="fullscreenLoading" v-show="distribution_tatol>0">
+            <div>
+                <loading fresh></loading><br />
+                正在处理中....剩余 {{distribution_tatol}} 个
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

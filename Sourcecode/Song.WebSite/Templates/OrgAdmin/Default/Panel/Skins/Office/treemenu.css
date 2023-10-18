@@ -6,7 +6,7 @@
     /*选项卡背景色*/
     --tag-bg: rgb(66 89 113 / 0%);
     /*选项卡被选中时的背景色*/
-    --tag-selected-bg: rgb(225 245 255);
+    --tag-selected-bg: rgb(200 237 255);
     /*选项卡被选中是的字体色*/
     --tag-selected-color: #555;
     /*菜单项右侧标题颜色与背景*/
@@ -29,6 +29,10 @@
     font-weight: normal;
 }
 
+.treemenu tree_body {
+    background-image:linear-gradient(135deg, transparent 25%, transparent 80%, rgb(255 255 255 / 40%) 80%)
+}
+
 /*当前选中的左侧选项卡*/
 .treemenu tree_tags tree_tag.selected {
     color: var(--title-bg);
@@ -39,6 +43,7 @@ div.querypanel>section {
     background-color: rgb(229 247 255/30%);
     box-shadow: inset 0 0 30px 15px rgb(64 158 255 / 20%);
 }
+
 div.querypanel>section>section>tree_area {
     background-color: rgb(199 232 239 / 30%);
 }

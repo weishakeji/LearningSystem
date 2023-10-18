@@ -96,18 +96,15 @@ html, body {
     font-size: 20px;
 }
 
-.el-dialog {
-    width: 80% !important;
-    height: 70% !important;
-}
 
-.el-dialog__body {
-    width: calc(100% - 50px) !important;
-    height: calc(100% - 100px) !important;
-    padding: 10px 10px 10px 20px !important;
-    overflow-y: auto;
+.row{
+    height: 40px;
+    overflow: hidden;
 }
-
+.setup_icon{
+    display: block;
+    text-align: center;
+}
 /*底部按钮*/
 
 .btnFooter {

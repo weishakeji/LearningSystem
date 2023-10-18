@@ -160,6 +160,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 分页获取
         /// </summary>
+        /// <param name="orgid">机构id</param>
         /// <param name="type">类型，1支出，2充值</param>
         /// <param name="from">来源，1管理员操作，3在线支付，4购买课程</param>
         /// <param name="account">学员账号</param>
@@ -172,12 +173,12 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int type, int from, string account, DateTime? start, DateTime? end, string serial, int moneymin, int moneymax, int state, int size, int index)
+        public ListResult Pager(int orgid, int type, int from, string account, DateTime? start, DateTime? end, string serial, int moneymin, int moneymax, int state, int size, int index)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int count = 0;
             Song.Entities.MoneyAccount[] eas = null;
-            eas = Business.Do<IAccounts>().MoneyPager(-1, type, from, account, (DateTime?)start, (DateTime?)end, moneymin, moneymax, serial, state, size, index, out count);
+            eas = Business.Do<IAccounts>().MoneyPager(orgid, type, from, account, (DateTime?)start, (DateTime?)end, moneymin, moneymax, serial, state, size, index, out count);
             ListResult result = new ListResult(eas);
             result.Index = index;
             result.Size = size;
@@ -228,21 +229,20 @@ namespace Song.ViewData.Methods
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public JObject ExcelOutput(string path, int type, int from, DateTime? start, DateTime? end)
+        public JObject ExcelOutput(string path,int orgid, int type, int from, DateTime? start, DateTime? end)
         {
             DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
             DateTime dte = end == null ? DateTime.MaxValue : (DateTime)end;
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            if (orgid > 0) rootpath += orgid.ToString() + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
             DateTime date = DateTime.Now;          
             string filename = string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            //定义这个数组只是为了临时编译通过
-            int[] acid = new int[] { };
-            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, acid, type, from, start, end);
+            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, orgid, null, type, from, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);
@@ -257,12 +257,13 @@ namespace Song.ViewData.Methods
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public JObject ExcelAccountOutput(string path,int acid, int type, int from, DateTime? start, DateTime? end)
+        public JObject ExcelAccountOutput(string path,int orgid,int acid, int type, int from, DateTime? start, DateTime? end)
         {
             DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
             DateTime dte = end == null ? DateTime.MaxValue : (DateTime)end;
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            if (orgid > 0) rootpath += orgid.ToString() + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
@@ -275,7 +276,7 @@ namespace Song.ViewData.Methods
             string filePath = rootpath + filename;
             //定义这个数组只是为了临时编译通过
             int[] acidarr = new int[] { acid };
-            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, acidarr, type, from, start, end);
+            filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, orgid, acidarr, type, from, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);
@@ -286,11 +287,13 @@ namespace Song.ViewData.Methods
         /// 删除Excel文件
         /// </summary>
         /// <param name="path">upload/temp下的子级路径</param>
+        /// <param name="orgid"></param>
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
-        public bool ExcelDelete(string path,string filename)
+        public bool ExcelDelete(string path,int orgid,string filename)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            if (orgid > 0) rootpath += orgid.ToString() + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             string filePath = rootpath + filename;
@@ -305,10 +308,12 @@ namespace Song.ViewData.Methods
         /// 已经生成的Excel文件
         /// </summary>
         /// <param name="path">upload/temp下的子级路径</param>
+        /// <param name="orgid"></param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray ExcelFiles(string path)
+        public JArray ExcelFiles(string path, int orgid)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            if (orgid > 0) rootpath += orgid.ToString() + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
@@ -321,7 +326,7 @@ namespace Song.ViewData.Methods
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
-            }            
+            }
             return jarr;
         }
         #endregion

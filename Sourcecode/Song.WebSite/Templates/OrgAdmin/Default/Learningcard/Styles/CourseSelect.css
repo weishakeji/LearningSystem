@@ -1,0 +1,44 @@
+﻿@charset "utf-8";
+html,body,#app{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.topbox
+{
+    margin: 10px 10px 10px 10px !important;
+    width: calc(100% - 20px);
+}
+.context{
+    margin: 10px 10px 10px 10px !important;
+    width: calc(100% - 20px);
+    height: calc(100% - 65px);
+}
+.context>div{
+    height: 100%;
+}
+.box-card{
+    height: 100%;
+}
+.el-card__body{
+    padding: 5px 15px 15px 15px;
+    height: calc(100% - 85px);
+    overflow-y: auto;
+}
+/*课程项*/
+.item{
+    position: relative;
+    padding-right: 40px;
+    margin: 0px 0px 15px 0px;
+    font-size: 13px;
+}
+.item button{
+    position: absolute;
+    right: 0px;
+    top: -5px;
+}
+.el-button--danger {
+    color: #f00;
+    background-color: #fff;
+    border-color: #F56C6C;
+}

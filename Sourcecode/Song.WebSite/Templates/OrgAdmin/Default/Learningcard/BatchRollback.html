@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学习卡批量回滚</title>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row class="row theme">
+            学习卡项目：{{cardset.Lcs_Theme}}
+        </el-row>
+        <el-row class="row">
+            <el-col :span="8">面额：<icon money>{{cardset.Lcs_Price}}元</icon></el-col>
+            <el-col :span="16">
+                有效期：
+                {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                至
+                {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+            </el-col>
+        </el-row>
+        <el-row class="row">
+            <el-col :span="8">数量：{{cardset.Lcs_Count}} 张</el-col>
+
+            <el-col :span="16">学习时长： {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}</el-col>
+        </el-row>
+        <hr />
+        <el-row class="row">
+            <el-col :span="8">
+                <el-tag type="" size="medium" effect="dark">已使用：{{usednum}} 张</el-tag>
+            </el-col>
+            <el-col :span="8">
+                <el-tag type="success" size="medium" effect="dark">已回滚： {{backnum}} 张</el-tag>
+            </el-col>
+            <el-col :span="8">
+                <el-tag type="warning" size="medium" effect="dark" style="float: right;">需回滚： {{usednum-backnum}} 张
+                </el-tag>
+            </el-col>
+        </el-row>
+        <div class="bar">
+            <el-progress :text-inside="true" v-if="!loading" :stroke-width="24" :percentage="percentage" status="success"></el-progress>
+        </div>
+        <div class="footer">
+            <el-button type="success" native-type="submit" :disabled="backing" @click="goback(true)">
+                回滚，且清除学习记录</el-button>
+            <el-button type="primary" native-type="submit" :disabled="backing" @click="goback(false)">
+                回滚，但保留学习记录</el-button>
+            <el-button type='close'  :disabled="backing">取消</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

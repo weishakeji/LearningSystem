@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学习卡导出</title> 
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row class="row theme">
+            学习卡项目：{{cardset.Lcs_Theme}}
+        </el-row>
+    
+        <el-row class="row">
+            <el-col :span="8">面额：<icon money>{{cardset.Lcs_Price}}元</icon></el-col>
+            <el-col :span="8">数量：{{cardset.Lcs_Count}} 张</el-col>
+            <el-col :span="8">已使用：{{cardset.Lsc_UsedCount}} 张</el-col>
+        </el-row>
+        <el-row class="row">
+            <el-col :span="16">有效期：
+                {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                至
+                {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}</el-col>
+            <el-col :span="8">学习时长： {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}</el-col>
+        </el-row>
+
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span> <span v-if="files.length>0">文件列表：</span>
+                    <span v-else>点击右侧按钮生成导出文件</span></span>
+
+                <el-button type="primary" class="btnOutput" v-loading="loading" @click="Output">生成Excel导出文件
+                </el-button>
+            </div>
+            <dl>
+                <dd v-for="(f,i) in files">
+                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.name+','+f.file">
+                            {{f.file}}</a>
+                            {{f.size|size}}
+                        <el-popconfirm title="确定删除这个文件吗？"  @confirm= "deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete"  v-loading="loading" slot="reference">删除</el-link>
+                        </el-popconfirm>
+                    </div>
+                </dd>                
+            </dl>
+        </el-card>
+
+
+    </div>
+
+
+</body>
+
+</html>

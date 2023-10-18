@@ -685,13 +685,14 @@ namespace Song.ServiceInterfaces
         /// 导出excel
         /// </summary>
         /// <param name="path">存储路径</param>
+        /// <param name="orgid">按机构导出</param>
         /// <param name="acid">按学员导出，这里是学员的id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="from">来源，1为管理员，2为充值码，3为在线支付</param>
         /// <param name="start">按时间检索区间，此为开始时间</param>
         /// <param name="end">按时间检索区间，此为结束时间</param>
         /// <returns></returns>
-        string MoneyRecords4Excel(string path,int[] acid, int type, int from, DateTime? start, DateTime? end);
+        string MoneyRecords4Excel(string path, int orgid, int[] acid, int type, int from, DateTime? start, DateTime? end);
         #endregion
 
         #region 考试成绩

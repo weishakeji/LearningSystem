@@ -1,24 +1,13 @@
 ﻿@charset "utf-8";
-img.photo {
-    width: 100px;
-    height: 100px;
-    display: block;
-    float: left;
-    border: 1px solid #aaa;
-    margin-top: 5px;
-    border-radius: 50px;
-    margin-right: 10px;
-    float: left;
-}
-.man::before {
-    color: rgb(3, 71, 71);
-}
 
-.woman::before {
-    color: rgb(248, 87, 87);
+.el-form{
+    box-sizing: border-box;
+    height: calc(100% - 20px);
 }
-
-
+.files{
+    height: calc(100% - 210px);
+    overflow-y: auto;
+}
 dl,dd{
     padding: 0px;
     margin: 0px;

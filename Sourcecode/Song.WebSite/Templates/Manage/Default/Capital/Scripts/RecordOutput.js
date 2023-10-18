@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             loading: false,  //
             id: $api.querystring('id'),
@@ -9,6 +9,7 @@ $ready(function () {
             //path: 'MoneyOutputToExcel',     //导出的文件的存储路径
             form: {
                 path: 'MoneyOutputToExcel',     //导出的文件的存储路径
+                orgid: -1,
                 from: -1,     //来源
                 type: -1,     //类型，支出或充值               
                 start: '',       //时间区间的开始时间
@@ -138,7 +139,7 @@ $ready(function () {
                         th.$notify({
                             message: '成功生成Excel文件！',
                             type: 'success',
-                            position: 'top-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                         th.getFiles();
@@ -156,7 +157,7 @@ $ready(function () {
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Money/ExcelFiles', { 'path': this.form.path }).then(function (req) {
+                $api.get('Money/ExcelFiles', { 'path': this.form.path, 'orgid': -1 }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                         th.loading = false;
@@ -173,14 +174,14 @@ $ready(function () {
             deleteFile: function (file) {
                 this.loading = true;
                 var th = this;
-                $api.get('Money/ExcelDelete', { 'path': this.form.path, 'filename': file }).then(function (req) {
+                $api.get('Money/ExcelDelete', { 'path': this.form.path, 'orgid': -1, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();
                         th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                     } else {

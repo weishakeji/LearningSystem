@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>充值卡导出Excel</title>  
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="form"  @submit.native.prevent label-width="80px">
+            <el-row>
+
+                <el-form-item label="主题">
+                    {{codeset.Rs_Theme}}
+                </el-form-item>
+                <el-form-item label="面额">
+                    <icon coupon>{{codeset.Rs_Price}}元</icon>
+                </el-form-item>
+                <el-form-item label="数量">
+                   
+                    <el-tag effect="dark" type="success">
+                        {{codeset.Rs_Count}} 张
+                    </el-tag>
+                    <el-tag effect="dark" type="warning">
+                        已经使用: {{codeset.Rs_UsedCount}} 张
+                    </el-tag>
+                   
+                </el-form-item>
+                <el-form-item label="有效期">
+                    {{codeset.Rs_LimitStart|date('yyyy-MM-dd')}}
+                    至
+                    {{codeset.Rs_LimitEnd|date('yyyy-MM-dd')}}
+                </el-form-item>
+            </el-row>
+
+            <el-form-item>
+                <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
+                    :loading="loading" native-type="submit">
+                    导出充值码信息
+                </el-button>
+            </el-form-item>
+            <template v-if="files.length>0">
+                <el-divider></el-divider>
+                <el-form-item label="文件下载">
+                    <dl>
+                        <dd v-for="(f,i) in files">
+                            <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                    {{f.file}}</a>
+                                {{f.size|size}}
+                                <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                    <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </div>
+                        </dd>
+                    </dl>
+                </el-form-item>
+            </template>
+        </el-form>     
+
+
+    </div>
+
+
+</body>
+
+</html>

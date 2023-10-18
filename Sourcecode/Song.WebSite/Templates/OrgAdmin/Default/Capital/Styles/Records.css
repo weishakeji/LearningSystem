@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+
+.el-form--inline .el-form-item {
+    display: inline-block;
+    margin-right: 1px;
+    margin-bottom: 0px;
+    vertical-align: top;
+}
+
+.pay {
+    color: #E6A23C;
+}
+
+.income {
+    color: #67c23a;
+}
+
+.faild {
+    color: #f56c6c;
+}
+.acname {
+    color: #999;
+    padding: 1px 8px;
+}
+
+.money {
+    color: #CD7F32;
+}

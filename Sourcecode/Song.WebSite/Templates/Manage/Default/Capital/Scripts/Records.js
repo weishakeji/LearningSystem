@@ -1,8 +1,9 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
+                orgid: -1,       //机构id
                 start: '',       //时间区间的开始时间
                 end: '',         //结束时间
                 account: '',      //学员名称或账号
@@ -19,7 +20,7 @@
             accounts: [],        //当前页的学员账号
             loading: false,
             loadingid: 0,        //当前操作中的对象id
-       
+
             datas: [],          //数据集
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -27,28 +28,23 @@
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
-                    onClick(picker) {
-                        const end = new Date();
+                    onClick(p) {
                         const start = new Date();
                         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
+                        p.$emit('pick', [start, new Date()]);
                     }
                 }, {
                     text: '最近一个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(1))
                 }, {
                     text: '最近三个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(3))
+                }, {
+                    text: '最近半年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(6))
+                }, {
+                    text: '最近一年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(12))
                 }]
             },
             //资金来源
@@ -68,18 +64,11 @@
             loading_query: 0     //订单查询
         },
         mounted: function () {
+            this.selectDate = this.setTimeInterval(1);         
+            this.handleCurrentChange();               
+
         },
-        created: function () {
-            //日期范围的初始时间值
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            this.selectDate = [];
-            this.selectDate[0] = start;
-            this.selectDate[1] = end;
-            //
-            this.handleCurrentChange();
-        },
+        created: function () { },
         computed: {
             //表格高度
             tableHeight: function () {
@@ -96,23 +85,38 @@
             }
         },
         methods: {
+            //设置时间区间，从当前时间到之前的时间，subtract：要减去的月份
+            //返回时间数组
+            setTimeInterval: function (subtract) {
+                let end = new Date();           // 获取当前时间     
+                let month = end.getMonth();     // 获取当前月份
+                let year = end.getFullYear();    //当前年份
+                // 计算要减去的月份后的目标月份            
+                month = month - subtract;
+                year = month < 0 ? end.getFullYear() - 1 : end.getFullYear();
+                if (month < 0) month += 12;
+                // 设置目标日期为当前日期
+                let start = new Date(end);
+                start.setFullYear(year, month); // 设置目标年份和月份
+                return [start, end];
+            },
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -123,7 +127,6 @@
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 43);
                 $api.get('Money/Pager', th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -132,10 +135,8 @@
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    th.loading = false;
-                });
+                }).catch(err => alert(err))
+                    .finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -195,7 +196,8 @@
                     } else {
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err));
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_query = 0);
             }
         }
     });
