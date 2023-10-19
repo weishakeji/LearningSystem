@@ -2,7 +2,7 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data() {
             let checkNum = (rule, value, callback) => {
                 if (!value && value != 0) {
@@ -113,6 +113,10 @@ $ready(function () {
                 loading: false
             }
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         watch: {
             //有效期
             'datespan': { //监听的对象
@@ -170,20 +174,20 @@ $ready(function () {
                         th.entity.Lcs_Unit = '月';
                     }
                 } else {
-                    throw req.data;                    
+                    throw req.data;
                 }
             }).catch(function (err) {
                 alert(err.message, '错误');
                 console.error(err.exception);
-            }).finally(()=>th.loading = false);
+            }).finally(() => th.loading = false);
 
         },
         methods: {
-             //判断是否已经存在
-             isExist: function (val) {
+            //判断是否已经存在
+            isExist: function (val) {
                 var th = this;
                 return new Promise(function (resolve, reject) {
-                    $api.get('Learningcard/SetExist', { 'name': val, 'id': th.id}).then(function (req) {
+                    $api.get('Learningcard/SetExist', { 'name': val, 'id': th.id }).then(function (req) {
                         if (req.data.success) {
                             return resolve(req.data.result);
                         } else {
@@ -195,7 +199,7 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -207,11 +211,11 @@ $ready(function () {
                             if (studyspanIsChange && th.entity.Lsc_UsedCount > 0) {
                                 th.studyspan_visible = true;
                             } else {
-                                th.sumbitEnter('Learningcard/SetModify', { 'entity': th.entity, 'scope': 1 });
+                                th.sumbitEnter('Learningcard/SetModify', { 'entity': th.entity, 'scope': 1 }, isclose);
                             }
                         } else {
                             //新增
-                            th.sumbitEnter('Learningcard/Setadd', { 'entity': th.entity });
+                            th.sumbitEnter('Learningcard/Setadd', { 'entity': th.entity }, true);
                         }
                     } else {
                         console.log('error submit!!');
@@ -248,11 +252,10 @@ $ready(function () {
                 }).catch(() => { });
             },
             //提交更改
-            sumbitEnter: function (apiurl, param) {
+            sumbitEnter: function (apiurl, param, isclose) {
                 var th = this;
                 th.loading = true;
                 $api.post(apiurl, param).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -260,14 +263,13 @@ $ready(function () {
                             message: '操作成功!',
                             center: true
                         });
-                        th.operateSuccess();
+                        th.operateSuccess(isclose);
                     } else {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loading = false);
             },
             //打开课程选择的窗体
             courseSelect: function () {
@@ -281,7 +283,7 @@ $ready(function () {
                 //创建新窗体
                 var box = window.top.$pagebox.create({
                     width: 800, height: 400, resize: true, max: false,
-                    min: false, id: boxid, showmask: true,
+                    min: false, id: boxid, showmask: true, ico: 'e813',
                     pid: window.name, url: url
                 });
                 parent.full = true;     //父窗体全屏显示
@@ -306,9 +308,9 @@ $ready(function () {
                 console.log(xml);
             },
             //操作成功
-            operateSuccess: function () {
+            operateSuccess: function (isclose) {
                 if (window.top.$pagebox)
-                    window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         },
     });

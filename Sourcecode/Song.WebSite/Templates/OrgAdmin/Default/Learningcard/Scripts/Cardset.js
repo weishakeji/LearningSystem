@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 orgid: '',
@@ -29,19 +29,18 @@
             });
         },
         created: function () {
-            $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }).then(function (req) {
+            var th = this;
+            $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
-                    window.vue.organs = req.data.result;
-                    window.vue.handleCurrentChange(1);
+                    var result = req.data.result;
+                    th.form.orgid = result.Org_ID;
+                    th.handleCurrentChange(1);
                 } else {
                     console.error(req.data.exception);
-                    throw req.data.message;
+                    throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
-
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         computed: {
 
@@ -49,16 +48,16 @@
         methods: {
             //删除
             deleteData: function (datas) {
-                console.log(datas);
+                var th = this;
                 $api.delete('Learningcard/SetDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -87,17 +86,34 @@
 
                 });
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);
+            //刷新行数据，
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Lcs_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('Learningcard/SetForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Lcs_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
+
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Lcs_ID;
+                th.loadingid = row.Lcs_ID;
                 $api.post('Learningcard/SetModify', { 'entity': row, 'scope': 1 }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -105,10 +121,10 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
+
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             outputExcel: function (row) {
                 var file = 'OutputExcel';

@@ -3,12 +3,12 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>修改信息</title>  
+    <title>修改信息</title>
 </head>
 
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item label="主题" prop="Lcs_Theme">
                 <el-input v-model.trim="entity.Lcs_Theme"></el-input>
@@ -117,8 +117,8 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-divider></el-divider>
-            <el-card class="box-card">
+          
+            <el-card class="box-card" shadow="hover">
                 <div slot="header" class="clearfix">
                     <span>关联课程 （{{courses ? courses.length : 0}}）</span>
                     <el-button style="float: right; padding: 3px 0" type="text" @click="courseSelect">编辑关联课程</el-button>
@@ -128,16 +128,18 @@
                     <img v-else src="/Utilities/Images/cou_nophoto.jpg" />
                     <span class="tax">{{i+1}}.</span>
                     <span class="name">{{c.Cou_Name }}</span>
-
                 </div>
-
             </el-card>
-
 
         </el-form>
         <div class="footer">
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">
                 确认</el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
+            </el-button>
             <el-button type='close'>取消</el-button>
         </div>
         <el-dialog :visible.sync="studyspan_visible" class="studyspan">

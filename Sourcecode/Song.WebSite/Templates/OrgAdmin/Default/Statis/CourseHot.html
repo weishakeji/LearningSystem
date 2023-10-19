@@ -10,7 +10,9 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <div></div>
+            <div>
+                <help>按访问量排名</help>
+            </div>
             <query_panel :model="form" :loading="loading" @search="getCourseHot(1)">
                 <el-cascader style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects" :options="subjects"
                     separator="／" :props="defaultProps" filterable>

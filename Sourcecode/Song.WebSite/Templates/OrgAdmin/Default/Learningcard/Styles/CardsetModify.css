@@ -1,9 +1,12 @@
-﻿#app {
-    height: calc(100% - 45px);
-    overflow-y: auto;
+﻿.el-form {
+    height: calc(100% - 60px);
     width: 100%;
-}
+    margin: 0px;
+    padding: 0px 10px 0px 0px;
 
+    overflow: auto;
+    box-sizing: border-box;
+}
 .el-form-item {
     width: 100%;
 }
@@ -100,4 +103,7 @@
 .btn_area>div b {
     font-weight: normal;
     color: #F56C6C;
+}
+.box-card{
+    margin-top: 20px;
 }

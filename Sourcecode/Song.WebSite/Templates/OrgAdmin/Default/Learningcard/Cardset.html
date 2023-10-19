@@ -8,34 +8,19 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CardsetModify"
                 width="800" height="600" :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
-                    <el-select v-model="form.orgid" placeholder="--所有机构--" clearable>
-                        <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
-                            :label="item.Org_PlatformName" :value="item.Org_ID">
-                            <div>
-                                <span>{{index+1}}.</span>
-                                <span>
-                                    {{ item.Org_PlatformName }}
-                                </span>
-                            </div>
-                            <div style="float: right; color: #8492a6; font-size: 13px">{{ item.Org_Name }}</div>
-
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="">
-                    <el-input v-model.trim="form.search" placeholder="主题" clearable style="width:100px"> </el-input>
+                    <el-input v-model.trim="form.search" placeholder="主题" clearable style="width:150px"> </el-input>
                 </el-form-item>
             </query_panel>
         </div>
         <template>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
@@ -49,8 +34,8 @@
                         <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
                             @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
                             <span class="el-icon-open enable" v-if="scope.row.Lcs_IsEnable"></span>
-                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span> <span
-                                class="large" v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
+                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span>
+                            <span class="large" v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
                         </el-link>
                     </template>
                 </el-table-column>

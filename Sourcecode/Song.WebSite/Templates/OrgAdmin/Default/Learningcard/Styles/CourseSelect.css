@@ -1,42 +1,57 @@
 ﻿@charset "utf-8";
-html,body,#app{
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+
+.clearfix {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    padding-right: 35px;
+    line-height: 35px;
 }
-.topbox
-{
-    margin: 10px 10px 10px 10px !important;
-    width: calc(100% - 20px);
+.clearfix button{
+    position: absolute;
+    right: 0px;
+    top: 5px;
 }
-.context{
+.topbox {
+    margin: 10px 15px;
+    width: calc(100% - 30px);
+}
+
+.context {
     margin: 10px 10px 10px 10px !important;
     width: calc(100% - 20px);
     height: calc(100% - 65px);
 }
-.context>div{
+
+.context>div {
     height: 100%;
 }
-.box-card{
+
+.box-card {
     height: 100%;
 }
-.el-card__body{
+
+.el-card__body {
     padding: 5px 15px 15px 15px;
     height: calc(100% - 85px);
     overflow-y: auto;
 }
+
 /*课程项*/
-.item{
+.item {
     position: relative;
     padding-right: 40px;
     margin: 0px 0px 15px 0px;
     font-size: 13px;
 }
-.item button{
+
+.item button {
     position: absolute;
     right: 0px;
     top: -5px;
 }
+
 .el-button--danger {
     color: #f00;
     background-color: #fff;

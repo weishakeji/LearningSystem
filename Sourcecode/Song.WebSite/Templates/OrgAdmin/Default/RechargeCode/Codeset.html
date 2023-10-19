@@ -37,8 +37,8 @@
                         <el-link :type="scope.row.Rs_IsEnable ? 'primary' :'info'" title="点击查看"
                             @click="$refs.btngroup.pagebox('Codes?id='+scope.row.Rs_ID,'“'+scope.row.Rs_Theme+'”的卡片详情',null,'900','80%')">
                             <span class="el-icon-open enable" v-if="scope.row.Rs_IsEnable"></span>
-                            <span class="el-icon-turn-off disable" v-if="!scope.row.Rs_IsEnable"></span> <span
-                                v-html="showsearch(scope.row.Rs_Theme,form.search)"></span>
+                            <span class="el-icon-turn-off disable" v-if="!scope.row.Rs_IsEnable"></span>
+                            <span class="large" v-html="showsearch(scope.row.Rs_Theme,form.search)"></span>
                         </el-link>
                     </template>
                 </el-table-column>
