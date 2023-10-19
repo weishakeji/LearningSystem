@@ -14,15 +14,12 @@
     --title-bg: rgb(6 148 191);
     /*菜单项，滑标滑过的效色*/
     --node-hover-color: rgb(6 148 191);
-    --node-hover-bg: rgb(219, 236, 255);
-    --node-hover-border: rgb(6 148 191);
+    --node-hover-bg: rgba(161, 200, 250, 0.2);
+    --node-hover-border: solid 1px rgba(29, 119, 221, 0.2);
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: rgb(1, 129, 44);
-    --node-curr-bg: #eef5e8;
-}
-
-.treemenu tree-node:hover:before {
-    border: none !important;
+    --node-curr-bg: rgba(248, 255, 189, 0.2);
+    --node-curr-border: solid 1px rgba(206, 185, 0, 0.6);
 }
 
 .treemenu tree_box.current {

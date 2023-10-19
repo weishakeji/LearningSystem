@@ -14,11 +14,12 @@
     --title-bg: rgb(249, 184, 63);
     /*菜单项，滑标滑过的效色*/
     --node-hover-color: #eef5e8;
-    --node-hover-bg: #eef5e8;
+    --node-hover-bg: rgba(161, 200, 250, 0.2);
     --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
     /*菜单项，当前选中的颜色与背景色*/
-    --node-curr-color: #fff;
-    --node-curr-bg: transparent;
+    --node-curr-color: rgb(23, 71, 228);
+    --node-curr-bg: rgba(248, 255, 189, 0.2);
+    --node-curr-border: solid 1px rgba(206, 185, 0, 0.6);
 }
 
 .treemenu {
@@ -162,9 +163,11 @@
 .treemenu[fold] tree_tag.selected::before, .treemenu[fold] tree_tag.selected::after {
     display: none;
 }
+
 .treemenu[expand] tree_tag.selected::before, .treemenu[expand] tree_tag.selected::after {
     display: block;
 }
+
 /*折叠按钮*/
 
 .treemenu tree_tags tree-foldbtn {
@@ -301,15 +304,32 @@
     overflow: hidden;
     transition: all 0.3s;
 }
-
+.treemenu tree_box tree-node::before{
+    content: '';
+    width: calc(100% - 8px);
+    height: calc(100% - 6px);
+    border: solid 1px transparent;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
+    border-radius: 3px;
+    background-color: transparent;    
+}
 .treemenu tree_box.current {
     font-weight: bold;
-    background-color: var(--node-curr-bg);
+
 }
 
 .treemenu tree_box.current>tree-node {
     color: var(--node-curr-color) !important;
 
+}
+
+.treemenu tree_box.current>tree-node::before {
+    border: var( --node-curr-border) !important;
+    background-color: var(--node-curr-bg);
+    box-shadow: rgba(255, 255, 255, .6) 0px 0px 10px inset;
 }
 
 .treemenu tree-node span {
@@ -332,6 +352,7 @@
     margin-right: 5px;
     display: inline-block;
     font-family: "webdesk_icon" !important;
+    z-index: 3;
 }
 
 .treemenu tree-node:after {
@@ -349,10 +370,6 @@
     font-family: "webdesk_icon" !important;
 }
 
-.treemenu tree-node:hover {
-    background-color: var(--node-hover-bg);
-}
-
 .treemenu tree-node:hover, .treemenu tree-node:hover * {
     color: var(--node-hover-color);
 }
@@ -361,16 +378,10 @@
     color: var(--node-hover-color);
 }
 
-.treemenu tree-node:hover:before {
-    content: '';
-    width: calc(100% - 7px);
-    height: calc(100% - 6px);
-    border: var(--node-hover-border);
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    z-index: 1;
-    border-radius: 3px;
+.treemenu tree-node:hover::before {  
+    border: var(--node-hover-border) !important;  
+    background-color: var(--node-hover-bg);   
+    box-shadow: rgba(255, 255, 255, .9) 0px 0px 10px inset;
 }
 
 

@@ -117,6 +117,7 @@
 				sect.find('tree_area').show();
 				sect.find('tree_area tree_box').show();
 				sect.find('tree_area tree-node.folderclose').attr('class', 'folder');
+				sect.find('tree_box').removeClass('current');
 				//计算菜单项数量
 				let total = obj.getNodeCount(true);
 				let count = obj.getNodeCount(false);
