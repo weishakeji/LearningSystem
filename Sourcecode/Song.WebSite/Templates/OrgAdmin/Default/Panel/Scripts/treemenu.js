@@ -159,6 +159,7 @@
 				obj.dombody.left(obj.domtit.width());
 				obj.dombody.height(obj.dom.height()).width(0);
 				obj.dom.attr('fold', obj.fold);		//在控件html元素上标识折叠状态
+				obj.dom.removeAttr('expand');
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
