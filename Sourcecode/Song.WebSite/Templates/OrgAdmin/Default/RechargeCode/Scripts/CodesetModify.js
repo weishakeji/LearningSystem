@@ -89,6 +89,10 @@ $ready(function () {
                 lading_init: true        //初始化
             }
         },
+        computed: {
+            //是否新增对象
+            isadd: t => { return t.id == null || t.id == ''; },
+        },
         watch: {
             //有效期
             'datespan': { //监听的对象
@@ -141,7 +145,7 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -156,7 +160,7 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
@@ -170,8 +174,10 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+            operateSuccess: function (isclose) {
+                if (window.top.$pagebox)
+                    window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
+
             }
         },
     });

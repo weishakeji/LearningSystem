@@ -80,9 +80,6 @@
     outline: none;
     transition: .1s;
     font-weight: 500;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
     padding: 12px 20px 12px 30px;
     border-radius: 4px;
     position: relative;

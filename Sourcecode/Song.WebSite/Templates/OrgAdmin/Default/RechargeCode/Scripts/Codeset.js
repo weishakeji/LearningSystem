@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 orgid: -1,
@@ -31,31 +31,33 @@
             this.handleCurrentChange(1);
         },
         computed: {
-           
+
         },
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
+                th.loadingid = row.Rs_ID;
                 $api.delete('RechargeCode/SetDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
@@ -70,21 +72,36 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-
-                });
+                }).finally(() => th.loading = false);
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);
+            //刷新行数据，
+            freshrow: function (id) {
+                if (this.datas.length < 1) return;
+                //要刷新的行数据
+                let entity = this.datas.find(item => item.Rs_ID == id);
+                if (entity == null) return;
+                //获取最新数据，刷新
+                var th = this;
+                th.loadingid = id;
+                $api.get('RechargeCode/SetForID', { 'id': id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        let index = th.datas.findIndex(item => item.Rs_ID == id);
+                        if (index >= 0) th.$set(th.datas, index, result);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Rs_ID;               
+                this.loadingid = row.Rs_ID;
                 var entity = $api.clone(row);
                 $api.post('RechargeCode/SetModify', { 'entity': entity }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -92,10 +109,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             outputExcel: function (row) {
                 var file = 'OutputExcel';

@@ -91,8 +91,12 @@
         </el-form>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="lading_init && loading" plain
-                @click="btnEnter('entity')">
+                @click="btnEnter('entity',true)">
                 确认</el-button>
+            <el-button type="primary" v-if="!isadd" native-type="submit" define="apply" :loading="loading" plain
+                @click="btnEnter('entity',false)">
+                应用
+            </el-button>
             <el-button type='close'>取消</el-button>
         </div>
     </div>

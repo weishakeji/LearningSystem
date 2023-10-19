@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CodesetModify"
                 width="640" height="480" :selects='selects' idkey='Rs_ID' table="datatables"></btngroup>
@@ -23,7 +23,7 @@
         </div>
         <template>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
