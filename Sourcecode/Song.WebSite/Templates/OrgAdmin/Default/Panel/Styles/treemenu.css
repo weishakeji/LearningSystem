@@ -147,18 +147,24 @@
     box-shadow: 0 0 0 10px var(--tag-selected-bg);
 }
 
-.treemenu tree_tags tree_tag.selected::before {
+.treemenu tree_tag.selected::before {
     right: 0px;
     top: -10px;
     clip-path: inset(50% 0 0 50%);
 }
 
-.treemenu tree_tags tree_tag.selected::after {
+.treemenu tree_tag.selected::after {
     right: 0px;
     bottom: -10px;
     clip-path: inset(0 0 50% 50%);
 }
 
+.treemenu[fold] tree_tag.selected::before, .treemenu[fold] tree_tag.selected::after {
+    display: none;
+}
+.treemenu[expand] tree_tag.selected::before, .treemenu[expand] tree_tag.selected::after {
+    display: block;
+}
 /*折叠按钮*/
 
 .treemenu tree_tags tree-foldbtn {

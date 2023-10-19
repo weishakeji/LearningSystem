@@ -54,7 +54,7 @@
 		//初始化并生成控件
 		this._initialization();
 		this.bind = this._bind;
-		//this.fold = this._fold;
+		this.fold = this._fold;
 		//
 		$ctrls.add({
 			id: this.id, obj: this, dom: this.dom,
@@ -150,6 +150,7 @@
 		},
 		//折叠与展开
 		'fold': function (obj, val, old) {
+			if (obj.dom == null || obj.dom.length < 1) return;
 			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
 			if (val) {
 				//折叠
@@ -157,9 +158,11 @@
 				obj.dombody.css('position', 'absolute');
 				obj.dombody.left(obj.domtit.width());
 				obj.dombody.height(obj.dom.height()).width(0);
+				obj.dom.attr('fold', obj.fold);		//在控件html元素上标识折叠状态
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
+				obj.dom.removeAttr('fold');
 				window.setTimeout(function () {
 					obj.dombody.css('position', 'relative');
 					obj.dombody.left(0);
@@ -342,7 +345,10 @@
 				crtobj.leavetime = 3;
 			});
 			obj.leaveInterval = window.setInterval(function () {
-				if (obj.fold && !obj.leaveshow && --obj.leavetime <= 0) obj.dombody.width(0);
+				if (obj.fold && !obj.leaveshow && --obj.leavetime <= 0) {
+					obj.dombody.width(0);
+					obj.dom.removeAttr('expand');
+				}
 			}, 200);
 		},
 		//左侧标签点击事件
@@ -370,8 +376,9 @@
 				if (crtobj == null) return;
 				//如果菜单不是折叠状态，则滑过事件不响应
 				if (!crtobj.fold) return;
-
+				//保持悬念状态
 				crtobj.dombody.show().css('z-index', 100).width(crtobj.width - 40);
+				crtobj.dom.attr('expand', true);
 				crtobj.leavetime = 3;
 				crtobj.leaveshow = true;
 				crtobj.switch(obj, tag);
@@ -558,8 +565,8 @@
 	};
 	//切换选项卡
 	fn.switch = function (obj, tag) {
-		if (tag == null) return;
 		this.domtit.find('tree_tag').removeClass('selected');
+		if (tag == null) return;
 		tag.addClass('selected');
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=\'' + tag.attr('treeid') + '\']').show();
