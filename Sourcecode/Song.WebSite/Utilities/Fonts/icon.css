@@ -9,7 +9,7 @@
 /*  图标引用方式一，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
 	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
 */
-*[icon]::before {
+*[icon]:not(icon)::before {
     content: attr(icon);
     font-family: "webdesk_icon" !important;
     margin-right: 5px;
@@ -32,8 +32,7 @@ icon {
 	课程图标 示例：<icon course></icon>
 */
 icon::before {
-    font-family: "webdesk_icon" !important;
-    margin-right: 5px;
+    font-family: "webdesk_icon" !important;   
 }
 
 /*学员*/
