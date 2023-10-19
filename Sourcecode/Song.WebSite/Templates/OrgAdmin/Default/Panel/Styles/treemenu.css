@@ -322,14 +322,14 @@
 }
 
 .treemenu tree_box.current>tree-node {
-    color: var(--node-curr-color) !important;
+    color: var(--node-curr-color);
 
 }
 
 .treemenu tree_box.current>tree-node::before {
     border: var( --node-curr-border) !important;
-    background-color: var(--node-curr-bg);
-    box-shadow: rgba(255, 255, 255, .6) 0px 0px 10px inset;
+    background-color: var(--node-curr-bg) !important;
+    box-shadow: rgba(255, 255, 255, .85) 0px 0px 10px inset  !important;
 }
 
 .treemenu tree-node span {
@@ -379,7 +379,7 @@
 }
 
 .treemenu tree-node:hover::before {  
-    border: var(--node-hover-border) !important;  
+    border: var(--node-hover-border);  
     background-color: var(--node-hover-bg);   
     box-shadow: rgba(255, 255, 255, .9) 0px 0px 10px inset;
 }
