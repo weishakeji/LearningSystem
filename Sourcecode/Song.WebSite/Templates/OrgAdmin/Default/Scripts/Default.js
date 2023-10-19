@@ -114,9 +114,12 @@ $dom.ctrljs(function () {
 function ready(result) {
     window.setTimeout(function () {
         window.login.loading = false;
-        $dom('panel#login').hide();
+        //$dom('panel#login').remove();
         $dom('panel#admin').show().css('opacity', 0);
         //window.$skins.onchange();
+        window.setTimeout(function(){
+            $dom('panel#login').remove();
+        },2000);
         window.$skins.setup('Office');
         //右侧菜单信息
         window.usermenu.datas[0].title = result.Acc_Name;
@@ -138,6 +141,7 @@ function ready(result) {
     window.tree.watch({
         'querypanel': function (obj, val, old) {
             $dom("#admin").css('filter', val ? 'blur(3px)' : 'none');
+            $dom(".pagebox").css('filter', val ? 'blur(3px)' : 'none');
         }
     });
 

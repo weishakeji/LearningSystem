@@ -14,8 +14,8 @@
     --title-bg: rgb(6 148 191);
     /*菜单项，滑标滑过的效色*/
     --node-hover-color: rgb(6 148 191);
-    --node-hover-bg: rgb(194 219 245);
-    --node-hover-border: none;
+    --node-hover-bg: rgb(219, 236, 255);
+    --node-hover-border: rgb(6 148 191);
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: rgb(1, 129, 44);
     --node-curr-bg: #eef5e8;
@@ -30,7 +30,7 @@
 }
 
 .treemenu tree_body {
-    background-image:linear-gradient(135deg, transparent 25%, transparent 80%, rgb(255 255 255 / 40%) 80%)
+    background-image: linear-gradient(135deg, transparent 25%, transparent 65%, rgb(255 255 255 / 30%) 65%, rgb(255 255 255 / 30%) 80%, rgb(255 255 255 / 60%) 80%)
 }
 
 /*当前选中的左侧选项卡*/

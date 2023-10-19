@@ -390,7 +390,7 @@ div.querypanel {
     background-color: rgb(255 255 255 / 50%);
     display: flex;
     align-items: center;
-    justify-content: center;   
+    justify-content: center;
 }
 
 div.querypanel>section {
@@ -403,7 +403,7 @@ div.querypanel>section {
     flex-direction: column;
     justify-content: space-evenly;
     border: solid 2px #5d9ead;
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
 div.querypanel>section header {
@@ -553,7 +553,7 @@ div.querypanel>section>section>tree_area tree_tit[count]::after {
 
 div.querypanel tree_area>div {
     width: calc(100% - 2px);
-    height: calc(100% - 3px);
+    height: calc(100% - 60px);
     overflow-y: auto;
 }
 
@@ -561,15 +561,42 @@ div.querypanel tree_box tree-node * {
     font-size: 16px;
 }
 
-/*查询选中的节点样式*/
-div.querypanel tree_box tree-node[queried] {
-    transform: scale(1.2);
-    margin-left: 8px;
-
+div.querypanel tree-node.folder:after {
+    content: '\e6ea';
+    transform: rotate(0deg);
+    right: -3px;
+    font-size: 14px;
+    color: #666;
 }
 
-div.querypanel tree_box tree-node[queried] * {
+/*查询选中的节点样式*/
+div.querypanel tree_box tree-node[queried]:not(.folder) {
+
+    text-shadow: 0px 0px 6px, 0px 0px 10px #ff2828;
+}
+
+div.querypanel tree_box tree-node[queried]::after {
+    content: '\a048';
+    display: block;
+    position: absolute;
+    right: 0px;
+    font-size: 15px;
+    font-family: "webdesk_icon" !important;
+}
+
+div.querypanel tree-node[queried],
+div.querypanel tree-node[queried] *,
+div.querypanel tree-node[queried]::after,
+div.querypanel tree_tit[queried] * {
     color: red !important;
+}
+
+div.querypanel tree-node[queried] * {
     font-weight: bold;
     text-shadow: 1px 1px 3px #666;
+}
+
+div.querypanel tree_tit[queried] *, div.querypanel tree-node.folder[queried] * {
+    font-weight: normal;
+    text-shadow: 0px 0px 5px rgb(255, 255, 255), 0px 0px 3px rgb(255, 255, 255);
 }

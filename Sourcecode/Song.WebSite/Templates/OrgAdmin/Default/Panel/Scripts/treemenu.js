@@ -525,17 +525,23 @@
 	//查询节点后的显示效果
 	fn.queryEffect = function (search) {
 		//去除之前的高亮显示效果
-		this.domquery.find('tree_box tree-node').removeAttr('queried');
+		this.domquery.find('*[queried]').removeAttr('queried');
 		let div = this.domquery.find('section header>div').first();
 		div.removeAttr('total');
 		this.domquery.find('tree_area tree_tit').removeAttr('count');
 		if (search != null) search = search.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
 		if (search == null || search == '') return this.domquery.find('section header clear').hide();
-		//计算出查询结果
-		let list = this.queryData(search, false);
+		//***计算出查询结果
+		let list = this.queryData(search, true);
 		for (let i = 0; i < list.length; i++) {
+			//菜单项（包括菜单节点）
 			let treebox = this.domquery.find('tree_box[treeid=' + list[i].id + ']');
-			treebox.find('tree-node').first().attr('queried', true);
+			let treenode = treebox.find('tree-node');
+			if (treenode.length > 0) treenode.first().attr('queried', true);
+			//顶级菜单项（即某一个菜单面板）
+			let treearea = this.domquery.find('tree_area[treeid=' + list[i].id + ']');
+			let treetit = treearea.find('tree_tit');
+			if (treetit.length > 0) treetit.first().attr('queried', true);
 		}
 		//查询出的结果总数
 		let total = list.length;
@@ -543,7 +549,7 @@
 		//各个根节点下的查询到的总数
 		for (let i = 0; i < this.datas.length; i++) {
 			const item = this.datas[i];
-			let count = this.queryData(search, false, item.childs).length;
+			let count = this.queryData(search, true, [item]).length;
 			let tit = this.domquery.find('tree_area[treeid=' + item.id + '] tree_tit');
 			count > 0 ? tit.attr('count', count) : tit.removeAttr('count');
 		}
