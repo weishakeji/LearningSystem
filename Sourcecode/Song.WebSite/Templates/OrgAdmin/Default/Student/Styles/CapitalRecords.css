@@ -1,0 +1,57 @@
+﻿@charset "utf-8";
+
+.el-form--inline .el-form-item {
+    display: inline-block;
+    margin-right: 1px;
+    margin-bottom: 0px;
+    vertical-align: top;
+}
+
+.pay {
+    color: #E6A23C;
+}
+
+.income {
+    color: #67c23a;
+}
+
+.faild {
+    color: #f56c6c;
+}
+.acname {
+    color: #999;
+    padding: 1px 8px;
+}
+
+.money {
+    color: #CD7F32;
+}
+.type2{
+    color: #67c23a;   
+}
+.type1{
+    color: rgb(248, 17, 17);   
+}
+.current .current tr, .current td{
+    background-color: rgb(225, 243, 216) !important;
+}
+/*导出面板*/
+.output .el-drawer__header{
+    margin-bottom: 10px;
+    padding: 20px 20px 0;
+}
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}

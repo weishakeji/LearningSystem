@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学员资金流水</title>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="删除,导出" ref='btngroup' @delete="deleteData" @output="output_panel=true" path="RecordView"
+                width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="时间区间">
+                    <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
+                        style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                        :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="关键字">
+                    <el-input v-model="form.search" placeholder="说明" style="width: 120px;" clearable></el-input>
+                </el-form-item>
+                <template slot="more">
+                    <el-form-item label="资金来源">
+                        <el-select v-model="form.from" placeholder="--来源--" style="width: 120px;">
+                            <el-option v-for="item in moneyform" :label="item.label" :value="item.value"
+                                :key="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="操作">
+                        <el-radio-group v-model.number="form.type">
+                            <el-radio-button v-for="item in moneytype" :label="item.value">
+                                {{item.label}}</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="金额">
+                        <el-input v-model.number="form.moneymin" type="number">
+                            <template slot="prepend">大于等于</template>
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.number="form.moneymax" type="number">
+                            <template slot="prepend">小于</template>
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="流水号">
+                        <el-input v-model="form.serial" placeholder="资金流水号"> </el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-radio-group v-model.number="form.state">
+                            <el-radio-button v-for="item in moneystate" :label="item.value">
+                                {{item.label}}</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                </template>
+            </query_panel>
+        </div>
+        <!-- 数据列表-->
+        <template>
+            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-click="row=>entity=row" :height="tableHeight"
+                :row-class-name="data=>{return entity!=null && entity.Ma_ID==data.row.Ma_ID ? 'current' : 'c'}">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="金额/余额" align="center" width="150">
+                    <template slot-scope="scope">
+                        <span :class="scope.row.Ma_Type==1 ? 'pay' : 'income'">
+                            <span v-if="scope.row.Ma_Type==1">支出</span>
+                            <span v-if="scope.row.Ma_Type==2">充值</span>
+                            <icon style="font-size: 14px;">
+                                {{scope.row.Ma_Money}}元
+                            </icon>
+                        </span>
+                        <span class="money">/ {{Math.floor(scope.row.Ma_Total*100)/100}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="时间" width="150" align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" width="120" align="center">
+                    <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.Ma_IsSuccess">
+                            <icon>&#xa048</icon>成功
+                        </el-tag>
+                        <loading v-else-if="loading_query==scope.row.Ma_ID"></loading>
+                        <template v-else>
+                            <el-tag type="danger">失败</el-tag>
+                            <el-link type="primary" @click="queryOrder(scope.row)">查询</el-link>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="说明">
+                    <template slot-scope="scope">
+                        {{scope.row.Ma_Info}} </template>
+                </el-table-column>
+            </el-table>
+            <!--底部按钮-->
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+        </template>
+        <!-- 资金详情-->
+        <el-drawer :visible.sync="entity" size="50%" direction="rtl" :before-close="()=>entity=null">
+            <span slot="title" icon="&#xe749">资金详情</span>
+            <el-form ref="account" v-if="entity" :model="entity" @submit.native.prevent label-width="80px">
+                <el-form-item label="">
+                    <span slot="label" :class="'money type'+entity.Ma_Type">
+                        <span v-if="entity.Ma_Type==1">支出</span>
+                        <span v-if="entity.Ma_Type==2">充值</span>
+
+                    </span>
+                    <icon money :class="'money type'+entity.Ma_Type">{{entity.Ma_Money}} 元</icon>
+                    <span>
+                        <el-tag type="success" v-if="entity.Ma_IsSuccess" class="el-icon-circle-check"> 状态：操作成功</el-tag>
+                        <el-tag type="danger" v-else class="el-icon-circle-close"> 状态：操作失败</el-tag>
+                        <template v-if="false">
+                            <el-link v-if="!entity.Ma_IsSuccess && entity.Ma_Type==2 && isSuper" @click="btnConfirm"
+                                type="primary">人工审核确认</el-link>
+                        </template>
+                    </span>
+                </el-form-item>
+                <el-form-item label="余额">
+                    <icon money>{{entity.Ma_Total}} 元</icon>
+                </el-form-item>
+                <el-form-item label="时间">
+                    {{entity.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+                </el-form-item>
+                <el-form-item label="流水号">
+                    {{entity.Ma_Serial}}<el-tag @click="copytext(entity.Ma_Serial,'流水号')" style="cursor: pointer;">复制
+                    </el-tag>
+                </el-form-item>
+                <el-form-item label="动作">
+                    {{fromType[entity.Ma_From-1]}}
+                </el-form-item>
+                <el-form-item label="来源信息">
+                    {{entity.Ma_Source}}
+                </el-form-item>
+                <el-form-item label="充值码" v-if="entity.Ma_From==2">
+                    {{entity.Rc_Code}}
+                </el-form-item>
+                <template v-if="entity.Ma_From==3">
+                    <el-form-item label="支付账户">
+                        {{entity.Ma_Buyer}}
+                    </el-form-item>
+                    <el-form-item label="收款账户">
+                        {{entity.Ma_Seller}}
+                    </el-form-item>
+                </template>
+
+                <el-form-item label="说明">
+                    {{entity.Ma_Info}}
+                </el-form-item>
+            </el-form>
+        </el-drawer>
+        <!-- 导出面板-->
+        <el-drawer :visible.sync="output_panel" size="50%" direction="ttb" class="output" :show-close="false">
+            <el-form ref="query" :model="query" @submit.native.prevent label-width="80px">
+                <el-form-item label="资金来源">
+                    <el-radio-group v-model.number="query.from">
+                        <el-radio-button v-for="item in moneyform" :label="item.value">
+                            {{item.label}}</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="操作">
+                    <el-radio-group v-model.number="query.type">
+                        <el-radio-button v-for="item in moneytype" :label="item.value">
+                            {{item.label}}</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-button :type="loading_out ? 'info' : 'success'" v-on:click="btnOutput" class="el-icon-position"
+                        :loading="loading_out" native-type="submit">
+                        导出资金流水
+                    </el-button>
+                </el-form-item>
+                <template v-if="files.length>0">
+                    <el-divider></el-divider>
+                    <el-form-item label="文件下载">
+                        <dl>
+                            <dd v-for="(f,i) in files">
+                                <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                        {{f.file}}</a>
+                                    {{f.size|size}}
+                                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                        <el-link type="danger" icon="el-icon-delete" v-loading="loading"
+                                            slot="reference">删除
+                                        </el-link>
+                                    </el-popconfirm>
+                                </div>
+                            </dd>
+                        </dl>
+                    </el-form-item>
+                </template>
+            </el-form>
+        </el-drawer>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -550,12 +550,15 @@
     <Content Include="Templates\OrgAdmin\Default\Statis\Styles\CourseAmount.css" />
     <Content Include="Templates\OrgAdmin\Default\Statis\Styles\Storage.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\CapitalRecords.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\CapitalRecords.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortAccount.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\SortCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\SortAccount.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\CapitalRecords.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Default.css" />

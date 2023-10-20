@@ -195,6 +195,14 @@ $ready(function () {
                 var title = btn.tips;
                 this.$refs.btngroup.pagebox('Batchdisable', title, null, '600px', '60%');
             },
+            //资金流水
+            capitalRecords: function (row) {
+                var file = 'capitalRecords?id=' + row.Ac_ID;
+                var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金流水'
+                var boxid = 'capitalRecords_' + file;
+                this.$refs.btngroup.pagebox(file, title, boxid, 800, 600,
+                    { pid: window.name, resize: true });
+            },
             //打开子页面
             openSubpage: function (page, account, title, width, height, icon) {
                 var title = '“' + account.Ac_Name + '(' + account.Ac_AccName + ')”的' + title;

@@ -168,7 +168,13 @@
                                         :active-text="scope.row.Ac_IsPass ? '已审核' : '未审核'">
                                     </el-switch>
                                 </el-dropdown-item>
-                                <el-dropdown-item divided>
+                                <el-dropdown-item divided
+                                    @click.native="openSubpage('capitalRecords',scope.row,'资金流水',800,600,'e749')">
+
+                                    <span icon="&#xe749">资金流水</span>
+
+                                </el-dropdown-item>
+                                <el-dropdown-item>
                                     <el-link type="success" plain icon="el-icon-unlock"
                                         @click="openSubpage('resetPassword',scope.row,'重置密码',400,350,'e67b')">
                                         重置密码</el-link>
