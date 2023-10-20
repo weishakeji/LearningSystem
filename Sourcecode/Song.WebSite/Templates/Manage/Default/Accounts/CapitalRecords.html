@@ -8,15 +8,16 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="删除,导出" ref='btngroup' @delete="deleteData" @output="output_panel=true" path="RecordView"
                 width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="时间区间">
                     <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
-                        style="width: 220px;" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-                        :picker-options="pickerOptions" :default-time="['00:00:00', '23:59:59']">
+                        @change="handleCurrentChange(1)" style="width: 220px;" range-separator="至"
+                        start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
+                        :default-time="['00:00:00', '23:59:59']">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="关键字">
