@@ -112,6 +112,7 @@ tabs_tagbox tab_tag ico {
     width: 30px;
     height: 32px;
     font-family: "webdesk_icon" !important;
+    box-sizing: border-box;
 }
 
 tabs_tagbox tab_tag tagtxt {

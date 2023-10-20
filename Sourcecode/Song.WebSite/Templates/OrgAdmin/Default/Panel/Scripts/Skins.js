@@ -59,7 +59,7 @@
 		//加载基础样式
 		let crts = [];
 		for (let i = 0; i < this.crts.length; i++)
-			crts[i] = this.stylepath + '/' + this.crts[i] + '.css';
+			crts[i] = this.stylepath + this.crts[i] + '.css';
 		window.$dom.load.css(crts, null, 'webdeskui');
 		/*自定义事件
 		switch：日间模式与夜间模式切换时触发

@@ -271,9 +271,17 @@
         let ico = tabtag.add('ico').html('&#x' + tab.ico);
         if (tab.icon) {
             if (tab.icon.color) ico.css('color', tab.icon.color);
-            if (tab.icon.x != 0) ico.css('padding-left', tab.icon.x + 'px');
-            if (tab.icon.y != 0) ico.css('padding-top', tab.icon.y + 'px');
+            else if (tab.font && tab.font.color) ico.css('color', tab.font.color);
+            if (tab.icon.x != 0) {
+                let x = parseInt(ico.css('left'));
+                ico.css('left', (x + tab.icon.x) + 'px');
+            }
+            if (tab.icon.y != 0) {
+                let y = parseInt(ico.css('bottom'));
+                ico.css('bottom', (y - tab.icon.y) + 'px');
+            }
             if (tab.icon.size != 0) ico.css('transform', 'scale(' + (1 + tab.icon.size / 100) + ')');
+
         }
         //标签文本
         let txt = tabtag.add('tagtxt').html(tab.title);

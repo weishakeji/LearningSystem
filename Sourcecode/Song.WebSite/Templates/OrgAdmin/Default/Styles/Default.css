@@ -21,7 +21,7 @@ panel#admin {
     background-color: rgb(0,135,189);
     /*
     background-image: linear-gradient(to right,  #d5e9fd 50px,#fdd1d1,#ffe8c0);*/
-    background-image: linear-gradient(to right, rgb(0,135,189) 30%,rgb(203, 240, 255) ,#8ec6ff );
+    background-image: linear-gradient(to right, rgb(0,135,189) 30%,rgb(203, 240, 255) );
 }
 
 #treemenu-area {

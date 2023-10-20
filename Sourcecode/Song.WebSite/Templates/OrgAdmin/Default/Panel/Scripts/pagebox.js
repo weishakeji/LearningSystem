@@ -284,10 +284,20 @@
             //图标和标题文字
             let title = obj.dom.add('pagebox_title');
             let ico = title.add('pb-ico').html('&#x' + obj.ico);
-            let iconstyle = obj.attrs.iconstyle;
-            if (iconstyle != null && JSON.stringify(iconstyle == '{}')) {
-                if (iconstyle.color) ico.css('color', iconstyle.color, true);
-                if (iconstyle.size != 0) ico.css('transform', 'scale(' + (1 + iconstyle.size / 100) + ')');
+            let icon = obj.attrs.iconstyle;   //图标样式
+            let font = obj.attrs.titstyle;     //标题字体样式
+            if (icon != null && JSON.stringify(icon == '{}')) {
+                if (icon.color) ico.css('color', icon.color, true);
+                else if (font && font.color) ico.css('color', font.color, true);
+                if (icon.size != 0) ico.css('transform', 'scale(' + (1 + icon.size / 100) + ')');
+                if (icon.x != 0) {
+                    let x = parseInt(ico.css('left'));
+                    ico.css('left', (x + icon.x) + 'px');
+                }
+                if (icon.y != 0) {
+                    let y = parseInt(ico.css('bottom'));
+                    ico.css('top', (y + icon.y) + 'px');
+                }
             }
             if (obj.url != '') {
                 title.find('pb-ico').hide();
@@ -295,8 +305,8 @@
             }
             //标题
             let tit = title.add('pb-text').html(obj.title);
-            if (obj.attrs.titstyle != null && JSON.stringify(obj.attrs.titstyle == '{}'))
-                if (obj.attrs.titstyle.color) tit.css('color', obj.attrs.titstyle.color, true);
+            if (font != null && JSON.stringify(font == '{}'))
+                if (font.color) tit.css('color', font.color, true);
             //移动窗体的响应条
             obj.dom.append('pagebox_dragbar');
         },
@@ -538,17 +548,19 @@
         title: function (target, area) {
             let min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
             min.attr('title', target.title);
+            let icon = target.attrs.iconstyle;   //图标样式
+            let font = target.attrs.titstyle;     //标题字体样式
             //图标         
             let ico = min.add('pb-ico').html('&#x' + target.ico);
-            let iconstyle = target.attrs.iconstyle;
-            if (iconstyle != null && JSON.stringify(iconstyle == '{}')) {
-                if (iconstyle.color) ico.css('color', iconstyle.color, true);              
-                if (iconstyle.size != 0) ico.css('transform', 'scale(' + (1 + iconstyle.size / 100) + ')');
+            if (icon != null && JSON.stringify(icon == '{}')) {
+                if (icon.color) ico.css('color', icon.color, true);
+                else if (font && font.color) ico.css('color', font.color, true);
+                if (icon.size != 0) ico.css('transform', 'scale(' + (1 + icon.size / 100) + ')');
             }
             //标题文字
             let tit = min.add('pb-text').html(target.title);
-            if (target.attrs.titstyle != null && JSON.stringify(target.attrs.titstyle == '{}'))
-                if (target.attrs.titstyle.color) tit.css('color', target.attrs.titstyle.color, true);
+            if (font != null && JSON.stringify(font == '{}'))
+                if (font.color) tit.css('color', font.color, true);
             min.find('pb-ico,pb-text').click(function (e) {
                 let obj = box._getObj(e);
                 //如果窗体不处于焦点，则设置为焦点；如果已经是焦点，则最小化

@@ -75,7 +75,7 @@ $ready(function () {
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
                     "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
-                    "MM_IcoX": 0, "MM_IcoY": 0, "MM_UID": "", "MM_WinMin": false,
+                    "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "",  "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
                     "id": 0, "label": "", "ico": "", "MM_Complete": 0
                 }
@@ -199,7 +199,7 @@ $ready(function () {
                         th.$notify({
                             type: 'success',
                             message: '完成度修改完成！',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             center: true
                         });
                         th.updatedEvent();
