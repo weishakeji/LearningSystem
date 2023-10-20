@@ -18,7 +18,7 @@
     --node-hover-border: solid 1px rgba(221, 186, 29, 0.4);
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: rgb(6 148 191);
-    --node-curr-bg: rgb(67 152 241 / 20%);
+    --node-curr-bg: rgb(248 255 135 / 20%);
     --node-curr-border: solid 1px rgb(84 206 243 / 60%);
 }
 

@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <title>账号管理</title>
+    <include file="../inc/meta.inc" />
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="" ref='btngroup' :disabled="loading" idkey='Ac_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading" width="400px" @search="handleCurrentChange(1)"
+                :disabled="loading">
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" placeholder="姓名" clearable style="width:200px"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone" placeholder="电话" clearable style="width:200px"></el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="账号">
+                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:200px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:300px"></el-input>
+                    </el-form-item>
+                </template>
+            </query_panel>
+
+        </div>
+        <template>
+            <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark"
+                style="width: 100%;height: calc(100% - 80px);" @selection-change="val=>selects=val"
+                @row-dblclick="row=>moneyHandle(row)" v-loading="loading" element-loading-text="正在处理中..."
+                element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255, 0.8)"
+                :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名" width="150">
+                    <template slot-scope="scope">
+                        <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2" class="large">
+                            <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
+                                @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                        </icon>
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号">
+                    <template slot-scope="scope">
+                        <icon v-html='showsearch(scope.row.Ac_AccName,form.acc)' :teacher="scope.row.Ac_IsTeacher"
+                            @dblclick.stop="copytext(scope.row.Ac_AccName)" :title="scope.row.Ac_IsTeacher ? '教师' : ''">
+                        </icon>
+                    </template>
+                </el-table-column>
+                <el-table-column label="电话" width="100">
+                    <template slot-scope="scope">
+                        <span v-html='showsearch(showmobi(scope.row),form.phone)'
+                            @dblclick.stop="copytext(showmobi(scope.row))"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证" width="160">
+                    <template slot-scope="scope">
+                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'
+                            @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)"></span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="资金" width="120">
+                    <template slot-scope="scope">
+                        <el-tooltip content="增加或减扣金额" placement="bottom" effect="light">
+                            <icon money @click="moneyHandle(scope.row)">{{scope.row.Ac_Money}}</icon>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column label="卡券" width="120">
+                    <template slot-scope="scope">
+                        <el-tooltip content="增加或减扣金额" placement="bottom" effect="light">
+                            <icon coupon @click="openSubpage('../Student/Coupon',scope.row,'卡券操作',400,400,'e847')">
+                                {{scope.row.Ac_Coupon}}</icon>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column label="积分" width="120">
+                    <template slot-scope="scope">
+                        <el-tooltip content="增加或减扣金额" placement="bottom" effect="light">
+                            <icon point @click="openSubpage('../Student/Point',scope.row,'积分操作',400,400,'e88a')">
+                                {{scope.row.Ac_Point}}</icon>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" @click="moneyHandle(scope.row)" icon="el-icon-circle-plus-outline">充值
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :disabled="loading" :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

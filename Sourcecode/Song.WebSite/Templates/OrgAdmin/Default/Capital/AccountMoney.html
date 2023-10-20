@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <title>学员资金增减</title>
+    <include file="../inc/meta.inc" />
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-row>
+
+                <el-form-item label="">
+                    <icon :man="entity.Ac_Sex!=2" :woman="entity.Ac_Sex==2" class="large">
+                        <span v-html='entity.Ac_Name' v-if="entity.Ac_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </icon>
+                    ({{entity.Ac_AccName}})
+                </el-form-item>
+
+            </el-row>
+            <el-row>
+                <el-form-item label="余额" prop="Ac_Name">
+                    <icon money> {{entity.Ac_Money}} 元</icon>                   
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-form-item label="操作">
+                    <template>
+                        <el-radio v-model="form.type" label="2">充值</el-radio>
+                        <el-radio v-model="form.type" label="1">扣除</el-radio>
+                    </template>
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="" prop="money">
+                        <el-input placeholder="请输入内容" v-model.number="form.money" width="120px" type="number">
+                            <template slot="prepend"> <span v-if="form.type=='2'">+</span>
+                                <span v-if="form.type=='1'">-</span></template>
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="23">
+                    <el-form-item label="">
+                        <el-slider v-model="form.money" :min="0" :max="9999" :show-tooltip="false"></el-slider>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-form-item label="备注">
+                    <el-input type="textarea" v-model="form.remark" :rows="3" placeholder="请输入内容"></el-input>
+                </el-form-item>
+            </el-row>
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">确认修改
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
