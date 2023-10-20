@@ -37,14 +37,55 @@
                     text: '最近一个月',
                     onClick: (p) => p.$emit('pick', vapp.setTimeInterval(1))
                 }, {
+                    text: '本月', onClick(picker) {
+                        const start = new Date();
+                        start.setDate(1);
+                        var yy = start.getFullYear();
+                        var mm = start.getMonth() + 1;
+                        if (mm > 12) {
+                            mm = 1;
+                            yy = yy + 1;
+                        }
+                        var end = new Date(yy, mm, 0);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
                     text: '最近三个月',
                     onClick: (p) => p.$emit('pick', vapp.setTimeInterval(3))
+                }, {
+                    text: '本季度', onClick(picker) {
+                        const start = new Date();
+                        var yy = start.getFullYear();
+                        var mm = start.getMonth();
+                        if (mm >= 1 && mm <= 3) mm = 0;
+                        if (mm >= 4 && mm <= 6) mm = 3;
+                        if (mm >= 7 && mm <= 9) mm = 6;
+                        if (mm >= 10 && mm <= 12) mm = 9;
+                        start.setDate(1);
+                        start.setMonth(mm);
+                        const end = new Date(yy, mm + 3, 0);
+                        picker.$emit('pick', [start, end]);
+                    }
                 }, {
                     text: '最近半年',
                     onClick: (p) => p.$emit('pick', vapp.setTimeInterval(6))
                 }, {
                     text: '最近一年',
                     onClick: (p) => p.$emit('pick', vapp.setTimeInterval(12))
+                }, {
+                    text: '本年', onClick(picker) {
+                        const start = new Date();
+                        start.setDate(1);
+                        start.setMonth(0);
+                        const end = new Date(start.getFullYear(), 12, 0);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(36))
+                }, {
+                    text: '最近五年',
+                    onClick: (p) => p.$emit('pick', vapp.setTimeInterval(60))
                 }]
             },
             //资金来源
