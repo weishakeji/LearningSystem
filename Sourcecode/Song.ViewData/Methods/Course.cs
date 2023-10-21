@@ -721,12 +721,12 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
         /// <param name="size">每页取多少数据</param>
-        /// <param name="index">索引</param>
+        /// <param name="index">第几页</param>
         /// <returns></returns>
         public ListResult MostHot(int orgid, long sbjid, int size, int index)
         {
             int countsum = 0;
-            List<Song.Entities.Course>  list = Business.Do<ICourse>().CourseHot(orgid, sbjid, size,index,out countsum);
+            List<Song.Entities.Course>  list = Business.Do<ICourse>().RankHot(orgid, sbjid, size,index,out countsum);
             for (int i = 0; i < list.Count; i++)
                 list[i] = _tran(list[i]);
             ListResult result = new ListResult(list);
@@ -734,6 +734,36 @@ namespace Song.ViewData.Methods
             result.Size = size;
             result.Total = countsum;
             return result;
+        }
+        /// <summary>
+        /// 课程收入排序，按课程销售金额倒序
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="size">每页取多少数据</param>
+        /// <param name="index">第几页</param>
+        /// <returns></returns>
+        public ListResult MostIncome(int orgid, long sbjid, int size, int index)
+        {
+            int countsum = 0;
+            List<Song.Entities.Course> list = Business.Do<ICourse>().RankIncome(orgid, sbjid, size, index, out countsum);
+            for (int i = 0; i < list.Count; i++)
+                list[i] = _tran(list[i]);
+            ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = countsum;
+            return result;
+        }
+        /// <summary>
+        /// 总收入
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <returns></returns>
+        public decimal TotalIncome(int orgid, long sbjid)
+        {
+            return Business.Do<ICourse>().Income(orgid, sbjid);
         }
         #endregion
 

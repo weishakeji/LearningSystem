@@ -4,17 +4,22 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>热门课程</title>
+    <title>课程收入排行</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <div>
-                <help>按访问量排名</help>
+                <span class="income">
+                    合计：
+                    <icon>&#xe746</icon>
+                    <b v-html="format(totalmoney)"> </b> 元
+                </span>
             </div>
-            <query_panel :model="form" :loading="loading" @search="getCourseHot(1)">
-                <el-cascader style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects" :options="subjects"
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-cascader ref="subject" style="width: 300px;" placeholder="请选择专业" clearable
+                    @change="()=>$refs['subject'].dropDownVisible = false" v-model="sbjSelects" :options="subjects"
                     separator="／" :props="defaultProps" filterable>
                 </el-cascader>
             </query_panel>
@@ -38,19 +43,15 @@
                     </div>
                 </div>
             </el-table-column>
-            <el-table-column label="浏览量" align="center">
-                <template slot-scope="scope">
-                    <span v-html="scope.row.count"> </span>
-                </template>
+            <el-table-column label="收益" align="center">
+                <span slot-scope="scope" class="income">
+                    <icon>&#xe746</icon>
+                    <b v-html="format(scope.row.Cou_TryNum)"> </b>
+                </span>
             </el-table-column>
             <el-table-column label="价格" width="130">
                 <template slot-scope="scope">
                     <course_prices :course="scope.row"></course_prices>
-                </template>
-            </el-table-column>
-            <el-table-column label="收益" width="120">
-                <template slot-scope="scope">
-                    <course_income :course="scope.row"></course_income>
                 </template>
             </el-table-column>
             <el-table-column label="信息" width="200">
@@ -64,6 +65,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
     </div>
 </body>
 

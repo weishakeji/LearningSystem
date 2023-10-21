@@ -379,13 +379,29 @@ namespace Song.ServiceInterfaces
         /// <param name="istry"></param>
         /// <returns></returns>
         List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry);
-        
+        /// <summary>
+        /// 获取收入最多的课程
+        /// </summary>
+        /// <param name="orgid">机构Id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        List<Course> RankIncome(int orgid, long sbjid, int size, int index, out int countSum);
         /// <summary>
         /// 课程收益
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
         decimal Income(long couid);
+        /// <summary>
+        /// 课程收益汇总
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        decimal Income(int orgid, long sbjid);
         #endregion
 
         #region 课程关联管理（与学生或教师）        
@@ -394,9 +410,11 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">机构Id</param>
         /// <param name="sbjid">专业id</param>
-        /// <param name="count">取多少条</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> CourseHot(int orgid, long  sbjid, int size, int index, out int countSum);
+        List<Course> RankHot(int orgid, long  sbjid, int size, int index, out int countSum);
         /// <summary>
         /// 某个学生是否正在学习某个课程
         /// </summary>

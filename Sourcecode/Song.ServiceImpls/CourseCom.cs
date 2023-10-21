@@ -562,6 +562,44 @@ namespace Song.ServiceImpls
             return Gateway.Default.FromSql(sql1).ToList<Course>();
         }
         /// <summary>
+        /// 获取收入最多的课程
+        /// </summary>
+        /// <param name="orgid">机构Id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Course> RankIncome(int orgid, long sbjid, int size, int index, out int countSum)
+        {
+            countSum = this.CourseOfCount(orgid, sbjid, -1, null, null);
+            string sql = @"select count as Cou_TryNum, * from (
+                        select top {end} ROW_NUMBER() OVER(Order by count desc ) AS 'rowid',* from 
+                        (select ISNULL(b.count,0) as 'count', c.* from course as c left join 
+                                                    (SELECT cou_id, sum(Stc_Money) as 'count'
+                                                      FROM [Student_Course]  group by cou_id ) as b
+                                                      on c.cou_id=b.cou_id where org_id={orgid} and {sbjid}  
+                         ) as t ) paper	 where  rowid > {start} ";
+
+            sql = sql.Replace("{orgid}", orgid.ToString());
+            //按专业选取（包括专业的下级专业）
+            string sbjWhere = string.Empty;
+            if (sbjid > 0)
+            {
+                List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                for (int i = 0; i < sbjids.Count; i++)
+                {
+                    sbjWhere += "sbj_id=" + sbjids[i] + " ";
+                    if (i < sbjids.Count - 1) sbjWhere += " or ";
+                }
+            }
+            sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
+            //分页
+            sql = sql.Replace("{end}", (size * index).ToString());
+            sql = sql.Replace("{start}", ((index - 1) * size).ToString());
+            return Gateway.Default.FromSql(sql).ToList<Course>();
+        }
+        /// <summary>
         /// 课程收益
         /// </summary>
         /// <param name="couid"></param>
@@ -569,6 +607,43 @@ namespace Song.ServiceImpls
         public decimal Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
+            if (obj == null) return 0;
+            double d = (double)obj;
+            return (decimal)d;
+        }
+        /// <summary>
+        /// 课程收益汇总
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public decimal Income(int orgid, long sbjid)
+        {
+            //if (sbjid <= 0)
+            //{
+            //    object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Org_ID == orgid);
+            //    if (obj == null) return 0;
+            //    double d = (double)obj;
+            //    return (decimal)d;
+            //}
+            //按专业选取（包括专业的下级专业）
+            string sql = @"select SUM(total) from (select ISNULL(b.total,0) as 'total' from course as c left join 
+                            (SELECT cou_id, sum(Stc_Money) as 'total'
+                              FROM[Student_Course]  group by cou_id) as b
+                              on c.cou_id = b.cou_id where  org_id={orgid} and {sbjid} ) as tm ";
+            sql = sql.Replace("{orgid}", orgid.ToString());
+            string sbjWhere = string.Empty;
+            if (sbjid > 0)
+            {
+                List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                for (int i = 0; i < sbjids.Count; i++)
+                {
+                    sbjWhere += "sbj_id=" + sbjids[i] + " ";
+                    if (i < sbjids.Count - 1) sbjWhere += " or ";
+                }
+            }
+            sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
+            object obj = Gateway.Default.FromSql(sql).ToScalar();
             if (obj == null) return 0;
             double d = (double)obj;
             return (decimal)d;
@@ -1057,9 +1132,9 @@ namespace Song.ServiceImpls
         /// <param name="orgid">机构Id</param>
         /// <param name="sbjid">专业id</param>
         /// <returns></returns>
-        public List<Course> CourseHot(int orgid, long sbjid, int size, int index, out int countSum)
+        public List<Course> RankHot(int orgid, long sbjid, int size, int index, out int countSum)
         {
-            countSum = Gateway.Default.Count<Course>(new WhereClip());  //总数
+            countSum = this.CourseOfCount(orgid, sbjid, -1, null, null);
             string sql = @"select count as Cou_TryNum, * from (
                         select top {end} ROW_NUMBER() OVER(Order by count desc ) AS 'rowid',* from 
                         (select ISNULL(b.count,0) as 'count', c.* from course as c left join 

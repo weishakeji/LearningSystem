@@ -11,11 +11,12 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <div>
-                <help>按访问量排名</help>
+                <help>按被选修的数量排名</help>
             </div>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
-                <el-cascader  ref="subject" style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects" :options="subjects"
-                    @change="()=>$refs['subject'].dropDownVisible = false" separator="／" :props="defaultProps" filterable>
+                <el-cascader ref="subject" style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects"
+                    :options="subjects" clearable @change="()=>$refs['subject'].dropDownVisible = false" separator="／"
+                    :props="defaultProps" filterable>
                 </el-cascader>
             </query_panel>
         </div>
@@ -38,7 +39,7 @@
                     </div>
                 </div>
             </el-table-column>
-            <el-table-column label="访问量" align="center">
+            <el-table-column label="选修量" align="center">
                 <template slot-scope="scope">
                     <span v-html="scope.row.Cou_TryNum"> </span>
                 </template>
