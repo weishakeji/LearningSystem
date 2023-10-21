@@ -46,7 +46,7 @@ namespace Song.ViewData.Methods
         /// <param name="remark"></param>
         /// <returns>当前学员的余额</returns>
         [HttpPost]
-        [SuperAdmin]
+        [Admin]
         public decimal AddOrSubtract(int acid,double money,int type,string remark)
         {
             Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle(acid);

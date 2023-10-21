@@ -396,7 +396,7 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        DataSet CourseHot(int orgid, long  sbjid, int count);
+        List<Course> CourseHot(int orgid, long  sbjid, int size, int index, out int countSum);
         /// <summary>
         /// 某个学生是否正在学习某个课程
         /// </summary>

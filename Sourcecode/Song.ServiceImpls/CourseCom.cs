@@ -1056,33 +1056,35 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid">机构Id</param>
         /// <param name="sbjid">专业id</param>
-        /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public DataSet CourseHot(int orgid, long sbjid, int count)
+        public List<Course> CourseHot(int orgid, long sbjid, int size, int index, out int countSum)
         {
-           
-            string sql = @"select top {count} ISNULL(b.count,0) as 'count', c.* from course as c left join 
-                            (SELECT cou_id, count(cou_id) as 'count'
-                              FROM [Student_Course]  group by cou_id ) as b
-                              on c.cou_id=b.cou_id where org_id={orgid} and {sbjid} order by [count] desc";
-            count = count <= 0 ? int.MaxValue : count;
-            sql = sql.Replace("{count}", count.ToString());
+            countSum = Gateway.Default.Count<Course>(new WhereClip());  //总数
+            string sql = @"select count as Cou_TryNum, * from (
+                        select top {end} ROW_NUMBER() OVER(Order by count desc ) AS 'rowid',* from 
+                        (select ISNULL(b.count,0) as 'count', c.* from course as c left join 
+                                                    (SELECT cou_id, count(cou_id) as 'count'
+                                                      FROM [Student_Course]  group by cou_id ) as b
+                                                      on c.cou_id=b.cou_id where org_id={orgid} and {sbjid}  
+                         ) as t ) paper	 where  rowid > {start} ";
+
             sql = sql.Replace("{orgid}", orgid.ToString());
             //按专业选取（包括专业的下级专业）
             string sbjWhere = string.Empty;
             if (sbjid > 0)
             {
                 List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                
                 for (int i = 0; i < sbjids.Count; i++)
                 {
                     sbjWhere += "sbj_id=" + sbjids[i] + " ";
                     if (i < sbjids.Count - 1) sbjWhere += " or ";
-                }                
+                }
             }
             sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
-            
-            return Gateway.Default.FromSql(sql).ToDataSet();
+            //分页
+            sql = sql.Replace("{end}", (size * index).ToString());
+            sql = sql.Replace("{start}", ((index - 1) * size).ToString());
+            return Gateway.Default.FromSql(sql).ToList<Course>();
         }
         /// <summary>
         /// 某个学生是否正在学习某个课程

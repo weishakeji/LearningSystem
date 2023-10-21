@@ -716,23 +716,24 @@ namespace Song.ViewData.Methods
 
         #region 课程统计
         /// <summary>
-        /// 热门课程
+        /// 热门课程，按访问量排序
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
-        /// <param name="count">取多少条记录</param>
+        /// <param name="size">每页取多少数据</param>
+        /// <param name="index">索引</param>
         /// <returns></returns>
-        public DataTable MostHot(int orgid, long sbjid, int count)
+        public ListResult MostHot(int orgid, long sbjid, int size, int index)
         {
-            DataSet ds = Business.Do<ICourse>().CourseHot(orgid, sbjid, count);
-            if (ds == null || ds.Tables.Count < 1) return null;
-            DataTable dt = ds.Tables[0];
-            foreach (DataRow dr in dt.Rows)
-            {
-                dr["Cou_Logo"] = System.IO.File.Exists(PhyPath + dr["Cou_Logo"].ToString()) ? VirPath + dr["Cou_Logo"].ToString() : "";
-                dr["Cou_LogoSmall"] = System.IO.File.Exists(PhyPath + dr["Cou_LogoSmall"].ToString()) ? VirPath + dr["Cou_LogoSmall"].ToString() : "";
-            }
-            return ds.Tables[0];
+            int countsum = 0;
+            List<Song.Entities.Course>  list = Business.Do<ICourse>().CourseHot(orgid, sbjid, size,index,out countsum);
+            for (int i = 0; i < list.Count; i++)
+                list[i] = _tran(list[i]);
+            ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = countsum;
+            return result;
         }
         #endregion
 

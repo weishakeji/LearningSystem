@@ -13,9 +13,9 @@
             <div>
                 <help>按访问量排名</help>
             </div>
-            <query_panel :model="form" :loading="loading" @search="getCourseHot(1)">
-                <el-cascader style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects" :options="subjects"
-                    separator="／" :props="defaultProps" filterable>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-cascader  ref="subject" style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects" :options="subjects"
+                    @change="()=>$refs['subject'].dropDownVisible = false" separator="／" :props="defaultProps" filterable>
                 </el-cascader>
             </query_panel>
         </div>
@@ -24,7 +24,7 @@
             v-loading="loading" cell-class-name="tdcell">
             <el-table-column type="index" width="50" align="center">
                 <template slot-scope="scope">
-                    <span>{{scope.$index + 1}}</span>
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
             </el-table-column>
 
@@ -38,9 +38,9 @@
                     </div>
                 </div>
             </el-table-column>
-            <el-table-column label="浏览量" align="center">
+            <el-table-column label="访问量" align="center">
                 <template slot-scope="scope">
-                    <span v-html="scope.row.count"> </span>
+                    <span v-html="scope.row.Cou_TryNum"> </span>
                 </template>
             </el-table-column>
             <el-table-column label="价格" width="130">
@@ -64,6 +64,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
     </div>
 </body>
 
