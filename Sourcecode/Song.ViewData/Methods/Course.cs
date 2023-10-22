@@ -740,13 +740,15 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <param name="size">每页取多少数据</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult MostIncome(int orgid, long sbjid, int size, int index)
+        public ListResult MostIncome(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index)
         {
             int countsum = 0;
-            List<Song.Entities.Course> list = Business.Do<ICourse>().RankIncome(orgid, sbjid, size, index, out countsum);
+            List<Song.Entities.Course> list = Business.Do<ICourse>().RankIncome(orgid, sbjid, start, end, size, index, out countsum);
             for (int i = 0; i < list.Count; i++)
                 list[i] = _tran(list[i]);
             ListResult result = new ListResult(list);
@@ -756,14 +758,16 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
-        /// 总收入
+        /// 总收入，按时间汇总
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid"></param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public decimal TotalIncome(int orgid, long sbjid)
+        public decimal TotalIncome(int orgid, long sbjid, DateTime? start, DateTime? end)
         {
-            return Business.Do<ICourse>().Income(orgid, sbjid);
+            return Business.Do<ICourse>().Income(orgid, sbjid, start, end);
         }
         #endregion
 

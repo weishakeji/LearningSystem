@@ -1,0 +1,23 @@
+.el-cascader-node__label {
+    display: flex;
+    justify-content: space-between;
+}
+
+.el-cascader-node__label span {
+    color: #333;
+}
+
+.sbj_course {
+    font-size: 13px;
+    width: 40px;
+    display: flex;
+    justify-content: space-between;
+    color: #999 !important;
+
+}
+
+.sbj_course icon {
+    margin-top: 3px;
+    margin-right: 8px;
+}
+

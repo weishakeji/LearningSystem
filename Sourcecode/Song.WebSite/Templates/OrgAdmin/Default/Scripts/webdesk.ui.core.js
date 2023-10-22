@@ -890,6 +890,8 @@
             arr2.push('/Utilities/Components/useicon.js');
             //查询面板
             arr2.push('/Utilities/Components/query_panel.js');
+            //日期区间选择器
+            arr2.push('/Utilities/Components/date_range.js');
             window.$dom.load.js(arr2, f);
         });
     };

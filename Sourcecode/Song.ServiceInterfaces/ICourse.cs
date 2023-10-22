@@ -384,11 +384,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">机构Id</param>
         /// <param name="sbjid">专业id</param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> RankIncome(int orgid, long sbjid, int size, int index, out int countSum);
+        List<Course> RankIncome(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 课程收益
         /// </summary>
@@ -396,12 +398,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         decimal Income(long couid);
         /// <summary>
-        /// 课程收益汇总
+        /// 课程收益汇总，按时间区间汇总
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <returns></returns>
-        decimal Income(int orgid, long sbjid);
+        decimal Income(int orgid, long sbjid, DateTime? start, DateTime? end);
         #endregion
 
         #region 课程关联管理（与学生或教师）        

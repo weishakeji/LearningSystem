@@ -1435,6 +1435,7 @@
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
     <Content Include="Utilities\Components\Question\exam.js" />
     <Content Include="Utilities\Components\Question\Styles\exam.css" />
+    <Content Include="Utilities\Components\date_range.js" />
     <Content Include="Utilities\Components\Sign\login.js" />
     <Content Include="Utilities\Components\Sign\Styles\login.css" />
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />

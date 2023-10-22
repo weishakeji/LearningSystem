@@ -16,7 +16,7 @@ $ready(function () {
             },
             sbjSelects: [],      //选择中的专业项           
             form: {
-                'orgid': '', 'sbjid': '', 'size': 10, 'index': 1
+                'orgid': '', 'sbjid': '', 'start': '', 'end': '', 'size': 10, 'index': 1
             },
             datas: [],      //数据集
             total: 1, //总记录数
@@ -50,6 +50,12 @@ $ready(function () {
         watch: {
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.form.start = start;
+                this.form.end = end;
+                this.handleCurrentChange(1);
+            },
             //获取课程专业的数据
             getTreeData: function () {
                 var th = this;
@@ -66,9 +72,7 @@ $ready(function () {
             //获取总收入
             getTotalMoney: function () {
                 var th = this;
-                let form = { 'orgid': th.organ.Org_ID, 'sbjid': '' };
-                if (th.sbjSelects && th.sbjSelects.length > 0)
-                    form.sbjid = th.sbjSelects[th.sbjSelects.length - 1];
+                let form = { 'orgid': th.organ.Org_ID, 'sbjid': th.form.sbjid, 'start': th.form.start, 'end': th.form.end };
                 $api.get('Course/TotalIncome', form).then(function (req) {
                     if (req.data.success) {
                         th.totalmoney = req.data.result;
@@ -84,8 +88,6 @@ $ready(function () {
                 if (index != null) this.form.index = index;
                 if (index == 1) this.getTotalMoney();
                 var th = this;
-                if (th.sbjSelects && th.sbjSelects.length > 0)
-                    th.form.sbjid = th.sbjSelects[th.sbjSelects.length - 1];
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 57);
@@ -129,5 +131,6 @@ $ready(function () {
         }
     });
 
-}, ['../Course/Components/course_data.js',
+}, ['/Utilities/Components/sbj_cascader.js',
+    '../Course/Components/course_data.js',
     '../Course/Components/course_prices.js']);

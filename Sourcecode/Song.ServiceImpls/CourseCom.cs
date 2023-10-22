@@ -570,18 +570,20 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Course> RankIncome(int orgid, long sbjid, int size, int index, out int countSum)
+        public List<Course> RankIncome(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             countSum = this.CourseOfCount(orgid, sbjid, -1, null, null);
             string sql = @"select count as Cou_TryNum, * from (
                         select top {end} ROW_NUMBER() OVER(Order by count desc ) AS 'rowid',* from 
                         (select ISNULL(b.count,0) as 'count', c.* from course as c left join 
                                                     (SELECT cou_id, sum(Stc_Money) as 'count'
-                                                      FROM [Student_Course]  group by cou_id ) as b
+                                                      FROM [Student_Course] where  {begin} and {over}  group by cou_id ) as b
                                                       on c.cou_id=b.cou_id where org_id={orgid} and {sbjid}  
                          ) as t ) paper	 where  rowid > {start} ";
 
             sql = sql.Replace("{orgid}", orgid.ToString());
+            sql = sql.Replace("{begin}", start != null ? "Stc_CrtTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'" : "1=1");
+            sql = sql.Replace("{over}", start != null ? "Stc_CrtTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'" : "1=1");
             //按专业选取（包括专业的下级专业）
             string sbjWhere = string.Empty;
             if (sbjid > 0)
@@ -616,22 +618,19 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <returns></returns>
-        public decimal Income(int orgid, long sbjid)
+        public decimal Income(int orgid, long sbjid, DateTime? start, DateTime? end)
         {
-            //if (sbjid <= 0)
-            //{
-            //    object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Org_ID == orgid);
-            //    if (obj == null) return 0;
-            //    double d = (double)obj;
-            //    return (decimal)d;
-            //}
             //按专业选取（包括专业的下级专业）
             string sql = @"select SUM(total) from (select ISNULL(b.total,0) as 'total' from course as c left join 
                             (SELECT cou_id, sum(Stc_Money) as 'total'
-                              FROM[Student_Course]  group by cou_id) as b
+                              FROM[Student_Course] where  {start} and {end} group by cou_id) as b
                               on c.cou_id = b.cou_id where  org_id={orgid} and {sbjid} ) as tm ";
             sql = sql.Replace("{orgid}", orgid.ToString());
+            sql = sql.Replace("{start}", start!=null ? "Stc_CrtTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss")+"'" : "1=1");
+            sql = sql.Replace("{end}", start != null ? "Stc_CrtTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'" : "1=1");
             string sbjWhere = string.Empty;
             if (sbjid > 0)
             {
