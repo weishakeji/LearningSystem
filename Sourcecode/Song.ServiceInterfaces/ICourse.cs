@@ -418,7 +418,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> RankHot(int orgid, long  sbjid, int size, int index, out int countSum);
+        List<Course> RankHot(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 某个学生是否正在学习某个课程
         /// </summary>

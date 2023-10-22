@@ -1131,18 +1131,20 @@ namespace Song.ServiceImpls
         /// <param name="orgid">机构Id</param>
         /// <param name="sbjid">专业id</param>
         /// <returns></returns>
-        public List<Course> RankHot(int orgid, long sbjid, int size, int index, out int countSum)
+        public List<Course> RankHot(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             countSum = this.CourseOfCount(orgid, sbjid, -1, null, null);
             string sql = @"select count as Cou_TryNum, * from (
                         select top {end} ROW_NUMBER() OVER(Order by count desc ) AS 'rowid',* from 
                         (select ISNULL(b.count,0) as 'count', c.* from course as c left join 
                                                     (SELECT cou_id, count(cou_id) as 'count'
-                                                      FROM [Student_Course]  group by cou_id ) as b
+                                                      FROM [Student_Course]  where  {begin} and {over}   group by cou_id ) as b
                                                       on c.cou_id=b.cou_id where org_id={orgid} and {sbjid}  
                          ) as t ) paper	 where  rowid > {start} ";
 
             sql = sql.Replace("{orgid}", orgid.ToString());
+            sql = sql.Replace("{begin}", start != null ? "Stc_CrtTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'" : "1=1");
+            sql = sql.Replace("{over}", start != null ? "Stc_CrtTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'" : "1=1");
             //按专业选取（包括专业的下级专业）
             string sbjWhere = string.Empty;
             if (sbjid > 0)

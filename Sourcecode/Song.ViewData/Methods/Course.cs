@@ -723,10 +723,10 @@ namespace Song.ViewData.Methods
         /// <param name="size">每页取多少数据</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult MostHot(int orgid, long sbjid, int size, int index)
+        public ListResult MostHot(int orgid, long sbjid, DateTime? start, DateTime? end, int size, int index)
         {
             int countsum = 0;
-            List<Song.Entities.Course>  list = Business.Do<ICourse>().RankHot(orgid, sbjid, size,index,out countsum);
+            List<Song.Entities.Course>  list = Business.Do<ICourse>().RankHot(orgid, sbjid, start, end, size,index,out countsum);
             for (int i = 0; i < list.Count; i++)
                 list[i] = _tran(list[i]);
             ListResult result = new ListResult(list);

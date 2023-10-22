@@ -14,10 +14,13 @@
                 <help>按被选修的数量排名</help>
             </div>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
-                <el-cascader ref="subject" style="width: 300px;" placeholder="请选择专业" v-model="sbjSelects"
-                    :options="subjects" clearable @change="()=>$refs['subject'].dropDownVisible = false" separator="／"
-                    :props="defaultProps" filterable>
-                </el-cascader>
+                <el-form-item label="专业">
+                    <sbj_cascader ref="subject" :orgid="form.orgid"
+                        @change="id=>{form.sbjid=id;handleCurrentChange(1);}"> </sbj_cascader>
+                </el-form-item>
+                <el-form-item label="时间区间">
+                    <date_range @change="selectDate"></date_range>
+                </el-form-item>              
             </query_panel>
         </div>
         <!--数据列表-->
