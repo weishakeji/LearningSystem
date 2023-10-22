@@ -30,19 +30,29 @@ Vue.component('date_range', {
                         p.$emit('pick', [start, new Date()]);
                     }
                 }, {
+                    text: '本周',
+                    onClick(p) {
+                        const today = new Date();
+                        let currentDay = today.getDay();
+                        var firstDayOfWeek = new Date(today.setDate(today.getDate() - currentDay + 1));
+                        var lastDayOfWeek = new Date();
+                        lastDayOfWeek.setDate(lastDayOfWeek.getDate() - currentDay + 6 + 1);
+                        p.$emit('pick', [firstDayOfWeek, lastDayOfWeek]);
+                    }
+                }, {
                     text: '最近一个月',
                     onClick: (p) => p.$emit('pick', setTimeInterval(1))
                 }, {
                     text: '本月', onClick(picker) {
                         const start = new Date();
                         start.setDate(1);
-                        var yy = start.getFullYear();
-                        var mm = start.getMonth() + 1;
+                        let yy = start.getFullYear();
+                        let mm = start.getMonth() + 1;
                         if (mm > 12) {
                             mm = 1;
                             yy = yy + 1;
                         }
-                        var end = new Date(yy, mm, 0);
+                        let end = new Date(yy, mm, 0);
                         picker.$emit('pick', [start, end]);
                     }
                 }, {
@@ -51,15 +61,12 @@ Vue.component('date_range', {
                 }, {
                     text: '本季度', onClick(picker) {
                         const start = new Date();
-                        var yy = start.getFullYear();
-                        var mm = start.getMonth();
-                        if (mm >= 1 && mm <= 3) mm = 0;
-                        if (mm >= 4 && mm <= 6) mm = 3;
-                        if (mm >= 7 && mm <= 9) mm = 6;
-                        if (mm >= 10 && mm <= 12) mm = 9;
+                        let yy = start.getFullYear();
+                        let mm = start.getMonth() + 1;
+                        mm = Math.floor(mm % 3 == 0 ? mm / 3 : mm / 3 + 1);
                         start.setDate(1);
-                        start.setMonth(mm);
-                        const end = new Date(yy, mm + 3, 0);
+                        start.setMonth((mm - 1) * 3);
+                        const end = new Date(yy, start.getMonth() + 3, 0);
                         picker.$emit('pick', [start, end]);
                     }
                 }, {
@@ -79,9 +86,6 @@ Vue.component('date_range', {
                 }, {
                     text: '最近三年',
                     onClick: (p) => p.$emit('pick', setTimeInterval(36))
-                }, {
-                    text: '最近五年',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(60))
                 }]
             },
         }
@@ -95,7 +99,22 @@ Vue.component('date_range', {
     methods: {
         //选择变动时触发事件
         evt_change: function () {
-            this.$emit('change', this.selectDate[0], this.selectDate[1]);
+            //起始时间只保留日期部分，例如 2023-10-01 00:00:00
+            let start = this.todate(this.selectDate[0]);
+            //结束时间由当前日期加一，即查询条件中包含结束那一天的当天
+            let end = this.todate(this.selectDate[1]);
+            end.setDate(end.getDate() + 1);
+            
+            this.$emit('change', start, end);
+        },
+        //只保留时间部分
+        todate: function (time) {
+            if (time == null) return null;
+            // 获取日期的年、月、日
+            let year = time.getFullYear();
+            let month = time.getMonth() + 1;
+            let day = time.getDate();
+            return new Date(year + '-' + month + '-' + day);
         }
     },
     template: ` <el-date-picker v-model="selectDate" type="daterange" unlink-panels
