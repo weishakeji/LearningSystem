@@ -140,12 +140,12 @@ Vue.component('sbj_cascader', {
             }
         },
     },
-    template: `<div class="sbj_cascader">
-        <el-cascader ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
+    template: `<div>
+        <el-cascader class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
             :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">
                 <span>{{ data.Sbj_Name }}</span>
-                <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
+                <span class="sbj_course" v-if="data.Sbj_CouNumber>0" title="课程数">
                     <icon>&#xe813</icon>{{ data.Sbj_CouNumber }}
                 </span>
             </template>
