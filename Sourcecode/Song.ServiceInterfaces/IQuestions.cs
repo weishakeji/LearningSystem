@@ -321,7 +321,19 @@ namespace Song.ServiceInterfaces
         /// <param name="olid"></param>
         /// <returns></returns>
         bool ExerciseLogDel(int acid, long couid, long olid);
-        
+
+        #endregion
+
+        #region 统计信息
+        /// <summary>
+        /// 试题资源的存储大小
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="count">资源个数</param>
+        /// <returns>资源文件总大小，单位为字节</returns>
+        long StorageResources(int orgid, long sbjid, long couid, long olid, out int count);
         #endregion
     }
 }

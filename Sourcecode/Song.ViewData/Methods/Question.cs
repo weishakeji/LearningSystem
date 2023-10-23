@@ -1004,5 +1004,40 @@ namespace Song.ViewData.Methods
             return true;
         }
         #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 试题的资源存储大小
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <returns>count:文件总数;length:资源总大小，单位Mb;size:资源总大小，单位为最大单位 </returns>
+        public JObject StorageResources(int orgid, long sbjid, long couid, long olid)
+        {
+            int count;
+            long totalLength = Business.Do<IQuestions>().StorageResources(orgid, sbjid, couid, olid, out count);
+            JObject jo = new JObject();
+            jo.Add("count", count);  //资源文件数量
+            //总大小，单位mb
+            double length = ((double)(totalLength / 1024)) / 1024;
+            jo.Add("length", Math.Round(length * 100) / 100);   //取小数点后两位
+            //视频总大小，单位为最大，例如GB或Tb
+            double size = totalLength;
+            string[] arr = new string[] { "Bit", "Kb", "Mb", "Gb", "Tb" };
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (size < 1024)
+                {
+                    jo.Add("size", (Math.Round(size * 100) / 100).ToString() + " " + arr[i]);
+                    break;
+                }
+                else
+                    size /= 1024;
+            }
+            return jo;
+        }
+        #endregion
     }
 }

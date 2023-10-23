@@ -1,1 +1,34 @@
 ﻿@charset "utf-8";
+
+#vapp {
+	box-sizing: border-box;
+	padding: 15px;
+}
+
+#vapp>div {
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 1000px;
+	height: 100%;
+	align-content: flex-start;
+}
+
+.el-card {
+	width: 400px;
+	margin: 0px 30px 30px 0px;
+	height: 200px;
+}
+
+.el-card__header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.el-card__header icon::before, .el-card__header span[icon]::before {
+	font-size: 20px !important;
+}
+
+.el-card__body>div {
+	line-height: 35px;
+	margin-bottom: 15px;
+}

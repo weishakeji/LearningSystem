@@ -9,8 +9,66 @@
 
 <body>
     <div id="vapp" v-cloak>
-        
-      
+        <loading v-if="loading_stat"></loading>
+        <div v-else>
+            <el-card shadow="hover">
+                <template slot="header">
+                    <icon video>视频资源</icon>
+                    <span>{{stat.resource.video|commas}} 个</span>
+                </template>
+                <div icon="&#xa018">
+                    本地存储：<span v-html="video.count"></span> 
+                    <help multi>
+                       云存储的视频不计算在内
+                    </help>
+                </div>
+                <div icon="&#xe6a4"> 占用空间：<span v-html="video.size"></span>
+                </div>
+            </el-card>
+            <el-card shadow="hover">
+                <template slot="header">
+                    <icon course>课程资料</icon>
+                    <span>{{resources.count|commas}} 个</span>
+                </template>
+                <div icon="&#xa018">
+                    本地存储：<span v-html="resources.count"></span>
+                    <help multi>
+                        课程图文资料，不包括视频
+                    </help>
+                </div>
+                <div icon="&#xe6a4">
+                    占用空间：<span v-html="resources.size"></span>
+                </div>
+            </el-card>
+
+            <el-card shadow="hover">
+                <template slot="header">
+                    <icon question>试题资源</icon>
+                    <span>{{stat.resource.question|commas}} 道</span>
+                </template>
+                <div icon="&#xe6a4">
+
+                    占用空间：<span v-html="question.size"></span>
+                    <help multi>
+                      此处只计算试题、选项、解析中所涉及的图片、音视频等文件的存储信息，不包括试题本身数据，试题存储于数据库。
+                     </help>
+                </div>
+            </el-card>
+
+            <el-card shadow="hover">
+                <template slot="header">
+                    <span icon="&#xe75c">新闻资源</span>
+                    <span>{{news.total|commas}} 条</span>
+                </template>
+                <div icon="&#xe6a4">
+
+                    占用空间：<span v-html="news.size"></span>
+                    <help multi>
+                        包括新闻附件与新闻内容中的插图
+                     </help>
+                </div>
+            </el-card>
+        </div>
     </div>
 </body>
 

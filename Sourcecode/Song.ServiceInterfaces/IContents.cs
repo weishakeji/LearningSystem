@@ -315,8 +315,17 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         NewsNote[] NotePager(int artid, string searTxt, bool? isShow, int size, int index, out int countSum);
-        #endregion                         
-     
-        
+        #endregion
+
+        #region 新闻统计
+        /// <summary>
+        /// 新闻资源存储大小
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该文件，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">视频个数</param>
+        /// <returns>文件总大小，单位为字节</returns>
+        long StorageResources(int orgid, bool isreal, out int count);
+        #endregion
     }
 }

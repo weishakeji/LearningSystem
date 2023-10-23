@@ -1392,5 +1392,46 @@ namespace Song.ServiceImpls
         }
 
         #endregion
+
+        #region 统计信息
+        /// <summary>
+        /// 试题资源的存储大小
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="count">资源个数</param>
+        /// <returns>资源文件总大小，单位为字节</returns>
+        public long StorageResources(int orgid, long sbjid, long couid, long olid, out int count)
+        {
+            string PhyPath = WeiSha.Core.Upload.Get["Ques"].Physics;
+            //文件总大小
+            long totalSize = 0;
+            int totalCount = 0; //数量
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            using (SourceReader reader = Gateway.Default.From<Questions>().Where(wc).ToReader())
+            {
+                while (reader.Read())
+                {
+                    long id = (long)reader["Qus_ID"];                  
+                    string dir = PhyPath + id.ToString();
+                    if (!Directory.Exists(dir)) continue;
+                    foreach(string file in Directory.GetFiles(dir))
+                    {
+                        totalSize += new FileInfo(file).Length;
+                        totalCount++;
+                    }                  
+
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            count = totalCount; //总数
+            return totalSize;
+        }
+        #endregion
     }
 }

@@ -10,6 +10,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Resources;
 using System.Reflection;
+using System.IO;
 
 namespace Song.ServiceImpls
 {
@@ -400,6 +401,70 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Article>(wc);
             return Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_ID.Desc).ToArray<Article>(size, (index - 1) * size);
         }
+        #region 新闻统计
+        /// <summary>
+        /// 新闻资源存储大小
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该文件，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">视频个数</param>
+        /// <returns>文件总大小，单位为字节</returns>
+        public long StorageResources(int orgid, bool isreal, out int count)
+        {
+            string PathKey = "News";
+            string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+            //文件总大小
+            long totalSize = 0;
+            int totalCount = 0; //数量
+            //取新闻附件资源
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accessory._.Org_ID == orgid);
+            wc.And(Accessory._.As_Type == "News");
+            using (SourceReader reader = Gateway.Default.From<Accessory>().Where(wc).ToReader())
+            {
+                while (reader.Read())
+                {
+                    string filename = reader["As_FileName"] != null ? reader["As_FileName"].ToString() : string.Empty;
+                    if (string.IsNullOrWhiteSpace(filename)) continue;
+                    long size = (long)reader["As_Size"];
+                    if (isreal)
+                    {
+                        string file = PhyPath + filename;
+                        if (!File.Exists(file)) continue;
+                        totalSize += new FileInfo(file).Length;
+                        totalCount++;
+                    }
+                    else
+                    {
+                        totalSize += size;
+                        totalCount++;
+                    }
+                }
+                reader.Close();
+                reader.Dispose();
+            }
+            //取新闻内容中的资源
+            using (SourceReader reader = Gateway.Default.From<Article>().Where(Article._.Org_ID == orgid).ToReader())
+            {
+                while (reader.Read())
+                {
+                    long id = (long)reader["Art_ID"];
+                    string dir = PhyPath + id.ToString();
+                    if (!Directory.Exists(dir)) continue;
+                    foreach (string file in Directory.GetFiles(dir))
+                    {
+                        totalSize += new FileInfo(file).Length;
+                        totalCount++;
+                    }
 
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            count = totalCount; //总数
+            return totalSize;
+        }
+        #endregion
     }
 }
