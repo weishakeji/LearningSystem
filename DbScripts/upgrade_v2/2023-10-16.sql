@@ -28,3 +28,7 @@ go
 alter table [ManageMenu] add MM_IcoColor  nvarchar(100) null
 go
 ALTER TABLE [ManageMenu] ALTER COLUMN MM_IcoCode nvarchar(50) null
+
+--将附件中的flv视频，改为mp4，flv已经不再使用
+ Update Accessory Set as_filename=replace(as_filename,'.flv','.mp4') 
+ where as_type='CourseVideo' and as_filename like '%.flv'

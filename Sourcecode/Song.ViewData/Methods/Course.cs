@@ -754,7 +754,7 @@ namespace Song.ViewData.Methods
             ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;
-            result.Total = countsum;
+            result.Total = countsum;           
             return result;
         }
         /// <summary>
@@ -768,6 +768,66 @@ namespace Song.ViewData.Methods
         public decimal TotalIncome(int orgid, long sbjid, DateTime? start, DateTime? end)
         {
             return Business.Do<ICourse>().Income(orgid, sbjid, start, end);
+        }
+        /// <summary>
+        /// 视频文件的存储大小
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <returns>count:视频总数;length:资源总大小，单位Mb;size:资源总大小，单位为最大单位 </returns>
+        public JObject StorageVideo(int orgid, bool isreal)
+        {
+            int count;
+            long totalLength = Business.Do<ICourse>().StorageVideo(orgid, isreal, out count);
+            JObject jo = new JObject();
+            jo.Add("count", count);  //视频数量
+            //视频总大小，单位mb
+            double length = ((double)(totalLength / 1024)) / 1024;
+            jo.Add("length", Math.Round(length * 100) / 100);   //取小数点后两位
+            //视频总大小，单位为最大，例如GB或Tb
+            double size = totalLength;
+            string[] arr = new string[] { "Bit", "Kb", "Mb", "Gb", "Tb" };
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (size < 1024)
+                {
+                    jo.Add("size", (Math.Round(size * 100) / 100).ToString() + " " + arr[i]);
+                    break;
+                }
+                else
+                    size /= 1024;
+            }
+            return jo;
+        }
+        /// <summary>
+        /// 课程图文资源存储大小，不包括视频
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <returns>count:文件总数;length:资源总大小，单位Mb;size:资源总大小，单位为最大单位 </returns>
+        public JObject StorageResources(int orgid, bool isreal)
+        {
+            int count;
+            long totalLength = Business.Do<ICourse>().StorageResources(orgid, isreal, out count);
+            JObject jo = new JObject();
+            jo.Add("count", count);  //视频数量
+            //视频总大小，单位mb
+            double length = ((double)(totalLength / 1024)) / 1024;
+            jo.Add("length", Math.Round(length * 100) / 100);   //取小数点后两位
+            //视频总大小，单位为最大，例如GB或Tb
+            double size = totalLength;
+            string[] arr = new string[] { "Bit", "Kb", "Mb", "Gb", "Tb" };
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (size < 1024)
+                {
+                    jo.Add("size", (Math.Round(size * 100) / 100).ToString() + " " + arr[i]);
+                    break;
+                }
+                else
+                    size /= 1024;
+            }
+            return jo;
         }
         #endregion
 

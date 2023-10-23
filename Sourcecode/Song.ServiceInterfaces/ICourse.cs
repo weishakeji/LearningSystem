@@ -531,6 +531,25 @@ namespace Song.ServiceInterfaces
         /// <returns>要导出的excel文件物理路径</returns>
         string StudentToExcel(string filepath, Course course, DateTime? start, DateTime? end);
         #endregion
-        
+
+        #region 统计信息
+        /// <summary>
+        /// 视频文件的存储大小
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">视频个数</param>
+        /// <returns>视频文件总大小，单位为字节</returns>
+        long StorageVideo(int orgid, bool isreal, out int count);
+        /// <summary>
+        /// 课程图文资源存储大小，不包括视频
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">视频个数</param>
+        /// <returns>视频文件总大小，单位为字节</returns>
+        long StorageResources(int orgid, bool isreal, out int count);
+        #endregion
+
     }
 }

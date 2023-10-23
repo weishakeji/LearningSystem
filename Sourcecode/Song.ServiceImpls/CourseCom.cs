@@ -2059,5 +2059,98 @@ namespace Song.ServiceImpls
             return sheet;
         }
         #endregion
+
+        #region 统计信息
+        /// <summary>
+        /// 视频文件的存储大小
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">视频个数</param>
+        /// <returns>视频文件总大小，单位为字节</returns>
+        public long StorageVideo(int orgid, bool isreal, out int count)
+        {
+            string PathKey = "CourseVideo";
+            string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+            //视频文件总大小
+            long totalSize = 0;
+            int totalCount = 0; //视频数量
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accessory._.Org_ID == orgid);
+            wc.And(Accessory._.As_Type == "CourseVideo");
+            wc.And(Accessory._.As_IsOther == false);
+            wc.And(Accessory._.As_IsOuter == false);
+            using (SourceReader reader = Gateway.Default.From<Accessory>().Where(wc).ToReader())
+            {
+                while (reader.Read())
+                {
+                    string filename = reader["As_FileName"] != null ? reader["As_FileName"].ToString() : string.Empty;
+                    if (string.IsNullOrWhiteSpace(filename)) continue;
+                    long size = (long)reader["As_Size"];
+                    if (isreal)
+                    {
+                        string file = PhyPath + filename;
+                        if (!File.Exists(file)) continue;
+                        totalSize += new FileInfo(file).Length;
+                        totalCount++;
+                    }
+                    else
+                    {
+                        totalSize += size;
+                        totalCount++;
+                    }                    
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            count = totalCount; //视频总数
+            return totalSize;
+        }
+        /// <summary>
+        /// 课程图文资源存储大小，不包括视频
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isreal">是否真实大小，如果为true，则去硬盘验证是否存在该视频，并以物理文件大小计算文件大小；如果为false则以数据库记录的文件大小计算</param>
+        /// <param name="count">资源个数</param>
+        /// <returns>资源文件总大小，单位为字节</returns>
+        public long StorageResources(int orgid, bool isreal, out int count)
+        {
+            string PathKey = "Course";
+            string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+            //文件总大小
+            long totalSize = 0;
+            int totalCount = 0; //数量
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accessory._.Org_ID == orgid);
+            wc.And(Accessory._.As_Type == "Course");
+            using (SourceReader reader = Gateway.Default.From<Accessory>().Where(wc).ToReader())
+            {
+                while (reader.Read())
+                {
+                    string filename = reader["As_FileName"] != null ? reader["As_FileName"].ToString() : string.Empty;
+                    if (string.IsNullOrWhiteSpace(filename)) continue;
+                    long size = (long)reader["As_Size"];
+                    if (isreal)
+                    {
+                        string file = PhyPath + filename;
+                        if (!File.Exists(file)) continue;
+                        totalSize += new FileInfo(file).Length;
+                        totalCount++;
+                    }
+                    else
+                    {
+                        totalSize += size;
+                        totalCount++;
+                    }
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            count = totalCount; //总数
+            return totalSize;
+        }
+        #endregion
     }
 }
