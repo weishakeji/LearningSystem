@@ -103,18 +103,18 @@ Vue.component('date_range', {
             let start = this.todate(this.selectDate[0]);
             //结束时间由当前日期加一，即查询条件中包含结束那一天的当天
             let end = this.todate(this.selectDate[1]);
-            end.setDate(end.getDate() + 1);
-            
+            end.setDate(end.getDate() + 1);          
             this.$emit('change', start, end);
         },
         //只保留时间部分
         todate: function (time) {
             if (time == null) return null;
+            this.selectDate[1]
             // 获取日期的年、月、日
             let year = time.getFullYear();
             let month = time.getMonth() + 1;
             let day = time.getDate();
-            return new Date(year + '-' + month + '-' + day);
+            return new Date(year + '/' + month + '/' + day);
         }
     },
     template: ` <el-date-picker v-model="selectDate" type="daterange" unlink-panels

@@ -16,6 +16,7 @@ namespace Song.ViewData.Methods
     [HttpPut, HttpGet]
     public class Money : ViewMethod, IViewAPI
     {
+        #region 增删改查
         /// <summary>
         /// 根据ID查询资金流水
         /// </summary>
@@ -24,19 +25,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.MoneyAccount ForID(int id)
         {
             return Business.Do<IAccounts>().MoneySingle(id);
-        }
-        /// <summary>
-        /// 计算资金总额
-        /// </summary>
-        /// <param name="acid">学员账号id</param>
-        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
-        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
-        /// <returns></returns>
-        public decimal MoneySum(int acid, int type, int from)
-        {
-            decimal sum = Business.Do<IAccounts>().MoneySum(acid, type, from);
-            return sum;
-        }
+        }       
         /// <summary>
         /// 增加或减去资金
         /// </summary>
@@ -220,6 +209,8 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+        #endregion
+
         #region 导出
         /// <summary>
         /// 生成excel
@@ -328,6 +319,49 @@ namespace Song.ViewData.Methods
                 jarr.Add(jo);
             }
             return jarr;
+        }
+        #endregion
+
+        #region 统计
+        /// <summary>
+        /// 计算资金总额
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="start">按时间区间统计，此为开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public decimal Summary(int orgid, int acid, int type, int from, DateTime? start, DateTime? end)
+        {
+            decimal sum = Business.Do<IAccounts>().MoneySum(orgid, acid, type, from, start, end);
+            return sum;
+        }
+        /// <summary>
+        /// 按日期统计资金
+        /// </summary>
+        /// <param name="unit">时间间隔，y:按年统计,m:按月，w:按周，d:按日</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">账号id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="start">时间区间的起始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public JObject Statistics(string unit,int orgid, int acid, int type, int from, DateTime? start, DateTime? end)
+        {
+            string interval = "MONTH";
+            if(unit=="y") interval = "YEAR";
+            if (unit == "w") interval = "WEEK";
+            if (unit == "d") interval = "Day";
+            Dictionary<string, double> dic = Business.Do<IAccounts>().MoneyStatistics(interval, orgid, acid, type, from, start, end);
+            JObject jo = new JObject();
+            foreach (KeyValuePair<string, double> item in dic)
+            {
+                jo.Add(item.Key, item.Value);              
+            }
+            return jo;
         }
         #endregion
     }

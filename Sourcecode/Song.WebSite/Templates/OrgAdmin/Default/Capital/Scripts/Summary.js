@@ -2,160 +2,186 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            form: {
-                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
-                size: 20, index: 1
-            },
-            organs: [],
-            accounts: [], //账号列表
-            total: 1, //总记录数
-            totalpages: 1, //总页数
-            selects: [],  //数据表中选中的行
+            orgid: 0,
+            total: { 'pay': 0, 'recharge': 0 },       //总金额，包括支付与充值
+            year: { 'pay': 0, 'recharge': 0 },
+            quarter: { 'pay': 0, 'recharge': 0 },
+            month: { 'pay': 0, 'recharge': 0 },
 
-            loading: false,
-            loadingdel: false,       //删除的预载状态
-            loadingid: 0       //当前操作中的对象id
+            listday: {},     //当月收入记录
+
+            currdate: new Date()
+        },
+        watch: {
+            //当前日期变更时
+            'currdate': function (nv, ov) {
+                console.log(ov);
+                let nm = nv.getMonth();
+                let om = ov.getMonth();
+                console.error(nm);
+                console.error(om);
+                if (nv.getMonth() != ov.getMonth())
+                    this.getDayStatistics();
+            }
         },
         created: function () {
-            var th = this;
-            $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }).then(function (req) {
-                if (req.data.success) {
-                    th.organs = req.data.result;
-                    th.handleCurrentChange(1);
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
+
 
         },
         mounted: function () {
-            var btngroup = this.$refs['btngroup'];
-            console.log(btngroup);
-            btngroup.addbtn({
-                text: '批量删除', tips: '通过导入账号进行大批量的删除',
-                id: 'bathdelete', type: 'warning',
-                url: 'AccountBathDel',
-                icon: 'e800'
-            });
+            var th = this;
+            $api.get('Organization/Current').then(function (req) {
+                if (req.data.success) {
+                    let result = req.data.result;
+                    th.orgid = result.Org_ID;
+                    th.getTotaldata();
+                    th.getYeardata();
+                    th.getQuarterdata();
+                    th.getMonthdata();
+                    th.getDayStatistics();
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => {
+                alert('获取当前机构信息错误');
+                console.error(err);
+            }).finally(() => { });
+
         },
         computed: {
-            //表格高度
-            tableHeight: function () {
-                var height = document.body.clientHeight;
-                return height - 75;
-            }
+
         },
         methods: {
-            //删除
-            deleteData: function (datas) {
+            //获取总金额
+            getTotaldata: function () {
                 var th = this;
-                th.loadingdel = true;
-                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
-                    th.loadingdel = false;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        th.handleCurrentChange();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loadingdel = false;
-                    th.$alert(err);
-                });
-            },
-            //加载数据页
-            handleCurrentChange: function (index) {
-                if (index != null) this.form.index = index;
-                var th = this;
-                th.loading = true;
-                //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 105;
-                th.form.size = Math.floor(area / 41);
-                $api.get("Account/Pager", th.form).then(function (d) {
-                    th.loading = false;
-                    if (d.data.success) {
-                        th.accounts = d.data.result;
-                        th.totalpages = Number(d.data.totalpages);
-                        th.total = d.data.total;
-                    } else {
-                        console.error(d.data.exception);
-                        throw d.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    th.$alert(err);
-                });
-            },
-            //显示手机号
-            showmobi: function (row) {
-                var phone = row.Ac_MobiTel1;
-                return phone != '' ? phone : row.Ac_MobiTel2;
-            },
-            //复制到粘贴板
-            copytext: function (val, textbox) {
-                this.copy(val, textbox).then(function (th) {
-                    th.$message({
-                        message: '复制 “' + val + '” 到粘贴板',
-                        type: 'success'
+                $api.bat(
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': '', 'end': '' }),
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': '', 'end': '' })
+                ).then(axios.spread(function (pay, recharge) {
+                    th.total['pay'] = pay.data.result;
+                    th.total['recharge'] = recharge.data.result;
+                })).catch(err => alert(err))
+                    .finally(() => {
+                        console.log('finally');
                     });
-                });
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);
-            },
-            //更改使用状态
-            changeUse: function (row) {
+            //年度收入
+            getYeardata: function () {
                 var th = this;
-                this.loadingid = row.Ac_ID;
-                $api.post('Account/ModifyState', { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass }).then(function (req) {
+                const start = th.todate(new Date());
+                start.setDate(1);
+                start.setMonth(0);
+                const end = th.todate(new Date(start.getFullYear(), 12, 0));
+                end.setDate(end.getDate() + 1);
+                $api.bat(
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
+                ).then(axios.spread(function (pay, recharge) {
+                    th.year['pay'] = pay.data.result;
+                    th.year['recharge'] = recharge.data.result;
+                })).catch(err => alert(err))
+                    .finally(() => {
+                        console.log('finally');
+                    });
+            },
+            //本季度
+            getQuarterdata: function () {
+                var th = this;
+                const start = th.todate(new Date());
+                let yy = start.getFullYear();
+                let mm = start.getMonth() + 1;
+                mm = Math.floor(mm % 3 == 0 ? mm / 3 : mm / 3 + 1);
+                start.setDate(1);
+                start.setMonth((mm - 1) * 3);
+                const end = th.todate(new Date(yy, start.getMonth() + 3, 0));
+                end.setDate(end.getDate() + 1);
+                $api.bat(
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
+                ).then(axios.spread(function (pay, recharge) {
+                    th.quarter['pay'] = pay.data.result;
+                    th.quarter['recharge'] = recharge.data.result;
+                })).catch(err => alert(err))
+                    .finally(() => {
+                        console.log('finally');
+                    });
+            },
+            //本月收入
+            getMonthdata: function () {
+                var th = this;
+                const start = th.todate(new Date());
+                start.setDate(1);
+                let yy = start.getFullYear();
+                let mm = start.getMonth() + 1;
+                if (mm > 12) {
+                    mm = 1;
+                    yy = yy + 1;
+                }
+                let end = th.todate(new Date(yy, mm, 0));
+                end.setDate(end.getDate() + 1);
+                $api.bat(
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
+                    $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
+                ).then(axios.spread(function (pay, recharge) {
+                    th.month['pay'] = pay.data.result;
+                    th.month['recharge'] = recharge.data.result;
+                })).catch(err => alert(err))
+                    .finally(() => {
+                        console.log('finally');
+                    });
+            },
+            //当前月每天的收入
+            getDayStatistics: function () {
+                var th = this;
+                const start = th.todate(th.currdate);
+                start.setDate(1);
+                let yy = start.getFullYear();
+                let mm = start.getMonth() + 1;
+                if (mm > 12) { mm = 1; yy = yy + 1; }
+                let end = th.todate(new Date(yy, mm, 0));
+                end.setDate(end.getDate() + 1);
+                $api.get('Money/Statistics', { 'unit': 'd', 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }).then(function (req) {
                     if (req.data.success) {
-                        th.$notify({
-                            type: 'success',
-                            message: '修改状态成功!',
-                            center: true
-                        });
+                        th.listday = req.data.result;
+                        //console.error(req.data.result);
                     } else {
-                        throw req.data.message;
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
                     }
-                    th.loadingid = 0;
-                }).catch(function (err) {
-                    alert(err, '错误');
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
-            //导出
-            output: function (btn) {
-                var title = btn.tips;
-                this.$refs.btngroup.pagebox('AccountOutput', title, null, '600', '400');
+            //当前的金额
+            daymoney: function (data) {
+                //判断当天有没有金额
+                if ($api.isnull(this.listday)) return '';
+                let day = data.day;
+                for (let key in this.listday) {
+                    let d = key.substring(0, key.indexOf(' '));
+                    d = $api.trim(d.replace(/\//ig, "-"));
+                    if (d == data.day)
+                        return this.listday[key];
+                }
             },
-            //资金操作
-            moneyHandle: function (row) {
-                var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金操作'
-                this.$refs.btngroup.pagebox('AccountMoney?id=' + row.Ac_ID, title, null, '600', '400');
-            },
-            //资金流水
-            capitalRecords: function (row) {
-                var file = '../accounts/capitalRecords?id=' + row.Ac_ID;
-                var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金流水'
-                var boxid = 'capitalRecords_' + file;
-                this.$refs.btngroup.pagebox(file, title, boxid, 800, 600,
-                    { pid: window.name, resize: true });
-            },
-            //批量删除的按钮事件
-            bathdel: function (btn) {
-                console.log(btn);
-                this.$refs.btngroup.pagebox(btn.url, btn.text, null, '80%', '80%');
+            //只保留时间部分
+            todate: function (time) {
+                if (time == null) return null;
+                // 获取日期的年、月、日
+                let year = time.getFullYear();
+                let month = time.getMonth() + 1;
+                let day = time.getDate();
+                return new Date(year + '/' + month + '/' + day);
+            }
+        },
+        filters: {
+            //数字转三位带逗号
+            'commas': function (number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
         }
     });
 
-});
+}, ['/Utilities/echarts/echarts.min.js',
+    'Components/monthlychart.js',]);

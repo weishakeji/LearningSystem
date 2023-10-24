@@ -376,6 +376,8 @@
     <Content Include="Templates\Mobi\_Public\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
     <Content Include="Templates\OrgAdmin\Default\Capital\AccountMoney.html" />
+    <Content Include="Templates\OrgAdmin\Default\Capital\Components\monthlychart.js" />
+    <Content Include="Templates\OrgAdmin\Default\Capital\Components\Styles\monthlychart.css" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Summary.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Accounts.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\RecordOutput.html" />

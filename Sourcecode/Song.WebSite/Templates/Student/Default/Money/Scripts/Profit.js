@@ -65,19 +65,20 @@ $ready(function () {
             getsum: function () {
                 var th = this;
                 th.loading_sum = true;
-                $api.get('Money/MoneySum', { 'acid': th.account.Ac_ID, 'type': '', 'from': '5' }).then(function (req) {
-                    th.loading_sum = false;
-                    if (req.data.success) {
-                        th.sum = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading_sum = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                $api.get('Money/Summary', { 'orgid': -1, 'acid': th.account.Ac_ID, 'type': '', 'from': '5', 'start': '', 'end': '' })
+                    .then(function (req) {
+                        th.loading_sum = false;
+                        if (req.data.success) {
+                            th.sum = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading_sum = false;
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
             },
             //加载数据页
             handleCurrentChange: function (index) {

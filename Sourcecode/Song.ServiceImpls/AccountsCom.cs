@@ -1957,20 +1957,69 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 计算资金收益
         /// </summary>
-        /// <param name="accid">账号id</param>
+        /// <param name="acid">账号id</param>
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
         /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3为在线支付；4购买课程,5分润</param>
         /// <returns></returns>
-        public decimal MoneySum(int accid, int type, int from)
+        public decimal MoneySum(int orgid, int acid, int type, int from, DateTime? start, DateTime? end)
         {
-            WhereClip wc = MoneyAccount._.Ac_ID == accid;
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc &= MoneyAccount._.Ac_ID == acid;
+            if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
             wc &= MoneyAccount._.Ma_IsSuccess == true;
             if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;
+            if (start != null) wc &= MoneyAccount._.Ma_CrtTime > (DateTime)start;
+            if (end != null) wc &= MoneyAccount._.Ma_CrtTime <= (DateTime)end;
             object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
             decimal sum = 0;
             sum = tm is decimal ? (decimal)tm : 0;
             return sum;
+        }
+        /// <summary>
+        /// 按日期统计资金
+        /// </summary>
+        /// <param name="interval">时间间隔，YEAR:按年统计,MONTH:按月，WEEK:按周，Day:按日</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">账号id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="start">时间区间的起始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public Dictionary<string, double> MoneyStatistics(string interval, int orgid, int acid, int type, int from, DateTime? start, DateTime? end)
+        {
+            Dictionary<string, double> dic = new Dictionary<string, double>();
+            string sql = @"select datevalue, SUM(Ma_Money) as 'money' from
+                    (select DATEADD({interval}, DATEDIFF({interval}, 0, Ma_CrtTime), 0) AS 'datevalue',Ma_Money from 
+                    MoneyAccount where Ma_IsSuccess=1 and {type} and {from} and {acid} and {orgid} and
+                    {start} and {end}
+                    ) as ym
+                    group by datevalue order by datevalue desc";
+            //日:Day，月：MONTH,年:YEAR，周:WEEK
+            sql = sql.Replace("{interval}", interval.ToString());
+            //机构id
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid.ToString() : "1=1");
+            sql = sql.Replace("{acid}", acid > 0 ? "Ac_ID=" + acid.ToString() : "1=1");
+            //
+            sql = sql.Replace("{type}", type > 0 ? "Ma_Type=" + type.ToString() : "1=1");
+            sql = sql.Replace("{from}", from > 0 ? "Ma_From=" + from.ToString() : "1=1");
+            //
+            sql = sql.Replace("{start}", start!=null  ? "Ma_CrtTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss")+"'" : "1=1");
+            sql = sql.Replace("{end}", end!=null ? "Ma_CrtTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss")+"'" : "1=1");
+            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+            {
+                while (reader.Read())
+                {
+                    DateTime datevalue = (DateTime)reader["datevalue"];
+                    decimal money = (decimal)reader["money"];
+                    dic.Add(datevalue.ToString("yyyy-MM-dd HH:mm:ss"), (double)money);
+                }
+                reader.Close();
+                reader.Dispose();
+
+            }
+            return dic;
         }
         /// <summary>
         /// 充过值的学员数

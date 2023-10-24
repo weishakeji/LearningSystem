@@ -1,31 +1,106 @@
 ﻿@charset "utf-8";
-.el-table {
-    height: calc(100% - 120px);
+
+#vapp {
+    max-width: 1000px;
+    box-sizing: border-box;
+    padding: 15px;
 }
 
-.el-table__body-wrapper {
-    height: calc(100% - 40px);
-    overflow-y: auto;
-}
-.organs_option {
-    height: 70px;
+section.first {
+    width: 100%;
+    display: flex;
+
 }
 
-icon[money] {
-    cursor: pointer;
+section.first>* {
+    flex: 1;
 }
 
-icon[money]:hover {
-    text-decoration: underline;
+/*汇总统计的数值*/
+div.left div.datainfo>div {
+    margin: 15px;   
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 15px;
+    display: flex;
+   
 }
-/*下拉菜单*/
-.el-dropdown-menu span[icon]::before {
-    width: 15px;
-    text-align: right;
-    display: block;
-    float: left;
+div.left div.datainfo>div>span{
+    width: 50%;
+}
+div.left div.datainfo>div>span b{
+    margin-right: 6px;
+    color: #CD7F32;
+    font-size: 16px;
+}
+div.left div.datainfo>div>span b::before{
+    content: '\e624';
+    font-family: "webdesk_icon";
+    margin-right: 5px;
+}
+div.datainfo>div.total{
+    border: solid 1px #c2e4ff;
+    background-color: #e2fdff;
+    box-shadow: 0px 0px 3px 2px #e2fdff;   
+}
+div.datainfo>div.year{
+    border: solid 1px #acf1c6;
+    background-color: #e2fff1;
+    box-shadow: 0px 0px 3px 2px #e2fff1;
+}
+div.datainfo>div.quarter{
+    border: solid 1px #fde3ad;
+    background-color: #fffde9;
+    box-shadow: 0px 0px 3px 2px #f8ffe2;
+}
+div.datainfo>div.month{
+    border: solid 1px #ffd7e8;
+    background-color: #fff5fd;
+    box-shadow: 0px 0px 3px 2px #fdebf9;
+}
+.monthlychart{
+    position: relative;
+}
+.monthlychart section#monthly_chart {
+	width: 100%;
+	height: 350px;	
+}
+.monthlychart .echart_title {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    z-index: 10;
+    color: #999;
+}
+/*日历*/
+.el-calendar {
+    height: 100%;
 }
 
-.el-dropdown-menu .el-divider {
-    margin: 3px 0px;
+.el-calendar-table td {
+    position: relative;
+}
+
+.el-calendar-table .el-calendar-day {
+    height: 80px;
+
+}
+
+.el-calendar .money {
+    position: absolute;
+    bottom: 0px;
+    right: 3px;
+    line-height: 20px;
+    color: #CD7F32;
+    font-size: 13px;
+}
+.el-calendar .money icon::before{
+    margin-right: 2px;
+}
+.el-calendar .money icon:empty {
+    display: none;
 }

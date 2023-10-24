@@ -589,11 +589,26 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 某个学员的资金收益
         /// </summary>
-        /// <param name="accid">账号id</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">账号id</param>
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
         /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="start">时间区间的起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <returns></returns>
-        decimal MoneySum(int accid, int type, int from);
+        decimal MoneySum(int orgid, int acid, int type, int from, DateTime? start, DateTime? end);
+        /// <summary>
+        /// 按日期统计资金
+        /// </summary>
+        /// <param name="interval">时间间隔，YEAR:按年统计,MONTH:按月，WEEK:按周，Day:按日</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">账号id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <param name="start">时间区间的起始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        Dictionary<string,double> MoneyStatistics(string interval,int orgid, int acid, int type, int from, DateTime? start, DateTime? end);
         /// <summary>
         /// 充过值或消费过的学员人数
         /// </summary>

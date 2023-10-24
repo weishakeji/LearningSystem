@@ -261,8 +261,13 @@ $ready(function () {
                 this.$refs[formName].validate((valid,fields) => {
                     if (valid) {
                         th.loading = true;
-                        var apipath = 'Organization/' + (this.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
+                        var query=null;
+                        if(this.id == ''){
+                            query=$api.post('Organization/add', { 'entity': th.entity });
+                        }else{
+                            query=$api.post('Organization/Modify', { 'entity': th.entity,'exclude':'' });
+                        }                      
+                        query.then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
