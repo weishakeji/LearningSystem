@@ -9,8 +9,93 @@
 
 <body>
     <div id="vapp" v-cloak>
-       
-      
+        <div class="toolsbar">
+            <div></div>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+
+                <el-form-item label="账号">
+                    <el-input v-model="form.acc" placeholder="学员账号" :disabled="loading" tabindex="0" clearable
+                        style="width:180px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name" :disabled="loading" placeholder="姓名" tabindex="1" clearable
+                        style="width:100px">
+                    </el-input>
+                </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证号" :disabled="loading" tabindex="2" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号">
+                        <el-input v-model="form.mobi" placeholder="手机号" :disabled="loading" tabindex="3" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="时间">
+                        <date_range @change="selectDate"></date_range>
+                    </el-form-item>
+                </template>
+            </query_panel>
+        </div>
+        <!--数据列表-->
+        <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            v-loading="loading" row-key="Ac_ID" cell-class-name="tdcell">
+
+            <el-table-column type="index" label="#" width="60" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="姓名" width="100" class-name="stname">
+                <template slot-scope="scope">
+                    <avatar :account="scope.row" circle="true" size="20"></avatar>
+                    <icon :woman="scope.row.Ac_Sex==2" class="medium" :man="scope.row.Ac_Sex!=2">
+                        <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号">
+                <template slot-scope="scope">
+                    <icon :woman="scope.row.Ac_Sex==2" class="acc" :man="scope.row.Ac_Sex!=2"
+                        v-html='showsearch(scope.row.Ac_AccName,form.acc)'></icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="电话">
+                <template slot-scope="scope" v-if="showTel(scope.row)!=''">
+                    <icon>&#xe677</icon>
+                    <span v-html='showTel(scope.row)'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="学员组">
+                <template slot-scope="scope" v-if="scope.row.Sts_Name!=''">
+                    <span title="学员组" v-html='scope.row.Sts_Name'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="课程数" align="center" width="60">
+                <template slot-scope="scope">
+                    <span title="选修课程数" v-html='scope.row.Ac_CurrCourse'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="数据校正" show-overflow-tooltip width="160" align="center" fixed="right">
+                <template slot-scope="scope">
+                    <el-link type="primary" plain @click='$refs.btngroup.modify(scope.row.Ac_ID)'>
+                        <icon>&#xe6bf</icon>视频学习
+                    </el-link>
+                    <el-link type="danger" plain slot="reference">
+                        <icon>&#xe755</icon>试题练习
+                    </el-link>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
     </div>
 </body>
 

@@ -1828,6 +1828,75 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         }
         #endregion
 
+        #region 购买课程的学员
+        /// <summary>
+        /// 购买的课程的学员，不重复
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="stsid"></param>
+        /// <param name="couid"></param>
+        /// <param name="acc"></param>
+        /// <param name="name"></param>
+        /// <param name="idcard"></param>
+        /// <param name="mobi"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns>Ac_CurrCourse列为学员选修的课程数</returns>
+        public List<Accounts> PurchasePager(int orgid, long stsid, long couid,
+            string acc, string name, string idcard, string mobi,
+           DateTime? start, DateTime? end, int size, int index, out int countSum)
+        {
+            //计算总数的脚本
+            string sqlsum = @"select COUNT(*) as total from 
+    (select ac_id,count(ac_id) as 'count' from 
+		(select * from Student_Course where {{where4sc}} and ({{start}} and {{end}}) ) as ss   group by ac_id 
+	) as sc  inner join
+    Accounts as a on sc.Ac_ID = a.Ac_ID {{where4acc}}"; ;
+            //购买记录的条件
+            string where4sc = "{{orgid}} and {{couid}} and {{stsid}}";
+            where4sc = where4sc.Replace("{{orgid}}", orgid > 0 ? "Student_Course.Org_ID =" + orgid.ToString() : "1=1");
+            where4sc = where4sc.Replace("{{couid}}", couid > 0 ? "Student_Course.Cou_ID =" + couid.ToString() : "1=1");
+            where4sc = where4sc.Replace("{{stsid}}", stsid > 0 ? "Student_Course.Sts_ID =" + stsid.ToString() : "1=1");
+            //学员查询条件
+            string where4acc = "where {{acc}} and {{name}} and {{idcard}} and {{mobi}}";
+            where4acc = where4acc.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
+            where4acc = where4acc.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");
+            where4acc = where4acc.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "a.Ac_IDCardNumber LIKE '%" + idcard + "%'");
+            where4acc = where4acc.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : "a.Ac_MobiTel1 LIKE '%" + mobi + "%'");
+
+            //计算满足条件的记录总数          
+            sqlsum = sqlsum.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqlsum = sqlsum.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqlsum = sqlsum.Replace("{{where4acc}}", where4acc);
+            sqlsum = sqlsum.Replace("{{where4sc}}", where4sc);
+            object o = Gateway.Default.FromSql(sqlsum).ToScalar();
+            countSum = Convert.ToInt32(o);
+
+            //分页查询的脚本
+            string sqljquery = @"select Ac_ID,count as 'Ac_CurrCourse',Ac_AccName,Ac_Name,Ac_IDCardNumber,Ac_Age,Ac_Photo,
+Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel2
+                        from
+                       (select a.*,count,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
+                         (select ac_id,count(ac_id) as 'count' from 
+		(select * from Student_Course where {{where4sc}} and ({{start}} and {{end}}) ) as ss   group by ac_id 
+	) as sc  inner join      
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";
+            sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sqljquery = sqljquery.Replace("{{where4acc}}", where4acc);
+            sqljquery = sqljquery.Replace("{{where4sc}}", where4sc);
+            int startindex = (index - 1) * size;
+            int endindex = (index - 1) * size + size;
+            sqljquery = sqljquery.Replace("{{startindex}}", startindex.ToString());
+            sqljquery = sqljquery.Replace("{{endindex}}", endindex.ToString());
+
+            return Gateway.Default.FromSql(sqljquery).ToList<Accounts>();
+        }
+        #endregion
+
         #region 统计
         /// <summary>
         /// 购买课程的学员人数

@@ -27,14 +27,16 @@ icon {
     font-variant: normal;
     text-transform: none;
 }
-
+    icon:not([icon]) {
+        margin-right: 5px;
+    }
 /*  图标引用方式三，指定特定图标，用于统一的图标设定
 	课程图标 示例：<icon course></icon>
 */
-    icon::before {
-        font-family: "webdesk_icon" !important;
-        margin-right: 5px;
-    }
+icon::before {
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
 
 /*学员*/
 icon[student]::before {

@@ -1,1 +1,10 @@
 ﻿@charset "utf-8";
+.stname div.cell{
+    display: flex;
+}
+.stname div.cell .ws_avatar{
+    margin-right: 5px;
+}
+.stname div.cell icon::before{
+    display: none;
+}

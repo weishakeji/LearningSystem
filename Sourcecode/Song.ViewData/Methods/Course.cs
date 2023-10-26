@@ -988,7 +988,7 @@ namespace Song.ViewData.Methods
         public ListResult Students(long couid,long stsid, string acc, string name,string idcard,string mobi, int size, int index)
         {
             int total = 0;
-            DataTable dt = Business.Do<ICourse>().StudentPager(couid,stsid, acc, name, idcard, mobi, null, null, size, index, out total);
+            DataTable dt = Business.Do<ICourse>().StudentLogPager(couid,stsid, acc, name, idcard, mobi, null, null, size, index, out total);
             //处理返回结果
             string virPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
             string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
@@ -1322,7 +1322,7 @@ namespace Song.ViewData.Methods
             if (course == null) throw new Exception("当前课程不存在");
             DateTime date = DateTime.Now;
             string filename = string.Format("{0}.{1}.({2}).xls", course.Cou_ID, WeiSha.Core.Upload.NameFilter(course.Cou_Name), date.ToString("yyyy-MM-dd hh-mm-ss"));
-            Business.Do<ICourse>().StudentToExcel(rootpath + filename, course, start, end);
+            Business.Do<ICourse>().StudentLogToExcel(rootpath + filename, course, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_StudentsLog, filename));
@@ -1592,7 +1592,7 @@ namespace Song.ViewData.Methods
                 WeiSha.Core.Upload.NameFilter(course.Cou_Name),
                 date.ToString("yyyy-MM-dd hh-mm-ss"));
 
-            return Business.Do<ICourse>().StudentToExcel(rootpath + filename, course, start, end);
+            return Business.Do<ICourse>().StudentLogToExcel(rootpath + filename, course, start, end);
         }
         /// <summary>
         /// 设置进度信息

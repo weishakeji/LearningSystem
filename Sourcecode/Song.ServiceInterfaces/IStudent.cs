@@ -620,6 +620,28 @@ namespace Song.ServiceInterfaces
         Student_Notes[] NotesPager(int stid, long quesid, string searTxt, int size, int index, out int countSum);
         #endregion
 
+        #region 购买记录
+        /// <summary>
+        /// 购买的课程的学员，
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="stsid"></param>
+        /// <param name="couid"></param>
+        /// <param name="acc"></param>
+        /// <param name="name"></param>
+        /// <param name="idcard"></param>
+        /// <param name="mobi"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns>Ac_CurrCourse列为学员选修的课程数</returns>
+        List<Accounts> PurchasePager(int orgid, long stsid, long couid, 
+            string acc, string name, string idcard, string mobi,
+           DateTime? start, DateTime? end, int size, int index, out int countSum);
+        #endregion
+
         #region 统计
         /// <summary>
         /// 购买课程的学员人数

@@ -520,7 +520,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        DataTable StudentPager(long couid,long stsid, string acc, string name, string idcard, string mobi,
+        DataTable StudentLogPager(long couid,long stsid, string acc, string name, string idcard, string mobi,
             DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 当前课程的学员（即学习该课程的学员），并计算出完成度,导出为excel
@@ -530,7 +530,9 @@ namespace Song.ServiceInterfaces
         /// <param name="start">学员选修课程的开始时间的区间</param>
         /// <param name="end">学员选修课程的开始时间的区间</param>
         /// <returns>要导出的excel文件物理路径</returns>
-        string StudentToExcel(string filepath, Course course, DateTime? start, DateTime? end);
+        string StudentLogToExcel(string filepath, Course course, DateTime? start, DateTime? end);
+
+        
         #endregion
 
         #region 统计信息

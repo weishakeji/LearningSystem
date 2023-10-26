@@ -1819,7 +1819,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public DataTable StudentPager(long couid, long stsid, string acc, string name, string idcard, string mobi,
+        public DataTable StudentLogPager(long couid, long stsid, string acc, string name, string idcard, string mobi,
             DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             //计算总数的脚本
@@ -1898,7 +1898,7 @@ namespace Song.ServiceImpls
         /// <param name="path"></param>
         /// <param name="course"></param>
         /// <returns></returns>
-        public string StudentToExcel(string path, Course course,DateTime? start, DateTime? end)
+        public string StudentLogToExcel(string path, Course course,DateTime? start, DateTime? end)
         {
             //课程所在机构
             Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
@@ -1930,7 +1930,7 @@ namespace Song.ServiceImpls
             int total = 0, totalPage = 0;
             do
             {
-                DataTable dt = this.StudentPager(course.Cou_ID, -1,null, null, null, null, start, end, size, index, out total);
+                DataTable dt = this.StudentLogPager(course.Cou_ID, -1,null, null, null, null, start, end, size, index, out total);
                 if (total < 1)
                 {
                     throw new Exception("未获取到选修该课程的学员信息");

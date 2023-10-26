@@ -1346,6 +1346,36 @@ namespace Song.ViewData.Methods
             }
             return i;
         }
+        /// <summary>
+        /// 购买过课程的学员
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="stsid"></param>
+        /// <param name="couid"></param>
+        /// <param name="acc"></param>
+        /// <param name="name"></param>
+        /// <param name="idcard"></param>
+        /// <param name="mobi"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns>Ac_CurrCourse列为学员选修的课程数</returns>
+        public ListResult PurchasePager(int orgid, long stsid, long couid,
+            string acc, string name, string idcard, string mobi,
+           DateTime? start, DateTime? end, int size, int index)
+        {
+            int sum = 0;
+            List<Accounts> accs = Business.Do<IStudent>().PurchasePager(orgid, stsid, couid, acc, name, idcard, mobi,start,end, size, index, out sum);
+            for (int i = 0; i < accs.Count; i++)           
+                accs[i] = _tran(accs[i]);
+           
+            Song.ViewData.ListResult result = new ListResult(accs);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
+        }
         #endregion
 
 
