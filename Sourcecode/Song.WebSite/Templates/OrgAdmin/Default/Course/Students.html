@@ -15,16 +15,26 @@
                 height="60%" idkey='Ac_ID' table="datatables">
             </btngroup>
             <query_panel :model="form" :loading="loading" @search="getdata(1)">
-                <el-form-item label="学员账号">
-                    <el-input v-model="form.acc" placeholder="账号" :disabled="loading" tabindex="0" clearable
+                <el-form-item label="账号">
+                    <el-input v-model="form.acc" placeholder="学员账号" :disabled="loading" tabindex="0" clearable
                         style="width:180px">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
-                    <el-input v-model="form.name" :disabled="loading" placeholder="请输全名" tabindex="1" clearable
+                    <el-input v-model="form.name" :disabled="loading" placeholder="姓名" tabindex="1" clearable
                         style="width:100px">
                     </el-input>
                 </el-form-item>
+                <template v-slot:more>
+                    <el-form-item label="身份证">
+                        <el-input v-model="form.idcard" placeholder="身份证号" :disabled="loading" tabindex="2" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号">
+                        <el-input v-model="form.mobi" placeholder="手机号" :disabled="loading" tabindex="3" clearable>
+                        </el-input>
+                    </el-form-item>
+                </template>
             </query_panel>
         </div>
         <!--数据列表-->
@@ -94,10 +104,10 @@
             <el-form ref="exportform" :model="exportform" @submit.native.prevent label-width="100px"
                 :disabled="fileloading || loading">
                 <el-form-item label="选修时间">
-                    <el-date-picker v-model="export_interval" type="daterange" range-separator="至" start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                    <el-date-picker v-model="export_interval" type="daterange" range-separator="至"
+                        start-placeholder="开始日期" end-placeholder="结束日期">
                     </el-date-picker>
-                    <help>学员选修课程的开始时间的区间</help>
+                    <help multi>学员选修课程的开始时间的区间</help>
                 </el-form-item>
             </el-form>
             <dl v-if="files.length>0">

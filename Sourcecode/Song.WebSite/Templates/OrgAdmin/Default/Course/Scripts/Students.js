@@ -7,8 +7,8 @@
             config: {},
             course: {},
             form: {
-                'couid': $api.querystring('id'),
-                'acc': '', 'name': '', 'size': 10, 'index': 1
+                'couid': $api.querystring('id'), 'stsid': 0,
+                'acc': '', 'name': '', 'idcard': '', 'mobi': '', 'size': 10, 'index': 1
             },
             datas: [],
             total: 1, //总记录数
@@ -94,11 +94,8 @@
             //显示完成度
             showcomplete: function (num) {
                 num = num > 100 ? 100 : num;
-                num = Math.round(num * 10000) / 10000;
+                num = Math.round(num * 100) / 100;
                 return num;
-            },
-            showcomplPer: function (num) {
-                return Math.round(this.showcomplete(num))
             },
             //显示帮助
             btnhelp: function () {
@@ -134,7 +131,7 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => {alert(err);console.error(err);})
+                }).catch(err => { alert(err); console.error(err); })
                     .finally(() => th.fileloading = false);
             },
             //删除文件

@@ -1819,58 +1819,53 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public DataTable StudentPager(long couid, string acc, string name, DateTime? start, DateTime? end, int size, int index, out int countSum)
+        public DataTable StudentPager(long couid, long stsid, string acc, string name, string idcard, string mobi,
+            DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             //计算总数的脚本
-            //string sqlsum = @"select COUNT(*) from (
-            //                    select tm.cou_id,c.* from Accounts as c inner join
-            //                        (select cou_id, ac_id
-            //                            from (SELECT ac_id, MAX(cou_id) as 'cou_id'
-
-            //                                    FROM[LogForStudentStudy]  where Cou_ID = {{couid}} group by ac_id
-				        //                        ) as s group by s.cou_id,s.ac_id
-	           //                     ) as tm on c.ac_id = tm.ac_id  {{where}}
-            //                    ) as total";
             string sqlsum = @"select COUNT(*) as total from 
-                     (select * from Student_Course where ({{start}} and {{end}}) and Student_Course.Cou_ID = {{couid}}) as sc  inner join
-                     Accounts as a on sc.Ac_ID = a.Ac_ID {{where}}";
-            //查询条件
-            string where = "";
-            if (!string.IsNullOrWhiteSpace(acc) || !string.IsNullOrWhiteSpace(name))
-            {
-                where = "where {{acc}} and {{name}}";              
-                where = where.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
-                where = where.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");               
-            }
-            //计算满足条件的记录总数
-            sqlsum = sqlsum.Replace("{{couid}}", couid.ToString());
+                     (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}}) ) as sc  inner join
+                     Accounts as a on sc.Ac_ID = a.Ac_ID {{where4acc}}";       ;
+            //购买记录的条件
+            string where4sc = "{{couid}} and {{stsid}}";
+            where4sc = where4sc.Replace("{{couid}}", couid > 0 ? "Student_Course.Cou_ID =" + couid.ToString() : "1=1");
+            where4sc = where4sc.Replace("{{stsid}}", stsid > 0 ? "Student_Course.Sts_ID =" + stsid.ToString() : "1=1");
+            //学员查询条件
+            string where4acc = "where {{acc}} and {{name}} and {{idcard}} and {{mobi}}";
+            where4acc = where4acc.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
+            where4acc = where4acc.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");
+            where4acc = where4acc.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "a.Ac_IDCardNumber LIKE '%" + idcard + "%'");
+            where4acc = where4acc.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : "a.Ac_MobiTel1 LIKE '%" + mobi + "%'");
+
+            //计算满足条件的记录总数          
             sqlsum = sqlsum.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqlsum = sqlsum.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqlsum = sqlsum.Replace("{{where}}", where);
+            sqlsum = sqlsum.Replace("{{where4acc}}", where4acc);
+            sqlsum = sqlsum.Replace("{{where4sc}}", where4sc);
             object o = Gateway.Default.FromSql(sqlsum).ToScalar();
             countSum = Convert.ToInt32(o);
 
             //分页查询的脚本
             //string sqljquery = @"select * from (
             //    select tm.cou_id,c.*,lastTime,studyTime,complete, ROW_NUMBER() OVER(Order by c.ac_id ) AS rowid  from Accounts as c inner join 
-	           //     (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-				        //         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-				        //         (case  when max(Lss_Duration)>0 then
-					       //          cast(convert(decimal(18,4),1000* sum(cast(Lss_StudyTime as float))/sum(cast(Lss_Duration AS float))) as float)*100
-					       //          else 0 end
-				        //          ) as 'complete'
-			         //        FROM [LogForStudentStudy]  where Cou_ID={{couid}} group by ac_id
-			
-	           //     ) as tm on c.ac_id=tm.ac_id {{where}}
+            //     (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+            //         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+            //         (case  when max(Lss_Duration)>0 then
+            //          cast(convert(decimal(18,4),1000* sum(cast(Lss_StudyTime as float))/sum(cast(Lss_Duration AS float))) as float)*100
+            //          else 0 end
+            //          ) as 'complete'
+            //        FROM [LogForStudentStudy]  where Cou_ID={{couid}} group by ac_id
+
+            //     ) as tm on c.ac_id=tm.ac_id {{where}}
             //    ) as pager where rowid > {{start}} and rowid<={{end}} ";
             string sqljquery = @"select * from
-                       (select a.*,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
-                         (select * from Student_Course where  ({{start}} and {{end}}) and  Student_Course.Cou_ID={{couid}}) as sc  inner join      
-                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";
-            sqljquery = sqljquery.Replace("{{couid}}", couid.ToString());
+                       (select a.*,sc.Cou_ID,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
+                         (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}})  ) as sc  inner join      
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";          
             sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqljquery = sqljquery.Replace("{{where}}", where);
+            sqljquery = sqljquery.Replace("{{where4acc}}", where4acc);
+            sqljquery = sqljquery.Replace("{{where4sc}}", where4sc);
             int startindex = (index - 1) * size;
             int endindex = (index - 1) * size + size;
             sqljquery = sqljquery.Replace("{{startindex}}", startindex.ToString());
@@ -1884,14 +1879,14 @@ namespace Song.ServiceImpls
                 {
                     if (dt.Columns[i].ColumnName == "complete")
                     {
-                         if (dr[i].ToString() != "")
+                        if (dr[i].ToString() != "")
                         {
                             double complete = 0;
-                            double.TryParse(dr[i].ToString(),out complete);
+                            double.TryParse(dr[i].ToString(), out complete);
                             complete = complete >= 100 ? 100 : complete;
                             dr[i] = complete;
                         }
-                        
+
                     }
                 }
             }
@@ -1935,7 +1930,7 @@ namespace Song.ServiceImpls
             int total = 0, totalPage = 0;
             do
             {
-                DataTable dt = this.StudentPager(course.Cou_ID, null, null, start, end, size, index, out total);
+                DataTable dt = this.StudentPager(course.Cou_ID, -1,null, null, null, null, start, end, size, index, out total);
                 if (total < 1)
                 {
                     throw new Exception("未获取到选修该课程的学员信息");

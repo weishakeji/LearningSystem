@@ -8,7 +8,7 @@
     /*选项卡被选中时的背景色*/
     --tag-selected-bg: rgb(200 237 255);
     /*选项卡被选中是的字体色*/
-    --tag-selected-color: #555;
+    --tag-selected-color: #6c6c6c;
     /*菜单项右侧标题颜色与背景*/
     --title-color: #fff;
     --title-bg: rgb(6 148 191);

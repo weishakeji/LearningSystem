@@ -971,21 +971,24 @@ namespace Song.ViewData.Methods
         public int StudySum(long couid)
         {
             return Business.Do<ICourse>().CourseStudentSum(couid, false);
-        }        
+        }
         /// <summary>
         /// 分页获取当前课程的学员（即学习该课程的学员），并计算出完成度
         /// </summary>
         /// <param name="couid"></param>
+        /// <param name="stsid">学员组id</param>
         /// <param name="acc">学员账号或姓名</param>
         /// <param name="name">学员的姓名</param>
+        /// <param name="idcard">学员的身份证</param>
+        /// <param name="mobi">学员的手机号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns>结果中的complete字段为学员在当前课程的学习完成度</returns>
         [Admin,Teacher]
-        public ListResult Students(long couid, string acc, string name, int size, int index)
+        public ListResult Students(long couid,long stsid, string acc, string name,string idcard,string mobi, int size, int index)
         {
             int total = 0;
-            DataTable dt = Business.Do<ICourse>().StudentPager(couid, acc, name, null, null, size, index, out total);
+            DataTable dt = Business.Do<ICourse>().StudentPager(couid,stsid, acc, name, idcard, mobi, null, null, size, index, out total);
             //处理返回结果
             string virPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
             string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
@@ -1261,39 +1264,7 @@ namespace Song.ViewData.Methods
             if (isBuy) return true;
 
             return false;
-        }
-        ///// <summary>
-        ///// 当前登录学员，是否可以学习该课程（学员可能未购买，但课程可以试用）
-        ///// </summary>
-        ///// <param name="couid">课程id</param>
-        ///// <returns></returns>
-        ////[Student]
-        //public bool StudyAllow(long couid)
-        //{
-        //    Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
-        //    if (acc == null) return false;
-
-        //    Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-        //    if (course == null || !course.Cou_IsUse) return false;
-        //    //是否免费，或是限时免费
-        //    if (course.Cou_IsLimitFree)
-        //    {
-        //        DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-        //        if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-        //            course.Cou_IsLimitFree = false;
-        //    }
-        //    if (course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry) return true;
-
-        //    //是否存在于学员组所关联的课程
-        //    bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
-        //    if (isExistSort) return true;
-
-        //    //是否购买过该课程
-        //    bool isBuy = Business.Do<ICourse>().IsBuy(couid, acc.Ac_ID);
-        //    if (isBuy) return true;            
-
-        //    return false;
-        //}
+        }        
         /// <summary>
         /// 学员是否可以学习该课程（学员可能未购买，但课程可以试用）
         /// </summary>
@@ -1326,6 +1297,7 @@ namespace Song.ViewData.Methods
 
             return false;
         }
+
         #endregion
 
         #region 导出课程的学习记录

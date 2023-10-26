@@ -520,7 +520,8 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        DataTable StudentPager(long couid, string acc,string name, DateTime? start, DateTime? end, int size, int index, out int countSum);
+        DataTable StudentPager(long couid,long stsid, string acc, string name, string idcard, string mobi,
+            DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 当前课程的学员（即学习该课程的学员），并计算出完成度,导出为excel
         /// </summary>
