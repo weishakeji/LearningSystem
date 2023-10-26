@@ -250,6 +250,8 @@
     left: 0px;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .treemenu tree_area tree_tit * {

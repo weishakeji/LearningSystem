@@ -240,10 +240,24 @@
 			//创建选项卡的html
 			function createTag(tag, data) {
 				tag.attr('title', data.title).attr('treeid', data.id);
-				if (data.ico && data.ico != '')
-					tag.add('ico').html('&#x' + data.ico);
-				tag.add('itemtxt').html(data.tit);
 				tag.attr('type', data.type);
+				//图标
+				if (data.ico && data.ico != '') {
+					let ico = tag.add('ico').html('&#x' + data.ico);
+					if (data.icon) {
+						if (data.icon.color) ico.css('color', data.icon.color,);
+						if (data.icon.x != 0) ico.css('margin-left', data.icon.x + 'px');
+						if (data.icon.y != 0) ico.css('margin-top', data.icon.y + 'px');
+						if (data.icon.size != 0) ico.css('transform', 'scale(' + (1 + data.icon.size / 100) + ')');
+					}
+				}
+				//标题
+				let tit = tag.add('itemtxt').html(data.tit);
+				if (data.font) {
+					if (data.font.color) tit.css('color', data.font.color, true);
+					if (data.font.bold) tit.css('font-weight', data.font.bold ? 'bold' : 'normal', true);
+					if (data.font.italic) tit.css('font-style', data.font.italic ? 'italic' : 'normal', true);
+				}
 				return tag;
 			}
 			//隐藏左侧标签栏
@@ -260,7 +274,13 @@
 				area.attr('treeid', item.id).hide();
 				//右侧菜单的大标题
 				let tit = area.add('tree_tit');
-				if (item.ico != '') tit.add("i").html("&#x" + item.ico);
+				if (item.ico != '') {
+					let ico = tit.add("i").html("&#x" + item.ico);				
+					if (item.icon) {
+						if (item.icon.y != 0) ico.css('margin-top', item.icon.y + 'px');
+						if (item.icon.size != 0) ico.css('transform', 'scale(' + (1 + item.icon.size / 100) + ')');
+					}
+				}
 				tit.add("span").html(item.title);
 				if (item.type == 'loading') {
 					area.add('tree-loading').html('&#x' + item.ico);
