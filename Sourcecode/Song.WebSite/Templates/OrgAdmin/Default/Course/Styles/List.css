@@ -28,6 +28,7 @@ html, body, #vapp {
 .title_box img {
 	height: 40px;
 	margin-right: 10px;
+	margin-left: 1px;
 }
 
 .title_box div {
@@ -45,14 +46,14 @@ html, body, #vapp {
 /*推荐的图标*/
 icon.recicon{
 	display: block;
-	font-size: 30px;
+	font-size: 40px;
     position: absolute;
-	top: 9px;
+	top: 14px;
     left: 4px;
 	z-index: 1;
 	margin: -2px 0px 0px -4px;
     color: rgb(255, 30, 30);
-    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+    text-shadow: -1px -1px 5px #fff, -1px -1px 1px #fff;
 }
 icon.recbtn {
 	font-size: 20px;

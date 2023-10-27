@@ -54,18 +54,11 @@
                 <div slot-scope="scope" :class="{'title_box':true,'disabled': !scope.row.Cou_IsUse}"
                     :title="scope.row.Cou_Name">
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
-                        <icon class="recicon" v-if="scope.row.Cou_IsRec">&#xe741</icon>
+                        <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
                         <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
                     </a>
                     <div>
-                        <template>
-                            <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
-                            <icon :title="scope.row.Cou_IsRec ? '推荐课程' : '点击推荐该课程'" v-else
-                                :class="{'rec':scope.row.Cou_IsRec,'recbtn':true}"
-                                @click="()=>{scope.row.Cou_IsRec=!scope.row.Cou_IsRec;changeState(scope.row);}">&#xe81b
-                            </icon>
-                        </template>
                         <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
                         <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
                             v-html="showsearch(scope.row.Cou_Name,form.search)" class="large"> </a>
@@ -169,9 +162,23 @@
                                     <icon>&#xe650</icon>设置教师
                                 </el-link>
                             </el-dropdown-item>
+                            <el-dropdown-item>
+                                <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
+                                <el-link :type="!scope.row.Cou_IsRec ? 'primary' :'info'" plain v-else
+                                    @click='()=>{scope.row.Cou_IsRec=!scope.row.Cou_IsRec;changeState(scope.row);}'>
+                                    <icon>&#xe81b</icon>
+                                    <span v-if="scope.row.Cou_IsRec">取消推荐</span>
+                                    <span v-else>推荐课程</span>
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-link type="success" plain
+                                    @click="$refs['course_data'].onstudent(scope.row.data.student,scope.row)">
+                                    <icon>&#xa043</icon> 学员信息
+                                </el-link>
+                            </el-dropdown-item>
                             <el-dropdown-item divided>
-                                <el-link type="primary" plain icon="el-icon-edit"
-                                    @click='btnmodify(scope.row.Cou_ID)'>
+                                <el-link type="primary" plain icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
                                     修改
                                 </el-link>
                             </el-dropdown-item>
@@ -279,7 +286,7 @@
                 </div>
 
             </div>
-        </el-drawer>      
+        </el-drawer>
     </div>
 </body>
 

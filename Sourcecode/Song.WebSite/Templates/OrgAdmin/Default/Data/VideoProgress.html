@@ -33,7 +33,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item label="时间">
-                        <date_range @change="selectDate"></date_range>
+                        <date_range @change="selectDate" :start="form.start" :end="form.end"></date_range>
                     </el-form-item>
                 </template>
             </query_panel>
