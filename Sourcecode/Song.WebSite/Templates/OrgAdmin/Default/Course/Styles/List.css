@@ -149,7 +149,9 @@ live {
 	color: rgb(238, 78, 4);
 	text-shadow: 1px 1px 2px rgb(240, 226, 37);
 }
-
+td.teacher_td>div{
+	padding: 0px 10px !important;
+}
 /*综述里的数据项*/
 
 .showContext>div:first-child {

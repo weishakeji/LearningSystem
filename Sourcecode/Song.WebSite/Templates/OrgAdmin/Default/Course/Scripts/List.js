@@ -144,6 +144,11 @@
                 }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);
             },
+            //修改教师是否允许编辑
+            changeAllowedit:function(row,allow){
+                row.Cou_Allowedit=allow;
+                this.changeState(row);
+            },
             //更改状态
             changeState: function (row) {
                 var th = this;
@@ -263,8 +268,7 @@
             openlog: function (btn) {
                 this.$refs.btngroup.pagebox('StudyLogExport?orgid=' + this.organ.Org_ID,
                     '学习记录导出', window.name + '[studylog]', 650, 400);
-                //console.log(btn);
-            },
+              },
             //打开编辑界面
             btnmodify: function (id) {
                 this.$refs.btngroup.modify(id);
@@ -272,7 +276,6 @@
             //新增课程的按钮事件
             btnadd: function (btn) {
                 this.$refs.btngroup.pagebox('create', '新增', window.name + '[add]', 600, 300);
-                //console.log(btn);
             },
             //设置教师
             btnsetteacher: function (couid) {

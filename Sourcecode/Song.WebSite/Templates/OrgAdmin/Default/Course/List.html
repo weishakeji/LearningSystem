@@ -100,10 +100,46 @@
                     </a>
                 </template>
             </el-table-column>
-            <el-table-column label="教师" show-overflow-tooltip width="90">
-                <template slot-scope="scope" v-if="scope.row.Th_ID>0 && scope.row.Th_Name!=''">
-                    <icon style="font-size: 17px">&#xe650</icon>
-                    <span>{{scope.row.Th_Name}}</span>
+            <el-table-column label="教师" show-overflow-tooltip width="120" class-name="teacher_td">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
+                        <help>教师</help>
+                    </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
+                    <el-dropdown v-else>
+                        <span class="el-dropdown-link">
+                            <template v-if="scope.row.Th_ID>0 && scope.row.Th_Name!=''">
+                                <icon teacher v-if="scope.row.Cou_Allowedit"> {{scope.row.Th_Name}}</icon>
+                                <span v-else icon="&#xe7ad" style="color: #f56c6c;"
+                                    title="禁止教师编辑课程">{{scope.row.Th_Name}}</span>
+                            </template>
+                            <span v-else style="color: #aaa;">
+                                <span icon="&#xa01f" v-if="scope.row.Cou_Allowedit">(无)</span>
+                                <span icon="&#xe7ad" v-else style="color: #f56c6c;">(无)</span>                               
+                            </span>
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-link type="success" plain @click='btnsetteacher(scope.row.Cou_ID)'>
+                                    <icon>&#xe650</icon>设置教师
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided>
+                                <el-link type="primary" plain icon="el-icon-circle-check" v-if="!scope.row.Cou_Allowedit"
+                                    @click='changeAllowedit(scope.row,true)'>
+                                    允许教师编辑课程
+                                </el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-link type="danger" plain icon="el-icon-circle-close" v-if="scope.row.Cou_Allowedit"
+                                    @click='changeAllowedit(scope.row,false)'>
+                                    禁止教师编辑课程
+                                </el-link>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
                 </template>
             </el-table-column>
             <el-table-column label="启用" width="70">
@@ -129,20 +165,6 @@
                     </el-switch>
                 </template>
             </el-table-column>
-            <el-table-column label="修改" width="60">
-                <template slot="header" slot-scope="scope">
-                    <el-tooltip effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
-                        <help>修改</help>
-                    </el-tooltip>
-
-
-                </template>
-                <template slot-scope="scope">
-                    <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>
-                    <el-switch v-model="scope.row.Cou_Allowedit" @change="changeState(scope.row)" active-color="#409EFF"
-                        inactive-color="#ccc" v-show="loadingid!=scope.row.Cou_ID"> </el-switch>
-                </template>
-            </el-table-column>
             <el-table-column label="操作" width="90" fixed="right" align="center">
                 <template slot-scope="scope">
                     <div>
@@ -157,11 +179,6 @@
                                 class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>
-                                <el-link type="success" plain @click='btnsetteacher(scope.row.Cou_ID)'>
-                                    <icon>&#xe650</icon>设置教师
-                                </el-link>
-                            </el-dropdown-item>
                             <el-dropdown-item>
                                 <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
                                 <el-link :type="!scope.row.Cou_IsRec ? 'primary' :'info'" plain v-else
