@@ -88,6 +88,8 @@ namespace Song.Entities {
     		
     		protected Boolean _Cou_Allowedit;
     		
+    		protected Int32 _Cou_Type;
+    		
     		public String Cou_Name {
     			get {
     				return this._Cou_Name;
@@ -488,6 +490,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Cou_Type {
+    			get {
+    				return this._Cou_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_Type, _Cou_Type, value);
+    				this._Cou_Type = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -547,7 +559,8 @@ namespace Song.Entities {
     					_.Cou_ExistQues,
     					_.Cou_ExistExam,
     					_.Cou_ID,
-    					_.Cou_Allowedit};
+    					_.Cou_Allowedit,
+    					_.Cou_Type};
     		}
     		
     		/// <summary>
@@ -594,7 +607,8 @@ namespace Song.Entities {
     					this._Cou_ExistQues,
     					this._Cou_ExistExam,
     					this._Cou_ID,
-    					this._Cou_Allowedit};
+    					this._Cou_Allowedit,
+    					this._Cou_Type};
     		}
     		
     		/// <summary>
@@ -720,6 +734,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_Allowedit))) {
     				this._Cou_Allowedit = reader.GetBoolean(_.Cou_Allowedit);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_Type))) {
+    				this._Cou_Type = reader.GetInt32(_.Cou_Type);
     			}
     		}
     		
@@ -946,6 +963,11 @@ namespace Song.Entities {
     			/// 字段名：Cou_Allowedit - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Cou_Allowedit = new WeiSha.Data.Field<Course>("Cou_Allowedit");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_Type = new WeiSha.Data.Field<Course>("Cou_Type");
     		}
     	}
     }

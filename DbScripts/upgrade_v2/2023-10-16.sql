@@ -32,9 +32,10 @@ ALTER TABLE [ManageMenu] ALTER COLUMN MM_IcoCode nvarchar(50) null
 --将附件中的flv视频，改为mp4，flv已经不再使用
  Update Accessory Set as_filename=replace(as_filename,'.flv','.mp4') 
  where as_type='CourseVideo' and as_filename like '%.flv'
- --课程管理，增加课程类型的字段
- alter table [Course] add MM_IcoSize int NULL
+ --课程管理，增加课程类型的字段,默认为0
+ --Cou_Type值含义，0：学练考全功能；1:仅视频学习；2仅试题练习与模拟测试;
+ alter table [Course] add Cou_Type int NULL
 go
-update [Course] set MM_IcoSize=0
+update [Course] set Cou_Type=0
 go
-alter table [Course] ALTER COLUMN MM_IcoSize int not null
+alter table [Course] ALTER COLUMN Cou_Type int not null
