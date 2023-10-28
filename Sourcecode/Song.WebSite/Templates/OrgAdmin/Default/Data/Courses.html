@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学员课程</title>
+</head>
+
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <el-tabs v-model="method_name">
+                <el-tab-pane v-for="(item,i) in methods" :name="item.label">
+                    <span slot="label">
+                        <icon v-html="item.icon"></icon><span v-html="item.name"></span>
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <query_panel :model="query" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-button type="success" plain @click="begincourse">
+                        <icon>&#xe813</icon>单独开课
+                    </el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="query.search" placeholder="请输入内容" clearable>
+                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+
+        <context>
+            <loading v-show='loading'>正在加载中...</loading>
+            <template v-if="datas.length<1">
+                <div class="nodata">
+                    <icon>&#xe839</icon>没有满足条件的数据
+                </div>
+            </template>
+            <template v-else>
+                <purchase_data :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
+                    :account="account" v-slot="scope">
+                    <el-card class="course" :disabled="!scope.isnull && !scope.data.Stc_IsEnable">
+                        <template slot="header">
+                            <div>
+                                <span>{{(query.index - 1) * query.size + index + 1}}.</span>
+                                <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
+                            </div>
+                            <el-button type="text" @click="viewScore(item)">
+                                <icon>&#xe6ef</icon>综合成绩：<span
+                                    :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}} 分</span>
+                            </el-button>
+                        </template>
+                        <div class="cour_img">
+                            <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID">
+                                <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
+                                <img src="/Utilities/images/cou_nophoto.jpg" v-else />
+                            </a>
+                            <span class="rec" v-if="item.Cou_IsRec"></span>
+                            <div class="subject" title="课程专业"><a :href="'/web/Course?sbjid='+item.Sbj_ID"
+                                    target="_blank">
+                                    {{item.Sbj_Name}}
+                                </a> </div>
+                        </div>
+                        <div class="info">
+                            <div class="info_row datainfo">
+                                <template v-if="scope.forever">
+                                    <el-tag type="success" class="free">
+                                        <icon>&#xa048</icon>不限时
+                                    </el-tag>
+                                </template>
+                                <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                    <el-tag type="success" class="free">限时免</el-tag>
+                                    <el-tag type="success" class="free">
+                                        免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
+                                    </el-tag>
+                                </template>
+                                <el-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</el-tag>
+                                <div v-else>
+                                    <el-tag type="warning">
+                                        <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
+                                        {{item.endtime|date("yyyy年M月d日")}}
+                                    </el-tag>
+                                    <template v-if="!item.addtime_show">
+                                        <div v-if="loading_id==scope.data.Stc_ID">
+                                            <loading></loading>
+                                        </div>
+                                        <template v-else>
+                                            <el-link type="primary" @click="item.addtime_show=true">
+                                                <icon>&#xe81a</icon>续时
+                                            </el-link>
+                                            <el-popconfirm title="确定禁止吗？" v-if="scope.data.Stc_IsEnable"
+                                                @confirm="purchaseEnable(scope.data,false)">
+                                                <el-link type="success" title="点击此处禁用学习" slot="reference">
+                                                    <icon>&#xe634</icon>可学习
+                                                </el-link>
+                                            </el-popconfirm>
+                                            <el-popconfirm title="确定启用吗？" v-else
+                                                @confirm="purchaseEnable(scope.data,true)">
+                                                <el-link type="info" title="点击此处可以启用学习状态" slot="reference">
+                                                    <icon>&#xe7ad</icon>被禁止
+                                                </el-link>
+                                            </el-popconfirm>
+                                            <el-popconfirm title="确定删除吗？" @confirm="purchaseDel(scope.data)">
+                                                <el-link type="danger" slot="reference">
+                                                    <icon>&#xe800</icon>删除
+                                                </el-link>
+                                            </el-popconfirm>
+
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <loading v-if="item.addtime_loading"></loading>
+                                        <span v-if="!item.addtime_loading">
+                                            <el-input placeholder="" v-model.number="item.addtime_value"
+                                                style="width: 200px;" type="number">
+                                                <template slot="prepend">续时</template>
+                                                <template slot="append">天</template>
+                                            </el-input>
+                                            <el-popconfirm title="确定增加课程选修时间吗？"
+                                                @confirm="purchaseAddTime(item.addtime_value,item)">
+                                                <el-button type="text" slot="reference">确定</el-button>
+                                            </el-popconfirm>
+                                            <el-button type="text" @click="item.addtime_show=false">返回</el-button>
+                                        </span>
+                                    </template>
+                                </div>
+                                <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
+                            </div>
+                            <div class="info_row studyinfo">
+                                <video_progress :course="item" :stid="account.Ac_ID" :config="config"
+                                    :purchase="scope.data"></video_progress>
+                                <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
+                                </ques_progress>
+                                <exam_test :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
+                                </exam_test>
+                            </div>
+                        </div>
+                    </el-card>
+                </purchase_data>
+            </template>
+        </context>
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index" :page-sizes="[1]"
+                :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

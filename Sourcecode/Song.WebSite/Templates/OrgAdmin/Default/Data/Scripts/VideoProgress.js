@@ -41,15 +41,11 @@ $ready(function () {
                 this.form.end = end;
                 //this.handleCurrentChange(1);
             },
-             //显示电话
-             showTel: function (row) {
-                if (row.Ac_MobiTel1 == '' && row.Ac_MobiTel2 == '') {
-                    return '';
-                }
+            //显示电话
+            showTel: function (row) {
+                if (row.Ac_MobiTel1 == '' && row.Ac_MobiTel2 == '') return '';
                 if (row.Ac_MobiTel1 == '') row.Ac_MobiTel1 = row.Ac_MobiTel2;
-                if (row.Ac_MobiTel1 == row.Ac_MobiTel2) {
-                    return row.Ac_MobiTel1;
-                }
+                if (row.Ac_MobiTel1 == row.Ac_MobiTel2) return row.Ac_MobiTel1;
                 return row.Ac_MobiTel1 + (row.Ac_MobiTel2 != '' ? '/' + row.Ac_MobiTel2 : '');
             },
             //加载数据页
@@ -68,9 +64,16 @@ $ready(function () {
                         th.total = d.data.total;
                     } else {
                         throw d.data.message;
-                    }                  
+                    }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //打开窗体
+            btnopenbox: function (stid) {
+                var url = 'Courses?id=' + stid;
+                this.$refs.btngroup.pagebox(url, '数据校正', window.name + '[studyProgress]', 900, 600, {
+                    'showmask': true, 'min': false, 'ico': 'e650'
+                });
             },
         }
     });

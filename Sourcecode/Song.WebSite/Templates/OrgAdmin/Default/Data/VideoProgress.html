@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <div></div>
+            <btngroup show="" ref='btngroup' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
 
                 <el-form-item label="账号">
@@ -81,10 +81,10 @@
             </el-table-column>
             <el-table-column label="数据校正" show-overflow-tooltip width="160" align="center" fixed="right">
                 <template slot-scope="scope">
-                    <el-link type="primary" plain @click='$refs.btngroup.modify(scope.row.Ac_ID)'>
+                    <el-link type="primary" plain @click='btnopenbox(scope.row.Ac_ID)'>
                         <icon>&#xe6bf</icon>视频学习
                     </el-link>
-                    <el-link type="danger" plain slot="reference">
+                    <el-link type="danger" plain @click='btnopenbox(scope.row.Ac_ID)'>
                         <icon>&#xe755</icon>试题练习
                     </el-link>
                 </template>

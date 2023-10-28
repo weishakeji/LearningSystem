@@ -52,7 +52,7 @@ icon.recicon{
     left: 4px;
 	z-index: 1;
 	margin: -2px 0px 0px -4px;
-    color: rgb(255, 30, 30);
+    color: rgb(255, 30, 30) !important;;
     text-shadow: -1px -1px 5px #fff, -1px -1px 1px #fff;
 }
 icon.recbtn {

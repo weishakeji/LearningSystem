@@ -145,8 +145,8 @@
                     .finally(() => th.loadingid = 0);
             },
             //修改教师是否允许编辑
-            changeAllowedit:function(row,allow){
-                row.Cou_Allowedit=allow;
+            changeAllowedit: function (row, allow) {
+                row.Cou_Allowedit = allow;
                 this.changeState(row);
             },
             //更改状态
@@ -268,7 +268,7 @@
             openlog: function (btn) {
                 this.$refs.btngroup.pagebox('StudyLogExport?orgid=' + this.organ.Org_ID,
                     '学习记录导出', window.name + '[studylog]', 650, 400);
-              },
+            },
             //打开编辑界面
             btnmodify: function (id) {
                 this.$refs.btngroup.modify(id);
