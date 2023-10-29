@@ -149,49 +149,7 @@
                 box.open();
                 //window.top.vapp.open(obj);
             },
-            //增加学员选修课程的时间
-            purchaseAddTime: function (num, course) {
-                console.log(num);
-                if (num <= 0) return;
-                var th = this;
-                course['addtime_loading'] = true;
-                $api.get('Course/PurchaseAddTime', { 'stid': th.id, 'couid': course.Cou_ID, 'number': num, 'unit': '天' })
-                    .then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            var fuc = th.$refs['purchase_data_' + course.Cou_ID][0].onload;
-                            if (fuc != num) fuc();
-                            course['addtime_show'] = false;
-                            //th.handleCurrentChange();                            
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
-                        console.error(err);
-                    }).finally(function () {
-                        course['addtime_loading'] = false;
-                    });
-            },
-            //打开“开课”的窗体
-            begincourse: function () {
-                var stid = this.id;
-                var url = $api.url.dot(stid, $dom.routpath() + 'begincourse');
-                //直接创建
-                var box = window.top.$pagebox.create({
-                    width: 800, height: '70%',
-                    resize: true, min: false,
-                    ico: 'e813',
-                    id: 'begincourse_' + stid,
-                    title: '给学员（' + this.account.Ac_Name + ' ' + this.account.Ac_AccName + '）添加选修课程',
-                    showmask: true,
-                    pid: window.name,
-                    url: url
-                });
-                box.open();
-            },
+           
             //禁用学习课程的记录
             //purchase:课程购买记录项
             purchaseEnable: function (purchase, enable) {
@@ -251,8 +209,8 @@
         }
     });
 
-}, ['Components/course_data.js',
-    'Components/purchase_data.js',      // 课程购买信息
-    'Components/video_progress.js',
-    'Components/ques_progress.js',
-    'Components/exam_test.js']);
+}, ['../Student/Components/course_data.js',
+    '../Student/Components/purchase_data.js',      // 课程购买信息
+    '../Student/Components/video_progress.js',
+    '../Student/Components/ques_progress.js',
+    '../Student/Components/exam_test.js']);
