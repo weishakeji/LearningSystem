@@ -36,6 +36,7 @@
             <template v-else>
                 <purchase_data :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
                     :account="account" v-slot="scope">
+                    
                     <el-card class="course" :disabled="!scope.isnull && !scope.data.Stc_IsEnable">
                         <template slot="header">
                             <div>

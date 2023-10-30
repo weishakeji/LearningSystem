@@ -69,10 +69,14 @@ $ready(function () {
                     .finally(() => th.loading = false);
             },
             //打开窗体
-            btnopenbox: function (stid) {
+            btnopenbox: function (data) {
+                let stid = data.Ac_ID;
+                let name = data.Ac_Name;
+                let acname = data.Ac_AccName;
                 var url = 'Courses?id=' + stid;
-                this.$refs.btngroup.pagebox(url, '数据校正', window.name + '[studyProgress]', 900, 600, {
-                    'showmask': true, 'min': false, 'ico': 'e650'
+                this.$refs.btngroup.pagebox(url, '' + name + '(' + acname + ')',
+                    new Date().getTime() + '[studyProgress]', 900, 600, {
+                    'showmask': false, 'min': false, 'ico': 'e650'
                 });
             },
         }

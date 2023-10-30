@@ -4,7 +4,7 @@
         el: '#vapp',
         data: {
             id: $api.querystring('id'),      //学员id
-            account: {},     //当前登录账号
+            account: {},     //当前学员账号
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项       
@@ -148,64 +148,7 @@
                 var box = window.top.$pagebox.create(obj);
                 box.open();
                 //window.top.vapp.open(obj);
-            },
-           
-            //禁用学习课程的记录
-            //purchase:课程购买记录项
-            purchaseEnable: function (purchase, enable) {
-                var th = this;
-                th.loading_id = purchase.Stc_ID;
-                purchase.Stc_IsEnable = enable;
-                var params = { 'stid': th.id, 'couid': purchase.Cou_ID, 'enable': enable };
-                $api.post('Course/PurchaseEnable', params).then(function (req) {
-                    th.loading_id = 0;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$message({
-                            message: '更新状态成功！',
-                            type: 'success'
-                        });
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading_id = 0;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
-            },
-            //删除当前学习记录
-            purchaseDel: function (purchase) {
-                this.$confirm('此操作将永久删除数据,不可恢复, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    var th = this;
-                    th.loading_id = purchase.Stc_ID;
-                    var params = { 'stid': purchase.Ac_ID, 'couid': purchase.Cou_ID };
-                    $api.delete('Course/PurchaseDelete', params).then(function (req) {
-                        th.loading_id = 0;
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            th.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
-                            th.handleCurrentChange();
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        th.loading_id = 0;
-                        Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
-
-                }).catch(() => { });
-            }
+            },           
         }
     });
 

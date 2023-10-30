@@ -14,22 +14,20 @@
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
 
                 <el-form-item label="账号">
-                    <el-input v-model="form.acc" placeholder="学员账号" :disabled="loading" tabindex="0" clearable
-                        style="width:180px">
+                    <el-input v-model="form.acc" placeholder="学员账号" tabindex="0" clearable style="width:120px">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
-                    <el-input v-model="form.name" :disabled="loading" placeholder="姓名" tabindex="1" clearable
-                        style="width:100px">
+                    <el-input v-model="form.name" placeholder="姓名" tabindex="1" clearable style="width:120px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="移动电话">
+                    <el-input v-model="form.mobi" placeholder="移动电话" style="width:120px" tabindex="3" clearable>
                     </el-input>
                 </el-form-item>
                 <template v-slot:more>
                     <el-form-item label="身份证">
-                        <el-input v-model="form.idcard" placeholder="身份证号" :disabled="loading" tabindex="2" clearable>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="手机号">
-                        <el-input v-model="form.mobi" placeholder="手机号" :disabled="loading" tabindex="3" clearable>
+                        <el-input v-model="form.idcard" placeholder="身份证号" tabindex="2" clearable>
                         </el-input>
                     </el-form-item>
                     <el-form-item label="时间">
@@ -63,10 +61,10 @@
                         v-html='showsearch(scope.row.Ac_AccName,form.acc)'></icon>
                 </template>
             </el-table-column>
-            <el-table-column label="电话">
+            <el-table-column label="移动电话">
                 <template slot-scope="scope" v-if="showTel(scope.row)!=''">
                     <icon>&#xe677</icon>
-                    <span v-html='showTel(scope.row)'></span>
+                    <span v-html='showsearch(showTel(scope.row),form.mobi)'></span>
                 </template>
             </el-table-column>
             <el-table-column label="学员组">
@@ -79,13 +77,10 @@
                     <span title="选修课程数" v-html='scope.row.Ac_CurrCourse'></span>
                 </template>
             </el-table-column>
-            <el-table-column label="数据校正" show-overflow-tooltip width="160" align="center" fixed="right">
+            <el-table-column label="数据校正" show-overflow-tooltip width="120" align="center" fixed="right">
                 <template slot-scope="scope">
-                    <el-link type="primary" plain @click='btnopenbox(scope.row.Ac_ID)'>
-                        <icon>&#xe6bf</icon>视频学习
-                    </el-link>
-                    <el-link type="danger" plain @click='btnopenbox(scope.row.Ac_ID)'>
-                        <icon>&#xe755</icon>试题练习
+                    <el-link type="primary" plain @click='btnopenbox(scope.row)'>
+                        <icon>&#xe732</icon>学习进度
                     </el-link>
                 </template>
             </el-table-column>
