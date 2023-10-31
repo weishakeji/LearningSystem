@@ -70,13 +70,13 @@ $ready(function () {
             },
             //打开窗体
             btnopenbox: function (data) {
-                let stid = data.Ac_ID;
-                let name = data.Ac_Name;
-                let acname = data.Ac_AccName;
-                var url = 'Courses?id=' + stid;
-                this.$refs.btngroup.pagebox(url, '' + name + '(' + acname + ')',
-                    new Date().getTime() + '[studyProgress]', 900, 600, {
-                    'showmask': false, 'min': false, 'ico': 'e650'
+                let url = 'Courses?id=' + data.Ac_ID;
+                let title = '' + data.Ac_Name + '(' + data.Ac_AccName + ')';
+                let boxid = null;
+                this.$refs.btngroup.pagebox(url, title, boxid, 900, 600, {
+                    'ico': 'e732', 'iconstyle': {
+                        'size': -10
+                    }
                 });
             },
         }
