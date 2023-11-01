@@ -638,10 +638,10 @@ namespace Song.ServiceImpls
             LearningCard single = Gateway.Default.From<LearningCard>().Where(wc).ToFirst<LearningCard>();
             if (single == null) throw new Exception("该学习卡不存在，或已经过期！");
             //如果学习卡已经被领用
-            if (single.Ac_ID > 0 || single.Lc_IsUsed || single.Lc_State != 0)
+            if (single.Ac_ID > 0 && (single.Lc_IsUsed && single.Lc_State != 0))
             {
                 throw new Exception("该学习卡已经使用过！");
-            }                  
+            }
             return single;
         }
         /// <summary>

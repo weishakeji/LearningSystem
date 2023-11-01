@@ -53,7 +53,6 @@ $ready(function () {
             var th = this;
             th.loading_init = true;
             $api.get('Account/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.form.acid = th.account.Ac_ID;
@@ -64,9 +63,9 @@ $ready(function () {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -86,23 +85,19 @@ $ready(function () {
                 th.form.size = Math.floor(area / 51);
                 th.loading = true;
                 $api.get("Learningcard/AccountCards", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
-                        for (let i = 0; i < result.length; i++) {
+                        for (let i = 0; i < result.length; i++)
                             result[i]['count'] = 0;
-                        }
-                        th.datas =result;
+                        th.datas = result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //console.log(th.accounts);
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取学员全部所有学习卡数量，不按条件判断，只要有就计算
             getTatolCardCount: function () {
@@ -115,15 +110,14 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //双击事件
             rowdblclick: function (row, column, event) {
                 var cardset = row.cardset;
-                var th=this;
+                var th = this;
                 $api.get('Learningcard/SetCourses', { 'id': row.Lcs_ID }).then(function (req) {
                     var courses = req.data.success ? req.data.result : [];
                     var title = "学习卡号：" + row.Lc_Code + " - " + row.Lc_Pw;
@@ -132,31 +126,30 @@ $ready(function () {
                     txt += "\r\n学习时长：" + cardset.Lcs_Span + cardset.Lcs_Unit;
                     txt += "\r\n面　　额：" + cardset.Lcs_Price + "元";
                     txt += "\r\n课　　程：（" + courses.length + "）";
-                    for (var i = 0; i < courses.length; i++) {
+                    for (let i = 0; i < courses.length; i++) {
                         var cour = courses[i];
                         txt += "\r\n　　　　　" + (i + 1) + "." + cour.Cou_Name;
                     }
-                    th.copy(txt, 'textarea').then(function(data){
+                    th.copy(txt, 'textarea').then(function (data) {
                         th.$message({
                             message: '复制 “' + title + '” 到粘贴板',
                             type: 'success'
                         });
                     });
-
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
                 });
 
             },
+            //使用学习卡
+            //func:具体的方法名，用于使用与暂存
             useCard: function (formName, func) {
-                var th = this;
-                var obj = eval('this.' + func);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        obj(th.useCardForm.card);
+                        let obj = eval('this.' + func);
+                        obj(this.useCardForm.card);
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
@@ -166,7 +159,6 @@ $ready(function () {
                 var th = this;
                 th.loading_up = true;
                 $api.get('Learningcard/UseCode', { 'code': code }).then(function (req) {
-                    th.loading_up = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$alert('通过使用该学习卡，您成功选修 ' + result.length + ' 门课程。', '操作成功', {
@@ -182,17 +174,15 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_up = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_up = false);
             },
             //暂存学习卡
             acceptcode: function (code) {
                 var th = this;
                 th.loading_up = true;
                 $api.get('Learningcard/AcceptCode', { 'code': code }).then(function (req) {
-                    th.loading_up = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$alert('操作成功，学习卡被暂存在名下，后续可以在合适时间使用它。', '操作成功', {
@@ -208,10 +198,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_up = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_up = false);
             },
             //立即使用
             usenow: function (row) {
@@ -220,8 +209,8 @@ $ready(function () {
             },
             //是否临近过期，离过期七天以内
             nearexpire: function (c) {
-                var time = new Date().setDate((new Date().getDate() - 7));
-                var end = c.Lc_LimitEnd;
+                let time = new Date().setDate((new Date().getDate() - 7));
+                let end = c.Lc_LimitEnd;
                 return end > time && end < new Date();
             },
             //是否过期
@@ -230,7 +219,7 @@ $ready(function () {
             },
             //学习卡使用结束时间
             useendtime: function (c) {
-                var time = new Date(c.Lc_UsedTime.getTime());
+                let time = new Date(c.Lc_UsedTime.getTime());
                 time = time.setDate(time.getDate() + c.Lc_Span);
                 return time;
             },
@@ -263,7 +252,6 @@ $ready(function () {
                 if (this.card == null) return;
                 var th = this;
                 $api.get('Learningcard/SetForID', { 'id': th.card.Lcs_ID }).then(function (req) {
-                    th.loading++;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.cardset = result;
@@ -272,17 +260,14 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading++;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading++);
             },
             //获取关联的课程
             getcourses: function () {
                 if (this.card == null) return;
                 var th = this;
                 $api.get('Learningcard/SetCourses', { 'id': th.card.Lcs_ID }).then(function (req) {
-                    th.loading++;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.courses = result;
@@ -292,13 +277,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading++;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading++);
             }
         },
-        // 同样也可以在 vm 实例中像 "this.message" 这样使用
         template: `<span class="theme">
            {{cardset.Lcs_Theme}}          
         </span>`
