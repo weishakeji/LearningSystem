@@ -1,0 +1,48 @@
+﻿
+.cour_img {
+	position: relative;
+	transition: all 0.4s;
+}
+
+.cour_img:hover {
+	transform: scale(1.1);
+}
+
+.cour_img .rec {
+	position: absolute;
+	top: 0px;
+	left: -1px;
+}
+
+.cour_img .rec::before {
+	content: "\e741";
+	font-family: webdesk_icon;
+	font-size: 35px;
+	margin-right: 3px;
+	font-size: 60px;
+	display: block;
+	position: absolute;
+	margin: -2px 0px 0px -4px;
+	color: rgb(255, 30, 30);
+	text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+
+.cour_img .subject {
+	width: calc(100% - 20px);
+	position: absolute;
+	left: 0px;
+	bottom: 3px;
+	font-size: 14px;
+	color: #666;
+	line-height: 30px;
+	box-sizing: border-box;
+	padding: 0px 10px;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.cour_img .subject::before {
+	content: "\e750";
+	color: #333;
+	font-size: 18px;
+	font-family: webdesk_icon;
+}
