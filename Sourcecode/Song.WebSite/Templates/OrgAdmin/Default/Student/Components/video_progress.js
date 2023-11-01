@@ -54,7 +54,7 @@ Vue.component('video_progress', {
                             console.error(err);
                         });
                 }
-                console.log(nv);
+               // console.log(nv);
             }, immediate: true, deep: true
         },
     },
@@ -83,7 +83,7 @@ Vue.component('video_progress', {
         onload: function () {
             var th = this;
             th.loading = true;
-            $api.cache('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
+            $api.get('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
                 .then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -92,7 +92,7 @@ Vue.component('video_progress', {
                             th.data = result[0];
                             th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            console.log(th.data);
+                            console.error(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;
@@ -163,7 +163,7 @@ Vue.component('video_progress', {
         }
     },
     template: `<div class="video_progress">
-       <div><span><icon>&#xe761</icon>视频学习</span>
+       <div><span><icon video></icon>视频学习</span>
             <template v-if=" JSON.stringify(data) != '{}' && data != null && judgmenttime(data.lastTime)">
                 <el-tag type="success"><icon>&#xa039</icon>{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</el-tag>               
             </template>   

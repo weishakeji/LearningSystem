@@ -33,62 +33,54 @@
             </div>
             <purchase_data v-else :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
                 :account="account" v-slot="scope">
-                <div>
-                {{item.Cou_Name}}
-                <el-card class="course" :disabled="!scope.isnull && !scope.data.Stc_IsEnable">
-                    <template slot="header">
-                        <div>
-                            <span>{{(query.index - 1) * query.size + index + 1}}.</span>
-                            <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
-                        </div>
-                        <el-button type="text" @click="viewScore(item)">
-                            <icon>&#xe6ef</icon>综合成绩：<span
-                                :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}} 分</span>
-                        </el-button>
-                    </template>
-                    <div class="cour_img">
-                        <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID">
-                            <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
-                            <img src="/Utilities/images/cou_nophoto.jpg" v-else />
-                        </a>
-                        <span class="rec" v-if="item.Cou_IsRec"></span>
-                        <div class="subject" title="课程专业"><a :href="'/web/Course?sbjid='+item.Sbj_ID" target="_blank">
-                                {{item.Sbj_Name}}
-                            </a> </div>
-                    </div>
-                    <div class="info">
-                        <div class="info_row datainfo">
-                            <template v-if="scope.forever">
-                                <el-tag type="success" class="free">
-                                    <icon>&#xa048</icon>不限时
-                                </el-tag>
-                            </template>
-                            <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
-                                <el-tag type="success" class="free">限时免</el-tag>
-                                <el-tag type="success" class="free">
-                                    免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
-                                </el-tag>
-                            </template>
-                            <el-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</el-tag>
-                            <div v-else>
-                                <el-tag type="warning">
-                                    <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
-                                    {{item.endtime|date("yyyy年M月d日")}}
-                                </el-tag>
+                <el-card shadow="hover">
+                    <courimg :course="item"></courimg>
+                    <section remark="右侧">
+                        <header>
+                            <div>
+                                <span>{{(query.index - 1) * query.size + index + 1}}.</span>
+                                <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                             </div>
-                            <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
-                        </div>
-                        <div class="info_row studyinfo">
+                            <div class="datainfo">
+                                <template v-if="scope.forever">
+                                    <el-tag type="success" class="free">
+                                        <icon>&#xa048</icon>不限时
+                                    </el-tag>
+                                </template>
+                                <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                    <el-tag type="success" class="free">限时免</el-tag>
+                                    <el-tag type="success" class="free">
+                                        免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
+                                    </el-tag>
+                                </template>
+                                <el-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</el-tag>
+                                <div v-else>
+                                    <el-tag type="warning">
+                                        <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
+                                        {{item.endtime|date("yyyy年M月d日")}}
+                                    </el-tag>
+                                </div>
+                            </div>
+                        </header>
+                        <div class="studyinfo">
                             <video_progress :course="item" :stid="account.Ac_ID" :config="config"
                                 :purchase="scope.data"></video_progress>
                             <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                             </ques_progress>
                             <exam_test :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
                             </exam_test>
+                            <div class="score" @click="viewScore(item)">
+                                <div>
+                                    <icon>&#xe6ef</icon>综合成绩
+                                </div>
+
+                                <span :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}}
+                                    分</span>
+
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </el-card>
-            </div>
             </purchase_data>
 
         </context>

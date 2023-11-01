@@ -71,8 +71,7 @@ Vue.component('ques_progress', {
         }
     },
     template: `<div class="ques_progress">
-        <div><span><icon>&#xe75e</icon>试题练习</span>        
-        </div>
+        <div><icon question></icon>试题练习</div>
         <div class="progress">   
             <el-tooltip effect="light" content="点击进度条，查看详情" placement="bottom-end"> 
                 <el-progress :text-inside="true" :format="format" :stroke-width="20" :color="color"

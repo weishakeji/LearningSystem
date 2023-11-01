@@ -410,6 +410,12 @@
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\GuideColumns.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineModify.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\OutlineAccessory.css" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\courimg.js" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\exam_test.js" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\Styles\courimg.css" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\Styles\exam_test.css" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\Styles\video_progress.css" />
+    <Content Include="Templates\OrgAdmin\Default\Data\Components\video_progress.js" />
     <Content Include="Templates\OrgAdmin\Default\Data\Courses.html" />
     <Content Include="Templates\OrgAdmin\Default\Data\Scripts\Courses.js" />
     <Content Include="Templates\OrgAdmin\Default\Data\Scripts\Exercise.js" />

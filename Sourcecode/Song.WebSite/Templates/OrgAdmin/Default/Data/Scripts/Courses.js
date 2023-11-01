@@ -77,7 +77,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 //console.log(document.documentElement.clientHeight);
-                th.query.size = Math.floor(area / 200);
+                th.query.size = Math.floor(area / 150);
                 var apiurl = "Course/" + this.method_name;
                 $api.get(apiurl, th.query).then(function (req) {
                     th.loading = false;
@@ -148,12 +148,14 @@
                 var box = window.top.$pagebox.create(obj);
                 box.open();
                 //window.top.vapp.open(obj);
-            },           
+            },
         }
     });
 
-}, ['../Student/Components/course_data.js',
+}, [
     '../Student/Components/purchase_data.js',      // 课程购买信息
-    '../Student/Components/video_progress.js',
+    'Components/video_progress.js',
     '../Student/Components/ques_progress.js',
-    '../Student/Components/exam_test.js']);
+    'Components/exam_test.js',       //结课考试
+    'Components/courimg.js'         //课程图片
+]);

@@ -131,156 +131,36 @@ context .course:last-child {
 	height: 100px;
 	transition: all 0.3s;
 }
-
-.cour_img {
-	position: relative;
-	transition: all 0.4s;
+/*课程列表右侧*/
+section{
+	width: calc(100% - 200px);
 }
-
-.cour_img:hover {
-	transform: scale(1.1);
-}
-
-.rec {
-	position: absolute;
-	top: 0px;
-	left: -1px;
-}
-
-.rec::before {
-	content: "\e741";
-	font-family: webdesk_icon;
-	font-size: 35px;
-	margin-right: 3px;
-	font-size: 60px;
-	display: block;
-	position: absolute;
-	margin: -2px 0px 0px -4px;
-	color: rgb(255, 30, 30);
-	text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
-}
-
-.subject {
-	width: calc(100% - 20px);
-	position: absolute;
-	left: 0px;
-	bottom: 3px;
-	font-size: 14px;
-	color: #666;
-	line-height: 30px;
-	box-sizing: border-box;
-	padding: 0px 10px;
-	background-color: rgba(255, 255, 255, 0.3);
-}
-
-.subject::before {
-	content: "\e750";
-	color: #333;
-	font-size: 18px;
-	font-family: webdesk_icon;
-}
-
-.view {
-	position: absolute;
-	bottom: 3px;
-	left: 3px;
-	background-color: transparent !important;
-}
-
-.view::before {
-	content: "\a03a";
-	font-family: webdesk_icon;
-	margin-right: 3px;
-}
-
-/*课程右侧的内容区*/
-.info {
-	flex: 1;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-
-.info_row {
-	display: flex;
-}
-
-.info_column {
-	display: flex;
-	flex-direction: column;
-}
-
-.free {
-	margin-right: 5px;
-}
-
-.cur_data {
-	display: flex;
-}
-
-.cur_data>span {
-	margin: 0px 5px 0px 0px;
-}
-
-price {
-	display: block;
-	line-height: 30px;
-}
-
-/*课程相关数据*/
-.datainfo {
+section header{
 	display: flex;
 	justify-content: space-between;
+	height: 30px;
+	line-height: 30px;
 }
-
-.datainfo>div:first-child {
+section header>div:first-child{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+section header a{
+	font-size: 18px;
+}
+.studyinfo{
 	display: flex;
+	height: 70px;
 }
-
-.datainfo>div:first-child>* {
-	margin-right: 5px;
-}
-
-.datainfo>div:first-child>*:last-child {
-	margin-left: 5px;
-}
-
-/*学习信息*/
-.studyinfo {
-	position: absolute;
-	height: 75px;
-	bottom: 0px;
-	width: 100%;
-	display: flex;
-}
-
-.studyinfo>div:first-child {
+.studyinfo>*{
 	flex: 1;
+	margin: 20px 10px 0px 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
-
-.studyinfo>div {
-	width: 200px;
-	position: relative;
-	padding: 5px;
-	box-sizing: border-box;
-	margin: 5px 8px 5px 0px;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-}
-
-.studyinfo>div:last-child {
-	margin-right: 0px;
-}
-
-.is-success .el-progress-bar__inner::before {
-	content: "\a048";
-	font-family: webdesk_icon;
-	float: left;
-	margin-left: 10px;
-	color: #fff;
-	margin-top: 3px;
-}
-
-.el-progress-bar__inner {
-	min-width: 100px;
+/*综合成绩*/
+.score{
+	text-align: right;
 }
