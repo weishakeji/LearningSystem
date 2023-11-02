@@ -1,0 +1,342 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(155, 199, 243);
+    overflow: hidden;
+}
+
+panel {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+panel#admin {
+    background: none !important;
+    background-image: linear-gradient(to bottom right, rgba(2, 48, 82, .9), #0d6aa8, #005564) !important;
+}
+
+#treemenu-area {
+    box-shadow: none !important;
+    float: left;
+}
+
+#mainbody {
+    height: calc(100% - 45px) !important;
+}
+
+/*顶部条*/
+
+#header-box {
+    height: 45px !important;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+#logo {
+    width: 180px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    height: 100%;
+    background-color: rgba(2, 48, 82, .9);
+}
+
+#default_logo {
+    padding: 15px;
+}
+
+#default_logo icon {
+    color: #ddd;
+    font-size: 45px;
+}
+
+
+#menubar {
+    position: static !important;
+    width: calc(100% - 110px - 180px);
+    opacity: 1 !important;
+    height: 100% !important;
+}
+
+#logo img {
+    max-width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.dropmenu {
+    background-color: transparent !important;
+    --background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+#menubar.dropmenu drop-node a, [root='#menubar'] drop-node span, [root='#menubar'] drop-node ico {
+    color: #ccc !important;
+}
+
+.dropmenu drop-panel>*:not(hr):hover * {
+    color: #eee !important;
+}
+
+.dropmenu drop-panel>*:not(hr):hover child:after,
+.dropmenu drop-panel>*:not(hr).hover child:after {
+    color: #eee !important;
+}
+
+drop-panel[root='#menubar'] ico {
+    border-right: none !important;
+}
+
+drop-panel[root='#menubar']>*:not(hr):hover:after,
+drop-panel[root='#menubar']>*:not(hr).hover:after {
+    border: none !important;
+    width: calc(100%) !important;
+    height: calc(100%) !important;
+    left: 0px !important;
+    top: 0px !important;
+    border-radius: 0px !important;
+    background-color: rgba(200, 200, 200, 0.3);
+
+}
+
+.dropmenu drop_roots drop-node:hover, .dropmenu drop_roots drop-node.hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    text-shadow: 1px 1px 2px #666;
+}
+
+.dropmenu drop-panel[root='#menubar'] {
+    border: none !important;
+    background-color: rgba(2, 48, 82, .7) !important;
+}
+
+.dropmenu drop-panel[root='#menubar'] child {
+    top: 15px !important;
+}
+
+.dropmenu drop-panel[root='#menubar'] .hover child::after {
+    --color: #ffff !important;
+}
+
+drop-panel[root='#menubar'] drop-node ico {
+    --display: none !important;
+}
+
+.dropmenu drop-panel[root='#menubar'] drop-node span {
+    --left: 10px !important;
+    --width: calc(100% - 20px) !important;
+}
+
+/*预载效*/
+
+panel#loading {
+    width: 100px;
+    height: 100px;
+    margin: 200px auto 0px auto;
+    position: relative;
+    display: none;
+}
+
+panel#loading b {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 20px;
+    color: #fff;
+    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+}
+
+panel#loading span {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: rgb(178, 166, 248);
+    animation: bounce 1s infinite linear;
+}
+
+panel#loading span:nth-child(1) {
+    left: 0;
+    animation-delay: 0s;
+}
+
+panel#loading span:nth-child(2) {
+    left: 20px;
+    animation-delay: 0.25s;
+}
+
+panel#loading span:nth-child(3) {
+    left: 40px;
+    animation-delay: 0.5s;
+}
+
+panel#loading span:nth-child(4) {
+    left: 60px;
+    animation-delay: 0.75s;
+}
+
+panel#loading span:nth-child(5) {
+    left: 80px;
+    animation-delay: 1.0s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(-30px);
+        opacity: 1.0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+}
+
+/*登录区域*/
+panel#login {
+    z-index: 2;
+    --opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+panel#login iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+.loginbox .login_body button {
+    letter-spacing: 5px !important;
+}
+
+panel#admin {
+    z-index: 3;
+    background-size: 100% 100%;
+    transition: all .3s;
+    display: none;
+    opacity: 0;
+}
+
+
+#login-area {
+    max-width: 500px;
+    min-width: 400px;
+    min-height: 200px;
+    z-index: 2;
+    display: none;
+}
+#tabs-area {
+    margin-right: 0px !important;
+}
+
+.slot {
+    text-align: center;
+}
+
+.slot span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.treemenu tree_area tree_tit {
+    --background-color: rgb(255, 114, 98) !important;
+    --color: #fff !important;
+}
+
+.treemenu tree_body {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.treemenu tree_area tree_tit {
+    font-size: 17px !important;
+}
+
+.treemenu tree_area tree_tit i {
+    font-size: 18px !important;
+}
+
+.treemenu tree-node {
+    font-size: 16px !important;
+    line-height: 35px !important;
+    height: 35px !important;
+    letter-spacing: 3px;
+}
+
+.treemenu tree-node:hover:before {
+    border: solid 1px rgba(255, 255, 255, 0.3) !important;
+    box-shadow: none !important;
+
+}
+
+.treemenu tree-node ico {
+    font-size: 19px !important;
+    line-height: 40px !important;
+}
+
+#tabs-area tab_tag {
+    width: 172px !important;
+    padding: 0px 0px 0px 10px !important;
+}
+
+tabs_tagbox tab_tag tagtxt {
+    width: calc(100% - 50px) !important;
+}
+
+#tabs-area {
+    height: calc(100% - 5px) !important;
+    margin-top: 5px;
+}
+
+tabs_tagbox tab_tag ico {
+    left: 20px !important;
+}
+/*用户登录后的下拉菜单*/
+#user-area {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+}
+
+#user-area drop_roots drop-node {
+    background-color: transparent !important;
+    color: #eee !important;
+    text-align: center !important;
+}
+
+#user-area span {
+    color: #eee !important;
+}
+
+#pageboxcollect {
+    position: absolute;
+    z-index: 99999;
+    bottom: -2px !important;
+    right: -3px !important;
+    left: 150px !important;
+    text-shadow:none !important;
+    color: #ddd !important;
+    width: 30px;
+    height: 25px;
+    line-height: 30px;
+    font-size: 16px !important;
+}
+#pageboxcollect>div:after {
+    font-size: 18px !important;
+}
