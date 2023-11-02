@@ -7,8 +7,8 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
-## 商务合作 - 承接定制开发 期待合作
-##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-10522779-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=10522779)
+## 商务合作 - 代理销售，定制开发 - 期待合作
+##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
 
 >  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
 
@@ -50,6 +50,7 @@
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8607.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8608.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8604.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8606.png)
 
 ## 产品特点
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
