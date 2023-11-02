@@ -14,7 +14,7 @@
 
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
-> “安装文件”可以从<a href="https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg" target="_blank" size=12> [ 百度云盘 ] </a>下载，提取码：xekq。云盘中是编译之后的程序，可以直接部署。
+> “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
 
 ## 技术特点
  * 前后端分离（自研架构），C#、Sqlserver、Vue
