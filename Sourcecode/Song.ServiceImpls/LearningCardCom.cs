@@ -666,7 +666,7 @@ namespace Song.ServiceImpls
             if (!(DateTime.Now > card.Lc_LimitStart && DateTime.Now < card.Lc_LimitEnd.Date.AddDays(1)))
                 throw new Exception(string.Format("该学习卡已经过期 code:{0} - {1}", card.Lc_Code, card.Lc_Pw));
             //设置学习卡的使用信息
-            card.Lc_UsedTime = DateTime.Now;
+            card.Lc_UsedTime = card.Lc_ReceiveTime = DateTime.Now;
             card.Lc_State = 1;    //状态，0为初始，1为使用，-1为回滚
             card.Ac_ID = acc.Ac_ID;
             card.Ac_AccName = acc.Ac_AccName;
@@ -832,7 +832,8 @@ namespace Song.ServiceImpls
                 throw new Exception("该学习卡已经过期");
             //标注已经使用
             entity.Lc_IsUsed = true;
-            entity.Lc_UsedTime = DateTime.Now;
+            //entity.Lc_UsedTime = DateTime.Now;
+            entity.Lc_ReceiveTime = DateTime.Now;       //记录领用时间
             entity.Lc_State = 0;    //状态，0为初始，1为使用，-1为回滚
             entity.Ac_ID = acc.Ac_ID;
             entity.Ac_AccName = acc.Ac_AccName;
@@ -1249,7 +1250,7 @@ namespace Song.ServiceImpls
         public LearningCard[] AccountCards(int accid, int state)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid && LearningCard._.Lc_State == state)
-                 .OrderBy(LearningCard._.Lc_UsedTime.Asc)
+                 .OrderBy(LearningCard._.Lc_ReceiveTime.Asc)
                 .ToArray<LearningCard>();
         }
         /// <summary>
@@ -1259,7 +1260,7 @@ namespace Song.ServiceImpls
         public LearningCard[] AccountCards(int accid)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid)
-                .OrderBy(LearningCard._.Lc_UsedTime.Asc)
+                .OrderBy(LearningCard._.Lc_ReceiveTime.Asc)
                 .ToArray<LearningCard>();
         }
         /// <summary>

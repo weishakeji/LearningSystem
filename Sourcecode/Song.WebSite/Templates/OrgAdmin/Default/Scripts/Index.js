@@ -102,7 +102,7 @@ $dom.ctrljs(function () {
         target: '#user-area',
         width: 100,
         plwidth: 120,
-        level: 2000
+        level: 30000
     }).onclick(nodeClick);
     //用户信息的下拉菜单
     $dom.get($dom.path() + '../_public/datas/usermenu.json', function (req) {
@@ -114,10 +114,13 @@ $dom.ctrljs(function () {
 function ready(result) {
     window.setTimeout(function () {
         window.login.loading = false;
-        $dom('panel#login').hide();
+        //$dom('panel#login').remove();
         $dom('panel#admin').show().css('opacity', 0);
         //window.$skins.onchange();
-        window.$skins.setup('Education')
+        window.setTimeout(function(){
+            $dom('panel#login').remove();
+        },2000);
+        window.$skins.setup('Office');
         //右侧菜单信息
         window.usermenu.datas[0].title = result.Acc_Name;
         if (result.Acc_Photo != '')
@@ -126,20 +129,39 @@ function ready(result) {
     //树形菜单
     window.tree = $treemenu.create({
         target: '#treemenu-area',
-        width: 180,
-        taghide: true
+        width: 200,
+        taghide: false, query: true, fold: false
     }).onresize(function (s, e) { //当宽高变更时
         $dom('#tabs-area').width('calc(100% - ' + (e.width + 5) + 'px )');
     }).onfold(function (s, e) { //当右侧树形折叠时
         var width = e.action == 'fold' ? 45 : s.width + 5;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
+    //监听树形菜单的菜单查询面板状态，给背景加模糊效果
+    window.tree.watch({
+        'querypanel': function (obj, val, old) {
+            $dom("#admin").css('filter', val ? 'blur(3px)' : 'none');
+            $dom(".pagebox").css('filter', val ? 'blur(3px)' : 'none');
+        }
+    });
+
     //加载左侧菜单树
     $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
-            var result = nodeconvert(req.data.result);
+            var result = nodeconvert(req.data.result);//return;
+            console.log(result);
             if (result[0].childs.length > 0)
-                tree.add(result[0]);            
+                tree.add(result[0].childs);
+            /*
+       //启起页 
+       window.setTimeout(function () {
+           var data = window.tree.getData('node_a76471634c09b23347199ee23682d1ed');
+           window.tree.trigger('click', {
+               treeid: data.id,
+               data: data
+           });
+       }, 1000);
+*/
         } else {
             throw req.data.message;
         }
@@ -152,19 +174,21 @@ function ready(result) {
         width: 1,
         default: {
             title: '启始页',
-            path: '树形菜单,启始页',
-            //url: 'help/startpage.html',
+            path: '机构管理,启始页',
             url: '/orgadmin/start',
             ico: 'a020'
         }
     });
-    tabs.onshut(tabsShut).onchange(tabsChange);
+    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function (s, e) {
+        //alert(s);
+    });
     tabs.onhelp(function (s, e) {
+        let url = e.data.help && e.data.help != '' ? e.data.help : '/help' + e.data.url + '.html';
         $pagebox.create({
             pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
-            width: 600,
-            height: 400,
-            url: e.data.help,
+            width: '80%',
+            height: '80%',
+            url: url,
             title: e.data.title + '- 帮助'
         }).open();
     });
@@ -172,12 +196,12 @@ function ready(result) {
 
     //风格切换事件
     window.$skins.onchange(function (s, e) {
-        $dom('body>*:not(#loading)').css('opacity', 0);
+        $dom('body>*:not(#loading,[crtid])').css('opacity', 0);
         $dom('#loading').show();
     });
     window.$skins.onloadcss(function (s, e) {
         window.setTimeout(function () {
-            $dom('body>*:not(#loading)').css('opacity', 1);
+            $dom('body>*:not(#loading,[crtid])').css('opacity', 1);
             $dom('#loading').hide();
         }, 500);
 
@@ -195,8 +219,8 @@ function nodeconvert(obj) {
     result = result.replace(/MM_Intro/g, "intro");
     result = result.replace(/MM_Type/g, "type");
     result = result.replace(/MM_Link/g, "url");
-    result = result.replace(/MM_Help/g, "help"); 
-    result = result.replace(/MM_IsUse/g, "use"); 
+    result = result.replace(/MM_Help/g, "help");
+    result = result.replace(/MM_IsUse/g, "use");
     result = result.replace(/MM_WinWidth/g, "width");   //弹窗相关
     result = result.replace(/MM_WinHeight/g, "height");
     result = result.replace(/MM_WinID/g, "winid");
@@ -212,7 +236,7 @@ function nodeconvert(obj) {
 */
 //节点点击事件，tree,drop,统一用这一个
 function nodeClick(sender, eventArgs) {
-    console.log(eventArgs);
+    //console.log(eventArgs);
     var data = eventArgs.data;
     //如果有下级节点，则不响应事件
     if ((!!data.childs && data.childs.length > 0) && data.type != 'node') {
@@ -247,7 +271,7 @@ function nodeClick(sender, eventArgs) {
             break;
         default:
             if (!!data.url) {
-                window.tabsContent.clear();
+                //window.tabsContent.clear();
                 window.tabsContent.add(data);
             }
             break;
@@ -332,7 +356,9 @@ function tabsChange(sender, eventArgs) {
         }
         return arr;
     }
-
+    //当前选项卡id
+    let tabid = eventArgs.tabid;
+    window.tree.currentnode(tabid);
 }
 
 //执行vue对象
@@ -391,7 +417,7 @@ window.createVapp = function () {
                             deftype: 'link',
                             plwidth: 180,
                             height: 45,
-                            level: 40000
+                            level: 20000
                         }).onclick(this.menuClick);
                         window.menubar.add(this.nodeconvert(nv));
                     });

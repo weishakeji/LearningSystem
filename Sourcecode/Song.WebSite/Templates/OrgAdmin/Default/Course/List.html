@@ -83,7 +83,7 @@
                     <course_prices :course="scope.row"></course_prices>
                 </template>
             </el-table-column>
-            <el-table-column label="收益">
+            <el-table-column label="收益" v-if="false">
                 <template slot-scope="scope">
                     <course_income :course="scope.row"></course_income>
                 </template>
@@ -265,7 +265,7 @@
                         </template>
                     </template>
                 </div>
-                <div class="showIncome">
+                <div class="showIncome" v-if="false">
                     <icon>&#xe746</icon>累计收益： <icon>&#xe624</icon><span class="money">{{curr.income}}</span> 元
                 </div>
                 <div class="showContext" v-if="curr.data">

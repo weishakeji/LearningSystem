@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config>
   <ConnectionStrings>
+    <items>Data Source=.;Initial Catalog=examweisha;User ID=sa;password=Sa123456;</items>
     <items>Data Source=.;Initial Catalog=examweisha_ui;User ID=sa;password=Sa123456;</items>
     <items>Data Source=.;Initial Catalog=examweisha_dev_2022;User ID=sa;password=Sa123456;</items>
     <items>Data Source=.;Initial Catalog=examweisha_empty;User ID=sa;password=Sa123456;</items>

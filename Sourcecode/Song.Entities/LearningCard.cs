@@ -44,6 +44,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Lc_Span;
     		
+    		protected DateTime _Lc_ReceiveTime;
+    		
     		public Int32 Lc_ID {
     			get {
     				return this._Lc_ID;
@@ -224,6 +226,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public DateTime Lc_ReceiveTime {
+    			get {
+    				return this._Lc_ReceiveTime;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lc_ReceiveTime, _Lc_ReceiveTime, value);
+    				this._Lc_ReceiveTime = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -268,7 +280,8 @@ namespace Song.Entities {
     					_.Lc_LimitEnd,
     					_.Lc_State,
     					_.Lc_QrcodeBase64,
-    					_.Lc_Span};
+    					_.Lc_Span,
+    					_.Lc_ReceiveTime};
     		}
     		
     		/// <summary>
@@ -293,7 +306,8 @@ namespace Song.Entities {
     					this._Lc_LimitEnd,
     					this._Lc_State,
     					this._Lc_QrcodeBase64,
-    					this._Lc_Span};
+    					this._Lc_Span,
+    					this._Lc_ReceiveTime};
     		}
     		
     		/// <summary>
@@ -353,6 +367,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lc_Span))) {
     				this._Lc_Span = reader.GetInt32(_.Lc_Span);
+    			}
+    			if ((false == reader.IsDBNull(_.Lc_ReceiveTime))) {
+    				this._Lc_ReceiveTime = reader.GetDateTime(_.Lc_ReceiveTime);
     			}
     		}
     		
@@ -469,6 +486,11 @@ namespace Song.Entities {
     			/// 字段名：Lc_Span - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Lc_Span = new WeiSha.Data.Field<LearningCard>("Lc_Span");
+    			
+    			/// <summary>
+    			/// 字段名：Lc_ReceiveTime - 数据类型：DateTime
+    			/// </summary>
+    			public static WeiSha.Data.Field Lc_ReceiveTime = new WeiSha.Data.Field<LearningCard>("Lc_ReceiveTime");
     		}
     	}
     }

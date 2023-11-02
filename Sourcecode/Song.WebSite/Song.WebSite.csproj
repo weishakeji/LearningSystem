@@ -426,7 +426,7 @@
     <Content Include="Templates\OrgAdmin\Default\Data\VideoProgress.html" />
     <Content Include="Templates\OrgAdmin\Default\Data\Styles\VideoProgress.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
-    <Content Include="Templates\OrgAdmin\Default\Default.html" />
+    <Content Include="Templates\OrgAdmin\Default\index.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\BatchDistribution.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\BatchRollback.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\CardQuery.html" />
@@ -538,7 +538,7 @@
     <Content Include="Templates\OrgAdmin\Default\RechargeCode\Styles\CodesetModify.css" />
     <Content Include="Templates\OrgAdmin\Default\RechargeCode\Styles\OutputExcel.css" />
     <Content Include="Templates\OrgAdmin\Default\RechargeCode\Styles\OutputQrcode.css" />
-    <Content Include="Templates\OrgAdmin\Default\Scripts\Default.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Index.js" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Extracode.html" />
     <Content Include="Templates\OrgAdmin\Default\Setup\About.html" />
     <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Extracode.js" />
@@ -572,7 +572,7 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\CapitalRecords.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
-    <Content Include="Templates\OrgAdmin\Default\Styles\Default.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Export.js" />
@@ -2002,13 +2002,13 @@
     <Content Include="Templates\OrgAdmin\Default\Help\Scripts\Startpage.js" />
     <Content Include="Templates\OrgAdmin\Default\Help\Startpage.html" />
     <Content Include="Templates\OrgAdmin\Default\Help\Styles\Startpage.css" />
-    <Content Include="Templates\OrgAdmin\Default\index.html" />
+    <Content Include="Templates\OrgAdmin\Default\index_.html" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\Admin.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\hanzi2pinyin.js" />
-    <Content Include="Templates\OrgAdmin\Default\Scripts\Index.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Index_.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Admin.css" />
-    <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Index_.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Login.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Startpage.css" />
     <Content Include="Templates\OrgAdmin\Default\Template\Scripts\Select.js" />
