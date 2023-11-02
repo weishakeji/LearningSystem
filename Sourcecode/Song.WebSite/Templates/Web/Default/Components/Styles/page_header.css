@@ -89,7 +89,8 @@ weisha_header_navi header .deflogo {
 
 weisha_header_navi header search {
     width: 400px;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     height: 30px;
     margin-top: 15px;
     border-radius: 3px;
@@ -99,7 +100,7 @@ weisha_header_navi header search {
 weisha_header_navi header search icon {
     height: 100%;
     width: 60px;
-    float: right;
+    margin-right: 0px !important;
     line-height: 30px;
     font-size: 28px;
     text-align: center;
