@@ -1241,9 +1241,15 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 .ToFirst<LogForStudentStudy>();
             if (log != null)
             {
-                Gateway.Default.Update<LogForStudentStudy>(new Field[] { LogForStudentStudy._.Lss_StudyTime, LogForStudentStudy._.Cou_ID },
-                    new object[] { log.Lss_Duration / 1000, ol.Cou_ID },
-                            LogForStudentStudy._.Lss_ID == log.Lss_ID);
+                Gateway.Default.Update<LogForStudentStudy>(
+                     new Field[] {
+                        LogForStudentStudy._.Lss_StudyTime,
+                        LogForStudentStudy._.Lss_PlayTime,
+                        LogForStudentStudy._.Cou_ID,
+                        LogForStudentStudy._.Lss_Complete
+                     },
+                     new object[] { log.Lss_Duration / 1000, log.Lss_Duration, ol.Cou_ID, 100 },
+                             LogForStudentStudy._.Lss_ID == log.Lss_ID);
             }
             else
             {

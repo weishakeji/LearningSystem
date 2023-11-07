@@ -25,7 +25,7 @@ $ready(function () {
                 th.account = account.data.result;
                 th.outlines = outlines.data.result;
                 console.log(th.outlines);
-                if (th.islogin) th.getlogs();
+                if (th.islogin) th.getlogs(true);
             })).catch(function (err) {
                 th.loading_init = false;
                 alert(err);
@@ -44,12 +44,13 @@ $ready(function () {
         watch: {
         },
         methods: {
-            //加载日志数据
-            getlogs: function () {
+            //加载日志数据,iscache:是否启用缓存
+            getlogs: function (iscache) {
                 var th = this;
                 th.loading = true;
                 var acid = th.account.Ac_ID;
-                $api.cache('Course/LogForOutlineVideo:10', { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                let active = iscache ? 10 : 'update';
+                $api.cache('Course/LogForOutlineVideo:' + active, { 'stid': acid, 'couid': th.couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;

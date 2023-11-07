@@ -53,8 +53,8 @@
             <el-table-column label="课程" min-width="200px">
                 <div slot-scope="scope" :class="{'title_box':true,'disabled': !scope.row.Cou_IsUse}"
                     :title="scope.row.Cou_Name">
+                    <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
-                        <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
                         <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
                     </a>
@@ -117,7 +117,7 @@
                             </template>
                             <span v-else style="color: #aaa;">
                                 <span icon="&#xa01f" v-if="scope.row.Cou_Allowedit">(无)</span>
-                                <span icon="&#xe7ad" v-else style="color: #f56c6c;">(无)</span>                               
+                                <span icon="&#xe7ad" v-else style="color: #f56c6c;">(无)</span>
                             </span>
                             <i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
@@ -128,8 +128,8 @@
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item divided>
-                                <el-link type="primary" plain icon="el-icon-circle-check" v-if="!scope.row.Cou_Allowedit"
-                                    @click='changeAllowedit(scope.row,true)'>
+                                <el-link type="primary" plain icon="el-icon-circle-check"
+                                    v-if="!scope.row.Cou_Allowedit" @click='changeAllowedit(scope.row,true)'>
                                     允许教师编辑课程
                                 </el-link>
                             </el-dropdown-item>
