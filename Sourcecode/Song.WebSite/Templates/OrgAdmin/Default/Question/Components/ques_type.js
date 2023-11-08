@@ -16,19 +16,20 @@ Vue.component('ques_type', {
 
     },
     methods: {
+        //设置图标
         seticon: function (index) {
-            try {
-                return '&#x' + this.icons[index - 1];
-            } catch {
-                return '&#xa01f'
-            }
+            if (index == undefined || index == null || index < 0 || (
+                this.types && index > this.types.length
+            )) return '&#xa01f';
+            else return '&#x' + this.icons[index - 1];
+
         },
+        //标题试题类型的名称
         settitle: function (index) {
-            try {
-                return this.types[index - 1] + '题';
-            } catch {
-                return '...'
-            }
+            if (index == undefined || index == null || index < 0 || (
+                this.types && index > this.types.length
+            )) return '...';
+            else return this.types[index - 1] + '题';
         }
     },
     mounted: function () {
