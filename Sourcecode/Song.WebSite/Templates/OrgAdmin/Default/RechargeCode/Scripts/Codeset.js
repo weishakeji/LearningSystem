@@ -76,6 +76,7 @@
             },
             //刷新行数据，
             freshrow: function (id) {
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Rs_ID == id);

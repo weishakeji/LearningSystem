@@ -16,8 +16,8 @@
                 <query_panel :model="form" :loading="loading">
                     <el-form-item label="">
                         <el-input v-model.trim="form.name" clearable style="width:150px"
-                            @keyup.enter.native="getdatalist()">
-                            <i class="el-icon-search" slot="suffix" v-on:click="getdatalist()"> </i>
+                            @keyup.enter.native="handleCurrentChange()">
+                            <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange()"> </i>
                         </el-input>
                     </el-form-item>
                 </query_panel>

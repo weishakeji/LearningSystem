@@ -28,13 +28,13 @@ $ready(function () {
                 th.form.orgid = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-                th.getdatalist();
+                th.handleCurrentChange();
             })).catch(err => console.error(err))
                 .finally(() => { });
         },
         methods: {
             //加载数据页
-            getdatalist: function () {
+            handleCurrentChange: function () {
                 var th = this;
                 th.loading = true;
                 $api.get("Teacher/Titles", th.form).then(function (d) {
@@ -49,6 +49,7 @@ $ready(function () {
             },
             //刷新行数据，
             freshrow: function (id) {
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Ths_ID == id);
@@ -79,7 +80,7 @@ $ready(function () {
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        th.getdatalist();
+                        th.handleCurrentChange();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -175,7 +176,7 @@ $ready(function () {
                             message: '设置默认成功!',
                             center: true
                         });
-                        th.getdatalist();
+                        th.handleCurrentChange();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
