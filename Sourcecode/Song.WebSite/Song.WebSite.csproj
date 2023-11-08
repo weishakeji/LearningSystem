@@ -1444,6 +1444,7 @@
     <Content Include="Templates\Web\_Public\Inc\meta.inc" />
     <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Utilities\Components\btngroup.js" />
     <Content Include="Utilities\Components\Question\exam.js" />
     <Content Include="Utilities\Components\Question\Styles\exam.css" />
     <Content Include="Utilities\Components\date_range.js" />
@@ -2082,7 +2083,6 @@
     <Content Include="Utilities\Scripts\vue-router.js" />
     <Content Include="Utilities\Scripts\vue.js" />
     <Content Include="Utilities\Scripts\vue.min.js" />
-    <Content Include="Utilities\Scripts\vuecomponent.js" />
     <Content Include="Utilities\Scripts\vuedraggable.min.js" />
     <Content Include="Utilities\Scripts\vuedraggable.umd.min.js" />
     <Content Include="Utilities\scrollbar-thumb.gif" />
