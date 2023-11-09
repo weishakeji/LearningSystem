@@ -44,7 +44,7 @@
 ### 学习与考试（手机端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0(mobi).png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%80%83%E8%AF%95.png)
-### 其它（手机端）
+### 其它功能
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/资金明细.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/学习卡.png)
 ### 学员中心（web端）
