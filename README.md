@@ -42,7 +42,7 @@
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/手机端课程页.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0.png)
 ### 试题练习（手机端）
-![image](/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0(mobi).png)
 ### 学习与考试（手机端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%80%83%E8%AF%95.png)
