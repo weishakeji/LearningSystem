@@ -383,7 +383,7 @@ namespace Song.ViewData.Methods
                             WeiSha.Core.Upload.Get["News"].DeleteFile(old.Art_Logo);
                     }
                     //如果没有上传图片，且新对象没有图片，则删除旧图
-                    else if (string.IsNullOrWhiteSpace(old.Art_Logo))
+                    else if (string.IsNullOrWhiteSpace(entity.Art_Logo) && !string.IsNullOrWhiteSpace(old.Art_Logo))
                     {
                         WeiSha.Core.Upload.Get["News"].DeleteFile(old.Art_Logo);
                     }
