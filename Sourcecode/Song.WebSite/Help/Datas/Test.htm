@@ -29,7 +29,18 @@
                     <el-tag type="success" class="el-icon-connection connState"> 链接正常</el-tag>
                     以下是数据库版本信息：<br />
                 </div>
-                <el-tag type="danger" v-else class="el-icon-link connState">链接不正确，请检查db.config中的配置项</el-tag>
+                <div v-else>
+                    <el-tag type="danger" class="el-icon-link connState">数据库链接失败</el-tag>
+                    <div class="error" v-if="error!=''">
+                        提示信息：{{error}}
+                    </div>
+                    <help multi>帮助<br />
+                        1、请检查db.config中的数据库链接配置项
+                        <br />
+                        2、检测数据库服务是否启用
+                    </help>
+                </div>
+
             </div>
             <div v-else>
                 <span class="el-icon-loading"></span> 正在检测...
