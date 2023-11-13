@@ -45,7 +45,7 @@ Vue.component('course_progress', {
         onload: function () {
             var th = this;
             th.loading = true;
-            $api.cache('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
+            $api.get('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
                 .then(function (req) {
                     th.loading = false;
                     if (req.data.success) {

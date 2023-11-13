@@ -68,9 +68,10 @@ Vue.component('outline_progress', {
             return 0;
         },*/
         'state': function (percent) {
-            if (percent == 0) return 'primary';
-            if (percent > 0 && percent < 100) return 'success';
-            return 'primary';
+            if (percent < 10) return 'danger';
+            else if (percent <= 30) return 'warning';
+            else if (percent <= 80) return 'info';
+            else return 'primary';
         },
         //累计学习时间
         studyTime: function (time) {

@@ -15,7 +15,7 @@
             </header>
             <dl>
                 <dd v-for="(item,i) in types" :current="entity && !!entity.Qus_Type && entity.Qus_Type==i+1"
-                    @click="gourl(i+1)">
+                    @click="gourl(i+1,types[i])">
                     <ques_type :type="i+1" :types="types"></ques_type> <span>{{ item }}题</span>
                 </dd>
             </dl>

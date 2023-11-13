@@ -268,15 +268,13 @@ namespace Song.ViewData.Methods
                     entity.Lk_Logo = filename;
                     entity.Lk_LogoSmall = smallfile;
 
-                    if (!string.IsNullOrWhiteSpace(old.Lk_Logo))
-                    {
-                        WeiSha.Core.Upload.Get["Links"].DeleteFile(old.Lk_Logo);                       
-                    }
+                    if (!string.IsNullOrWhiteSpace(old.Lk_Logo))                  
+                        WeiSha.Core.Upload.Get["Links"].DeleteFile(old.Lk_Logo); 
                 }
                 else
                 {
                     //如果没有上传图片，且新对象没有图片，则删除旧图
-                    if (string.IsNullOrWhiteSpace(old.Lk_Logo))
+                    if (string.IsNullOrWhiteSpace(entity.Lk_Logo) && !string.IsNullOrWhiteSpace(old.Lk_Logo))
                     {
                         WeiSha.Core.Upload.Get["Links"].DeleteFile(old.Lk_Logo);
                     }

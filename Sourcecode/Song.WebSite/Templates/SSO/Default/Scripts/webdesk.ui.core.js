@@ -856,7 +856,7 @@
             var arr2 = new Array();         
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
-            arr2.push('/Utilities/Scripts/vuecomponent.js');
+            arr2.push('/Utilities/Components/btngroup.js');
             //加载Sortable拖动
             arr2.push('/Utilities/Scripts/Sortable.min.js');
             arr2.push('/Utilities/Scripts/vuedraggable.min.js');

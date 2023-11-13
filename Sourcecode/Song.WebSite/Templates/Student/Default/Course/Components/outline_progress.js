@@ -69,9 +69,10 @@ Vue.component('outline_progress', {
             return 0;
         },*/
         'state': function (percent) {
-            if (percent == 0) return 'primary';
-            if (percent > 0 && percent < 100) return 'success';
-            return 'primary';
+            if (percent < 10) return 'danger';
+            else if (percent <= 30) return 'warning';
+            else if (percent <= 80) return 'info';
+            else return 'primary';
         },
         //累计学习时间
         studyTime: function (time) {
@@ -92,7 +93,7 @@ Vue.component('outline_progress', {
         },
         //跳转到学习页
         gourl: function () {
-            var url = '/web/course/study.258?olid=3406';
+            var url = '/web/course/study.258?olid=3406';    //示例，其中的数值会被后面替换
             url = $api.url.dot(this.outline.Cou_ID, url);
             url = $api.url.set(url, { 'olid': this.outline.Ol_ID });
             return url;

@@ -126,7 +126,7 @@ $ready(function () {
                         //return;
                         th.loading = true;
                         //接口路径
-                        var apipath = 'Subject/' + (th.id == '' ? 'add' : 'Modify');
+                        var apipath = th.id == '' ? 'Subject/add' : 'Subject/Modify';
                         //接口参数，如果有上传文件，则增加file
                         var para = {};
                         if (th.upfile == null) para = { 'entity': sbj };
@@ -165,8 +165,8 @@ $ready(function () {
             clone: function (entity) {
                 var obj = $api.clone(entity);
                 if (this.upfile == null) {
-                    obj.Sbj_Logo = '';
-                    obj.Sbj_LogoSmall = '';
+                    //obj.Sbj_Logo = '';
+                    //obj.Sbj_LogoSmall = '';
                 }
                 //上级专业
                 if (this.sbjSelects.length > 0)

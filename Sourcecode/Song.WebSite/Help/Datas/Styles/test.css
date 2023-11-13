@@ -29,7 +29,9 @@ body {
     line-height: 30px;
     font-size: 15px;
 }
-
+.error{
+    margin: 15px 0px;
+}
 .data_row {
     margin: 10px 0px;
 }

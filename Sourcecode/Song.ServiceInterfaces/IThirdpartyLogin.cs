@@ -18,6 +18,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ThirdpartyLogin GetSingle(string tag);
         /// <summary>
+        /// 通过id登录配置项
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ThirdpartyLogin GetSingle(int id);
+        /// <summary>
         /// 保存
         /// </summary>
         /// <param name="entity"></param>
@@ -27,6 +33,6 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="isuse"></param>
         /// <returns></returns>
-        ThirdpartyLogin[] GetAll(bool? isuse);
+        List<ThirdpartyLogin> GetAll(bool? isuse);
     }
 }

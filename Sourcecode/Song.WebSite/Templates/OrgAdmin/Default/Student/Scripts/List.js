@@ -105,6 +105,7 @@ $ready(function () {
             },
             //刷新行数据，
             freshrow: function (id) {
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.accounts.length < 1) return;
                 //要刷新的行数据
                 let entity = this.accounts.find(item => item.Ac_ID.toString() == id);

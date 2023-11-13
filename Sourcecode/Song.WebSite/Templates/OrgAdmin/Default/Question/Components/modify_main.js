@@ -7,7 +7,7 @@ Vue.component('modify_main', {
     data: function () {
         return {
             id: $api.dot(),     //试题id
-
+            typename: $api.querystring('typename'),
             course: {},          //当前试题的课程
             question: {
                 Qus_ID: 0,
@@ -36,7 +36,7 @@ Vue.component('modify_main', {
             activeName: 'question',
 
             loading: false,
-            loading_init: false
+            loading_init: true
         }
     },
     watch: {
@@ -60,18 +60,14 @@ Vue.component('modify_main', {
     },
     computed: {
         //课程是否为空
-        coursenull: function () {
-            return JSON.stringify(this.course) != '{}' && this.course != null;
-        },
+        coursenull: t => $api.isnull(t.course),
         //试题是否为空
         'quesnull': function () {
-            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
-            return !ques || this.question.Qus_ID == 0;
+            return $api.isnull(this.question) || this.question.Qus_ID == 0;
         },
         //试题类型
         'quesType': function () {
-            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
-            if (ques && this.question.Qus_Type > 0) return this.question.Qus_Type;
+            if (!$api.isnull(this.question) && this.question.Qus_Type > 0) return this.question.Qus_Type;
             //如果试题不存在，则取文件名
             let name = window.location.pathname;
             if (name.indexOf('.') > -1) name = name.substring(0, name.indexOf('.'));
@@ -80,7 +76,6 @@ Vue.component('modify_main', {
     },
     mounted: function () {
         var th = this;
-        th.loading_init = true;
         $api.bat(
             $api.get('Organization/Current'),
             $api.cache('Question/Types:99999')
@@ -125,7 +120,7 @@ Vue.component('modify_main', {
             promise.then(function (req) {
                 th.getCourse();
             }).catch((err) => alert(err, '错误'))
-                .finally(() => th.loading = false);           
+                .finally(() => th.loading = false);
         },
         //获取课程
         getCourse: function () {
@@ -143,9 +138,7 @@ Vue.component('modify_main', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.$emit('load', th.question, th.course);
-                //Vue.prototype.$alert(err);
-                //console.error(err);
+                th.$emit('load', th.question, th.course);             
             });
         },
         //选项卡是否显示
@@ -165,7 +158,8 @@ Vue.component('modify_main', {
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <template slot="label">
-                    <ques_type :type="quesType" :types="types" :showname="true"></ques_type>
+                    <template v-if="loading_init">{{typename}}</template>
+                    <ques_type v-else :type="quesType" :types="types" :showname="true"></ques_type>
                 </template>
             </el-tab-pane>   
             <el-tab-pane v-for="(item,index) in tabs" :name="item.name" v-if="tabshow(item)">

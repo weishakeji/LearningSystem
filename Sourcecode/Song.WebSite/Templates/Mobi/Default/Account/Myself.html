@@ -94,6 +94,19 @@
                                 </van-field>
                             </van-cell-group>
                         </van-collapse-item>
+                        <van-collapse-item name="21">
+                            <template #title>
+                                <span icon="&#xe687">学员编号 </span>
+                            </template>
+                            <template #value>
+                                {{account.Ac_CodeNumber}}
+                            </template>
+                            <van-cell-group>
+                                <van-field v-model="account.Ac_CodeNumber" label="" placeholder=""
+                                    right-icon="question-o" @click-right-icon="$toast('请输入学员编号')" @blur="update">
+                                </van-field>
+                            </van-cell-group>
+                        </van-collapse-item>
                         <van-collapse-item name="3">
                             <template #title>
                                 <span icon="&#xe804">性别 </span>

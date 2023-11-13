@@ -19,7 +19,9 @@ Vue.component('enter_button', {
         'quesnull': function () {
             var ques = JSON.stringify(this.question) != '{}' && this.question != null;
             return !ques || this.question.Qus_ID == 0;
-        }
+        },
+        //是否是新增试题
+        'isadd': t => t.id == '',
     },
     methods: {
         //常规验证，主要验证试题所属专业、课程等
@@ -51,34 +53,26 @@ Vue.component('enter_button', {
                 if (!this.verify(this.question, this.alert)) return;
             }
             var th = this;
+
+            if (th.loading) return;
             th.loading = true;
-            var isadd = this.id != '' ? false : true;
-            var apipath = isadd ? api = 'add' : 'Modify';
-            if (isadd) th.question.Org_ID = th.organ.Org_ID;
-            $api.post('Question/' + apipath, { 'entity': th.question }).then(function (req) {
-                th.loading = false;
+            if (th.isadd) th.question.Org_ID = th.organ.Org_ID;
+            let apipath = th.isadd ? api = 'Question/add' : 'Question/Modify';
+            $api.post(apipath, { 'entity': th.question }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.$message({
-                        type: 'success',
-                        message: '操作成功!',
-                        center: true
+                        type: 'success', center: true,
+                        message: '操作成功!'
                     });
-                    //如果是新增
-                    //if (isadd) {
-                    //var url = $api.dot(result, window.location.href);
-                    //window.location.href = url;
                     window.setTimeout(function () {
                         th.operateSuccess(isclose);
                     }, 300);
-                    //}
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                th.$alert(err, '错误');
-            });
+            }).catch(err => alert(err, '错误'))
+                .finally(() => th.loading = false);
         },
         //提示信息
         alert: function (msg, tabindex) {
@@ -100,18 +94,23 @@ Vue.component('enter_button', {
         },
         //操作成功
         operateSuccess: function (isclose) {
-            var from = $api.querystring('from');
-            //如果是在课程管理中
+            let pagebox = window.top.$pagebox;
+            if (!(pagebox && pagebox.source.box)) return;
+
+            //来源，判断是否处理课程管理中
+            let from = $api.querystring('from');
             if (from == "course_modify") {
-                console.log(from);
                 //如果处于课程编辑页，则刷新
-                var pagebox = window.top.$pagebox;
-                if (pagebox && pagebox.source.box)
-                    window.top.$pagebox.source.tab(window.name, 'vapp.fresh_frame(\'vapp.freshrow("' + this.id + '")\')', isclose);
-                    //pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
+                if (this.isadd)
+                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
+                else
+                    pagebox.source.tab(window.name, 'vapp.fresh_frame(\'vapp.freshrow("' + this.id + '")\')', isclose);
+
             } else {
-                //window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
-                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
+                if (this.isadd)
+                    pagebox.source.tab(window.name, 'vapp.handleCurrentChange', isclose);
+                else
+                    pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
         }
     },

@@ -50,6 +50,12 @@
                 </el-input>
                 <help>身份证信息中包括了出生年月与性别</help>
             </el-form-item>
+            <el-form-item label="学员编号" prop="Ac_CodeNumber">
+                <el-input v-model="account.Ac_CodeNumber" style="width: 220px;">
+                    <icon slot="prefix">&#xe687</icon>
+                </el-input>
+                
+            </el-form-item>
             <el-form-item label="学历" prop="Ac_Education">
                 <education :value="account.Ac_Education" @change="val=>account.Ac_Education=val"></education>
             </el-form-item>

@@ -23,7 +23,7 @@ $ready(function () {
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.form.orgid = th.organ.Org_ID;
-                    th.loadDatas();
+                    th.handleCurrentChange();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -47,7 +47,7 @@ $ready(function () {
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        th.loadDatas();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -55,7 +55,7 @@ $ready(function () {
                     .finally(() => th.loading = false);
             },
             //加载数据页
-            loadDatas: function (index) {
+            handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
                 th.loading = true;
@@ -74,6 +74,7 @@ $ready(function () {
             },
             //刷新行数据，
             freshrow: function (id) {
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Title_Id == id);

@@ -864,10 +864,10 @@
         arr.push('/Utilities/Panel/Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
             //电脑端拖动与手式拖动的js库,以及其它
-            var arr2 = ['Sortable.min', 'vuedraggable.min', 'hammer.min', 'vue-touch', 'vuecomponent'];
+            var arr2 = ['Sortable.min', 'vuedraggable.min', 'hammer.min', 'vue-touch'];
             for (var t in arr2) arr2[t] = '/Utilities/Scripts/' + arr2[t] + '.js';
             //加载相关组件；图标、上传组件，头像组件
-            var comp = ['icons', 'upload-img', 'upload-file', 'avatar'];
+            var comp = ['icons', 'upload-img', 'upload-file', 'avatar', 'btngroup'];
             for (var c in comp) arr2.push('/Utilities/Components/' + comp[c] + '.js');
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');

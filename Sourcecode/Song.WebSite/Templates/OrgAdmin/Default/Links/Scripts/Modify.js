@@ -90,7 +90,7 @@ $ready(function () {
                     if (valid) {
                         th.loading = true;
                         //接口路径
-                        var apipath = 'Link/' + (th.id == '' ? 'add' : 'Modify');
+                        var apipath = th.id == '' ? 'Link/add' : 'Link/Modify';
                         //接口参数，如果有上传文件，则增加file
                         var para = {};
                         if (th.upfile == null) para = { 'entity': th.entity };

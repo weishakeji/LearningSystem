@@ -44,8 +44,21 @@ Vue.component('config', {
             var th = this;
             th.usable_items = [];
             $api.get('OtherLogin/GetAll', { 'isuse': th.isuse }).then(function (req) {
-                if (req.data.success) {
-                    th.entities = req.data.result;
+                if (req.data.success) {                   
+                    let arr=[];
+                    //去除重复的
+                    let result = req.data.result;
+                    for (let i = 0; i < result.length; i++) {
+                        let isrepeat = false;
+                        for (let j = 0; j < arr.length; j++) {
+                            if (arr[j].Tl_Tag == result[i].Tl_Tag) {
+                                isrepeat = true;
+                                break;
+                            }
+                        }
+                        if (!isrepeat) arr.push(result[i]);
+                    }
+                    th.entities = arr;
                     th.usable_items = th.get_usable_items();
 
                 } else {

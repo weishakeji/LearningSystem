@@ -6,13 +6,13 @@ $ready(function () {
             id: $api.querystring('id'),
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
-          
+
             entity: {},         //当前试题实体
             loading: false,
             loading_init: true,
         },
         watch: {
-        },         
+        },
         created: function () {
             var th = this;
             th.loading_init = true;
@@ -20,16 +20,11 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (organ, types) {
-                th.loading_init = false;
-                //获取结果
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
-            })).catch(function (err) {
-                th.loading_init = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
             this.getEntity();
         },
         mounted: function () {
@@ -42,30 +37,30 @@ $ready(function () {
                 if (th.id == '') return;
                 th.loading = true;
                 $api.put('Question/ForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.entity = result;
-                        th.gourl(th.entity.Qus_Type);
+                        th.gourl(th.entity.Qus_Type, th.types[th.entity.Qus_Type]);
                     } else {
                         throw '未查询到数据';
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                });
-            },            
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => th.loading = false);
+            },
             //转向
-            gourl: function (type) {
+            //type:试题类型的数值
+            //typename:试题类型的名称，如单选题、多选题
+            gourl: function (type, typename) {
                 var url = "Modify_Type" + type;
                 var params = $api.url.params();
                 for (let i = 0; i < params.length; i++)
                     url = $api.url.set(url, params[i].key, params[i].val);
-                url = $api.url.set(url, 'id', '');
+                url = $api.url.set(url, 'typename', encodeURIComponent(typename));
                 if (this.id != '') url = $api.url.dot(this.id, url);
                 var loading = this.$fulloading();
                 window.setTimeout(function () {
                     window.location.href = url;
-                }, 500);               
+                }, 500);
             }
         },
 

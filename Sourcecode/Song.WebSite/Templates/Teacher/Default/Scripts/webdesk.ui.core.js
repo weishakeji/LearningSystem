@@ -863,7 +863,7 @@
             var arr2 = new Array();       
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
-            arr2.push('/Utilities/Scripts/vuecomponent.js');
+            arr2.push('/Utilities/Components/btngroup.js');
             //编辑器
             arr2.push('/Utilities/TinyMCE/tinymce.js');
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');

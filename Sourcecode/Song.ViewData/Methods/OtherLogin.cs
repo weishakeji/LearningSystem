@@ -34,7 +34,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="isuse"></param>
         /// <returns></returns>
-        public ThirdpartyLogin[] GetAll(bool? isuse)
+        public List<ThirdpartyLogin> GetAll(bool? isuse)
         {
             return Business.Do<IThirdpartyLogin>().GetAll(isuse);
         }
@@ -46,7 +46,10 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public ThirdpartyLogin Update(ThirdpartyLogin entity)
         {
-            Song.Entities.ThirdpartyLogin old = Business.Do<IThirdpartyLogin>().GetSingle(entity.Tl_Tag);
+            Song.Entities.ThirdpartyLogin old =
+                entity.Tl_ID > 0 ?
+                Business.Do<IThirdpartyLogin>().GetSingle(entity.Tl_ID)
+                : Business.Do<IThirdpartyLogin>().GetSingle(entity.Tl_Tag);
             if (old == null) old = new ThirdpartyLogin();
             if (!string.IsNullOrWhiteSpace(entity.Tl_Returl) && entity.Tl_Returl.EndsWith("/"))
                 entity.Tl_Returl = entity.Tl_Returl.Substring(0, entity.Tl_Returl.Length - 1);
@@ -60,16 +63,19 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 修改使用状态
         /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="isue"></param>
+        /// <param name="tag">第三方登录项的配置项标识</param>
+        /// <param name="id">第三方登录项在数据库记录中的id</param>
+        /// <param name="isue">是否启用</param>
         /// <returns></returns>
         [HttpPost]
-        public bool ModifyUse(string tag,bool isue)
+        public bool ModifyUse(string tag, int id, bool isue)
         {
             if (string.IsNullOrWhiteSpace(tag)) return false;
-            ThirdpartyLogin entity= Business.Do<IThirdpartyLogin>().GetSingle(tag);
+            ThirdpartyLogin entity = id > 0 ?
+                Business.Do<IThirdpartyLogin>().GetSingle(id)
+                : Business.Do<IThirdpartyLogin>().GetSingle(tag);
             if (entity == null)
-            {      
+            {
                 entity = new ThirdpartyLogin();
                 entity.Tl_Tag = tag;
             }
