@@ -129,7 +129,8 @@
     <Reference Include="Tea, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Tea.1.0.2\lib\net45\Tea.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Core">
+    <Reference Include="WeiSha.Core, Version=2.0.8717.34579, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
     </Reference>
     <Reference Include="WeiSha.ORM">

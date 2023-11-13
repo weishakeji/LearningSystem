@@ -148,7 +148,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeiSha.Core">
+    <Reference Include="WeiSha.Core, Version=2.0.8717.34579, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
     </Reference>
     <Reference Include="WeiSha.ORM">
