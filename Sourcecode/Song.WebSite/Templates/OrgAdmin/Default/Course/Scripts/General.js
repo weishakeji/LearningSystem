@@ -153,32 +153,39 @@
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var obj = th.clone(th.entity);
-                        //接口参数，如果有上传文件，则增加file
-                        var para = { 'course': obj };
-                        if (th.upfile != null) para['file'] = th.upfile;
-                        console.log(obj);
-                        th.loading = true;
-                        $api.post('Course/Modify', para).then(function (req) {
-                            th.loading = false;
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                th.$message({
-                                    type: 'success',
-                                    message: '修改成功!',
-                                    center: true
-                                });
-                                th.fresh_parent(result.Cou_ID);
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            th.$alert(err, '错误');
+                        this.$confirm('此操作仅保存“基础信息”的内容，不包括课程管理的其它选项卡, 是否继续?', '是否保存修改', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            var obj = th.clone(th.entity);
+                            //接口参数，如果有上传文件，则增加file
+                            var para = { 'course': obj };
+                            if (th.upfile != null) para['file'] = th.upfile;
+                            console.log(obj);
+                            th.loading = true;
+                            $api.post('Course/Modify', para).then(function (req) {
+                                th.loading = false;
+                                if (req.data.success) {
+                                    var result = req.data.result;
+                                    th.$message({
+                                        type: 'success',
+                                        message: '修改成功!',
+                                        center: true
+                                    });
+                                    th.fresh_parent(result.Cou_ID);
+                                } else {
+                                    throw req.data.message;
+                                }
+                            }).catch(function (err) {
+                                th.$alert(err, '错误');
+                            });
                         });
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
+
                 });
             },
             //为上传数据作处理

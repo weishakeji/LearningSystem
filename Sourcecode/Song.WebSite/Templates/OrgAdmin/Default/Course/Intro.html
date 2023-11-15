@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <editor :content="course.Cou_Intro" model="general" upload="Course" :dataid="course.Cou_ID"
+            @change="text=>course.Cou_Intro=text">
+        </editor>
+
+        <div class="footer">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                修改课程简介
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -11,6 +11,7 @@
             course: {},     //当前课程
             tabs: [
                 { name: '基本信息', tab: 'general', icon: '&#xa038' },
+                { name: '简介', tab: 'intro', icon: '&#xe63d' },
                 { name: '资费', tab: 'money', icon: '&#xe81c' },
                 { name: '章节', tab: 'outline', icon: '&#xe841' },
                 { name: '试题', tab: 'question', icon: '&#xe75e' },

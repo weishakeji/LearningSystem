@@ -48,19 +48,21 @@
 
                     <el-switch v-model="entity.Cou_IsUse" :active-text="entity.Cou_IsUse ? '启用' : '禁用'">
                     </el-switch>
-                    （只有启用后，学员才能看到该课程）
+                    <help>只有启用后，学员才能看到该课程</help>
 
                 </el-form-item>
                 <el-form-item label="" prop="Cou_IsRec">
 
                     <el-switch v-model="entity.Cou_IsRec" :active-text="entity.Cou_IsRec ? '推荐' : '未推荐'">
-                    </el-switch>（推荐后优先展示）
+                    </el-switch>
+                    <help>推荐后优先展示</help>
 
                 </el-form-item>
                 <el-form-item label="排序号" prop="Cou_Tax">
                     <el-tooltip class="item" effect="dark" content="数值越大越靠前" placement="right">
-                        <el-input v-model="entity.Cou_Tax" style="width: 180px;"></el-input>
+                        <el-input v-model.number="entity.Cou_Tax" type="number" style="width: 180px;"></el-input>
                     </el-tooltip>
+                    <help>数值越大越靠前</help>
                 </el-form-item>
                 <el-form-item label="访问数" prop="Cou_ViewNum">
                     <el-input v-model="entity.Cou_ViewNum" style="width: 180px;">
@@ -71,18 +73,12 @@
                     <editor :content="entity.Cou_Target" model="mini" style="height: 200px;" upload="Course"
                         :dataid="entity.Cou_ID" @change="text=>entity.Cou_Target=text">
                     </editor>
-                </el-form-item>
-                <el-form-item label="课程简介" prop="Cou_Intro">
-                    <editor :content="entity.Cou_Intro" model="general" style="height: 400px;" upload="Course"
-                        :dataid="entity.Cou_ID" @change="text=>entity.Cou_Intro=text">
-                    </editor>
-
-                </el-form-item>
+                </el-form-item>              
             </el-form>
         </div>
         <div class="footer">
-            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                <icon v-if="!loading">&#xa048</icon>修改课程信息
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                修改课程信息
             </el-button>
         </div>
     </div>

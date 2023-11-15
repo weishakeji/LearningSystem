@@ -1,0 +1,37 @@
+﻿
+/*编辑框*/
+.editor {
+    width: 100%;
+    height: calc(100% - 10px) !important;
+}
+.editor {
+    padding: 0px;
+}
+/*去除编辑器的边线*/
+.editor .tox-tinymce {
+	border: none !important;
+}
+.editor .tox-statusbar{
+	border: none !important;
+}
+/*编辑框的工具栏去除边线*/
+.tox .tox-toolbar, .tox .tox-toolbar__overflow, .tox .tox-toolbar__primary{
+    background:none !important;
+}
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type) {
+    border-right: none !important;
+}
+
+.editor iframe.tox-edit-area__iframe{
+    border: 1px solid #ccc;
+    border-top: none;
+}
+/*编辑器的状态*/
+.tox .tox-statusbar{
+    width: calc(100% - 150px);
+    margin-top: 15px;
+}
+
+.footer{
+    padding: 0px;
+}
