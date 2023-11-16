@@ -79,14 +79,21 @@
                                 </div>
                                 <el-tooltip content="点击上传图片" placement="bottom" effect="light">
                                     <div slot="content">
-                                        图片宽高比为16：9 <br />
-                                        像素大小不限<br />
-                                        文件大小限制为最大1Mb<br />
-                                        图片类型限：jpg,png,gif<br />
+                                        1、图片文件最大限1Mb<br />
+                                        2、图片格式限jpg、png、gif<br />
+                                        3、图形像素大小不限<br />
+                                        4、图片建议宽高比为16：9 <br />
                                     </div>
                                     <icon class="photo_add">&#xe6ea</icon>
                                 </el-tooltip>
                             </template>
+                            <help multi slot="help" v-if="!islogo">
+                                图像要求：<br />
+                                1、图片文件最大限1Mb<br />
+                                2、图片格式限jpg、png、gif<br />
+                                3、图形像素大小不限<br />
+                                4、图片建议宽高比为16：9 <br />
+                            </help>
                         </upload-img>
                     </el-col>
                 </el-row>

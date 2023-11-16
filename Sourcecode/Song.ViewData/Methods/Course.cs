@@ -89,11 +89,12 @@ namespace Song.ViewData.Methods
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         public Song.Entities.Course Add(string name, int orgid, long sbjid, int thid)
         {
+            Song.Entities.Course entity = new Entities.Course();
+            entity.Cou_Name = name;
+            entity.Org_ID = orgid;
             try
             {
-                Song.Entities.Course entity = new Entities.Course();
-                entity.Cou_Name = name;
-                entity.Org_ID = orgid;
+               
                 if (thid > 0)
                 {
                     entity.Th_ID = thid;
@@ -113,6 +114,8 @@ namespace Song.ViewData.Methods
             }
             catch (Exception ex)
             {
+                if (this.Files.Count > 0)
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(entity.Cou_Logo);
                 throw ex;
             }
         }
@@ -187,24 +190,27 @@ namespace Song.ViewData.Methods
         {
             string filename = string.Empty, smallfile = string.Empty;
             //只保存第一张图片
-            foreach (string key in this.Files)
+            if (this.Files.Count > 0)
             {
-                HttpPostedFileBase file = this.Files[key];
-                filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                file.SaveAs(PhyPath + filename);               
-                try
+                foreach (string key in this.Files)
                 {
-                    //生成缩略图
-                    smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                    WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                    HttpPostedFileBase file = this.Files[key];
+                    filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                    file.SaveAs(PhyPath + filename);
+                    try
+                    {
+                        //生成缩略图
+                        smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
+                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        //WeiSha.Core.Upload.Get["Course"].DeleteFile(filename);
+                        //throw ex;
+                    }
+
+                    break;
                 }
-                catch(Exception ex)
-                {
-                    WeiSha.Core.Upload.Get["Course"].DeleteFile(filename);
-                    throw ex;
-                }
-             
-                break;
             }
             course.Cou_Logo = filename;
             course.Cou_LogoSmall = smallfile;
@@ -1502,14 +1508,9 @@ namespace Song.ViewData.Methods
         {
             if (course == null) return course;
             course.Cou_Logo = System.IO.File.Exists(PhyPath + course.Cou_Logo) ? VirPath + course.Cou_Logo : "";
-            //如果缩略图不为空
-            if (!string.IsNullOrWhiteSpace(course.Cou_LogoSmall))
-            {
-                course.Cou_LogoSmall = System.IO.File.Exists(PhyPath + course.Cou_LogoSmall) ? VirPath + course.Cou_LogoSmall : "";
-            }else if (!string.IsNullOrWhiteSpace(course.Cou_Logo))
-            {
-                course.Cou_LogoSmall = WeiSha.Core.Images.Name.ToSmall(course.Cou_Logo);
-            }
+            course.Cou_LogoSmall = System.IO.File.Exists(PhyPath + course.Cou_LogoSmall) ? VirPath + course.Cou_LogoSmall : "";
+            if (string.IsNullOrWhiteSpace(course.Cou_LogoSmall) && !string.IsNullOrWhiteSpace(course.Cou_Logo))
+                course.Cou_LogoSmall = course.Cou_Logo;
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
