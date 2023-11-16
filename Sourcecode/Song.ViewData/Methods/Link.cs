@@ -233,6 +233,7 @@ namespace Song.ViewData.Methods
             }
             catch (Exception ex)
             {
+                WeiSha.Core.Upload.Get["Links"].DeleteFile(filename);
                 throw ex;
             }
         }
@@ -286,6 +287,7 @@ namespace Song.ViewData.Methods
             }
             catch (Exception ex)
             {
+                WeiSha.Core.Upload.Get["Links"].DeleteFile(filename);
                 throw ex;
             }
         }

@@ -107,6 +107,7 @@
                     th.loading_obj.close();
                     if (req.data.success) {
                         th.entity = req.data.result;
+                        console.log(th.entity);
                         //将当前课程的专业，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Sbj_ID);
@@ -162,7 +163,7 @@
                             //接口参数，如果有上传文件，则增加file
                             var para = { 'course': obj };
                             if (th.upfile != null) para['file'] = th.upfile;
-                            console.log(obj);
+                            // console.log(obj);                           
                             th.loading = true;
                             $api.post('Course/Modify', para).then(function (req) {
                                 th.loading = false;
@@ -191,7 +192,7 @@
             //为上传数据作处理
             clone: function (entity) {
                 //获取表单项中的prop的值
-                var formitems = this.$refs['entity'].$children;
+                var formitems = this.$refs['entity'].fields;
                 var props = [];
                 for (let i = 0; i < formitems.length; i++) {
                     let prop = formitems[i].$options.propsData.prop;

@@ -16,7 +16,8 @@
         </editor>
 
         <div class="footer">
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading_init || loading" plain
+                @click="btnEnter('entity')">
                 修改课程简介
             </el-button>
         </div>

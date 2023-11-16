@@ -46,29 +46,18 @@ namespace Song.ViewData.Methods
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Subject Add(Song.Entities.Subject entity)
-        {
-            string filename = string.Empty, smallfile = string.Empty;
+        {          
+            if (this.Files.Count > 0)
+                entity = this._upload_photo(this.Files, entity);
             try
-            {
-                //只保存第一张图片
-                foreach (string key in this.Files)
-                {
-                    HttpPostedFileBase file = this.Files[key];
-                    filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                    file.SaveAs(PhyPath + filename);
-                    //生成缩略图
-                    smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                    WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 300, 300, 2);
-                    break;
-                }
-                entity.Sbj_Logo = filename;
-                entity.Sbj_LogoSmall = smallfile;
-
+            {  
                 Business.Do<ISubject>().SubjectAdd(entity);
                 return entity;
             }
             catch (Exception ex)
             {
+                if (this.Files.Count > 0)
+                    WeiSha.Core.Upload.Get["Subject"].DeleteFile(entity.Sbj_Logo);
                 throw ex;
             }
         }
@@ -83,50 +72,60 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public Song.Entities.Subject Modify(Song.Entities.Subject entity)
         {
-            string filename = string.Empty, smallfile = string.Empty;
+            Song.Entities.Subject old = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
+            if (old == null) throw new Exception("Not found entity for Subject！");
+            //上传的图片
+            string oldlogo = old.Sbj_Logo;      //之前的图片
+            entity = this._upload_photo(this.Files, entity);
             try
             {
-                Song.Entities.Subject old = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
-                if (old == null) throw new Exception("Not found entity for Links！");
-                //如果有上传文件
-                if (this.Files.Count > 0)
-                {
-                    //只保存第一张图片
-                    foreach (string key in this.Files)
-                    {
-                        HttpPostedFileBase file = this.Files[key];
-                        filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                        file.SaveAs(PhyPath + filename);
-                        //生成缩略图
-                        smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 100, 100, 2);
-                        break;
-                    }
-                    entity.Sbj_Logo = filename;
-                    entity.Sbj_LogoSmall = smallfile;
-
-                    if (!string.IsNullOrWhiteSpace(old.Sbj_Logo))
-                    {
-                        WeiSha.Core.Upload.Get["Subject"].DeleteFile(old.Sbj_Logo);
-                    }
-                }
-                else
-                {
-                    //如果没有上传图片，且新对象没有图片，则删除旧图
-                    if (string.IsNullOrWhiteSpace(entity.Sbj_Logo) && !string.IsNullOrWhiteSpace(old.Sbj_Logo))
-                    {
-                        WeiSha.Core.Upload.Get["Subject"].DeleteFile(old.Sbj_Logo);
-                    }
-                }
-
-                old.Copy<Song.Entities.Subject>(entity, "Sbj_CrtTime");
+                string nomidfy = "Sbj_CrtTime";
+                if (this.Files.Count < 1) nomidfy += "Sbj_Logo,Sbj_LogoSmall";
+                old.Copy<Song.Entities.Subject>(entity, nomidfy);
                 Business.Do<ISubject>().SubjectSave(old);
-                return old;
+                if ((this.Files.Count > 0 && !string.IsNullOrWhiteSpace(oldlogo))
+                    || (this.Files.Count < 1) && string.IsNullOrWhiteSpace(entity.Sbj_Logo) && !string.IsNullOrWhiteSpace(oldlogo))
+                {
+                    WeiSha.Core.Upload.Get["Subject"].DeleteFile(oldlogo);
+                }
+                return _tran(old);
             }
             catch (Exception ex)
             {
+                if (this.Files.Count > 0)
+                    WeiSha.Core.Upload.Get["Subject"].DeleteFile(entity.Sbj_Logo);                
                 throw ex;
             }
+        }
+        private Song.Entities.Subject _upload_photo(HttpFileCollectionBase files, Song.Entities.Subject entity)
+        {
+            string filename = string.Empty, smallfile = string.Empty;
+            //只保存第一张图片
+            if (this.Files.Count > 0)
+            {
+                foreach (string key in this.Files)
+                {
+                    HttpPostedFileBase file = this.Files[key];
+                    filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                    file.SaveAs(PhyPath + filename);
+                    try
+                    {
+                        //生成缩略图
+                        smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
+                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        //WeiSha.Core.Upload.Get["Subject"].DeleteFile(filename);
+                        //throw ex;
+                    }
+
+                    break;
+                }
+            }
+            entity.Sbj_Logo = filename;
+            entity.Sbj_LogoSmall = smallfile;
+            return entity;
         }
         /// <summary>
         /// 更改专业的排序
@@ -264,10 +263,10 @@ namespace Song.ViewData.Methods
         {
             List<Song.Entities.Subject> sbjs = Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, 0, count);
             string path = WeiSha.Core.Upload.Get["Subject"].Virtual;
-            foreach (Song.Entities.Subject c in sbjs)
+            for(int i = 0; i < sbjs.Count; i++)
             {
-                c.Sbj_Logo = path + c.Sbj_Logo;
-                c.Sbj_LogoSmall = path + c.Sbj_LogoSmall;
+                Song.Entities.Subject c = sbjs[i];
+                c = _tran(c);              
                 //如果别名为空，则别名等于专业名称
                 if (string.IsNullOrWhiteSpace(c.Sbj_ByName) || c.Sbj_ByName.Trim() == "")
                     c.Sbj_ByName = c.Sbj_Name;
@@ -331,6 +330,8 @@ namespace Song.ViewData.Methods
             if (obj == null) return obj;
             obj.Sbj_Logo = System.IO.File.Exists(PhyPath + obj.Sbj_Logo) ? VirPath + obj.Sbj_Logo : "";
             obj.Sbj_LogoSmall = System.IO.File.Exists(PhyPath + obj.Sbj_LogoSmall) ? VirPath + obj.Sbj_LogoSmall : "";
+            if (string.IsNullOrWhiteSpace(obj.Sbj_LogoSmall) && !string.IsNullOrWhiteSpace(obj.Sbj_Logo))
+                obj.Sbj_LogoSmall = obj.Sbj_Logo;
             return obj;
         }
         #endregion

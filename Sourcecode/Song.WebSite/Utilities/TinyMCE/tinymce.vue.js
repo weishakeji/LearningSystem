@@ -194,6 +194,7 @@ Vue.component('editor', {
                         //var escapedClassName = ed.id.replace(/(\[|\])/g, '\\$&');
                         //console.log(content);
                     });
+                    //ed.oninput();
                 },
                 //自定义插入图片函数  blobInfo: 本地图片blob对象, succFun(url|string)： 成功回调（插入图片链接到文本中）, failFun(string)：失败回调
                 images_upload_handler: function (blobInfo, succFun, failFun) {
@@ -220,7 +221,15 @@ Vue.component('editor', {
                     }
                     var d = editor.getParam('dataid', 123);
                     console.log('dataid: ' + d);
-                    //var html = editor.getContent();                 
+                    //var html = editor.getContent();   
+                      
+                    //初次加载时，计算内容中的字数           
+                    var wordcount = tinymce.activeEditor.plugins.wordcount;
+                    var wordcount_el = document.querySelectorAll('.tox-statusbar__wordcount');
+                    if (wordcount_el.length > 0) {
+                        wordcount_el[0].innerHTML = wordcount_el[0].innerHTML.replace('0', wordcount.body.getWordCount());
+                    }
+                  
 
                     //alert(html);
                     //tinyMCE.editors[tinymceConfig.tinyID+'2'].setContent(html2); 

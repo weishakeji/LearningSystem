@@ -122,16 +122,14 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
-                        var sbj = th.clone(th.entity);
+                        let sbj = th.clone(th.entity);
                         //return;
                         th.loading = true;
                         //接口路径
-                        var apipath = th.id == '' ? 'Subject/add' : 'Subject/Modify';
+                        let apipath = th.id == '' ? 'Subject/add' : 'Subject/Modify';
                         //接口参数，如果有上传文件，则增加file
-                        var para = {};
-                        if (th.upfile == null) para = { 'entity': sbj };
-                        else
-                            para = { 'file': th.upfile, 'entity': sbj };
+                        let para = { 'entity': sbj };
+                        if (th.upfile != null) para['file'] = th.upfile;
                         $api.post(apipath, para).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
@@ -146,9 +144,8 @@ $ready(function () {
                             } else {
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            alert(err, '错误');
-                        });
+                        }).catch(err => alert(err, '错误'))
+                            .finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

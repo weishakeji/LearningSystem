@@ -53,21 +53,27 @@
                 </div>
 
                 <div v-show="activeName=='logo'" remark="展示图片" tab="logo">
-                    <el-form-item label="" prop="Sbj_Logo">
-                        <el-link type="primary" style="float: right;" v-if="islogo"
-                            @click="()=>{upfile=null;entity.Sbj_Logo = entity.Sbj_LogoSmall=''}">清除图片
-                        </el-link>
-                    </el-form-item>
                     <upload-img @change="(file)=>upfile=file" :data="entity" size="1024" ext="jpg,png,gif">
                         <template v-if="islogo">
                             <img v-if="upfile!=null" :src="upfile.base64" />
                             <img v-else :src="entity.Sbj_Logo" />
+                            <el-link type="danger" class="remove" icon="el-icon-delete"
+                                @click.stop="()=>{upfile=null;entity.Sbj_Logo = entity.Sbj_LogoSmall=''}">
+                                清除图片</el-link>
                         </template>
                         <div class="nophoto" v-else>
-                            <el-tooltip content="点击上传图片" placement="right" effect="light">
-                                <icon>&#xe6ea</icon>
-                            </el-tooltip>
+                            <div>
+                                <el-tooltip content="点击上传图片" placement="right" effect="light">
+                                    <icon>&#xe6ea</icon>
+                                </el-tooltip>
+                            </div>
                         </div>
+                        <help multi slot="help">
+                            图像要求：<br />
+                            1、图片文件最大限1Mb<br />
+                            2、图片格式限jpg、png、gif<br />
+                            3、图形像素大小不限<br />
+                        </help>
                     </upload-img>
                 </div>
                 <div v-show="activeName=='detail'" class="about_editor" tab="detail" remark="详情">

@@ -57,29 +57,47 @@
 .el-tabs__content {
     display: none;
 }
-
+/*上传图片*/
+.upload_img_area{
+    display: flex;    
+}
 /*没有图片*/
-
-.nophoto {
-    width: 100px;
-    height: 100px;
+.nophoto{
+    display: flex;
+}
+.nophoto>div:first-child {
+    width: 150px;
+    height: 150px;
     line-height: 100px;
     color: #aaa;
-    background-color: #eee;
-    text-align: center;
-    cursor: pointer;
+    background-color: #eee;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .nophoto icon{   
-    font-size:35px;
-    text-align: center;
+    font-size:50px;
     margin: 0px 0px 0px 10px;
 }
-.upload_img_area{
-    display: table;
-    float: left;
-    width: 100%;
+.upload_img_area>help:last-child{
+    margin: 5px 0px 0px 15px;
+    font-size: 14px;
+    color: #aaa;
+   
 }
+
 .upload_img_area img{
     max-height: 180px;
     max-width: 100%;
+}
+
+.upload_img_area .remove {
+	position: absolute;
+	display: block;
+	top: 3px;
+	left: 3px;
+	text-shadow: -1px -1px 3px #fff, 1px 1px 3px #fff;
+	border-radius: 5px;
+	background-color: rgba(255, 232, 128, 0.6);
+	padding: 2px 6px;
 }

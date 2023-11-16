@@ -395,6 +395,8 @@
     <Content Include="Templates\OrgAdmin\Default\Capital\Styles\RecordOutput.css" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Styles\Records.css" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Styles\RecordView.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Intro.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Intro.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\StudyLogExport.html" />
     <Content Include="Templates\OrgAdmin\Default\Course\GuideModify.html" />
     <Content Include="Templates\OrgAdmin\Default\Course\GuideColumns.html" />
@@ -405,6 +407,7 @@
     <Content Include="Templates\OrgAdmin\Default\Course\Scripts\GuideColumns.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Scripts\OutlineModify.js" />
     <Content Include="Templates\OrgAdmin\Default\Course\Scripts\OutlineAccessory.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Intro.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\StudyLogExport.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\GuideModify.css" />
     <Content Include="Templates\OrgAdmin\Default\Course\Styles\GuideColumns.css" />

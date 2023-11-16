@@ -1,13 +1,22 @@
 ﻿@charset "utf-8";
-.context{
-	height: calc(100% - 50px);
+
+.context {
+	height: calc(100% - 40px);
 	overflow-y: auto;
+	overflow-x: hidden;
 }
+
+.el-form {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+}
+
 /*图片上传*/
 
 .upload_img_area {
-	width: 240px;
-	height: 135px;	
+	width: 355px;
+	height: 200px;
 	cursor: pointer;
 	color: #ccc;
 }
@@ -29,13 +38,16 @@
 	position: absolute;
 	display: block;
 	top: 3px;
-	right: 3px;
+	left: 3px;
 	text-shadow: -1px -1px 3px #fff, 1px 1px 3px #fff;
+	border-radius: 5px;
+	background-color: rgba(255, 232, 128, 0.6);
+	padding: 2px 6px;
 }
 
 /*没有图片*/
 .nophoto {
-	height: 30px;		
+	height: 30px;
 	padding: 0px 0px 0px 15px;
 }
 
@@ -46,17 +58,27 @@
 .nophoto i {
 	font-size: 20px;
 }
-.photo_add{
+
+.photo_add {
 	display: block;
 	width: 100%;
-	margin-top: calc((135px - 40px - 30px) / 2 );
-	text-align:center;
+	margin-top: calc((135px - 40px - 30px) / 2);
+	text-align: center;
 	color: #999;
 	font-size: 25px;
 }
 
-.footer{
+.footer {
 	width: 100%;
 	padding-right: 0px;
 	padding-bottom: 0px;
+}
+
+/*学习目标的区域*/
+.target {
+	height: calc(100% - 260px);
+	min-height: 200px;	
+}
+.target .el-form-item__content{
+	height: 100%;
 }

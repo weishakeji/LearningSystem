@@ -127,34 +127,37 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "course")]
         public Song.Entities.Course Modify(JObject course)
         {
+            long couid = 0;
+            long.TryParse(course["Cou_ID"].ToString(), out couid);
+            Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(couid);
+            if (old == null) throw new Exception("Not found entity for Course！");
+            //
+            string cou_logo = course["Cou_Logo"] != null ? course["Cou_Logo"].ToString() : string.Empty;
+            if (this.Files.Count <= 0 && string.IsNullOrWhiteSpace(cou_logo) && !string.IsNullOrWhiteSpace(old.Cou_Logo))
+                WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+            //接收上传的图片
+            if (this.Files.Count > 0)
+            {
+                if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+                old = this._upload_photo(this.Files, old);
+            }
             try
             {
-                long couid = 0;
-                long.TryParse(course["Cou_ID"].ToString(), out couid);
-                Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(couid);
-                if (old == null) throw new Exception("Not found entity for Course！");
-                //
-                string cou_login = course["Cou_Logo"] != null ? course["Cou_Logo"].ToString() : string.Empty;
-                if (this.Files.Count <= 0 && string.IsNullOrWhiteSpace(cou_login) && !string.IsNullOrWhiteSpace(old.Cou_Logo))
-                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-                //接收上传的图片
-                if (this.Files.Count > 0)
-                {
-                    if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
-                        WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-                    old = this._upload_photo(this.Files, old);                   
-                }
                 //某些字段将不同步修改                   
                 string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name,Cou_Logo,Cou_LogoSmall";
                 ////如果名称为空，则不修改
                 //if (string.IsNullOrWhiteSpace(course.Cou_Name))
                 //    nomidfy = "Cou_Name," + nomidfy;
                 old.Copy<Song.Entities.Course>(course, nomidfy);
+
                 Business.Do<ICourse>().CourseSave(old);
                 return old;
             }
             catch (Exception ex)
             {
+                if (this.Files.Count > 0)               
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);               
                 throw ex;
             }
         }
@@ -188,10 +191,19 @@ namespace Song.ViewData.Methods
             {
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                file.SaveAs(PhyPath + filename);
-                //生成缩略图
-                smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                file.SaveAs(PhyPath + filename);               
+                try
+                {
+                    //生成缩略图
+                    smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
+                    WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                }
+                catch(Exception ex)
+                {
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(filename);
+                    throw ex;
+                }
+             
                 break;
             }
             course.Cou_Logo = filename;
