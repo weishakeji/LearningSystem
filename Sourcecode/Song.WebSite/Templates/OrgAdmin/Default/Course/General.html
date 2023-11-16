@@ -17,7 +17,7 @@
                         <el-form-item label="课程类型" prop="Cou_Type">
                             <el-radio-group v-model="entity.Cou_Type" fill="#129352">
                                 <el-radio-button :label="0">学练考</el-radio-button>
-                                <el-radio-button :label="2">试题型</el-radio-button>
+                                <el-radio-button :label="2">试题库</el-radio-button>
                             </el-radio-group>
                             <help v-if="entity.Cou_Type==0">
                                 包括 视频学习、试题练习、结课考试

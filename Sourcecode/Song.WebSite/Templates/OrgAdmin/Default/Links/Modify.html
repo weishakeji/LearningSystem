@@ -102,11 +102,9 @@
                             <icon slot="prefix">&#xe677</icon>
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="显示" prop="Lk_IsShow">
-                        <el-switch v-model="entity.Lk_IsShow" :active-text="entity.Lk_IsShow ? '显示' : '隐藏'">
-                        </el-switch>
-                        <br />
-                        <help>是否显示联系方式</help>
+                    <el-form-item label="" prop="Lk_IsShow">
+                        <el-switch v-model="entity.Lk_IsShow" :active-text="entity.Lk_IsShow ? '显示联系方式' : '不显示联系方式'">
+                        </el-switch>                       
                     </el-form-item>
                 </div>
             </el-form>

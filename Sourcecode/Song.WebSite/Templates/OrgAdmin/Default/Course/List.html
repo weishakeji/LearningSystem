@@ -59,7 +59,8 @@
                         <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
                     </a>
                     <div>
-                        <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
+                        <el-tag type="warning" v-if="scope.row.Cou_Type">试题库</el-tag>
+                        <live v-if="scope.row.Cou_Type!=2 && scope.row.Cou_ExistLive" title="直播课"></live>
                         <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
                             v-html="showsearch(scope.row.Cou_Name,form.search)" class="large"> </a>
                     </div>
