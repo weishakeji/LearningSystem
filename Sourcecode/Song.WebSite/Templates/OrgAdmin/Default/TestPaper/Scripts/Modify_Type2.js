@@ -196,6 +196,7 @@ $ready(function () {
                         var errmsg = '存在错误，请检查填写项';
                         let fromtype = th.$refs['fromtype' + th.entity.Tp_FromType];
                         //var checked = this.$refs['fromtype0'].check();
+                        //console.error(fromtype);
                         if (fromtype != null && !fromtype.check()) {
                             th.$message.error(errmsg);
                             th.activeName = 'range';

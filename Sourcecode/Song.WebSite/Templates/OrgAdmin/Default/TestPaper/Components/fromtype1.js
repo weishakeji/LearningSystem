@@ -256,10 +256,11 @@ Vue.component('fromtype1', {
         //检验输入
         check: function () {
             var ispass = this.changePercent();
+            console.error(ispass);
             if (!ispass) return ispass;
             //检查当有试题时，占分比不得为空
             for (let i = 0; i < this.items.length; i++) {
-                if (this.items[i].TPI_Count > 0 && this.items[i].TPI_Percent <= 0)
+                if (this.items[i].TPI_Count > 0 && this.items[i].TPI_Percent < 0)
                     return false;
             }
             if (this.sumPercent != 100) ispass = false;
