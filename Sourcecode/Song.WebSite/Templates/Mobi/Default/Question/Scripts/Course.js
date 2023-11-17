@@ -34,6 +34,18 @@ $ready(function () {
                     this.calcCount();
                 }
             },
+            //章节id
+            'olid': {
+                handler: function (nv, ov) {
+                    if (nv != 0) {
+                        var uri = $api.url.set('exercise', {                           
+                            'couid': this.couid,
+                            'olid': nv,
+                          });
+                          //window.navigateTo(uri);
+                    }
+                }, immediate: true
+            },
             //当通过率变更时，即计算完成
             'rate': function (nv, ov) {
                 if (nv <= 0 || nv === Infinity || isNaN(nv)) return;
@@ -42,7 +54,7 @@ $ready(function () {
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
-                            th.$notify({ type: 'success', message: '保存通过率成功' });
+                            //th.$notify({ type: 'success', message: '保存通过率成功' });
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

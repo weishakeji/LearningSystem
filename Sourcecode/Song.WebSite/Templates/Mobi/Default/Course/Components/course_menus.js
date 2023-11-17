@@ -90,7 +90,10 @@ Vue.component('course_menus', {
             //菜单项与章节都为空，且课程未购买
             if (item == null && this.outline == null && !this.owned) return this.gobuy();
             //如果item为空,则来自于章节列表点击
-            if (item == null) item = this.firstitem();
+            if (item == null) {
+                if (this.course.Cou_Type == 0) item = this.getitem();
+                if (this.course.Cou_Type == 2) item = this.getitem('question');
+            }
             this.outline = outline;
             this.curr_menus = item;
             let olid = outline != null ? outline.Ol_ID : 0;
@@ -121,14 +124,23 @@ Vue.component('course_menus', {
             }
         },
         //第一个可用的菜单项
-        firstitem: function () {
+        getitem: function (id) {
             let item = null;
-            for (let i = 0; i < this.menus.length; i++) {
-                if (!this.menus[i].show) continue;
-                item = this.menus[i];
-                break;
+            if (id != null) item = this.menus.find(t => t.id == id);
+            if (id == null || item == null) {
+                for (let i = 0; i < this.menus.length; i++) {
+                    if (!this.menus[i].show) continue;
+                    item = this.menus[i];
+                    break;
+                }
             }
             return item;
+        },
+        //判断菜单项是否显示
+        showitem: function (item) {
+            if (!item.show) return false;
+            if (this.course.Cou_Type == 2 && item.id == 'video') return false;
+            return true;
         },
         //跳转，课程id和章节id
         gourl: function (url, couid, olid) {
@@ -168,7 +180,7 @@ Vue.component('course_menus', {
     //
     template: `<div class="mainmenu">
                 <div class="mainmenuBox">
-                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="m.show" :disabled="m.disabled">
+                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="showitem(m)" :disabled="m.disabled">
                         <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
                         <span v-if="m.count>0 && m.id!='testfinal'">{{m.count}}</span>
