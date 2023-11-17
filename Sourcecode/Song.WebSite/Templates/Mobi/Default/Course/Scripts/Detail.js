@@ -82,6 +82,7 @@ $ready(function () {
                 if (Number(viewnum.data.result) >= 0)
                     th.course.Cou_ViewNum = viewnum.data.result;
                 document.title = th.course.Cou_Name;
+              
                 if (!th.course) return;
 
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
@@ -91,8 +92,7 @@ $ready(function () {
                     $api.get('Course/Datainfo', { 'couid': th.couid }),
                     $api.cache('Guide/Guides:3', { 'couid': th.couid, 'show': '', 'use': true, 'count': 20 }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {
-                    th.loading_init = false;
+                ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {                   
                     //获取结果
                     th.outlines = outlines.data.result;
                     th.prices = prices.data.result;
@@ -117,14 +117,10 @@ $ready(function () {
                             console.error(err);
                         });
                     }
-                })).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         methods: {
             //清理Html标签

@@ -76,9 +76,10 @@
                             <picture @click="godetail(item.Cou_ID)">
                                 <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
                                 <img :src="defimg" v-else />
-                                <van-tag type="danger" class="rec" v-if="item.Cou_IsRec">推荐</van-tag>
+                                <rec v-if="item.Cou_IsRec"></rec>                                 
                                 <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}
                                 </van-tag>
+                                <van-tag type="primary" class="type" v-if="item.Cou_Type==2">题库</van-tag> 
                             </picture>
                             <info @click="godetail(item.Cou_ID)">
                                 <div class="curname">
@@ -104,7 +105,7 @@
                                 </price>
                             </info>
                             <div class="progress">
-                                <video_progress :course="item" :stid="account.Ac_ID" :config="config"
+                                <video_progress v-if="item.Cou_Type==0" :course="item" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data">
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">

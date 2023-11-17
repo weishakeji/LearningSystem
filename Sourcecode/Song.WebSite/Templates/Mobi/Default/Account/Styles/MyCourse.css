@@ -115,11 +115,22 @@
     border-radius: 3px;   
 }
 
-.cour_box picture .rec {
+/*推荐的角标*/
+
+.cour_box rec {
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: 8px;
+    left: -3px;
 }
+
+.cour_box rec:before {
+    content: "\e741";
+    font-family: webdesk_icon;
+    font-size: 40px;
+    color: #ff1313;
+    text-shadow: -1px -1px 5px #fff, -1px -1px 1px #fff;
+}
+
 
 .cour_box picture .view {
     position: absolute;
@@ -133,7 +144,11 @@
     font-family: webdesk_icon;
     margin-right: 3px;
 }
-
+.cour_box picture .type {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
 .cour_box .van-cell__title {
     display: flex;
 }
