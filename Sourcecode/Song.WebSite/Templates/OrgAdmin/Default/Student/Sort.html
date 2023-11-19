@@ -33,7 +33,7 @@
                     <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="组名称">
+            <el-table-column label="组名称" min-width="260">
                 <template slot-scope="scope">
                     <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>                 
                 </template>
