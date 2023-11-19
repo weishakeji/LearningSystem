@@ -87,6 +87,7 @@ Vue.component('subject_show', {
                 <div v-for="cour in courses" @click="godetail(cour.Cou_ID)" :rec="cour.Cou_IsRec">
                     <img :src="cour.Cou_LogoSmall" v-if="cour.Cou_LogoSmall && cour.Cou_LogoSmall!=''"/>
                     <img :src="path+'images/cou_nophoto.jpg'" v-else />
+                    <el-tag type="warning" class="type" v-if="cour.Cou_Type">试题库</el-tag>   
                     <div class="name">{{ cour.Cou_Name }}</div>
                     <div class="price">
                         <span class="free" v-if="cour.Cou_IsFree">免费</span>

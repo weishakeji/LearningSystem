@@ -35,6 +35,7 @@
             </el-table-column>
             <el-table-column type="expand">
                 <div slot-scope="scope" :class="{'course_expand':true}" :title="scope.row.Cou_Name">
+                  
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank"
                         :class="scope.row.Cou_IsUse ? 'enable' : 'disabled'">
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
@@ -72,7 +73,8 @@
             <el-table-column label="课程">
                 <template slot-scope="scope">
                     <span class="index">{{(form.index - 1) * form.size + scope.$index + 1}}.</span>
-                    <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
+                    <el-tag type="warning" v-if="scope.row.Cou_Type">试题库</el-tag>
+                    <live v-if="scope.row.Cou_Type!=2 && scope.row.Cou_ExistLive" title="直播课"></live>
                     <a v-html="showsearch(scope.row.Cou_Name,form.search)" class="large" target="_blank"
                         :href="'/web/course/detail.'+scope.row.Cou_ID"> </a>
 

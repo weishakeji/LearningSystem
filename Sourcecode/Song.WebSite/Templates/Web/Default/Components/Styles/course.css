@@ -36,7 +36,11 @@ weisha_course img:first-child {
     cursor: pointer;
 }
 
-
+weisha_course .type {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+ }
 weisha_course .name {
     line-height: 25px;
     font-size: 16px;

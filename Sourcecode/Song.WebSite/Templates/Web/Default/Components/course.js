@@ -44,6 +44,7 @@ Vue.component('course', {
             <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall && item.Cou_LogoSmall!=''"/>
             <img src="/Utilities/images/cou_nophoto.jpg" v-else />
         </a>
+        <el-tag type="warning" class="type" v-if="item.Cou_Type">试题库</el-tag>   
         <a class="name" :href="seturl()" target="_blank">{{ item.Cou_Name }}</a>
         <div class="price" v-if="!mremove">
             <span class="free" v-if="item.Cou_IsFree">免费</span>

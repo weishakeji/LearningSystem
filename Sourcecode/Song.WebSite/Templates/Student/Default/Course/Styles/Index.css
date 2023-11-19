@@ -93,7 +93,7 @@ context .el-card__header button {
 	margin-left: 10px;
 }
 
-context .el-card__header>div * {
+context .el-card__header>div a {
 	line-height: 37px;
 }
 
