@@ -10,7 +10,7 @@ Vue.component('largebutton', {
                 {
                     'type': 'learn', 'link': {
                         full: '/web/course/study.' + this.course.Cou_ID,
-                        question: '/web/question/index.' + this.course.Cou_ID
+                        question: '/web/question/course.' + this.course.Cou_ID
                     }
                 },
                 { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
