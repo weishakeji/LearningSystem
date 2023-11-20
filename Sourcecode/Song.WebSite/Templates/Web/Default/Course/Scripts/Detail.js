@@ -1,5 +1,4 @@
 $ready(function () {
-
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -166,30 +165,44 @@ $ready(function () {
             //清理Html标签
             clearTag: function (html) {
                 if (!html) return "";
-                var txt = html.replace(/<\/?.+?>/g, "");
-                txt = $api.trim(txt);
-                return txt;
+                return $api.trim(html.replace(/<\/?.+?>/g, ""));
             },
             //生成二维码
             qrcode: function () {
                 var box = $dom("#course-qrcode");
-                if (box.length < 1) {
-                    window.setTimeout(this.qrcode, 200);
-                }
+                if (box.length < 1) window.setTimeout(this.qrcode, 200);
                 box.each(function () {
                     if ($dom(this).find("img").length > 0) return;
-                    var url = window.location.href;
+                    let url = window.location.href;
                     new QRCode(this, {
                         text: url,
-                        width: 75,
-                        height: 75,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        render: "canvas",
-                        correctLevel: QRCode.CorrectLevel.L
+                        width: 75, height: 75,
+                        colorDark: "#000000", colorLight: "#ffffff",
+                        render: "canvas", correctLevel: QRCode.CorrectLevel.L
                     });
                 });
             },
+            //转到学习页
+            tolearing: function (course, outline) {
+                let url = '';
+                if (course.Cou_Type == 0) url = 'study';
+                if (course.Cou_Type == 2) url = '../question/course';
+                url = $api.url.dot(course.Cou_ID, url);
+                url = $api.url.set(url, { 'olid': outline.Ol_ID });
+                if (course.Cou_Type == 0)
+                    return window.location.href = url;
+                if (course.Cou_Type == 2) {
+                    var obj = {
+                        'url': url,
+                        'ico': 'e731', 'min': false, 'showmask': true,
+                        'title': '试题练习 - ' + course.Cou_Name,
+                        'width': '600',
+                        'height': '80%'
+                    }
+                    let pbox = top.$pagebox.create(obj);
+                    pbox.open();
+                }
+            }
         }
     });
     // 课程内容选项
@@ -230,9 +243,11 @@ $ready(function () {
             </el-tab-pane>        
         </el-tabs>`
     });
-}, ["Components/largebutton.js",        //购买课程的按钮
-    "Components/breadcrumb.js",         //顶部面包屑
-    "Components/guides.js",
-    "Components/progress_video.js",
-    "../Components/courses.js",
+}, ['../scripts/pagebox.js',
+    'Components/largebutton.js',        //购买课程的按钮
+    'Components/breadcrumb.js',         //顶部面包屑
+    'Components/guides.js',
+    'Components/progress_video.js',
+    '../Components/courses.js',
     '/Utilities/Scripts/qrcode.js',]);
+$dom.load.css([$dom.path() + 'styles/pagebox.css']);

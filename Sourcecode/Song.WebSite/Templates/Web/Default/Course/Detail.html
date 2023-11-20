@@ -8,7 +8,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">loading ...</page_header>
+        <page_header ref='header' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">loading ...
+        </page_header>
         <context>
             <breadcrumb ref="breadcrumb" :subjects="subjects" :course="course"></breadcrumb>
         </context>
@@ -31,8 +32,10 @@
                     </span>
                     <div class="headinfo">
                         <div id="course-qrcode"></div>
+                        <el-tag type="warning" v-if="course.Cou_Type" title="以试题、测试为主">试题库</el-tag>
                         <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
                         <div title="主讲老师：" v-html="course.Th_Name"></div>
+
                     </div>
                     <div class="couMoney" title="已经选修：" v-if="purchased || forever">
                         <template v-if="forever">
@@ -44,7 +47,7 @@
                             {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d')}}
                         </template>
                     </div>
-                    <div class="couMoney" title="学习费用："  v-else>
+                    <div class="couMoney" title="学习费用：" v-else>
                         <span class="moneyfree" v-if="course.Cou_IsFree">
                             <icon>&#xe746;</icon>免费
                         </span>
@@ -107,24 +110,16 @@
                                 <index>{{o.Ol_XPath}}</index>
                                 <span :title="o.Ol_Name" v-html="o.Ol_Name"></span>
                                 <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
-                                <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
-                                    <a type="success" v-if="o.Ol_IsVideo"
-                                        :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
-                                        <el-tag type="success">免费</el-tag>
-                                    </a>
-                                </template>
+                                <el-tag type="success" v-else-if="course.Cou_IsTry && o.Ol_IsFree"
+                                    @click="tolearing(course,o)">免费</el-tag>
                                 <template v-else>
-                                    <template v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree || forever">
-                                        <a type="success" :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
-                                            <progress_video :videolog="videolog" :outline="o" text="学习">
-                                            </progress_video>
-                                        </a>
-                                    </template>
-                                    <template v-else>
-                                        <a type="primary" :href="'buy.'+course.Cou_ID+'?olid='+o.Ol_ID">
-                                            <el-tag type="warning">购买</el-tag>
-                                        </a>
-                                    </template>
+                                    <progress_video
+                                        v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree || forever"
+                                        :videolog="videolog" :outline="o" :course="course" text="学习" @click="tolearing(course,o)">
+                                    </progress_video>
+                                    <a type="primary" v-else :href="'buy.'+course.Cou_ID+'?olid='+o.Ol_ID">
+                                        <el-tag type="warning">购买</el-tag>
+                                    </a>
                                 </template>
                             </div>
                         </template>

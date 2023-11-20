@@ -3,9 +3,38 @@ Vue.component('largebutton', {
     //当前课程，当前学员
     props: ["course", "account", "studied", "finaltest", "purchase", "forever", "loading"],
     data: function () {
-        return {}
+        return {
+            urls: [
+                { 'type': 'login', 'link': '/web/sign/in' },
+                //学习有多个链接，full指全功能（学练考）课程学习页,question为题库型课程学习页
+                {
+                    'type': 'learn', 'link': {
+                        full: '/web/course/study.' + this.course.Cou_ID,
+                        question: '/web/question/index.' + this.course.Cou_ID
+                    }
+                },
+                { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
+                { 'type': 'test', 'link': '/web/test/paper.' + this.finaltest.Tp_Id },
+            ]
+        }
     },
-    watch: {},
+    watch: {
+        urls: {
+            handler: function (nv, ov) {
+                let urls = this.urls;
+                //添加来源页的参数
+                let referrer = url => $api.url.set(url, { 'referrer': encodeURIComponent(location.href) });
+                for (let i = 0; i < urls.length; i++) {
+                    if ($api.getType(urls[i].link) == 'Object') {
+                        for (let k in urls[i].link)
+                            urls[i].link[k] = referrer(urls[i].link[k]);
+                    } else {
+                        urls[i].link = referrer(urls[i].link);
+                    }
+                }
+            }, immediate: true
+        }
+    },
     computed: {
         //是否登录
         islogin: t => { return !$api.isnull(t.account); },
@@ -23,42 +52,46 @@ Vue.component('largebutton', {
     mounted: function () { },
     methods: {
         url: function (type) {
-            var urls = [
-                { 'type': 'login', 'link': '/web/sign/in' },
-                { 'type': 'study', 'link': '/web/course/study.' + this.course.Cou_ID },
-                { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
-                { 'type': 'test', 'link': '/web/test/paper.' + this.finaltest.Tp_Id },
-            ];
-            for (let i = 0; i < urls.length; i++) {
-                urls[i].link = $api.url.set(urls[i].link, {
-                    'referrer': encodeURIComponent(location.href)
-                });
-            }
-            var url = urls.find(function (item) {
+            let item = this.urls.find(function (item) {
                 return item.type == type;
             });
-
-            return url.link;
+            let url = '';
+            if (type == 'learn') {
+                if (this.course.Cou_Type == 0) url = item.link.full;
+                if (this.course.Cou_Type == 2) url = item.link.question;
+            } else url = item.link;
+            if (this.course.Cou_Type == 0) window.location.href = url;
+            if (this.course.Cou_Type == 2) {
+                var obj = {
+                    'url': url,
+                    'ico': 'e731', 'min': false, 'showmask': true,
+                    'title': '试题练习 - ' + this.course.Cou_Name,
+                    'width': '600',
+                    'height': '80%'
+                }
+                let pbox = top.$pagebox.create(obj);
+                pbox.open();
+            }
         }
     },
     template: `<div class="couBtnBox">
         <loading v-if="loading && islogin"></loading>
         <template v-else>
-            <a v-if="!islogin" :href="url('login')">登录学习</a> 
+            <button v-if="!islogin" @click="url('login')">登录学习</button> 
             <template v-else-if="canstudy || forever">
-                <a :href="url('study')">开始学习</a>
-                <a :href="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</a>
+                <button @click="url('learn')">开始学习</button>
+                <button @click="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</button>
             </template>      
-            <a v-else-if="course.Cou_IsFree" :href="url('study')">开始学习</a>
+            <button v-else-if="course.Cou_IsFree" @click="url('learn')">开始学习</button>
             <template v-else-if="course.Cou_IsLimitFree" remark="限时免费">
-                <a :href="url('study')">开始学习</a>
-                <a :href="url('buy')" class="buy">选修该课程</a>
+                <button @click="url('learn')">开始学习</button>
+                <button @click="url('buy')" class="buy">选修该课程</button>
             </template>
             <template v-else-if="course.Cou_IsTry" remark="可以试学">
-                <a :href="url('study')">试学</a>
-                <a :href="url('buy')"  class="buy">选修该课程</a>
+                <button @click="url('learn')">试学</button>
+                <button @click="url('buy')"  class="buy">选修该课程</button>
             </template>
-            <a v-else :href="url('buy')" class="buy">选修该课程</a> 
+            <button v-else @click="url('buy')" class="buy">选修该课程</button> 
         </template>
     </div>`
 });

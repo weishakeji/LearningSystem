@@ -99,8 +99,14 @@ Vue.component('outline_progress', {
             return url;
         }
     },
-    template: `<div class="outline_progress" v-if="outline.Ol_IsVideo">
-        <template v-if="data!=null">
+    template: `<div class="outline_progress" :style="'padding-left:'+(outline.Ol_Level*20)+'px'">
+            <span>
+                <span class="order">{{outline.Ol_XPath}}</span>
+                <template v-if="percentage==100 || !outline.Ol_IsVideo">{{outline.Ol_Name}}</template>
+                <a :href="gourl()" target="_blank" v-else>{{outline.Ol_Name}}</a>
+                <icon v-if="outline.Ol_IsVideo">&#xe83a</icon>
+            </span>
+        <div v-if="data!=null && outline.Ol_IsVideo" class="time_info">
             <span class="lastTime" title="最后学习时间">{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</span>
             <span class="studyTime" title="累计学习时间">{{studyTime(data.studyTime)}}</span>
             <span class="playTime" v-if="studyTime(data.playTime)!=''">
@@ -108,11 +114,13 @@ Vue.component('outline_progress', {
                 <span class="slant"> / </span>
                 <span title="视频时长">{{studyTime(Math.floor(data.totalTime/1000))}}</span>
             </span>
+        </div>
+        <template v-if="outline.Ol_IsVideo">
+            <el-tag type="primary" :type="state(percentage)" plain v-if="!loading">            
+                <template v-if="percentage==100">{{percentage}} %</template>
+                <a :href="gourl()" target="_blank" v-else>{{percentage}} %</a>
+            </el-tag>
+            <el-tag type="info" v-else><loading bubble></loading></el-tag>
         </template>
-        <el-tag type="primary" :type="state(percentage)" plain v-if="!loading">
-            <template v-if="percentage==100">{{percentage}} %</template>
-            <a :href="gourl()" target="_blank" v-else>{{percentage}} %</a>
-        </el-tag>
-        <el-tag type="info" v-else><loading bubble></loading></el-tag>
     </div> `
 });

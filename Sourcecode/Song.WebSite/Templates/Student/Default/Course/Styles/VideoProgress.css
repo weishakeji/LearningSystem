@@ -1,45 +1,53 @@
 ﻿@charset "utf-8";
 
-.outlines {
+#vapp {
 	padding: 15px;
 	box-sizing: border-box;
 	overflow-y: auto;
 	height: 100%;
 }
 
-.outlines>div {
+.outline_progress {
 	line-height: 30px;
+	position: relative;	
+	padding-right: 60px;
 	display: flex;
+	justify-content:space-between;
+	font-size: 14px;
+	color: #666;
 }
-.outlines>div:hover{
+.outline_progress>span:first-child{
+	font-size: 16px;
+}
+.outline_progress:hover{
 	background-color: #eee;
 }
 .order {
 	margin-right: 10px;
 }
 
-.outlines>div icon {
+.outline_progress icon {
 	margin-left: 5px;
 }
 
-.outline_progress {
-	flex: 1;
-	display: flex;
-	justify-content: flex-end;
-	font-size: 14px;
-	color: #666;
+.outline_progress a{
+	color: #409eff;
+	
 }
 
-.outline_progress>* {
-	margin: 0px 8px;
-	width: 100px;
+.outline_progress .time_info{
+	width: 400px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .outline_progress .el-tag {
-	width: 60px;
+	width: 60px !important;
 	text-align: right;
-	float: right;
 	margin-top: 1px;
+	position: absolute;
+	right: 0px;
+	top: 1px;
 }
 
 .studyTime {

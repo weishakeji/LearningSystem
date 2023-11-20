@@ -4,7 +4,7 @@ Vue.component('progress_video', {
     //videolog:章节学习记录
     //outline:当前章节
     //text: 默认显示的文本信息，例如没有学习记录时
-    props: ["videolog", "outline", "text"],
+    props: ["videolog", "course", "outline", "text"],
     data: function () {
         return {}
     },
@@ -46,17 +46,24 @@ Vue.component('progress_video', {
             if (this.percentage > 0 && this.percentage < 100) return 'success';
             return 'primary';
         }
+
     },
     mounted: function () {
 
     },
-    methods: {},
-    template: `<el-tag type="primary" :type="state" :plain="percentage == 0">
+    methods: {
+    },
+    template: `<el-tag type="primary" :type="state" :plain="percentage == 0" @click="$emit('click', course, outline)">
+            <template v-if="course.Cou_Type==0">
                 <template v-if="percentage>0">
                     {{percentage}} %
                 </template>
                 <template v-else>
                     {{text}}
                 </template> 
+            </template>
+            <template v-else>
+                   {{text}}
+            </template>
         </el-tag> `
 });

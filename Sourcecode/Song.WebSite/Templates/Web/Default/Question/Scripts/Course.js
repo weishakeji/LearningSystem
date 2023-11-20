@@ -2,7 +2,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid: $api.querystring("couid"),        //课程id
+            couid: $api.querystring("couid", $api.dot()),        //课程id
             stid: $api.querystring("stid", 0),
             organ: {},       //当前机构
             config: {},      //当前机构配置项     

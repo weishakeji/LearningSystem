@@ -44,6 +44,7 @@ context#couHead {
     margin-top: 10px;
     margin-bottom: 20px;
     display: flex;
+    position: relative;
 }
 
 #couHead>img:first-child {
@@ -59,7 +60,6 @@ context#couHead {
 
 #couHead .headRight span {
     font-size: 16px;
-    line-height: 25px;
 }
 
 #couHead .headRight .couName {
@@ -129,7 +129,7 @@ context#couHead {
     display: flex;
 }
 
-.couBtnBox a {
+.couBtnBox button {
     display: block;
     box-sizing: border-box;
     padding: 25px 40px;
@@ -144,16 +144,19 @@ context#couHead {
     transition: all 0.5s;
     border-radius: 3px;
     letter-spacing: 5px;
+    border: none;
     background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
 }
 
-.couBtnBox a:hover {
+.couBtnBox button:hover {
     transform: scale(1.05);
 }
-.couBtnBox a.finaltest{
+
+.couBtnBox button.finaltest {
     background-color: #409EFF !important;
     font-weight: normal;
 }
+
 .btn1 {
     width: 25% !important;
     float: left;
@@ -257,10 +260,10 @@ context.body>section .el-tabs .el-tabs__content>div {
     transform: scale(1.01);
 }
 
-.outlines>div>a {
+.outlines>div>.el-tag {
     position: absolute;
     right: 10px;
-    top: -1px;
+    top: 6px;
 }
 
 index {
@@ -334,18 +337,21 @@ index {
 }
 
 /*试卷列表*/
-.testpapers{
+.testpapers {
     box-sizing: border-box;
     padding: 20px 20px 10px 20px;
     line-height: 30px;
 }
-.testpapers>div:first-child{
+
+.testpapers>div:first-child {
     font-size: 18px;
     margin-bottom: 8px;
 }
-.testpapers .order{
+
+.testpapers .order {
     margin-right: 15px;
 }
-.testpapers .el-tag{
+
+.testpapers .el-tag {
     cursor: default;
 }

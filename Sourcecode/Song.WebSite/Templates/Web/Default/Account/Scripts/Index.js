@@ -327,7 +327,6 @@ $ready(function () {
                 }
             }
         },
-        // 同样也可以在 vm 实例中像 "this.message" 这样使用
         template: `<div :mmid="menu.MM_Id">
             <weisha_menu_node :type="menu.MM_Type" v-if="menu.MM_Type!='hr'"
             @click="nodeClick" :style="styleObject" 
