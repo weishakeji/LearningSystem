@@ -769,7 +769,7 @@
                     parastr = url.substring(url.lastIndexOf('?'));
                     url = url.substring(0, url.lastIndexOf('?'));
                 }
-                if (url.indexOf('.') > -1) {
+                if (url.length > 0 && url.charAt(0) != '.' && url.indexOf('.') > -1) {
                     suffix = url.substring(url.lastIndexOf('.') + 1);
                     prefix = url.substring(0, url.lastIndexOf('.'));
                 } else {
