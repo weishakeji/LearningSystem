@@ -188,7 +188,7 @@ a.go-home:before {
 
 #Context {
     min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 40px);
-
+    position: relative;
 }
 
 .card {
@@ -203,6 +203,11 @@ a.go-home:before {
 
 }
 
+#Context .type {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
 
 /*学习目标*/
 

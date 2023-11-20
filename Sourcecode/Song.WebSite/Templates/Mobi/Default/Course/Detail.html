@@ -78,6 +78,7 @@
 
             <!--课程详情-->
             <template v-if="tabActive==0">
+                <van-tag type="primary" class="type" v-if="course.Cou_Type">试题库</van-tag>                
                 <div class="introBox" v-if="course.Cou_Intro!=''" v-html="course.Cou_Intro"></div>
                 <div class="introBox" v-else>没有内容</div>
             </template>
