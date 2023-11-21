@@ -28,7 +28,6 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -37,10 +36,8 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.getpurchase();
 
-            })).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -63,7 +60,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;
                         //计算得分
@@ -72,11 +68,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取机构的配置参数
             orgconfig: function (para, def) {
