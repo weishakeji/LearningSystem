@@ -4,7 +4,9 @@
 	padding: 20px;
 	box-sizing: border-box;
 }
-
+.context{
+	counter-reset: section;
+}
 .row {
 	padding: 10px 15px 5px 80px;
 	height: 80px;
@@ -22,6 +24,10 @@
 	position: absolute;
 	top: 0px;
 	left: 0px;
+}
+.row>span:first-child::before{
+	counter-increment: section;
+  content: counter(section) ". ";
 }
 .video::before{
 	content: '\e83a';

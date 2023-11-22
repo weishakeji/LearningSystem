@@ -44,13 +44,9 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => !$api.isnull(t.account),
             //是否有购买记录
-            isnull: function () {
-                return JSON.stringify(this.purchase) == '{}' || this.purchase == null;
-            }
+            isnull: t => $api.isnull(t.purchase)
         },
         watch: {
         },
@@ -63,7 +59,7 @@ $ready(function () {
                     if (req.data.success) {
                         th.purchase = req.data.result;
                         //计算得分
-                        th.score = th.resultScore(th.purchase);
+                        th.score = th.resultScore(th.purchase, th.config);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -78,22 +74,28 @@ $ready(function () {
                 return val;
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
-            resultScore: function (purchase) {
-                var th = this;
+            resultScore: function (purchase, config) {
+                if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;
+                //获取机构的配置参数
+                let orgconfig = (para, def) => {
+                    let val = Number(config[para]);
+                    if (isNaN(val)) return def ? def : '';
+                    return val;
+                }
                 //视频得分
-                var weight_video = orgconfig('finaltest_weight_video', 33.3);
+                let weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
-                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
+                let video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
                 video = video >= 100 ? 100 : video;
                 video = weight_video * video / 100;
                 //试题得分
-                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
-                var ques = weight_ques * purchase.Stc_QuesScore / 100;
+                let weight_ques = orgconfig('finaltest_weight_ques', 33.3);
+                let ques = weight_ques * purchase.Stc_QuesScore / 100;
                 //结考课试分
-                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
-                var exam = weight_exam * purchase.Stc_ExamScore / 100;
+                let weight_exam = orgconfig('finaltest_weight_exam', 33.3);
+                let exam = weight_exam * purchase.Stc_ExamScore / 100;
                 //最终得分
-                var score = Math.round((video + ques + exam) * 100) / 100;
+                let score = Math.round((video + ques + exam) * 100) / 100;
                 score = score >= 100 ? 100 : score;
                 return {
                     'video': video,
@@ -101,12 +103,13 @@ $ready(function () {
                     'exam': exam,
                     'score': score
                 }
+                /*
                 //获取机构的配置参数
                 function orgconfig(para, def) {
-                    var val = Number(th.config[para]);
+                    let val = Number(th.config[para]);
                     if (isNaN(val)) return def ? def : '';
                     return val;
-                };
+                };*/
             },
             //更新学习记录的相关数据
             refresh_data: function () {
@@ -135,11 +138,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        console.error(err);
-                    }).finally(function () {
-                        th.loading_fresh--;
-                    });
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading_fresh--);
                 //更新结课考试成绩
                 $api.get('TestPaper/FinalPaper', { 'couid': th.couid, 'use': '' }).then(function (req) {
                     if (req.data.success) {
@@ -158,29 +158,21 @@ $ready(function () {
                                         console.error(req.data.exception);
                                         throw req.config.way + ' ' + req.data.message;
                                     }
-                                }).catch(function (err) {
-                                    //alert(err);
-                                    //Vue.prototype.$alert(err);
-                                    console.error(err);
-                                });
+                                }).catch(err => console.error(err));
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            //alert(err);
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
                         });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading_fresh--;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_fresh--);
             }
         }
     });

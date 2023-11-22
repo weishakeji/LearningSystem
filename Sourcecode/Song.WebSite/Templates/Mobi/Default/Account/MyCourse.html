@@ -105,7 +105,7 @@
                                 </price>
                             </info>
                             <div class="progress">
-                                <video_progress v-if="item.Cou_Type==0" :course="item" :stid="account.Ac_ID" :config="config"
+                                <video_progress  v-if="item.Cou_Type!=2" :course="item" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data">
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
@@ -113,7 +113,7 @@
                                 <exam_test :course="item" v-show="false" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data">
                                 </exam_test>
-                                <result_score :config="config" :stid="account.Ac_ID" :purchase="scope.data">
+                                <result_score :config="config"  v-if="item.Cou_Type!=2" :stid="account.Ac_ID" :purchase="scope.data">
                                 </result_score>
                             </div>
                         </template>

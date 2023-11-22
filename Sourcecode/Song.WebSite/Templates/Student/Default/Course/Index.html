@@ -43,7 +43,7 @@
                                 <live v-if="item.Cou_Type!=2 && item.Cou_ExistLive" title="直播课"></live>
                                 <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                             </div>
-                            <el-button type="text" @click="viewScore(item)">
+                            <el-button type="text" @click="viewScore(item)"  v-if="item.Cou_Type!=2"> 
                                 <icon>&#xe6ef</icon>综合成绩：<span
                                     :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}} 分</span>
                             </el-button>
@@ -82,7 +82,7 @@
                                 <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
                             </div>
                             <div class="info_row studyinfo">
-                                <video_progress :course="item" :stid="account.Ac_ID" :config="config"
+                                <video_progress :course="item" v-if="item.Cou_Type!=2" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data"></video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                                 </ques_progress>
