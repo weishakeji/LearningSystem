@@ -44,7 +44,7 @@
             row-key="Cou_ID" cell-class-name="tdcell">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column type="index" width="50" align="center">
+            <el-table-column type="index" label="#" width="50" align="center">
                 <template slot-scope="scope">
                     <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
