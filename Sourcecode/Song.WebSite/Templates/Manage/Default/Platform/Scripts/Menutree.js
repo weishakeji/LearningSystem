@@ -8,10 +8,7 @@ $ready(function () {
             data: [],       //菜单树数据
             curr: {},    //当前要编辑的节点
             curr_node: {},
-            defaultProps: {
-                children: 'children',
-                label: 'label'
-            },
+
             rules: {
                 MM_Name: [
                     { required: true, message: '不得为空', trigger: 'blur' }
@@ -19,6 +16,8 @@ $ready(function () {
             },
             MM_PatId: '',    //临时数据，用于移动菜单时的临时记录
             loading: false,  //预载
+            loading_init: false,     //初始加载
+            error: '',       //错误信息
             drawer: false  //编辑的面板         
         },
         watch: {
@@ -26,36 +25,27 @@ $ready(function () {
                 var th = this;
                 if (ol && !nl) {
                     this.$refs['form'].validate((valid) => {
-                        if (!valid) {
-                            this.drawer = true;
-                        }
+                        if (!valid) this.drawer = true;
                     });
                 }
             }
         },
         created: function () {
             var th = this;
-            th.loading = true;
+            th.loading_init = true;
             $api.bat(
                 $api.get('ManageMenu/ForUID', { 'uid': this.uid }),
                 $api.get('ManageMenu/FuncMenu', { 'uid': this.uid }),
                 $api.get("ManageMenu/Root")     //所有根节点
             ).then(axios.spread(function (menu, menus, root) {
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw data.message;
-                    }
-                }
                 th.rootMenu = menu.data.result; //当前菜单项
                 if (menus.data.result != null)
                     th.data = menus.data.result; //当前菜单树             
                 th.rootdata = root.data.result;
-            })).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+            })).catch(err => {
+                th.error = err;
+                console.error(err);
+            }).finally(() => th.loading_init = false);
         },
         methods: {
             append: function (d) {
@@ -75,7 +65,7 @@ $ready(function () {
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
                     "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
-                    "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "",  "MM_UID": "", "MM_WinMin": false,
+                    "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "", "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
                     "id": 0, "label": "", "ico": "", "MM_Complete": 0
                 }
@@ -159,8 +149,12 @@ $ready(function () {
             },
             //保存菜单项
             btnSave: function () {
-                if (this.loading) return;
+                if (this.loading || this.loading_init) return;
                 var th = this;
+                if(th.data.length<1){
+                    this.$alert('您还没有创建菜单项，请点击右上方“新建下级”创建菜单项！', '没有数据');                  
+                    return;
+                }
                 th.$confirm('将保存菜单树的修改, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -186,8 +180,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                }).catch(err => {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loading = false);
             },
             //更改完成状态
             changeComplete: function (val) {
