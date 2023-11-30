@@ -167,7 +167,7 @@ $dom.ctrljs(function () {
         });
     } else {
         //获取数据库的菜单信息
-        $api.cache('ManageMenu/SystemMenuShow:60').then(function (req) {
+        $api.get('ManageMenu/SystemMenuShow:60').then(function (req) {
             if (req.data.success) {
                 var result = nodeconvert(req.data.result);
                 drop.add(result);
@@ -221,7 +221,7 @@ function ready(result) {
             window.tree.complete = true;
         });
     } else {
-        $api.cache('ManageMenu/Menus:60').then(function (req) {
+        $api.get('ManageMenu/Menus:60').then(function (req) {
             if (req.data.success) {
                 var result = nodeconvert(req.data.result);
                 window.tree.add(result);

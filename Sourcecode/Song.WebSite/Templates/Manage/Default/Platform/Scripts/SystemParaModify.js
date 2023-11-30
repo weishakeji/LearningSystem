@@ -33,59 +33,33 @@ $ready(function () {
             }            
         },
         methods: {
-            btnEnter: function (formName) {
+            btnEnter: function (isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid) => {
+                this.$refs['entity'].validate((valid) => {
                     if (valid) {
-                        th.id == '' ? th.add() : th.modify();
+                        let path=th.id == '' ? 'Platform/ParamAdd' : 'Platform/ParamModify';                     
+                        th.loading = true;
+                        $api.post(path, { 'entity': th.entity }).then(function (req) {
+                            if (req.data.success) {
+                                th.$notify({
+                                    type: 'success', position: 'bottom-left',
+                                    message: '操作成功!'
+                                });
+                                th.operateSuccess(isclose);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.data.message;
+                            }
+                            th.loading = false;
+                        }).catch(function (err) {
+                            alert(err);
+                        }).finally(()=> th.loading = false);
                     }
                 });
-            },
-            add: function () {
-                if (this.loading) return;
-                this.loading = true;
-                var th = this;
-                $api.post('Platform/ParamAdd', { 'entity': th.entity }).then(function (req) {
-                    if (req.data.success) {
-                        th.$message({
-                            type: 'success',
-                            message: '添加成功!',
-                            center: true
-                        });
-                        th.operateSuccess();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                    th.loading = false;
-                }).catch(function (err) {
-                    alert(err);
-                });
-            },
-            modify: function () {
-                if (this.loading) return;
-                this.loading = true;
-                var th = this;
-                $api.post('Platform/ParamModify', { 'entity': vue.entity }).then(function (req) {
-                    if (req.data.success) {
-                        vue.$message({
-                            type: 'success',
-                            message: '修改成功!',
-                            center: true
-                        });
-                        th.operateSuccess();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                    th.loading = false;
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
-            },
+            },         
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.getData', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.getData', isclose);
             }
         },
     });

@@ -12,6 +12,9 @@ $ready(function () {
             rules: {
                 MM_Name: [
                     { required: true, message: '不得为空', trigger: 'blur' }
+                ],
+                MM_Link: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
                 ]
             },
             MM_PatId: '',    //临时数据，用于移动菜单时的临时记录
@@ -63,7 +66,7 @@ $ready(function () {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
-                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
+                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": true, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
                     "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "", "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",

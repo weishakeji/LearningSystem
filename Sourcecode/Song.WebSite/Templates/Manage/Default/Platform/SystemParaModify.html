@@ -3,7 +3,7 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>管理菜单的根节点编辑</title> 
+    <title>管理菜单的根节点编辑</title>
 </head>
 
 <body>
@@ -11,40 +11,45 @@
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="120px">
 
             <el-form-item label="参数名（key）" prop="Sys_Key">
-                <el-input v-model="entity.Sys_Key"></el-input>
+                <el-input v-model="entity.Sys_Key" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="参数值（value）" prop="Sys_Value">
-                <el-input v-model="entity.Sys_Value"></el-input>
+                <el-input v-model="entity.Sys_Value" clearable></el-input>
             </el-form-item>
 
 
             <el-form-item label="默认值" prop="MM_Marker">
-                <el-input v-model="entity.Sys_Default"></el-input>
+                <el-input v-model="entity.Sys_Default" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="供选择的单位" prop="MM_IcoCode">
-                <el-input v-model="entity.Sys_SelectUnit" style="width: 300px;"></el-input>
+                <el-input v-model="entity.Sys_SelectUnit" clearable style="width: 300px;"></el-input>
                 （用,分隔单位项）
             </el-form-item>
 
 
             <el-row>
-                <el-form-item label="实际单位" >
-                    <el-input v-model="entity.Sys_Unit"  style="width: 300px;"></el-input>
+                <el-form-item label="实际单位">
+                    <el-input v-model="entity.Sys_Unit" clearable style="width: 300px;"></el-input>
                 </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="说明">
-                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Sys_ParaIntro"></el-input>
+                    <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="entity.Sys_ParaIntro"></el-input>
                 </el-form-item>
-            </el-row>           
-        </el-form>   
+            </el-row>
+        </el-form>
         <div class="footer">
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter(true)">
+                确认
+            </el-button>
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter(false)">应用
             </el-button>
             <el-button type='close'>取消</el-button>
-        </div>   
+        </div>
     </div>
 
 

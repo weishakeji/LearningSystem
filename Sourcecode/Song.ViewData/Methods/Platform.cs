@@ -339,10 +339,10 @@ namespace Song.ViewData.Methods
 
         #region 系统参数管理
         /// <summary>
-        /// 获取参数
+        /// 通过键值获取参数值
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">键值</param>
+        /// <returns>参数值</returns>
         public string Parameter(string key)
         {
             return Business.Do<ISystemPara>().GetValue(key);
@@ -358,10 +358,10 @@ namespace Song.ViewData.Methods
             return Business.Do<ISystemPara>().GetSingle(id);
         }
         /// <summary>
-        /// 获取参数
+        /// 通过键值获取参数对象
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">键值</param>
+        /// <returns>参数对象</returns>
         [HttpGet]
         public SystemPara ParamForKey(string key)
         {
@@ -390,18 +390,25 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 修改系统参数
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">参数对象，如果Sys_Id大于零则按ID修改，否则按Sys_Key修改</param>
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        public bool ParamModify(SystemPara entity)
+        public SystemPara ParamModify(SystemPara entity)
         {
-            Song.Entities.SystemPara old = Business.Do<ISystemPara>().GetSingle(entity.Sys_Id);
-            if (old == null) throw new Exception("Not found entity for SystemPara！");
-
-            old.Copy<Song.Entities.SystemPara>(entity);
-            Business.Do<ISystemPara>().Save(old);
-            return true;
+            Song.Entities.SystemPara old = null;
+            if (entity.Sys_Id > 0) old = Business.Do<ISystemPara>().GetSingle(entity.Sys_Id);
+            if (old == null && !string.IsNullOrWhiteSpace(entity.Sys_Key)) old = Business.Do<ISystemPara>().GetSingle(entity.Sys_Key);
+            if (old != null)
+            {
+                old.Copy<Song.Entities.SystemPara>(entity);
+                Business.Do<ISystemPara>().Save(old);
+            }
+            else
+            {
+                Business.Do<ISystemPara>().Add(entity);
+            }
+            return entity;
         }
         /// <summary>
         /// 添加参数
@@ -410,17 +417,10 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        public bool ParamAdd(SystemPara entity)
+        public SystemPara ParamAdd(SystemPara entity)
         {
-            try
-            {
-                Business.Do<ISystemPara>().Add(entity);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<ISystemPara>().Add(entity);
+            return entity;
         }
         /// <summary>
         /// 删除参数
@@ -431,15 +431,8 @@ namespace Song.ViewData.Methods
         [SuperAdmin]
         public bool ParamDelete(string key)
         {
-            try
-            {
-                Business.Do<ISystemPara>().Delete(key);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<ISystemPara>().Delete(key);
+            return true;
         }
         /// <summary>
         /// 所有的系统参数

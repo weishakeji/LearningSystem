@@ -132,7 +132,7 @@
                 <el-input v-model="curr.MM_Link" type="textarea"></el-input>
               </el-form-item>
             </template>
-            <el-form-item label="链接" v-if="curr.MM_Type!='event' && curr.MM_Type!='node' ">
+            <el-form-item label="链接" prop="MM_Link" v-if="curr.MM_Type!='event' && curr.MM_Type!='node'">
               <el-input v-model="curr.MM_Link"></el-input>
             </el-form-item>
             <template v-if="curr.MM_Type=='item'">
