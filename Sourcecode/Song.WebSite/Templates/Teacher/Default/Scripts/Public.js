@@ -5,7 +5,7 @@
         $dom.path() + 'styles/public.css',
         $dom.path() + 'styles/dropmenu.css',
         '/Utilities/Fonts/icon.css'
-    ]);
+    ], $dom.selfresource);
      //加载相关组件
      window.$components = function (f) {
         var arr2 = new Array();

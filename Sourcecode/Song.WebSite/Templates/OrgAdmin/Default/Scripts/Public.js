@@ -8,7 +8,7 @@
         $dom.path() + 'styles/public.css',
         //$dom.path() + 'styles/dropmenu.css',
         '/Utilities/katex/katex.min.css'
-    ]);
+    ], $dom.selfresource);
     //加载相关组件
     window.$components = function (f) {
         var arr2 = [];

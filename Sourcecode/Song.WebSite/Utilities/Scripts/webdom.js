@@ -912,12 +912,14 @@
         } else if (func != null) func();
     };
     //加载自身相关的js或css  
-    if (webdom('head[resource]').length > 0) {
-        var file = webdom('meta[view]').attr("view");
-        if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
-        webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
-        webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
-    }
+    webdom.selfresource = function () {        
+        if (webdom('head[resource]').length > 0) {
+            var file = webdom('meta[view]').attr("view");
+            if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
+            webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
+            webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+        }
+    };
     //创建全局对象，方便调用
     window.$dom = webdom;
 })();

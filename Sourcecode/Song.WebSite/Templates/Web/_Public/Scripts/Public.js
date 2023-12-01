@@ -7,7 +7,7 @@
         $dom.path() + 'styles/dropmenu.css',
         //'/Utilities/katex/katex.min.css',      
         '/Utilities/Fonts/icon.css'
-    ]);
+    ], $dom.selfresource);
     //加载相关组件
     window.$components = function (f) {
         //电脑端拖动与手式拖动的js库,以及其它
