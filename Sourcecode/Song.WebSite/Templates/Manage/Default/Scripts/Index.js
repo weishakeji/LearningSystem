@@ -21,7 +21,15 @@ window.onload = function () {
     });
     console.log(window.location.hostname);
 };
-$dom.ctrljs(function () {
+ //加载组件所需的javascript文件
+ window.$ctrljs = function (f) {
+    $dom.corejs(function () {
+        var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+        for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
+        window.$dom.load.js(arr, f);
+    });
+};
+$ctrljs (function () {
     window.login = $login.create({
         target: '#login-area',
         ico: 'e79b',

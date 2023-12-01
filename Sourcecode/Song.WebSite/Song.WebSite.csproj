@@ -1986,7 +1986,7 @@
     <Content Include="Templates\Manage\Default\Scripts\Manage.js" />
     <Content Include="Templates\Manage\Default\Scripts\hanzi2pinyin.js" />
     <Content Include="Templates\Manage\Default\Scripts\Index.js" />
-    <Content Include="Templates\Manage\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Manage\Default\Scripts\Public.js" />
     <Content Include="Templates\Manage\Default\Startpage.html" />
     <Content Include="Templates\Manage\Default\Styles\Manage.css" />
     <Content Include="Templates\Manage\Default\Styles\Index.css" />
@@ -2093,6 +2093,7 @@
     <Content Include="Utilities\Scripts\vue.min.js" />
     <Content Include="Utilities\Scripts\vuedraggable.min.js" />
     <Content Include="Utilities\Scripts\vuedraggable.umd.min.js" />
+    <Content Include="Utilities\Scripts\webdom.js" />
     <Content Include="Utilities\scrollbar-thumb.gif" />
     <Content Include="Utilities\scrollbar-track.gif" />
     <Content Include="Utilities\Fonts\icon.css" />

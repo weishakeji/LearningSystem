@@ -7,8 +7,8 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年1月1日
- * 最后修订：2020年2月4日
- * github开源地址:https://github.com/weishakeji/WebdeskUI
+ * 最后修订：2023年12月1日
+ * github开源地址:https://gitee.com/weishakeji/LearningSystem
  */
 (function () {
     //html节点查询，类似jquery
@@ -738,8 +738,8 @@
             webdom.load.arraySync(function (one, i, c) {
                 //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
                 var exist = false;
-                $dom("link[type='text/css']").each(function () {
-                    let href = $dom(this).attr("href").toLowerCase();
+                webdom("link[type='text/css']").each(function () {
+                    let href = webdom(this).attr("href").toLowerCase();
                     if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
                     if (one.toLowerCase() == href) {
                         exist = true;
@@ -829,7 +829,7 @@
                 result[r.i] = r.v;
                 if (finishNum == 0) callback(0, result);
             });
-            for (let i = 0; i < arr.length; ++i) {               
+            for (let i = 0; i < arr.length; ++i) {
                 [args[0], args[1]] = [arr[i], i];
                 bsFunc.apply(null, args);
             }
@@ -852,123 +852,20 @@
         let iscache = template.attr("cache");
         return iscache == 'true';
     };
-    //加载admin面板所需的javascript文件
+    //加载核心库的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
         var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
-        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
-        arr.push('/Utilities/Panel/Scripts/ctrls.js');
-        webdom.load.js(arr, function () {
-            var arr2 = new Array();
-            //arr2.push('/Utilities/Scripts/');
-            //加载ElementUI
-            arr2.push('/Utilities/ElementUi/index.js');
-            arr2.push('/Utilities/Components/btngroup.js');
-            //加载Sortable拖动
-            arr2.push('/Utilities/Scripts/Sortable.min.js');
-            arr2.push('/Utilities/Scripts/vuedraggable.min.js');
-            //加载图标选择组件
-            arr2.push('/Utilities/Components/icons.js');
-            //图片上传组件
-            arr2.push('/Utilities/Components/upload-img.js');
-            arr2.push('/Utilities/Components/upload-file.js');
-            //编辑器
-            arr2.push('/Utilities/TinyMCE/tinymce.js');
-            arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
-            //查询面板
-            arr2.push('/Utilities/Components/query_panel.js');
-            webdom.load.js(arr2, f);
-        });
-    };
-    //加载组件所需的javascript文件
-    webdom.ctrljs = function (f) {
-        webdom.corejs(function () {
-            var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
-            for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
-            window.$dom.load.js(arr, f);
-        });
-    };
-    //加载必要的资源完成
-    //f:加载完成要执行的方法
-    //source:要加载的资源
-    window.$ready = function (f, source) {
-        webdom.ready(function () {
-            webdom.corejs(function () {
-                //设置ElementUI的一些参数
-                Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-                //关闭按钮的事件
-                window.closebtn_event_count = 100;
-                window.closebtn_event = window.setInterval(function () {
-                    if (window.closebtn_event_count-- < 0) window.clearInterval(window.closebtn_event);
-                    let btns = $dom('button.el-button--close:not([event_close])');
-                    btns.each(function () {
-                        let btn = $dom(this);
-                        if (btn.attr('event_close') == null || btn.attr('event_close') == '') {
-                            btn.attr('event_close', true);
-                            btn.click(function () {
-                                window.top.$pagebox.shut($dom.trim(window.name));
-                            });
-                        }
-                    });
-                }, 300);
-                //全屏的预载效果
-                Vue.prototype.$fulloading = function () {
-                    return this.$loading({
-                        lock: true,
-                        text: '正在处理...',
-                        spinner: 'el-icon-loading',
-                        background: 'rgba(255, 255, 255, 0.5)'
-                    });
-                };
-                //将查询结果高亮显示
-                Vue.prototype.showsearch = function (txt, search) {
-                    if (txt == null || txt == '') return '';
-                    if (search == null || search == '') return txt;
-                    var regExp = new RegExp('(' + search + ')', 'ig');
-                    return txt.replace(regExp, `<red>$1</red>`);
-                };
-                //重构alert
-                window.alert_base = window.alert;
-                window.alert = function (txt) {
-                    //手机端
-                    if (webdom.ismobi()) {
-                        vant.Dialog ? vant.Dialog.alert({ message: txt }) : window.alert_base(txt);
-                    } else {
-                        Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
-                    }
-                };
-                if (source != null) {
-                    //如果引用的js不是绝对路径，则默认取当前默认库的根路径
-                    for (var i = 0; i < source.length; i++) {
-                        if (source[i].substring(0, 1) == "/") continue;
-                        if (source[i].length >= 7 && source[i].substring(0, 7).toLowerCase() == "http://") continue;
-                        if (source[i].length >= 8 && source[i].substring(0, 8).toLowerCase() == "https://") continue;
-                        source[i] = webdom.pagepath() + source[i];
-                    }
-                    window.$dom.load.js(source, f);
-                }
-                if (source == null && f != null) f();
-            });
-        });
-    };
-    //创建全局对象，方便调用
-    window.$dom = webdom;
-    window.$dom.load.css([
-        '/Utilities/ElementUi/index.css',
-        '/Utilities/styles/public.css',
-        webdom.path() + 'styles/public.css',
-        '/Utilities/Fonts/icon.css'
-    ]);
-
-    //加载自身相关的js或css  
-    if (webdom('head[resource]').length > 0) {
+        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';       
+        webdom.load.js(arr, f);
+    };     
+     //加载自身相关的js或css  
+     if (webdom('head[resource]').length > 0) {
         var file = webdom('meta[view]').attr("view");
         if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
-        window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
-        window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+        webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
+        webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
     }
+    //创建全局对象，方便调用
+    window.$dom = webdom;   
 })();
-
-
-
-//console.log(arr);
