@@ -10,7 +10,7 @@
     <div id="vapp" v-cloak>
         <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
-                <icon>&#xe64c</icon>百度地图 - 开放平台
+                <icon>&#xe64c</icon>百度地图 - 开放平台AppKey设置
             </div>
             <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
 
@@ -31,6 +31,9 @@
             </el-form>
         </el-card>
 
+        <div>
+            <map_show :ak="entity.Sys_Value"></map_show>
+        </div>
 
     </div>
 </body>

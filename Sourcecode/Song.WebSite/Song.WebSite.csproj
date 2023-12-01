@@ -1450,6 +1450,8 @@
     <Content Include="Templates\Web\_Public\Inc\meta.inc" />
     <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Utilities\baiduMap\map_show.js" />
+    <Content Include="Utilities\baiduMap\map_setup.js" />
     <Content Include="Utilities\Components\btngroup.js" />
     <Content Include="Utilities\Components\Question\exam.js" />
     <Content Include="Utilities\Components\Question\Styles\exam.css" />

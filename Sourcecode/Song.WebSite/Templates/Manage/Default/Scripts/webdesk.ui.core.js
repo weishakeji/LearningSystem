@@ -738,10 +738,9 @@
             webdom.load.arraySync(function (one, i, c) {
                 //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
                 var exist = false;
-                $dom("link").each(function () {
-                    var href = $dom(this).attr("href").toLowerCase();
-                    if (href.indexOf('?') > -1)
-                        href = href.substring(0, href.lastIndexOf('?'));
+                $dom("link[type='text/css']").each(function () {
+                    let href = $dom(this).attr("href").toLowerCase();
+                    if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
                     if (one.toLowerCase() == href) {
                         exist = true;
                         return false;
@@ -749,11 +748,14 @@
                 });
                 if (exist) return;
 
-                var cur_script = document.createElement("link");
+                let cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
-                cur_script.href = one + '?ver=' + webdom.version();
-                cur_script.setAttribute('tag', tagName);
+                one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
+                if (!webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                cur_script.href = one;
+                if (tagName != null)
+                    cur_script.setAttribute('tag', tagName);
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
                 }, false);
@@ -767,11 +769,11 @@
                 }
             });
         },
-        js: function (src, callback) {
+        js: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
-                var exist = false;
-                var arr = document.querySelectorAll("script");
+                let exist = false;
+                let arr = document.querySelectorAll("script");
                 for (let i = 0; i < arr.length; i++) {
                     let src = arr[i].getAttribute('src');
                     if (src == null) continue;
@@ -785,7 +787,11 @@
 
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
-                cur_script.src = one + '?ver=' + webdom.version();
+                one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
+                if (!webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                cur_script.src = one;
+                if (tagName != null)
+                    cur_script.setAttribute('tag', tagName);
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
                 }, false);
@@ -800,19 +806,17 @@
             });
         },
         //处理异步，不用promise的方案
-        arraySync: function (bsFunc, arr) {
-            var callback = arguments[arguments.length - 1];
-            if (arr.length == 0) {
-                callback(0, []);
-                return;
-            }
+        //arr:要加载对象的url，数组类型
+        //callback:全部加载完成后执行的回调函数
+        arraySync: function (bsFunc, arr, callback) {
+            if (arr == null || !(arr instanceof Array)) arr = [arr];    //
+            if (arr.length == 0 || (arr.length == 1 && arr[0] == null)) return callback(0, []);
             var sendErr = false;
             var finishNum = arr.length;
             var result = [];
             var args = [0, 0];
-            for (var index = 2; index < arguments.length - 1; ++index) {
-                args.push(arguments[index]);
-            }
+            for (let i = 2; i < arguments.length - 1; ++i)
+                args.push(arguments[i]);
             args.push(function (err, r) {
                 if (err) {
                     if (!sendErr) {
@@ -823,21 +827,17 @@
                 }
                 --finishNum;
                 result[r.i] = r.v;
-                if (finishNum == 0) {
-                    callback(0, result);
-                }
+                if (finishNum == 0) callback(0, result);
             });
-
-            for (var i = 0; i < arr.length; ++i) {
-                args[0] = arr[i];
-                args[1] = i;
+            for (let i = 0; i < arr.length; ++i) {               
+                [args[0], args[1]] = [arr[i], i];
                 bsFunc.apply(null, args);
             }
         }
     };
     //项目路径，此为模版库的路径
     webdom.path = function () {
-        var template = webdom('meta[template]');
+        let template = webdom('meta[template]');
         return template.attr("path");
     };
     //模版文件的路径
@@ -846,13 +846,19 @@
         var page = view.attr("page");
         return page.substring(0, page.lastIndexOf("/") + 1);
     };
+    //模板是否启用缓存
+    webdom.iscache = function () {
+        let template = webdom('meta[template]');
+        let iscache = template.attr("cache");
+        return iscache == 'true';
+    };
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
         var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
         for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         arr.push('/Utilities/Panel/Scripts/ctrls.js');
-        window.$dom.load.js(arr, function () {
+        webdom.load.js(arr, function () {
             var arr2 = new Array();
             //arr2.push('/Utilities/Scripts/');
             //加载ElementUI
@@ -871,7 +877,7 @@
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
             //查询面板
             arr2.push('/Utilities/Components/query_panel.js');
-            window.$dom.load.js(arr2, f);
+            webdom.load.js(arr2, f);
         });
     };
     //加载组件所需的javascript文件
@@ -890,21 +896,21 @@
             webdom.corejs(function () {
                 //设置ElementUI的一些参数
                 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-                 //关闭按钮的事件
-                 window.closebtn_event_count = 100;
-                 window.closebtn_event = window.setInterval(function () {
-                     if (window.closebtn_event_count-- < 0) window.clearInterval(window.closebtn_event);
-                     let btns = $dom('button.el-button--close:not([event_close])');
-                     btns.each(function () {
-                         let btn = $dom(this);
-                         if (btn.attr('event_close') == null || btn.attr('event_close') == '') {
-                             btn.attr('event_close', true);
-                             btn.click(function () {
-                                 window.top.$pagebox.shut($dom.trim(window.name));
-                             });
-                         }
-                     });
-                 }, 300);
+                //关闭按钮的事件
+                window.closebtn_event_count = 100;
+                window.closebtn_event = window.setInterval(function () {
+                    if (window.closebtn_event_count-- < 0) window.clearInterval(window.closebtn_event);
+                    let btns = $dom('button.el-button--close:not([event_close])');
+                    btns.each(function () {
+                        let btn = $dom(this);
+                        if (btn.attr('event_close') == null || btn.attr('event_close') == '') {
+                            btn.attr('event_close', true);
+                            btn.click(function () {
+                                window.top.$pagebox.shut($dom.trim(window.name));
+                            });
+                        }
+                    });
+                }, 300);
                 //全屏的预载效果
                 Vue.prototype.$fulloading = function () {
                     return this.$loading({

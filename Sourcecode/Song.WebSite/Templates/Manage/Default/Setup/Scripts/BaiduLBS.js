@@ -35,9 +35,10 @@
             btnEnter: function () {
                 var th = this;
                 if (th.loading) return;
-                th.loading = true;
+
                 this.$refs['entity'].validate(function (valid) {
                     if (valid) {
+                        th.loading = true;
                         $api.post("Platform/ParamModify", { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 th.entity = req.data.result;
@@ -55,4 +56,4 @@
         }
     });
 
-});
+}, ['/Utilities/baiduMap/map_show.js']);

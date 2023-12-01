@@ -393,7 +393,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity">参数对象，如果Sys_Id大于零则按ID修改，否则按Sys_Key修改</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin]
+        [SuperAdmin]
         public SystemPara ParamModify(SystemPara entity)
         {
             Song.Entities.SystemPara old = null;
@@ -416,7 +416,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        [Admin]
+        [SuperAdmin]
         public SystemPara ParamAdd(SystemPara entity)
         {
             Business.Do<ISystemPara>().Add(entity);
