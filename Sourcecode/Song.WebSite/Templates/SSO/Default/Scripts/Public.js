@@ -1,5 +1,4 @@
-﻿
-(function () {
+﻿(function () {
     //加载主要的Css文件
     $dom.load.css([
         '/Utilities/ElementUi/index.css',
@@ -24,10 +23,9 @@
         //编辑器
         arr2.push('/Utilities/TinyMCE/tinymce.js');
         arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
-        //查询面板
-        arr2.push('/Utilities/Components/query_panel.js');
-        $dom.load.js(arr2, f);
+        window.$dom.load.js(arr2, f);
     };
+
     //加载必要的资源完成
     //f:加载完成要执行的方法
     //source:要加载的资源
@@ -51,19 +49,10 @@
     window.$init_func = function () {
         //设置ElementUI的一些参数
         Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-        //关闭按钮的事件
-        window.closebtn_event_count = 100;
-        window.closebtn_event = window.setInterval(function () {
-            if (window.closebtn_event_count-- < 0) window.clearInterval(window.closebtn_event);
-            let btns = $dom('button.el-button--close:not([event_close])');
-            btns.each(function () {
-                let btn = $dom(this);
-                if (btn.attr('event_close') == null || btn.attr('event_close') == '') {
-                    btn.attr('event_close', true);
-                    btn.click(function () {
-                        window.top.$pagebox.shut($dom.trim(window.name));
-                    });
-                }
+        window.setTimeout(function () {
+            //关闭按钮的事件
+            $dom('button.el-button--close').click(function () {
+                if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
             });
         }, 300);
         //全屏的预载效果
@@ -92,7 +81,6 @@
                 Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
             }
         };
-    }
+    };
 })();
-
 

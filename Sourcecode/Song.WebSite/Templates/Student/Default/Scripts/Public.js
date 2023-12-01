@@ -9,24 +9,32 @@
     ]);
     //加载相关组件
     window.$components = function (f) {
-        var arr2 = new Array();
+        //电脑端拖动与手式拖动的js库,以及其它
+        var arr2 = ['Sortable.min', 'vuedraggable.min', 'hammer.min', 'vue-touch'];
+        for (var t in arr2) arr2[t] = '/Utilities/Scripts/' + arr2[t] + '.js';
+        //加载相关组件；图标、上传组件，头像组件
+        var comp = ['icons', 'upload-img', 'upload-file', 'avatar', 'btngroup'];
+        for (var c in comp) arr2.push('/Utilities/Components/' + comp[c] + '.js');
         //加载ElementUI
         arr2.push('/Utilities/ElementUi/index.js');
-        arr2.push('/Utilities/Components/btngroup.js');
-        //加载Sortable拖动
-        arr2.push('/Utilities/Scripts/Sortable.min.js');
-        arr2.push('/Utilities/Scripts/vuedraggable.min.js');
-        //加载图标选择组件
-        arr2.push('/Utilities/Components/icons.js');
-        //图片上传组件
-        arr2.push('/Utilities/Components/upload-img.js');
-        arr2.push('/Utilities/Components/upload-file.js');
+        //mathjax，解析latex公式
+        arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+        arr2.push('/Utilities/MathJax/globalVariable.js');
+
         //编辑器
         arr2.push('/Utilities/TinyMCE/tinymce.js');
         arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
         //查询面板
         arr2.push('/Utilities/Components/query_panel.js');
-        $dom.load.js(arr2, f);
+        window.$dom.load.js(arr2, f);
+    };
+    //加载组件所需的javascript文件
+    $dom.ctrljs = function (f) {
+        $dom.corejs(function () {
+            var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
+            window.$dom.load.js(arr, f);
+        });
     };
     //加载必要的资源完成
     //f:加载完成要执行的方法
@@ -50,7 +58,7 @@
     //加载完成后的初始化方法
     window.$init_func = function () {
         //设置ElementUI的一些参数
-        Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+        Vue.prototype.$ELEMENT = { size: 'medium', zIndex: 3000 };
         //关闭按钮的事件
         window.closebtn_event_count = 100;
         window.closebtn_event = window.setInterval(function () {
@@ -66,6 +74,14 @@
                 }
             });
         }, 300);
+        //渲染函数的方法，需要vue对象中updated中引用this.$mathjax()              
+        //elements可以是一个DOM节点的数组(注意getXXXsByYYY的结果是collection，必须手动转为数组才行)
+        Vue.prototype.$mathjax = function (elements) {
+            // 判断是否初始配置，若⽆则配置
+            if (window.globalVariable.isMathjaxConfig)
+                window.globalVariable.initMathjaxConfig();
+            window.globalVariable.TypeSet(elements);
+        };
         //全屏的预载效果
         Vue.prototype.$fulloading = function () {
             return this.$loading({
@@ -92,7 +108,5 @@
                 Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
             }
         };
-    }
+    };
 })();
-
-

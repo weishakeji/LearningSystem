@@ -7,7 +7,7 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年2月1日
- * 最后修订：2021年3月16日
+ * 最后修订：2023年12月1日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
 
@@ -21,15 +21,15 @@ window.onload = function () {
     });
     console.log(window.location.hostname);
 };
- //加载组件所需的javascript文件
- window.$ctrljs = function (f) {
+//加载组件所需的javascript文件
+window.$ctrljs = function (f) {
     $dom.corejs(function () {
-        var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+        var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
         for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
         window.$dom.load.js(arr, f);
-    });
+    }, '/Utilities/Panel/Scripts/ctrls.js');
 };
-$ctrljs (function () {
+$ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
         ico: 'e79b',
@@ -60,7 +60,7 @@ $ctrljs (function () {
                 if (window.platinfo.intro != '') {
                     $dom("*[platinfo='intro']").html(window.platinfo.intro).show();
                     $dom("*[platinfo='intro']").prev().hide();
-                }else{
+                } else {
                     $dom("*[platinfo='intro']").hide();
                     $dom("*[platinfo='intro']").prev().show();
                 }

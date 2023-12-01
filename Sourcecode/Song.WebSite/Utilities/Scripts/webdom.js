@@ -654,6 +654,23 @@
         if (null == u) return true;
         return regex_match.exec(u) != null;
     };
+    //是否是平板
+    webdom.ispad = function () {
+        var regex_match = /(ipad|Android.*Tablet)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
+    //网页是否处于微信内置浏览器
+    webdom.isWeixin = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/MicroMessenger/i) == 'micromessenger';
+    };
+    //网页是否处于微信小程序内置浏览器
+    webdom.isWeixinApp = function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        return ua.match(/miniProgram/i) == 'miniprogram';
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -852,20 +869,55 @@
         let iscache = template.attr("cache");
         return iscache == 'true';
     };
+    //页面路由，和地址栏Url有一定区别
+    webdom.route = function () {
+        var template = webdom('meta[view]');
+        return template.attr("route");
+    };
+    //页面路由的路径（不包括当前页面）
+    webdom.routepath = function () {
+        let route = this.route();
+        if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);
+        return route;
+    };
     //加载核心库的javascript文件
-    webdom.corejs = function (f) {
+    //func:加载完成后的方法
+    webdom.corejs = function (func, jsfile) {
         //要加载的js 
         var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
-        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';       
-        webdom.load.js(arr, f);
-    };     
-     //加载自身相关的js或css  
-     if (webdom('head[resource]').length > 0) {
+        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        //附加js文件
+        if (jsfile != null) {
+            if (jsfile instanceof Array && jsfile.length > 0) {
+                for (let i = 0; i < jsfile.length; i++)
+                    arr.push(jsfile[i]);
+            } else {
+                arr.push(jsfile);
+            }
+        }
+        webdom.load.js(arr, func);
+    };
+    //加载组件，例如vue组件
+    //func:加载完成后的方法
+    webdom.componentjs = function (jsfile, func) {
+        if (jsfile != null) {
+            //如果引用的js不是绝对路径，则默认取当前默认库的根路径
+            for (var i = 0; i < jsfile.length; i++) {
+                if (jsfile[i].substring(0, 1) == "/") continue;
+                if (jsfile[i].length >= 7 && jsfile[i].substring(0, 7).toLowerCase() == "http://") continue;
+                if (jsfile[i].length >= 8 && jsfile[i].substring(0, 8).toLowerCase() == "https://") continue;
+                jsfile[i] = $dom.pagepath() + jsfile[i];
+            }
+            window.$dom.load.js(jsfile, func);
+        } else if (func != null) func();
+    };
+    //加载自身相关的js或css  
+    if (webdom('head[resource]').length > 0) {
         var file = webdom('meta[view]').attr("view");
         if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
     }
     //创建全局对象，方便调用
-    window.$dom = webdom;   
+    window.$dom = webdom;
 })();

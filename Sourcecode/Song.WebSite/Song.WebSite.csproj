@@ -376,7 +376,7 @@
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />
     <Content Include="Templates\Mobi\_Public\500.html" />
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
-    <Content Include="Templates\Mobi\_Public\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\Public.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
     <Content Include="Templates\OrgAdmin\Default\Capital\AccountMoney.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Components\monthlychart.js" />
@@ -613,7 +613,7 @@
     <Content Include="Templates\Pay\Default\Inc\meta.inc" />
     <Content Include="Templates\Pay\Default\Index.html" />
     <Content Include="Templates\Pay\Default\Scripts\PayEntry.js" />
-    <Content Include="Templates\Pay\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Pay\Default\Scripts\Public.js" />
     <Content Include="Templates\Pay\Default\Styles\PayEntry.css" />
     <Content Include="Templates\Pay\Default\Styles\Public.css" />
     <Content Include="Readme.html" />
@@ -1227,7 +1227,7 @@
     <Content Include="Templates\SSO\Default\Scripts\Inedex.js" />
     <Content Include="Templates\SSO\Default\Scripts\Login.js" />
     <Content Include="Templates\SSO\Default\Scripts\Logout.js" />
-    <Content Include="Templates\SSO\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\SSO\Default\Scripts\Public.js" />
     <Content Include="Templates\SSO\Default\Styles\Index.css" />
     <Content Include="Templates\SSO\Default\Styles\Login.css" />
     <Content Include="Templates\SSO\Default\Styles\Logout.css" />
@@ -1621,7 +1621,7 @@
     <Content Include="Utilities\Scripts\mobile-detect.min.js" />
     <Content Include="Utilities\Scripts\vue-touch.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Index.js" />
-    <Content Include="Templates\Mobi\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\Public.js" />
     <Content Include="Templates\Mobi\Default\Styles\About.css" />
     <Content Include="Templates\Mobi\Default\Styles\ContactUs.css" />
     <Content Include="Templates\Mobi\Default\Styles\Index.css" />
@@ -1695,7 +1695,7 @@
     <Content Include="Templates\Student\Default\Question\Styles\Errors.css" />
     <Content Include="Templates\Student\Default\Scripts\Index.js" />
     <Content Include="Templates\Student\Default\Scripts\Start.js" />
-    <Content Include="Templates\Student\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Student\Default\Scripts\Public.js" />
     <Content Include="Templates\Student\Default\Self\Intro.html" />
     <Content Include="Templates\Student\Default\Self\Safe.html" />
     <Content Include="Templates\Student\Default\Self\Link.html" />
@@ -1735,7 +1735,7 @@
     <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsDetail.css" />
     <Content Include="Templates\Teacher\Default\Index.html" />
     <Content Include="Templates\Teacher\Default\Scripts\Index.js" />
-    <Content Include="Templates\Teacher\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Teacher\Default\Scripts\Public.js" />
     <Content Include="Templates\Teacher\Default\Styles\Index.css" />
     <Content Include="Templates\Teacher\Default\Styles\Public.css" />
     <Content Include="Templates\Teacher\Default\_self.xml" />
@@ -1803,7 +1803,7 @@
     <Content Include="Templates\Web\Default\Scripts\dropmenu.js" />
     <Content Include="Templates\Web\Default\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Scripts\404.js" />
-    <Content Include="Templates\Web\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Web\Default\Scripts\Public.js" />
     <Content Include="Templates\Web\Default\Sign\Find.html" />
     <Content Include="Templates\Web\Default\Sign\Images\bg1.png" />
     <Content Include="Templates\Web\Default\Sign\In.html" />
@@ -1857,7 +1857,7 @@
     <Content Include="Templates\Manage\Default\RechargeCode\Styles\OutputQrcode.css" />
     <Content Include="Templates\Manage\Default\Scripts\Startpage.js" />
     <Content Include="Templates\Web\_Public\Scripts\Index.js" />
-    <Content Include="Templates\Web\_Public\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Web\_Public\Scripts\Public.js" />
     <Content Include="Templates\Web\_Public\Styles\Index.css" />
     <Content Include="Utilities\baiduMap\convertor.js" />
     <Content Include="Utilities\DataTemplate\Config\充值码.xml" />
@@ -2015,7 +2015,7 @@
     <Content Include="Templates\OrgAdmin\Default\Scripts\Admin.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\hanzi2pinyin.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\Index_.js" />
-    <Content Include="Templates\OrgAdmin\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Public.js" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Admin.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Index_.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Login.css" />
