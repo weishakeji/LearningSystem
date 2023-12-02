@@ -314,7 +314,8 @@
             //右侧按钮
             var btn = path.add('tabbar-btnbox');
             btn.add('print').html('&#xa046').attr('title', '打印');
-            if (!!tab.help) btn.add('help').html('&#xa026').attr('title', '帮助');
+            console.error(tab.help)
+            if (!!tab.help) btn.add('help').attr('title', '帮助');
             path.width('100%').height(30);
             iframe.height('calc(100% - 30px)');
         } else {

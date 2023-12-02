@@ -17,8 +17,8 @@ window.onload = function () {
         doc.setAttribute('oncontextmenu', "javascript:return false;");
     });
 };
- //加载组件所需的javascript文件
- window.$ctrljs = function (f) {
+//加载组件所需的javascript文件
+window.$ctrljs = function (f) {
     $dom.corejs(function () {
         var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
         for (var t in arr) arr[t] = $dom.path() + 'Panel/Scripts/' + arr[t] + '.js';
@@ -125,9 +125,9 @@ function ready(result) {
         //$dom('panel#login').remove();
         $dom('panel#admin').show().css('opacity', 0);
         //window.$skins.onchange();
-        window.setTimeout(function(){
+        window.setTimeout(function () {
             $dom('panel#login').remove();
-        },2000);
+        }, 2000);
         window.$skins.setup('Office');
         //右侧菜单信息
         window.usermenu.datas[0].title = result.Acc_Name;
@@ -280,6 +280,7 @@ function nodeClick(sender, eventArgs) {
         default:
             if (!!data.url) {
                 //window.tabsContent.clear();
+                //if (data.help == null || data.help == '') data.help = data.url;
                 window.tabsContent.add(data);
             }
             break;

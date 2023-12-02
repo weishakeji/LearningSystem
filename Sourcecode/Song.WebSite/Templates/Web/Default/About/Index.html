@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
+   
     <title>关于我们</title>
 </head>
 
@@ -37,6 +37,7 @@
                     </dl>
                 </div>
                 <loading v-if="loading_map"></loading>
+                <map_show></map_show>
                 <div v-show="!loading_map" id="map"
                     style="margin-left: 120px; height: 400px; width: calc(100% - 150px);">
                 </div>

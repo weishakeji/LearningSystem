@@ -345,8 +345,10 @@ function nodeClick(sender, eventArgs) {
             }
             break;
         default:
-            if (!!data.url)
+            if (!!data.url) {
+                //if (data.help == null || data.help == '') data.help = data.url
                 window.tabsContent.add(data);
+            }
             break;
     }
 }

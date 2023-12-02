@@ -44,10 +44,14 @@
     //source:要加载的资源
     window.$ready = function (f, source) {
         //如果参数没有按顺序传，自动调整，例如原本第一个是方法，第二个是资源路径，调用时写反了也可以
-        var func = null, jsfile = null;
+        var func = null, jsfile = [];
         for (let i = 0; i < arguments.length; i++) {
             if (arguments[i].constructor === Function) func = arguments[i];
-            if (arguments[i] instanceof Array) jsfile = arguments[i];
+            if (arguments[i] instanceof Array) {
+                for (let j = 0; j < arguments[i].length; j++)
+                    if (typeof arguments[i][j] === 'string') jsfile.push(arguments[i][j]);
+            }
+            if (typeof arguments[i] === 'string') jsfile.push(arguments[i]);
         }
         $dom.ready(function () {
             $dom.corejs(function () {
