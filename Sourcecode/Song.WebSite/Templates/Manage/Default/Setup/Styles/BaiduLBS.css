@@ -1,4 +1,27 @@
 ﻿@charset "utf-8";
-.box-card{
+
+#vapp {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+}
+
+.box-card {
     margin: 15px;
+}
+
+.box-card:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+}
+
+.box-card:last-child .el-card__body {
+    flex: 1;
+}
+
+#mapbox, #mapbox>div {
+    width: 100%;
+    height: 100%;
 }

@@ -859,8 +859,8 @@
     };
     //模版文件的路径
     webdom.pagepath = function () {
-        var view = webdom('meta[view]');
-        var page = view.attr("page");
+        let view = webdom('meta[view]');
+        let page = view.attr("page");
         return page.substring(0, page.lastIndexOf("/") + 1);
     };
     //模板是否启用缓存
@@ -871,7 +871,7 @@
     };
     //页面路由，和地址栏Url有一定区别
     webdom.route = function () {
-        var template = webdom('meta[view]');
+        let template = webdom('meta[view]');
         return template.attr("route");
     };
     //页面路由的路径（不包括当前页面）
@@ -884,8 +884,8 @@
     //func:加载完成后的方法
     webdom.corejs = function (func, jsfile) {
         //要加载的js 
-        var arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
-        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        let arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
+        for (let t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         //附加js文件
         if (jsfile != null) {
             if (jsfile instanceof Array && jsfile.length > 0) {
