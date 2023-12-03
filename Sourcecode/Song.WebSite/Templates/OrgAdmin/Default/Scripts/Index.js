@@ -17,6 +17,7 @@ window.onload = function () {
         doc.setAttribute('oncontextmenu', "javascript:return false;");
     });
 };
+//控件加载完成（corejs核心js也加载完成）
 $ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
@@ -144,30 +145,15 @@ function ready(result) {
             $dom(".pagebox").css('filter', val ? 'blur(3px)' : 'none');
         }
     });
-
     //加载左侧菜单树
-    $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
+    $api.get('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
             var result = nodeconvert(req.data.result);//return;
-            console.log(result);
+            //console.log(result);
             if (result[0].childs.length > 0)
                 tree.add(result[0].childs);
-            /*
-       //启起页 
-       window.setTimeout(function () {
-           var data = window.tree.getData('node_a76471634c09b23347199ee23682d1ed');
-           window.tree.trigger('click', {
-               treeid: data.id,
-               data: data
-           });
-       }, 1000);
-*/
-        } else {
-            throw req.data.message;
-        }
-    }).catch(function (err) {
-        console.error(err);
-    });
+        } else throw req.data.message;
+    }).catch(err => console.error(err));
     //选项卡
     var tabs = $tabs.create({
         target: '#tabs-area',
