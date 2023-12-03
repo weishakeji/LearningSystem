@@ -39,6 +39,14 @@
         arr2.push('/Utilities/Components/date_range.js');
         window.$dom.load.js(arr2, f);
     };
+    //加载组件所需的javascript文件
+    window.$ctrljs = function (f) {
+        $dom.corejs(function () {
+            var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            for (var t in arr) arr[t] = $dom.path() + 'Panel/Scripts/' + arr[t] + '.js';
+            $dom.load.js(arr, f);
+        });
+    };
     //加载必要的资源完成
     //f:加载完成要执行的方法
     //source:要加载的资源

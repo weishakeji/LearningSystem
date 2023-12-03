@@ -1,7 +1,7 @@
 ﻿$ready(function () {
 
     //加载窗体组件
-    $dom.ctrljs(function () {
+    $ctrljs(function () {
         window.$dom.load.css(['/Utilities/panel/skins/education/pagebox.css']);
     });
     window.vapp = new Vue({

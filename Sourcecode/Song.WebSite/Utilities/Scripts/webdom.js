@@ -152,9 +152,10 @@
             this.style.display = "none";
         });
     };
-    fn.show = function () {
+    fn.show = function (display) {
+        if (display == null) display = 'block';
         return this.each(function () {
-            this.style.display = "block";
+            this.style.display = display;
             /*
             if (this.style.display == 'none')
                 this.style.removeProperty('display');
@@ -384,7 +385,9 @@
         var docElement = node.ownerDocument.documentElement;
         return {
             top: offset.top + window.pageYOffset - docElement.clientTop,
-            left: offset.left + window.pageXOffset - docElement.clientLeft
+            left: offset.left + window.pageXOffset - docElement.clientLeft,
+            width: this.width(),
+            height: this.height()
         };
     };
     //追加一个子节点，返回自身对象

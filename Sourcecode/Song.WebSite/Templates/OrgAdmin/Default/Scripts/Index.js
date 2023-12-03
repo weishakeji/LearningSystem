@@ -17,14 +17,6 @@ window.onload = function () {
         doc.setAttribute('oncontextmenu', "javascript:return false;");
     });
 };
-//加载组件所需的javascript文件
-window.$ctrljs = function (f) {
-    $dom.corejs(function () {
-        var arr = ['ctrls', 'pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
-        for (var t in arr) arr[t] = $dom.path() + 'Panel/Scripts/' + arr[t] + '.js';
-        $dom.load.js(arr, f);
-    });
-};
 $ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
