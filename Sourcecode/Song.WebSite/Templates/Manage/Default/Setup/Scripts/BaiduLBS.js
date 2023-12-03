@@ -47,8 +47,7 @@
                         th.org = org.data.result;
                     })).catch(err => alert(err))
                         .finally(() => th.loading = false);
-                } else {
-                    console.error(req.data.exception);
+                } else {                 
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))

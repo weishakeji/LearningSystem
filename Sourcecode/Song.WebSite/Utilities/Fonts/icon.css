@@ -181,6 +181,7 @@ help, alert {
     color: #999;
     font-size: 13px;
     cursor: default;
+    
 }
 
 help::before, alert::before {
@@ -189,7 +190,9 @@ help::before, alert::before {
     margin-right: 8px;
     font-size: 16px;
 }
-
+help[large]::before, alert[large]::before {
+    font-size: 25px;
+}
 /*多行帮助信息*/
 help[multi], alert[multi] {
     position: relative;
@@ -205,11 +208,16 @@ help[multi]::before, alert[multi]::before {
     left: 0px;
     top: 3px;
 }
-
+/*样式*/
+alert[margin] {
+    margin: 15px;
+}
+alert[large] {
+    font-size: 18px;
+}
 alert {
     color: #F56C6C;
 }
-
 help::before {
     content: "\a026";
 }

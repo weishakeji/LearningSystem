@@ -9,34 +9,38 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-card class="box-card" shadow="hover">
-            <div slot="header" class="clearfix">
-                <icon>&#xe64c</icon>百度地图 - 开放平台AppKey设置
-            </div>
-            <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
-                <el-form-item label="应用AK" prop="Sys_Value">
-                    <el-input v-model="entity.Sys_Value" style="width: 400px" clearable></el-input>
-                </el-form-item>
-                <el-form-item label="">
-                    <help multi>
-                        1、地图服务采用了百度地图的开放平台，需自主申请应用；
-                        <br />2、申请地址：<a href="https://lbsyun.baidu.com/" target="_blank">https://lbsyun.baidu.com/</a>
-                        <br />3、操作步骤：注册百度地图开发者账号->创建应用（应用类型“浏览器端”）->将应用的“访问应用（AK）”复制到上述输入框
-                    </help>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" define="enter" v-on:click="btnEnter" :loading="loading">
-                        确 定</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
-        <el-card class="box-card" shadow="hover">
-            <div slot="header" class="clearfix">
-                <icon>&#xe61d</icon>浏览器端测试效果
-            </div>
-            <div id="mapbox" v-show="error==''"></div>
-            <alert v-if="error!=''" v-html="error"></alert>
-        </el-card>
+        <alert margin large v-if="!islogin">未登录，或登录已经超时</alert>
+        <template v-else>
+            <el-card class="box-card" shadow="hover">
+                <div slot="header" class="clearfix">
+                    <icon>&#xe64c</icon>百度地图 - 开放平台AppKey设置
+                </div>
+                <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
+                    <el-form-item label="应用AK" prop="Sys_Value">
+                        <el-input v-model="entity.Sys_Value" style="width: 400px" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <help multi>
+                            1、地图服务采用了百度地图的开放平台，需自主申请应用；
+                            <br />2、申请地址：<a href="https://lbsyun.baidu.com/"
+                                target="_blank">https://lbsyun.baidu.com/</a>
+                            <br />3、操作步骤：注册百度地图开发者账号->创建应用（应用类型“浏览器端”）->将应用的“访问应用（AK）”复制到上述输入框
+                        </help>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" define="enter" v-on:click="btnEnter" :loading="loading">
+                            确 定</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-card>
+            <el-card class="box-card" shadow="hover">
+                <div slot="header" class="clearfix">
+                    <icon>&#xe61d</icon>浏览器端测试效果
+                </div>
+                <div id="mapbox" v-show="error==''"></div>
+                <alert v-if="error!=''" v-html="error"></alert>
+            </el-card>
+        </template>
     </div>
 </body>
 
