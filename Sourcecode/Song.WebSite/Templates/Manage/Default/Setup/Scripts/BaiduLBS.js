@@ -43,11 +43,12 @@
                         $api.get('Platform/ParamForKey', { 'key': th.entity.Sys_Key }),
                         $api.get('Organization/ForID', { 'id': th.admin.Org_ID })
                     ).then(axios.spread(function (param, org) {
-                        th.entity = param.data.result;
+                        if (param.data.result)
+                            th.entity = param.data.result;
                         th.org = org.data.result;
                     })).catch(err => alert(err))
                         .finally(() => th.loading = false);
-                } else {                 
+                } else {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))

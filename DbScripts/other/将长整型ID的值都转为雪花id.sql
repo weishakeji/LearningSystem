@@ -178,3 +178,5 @@ while @@fetch_status=0
 --关闭并释放游标
 close cursor_obj
 deallocate cursor_obj
+
+
