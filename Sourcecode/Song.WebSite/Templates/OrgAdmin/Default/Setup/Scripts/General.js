@@ -6,8 +6,7 @@ $ready(function () {
             config: {},      //当前机构配置项        
             datas: {},
 
-            //activeName: 'general',      //选项卡
-            activeName: 'contact',
+            activeName: 'general',      //选项卡
             rules: {
                 Org_PlatformName: [
                     { required: true, message: '平台名称不得为空', trigger: 'blur' }
