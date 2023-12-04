@@ -27,25 +27,25 @@
                 </span>
             </el-tab-pane>
         </el-tabs>
-        <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
+        <el-form ref="entity" :model="org" :rules="rules" @submit.native.prevent label-width="120px">
             <div v-show="activeName=='general'" remark="常规参数设置" tab="general">
                 <el-form-item label="平台名称" prop="Org_PlatformName">
-                    <el-input v-model="organ.Org_PlatformName"></el-input>
+                    <el-input v-model="org.Org_PlatformName"></el-input>
                 </el-form-item>
                 <el-form-item label="机构名称" prop="Org_Name">
-                    <el-input v-model="organ.Org_Name" disabled></el-input>
+                    <el-input v-model="org.Org_Name" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="域名" prop="Org_TwoDomain">
                     <el-tag type="info">{{twomain}}</el-tag>
                 </el-form-item>
                 <el-form-item label="机构等级" prop="Olv_Name">
-                    <el-tag type="info">{{organ.Olv_Name}}</el-tag>
+                    <el-tag type="info">{{org.Olv_Name}}</el-tag>
                 </el-form-item>
                 <el-form-item label="标志" prop="">
-                    <upload-img @change="f=>upfile = f" :data="organ" size="1024" height="100" ext="jpg,png,gif">
-                        <template v-if="organ.Org_Logo!='' || upfile!=null">
+                    <upload-img @change="f=>upfile = f" :data="org" size="1024" height="100" ext="jpg,png,gif">
+                        <template v-if="org.Org_Logo!='' || upfile!=null">
                             <img v-if="upfile!=null" :src="upfile.base64" />
-                            <img v-else :src="organ.Org_Logo" />
+                            <img v-else :src="org.Org_Logo" />
                             <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
                         </template>
                         <div class="nophoto" v-else>
@@ -56,17 +56,17 @@
                     </upload-img>
                 </el-form-item>
                 <el-form-item label="ICP备案号" prop="Org_ICP">
-                    <el-input v-model="organ.Org_ICP"></el-input>
+                    <el-input v-model="org.Org_ICP"></el-input>
                 </el-form-item>
                 <el-form-item label="公案备案号" prop="Org_GonganBeian">
-                    <el-input v-model="organ.Org_GonganBeian"></el-input>
+                    <el-input v-model="org.Org_GonganBeian"></el-input>
                 </el-form-item>
             </div>
             <div v-show="activeName=='contact'" remark="联系方式" tab="contact">
                 <el-row>
                     <el-col :span="21">
                         <el-form-item label="地址" prop="Org_Address">
-                            <el-input v-model="organ.Org_Address" clearable>
+                            <el-input v-model="org.Org_Address" clearable>
                                 <icon slot="prefix">&#xe64f</icon>
                             </el-input>
                         </el-form-item>
@@ -78,70 +78,73 @@
                     </el-col>
                 </el-row>
                 <el-form-item label="电话" prop="Org_Phone">
-                    <el-input v-model="organ.Org_Phone" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_Phone" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xe66c</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="传真" prop="Org_Fax">
-                    <el-input v-model="organ.Org_Fax" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_Fax" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xa046</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="电子邮箱" prop="Org_Email">
-                    <el-input v-model="organ.Org_Email" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_Email" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xe76e</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="微信" prop="Org_Weixin">
-                    <el-input v-model="organ.Org_Weixin" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_Weixin" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xe730</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="联系人" prop="Org_Linkman">
-                    <el-input v-model="organ.Org_Linkman" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_Linkman" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xa043</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="Org_LinkmanPhone">
-                    <el-input v-model="organ.Org_LinkmanPhone" clearable maxlength="200" style="width: 50%;">
+                    <el-input v-model="org.Org_LinkmanPhone" clearable maxlength="200" style="width: 50%;">
                         <icon slot="prefix">&#xa047</icon>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="邮编" prop="Org_Zip">
-                    <el-input v-model="organ.Org_Zip" clearable maxlength="10" style="width: 50%;">
+                    <el-input v-model="org.Org_Zip" clearable maxlength="10" style="width: 50%;">
                         <icon slot="prefix">&#xe751</icon>
                     </el-input>
                 </el-form-item>
                 <el-dialog title="地址的GPS坐标（点击地图选择位置）" :visible.sync="mapshow" width="80%">
                     <el-row>
                         <el-form-item label="地址" prop="Org_Address" label-width="60px">
-                            <el-input v-model="organ.Org_Address" clearable @input="addressChange"></el-input>
+                            <el-input v-model.trim="org.Org_Address" clearable></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-col :span="8">
+                        <el-col :span="12">
                             <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
-                                <span v-html="organ.Org_Longitude"></span>
+                                <span v-html="org.Org_Longitude"></span>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="8">
+                        <el-col :span="12">
                             <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
-                                <span v-html="organ.Org_Latitude"></span>
+                                <span v-html="org.Org_Latitude"></span>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <div id="map" style="height:250px;width:100%;"></div>
+                    <map_setup :lat="org.Org_Latitude" :lng="org.Org_Longitude" :zoom="17" :address="org.Org_Address"
+                        @change="(lng,lat)=>{org.Org_Longitude=lng;org.Org_Latitude=lat;}"
+                        style="height:250px;width:100%;">
+                    </map_setup>
                 </el-dialog>
             </div>
             <div v-show="activeName=='seo'" remark="SEO" tab="seo">
                 <el-form-item label="Keywords" prop="Org_Keywords">
-                    <el-input type="textarea" v-model="organ.Org_Keywords"></el-input>
+                    <el-input type="textarea" v-model="org.Org_Keywords"></el-input>
                 </el-form-item>
                 <el-form-item label="Description" prop="Org_Description">
-                    <el-input type="textarea" v-model="organ.Org_Description"></el-input>
-                </el-form-item>              
+                    <el-input type="textarea" v-model="org.Org_Description"></el-input>
+                </el-form-item>
             </div>
-          
+
         </el-form>
         <div id="footer-box">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading"

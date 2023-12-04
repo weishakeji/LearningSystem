@@ -278,7 +278,7 @@ namespace Song.ViewData.Methods
             return arr;
         }
         /// <summary>
-        /// 获取地址的gps坐标
+        /// 获取地址的gps坐标,已经弃用，完可以用前端Js实现
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>

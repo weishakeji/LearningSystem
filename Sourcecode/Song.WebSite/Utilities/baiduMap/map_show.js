@@ -1,4 +1,4 @@
-﻿// 地理位置的显示，百度用地图
+﻿// 地理位置的显示，用的百度地图
 Vue.component('map_show', {
     //lng:经度（Longitude）
     //lat:纬度（Latitude）
@@ -77,7 +77,6 @@ Vue.component('map_show', {
         },
         //显示地图
         showmap: function () {
-            console.error(this);
             var el = $dom(this.$el);
             el.childs().remove();
             el.add("div").attr('id', this.mapid).css({

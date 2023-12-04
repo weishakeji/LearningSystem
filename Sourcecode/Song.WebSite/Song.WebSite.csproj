@@ -1826,7 +1826,6 @@
     <Content Include="Templates\Web\_Public\Error.html" />
     <Content Include="Templates\Web\_Public\404.html" />
     <Content Include="Utilities\AreaCodeInfo.xml" />
-    <Content Include="Utilities\baiduMap\vue-baidu-map.js" />
     <Content Include="Utilities\Components\avatar.js" />
     <Content Include="Utilities\Components\education.js" />
     <Content Include="Utilities\Components\icons.js" />

@@ -50,10 +50,3 @@ img.logo {
 .van-cell__value{
 	flex: auto;
 }
-
-/*地图区域*/
-
-.bm-view {
-	width: 100%;
-	height: 200px;
-}

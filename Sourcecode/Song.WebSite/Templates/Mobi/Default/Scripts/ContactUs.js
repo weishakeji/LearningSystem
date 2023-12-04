@@ -1,12 +1,4 @@
 ﻿$ready(function () {
-    Vue.use(VueBaiduMap.default, {
-        // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
-        ak: 'R6QvnyzsBlDiDpF8FNu5fYhS'
-    });
-
-    /*new Vue({
-        el: '#map'
-    });*/
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -44,5 +36,5 @@
     });
 
 }, ['Components/page_header.js',
-    '/Utilities/baiduMap/vue-baidu-map.js'
+    '/Utilities/baiduMap/map_show.js'
 ]);

@@ -2,11 +2,12 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
             datas: {},
 
-            activeName: 'general',      //选项卡
+            //activeName: 'general',      //选项卡
+            activeName: 'contact',
             rules: {
                 Org_PlatformName: [
                     { required: true, message: '平台名称不得为空', trigger: 'blur' }
@@ -31,13 +32,13 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Platform/Domain'),
                 $api.get('Platform/ServerPort')
-            ).then(axios.spread(function (organ, domain, port) {
+            ).then(axios.spread(function (org, domain, port) {
                 //获取结果             
-                th.organ = organ.data.result;
+                th.org = org.data.result;
                 //机构配置信息
-                th.config = $api.organ(th.organ).config;
+                th.config = $api.organ(th.org).config;
                 //域名
-                th.domain.two = th.organ.Org_TwoDomain;
+                th.domain.two = th.org.Org_TwoDomain;
                 th.domain.root = domain.data.result;
                 th.domain.port = port.data.result;
             })).catch(err => console.error(err))
@@ -54,18 +55,9 @@ $ready(function () {
                 else return domain.two + '.' + domain.root;
             }
         },
-        watch: {
-            //打开百度地图
-            'mapshow': function (nl, ol) {
-                if (nl) {
-                    var th = this;
-                    window.setTimeout(function () {
-                        th.showMap(th.organ);
-                    }, 500);
-                }
-            },
+        watch: {           
             //监听机构对象
-            organ: {
+            org: {
                 deep: true,
                 handler: function (n, o) {
                     //console.log('watch中：', n)
@@ -76,63 +68,13 @@ $ready(function () {
             //清除图片
             fileremove: function () {
                 this.upfile = null;
-                this.organ.Org_Logo = '';
+                this.org.Org_Logo = '';
             },
-            //显示地图
-            showMap: function (organ) {
-                var lng = organ.Org_Longitude;
-                var lat = organ.Org_Latitude;
-                lng = lng == 0 ? 116.404 : lng;
-                lat = lat == 0 ? 39.915 : lat;
-                //创建地图
-                window.map = new BMap.Map("map");
-                map.enableScrollWheelZoom();
-                map.enableKeyboard();
-                map.addControl(new BMap.NavigationControl());
-                map.centerAndZoom(new BMap.Point(lng, lat), 16);
-                var marker = new BMap.Marker(new BMap.Point(lng, lat));  // 创建标注
-                map.addOverlay(marker);
-                map.addEventListener("click", this.setMap);
-            },
-            //设置地图坐标
-            setMap: function (e) {
-                var lng = e.point.lng;
-                var lat = e.point.lat;
-                var map = e.target;
-                map.clearOverlays();
-                map.closeInfoWindow();
-                var zoom = map.getZoom();
-                map.centerAndZoom(new BMap.Point(lng, lat), zoom);
-                var point = new BMap.Point(lng, lat);
-                var marker = new BMap.Marker(new BMap.Point(lng, lat));  // 创建标注
-                map.addOverlay(marker);
-                this.organ.Org_Longitude = lng;
-                this.organ.Org_Latitude = lat;
-            },
-            //地址变化时
-            addressChange: function (val) {
-                var th = this;
-                $api.get('Platform/PositionGPS', { 'address': val }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        var zoom = window.map.getZoom();
-                        var lng = result.lng;
-                        var lat = result.lat;
-                        window.map.centerAndZoom(new BMap.Point(lng, lat), zoom);
-                        window.map.clearOverlays();
-                        var point = new BMap.Point(lng, lat);
-                        var marker = new BMap.Marker(point);  // 创建标注
-                        window.map.addOverlay(marker);
-                        window.vapp.organ.Org_Longitude = lng;
-                        window.vapp.organ.Org_Latitude = lat;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+            //lng:经度（Longitude）
+            //lat:纬度（Latitude）
+            map_selected: function (lng, lat) {
+                this.org.Org_Longitude = lng;
+                this.org.Org_Latitude = lat;
             },
             btnEnter: function (formName) {
                 var th = this;
@@ -145,13 +87,13 @@ $ready(function () {
                         for (let i = 0; i < fields.length; i++)
                             props.push(fields[i].prop);
                         let exclude = '';
-                        for (var key in th.organ) {
+                        for (var key in th.org) {
                             let index = props.indexOf(key);
                             if (index < 0) exclude += key + ',';
                         }
                         //console.error(exclude);
                         //接口参数，如果有上传文件，则增加file
-                        var para = { 'entity': th.organ, 'exclude': exclude };
+                        var para = { 'entity': th.org, 'exclude': exclude };
                         if (th.upfile != null) para['file'] = th.upfile;
                         $api.post('Organization/Modify', para).then(function (req) {
                             if (req.data.success) {
@@ -179,4 +121,5 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/baiduMap/convertor.js']);
+}, ['/Utilities/baiduMap/convertor.js',
+    '/Utilities/baiduMap/map_setup.js']);
