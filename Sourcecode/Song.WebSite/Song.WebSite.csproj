@@ -2167,10 +2167,6 @@
     <Content Include="Utilities\TinyMCE\plugins\axupimgs\upfiles.html" />
     <Content Include="Utilities\TinyMCE\plugins\bbcode\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\bbcode\plugin.min.js" />
-    <Content Include="Utilities\TinyMCE\plugins\bdmap\bd.html" />
-    <Content Include="Utilities\TinyMCE\plugins\bdmap\map.html" />
-    <Content Include="Utilities\TinyMCE\plugins\bdmap\plugin.js" />
-    <Content Include="Utilities\TinyMCE\plugins\bdmap\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\charmap\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\charmap\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\clearhtml\plugin.js" />

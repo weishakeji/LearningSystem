@@ -70,7 +70,7 @@ Vue.component('editor', {
                     arr = [`undo redo restoredraft cut copy formatpainter | formatselect fontselect fontsizeselect forecolor backcolor outdent indent |                  
                     bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify indent2em 
                     lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat | 
-                    table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime  bdmap  
+                    table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime   
                     searchreplace fullscreen print preview code upfile image-weisha organinfo`]
                     break;
                 //general常用按钮
@@ -137,7 +137,7 @@ Vue.component('editor', {
                 max_height: 700,
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
-                advlist lists textpattern help emoticons bdmap indent2em lineheight formatpainter axupimgs 
+                advlist lists textpattern help emoticons indent2em lineheight formatpainter axupimgs 
                 powerpaste letterspacing quickbars attachment wordcount autoresize image importword image-weisha organinfo`,
                 toolbar_groups: {
                     formatting: {
@@ -158,7 +158,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image-weisha  emoticons charmap  kityformula-editor bdmap organinfo',
+                        items: 'image-weisha  emoticons charmap  kityformula-editor organinfo',
                     }
                 },
                 //upfile attachment //上传文件、附件
