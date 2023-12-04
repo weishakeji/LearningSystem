@@ -4,7 +4,6 @@
 <head resource>
   <title>机构信息</title>
   <include file="../inc/meta.inc" />
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
 </head>
 
 <body>
@@ -138,28 +137,26 @@
         </span>
         <el-row>
           <el-form-item label="地址" prop="Org_Address" label-width="60px">
-            <el-input v-model="entity.Org_Address" clearable @input="addressChange">
+            <el-input v-model.trim="entity.Org_Address" clearable>
               <icon slot="prefix">&#xe6a2</icon>
             </el-input>
           </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
-              <el-input v-model="entity.Org_Longitude" clearable>
-                <icon slot="prefix">&#xe64f</icon>
-              </el-input>
-            </el-form-item>
+              <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
+                  <span v-html="entity.Org_Longitude"></span>
+              </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
-              <el-input v-model="entity.Org_Latitude" clearable>
-                <icon slot="prefix">&#xe64f</icon>
-              </el-input>
-            </el-form-item>
+              <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
+                  <span v-html="entity.Org_Latitude"></span>
+              </el-form-item>
           </el-col>
-        </el-row>
-        <div id="map" style="height:250px;width:100%;"></div>
+      </el-row>
+        <map_setup :lat="entity.Org_Latitude" :lng="entity.Org_Longitude" :zoom="17" :address="entity.Org_Address"
+          @change="(lng,lat)=>{entity.Org_Longitude=lng;entity.Org_Latitude=lat;}" style="height:250px;width:100%;">
+        </map_setup>
       </el-dialog>
 
     </el-form>

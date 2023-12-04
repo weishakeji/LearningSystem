@@ -128,17 +128,15 @@ Vue.component('map_setup', {
             try {
                 let map = this.mapobject;
                 const point = await this.getPointByAddress(this.address);
-                this.point = point;
                 //console.log('Js获取经度：', point.lng);
                 //console.log('Js获取纬度：', point.lat);
                 this.$emit('change', point.lng, point.lat);
                 //
-                var zoom = map.getZoom();
-                var p = new BMap.Point(point.lng, point.lat);
-                map.centerAndZoom(p, zoom);
+                //var zoom = map.getZoom();
+                //var p = new BMap.Point(point.lng, point.lat);
+                map.centerAndZoom(point, map.getZoom());
                 map.clearOverlays();
-                //var point = new BMap.Point(lng, lat);
-                var marker = new BMap.Marker(p);  // 创建标注
+                var marker = new BMap.Marker(point);  // 创建标注
                 map.addOverlay(marker);
 
             } catch (error) {

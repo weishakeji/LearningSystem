@@ -70,15 +70,6 @@ $ready(function () {
         watch: {
             'lv_id': function (nl, ol) {
                 this.entity.Olv_ID = nl;
-            },
-            'mapshow': function (nl, ol) {
-                if (nl) {
-                    var th = this;
-                    window.setTimeout(function () {
-                        th.showMap(th.entity);
-                    }, 500)
-
-                }
             }
         },
         computed: {
@@ -133,63 +124,6 @@ $ready(function () {
                         }).catch(err => reject(err));
                     }
                 });
-            },
-            //显示地图
-            showMap: function (organ) {
-                var lng = organ.Org_Longitude;
-                var lat = organ.Org_Latitude;
-                lng = lng == 0 ? 116.404 : lng;
-                lat = lat == 0 ? 39.915 : lat;
-                //创建地图
-                window.map = new BMap.Map("map");
-                map.enableScrollWheelZoom();
-                map.enableKeyboard();
-                map.addControl(new BMap.NavigationControl());
-                map.centerAndZoom(new BMap.Point(lng, lat), 16);
-                var marker = new BMap.Marker(new BMap.Point(lng, lat));  // 创建标注
-                map.addOverlay(marker);
-                map.addEventListener("click", this.setMap);
-            },
-            //设置地图坐标
-            setMap: function (e) {
-                var lng = e.point.lng;
-                var lat = e.point.lat;
-                var map = e.target;
-                map.clearOverlays();
-                map.closeInfoWindow();
-                var zoom = map.getZoom();
-                map.centerAndZoom(new BMap.Point(lng, lat), zoom);
-                var point = new BMap.Point(lng, lat);
-                var marker = new BMap.Marker(new BMap.Point(lng, lat));  // 创建标注
-                map.addOverlay(marker);
-                this.entity.Org_Longitude = lng;
-                this.entity.Org_Latitude = lat;
-            },
-            //地址变化时
-            addressChange: function (val) {
-                var th = this;
-                $api.get('Platform/PositionGPS', { 'address': val }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        var zoom = window.map.getZoom();
-                        var lng = result.lng;
-                        var lat = result.lat;
-                        window.map.centerAndZoom(new BMap.Point(lng, lat), zoom);
-                        window.map.clearOverlays();
-                        var point = new BMap.Point(lng, lat);
-                        var marker = new BMap.Marker(point);  // 创建标注
-                        window.map.addOverlay(marker);
-                        th.entity.Org_Longitude = lng;
-                        th.entity.Org_Latitude = lat;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
-                console.log(val);
             },
             //判断平台名称是否存在
             isPlatefromExist: function (val) {
@@ -258,15 +192,15 @@ $ready(function () {
             //保存信息
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid,fields) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
-                        var query=null;
-                        if(this.id == ''){
-                            query=$api.post('Organization/add', { 'entity': th.entity });
-                        }else{
-                            query=$api.post('Organization/Modify', { 'entity': th.entity,'exclude':'' });
-                        }                      
+                        var query = null;
+                        if (this.id == '') {
+                            query = $api.post('Organization/add', { 'entity': th.entity });
+                        } else {
+                            query = $api.post('Organization/Modify', { 'entity': th.entity, 'exclude': '' });
+                        }
                         query.then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -299,4 +233,5 @@ $ready(function () {
         },
     });
 
-}, ['/Utilities/baiduMap/convertor.js']);
+}, ['/Utilities/baiduMap/convertor.js',
+    '/Utilities/baiduMap/map_setup.js']);
