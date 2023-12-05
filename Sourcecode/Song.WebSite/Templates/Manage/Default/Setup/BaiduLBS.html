@@ -17,7 +17,7 @@
                 </div>
                 <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
                     <el-form-item label="应用AK" prop="Sys_Value">
-                        <el-input v-model="entity.Sys_Value" style="width: 400px" clearable></el-input>
+                        <el-input v-model.trim="entity.Sys_Value" style="width: 400px" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="">
                         <help multi>
@@ -33,11 +33,11 @@
                     </el-form-item>
                 </el-form>
             </el-card>
-            <el-card class="box-card" shadow="hover">
+            <el-card class="box-card" shadow="hover"  v-show="entity.Sys_Value!=''">
                 <div slot="header" class="clearfix">
                     <icon>&#xe61d</icon>浏览器端测试效果
                 </div>
-                <div id="mapbox" v-show="error==''"></div>
+                <div id="mapbox" v-show="error=='' && entity.Sys_Value!=''"></div>
                 <alert v-if="error!=''" v-html="error"></alert>
             </el-card>
         </template>

@@ -43,7 +43,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost][SuperAdmin]
         public ThirdpartyLogin Update(ThirdpartyLogin entity)
         {
             Song.Entities.ThirdpartyLogin old =
@@ -68,6 +68,7 @@ namespace Song.ViewData.Methods
         /// <param name="isue">是否启用</param>
         /// <returns></returns>
         [HttpPost]
+        [SuperAdmin]
         public bool ModifyUse(string tag, int id, bool isue)
         {
             if (string.IsNullOrWhiteSpace(tag)) return false;

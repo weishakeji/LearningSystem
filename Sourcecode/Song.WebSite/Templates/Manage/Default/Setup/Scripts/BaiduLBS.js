@@ -21,7 +21,7 @@
             //当appkey变更时
             'entity.Sys_Value': {
                 handler: function (val, old) {
-                    if ($api.isnull(val)) return;
+                    //if ($api.isnull(val)) return;
                     this.loadmapjs(val);
                 }, immediate: true
 
