@@ -86,8 +86,8 @@ Vue.component('largebutton', {
                 if (this.course.Cou_Type == 0) url = item.link.full;
                 if (this.course.Cou_Type == 2) url = item.link.question;
             } else url = item.link;
-            if (this.course.Cou_Type == 0) return window.location.href = url;
-            if (this.course.Cou_Type == 2) {
+            //if (this.course.Cou_Type == 0) return window.location.href = url;
+            if (this.course.Cou_Type == 2 && type == 'learn') {
                 var obj = {
                     'url': url,
                     'ico': 'e731', 'min': false, 'showmask': true,
@@ -97,7 +97,8 @@ Vue.component('largebutton', {
                 }
                 let pbox = top.$pagebox.create(obj);
                 pbox.open();
-            }
+            } else
+                window.location.href = url;
         }
     },
     template: `<div class="couBtnBox">

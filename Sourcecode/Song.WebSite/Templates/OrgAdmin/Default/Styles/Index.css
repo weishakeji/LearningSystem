@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+body {
+    background: radial-gradient(ellipse at left top, #fdb7b9 20%, #5d9dde 50%, #104f9d);
+}
+
 panel {
     display: block;
     width: 100%;
@@ -18,10 +22,10 @@ panel {
 }
 
 panel#admin {
-    background-color: rgb(0,135,189);
+    background-color: rgb(0, 135, 189);
     /*
     background-image: linear-gradient(to right,  #d5e9fd 50px,#fdd1d1,#ffe8c0);*/
-    background-image: linear-gradient(to right, rgb(0,135,189) 30%,rgb(203, 240, 255) );
+    background-image: linear-gradient(to right, rgb(0, 135, 189) 30%, rgb(203, 240, 255));
 }
 
 #treemenu-area {
@@ -96,7 +100,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop_roots drop-node:hover, .dropmenu drop_roots drop-node.hover {
-    background-color: rgb(0,135,189) !important;
+    background-color: rgb(0, 135, 189) !important;
     text-shadow: 1px 1px 2px #666;
 }
 
@@ -114,7 +118,7 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
 }
 
 .dropmenu drop-panel[root='#menubar'] {
-    background-color: rgb(0,135,189, 0.85) !important;
+    background-color: rgb(0, 135, 189, 0.85) !important;
 }
 
 .dropmenu drop-panel[root='#menubar']>*:not(hr):hover,
@@ -122,12 +126,15 @@ drop-panel[root='#menubar']>*:not(hr).hover:after {
     box-shadow: none !important;
     text-shadow: 1px 1px 2px #666;
 }
+
 #menubar.dropmenu drop-node a, [root='#menubar'] drop-node span, [root='#menubar'] drop-node ico {
     color: #fff !important;
 }
-#menubar.dropmenu drop-node.hover *{
+
+#menubar.dropmenu drop-node.hover * {
     color: #fff !important;
 }
+
 .dropmenu drop-panel>*:not(hr):hover * {
     color: #fff !important;
 }

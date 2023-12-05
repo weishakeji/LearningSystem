@@ -10,7 +10,7 @@
 
 <body oncontextmenu='return false'>
 
-    <panel id="loading" remark="预载效果">
+    <panel id="loading" remark="预载效果" style="display: none;">
         <div>
             <span></span>
             <span></span>
@@ -23,14 +23,14 @@
     <panel id="login" remark="登录区域">
         <div id="login-area" remark="登录框">
             <!--插入内容-->
-            <span>-- 对当前培训机构进行管理 --</span>
+            <span style="display: none;">-- 对当前培训机构进行管理 --</span>
         </div>
         <!-- 背景效果 -->
         <iframe src="/Utilities/Panel/Effects/Circular/index.html" id="iframe" width="100%" height="100%"
             frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"
             allowtransparency="yes"></iframe>
     </panel>
-    <panel id="admin" remark="管理面板">
+    <panel id="admin" remark="管理面板" style="display: none;">
         <div id="header-box">
             <div id="logo"> <a href="/" v-if="organ.Org_Logo!=''" target="_blank">
                     <img :src="organ.Org_Logo" /></a>

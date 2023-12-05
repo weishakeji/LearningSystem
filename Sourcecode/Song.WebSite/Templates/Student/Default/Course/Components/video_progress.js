@@ -48,7 +48,7 @@ Vue.component('video_progress', {
                                 th.purchase.Stc_StudyScore = result;
                                 //触发更新事件
                                 th.$emit('record', result, th.purchase);
-                                th.$notify({ type: 'success', message: '保存视频学习进度成功' });
+                                //th.$notify({ type: 'success', message: '保存视频学习进度成功' });
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;

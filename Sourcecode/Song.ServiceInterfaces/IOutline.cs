@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Song.Entities;
+using WeiSha.Data;
 
 namespace Song.ServiceInterfaces
 {
@@ -41,6 +42,14 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity">业务实体</param>
         void OutlineSave(Outline entity);
+        /// <summary>
+        /// 修改课程的某些项
+        /// </summary>
+        /// <param name="olid">章节id</param>
+        /// <param name="fiels"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        bool UpdateField(long olid, Field[] fiels, object[] objs);
         /// <summary>
         /// 更新章节的试题数
         /// </summary>

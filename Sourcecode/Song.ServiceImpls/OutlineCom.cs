@@ -230,6 +230,25 @@ namespace Song.ServiceImpls
             Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);          
         }
         /// <summary>
+        /// 修改课程的某些项
+        /// </summary>
+        /// <param name="olid">章节id</param>
+        /// <param name="fiels"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public bool UpdateField(long olid, Field[] fiels, object[] objs)
+        {
+            try
+            {
+                Gateway.Default.Update<Outline>(fiels, objs, Outline._.Ol_ID == olid);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
         /// 更新章节的试题数
         /// </summary>
         /// <param name="olid">章节Id</param>

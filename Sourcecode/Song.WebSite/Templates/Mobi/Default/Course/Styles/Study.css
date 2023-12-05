@@ -5,7 +5,9 @@ html, body, #vapp {
 	height: 100%;
 	overflow: hidden;
 }
-
+button{
+	font:initial !important;
+}
 .headbar {
 	background-color: transparent !important;
 	box-shadow: 0 0px 0px #ccc !important;
