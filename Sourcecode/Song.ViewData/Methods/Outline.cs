@@ -61,6 +61,42 @@ namespace Song.ViewData.Methods
             return old;
         }
         /// <summary>
+        /// 修改章节状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="use"></param>
+        /// <param name="finish"></param>
+        /// <param name="free"></param>
+        /// <returns></returns>
+        [Admin, Teacher]
+        [HttpPost]
+        public int ModifyState(string id, bool? use, bool? finish, bool? free)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(id)) return i;
+            string[] arr = id.Split(',');
+            foreach (string s in arr)
+            {
+                long idval = 0;
+                long.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+
+                    Business.Do<IOutline>().UpdateField(idval,
+                   new WeiSha.Data.Field[] {
+                        Song.Entities.Outline._.Ol_IsUse,Song.Entities.Outline._.Ol_IsFinish,Song.Entities.Outline._.Ol_IsFree },
+                   new object[] { (bool)use, (bool)finish, (bool)free });
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
+        /// <summary>
         /// 更改章节的排序
         /// </summary>
         /// <param name="list">章节列表，对像只有Ol_ID、Ol_PID、Ol_Tax、Ol_Level</param>

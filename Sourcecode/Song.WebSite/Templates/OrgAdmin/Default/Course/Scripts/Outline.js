@@ -121,24 +121,23 @@
             changeState: function (data, field) {
                 data[field] = !data[field];
                 var th = this;
-                let entity = $api.clone(data);
+                //let entity = $api.clone(data);
                 this.loadingid = data.Ol_ID;
-                $api.post('Outline/Modify', { 'entity': entity }).then(function (req) {
-                    th.loadingid = -1;
-                    if (req.data.success) {
-                        th.$message({
-                            type: 'success',
-                            message: '修改状态成功!',
-                            center: true
-                        });
-                        th.updatedEvent();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err, '错误');
-                    th.loadingid = -1;
-                });
+                $api.post('Outline/ModifyState',
+                    { 'id': data.Ol_ID, 'use': data.Ol_IsUse, 'finish': data.Ol_IsFinish, 'free': data.Ol_IsFree })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.$message({
+                                type: 'success', center: true,
+                                message: '修改状态成功!'
+                            });
+                            th.updatedEvent();
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err, '错误');
+                    }).finally(() => th.loadingid = -1);
             },
             //将树形数据转到数据列表，用于递交到服务端更改专业的排序
             tree2array: function (datas) {
