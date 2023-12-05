@@ -9,17 +9,17 @@ Vue.component('largebutton', {
                 //学习有多个链接，full指全功能（学练考）课程学习页,question为题库型课程学习页
                 {
                     'type': 'learn', 'link': {
-                        full: '/web/course/study.' + this.course.Cou_ID,
-                        question: '/web/question/course.' + this.course.Cou_ID
+                        full: '/web/course/study.{couid}',
+                        question: '/web/question/course.{couid}'
                     }
                 },
-                { 'type': 'buy', 'link': '/web/course/buy.' + this.course.Cou_ID },
-                { 'type': 'test', 'link': '/web/test/paper.' + this.finaltest.Tp_Id },
+                { 'type': 'buy', 'link': '/web/course/buy.{couid}' },
+                { 'type': 'test', 'link': '/web/test/paper.{tpid}' },
             ]
         }
     },
     watch: {
-        urls: {
+        'urls': {
             handler: function (nv, ov) {
                 let urls = this.urls;
                 //添加来源页的参数
@@ -33,24 +33,50 @@ Vue.component('largebutton', {
                     }
                 }
             }, immediate: true
-        }
+        },
+        //当课程变更时
+        'course': {
+            handler: function (nv, ov) {
+                if ($api.isnull(nv)) return;
+                this.urls = this.handlelink('couid', nv.Cou_ID);
+            }, immediate: true, deep: true
+        },
+        'finaltest': {
+            handler: function (nv, ov) {
+                if ($api.isnull(nv)) return;
+                this.urls = this.handlelink('tpid', nv.Tp_Id);
+            }, immediate: true, deep: true
+        },
     },
     computed: {
         //是否登录
-        islogin: t => { return !$api.isnull(t.account); },
+        islogin: t => !$api.isnull(t.account),
         //是否存在结课考试
-        istest: t => { return !$api.isnull(t.finaltest); },
+        istest: t => !$api.isnull(t.finaltest),
         //课程为空,或课程被禁用
-        nullcourse: t => { return $api.isnull(t.course) || !this.course.Cou_IsUse; },
+        nullcourse: t => $api.isnull(t.course) || !this.course.Cou_IsUse,
         //是否购买记录
-        purchased: t => { return !$api.isnull(t.purchase); },
+        purchased: t => !$api.isnull(t.purchase),
         //可以学习
-        canstudy: function () {
-            return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
-        }
+        canstudy: t => t.studied && (t.purchased && t.purchase.Stc_IsEnable)
     },
     mounted: function () { },
     methods: {
+        //处理urls的链接
+        handlelink: function (tag, val) {
+            let urls = this.urls;
+            let replace = url => url.replace(new RegExp('\{' + tag + '\}'), val);;
+            for (let i = 0; i < urls.length; i++) {
+                if ($api.getType(urls[i].link) == 'Object') {
+                    for (let k in urls[i].link)
+                        urls[i].link[k] = replace(urls[i].link[k]);
+                } else {
+                    urls[i].link = replace(urls[i].link);
+                }
+            }
+            return urls;
+        },
+        //跳转
         url: function (type) {
             let item = this.urls.find(function (item) {
                 return item.type == type;
@@ -60,7 +86,7 @@ Vue.component('largebutton', {
                 if (this.course.Cou_Type == 0) url = item.link.full;
                 if (this.course.Cou_Type == 2) url = item.link.question;
             } else url = item.link;
-            if (this.course.Cou_Type == 0) window.location.href = url;
+            if (this.course.Cou_Type == 0) return window.location.href = url;
             if (this.course.Cou_Type == 2) {
                 var obj = {
                     'url': url,
