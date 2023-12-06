@@ -265,7 +265,11 @@ context.body>section .el-tabs .el-tabs__content>div {
     right: 10px;
     top: 6px;
 }
-
+.outlines>div>a  {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
 index {
     margin-right: 8px;
 }
