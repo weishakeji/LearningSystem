@@ -1282,7 +1282,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 log.Lss_StudyTime = acc.As_Duration;
                 //视频播放进度
                 int range = acc.As_Duration / 3 > 0 ? acc.As_Duration / 3 : acc.As_Duration;
-                int rd = new Random().Next(0, range);
+                int rd = range > 0 ? new Random().Next(0, range) : 0;
                 int playtime = acc.As_Duration * 7 / 10 + rd;
                 playtime = playtime > acc.As_Duration ? acc.As_Duration : playtime;
                 log.Lss_PlayTime = playtime * 1000;
@@ -1293,7 +1293,9 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     throw new Exception("未查询到当前学员(" + student.Ac_Name + ":" + student.Ac_AccName + ")选修了该课程");
                 }
                 TimeSpan span = sc.Stc_EndTime - sc.Stc_StartTime;
-                log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(new Random().Next(0, (int)span.TotalSeconds));
+                int totalSeconds = (int)span.TotalSeconds;
+                int seconds = totalSeconds > 0 ? new Random().Next(0, totalSeconds) : 0;
+                log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(seconds);
                 log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
                 log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
                 Gateway.Default.Save<LogForStudentStudy>(log);               
