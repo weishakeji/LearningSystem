@@ -178,7 +178,7 @@
             //打开“开课”的窗体
             begincourse: function () {
                 var stid = this.id;
-                var url = $api.url.dot(stid, $dom.routpath() + 'begincourse');
+                var url = $api.url.dot(stid, $dom.routepath() + 'begincourse');
                 //直接创建
                 var box = window.top.$pagebox.create({
                     width: 800, height: '70%',

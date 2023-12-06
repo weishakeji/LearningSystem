@@ -57,7 +57,7 @@ Vue.component('course_data', {
             //打开新窗口
             var node = this.getnode();
             var tit = node ? node.title : $dom('title').text();
-            var url = $dom.routpath() + 'students';
+            var url = $dom.routepath() + 'students';
             course = course == null ? this.course : course;
             var attrs = {
                 width: '80%',

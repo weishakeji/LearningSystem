@@ -135,7 +135,7 @@ Vue.component('video_progress', {
         //查看课程学习记录详情
         viewDetail: function (item) {
             var item = this.course;
-            var url = $dom.routpath() + 'VideoProgress.' + item.Cou_ID;
+            var url = $dom.routepath() + 'VideoProgress.' + item.Cou_ID;
             url = '/orgadmin/Student/DetailsView.' + item.Cou_ID,
                 url = $api.url.set(url, 'stid', this.stid);
             var obj = {
