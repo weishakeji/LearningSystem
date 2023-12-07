@@ -20,17 +20,15 @@ $ready(function () {
                 $api.get('Account/ForID', { 'id': th.stid }),
                 $api.cache('Outline/TreeList', { 'couid': th.couid })
             ).then(axios.spread(function (account, outlines) {
-                th.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.outlines = outlines.data.result;
                 console.log(th.outlines);
                 if (th.islogin) th.getlogs(true);
             })).catch(function (err) {
-                th.loading_init = false;
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -51,7 +49,6 @@ $ready(function () {
                 var acid = th.account.Ac_ID;
                 let active = iscache ? 10 : 'update';
                 $api.cache('Course/LogForOutlineVideo:' + active, { 'stid': acid, 'couid': th.couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;
                         console.log(th.logdatas);
@@ -59,11 +56,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         }
     });
