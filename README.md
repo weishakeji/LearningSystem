@@ -37,8 +37,8 @@
  * 超级管理员： /manage  账号super 密码1
  
 ## 更多演示信息
- * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)   [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
- <br/><img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
+ * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)  手机端 [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
+ <br/>微信小程序<img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
 
 
 
