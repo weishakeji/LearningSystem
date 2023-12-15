@@ -33,6 +33,11 @@
  * 前后端分离（自研架构），C#、Sqlserver、Vue
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
+## 开发环境
+* 采用C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>
+* 数据库采用Sqlserver2008或更高版本
+* 开发工具 Microsoft Visual Studio Community 2019
+
 ## 源码库说明
  * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
  * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
@@ -68,10 +73,7 @@
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8604.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8606.png)
 
-## 产品特点
-* 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
-* 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
-* 物美价廉，永久授权，免费升级，售后周全；<a href="https://shop35387540.taobao.com/" target="_blank" size=12> [ 购买商业授权 ] </a>
+
 
 ## 功能介绍
 * 视频教学，直播、录播
@@ -86,13 +88,14 @@
 * 分享、分润、分销
    > 学员分享，多级裂变，运营、推广不再难
 
+## 功能清单
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/功能清单.jpg)
 
+## 产品特点
+* 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
+* 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
+* 物美价廉，永久授权，免费升级，售后周全；<a href="https://shop35387540.taobao.com/" target="_blank" size=12> [ 购买商业授权 ] </a>
 
-
-## 开发环境
-* 采用C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>
-* 数据库采用Sqlserver2008或更高版本
-* 开发工具 Microsoft Visual Studio Community 2019
 
 ## 开源地址
 * Gitee ： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
