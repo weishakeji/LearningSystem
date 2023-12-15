@@ -86,7 +86,8 @@
 * 分享、分润、分销
    > 学员分享，多级裂变，运营、推广不再难
 
-
+## 功能清单
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/功能清单.jpg)
 
 
 ## 开发环境
