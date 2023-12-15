@@ -31,10 +31,13 @@
 <br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
 
 ## 演示信息
- * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
+ * [ http://www.weisha100.cn]( www.weisha100.cn) 
  * 学员账号： tester 密码1
  * 机构管理员： /orgadmin 账号admin 密码1
  * 超级管理员： /manage  账号super 密码1
+## 更多演示信息
+ * 融课云学院： [ http://gxmk.weisha100.net/]( gxmk.weisha100.net) 
+
 ### 手机端
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.png)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-mobi.png)
