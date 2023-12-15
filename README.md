@@ -35,10 +35,11 @@
  * 学员账号： tester 密码1
  * 机构管理员： /orgadmin 账号admin 密码1
  * 超级管理员： /manage  账号super 密码1
- * 微信小程序
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg)
+ 
 ## 更多演示信息
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)   [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
+ * ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg)
+
 
 
 ### 手机端
