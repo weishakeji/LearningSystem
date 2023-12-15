@@ -38,7 +38,7 @@
  
 ## 更多演示信息
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)  手机端 [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
- 微信小程序<img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
+ <br/>微信小程序<img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
  * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
  * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
 
