@@ -7,6 +7,19 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
+## 演示信息
+ * 微微一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
+ * 学员账号： tester 密码1
+ * 机构管理员： /orgadmin 账号admin 密码1
+ * 超级管理员： /manage  账号super 密码1
+ 
+## 更多演示信息
+ * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
+  <br/>手机端下载 [ 安卓APP](http://fir.weishakeji.net/u42b )   [ 苹果APP](http://gxmk.weisha100.net/app.html) 
+  <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
+ * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
+ * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
+
 ## 商务合作 - 代理销售，定制开发
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
 
@@ -29,20 +42,6 @@
 
 >产品v2.0版本已经推出发行版，原version 1.*版本不再维护，请积极升级到新版本。
 <br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
-
-## 演示信息
- * 微微一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
- * 学员账号： tester 密码1
- * 机构管理员： /orgadmin 账号admin 密码1
- * 超级管理员： /manage  账号super 密码1
- 
-## 更多演示信息
- * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
-  <br/>手机端 [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
- <br/>微信小程序<img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="100px" height="100px"/>
- * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
- * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
-
 
 
 
