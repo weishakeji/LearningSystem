@@ -10,8 +10,8 @@
 ## 演示信息
  * 微微一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
- * 机构管理员： /orgadmin 账号admin 密码1
- * 超级管理员： /manage  账号super 密码1
+ * 机构管理员： /orgadmin 账号admin 密码1 【教学教务管理，专业设置，课程题库，用户管理，考试管理，学员开课，通知公告……等】
+ * 超级管理员： /manage  账号super 密码1 【支付接口，直播接口，短信接口，第三方登录，权限管理，分支机构管理……等】
  
 ## 更多演示信息
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
