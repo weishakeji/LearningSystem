@@ -38,7 +38,7 @@
  
 ## 更多演示信息
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)   [ 安卓app](http://fir.weishakeji.net/u42b )   [ 苹果app](http://gxmk.weisha100.net/app.html) 
- * ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg)
+ * ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg){width=100px height=100px}
 
 
 
