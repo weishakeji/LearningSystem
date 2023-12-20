@@ -32,6 +32,8 @@ Vue.component('ques_progress', {
         'progress': function () {
             return this.percent + this.tolerance >= 100 ? 100 : this.percent;
         },
+        //是否有购买记录
+        ispurchase:t=>!$api.isnull(t.purchase)       
     },
     mounted: function () { },
     methods: {

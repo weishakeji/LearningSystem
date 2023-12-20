@@ -24,7 +24,7 @@
                 //如果没有学习记录
                 if (!(logs && logs.length)) return percent;
                 //如果章节没有设置，返回       
-                if(!$api.isnull(this.outline)) return percent;
+                if($api.isnull(this.outline)) return percent;
                 //取当前章节的学习进度
                 for (let i = 0; i < logs.length; i++) {
                     const log = logs[i];
