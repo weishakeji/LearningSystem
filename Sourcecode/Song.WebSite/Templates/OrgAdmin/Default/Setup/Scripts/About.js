@@ -55,5 +55,4 @@ $ready(function () {
             },
         }
     });
-
-}, ['/Utilities/baiduMap/convertor.js']);
+});

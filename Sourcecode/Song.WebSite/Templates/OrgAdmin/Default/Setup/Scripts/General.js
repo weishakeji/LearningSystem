@@ -54,7 +54,7 @@ $ready(function () {
                 else return domain.two + '.' + domain.root;
             }
         },
-        watch: {           
+        watch: {
             //监听机构对象
             org: {
                 deep: true,
@@ -120,5 +120,4 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/baiduMap/convertor.js',
-    '/Utilities/baiduMap/map_setup.js']);
+}, ['/Utilities/baiduMap/map_setup.js']);
