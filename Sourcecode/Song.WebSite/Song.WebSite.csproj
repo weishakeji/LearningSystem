@@ -1825,7 +1825,6 @@
     <Content Include="Templates\Web\_Public\500.html" />
     <Content Include="Templates\Web\_Public\Error.html" />
     <Content Include="Templates\Web\_Public\404.html" />
-    <Content Include="Utilities\AreaCodeInfo.xml" />
     <Content Include="Utilities\Components\avatar.js" />
     <Content Include="Utilities\Components\education.js" />
     <Content Include="Utilities\Components\icons.js" />
@@ -3272,6 +3271,7 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win7\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\_Night\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Office\intro.json" />
+    <Content Include="Utilities\AreaCodeInfo.csv" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
