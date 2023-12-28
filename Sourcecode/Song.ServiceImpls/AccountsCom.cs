@@ -105,7 +105,7 @@ namespace Song.ServiceImpls
             PointAccount pa = new PointAccount();   //开始增加积分
             pa.Pa_Value = regPoint;
             pa.Ac_ID = entity.Ac_ID;
-            pa.Pa_From = 0;     //分享注册
+            pa.Pa_From = 0;     //初次注册
             pa.Pa_Info = "初次注册";
             this.PointAdd(pa);            
             return entity.Ac_ID;
@@ -1192,17 +1192,17 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public void PointAdd4Login(Accounts acc)
         {
-            PointAdd4Login(acc, null, null, null);
+            PointAdd4Login(acc.Ac_ID, null, null, null);
         }
-        public void PointAdd4Login(Accounts acc, string source, string info, string remark)
+        public void PointAdd4Login(int accid, string source, string info, string remark)
         {
             Task task = new Task(() =>
             {
-                _pointAdd4Login(acc, source, info, remark);
+                _pointAdd4Login(accid, source, info, remark);
             });
             task.Start();
         }
-        private void _pointAdd4Login(Accounts acc, string source, string info, string remark)
+        private void _pointAdd4Login(int accid, string source, string info, string remark)
         {
             //每次登录增加的积分；
             int loginPoint = Business.Do<ISystemPara>()["LoginPoint"].Int32 ?? 0;
@@ -1211,16 +1211,16 @@ namespace Song.ServiceImpls
             int maxPoint = Business.Do<ISystemPara>()["LoginPointMax"].Int32 ?? 0;
             if (loginPoint > maxPoint) return;
             //当前学员今天的登录积分；            
-            int todaySum = PointClac(acc.Ac_ID, 1, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
+            int todaySum = PointClac(accid, 1, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
             int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
             if (surplus <= 0) return;
 
             //开始增加积分
             PointAccount pa = new PointAccount();
             pa.Pa_Value = surplus > loginPoint ? loginPoint : surplus;   //当前登录要增加的积分数
-            pa.Ac_ID = acc.Ac_ID;
+            pa.Ac_ID = accid;
             pa.Pa_From = 1;     //登录积分
-            pa.Pa_Source = source;
+            pa.Pa_Source = source;  //来源，电脑页，还是手机页
             pa.Pa_Info = info;
             pa.Pa_Remark = remark;
             this.PointAdd(pa);

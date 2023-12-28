@@ -118,7 +118,8 @@ namespace Song.ViewData.Methods
             if (account == null) throw VExcept.Verify("密码错误或账号不存在", 102);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             LoginAccount.Add(account);
-
+            ////添加登录记录
+            //Business.Do<IStudent>().LogForLoginAdd(account);
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
@@ -126,6 +127,11 @@ namespace Song.ViewData.Methods
             user.Ac_CheckUID = account.Ac_CheckUID;
             user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
             return user;
+        }
+
+        public bool Logout()
+        {
+            return true;
         }
         /// <summary>
         /// 短信登录

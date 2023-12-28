@@ -350,12 +350,12 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 增加登录积分
         /// </summary>
-        /// <param name="acc">学员账户</param>
+        /// <param name="accid">学员账户id</param>
         /// <param name="source">来源信息</param>
         /// <param name="info">信息</param>
         /// <param name="remark">备注</param>
         /// <returns>此次登录所增加的积分数</returns>
-        void PointAdd4Login(Accounts acc,string source,string info,string remark);
+        void PointAdd4Login(int accid,string source,string info,string remark);
         /// <summary>
         /// 增加分享链接的访问积分
         /// </summary>

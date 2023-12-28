@@ -259,7 +259,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Accounts st = this.User;
             if (st == null) return 1;
-            Business.Do<IAccounts>().PointAdd4Login(st, source, info, remark);
+            Business.Do<IAccounts>().PointAdd4Login(st.Ac_ID, source, info, remark);
             //刷新登录状态的学员信息
             LoginAccount.Fresh(st);
             return 1;

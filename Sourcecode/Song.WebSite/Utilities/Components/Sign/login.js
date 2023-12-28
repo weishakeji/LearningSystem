@@ -75,7 +75,7 @@ Vue.component('login', {
                 if (!val || val == undefined || JSON.stringify(val) == '{}') return;
                 //是否显示,账号密码登录
                 let pwd = this.tabs.find((n) => n.tag == 'pwd');
-                let sms = this.tabs.find((n) => n.tag == 'sms');              
+                let sms = this.tabs.find((n) => n.tag == 'sms');
                 if (pwd) pwd.show = val.IsLoginForPw;
                 if (sms) sms.show = val.IsLoginForSms;
                 this.$set(this.tabs, 0, pwd);
@@ -306,6 +306,10 @@ Vue.component('login', {
                 .finally(() => th.acc_vcode.loading = false);
         },
         //登录成功
+        //account:当前登录账号对象
+        //source:登录来源，web端或手机端，
+        //info:登录信息，例如：微信登录,QQ登录
+        //remark:备注
         success: function (account, source, info, remark) {
             $api.loginstatus('account', account.Ac_Pw, account.Ac_ID);
             $api.login.account_fresh();
@@ -313,9 +317,11 @@ Vue.component('login', {
             //查询学员快过期的课程
             var th = this;
             if (th.overdue_soon_day <= 0) return th.success_emit(account, source, info, remark);
+            //获取快要过期的课程
             $api.get('Course/OverdueSoon', { 'acid': account.Ac_ID, 'day': th.overdue_soon_day }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
+                    //快过期的课程，给个提示
                     if (result.length > 0) th.overdue_soon_alert(result, account, source, info, remark);
                     else
                         th.success_emit(account, source, info, remark);

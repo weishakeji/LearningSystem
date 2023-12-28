@@ -256,9 +256,9 @@
             //写入
             if (arguments.length >= 2) {
                 if (status == null || !(status instanceof Array)) status = [];
-                var time = (new Date()).format('yyyy-MM-dd HH:mm:ss');
-                var isexist = false;
-                for (var t in status) {
+                let time = (new Date()).format('yyyy-MM-dd HH:mm:ss');
+                let isexist = false;
+                for (let t in status) {
                     if (!!status[t].key && status[t].key == key) {
                         status[t].val = code;
                         status[t].time = time;
@@ -266,11 +266,10 @@
                     }
                 }
                 if (!isexist) status.push({
-                    key: key,
-                    val: code,
-                    time: time,
+                    key: key, val: code, time: time,
                     id: id == null ? 0 : id
                 });
+                //将登录信息写入storage
                 methods.storage(storagename, status);
                 return status;
             }
