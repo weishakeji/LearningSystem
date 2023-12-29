@@ -21,6 +21,14 @@ namespace Song.ViewData
         /// </summary>
         public string API_PATH { get; set; }
         /// <summary>
+        /// 经度
+        /// </summary>
+        public decimal Longitude { get; set; }
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public decimal Latitude { get; set; }
+        /// <summary>
         /// 来源页，调用api方法时的所在页
         /// </summary>
         public Uri Referrer { get; set; }

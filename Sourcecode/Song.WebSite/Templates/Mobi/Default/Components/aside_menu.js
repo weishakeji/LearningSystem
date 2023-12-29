@@ -22,7 +22,9 @@ Vue.component('aside_menu', {
 
                 { name: 'hr', login: 0 },
                 { name: '缓存管理', login: -1, url: 'Cache/Index', icon: '&#xe6a4', size: 19, evt: null },
-                { name: '注销登录', login: 0, url: '', icon: '&#xe70a', size: 20, evt: this.logout }
+                { name: '注销登录', login: 0, url: '', icon: '&#xe70a', size: 20, evt: this.logout },
+                { name: 'hr', login: 0 },
+                { name: '测试地理位置服务', login: -1, url: 'Reference/Demo', icon: '&#xe64c', size: 20, evt: null }
             ],
             foot: [
                 { name: '联系我们', login: 1, url: 'ContactUs', icon: '&#xe766', size: 16, evt: null },

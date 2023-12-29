@@ -3,13 +3,23 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title></title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-
+        <div>
+            <p>浏览器端地理信息</p>
+            <p>经度：<br />{{brw_posi.longitude}}</p>
+            <p>纬度：<br />{{brw_posi.latitude}}</p>
+        </div>
+        <hr/>
+        <div>
+            <p>服务器端返回</p>
+            <p>经度：<br />{{posi.lng}}</p>
+            <p>纬度：<br />{{posi.lat}}</p>
+        </div>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
         <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
     </div>

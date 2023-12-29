@@ -36,7 +36,9 @@
                         <span>{{data.serial}}</span>
                         <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>
                         <span class="date" v-if="data.Ol_ModifyTime"
-                            :title="data.Ol_ModifyTime|date('最后编辑时间：yyyy-MM-dd HH:mm:ss')">({{data.Ol_ModifyTime.untilnow()}})</span>
+                            :title="data.Ol_ModifyTime|date('最后编辑时间：yyyy-MM-dd HH:mm:ss')">
+                            ({{data.Ol_ModifyTime.untilnow()}})
+                        </span>
                     </div>
                     <div class="btns">
                         <span class="column_video">

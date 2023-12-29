@@ -41,6 +41,13 @@ namespace Song.ViewData
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
             //头信息
             Encrypt = "true".Equals(HeadersParam(request.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
+            //经纬度,longitude,latitude
+            decimal lng, lat;
+            decimal.TryParse(HeadersParam(request.Headers, "Longitude"), out lng);
+            decimal.TryParse(HeadersParam(request.Headers, "Latitude"), out lat);
+            Longitude = lng;
+            Latitude = lat;
+            //请求标识
             HTTP_Mark = HeadersParam(request.Headers, "X-Custom-Header");
             Custom_METHOD = HeadersParam(request.Headers, "X-Custom-Method").ToUpper();
             if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
@@ -105,6 +112,13 @@ namespace Song.ViewData
             HTTP_HOST = httprequest.Headers.Host;
             //是否返回加密数据
             Encrypt = "true".Equals(HeadersParam(httprequest.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
+            //经纬度,longitude,latitude
+            decimal lng, lat;
+            decimal.TryParse(HeadersParam(httprequest.Headers, "Longitude"), out lng);
+            decimal.TryParse(HeadersParam(httprequest.Headers, "Latitude"), out lat);
+            Longitude = lng;
+            Latitude = lat;
+            //请求标识
             HTTP_Mark = HeadersParam(httprequest.Headers, "X-Custom-Header");
             Custom_METHOD = HeadersParam(httprequest.Headers, "X-Custom-Method").ToUpper();
             if (!HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))

@@ -887,16 +887,19 @@
     //func:加载完成后的方法
     webdom.corejs = function (func, jsfile) {
         //要加载的js 
-        let arr = ['vue.min', 'polyfill.min', 'axios_min', 'api'];
+        let arr = ['vue.min', 'polyfill.min', 'axios_min',
+            'api',      //axios封装
+            'utils',    //工具类
+            'position'  //获取GPS定位数据
+        ];
         for (let t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         //附加js文件
         if (jsfile != null) {
             if (jsfile instanceof Array && jsfile.length > 0) {
                 for (let i = 0; i < jsfile.length; i++)
                     arr.push(jsfile[i]);
-            } else {
-                arr.push(jsfile);
-            }
+            } else arr.push(jsfile);
+
         }
         webdom.load.js(arr, func);
     };
@@ -915,7 +918,7 @@
         } else if (func != null) func();
     };
     //加载自身相关的js或css  
-    webdom.selfresource = function () {        
+    webdom.selfresource = function () {
         if (webdom('head[resource]').length > 0) {
             var file = webdom('meta[view]').attr("view");
             if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));

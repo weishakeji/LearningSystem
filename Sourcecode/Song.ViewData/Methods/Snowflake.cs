@@ -86,5 +86,12 @@ namespace Song.ViewData.Methods
             }
             return hashString;
         }
+        public JObject GetLBS()
+        {
+            JObject jo = new JObject();
+            jo.Add("lng", this.Letter.Longitude);
+            jo.Add("lat", this.Letter.Latitude);
+            return jo;
+        }
     }
 }

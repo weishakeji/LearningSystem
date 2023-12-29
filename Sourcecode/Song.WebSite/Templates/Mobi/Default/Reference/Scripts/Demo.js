@@ -7,38 +7,58 @@ $ready(function () {
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项        
-            datas: {},
+
+            posi: {},       //位置信息
+            brw_posi: {},
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
+            var th = this;
+            window.setTimeout(function () {
+                th.brw_posi = window.$posi.coords;
+                th.getposi();
+            }, 1000);
+
         },
         created: function () {
 
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: t => !$api.isnull(t.account)
         },
         watch: {
         },
         methods: {
+            getposi: function () {
+                var th = this;
+                $api.get('Snowflake/GetLBS').then(function (req) {
+                    if (req.data.success) {
+                        th.posi = req.data.result;
+                        //...
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
+            }
         }
     });
 

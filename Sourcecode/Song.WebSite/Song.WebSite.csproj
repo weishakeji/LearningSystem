@@ -1618,6 +1618,8 @@
     <Content Include="Utilities\PdfViewer\viewer.js" />
     <Content Include="Utilities\Scripts\hammer.min.js" />
     <Content Include="Templates\Mobi\Default\Scripts\treemenu.js" />
+    <Content Include="Utilities\Scripts\position.js" />
+    <Content Include="Utilities\Scripts\utils.js" />
     <Content Include="Utilities\Scripts\mobile-detect.min.js" />
     <Content Include="Utilities\Scripts\vue-touch.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Index.js" />
@@ -2079,7 +2081,6 @@
     <Content Include="Utilities\Qiniuyun\qiniu-web-player-1.2.3.js" />
     <Content Include="Utilities\Scripts\api.js" />
     <Content Include="Utilities\Scripts\axios_min.js" />
-    <Content Include="Utilities\Scripts\dexie.js" />
     <Content Include="Utilities\Scripts\hanzi2pinyin.js" />
     <Content Include="Utilities\Scripts\jquery.js" />
     <Content Include="Utilities\Scripts\polyfill.min.js" />
