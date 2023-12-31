@@ -278,15 +278,15 @@ namespace Song.ViewData.Methods
             return arr;
         }
         /// <summary>
-        /// 获取地址的gps坐标,已经弃用，完可以用前端Js实现
+        /// 获取地址的gps坐标,已经弃用，可以用前端Js实现
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>
         [HttpGet]
-        public Dictionary<string, string> PositionGPS(string address)
+        public Dictionary<string, decimal> PositionGPS(string address)
         {
             WeiSha.Core.Param.Method.Position posi = WeiSha.Core.Request.Position(address);
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            Dictionary<string, decimal> dic = new Dictionary<string, decimal>();
             dic.Add("lng", posi.Longitude);
             dic.Add("lat", posi.Latitude);
             return dic;
