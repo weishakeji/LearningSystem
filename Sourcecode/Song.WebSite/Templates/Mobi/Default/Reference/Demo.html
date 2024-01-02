@@ -9,17 +9,33 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div>
-            <p>浏览器端地理信息</p>
-            <p>经度：<br />{{brw_posi.longitude}}</p>
-            <p>纬度：<br />{{brw_posi.latitude}}</p>
-        </div>
-        <hr/>
-        <div>
-            <p>服务器端返回</p>
-            <p>经度：<br />{{posi.lng}}</p>
-            <p>纬度：<br />{{posi.lat}}</p>
-        </div>
+        <p>
+            <b>Html5地理信息</b>
+        <div>经度：{{brw_posi.longitude}} &nbsp; 
+            纬度：{{brw_posi.latitude}}</div>
+        </p>
+        <loading v-if="loading">
+            正在计算...
+        </loading>
+        <template v-else>
+            <p>
+                <b>经纬度计算(精确到区县或街道）</b>
+            <div v-for="(value, key) in posi.geo">
+                {{ key }}: {{ value }}
+            </div>
+            <map_show v-if="posi.geo!=null" :lat="posi.geo.Latitude" :lng="posi.geo.Longitude"
+                :convert="true" style="height: 300px; width: 100%;"></map_show>
+            </p>
+            <p>
+                <b>IP地址计算（精确到省市或区县）</b>
+            <div v-for="(value, key) in posi.ip">
+                {{ key }}: {{ value }}
+            </div>
+            <map_show :lat="posi.ip.Latitude" :lng="posi.ip.Longitude" :convert="false"
+                style="height: 300px; width: 100%;"></map_show>
+            </p>
+
+        </template>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
         <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
     </div>

@@ -30,7 +30,7 @@ namespace Song.ServiceImpls
             }
             //当前时间
             entity.Mb_CrtTime = DateTime.Now;
-            entity.Mb_IP = WeiSha.Core.Request.IP.IPAddress;
+            entity.Mb_IP = WeiSha.Core.Browser.IP;
             //uid
             if (string.IsNullOrWhiteSpace(entity.Mb_UID))
             {
@@ -133,7 +133,7 @@ namespace Song.ServiceImpls
                     //
                     entity.Mb_IsTheme = false;
                     entity.Mb_CrtTime = DateTime.Now;
-                    entity.Mb_IP = WeiSha.Core.Request.IP.IPAddress;
+                    entity.Mb_IP = WeiSha.Core.Browser.IP;
                     tran.Save<MessageBoard>(entity);
                     tran.Commit();
                 }

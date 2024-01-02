@@ -753,7 +753,7 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
             }
             entity.Thc_CrtTime = DateTime.Now;
-            entity.Thc_IP = WeiSha.Core.Request.IP.IPAddress;
+            entity.Thc_IP = WeiSha.Core.Browser.IP;
             entity.Thc_Device = WeiSha.Core.Browser.IsMobile ? "Mobi" : "PC";
             return Gateway.Default.Save<TeacherComment>(entity);
         }

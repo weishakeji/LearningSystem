@@ -86,11 +86,34 @@ namespace Song.ViewData.Methods
             }
             return hashString;
         }
+        /// <summary>
+        /// 获取地理位置信息
+        /// </summary>
+        /// <returns></returns>
         public JObject GetLBS()
         {
             JObject jo = new JObject();
-            jo.Add("lng", this.Letter.Longitude);
-            jo.Add("lat", this.Letter.Latitude);
+            //来自客户端的经纬度信息
+            Letter letter = this.Letter;
+            decimal lng = letter.Longitude, lat = letter.Latitude;
+            jo.Add("lng", lng);
+            jo.Add("lat", lat);
+            //IP相关数据
+            WeiSha.Core.Param.Method.Position posi = WeiSha.Core.Request.Position();
+            JObject ipobject = (JObject)JToken.FromObject(posi);
+            jo.Add("ip", ipobject);
+            //posi.Longitude
+
+            //通过经纬度
+            WeiSha.Core.Param.Method.Position geo = WeiSha.Core.Request.Position(lng, lat);
+            JObject geoObj = (JObject)JToken.FromObject(geo);
+            jo.Add("geo", geoObj);
+            //jo.Add("ip_lng", posi.Latitude);
+            //jo.Add("ip_lat", posi.Latitude);
+            //jo.Add("ip", posi.Latitude);
+            //jo.Add("province", posi.Province);
+            //jo.Add("city", posi.City);
+            //jo.Add("district", posi.District);
             return jo;
         }
     }
