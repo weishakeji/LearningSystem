@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <p>
             <b>Html5地理信息</b>
-        <div>经度：{{brw_posi.longitude}} &nbsp; 
+        <div>经度：{{brw_posi.longitude}} &nbsp;
             纬度：{{brw_posi.latitude}}</div>
         </p>
         <loading v-if="loading">
@@ -23,8 +23,8 @@
             <div v-for="(value, key) in posi.geo">
                 {{ key }}: {{ value }}
             </div>
-            <map_show v-if="posi.geo!=null" :lat="posi.geo.Latitude" :lng="posi.geo.Longitude"
-                :convert="true" style="height: 300px; width: 100%;"></map_show>
+            <map_show v-if="posi.geo!=null && posi.geo.Latitude>0 && posi.geo.Longitude>0" :lat="posi.geo.Latitude"
+                :lng="posi.geo.Longitude" :convert="true" style="height: 300px; width: 100%;"></map_show>
             </p>
             <p>
                 <b>IP地址计算（精确到省市或区县）</b>

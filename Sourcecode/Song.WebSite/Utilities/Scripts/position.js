@@ -58,7 +58,13 @@
 
     window.$posi = new posi();
     //获取GPS信息
-    window.$posi.getRegion();
+    window.position_coords_intervalId = setInterval(function () {
+        if (window.$posi.coords.longitude == 0 || window.$posi.coords.latitude == 0)
+            window.$posi.getRegion();
+        else
+            clearInterval(window.position_coords_intervalId);
+    }, 500);
+
     //如果是移动端，则当地理位置变更时，重新获取GPS信息
     if ($dom.ismobi() || $dom.ispad())
         window.navigator.geolocation.watchPosition($posi.updataPosition, $posi.handleError, $posi.options);

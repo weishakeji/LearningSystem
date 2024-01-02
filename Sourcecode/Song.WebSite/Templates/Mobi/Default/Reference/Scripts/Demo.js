@@ -29,12 +29,19 @@ $ready(function () {
             })).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
 
-            //
+            ///*
             window.setTimeout(function () {
                 th.brw_posi = window.$posi.coords;
-                th.getposi();
-            }, 500);
+                //th.getposi();
+            }, 500);//*/
 
+            //获取GPS信息
+            window.position_aaa_intervalId = setInterval(function () {
+                if (window.$posi.coords.longitude > 0 || window.$posi.coords.latitude > 0) {
+                    th.brw_posi = window.$posi.coords;
+                    clearInterval(window.position_aaa_intervalId);
+                }
+            }, 200);
         },
         created: function () {
 
@@ -44,6 +51,10 @@ $ready(function () {
             islogin: t => !$api.isnull(t.account)
         },
         watch: {
+            'brw_posi': function (nv, ov) {
+                //if (nv.longitude > 0 && nv.latitude > 0)
+                    this.getposi();
+            }
         },
         methods: {
             getposi: function () {
