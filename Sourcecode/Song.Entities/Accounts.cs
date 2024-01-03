@@ -116,13 +116,13 @@ namespace Song.Entities {
     		
     		protected String _Ac_WeixinOpenID;
     		
+    		protected String _Ac_ZzGongshang;
+    		
     		protected String _Ac_QiyeWeixin;
     		
     		protected String _Ac_Zhifubao;
     		
     		protected String _Ac_Dingding;
-    		
-    		protected String _Ac_ZzGongshang;
     		
     		protected String _Ac_Jindie;
     		
@@ -666,6 +666,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Ac_ZzGongshang {
+    			get {
+    				return this._Ac_ZzGongshang;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_ZzGongshang, _Ac_ZzGongshang, value);
+    				this._Ac_ZzGongshang = value;
+    			}
+    		}
+    		
     		public String Ac_QiyeWeixin {
     			get {
     				return this._Ac_QiyeWeixin;
@@ -693,16 +703,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Ac_Dingding, _Ac_Dingding, value);
     				this._Ac_Dingding = value;
-    			}
-    		}
-    		
-    		public String Ac_ZzGongshang {
-    			get {
-    				return this._Ac_ZzGongshang;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ac_ZzGongshang, _Ac_ZzGongshang, value);
-    				this._Ac_ZzGongshang = value;
     			}
     		}
     		
@@ -797,10 +797,10 @@ namespace Song.Entities {
     					_.Ac_School,
     					_.Ac_QqOpenID,
     					_.Ac_WeixinOpenID,
+    					_.Ac_ZzGongshang,
     					_.Ac_QiyeWeixin,
     					_.Ac_Zhifubao,
     					_.Ac_Dingding,
-    					_.Ac_ZzGongshang,
     					_.Ac_Jindie};
     		}
     		
@@ -863,10 +863,10 @@ namespace Song.Entities {
     					this._Ac_School,
     					this._Ac_QqOpenID,
     					this._Ac_WeixinOpenID,
+    					this._Ac_ZzGongshang,
     					this._Ac_QiyeWeixin,
     					this._Ac_Zhifubao,
     					this._Ac_Dingding,
-    					this._Ac_ZzGongshang,
     					this._Ac_Jindie};
     		}
     		
@@ -1036,6 +1036,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ac_WeixinOpenID))) {
     				this._Ac_WeixinOpenID = reader.GetString(_.Ac_WeixinOpenID);
     			}
+    			if ((false == reader.IsDBNull(_.Ac_ZzGongshang))) {
+    				this._Ac_ZzGongshang = reader.GetString(_.Ac_ZzGongshang);
+    			}
     			if ((false == reader.IsDBNull(_.Ac_QiyeWeixin))) {
     				this._Ac_QiyeWeixin = reader.GetString(_.Ac_QiyeWeixin);
     			}
@@ -1044,9 +1047,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ac_Dingding))) {
     				this._Ac_Dingding = reader.GetString(_.Ac_Dingding);
-    			}
-    			if ((false == reader.IsDBNull(_.Ac_ZzGongshang))) {
-    				this._Ac_ZzGongshang = reader.GetString(_.Ac_ZzGongshang);
     			}
     			if ((false == reader.IsDBNull(_.Ac_Jindie))) {
     				this._Ac_Jindie = reader.GetString(_.Ac_Jindie);
@@ -1348,6 +1348,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ac_WeixinOpenID = new WeiSha.Data.Field<Accounts>("Ac_WeixinOpenID");
     			
     			/// <summary>
+    			/// 字段名：Ac_ZzGongshang - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_ZzGongshang = new WeiSha.Data.Field<Accounts>("Ac_ZzGongshang");
+    			
+    			/// <summary>
     			/// 字段名：Ac_QiyeWeixin - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ac_QiyeWeixin = new WeiSha.Data.Field<Accounts>("Ac_QiyeWeixin");
@@ -1363,14 +1368,10 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ac_Dingding = new WeiSha.Data.Field<Accounts>("Ac_Dingding");
     			
     			/// <summary>
-    			/// 字段名：Ac_ZzGongshang - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Ac_ZzGongshang = new WeiSha.Data.Field<Accounts>("Ac_ZzGongshang");
-    			
-    			/// <summary>
     			/// 字段名：Ac_Jindie - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ac_Jindie = new WeiSha.Data.Field<Accounts>("Ac_Jindie");
     		}
     	}
     }
+    

@@ -428,7 +428,7 @@
             var startTime = new Date();
             //登录状态
             var loginstatus = methods.loginstatus();
-            //地理位置信息
+            //地理位置信息，具体代码在/Utilities/Scripts/position.js
             var position = window.$posi ? window.$posi.coords : {};
             //var position={};
             //创建axiso对象

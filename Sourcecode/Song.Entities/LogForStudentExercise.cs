@@ -22,8 +22,6 @@ namespace Song.Entities {
     		
     		protected Int64 _Ol_ID;
     		
-    		protected String _Lse_UID;
-    		
     		protected DateTime _Lse_CrtTime;
     		
     		protected DateTime _Lse_LastTime;
@@ -47,6 +45,8 @@ namespace Song.Entities {
     		protected String _Lse_Platform;
     		
     		protected String _Lse_OS;
+    		
+    		protected String _Lse_GeogData;
     		
     		public Int32 Lse_ID {
     			get {
@@ -115,16 +115,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
     				this._Ol_ID = value;
-    			}
-    		}
-    		
-    		public String Lse_UID {
-    			get {
-    				return this._Lse_UID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Lse_UID, _Lse_UID, value);
-    				this._Lse_UID = value;
     			}
     		}
     		
@@ -248,6 +238,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lse_GeogData {
+    			get {
+    				return this._Lse_GeogData;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lse_GeogData, _Lse_GeogData, value);
+    				this._Lse_GeogData = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -282,7 +282,6 @@ namespace Song.Entities {
     					_.Ac_Name,
     					_.Cou_ID,
     					_.Ol_ID,
-    					_.Lse_UID,
     					_.Lse_CrtTime,
     					_.Lse_LastTime,
     					_.Lse_JsonData,
@@ -294,7 +293,8 @@ namespace Song.Entities {
     					_.Lse_IP,
     					_.Lse_Browser,
     					_.Lse_Platform,
-    					_.Lse_OS};
+    					_.Lse_OS,
+    					_.Lse_GeogData};
     		}
     		
     		/// <summary>
@@ -309,7 +309,6 @@ namespace Song.Entities {
     					this._Ac_Name,
     					this._Cou_ID,
     					this._Ol_ID,
-    					this._Lse_UID,
     					this._Lse_CrtTime,
     					this._Lse_LastTime,
     					this._Lse_JsonData,
@@ -321,7 +320,8 @@ namespace Song.Entities {
     					this._Lse_IP,
     					this._Lse_Browser,
     					this._Lse_Platform,
-    					this._Lse_OS};
+    					this._Lse_OS,
+    					this._Lse_GeogData};
     		}
     		
     		/// <summary>
@@ -348,9 +348,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_ID))) {
     				this._Ol_ID = reader.GetInt64(_.Ol_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Lse_UID))) {
-    				this._Lse_UID = reader.GetString(_.Lse_UID);
     			}
     			if ((false == reader.IsDBNull(_.Lse_CrtTime))) {
     				this._Lse_CrtTime = reader.GetDateTime(_.Lse_CrtTime);
@@ -387,6 +384,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lse_OS))) {
     				this._Lse_OS = reader.GetString(_.Lse_OS);
+    			}
+    			if ((false == reader.IsDBNull(_.Lse_GeogData))) {
+    				this._Lse_GeogData = reader.GetString(_.Lse_GeogData);
     			}
     		}
     		
@@ -450,11 +450,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<LogForStudentExercise>("Ol_ID");
     			
     			/// <summary>
-    			/// 字段名：Lse_UID - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Lse_UID = new WeiSha.Data.Field<LogForStudentExercise>("Lse_UID");
-    			
-    			/// <summary>
     			/// 字段名：Lse_CrtTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Lse_CrtTime = new WeiSha.Data.Field<LogForStudentExercise>("Lse_CrtTime");
@@ -513,6 +508,11 @@ namespace Song.Entities {
     			/// 字段名：Lse_OS - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Lse_OS = new WeiSha.Data.Field<LogForStudentExercise>("Lse_OS");
+    			
+    			/// <summary>
+    			/// 字段名：Lse_GeogData - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lse_GeogData = new WeiSha.Data.Field<LogForStudentExercise>("Lse_GeogData");
     		}
     	}
     }

@@ -1322,8 +1322,7 @@ namespace Song.ServiceImpls
                 if (log == null)
                 {
                     log = new LogForStudentExercise();
-                    log.Lse_CrtTime = DateTime.Now;
-                    log.Lse_UID = WeiSha.Core.Request.UniqueID();
+                    log.Lse_CrtTime = DateTime.Now;                    
                 }
                 if (acc != null)
                 {

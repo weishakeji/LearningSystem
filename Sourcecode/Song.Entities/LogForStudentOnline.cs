@@ -42,6 +42,20 @@ namespace Song.Entities {
     		
     		protected String _Lso_OS;
     		
+    		protected String _Lso_Province;
+    		
+    		protected String _Lso_City;
+    		
+    		protected String _Lso_District;
+    		
+    		protected String _Lso_Code;
+    		
+    		protected Int32 _Lso_GeogType;
+    		
+    		protected Decimal _Lso_Longitude;
+    		
+    		protected Decimal _Lso_Latitude;
+    		
     		public Int32 Lso_ID {
     			get {
     				return this._Lso_ID;
@@ -212,6 +226,76 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lso_Province {
+    			get {
+    				return this._Lso_Province;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Province, _Lso_Province, value);
+    				this._Lso_Province = value;
+    			}
+    		}
+    		
+    		public String Lso_City {
+    			get {
+    				return this._Lso_City;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_City, _Lso_City, value);
+    				this._Lso_City = value;
+    			}
+    		}
+    		
+    		public String Lso_District {
+    			get {
+    				return this._Lso_District;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_District, _Lso_District, value);
+    				this._Lso_District = value;
+    			}
+    		}
+    		
+    		public String Lso_Code {
+    			get {
+    				return this._Lso_Code;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Code, _Lso_Code, value);
+    				this._Lso_Code = value;
+    			}
+    		}
+    		
+    		public Int32 Lso_GeogType {
+    			get {
+    				return this._Lso_GeogType;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_GeogType, _Lso_GeogType, value);
+    				this._Lso_GeogType = value;
+    			}
+    		}
+    		
+    		public Decimal Lso_Longitude {
+    			get {
+    				return this._Lso_Longitude;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Longitude, _Lso_Longitude, value);
+    				this._Lso_Longitude = value;
+    			}
+    		}
+    		
+    		public Decimal Lso_Latitude {
+    			get {
+    				return this._Lso_Latitude;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Latitude, _Lso_Latitude, value);
+    				this._Lso_Latitude = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -255,7 +339,14 @@ namespace Song.Entities {
     					_.Lso_IP,
     					_.Lso_Browser,
     					_.Lso_Platform,
-    					_.Lso_OS};
+    					_.Lso_OS,
+    					_.Lso_Province,
+    					_.Lso_City,
+    					_.Lso_District,
+    					_.Lso_Code,
+    					_.Lso_GeogType,
+    					_.Lso_Longitude,
+    					_.Lso_Latitude};
     		}
     		
     		/// <summary>
@@ -279,7 +370,14 @@ namespace Song.Entities {
     					this._Lso_IP,
     					this._Lso_Browser,
     					this._Lso_Platform,
-    					this._Lso_OS};
+    					this._Lso_OS,
+    					this._Lso_Province,
+    					this._Lso_City,
+    					this._Lso_District,
+    					this._Lso_Code,
+    					this._Lso_GeogType,
+    					this._Lso_Longitude,
+    					this._Lso_Latitude};
     		}
     		
     		/// <summary>
@@ -336,6 +434,27 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lso_OS))) {
     				this._Lso_OS = reader.GetString(_.Lso_OS);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Province))) {
+    				this._Lso_Province = reader.GetString(_.Lso_Province);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_City))) {
+    				this._Lso_City = reader.GetString(_.Lso_City);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_District))) {
+    				this._Lso_District = reader.GetString(_.Lso_District);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Code))) {
+    				this._Lso_Code = reader.GetString(_.Lso_Code);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_GeogType))) {
+    				this._Lso_GeogType = reader.GetInt32(_.Lso_GeogType);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Longitude))) {
+    				this._Lso_Longitude = reader.GetDecimal(_.Lso_Longitude);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Latitude))) {
+    				this._Lso_Latitude = reader.GetDecimal(_.Lso_Latitude);
     			}
     		}
     		
@@ -447,6 +566,41 @@ namespace Song.Entities {
     			/// 字段名：Lso_OS - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Lso_OS = new WeiSha.Data.Field<LogForStudentOnline>("Lso_OS");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Province - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Province = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Province");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_City - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_City = new WeiSha.Data.Field<LogForStudentOnline>("Lso_City");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_District - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_District = new WeiSha.Data.Field<LogForStudentOnline>("Lso_District");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Code - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Code = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Code");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_GeogType - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_GeogType = new WeiSha.Data.Field<LogForStudentOnline>("Lso_GeogType");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Longitude - 数据类型：Decimal
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Longitude = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Longitude");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Latitude - 数据类型：Decimal
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Latitude = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Latitude");
     		}
     	}
     }

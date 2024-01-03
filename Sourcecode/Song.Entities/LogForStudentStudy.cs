@@ -42,9 +42,11 @@ namespace Song.Entities {
     		
     		protected String _Lss_OS;
     		
+    		protected String _Lss_Details;
+    		
     		protected Double _Lss_Complete;
     		
-    		protected String _Lss_Details;
+    		protected String _Lss_GeogData;
     		
     		public Int32 Lss_ID {
     			get {
@@ -216,6 +218,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lss_Details {
+    			get {
+    				return this._Lss_Details;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lss_Details, _Lss_Details, value);
+    				this._Lss_Details = value;
+    			}
+    		}
+    		
     		public Double Lss_Complete {
     			get {
     				return this._Lss_Complete;
@@ -226,13 +238,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Lss_Details {
+    		public String Lss_GeogData {
     			get {
-    				return this._Lss_Details;
+    				return this._Lss_GeogData;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Lss_Details, _Lss_Details, value);
-    				this._Lss_Details = value;
+    				this.OnPropertyValueChange(_.Lss_GeogData, _Lss_GeogData, value);
+    				this._Lss_GeogData = value;
     			}
     		}
     		
@@ -280,8 +292,9 @@ namespace Song.Entities {
     					_.Lss_Browser,
     					_.Lss_Platform,
     					_.Lss_OS,
+    					_.Lss_Details,
     					_.Lss_Complete,
-    					_.Lss_Details};
+    					_.Lss_GeogData};
     		}
     		
     		/// <summary>
@@ -306,8 +319,9 @@ namespace Song.Entities {
     					this._Lss_Browser,
     					this._Lss_Platform,
     					this._Lss_OS,
+    					this._Lss_Details,
     					this._Lss_Complete,
-    					this._Lss_Details};
+    					this._Lss_GeogData};
     		}
     		
     		/// <summary>
@@ -365,11 +379,14 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Lss_OS))) {
     				this._Lss_OS = reader.GetString(_.Lss_OS);
     			}
+    			if ((false == reader.IsDBNull(_.Lss_Details))) {
+    				this._Lss_Details = reader.GetString(_.Lss_Details);
+    			}
     			if ((false == reader.IsDBNull(_.Lss_Complete))) {
     				this._Lss_Complete = reader.GetDouble(_.Lss_Complete);
     			}
-    			if ((false == reader.IsDBNull(_.Lss_Details))) {
-    				this._Lss_Details = reader.GetString(_.Lss_Details);
+    			if ((false == reader.IsDBNull(_.Lss_GeogData))) {
+    				this._Lss_GeogData = reader.GetString(_.Lss_GeogData);
     			}
     		}
     		
@@ -483,14 +500,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lss_OS = new WeiSha.Data.Field<LogForStudentStudy>("Lss_OS");
     			
     			/// <summary>
+    			/// 字段名：Lss_Details - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lss_Details = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Details");
+    			
+    			/// <summary>
     			/// 字段名：Lss_Complete - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Lss_Complete = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Complete");
     			
     			/// <summary>
-    			/// 字段名：Lss_Details - 数据类型：String
+    			/// 字段名：Lss_GeogData - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Lss_Details = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Details");
+    			public static WeiSha.Data.Field Lss_GeogData = new WeiSha.Data.Field<LogForStudentStudy>("Lss_GeogData");
     		}
     	}
     }
