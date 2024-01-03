@@ -186,6 +186,7 @@
     <Compile Include="Helper\OnlineAccounts.cs" />
     <Compile Include="Helper\Server.cs" />
     <Compile Include="IViewAPI.cs" />
+    <Compile Include="Letter\LetterBox.cs" />
     <Compile Include="Letter\Letter_v2.cs" />
     <Compile Include="Letter\Letter_v1.cs" />
     <Compile Include="Letter\Letter.cs" />

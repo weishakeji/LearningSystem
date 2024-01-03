@@ -71,7 +71,15 @@ namespace Song.WebSite.Controllers
         }
         private string GetInfo(string id)
         {
+            //给当前进度一个ID
+            long sessionid= WeiSha.Core.Request.SnowID();
+            this.Request.Properties["SessionID"] = sessionid;
+            System.Web.HttpContext.Current.Items["SessionID"] = sessionid;
+
             Song.ViewData.Letter letter = new Song.ViewData.Letter_v2(this.Request);
+            //letter.SessionID = this.Request.Properties["SessionID"].ToString();
+            LetterBox.Insert(sessionid, letter);
+
             DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
             string data = letter.ReturnType == "xml" ? result.ToXml() : result.ToJson();
             if (!letter.Encrypt) return data;

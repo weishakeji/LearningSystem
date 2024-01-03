@@ -114,7 +114,31 @@ namespace Song.ViewData.Methods
             //jo.Add("province", posi.Province);
             //jo.Add("city", posi.City);
             //jo.Add("district", posi.District);
+
             return jo;
+        }
+
+        public JObject TextSessionID()
+        {
+
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            string httpcontext = _context.Items["SessionID"].ToString();
+            JObject jo = new JObject();
+            jo.Add("httpcontext", httpcontext);
+            Letter letter = this.Letter;
+            //jo.Add("letter", (JObject)JToken.FromObject(letter));
+            jo.Add("letter", letter.SessionID);
+            return jo;
+        }
+        public List<string> LetterIDList()
+        {
+            List<Letter> letters = LetterBox.Collects();
+            List<string> list = new List<string>();
+            foreach (Letter letter in letters)
+            {
+                list.Add(letter.SessionID);
+            }
+            return list;
         }
     }
 }

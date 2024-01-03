@@ -100,11 +100,8 @@ Vue.component('map_show', {
                         f();
                         clearInterval(window.map_show_intervalId);
                     }
-                }, 100);
-                //window.setInterval
-                //window.setTimeout(f, 6000);
+                }, 100);          
             }
-            //*/
         },
         //显示地图
         showmap: function (lng, lat) {
@@ -114,10 +111,6 @@ Vue.component('map_show', {
                 width: '100%',
                 height: '100%'
             });
-
-            //return;
-            //var lng = this.lng;
-            //var lat = this.lat;
             lng = lng == 0 ? 116.404 : lng;
             lat = lat == 0 ? 39.915 : lat;
             //创建地图
@@ -126,8 +119,6 @@ Vue.component('map_show', {
             map.enableKeyboard();
             map.addControl(new BMap.NavigationControl());
             var point = new BMap.Point(lng, lat);
-            //转换坐标为百度专用           
-            //BMap.Convertor.translate(point, 0, null);
             map.centerAndZoom(point, this.mapzoom);
             var marker = new BMap.Marker(point);  // 创建标注
             map.addOverlay(marker);

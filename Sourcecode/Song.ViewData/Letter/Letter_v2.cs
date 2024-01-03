@@ -54,6 +54,8 @@ namespace Song.ViewData
                 HTTP_METHOD = Custom_METHOD;
             Custom_Action = HeadersParam(request.Headers, "X-Custom-Action");
             ReturnType = HeadersParam(request.Headers, "X-Custom-Return");
+            //会话标识
+            SessionID = context.Items["SessionID"].ToString();
             //Authorization的解析
             string auth = request.Params["HTTP_AUTHORIZATION"];
             if (!string.IsNullOrWhiteSpace(auth))
@@ -106,7 +108,8 @@ namespace Song.ViewData
         public Letter_v2(HttpRequestMessage httprequest)
         {
             this.Request = httprequest;
-            API_PATH = httprequest.RequestUri.AbsolutePath;
+          
+             API_PATH = httprequest.RequestUri.AbsolutePath;
             Referrer = httprequest.Headers.Referrer;
             HTTP_METHOD = httprequest.Method.Method; //请求方法           
             HTTP_HOST = httprequest.Headers.Host;
@@ -125,6 +128,8 @@ namespace Song.ViewData
                 HTTP_METHOD = Custom_METHOD;
             Custom_Action = HeadersParam(httprequest.Headers, "X-Custom-Action");
             ReturnType = HeadersParam(httprequest.Headers, "X-Custom-Return");
+            //会话标识
+            SessionID = httprequest.Properties["SessionID"].ToString();
             //接口的所在页面
             WEB_PAGE = Referrer != null ? Referrer.AbsolutePath : string.Empty;
             WEB_HOST = Referrer != null ? Referrer.Authority : HTTP_HOST;

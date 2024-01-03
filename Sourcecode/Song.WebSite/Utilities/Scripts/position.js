@@ -32,7 +32,7 @@
         console.log('精度:' + acu);
         alert('经度:' + lng + ',纬度:' + lat);
         */
-        //alert(JSON.stringify(position.coords));
+        //保存经纬度数据在临时变量，当$api请求后端数据时会自动带上地理信息
         window.$posi.coords = position.coords;
     };
     //获取失败

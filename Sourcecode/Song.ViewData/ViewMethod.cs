@@ -21,7 +21,10 @@ namespace Song.ViewData
             get
             {
                 System.Web.HttpContext _context = System.Web.HttpContext.Current;
-                return Letter.Constructor(_context);
+                string sessionid = _context.Items["SessionID"].ToString();
+                Letter letter = LetterBox.Get(sessionid);
+                if (letter == null) letter = Letter.Constructor(_context);
+                return letter;
             }
         }
         /// <summary>

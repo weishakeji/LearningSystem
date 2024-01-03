@@ -89,7 +89,10 @@ namespace Song.ViewData
         /// id参数，id是作为普通参数，因为常用，所以单独列出
         /// </summary>
         public long ID { get; set; }
-
+        /// <summary>
+        /// 当前Http会话ID，用于标识当前用户的会话
+        /// </summary>
+        public string SessionID { get; set; }
         private Dictionary<string, string> _params = new Dictionary<string, string>();
         /// <summary>
         /// 参数集，包括Get和Post，即地址栏参数和form参数；
