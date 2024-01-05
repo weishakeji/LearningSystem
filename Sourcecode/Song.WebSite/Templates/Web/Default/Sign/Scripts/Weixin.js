@@ -76,12 +76,6 @@ $ready(function () {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, 'web端', '微信登录', '');
-                        window.setTimeout(function () {
-                            if (window.top.vapp) {
-                                window.top.vapp.logged(th.binduser);
-                            }
-                        }, 200);
-
                     } else {
                         throw req.data.message;
                     }
@@ -124,9 +118,6 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', '微信登录', '');
-                        if (window.top) {
-                            window.top.vapp.logged(result);
-                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -141,6 +132,14 @@ $ready(function () {
             close: function () {
                 if (window.top.$pagebox)
                     window.top.$pagebox.shut(window.name);
+            },
+            //登录成功后的事件,acc:当前登录的账户对象
+            successful: function (acc) {
+                window.setTimeout(function () {
+                    if (window.top.vapp) {
+                        window.top.vapp.logged(acc);
+                    }
+                }, 200);
             }
         }
     });

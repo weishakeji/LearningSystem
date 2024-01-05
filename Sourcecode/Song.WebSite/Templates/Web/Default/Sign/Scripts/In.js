@@ -27,7 +27,7 @@ $ready(function () {
                 var th = this;
                 if (!(nv == null || JSON.stringify(nv) === '{}')) {
                     window.setTimeout(function () {
-                        th.logged(nv);
+                        th.successful(nv);
                     }, 100);
                 }
             },
@@ -41,7 +41,7 @@ $ready(function () {
         },
         methods: {
             //已经登录
-            logged: function (account) {
+            successful: function (account) {
                 this.account = account;
                 this.$refs.header.account = account;
                 var th = this;

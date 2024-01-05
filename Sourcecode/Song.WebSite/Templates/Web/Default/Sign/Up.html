@@ -14,7 +14,7 @@
   <div id="vapp" v-cloak>
     <page_header ref='header' @load="(o,c,p)=>{organ=o;config=c;plate=p;}" @login="acc=>account = acc">loading ...
     </page_header>
-    <login ref="login" v-show="false"></login>
+    <login ref="login" @success="successful" v-show="false"></login>
     <context class="first">
       <section v-if="!config.IsRegStudent">
         <el-form ref="register" :model="form" :rules="rules" size="medium" @submit.native.prevent label-width="80px">
@@ -64,7 +64,7 @@
                 <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
               </el-form-item>
               <el-form-item label-width="0px" prop="sms" v-if="isRegSms" class="smscode">
-                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref"  style="width: calc(100% - 120px);">
+                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref" style="width: calc(100% - 120px);">
                   <template slot="prepend">
                     <icon>&#xe76e</icon>
                   </template>

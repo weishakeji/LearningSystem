@@ -17,7 +17,7 @@
 
   <div id="vapp" v-cloak>
     <generic @login="acc=>account = acc" @load="(o,c,p)=>{organ=o;config=c;plate=p;}"></generic>
-    <login ref="login" v-show="false"></login>
+    <login ref="login" @success="successful" v-show="false"></login>
     <context class="first">
       <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
       <img src="../Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
@@ -69,7 +69,7 @@
                 <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
               </el-form-item>
               <el-form-item label-width="0px" prop="sms" v-if="isRegSms" class="smscode">
-                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref"  style="width: calc(100% - 120px);">
+                <el-input placeholder="短信验证" v-model="form.sms" :disabled="existref" style="width: calc(100% - 120px);">
                   <template slot="prepend">
                     <icon>&#xe76e</icon>
                   </template>
@@ -124,7 +124,7 @@
         <el-checkbox v-model="agreement.checked">我已经阅读，并同意《平台协议》</el-checkbox>
       </div>
     </el-dialog>
- 
+
   </div>
 
 </body>

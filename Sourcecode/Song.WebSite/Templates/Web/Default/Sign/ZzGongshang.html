@@ -14,7 +14,7 @@
         <zzgongshang @load="loaduser">
 
         </zzgongshang>
-        <login ref="login" v-show="false"></login>
+        <login ref="login"  @success="successful"  v-show="false"></login>
         <config ref="conf" v-show="false"></config>
         <header v-if="ismobi">
             <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>

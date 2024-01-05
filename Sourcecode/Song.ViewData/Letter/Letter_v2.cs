@@ -35,6 +35,7 @@ namespace Song.ViewData
             this.Referrer = request.UrlReferrer;
             WEB_PAGE = Referrer != null ? Referrer.AbsolutePath : string.Empty;
             WEB_HOST = Referrer != null ? Referrer.Authority : HTTP_HOST;
+            IP = request.UserHostAddress;
             //接口路径与方法
             API_PATH = request.Url.AbsolutePath;
             HTTP_METHOD = request.HttpMethod;
@@ -113,6 +114,12 @@ namespace Song.ViewData
             Referrer = httprequest.Headers.Referrer;
             HTTP_METHOD = httprequest.Method.Method; //请求方法           
             HTTP_HOST = httprequest.Headers.Host;
+            //IP
+            if (Request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                HttpContextWrapper contx = (HttpContextWrapper)Request.Properties["MS_HttpContext"];
+                IP = contx.Request.UserHostAddress;
+            }
             //是否返回加密数据
             Encrypt = "true".Equals(HeadersParam(httprequest.Headers, "Encrypt"), StringComparison.OrdinalIgnoreCase) ? true : false;
             //经纬度,longitude,latitude
@@ -196,7 +203,7 @@ namespace Song.ViewData
                 string val = context.Request.Cookies[i].Value.ToString();
                 SetCookies(key, val);
             }
-        }
+        }      
         #endregion
     }
 }

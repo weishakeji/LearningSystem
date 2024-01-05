@@ -33,6 +33,10 @@ namespace Song.ViewData
         /// </summary>
         public Uri Referrer { get; set; }
         /// <summary>
+        /// 请求来源的IP地址
+        /// </summary>
+        public string IP { get; set; }
+        /// <summary>
         /// HTTP请求谓词，即Get、Post、Put等，且全部是符合http协议的请求方法
         /// </summary>
         public string HTTP_METHOD { get; set; }

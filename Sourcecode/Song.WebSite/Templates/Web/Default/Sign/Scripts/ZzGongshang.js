@@ -91,13 +91,6 @@ $ready(function () {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, 'web端', '郑州工商学院账号登录', '');
-                        window.setTimeout(function () {
-                            var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
-                            else
-                                window.location.href = '/';
-                        }, 300);
-
                     } else {
                         throw req.data.message;
                     }
@@ -139,12 +132,6 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', '郑州工商学院账号登录', '');
-                        window.setTimeout(function () {
-                            var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
-                            else
-                                window.location.href = '/';
-                        }, 300);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -153,6 +140,15 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading_crt = false);
+            },
+            //登录成功后的事件,acc:当前登录的账户对象
+            successful: function (acc) {
+                window.setTimeout(function () {
+                    var singin_referrer = $api.storage('singin_referrer');
+                    if (singin_referrer != '') window.navigateTo(singin_referrer);
+                    else
+                        window.navigateTo('/');
+                }, 300);
             }
         }
     });

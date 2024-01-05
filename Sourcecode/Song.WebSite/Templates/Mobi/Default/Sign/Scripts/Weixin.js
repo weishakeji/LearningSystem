@@ -71,23 +71,11 @@ $ready(function () {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, '手机端', '微信登录', '');
-                        window.setTimeout(function () {
-                            var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.navigateTo(singin_referrer);
-                            else
-                                window.navigateTo('/mobi/');
-                        }, 300);
-
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
-
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取第三方登录配置项
             getentity: function (tag) {
@@ -100,12 +88,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //创建用户
             createuser: function () {
@@ -121,21 +105,23 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, '手机端', '微信登录', '');
-                        window.setTimeout(function () {
-                            th.loading_crt = false;
-                            window.navigateTo('/mobi/');
-                        }, 300);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     alert(err);
-                    th.loading_crt = false;
                     console.error(err);
-                }).finally(function () {
-
-                });
+                }).finally(() => th.loading_crt = false);
+            },
+            //登录成功后的事件,acc:当前登录的账户对象
+            successful: function (acc) {
+                window.setTimeout(function () {
+                    var singin_referrer = $api.storage('singin_referrer');
+                    if (singin_referrer != '') window.navigateTo(singin_referrer);
+                    else
+                        window.navigateTo('/mobi/');
+                }, 300);
             }
         }
     });

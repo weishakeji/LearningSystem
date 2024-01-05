@@ -15,7 +15,7 @@
       <a href="/mobi/" icon="&#xa020"></a>
     </header>
     <div id="login_box" remark="登录框" v-if="!islogin">
-      <login :config="config" @success="logged"></login>
+      <login :config="config" @success="successful"></login>
     </div>
     <div id="logged-area" v-cloak remark="登录后的状态" v-else>
       <avatar :account="account" circle="true" size="120"></avatar>

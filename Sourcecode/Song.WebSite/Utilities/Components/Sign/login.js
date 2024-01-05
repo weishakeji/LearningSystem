@@ -335,11 +335,15 @@ Vue.component('login', {
             });
         },
         //触发组件的事件
-        success_emit: function (account, source, info, remark) {
-            //记录登录的积分信息
-            $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark }).finally(() => {
+        success_emit: function (account, source, info, remark) {   
+            var th = this;
+            //记录登录信息，以及积分信息              
+            $api.bat(
+                $api.post('Point/AddForLogin', { 'source': source, 'info': info, 'remark': remark }),
+                $api.post('Account/LoginLog', { 'source': source, 'info': info })
+            ).finally(() => {
                 //登录成功的事件
-                this.$emit('success', account);
+                th.$emit('success', account);
             });
         },
         //剩余课程的提示

@@ -118,8 +118,7 @@ namespace Song.ViewData.Methods
             if (account == null) throw VExcept.Verify("密码错误或账号不存在", 102);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             LoginAccount.Add(account);
-            ////添加登录记录
-            //Business.Do<IStudent>().LogForLoginAdd(account);
+           
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
@@ -128,7 +127,20 @@ namespace Song.ViewData.Methods
             user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
             return user;
         }
-
+        /// <summary>
+        /// 记录登录信息
+        /// </summary>
+        /// <param name="source">页面请求信息，例如：电脑网页、手机网页、微信小程序</param>
+        /// <param name="info">登录信息，这里指登录方式，例如：账号密码登录、微信登录、QQ登录</param>
+        [HttpPost]
+        public void LoginLog(string source, string info)
+        {
+            Letter letter = this.Letter;
+            Song.Entities.Accounts user = LoginAccount.Status.User(letter);
+            if (user == null) return;
+            //添加登录记录
+            Business.Do<IStudent>().LogForLoginAdd(user, source, info, letter.IP, letter.Longitude, letter.Latitude);
+        }
         public bool Logout()
         {
             return true;
@@ -146,7 +158,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
             if (account == null) throw VExcept.Verify("验证码不正确", 105);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            LoginAccount.Add(account);
+            LoginAccount.Add(account);         
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";

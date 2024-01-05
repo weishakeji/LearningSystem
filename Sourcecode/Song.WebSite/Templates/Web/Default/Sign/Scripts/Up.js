@@ -380,6 +380,9 @@ $ready(function () {
                     }
                 });
             },
+             //已经登录
+             successful: function (account) {             
+            },
             //注册成功后的跳转
             goback: function (account) {
                 let referrer = $api.querystring('referrer');

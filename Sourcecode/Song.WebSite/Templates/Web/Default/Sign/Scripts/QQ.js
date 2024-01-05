@@ -26,8 +26,8 @@ $ready(function () {
             ismobi: function () {
                 return $api.ismobi();
             },
-             //是否正常获取到第三方平台的账号
-             'existouter': function () {
+            //是否正常获取到第三方平台的账号
+            'existouter': function () {
                 return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;
             },
             //当前openid是否已经绑定到当前登录账户
@@ -61,13 +61,6 @@ $ready(function () {
                     if (req.data.success) {
                         th.binduser = req.data.result;
                         th.$refs['login'].success(th.binduser, 'web端', 'QQ登录', '');
-                        window.setTimeout(function () {
-                            var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
-                            else
-                                window.location.href = '/';
-                        }, 300);
-
                     } else {
                         throw req.data.message;
                     }
@@ -104,17 +97,11 @@ $ready(function () {
                 obj.Ac_Sex = user.gender == "男" ? 1 : 2;
                 var th = this;
                 th.loading_crt = true;
-                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid, 'field': th.tag  }).then(function (req) {
+                $api.post('Account/UserCreate', { 'acc': obj, 'openid': user.openid, 'field': th.tag }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$refs['login'].success(result, 'web端', 'QQ登录', '');
-                        window.setTimeout(function () {
-                            var singin_referrer = $api.storage('singin_referrer');
-                            if (singin_referrer != '') window.location.href = singin_referrer;
-                            else
-                                window.location.href = '/';
-                        }, 300);
-                    } else {
+                       } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
@@ -122,6 +109,15 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading_crt = false);
+            },
+            //登录成功后的事件,acc:当前登录的账户对象
+            successful: function (acc) {
+                window.setTimeout(function () {
+                    var singin_referrer = $api.storage('singin_referrer');
+                    if (singin_referrer != '') window.navigateTo(singin_referrer);
+                    else
+                        window.navigateTo('/');
+                }, 300);
             }
         }
     });

@@ -553,13 +553,17 @@ namespace Song.ServiceImpls
         }
         #endregion
 
-        #region 学员登录与在线记录
+        #region 
+        public void LogForLoginAdd(Accounts st)
+        {
+            this.LogForLoginAdd(st, string.Empty, string.Empty, string.Empty, 0, 0);
+        }
         /// <summary>
         /// 添加登录记录
         /// </summary>
         /// <param name="st"></param>
         /// <returns></returns>
-        public void LogForLoginAdd(Accounts st)
+        public void LogForLoginAdd(Accounts st, string source, string info,string ip, decimal lng, decimal lat)
         {
             Song.Entities.LogForStudentOnline entity = new LogForStudentOnline();
             //当前机构
@@ -581,13 +585,40 @@ namespace Song.ServiceImpls
             entity.Lso_LogoutTime = DateTime.Now.AddMinutes(1);
             entity.Lso_OnlineTime = (int)(entity.Lso_LogoutTime - entity.Lso_LoginTime).TotalMinutes;
             //登录信息
-            entity.Lso_IP = WeiSha.Core.Browser.IP;
+            entity.Lso_IP = ip;
             entity.Lso_OS = WeiSha.Core.Browser.OS;
             entity.Lso_Browser = WeiSha.Core.Browser.Name + " " + WeiSha.Core.Browser.Version;
             entity.Lso_Platform = WeiSha.Core.Browser.IsMobile ? "Mobi" : "PC";
+            //说明
+            entity.Lso_Source = source;
+            entity.Lso_Info = info;
+            //地理信息           
+            if (WeiSha.Core.LBS.Enable)
+            {
+                WeiSha.Core.Param.Method.Position posi = null;
+                if (lng>0 && lat>0)
+                {
+                    posi = new WeiSha.Core.Param.Method.Position(lng, lat);
+                    entity.Lso_GeogType = 1;
+                }
+                else
+                {
+                    posi = new WeiSha.Core.Param.Method.Position(ip);
+                    entity.Lso_GeogType = 2;
+                }
+                entity.Lso_Province = posi.Province;    //省份信息
+                entity.Lso_City = posi.City;            //城市
+                entity.Lso_District = posi.District;    //区县
+                entity.Lso_Code = posi.Code;            //行政区划代码
+                //经纬度
+                entity.Lso_Longitude = posi.Longitude;
+                entity.Lso_Latitude = posi.Latitude;
+
+            }
 
             Gateway.Default.Save<LogForStudentOnline>(entity);
         }
+
         /// <summary>
         /// 修改登录记录
         /// </summary>

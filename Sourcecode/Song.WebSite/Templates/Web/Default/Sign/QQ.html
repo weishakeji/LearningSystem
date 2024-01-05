@@ -14,7 +14,7 @@
         <qq @load="loaduser">
 
         </qq>
-        <login ref="login" v-show="false"></login>
+        <login ref="login"  @success="successful" v-show="false"></login>
 
         <header v-if="ismobi">
             <a :href="commonaddr('signin')" icon="&#xe727" style="font-size: 22px;"></a>

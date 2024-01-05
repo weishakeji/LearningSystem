@@ -209,11 +209,12 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 学员登录与在线记录
+        void LogForLoginAdd(Accounts st);
         /// <summary>
         /// 添加登录记录
         /// </summary>
         /// <returns></returns>
-        void LogForLoginAdd(Accounts st);
+        void LogForLoginAdd(Accounts st, string source, string info, string ip, decimal lng, decimal lat);
         /// <summary>
         /// 修改登录记，刷新一下登录信息，例如在线时间
         /// </summary>

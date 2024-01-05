@@ -49,7 +49,7 @@ $ready(function () {
         },
         methods: {
             //已经登录
-            logged: function (account) {
+            successful: function (account) {
                 this.account = account;
                 var th = this;
                 window.setTimeout(function () {
