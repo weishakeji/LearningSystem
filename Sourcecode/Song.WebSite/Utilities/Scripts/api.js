@@ -154,11 +154,7 @@
                 if (isAndroid) ls = window.localStorage;
                 return ls;
             };
-            if (arguments.length === 0) {
-                return uzStorage();
-            }
-            //var th=this;
-            //console.error(th);
+            if (arguments.length === 0) return uzStorage();
             //如果只有一个参数，为读取
             if (arguments.length === 1) {
                 var ls = uzStorage();
@@ -182,16 +178,13 @@
                         try {
                             ls.setItem(key, v);
                         } catch (oException) {
-                            if (oException.name == 'QuotaExceededError') {
+                            if (oException.name == 'QuotaExceededError')
                                 console.log('超出本地存储限额！');
-                            }
                         }
                     }
                 } else {
                     var ls = uzStorage();
-                    if (ls && key) {
-                        ls.removeItem(key);
-                    }
+                    if (ls && key) ls.removeItem(key);
                 }
             }
         },
@@ -232,55 +225,37 @@
         },
         //记录或获取登录状态值
         loginstatus: function (key, code, id) {
-            var storagename = 'weishakeji_loginstatus';
-            var status = methods.storage(storagename);
-            //读取
+            let storagename = 'weishakeji_loginstatus';
+            let status = methods.storage(storagename);
+            //读取登录状态
             if (arguments.length <= 1) {
                 if (status == null || !(status instanceof Array)) return '';
-                var str = '';
-                if (arguments.length == 0) {
-
-                    for (var i = 0; i < status.length; i++) {
-                        if (!!status[i].val) str += status[i].val;
-                        if (i < status.length - 1) str += ',';
-                    }
+                let str = '';
+                for (let i = 0; i < status.length; i++) {
+                    if ((key == null || (!!status[i].key && status[i].key == key)) && !!status[i].val)
+                        str += status[i].val + ',';
                 }
-                if (arguments.length == 1) {
-                    for (var t in status) {
-                        if (!!status[t].key && status[t].key == key)
-                            str = status[t].val;
-                    }
-                }
-                return str;
+                return str.endsWith(',') ? str.substring(0, str.length - 1) : str;
             }
             //写入
             if (arguments.length >= 2) {
                 if (status == null || !(status instanceof Array)) status = [];
-                let time = (new Date()).format('yyyy-MM-dd HH:mm:ss');
-                let isexist = false;
-                for (let t in status) {
-                    if (!!status[t].key && status[t].key == key) {
-                        status[t].val = code;
-                        status[t].time = time;
-                        isexist = true;
-                    }
-                }
-                if (!isexist) status.push({
-                    key: key, val: code, time: time,
-                    id: id == null ? 0 : id
-                });
+                let index = status.findIndex(el => el.key == key);
+                let item = index < 0 ? { key: key } : status[index];
+                item.time = (new Date()).format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
+                item.id = id == null ? 0 : id;
+                item.val = code;    //登录后的校验码
+                item.duration = 0;
                 //将登录信息写入storage
                 methods.storage(storagename, status);
                 return status;
             }
         },
         //判断变量是否是对象
-        isobj: function (obj) {
-            return Object.prototype.toString.call(obj) === '[object Object]';
-        },
+        isobj: obj => Object.prototype.toString.call(obj) === '[object Object]',
         //在线浏览pdf文件
         pdfViewer: function (file) {
-            var viewer = "/Utilities/PdfViewer/viewer.html";
+            let viewer = "/Utilities/PdfViewer/viewer.html";
             if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));
             viewer += "?file=" + encodeURIComponent(file);
             //window.location.href = viewer;
@@ -288,12 +263,12 @@
         },
         //网页是否处于微信内置浏览器
         isWeixin: function () {
-            var ua = window.navigator.userAgent.toLowerCase();
+            let ua = window.navigator.userAgent.toLowerCase();
             return ua.match(/MicroMessenger/i) == 'micromessenger';
         },
         //网页是否处于微信小程序内置浏览器
         isWeixinApp: function () {
-            var ua = window.navigator.userAgent.toLowerCase();
+            let ua = window.navigator.userAgent.toLowerCase();
             return ua.match(/miniProgram/i) == 'miniprogram';
         },
         //是否是IE浏览器
@@ -302,15 +277,15 @@
         },
         //是否是手机端
         ismobi: function () {
-            var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
-            var u = navigator.userAgent;
+            let regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+            let u = navigator.userAgent;
             if (null == u) return true;
             return regex_match.exec(u) != null;
         },
         //是否是平板
         ispad: function () {
-            var regex_match = /(ipad|Android.*Tablet)/i;
-            var u = navigator.userAgent;
+            let regex_match = /(ipad|Android.*Tablet)/i;
+            let u = navigator.userAgent;
             if (null == u) return true;
             return regex_match.exec(u) != null;
         },
@@ -321,28 +296,27 @@
                 var typeName = methods.getType(obj);
                 if (typeName == 'Date') obj = String(obj.getTime()) + '.0000';
                 if (obj instanceof Array || typeName === 'Object') {
-                    for (var d in obj) {
+                    for (var d in obj)
                         obj[d] = handle_time(obj[d]);
-                    }
                 }
                 return obj;
             }
             value = handle_time(value);
-            var json = JSON.stringify(value);
+            let json = JSON.stringify(value);
             //再将对象中的数值转为时间DateTime            
             value = methods.restore_time(value);
             return json;
         },
         //将json还原为对象
         parseJson: function (str) {
-            var result = JSON.parse(str);
+            let result = JSON.parse(str);
             return methods.restore_time(result);
         },
         //将对象中为的时间数值还原为DateTime
         restore_time: function (obj) {
-            var typeName = methods.getType(obj);
+            let typeName = methods.getType(obj);
             if (obj instanceof Array || typeName === 'Object') {
-                for (var d in obj) obj[d] = methods.restore_time(obj[d]);
+                for (let d in obj) obj[d] = methods.restore_time(obj[d]);
             }
             if (typeName == 'String') {
                 if (obj.indexOf('.') > -1) {

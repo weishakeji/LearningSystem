@@ -11,13 +11,12 @@ $ready(
                 platinfo: {},
                 org: {},
                 config: {},      //当前机构配置项        
-             
-         
+
+
             },
             mounted: function () {
             },
             created: function () {
-
             },
             computed: {},
             watch: {
