@@ -53,15 +53,16 @@ Vue.component('generic', {
         th.init();
         //学员登录
         th.loading_login = true;
-        $api.login.account().then(function (acc) {
+        $api.login.current('account', function (acc) {
             th.account = acc;
-              //触发登录后的事件,第二个参数表示是否登录，用于判断登录判断的操作是否完成
-            th.$emit('login', th.account,true);         
-            $api.login.account_fresh();
-        }).catch((err) => {
-            console.log(err);          
+            //触发登录后的事件,第二个参数表示是否登录，用于判断登录判断的操作是否完成
+            th.$emit('login', th.account, true);
+            th.loading_login = false;
+        }, function (err) {
+            console.log(err);
             th.$emit('login', {}, true);
-        }).finally(() => th.loading_login = false);
+            th.loading_login = false;
+        });        
     },
     methods: {
         init: function () {

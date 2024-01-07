@@ -44,11 +44,12 @@ Vue.component('aside_menu', {
             this.$dialog.confirm({
                 message: '是否确定退出登录？',
             }).then(function () {
-                $api.loginstatus('account', '');
                 this.account = null;
-                window.setTimeout(function () {
-                    window.location.reload();
-                }, 100);
+                $api.login.out('account', function () {
+                    window.setTimeout(function () {
+                        window.location.reload();
+                    }, 100);
+                });
             }).catch(function () { });
         },
         //默认事件

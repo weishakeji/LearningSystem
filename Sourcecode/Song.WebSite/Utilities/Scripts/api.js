@@ -223,34 +223,6 @@
                 return cookieValue;
             }
         },
-        //记录或获取登录状态值
-        loginstatus: function (key, code, id) {
-            let storagename = 'weishakeji_loginstatus';
-            let status = methods.storage(storagename);
-            //读取登录状态
-            if (arguments.length <= 1) {
-                if (status == null || !(status instanceof Array)) return '';
-                let str = '';
-                for (let i = 0; i < status.length; i++) {
-                    if ((key == null || (!!status[i].key && status[i].key == key)) && !!status[i].val)
-                        str += status[i].val + ',';
-                }
-                return str.endsWith(',') ? str.substring(0, str.length - 1) : str;
-            }
-            //写入
-            if (arguments.length >= 2) {
-                if (status == null || !(status instanceof Array)) status = [];
-                let index = status.findIndex(el => el.key == key);
-                let item = index < 0 ? { key: key } : status[index];
-                item.time = (new Date()).format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
-                item.id = id == null ? 0 : id;
-                item.val = code;    //登录后的校验码
-                item.duration = 0;
-                //将登录信息写入storage
-                methods.storage(storagename, status);
-                return status;
-            }
-        },
         //判断变量是否是对象
         isobj: obj => Object.prototype.toString.call(obj) === '[object Object]',
         //在线浏览pdf文件
@@ -401,7 +373,7 @@
             //开始时间
             var startTime = new Date();
             //登录状态
-            var loginstatus = methods.loginstatus();
+            var logintokens = this.login.tokens();
             //地理位置信息，具体代码在/Utilities/Scripts/position.js
             var position = window.$posi ? window.$posi.coords : {};
             //var position={};
@@ -426,7 +398,7 @@
                 auth: {
                     //username: 'weishakeji ' + custom_method + ' ' + action + ' ' + returntype + ' ' + window.location,
                     username: window.location,
-                    password: loginstatus
+                    password: logintokens
                 },
                 timeout: config.timeout,
                 returntype: returntype
@@ -588,87 +560,137 @@
     apiObj.prototype.spread = function (f) {
 
     };
-    //登录状态的管理
+    //登录状态管理
     apiObj.prototype.login = {
-        //当前登录的管理员
-        admin: function (f) {
-            return this.get('Admin/General', f);
+        storagename: 'weishakeji_loginstatus',            //本地storage存储的名称
+        //暂时没有用处
+        target: function (identity) {
+            let arr = ['account', 'teacher', 'admin', 'super'];//登录对象
+            let data = {
+                'account': {}
+            }
         },
-        //当前登录的超级管理员
-        super: function (f) {
-            return this.get('Admin/Super', f);
+        //本地登录状态记录项，返回对象或对象数组
+        item: function (target) {
+            let status = methods.storage(this.storagename);
+            if (status == null || !(status instanceof Array)) return arguments.length < 1 ? [] : {};
+            if (target == null) return status;
+            for (let i = 0; i < status.length; i++) {
+                if (!!status[i].key && status[i].key == target)
+                    return status[i];
+            }
+            return {};
         },
-        //当前登录的学员
-        account: function (f) {
-            return this.get('Account/Current', f);
-        },
-        //当前登录的教师
-        teacher: function (f) {
-            return this.get('Teacher/Current', f);
-        },
-        admin_fresh: function (f) {
-            return this.fresh('admin', f);
-        },
-        super_fresh: function (f) {
-            return this.fresh('admin', f);
-        },
-        account_fresh: function (f) {
-            return this.fresh('account', f);
-        },
-        teacher_fresh: function (f) {
-            return this.fresh('account', f);
-        },
-        //获取登录对象
-        get: function (apiurl, func) {
-            if (func != null) func();
-            var promise = new Promise(function (resolve, reject) {
-                $api.post(apiurl).then(function (req) {
-                    if (req.data.success) {
-                        resolve(req.data.result);
-                    } else {
-                        reject(apiurl + ' : not logined !');
-                    }
-                }).catch(function (err) {
-                    reject(apiurl + ' : ' + err);
-                });
-            });
-            return promise;
-        },
-        //刷新登录状态
-        //status:登录状态类型，只有admin、account两个选择
-        //lose_func: 登录失效后调用的方法
-        fresh: function (status, lose_func) {
-            if (status == 'account') return;    //学员账号不刷新登录状态
-            var interval_name = 'login_' + status + '_fresh_keyname';
-            //console.log(interval_name);
-            window[interval_name] = window.setInterval(function () {
-                var loginfo = $api.loginstatus(status);
-                if (loginfo == '') {
-                    $api.loginstatus(status, '');
-                    clearInterval(window[interval_name]);
-                    if (lose_func != null) lose_func();
-                    return;
+        //登录状态的存储与取值
+        //key:来自target的某个值
+        //code:登录的token值
+        //id:登录对象的id
+        tokens: function (key, code, id, dura) {
+            let status = methods.storage(this.storagename);
+            //读取登录状态
+            if (arguments.length <= 1) {
+                if (status == null || !(status instanceof Array)) return '';
+                let str = '';
+                for (let i = 0; i < status.length; i++) {
+                    if ((key == null || (!!status[i].key && status[i].key == key)) && !!status[i].val)
+                        str += status[i].val + ',';
                 }
-                //console.error('interval_name');
-                $api.post(status + '/Fresh').then(function (req) {
-                    if (req == null) throw '';
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        if (result == '') throw '校验码返回为空';
-                        $api.loginstatus(status, result);
-                    } else {
-                        throw req.data.message;
+                return str.endsWith(',') ? str.substring(0, str.length - 1) : str;
+            }
+            //写入
+            if (arguments.length >= 2) {
+                if (status == null || !(status instanceof Array)) status = [];
+                let index = status.findIndex(el => el.key == key);
+                let item = index < 0 ? { key: key } : status[index];
+                item.time = (new Date()).format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
+                item.id = !!item.id ? item.id : (id == null ? 0 : id);
+                item.val = code;    //登录后的校验码
+                //item.duration = !!item.duration ? item.duration : (dura == null ? 0 : dura);
+                item.duration = dura == null && !item.duration ? 0 : (dura != null ? dura : item.duration);
+                if (index < 0) status.push(item);
+                //将登录信息写入storage
+                methods.storage(this.storagename, status);
+                return status;
+            }
+        },
+        //登录
+        in: function (target, token, id) {
+            this.tokens(target, token, id);
+        },
+        //退出登录
+        out: function (target, func) {
+            this.tokens(target, '');
+            if (func != null) func(target);
+        },
+        //当前登录对象,target:身份,func:回调函数
+        'current': function (target, succfunc, errfunc) {
+            let apiurl = '';
+            if (target == 'account') apiurl = 'Account/Current';
+            if (target == 'teacher') apiurl = 'Teacher/Current';
+            if (target == 'admin') apiurl = 'Admin/General';
+            if (target == 'super') apiurl = 'Admin/Super';
+            if (apiurl == '') return;
+            $api.post(apiurl).then(function (req) {
+                if (req.data.success) {
+                    if (succfunc != null) succfunc(req.data.result);
+                } else
+                    throw req.data.message;
+            }).catch(err => {
+                if (errfunc != null) errfunc(apiurl + ' : ' + err);
+            });
+        },
+        'fresh': function (target, succfunc, errfunc) {
+            //return;
+            var th = this;
+            let items = target == null ? th.item() : [th.item(target)];
+            for (let i = 0; i < items.length; i++) {
+                const el = items[i];
+                if (el == null || JSON.stringify(el) == '{}') continue;
+                let dur = el.duration + 1;
+                th.tokens(el.key, el.val, el.id, dur);
+                if (dur % 10 == 0 && window.self == window.top) {
+                    $api.post(el.key + '/Fresh').then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            if (el.key == 'account') th.tokens(el.key, result);
+                            if (el.key == 'admin') th.tokens(el.key, result);
+                            if (succfunc != null) succfunc();
+                        } else
+                            throw req.data.message;
+
+                    }).catch(err => {
+                        console.error(err);
+                        if (errfunc != null) errfunc();
+                    }).finally(() => { });
+                }
+            }
+        },
+        //初始方法
+        'initial': function () {
+            //return;
+            window.loginstatus_duration_allow = true;
+            window.addEventListener('focus', function () {
+                window.loginstatus_duration_allow = true;
+            });
+            window.addEventListener('blur', function () {
+                window.loginstatus_duration_allow = false;
+            });
+            window.setInterval(function () {
+                if (window.self !== window.top) return;
+                if (window.loginstatus_duration_allow) {
+                    let count = window.loginstatus_duration_count;
+                    count = count == null ? 0 : count + 1;
+                    window.loginstatus_duration_count = count;
+
+                    console.log(window.loginstatus_duration_count);
+                    if (window.loginstatus_duration_count % 2 == 0) {
+                        $api.login.fresh();
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                    //$api.loginstatus(status, '');
-                    clearInterval(window[interval_name]);
-                    if (lose_func != null) lose_func();
-                });
-            }, 1000 * 60 * 10);
+                }
+            }, 1000);
         }
 
-    };
+    };   
     //一些网址的处理方法
     apiObj.prototype.url = {
         //地址的参数
@@ -1035,11 +1057,9 @@
                 enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
                 enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
                 enc4 = chr3 & 63;
-                if (isNaN(chr2)) {
+                if (isNaN(chr2))
                     enc3 = enc4 = 64;
-                } else if (isNaN(chr3)) {
-                    enc4 = 64;
-                }
+                else if (isNaN(chr3)) enc4 = 64;
                 output = output +
                     _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
                     _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
@@ -1063,12 +1083,8 @@
                 chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
                 chr3 = ((enc3 & 3) << 6) | enc4;
                 output = output + String.fromCharCode(chr1);
-                if (enc3 != 64) {
-                    output = output + String.fromCharCode(chr2);
-                }
-                if (enc4 != 64) {
-                    output = output + String.fromCharCode(chr3);
-                }
+                if (enc3 != 64) output = output + String.fromCharCode(chr2);
+                if (enc4 != 64) output = output + String.fromCharCode(chr3);
             }
             output = _utf8_decode(output);
             return output;
@@ -1495,6 +1511,8 @@
             "window.$api.v" + config.versions[v] + "= new apiObj('" + config.versions[v] + "')";
         eval(str);
     }
+    //登录状态管理的初始化
+    window.$api.login.initial();
 })();
 
 //添加axios加载前后的事件

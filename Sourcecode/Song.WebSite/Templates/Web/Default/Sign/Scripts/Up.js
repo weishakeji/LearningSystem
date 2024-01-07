@@ -349,7 +349,7 @@ $ready(function () {
                                 var result = req.data.result;
                                 if (result.Ac_IsPass) {
                                     //直接注册通过，写入登录状态
-                                    $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
+                                    $api.login.in('account', result.Ac_Pw, result.Ac_ID);
                                     th.$alert('注册成功！', '成功', {
                                         confirmButtonText: '确定',
                                         callback: () => {
@@ -358,7 +358,7 @@ $ready(function () {
                                     });
                                     th.$refs['login'].success(result, 'web端', '注册登录', '');
                                 } else {
-                                    $api.loginstatus('account', '');
+                                    $api.login.out('account', '');
                                     //需要审核
                                     th.$alert('注册成功，请等待审核！', '成功', {
                                         confirmButtonText: '确定',

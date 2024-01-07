@@ -44,13 +44,13 @@ $ready(function () {
 
         },
         created: function () {
-            window.onresize = function () {
+            window.addEventListener('resize', function () {
                 $dom("section").hide();
                 $dom("section").css('left', -($dom("#vapp").width() * vapp.swipeIndex) + 'px');
                 window.setTimeout(function () {
                     $dom("section").show();
                 }, 300);
-            }
+            });
         },
         computed: {
             //是否登录

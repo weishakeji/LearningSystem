@@ -311,8 +311,7 @@ Vue.component('login', {
         //info:登录信息，例如：微信登录,QQ登录
         //remark:备注
         success: function (account, source, info, remark) {
-            $api.loginstatus('account', account.Ac_Pw, account.Ac_ID);
-            $api.login.account_fresh();
+            $api.login.in('account', account.Ac_Pw, account.Ac_ID);          
 
             //查询学员快过期的课程
             var th = this;

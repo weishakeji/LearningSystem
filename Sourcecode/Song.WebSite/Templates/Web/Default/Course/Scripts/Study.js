@@ -49,9 +49,10 @@ $ready(function () {
             $dom.load.css([$dom.path() + 'styles/pagebox.css']);
             var th = this;
             //当前登录学员
-            $api.login.account().then(function (acc) {
+            $api.login.current('account', function (acc) {
                 th.account = acc;
-                $api.login.account_fresh(() => {
+                /*
+                $api.login.fresh('account', null, () => {
                     var msg = "当前学员状态为“未登录”，请确认是否失效，还是存在多处登录的现像？";
                     msg += "<br/>提示：同一账号不可以同时登录多个设备或浏览器。"
                     th.$alert(msg, '登录状态失效', {
@@ -64,7 +65,7 @@ $ready(function () {
                     });
                     th.titState = "noLogin";
                     th.account = {};
-                });
+                });*/
                 $api.get('Course/Owned', { 'couid': th.couid, 'acid': acc.Ac_ID }).then(function (req) {
                     if (req.data.success) {
                         th.owned = req.data.result;
@@ -76,7 +77,7 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 });
-            }).catch(() => { });
+            });
             //获取当前机构
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {

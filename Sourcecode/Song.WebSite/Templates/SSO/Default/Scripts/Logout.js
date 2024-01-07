@@ -27,12 +27,14 @@ $ready(function () {
             checked: function (nv, ov) {
                 if (nv) {
                     console.log(true);
-                    $api.loginstatus('account', '');
-                      //跳转到指定页面
-                      window.setTimeout(function () {                      
-                        var gourl = th.goto == '' ? '/' : th.goto;
-                        window.location.href = gourl;
-                    }, 500);
+                    $api.login.out('account', function () {
+                        //跳转到指定页面
+                        window.setTimeout(function () {
+                            var gourl = th.goto == '' ? '/' : th.goto;
+                            window.location.href = gourl;
+                        }, 500);
+                    });
+
                 }
             }
         },

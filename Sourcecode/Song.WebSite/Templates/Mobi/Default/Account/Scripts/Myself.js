@@ -91,11 +91,13 @@ $ready(function () {
                 this.$dialog.confirm({
                     message: '是否确定退出登录？',
                 }).then(() => {
-                    $api.loginstatus('account', '');
                     this.account = null;
-                    window.setTimeout(() => {
-                        window.navigateTo("/mobi/");
-                    }, 200);
+                    $api.login.out('account', function () {
+                        window.setTimeout(() => {
+                            window.navigateTo("/mobi/");
+                        }, 200);
+                    });
+
                 }).catch(() => { });
             }
         }

@@ -73,7 +73,7 @@ $ready(function () {
         },
         created: function () {
             //当窗体失去焦点
-            window.onblur = function () {
+            window.addEventListener('blur', function () {
                 var vapp = window.vapp;
                 if (vapp.exam.Exam_IsToggle) return;
                 if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
@@ -92,8 +92,8 @@ $ready(function () {
                     '禁止切换考试界面', {
                     confirmButtonText: '确定',
                     callback: action => { }
-                });               
-            }
+                });
+            });
         },
         computed: {
             //学员是否登录

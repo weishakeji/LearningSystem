@@ -208,7 +208,10 @@ namespace Song.ViewData
                     {
                         list[i] = acc;
                         isexsit = true;
-                        //Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID);
+                        //new System.Threading.Tasks.Task(() =>
+                        //{
+                        //    Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID);
+                        //}).Start();
                         break;
                     }
                 }

@@ -83,8 +83,7 @@ $ready(function () {
                         if (req.data.success) {
                             //登录成功
                             var result = req.data.result;
-                            $api.loginstatus('account', result.Ac_Pw, result.Ac_ID);
-                            $api.login.account_fresh();
+                            $api.login.in('account', result.Ac_Pw, result.Ac_ID);                        
                             //跳转到指定页面
                             window.setTimeout(function () {
                                 th.loading = false;

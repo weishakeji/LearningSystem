@@ -45,10 +45,6 @@ $ready(function () {
                 this.account = account;
                 this.$refs.header.account = account;
                 var th = this;
-                //教师登录
-                $api.login.teacher().then(function (teach) {
-                    th.$refs.header.teacher = teach;
-                }).catch((err) => { });
                 window.setTimeout(function () {
                     if (th.referrer != '') window.location.href = th.referrer;
                     else
@@ -59,14 +55,16 @@ $ready(function () {
             logout: function () {
                 var th = this;
                 th.$confirm('是否确定退出登录？').then(function () {
-                    $api.loginstatus('account', '');
                     th.account = {};
-                    window.setTimeout(function () {
-                        if (th.referrer == '')
-                            window.location.href = '/web/';
-                        else
-                            window.location.href = th.referrer;
-                    }, 500);
+                    $api.login.out('account', function () {
+                        window.setTimeout(function () {
+                            if (th.referrer == '')
+                                window.location.href = '/web/';
+                            else
+                                window.location.href = th.referrer;
+                        }, 500);
+                    });
+
                 }).catch(function () { });
             },
             gourl: function (url) {

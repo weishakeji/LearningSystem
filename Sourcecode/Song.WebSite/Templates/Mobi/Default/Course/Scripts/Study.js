@@ -46,15 +46,10 @@ $ready(function () {
         created: function () {
             var th = this;
             //当前登录学员
-            $api.login.account().then(function (acc) {
+            $api.login.current('account', function (acc) {
                 th.account = acc;
                 th.init();
-                $api.login.account_fresh(() => {
-                    alert('登录失效，同一账号不可以同时登录多个设备');
-                });
-            }).catch(() => {
-                th.account = {};
-            });
+            }, () => th.account = {});
             //获取当前机构
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {

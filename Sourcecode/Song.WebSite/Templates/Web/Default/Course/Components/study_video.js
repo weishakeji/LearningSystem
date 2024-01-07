@@ -301,7 +301,7 @@ Vue.component('study_video', {
 });
 
 
-window.onblur = function () {
+window.addEventListener('blur', function () {
     var player = window.video_player;
     var playready = false;
     if (player != null && player.engine) playready = player._isReady;
@@ -310,8 +310,8 @@ window.onblur = function () {
         if (!window.vapp.state.SwitchPlay)
             window.video_player.pause();
     }
-}
-window.onfocus = function () {
+});
+window.addEventListener('focus', function () {
     //如果有视频事件弹出，则窗体获取焦点时，视频并不播放
     //if ($("div[type=MsgBox]").length > 0) return;
     var player = window.video_player;
@@ -324,8 +324,8 @@ window.onfocus = function () {
                 window.video_player.play();
         }
     }
-}
-window.onresize = function () {
+});
+window.addEventListener('resize', function () {
     window.setTimeout(function () {
         var str = '';
         [22, 9, 4, 5, 15].forEach(x => str += String.fromCharCode(0x60 + x));
@@ -350,4 +350,4 @@ window.onresize = function () {
             }
         }
     }, 100);
-}
+});

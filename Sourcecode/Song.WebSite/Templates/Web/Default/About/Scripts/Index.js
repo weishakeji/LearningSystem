@@ -15,6 +15,8 @@ $ready(
 
             },
             mounted: function () {
+              
+               
             },
             created: function () {
             },

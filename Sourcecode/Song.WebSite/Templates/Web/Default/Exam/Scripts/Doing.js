@@ -76,7 +76,7 @@ $ready(function () {
         },
         created: function () {
             //当窗体失去焦点
-            window.onblur = function () {
+            window.addEventListener('blur', function () {
                 var vapp = window.vapp;
                 if (vapp.exam == null || vapp.exam.Exam_IsToggle) return;
                 if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
@@ -94,7 +94,7 @@ $ready(function () {
                 }
                 alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
                     '禁止切换考试界面');
-            }
+            });
         },
         computed: {
             islogin: t => !$api.isnull(t.account),      //学员是否登录
@@ -121,9 +121,9 @@ $ready(function () {
             },
             //当前时间，经过服务器时间校正过的
             nowtime: function () {
-                try {                   
+                try {
                     return new Date(this.time.server.getTime() + (this.time.now - this.time.client.getTime()));
-                } catch { return new Date()}
+                } catch { return new Date() }
             },
             //考试剩余时间
             surplustime: function () {

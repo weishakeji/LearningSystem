@@ -19,8 +19,10 @@ $ready(function () {
         },
         methods: {
             btnLogout: function () {
-                $api.loginstatus('admin', '');
-                window.top.location.reload();
+                $api.login.out('admin', function () {
+                    window.top.location.reload();
+                });
+
             }
         },
     });

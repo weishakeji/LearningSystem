@@ -61,11 +61,12 @@ $ready(function () {
                 this.$dialog.confirm({
                     message: '是否确定退出登录？',
                 }).then(function () {
-                    $api.loginstatus('account', '');
+                    $api.login.out('account', function () {
+                        window.setTimeout(function () {
+                            window.navigateTo('/mobi/');
+                        }, 500);
+                    });
                     this.account = {};
-                    window.setTimeout(function () {
-                        window.navigateTo('/mobi/');
-                    }, 500);
                 }).catch(function () { });
             }
         }

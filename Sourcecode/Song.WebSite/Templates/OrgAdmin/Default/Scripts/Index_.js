@@ -62,8 +62,7 @@ $dom.ctrljs(function () {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
-                $api.loginstatus('admin', result.Acc_Pw);
-                $api.login.admin_fresh();
+                $api.login.in('admin', result.Acc_Pw);
                 ready(req.data.result);
             } else {
                 var data = req.data;
@@ -90,12 +89,10 @@ $dom.ctrljs(function () {
         });
     });
     //判断是否登录
-    $api.login.admin().then(function (d) {
-        ready(d);
-        $api.login.admin_fresh();
-    }).catch(() => {
-        window.login.loading = false;
-    });
+    $api.login.current('admin',
+        d => ready(d),
+        () => window.login.loading = false);
+
 
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
@@ -139,7 +136,7 @@ function ready(result) {
         if (req.data.success) {
             var result = nodeconvert(req.data.result);
             if (result[0].childs.length > 0)
-                tree.add(result[0]);            
+                tree.add(result[0]);
         } else {
             throw req.data.message;
         }
@@ -195,8 +192,8 @@ function nodeconvert(obj) {
     result = result.replace(/MM_Intro/g, "intro");
     result = result.replace(/MM_Type/g, "type");
     result = result.replace(/MM_Link/g, "url");
-    result = result.replace(/MM_Help/g, "help"); 
-    result = result.replace(/MM_IsUse/g, "use"); 
+    result = result.replace(/MM_Help/g, "help");
+    result = result.replace(/MM_IsUse/g, "use");
     result = result.replace(/MM_WinWidth/g, "width");   //弹窗相关
     result = result.replace(/MM_WinHeight/g, "height");
     result = result.replace(/MM_WinID/g, "winid");

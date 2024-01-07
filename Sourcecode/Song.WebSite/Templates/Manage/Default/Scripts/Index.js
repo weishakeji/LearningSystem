@@ -105,8 +105,7 @@ $ctrljs(function () {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
-                $api.loginstatus('admin', result.Acc_Pw);
-                $api.login.super_fresh();
+                $api.login.in('admin', result.Acc_Pw, result.Acc_Id);
                 ready(req.data.result);
             } else {
                 var data = req.data;
@@ -138,13 +137,11 @@ $ctrljs(function () {
         });
     });
     //判断是否登录
-    $api.login.super().then(function (d) {
+    $api.login.current('super', function (d) {
         ready(d);
-        $api.login.super_fresh();
-    }).catch(() => {
+    }, function (err) {
         window.login.loading = false;
     });
-
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
