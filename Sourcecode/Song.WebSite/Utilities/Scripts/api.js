@@ -563,13 +563,6 @@
     //登录状态管理
     apiObj.prototype.login = {
         storagename: 'weishakeji_loginstatus',            //本地storage存储的名称
-        //暂时没有用处
-        target: function (identity) {
-            let arr = ['account', 'teacher', 'admin', 'super'];//登录对象
-            let data = {
-                'account': {}
-            }
-        },
         //本地登录状态记录项，返回对象或对象数组
         item: function (target) {
             let status = methods.storage(this.storagename);
@@ -615,7 +608,7 @@
         },
         //登录
         in: function (target, token, id) {
-            this.tokens(target, token, id);
+            this.tokens(target, token, id, 0);
         },
         //退出登录
         out: function (target, func) {
@@ -681,16 +674,15 @@
                     let count = window.loginstatus_duration_count;
                     count = count == null ? 0 : count + 1;
                     window.loginstatus_duration_count = count;
-
-                    console.log(window.loginstatus_duration_count);
-                    if (window.loginstatus_duration_count % 2 == 0) {
+                    //console.log(window.loginstatus_duration_count);
+                    if (window.loginstatus_duration_count % 6 == 0) {
                         $api.login.fresh();
                     }
                 }
             }, 1000);
         }
 
-    };   
+    };
     //一些网址的处理方法
     apiObj.prototype.url = {
         //地址的参数
