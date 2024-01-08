@@ -175,7 +175,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(()=>{});
+                }).finally(() => { });
             },
             //创建课程
             create_course: function () {
@@ -183,7 +183,7 @@
                 th.loading = true;
                 var para = $api.clone(th.form);
                 if (th.upfile != null) para.file = th.upfile;
-                $api.post('Course/Add', para).then(function (req) {    
+                $api.post('Course/Add', para).then(function (req) {
                     if (req.data.success) {
                         th.entity = req.data.result;
                         //console.error('课程id:'+th.entity.Cou_ID);
@@ -200,13 +200,13 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(()=> th.loading = false);
+                }).finally(() => th.loading = false);
             },
             //回调课程编辑（创建课程成功后，打开更详细的课程编辑界面）
             callback_modify: function (id) {
                 //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
-                if (window.top.$pagebox && window.top.$tabs) {
+                if (window.top.$pagebox && window.top.$tabs && this.workplace() == 'orgadmin') {
                     window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '")', true);
                 } else {
                     //如果处在学员或教师管理界面
@@ -224,9 +224,8 @@
             },
             //操作成功
             operateSuccess: function () {
-                //console.error('operateSuccess');
                 //课程列表重新加载
-                if (window.top.$pagebox && window.top.$tabs) {
+                if (window.top.$pagebox && window.top.$tabs && this.workplace() == 'orgadmin') {
                     window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
                 } else {
                     //如果处在学员或教师管理界面
@@ -237,7 +236,13 @@
                         winname = winname.substring(0, winname.lastIndexOf('['));
                     window.top.vapp.fresh(winname, 'vapp.handleCurrentChange');
                 }
-            }
+            },
+            //当前工作环境，是处于机构管理，还是教师或学员管理
+            workplace:function(){
+                let meta = $dom('meta[device]', window.top.document.documentElement);
+                let device = meta.attr('device'); 
+                return device;
+            },
         }
     });
 

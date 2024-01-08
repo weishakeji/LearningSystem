@@ -632,8 +632,8 @@
                 if (errfunc != null) errfunc(apiurl + ' : ' + err);
             });
         },
+        //刷新登录状态
         'fresh': function (target, succfunc, errfunc) {
-            //return;
             var th = this;
             let items = target == null ? th.item() : [th.item(target)];
             for (let i = 0; i < items.length; i++) {
@@ -660,7 +660,6 @@
         },
         //初始方法
         'initial': function () {
-            //return;
             window.loginstatus_duration_allow = true;
             window.addEventListener('focus', function () {
                 window.loginstatus_duration_allow = true;
