@@ -610,12 +610,23 @@
         in: function (target, token, id) {
             this.tokens(target, token, id, 0);
         },
-        //退出登录
-        out: function (target, func) {
+        //退出登录,target:身份,succfunc:成功后的回调函数,errfunc:错误后的回调
+        out: function (target, succfunc, errfunc) {
             this.tokens(target, '');
-            if (func != null) func(target);
+            let apiurl = '';
+            if (target == 'account') apiurl = 'Account/Logout';
+            if (target == 'admin') apiurl = 'Admin/Logout';
+            if (apiurl == '') return;
+            $api.post(apiurl).then(function (req) {
+                if (req.data.success) {
+                    if (succfunc != null) succfunc(target);
+                } else
+                    throw req.data.message;
+            }).catch(err => {
+                if (errfunc != null) errfunc(apiurl + ' : ' + err);
+            });
         },
-        //当前登录对象,target:身份,func:回调函数
+        //当前登录对象,target:身份,succfunc:成功后的回调函数,errfunc:错误后的回调
         'current': function (target, succfunc, errfunc) {
             let apiurl = '';
             if (target == 'account') apiurl = 'Account/Current';
@@ -635,14 +646,15 @@
         //刷新登录状态
         'fresh': function (target, succfunc, errfunc) {
             var th = this;
+            let interval = 10;        //每次递交刷新的间隔时间，单位秒
             let items = target == null ? th.item() : [th.item(target)];
             for (let i = 0; i < items.length; i++) {
                 const el = items[i];
                 if (el == null || JSON.stringify(el) == '{}') continue;
                 let dur = el.duration + 1;
                 th.tokens(el.key, el.val, el.id, dur);
-                if (dur % 10 == 0 && window.self == window.top) {
-                    $api.post(el.key + '/Fresh').then(function (req) {
+                if (dur > 0 && dur % interval == 0 && window.self == window.top) {
+                    $api.post(el.key + '/Fresh', { 'span': interval * 6 }).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
                             if (el.key == 'account') th.tokens(el.key, result);
@@ -661,26 +673,20 @@
         //初始方法
         'initial': function () {
             window.loginstatus_duration_allow = true;
-            window.addEventListener('focus', function () {
-                window.loginstatus_duration_allow = true;
-            });
-            window.addEventListener('blur', function () {
-                window.loginstatus_duration_allow = false;
-            });
+            window.addEventListener('focus', () => window.loginstatus_duration_allow = true);
+            window.addEventListener('blur', () => window.loginstatus_duration_allow = false);
             window.setInterval(function () {
                 if (window.self !== window.top) return;
                 if (window.loginstatus_duration_allow) {
                     let count = window.loginstatus_duration_count;
                     count = count == null ? 0 : count + 1;
                     window.loginstatus_duration_count = count;
-                    //console.log(window.loginstatus_duration_count);
-                    if (window.loginstatus_duration_count % 6 == 0) {
+                    console.log(count);
+                    if (count > 0 && count % 6 == 0)
                         $api.login.fresh();
-                    }
                 }
             }, 1000);
         }
-
     };
     //一些网址的处理方法
     apiObj.prototype.url = {

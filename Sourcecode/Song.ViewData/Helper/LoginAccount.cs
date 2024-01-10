@@ -123,13 +123,19 @@ namespace Song.ViewData
         /// <summary>
         /// 刷新登录状态
         /// </summary>
-        public string Fresh(Letter letter)
+        /// <param name="span">每次刷新的时间间隔，单位秒</param>
+        /// <returns>返回新的token，登录验证的Ac_CheckUID并没有改变</returns>
+        public string Fresh(Letter letter,int span)
         {
             Song.Entities.Accounts acc = this.User(letter);
             if (acc == null) return string.Empty;
+            //添加登录记录
+            Business.Do<IStudent>().LogForLoginFresh(acc, span, string.Empty);
+            //生成新的token
             string code = Generate_checkcode(acc, letter);
-            acc.Ac_CheckUID = code;
-            LoginAccount.Fresh(acc);
+            //暂时注释掉，不知道是否有影响，按道理Ac_CheckUID不应该改变
+            //acc.Ac_CheckUID = code;
+            //bool isexist = LoginAccount.Fresh(acc);
             return code;
         }
         /// <summary>
@@ -207,11 +213,7 @@ namespace Song.ViewData
                     if (list[i].Ac_ID == acc.Ac_ID)
                     {
                         list[i] = acc;
-                        isexsit = true;
-                        //new System.Threading.Tasks.Task(() =>
-                        //{
-                        //    Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID);
-                        //}).Start();
+                        isexsit = true;                       
                         break;
                     }
                 }

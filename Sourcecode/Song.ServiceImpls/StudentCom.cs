@@ -666,7 +666,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="acid">学员Id</param>
         /// <param name="stuid">登录时生成的随机字符串，全局唯一</param>
-        /// <param name="plat">设备名称，PC为电脑端，Mobi为手机端</param>
+        /// <param name="plat">默认为空，设备名称，PC为电脑端，Mobi为手机端</param>
         /// <returns></returns>
         public LogForStudentOnline LogForLoginSingle(int acid, string stuid, string plat)
         {

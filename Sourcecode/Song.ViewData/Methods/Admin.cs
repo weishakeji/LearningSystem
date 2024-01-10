@@ -48,6 +48,17 @@ namespace Song.ViewData.Methods
 
         }
         /// <summary>
+        /// 退出登录
+        /// </summary>
+        [HttpPost]
+        public void Logout()
+        {
+            Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
+            if (acc == null) return;
+            //记录退出登录的时间，下面代码是复制学员账号的代码
+            //Business.Do<IStudent>().LogForLoginOut(user, string.Empty);
+        }
+        /// <summary>
         /// 超管登录的验证
         /// </summary>
         /// <param name="acc">验证</param>
@@ -133,8 +144,10 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 刷新登录状态
         /// </summary>
+        /// <param name="span">每次刷新的时间间隔，单位秒</param>
         /// <returns>返回登录状态信息，包含登录账号与时效，以加密方式</returns>
-        public string Fresh()
+        [HttpPost]
+        public string Fresh(int span)
         {
             return LoginAdmin.Status.Fresh(this.Letter);
         }

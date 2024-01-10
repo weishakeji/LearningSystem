@@ -75,11 +75,12 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 刷新登录状态
         /// </summary>
+        /// <param name="span">每次刷新的时间间隔，单位秒</param>
         /// <returns>返回登录状态信息，包含登录账号与时效，以加密方式</returns>
         [HttpPost]
-        public string Fresh()
-        {
-            return LoginAccount.Status.Fresh(this.Letter);
+        public string Fresh(int span)
+        {  
+            return LoginAccount.Status.Fresh(this.Letter, span);
         }
         /// <summary>
         /// 清除CheckUID
@@ -141,9 +142,16 @@ namespace Song.ViewData.Methods
             //添加登录记录
             Business.Do<IStudent>().LogForLoginAdd(user, source, info, letter.IP, letter.Longitude, letter.Latitude);
         }
-        public bool Logout()
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        [HttpPost]
+        public void Logout()
         {
-            return true;
+            Letter letter = this.Letter;
+            Song.Entities.Accounts user = LoginAccount.Status.User(letter);
+            if (user == null) return;
+            Business.Do<IStudent>().LogForLoginOut(user, string.Empty);
         }
         /// <summary>
         /// 短信登录
