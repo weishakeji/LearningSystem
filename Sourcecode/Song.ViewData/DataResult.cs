@@ -69,18 +69,19 @@ namespace Song.ViewData
         /// 构造方法
         /// </summary>
         /// <param name="obj"></param>
-        public DataResult(object obj)
+        /// <param name="success">是否执行成功</param>
+        public DataResult(object obj, bool success)
         {
             this.Result = obj;
             if (obj != null)
                 this.DataType = obj.GetType().SimpleName();
-            Success = obj != null;
+            Success = success;
             State = 1;
             DateTime = DateTime.Now;
-            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
-            Message = obj != null ? "" : "未查询到数据";
+            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds;
+            Message = success && obj != null ? "" : "未查询到数据";
         }
-        public DataResult(object obj,double span):this(obj){
+        public DataResult(object obj,bool success,double span) :this(obj,success){
             this.ExecSpan = span;
         }
         /// <summary>
@@ -128,7 +129,7 @@ namespace Song.ViewData
         public DataResult(object obj, Exception exc)
         {
             this.Result = obj;
-            Success = obj != null;
+            Success = false;
             DateTime = DateTime.Now;
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Exception = exc;

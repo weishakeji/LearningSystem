@@ -75,14 +75,16 @@ namespace Song.ViewData
         /// 执行，按实际结果返回
         /// </summary>
         /// <param name="letter">客户端递交的参数信息</param>
+        /// <param name="success">是否执行成功，</param>
         /// <returns></returns>
-        public static object Exec(Letter letter)
+        public static object Exec(Letter letter,out bool success)
         {
             //1.创建对象,即$api.get("account/single")中的account
             IViewAPI execObj = ExecuteMethod.CreateInstance(letter);
 
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
+            //method.ReturnType
             //清除缓存
             if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
                 CacheAttribute.Remove(method, letter);
@@ -142,6 +144,9 @@ namespace Song.ViewData
             {
                 objResult = method.Invoke(execObj, parameters);
             }
+            //如果方法return类型不是void，则返回不得为空
+            success = method.ReturnType == typeof(void) ? true : objResult != null;
+            if (method.ReturnType == typeof(void)) objResult = string.Empty;
             //将执行结果写入日志
             //Helper.Logs.Info(letter, (String)objResult);          
             return objResult;
@@ -161,8 +166,9 @@ namespace Song.ViewData
                 if (!"weishakeji".Equals(letter.HTTP_Mark,StringComparison.OrdinalIgnoreCase))
                     throw VExcept.System("The request mark is incorrect", 102);
 
+                bool success = false;
                 //执行方法
-                object res = Exec(letter);              
+                object res = Exec(letter, out success);              
                 //计算耗时                
                 double span = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
                 //
@@ -176,7 +182,7 @@ namespace Song.ViewData
                 //记录执行速度
                 Helper.Logs.Elapsed(letter, span);
 
-                return new Song.ViewData.DataResult(res, span);       //普通数据
+                return new Song.ViewData.DataResult(res, success, span);       //普通数据
             }
             catch (Exception ex)
             {
