@@ -14,7 +14,7 @@ $ready(function () {
                     { required: true, message: '不得为空', trigger: 'blur' }
                 ],
                 MM_Link: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
+                    { required: false, message: '不得为空', trigger: 'blur' }
                 ]
             },
             MM_PatId: '',    //临时数据，用于移动菜单时的临时记录
@@ -66,7 +66,7 @@ $ready(function () {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
-                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": true, "MM_Intro": "",
+                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
                     "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "", "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
@@ -82,7 +82,7 @@ $ready(function () {
                 obj.MM_UID = String(new Date().getTime());
                 if (data != null) {
                     obj.MM_PatId = data.MM_UID;
-                }
+                }               
                 return obj;
             },
             remove(node, data) {
@@ -154,8 +154,8 @@ $ready(function () {
             btnSave: function () {
                 if (this.loading || this.loading_init) return;
                 var th = this;
-                if(th.data.length<1){
-                    this.$alert('您还没有创建菜单项，请点击右上方“新建下级”创建菜单项！', '没有数据');                  
+                if (th.data.length < 1) {
+                    this.$alert('您还没有创建菜单项，请点击右上方“新建下级”创建菜单项！', '没有数据');
                     return;
                 }
                 th.$confirm('将保存菜单树的修改, 是否继续?', '提示', {

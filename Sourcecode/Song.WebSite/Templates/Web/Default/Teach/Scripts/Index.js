@@ -238,7 +238,7 @@ $ready(function () {
             //刷新
             //name:iframe的name值
             //func:要执行的方法名
-            fresh: function (name, func) {              
+            fresh: function (name, func) {
                 var iframe = $dom('iframe[name=\'' + name + '\']');
                 if (iframe.length > 0) {
                     var win = iframe[0].contentWindow;
@@ -330,6 +330,18 @@ $ready(function () {
                         $pagebox.create(obj).open();
                     }
                 }
+            },
+            //图标样式
+            iconstyle: function (menu) {
+                let icon = menu.icon;
+                if (icon == null) return '';
+                console.error(icon);
+                let style = '';
+                if (icon.size != null && icon.size > 0) style += 'transform: scale(' + (1 + icon.size / 100) + ');';
+                if (icon.color != null && icon.color != '') style += 'color: ' + icon.color + ';';
+                if (icon.x != null && icon.x > 0) style += 'margin-left: ' + icon.x + 'px;';
+                if (icon.y != null && icon.y > 0) style += 'margin-top: ' + icon.y + 'px;';
+                return style;
             }
         },
         // 同样也可以在 vm 实例中像 "this.message" 这样使用
@@ -337,8 +349,8 @@ $ready(function () {
             <weisha_menu_node :type="menu.MM_Type" v-if="menu.MM_Type!='hr'"
             @click="nodeClick" :style="styleObject" 
             :class="{'children':menu.MM_Type!='node' && menu.children.length>0}">
-                <icon v-if="menu.MM_IcoCode==''">&#xa038</icon>
-                <icon v-html="'&#x'+menu.MM_IcoCode" v-else></icon>
+                <icon v-if="menu.MM_IcoCode==''" :style="iconstyle(menu)">&#xa038</icon>
+                <icon v-html="'&#x'+menu.MM_IcoCode" v-else :style="iconstyle(menu)"></icon>
                 <a v-if="menu.MM_Type=='link'" :href="menu.MM_Link" target="_blank">{{menu.MM_Name}}</a>       
                 <span v-else>{{menu.MM_Name}}</span>
             </weisha_menu_node>

@@ -1258,12 +1258,15 @@
     <Content Include="Templates\Student\Default\OtherLogin\Yunzhijia.html" />
     <Content Include="Templates\Student\Default\OtherLogin\ZzGongshang.html" />
     <Content Include="Templates\Student\Default\Self\BindPhone.html" />
+    <Content Include="Templates\Student\Default\Self\LoginLog.html" />
     <Content Include="Templates\Student\Default\Self\Scripts\BindPhone.js" />
+    <Content Include="Templates\Student\Default\Self\Scripts\LoginLog.js" />
     <Content Include="Templates\Student\Default\Self\Security.html" />
     <Content Include="Templates\Student\Default\Self\Password.html" />
     <Content Include="Templates\Student\Default\Self\Scripts\Security.js" />
     <Content Include="Templates\Student\Default\Self\Scripts\Password.js" />
     <Content Include="Templates\Student\Default\Self\Styles\BindPhone.css" />
+    <Content Include="Templates\Student\Default\Self\Styles\LoginLog.css" />
     <Content Include="Templates\Student\Default\Self\Styles\Security.css" />
     <Content Include="Templates\Student\Default\Self\Styles\Password.css" />
     <Content Include="Templates\Student\Default\PwFind.html" />

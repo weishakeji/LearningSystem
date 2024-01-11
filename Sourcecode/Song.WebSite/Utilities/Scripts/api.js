@@ -681,7 +681,7 @@
                     let count = window.loginstatus_duration_count;
                     count = count == null ? 0 : count + 1;
                     window.loginstatus_duration_count = count;
-                    console.log(count);
+                    //console.log(count);
                     if (count > 0 && count % 6 == 0)
                         $api.login.fresh();
                 }
