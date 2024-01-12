@@ -317,6 +317,31 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 登录日志
+        /// <summary>
+        /// 账号登录信息的记录
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acid">账号id</param>
+        /// <param name="start">查询时间区间的起始时间</param>
+        /// <param name="end">查询时间区间的结束时间</param>
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public ListResult LoginLogs(int orgid,int acid, DateTime? start, DateTime? end, int index, int size)
+        {
+            int sum = 0;
+            Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(orgid, acid, string.Empty, start, end, size, index, out sum);
+           
+            Song.ViewData.ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
+        }
+
+        #endregion
+
         #region 获取账号
         /// <summary>
         /// 根据ID查询学员账号

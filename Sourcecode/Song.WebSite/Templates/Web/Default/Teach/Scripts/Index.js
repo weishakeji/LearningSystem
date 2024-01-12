@@ -251,6 +251,10 @@ $ready(function () {
                         }
                     }
                 }
+            },
+            //
+            fresh_frame: function (func) {
+                console.error(func);
             }
         }
     });
@@ -335,7 +339,6 @@ $ready(function () {
             iconstyle: function (menu) {
                 let icon = menu.icon;
                 if (icon == null) return '';
-                console.error(icon);
                 let style = '';
                 if (icon.size != null && icon.size > 0) style += 'transform: scale(' + (1 + icon.size / 100) + ');';
                 if (icon.color != null && icon.color != '') style += 'color: ' + icon.color + ';';

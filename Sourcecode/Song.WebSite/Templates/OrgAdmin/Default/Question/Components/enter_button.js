@@ -102,7 +102,7 @@ Vue.component('enter_button', {
             if (from == "course_modify") {
                 //如果处于课程编辑页，则刷新
                 if (this.isadd)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
+                    pagebox.source.top(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', isclose);
                 else
                     pagebox.source.tab(window.name, 'vapp.fresh_frame(\'vapp.freshrow("' + this.id + '")\')', isclose);
 

@@ -330,12 +330,11 @@ $ready(function () {
             iconstyle: function (menu) {
                 let icon = menu.icon;
                 if (icon == null) return '';
-                console.error(icon);
                 let style = '';
                 if (icon.size != null && icon.size > 0) style += 'transform: scale(' + (1 + icon.size / 100) + ');';
                 if (icon.color != null && icon.color != '') style += 'color: ' + icon.color + ';';
-                if (icon.x != null && icon.x >0) style += 'margin-left: ' + icon.x + 'px;';
-                if (icon.y != null && icon.y >0) style += 'margin-top: ' + icon.y + 'px;';
+                if (icon.x != null && icon.x > 0) style += 'margin-left: ' + icon.x + 'px;';
+                if (icon.y != null && icon.y > 0) style += 'margin-top: ' + icon.y + 'px;';
                 return style;
             }
         },

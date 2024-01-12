@@ -710,7 +710,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public LogForStudentOnline[] LogForLoginPager(int orgid, int acid, string platform, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
-            WhereClip wc = LogForStudentOnline._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(LogForStudentOnline._.Org_ID == orgid);
             if (acid > 0) wc.And(LogForStudentOnline._.Ac_ID == acid);
             if (!string.IsNullOrWhiteSpace(platform))
             {

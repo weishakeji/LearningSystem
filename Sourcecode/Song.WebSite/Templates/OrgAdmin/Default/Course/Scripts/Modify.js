@@ -88,10 +88,16 @@
                 this.close_fresh('vapp.freshrow("' + course.Cou_ID + '")');
 
             },
+             //当前工作环境，是处于机构管理，还是教师或学员管理
+             workplace:function(){
+                let meta = $dom('meta[device]', window.top.document.documentElement);
+                let device = meta.attr('device'); 
+                return device;
+            },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
                 //如果有选项卡组件，就处理选项卡页面中的事件
-                if (window.top.$tabs) {
+                if (window.top.$tabs && this.workplace() == 'orgadmin') {
                     window.top.$pagebox.source.tab(window.name, func, false);
                 } else {
                     //如果处在学员或教师管理界面

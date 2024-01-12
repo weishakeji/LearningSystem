@@ -698,7 +698,7 @@
         let pbox = box.create(param);
         return pbox.open();
     };
-    //获取上级窗体对象
+    //获取上级窗体对象，如果没有上级，则返回为空
     box.parent = function (boxid) {
         let ctrl = $ctrls.get(boxid);
         return ctrl.obj.parent;
@@ -1022,6 +1022,7 @@
     box.pageboxcollect = function () {
         window.addEventListener('load', function (e) {
             let collect = $dom(window.$pageboxcollect);
+            if (collect.length < 1) return;
             collect.add('div').attr('title', '窗体管理');
             let area = $dom('pagebox-minarea');
             if (area.length < 1) area = $dom('body').add('pagebox-minarea');
@@ -1174,33 +1175,15 @@
                     }
                 }
             }
-            if (close) {
-                window.setTimeout(function () {
-                    $pagebox.shut(name);
-                }, 1000);
-            }
-
+            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
         },
         //父级为pagebox
         box: function (name, func, close) {
             name = $dom.trim(name);
-            console.log(name);
             let pbox = box.parent(name);
             if (pbox == null) return;
-            let win = pbox.document();
-            //tabs.js标签页的页面区域
-            if (win && func != null) {
-                if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
-                else {
-                    let f = eval('win.' + func);
-                    if (f != null) f();
-                }
-            }
-            if (close) {
-                window.setTimeout(function () {
-                    $pagebox.shut(name);
-                }, 1000);
-            }
+            this._emit_func(pbox, func, close);
+            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
         },
         //查找自身
         self: function (name, func, close) {
@@ -1209,6 +1192,26 @@
             let currbox = box.get(name);
             if (close) currbox.shut();
             return currbox;
+        },
+        //顶级窗体
+        top: function (name, func, close) {
+            name = $dom.trim(name);
+            let pbox = box.parent(name);
+            while (pbox.parent != null) pbox = box.parent(pbox.attr.pid);
+            this._emit_func(pbox, func);
+            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
+        },
+        //执行窗体内页面的js方法
+        _emit_func: function (box, func) {
+            let win = box.document();
+            //tabs.js标签页的页面区域
+            if (win && func != null) {
+                if (func.charAt(func.length - 1) == ')') eval('win.' + func);
+                else {
+                    let f = eval('win.' + func);
+                    if (f != null) f();
+                }
+            }
         }
     };
     win.$pagebox = box;
