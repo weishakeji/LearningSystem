@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="frame_header">
+            <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                <el-form-item>
+                    <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
+                        class="el-icon-search">
+                    </el-button>
+                </el-form-item>
+            </el-form>
+
+        </div>
+        <template>
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column type="index" label="#" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="登录时间" width="150px">
+                    <template slot-scope="scope">
+                        {{scope.row.Lso_LoginTime|date('yyyy-MM-dd HH:mm:ss')}}
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="浏览时长" width="100px">
+                    <template slot-scope="scope" v-if="scope.row.Lso_BrowseTime>0">
+                        {{timeclac(scope.row.Lso_BrowseTime*30)}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="设备信息" width="250px">
+                    <template slot-scope="scope">
+                        <icon v-if="scope.row.Lso_Platform=='PC'">&#xe609;</icon>
+                        <icon v-if="scope.row.Lso_Platform=='Mobi'">&#xe677;</icon>
+                        {{scope.row.Lso_OS}} ({{scope.row.Lso_Browser}})
+                    </template>
+                </el-table-column>
+                <el-table-column label="来源">
+                    <template slot-scope="scope">
+                        {{scope.row.Lso_Info}}
+                        <template v-if="scope.row.Lso_Source!=''">({{scope.row.Lso_Source}})</template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="地理位置">
+                    <template slot-scope="scope">
+
+                        {{scope.row.Lso_Province}} {{scope.row.Lso_City}} {{scope.row.Lso_District}}
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>
