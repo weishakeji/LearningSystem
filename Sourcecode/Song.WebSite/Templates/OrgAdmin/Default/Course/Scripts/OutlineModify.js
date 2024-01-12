@@ -209,10 +209,17 @@
             },
             //刷新上级列表
             fresh_parent: function (isclose) {
+                //console.error(isclose);
+                //this.test();
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
-                if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.updatedEvent(true)")', isclose);
+                if (pagebox && pagebox.source.top)
+                    pagebox.source.top(window.name, 'vapp.fresh_frame("vapp.updatedEvent(true)")', isclose);
+            },
+            test: function () {
+                let p = window.top.$pagebox.source.top(window.name);
+                console.error(p);
+                //alert(p);
             }
         }
     });

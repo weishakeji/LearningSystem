@@ -334,8 +334,8 @@
                    */
                 //如果处于课程编辑页，则刷新
                 var pagebox = window.top.$pagebox;
-                if (pagebox && pagebox.source.box)
-                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.getTreeData")', false);
+                if (pagebox && pagebox.source.top)
+                    pagebox.source.top(window.name, 'vapp.fresh_frame("vapp.getTreeData")', false);
             }
         }
     });
