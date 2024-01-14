@@ -4,7 +4,6 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: { 'orgid': '', 'name': '', 'acname': '', 'start': '', 'end': '', 'index': 1, 'size': 10 },
-            date_picker: [],
             account: {},
 
             datas: [],      //数据集，此处是登录记录的列表
@@ -39,12 +38,14 @@ $ready(function () {
             }
         },
         watch: {
-            'date_picker': function (nv, ov) {
-                this.form.start = nv[0];
-                this.form.end = nv[1];
-            }
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.form.start = start;
+                this.form.end = end;
+                this.handleCurrentChange(1);
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;

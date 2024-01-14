@@ -12,9 +12,7 @@
         <div class="frame_header">
             <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
                 <el-form-item>
-                    <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
+                    <date_range @change="selectDate"></date_range>                 
                 </el-form-item>
                 <el-form-item>
                     <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"

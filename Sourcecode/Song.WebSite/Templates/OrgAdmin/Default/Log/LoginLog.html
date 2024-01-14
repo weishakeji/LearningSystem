@@ -9,8 +9,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="-删除" ref='btngroup' @delete="deleteData" path="LoginLogDetail" width="800" height="600" :selects='selects'
-                idkey='Lso_ID' table="datatables"></btngroup>
+            <btngroup show="-删除" ref='btngroup' @delete="deleteData" path="LoginLogDetail" width="800" height="600"
+                :selects='selects' idkey='Lso_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item>
                     <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
@@ -19,9 +19,7 @@
                     <el-input v-model="form.acname" placeholder="账号" clearable style="width:100px"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
+                    <date_range @change="selectDate"></date_range>
                 </el-form-item>
             </query_panel>
         </div>

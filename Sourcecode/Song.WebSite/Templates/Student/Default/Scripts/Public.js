@@ -26,6 +26,8 @@
         arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
         //查询面板
         arr2.push('/Utilities/Components/query_panel.js');
+        //日期区间选择器
+        arr2.push('/Utilities/Components/date_range.js');
         window.$dom.load.js(arr2, f);
     };
     //加载组件所需的javascript文件
