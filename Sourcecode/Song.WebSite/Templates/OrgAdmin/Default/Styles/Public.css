@@ -7,45 +7,51 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 }
-body{
+
+body {
 	background-color: rgb(255, 255, 255);
 }
+
 #vapp {
 	position: relative;
-	
+
 }
 
 *::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width: 3px;
-    /*高宽分别对应横竖滚动条的尺寸*/
-    height: 1px;
+	/*滚动条整体样式*/
+	width: 3px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 1px;
 }
 
 *::-webkit-scrollbar-thumb {
-    /*滚动条里面小方块*/
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
-    background: #b9b9b9;
+	/*滚动条里面小方块*/
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
+	background: #b9b9b9;
 }
 
 *::-webkit-scrollbar-track {
-    /*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
-    border-radius: 3px;
-    background: #EDEDED;
+	/*滚动条里面轨道*/
+	-webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
+	border-radius: 3px;
+	background: #EDEDED;
 }
 
 /* 设置滚动条宽度和高度 */
 .el-table__body-wrapper::-webkit-scrollbar {
-    width: 10px; /* 横向滚动条 */
-    height: 8px; /* 纵向滚动条 必写 */
+	width: 10px;
+	/* 横向滚动条 */
+	height: 8px;
+	/* 纵向滚动条 必写 */
 }
+
 /* 设置滚动条样式 */
 .el-table__body-wrapper::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 3px;
+	background-color: #999;
+	border-radius: 3px;
 }
+
 *[v-cloak] {
 	display: none;
 }
@@ -59,9 +65,11 @@ body{
 .large {
 	font-size: 16px;
 }
-.medium{
+
+.medium {
 	font-size: 14px;
 }
+
 .van-dialog {
 	border-radius: 3px;
 }
@@ -81,9 +89,15 @@ a {
 	text-decoration: none;
 	color: black;
 }
-a.link:hover{
-	text-decoration:underline;
+
+*.link:hover {
+	text-decoration: underline;
 }
+
+.link {
+	cursor: pointer;
+}
+
 dl, dd {
 	padding: 0px;
 	margin: 0px;
@@ -128,7 +142,7 @@ table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.
 	color: #aaa !important;
 }
 
-table.el-table__body tr.disabled td img, .disabled  * {
+table.el-table__body tr.disabled td img, .disabled * {
 	-webkit-filter: grayscale(100%);
 	-moz-filter: grayscale(100%);
 	-ms-filter: grayscale(100%);
@@ -150,46 +164,54 @@ table.el-table__body tr.disabled td img, .disabled  * {
 	display: flex;
 	justify-content: flex-end;
 }
+
 /*关闭按钮的样式*/
-.el-button--close:hover{
+.el-button--close:hover {
 	background: #eee;
 	color: #333;
 }
+
 .el-button--close::before {
 	content: '\e72c';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
 }
+
 .el-button--cancel::before {
 	content: '\e748';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
 }
+
 /*确定保存按钮的样式*/
 .el-button[define="enter"]:not(.is-loading)::before {
 	content: '\a048';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
 }
+
 /*应用按钮的样式*/
 .el-button[define="apply"] {
 	color: #3c8d13;
-    background: #f0f9eb;
-    border-color: #c2e7b0;
+	background: #f0f9eb;
+	border-color: #c2e7b0;
 }
+
 .el-button[define="apply"]:hover {
 	color: #f0f9eb;
-    background: #7bbb5b;
-    border-color: #c2e7b0;
+	background: #7bbb5b;
+	border-color: #c2e7b0;
 }
+
 .el-button[define="apply"]:not(.is-loading)::before {
 	content: '\e634';
 	font-size: 15px;
 	margin-right: 5px;
 	font-family: "webdesk_icon" !important;
 }
+
 /*删除按钮*/
 .el-button[define="delete"]:not(.is-loading)::before {
 	content: '\e800';
@@ -225,6 +247,7 @@ table.el-table__body tr.disabled td img, .disabled  * {
 .is-disabled+* {
 	color: #ccc !important;
 }
+
 /*文件下载链接*/
 a[download] {
 	display: inline-block;
@@ -250,6 +273,7 @@ a[download]:hover {
 .el-dialog {
 	box-shadow: 0px 0px 8px rgba(0, 0, 0, .7) !important;
 }
+
 .el-input input[type='number'] {
-    padding: 5px 0px 5px 15px !important;
+	padding: 5px 0px 5px 15px !important;
 }

@@ -325,13 +325,13 @@ namespace Song.ViewData.Methods
         /// <param name="acid">账号id</param>
         /// <param name="start">查询时间区间的起始时间</param>
         /// <param name="end">查询时间区间的结束时间</param>
-        /// <param name="index"></param>
-        /// <param name="size"></param>
+        /// <param name="index">分页的索引</param>
+        /// <param name="size">分页数据的每页记录数</param>
         /// <returns></returns>
-        public ListResult LoginLogs(int orgid,int acid, DateTime? start, DateTime? end, int index, int size)
+        public ListResult LoginLogs(int acid, DateTime? start, DateTime? end, int index, int size)
         {
             int sum = 0;
-            Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(orgid, acid, string.Empty, start, end, size, index, out sum);
+            Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(acid, string.Empty, start, end, size, index, out sum);
            
             Song.ViewData.ListResult result = new ListResult(list);
             result.Index = index;
@@ -339,7 +339,28 @@ namespace Song.ViewData.Methods
             result.Total = sum;
             return result;
         }
+        /// <summary>
+        /// 按机构获取学员登录日志
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="acname">学员账号</param>
+        /// <param name="start">查询时间区间的起始时间</param>
+        /// <param name="end">查询时间区间的结束时间</param>
+        /// <param name="index">分页的索引</param>
+        /// <param name="size">分页数据的每页记录数</param>
+        /// <returns></returns>
+        public ListResult LoginLogs(int orgid,string name,string acname, DateTime? start, DateTime? end, int index, int size)
+        {
+            int sum = 0;
+            Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(orgid, 0, string.Empty, start, end, name, acname, size, index, out sum);
 
+            Song.ViewData.ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
+        }
         #endregion
 
         #region 获取账号

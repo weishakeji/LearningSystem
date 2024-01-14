@@ -553,7 +553,7 @@ namespace Song.ServiceImpls
         }
         #endregion
 
-        #region 
+        #region 登录日志
         public void LogForLoginAdd(Accounts st)
         {
             this.LogForLoginAdd(st, string.Empty, string.Empty, string.Empty, 0, 0);
@@ -699,7 +699,6 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 分页获取
         /// </summary>
-        /// <param name="orgid">机构Id</param>
         /// <param name="acid">学员Id</param>
         /// <param name="platform">学员文章平台，PC或Mobi</param>
         /// <param name="start">统计的开始时间</param>
@@ -708,10 +707,9 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public LogForStudentOnline[] LogForLoginPager(int orgid, int acid, string platform, DateTime? start, DateTime? end, int size, int index, out int countSum)
+        public LogForStudentOnline[] LogForLoginPager(int acid, string platform, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(LogForStudentOnline._.Org_ID == orgid);
             if (acid > 0) wc.And(LogForStudentOnline._.Ac_ID == acid);
             if (!string.IsNullOrWhiteSpace(platform))
             {
@@ -727,7 +725,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
             return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginDate.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
         }
-        public LogForStudentOnline[] LogForLoginPager(int orgid, int acid, string platform, DateTime? start, DateTime? end, string stname, string stmobi, int size, int index, out int countSum)
+        public LogForStudentOnline[] LogForLoginPager(int orgid, int acid, string platform, DateTime? start, DateTime? end, string name, string acname, int size, int index, out int countSum)
         {
             WhereClip wc = LogForStudentOnline._.Org_ID == orgid;
             if (acid > 0) wc.And(LogForStudentOnline._.Ac_ID == acid);
@@ -742,8 +740,8 @@ namespace Song.ServiceImpls
             }
             if (start != null) wc.And(LogForStudentOnline._.Lso_LoginDate >= (DateTime)start);
             if (end != null) wc.And(LogForStudentOnline._.Lso_LoginDate <= (DateTime)end);
-            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Like("%" + stname + "%"));
-            if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Like("%" + stmobi + "%"));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(acname) && acname.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Like("%" + acname + "%"));
 
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
             return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginDate.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);

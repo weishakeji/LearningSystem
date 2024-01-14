@@ -461,6 +461,12 @@
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\OutputExcel.css" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\OutputQrcode.css" />
     <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
+    <Content Include="Templates\OrgAdmin\Default\Log\LoginLog.html" />
+    <Content Include="Templates\OrgAdmin\Default\Log\LoginLogDetail.html" />
+    <Content Include="Templates\OrgAdmin\Default\Log\Scripts\LoginLog.js" />
+    <Content Include="Templates\OrgAdmin\Default\Log\Scripts\LoginLogDetail.js" />
+    <Content Include="Templates\OrgAdmin\Default\Log\Styles\LoginLog.css" />
+    <Content Include="Templates\OrgAdmin\Default\Log\Styles\LoginLogDetail.css" />
     <Content Include="Templates\OrgAdmin\Default\News\Components\article_count.js" />
     <Content Include="Templates\OrgAdmin\Default\News\Components\Styles\article_count.css" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\ctrls.js" />

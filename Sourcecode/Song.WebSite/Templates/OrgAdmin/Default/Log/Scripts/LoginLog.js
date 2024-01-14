@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            form: { 'acid': '', 'start': '', 'end': '', 'size': 10, 'index': 1 },
+            form: { 'orgid': '', 'name': '', 'acname': '', 'start': '', 'end': '', 'index': 1, 'size': 10 },
             date_picker: [],
             account: {},
 
@@ -15,19 +15,27 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
-            var th = this;
-            th.loading_init = true;
-            $api.login.current('account', function (acc) {
-                th.account = acc;
-                th.form.acid = acc.Ac_ID;
-                th.handleCurrentChange();
-            });
         },
         created: function () {
-
+            var th = this;
+            $api.get('Organization/Current').then(function (req) {
+                if (req.data.success) {
+                    var result = req.data.result;
+                    th.form.orgid = result.Org_ID;
+                    th.handleCurrentChange(1);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         computed: {
-
+            //表格高度
+            tableHeight: function () {
+                var height = document.body.clientHeight;
+                return height - 75;
+            }
         },
         watch: {
             'date_picker': function (nv, ov) {
@@ -42,8 +50,8 @@ $ready(function () {
                 //console.error(this.form);
                 var th = this;
                 //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 115;
-                th.form.size = Math.floor(area / 47);
+                var area = document.documentElement.clientHeight - 105;
+                th.form.size = Math.floor(area / 41);
                 th.loading = true;
                 $api.get("Account/LoginLogs", th.form).then(function (d) {
                     th.loading = false;
@@ -67,6 +75,18 @@ $ready(function () {
                 if (mm < 60) return mm + ' 分钟';
                 let hh = Math.floor(mm / 60);
                 if (hh < 24) return hh + ' 小时' + (mm % 60 > 0 ? mm % 60 + '分钟' : '');
+            },
+            //地理位置
+            address: function (row) {
+                return row.Lso_Province + row.Lso_City + row.Lso_District;
+            },
+            //打开详情
+            opendetail: function (row) {
+                var url = 'LoginLogDetail.' + row.Lso_ID;
+                this.$refs.btngroup.pagebox(url, '登录信息详情', window.name + '[LoginLogDetail]', 800, 600, {
+                    'showmask': false, 'min': true, 'ico': 'a01d'
+                });
+                return false;
             }
         },
     });

@@ -246,9 +246,8 @@ namespace Song.ServiceInterfaces
         /// <param name="identify"></param>
         void StudentOnlineDelete(int identify);
         /// <summary>
-        /// 分页获取
-        /// </summary>
-        /// <param name="orgid">机构Id</param>
+        /// 账号的登录记录
+        /// </summary>   
         /// <param name="stid">学员Id</param>
         /// <param name="platform">学员文章平台，PC或Mobi</param>
         /// <param name="start">统计的开始时间</param>
@@ -257,7 +256,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, int size, int index, out int countSum);
+        LogForStudentOnline[] LogForLoginPager(int stid, string platform, DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -266,13 +265,13 @@ namespace Song.ServiceInterfaces
         /// <param name="platform"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        /// <param name="stname">学员名称</param>
-        /// <param name="stmobi">学员手机号</param>
+        /// <param name="name">学员名称</param>
+        /// <param name="acname">学员账号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, string stname, string stmobi, int size, int index, out int countSum);
+        LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, string name, string acname, int size, int index, out int countSum);
         #endregion
 
         #region 学员视频学习的记录        
