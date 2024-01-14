@@ -9,9 +9,87 @@
 
 <body>
     <div id="vapp" v-cloak>
-        
+        <loading v-if="loading">...</loading>
+        <template v-else>
+            <div>
+                <el-row :gutter="20" v-if="!existacc" remark="如果学员已经不存在">
+                    <el-col :span="10">姓名: {{entity.Ac_Name}}</el-col>
+                    <el-col :span="10">账号： {{entity.Ac_AccName}}</el-col>
+                </el-row>
+                <div v-else class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <el-row :gutter="20">
+                            <el-col :span="10">
+                                <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                                    {{account.Ac_Name}}
+                                </icon>
+                            </el-col>
+                            <el-col :span="14">账号： {{account.Ac_AccName}}</el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="10">
+                                身份证：{{account.Ac_IDCardNumber}}
+                            </el-col>
+                            <el-col :span="14">手机： {{account.Ac_MobiTel1}}
+                                <span
+                                    v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                                <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 "
+                                    v-html='account.Ac_MobiTel2'></span>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="10">
+                                编号：{{account.Ac_CodeNumber}}
+                            </el-col>
+                            <el-col :span="14">邮箱： {{account.Ac_Email}}                               
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
 
-        
+                <el-divider content-position="left">登录信息</el-divider>
+                <el-row :gutter="20">
+                    <el-col :span="10">时间： {{entity.Lso_LoginTime|date('yyyy-MM-dd HH:mm:ss')}}</el-col>
+                    <el-col :span="14">浏览时间：
+                        <template v-if="entity.Lso_BrowseTime<10">小于10秒</template>
+                        <template v-else>{{timeclac(entity.Lso_BrowseTime)}}</template>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="10">IP地址： {{entity.Lso_IP}}</el-col>
+                    <el-col :span="14">设备信息：
+                        {{entity.Lso_OS}} ({{entity.Lso_Browser}})
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="10">登录方式： {{entity.Lso_Info}} </el-col>
+                    <el-col :span="14">访问来源：
+                        <icon v-if="entity.Lso_Platform=='PC'">&#xe609;</icon>
+                        <icon v-if="entity.Lso_Platform=='Mobi'">&#xe677;</icon>
+                        {{entity.Lso_Source}}
+                    </el-col>
+                </el-row>
+            </div>
+            <!--地理信息-->
+            <div v-if="entity.Lso_Latitude>0 && entity.Lso_Longitude>0">
+                <el-divider content-position="left">地理位置：
+                    <span v-if="address(entity)!=''">
+                        {{address(entity)}}
+                    </span>
+                    <template v-if="entity.Lso_GeogType>0">（
+                        <template v-if="entity.Lso_GeogType==1">由GPS数据计算</template>
+                        <template v-if="entity.Lso_GeogType==2">由IP地址计算</template>）
+                    </template>
+                </el-divider>
+                <map_show :lat="entity.Lso_Latitude" :lng="entity.Lso_Longitude" style="height: calc(100% - 48px); width: 100%">
+                </map_show>
+            </div>
+            <div v-else>
+                <alert>未获取到地理信息</alert>
+            </div>
+        </template>
     </div>
 </body>
 

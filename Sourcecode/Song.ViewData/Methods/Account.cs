@@ -319,6 +319,16 @@ namespace Song.ViewData.Methods
 
         #region 登录日志
         /// <summary>
+        /// 获取账号登录信息的记录
+        /// </summary>
+        /// <param name="id">记录id</param>
+        /// <returns></returns>
+        public Song.Entities.LogForStudentOnline LoginLogForID(int id)
+        {
+            return Business.Do<IStudent>().LogForLoginSingle(id);
+
+        }
+        /// <summary>
         /// 账号登录信息的记录
         /// </summary>
         /// <param name="orgid">机构id</param>
@@ -361,6 +371,7 @@ namespace Song.ViewData.Methods
             result.Total = sum;
             return result;
         }
+
         #endregion
 
         #region 获取账号

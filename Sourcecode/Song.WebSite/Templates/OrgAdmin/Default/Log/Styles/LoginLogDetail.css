@@ -1,5 +1,46 @@
 ﻿@charset "utf-8";
 
 #vapp {
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#vapp>div:last-child {
+    flex: 1;
+}
+
+.el-row {
+    margin: 8px !important;
+}
+
+.el-col {
+    border-radius: 4px;
+}
+
+
+/*学员详情*/
+.accountInfo {
+    line-height: 30px;
+    font-size: 16px;
+    display: flex;
+}
+
+.accountInfo>div:last-child {
+    flex: 1;
+}
+.accountInfo .el-row{
+    margin: 0px !important;
+}
+.accountInfo *::before {
+    font-size: 20px;
+}
+
+.accountInfo .ws_avatar {
+
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+alert{
+    margin: 30px 0px 0px 15px;
 }

@@ -10,8 +10,9 @@ $ready(function () {
             datas: [],      //数据集，此处是登录记录的列表
             total: 1, //总记录数
             totalpages: 1, //总页数
+            selects: [] //数据表中选中的行
 
-            loading_init: true,
+            ,
             loading: false
         },
         mounted: function () {
@@ -82,6 +83,8 @@ $ready(function () {
             },
             //打开详情
             opendetail: function (row) {
+                this.$refs.btngroup.modifyrow(row);
+                return;
                 var url = 'LoginLogDetail.' + row.Lso_ID;
                 this.$refs.btngroup.pagebox(url, '登录信息详情', window.name + '[LoginLogDetail]', 800, 600, {
                     'showmask': false, 'min': true, 'ico': 'a01d'
