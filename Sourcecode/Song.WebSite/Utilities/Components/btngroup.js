@@ -138,7 +138,7 @@ Vue.component('btngroup', {
             }
             if (!(top.$pagebox && this.path)) return;
             let url = this.setParameter(this.path, id);
-            this.pagebox(url, title ? title : '修改', window.name + '_' + id + '[modify]', this.width, this.height, param);
+            this.pagebox(url, title ? title : '修改/查看', window.name + '_' + id + '[modify]', this.width, this.height, param);
         },
         modifyrow: function (row, title, param) {
             if (!this.idkey) return '';

@@ -55,7 +55,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 41);
                 th.loading = true;
                 $api.get("Account/LoginLogs", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -65,8 +64,26 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //删除
+            deleteData: function (datas) {
+                var th = this;
+                $api.delete('Account/LoginLogDelete', { 'id': datas }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                    } else {
+                        throw req.data.message;
+                    }
                 }).catch(function (err) {
-                    console.error(err);
+                    alert(err);
                 });
             },
             //显浏览时间

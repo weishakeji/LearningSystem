@@ -9,7 +9,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除" ref='btngroup' path="LoginLogDetail" width="800" height="600" :selects='selects'
+            <btngroup show="-删除" ref='btngroup' @delete="deleteData" path="LoginLogDetail" width="800" height="600" :selects='selects'
                 idkey='Lso_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item>
@@ -29,7 +29,7 @@
             <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
                 style="width: 100%" :height="tableHeight" @selection-change="val=>selects=val"
                 @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
-                <el-table-column type="selection" width="35">
+                <el-table-column type="selection" width="35" v-if="true">
                 </el-table-column>
                 <el-table-column type="index" label="#" width="80" align="center">
                     <template slot-scope="scope">
@@ -68,9 +68,12 @@
                 </el-table-column>
                 <el-table-column label="地理位置">
                     <template slot-scope="scope">
-                        <span class="link" v-if="address(scope.row)!=''" href="#" @click="opendetail(scope.row)">
-                            <icon>&#xe64c</icon>
-                            {{address(scope.row)}}
+                        <span class="link" v-if="address(scope.row)!=''" @click="opendetail(scope.row)">
+                            <span v-if="scope.row.Lso_GeogType==1" icon="&#xe64c" title="由GPS数据计算">
+                                {{address(scope.row)}}
+                            </span>
+                            <span v-if="scope.row.Lso_GeogType==2" icon="&#xa03b" title="由IP地址计算">{{address(scope.row)}}
+                            </span>
                         </span>
                     </template>
                 </el-table-column>

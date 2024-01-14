@@ -329,9 +329,37 @@ namespace Song.ViewData.Methods
 
         }
         /// <summary>
+        /// 删除账号登录信息的记录
+        /// </summary>
+        /// <param name="id">登录信息记录的id，可以是多个，用逗号分隔</param>
+        /// <returns></returns>
+        [Admin]
+        [HttpDelete]
+        public int LoginLogDelete(string id)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(id)) return i;
+            string[] arr = id.Split(',');
+            foreach (string s in arr)
+            {
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IStudent>().StudentOnlineDelete(idval);
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
+        /// <summary>
         /// 账号登录信息的记录
         /// </summary>
-        /// <param name="orgid">机构id</param>
         /// <param name="acid">账号id</param>
         /// <param name="start">查询时间区间的起始时间</param>
         /// <param name="end">查询时间区间的结束时间</param>
