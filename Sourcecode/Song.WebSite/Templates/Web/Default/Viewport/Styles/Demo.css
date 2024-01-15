@@ -1,0 +1,12 @@
+﻿@charset "utf-8";
+
+#vapp {
+	padding: 10px 10px 80px 10px;
+	text-align: center;
+	background-image: linear-gradient(to right, rgb(203, 240, 255), rgb(0, 135, 189));
+}
+
+#chartsDOM {
+
+	margin: auto;
+}

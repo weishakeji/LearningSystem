@@ -1337,6 +1337,9 @@
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
+    <Content Include="Templates\Web\Default\Viewport\Demo.html" />
+    <Content Include="Templates\Web\Default\Viewport\Scripts\Demo.js" />
+    <Content Include="Templates\Web\Default\Viewport\Styles\Demo.css" />
     <Content Include="Templates\Web\_Public\CourseChat.html" />
     <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_live.js" />
@@ -3282,6 +3285,8 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\_Night\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Office\intro.json" />
     <Content Include="Utilities\AreaCodeInfo.csv" />
+    <Content Include="Utilities\ChinaMap\100000_full.json" />
+    <Content Include="Utilities\ChinaMap\110000_full.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
