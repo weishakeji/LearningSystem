@@ -38,7 +38,7 @@
                 </el-table-column>
                 <el-table-column label="浏览时长" width="100px">
                     <template slot-scope="scope" v-if="scope.row.Lso_BrowseTime>0">
-                        {{timeclac(scope.row.Lso_BrowseTime*30)}}
+                        {{timeclac(scope.row.Lso_BrowseTime)}}
                     </template>
                 </el-table-column>
                 <el-table-column label="设备信息" width="250px">

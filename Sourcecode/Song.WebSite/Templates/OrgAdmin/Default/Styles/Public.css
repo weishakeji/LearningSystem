@@ -113,7 +113,9 @@ dl, dd {
 .el-table {
 	height: calc(100% - 63px);
 }
-
+.el-table--border::after, .el-table--group::after, .el-table::before{
+	background-color:transparent !important;
+}
 .el-table__body-wrapper {
 	height: calc(100% - 41px);
 	overflow-y: auto;

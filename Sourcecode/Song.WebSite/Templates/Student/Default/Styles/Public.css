@@ -80,14 +80,16 @@ dl, dd {
 
 /*表格的内容滚动（标题栏固定）*/
 .el-table {
-	height: calc(100% - 63px);
+	height: calc(100% - 80px);
 }
 
 .el-table__body-wrapper {
 	height: calc(100% - 41px);
 	overflow-y: auto;
 }
-
+.el-table--border::after, .el-table--group::after, .el-table::before{
+	background-color:transparent !important;
+}
 /*表单行距*/
 
 .el-form-item {
