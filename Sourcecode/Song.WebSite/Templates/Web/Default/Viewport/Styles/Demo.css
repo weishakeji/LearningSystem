@@ -3,7 +3,7 @@
 #vapp {
 	padding: 10px 10px 80px 10px;
 	text-align: center;
-	background-image: linear-gradient(to right, rgb(218, 242, 252), rgb(114, 198, 231));
+	background-image: linear-gradient(to right, rgb(240 243 245), rgb(186 235 255));
 }
 
 #chartsDOM {

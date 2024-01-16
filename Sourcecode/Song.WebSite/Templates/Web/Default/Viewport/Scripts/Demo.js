@@ -89,16 +89,7 @@ $ready(function () {
                                     shadowOffsetY: 2 // 阴影垂直偏移
                                 }
                             },
-                            data: data.data
-                            /*
-                            data: [
-                                { name: '北京', value: 90, count: 30 },
-                                { name: '天津市', value: 70 },
-                                { name: '河北省', value: 50 },
-                                { name: '辽宁省', value: 50, count: 40 },
-                                { name: '吉林省', value: 50, count: 60 }
-                                // ... 更多省市数据
-                            ]*/
+                            data: data.data //统计数据                         
                         }
                     ],
                     // 提示框，鼠标移入
