@@ -399,7 +399,17 @@ namespace Song.ViewData.Methods
             result.Total = sum;
             return result;
         }
-
+        /// <summary>
+        /// 登录日志的统计信息
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="province">省份，当前省份下的所有地市数据</param>
+        /// <param name="city">地市名称，当前地市下所有区县数据</param>
+        /// <returns></returns>
+        public DataTable LoginLogsSummary(int orgid,string province,string city)
+        {
+            return Business.Do<IStudent>().LoginLogsSummary(orgid, province, city);
+        }
         #endregion
 
         #region 获取账号

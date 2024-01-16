@@ -746,6 +746,49 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
             return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginDate.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
         }
+        /// <summary>
+        /// 登录日志的统计信息
+        /// </summary>
+        /// <param name="province"></param>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        public DataTable LoginLogsSummary(int orgid, string province, string city)
+        {
+            string sql = string.Empty;
+            if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
+            {
+                sql = @"SELECT 
+                        CASE 
+                                WHEN Lso_Province = '' THEN 'Other'       
+                                ELSE Lso_Province
+                            END AS area
+                        ,count(*) as 'count' from LogForStudentOnline where {orgid} group by Lso_Province order by count desc";
+
+            }
+            else if (!string.IsNullOrWhiteSpace(province))
+            {
+                sql = @"SELECT 
+                        CASE 
+                                WHEN Lso_City = '' THEN 'Other'       
+                                ELSE Lso_City
+                            END AS area
+                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_Province='{area}'  group by Lso_City order by count desc";
+                sql = sql.Replace("{area}", province);
+            }
+            else if (!string.IsNullOrWhiteSpace(city))
+            {
+                sql = @"SELECT 
+                        CASE 
+                                WHEN Lso_District = '' THEN 'Other'       
+                                ELSE Lso_District
+                            END AS area
+                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_City='{area}'  group by Lso_District order by count desc";
+                sql = sql.Replace("{area}", city);
+            }
+            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];   
+        }
         #endregion
 
         #region 学员在线学习的记录 

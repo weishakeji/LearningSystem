@@ -272,6 +272,13 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, string name, string acname, int size, int index, out int countSum);
+        /// <summary>
+        /// 登录日志的统计信息
+        /// </summary>
+        /// <param name="province"></param>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        DataTable LoginLogsSummary(int orgid, string province, string city);
         #endregion
 
         #region 学员视频学习的记录        

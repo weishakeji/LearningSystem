@@ -3285,8 +3285,8 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\_Night\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Office\intro.json" />
     <Content Include="Utilities\AreaCodeInfo.csv" />
-    <Content Include="Utilities\ChinaMap\100000_full.json" />
     <Content Include="Utilities\ChinaMap\110000_full.json" />
+    <Content Include="Utilities\ChinaMap\china_full.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

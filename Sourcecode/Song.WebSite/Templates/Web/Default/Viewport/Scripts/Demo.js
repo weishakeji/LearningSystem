@@ -3,48 +3,53 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-
+            org: {}, //当前机构
+            datas: null  //统计数据
         },
         mounted: function () {
             var myChart = echarts.init($dom("#chartsDOM")[0]);
             console.log(myChart);
             // 显示 loading 动画
             myChart.showLoading();
+            //获取地图的图形数据
             this.getmapdata().then(function (data) {
-                console.error(data);
+                //console.error(data);
+                let mapdata = data.map; //地图的图形数据
+                console.log(data);
                 myChart.hideLoading();
                 // 注册地图(数据放在axios返回对象的data中哦)
-                echarts.registerMap('china', data);
+                echarts.registerMap('china', mapdata);
                 var option = {
                     title: {
                         text: '学 员 地 理 位 置 分 布 ',
-                        subtext: '登录数据分析',
+                        subtext: '-- 登录数据分析 --',
                         left: 'center',
                         top: 30,
                         textStyle: {
-                            color: '#333', // 标题文本颜色
+                            color: 'rgb(15 98 183)', // 标题文本颜色
                             fontSize: 25, // 标题字体大小
                             fontWeight: 'bold', // 标题字体加粗
                             letterSpacing: 2, // 字符间距
-                            textBorderColor: 'rgba(255, 255, 255, 0.5)', // 文字描边颜色
-                            textBorderWidth: 2, // 文字描边宽度
+                            textBorderColor: 'rgba(255, 255, 255, 0.8)', // 文字描边颜色
+                            textBorderWidth: 6, // 文字描边宽度
                             textShadowColor: 'rgba(0, 0, 0, 0.5)', // 文字阴影颜色
                             textShadowBlur: 10, // 文字阴影模糊程度
                             textShadowOffsetX: 0, // 文字阴影水平偏移
                             textShadowOffsetY: 0 // 文字阴影垂直偏移
                         },
                         subtextStyle: {
-                            fontSize: 18
+                            fontSize: 16
                         }
                     },
                     visualMap: {
                         min: 0,
-                        max: 100,
+                        max: data.max * 0.7,
                         calculable: true,
                         inRange: {
                             color: ['lightskyblue', 'yellow', 'orangered']
                         }
                     },
+                    //backgroundColor: '#f4f4f4', // 设置图表的背景色
                     series: [
                         {
                             name: '中国地图',
@@ -84,6 +89,8 @@ $ready(function () {
                                     shadowOffsetY: 2 // 阴影垂直偏移
                                 }
                             },
+                            data: data.data
+                            /*
                             data: [
                                 { name: '北京', value: 90, count: 30 },
                                 { name: '天津市', value: 70 },
@@ -91,7 +98,7 @@ $ready(function () {
                                 { name: '辽宁省', value: 50, count: 40 },
                                 { name: '吉林省', value: 50, count: 60 }
                                 // ... 更多省市数据
-                            ]
+                            ]*/
                         }
                     ],
                     // 提示框，鼠标移入
@@ -101,8 +108,14 @@ $ready(function () {
                         formatter: function (param) {
                             let data = param.data;
                             let count = data && data.count ? data.count : 0;
-                            return `${param.name}<br/>
-                            个数: ${count}`;;
+                            if (count > 0) {
+                                return `<b>${data.fullname}</b><br/>
+                            登录人次: ${count} 占比:${data.value}%`;
+                            } else {
+                                if (!data || !data.fullname) return param.name;
+                                return `<b>${data.fullname}</b><br/>
+                                登录人次: ${count}`;
+                            }
                         },
                     },
 
@@ -135,25 +148,78 @@ $ready(function () {
 
         },
         computed: {
-            //是否登录
-            islogin: t => !$api.isnull(t.account)
         },
         watch: {
-            'brw_posi': function (nv, ov) {
-                //if (nv.longitude > 0 && nv.latitude > 0)
-                this.getposi();
-            }
+
         },
         methods: {
             //获取地图数据
             getmapdata: function () {
-                var url = '/Utilities/ChinaMap/100000_full.json';
+                var th = this;
+                var url = '/Utilities/ChinaMap/china_full.json';
                 return new Promise(function (resolve, reject) {
-                    $dom.get(url, function (req) {
-                        console.log(req);
-                        resolve(req);
+                    $dom.get(url, function (mapdata) {
+                        th.getSummary().then(function (summary) {
+                            //计算总数
+                            let total = summary.reduce((total, obj) => total + obj.count, 0);
+                            var maxvalue = 0;       //地图数据项目中的最大value，是百分比
+                            //
+                            let data = [];      //图表数据
+                            let array = mapdata.features;
+                            for (let i = 0; i < mapdata.features.length; i++) {
+                                const el = mapdata.features[i];
+                                const id = el.id;   //行政区划的代码
+                                const name = el.properties.name; //行政区划的简名
+                                //从统计数据中查询，地图中的行政区划是简称，而统计数据中的行政区划是全称
+                                let item = summary.find(obj => obj.area.indexOf(name) > -1);
+                                if (item == null) {
+                                    data.push({
+                                        'name': name, 'value': 0, 'fullname': name, 'id': id, 'count': 0
+                                    });
+                                } else {
+                                    let percent = Math.floor(item.count / total * 1000) / 10;
+                                    maxvalue = percent > maxvalue ? percent : maxvalue;
+                                    data.push({
+                                        'name': name, 'value': percent,
+                                        'fullname': item.area, 'id': id, 'count': item.count
+                                    });
+                                }
+                            }
+                            //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
+                            resolve({ 'map': mapdata, 'data': data, 'max': maxvalue });
+                        });
                     });
                 });
+            },
+            //获取统计数据
+            getSummary: function () {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    //获取当前机构
+                    $api.get('Organization/Current').then(function (req) {
+                        if (req.data.success) {
+                            let org = req.data.result;
+                            // th.org = org;
+                            //当前机构下的登录数据统计
+                            $api.get('Account/LoginLogsSummary', { 'orgid': org.Org_ID, 'province': '', 'city': '' })
+                                .then(function (req) {
+                                    if (req.data.success) {
+                                        //th.datas = req.data.result;
+                                        resolve(req.data.result);
+                                    } else {
+                                        console.error(req.data.exception);
+                                        throw req.config.way + ' ' + req.data.message;
+                                    }
+                                }).catch(err => console.error(err))
+                                .finally(() => { });
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                });
+
             }
         }
     });
