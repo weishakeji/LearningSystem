@@ -43,10 +43,10 @@ $ready(function () {
                     },
                     visualMap: {
                         min: 0,
-                        max: data.max * 0.7,
+                        max: data.max * 1.2,
                         calculable: true,
                         inRange: {
-                            color: ['lightskyblue', 'yellow', 'orangered']
+                            color: ['#fff', 'lightskyblue', 'yellow', 'orangered']
                         }
                     },
                     //backgroundColor: '#f4f4f4', // 设置图表的背景色
@@ -120,7 +120,7 @@ $ready(function () {
                             // 点击在地图系列上
                             let data = params.data;
                             if (data == null) return;
-                            console.log('点击的地图区域名称：', data.name);
+                            console.log('点击的地图区域名称：', data.fullname);
                             console.log('行政区划编码：', data.id);
                             console.log('对应的数值：', data.value);
                             // 其他需要的操作
@@ -171,6 +171,7 @@ $ready(function () {
                                     });
                                 } else {
                                     let percent = Math.floor(item.count / total * 1000) / 10;
+                                    percent = isNaN(percent) ? 0 : percent;
                                     maxvalue = percent > maxvalue ? percent : maxvalue;
                                     data.push({
                                         'name': name, 'value': percent,
@@ -179,7 +180,7 @@ $ready(function () {
                                 }
                             }
                             //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
-                            resolve({ 'map': mapdata, 'data': data, 'max': maxvalue });
+                            resolve({ 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total });
                         });
                     });
                 });

@@ -423,7 +423,7 @@ namespace Song.ViewData.Methods
             //例如当某个行政单位没有访问记录时，在dt中是没有这一项的，将从area中补全该行政单位
             foreach (KeyValuePair<int, string> pair in area)
             {
-                DataRow row = dt.AsEnumerable().FirstOrDefault(dr => ((string)dr["area"]).Equals(pair.Value));
+                DataRow row = dt.AsEnumerable().FirstOrDefault(dr => pair.Value.Equals(dr.IsNull("area") ? "" : dr["area"].ToString()));
                 jarr.Add(new JObject(
                             new JProperty("area", pair.Value),
                             new JProperty("code", pair.Key),

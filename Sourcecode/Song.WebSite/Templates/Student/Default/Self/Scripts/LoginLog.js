@@ -67,7 +67,12 @@ $ready(function () {
                 if (mm < 60) return mm + ' 分钟';
                 let hh = Math.floor(mm / 60);
                 if (hh < 24) return hh + ' 小时' + (mm % 60 > 0 ? mm % 60 + '分钟' : '');
-            }
+            },
+            //地理位置
+            address: function (row) {
+                if (row.Lso_Province == row.Lso_City) return row.Lso_Province + row.Lso_District;
+                return row.Lso_Province + row.Lso_City + row.Lso_District;
+            },
         },
     });
 
