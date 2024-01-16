@@ -400,15 +400,37 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
-        /// 登录日志的统计信息
+        /// 登录日志的统计信息，如果province与city都为空，取省级单位的数据
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="province">省份，当前省份下的所有地市数据</param>
         /// <param name="city">地市名称，当前地市下所有区县数据</param>
         /// <returns></returns>
-        public DataTable LoginLogsSummary(int orgid,string province,string city)
+        public JArray LoginLogsSummary(int orgid, string province, string city)
         {
-            return Business.Do<IStudent>().LoginLogsSummary(orgid, province, city);
+            JArray jarr = new JArray();
+            //登录日志的统计数据
+            DataTable dt = Business.Do<IStudent>().LoginLogsSummary(orgid, province, city);
+            //行政区划(数据来自/Utilities/AreaCodeInfo.csv)
+            Dictionary<int, string> area = WeiSha.Core.LBS.Provinces();
+            if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
+                area = WeiSha.Core.LBS.Provinces();
+            else if (!string.IsNullOrWhiteSpace(province))
+                area = WeiSha.Core.LBS.Cities(province);
+            else if (!string.IsNullOrWhiteSpace(city))
+                area = WeiSha.Core.LBS.Districts(city);
+            //补全统计数据的行政区划信息，
+            //例如当某个行政单位没有访问记录时，在dt中是没有这一项的，将从area中补全该行政单位
+            foreach (KeyValuePair<int, string> pair in area)
+            {
+                DataRow row = dt.AsEnumerable().FirstOrDefault(dr => ((string)dr["area"]).Equals(pair.Value));
+                jarr.Add(new JObject(
+                            new JProperty("area", pair.Value),
+                            new JProperty("code", pair.Key),
+                            new JProperty("count", row != null ? Convert.ToInt32(row["count"].ToString()) : 0)
+                      ));
+            }
+            return jarr;
         }
         #endregion
 

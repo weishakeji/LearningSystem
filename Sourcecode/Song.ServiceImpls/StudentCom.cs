@@ -751,7 +751,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="province"></param>
         /// <param name="city"></param>
-        /// <returns></returns>
+        /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
         public DataTable LoginLogsSummary(int orgid, string province, string city)
         {
             string sql = string.Empty;
@@ -761,7 +761,8 @@ namespace Song.ServiceImpls
                         CASE 
                                 WHEN Lso_Province = '' THEN 'Other'       
                                 ELSE Lso_Province
-                            END AS area
+                            END AS 'area'
+                        ,MAX(lso_code) as 'code'
                         ,count(*) as 'count' from LogForStudentOnline where {orgid} group by Lso_Province order by count desc";
 
             }
@@ -771,7 +772,8 @@ namespace Song.ServiceImpls
                         CASE 
                                 WHEN Lso_City = '' THEN 'Other'       
                                 ELSE Lso_City
-                            END AS area
+                            END AS 'area'
+                        ,MAX(lso_code) as 'code'
                         ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_Province='{area}'  group by Lso_City order by count desc";
                 sql = sql.Replace("{area}", province);
             }
@@ -781,7 +783,8 @@ namespace Song.ServiceImpls
                         CASE 
                                 WHEN Lso_District = '' THEN 'Other'       
                                 ELSE Lso_District
-                            END AS area
+                            END AS 'area'
+                        ,MAX(lso_code) as 'code'
                         ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_City='{area}'  group by Lso_District order by count desc";
                 sql = sql.Replace("{area}", city);
             }

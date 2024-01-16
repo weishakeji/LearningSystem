@@ -128,7 +128,9 @@ $ready(function () {
                         if (params.seriesType === 'map') {
                             // 点击在地图系列上
                             let data = params.data;
+                            if (data == null) return;
                             console.log('点击的地图区域名称：', data.name);
+                            console.log('行政区划编码：', data.id);
                             console.log('对应的数值：', data.value);
                             // 其他需要的操作
                         }

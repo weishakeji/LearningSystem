@@ -273,11 +273,11 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, string name, string acname, int size, int index, out int countSum);
         /// <summary>
-        /// 登录日志的统计信息
+        /// 登录日志的统计信息，如果province与city都为空，取省级单位的数据
         /// </summary>
-        /// <param name="province"></param>
-        /// <param name="city"></param>
-        /// <returns></returns>
+        /// <param name="province">省份，当前省份下的所有地市数据</param>
+        /// <param name="city">地市名称，当前地市下所有区县数据</param>
+        /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
         DataTable LoginLogsSummary(int orgid, string province, string city);
         #endregion
 
