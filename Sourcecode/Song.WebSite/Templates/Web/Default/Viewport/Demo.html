@@ -9,7 +9,47 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div style="width:800px;height:600px" id="chartsDOM"></div>
+        <div style="width:800px;height:100%" id="chartsDOM"></div>
+        <div class="datatables">
+            <el-form ref="form" :inline="true" v-on:submit.native.prevent label-width="80px">
+                <el-form-item>
+                    <date_range @change="selectDate"></date_range>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" native-type="submit" plain class="el-icon-search" v-on:click="onserch()">
+                        查询
+                    </el-button>
+                </el-form-item>
+            </el-form>
+            <el-table ref="datatables" :stripe="true" :data="datas" tooltip-effect="dark" :height="tableHeight">
+                <el-table-column type="index" label="#" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span>{{scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="行政区划">
+                    <template slot-scope="scope">
+                        {{scope.row.fullname}}
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="登录人次" min-width="60" align="center">
+                    <template slot="header" slot-scope="scope">
+                        登录人次
+                    </template>
+                    <template slot-scope="scope">
+                        {{scope.row.count}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="占比" min-width="60" align="center">
+                    <template slot-scope="scope" v-if="scope.row.value>0">
+                        {{scope.row.value}} %
+                    </template>
+                </el-table-column>
+
+            </el-table>
+
+        </div>
     </div>
 
 

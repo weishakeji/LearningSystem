@@ -752,9 +752,39 @@ namespace Song.ServiceImpls
         /// <param name="province"></param>
         /// <param name="city"></param>
         /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
-        public DataTable LoginLogsSummary(int orgid, string province, string city)
+        public DataTable LoginLogsSummary(int orgid, DateTime? start, DateTime? end, string province, string city)
         {
-            string sql = string.Empty;
+            string sql = @"SELECT 
+                        CASE 
+                                WHEN {{field}} = '' THEN 'Other'       
+                                ELSE {{field}}
+                            END AS 'area'
+                        ,MAX(lso_code) as 'code'
+                        ,count(*) as 'count' from LogForStudentOnline where {{orgid}} and {{start}} and {{end}} and {{parent}}='{{area}}'  group by {{field}} order by count desc";
+            sql = sql.Replace("{{orgid}}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            sql = sql.Replace("{{start}}", start == null ? "1=1" : "Lso_LoginTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            sql = sql.Replace("{{end}}", end == null ? "1=1" : "Lso_LoginTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
+            if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
+            {
+                sql = sql.Replace("{{field}}", "Lso_Province");
+                sql = sql.Replace("{{parent}}", "''");
+                sql = sql.Replace("{{area}}", "");
+            }
+            else if (!string.IsNullOrWhiteSpace(province))
+            {
+                sql = sql.Replace("{{field}}", "Lso_City");
+                sql = sql.Replace("{{parent}}", "Lso_Province");
+                sql = sql.Replace("{{area}}", province);
+            }
+            else if (!string.IsNullOrWhiteSpace(city))
+            {
+                sql = sql.Replace("{{field}}", "Lso_District");
+                sql = sql.Replace("{{parent}}", "Lso_City");
+                sql = sql.Replace("{{area}}", city);
+            }
+
+              
+            /*
             if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
             {
                 sql = @"SELECT 
@@ -763,7 +793,7 @@ namespace Song.ServiceImpls
                                 ELSE Lso_Province
                             END AS 'area'
                         ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {orgid} group by Lso_Province order by count desc";
+                        ,count(*) as 'count' from LogForStudentOnline where {{orgid}} and {{start}} and {{end}} group by Lso_Province order by count desc";
 
             }
             else if (!string.IsNullOrWhiteSpace(province))
@@ -774,7 +804,7 @@ namespace Song.ServiceImpls
                                 ELSE Lso_City
                             END AS 'area'
                         ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_Province='{area}'  group by Lso_City order by count desc";
+                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_Province='{{area}}'  group by Lso_City order by count desc";
                 sql = sql.Replace("{area}", province);
             }
             else if (!string.IsNullOrWhiteSpace(city))
@@ -785,10 +815,10 @@ namespace Song.ServiceImpls
                                 ELSE Lso_District
                             END AS 'area'
                         ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_City='{area}'  group by Lso_District order by count desc";
+                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_City='{{area}'  group by Lso_District order by count desc";
                 sql = sql.Replace("{area}", city);
-            }
-            sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            }*/
+
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             return ds.Tables[0];   
         }

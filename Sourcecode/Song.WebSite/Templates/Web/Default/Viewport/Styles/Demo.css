@@ -1,12 +1,42 @@
 ﻿@charset "utf-8";
 
-#vapp {
-	padding: 10px 10px 80px 10px;
-	text-align: center;
+body {
 	background-image: linear-gradient(to right, rgb(240 243 245), rgb(186 235 255));
 }
 
-#chartsDOM {
+#vapp {
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	overflow-y: hidden;
+}
 
-	margin: auto;
+#chartsDOM, .datatables {
+
+	margin-left: 10px;
+
+}
+
+.datatables {
+	width: 300px;
+	flex: 1;
+}
+
+.datatables .el-form {
+	display: flex;
+	margin: 0px;
+	padding: 0px;
+}
+.datatables .el-form>div:first-child{
+	flex: 1;
+}
+.datatables .el-form>div:last-child{
+	
+	margin-right: 0px;
+}
+.datatables .el-form>div>div{
+	width: 100%;
+}
+.datatables .el-form>div>div>div{
+	width: 100% !important;
 }

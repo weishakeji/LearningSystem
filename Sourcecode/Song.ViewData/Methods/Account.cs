@@ -406,11 +406,11 @@ namespace Song.ViewData.Methods
         /// <param name="province">省份，当前省份下的所有地市数据</param>
         /// <param name="city">地市名称，当前地市下所有区县数据</param>
         /// <returns></returns>
-        public JArray LoginLogsSummary(int orgid, string province, string city)
+        public JArray LoginLogsSummary(int orgid, DateTime? start, DateTime? end, string province, string city)
         {
             JArray jarr = new JArray();
             //登录日志的统计数据
-            DataTable dt = Business.Do<IStudent>().LoginLogsSummary(orgid, province, city);
+            DataTable dt = Business.Do<IStudent>().LoginLogsSummary(orgid, start, end, province, city);
             //行政区划(数据来自/Utilities/AreaCodeInfo.csv)
             Dictionary<int, string> area = WeiSha.Core.LBS.Provinces();
             if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))

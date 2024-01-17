@@ -100,10 +100,10 @@ Vue.component('date_range', {
         //选择变动时触发事件
         evt_change: function () {
             //起始时间只保留日期部分，例如 2023-10-01 00:00:00
-            let start = this.todate(this.selectDate[0]);
+            let start = this.selectDate != null ? this.todate(this.selectDate[0]) : '';
             //结束时间由当前日期加一，即查询条件中包含结束那一天的当天
-            let end = this.todate(this.selectDate[1]);
-            end.setDate(end.getDate() + 1);          
+            let end = this.selectDate != null ? this.todate(this.selectDate[1]) : '';
+            if (end != null && end != '') end.setDate(end.getDate() + 1);
             this.$emit('change', start, end);
         },
         //只保留时间部分
