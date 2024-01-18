@@ -236,7 +236,7 @@ $ready(function () {
                                     const item = summary[i];
                                     data.push({
                                         'name': item.area, 'value': item.count,
-                                        'fullname': '(未知区域)', 'id': -1, 'count': item.count
+                                        'fullname': '(其它)', 'id': -1, 'count': item.count
                                     });
                                 }
                                 //按登录次数倒序
