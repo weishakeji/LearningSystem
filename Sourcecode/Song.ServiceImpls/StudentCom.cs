@@ -755,12 +755,14 @@ namespace Song.ServiceImpls
         public DataTable LoginLogsSummary(int orgid, DateTime? start, DateTime? end, string province, string city)
         {
             string sql = @"SELECT 
-                        CASE 
-                                WHEN {{field}} = '' THEN 'Other'       
+                        CASE WHEN {{field}} = '' THEN 'Other'       
                                 ELSE {{field}}
-                            END AS 'area'
+                             END AS 'area'
                         ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {{orgid}} and {{start}} and {{end}} and {{parent}}='{{area}}'  group by {{field}} order by count desc";
+                        ,count(*) as 'count' 
+                FROM LogForStudentOnline 
+                WHERE {{orgid}} and {{start}} and {{end}} and {{parent}}='{{area}}'  
+                GROUP BY {{field}} order by count desc";
             sql = sql.Replace("{{orgid}}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
             sql = sql.Replace("{{start}}", start == null ? "1=1" : "Lso_LoginTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sql = sql.Replace("{{end}}", end == null ? "1=1" : "Lso_LoginTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");

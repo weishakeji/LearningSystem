@@ -428,7 +428,18 @@ namespace Song.ViewData.Methods
                             new JProperty("area", pair.Value),
                             new JProperty("code", pair.Key),
                             new JProperty("count", row != null ? Convert.ToInt32(row["count"].ToString()) : 0)
-                      ));
+                      ));      
+                if(row!=null) dt.Rows.Remove(row);
+            }
+            //其它区域，没有在行政区划内的数值，可能是没有采集到地理信息
+            int sum = dt.AsEnumerable().Sum(row => row.Field<int>("count"));
+            if (sum > 0)
+            {
+                jarr.Add(new JObject(
+                           new JProperty("area", "Other"),
+                           new JProperty("code", -1),
+                           new JProperty("count", sum)
+                     ));
             }
             return jarr;
         }

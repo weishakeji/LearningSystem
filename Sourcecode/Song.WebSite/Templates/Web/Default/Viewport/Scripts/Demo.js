@@ -214,12 +214,13 @@ $ready(function () {
                                     const id = el.id;   //行政区划的代码
                                     const name = el.properties.name; //行政区划的简名
                                     //从统计数据中查询，地图中的行政区划是简称，而统计数据中的行政区划是全称
-                                    let item = summary.find(obj => obj.area.indexOf(name) > -1);
-                                    if (item == null) {
+                                    let index = summary.findIndex(obj => obj.area.indexOf(name) > -1);
+                                    if (index < 0) {
                                         data.push({
                                             'name': name, 'value': 0, 'fullname': name, 'id': id, 'count': 0
                                         });
                                     } else {
+                                        let item = summary[index];
                                         let percent = Math.floor(item.count / total * 1000) / 10;
                                         percent = isNaN(percent) ? 0 : percent;
                                         maxvalue = percent > maxvalue ? percent : maxvalue;
@@ -228,6 +229,15 @@ $ready(function () {
                                             'fullname': item.area, 'id': id, 'count': item.count
                                         });
                                     }
+                                    summary.splice(index, 1);
+                                }
+                                //其它区域
+                                for (let i = 0; i < summary.length; i++) {
+                                    const item = summary[i];
+                                    data.push({
+                                        'name': item.area, 'value': item.count,
+                                        'fullname': '(未知区域)', 'id': -1, 'count': item.count
+                                    });
                                 }
                                 //按登录次数倒序
                                 data.sort((a, b) => b.count - a.count);

@@ -3288,6 +3288,9 @@
     <Content Include="Utilities\ChinaMap\110000_full.json" />
     <Content Include="Utilities\ChinaMap\china_full.json" />
     <Content Include="Utilities\ChinaMap\410000_full.json" />
+    <Content Include="Utilities\ChinaMap\440000_full.json" />
+    <Content Include="Utilities\ChinaMap\810000_full.json" />
+    <Content Include="Utilities\ChinaMap\820000_full.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
