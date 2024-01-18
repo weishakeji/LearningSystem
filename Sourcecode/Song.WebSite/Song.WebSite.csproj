@@ -3287,6 +3287,7 @@
     <Content Include="Utilities\AreaCodeInfo.csv" />
     <Content Include="Utilities\ChinaMap\110000_full.json" />
     <Content Include="Utilities\ChinaMap\china_full.json" />
+    <Content Include="Utilities\ChinaMap\410000_full.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

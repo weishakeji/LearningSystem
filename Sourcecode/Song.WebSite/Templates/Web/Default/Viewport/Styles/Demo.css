@@ -11,12 +11,30 @@ body {
 	overflow-y: hidden;
 }
 
-#chartsDOM, .datatables {
-
+#vapp>div {
 	margin-left: 10px;
-
 }
 
+/*左侧地图区域*/
+.map {
+	width: 800px;
+	height: 100%;
+	position: relative;
+}
+
+#chartsDOM {
+	height: 100%;
+	width: 100%;
+}
+#province_map{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+/*右侧数据列表*/
 .datatables {
 	width: 300px;
 	flex: 1;
@@ -27,16 +45,20 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-.datatables .el-form>div:first-child{
+
+.datatables .el-form>div:first-child {
 	flex: 1;
 }
-.datatables .el-form>div:last-child{
-	
+
+.datatables .el-form>div:last-child {
+
 	margin-right: 0px;
 }
-.datatables .el-form>div>div{
+
+.datatables .el-form>div>div {
 	width: 100%;
 }
-.datatables .el-form>div>div>div{
+
+.datatables .el-form>div>div>div {
 	width: 100% !important;
 }

@@ -9,19 +9,25 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div style="width:800px;height:100%" id="chartsDOM"></div>
+        <div class="map">
+            <div id="chartsDOM"></div>
+            <province ref="province" :option="option" :orgid="org.Org_ID"></province>
+        </div>
+
         <div class="datatables">
             <el-form ref="form" :inline="true" v-on:submit.native.prevent label-width="80px">
                 <el-form-item>
                     <date_range @change="selectDate"></date_range>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" native-type="submit" plain class="el-icon-search" v-on:click="onserch()">
+                    <el-button type="primary" native-type="submit" :loading="loading" plain class="el-icon-search"
+                        v-on:click="onserch()">
                         查询
                     </el-button>
                 </el-form-item>
             </el-form>
-            <el-table ref="datatables" :stripe="true" :data="datas" tooltip-effect="dark" :height="tableHeight">
+            <el-table ref="datatables" :stripe="true" v-loading="loading" :data="datas" tooltip-effect="dark"
+                :height="tableHeight">
                 <el-table-column type="index" label="#" width="80" align="center">
                     <template slot-scope="scope">
                         <span>{{scope.$index + 1}}</span>
