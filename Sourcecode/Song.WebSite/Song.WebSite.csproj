@@ -1337,9 +1337,9 @@
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
-    <Content Include="Templates\Web\Default\Viewport\Demo.html" />
-    <Content Include="Templates\Web\Default\Viewport\Scripts\Demo.js" />
-    <Content Include="Templates\Web\Default\Viewport\Styles\Demo.css" />
+    <Content Include="Templates\Web\Default\Viewport\Login.html" />
+    <Content Include="Templates\Web\Default\Viewport\Scripts\Login.js" />
+    <Content Include="Templates\Web\Default\Viewport\Styles\Login.css" />
     <Content Include="Templates\Web\_Public\CourseChat.html" />
     <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_live.js" />
