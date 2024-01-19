@@ -1464,6 +1464,12 @@
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
     <Content Include="Utilities\baiduMap\map_show.js" />
     <Content Include="Utilities\baiduMap\map_setup.js" />
+    <Content Include="Utilities\ChinaMap\110000_full.json" />
+    <Content Include="Utilities\ChinaMap\410000_full.json" />
+    <Content Include="Utilities\ChinaMap\440000_full.json" />
+    <Content Include="Utilities\ChinaMap\810000_full.json" />
+    <Content Include="Utilities\ChinaMap\820000_full.json" />
+    <Content Include="Utilities\ChinaMap\china_full.json" />
     <Content Include="Utilities\Components\btngroup.js" />
     <Content Include="Utilities\Components\Question\exam.js" />
     <Content Include="Utilities\Components\Question\Styles\exam.css" />
@@ -3285,12 +3291,35 @@
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\_Night\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Office\intro.json" />
     <Content Include="Utilities\AreaCodeInfo.csv" />
-    <Content Include="Utilities\ChinaMap\110000_full.json" />
-    <Content Include="Utilities\ChinaMap\china_full.json" />
-    <Content Include="Utilities\ChinaMap\410000_full.json" />
-    <Content Include="Utilities\ChinaMap\440000_full.json" />
-    <Content Include="Utilities\ChinaMap\810000_full.json" />
-    <Content Include="Utilities\ChinaMap\820000_full.json" />
+    <Content Include="Utilities\ChinaMap\120000_full.json" />
+    <Content Include="Utilities\ChinaMap\130000_full.json" />
+    <Content Include="Utilities\ChinaMap\140000_full.json" />
+    <Content Include="Utilities\ChinaMap\150000_full.json" />
+    <Content Include="Utilities\ChinaMap\210000_full.json" />
+    <Content Include="Utilities\ChinaMap\220000_full.json" />
+    <Content Include="Utilities\ChinaMap\230000_full.json" />
+    <Content Include="Utilities\ChinaMap\310000_full.json" />
+    <Content Include="Utilities\ChinaMap\320000_full.json" />
+    <Content Include="Utilities\ChinaMap\330000_full.json" />
+    <Content Include="Utilities\ChinaMap\340000_full.json" />
+    <Content Include="Utilities\ChinaMap\350000_full.json" />
+    <Content Include="Utilities\ChinaMap\360000_full.json" />
+    <Content Include="Utilities\ChinaMap\370000_full.json" />
+    <Content Include="Utilities\ChinaMap\420000_full.json" />
+    <Content Include="Utilities\ChinaMap\430000_full.json" />
+    <Content Include="Utilities\ChinaMap\450000_full.json" />
+    <Content Include="Utilities\ChinaMap\460000_full.json" />
+    <Content Include="Utilities\ChinaMap\500000_full.json" />
+    <Content Include="Utilities\ChinaMap\510000_full.json" />
+    <Content Include="Utilities\ChinaMap\520000_full.json" />
+    <Content Include="Utilities\ChinaMap\530000_full.json" />
+    <Content Include="Utilities\ChinaMap\540000_full.json" />
+    <Content Include="Utilities\ChinaMap\610000_full.json" />
+    <Content Include="Utilities\ChinaMap\620000_full.json" />
+    <Content Include="Utilities\ChinaMap\630000_full.json" />
+    <Content Include="Utilities\ChinaMap\640000_full.json" />
+    <Content Include="Utilities\ChinaMap\650000_full.json" />
+    <Content Include="Utilities\ChinaMap\710000_full.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
