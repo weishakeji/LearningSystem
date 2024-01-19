@@ -323,7 +323,7 @@ $ready(function () {
                     });     */
                     th.myChart.setOption(th.option);
                     th.myChart.setOption({
-                        series: [{ name: '', map: th.code, data: {} }],
+                        series: [{ name: '', map: th.code, zoom: 0.8, data: {} }],
                     });
                     //查询统计并加载数据，前面只是显示地图
                     //th.onserch();
