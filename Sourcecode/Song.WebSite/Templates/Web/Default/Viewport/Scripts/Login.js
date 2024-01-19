@@ -272,14 +272,6 @@ $ready(function () {
                 //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
                 return { 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total };
             },
-            //地图的点击事件
-            eventMapclick: function (data) {
-                console.log('地图区域名称：', data.fullname);
-                console.log('行政区划编码：', data.id);
-                console.log('数值：', data.value);
-                //显示省级区域详图
-                this.$refs['province'].show(data.id, data.fullname);
-            }
         }
     });
     //省级区划的地图
@@ -305,8 +297,17 @@ $ready(function () {
             option: {
                 handler: function (nv, ov) {
                     if (nv == null) return;
-                    //this.myoption = $api.clone(nv);
-                    //this.myoption['series'][0].data = null;
+                    this.myoption = $api.clone(nv);
+                    //地图样式
+                    let series = this.myoption['series'][0];
+                    series.zoom = 0.8;    //地图缩放比例
+                    //字符样式
+                    let itemStyle = series.itemStyle;
+                    itemStyle.normal.borderColor = '#999';
+                    itemStyle.normal.borderWidth = 2;
+                    //比例图
+                    let inRange = this.myoption.visualMap.inRange;
+                    inRange.color = ['#fffee1', 'yellow', 'orangered'];
                 }, immediate: true
             },
             display: function (nv, ov) {
@@ -339,11 +340,10 @@ $ready(function () {
                     th.mapdata = mapdata;
                     th.display = true;
                     th.myChart.hideLoading();
-
-                    th.option['series'][0].zoom = 0.8;
-                    th.myChart.setOption(th.option);
+                    //
+                    th.myChart.setOption(th.myoption);
                     th.myChart.setOption({
-                        series: [{ name: '', map: th.code, data: {} }],
+                        series: [{ name: th.area, map: th.code }],
                     });
                     //查询统计并加载数据，前面只是显示地图
                     th.onserch();
@@ -371,21 +371,8 @@ $ready(function () {
                     th.total = data.total;
                     console.log(data);
                     th.myChart.setOption({
-                        series: [{
-                            data: th.datas,
-                            itemStyle: {
-                                normal: {
-                                    borderColor: '#999',
-                                    borderWidth: 2
-                                }
-                            }
-                        }],
-                        visualMap: {
-                            max: data.max > 0 ? data.max : 1,
-                            inRange: {
-                                color: ['#fffee1', 'yellow', 'orangered']
-                            }
-                        },
+                        series: [{ data: th.datas }],
+                        visualMap: { max: data.max > 0 ? data.max : 1 },
                         title: {
                             text: th.area.split('').join('  '),
                             subtext: '-- 登录数据分析 (共' + th.total + '人次) --'
