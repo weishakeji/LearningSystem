@@ -156,7 +156,13 @@ $ready(function () {
                     th.myChart.on('click', params => {
                         if (params.componentType != 'series' || params.seriesType != 'map') return;
                         if (params.data == null) return;
-                        th.eventMapclick(params.data);
+                        //
+                        let data = params.data;
+                        console.log('地图区域名称：', data.fullname);
+                        console.log('行政区划编码：', data.id);
+                        console.log('数值：', data.value);
+                        //显示省级区域详图
+                        th.$refs['province'].show(data.id, data.fullname);
                     });
                     th.myChart.setOption(th.option);
                     //查询统计并加载数据，前面只是显示地图
@@ -211,8 +217,6 @@ $ready(function () {
                         .then(function (req) {
                             if (req.data.success) {
                                 let result = th.calcSummary(mapdata, req.data.result);
-                                //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
-                                //resolve({ 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total });
                                 resolve(result);
                             } else {
                                 console.error(req.data.exception);
@@ -255,8 +259,11 @@ $ready(function () {
                 //其它区域
                 for (let i = 0; i < logdata.length; i++) {
                     const item = logdata[i];
+                    if (item.count < 1) continue;
+                    let percent = Math.floor(item.count / total * 1000) / 10;
+                    percent = isNaN(percent) ? 0 : percent;
                     data.push({
-                        'name': item.area, 'value': item.count,
+                        'name': item.area, 'value': percent,
                         'fullname': '(其它)', 'id': -1, 'count': item.count
                     });
                 }
