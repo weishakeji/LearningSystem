@@ -68,7 +68,7 @@ $ready(function () {
                             emphasis: {// 也是选中样式
                                 borderWidth: 2,
                                 borderColor: '#999',
-                                areaColor: 'rgba(255,255,255,0.6)',
+                                areaColor: 'rgba(255,255,255,1)',
                                 label: {
                                     show: true,
                                     textStyle: {
@@ -123,7 +123,13 @@ $ready(function () {
         },
         computed: {
             //表格高度
-            tableHeight: () => document.body.clientHeight - 70
+            tableHeight: () => document.body.clientHeight - 70,
+            //右侧显示的列表数据
+            listdatas: function () {
+                let prov = this.$refs['province'];
+                if (prov && prov.datas != null) return prov.datas;
+                return this.datas;
+            }
         },
         watch: {
             datas: function (nv, ov) {
@@ -180,70 +186,34 @@ $ready(function () {
             onserch: function () {
                 var th = this;
                 th.loading = true;
-                th.getSummary().then(function (data) {
+                th.getSummary(th.mapdata).then(function (data) {
                     th.datas = data.data;
                     th.total = data.total;
                     th.myChart.setOption({
                         series: [{ data: th.datas }],
-                        visualMap: {
-                            max: data.max
-                        },
+                        visualMap: { max: data.max > 0 ? data.max : 1 },
                         title: {
-                            'subtext': '-- 登录数据分析 (共' + th.total + '人次) --'
+                            subtext: '-- 登录数据分析 (共' + th.total + '人次) --'
                         }
                     });
-                    //console.log(data);
+                    th.$refs['province'].hide();
                 }).finally(() => th.loading = false);
             },
             //获取统计数据,并结合地图数据，生成所需的数据格式
-            getSummary: function () {
+            //province:行政区划的名称
+            getSummary: function (mapdata, province) {
                 var th = this;
+                var form = $api.clone(th.form);
+                if (province != null) form.province = province;
                 return new Promise(function (resolve, reject) {
                     //当前机构下的登录数据统计
-                    $api.get('Account/LoginLogsSummary', th.form)
+                    $api.get('Account/LoginLogsSummary', form)
                         .then(function (req) {
                             if (req.data.success) {
-                                let summary = req.data.result;
-                                //计算总数
-                                let total = summary.reduce((total, obj) => total + obj.count, 0);
-                                var maxvalue = 0;       //地图数据项目中的最大value，是百分比
-                                //
-                                let data = [];      //图表数据
-                                let mapdata = th.mapdata == null ? [] : th.mapdata.features;
-                                for (let i = 0; i < mapdata.length; i++) {
-                                    const el = mapdata[i];
-                                    const id = el.id;   //行政区划的代码
-                                    const name = el.properties.name; //行政区划的简名
-                                    //从统计数据中查询，地图中的行政区划是简称，而统计数据中的行政区划是全称
-                                    let index = summary.findIndex(obj => obj.area.indexOf(name) > -1);
-                                    if (index < 0) {
-                                        data.push({
-                                            'name': name, 'value': 0, 'fullname': name, 'id': id, 'count': 0
-                                        });
-                                    } else {
-                                        let item = summary[index];
-                                        let percent = Math.floor(item.count / total * 1000) / 10;
-                                        percent = isNaN(percent) ? 0 : percent;
-                                        maxvalue = percent > maxvalue ? percent : maxvalue;
-                                        data.push({
-                                            'name': name, 'value': percent,
-                                            'fullname': item.area, 'id': id, 'count': item.count
-                                        });
-                                    }
-                                    summary.splice(index, 1);
-                                }
-                                //其它区域
-                                for (let i = 0; i < summary.length; i++) {
-                                    const item = summary[i];
-                                    data.push({
-                                        'name': item.area, 'value': item.count,
-                                        'fullname': '(其它)', 'id': -1, 'count': item.count
-                                    });
-                                }
-                                //按登录次数倒序
-                                data.sort((a, b) => b.count - a.count);
+                                let result = th.calcSummary(mapdata, req.data.result);
                                 //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
-                                resolve({ 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total });
+                                //resolve({ 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total });
+                                resolve(result);
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
@@ -251,27 +221,57 @@ $ready(function () {
                         }).catch(err => console.error(err))
                         .finally(() => { });
                 });
-
+            },
+            //计算地图数据，生成所需的数据格式
+            calcSummary: function (mapdata, logdata) {
+                //计算总数
+                let total = logdata.reduce((total, obj) => total + obj.count, 0);
+                var maxvalue = 0;       //地图数据项目中的最大value，是百分比
+                //
+                let data = [];      //图表数据
+                let features = mapdata == null ? [] : mapdata.features;
+                for (let i = 0; i < features.length; i++) {
+                    const el = features[i];
+                    const id = el.id ? el.id : el.properties.adcode;   //行政区划的代码
+                    const name = el.properties.name; //行政区划的简名
+                    //从统计数据中查询，地图中的行政区划是简称，而统计数据中的行政区划是全称
+                    let index = logdata.findIndex(obj => obj.area.indexOf(name) > -1);
+                    if (index < 0) {
+                        data.push({
+                            'name': name, 'value': 0, 'fullname': name, 'id': id, 'count': 0
+                        });
+                    } else {
+                        let item = logdata[index];
+                        let percent = Math.floor(item.count / total * 1000) / 10;
+                        percent = isNaN(percent) ? 0 : percent;
+                        maxvalue = percent > maxvalue ? percent : maxvalue;
+                        data.push({
+                            'name': name, 'value': percent,
+                            'fullname': item.area, 'id': id, 'count': item.count
+                        });
+                        logdata.splice(index, 1);
+                    }
+                }
+                //其它区域
+                for (let i = 0; i < logdata.length; i++) {
+                    const item = logdata[i];
+                    data.push({
+                        'name': item.area, 'value': item.count,
+                        'fullname': '(其它)', 'id': -1, 'count': item.count
+                    });
+                }
+                //按登录次数倒序
+                data.sort((a, b) => b.count - a.count);
+                //分别是：地图图形数据（行政区划的线框坐标），每个省市的统计数据（登录数据的人次），最大平均值
+                return { 'map': mapdata, 'data': data, 'max': maxvalue, 'total': total };
             },
             //地图的点击事件
             eventMapclick: function (data) {
                 console.log('地图区域名称：', data.fullname);
                 console.log('行政区划编码：', data.id);
                 console.log('数值：', data.value);
-                this.$refs['province'].show(data.id);
-                return;
-                var th = this;
-                // 其他需要的操作
-                th.getmapdata(data.id).then(function (mapdata) {
-                    console.log(mapdata);
-                    //;
-                    echarts.registerMap('china_' + data.id, mapdata);
-
-                    th.myChart.setOption({
-                        series: [{ map: 'china_' + data.id, zoom: 0.9 }],
-
-                    });
-                });
+                //显示省级区域详图
+                this.$refs['province'].show(data.id, data.fullname);
             }
         }
     });
@@ -286,11 +286,25 @@ $ready(function () {
                 display: false,     //是否显示
                 datas: null,    //统计数据
                 total: 0,        //登录人次的总数
+
+                mapdata: [],         //地图数据
+                myChart: null,       //地图对象
+                myoption: null,        //地图的配置项
                 loading: false,
             }
         },
         watch: {
-
+            //地图的配置项
+            option: {
+                handler: function (nv, ov) {
+                    if (nv == null) return;
+                    //this.myoption = $api.clone(nv);
+                    //this.myoption['series'][0].data = null;
+                }, immediate: true
+            },
+            display: function (nv, ov) {
+                if (!nv) this.datas = null;
+            }
         },
         computed: {
         },
@@ -298,10 +312,13 @@ $ready(function () {
 
         },
         methods: {
-            show: function (code) {
-
+            show: function (code, area) {
                 this.code = code;
+                this.area = area;
                 this.createmap();
+            },
+            hide: function () {
+                this.display = false;
             },
             //创建地图
             createmap: function () {
@@ -315,37 +332,60 @@ $ready(function () {
                     th.mapdata = mapdata;
                     th.display = true;
                     th.myChart.hideLoading();
-                    /*
-                    th.myChart.on('click', params => {
-                        if (params.componentType != 'series' || params.seriesType != 'map') return;
-                        if (params.data == null) return;
-                        //th.eventMapclick(params.data);
-                    });     */
+
+                    th.option['series'][0].zoom = 0.8;
                     th.myChart.setOption(th.option);
                     th.myChart.setOption({
-                        series: [{ name: '', map: th.code, zoom: 0.8, data: {} }],
+                        series: [{ name: '', map: th.code, data: {} }],
                     });
                     //查询统计并加载数据，前面只是显示地图
-                    //th.onserch();
+                    th.onserch();
                 });
-                /*
-                window.addEventListener("resize", () => {
-                    if (th.myChart != null)
-                        th.myChart.resize();
-                });*/
             },
+            //获取地图基础数据
             getmapdata: function (code) {
                 var mapid = code == null ? 'china' : code;  //地图标识
                 var url = '/Utilities/ChinaMap/{code}_full.json';
                 return new Promise(function (resolve, reject) {
                     let mapdata = echarts.getMap(mapid);
-                    if (mapdata) resolve(mapdata);
+                    if (mapdata && mapdata.geoJSON) resolve(mapdata.geoJSON);
                     else $dom.get(url.replace('{code}', mapid), result => {
                         echarts.registerMap(mapid, result);
                         resolve(result);
                     });
                 });
-            }
+            },
+            //查询统计数据
+            onserch: function () {
+                var th = this;
+                th.loading = true;
+                th.$parent.getSummary(th.mapdata, th.area).then(function (data) {
+                    th.datas = data.data;
+                    th.total = data.total;
+                    console.log(data);
+                    th.myChart.setOption({
+                        series: [{
+                            data: th.datas,
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#999',
+                                    borderWidth: 2
+                                }
+                            }
+                        }],
+                        visualMap: {
+                            max: data.max > 0 ? data.max : 1,
+                            inRange: {
+                                color: ['#fffee1', 'yellow', 'orangered']
+                            }
+                        },
+                        title: {
+                            text: th.area.split('').join('  '),
+                            subtext: '-- 登录数据分析 (共' + th.total + '人次) --'
+                        }
+                    });
+                }).finally(() => th.loading = false);
+            },
         },
 
         template: `<div id="province_map" :style="'visibility:'+(display ? 'visible' : 'hidden')" @click="display=false">
