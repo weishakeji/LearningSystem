@@ -292,6 +292,15 @@ namespace Song.ViewData.Methods
             return dic;
         }
         /// <summary>
+        /// 通过IP地址计算位置
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public WeiSha.Core.Param.Method.Position PositionIP(string ip)
+        {
+            return new WeiSha.Core.Param.Method.Position(ip);
+        }
+        /// <summary>
         /// 上传文件的路径
         /// </summary>
         /// <param name="key">来自web.config中Upload的key值</param>

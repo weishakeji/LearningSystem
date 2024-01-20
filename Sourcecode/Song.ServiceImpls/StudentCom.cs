@@ -720,10 +720,10 @@ namespace Song.ServiceImpls
                     wc.And(LogForStudentOnline._.Lso_Platform == platform);
                 }
             }
-            if (start != null) wc.And(LogForStudentOnline._.Lso_LoginDate >= (DateTime)start);
-            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginDate <= (DateTime)end);
+            if (start != null) wc.And(LogForStudentOnline._.Lso_LoginTime >= (DateTime)start);
+            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime <= (DateTime)end);
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
-            return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginDate.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
+            return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_CrtTime.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
         }
         public LogForStudentOnline[] LogForLoginPager(int orgid, int acid, string platform, DateTime? start, DateTime? end, string name, string acname, int size, int index, out int countSum)
         {
@@ -738,13 +738,13 @@ namespace Song.ServiceImpls
                     wc.And(LogForStudentOnline._.Lso_Platform == platform);
                 }
             }
-            if (start != null) wc.And(LogForStudentOnline._.Lso_LoginDate >= (DateTime)start);
-            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginDate <= (DateTime)end);
+            if (start != null) wc.And(LogForStudentOnline._.Lso_LoginTime >= (DateTime)start);
+            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime <= (DateTime)end);
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Like("%" + name + "%"));
             if (!string.IsNullOrWhiteSpace(acname) && acname.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Like("%" + acname + "%"));
 
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
-            return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginDate.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
+            return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_CrtTime.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
         }
         /// <summary>
         /// 登录日志的统计信息
