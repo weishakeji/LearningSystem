@@ -283,7 +283,7 @@ $ready(function () {
     //省级区划的地图
     Vue.component('province', {
         //code:行政区划的编码
-        //area:行政区划的名称
+        //area:行政区划的全称，来自登录日志的计算数据
         //option:地图的配置项
         props: ['code', 'area', 'option'],
         data: function () {
@@ -292,7 +292,7 @@ $ready(function () {
                 datas: null,        //统计数据(在地图要显示的数据)
                 total: 0,        //登录人次的总数
 
-                name: '',
+                name: '',           //省份的名称（来自地图数据，不是datas)
 
                 mapdata: [],         //地图数据(行政区划地图绘制数据)
                 myChart: null,       //地图对象
@@ -354,6 +354,10 @@ $ready(function () {
 
         },
         methods: {
+            //显示组件
+            //code:行政区划的编码
+            //area:行政区划的全称，来自登录日志的计算数据
+            //name:行政区划的简称，来自地图的地形数据
             show: function (code, area, name) {
                 this.code = code;
                 this.area = area;
