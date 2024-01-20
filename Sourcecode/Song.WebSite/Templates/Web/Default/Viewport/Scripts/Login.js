@@ -315,10 +315,10 @@ $ready(function () {
                     itemStyle.normal.borderColor = '#777';
                     itemStyle.normal.borderWidth = 2;
                     itemStyle.normal.shadowColor = 'rgba(255,227,42,0.9)';
-                    itemStyle.normal.shadowBlur = 3;
+                    itemStyle.normal.shadowBlur = 5;
                     //比例图
                     let inRange = this.myoption.visualMap.inRange;
-                    inRange.color = ['#fffee1', 'yellow', 'orangered'];
+                    inRange.color = ['#fff', 'yellow', 'orangered'];
                     //提示框
                     let tooltip = this.myoption.tooltip;
                     tooltip.formatter = this.$parent.option.tooltip.formatter;                 
