@@ -306,6 +306,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (nv == null) return;
                     this.myoption = $api.clone(nv);
+                    //this.myoption=nv;
                     //地图样式
                     let series = this.myoption['series'][0];
                     series.zoom = 0.8;    //地图缩放比例
@@ -318,6 +319,9 @@ $ready(function () {
                     //比例图
                     let inRange = this.myoption.visualMap.inRange;
                     inRange.color = ['#fffee1', 'yellow', 'orangered'];
+                    //提示框
+                    let tooltip = this.myoption.tooltip;
+                    tooltip.formatter = this.$parent.option.tooltip.formatter;                 
                 }, immediate: true
             },
             //当组件显示状态变化时
