@@ -35,7 +35,7 @@ body {
 	top: 0px;
 	z-index: 1;
 	background-color: rgba(255, 255, 255, 0.5);
-	background-image: radial-gradient(circle at center,transparent, rgba(255,255,255,0.8) 60%);
+	background-image: radial-gradient(circle at center,transparent, rgba(255,255,255,0.8) 70%, rgba(255,255,255,1) 90%);
 }
 
 #province_map>div:first-child {

@@ -276,10 +276,10 @@ $ready(function () {
     });
     //省级区划的地图
     Vue.component('province', {
-        //number:要显示的值
-        //icon:图标
-        //unit:数值的单位
-        props: ['code', 'area', 'option', 'orgid'],
+        //code:行政区划的编码
+        //area:行政区划的名称
+        //option:地图的配置项
+        props: ['code', 'area', 'option'],
         data: function () {
             return {
                 display: false,     //是否显示
@@ -303,8 +303,10 @@ $ready(function () {
                     series.zoom = 0.8;    //地图缩放比例
                     //字符样式
                     let itemStyle = series.itemStyle;
-                    itemStyle.normal.borderColor = '#999';
+                    itemStyle.normal.borderColor = '#777';
                     itemStyle.normal.borderWidth = 2;
+                    itemStyle.normal.shadowColor = 'rgba(255,227,42,0.9)';
+                    itemStyle.normal.shadowBlur = 3;
                     //比例图
                     let inRange = this.myoption.visualMap.inRange;
                     inRange.color = ['#fffee1', 'yellow', 'orangered'];
