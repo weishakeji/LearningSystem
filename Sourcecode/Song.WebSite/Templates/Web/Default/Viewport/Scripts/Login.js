@@ -82,6 +82,12 @@ $ready(function () {
                                 shadowOffsetY: 2 // 阴影垂直偏移
                             }
                         },
+                        select: {//这个就是鼠标点击后，地图想要展示的配置
+                            disabled: false,//可以被选中
+                            itemStyle: {//相关配置项很多，可以参考echarts官网
+                                areaColor: "#77e8e4"//选中
+                            }
+                        },
                         data: [] //统计数据                         
                     }
                 ],
@@ -162,9 +168,9 @@ $ready(function () {
                         console.log('行政区划编码：', data.id);
                         console.log('数值：', data.value);
                         //显示省级区域详图
-                        th.$refs['province'].show(data.id, data.fullname);
+                        th.$refs['province'].show(data.id, data.fullname, data.name);
                     });
-                    th.myChart.setOption(th.option);
+                    th.myChart.setOption(th.option, true);
                     //查询统计并加载数据，前面只是显示地图
                     th.onserch();
                 });
@@ -283,10 +289,12 @@ $ready(function () {
         data: function () {
             return {
                 display: false,     //是否显示
-                datas: null,    //统计数据
+                datas: null,        //统计数据(在地图要显示的数据)
                 total: 0,        //登录人次的总数
 
-                mapdata: [],         //地图数据
+                name: '',
+
+                mapdata: [],         //地图数据(行政区划地图绘制数据)
                 myChart: null,       //地图对象
                 myoption: null,        //地图的配置项
                 loading: false,
@@ -312,8 +320,28 @@ $ready(function () {
                     inRange.color = ['#fffee1', 'yellow', 'orangered'];
                 }, immediate: true
             },
+            //当组件显示状态变化时
             display: function (nv, ov) {
-                if (!nv) this.datas = null;
+                if (nv != null) {
+                    if (this.datas != null) {
+                        this.datas.map((item, index) => {
+                            // 取消高亮(选中状态)
+                            this.myChart.dispatchAction({
+                                type: 'unselect',
+                                name: item.name
+                            });
+                        });
+                    }
+                    this.datas = null;
+                    if (nv) return;
+                    //如果隐藏省级地图，取消选中状态
+                    var th = this;
+                    chinaChart = th.$parent.myChart;
+                    chinaChart.dispatchAction({
+                        type: 'unselect',
+                        name: th.name
+                    });
+                }
             }
         },
         computed: {
@@ -322,9 +350,10 @@ $ready(function () {
 
         },
         methods: {
-            show: function (code, area) {
+            show: function (code, area, name) {
                 this.code = code;
                 this.area = area;
+                this.name = name;
                 this.createmap();
             },
             hide: function () {

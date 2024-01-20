@@ -78,6 +78,7 @@
                     <span v-if="address(entity)!=''">
                         {{address(entity)}}
                     </span>
+                    <span v-else>未获取到地理信息</span>
                     <template v-if="entity.Lso_GeogType>0">（
                         <template v-if="entity.Lso_GeogType==1">由GPS数据计算</template>
                         <template v-if="entity.Lso_GeogType==2">由IP地址计算</template>）
