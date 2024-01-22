@@ -48,17 +48,17 @@ namespace Song.Entities {
     		
     		protected String _Lso_District;
     		
-    		protected Int32 _Lso_GeogType;
+    		protected String _Lso_Source;
+    		
+    		protected String _Lso_Info;
+    		
+    		protected Int32 _Lso_Code;
     		
     		protected Decimal _Lso_Longitude;
     		
     		protected Decimal _Lso_Latitude;
     		
-    		protected Int32 _Lso_Code;
-    		
-    		protected String _Lso_Source;
-    		
-    		protected String _Lso_Info;
+    		protected Int32 _Lso_GeogType;
     		
     		public Int32 Lso_ID {
     			get {
@@ -260,13 +260,33 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Lso_GeogType {
+    		public String Lso_Source {
     			get {
-    				return this._Lso_GeogType;
+    				return this._Lso_Source;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Lso_GeogType, _Lso_GeogType, value);
-    				this._Lso_GeogType = value;
+    				this.OnPropertyValueChange(_.Lso_Source, _Lso_Source, value);
+    				this._Lso_Source = value;
+    			}
+    		}
+    		
+    		public String Lso_Info {
+    			get {
+    				return this._Lso_Info;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Info, _Lso_Info, value);
+    				this._Lso_Info = value;
+    			}
+    		}
+    		
+    		public Int32 Lso_Code {
+    			get {
+    				return this._Lso_Code;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lso_Code, _Lso_Code, value);
+    				this._Lso_Code = value;
     			}
     		}
     		
@@ -290,33 +310,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Lso_Code {
+    		public Int32 Lso_GeogType {
     			get {
-    				return this._Lso_Code;
+    				return this._Lso_GeogType;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Lso_Code, _Lso_Code, value);
-    				this._Lso_Code = value;
-    			}
-    		}
-    		
-    		public String Lso_Source {
-    			get {
-    				return this._Lso_Source;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Lso_Source, _Lso_Source, value);
-    				this._Lso_Source = value;
-    			}
-    		}
-    		
-    		public String Lso_Info {
-    			get {
-    				return this._Lso_Info;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Lso_Info, _Lso_Info, value);
-    				this._Lso_Info = value;
+    				this.OnPropertyValueChange(_.Lso_GeogType, _Lso_GeogType, value);
+    				this._Lso_GeogType = value;
     			}
     		}
     		
@@ -367,12 +367,12 @@ namespace Song.Entities {
     					_.Lso_Province,
     					_.Lso_City,
     					_.Lso_District,
-    					_.Lso_GeogType,
+    					_.Lso_Source,
+    					_.Lso_Info,
+    					_.Lso_Code,
     					_.Lso_Longitude,
     					_.Lso_Latitude,
-    					_.Lso_Code,
-    					_.Lso_Source,
-    					_.Lso_Info};
+    					_.Lso_GeogType};
     		}
     		
     		/// <summary>
@@ -400,12 +400,12 @@ namespace Song.Entities {
     					this._Lso_Province,
     					this._Lso_City,
     					this._Lso_District,
-    					this._Lso_GeogType,
+    					this._Lso_Source,
+    					this._Lso_Info,
+    					this._Lso_Code,
     					this._Lso_Longitude,
     					this._Lso_Latitude,
-    					this._Lso_Code,
-    					this._Lso_Source,
-    					this._Lso_Info};
+    					this._Lso_GeogType};
     		}
     		
     		/// <summary>
@@ -472,8 +472,14 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Lso_District))) {
     				this._Lso_District = reader.GetString(_.Lso_District);
     			}
-    			if ((false == reader.IsDBNull(_.Lso_GeogType))) {
-    				this._Lso_GeogType = reader.GetInt32(_.Lso_GeogType);
+    			if ((false == reader.IsDBNull(_.Lso_Source))) {
+    				this._Lso_Source = reader.GetString(_.Lso_Source);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Info))) {
+    				this._Lso_Info = reader.GetString(_.Lso_Info);
+    			}
+    			if ((false == reader.IsDBNull(_.Lso_Code))) {
+    				this._Lso_Code = reader.GetInt32(_.Lso_Code);
     			}
     			if ((false == reader.IsDBNull(_.Lso_Longitude))) {
     				this._Lso_Longitude = reader.GetDecimal(_.Lso_Longitude);
@@ -481,14 +487,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Lso_Latitude))) {
     				this._Lso_Latitude = reader.GetDecimal(_.Lso_Latitude);
     			}
-    			if ((false == reader.IsDBNull(_.Lso_Code))) {
-    				this._Lso_Code = reader.GetInt32(_.Lso_Code);
-    			}
-    			if ((false == reader.IsDBNull(_.Lso_Source))) {
-    				this._Lso_Source = reader.GetString(_.Lso_Source);
-    			}
-    			if ((false == reader.IsDBNull(_.Lso_Info))) {
-    				this._Lso_Info = reader.GetString(_.Lso_Info);
+    			if ((false == reader.IsDBNull(_.Lso_GeogType))) {
+    				this._Lso_GeogType = reader.GetInt32(_.Lso_GeogType);
     			}
     		}
     		
@@ -617,9 +617,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lso_District = new WeiSha.Data.Field<LogForStudentOnline>("Lso_District");
     			
     			/// <summary>
-    			/// 字段名：Lso_GeogType - 数据类型：Int32
+    			/// 字段名：Lso_Source - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Lso_GeogType = new WeiSha.Data.Field<LogForStudentOnline>("Lso_GeogType");
+    			public static WeiSha.Data.Field Lso_Source = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Source");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Info - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Info = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Info");
+    			
+    			/// <summary>
+    			/// 字段名：Lso_Code - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Lso_Code = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Code");
     			
     			/// <summary>
     			/// 字段名：Lso_Longitude - 数据类型：Decimal
@@ -632,19 +642,10 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lso_Latitude = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Latitude");
     			
     			/// <summary>
-    			/// 字段名：Lso_Code - 数据类型：Int32
+    			/// 字段名：Lso_GeogType - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Lso_Code = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Code");
-    			
-    			/// <summary>
-    			/// 字段名：Lso_Source - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Lso_Source = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Source");
-    			
-    			/// <summary>
-    			/// 字段名：Lso_Info - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Lso_Info = new WeiSha.Data.Field<LogForStudentOnline>("Lso_Info");
+    			public static WeiSha.Data.Field Lso_GeogType = new WeiSha.Data.Field<LogForStudentOnline>("Lso_GeogType");
     		}
     	}
     }
+    

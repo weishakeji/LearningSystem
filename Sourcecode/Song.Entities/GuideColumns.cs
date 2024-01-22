@@ -38,8 +38,6 @@ namespace Song.Entities {
     		
     		protected Int32 _Org_ID;
     		
-    		protected String _Org_Name;
-    		
     		protected String _Gc_UID;
     		
     		public Int32 Gc_ID {
@@ -192,16 +190,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Org_Name {
-    			get {
-    				return this._Org_Name;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_Name, _Org_Name, value);
-    				this._Org_Name = value;
-    			}
-    		}
-    		
     		public String Gc_UID {
     			get {
     				return this._Gc_UID;
@@ -254,7 +242,6 @@ namespace Song.Entities {
     					_.Gc_IsNote,
     					_.Gc_CrtTime,
     					_.Org_ID,
-    					_.Org_Name,
     					_.Gc_UID};
     		}
     		
@@ -278,7 +265,6 @@ namespace Song.Entities {
     					this._Gc_IsNote,
     					this._Gc_CrtTime,
     					this._Org_ID,
-    					this._Org_Name,
     					this._Gc_UID};
     		}
     		
@@ -330,9 +316,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_Name))) {
-    				this._Org_Name = reader.GetString(_.Org_Name);
     			}
     			if ((false == reader.IsDBNull(_.Gc_UID))) {
     				this._Gc_UID = reader.GetString(_.Gc_UID);
@@ -437,11 +420,6 @@ namespace Song.Entities {
     			/// 字段名：Org_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<GuideColumns>("Org_ID");
-    			
-    			/// <summary>
-    			/// 字段名：Org_Name - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<GuideColumns>("Org_Name");
     			
     			/// <summary>
     			/// 字段名：Gc_UID - 数据类型：String
