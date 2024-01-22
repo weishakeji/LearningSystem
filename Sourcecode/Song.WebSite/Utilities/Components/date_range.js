@@ -1,5 +1,5 @@
 //日期区间的选择
-
+$dom.load.css(['/Utilities/Components/Styles/date_range.css']);
 Vue.component('date_range', {
     //start:开始时间
     //end：结束时间
@@ -73,6 +73,22 @@ Vue.component('date_range', {
                     text: '最近半年',
                     onClick: (p) => p.$emit('pick', setTimeInterval(6))
                 }, {
+                    text: '本学期',
+                    onClick: (p) => {
+                        const curr = new Date();
+                        let mm = curr.getMonth() + 1;
+                        let yy = curr.getFullYear();
+                        let start, end;
+                        if (mm <= 6) {//上半年
+                            start = new Date(yy, 0, 1);
+                            end = new Date(yy, 6, 0);
+                        } else {  //下半年
+                            start = new Date(yy, 6, 1);
+                            end = new Date(yy, 12, 0);
+                        }
+                        p.$emit('pick', [start, end]);
+                    }
+                }, {
                     text: '最近一年',
                     onClick: (p) => p.$emit('pick', setTimeInterval(12))
                 }, {
@@ -117,7 +133,7 @@ Vue.component('date_range', {
             return new Date(year + '/' + month + '/' + day);
         }
     },
-    template: ` <el-date-picker v-model="selectDate" type="daterange" unlink-panels
+    template: ` <el-date-picker class="date_range" v-model="selectDate" type="daterange" unlink-panels
         @change="evt_change" style="width: 220px;" range-separator="至"
         start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
         :default-time="['00:00:00', '23:59:59']">
