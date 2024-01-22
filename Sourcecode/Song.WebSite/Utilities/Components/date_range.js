@@ -122,7 +122,7 @@ Vue.component('date_range', {
             if (end != null && end != '') end.setDate(end.getDate() + 1);
             this.$emit('change', start, end);
         },
-        //只保留时间部分
+        //只保留日期部分
         todate: function (time) {
             if (time == null) return null;
             this.selectDate[1]

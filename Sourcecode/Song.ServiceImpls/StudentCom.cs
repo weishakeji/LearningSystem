@@ -721,7 +721,7 @@ namespace Song.ServiceImpls
                 }
             }
             if (start != null) wc.And(LogForStudentOnline._.Lso_LoginTime >= (DateTime)start);
-            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime <= (DateTime)end);
+            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime < (DateTime)end);
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
             return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_CrtTime.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
         }
@@ -739,7 +739,7 @@ namespace Song.ServiceImpls
                 }
             }
             if (start != null) wc.And(LogForStudentOnline._.Lso_LoginTime >= (DateTime)start);
-            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime <= (DateTime)end);
+            if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime < (DateTime)end);
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Like("%" + name + "%"));
             if (!string.IsNullOrWhiteSpace(acname) && acname.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Like("%" + acname + "%"));
 

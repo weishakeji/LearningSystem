@@ -1488,6 +1488,7 @@
     <Content Include="Utilities\Components\Question\Styles\review.css" />
     <Content Include="Utilities\Components\student_batch.js" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
+    <Content Include="Utilities\Components\Styles\date_range.css" />
     <Content Include="Utilities\Components\Styles\securitylevel.css" />
     <Content Include="Utilities\Components\Styles\student_batch.css" />
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />

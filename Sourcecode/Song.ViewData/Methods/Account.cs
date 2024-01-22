@@ -361,8 +361,8 @@ namespace Song.ViewData.Methods
         /// 账号登录信息的记录
         /// </summary>
         /// <param name="acid">账号id</param>
-        /// <param name="start">查询时间区间的起始时间</param>
-        /// <param name="end">查询时间区间的结束时间</param>
+        /// <param name="start">查询时间区间的起始日期</param>
+        /// <param name="end">查询时间区间的结束日期</param>
         /// <param name="index">分页的索引</param>
         /// <param name="size">分页数据的每页记录数</param>
         /// <returns></returns>
