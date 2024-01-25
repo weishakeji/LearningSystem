@@ -595,7 +595,8 @@
                 if (status == null || !(status instanceof Array)) status = [];
                 let index = status.findIndex(el => el.key == key);
                 let item = index < 0 ? { key: key } : status[index];
-                item.time = (new Date()).format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
+                let time = new Date();
+                item.time = time.format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
                 item.id = !!item.id ? item.id : (id == null ? 0 : id);
                 item.val = code;    //登录后的校验码
                 //item.duration = !!item.duration ? item.duration : (dura == null ? 0 : dura);
