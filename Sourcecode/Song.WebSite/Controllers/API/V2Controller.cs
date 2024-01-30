@@ -68,6 +68,25 @@ namespace Song.WebSite.Controllers
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Version = new Version("2.0")
             };
+            ////给当前进度一个ID
+            //long sessionid = WeiSha.Core.Request.SnowID();
+            //this.Request.Properties["SessionID"] = sessionid;
+            //System.Web.HttpContext.Current.Items["SessionID"] = sessionid;
+
+            //Song.ViewData.Letter letter = new Song.ViewData.Letter_v2(this.Request);
+            //LetterBox.Insert(sessionid, letter);
+
+            //DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
+            //string resultdata = letter.ReturnType == "xml" ? result.ToXml() : result.ToJson();
+            //if (!letter.Encrypt) resultdata = WeiSha.Core.DataConvert.EncryptForBase64(resultdata);
+
+            //System.Net.Http.HttpResponseMessage httmsg = new HttpResponseMessage();
+            //httmsg.Version = new Version("2.0");
+            //httmsg.Content = new System.Net.Http.StringContent(resultdata);
+            //if (result.Success) httmsg.StatusCode = System.Net.HttpStatusCode.OK;
+            //else
+            //    httmsg.StatusCode = System.Net.HttpStatusCode.NoContent;
+            //return httmsg;
         }
         private string GetInfo(string id)
         {
