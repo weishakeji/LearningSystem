@@ -336,6 +336,9 @@ context>h1>span.hidden {
     padding: 0px;
     font-size: 14px;
 }
+.method return .intro{
+    margin: 10px;
+}
 
 .method fullname {
     word-wrap: break-word;

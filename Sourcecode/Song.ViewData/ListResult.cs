@@ -18,10 +18,21 @@ namespace Song.ViewData
         /// 数据项的总数
         /// </summary>
         public int Total { get; set; }
+        private int _size = 1;
         /// <summary>
         /// 当前页的数据项个数
         /// </summary>
-        public int Size { get; set; }
+        public int Size
+        {
+            get
+            {
+                return _size;
+            }
+            set
+            {
+                _size = value <= 0 ? 1 : value;
+            }
+        }
         /// <summary>
         /// 总页数
         /// </summary>

@@ -1001,7 +1001,15 @@ namespace Song.ViewData.Methods
         /// <param name="mobi">学员的手机号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
-        /// <returns>结果中的complete字段为学员在当前课程的学习完成度</returns>
+        /// <returns>
+        ///<para>"Stc_QuesScore":试题练习完成度</para>
+        ///<para>"Stc_StudyScore":视频学习进度</para>
+        ///   "Stc_ExamScore":结课考试成绩,
+        ///    "lastTime":"2022-04-28T09:05:28.233Z",
+        ///    "studyTime":视频累计学习时间（单位秒）,
+        ///    "totalTime":视频总长度（单位秒）,
+        ///    "complete":视频学习完成进度
+        /// 结果中的complete字段为学员在当前课程的学习完成度</returns>
         [Admin,Teacher]
         public ListResult Students(long couid,long stsid, string acc, string name,string idcard,string mobi, int size, int index)
         {

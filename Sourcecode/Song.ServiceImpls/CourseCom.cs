@@ -1846,7 +1846,8 @@ namespace Song.ServiceImpls
             countSum = Convert.ToInt32(o);
 
             //分页查询的脚本
-            //string sqljquery = @"select * from (
+            string sqljquery = string.Empty;
+            //sqljquery = @"select * from (
             //    select tm.cou_id,c.*,lastTime,studyTime,complete, ROW_NUMBER() OVER(Order by c.ac_id ) AS rowid  from Accounts as c inner join 
             //     (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
             //         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
@@ -1858,10 +1859,23 @@ namespace Song.ServiceImpls
 
             //     ) as tm on c.ac_id=tm.ac_id {{where}}
             //    ) as pager where rowid > {{start}} and rowid<={{end}} ";
-            string sqljquery = @"select * from
+
+            sqljquery = @"select * from
+(select * from
                        (select a.*,sc.Cou_ID,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
                          (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}})  ) as sc  inner join      
-                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";          
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} 
+   ) as acc
+   inner join
+  (SELECT ac_id, MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+                     sum(Lss_StudyTime) as 'studyTime', sum(Lss_Duration)/1000 as 'totalTime', MAX([Lss_PlayTime])/100 as 'playTime',
+                     (case  when max(Lss_Duration)> 0 then
+                      cast(convert(decimal(18, 4), 1000 * sum(cast(Lss_StudyTime as float)) / sum(cast(Lss_Duration AS float))) as float) * 100
+                      else 0 end
+                      ) as 'complete'
+                    FROM[LogForStudentStudy]  where {{couid}} group by ac_id) as lss on acc.Ac_ID = lss.Ac_ID and acc.Cou_ID = lss.cou_id";
+
+            sqljquery = sqljquery.Replace("{{couid}}", couid > 0 ? "Cou_ID =" + couid : "1=1");
             sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{where4acc}}", where4acc);

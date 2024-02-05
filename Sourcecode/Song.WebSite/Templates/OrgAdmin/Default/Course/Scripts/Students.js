@@ -71,6 +71,7 @@
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
+                        console.log(th.datas);
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
@@ -82,21 +83,13 @@
             },
             //显示电话
             showTel: function (row) {
-                if (row.Ac_MobiTel1 == '' && row.Ac_MobiTel2 == '') {
-                    return '';
-                }
+                if (row.Ac_MobiTel1 == '' && row.Ac_MobiTel2 == '') return '';
                 if (row.Ac_MobiTel1 == '') row.Ac_MobiTel1 = row.Ac_MobiTel2;
-                if (row.Ac_MobiTel1 == row.Ac_MobiTel2) {
-                    return row.Ac_MobiTel1;
-                }
+                if (row.Ac_MobiTel1 == row.Ac_MobiTel2) return row.Ac_MobiTel1;
                 return row.Ac_MobiTel1 + (row.Ac_MobiTel2 != '' ? '/' + row.Ac_MobiTel2 : '');
             },
             //显示完成度
-            showcomplete: function (num) {
-                num = num > 100 ? 100 : num;
-                num = Math.round(num * 100) / 100;
-                return num;
-            },
+            showcomplete: num => Math.round((num > 100 ? 100 : num) * 100) / 100,
             //显示帮助
             btnhelp: function () {
                 var msg = "课程的“学员数”与课程的“学习记录数”之间，可能会存在差异；<br/>";

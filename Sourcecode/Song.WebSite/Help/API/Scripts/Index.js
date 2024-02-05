@@ -156,33 +156,32 @@ Vue.component('methods', {
                     th.methods = req.data.result;
                     th.apiobject["methods"] = req.data.result;
                     window.menvue.total.method += th.methods.length;
-
                 }
             }).catch(function (err) {
                 th.loading = false;
-            });
+            }).finally(() => th.loading = false);
         }
     },
     created: function () {
         this.getmethods(true);
     },
     // 
-    template: "<div>\
-      <div class='classname' v-on:click='open=!open' :title='\"摘要：\"+apiobject.Intro'>\
-            {{index}}. <b class='el-icon-loading' v-show='loading'></b>{{ apiobject.Name }} \
-            <span>{{apiobject.Intro}}</span>\
-            <i class='el-icon-arrow-right' :class='{show:open}'></i>\
-       </div>\
-       <dl class='methods' :class='{show:open}'>\
-       <dt v-if='apiobject.Intro.length>0'>摘要：{{apiobject.Intro}}\
-        <span class='fresh' @click='btnfresh' v-show='!loading' title='刷新'></span>\
-       </dt>\
-            <dd v-for='(item,i) in list' v-on:click='methodClick(item)'>\
-                <name>{{index}}.{{i+1}}.<span v-html='item.Name'></span></name>\
-                <intro v-show='item.Intro.length>0' v-html='item.Intro'></intro>\
-            </dd>\
-       </dl>\
-       </div>"
+    template: `<div>
+      <div class='classname' v-on:click='open=!open' :title='\"摘要：\"+apiobject.Intro'>
+            {{index}}. <b class='el-icon-loading' v-show='loading'></b>{{ apiobject.Name }} 
+            <span>{{apiobject.Intro}}</span>
+            <i class='el-icon-arrow-right' :class='{show:open}'></i>
+       </div>
+       <dl class='methods' :class='{show:open}'>
+       <dt v-if='apiobject.Intro.length>0'>摘要：{{apiobject.Intro}}
+        <span class='fresh' @click='btnfresh' v-show='!loading' title='刷新'></span>
+       </dt>
+            <dd v-for='(item,i) in list' v-on:click='methodClick(item)'>
+                <name>{{index}}.{{i+1}}.<span v-html='item.Name'></span></name>
+                <intro v-show='item.Intro.length>0' v-html='item.Intro'></intro>
+            </dd>
+       </dl>
+       </div>`
 });
 /*
  
@@ -211,12 +210,12 @@ var rvue = new Vue({
     },
     computed: {
         parameter: function () {
-            var fullname = this.method.FullName;
-            var name = this.method.Name;
+            let fullname = this.method.FullName;
+            let name = this.method.Name;
             if (fullname.indexOf('(') > -1) {
-                var paras = fullname.substring(fullname.indexOf('(') + 1).split(',');
-                var str = '';
-                for (var t = 0; t < paras.length; t++) {
+                let paras = fullname.substring(fullname.indexOf('(') + 1).split(',');
+                let str = '';
+                for (let t = 0; t < paras.length; t++) {
                     if (paras[t].indexOf('.') > -1) {
                         str += paras[t].substring(paras[t].lastIndexOf('.') + 1);
                         if (t < paras.length - 1) str += ',';
@@ -261,14 +260,14 @@ var rvue = new Vue({
         },
         //生成测试代码
         teststring: function () {
-            var method = this.method.ClassName + "/" + this.method.Name;
+            let method = this.method.ClassName + "/" + this.method.Name;
             method = this.clearhtml(method);
-            var params = this.getInputPara();
-            var http = document.getElementById("httppre").value;
+            let params = this.getInputPara();
+            let http = document.getElementById("httppre").value;
             //语句
-            var urlstr = window.location.protocol + "//" + window.location.host + "/api/v" + $api.version + "/" + method;
+            let urlstr = window.location.protocol + "//" + window.location.host + "/api/v" + $api.version + "/" + method;
             document.getElementById("apiurl").innerText = urlstr.toLowerCase();
-            var jsstr = "$api." + http + "('" + method + "'" + (params == "{}" ? "" : "," + params) + ")";
+            let jsstr = "$api." + http + "('" + method + "'" + (params == "{}" ? "" : "," + params) + ")";
             jsstr += ".then(function(req){\r\
             if(req.data.success){\r\
                 var result=req.data.result;\r\
@@ -288,13 +287,13 @@ var rvue = new Vue({
         },
         //复制api路径
         copyApipath: function (clname, method) {
-            var path = this.clearhtml(clname + '/' + method);
+            let path = this.clearhtml(clname + '/' + method);
             this.copy(path);
         },
         //复制到粘贴板
         copy: function (val, textbox) {
             if (textbox == null) textbox = 'input';
-            var oInput = document.createElement(textbox);
+            let oInput = document.createElement(textbox);
             oInput.value = val;
             document.body.appendChild(oInput);
             oInput.select(); // 选择对象
@@ -307,15 +306,15 @@ var rvue = new Vue({
         },
         //获取录入的参数
         getInputPara: function () {
-            var arr = new Array();
-            var inputs = Array.from(document.querySelectorAll("#context table input"));
+            let arr = new Array();
+            let inputs = Array.from(document.querySelectorAll("#context table input"));
             inputs.forEach(function (item) {
-                var name = item.getAttribute("name");
-                var val = item.value;
+                let name = item.getAttribute("name");
+                let val = item.value;
                 arr.push("'" + name + "':'" + val + "'");
             });
-            var txt = "{";
-            for (var i = 0; i < arr.length; i++) {
+            let txt = "{";
+            for (let i = 0; i < arr.length; i++) {
                 txt += arr[i];
                 if (i < arr.length - 1) txt += ",";
             }
@@ -419,9 +418,13 @@ var rvue = new Vue({
             return outputText;
         },
         //清理Html标签
-        clearhtml: function (str) {
-            return str.replace(/(<([^>]+)>)/ig, "");
+        clearhtml: str => str.replace(/(<([^>]+)>)/ig, ""),
+        //显示文本
+        showintro: txt => {
+            txt=txt.replace(/\s+/g, " ");
+            return txt.replace(/ /g, '<br/>');
         }
+
     },
     created: function () {
 
