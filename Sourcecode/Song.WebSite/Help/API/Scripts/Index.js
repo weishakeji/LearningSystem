@@ -422,6 +422,8 @@ var rvue = new Vue({
         //显示文本
         showintro: txt => {
             txt=txt.replace(/\s+/g, " ");
+            txt=txt.replace(/\r/g, " ");
+            txt=txt.replace(/\n/g, " ");
             return txt.replace(/ /g, '<br/>');
         }
 

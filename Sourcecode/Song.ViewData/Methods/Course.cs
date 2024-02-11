@@ -1002,8 +1002,8 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns>
-        ///<para>"Stc_QuesScore":试题练习完成度</para>
-        ///<para>"Stc_StudyScore":视频学习进度</para>
+        ///"Stc_QuesScore":试题练习完成度 
+        ///"Stc_StudyScore":视频学习进度 
         ///   "Stc_ExamScore":结课考试成绩,
         ///    "lastTime":"2022-04-28T09:05:28.233Z",
         ///    "studyTime":视频累计学习时间（单位秒）,
