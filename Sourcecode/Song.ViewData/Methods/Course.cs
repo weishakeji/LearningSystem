@@ -1252,12 +1252,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Student_Course Purchaselog(int stid, long couid)
         {
-            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);  //学员购买课程的记录
+            //如果没有记录，如果学员组可以学习该课程，则创建学员与课程的记录
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
-            if (sc != null)
-            {
-                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
-            }
+            if (sc != null)           
+                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;            
             return sc;
         }
         /// <summary>
