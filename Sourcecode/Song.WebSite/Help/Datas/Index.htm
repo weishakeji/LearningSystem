@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <section id="entities">
+    <div id="vapp">
 
         <menu id="menu">
             <div class="tit"> <i class="el-icon-wallet" v-show='!loading'></i>
@@ -42,11 +42,17 @@
 
         </menu>
         <context>
-            <h1 v-on:click="helpshow=!helpshow">
+            <h1>
                 <i class="el-icon-tickets"></i>
-                Entities Details（数据实体的详情）<span :class="helpshow ? 'show' : 'hidden'"><i
-                        class="el-icon-caret-bottom"></i></span> </h1>
-            <div class="homepage" :style="helpshow ? '' : 'transform: scale(1, 0);opacity:0;'">
+                <span> Entity Details</span>
+                <b @click="helpshow=true"> ? </b>
+
+            </h1>
+            <entity :index="index" :clname="current" :entity="entity" :datas="entities" v-if="error==''"></entity>
+        </context>
+        <!--帮助说明-->
+        <el-drawer title="说明" :visible.sync="helpshow">
+            <div class="helppanel">
                 <p>数据实体来自数据库的表结构（表、字段、数据类型）映射。映射实体在Song.Entities项目，
                     实体与数据库表名、字段名相对应，大小写也相同，只有字段的数据类型有差别，例如字段类型为bigint，对应在实体中是long型；
                     字段类型为bit，对应在实体中是bool型；nvarchar对应string型。
@@ -55,18 +61,7 @@
                 <p>解决方案中的Song.Entities项目，包含了所有的实体，由代码生成器自动生成（WeiSha.Data.Generete.exe，在解决方案下的Lib文件夹），
                     实体代码非常不建议手工调整。</p>
             </div>
-
-
-            <entity :index="index" :clname="current" :entity="entity" :datas="entities" v-if="error==''"></entity>
-        </context>
-    </section>
-    <div id="mask">
-        <div id="loading"> <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        </el-drawer>
     </div>
     <script type="text/javascript" src="Scripts/index.js"></script>
 </body>
