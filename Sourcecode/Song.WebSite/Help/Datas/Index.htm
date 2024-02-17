@@ -2,21 +2,18 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>数据字典说明</title>
     <link rel="shortcut icon" href="../Images/datas.ico" />
     <script type="text/javascript" src="/Utilities/Scripts/polyfill.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script> 
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
     <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
     <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
-
-
-
     <link href="Styles/index.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
 </head>
 
 <body>
@@ -42,10 +39,12 @@
                     <span v-else>{{error}}</span>
                 </dd>
             </dl>
-            <footer><a href="http://www.weishakeji.net" target="_blank">郑州微厦计算机科技有限公司</a></footer>
+
         </menu>
         <context>
-            <h1 v-on:click="helpshow=!helpshow">Entities Details（数据实体的详情）<span :class="helpshow ? 'show' : 'hidden'"><i
+            <h1 v-on:click="helpshow=!helpshow">
+                <i class="el-icon-tickets"></i>
+                Entities Details（数据实体的详情）<span :class="helpshow ? 'show' : 'hidden'"><i
                         class="el-icon-caret-bottom"></i></span> </h1>
             <div class="homepage" :style="helpshow ? '' : 'transform: scale(1, 0);opacity:0;'">
                 <p>数据实体来自数据库的表结构（表、字段、数据类型）映射。映射实体在Song.Entities项目，

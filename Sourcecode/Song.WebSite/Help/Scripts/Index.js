@@ -3,6 +3,7 @@ window.vapp = new Vue({
     el: '#vapp',
     data: {
         //菜单项
+        //type:节点类型，node为菜单项,link为外部链接
         //icon节点：i图标,s图标大小（即size)，l左移量(即left),t即top
         //color节点：颜色，f前景色，b背景色
         menus: [
@@ -37,11 +38,11 @@ window.vapp = new Vue({
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: 'RESTful API接口', type: 'link', url: 'api/',
+                name: 'RESTful API接口', type: 'node', url: 'api/',
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {
-                name: '数据实体说明', type: 'link', url: 'datas/index.htm',
+                name: '数据实体说明', type: 'node', url: 'datas/index.htm',
                 icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
             },
             {

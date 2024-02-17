@@ -102,7 +102,6 @@ menu {
     float: left;
     overflow-y: hidden;
     overflow-x: hidden;
-    box-shadow: 3px 0px 3px #ccc;
 }
 
 menu, menu * {
@@ -116,7 +115,6 @@ menu .tit {
     line-height: 40px;
     padding-left: 10px;
     font-weight: bold;
-    background-color: #eee;
 }
 
 menu .tit i {
@@ -157,7 +155,7 @@ menu .tit .searchbox i {
 }
 
 #menu dl {
-    height: calc(100% - 70px);
+    height: calc(100% - 0px);
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -241,8 +239,7 @@ context>h1 {
     height: 40px;
     line-height: 40px;
     padding-left: 10px;
-    padding: 0px 0px 0 20px;
-    background-color: #eee;
+    padding: 0px 0px 0 20px;  
 }
 
 context>h1>span {
@@ -293,26 +290,6 @@ context>h1>span.hidden {
     font-size: 18px;
     line-height: 40px;
     text-indent: 40px;
-}
-
-footer {
-    height: 30px;
-    line-height: 30px;
-    text-indent: 10px;
-    font-size: 12px;
-    background-color: #eee;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-}
-
-footer, footer a {
-    text-decoration: none;
-    color: #666;
-}
-
-footer a:hover {
-    text-decoration: underline;
 }
 
 /*实体详情区域*/

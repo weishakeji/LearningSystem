@@ -11,14 +11,50 @@ html, body, #vapp {
 #vapp {
     position: absolute;
     top: 0px;
-    left: calc((100% - 1200px)/2);
-    max-width: 1200px;
     padding: 20px 20px 0px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
 
+/*普通屏幕设备*/
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    #vapp {
+        left: 0px;
+        max-width: 100%;
+    }
+}
+
+/*大屏幕设备*/
+@media only screen and (min-width: 1200px) {
+    #vapp {
+        left: calc((100% - 1200px)/2);
+        max-width: 1200px;
+    }
+    nav>div, nav>a {
+        font-size: 16px;
+    }
+}
+
+/*超大屏幕设备*/
+@media only screen and (min-width: 1600px) {
+    #vapp {
+        left: calc((100% - 1600px)/2);
+        max-width: 1600px;
+    }
+
+    nav>div, nav>a {
+        font-size: 20px;
+    }
+    nav>* icon{
+       transform: scale(1.2);
+       margin-top: 3px;
+    }
+    nav>div[current]::after, nav>a[current]::after{
+        right: -9px !important;
+        bottom: -1px !important;
+    }
+}
 
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
@@ -58,9 +94,11 @@ a icon {
     font-size: 22px;
     margin-right: 6px;
 }
-*[mobi]{
+
+*[mobi] {
     display: none;
 }
+
 /*头部*/
 header {
     display: flex;
@@ -148,7 +186,7 @@ nav {
 nav>div, nav>a {
     padding: 10px 6px 10px 45px;
     display: block;
-    font-size: 16px;
+  
     position: relative;
     color: #999;
     margin: 0px 8px;
@@ -171,14 +209,17 @@ nav>div[current], nav>a[current] {
     background-color: #d5fdc0;
     box-shadow: inset 0px 0px 8px #fff;
     border: 1px solid #80e34e;
-    color: #67C23A !important;   
-}
-nav>div[current], nav>a[current], div[current] *:first{
     color: #67C23A !important;
 }
+
+nav>div[current], nav>a[current], div[current] *:first {
+    color: #67C23A !important;
+}
+
 nav>div[current] hot::before, nav>a[current] hot::before {
     color: #67C23A;
 }
+
 nav>div[current]:hover, nav>a[current]:hover {
     color: #67C23A;
 }
@@ -206,7 +247,7 @@ nav>div[current]::after, nav>a[current]::after {
     bottom: 1px;
     right: -6px;
     z-index: 2;
-    transform: rotate(-10deg);
+    transform: rotate(-3deg);
 }
 
 nav>p.line {
@@ -257,15 +298,17 @@ img[copyright='weixinqr'] {
 @media only screen and (orientation: portrait) {
     #vapp {
         top: 0px;
-        left: 0px;      
+        left: 0px;
     }
-    
-    section{
+
+    section {
         height: calc(100% - 100px);
     }
+
     section>nav {
         display: none;
     }
+
     section>nav[mobi] {
         display: block;
         position: absolute;
@@ -278,18 +321,23 @@ img[copyright='weixinqr'] {
         box-sizing: border-box;
         padding: 10px 15px;
     }
+
     header>div[copyright=title] {
         display: none;
     }
-    header>*:not(:first-child){
+
+    header>*:not(:first-child) {
         display: none;
     }
-    *[mobi]{
+
+    *[mobi] {
         display: block !important;
     }
-    header div[mobi][icon]{
+
+    header div[mobi][icon] {
         font-size: 22px;
     }
+
     footer {
         display: none;
     }
