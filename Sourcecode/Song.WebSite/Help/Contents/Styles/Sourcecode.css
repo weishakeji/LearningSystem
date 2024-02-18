@@ -1,4 +1,19 @@
-body {
-    padding: 20px;
-    overflow: auto;
+section.project {
+    counter-reset: section;  
+    list-style-type: none; 
+}
+dl dt::before {
+    counter-increment: section;  
+    content: counter(section) ". ";
+
+}
+dl {
+    counter-reset: dd;
+    list-style-type: none;
+}
+
+dl dd::before {
+    counter-increment: dd;  
+    content: "(" counter(dd) ") ";
+
 }

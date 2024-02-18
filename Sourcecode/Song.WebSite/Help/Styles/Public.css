@@ -1,35 +1,79 @@
+body {
+    padding: 20px;
+    overflow: auto;
+}
+
 h1 {
     margin: 0px;
     font-size: 22px;
     text-indent: 1rem;
 }
 
-a {
-    color: #09F;   
+p, dd {
+    font-size: 16px;
+    margin: 0.5rem 0px 0px 0px;
+    line-height: 35px;
+    text-indent: 2rem;
 }
+
+a {
+    color: #09F;
+}
+
 a {
     color: #09F;
     text-decoration: underline;
-  }
+}
+
 * {
     font-size: 16px;
     line-height: 160%;
 }
+
+#head {
+    box-sizing: border-box;
+    padding: 0px 0px 0px 20px;
+    display: flex;
+}
+
+
 textarea {
     width: calc(100% - 50px);
     background-color: rgb(248, 252, 203);
     padding: 10px 10px 0px 10px;
     line-height: 20px;
     border: 1px solid rgb(219, 199, 108);
-    resize:none;
+    resize: none;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
-dt{
-    font-weight: bold;
-}
-dd{
 
+
+dl {
+    margin: 10px 0px 0px 60px;
+}
+
+dl,
+dt,
+dd {
+    padding: 0px;
+    text-indent: 0px;
+    line-height: 25px;
+}
+
+dl dt {
+    margin: 10px auto;
+}
+
+dl dd {
+    margin: 0px 0px 5px 0px;
+    padding: 0px 0px 0px 25px;
+    text-indent: 0px;
+}
+
+dl dd,
+dl dd * {
+    font-size: 16px;
 }
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
@@ -68,11 +112,11 @@ dd{
     background-position: bottom;
 }
 
- p.tip {
+p.tip {
     padding: 8px 16px;
     background-color: #ecf8ff;
     border-radius: 4px;
     border-left: 5px solid #50bfff;
-    margin: 20px 0; 
+    margin: 20px 0;
     text-align: left;
 }

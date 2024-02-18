@@ -14,7 +14,36 @@
     <div id="head">
         <h1>源码说明</h1>
     </div>
-    还在编写中...
+    <section class="project">
+        <p>在源码的解决方案中主要有五个项目，分别如下：</p>
+        <dl>
+            <dt>Song.WebSite</dt>
+            <dd>起始项目，系统的所有前端页面都在这里，一切从这里开始执行；</dd>
+            <dd> 第一次打开解决方案时，也许它不是起始项目，需要手工设置一下；在该项目名称上点鼠标右键，选择“设置为启动项目”</dd>
+        </dl>
+        <dl>
+            <dt>Song.ViewData</dt>
+            <dd>前端接口，前端页面需要的数据，都是从这里获取；基于RESTFUL API接口规范</dd>
+        </dl>
+        <dl>
+            <dt>Song.Entities</dt>
+            <dd>数据实体，系统采用了ORM框架，实体对应数据库表结构；</dd>
+            <dd>这里的代码全部由代码生成器生成，非常不建议手工更改；代码生成器（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。</dd>
+        </dl>
+        <dl>
+            <dt>Song.ServiceInterfaces</dt>
+            <dd> 业务层接口，系统由之前的三层架构升级而来，采用spring.net的IOC模块实现表现层与业务层的低耦合；</dd>
+            <dd>调用接口的方法示例：Business.Do().AccountsSingle(id); 其中IAccounts中接口名称，AccountsSingle为方法名；</dd>
+
+            <dd>在调用接口前，需要在web.config中的“configuration/spring/objects”节点配置 &lt;object id="IAccounts"
+                    type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" /&gt;</dd>
+        </dl>
+        <dl>
+            <dt>Song.ServiceImpls</dt>
+
+            <dd>业务层接口的实现</dd>
+        </dl>
+    </section>
 </body>
 
 </html>

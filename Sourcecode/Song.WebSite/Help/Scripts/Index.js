@@ -39,11 +39,11 @@ window.vapp = new Vue({
             },
             {
                 name: 'RESTful API接口', type: 'node', url: 'api/',
-                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '333', b: '' }
+                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
                 name: '数据实体说明', type: 'node', url: 'datas/index.htm',
-                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
+                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
                 name: '数据实体生成', type: 'node', url: 'Contents/DataEntity.html',
@@ -51,12 +51,12 @@ window.vapp = new Vue({
             },
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
-                icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '333', b: '' }
+                icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '', b: '' }
             },
             { type: 'line' },
             {
                 name: '版权信息修改', type: 'node', url: 'copyright.html',
-                icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
+                icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
         ],
         showmenu: false,

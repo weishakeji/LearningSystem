@@ -1,13 +1,3 @@
-body {
-    padding: 20px;
-    overflow: auto;
-}
-
-h1 {
-    margin: 0px;
-    font-size: 22px;
-    text-indent: 1rem;
-}
 
 h2 {
     margin: 0px;
@@ -28,39 +18,8 @@ p[copyright="intro"] {
 }
 
 
-#head {
-    box-sizing: border-box;
-    padding: 0px 0px 0px 20px;
-    display: flex;
-}
 
 span[copyright='tel'] {
     font-size: 18px;
 }
 
-dl {
-    margin: 10px 0px 0px 60px;
-}
-
-dl,
-dt,
-dd {
-    padding: 0px;
-    text-indent: 0px;
-    line-height: 25px;
-}
-
-dl dt {
-    margin: 10px auto;
-}
-
-dl dd {
-    margin: 0px 0px 5px 0px;
-    padding: 0px 0px 0px 25px;
-    text-indent: 0px;
-}
-
-dl dd,
-dl dd * {
-    font-size: 16px;
-}

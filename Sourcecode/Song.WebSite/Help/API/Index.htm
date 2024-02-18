@@ -168,8 +168,10 @@
             $api.get('Account/Current'),
             $api.cache('Question/Types:9999'),
             $api.post('Course/ForID', { 'id': 123 })
-      ).then(axios.spread(function (acc, type, cou, outline) {
-            console.error(type);
+      ).then(axios.spread(function (acc, type, cou) {
+          var result1=acc.data.result;
+          var result2=type.data.result;
+          var result3=cou.data.result;                   
       })).catch(err => alert(err))
       .finally(() => {
             console.log('finally');

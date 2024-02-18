@@ -1,4 +1,4 @@
-body {
-    padding: 20px;
-    overflow: auto;
+dt{
+    font-weight: bold;
+    font-size: 17px;
 }

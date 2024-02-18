@@ -1,20 +1,4 @@
-body {
-    padding: 20px;
-    overflow: auto;
-}
 
-h1 {
-    margin: 0px; 
-    font-size: 22px;
-    text-indent: 1rem;
-}
-
-p,dd {
-    font-size: 16px;
-    margin: 0.5rem 0px 0px 0px;
-    line-height: 35px;
-    text-indent: 2rem;
-}
 
 p[copyright="intro"] {
     color: #666;
