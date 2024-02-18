@@ -13,6 +13,7 @@
     <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
     <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
+    <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/test.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
 </head>
@@ -62,8 +63,10 @@
             </div>
             <div v-else-if="connState" class="list">
                 <template v-if="compDatas.length>0">
-                    <div>
-                        <el-tag type="danger" class="el-icon-chat-line-square connState"> 缺失的表或字段</el-tag>
+                    <div class="data_title">
+                        <el-tag type="danger" class="el-icon-chat-line-square connState"> 缺失表或字段</el-tag>
+                        <help>查找缺失的SQL脚本，<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts"
+                                target="_blank">点这里</a></help>
                     </div>
                     <div v-for="(item,index) in compDatas" class="data_row">
                         {{index+1}}.

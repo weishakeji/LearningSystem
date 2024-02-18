@@ -183,7 +183,9 @@ help, alert {
     cursor: default;
     
 }
-
+help *, alert *{
+    font-size: 13px;
+}
 help::before, alert::before {
     font-family: "webdesk_icon" !important;
     display: inline-block;
