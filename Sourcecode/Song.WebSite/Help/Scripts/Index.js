@@ -12,8 +12,8 @@ window.vapp = new Vue({
                 icon: { i: 'a051', s: 26, l: 0, t: -2 }, color: { f: '67C23A', b: '' }
             },
             {
-                name: '使用教程', type: 'link', hot: false, url: 'http://www.weisha100.net/',
-                icon: { i: 'a026', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+                name: '使用教程', type: 'node', hot: false, url: 'Contents/Tutorials.html',
+                icon: { i: 'a026', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             { type: 'line' },
             {

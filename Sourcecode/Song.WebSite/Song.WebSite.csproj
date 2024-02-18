@@ -222,10 +222,12 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Help\Contents\DataEntity.html" />
+    <Content Include="Help\Contents\Styles\Tutorials.css" />
     <Content Include="Help\Contents\Styles\Upgrade.css" />
     <Content Include="Help\Contents\Styles\Templates.css" />
     <Content Include="Help\Contents\Styles\Sourcecode.css" />
     <Content Include="Help\Contents\Styles\DataEntity.css" />
+    <Content Include="Help\Contents\Tutorials.html" />
     <Content Include="Help\Contents\Upgrade.html" />
     <Content Include="Help\Copyright.html" />
     <Content Include="Help\API\Index.htm" />
