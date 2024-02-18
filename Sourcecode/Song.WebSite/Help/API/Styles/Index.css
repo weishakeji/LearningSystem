@@ -25,7 +25,7 @@ menu {
     float: left;
     overflow: hidden;
     position: relative;
-    box-shadow: 3px 0px 3px #ccc;
+   
 }
 
 menu, menu * {
@@ -126,7 +126,6 @@ menu>dl>dd {}
 }
 
 #menu .classname {
-    background-color: #eee;
     line-height: 35px;
     padding-left: 15px;
     cursor: pointer;
@@ -233,14 +232,13 @@ context>h1 {
     line-height: 40px;
     padding-left: 10px;
     padding: 0px 0px 0 20px;
-    background-color: #eee;
 }
 
 context>h1>span {
     display: block;
     float: right;
     margin-right: 1px;
-    width: 40px;
+    width: 30px;
     height: 40px;
     line-height: 50px;
     font-size: 30px;
@@ -268,7 +266,7 @@ context>h1>span.hidden {
 }
 
 .homepage {
-    width: 100%;
+    width: calc(100% - 13px);
     height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
@@ -324,7 +322,9 @@ context>h1>span.hidden {
     font-weight: normal;
     margin-left: 10px;
 }
-
+.method params{
+    margin-top: 10px;
+}
 .method remarks * {
     margin: 0px;
     padding: 0px;
@@ -353,6 +353,7 @@ context>h1>span.hidden {
     font-weight: normal;
     background-color: #eee;
     font-size: 13px;
+    padding: 5px;
 }
 
 .method table tr th:first-child {

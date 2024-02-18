@@ -21,20 +21,10 @@ html, body, #vapp {
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     #vapp {
         left: 0px;
-        max-width: 100%;
+        width: 100%;
     }
 }
 
-/*大屏幕设备*/
-@media only screen and (min-width: 1200px) {
-    #vapp {
-        left: calc((100% - 1200px)/2);
-        max-width: 1200px;
-    }
-    nav>div, nav>a {
-        font-size: 16px;
-    }
-}
 
 /*超大屏幕设备*/
 @media only screen and (min-width: 1600px) {

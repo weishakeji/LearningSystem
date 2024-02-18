@@ -39,11 +39,11 @@ window.vapp = new Vue({
             },
             {
                 name: 'RESTful API接口', type: 'node', url: 'api/',
-                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
             {
                 name: '数据实体说明', type: 'node', url: 'datas/index.htm',
-                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: 'rgb(121, 187, 255)', b: '' }
+                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: '333', b: '' }
             },
             {
                 name: '数据实体生成', type: 'node', url: 'Contents/DataEntity.html',
