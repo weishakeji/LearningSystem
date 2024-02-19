@@ -47,7 +47,7 @@ $ctrljs(function () {
     window.login.ondragfinish(function (s, e) {
         $api.post('Helper/CheckCodeImg', { 'leng': s.vcodelen, 'acc': s.user }).then(function (req) {
             if (req.data.success) {
-                var result = req.data.result;
+                let result = req.data.result;
                 s.vcodebase64 = result.base64;
                 s.vcodemd5 = result.value;
             } else {
@@ -97,9 +97,7 @@ $ctrljs(function () {
         level: 30000
     }).onclick(nodeClick);
     //用户信息的下拉菜单
-    $dom.get($dom.path() + '../_public/datas/usermenu.json', function (req) {
-        usermenu.add(req);
-    });
+    $dom.get($dom.path() + '../_public/datas/usermenu.json', req => usermenu.add(req));
     window.createVapp();
 });
 
@@ -281,52 +279,32 @@ function tabsShut(sender, eventArgs) {
 }
 //选项卡切换事件
 function tabsChange(sender, eventArgs) {
-    //获取当前标签生成的窗体，全部还原
-    let selfbox = getSelfbox(eventArgs.data.id);
-    for (let i = 0; i < selfbox.length; i++)
-        selfbox[i].toWindow().focus(false);
-    //非当前标签的窗体，全部最小化
-    let elsebox = getElsebox(sender, eventArgs.data.id);
-    for (let i = 0; i < elsebox.length; i++)
-        elsebox[i].toMinimize(false);
-
-    //当前标签生成的窗体
-    function getSelfbox(tabid) {
-        let boxs = $ctrls.all('pagebox');
-        //获取当前标签生成的窗体，全部还原
-        let arr = new Array();
-        for (let i = 0; i < boxs.length; i++) {
-            if (boxs[i].obj.pid == tabid) {
-                arr.push(boxs[i].obj);
-                let childs = boxs[i].obj.getChilds();
-                for (let j = 0; j < childs.length; j++)
-                    arr.push(childs[j]);
-            }
-        }
-        //按层深排序，以保证在还原时保持窗体原有层叠效果
-        return arr.sort((a, b) => a.level - b.level);      
-    }
-    //非当前标签的窗体(不包括其它控件生成的窗体)
-    function getElsebox(sender, tabid) {
-        let boxs = $ctrls.all('pagebox');
-        let tabs = sender.childs;
+    //所有窗体
+    let boxs = $ctrls.all('pagebox');
+    //当前选项卡所产生的窗体
+    let gettabsbox = (boxs, tabid) => {
         let arr = [];
-        for (let i = 0; i < tabs.length; i++) {
-            if (tabs[i].id == tabid) continue;
-            for (let j = 0; j < boxs.length; j++) {
-                if (boxs[j].obj.pid == tabs[i].id) {
-                    arr.push(boxs[j].obj);
-                    let childs = boxs[j].obj.getChilds();
-                    for (let n = 0; n < childs.length; n++)
-                        arr.push(childs[n]);
-                }
-            }
-        }
+        boxs.filter(el => el.obj.pid == tabid).forEach(item => {
+            arr.push(item.obj);
+            arr = arr.concat(item.obj.getChilds());
+        });
+        return arr.sort((a, b) => a.level - b.level);
+    }
+    //非当前选项卡的窗体(不包括其它控件生成的窗体)
+    let getotherbox = (boxs, tabid, sender) => {
+        let arr = [];
+        sender.childs.filter(el => el.id != tabid).forEach(item => {
+            arr = arr.concat(gettabsbox(boxs, item.id));
+        });
         return arr;
     }
-    //当前选项卡id
-    let tabid = eventArgs.tabid;
-    window.tree.currentnode(tabid);
+    //获取当前标签生成的窗体，全部还原
+    gettabsbox(boxs, eventArgs.data.id).forEach(item => item.toWindow().focus(false));
+    //非当前标签的窗体，全部最小化
+    getotherbox(boxs, eventArgs.data.id, sender).forEach(item => item.toMinimize(false));
+
+    //设置左侧树形菜单的当前菜单项
+    window.tree.currentnode(eventArgs.tabid);
 }
 
 //执行vue对象
@@ -404,14 +382,10 @@ window.createVapp = function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //导航菜单的点击事件
             menuClick: function (sender, eventArgs) {
-
                 var data = eventArgs.data;
                 if (!data || data.url == '') return;
                 window.location.href = data.url;
