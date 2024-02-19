@@ -97,19 +97,9 @@ $ready(function () {
             },
             //地理位置
             address: function (row) {
-                if( row.Lso_Province == row.Lso_City)return row.Lso_Province +  row.Lso_District
+                if (row.Lso_Province == row.Lso_City) return row.Lso_Province + row.Lso_District
                 return row.Lso_Province + row.Lso_City + row.Lso_District;
             },
-            //打开详情
-            opendetail: function (row) {
-                this.$refs.btngroup.modifyrow(row);
-                return;
-                var url = 'LoginLogDetail.' + row.Lso_ID;
-                this.$refs.btngroup.pagebox(url, '登录信息详情', window.name + '[LoginLogDetail]', 800, 600, {
-                    'showmask': false, 'min': true, 'ico': 'a01d'
-                });
-                return false;
-            }
         },
     });
 
