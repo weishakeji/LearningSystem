@@ -67,7 +67,6 @@
             var way = "helper/apiList";
             way += usecache != null && usecache ? ':' + (60 * 60 * 24) : ':update';
             $api.cache(way).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.list = req.data.result;
                     th.total.apiobj = th.list.length;
@@ -75,11 +74,10 @@
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 th.error = err;
                 console.error(err);
-                alert(err);
-            });
+                //alert(err);
+            }).finally(()=> th.loading = false);
         }
     },
     created: function () {

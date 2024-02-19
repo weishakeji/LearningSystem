@@ -74,7 +74,7 @@
             </div>
             <!--地理信息-->
             <div v-if="entity.Lso_Latitude>0 && entity.Lso_Longitude>0">
-                <el-divider content-position="left">地理位置：
+                <el-divider content-position="left">
                     <span v-if="address(entity)!=''">
                         {{address(entity)}}
                     </span>

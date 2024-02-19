@@ -69,7 +69,7 @@ window.vapp = new Vue({
         }).catch(function (err) {
             th.error = err;
             console.error(err);
-            th.$alert(err);
+            //th.$alert(err);
         }).finally(() => th.loading = false);
     },
     methods: {

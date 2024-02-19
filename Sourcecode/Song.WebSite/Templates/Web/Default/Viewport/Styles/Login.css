@@ -20,6 +20,7 @@ body {
 	width: 800px;
 	height: 100%;
 	position: relative;
+	flex: 1;
 }
 
 #chartsDOM {
@@ -46,9 +47,14 @@ body {
 /*右侧数据列表*/
 .datatables {
 	width: 300px;
-	flex: 1;
+	max-width: 500px;
+	
 }
-
+@media only screen and (min-width: 1600px) {
+	.datatables {
+		width: 500px;		
+	}
+}
 .datatables .el-form {
 	display: flex;
 	margin: 0px;

@@ -36,7 +36,7 @@
                 </dd>
                 <dd v-if="listcount<1" class="noapi">
                     <span v-if="error==''">没有查询到实体</span>
-                    <span v-else>{{error}}</span>
+                    <span v-else v-html="error"></span>
                 </dd>
             </dl>
 

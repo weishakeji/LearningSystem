@@ -61,7 +61,8 @@ $ready(['/Utilities/baiduMap/map_show.js'],
                 },
                 //地理位置
                 address: function (row) {
-                    if( row.Lso_Province == row.Lso_City)return row.Lso_Province +  row.Lso_District
+                    if (!$api.isnull(row.Lso_Address) && row.Lso_Address!='') return row.Lso_Address;
+                    if (row.Lso_Province == row.Lso_City) return row.Lso_Province + row.Lso_District
                     return row.Lso_Province + row.Lso_City + row.Lso_District;
                 },
             }

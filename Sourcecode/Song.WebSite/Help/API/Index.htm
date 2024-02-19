@@ -33,12 +33,12 @@
                               <methods :apiobject="u" :search="apisearch" :index="i+1" v-show="searhState(u)">
                               </methods>
                         </dd>
-                        <dd v-if="loading" class="noapi">
+                        <dd v-if="loading">
                               <span>loading...</span>
                         </dd>
                         <dd v-else-if="apilist.length<1" class="noapi">
                               <span v-if="error==''">没有接口信息</span>
-                              <span v-else>{{error}}</span>
+                              <span v-else v-html="error"></span>
                         </dd>
 
                   </dl>

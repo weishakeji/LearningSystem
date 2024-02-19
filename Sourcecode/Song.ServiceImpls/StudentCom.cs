@@ -610,6 +610,7 @@ namespace Song.ServiceImpls
                 entity.Lso_City = posi.City;            //城市
                 entity.Lso_District = posi.District;    //区县
                 entity.Lso_Code = posi.Code;            //行政区划代码
+                entity.Lso_Address = posi.Address;      //详细地址
                 //经纬度
                 entity.Lso_Longitude = posi.Longitude;
                 entity.Lso_Latitude = posi.Latitude;
