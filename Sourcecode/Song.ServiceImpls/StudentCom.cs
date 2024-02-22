@@ -750,6 +750,9 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 登录日志的统计信息
         /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="province"></param>
         /// <param name="city"></param>
         /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
@@ -2078,6 +2081,77 @@ Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel
             if (orgid > 0) wc &= LogForStudentStudy._.Org_ID == orgid;
             int total = Gateway.Default.From<LogForStudentStudy>().Where(wc).GroupBy(LogForStudentStudy._.Ac_ID.Group).Select(new Field[] { LogForStudentStudy._.Ac_ID }).Count();
             return total;
+        }
+        /// <summary>
+        /// 学员的活跃情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="acc">账号</param>
+        /// <param name="name">姓名</param>
+        /// <param name="mobi">手机号</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="code">学号</param>
+        /// <param name="orderby">排序字段</param>
+        /// <param name="orderpattr">排序方式，asc或desc</param>
+        /// <returns></returns>
+        public DataTable Activation(int orgid, long stsid, string acc, string name, string mobi, string idcard, string code,
+             string orderby, string orderpattr,
+            int size, int index, out int countSum)
+        {
+            string sql = @"select *  from (
+	                    select acc.Ac_ID,Ac_Name,Ac_AccName,Ac_Sex,Ac_Photo,Ac_IDCardNumber,Ac_MobiTel1,Ac_LastTime,Sts_ID,Sts_Name,Ac_Money
+		                    ,logincount,logintime
+		                    ,coursecount,rechargecount,lastrecharge,laststudy,lastexrcise,lasttest,lastexam
+		                    ,ROW_NUMBER() OVER( ORDER BY {{orderby}} {{orderpattr}} ) AS rowid from Accounts as acc
+	                    left join  --登录次数与最后登录时间
+	                    (select Ac_id, COUNT(*) as 'logincount', max(Lso_CrtTime) as 'logintime' from LogForStudentOnline group by Ac_ID) as ol
+		                    on acc.Ac_ID=ol.Ac_id
+	                    left join --课程购买个数
+	                    (select Ac_id, COUNT(*) as 'coursecount' from Student_Course group by Ac_ID) as buy
+		                    on acc.Ac_ID=buy.Ac_id
+	                    left join ----资金动向
+	                    (select Ac_id, COUNT(*) as 'rechargecount',max(Ma_CrtTime) as 'lastrecharge'  from MoneyAccount where Ma_Type=2  group by Ac_ID) as recharge
+		                    on acc.Ac_ID=recharge.Ac_ID			
+	                    left join --视频学习记录
+	                    (select Ac_id, max(Lss_LastTime) as 'laststudy' from LogForStudentStudy group by Ac_ID) as video
+		                    on acc.Ac_ID=video.Ac_ID
+	                    left join --试题练习记录
+	                    (select Ac_id, max(Lse_LastTime) as 'lastexrcise' from LogForStudentExercise group by Ac_ID) as ques
+		                    on acc.Ac_ID=ques.Ac_ID
+	                    left join --测试成绩
+	                    (select Ac_id, max(Tr_CrtTime) as 'lasttest' from TestResults group by Ac_ID) as test
+		                    on acc.Ac_ID=test.Ac_ID
+	                    left join --考试成绩
+	                    (select Ac_id, max(Exr_CrtTime) as 'lastexam' from ExamResults group by Ac_ID) as exam
+		                    on acc.Ac_ID=exam.Ac_ID
+	                    --查询条件
+	                    where {{where}}  	
+                    ) as res where rowid BETWEEN {{start}} AND {{end}}";
+            //查询条件
+            string wheresql = @" {{orgid}} and {{stsid}} and {{acc}} and {{name}} and {{mobi}} and {{idcard}} and {{code}}";
+            wheresql = wheresql.Replace("{{orgid}}", orgid<=0 ? "1=1" : "Org_ID=" + orgid);
+            wheresql = wheresql.Replace("{{stsid}}", stsid <= 0 ? "1=1" : "Sts_ID=" + stsid);
+            wheresql = wheresql.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "Ac_AccName like '%" + acc + "%'");
+            wheresql = wheresql.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "Ac_Name like '%" + name + "%'");
+            wheresql = wheresql.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : "Ac_MobiTel1 like '%" + mobi + "%'");
+            wheresql = wheresql.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "Ac_IDCardNumber like '%" + idcard + "%'");
+            wheresql = wheresql.Replace("{{code}}", string.IsNullOrWhiteSpace(code) ? "1=1" : "Ac_CodeNumber like '%" + code + "%'");
+            //获取记录总数
+            string sumSql = @"select COUNT(*) from Accounts where " + wheresql;        
+            countSum = Convert.ToInt32(Gateway.Default.FromSql(sumSql).ToScalar());
+
+            //查询
+            sql = sql.Replace("{{where}}", wheresql);
+            //排序条件与方式
+            sql = sql.Replace("{{orderby}}", string.IsNullOrWhiteSpace(orderby) ? "Ac_LastTime" : orderby);
+            sql = sql.Replace("{{orderpattr}}", "asc".Equals(orderpattr, StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC");
+            //RowNum BETWEEN(页码-1)*页大小 + 1 AND 页码*页大小
+            sql = sql.Replace("{{start}}", ((index - 1) * size + 1).ToString());
+            sql = sql.Replace("{{end}}", (index * size).ToString());
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];        
         }
         #endregion
     }

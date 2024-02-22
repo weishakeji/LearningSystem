@@ -1,0 +1,83 @@
+﻿@charset "utf-8";
+
+#vapp {
+	overflow: hidden;
+}
+
+.organs_option {
+	height: 70px;
+}
+
+div[disabled] {
+	color: #aaa;
+}
+
+/*学员组的样式*/
+.el-select-dropdown__item>div>span:first-child {
+	float: left;
+}
+
+.el-select-dropdown__item>div>span:last-child {
+	float: right;
+	color: #8492a6;
+	font-size: 13px;
+}
+
+/*学员账号信息*/
+.account {
+	position: relative;
+}
+
+icon[teacher] {
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 1px;
+}
+
+icon[teacher]::before {
+	color: rgb(3, 167, 3);
+	margin: 0px;
+}
+
+.account .large {
+	width: calc(100% - 50px);
+	height: 48px;
+	float: left;
+	line-height: 24px;
+	overflow: hidden;
+}
+
+icon[mobile], icon[mobile]::before {
+	margin-right: 0px !important;
+}
+
+
+icon[money] {
+	font-size: 16px;
+	color: coral;
+	display: inline-block;
+	
+}
+
+/*头像组件*/
+
+.ws_avatar {
+	float: left;
+	margin-right: 5px;
+}
+
+.noname {
+	color: #aaa;
+	font-size: 12px;
+}
+/*手机号*/
+.mobi{
+	font-size: 12px;
+}
+.bindmobi{
+	color: #67C23A;
+}
+.bindmobi icon{
+	margin-right: 0px;
+}

@@ -86,10 +86,7 @@ $ready(function () {
                 th.loading = true;
                 $api.get("Account/Pager", th.form).then(function (d) {
                     th.loading = false;
-                    if (d.data.success) {
-                        for (var i = 0; i < d.data.result.length; i++) {
-                            d.data.result[i].isAdminPosi = false;
-                        }
+                    if (d.data.success) {                       
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
