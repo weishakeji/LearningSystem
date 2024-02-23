@@ -14,11 +14,7 @@
                 width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="时间区间">
-                    <el-date-picker v-model="selectDate" type="daterange" align="right" unlink-panels
-                        @change="handleCurrentChange(1)" style="width: 220px;" range-separator="至"
-                        start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
-                        :default-time="['00:00:00', '23:59:59']">
-                    </el-date-picker>
+                    <date_range @change="selectDate"></date_range>                  
                 </el-form-item>
                 <el-form-item label="关键字">
                     <el-input v-model="form.search" placeholder="说明" style="width: 120px;" clearable></el-input>
@@ -191,7 +187,7 @@
                 <template v-if="files.length>0">
                     <el-divider></el-divider>
                     <el-form-item label="文件下载">
-                        <dl>
+                        <dl>                         
                             <dd v-for="(f,i) in files">
                                 <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
                                         {{f.file}}</a>

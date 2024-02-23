@@ -138,6 +138,12 @@ $ready(function () {
                     });
                 });
             },
+              //打开子页面
+              openSubpage: function (page, account, title, width, height, icon) {
+                var title = '“' + account.Ac_Name + '(' + account.Ac_AccName + ')”的' + title;
+                var param = { ico: icon };
+                this.$refs.btngroup.pagebox(page + '?id=' + account.Ac_ID, title, null, width, height, param);
+            }
         },
         filters: {
             //时间离现在多久

@@ -57,7 +57,7 @@ icon[money] {
 	font-size: 16px;
 	color: coral;
 	display: inline-block;
-	
+	cursor: pointer;
 }
 
 /*头像组件*/

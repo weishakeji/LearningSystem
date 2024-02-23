@@ -114,7 +114,7 @@
                 </el-table-column>
                 <el-table-column sortable="custom" label="资金" width="100" prop="Ac_Money">
                     <template slot-scope="scope">
-                        <icon money>{{scope.row.Ac_Money}}</icon>
+                        <icon money @click="openSubpage('money',scope.row,'资金明细',800,600,'e818')" title="资金余额">{{scope.row.Ac_Money}}</icon>
 
                         <div v-if="scope.row.rechargecount!=null && scope.row.rechargecount!=''">
                             充值{{scope.row.rechargecount}}次</div>
