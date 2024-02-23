@@ -582,7 +582,7 @@
                 let index = status.findIndex(el => el.key == key);
                 let item = index < 0 ? { key: key } : status[index];
                 let time = new Date();
-                item.time = time.format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
+                item.time = time.toLocaleString();  //登录时间或刷新时间
                 item.id = !!item.id ? item.id : (id == null ? 0 : id);
                 item.val = code;    //登录后的校验码
                 //item.duration = !!item.duration ? item.duration : (dura == null ? 0 : dura);
@@ -1327,7 +1327,7 @@
             //缓存时长和过期时间
             var expires = {
                 'duration': duration, 'time': time,
-                'timestring': time.format('yyyy-MM-dd HH:mm:ss')
+                'timestring': time.toLocaleString()
             }
             //处理value
             if (value != null) {
