@@ -2105,10 +2105,10 @@ Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel
 		                    ,coursecount,rechargecount,lastrecharge,laststudy,lastexrcise,lasttest,lastexam
 		                    ,ROW_NUMBER() OVER( ORDER BY {{orderby}} {{orderpattr}} ) AS rowid from Accounts as acc
 	                    left join  --登录次数与最后登录时间
-	                    (select Ac_id, COUNT(*) as 'logincount', max(Lso_CrtTime) as 'logintime' from LogForStudentOnline group by Ac_ID) as ol
+	                    (select Ac_id, COUNT(0) as 'logincount', max(Lso_CrtTime) as 'logintime' from LogForStudentOnline group by Ac_ID) as ol
 		                    on acc.Ac_ID=ol.Ac_id
 	                    left join --课程购买个数
-	                    (select Ac_id, COUNT(*) as 'coursecount' from Student_Course group by Ac_ID) as buy
+	                    (select Ac_id, COUNT(0) as 'coursecount' from Student_Course group by Ac_ID) as buy
 		                    on acc.Ac_ID=buy.Ac_id
 	                    left join ----资金动向
 	                    (select Ac_id, COUNT(*) as 'rechargecount',max(Ma_CrtTime) as 'lastrecharge'  from MoneyAccount where Ma_Type=2  group by Ac_ID) as recharge
