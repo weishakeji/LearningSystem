@@ -40,6 +40,10 @@ $(function () {
         let url = $(this).attr("url");
         buildpanel(url);
     });
+    $("li div.code").dblclick(function () {
+        let code = $(this).text().substring(1);
+        copy(code)
+    });
 });
 
 //创建一个面板
@@ -56,3 +60,20 @@ function buildpanel(url) {
         $(this).remove();
     });
 }
+//复制文字
+function copy(text, textbox) {
+    return new Promise((resolve, reject) => {
+        try {
+            if (textbox == null) textbox = 'input';
+            var oInput = document.createElement(textbox);
+            oInput.value = text;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令           
+            oInput.style.display = 'none';
+            resolve(this);
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
