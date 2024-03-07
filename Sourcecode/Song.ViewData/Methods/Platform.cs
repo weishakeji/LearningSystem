@@ -29,6 +29,16 @@ namespace Song.ViewData.Methods
     {
         #region 平台信息
         /// <summary>
+        /// 公司产品版本
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Cache(Expires = 999)]
+        public System.Data.DataTable ProductEdition()
+        {
+            return WeiSha.Core.Parameters.Authorization.VersionLevel.LevelTable;
+        }
+        /// <summary>
         /// 平台信息
         /// </summary>
         /// <returns></returns>

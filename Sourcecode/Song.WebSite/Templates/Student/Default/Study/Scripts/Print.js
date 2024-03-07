@@ -161,6 +161,21 @@ $ready(function () {
                     });
                 });
             },
+            topdf: function () {
+                let html = $dom("body").html();
+                const renderedHtml = this.$el.outerHTML;
+                //console.log(html);
+                $api.post('DocHelper/ToPDF', { 'html': html }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        alert('success');
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
+            }
         }
     });
 

@@ -72,10 +72,15 @@
 .page-title button {
 	padding: 3px 10px;
 	position: absolute;
+}
+.page-title button:last-child {
 	bottom: 5px;
 	right: 2px;
 }
-
+.page-title button:first-child {
+	bottom: 5px;
+	right: 82px;
+}
 table {
 	border: 1px solid #333;
 }

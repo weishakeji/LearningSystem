@@ -445,6 +445,10 @@ namespace Song.ViewData.Methods
             }
             return true;
         }
+        /// <summary>
+        /// 数据实体生成Word文档
+        /// </summary>
+        /// <returns></returns>
         public string EntitiestoWord()
         {
             //导出文件的位置
@@ -706,6 +710,8 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 获取地理信息
+
         /// <summary>
         /// 通过经纬度，获取地理信息
         /// </summary>
@@ -723,16 +729,9 @@ namespace Song.ViewData.Methods
             jo.Add("Street", posi.Street);
             return jo;
         }
-        /// <summary>
-        /// 公司产品版本
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Cache(Expires = 999)]
-        public System.Data.DataTable ProductEdition()
-        {
-            return WeiSha.Core.Parameters.Authorization.VersionLevel.LevelTable;
-        }
+        #endregion
+
+       
     }
     #region 一些需要用到的类
     //接口类
