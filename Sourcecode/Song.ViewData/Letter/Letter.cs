@@ -32,6 +32,7 @@ namespace Song.ViewData
                     string[] arr = _filterWords.Split('|');
                     foreach (string s in arr)
                     {
+                        if (string.IsNullOrWhiteSpace(s)) continue;
                         _filterWordsdic.Add(s, toSBC(s));
                     }
                 }
