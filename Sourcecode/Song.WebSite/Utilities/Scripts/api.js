@@ -678,7 +678,7 @@
     //一些网址的处理方法
     apiObj.prototype.url = {
          //地址的参数
-         params: function (url) {
+        params: function (url) {
             if (url == null || url == '') url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return [];
             //取所有参数
@@ -722,8 +722,8 @@
         //地址栏最后一个.后面的字符
         //如果只有一参数，val为默认值，即.后面没有值时，返回默认值
         //如果有两个参数，用于设置url的dot值
-        dot: function (val, address) {
-            let url = address == null || address == '' ? String(window.document.location.href) : address;
+        dot: function (val, url) {
+            url = url == null || url == '' ? String(window.document.location.href) : url;
             if (arguments.length <= 1) {
                 if (url.indexOf('/') > -1) url = url.substring(url.lastIndexOf('/') + 1);
                 if (url.indexOf('?') > -1) url = url.substring(0, url.lastIndexOf('?'));
@@ -757,12 +757,11 @@
             try {
                 val = decodeURI(val);
             } catch { }
-            val = val.replace(/<[^>]+>/gi, '');    //清除html标签         
-            //'|"|>|..|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|script|frame|;|or|-|+|,|)|etc|style|expression
-            const rex = />|and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|script|frame|or|etc|style|expression/gi;
+            val = val.replace(/<[^>]+>/gi, '');    //清除html标签 
+            const rex = /\'|\"|\.\.|>|and|exec|insert|select|delete|update|count|\*|\%|chr|mid|master|truncate|char|declare|script|frame|\;|or|\-|\+|\,|\)|etc|style|expression/gi;
             let result = val.match(rex);
             if (result == null) return val;
-            console.error('参数 [ ' + key + ' ] 存在危险字符：' + result.join(',') + '，已经清理');
+            console.error('参数 [ ' + key + ' ] 存在危险字符：' + result.join('  ') + '  已经清理');
             return methods.trim(val.replace(rex, ''));
         },
         //验证是否是合法的网址

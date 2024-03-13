@@ -146,7 +146,7 @@ namespace Song.ViewData
         /// <summary>
         /// 请求的来源，浏览器信息
         /// </summary>
-        public string Browser { get; set; }
+        public Song.ViewData.Browser Browser { get; set; }
         /// <summary>
         /// 浏览器信息
         /// </summary>

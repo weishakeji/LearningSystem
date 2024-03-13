@@ -29,7 +29,7 @@ namespace Song.ViewData
             this.ClassName = arr[3];
             this.MethodName = arr[4];
             //客户端信息
-            this.Browser = request.Browser.Browser + " " + request.Browser.Version;
+            this.Browser = new Browser(context);
             UserAgent = request.UserAgent;
             //接口的所在页面
             this.Referrer = request.UrlReferrer;
@@ -176,7 +176,7 @@ namespace Song.ViewData
             HttpContextBase context = (HttpContextBase)httprequest.Properties["MS_HttpContext"];//获取传统context
             HttpRequestBase request = context.Request;//定义传统request对象
             //客户端信息
-            this.Browser = request.Browser.Browser + " " + request.Browser.Version;
+            this.Browser = new Browser();
             this.UserAgent = request.UserAgent;
             //获取get参数
             for (int i = 0; i < context.Request.QueryString.Count; i++)
