@@ -1971,10 +1971,8 @@ namespace Song.ServiceImpls
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;
             if (start != null) wc &= MoneyAccount._.Ma_CrtTime > (DateTime)start;
             if (end != null) wc &= MoneyAccount._.Ma_CrtTime <= (DateTime)end;
-            object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
-            decimal sum = 0;
-            sum = tm is decimal ? (decimal)tm : 0;
-            return sum;
+            object obj = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
+            return obj != null ? (decimal)obj : 0;
         }
         /// <summary>
         /// 按日期统计资金
