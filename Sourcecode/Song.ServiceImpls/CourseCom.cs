@@ -452,7 +452,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) sql_total += " where Cou_Name like '%" + sear + "%'";
             sql_total = sql_total.Replace("{{sql}}", sql1);
             object o = Gateway.Default.FromSql(sql_total).ToScalar();
-            countSum = Convert.ToInt32(o);
+            countSum = o == null ? 0 : (int)o;
 
             //综合sql1和sql2,主要是查询
             string sql3 = @"select ROW_NUMBER() OVER(Order by  Stc_EndTime desc, Ssc_ID desc) AS 'rowid', * from 
@@ -609,9 +609,7 @@ namespace Song.ServiceImpls
         public decimal Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
-            if (obj == null) return 0;
-            double d = (double)obj;
-            return (decimal)d;
+            return obj == null ? 0 : (decimal)obj;
         }
         /// <summary>
         /// 课程收益汇总
@@ -643,9 +641,7 @@ namespace Song.ServiceImpls
             }
             sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
             object obj = Gateway.Default.FromSql(sql).ToScalar();
-            if (obj == null) return 0;
-            double d = (double)obj;
-            return (decimal)d;
+            return obj == null ? 0 : (decimal)obj;
         }
         /// <summary>
         /// 获取所有课程
@@ -1843,7 +1839,7 @@ namespace Song.ServiceImpls
             sqlsum = sqlsum.Replace("{{where4acc}}", where4acc);
             sqlsum = sqlsum.Replace("{{where4sc}}", where4sc);
             object o = Gateway.Default.FromSql(sqlsum).ToScalar();
-            countSum = Convert.ToInt32(o);
+            countSum =o==null ? 0 : Convert.ToInt32(o);
 
             //分页查询的脚本
             string sqljquery = string.Empty;

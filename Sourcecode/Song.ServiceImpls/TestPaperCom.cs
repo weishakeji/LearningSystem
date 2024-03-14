@@ -696,7 +696,7 @@ namespace Song.ServiceImpls
             wc.And(TestResults._.Ac_ID == stid);
             wc.And(TestResults._.Tp_Id == tpid);
             object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
-            return (float)score;
+            return score == null ? 0 : (float)score;         
         }
         /// <summary>
         /// 计算该试卷的所有测试的最低分

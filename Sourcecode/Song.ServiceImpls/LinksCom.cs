@@ -110,12 +110,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<Links>(Links._.Lk_Tax, Links._.Ls_Id == sortId && Links._.Org_ID == orgid);
-            int tax = 0;
-            if (obj is int)
-            {
-                tax = (int)obj;
-            }
-            return tax;
+            return obj is int ? (int)obj : 0;
         }
         public Links[] GetLinksAll(int orgid, bool? isShow)
         {
@@ -361,12 +356,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == parentId && LinksSort._.Org_ID == orgid);
-            int tax = 0;
-            if (obj is int)
-            {
-                tax = (int)obj;
-            }
-            return tax;
+            return obj is int ? (int)obj : 0;
         }
         /// <suPsary>
         /// 获取对象；即所有栏目；
