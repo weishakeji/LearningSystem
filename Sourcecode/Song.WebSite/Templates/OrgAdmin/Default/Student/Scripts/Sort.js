@@ -155,38 +155,19 @@ $ready(function () {
                     ghostClass: 'sortable-ghost', //拖拽样式
                     handle: '.draghandle',     //拖拽的操作元素
                     animation: 150, // 拖拽延时，效果更好看
-                    group: { // 是否开启跨表拖拽
-                        pull: false,
-                        put: false
-                    },
-                    onStart: function (evt) { },
-                    onMove: function (evt, originalEvent) {
-                        if ($dom('table tr.expanded').length > 0) {
-                            return false;
-                        };
-                        evt.dragged; // dragged HTMLElement
-                        evt.draggedRect; // TextRectangle {left, top, right и bottom}
-                        evt.related; // HTMLElement on which have guided
-                        evt.relatedRect; // TextRectangle
-                        originalEvent.clientY; // mouse position
-
-                    },
+                    group: { pull: false, put: false },
                     onEnd: (e) => {
-                        let arr = this.datas; // 获取表数据
-                        arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
-                        this.$nextTick(function () {
-                            this.datas = arr;
-                            let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;
-                            for (let i = 0; i < this.datas.length; i++) {
-                                this.datas[i].Sts_Tax = initindex + i;
-                            }
-                            this.changeTax();
-                        });
+                        this.datas.splice(e.newIndex, 0, this.datas.splice(e.oldIndex, 1)[0]);
+                        this.$nextTick(() => this.changeTax());
                     }
                 });
             },
             //更新排序
             changeTax: function () {
+                let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;
+                for (let i = 0; i < this.datas.length; i++) {
+                    this.datas[i].Sts_Tax = initindex + i;
+                }
                 var arr = $api.clone(this.datas);
                 for (let i = 0; i < arr.length; i++) {
                     delete arr[i]['childs'];
