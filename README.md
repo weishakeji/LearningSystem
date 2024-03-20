@@ -42,6 +42,7 @@
  * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
  * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
  * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
+ * 更多说明，在部署后可以查看<a href="http://www.weisha100.cn/help/" target="_blank" size=12> /help </a>
 
 ![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
 
