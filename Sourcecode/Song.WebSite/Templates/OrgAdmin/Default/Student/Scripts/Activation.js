@@ -66,7 +66,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -86,10 +86,10 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
+                }).catch((err) => {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //当表格的排序条件发生变化的时候会触发该事件
             sortchange: function (column) {
@@ -122,7 +122,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => { });
             },
             //显示手机号
             showmobi: function (row) {
@@ -138,8 +138,8 @@ $ready(function () {
                     });
                 });
             },
-              //打开子页面
-              openSubpage: function (page, account, title, width, height, icon) {
+            //打开子页面
+            openSubpage: function (page, account, title, width, height, icon) {
                 var title = '“' + account.Ac_Name + '(' + account.Ac_AccName + ')”的' + title;
                 var param = { ico: icon };
                 this.$refs.btngroup.pagebox(page + '?id=' + account.Ac_ID, title, null, width, height, param);

@@ -42,7 +42,6 @@ $ready(function () {
         created: function () {
             var th = this;
             $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;
@@ -54,14 +53,14 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
 
         },
         methods: {
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {                      
+                    if (valid) {
                         th.$confirm('增减学员卡券, 是否继续?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',

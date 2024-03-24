@@ -63,7 +63,6 @@ $ready(function () {
                 th.query.size = Math.floor(area / 42);
                 th.loading = true;
                 $api.get('Money/PagerForAccount', th.query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
@@ -75,10 +74,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //表格中，行的点击事件
             rowclick: function (row, column, event) {

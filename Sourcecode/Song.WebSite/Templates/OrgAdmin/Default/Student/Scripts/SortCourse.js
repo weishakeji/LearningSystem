@@ -209,7 +209,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     console.error(err);
-                });
+                }).finally(()=>{});
             },
             //专业更改时
             changeSbj: function (val) {
@@ -242,8 +242,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-
-                });
+                }).finally(()=>{});
             },
             //验证选择按钮是否能用
             checkdisabled: function (cou) {
@@ -301,7 +300,7 @@ $ready(function () {
                     //alert(err);
                     Vue.prototype.$alert(err);
                     console.error(err);
-                });
+                }).finally(()=>{});
             },
             //批量添加
             addbatcourse: function () {

@@ -19,16 +19,15 @@ $ready(function () {
 
 
             loading: false,
-            loading_export:false,       //生成的预载
+            loading_export: false,       //生成的预载
 
             files: [],
-            filepanel:false      //显示文件列表的面板
+            filepanel: false      //显示文件列表的面板
         },
         created: function () {
             var th = this;
             th.loading = true;
             $api.get('Organization/Current').then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.config = $api.organ(th.organ).config;
@@ -38,10 +37,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
             this.getFiles();
         },
@@ -209,10 +206,10 @@ $ready(function () {
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }                  
+                    }
                 }).catch(function (err) {
                     th.loading_export = false;
-                    console.error(err);                   
+                    console.error(err);
                 });
             },
             //获取文件列表

@@ -47,7 +47,7 @@ $ready(function () {
                 th.getEntity();
             })).catch(function (err) {
                 console.error(err);
-            });
+            }).finally(()=>{});
 
         },
         methods: {

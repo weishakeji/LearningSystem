@@ -85,8 +85,7 @@ $ready(function () {
                 th.form.size = Math.floor(area / 67);
                 th.loading = true;
                 $api.get("Account/Pager", th.form).then(function (d) {
-                    th.loading = false;
-                    if (d.data.success) {                       
+                    if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
@@ -95,10 +94,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //刷新行数据，
             freshrow: function (id) {
@@ -136,9 +133,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //显示手机号
             showmobi: function (row) {
