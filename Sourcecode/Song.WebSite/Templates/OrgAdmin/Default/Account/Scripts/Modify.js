@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             account: {}, //当前登录账号对象
@@ -15,16 +15,15 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.post('Admin/General').then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
-                    vue.account = result;
+                    th.account = result;
                 } else {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
                 alert(err);
-            });
+            }).finally(() => th.loading = false);
 
         },
         methods: {
@@ -33,8 +32,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        $api.post('Admin/Modify', { 'acc': vue.account }).then(function (req) {
-                            th.loading = false;
+                        $api.post('Admin/Modify', { 'acc': th.account }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -54,7 +52,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -73,7 +71,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.post('Admin/UpPhoto', { 'file': file, 'accid': th.account.Acc_Id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.account.Acc_Photo = result;
@@ -89,9 +86,9 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         },
     });
 
-},["../Scripts/hanzi2pinyin.js"]);
+}, ["../Scripts/hanzi2pinyin.js"]);

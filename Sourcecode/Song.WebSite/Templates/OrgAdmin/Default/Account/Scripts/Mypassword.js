@@ -1,7 +1,6 @@
 ﻿
 $ready(function () {
-
-    var vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             form: {
@@ -20,7 +19,7 @@ $ready(function () {
                     { required: true, message: '请输入新密码', trigger: 'blur' },
                     {
                         validator: function (rule, value, callback) {
-                            if (value !== vue.form.newpw) {
+                            if (value !== vapp.form.newpw) {
                                 callback(new Error('两次输入密码不一致!'));
                             } else {
                                 callback();
@@ -31,16 +30,17 @@ $ready(function () {
             }
         },
         created: function () {
+            var th = this;
             $api.post('Admin/General').then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    vue.account = result;
+                    th.account = result;
                 } else {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
                 alert(err);
-            });
+            }).finally(() => { });
 
         },
         methods: {
@@ -49,11 +49,10 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        $api.post('Admin/ChangePw', { 'oldpw': vue.form.oldpw, 'newpw': vue.form.newpw }).then(function (req) {
-                            th.loading = false;
+                        $api.post('Admin/ChangePw', { 'oldpw': th.form.oldpw, 'newpw': th.form.newpw }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vue.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '修改成功!'
                                 });
@@ -66,8 +65,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vue.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
