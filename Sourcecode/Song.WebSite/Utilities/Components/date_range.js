@@ -32,12 +32,15 @@ Vue.component('date_range', {
                 }, {
                     text: '本周',
                     onClick(p) {
-                        const today = new Date();
-                        let currentDay = today.getDay();
-                        var firstDayOfWeek = new Date(today.setDate(today.getDate() - currentDay + 1));
-                        var lastDayOfWeek = new Date();
-                        lastDayOfWeek.setDate(lastDayOfWeek.getDate() - currentDay + 6 + 1);
-                        p.$emit('pick', [firstDayOfWeek, lastDayOfWeek]);
+                        const today = new Date();   //当前时间
+                        let dayOfWeek = today.getDay(); //当前星期几                      
+                        // 计算本周的起始时间
+                        let startDate = new Date(today);
+                        startDate.setDate(today.getDate() - (dayOfWeek > 0 ? dayOfWeek - 1 : 6));
+                        // 计算本周的结束时间
+                        let endDate = new Date(today);
+                        endDate.setDate(today.getDate() + (dayOfWeek > 0 ? 7 - dayOfWeek : 0));
+                        p.$emit('pick', [startDate, endDate]);
                     }
                 }, {
                     text: '最近一个月',

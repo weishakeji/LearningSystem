@@ -22,7 +22,7 @@ Date.prototype.format = function (fmt) {
     var fmtfuc = function (fmt, date) {
         fmt = fmt.replace(/\Y/g, "y");
         //24小时制
-        var h24 = date.toLocaleString();
+        let h24 = date.toLocaleString();
         try {
             h24 = date.toLocaleString('chinese', {
                 hour12: false
@@ -31,16 +31,16 @@ Date.prototype.format = function (fmt) {
         h24 = h24.substring(h24.indexOf(' ') + 1, h24.indexOf(':'));
         h24 = h24 == '24' ? '0' : h24;
         //12小时制
-        var h12 = date.toLocaleString();
+        let h12 = date.toLocaleString();
         try {
             h12 = date.toLocaleString('chinese', { hour12: true });
         } catch (e) { }
         h12 = h12.substring(h12.indexOf(' ') + 1, h12.indexOf(':'));
         //星期
-        var week = ['天', '一', '二', '三', '四', '五', '六'];
+        let week = ['天', '一', '二', '三', '四', '五', '六'];
         //
-        var ret;
-        var opt = {
+        let ret;
+        let opt = {
             "yyyy": date.getFullYear().toString(), // 年
             "yy": date.getFullYear().toString().substring(2),
             "M+": (date.getMonth() + 1).toString(), // 月
@@ -51,7 +51,7 @@ Date.prototype.format = function (fmt) {
             "m+": date.getMinutes().toString(), // 分
             "s+": date.getSeconds().toString() // 秒			
         };
-        for (var k in opt) {
+        for (let k in opt) {
             ret = new RegExp("(" + k + ")").exec(fmt);
             if (ret) {
                 fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))

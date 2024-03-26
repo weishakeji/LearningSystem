@@ -170,6 +170,47 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 统计信息
 
+        /// <summary>
+        /// 学员活跃度
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="acc">账号</param>
+        /// <param name="name">姓名</param>
+        /// <param name="mobi">手机号</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="code">学号</param>
+        /// <param name="orderby">排序字段；
+        /// logincount:登录次数
+        /// logintime：最后登录时间
+        /// coursecount：课程购买数
+        /// rechargecount：充值次数
+        /// lastrecharge:最后充值时间
+        /// laststudy：最后视频学习时间
+        /// lastexrcise：最后试题练习时间
+        /// lasttest：最后测试时间
+        /// lastexam：最后考试时间
+        /// </param>
+        /// <param name="orderpattr">排序方式，asc或desc</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        [Cache]
+        public ListResult Activation(int orgid, long stsid, string acc, string name, string mobi, string idcard, string code,
+           string orderby, string orderpattr,
+           int size, int index)
+        {
+            int total = 0;
+            DataTable dt = Business.Do<IStudent>().Activation(orgid, stsid, acc, name, mobi, idcard, code, orderby, orderpattr, size, index, out total);
+            ListResult result = new ListResult(dt);
+            result.Index = index;
+            result.Size = size;
+            result.Total = total;
+            return result;
+        }
+
+        #endregion
     }
 }

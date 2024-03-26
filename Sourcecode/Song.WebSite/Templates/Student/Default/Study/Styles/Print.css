@@ -72,6 +72,14 @@
 .page-title button {
 	padding: 3px 10px;
 	position: absolute;
+}
+
+.page-title button:first-child {
+	bottom: 5px;
+	right: 82px;
+}
+
+.page-title button:last-child {
 	bottom: 5px;
 	right: 2px;
 }

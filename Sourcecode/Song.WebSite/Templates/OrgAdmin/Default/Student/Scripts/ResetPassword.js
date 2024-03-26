@@ -54,7 +54,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(()=>{});
 
         },
         methods: {

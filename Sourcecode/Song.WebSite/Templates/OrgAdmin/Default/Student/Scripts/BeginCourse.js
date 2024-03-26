@@ -12,27 +12,10 @@ $ready(function () {
 
             //表单数据对象
             formdata: {
-                'limittime': '',
+                'start': '', 'end': '',
                 'courses': []
             },
             rules: {
-                'limittime': [{
-                    validator: async function (rule, value, callback) {
-                        if (value == '') {
-                            callback(new Error('请选择时间区!'));
-                        } else {
-                            var start = value[0];
-                            var y = start.getFullYear();
-                            var m = start.getMonth() + 1;//获取当前月份的日期 
-                            var d = start.getDate();
-                            start = new Date(y + '/' + m + '/' + d);
-                            if (start.getTime() > new Date().getTime())
-                                callback(new Error('开始时间不得大于当前时间!'));
-                            else
-                                callback();
-                        }
-                    }, trigger: 'blur'
-                }],
                 'courses': [{
                     validator: async function (rule, value, callback) {
                         if (value.length <= 0) {
@@ -43,7 +26,6 @@ $ready(function () {
                     }, trigger: 'blur'
                 }]
             },
-            limittime: '',       //时间区单
             //专业树形下拉选择器的配置项
             defaultSubjectProps: {
                 children: 'children',
@@ -56,66 +38,6 @@ $ready(function () {
             sbjids: [],
             courses: [],        //供选择的课程       
 
-            pickerOptions: {
-                shortcuts: [{
-                    text: '一周',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '一个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '两个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 60);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '三个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '六个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 180);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '九个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 270);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '一年',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 365);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }, {
-                    text: '两年',
-                    onClick(picker) {
-                        const end = new Date();
-                        end.setTime(end.getTime() + 3600 * 1000 * 24 * 365 * 2);
-                        picker.$emit('pick', [new Date(), end]);
-                    }
-                }]
-            },
-
             loading: false,
             loading_init: true,
             loading_up: false        //提交数据的预载
@@ -127,7 +49,6 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -135,9 +56,8 @@ $ready(function () {
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.getSubjects(th.organ);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -151,6 +71,11 @@ $ready(function () {
         watch: {
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.formdata.start = start;
+                this.formdata.end = end;
+            },
             //获取课程专业的数据
             getSubjects: function (organ) {
                 if (organ == null || !organ || !organ.Org_ID) return;
@@ -163,9 +88,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //专业更改时
             changeSbj: function (val) {
@@ -188,11 +112,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //添加选中的课程
             changeCourse: function (val) {
@@ -208,8 +129,8 @@ $ready(function () {
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {                       
-                        var params = { 'stid': th.stid, 'start': th.formdata.limittime[0], 'end': th.formdata.limittime[1], 'couid': [] };
+                    if (valid) {
+                        var params = { 'stid': th.stid, 'start': th.formdata.start, 'end': th.formdata.end, 'couid': [] };
                         for (let i = 0; i < th.formdata.courses.length; i++) {
                             params.couid.push(th.formdata.courses[i].Cou_ID);
                         }

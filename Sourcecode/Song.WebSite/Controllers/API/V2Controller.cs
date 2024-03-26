@@ -8,6 +8,7 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Song.ViewData;
+using System.Text;
 
 namespace Song.WebSite.Controllers
 {
@@ -16,6 +17,23 @@ namespace Song.WebSite.Controllers
     /// </summary>
     public class V2Controller : ApiController
     {
+        //public IHttpActionResult Get()
+        //{
+        //    //给当前进度一个ID
+        //    long sessionid = WeiSha.Core.Request.SnowID();
+        //    this.Request.Properties["SessionID"] = sessionid;
+        //    System.Web.HttpContext.Current.Items["SessionID"] = sessionid;
+
+        //    Song.ViewData.Letter letter = new Song.ViewData.Letter_v2(this.Request);
+        //    //letter.SessionID = this.Request.Properties["SessionID"].ToString();
+        //    LetterBox.Insert(sessionid, letter);
+
+        //    DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(letter);
+        //    if (!letter.Encrypt) return Ok(result);
+           
+        //    return Ok(WeiSha.Core.DataConvert.EncryptForBase64(result.ToString()));
+        //}
+
         // GET api/values
         public System.Net.Http.HttpResponseMessage Get()
         {
@@ -64,7 +82,7 @@ namespace Song.WebSite.Controllers
         {
             return new System.Net.Http.HttpResponseMessage
             {
-                Content = new System.Net.Http.StringContent(GetInfo(string.Empty)),
+                Content = new System.Net.Http.StringContent(GetInfo(string.Empty), Encoding.UTF8, "application/json"),
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Version = new Version("2.0")
             };

@@ -27,9 +27,7 @@
                 </div>
             </el-form-item>
             <el-form-item label="学习时限" prop="limittime">
-                <el-date-picker type="daterange" v-model="formdata.limittime" :picker-options="pickerOptions"
-                    start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['12:00:00']">
-                </el-date-picker>
+                <date_range @change="selectDate"></date_range>            
                 <help>课程可以学习的时间区间</help>
             </el-form-item>
             <el-form-item label="选择课程" prop="courses">

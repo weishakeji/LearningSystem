@@ -11,6 +11,10 @@
     <div id="vapp" v-cloak>
         <div class="page">
             <div class="page-title">学习证明
+                <el-button type="primary" @click="topdf()" plain v-if="false">
+                    <icon>&#xe848</icon>生成PDF
+                </el-button>
+
                 <el-button type="primary" @click="window.print()" :disabled="!loadcomplete">
                     <icon>&#xa046</icon>打印
                 </el-button>

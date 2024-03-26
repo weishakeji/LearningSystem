@@ -1456,8 +1456,8 @@ namespace Song.ServiceImpls
             else where = where.Replace("{stsid}", "1=1");
             //计算总数
             string total = "select COUNT(*) from ( "+sql+ ") as t " + where;
-            object o = Gateway.Default.FromSql(total).ToScalar();
-            countSum = Convert.ToInt32(o);
+            object obj = Gateway.Default.FromSql(total).ToScalar();
+            countSum = obj == null ? 0 : (int)obj;
             //查询结果
             int start = (index - 1) * size;
             int end = (index - 1) * size + size;

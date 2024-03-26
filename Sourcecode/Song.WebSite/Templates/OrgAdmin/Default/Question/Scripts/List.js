@@ -162,6 +162,9 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 var loading = this.$fulloading();
+                var sbjid = 0;
+                if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
+                th.form.sbjid = sbjid;
                 $api.get("Question/Pager", th.form).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;

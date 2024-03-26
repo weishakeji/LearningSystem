@@ -14,7 +14,21 @@
     <div id="head">
         <h1>数据实体生成</h1>
     </div>
-    还在编写中...
+    <section>
+        <p>学习系统采用了ORM（对象关系映射）框架进行数据操作，基本上不需要编写SQL语句，并有效解决了注入攻击。</p>
+        <p>当修改数据库的表或字段后，需要重新生成实体类，可以使用代码生成器（WeiSha.Data.Generete.exe）重新生成实体类。代码生成器（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。
+        </p>
+        <p>注：实体类全部在Song.Entities 项目，不要手工改动。</p>
+       
+
+        <dl>生成步骤：
+            <dd>1、链接数据库</dd>
+            <dd>2、选择要生成的表</dd>
+            <dd>3、生成接口</dd>
+            <dd>4、生成实体</dd>
+            <dd>5、生成文件（路径选择Song.Entities 项目的文件夹）</dd>
+        </dl>
+    </section>
 </body>
 
 </html>

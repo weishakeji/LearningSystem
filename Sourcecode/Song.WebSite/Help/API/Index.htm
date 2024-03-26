@@ -2,21 +2,21 @@
 <html>
 
 <head>
-    <title>接口说明</title>
-    <link rel="shortcut icon" href="../Images/api.ico" />
-    <script type="text/javascript" src="/Utilities/Scripts/polyfill.min.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
-    <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
+      <title>接口说明</title>
+      <link rel="shortcut icon" href="../Images/api.ico" />
+      <script type="text/javascript" src="/Utilities/Scripts/polyfill.min.js"></script>
+      <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+      <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
+      <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+      <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+      <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
+      <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
+      <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
 
 
-    <link href="Styles/index.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
+      <link href="Styles/index.css" rel="stylesheet" type="text/css" />
+      <meta charset="utf-8">
 </head>
 
 <body>
@@ -33,15 +33,15 @@
                               <methods :apiobject="u" :search="apisearch" :index="i+1" v-show="searhState(u)">
                               </methods>
                         </dd>
-                        <dd v-if="loading" class="noapi">
+                        <dd v-if="loading">
                               <span>loading...</span>
                         </dd>
                         <dd v-else-if="apilist.length<1" class="noapi">
                               <span v-if="error==''">没有接口信息</span>
-                              <span v-else>{{error}}</span>
+                              <span v-else v-html="error"></span>
                         </dd>
 
-                  </dl>                 
+                  </dl>
             </menu>
 
             <context id="context">
@@ -93,8 +93,8 @@
                               </remarks>
                               <return><b>返回：</b>
                                     <span class="type">{{method.Return.Type}}</span>
-                                    <div class="intro" v-if="method.Return.Intro!=''">
-                                          <pre v-html="method.Return.Intro"></pre>
+                                    <div class="intro" v-if="method.Return.Intro!=''"
+                                          v-html="showintro(method.Return.Intro)">
                                     </div>
                               </return>
                               <example v-if="method.Example!=''"><b>示例：</b>
@@ -148,8 +148,8 @@
                   <div :style="helpshow ? '' : 'transform: scale(1, 0);opacity:0;'" class="homepage">
 
 
-                      <P><b>单个访问</b> </P>
-                      <pre>
+                        <P><b>单个访问</b> </P>
+                        <pre>
       $api.get('Account/Current').then(function(req){
             if(req.data.success){
                   var result=req.data.result;
@@ -161,23 +161,25 @@
             alert(err);
             console.error(err);
       }).finally(()=>{});</pre>
-                      <P><b>批量访问</b> </P>
-                      <pre>
+                        <P><b>批量访问</b> </P>
+                        <pre>
       //批量访问过中会验证结果是否异常，但不会触发catch
       $api.bat(
             $api.get('Account/Current'),
             $api.cache('Question/Types:9999'),
             $api.post('Course/ForID', { 'id': 123 })
-      ).then(axios.spread(function (acc, type, cou, outline) {
-            console.error(type);
+      ).then(axios.spread(function (acc, type, cou) {
+          var result1=acc.data.result;
+          var result2=type.data.result;
+          var result3=cou.data.result;                   
       })).catch(err => alert(err))
       .finally(() => {
             console.log('finally');
       });
                         </pre>
-                      <P><b>浏览器本地缓存</b> </P>
-                      
-                      <pre>
+                        <P><b>浏览器本地缓存</b> </P>
+
+                        <pre>
       //采用浏览器本地数据库(IndexedDB)存储接口数据
       //当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络
 
@@ -206,7 +208,7 @@
       $api.api_cache.reset();
 
 </pre>
-</div>
+                  </div>
             </context>
 
       </section>

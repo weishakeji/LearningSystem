@@ -1,4 +1,7 @@
 ﻿@charset "utf-8";
-.e{
-    text-align: center;
+#some-element{
+    height: 30px;
+    width: 150px;
+ background-color: brown;
+ font-weight: 700;
 }

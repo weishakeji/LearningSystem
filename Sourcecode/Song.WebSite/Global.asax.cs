@@ -17,6 +17,9 @@ namespace Song.WebSite
     {
         protected void Application_Start()
         {
+            //删除X-AspNetMvc-Version header
+            MvcHandler.DisableMvcResponseHeader = true;
+
             //查询开始之前
             //WeiSha.Data.Gateway.Default.RegisterLogger(new Song.ViewData.Helper.DatabaseLog());
 

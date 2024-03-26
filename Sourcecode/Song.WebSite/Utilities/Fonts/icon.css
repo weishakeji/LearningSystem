@@ -183,7 +183,9 @@ help, alert {
     cursor: default;
     
 }
-
+help *, alert *{
+    font-size: 13px;
+}
 help::before, alert::before {
     font-family: "webdesk_icon" !important;
     display: inline-block;
@@ -265,7 +267,7 @@ loading[dot]::after {
 }
 
 loading::before, loading[fish]::before {
-    content: "\e601";
+    content: "\e620";
 }
 
 loading[bubble]::before {
@@ -278,6 +280,9 @@ loading[fresh]::before {
 
 loading[star]::before {
     content: "\e747";
+}
+loading[fish]::before {
+    content: "\e601";
 }
 
 @keyframes rotate_360 {

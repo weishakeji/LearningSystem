@@ -7,11 +7,11 @@
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * github开源地址:https://github.com/weishakeji/LearningSystem
  */
-var vapp = new Vue({
-    el: '#entities',
+window.vapp = new Vue({
+    el: '#vapp',
     data: {
         entitysearch: '',   //用于左侧实体列表的搜索
-        entities: {}, //实体列表，   
+        entities: {},   //实体列表，   
         error: '',       //错误信息的提示    
         loading: false,
         helpshow: false,     //帮助信息的显示状态
@@ -25,8 +25,8 @@ var vapp = new Vue({
         entitylist: function () {
             this.entitysearch = this.entitysearch.toLowerCase();
             if (this.entitysearch == '') return this.entities;
-            var arr = {};
-            for (var item in this.entities) {
+            let arr = {};
+            for (let item in this.entities) {
                 if (item.toLowerCase().indexOf(this.entitysearch) > -1
                     || this.entities[item]['mark'].indexOf(this.entitysearch) > -1) {
                     arr[item] = this.entities[item];
@@ -36,9 +36,9 @@ var vapp = new Vue({
         },
         //左侧实体列表中的实体个数
         listcount: function () {
-            var arr = this.entitylist;
-            var count = 0;
-            for (var item in arr) count++;
+            let arr = this.entitylist;
+            let count = 0;
+            for (let item in arr) count++;
             return count;
         }
     },
@@ -49,9 +49,6 @@ var vapp = new Vue({
                 if (JSON.stringify(oval) != "{}")
                     this.update();
             }
-        },
-        'loading': function (vl, ol) {
-            this.mask(vl);
         }
     },
     created: function () {
@@ -59,7 +56,6 @@ var vapp = new Vue({
         th.loading = true;
         //实体信息的获取
         $api.get("helper/Entities").then(function (req) {
-            th.loading = false;
             if (req.data.success) {
                 th.entities = req.data.result;
                 for (var t in th.entities) {
@@ -71,24 +67,18 @@ var vapp = new Vue({
                 throw req.data.message;
             }
         }).catch(function (err) {
-            th.loading = false;
             th.error = err;
             console.error(err);
-            th.$alert(err);
-        });
-        //帮助信息隐藏
-        window.setTimeout(function () {
-            //th.helpshow = false;
-        }, 3000);
+            //th.$alert(err);
+        }).finally(() => th.loading = false);
     },
     methods: {
+        //保存实体的标题说明与简介，不涉及字段
         update: function () {
             var th = this;
-            th.loading = true;
+            th.loading = true;       
             $api.post('Helper/EntitiesUpdate', { 'detail': this.entities }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
-                    th.loading = false;
                     th.$notify({
                         title: '保存成功',
                         message: '数据实体的描述信息保存成功！',
@@ -98,15 +88,9 @@ var vapp = new Vue({
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 th.$alert(err);
                 console.error(err);
-            });
-        },
-        //遮罩层，用于加载过程中锁屏
-        mask: function (state) {
-            var mask = document.getElementById("mask");
-            mask.style.setProperty('display', state ? 'block' : 'none', 'important');
+            }).finally(() => th.loading = false);
         }
     }
 });
@@ -138,9 +122,6 @@ Vue.component('entity', {
         'clname': function (val, old) {
             console.log(val);
             this.getDetails(val);
-        },
-        'loading': function (val, old) {
-            this.$parent.mask(val);
         },
         'entity': function (nv, ov) {
             console.log(nv);
@@ -291,12 +272,14 @@ Vue.component('entity', {
     <div>
         <a :name="clname" class="anchor">&nbsp;</a>
         <div class="name">
-            {{index+1}}. <span @dblclick="copy(clname)" title="双击复制">{{clname}}</span>
-            <span class="mark" v-show="!state('mark')" @click="edit('mark')">
-            <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
-            <span v-show="state('mark')"><i class="el-icon-edit"></i>
-            <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave('mark')" @blur="leave('mark')" />
-            </span>
+            <div>
+                {{index+1}}. <span @dblclick="copy(clname)" title="双击复制">{{clname}}</span>
+                <span class="mark" v-show="!state('mark')" @click="edit('mark')">
+                <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
+                <span v-show="state('mark')"><i class="el-icon-edit"></i>
+                <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave('mark')" @blur="leave('mark')" />
+                </span>
+            </div>
             <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>
         </div>
         <div class="intro">
@@ -311,7 +294,13 @@ Vue.component('entity', {
         <table border="0">
             <thead>
                 <tr>
-                    <th>序号</th><th>字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th>
+                    <th width="50px">序号</th>
+                    <th>字段</th>
+                    <th>类型</th>
+                    <th width="50px">可空</th>
+                    <th>关联</th>
+                    <th>备注</th>
+                    <th>说明</th>
                 </tr>
             </thead>
             <tbody>

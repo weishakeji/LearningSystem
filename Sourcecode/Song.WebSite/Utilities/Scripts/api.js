@@ -55,7 +55,7 @@
         },
         //设置url中的参数
         setpara: function (key, value) {
-            var url = String(window.document.location.href);
+            let url = String(window.document.location.href);
             return $api.url.set(url, key, value);
         },
         //设置url中的#后的值
@@ -73,7 +73,7 @@
         dot: function (val, url) {
             if (arguments.length < 1) return $api.url.dot();
             if (arguments.length == 1) {
-                var dot = $api.url.dot();
+                let dot = $api.url.dot();
                 return dot == '' ? val : dot;
             }
             if (arguments.length >= 2)
@@ -97,44 +97,38 @@
             if (typeName == 'Array') return handleArray(data);
             //反常时间的处理，如果时间处于一百年前，则返回空值
             function abnormalTime(date) {
-                var now = new Date();
-                var y = now.getFullYear();
-                var m = now.getMonth();
-                var d = now.getDate();
+                let now = new Date();
+                let y = now.getFullYear();
+                let m = now.getMonth();
+                let d = now.getDate();
                 now = new Date(y - 100, m < 10 ? '0' + m : m, d < 10 ? ('0' + d) : d);
                 if (date > now) return date;
                 return '';
             }
             //解码对象
             function handleObject(data) {
-                for (var key in data) {
-                    var typeName = methods.getType(data[key]);
-                    if (typeName == 'String')
-                        data[key] = methods.unescape(data[key]);
-                    if (typeName == 'Date')
-                        data[key] = abnormalTime(data[key]);
-                    if (typeName == 'Array')
-                        data[key] = handleArray(data[key]);
-                    if (typeName == 'Object')
-                        data[key] = handleObject(data[key]);
+                for (let key in data) {
+                    let typeName = methods.getType(data[key]);
+                    if (typeName == 'String') data[key] = methods.unescape(data[key]);
+                    if (typeName == 'Date') data[key] = abnormalTime(data[key]);
+                    if (typeName == 'Array') data[key] = handleArray(data[key]);
+                    if (typeName == 'Object') data[key] = handleObject(data[key]);
                 }
                 return data;
             }
             //解码数组
             function handleArray(data) {
-                for (let i = 0; i < data.length; i++) {
-                    const element = data[i];
-                    data[i] = methods.unescape(element);
-                }
+                for (let i = 0; i < data.length; i++)
+                    data[i] = methods.unescape(data[i]);
                 return data;
             }
             return data;
         },
         //判断数据类型
         getType: function (data) {
-            var getType = Object.prototype.toString;
-            var myType = getType.call(data); //调用call方法判断类型，结果返回形如[object Function]  
-            var typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
+            let getType = Object.prototype.toString;
+            let myType = getType.call(data); //调用call方法判断类型，结果返回形如[object Function]  
+            let typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
             return typeName;
         },
         //是否为空
@@ -211,7 +205,7 @@
                 var cookieValue = null;
                 if (document.cookie && document.cookie != '') {
                     var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
+                    for (let i = 0; i < cookies.length; i++) {
                         var cookie = methods.trim(cookies[i]);
                         // Does this cookie string begin with the name we want? 
                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
@@ -234,19 +228,11 @@
             return viewer;
         },
         //网页是否处于微信内置浏览器
-        isWeixin: function () {
-            let ua = window.navigator.userAgent.toLowerCase();
-            return ua.match(/MicroMessenger/i) == 'micromessenger';
-        },
+        isWeixin: () => window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == 'micromessenger',
         //网页是否处于微信小程序内置浏览器
-        isWeixinApp: function () {
-            let ua = window.navigator.userAgent.toLowerCase();
-            return ua.match(/miniProgram/i) == 'miniprogram';
-        },
+        isWeixinApp: () => window.navigator.userAgent.toLowerCase().match(/miniProgram/i) == 'miniprogram',
         //是否是IE浏览器
-        isIE: function () {
-            return !!window.ActiveXObject || "ActiveXObject" in window;
-        },
+        isIE: () => !!window.ActiveXObject || "ActiveXObject" in window,
         //是否是手机端
         ismobi: function () {
             let regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
@@ -265,10 +251,10 @@
         toJson: function (value) {
             //将对象中为的DateTime对象转为数值
             function handle_time(obj) {
-                var typeName = methods.getType(obj);
+                let typeName = methods.getType(obj);
                 if (typeName == 'Date') obj = String(obj.getTime()) + '.0000';
                 if (obj instanceof Array || typeName === 'Object') {
-                    for (var d in obj)
+                    for (let d in obj)
                         obj[d] = handle_time(obj[d]);
                 }
                 return obj;
@@ -341,7 +327,7 @@
         //当前api要请求的服务端接口的版本号
         this.version = version == null ? config.versionDefault : version;
         var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options', 'cache'];
-        for (var i = 0; i < httpverb.length; i++) {
+        for (let i = 0; i < httpverb.length; i++) {
             var el = httpverb[i];
             var tm = "this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded,'json');}";
             eval(tm);
@@ -412,7 +398,7 @@
                     config.parameters = config.params;
                     //克隆参数对象，因为上传的参数要escape转码，需要保留原数据类型
                     var tmpObj = new Object();
-                    for (var d in config.params) {
+                    for (let d in config.params) {
                         var typeName = methods.getType(config.params[d]);
                         if (typeName == 'Date') {
                             tmpObj[d] = config.params[d].getTime();
@@ -439,7 +425,7 @@
                 } else {
                     config.parameters = config.data;
                     var formData = new FormData();
-                    for (var d in config.data) {
+                    for (let d in config.data) {
                         var typeName = methods.getType(config.data[d]);
                         if (typeName == 'Date') {
                             formData.append(d, config.data[d].getTime());
@@ -551,7 +537,7 @@
             });
         };
         //常用方法加到$api根，方便调用
-        for (var m in methods) {
+        for (let m in methods) {
             eval("this." + m + "=" + methods[m] + ";");
         }
     };
@@ -596,7 +582,7 @@
                 let index = status.findIndex(el => el.key == key);
                 let item = index < 0 ? { key: key } : status[index];
                 let time = new Date();
-                item.time = time.format('yyyy-MM-dd HH:mm:ss');  //登录时间或刷新时间
+                item.time = time.toLocaleString();  //登录时间或刷新时间
                 item.id = !!item.id ? item.id : (id == null ? 0 : id);
                 item.val = code;    //登录后的校验码
                 //item.duration = !!item.duration ? item.duration : (dura == null ? 0 : dura);
@@ -691,56 +677,42 @@
     };
     //一些网址的处理方法
     apiObj.prototype.url = {
-        //地址的参数
+         //地址的参数
         params: function (url) {
             if (url == null || url == '') url = String(window.document.location.href);
+            if (url.indexOf("?") < 0) return [];
             //取所有参数
-            var values = new Array();
-            if (url.indexOf("?") > -1) {
-                var query = url.substring(url.lastIndexOf("?") + 1);
-                var paras = query.split('&');
-                for (var q in paras) {
-                    var arr = paras[q].split('=');
-                    if (arr.length < 2) continue;
-                    if (arr[1].indexOf("#") > -1) arr[1] = arr[1].substring(0, arr[1].indexOf("#"));
-                    arr[1] = decodeURI(arr[1]).replace(/<[^>]+>/g, "");
-                    values.push({
-                        key: arr[0],
-                        val: arr[1]
-                    });
-                }
+            let values = new Array();
+            let paras = url.substring(url.lastIndexOf("?") + 1).split('&');
+            for (let q in paras) {
+                let arr = paras[q].split('=');
+                if (arr.length < 2) continue;
+                if (arr[1].indexOf("#") > -1) arr[1] = arr[1].substring(0, arr[1].indexOf("#"));
+                values.push({ key: arr[0], val: arr[1] });
             }
             return values;
         },
         //获取参数
         get: function (url, key) {
             if (key == undefined || key == null) return this.params(url);
-            var values = this.params(url);
-            for (var q in values) {
-                if (values[q].key.toLowerCase() == key.toLowerCase())
-                    return values[q].val;
-            }
-            return '';
+            let values = this.params(url);
+            const res = values.find(t => t.key.toLowerCase() === key.toLowerCase());
+            return res === undefined ? '' : this.filter(res.val, key);
         },
         set: function (url, key, value) {
             if (key.constructor === Object) {
                 for (let k in key) url = this.set(url, k, key[k]);
                 return url;
             }
-            var values = this.params(url);
-            var isExist = false;
-            for (var q in values) {
-                if (values[q].key.toLowerCase() == key.toLowerCase()) {
-                    values[q].val = value;
-                    isExist = true;
-                }
-            }
-            if (!isExist) values.push({ key: key, val: value });
+            let values = this.params(url);
+            const res = values.find(t => t.key.toLowerCase() === key.toLowerCase());
+            if (res != undefined) res['val'] = value;
+            else values.push({ key: key, val: value });
             //拼接Url      
             if (url == null || url == '') url = String(window.document.location.href);
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));
-            var parastr = "";
-            for (var i = 0; i < values.length; i++) {
+            let parastr = "";
+            for (let i = 0; i < values.length; i++) {
                 if (values[i].val == null || values[i].val == '') continue;
                 parastr += values[i].key + "=" + values[i].val;
                 if (i < values.length - 1) parastr += "&";
@@ -751,23 +723,23 @@
         //如果只有一参数，val为默认值，即.后面没有值时，返回默认值
         //如果有两个参数，用于设置url的dot值
         dot: function (val, url) {
+            url = url == null || url == '' ? String(window.document.location.href) : url;
             if (arguments.length <= 1) {
-                var url = String(window.document.location.href);
                 if (url.indexOf('/') > -1) url = url.substring(url.lastIndexOf('/') + 1);
                 if (url.indexOf('?') > -1) url = url.substring(0, url.lastIndexOf('?'));
                 if (url.indexOf('#') > -1) url = url.substring(0, url.lastIndexOf('#'));
-                if (url.indexOf('.') > -1) return url.substring(url.lastIndexOf('.') + 1);
+                if (url.indexOf('.') > -1) return this.filter(url.substring(url.lastIndexOf('.') + 1), 'dot');
                 else if (val != undefined && val != null)
                     return val;
                 else return '';
             }
             if (arguments.length == 2) {
-                var prefix = '', suffix = '', parastr = '';
+                let prefix = '', suffix = '', parastr = '';
                 if (url.indexOf('?') > -1) {
                     parastr = url.substring(url.lastIndexOf('?'));
                     url = url.substring(0, url.lastIndexOf('?'));
                 }
-                if (url.length > 0 && url.charAt(0) != '.' && url.indexOf('.') > -1) {
+                if (url.indexOf('.') > -1) {
                     suffix = url.substring(url.lastIndexOf('.') + 1);
                     prefix = url.substring(0, url.lastIndexOf('.'));
                 } else {
@@ -778,9 +750,23 @@
                 return prefix.toLowerCase() + '.' + val + parastr;
             }
         },
+        //过滤参数，主要为了清除一些危险字符
+        //
+        filter: function (val, key) {
+            if (val == null || val == '') return val;
+            try {
+                val = decodeURI(val);
+            } catch { }
+            val = val.replace(/<[^>]+>/gi, '');    //清除html标签 
+            const rex = /\'|\"|\.\.|>|and|exec|insert|select|delete|update|count|\*|\%|chr|mid|master|truncate|char|declare|script|frame|\;|or|\-|\+|\)|etc|style|expression/gi;
+            let result = val.match(rex);
+            if (result == null) return val;
+            console.error('参数 [ ' + key + ' ] 存在危险字符：' + result.join('  ') + '  已经清理');
+            return methods.trim(val.replace(rex, ''));
+        },
         //验证是否是合法的网址
         check: function (url) {
-            var reg = /(http|ftp|https|mms):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+            let reg = /(http|ftp|https|mms):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
             return reg.test(url);
         },
         //取地址的主机部分，例如 http://xxx.com/
@@ -788,11 +774,10 @@
             if (url == null) url = window.location.href;
             if (url.length < 4) return '';
             if (url.substring(0, 4).toLowerCase() != 'http') return '';
-            var arr = url.split('/');
-            var host = '';
-            if (arr.length >= 3) {
+            let arr = url.split('/');
+            let host = '';
+            if (arr.length >= 3)
                 for (let i = 0; i < 3; i++) host += arr[i] + '/';
-            }
             return host.toLowerCase();
         }
     };
@@ -802,7 +787,7 @@
         if (!organ.Org_Config || organ.Org_Config == '') return obj;
 
         obj.config = this.xmlconfig.tojson(organ.Org_Config);
-        for (var t in obj.config) {
+        for (let t in obj.config) {
             if (!isNaN(Number(obj.config[t]))) {
                 obj.config[t] = Number(obj.config[t]);
                 continue;
@@ -823,9 +808,9 @@
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(xml, "text/xml");
             var nodes = xmlDoc.lastChild.children;
-            for (var i = 0; i < nodes.length; i++) {
-                var key = nodes[i].attributes['key'].value;
-                var val = nodes[i].attributes['value'].value;
+            for (let i = 0; i < nodes.length; i++) {
+                let key = nodes[i].attributes['key'].value;
+                let val = nodes[i].attributes['value'].value;
                 //如果是逻辑值
                 if (val == 'True') obj[key] = true;
                 if (val == 'False') obj[key] = false;
@@ -842,7 +827,7 @@
             var xml = '<?xml version="1.0" encoding="UTF-8"?>';
             xml += '<items>';
             if (json != null) {
-                for (var key in json) {
+                for (let key in json) {
                     xml += '<item key="' + key + '" value="' + json[key] + '">';
                     xml += '</item>';
                 }
@@ -928,7 +913,7 @@
         };
         function md5_WordToHex(lValue) {
             var WordToHexValue = "", WordToHexValue_temp = "", lByte, lCount;
-            for (lCount = 0; lCount <= 3; lCount++) {
+            for (let lCount = 0; lCount <= 3; lCount++) {
                 lByte = (lValue >>> (lCount * 8)) & 255;
                 WordToHexValue_temp = "0" + lByte.toString(16);
                 WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
@@ -938,7 +923,7 @@
         function md5_Utf8Encode(string) {
             string = string.replace(/\r\n/g, "\n");
             var utftext = "";
-            for (var n = 0; n < string.length; n++) {
+            for (let n = 0; n < string.length; n++) {
                 var c = string.charCodeAt(n);
                 if (c < 128) {
                     utftext += String.fromCharCode(c);
@@ -1092,7 +1077,7 @@
         _utf8_encode = function (string) {
             string = string.replace(/rn/g, "n");
             var utftext = "";
-            for (var n = 0; n < string.length; n++) {
+            for (let n = 0; n < string.length; n++) {
                 var c = string.charCodeAt(n);
                 if (c < 128) {
                     utftext += String.fromCharCode(c);
@@ -1341,19 +1326,19 @@
             //缓存时长和过期时间
             var expires = {
                 'duration': duration, 'time': time,
-                'timestring': time.format('yyyy-MM-dd HH:mm:ss')
+                'timestring': time.toLocaleString()
             }
             //处理value
             if (value != null) {
                 //删除多余值
-                for (var v in value) {
+                for (let v in value) {
                     if (v == 'data' || v == 'status') continue;
                     delete value[v];
                 }
                 //进一步删除多余值
                 if (!!value['data']) {
                     var retain = 'result,success,size,index,total,totalpages'.split(',');
-                    for (var d in value['data']) {
+                    for (let d in value['data']) {
                         if (retain.includes(d)) continue;
                         delete value['data'][d];
                     }
@@ -1418,7 +1403,7 @@
             if (store) {
                 th.getall(store).then(function (items) {
                     if (items.length < 1) return;
-                    for (var i = 0; i < items.length; i++) {
+                    for (let i = 0; i < items.length; i++) {
                         const item = items[i];
                         if (item.expires.time < new Date()) {
                             th.del(item.way, item.para);
@@ -1427,7 +1412,7 @@
                 });
             } else {
                 th.stores().then(function (d) {
-                    for (var i = 0; i < d.length; i++) {
+                    for (let i = 0; i < d.length; i++) {
                         th.clear(d[i]);
                     }
                 });
@@ -1441,7 +1426,7 @@
                 //保留强制缓存
                 if (compel) {
                     th.getall(store).then(function (items) {
-                        for (var i = 0; i < items.length; i++) {
+                        for (let i = 0; i < items.length; i++) {
                             if (items[i].compel) continue;
                             th.del(items[i].way, items[i].para);
                         }
@@ -1457,7 +1442,7 @@
                 }
             } else {
                 th.stores().then(function (d) {
-                    for (var i = 0; i < d.length; i++) {
+                    for (let i = 0; i < d.length; i++) {
                         th.reset(d[i], compel);
                     }
                 });
@@ -1481,7 +1466,7 @@
         //判断浏览器的类型
         if (!window.DOMParser && window.ActiveXObject) {   //window.DOMParser 判断是否是非ie浏览器
             var xmlDomVersions = ['MSXML.2.DOMDocument.6.0', 'MSXML.2.DOMDocument.3.0', 'Microsoft.XMLDOM'];
-            for (var i = 0; i < xmlDomVersions.length; i++) {
+            for (let i = 0; i < xmlDomVersions.length; i++) {
                 try {
                     xmlDoc = new ActiveXObject(xmlDomVersions[i]);
                     xmlDoc.async = false;
@@ -1503,7 +1488,7 @@
         return xmlDoc;
     };
     //创建$api调用对象
-    for (var v in config.versions) {
+    for (let v in config.versions) {
         var str = config.versions[v] == "" ?
             "window.$api = new apiObj();" :
             "window.$api.v" + config.versions[v] + "= new apiObj('" + config.versions[v] + "')";

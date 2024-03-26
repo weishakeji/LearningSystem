@@ -1001,7 +1001,15 @@ namespace Song.ViewData.Methods
         /// <param name="mobi">学员的手机号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
-        /// <returns>结果中的complete字段为学员在当前课程的学习完成度</returns>
+        /// <returns>
+        ///"Stc_QuesScore":试题练习完成度 
+        ///"Stc_StudyScore":视频学习进度 
+        ///   "Stc_ExamScore":结课考试成绩,
+        ///    "lastTime":"2022-04-28T09:05:28.233Z",
+        ///    "studyTime":视频累计学习时间（单位秒）,
+        ///    "totalTime":视频总长度（单位秒）,
+        ///    "complete":视频学习完成进度
+        /// 结果中的complete字段为学员在当前课程的学习完成度</returns>
         [Admin,Teacher]
         public ListResult Students(long couid,long stsid, string acc, string name,string idcard,string mobi, int size, int index)
         {
@@ -1244,12 +1252,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Student_Course Purchaselog(int stid, long couid)
         {
-            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);  //学员购买课程的记录
+            //如果没有记录，如果学员组可以学习该课程，则创建学员与课程的记录
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
-            if (sc != null)
-            {
-                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
-            }
+            if (sc != null)           
+                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;            
             return sc;
         }
         /// <summary>

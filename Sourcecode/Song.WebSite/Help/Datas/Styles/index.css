@@ -12,88 +12,20 @@ a {
     color: #333;
 }
 
-section {
+div#vapp {
     height: 100%;
     width: 100%;
 }
 
-#mask {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: 100;
-    background-color: rgba(255, 255, 255, 0.5);
+/*elementUI 的遮罩*/
+.v-modal {
+    background: rgba(255, 255, 255, 1);
+    opacity: 0.4;
 }
 
-/*预载效*/
-
-#mask #loading {
-    width: 100px;
-    height: 100px;
-    margin: calc(100% / 3) auto 0px auto;
-    position: relative;
-}
-
-#mask b {
-    display: block;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    bottom: 20px;
-    color: #fff;
-    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
-}
-
-#mask span {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: rgb(30, 30, 31);
-    animation: bounce 0.4s infinite linear;
-}
-
-#mask span:nth-child(1) {
-    left: 0;
-    animation-delay: 0s;
-}
-
-#mask span:nth-child(2) {
-    left: 20px;
-    animation-delay: 0.1s;
-}
-
-#mask span:nth-child(3) {
-    left: 40px;
-    animation-delay: 0.2s;
-}
-
-#mask span:nth-child(4) {
-    left: 60px;
-    animation-delay: 0.3s;
-}
-
-#mask span:nth-child(5) {
-    left: 80px;
-    animation-delay: .4s;
-}
-
-@keyframes bounce {
-    0% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translateY(-30px);
-        opacity: 1.0;
-    }
-    100% {
-        transform: translateY(0px);
-        opacity: 0.5;
-    }
+.el-drawer {
+    -webkit-box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
+    box-shadow: 0 8px 10px -5px rgb(158 158 158 / 10%), 0 16px 24px 2px rgb(158 158 158 / 7%), 0 6px 30px 5px rgb(158 158 158 / 6%);
 }
 
 menu {
@@ -102,7 +34,6 @@ menu {
     float: left;
     overflow-y: hidden;
     overflow-x: hidden;
-    box-shadow: 3px 0px 3px #ccc;
 }
 
 menu, menu * {
@@ -111,16 +42,14 @@ menu, menu * {
 }
 
 menu .tit {
-    font-size: 16px;
-    height: 40px;
     line-height: 40px;
     padding-left: 10px;
+    font-size: 18px;
     font-weight: bold;
-    background-color: #eee;
 }
 
-menu .tit i {
-    font-size: 18px;
+i {
+    font-size: 20px;
     margin-right: 5px;
 }
 
@@ -157,29 +86,34 @@ menu .tit .searchbox i {
 }
 
 #menu dl {
-    height: calc(100% - 70px);
+    height: calc(100% - 0px);
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 3px;
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
 }
-*::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
 
     border-radius: 3px;
-     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     background: #808080;
 }
 
-*::-webkit-scrollbar-track {/*滚动条里面轨道*/
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     border-radius: 3px;
     background: #EDEDED;
 }
+
 #menu .entity {
     display: block;
     line-height: 35px;
@@ -197,6 +131,7 @@ menu .tit .searchbox i {
 #menu .entity, #menu .entity a {
     color: #333;
     text-decoration: none;
+    font-size: 18px;
 }
 
 #menu .entity a:hover {
@@ -216,16 +151,19 @@ menu .tit .searchbox i {
 }
 
 #menu .entity span {
-    font-size: 12px;
+    font-size: 14px;
     color: #999;
+    margin-left: 5px;
 }
-dd.noapi{
+
+dd.noapi {
     padding: 10px;
 }
+
 dd.noapi span {
     font-size: 16px;
     line-height: 30px;
-    color: #999;
+    color: rgb(253, 76, 76);
 }
 
 context {
@@ -236,83 +174,45 @@ context {
 }
 
 context>h1 {
-    font-size: 16px;
     margin: 0px;
     height: 40px;
     line-height: 40px;
     padding-left: 10px;
-    padding: 0px 0px 0 20px;
-    background-color: #eee;
+    padding: 0px 60px 0 20px;
+    font-size: 16px;
+    cursor: default;
 }
 
-context>h1>span {
-    display: block;
-    float: right;
-    margin-right: 0px;
-    width: 40px;
-    height: 40px;
-    line-height: 50px;
-    font-size: 30px;
-    cursor: pointer;
-    transition: 0.5s all;    
-}
-context>h1>span>i{
-    width: 40px;
-    height: 40px;
-    display: block;
-}
-context>h1>span>i::before {
-    line-height: 40px;
-    display: block;
+context>h1 span {
+    font-size: 18px;
 }
 
-context>h1>span.show {  
-    transform:rotate(0deg); 
-}
-context>h1>span.hidden {    
-    transform:rotate(-90deg);
-}
-.homepage{
-    transform-origin: 0 0;
+context>h1>b {
     display: block;
     position: absolute;
-    width: calc(100% - 305px);
-    top: 40px;
-    right: 0px;
-    background-color: #eee;
-    overflow: hidden;
-    transition: 0.3s opacity, 0.5s transform;
-    z-index: 100;
-    box-shadow: 0px 3px 3px #ccc;
-    padding: 30px 20px 60px 20px;
-    box-sizing: border-box;
+    right: 25px;
+    top: 5px;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    border: #666 solid 1px;
+    text-align: center;
+    font-size: 22px;
+    line-height: 25px;
+    color: #666;
+    cursor: pointer;
 }
-.homepage p {
+
+context>h1>b:hover {
+    box-shadow: 0px 0px 3px 3px #ddd, 0px 0px 3px 2px #ddd inset;
+}
+
+.helppanel p {
     padding: 10px 20px 0 20px;
     margin: 0px;
     font-size: 18px;
     line-height: 40px;
     text-indent: 40px;
-}
-
-footer {
-    height: 30px;
-    line-height: 30px;
-    text-indent: 10px;
-    font-size: 12px;
-    background-color: #eee;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-}
-
-footer, footer a {
-    text-decoration: none;
-    color: #666;
-}
-
-footer a:hover {
-    text-decoration: underline;
 }
 
 /*实体详情区域*/
@@ -326,12 +226,14 @@ footer a:hover {
     display: flex;
     flex-direction: column;
 }
-.entity_area>div:last-child{
-    overflow-y: auto;
+
+.entity_area>div:last-child {
+    overflow: auto;
     box-sizing: border-box;
     padding-right: 10px;
     position: relative;
 }
+
 .entity_area a.anchor {
     display: block;
     height: 10px;
@@ -343,10 +245,14 @@ footer a:hover {
     font-weight: bold;
     position: relative;
     cursor: default;
+    display: flex;
+    justify-content: space-between;
 }
-.entity_area .field{
+
+.entity_area .field {
     cursor: default;
 }
+
 .entity_area .name span input {
     height: 20px;
     text-indent: 8px;
@@ -415,16 +321,26 @@ footer a:hover {
 
 table {
     width: 100%;
-    background-color: #666;
+    background-color: #aaa;
     border-collapse: separate;
-    border: 2px solid #666;
+    border: 2px solid #aaa;
+    border-top: 0px;
     margin: 0px 10px 20px 0px;
     position: relative;
     overflow: auto;
+    table-layout: fixed;
 }
-table tr:first-child{
 
+table tr th {
+    text-align: center;
+    background-color: #eee;
+    border-top: 2px solid #aaa;
+    padding: 5px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
 }
+
 table td {
     font-size: 14px;
     line-height: 30px;
@@ -435,58 +351,56 @@ table td textarea {
     width: 100%;
 }
 
-table tr th {
-    text-align: center;
-    background-color: #ccc;
-}
 
 table tr:not(:first-child):hover td {
     background-color: #ddd;
 }
 
-table tr td:first-child {
+table tr td {
     text-align: center;
-    width: 50px;
+    font-size: 15px;
 }
 
 table tr td:nth-child(2), table tr th:nth-child(2) {
     text-indent: 8px;
-    width: 160px;
-}
-
-table tr td:nth-child(3) {
-    text-align: center;
-    width: 60px;
-}
-
-table tr td:nth-child(4) {
-    text-align: center;
-    width: 40px;
-}
-
-table tr td:nth-child(5) {
-    text-align: center;
-    width: 120px;
+    text-align: left;
 }
 
 table tr td:nth-child(6) {
-    width: 120px;
-    text-align: center;
+    line-height: 1.2rem;
+    padding: 0px 10px;
 }
 
 table tr td:nth-child(6) input {
     width: 98%;
 }
 
+/*字段说明，即表格的最后一列*/
 table tr td:nth-child(7) {
     padding: 2px 8px 2px 8px;
     line-height: 22px;
+    text-align: left;
+
+}
+
+table tr th:nth-child(7) {
+    min-width: 300px;
 }
 
 table tr td:nth-child(7) div {
     cursor: pointer;
+
 }
 
 table td b {
     color: red;
+}
+
+/*大屏幕设备*/
+@media only screen and (min-width: 1200px) {
+
+    /*字段说明，即表格的最后一列*/
+    table tr th:nth-child(7) {
+        width: 300px;
+    }
 }

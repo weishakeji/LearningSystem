@@ -3,14 +3,12 @@
     height: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: rgb(102 169 237);
+    background-color: rgb(139 197 255);
 
     overflow: hidden;
 }
 
-body {
-    background: radial-gradient(ellipse at left top, #fdb7b9 20%, #5d9dde 50%, #104f9d);
-}
+
 
 panel {
     display: block;
@@ -260,9 +258,10 @@ panel#admin {
 }
 
 .loginbox .login_body button {
-    background: radial-gradient(ellipse at left top, #fdb7b9 10%, #71b0ef 50%, #357fdb) !important;
+    background: rgba(33, 161, 255, .9) !important;
     border-radius: 5px;
-
+    color: #fff;
+    background-image:none;
 }
 
 .loginbox .login_body>*:before {

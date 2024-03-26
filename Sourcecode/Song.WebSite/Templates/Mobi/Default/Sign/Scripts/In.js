@@ -6,8 +6,7 @@ $ready(function () {
             organ: {},
             config: {},
             plate: {},
-            //来源页
-            referrer: decodeURIComponent($api.querystring('referrer')),
+         
 
             loading: false
         },
@@ -19,7 +18,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (acc, platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //获取结果   
                 th.account = acc.data.result;
                 th.platinfo = platinfo.data.result;
@@ -53,7 +52,10 @@ $ready(function () {
                 this.account = account;
                 var th = this;
                 window.setTimeout(function () {
-                    if (th.referrer != '') window.navigateTo(th.referrer);
+                    let referrer = $api.querystring('referrer');
+                    if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+                    if ($api.isnull(referrer)) referrer = '/';
+                    window.navigateTo(decodeURIComponent(referrer));
                 }, 200);
             },
             //退出登录

@@ -29,6 +29,24 @@ namespace Song.ViewData
         }
         #endregion
 
+        #region 一些参数
+        private static bool? _hostCheck= null;
+        /// <summary>
+        /// 请求接口的js所在的页面与地址栏的地址，必须域名一致，为true则验证，false不验证
+        /// </summary>
+        public static bool HostCheck
+        {
+            get
+            {
+                if(_hostCheck==null)
+                    _hostCheck = WeiSha.Core.App.Get["RESTfulAPI_HostCheck"].Boolean ?? true;
+                return (bool)_hostCheck;
+            }
+        }
+
+        #endregion
+
+
         #region 创建并缓存实例对象
         //存储对象的键值对，key为对象的类名称（全名），value为对象自身
         private static Dictionary<string, IViewAPI> _objects = new Dictionary<string, IViewAPI>();
@@ -161,8 +179,12 @@ namespace Song.ViewData
             DateTime time = DateTime.Now;   //接口开始执行的时间
             try
             {
-                if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
-                    throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
+                //是否验证调用接口的js所在页面host，是否与地址栏一致
+                if (HostCheck)
+                {
+                    if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
+                        throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
+                }
                 if (!"weishakeji".Equals(letter.HTTP_Mark,StringComparison.OrdinalIgnoreCase))
                     throw VExcept.System("The request mark is incorrect", 102);
 

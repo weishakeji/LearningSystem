@@ -445,6 +445,10 @@ namespace Song.ViewData.Methods
             }
             return true;
         }
+        /// <summary>
+        /// 数据实体生成Word文档
+        /// </summary>
+        /// <returns></returns>
         public string EntitiestoWord()
         {
             //导出文件的位置
@@ -706,6 +710,8 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 获取地理信息
+
         /// <summary>
         /// 通过经纬度，获取地理信息
         /// </summary>
@@ -723,16 +729,9 @@ namespace Song.ViewData.Methods
             jo.Add("Street", posi.Street);
             return jo;
         }
-        /// <summary>
-        /// 公司产品版本
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Cache(Expires = 999)]
-        public System.Data.DataTable ProductEdition()
-        {
-            return WeiSha.Core.Parameters.Authorization.VersionLevel.LevelTable;
-        }
+        #endregion
+
+       
     }
     #region 一些需要用到的类
     //接口类
@@ -791,8 +790,18 @@ namespace Song.ViewData.Methods
     {
         //返回值的类型
         public string Type { get; set; }
+        private string _intro = string.Empty;
         //返回值的摘要
-        public string Intro { get; set; }
+        public string Intro { get
+            {
+                return _intro;
+            }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    _intro = value.Trim();
+            }
+        }
         //是否可为空 
         public bool Nullable { get; set; }   
         public static Helper_API_Method_Return GetReturn(MethodInfo method, XmlNode node)
@@ -801,9 +810,8 @@ namespace Song.ViewData.Methods
             if (node != null)
             {
                 if (node.SelectSingleNode("returns") != null)
-                    ret.Intro = node.SelectSingleNode("returns").InnerText.Trim();   //返回值的摘要                
-            }
-            if (string.IsNullOrWhiteSpace(ret.Intro)) ret.Intro = string.Empty;
+                    ret.Intro = node.SelectSingleNode("returns").InnerText;   //返回值的摘要                
+            }          
             Type nullableType = System.Nullable.GetUnderlyingType(method.ReturnParameter.ParameterType);
             ret.Type = nullableType != null ? nullableType.FullName + "?" : method.ReturnParameter.ToString();
             if (ret.Type.IndexOf("System.Collections.Generic.List`1[") > -1)
@@ -902,7 +910,7 @@ namespace Song.ViewData.Methods
     public class Helper_API_Method_Attr
     {
         public string Name { get; set; }     //特性名称
-        public bool Ignore { get; set; }
+        public bool Ignore { get; set; }    //是否可以被忽视
         public int Expires { get; set; }   //缓存的过期时效
         public static Helper_API_Method_Attr[] GetAttrs(MethodInfo method)
         {

@@ -8,6 +8,7 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Song.ViewData;
+using System.Text;
 
 namespace Song.WebSite.Controllers
 {
@@ -56,7 +57,7 @@ namespace Song.WebSite.Controllers
         {
             return new System.Net.Http.HttpResponseMessage
             {
-                Content = new System.Net.Http.StringContent(GetInfo(string.Empty)),
+                Content = new System.Net.Http.StringContent(GetInfo(string.Empty), Encoding.UTF8, "application/json"),
                 StatusCode = System.Net.HttpStatusCode.OK
             };         
         }

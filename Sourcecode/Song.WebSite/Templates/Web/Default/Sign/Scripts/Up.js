@@ -386,19 +386,18 @@ $ready(function () {
             //注册成功后的跳转
             goback: function (account) {
                 let referrer = $api.querystring('referrer');
-                if (referrer == null || referrer == '')
-                    referrer = $api.storage('singin_referrer');
+                if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+                if ($api.isnull(referrer)) referrer = '/';
                 //注册成功后，是否需要填写详情
                 if (this.config && this.config.IsRegDetail === true) {
-                    window.location.href = $api.url.set('detail', {
+                    window.navigateTo($api.url.set('detail', {
                         'referrer': referrer,
                         'acid': account.Ac_ID,
                         'uid': account.Ac_CheckUID
-                    });
+                    }));
                     return;
                 }
-                referrer = decodeURIComponent(referrer);
-                window.location.href = referrer != '' ? referrer : '/';
+                window.navigateTo(decodeURIComponent(referrer));
             }
         }
     });

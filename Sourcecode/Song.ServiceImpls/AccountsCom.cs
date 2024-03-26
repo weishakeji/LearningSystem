@@ -1395,7 +1395,7 @@ namespace Song.ServiceImpls
             if (start != null) wc &= PointAccount._.Pa_CrtTime >= (DateTime)start;
             if (end != null) wc &= PointAccount._.Pa_CrtTime < (DateTime)end;
             object obj= Gateway.Default.Sum<PointAccount>(PointAccount._.Pa_Value, wc);
-            return Convert.ToInt32(obj);
+            return obj==null ? 0 : (int)obj;
         }
         /// <summary>
         /// 分页获取所有的公告；
@@ -1679,7 +1679,7 @@ namespace Song.ServiceImpls
             if (start != null) wc &= CouponAccount._.Ca_CrtTime >= (DateTime)start;
             if (end != null) wc &= CouponAccount._.Ca_CrtTime < (DateTime)end;
             object obj = Gateway.Default.Sum<CouponAccount>(CouponAccount._.Ca_Value, wc);
-            return Convert.ToInt32(obj);
+            return obj == null ? 0 : (int)obj;
         }
         /// <summary>
         /// 分页获取所有的公告；
@@ -1971,10 +1971,8 @@ namespace Song.ServiceImpls
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;
             if (start != null) wc &= MoneyAccount._.Ma_CrtTime > (DateTime)start;
             if (end != null) wc &= MoneyAccount._.Ma_CrtTime <= (DateTime)end;
-            object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
-            decimal sum = 0;
-            sum = tm is decimal ? (decimal)tm : 0;
-            return sum;
+            object obj = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
+            return obj != null ? (decimal)obj : 0;
         }
         /// <summary>
         /// 按日期统计资金
@@ -2092,7 +2090,7 @@ namespace Song.ServiceImpls
             if (start != null) wc &= MoneyAccount._.Ma_CrtTime >= (DateTime)start;
             if (end != null) wc &= MoneyAccount._.Ma_CrtTime < (DateTime)end;
             object obj = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
-            return Convert.ToInt32(obj);
+            return obj == null ? 0 : (int)obj;
         }
         /// <summary>
         /// 分页获取所有资金流水；

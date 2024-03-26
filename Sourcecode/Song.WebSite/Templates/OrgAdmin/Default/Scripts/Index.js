@@ -47,15 +47,13 @@ $ctrljs(function () {
     window.login.ondragfinish(function (s, e) {
         $api.post('Helper/CheckCodeImg', { 'leng': s.vcodelen, 'acc': s.user }).then(function (req) {
             if (req.data.success) {
-                var result = req.data.result;
+                let result = req.data.result;
                 s.vcodebase64 = result.base64;
                 s.vcodemd5 = result.value;
             } else {
                 throw req.data.message;
             }
-        }).catch(function (err) {
-            throw err;
-        });
+        }).catch(err => console.error(err));
     });
     window.login.onsubmit(function (s, e) {
         s.loading = true;
@@ -63,10 +61,10 @@ $ctrljs(function () {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
-                $api.login.in('admin', result.Acc_Pw);             
+                $api.login.in('admin', result.Acc_Pw);
                 ready(req.data.result);
             } else {
-                var data = req.data;
+                let data = req.data;
                 switch (String(data.state)) {
                     //验证码错误
                     case '1101':
@@ -82,19 +80,15 @@ $ctrljs(function () {
                         s.tips(s.inputs.user, false, req.data.message);
                         break;
                 }
-                s.loading = false;
             }
-        }).catch(function (err) {
-            alert(err);
-            console.error(err);
-        });
+        }).catch(err => console.error(err))
+            .finally(() => s.loading = false);
     });
-    //判断是否登录
     //判断是否登录
     $api.login.current('admin',
         d => ready(d),
         () => window.login.loading = false);
-         
+
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
@@ -103,9 +97,7 @@ $ctrljs(function () {
         level: 30000
     }).onclick(nodeClick);
     //用户信息的下拉菜单
-    $dom.get($dom.path() + '../_public/datas/usermenu.json', function (req) {
-        usermenu.add(req);
-    });
+    $dom.get($dom.path() + '../_public/datas/usermenu.json', req => usermenu.add(req));
     window.createVapp();
 });
 
@@ -132,7 +124,7 @@ function ready(result) {
     }).onresize(function (s, e) { //当宽高变更时
         $dom('#tabs-area').width('calc(100% - ' + (e.width + 5) + 'px )');
     }).onfold(function (s, e) { //当右侧树形折叠时
-        var width = e.action == 'fold' ? 45 : s.width + 5;
+        let width = e.action == 'fold' ? 45 : s.width + 5;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
     //监听树形菜单的菜单查询面板状态，给背景加模糊效果
@@ -263,23 +255,22 @@ function nodeClick(sender, eventArgs) {
 }
 //选项卡关闭事件
 function tabsShut(sender, eventArgs) {
-    var data = eventArgs.data;
+    let data = eventArgs.data;
     //获取当前标签生成的窗体
-    var boxs = $ctrls.all('pagebox');
-    var arr = new Array();
-    for (var i = 0; i < boxs.length; i++) {
+    let boxs = $ctrls.all('pagebox');
+    let arr = new Array();
+    for (let i = 0; i < boxs.length; i++) {
         if (boxs[i].obj.pid == data.id) {
             arr.push(boxs[i].obj);
-            var childs = boxs[i].obj.getChilds();
-            for (var j = 0; j < childs.length; j++) {
+            let childs = boxs[i].obj.getChilds();
+            for (let j = 0; j < childs.length; j++)
                 arr.push(childs[j]);
-            }
         }
     }
     //关闭当前标签生成的窗体
     if (arr.length > 0) {
         if (confirm('当前选项卡“' + data.title + '”有 ' + arr.length + '个 窗体未关闭，\n是否全部关闭？')) {
-            for (var i = 0; i < arr.length; i++) arr[i].shut();
+            for (let i = 0; i < arr.length; i++) arr[i].shut();
             return true;
         }
         return false;
@@ -288,61 +279,32 @@ function tabsShut(sender, eventArgs) {
 }
 //选项卡切换事件
 function tabsChange(sender, eventArgs) {
+    //所有窗体
+    let boxs = $ctrls.all('pagebox');
+    //当前选项卡所产生的窗体
+    let gettabsbox = (boxs, tabid) => {
+        let arr = [];
+        boxs.filter(el => el.obj.pid == tabid).forEach(item => {
+            arr.push(item.obj);
+            arr = arr.concat(item.obj.getChilds());
+        });
+        return arr.sort((a, b) => a.level - b.level);
+    }
+    //非当前选项卡的窗体(不包括其它控件生成的窗体)
+    let getotherbox = (boxs, tabid, sender) => {
+        let arr = [];
+        sender.childs.filter(el => el.id != tabid).forEach(item => {
+            arr = arr.concat(gettabsbox(boxs, item.id));
+        });
+        return arr;
+    }
     //获取当前标签生成的窗体，全部还原
-    var selfbox = getSelfbox(eventArgs.data.id);
-    for (var i = 0; i < selfbox.length; i++) {
-        selfbox[i].toWindow().focus(false);
-    }
+    gettabsbox(boxs, eventArgs.data.id).forEach(item => item.toWindow().focus(false));
     //非当前标签的窗体，全部最小化
-    var elsebox = getElsebox(sender, eventArgs.data.id);
-    for (var i = 0; i < elsebox.length; i++)  elsebox[i].toMinimize(false);
+    getotherbox(boxs, eventArgs.data.id, sender).forEach(item => item.toMinimize(false));
 
-    //当前标签生成的窗体
-    function getSelfbox(tabid) {
-        var boxs = $ctrls.all('pagebox');
-        //获取当前标签生成的窗体，全部还原
-        var arr = new Array();
-        for (var i = 0; i < boxs.length; i++) {
-            if (boxs[i].obj.pid == tabid) {
-                arr.push(boxs[i].obj);
-                var childs = boxs[i].obj.getChilds();
-                for (var j = 0; j < childs.length; j++)
-                    arr.push(childs[j]);
-            }
-        }
-        //按层深排序，以保证在还原时保持窗体原有层叠效果
-        for (var i = 0; i < arr.length - 1; i++) {
-            for (var j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j].level > arr[j + 1].level) {
-                    var temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
-        return arr;
-    }
-    //非当前标签的窗体(不包括其它控件生成的窗体)
-    function getElsebox(sender, tabid) {
-        var boxs = $ctrls.all('pagebox');
-        var tabs = sender.childs;
-        var arr = [];
-        for (var i = 0; i < tabs.length; i++) {
-            if (tabs[i].id == tabid) continue;
-            for (var j = 0; j < boxs.length; j++) {
-                if (boxs[j].obj.pid == tabs[i].id) {
-                    arr.push(boxs[j].obj);
-                    var childs = boxs[j].obj.getChilds();
-                    for (var n = 0; n < childs.length; n++)
-                        arr.push(childs[n]);
-                }
-            }
-        }
-        return arr;
-    }
-    //当前选项卡id
-    let tabid = eventArgs.tabid;
-    window.tree.currentnode(tabid);
+    //设置左侧树形菜单的当前菜单项
+    window.tree.currentnode(eventArgs.tabid);
 }
 
 //执行vue对象
@@ -420,14 +382,10 @@ window.createVapp = function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //导航菜单的点击事件
             menuClick: function (sender, eventArgs) {
-
                 var data = eventArgs.data;
                 if (!data || data.url == '') return;
                 window.location.href = data.url;

@@ -48,7 +48,7 @@ namespace Song.ServiceInterfaces
         /// <param name="name"></param>
         /// <param name="orgid"></param>
         /// <returns></returns>
-        StudentSort SortSingle(string name,int orgid);
+        StudentSort SortSingle(string name, int orgid);
         /// <summary>
         /// 获取默认学员组
         /// </summary>
@@ -100,6 +100,9 @@ namespace Song.ServiceInterfaces
         /// <param name="stsid"></param>
         /// <returns></returns>
         int SortUpdateCount(long stsid);
+        /// <summary>
+        /// 更新所有学员组的学员数量
+        /// </summary>
         void SortUpdateCount();
         /// <summary>
         /// 当前对象名称是否重名
@@ -644,7 +647,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns>Ac_CurrCourse列为学员选修的课程数</returns>
-        List<Accounts> PurchasePager(int orgid, long stsid, long couid, 
+        List<Accounts> PurchasePager(int orgid, long stsid, long couid,
             string acc, string name, string idcard, string mobi,
            DateTime? start, DateTime? end, int size, int index, out int countSum);
         #endregion
@@ -674,13 +677,39 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid"></param>
         /// <returns></returns>
-        int ForExerciseCount(int orgid);       
+        int ForExerciseCount(int orgid);
         /// <summary>
         /// 视频学习的人数
         /// </summary>
         /// <param name="orgid"></param>
         /// <returns></returns>
         int ForStudyCount(int orgid);
+        /// <summary>
+        /// 学员的活跃情况
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="acc">账号</param>
+        /// <param name="name">姓名</param>
+        /// <param name="mobi">手机号</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="code">学号</param>
+        /// <param name="orderby">排序字段；
+        /// logincount:登录次数
+        /// logintime：最后登录时间
+        /// coursecount：课程购买数
+        /// rechargecount：充值次数
+        /// lastrecharge:最后充值时间
+        /// laststudy：最后视频学习时间
+        /// lastexrcise：最后试题练习时间
+        /// lasttest：最后测试时间
+        /// lastexam：最后考试时间
+        /// </param>
+        /// <param name="orderpattr">排序方式，asc或desc</param>
+        /// <returns></returns>
+        DataTable Activation(int orgid, long stsid, string acc, string name, string mobi, string idcard, string code,
+            string orderby, string orderpattr,
+            int size, int index, out int countSum);
         #endregion
     }
 }

@@ -452,7 +452,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) sql_total += " where Cou_Name like '%" + sear + "%'";
             sql_total = sql_total.Replace("{{sql}}", sql1);
             object o = Gateway.Default.FromSql(sql_total).ToScalar();
-            countSum = Convert.ToInt32(o);
+            countSum = o == null ? 0 : (int)o;
 
             //综合sql1和sql2,主要是查询
             string sql3 = @"select ROW_NUMBER() OVER(Order by  Stc_EndTime desc, Ssc_ID desc) AS 'rowid', * from 
@@ -609,9 +609,7 @@ namespace Song.ServiceImpls
         public decimal Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
-            if (obj == null) return 0;
-            double d = (double)obj;
-            return (decimal)d;
+            return obj == null ? 0 : (decimal)obj;
         }
         /// <summary>
         /// 课程收益汇总
@@ -643,9 +641,7 @@ namespace Song.ServiceImpls
             }
             sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
             object obj = Gateway.Default.FromSql(sql).ToScalar();
-            if (obj == null) return 0;
-            double d = (double)obj;
-            return (decimal)d;
+            return obj == null ? 0 : (decimal)obj;
         }
         /// <summary>
         /// 获取所有课程
@@ -1843,10 +1839,11 @@ namespace Song.ServiceImpls
             sqlsum = sqlsum.Replace("{{where4acc}}", where4acc);
             sqlsum = sqlsum.Replace("{{where4sc}}", where4sc);
             object o = Gateway.Default.FromSql(sqlsum).ToScalar();
-            countSum = Convert.ToInt32(o);
+            countSum =o==null ? 0 : Convert.ToInt32(o);
 
             //分页查询的脚本
-            //string sqljquery = @"select * from (
+            string sqljquery = string.Empty;
+            //sqljquery = @"select * from (
             //    select tm.cou_id,c.*,lastTime,studyTime,complete, ROW_NUMBER() OVER(Order by c.ac_id ) AS rowid  from Accounts as c inner join 
             //     (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
             //         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
@@ -1858,10 +1855,23 @@ namespace Song.ServiceImpls
 
             //     ) as tm on c.ac_id=tm.ac_id {{where}}
             //    ) as pager where rowid > {{start}} and rowid<={{end}} ";
-            string sqljquery = @"select * from
+
+            sqljquery = @"select * from
+(select * from
                        (select a.*,sc.Cou_ID,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
                          (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}})  ) as sc  inner join      
-                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";          
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} 
+   ) as acc
+   inner join
+  (SELECT ac_id, MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+                     sum(Lss_StudyTime) as 'studyTime', sum(Lss_Duration)/1000 as 'totalTime', MAX([Lss_PlayTime])/100 as 'playTime',
+                     (case  when max(Lss_Duration)> 0 then
+                      cast(convert(decimal(18, 4), 1000 * sum(cast(Lss_StudyTime as float)) / sum(cast(Lss_Duration AS float))) as float) * 100
+                      else 0 end
+                      ) as 'complete'
+                    FROM[LogForStudentStudy]  where {{couid}} group by ac_id) as lss on acc.Ac_ID = lss.Ac_ID and acc.Cou_ID = lss.cou_id";
+
+            sqljquery = sqljquery.Replace("{{couid}}", couid > 0 ? "Cou_ID =" + couid : "1=1");
             sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
             sqljquery = sqljquery.Replace("{{where4acc}}", where4acc);

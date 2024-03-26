@@ -112,7 +112,7 @@ Vue.component('study_live', {
             //隐藏全屏按钮
             var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
             for (var i = 0; i < fullbtn.length; i++) {
-                fullbtn[i].style.display = "none";
+                //fullbtn[i].style.display = "none";
             }
             //隐藏设置按钮(播放倍速也禁用了)
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
