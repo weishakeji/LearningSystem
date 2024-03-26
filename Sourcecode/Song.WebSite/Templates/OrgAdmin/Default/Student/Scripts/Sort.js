@@ -213,7 +213,7 @@ $ready(function () {
             setaccount: function (item) {
                 let title = '设置“' + item.Sts_Name + '”的成员';
                 let url = $api.url.set('SortAccount', { id: item.Sts_ID });
-                this.$refs.btngroup.pagebox(url, title, null, 800, 600);
+                this.$refs.btngroup.pagebox(url, title, null, 1000, 600);
             },
             //设置课程的按钮事件
             setcourse: function (item) {
