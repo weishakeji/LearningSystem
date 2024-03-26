@@ -6,8 +6,7 @@ $ready(function () {
             organ: {},
             config: {},
             plate: {},
-            //来源页
-            referrer: decodeURIComponent($api.querystring('referrer')),
+
 
             loading: false
         },
@@ -46,9 +45,10 @@ $ready(function () {
                 this.$refs.header.account = account;
                 var th = this;
                 window.setTimeout(function () {
-                    if (th.referrer != '') window.location.href = th.referrer;
-                    else
-                        window.location.href = '/';
+                    let referrer = $api.querystring('referrer');
+                    if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+                    if ($api.isnull(referrer)) referrer = '/';
+                    window.navigateTo(decodeURIComponent(referrer));
                 }, 200);
             },
             //退出登录

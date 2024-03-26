@@ -381,13 +381,13 @@ $ready(function () {
                 });
             },
             //已经登录
-            successful: function (account) {             
+            successful: function (account) {
             },
             //注册成功后的跳转
             goback: function (account) {
                 let referrer = $api.querystring('referrer');
-                if (referrer == null || referrer == '')
-                    referrer = $api.storage('singin_referrer');
+                if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+                if ($api.isnull(referrer)) referrer = '/';
                 //注册成功后，是否需要填写详情
                 if (this.config && this.config.IsRegDetail === true) {
                     window.navigateTo($api.url.set('detail', {
@@ -397,8 +397,7 @@ $ready(function () {
                     }));
                     return;
                 }
-                referrer = decodeURIComponent(referrer);
-                window.navigateTo(referrer != '' ? referrer : '/');
+                window.navigateTo(decodeURIComponent(referrer));
             }
         }
     });

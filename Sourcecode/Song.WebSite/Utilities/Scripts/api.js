@@ -758,7 +758,7 @@
                 val = decodeURI(val);
             } catch { }
             val = val.replace(/<[^>]+>/gi, '');    //清除html标签 
-            const rex = /\'|\"|\.\.|>|and|exec|insert|select|delete|update|count|\*|\%|chr|mid|master|truncate|char|declare|script|frame|\;|or|\-|\+|\,|\)|etc|style|expression/gi;
+            const rex = /\'|\"|\.\.|>|and|exec|insert|select|delete|update|count|\*|\%|chr|mid|master|truncate|char|declare|script|frame|\;|or|\-|\+|\)|etc|style|expression/gi;
             let result = val.match(rex);
             if (result == null) return val;
             console.error('参数 [ ' + key + ' ] 存在危险字符：' + result.join('  ') + '  已经清理');
