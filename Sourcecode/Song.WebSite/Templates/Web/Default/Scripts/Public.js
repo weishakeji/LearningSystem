@@ -158,4 +158,16 @@
             }
         };
     };
+    //重构一些方法
+    //页面跳转
+    window.navigateTo = function (url) {
+        //如果处在微信小程序中
+        if ($dom.isWeixinApp()) {
+            //alert(wx);
+            //wx.navigateTo({ url: url });
+            window.location.href = url;
+        } else {
+            window.location.href = url;
+        }
+    }
 })();
