@@ -1,7 +1,7 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
@@ -50,7 +50,7 @@ $ready(function () {
                     th.organ = req.data.result;
                     $api.bat(
                         $api.post('Position/EnableAll'),
-                        $api.post("Admin/TitleEnabledList", { 'orgid': vue.organ.Org_ID })
+                        $api.post("Admin/TitleEnabledList", { 'orgid': th.organ.Org_ID })
                     ).then(axios.spread(function (posi, title) {
                         //获取结果
                         th.position = posi.data.result;
@@ -65,7 +65,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => { });
 
             //如果是新增界面
             if (th.id == '') return;
@@ -84,7 +84,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => { });
 
         },
         methods: {
@@ -94,7 +94,7 @@ $ready(function () {
                     if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Admin/add' : 'Admin/Modify';
-                        if (th.id == '') vue.account.Org_ID = vue.organ.Org_ID;
+                        if (th.id == '') th.account.Org_ID = th.organ.Org_ID;
                         //接口参数，如果有上传文件，则增加file
                         var para = {};
                         if (th.upfile == null || JSON.stringify(th.upfile) == '{}') para = { 'acc': th.account };
@@ -115,7 +115,7 @@ $ready(function () {
                         }).catch(function (err) {
                             th.loading = false;
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

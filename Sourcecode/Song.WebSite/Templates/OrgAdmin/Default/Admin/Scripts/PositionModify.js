@@ -49,7 +49,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => { });
         },
         methods: {
             btnEnter: function (formName, isclose) {
@@ -70,7 +70,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err);
-                        });
+                        }).finally(() => { });
                     } else {
                         console.log('error submit!!');
                         return false;

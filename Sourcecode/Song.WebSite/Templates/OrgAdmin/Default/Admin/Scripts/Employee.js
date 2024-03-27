@@ -37,7 +37,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -64,20 +64,13 @@
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     for (var j = 0; j < th.datas.length; j++) {
-                                        if (th.datas[j].Posi_Id == result.Posi_Id) {
-                                            //if(result.Posi_IsAdmin)
-                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin
-                                        }
-
-                                    }
-                                    //th.datas[i].isAdminPosi = result.Posi_IsAdmin;
-
+                                        if (th.datas[j].Posi_Id == result.Posi_Id)                                            
+                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin;                                       
+                                    }                                  
                                 } else {
                                     throw req.data.message;
                                 }
-                            }).catch(function (err) {
-                                //alert(err);
-                            });
+                            }).catch(err => console.error(err)).finally(() => { });
                         }
                         var t = th.result;
                     } else {
@@ -86,7 +79,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //刷新行数据，
             freshrow: function (id) {

@@ -36,7 +36,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             loadDatas: function () {
@@ -52,7 +52,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //更改使用状态
             changeUse: function (row) {
@@ -87,18 +87,7 @@ $ready(function () {
                     group: { // 是否开启跨表拖拽
                         pull: false,
                         put: false
-                    },
-                    onStart: function (evt) {
-                    },
-                    onMove: function (evt, originalEvent) {
-
-                        evt.dragged; // dragged HTMLElement
-                        evt.draggedRect; // TextRectangle {left, top, right и bottom}
-                        evt.related; // HTMLElement on which have guided
-                        evt.relatedRect; // TextRectangle
-                        originalEvent.clientY; // mouse position
-
-                    },
+                    },                  
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
                         let indexkey = table.$attrs['index-key'];
@@ -131,7 +120,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             }
         }
     });

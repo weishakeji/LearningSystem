@@ -35,7 +35,6 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Position/ForID', { 'id': th.id })
             ).then(axios.spread(function (organ, posi) {
-                th.loading.init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -43,10 +42,9 @@ $ready(function () {
                 th.employelist(1);
                 th.getPosiAccount();
             })).catch(function (err) {
-                th.loading.init = false;
                 th.$alert(err, '错误');
                 console.error(err);
-            });
+            }).finally(() =>th.loading.init = false);
         },
         created: function () {
 
@@ -66,7 +64,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 41);
                 th.loading.left = true;
                 $api.get("Admin/List", th.form).then(function (d) {
-                    th.loading.left = false;
                     if (d.data.success) {
                         for (var i = 0; i < d.data.result.length; i++) {
                             d.data.result[i].isAdminPosi = false;
@@ -78,16 +75,14 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading.left = false;
                     console.error(err);
-                });
+                }).finally(() =>  th.loading.left = false);
             },
             //加载当前岗位的人员
             getPosiAccount: function () {
                 var th = this;
                 th.loading.right = true;
                 $api.get('Position/Emplyees', { 'id': th.id }).then(function (req) {
-                    th.loading.right = false;
                     if (req.data.success) {
                         th.posiacconts = req.data.result;
                     } else {
@@ -95,10 +90,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading.right = false;
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading.right = false);
             },
             //向右选择，即选中的人员到右侧岗位人员列表
             toRight: function () {
@@ -147,7 +141,6 @@ $ready(function () {
                 th.loading.update = true;
                 $api.post('Position/UpdateEmp4Posi', { 'datas': arr, 'posid': th.id })
                     .then(function (req) {
-                        th.loading.update = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.$notify({
@@ -160,10 +153,9 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading.update = false;
                         th.$alert(err, '错误');
                         console.error(err);
-                    });
+                    }).finally(() =>  th.loading.update = false);
             },
             //操作成功
             operateSuccess: function (isclose) {

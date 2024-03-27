@@ -31,7 +31,6 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.post('Admin/ForID', { 'id': th.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;
@@ -40,10 +39,9 @@ $ready(function () {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 th.$alert(err, '错误');
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         methods: {
             btnEnter: function (formName) {
@@ -51,8 +49,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        $api.post('Admin/resetPw', {'accid':th.id,'pw':th.form.pw1}).then(function (req) {
-                            th.loading = false;
+                        $api.post('Admin/resetPw', { 'accid': th.id, 'pw': th.form.pw1 }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -69,7 +66,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

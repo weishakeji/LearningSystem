@@ -40,7 +40,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
                 return;
             }
             //如果是修改界面
@@ -53,7 +53,7 @@ $ready(function () {
                 }
             }).catch(function (err) {
                 alert(err);
-            });
+            }).finally(() => { });
         },
         methods: {
             btnEnter: function (formName, isclose) {
@@ -74,7 +74,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         console.log('error submit!!');
                         return false;
