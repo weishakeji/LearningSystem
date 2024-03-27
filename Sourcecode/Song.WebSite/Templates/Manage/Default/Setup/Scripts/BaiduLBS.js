@@ -79,7 +79,7 @@
             loadmapjs: function (ak) {
                 if (ak == null || ak == '') return;
                 this.error = '';
-                let url = 'http://api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback';
+                let url = window.location.protocol + '//api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback';
                 $dom('script[tag="map.baidu.com"]').remove();
                 $dom.load.js(url, null, 'map.baidu.com');
 

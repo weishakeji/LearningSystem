@@ -67,7 +67,7 @@ Vue.component('map_setup', {
         loadmapjs: function (ak) {
             //if (ak == null || ak == '') return;
             this.error = '';
-            let url = 'https://api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback';
+            let url = window.location.protocol + '//api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback';
             $dom('script[tag="map.baidu.com"]').remove();
             var th = this;
             $dom.load.js(url, null, 'map.baidu.com');

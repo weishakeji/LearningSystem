@@ -85,7 +85,7 @@ Vue.component('map_show', {
         loadmapjs: function (ak) {
             if (ak == null || ak == '') return;
             this.error = '';
-            let url = 'https://api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback_' + this.mapid;
+            let url = window.location.protocol + '//api.map.baidu.com/api?v=3.0&ak=' + ak + '&callback=onBMapCallback_' + this.mapid;
             //$dom.load.js(url, null, 'map.baidu.com');
             //$dom('script[tag="map.baidu.com"]').remove();
             ///*
@@ -100,7 +100,7 @@ Vue.component('map_show', {
                         f();
                         clearInterval(window.map_show_intervalId);
                     }
-                }, 100);          
+                }, 100);
             }
         },
         //显示地图
@@ -162,7 +162,7 @@ Vue.component('map_show', {
     }
     function translate(lng, lat, type, callback) {
         var callbackName = 'cbk_' + Math.round(Math.random() * 10000);    //随机函数名
-        var xyUrl = "https://api.map.baidu.com/ag/coord/convert?from=" + type + "&to=4&x=" + lng + "&y=" + lat + "&callback=BMap.Convertor." + callbackName;
+        var xyUrl = window.location.protocol + '//api.map.baidu.com/ag/coord/convert?from=' + type + '&to=4&x=' + lng + '&y=' + lat + '&callback=BMap.Convertor.' + callbackName;
         //动态创建script标签
         load_script(xyUrl);
         BMap.Convertor[callbackName] = function (xyResult) {
