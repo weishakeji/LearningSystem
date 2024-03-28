@@ -171,12 +171,14 @@ function ready(result) {
 
     //风格切换事件
     window.$skins.onchange(function (s, e) {
-        $dom('body>*:not(#loading,[crtid])').css('opacity', 0);
+        $dom('body>*:not(#loading)').css('opacity', 0);
+        $dom('body>*:not(*[crtid])').css('opacity', 0);
         $dom('#loading').show();
     });
     window.$skins.onloadcss(function (s, e) {
         window.setTimeout(function () {
-            $dom('body>*:not(#loading,[crtid])').css('opacity', 1);
+            $dom('body>*:not(#loading)').css('opacity', 1);
+            $dom('body>*:not(*[crtid])').css('opacity', 1);
             $dom('#loading').hide();
         }, 500);
 
