@@ -53,7 +53,7 @@ $ready(function () {
                 th.organ = org.data.result;
                 th.teacher = teach.data.result;
                 th.form.orgid = th.organ.Org_ID;
-                th.form.thid = th.teacher.Th_ID;
+                th.form.thid = th.teacher ? th.teacher.Th_ID : 0;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange(1);
@@ -93,6 +93,7 @@ $ready(function () {
         methods: {
             //加载数据页
             handleCurrentChange: function (index) {
+                if (this.form.thid <= 0 || this.form.thid == '') return;
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
@@ -148,7 +149,7 @@ $ready(function () {
                 var th = this;
                 this.$alert('课程的启用与禁用，需要管理员操作', '警告', {
                     confirmButtonText: '确定',
-                    type:'warning',
+                    type: 'warning',
                     callback: action => {
                         row.Cou_IsUse = !row.Cou_IsUse;
                     }

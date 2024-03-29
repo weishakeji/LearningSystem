@@ -3,7 +3,7 @@
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         $dom.path() + 'styles/public.css',
-        $dom.path() + 'styles/dropmenu.css',
+        //$dom.path() + 'styles/dropmenu.css',
         '/Utilities/Fonts/icon.css'
     ], $dom.selfresource);
      //加载相关组件

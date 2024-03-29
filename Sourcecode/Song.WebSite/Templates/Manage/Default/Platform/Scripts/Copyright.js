@@ -149,6 +149,7 @@
                     beforeAvatarUpload: function (file) {
                         return false;
                     },
+                    //当图片更改时
                     imgChange: function (file, fileList) {
                         //后缀名限制
                         var suffix = file.name.indexOf('.') > -1 ? file.name.substring(file.name.lastIndexOf('.') + 1) : '';
@@ -187,7 +188,7 @@
                     },
                 },
                 template: `<template>
-                <el-card class="box-card">                
+                <el-card class="box-card"  shadow="hover">                
                 <div slot="header" class="cardheader draghandle">
                     <el-form ref="item" :model="item" :rules="rules" :inline="true">                       
                     <el-form-item :label="(index+1)+'. 说明'">
