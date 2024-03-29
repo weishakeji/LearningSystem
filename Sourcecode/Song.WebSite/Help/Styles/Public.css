@@ -63,6 +63,7 @@ dd {
 
 dl dt {
     margin: 10px auto;
+    font-weight: bold;
 }
 
 dl dd {
