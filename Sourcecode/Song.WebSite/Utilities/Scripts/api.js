@@ -752,12 +752,13 @@
         },
         //过滤参数，主要为了清除一些危险字符
         //
-        filter: function (val, key) {
+        filter: function (val, key) {           
             if (val == null || val == '') return val;
             try {
                 val = decodeURI(val);
             } catch { }
             val = val.replace(/<[^>]+>/gi, '');    //清除html标签 
+            //return val;
             const rex = /\'|\"|\.\.|>|and|exec|insert|select|delete|update|count|\*|\%|chr|mid|master|truncate|char|declare|script|frame|\;|or|\-|\+|\)|etc|style|expression/gi;
             let result = val.match(rex);
             if (result == null) return val;
