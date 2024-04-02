@@ -25,7 +25,7 @@ $ready(function () {
                     }
                 ]
             },
-            money: 0, 
+            money: 0,
             form: {
                 acid: $api.querystring('id'),
                 money: 0,         //操作的资金数
@@ -35,6 +35,7 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.get('Account/ForID', { 'id': this.form.acid }).then(function (req) {
                 if (req.data.success) {
                     th.entity = req.data.result;
@@ -43,13 +44,14 @@ $ready(function () {
                 }
             }).catch(function (err) {
                 alert(err);
-            });
+            }).finally(() => th.loading = false);
         },
         methods: {
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        th.loading = true;
                         $api.post('Money/AddOrSubtract', th.form).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -61,7 +63,7 @@ $ready(function () {
                                 window.setTimeout(function () {
                                     th.operateSuccess();
                                 }, 600);
-                                
+
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -69,7 +71,7 @@ $ready(function () {
                         }).catch(function (err) {
                             alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                     }
                 });
             },

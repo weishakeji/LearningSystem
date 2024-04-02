@@ -43,6 +43,7 @@
         },
         mounted: function () {
             var th = this;
+            th.loading = true;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     let result = req.data.result;
@@ -55,7 +56,7 @@
             }).catch(err => {
                 alert('获取当前机构信息错误');
                 console.error(err);
-            }).finally(() => { });
+            }).finally(() => th.loading = false);
 
         },
         created: function () { },
@@ -69,7 +70,7 @@
         watch: {
         },
         methods: {
-             //选择时间区间
+            //选择时间区间
             selectDate: function (start, end) {
                 this.form.start = start;
                 this.form.end = end;
@@ -78,6 +79,7 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
+                th.loading = true;
                 $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;

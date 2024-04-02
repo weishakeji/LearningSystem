@@ -63,9 +63,7 @@
                     th.total['pay'] = pay.data.result;
                     th.total['recharge'] = recharge.data.result;
                 })).catch(err => alert(err))
-                    .finally(() => {
-                        console.log('finally');
-                    });
+                    .finally(() => { });
             },
             //年度收入
             getYeardata: function () {
@@ -82,9 +80,7 @@
                     th.year['pay'] = pay.data.result;
                     th.year['recharge'] = recharge.data.result;
                 })).catch(err => alert(err))
-                    .finally(() => {
-                        console.log('finally');
-                    });
+                    .finally(() => { });
             },
             //本季度
             getQuarterdata: function () {
@@ -104,9 +100,7 @@
                     th.quarter['pay'] = pay.data.result;
                     th.quarter['recharge'] = recharge.data.result;
                 })).catch(err => alert(err))
-                    .finally(() => {
-                        console.log('finally');
-                    });
+                    .finally(() => { });
             },
             //本月收入
             getMonthdata: function () {
@@ -128,9 +122,7 @@
                     th.month['pay'] = pay.data.result;
                     th.month['recharge'] = recharge.data.result;
                 })).catch(err => alert(err))
-                    .finally(() => {
-                        console.log('finally');
-                    });
+                    .finally(() => { });
             },
             //当前月每天的收入
             getDayStatistics: function () {

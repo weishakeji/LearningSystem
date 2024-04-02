@@ -7,7 +7,7 @@ $ready(function () {
             id: $api.querystring('id'),
             entity: {},     //当前数据对象
             account: {},           //当前账号
-       
+
             organ: {},       //当前机构
             pay: {},         //支付接口
             fromType: ['管理员充扣', '充值码充值', '在线支付', '购买课程']
@@ -18,7 +18,7 @@ $ready(function () {
             }
         },
         created: function () {
-            this.getEntity();          
+            this.getEntity();
         },
         methods: {
             //获取数据实体
@@ -49,7 +49,7 @@ $ready(function () {
                             }).catch(function (err) {
                                 alert(err);
                                 console.error(err);
-                            });
+                            }).finally(() => { });
                         }
                     } else {
                         console.error(req.data.exception);
@@ -58,7 +58,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //来源
             getFrom: function (from) {
