@@ -2,13 +2,14 @@
 //参数：
 //show:显示哪些按钮，中文加逗号
 //selects: 选中的数据，用于编辑或删除时
+//table:表格对象的组件名
 //idkey:数据对象中的ID的键名，用于取selects中的id值
 //path:要打开的窗体的页面路路，width和height即窗口宽高
 //ico: 弹窗的图标值，不用带&#x
 //modal:弹窗是否为模态窗（即窗口在最前面，不可切换，不可最小化）
 //disabled:是否按钮全禁用
 Vue.component('btngroup', {
-    props: ['show', 'selects', 'idkey', 'path', 'ico', 'width', 'height', 'modal', 'disabled'],
+    props: ['show', 'selects', 'table', 'idkey', 'path', 'ico', 'width', 'height', 'modal', 'disabled'],
     data: function () {
         // data 选项是一个函数，组件不相互影响
         return {
@@ -42,6 +43,42 @@ Vue.component('btngroup', {
             }],
             iconfont: 'webdesk_icon'
         }
+    },
+    created: function () {
+
+    },
+    mounted: function () {
+        var p = this.$parent;
+        if (p == null) return;
+        var t = p.$refs[this.table];
+
+        /** 下述代码为隐藏或显示一些指定的列，没有完成，下述代码作为参考，不要删除 */
+        t.$nextTick(() => {
+            //表格的列名
+            let cols = t.columns;
+            for (let i = 0; i < cols.length; i++) {
+                if (!cols[i].label) continue;
+                const el = cols[i];
+                //根据列的标识，作出一些判断
+                if (el.label === '主题') {
+                    //cols.splice(i, 1);
+                    //t.$delete(cols, i);
+                    //i--;
+                    /*
+                       Array.from(t.$el.querySelectorAll('th')).forEach((th, index) => {
+                           if (index === i) {
+                               th.style.display = 'none';
+                           }
+                       });
+                       t.$el.querySelectorAll('tr').forEach(tr => {
+                           let childs = tr.childNodes;
+                           childs[i].style.display = 'none';
+                          
+                       });*/
+                }
+            }
+
+        });
     },
     watch: {
         'selects': function (val, old) {

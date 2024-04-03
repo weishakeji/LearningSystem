@@ -73,7 +73,10 @@ a {
 .el-table--enable-row-transition .el-table__body td, .el-table .cell {
 	--background-color: transparent !important;
 }
-
+/*选中行，高亮显示*/
+tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
+	background-color: rgb(217, 236, 255) !important;
+}
 /*当表格行处理禁用状态时*/
 table.el-table__body .disabled , table.el-table__body .disabled  * {
 	color: #aaa !important;

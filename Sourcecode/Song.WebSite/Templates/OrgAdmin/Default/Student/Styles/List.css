@@ -87,13 +87,17 @@ icon[copy], icon[copy]::before {
 	color: #aaa;
 	font-size: 12px;
 }
+
 /*手机号*/
-.mobi{
+.mobi {
 	font-size: 12px;
 }
-.bindmobi{
+
+.bindmobi {
 	color: #67C23A;
 }
-.bindmobi icon{
+
+.bindmobi icon {
 	margin-right: 0px;
 }
+

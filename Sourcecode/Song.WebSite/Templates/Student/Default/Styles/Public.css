@@ -99,6 +99,10 @@ dl, dd {
     text-overflow: clip;
     min-width: auto;
 }
+/*选中行，高亮显示*/
+tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
+	background-color: rgb(217, 236, 255) !important;
+}
 /*不显示表格边线*/
 .el-table--border{
 	border: none;
