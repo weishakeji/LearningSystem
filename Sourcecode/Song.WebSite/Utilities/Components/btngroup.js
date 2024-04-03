@@ -49,9 +49,10 @@ Vue.component('btngroup', {
     },
     mounted: function () {
         var p = this.$parent;
-        if (p == null) return;
+        if (p == null || !this.table) return;
         var t = p.$refs[this.table];
-
+        if(t==null)return;
+        
         /** 下述代码为隐藏或显示一些指定的列，没有完成，下述代码作为参考，不要删除 */
         t.$nextTick(() => {
             //表格的列名
@@ -122,15 +123,14 @@ Vue.component('btngroup', {
         addbtn: function (btn) {
             this.buttonArray.push(btn);
         },
+        //按钮的事件
+        //btn:当前按钮
         eventClick: function (btn) {
-            let btnid = btn.id;
-            //当前点击的按钮
-            let curr = this.getCurrbtn(btnid);
             //新增与修改因为有默认事件方法，所有这里做个判断         
-            if (btnid == 'add' || btnid == 'modify') {
+            if (btn.id == 'add' || btn.id == 'modify') {
                 //如果设置了事件，则直接执行，否则执行默认事件
-                let existEvent = this.$listeners[btnid];
-                if (existEvent) return this.$emit(btnid, curr, this);
+                let existEvent = this.$listeners[btn.id];
+                if (existEvent) return this.$emit(btn.id, btn, this);
                 if (!top.$pagebox) {
                     return this.$message({
                         message: '未找到pagebox.js对象',
@@ -138,12 +138,12 @@ Vue.component('btngroup', {
                     });
                 }
             }
-            if (btnid == 'add') return this.add();     //添加            
-            if (btnid == 'modify') return this.modify(this.getid());       //修改            
-            if (btnid == 'delete') return this.delete(this.getids(), curr);    //删除   
+            if (btn.id == 'add') return this.add();     //添加            
+            if (btn.id == 'modify') return this.modify(this.getid());       //修改            
+            if (btn.id == 'delete') return this.delete(this.getids(), btn);    //删除   
             //其它按钮事件
-            let existEvent = this.$listeners[btnid];
-            if (existEvent) return this.$emit(btnid, curr, this.getids());
+            let existEvent = this.$listeners[btn.id];
+            if (existEvent) return this.$emit(btn.id, btn, this.getids());
         },
         //添加按钮事件
         add: function (url, param) {
@@ -204,18 +204,6 @@ Vue.component('btngroup', {
             }).then(function () {
                 th.$emit('delete', ids, btn);
             }).catch(function () { });
-        },
-        //获取当前点击的按钮
-        getCurrbtn: function (btnid) {
-            let curr = {};
-            let btn = this.buttons;
-            for (let t in btn) {
-                if (btn[t].id == btnid) {
-                    curr = btn[t];
-                    break;
-                }
-            }
-            return curr;
         },
         //获取id
         getid: function () {
@@ -296,9 +284,7 @@ Vue.component('btngroup', {
             pbox.open();
         },
         //按钮图标
-        btnicon: function (btn) {
-            return "&#x" + btn.icon;
-        }
+        btnicon: btn => '&#x' + btn.icon
     },
     template: `<div class="btngroup">
         <el-button-group>
