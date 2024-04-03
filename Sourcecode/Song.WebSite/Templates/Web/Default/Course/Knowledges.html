@@ -21,7 +21,7 @@
         <!--右侧内容列表-->
         <section class="list">
    
-                <el-table ref="knls" :stripe="true" :data="knls" tooltip-effect="dark" style="width: 100%"
+                <el-table ref="knls"  border resizable  :stripe="true" :data="knls" tooltip-effect="dark" style="width: 100%"
                     @row-dblclick="()=>{}">
                     <el-table-column type="index" width="50" align="center">
                         <template slot-scope="scope">

@@ -12,7 +12,7 @@
             <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
             <el-tag type="success" v-if="current!=''">当前接口： <icon>&#xa01c</icon>{{current}}</el-tag>
         </div>
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%"
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
             :row-class-name="data=>{return data.row.IsUse ? 'enable' : 'disabled';}">
             <el-table-column type="index" width="50">
             </el-table-column>

@@ -32,7 +32,7 @@
 
         </div>
         <template>
-            <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark"
+            <el-table ref="datatables"  border resizable :stripe="true" :data="accounts" tooltip-effect="dark"
                 style="width: 100%;height: calc(100% - 80px);" @selection-change="val=>selects=val"
                 @row-dblclick="row=>moneyHandle(row)" v-loading="loading" element-loading-text="正在处理中..."
                 element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255, 0.8)"

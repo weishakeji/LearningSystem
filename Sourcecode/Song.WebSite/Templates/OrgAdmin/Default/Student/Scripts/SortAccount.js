@@ -458,7 +458,7 @@ $ready(function () {
             </div>
             <el-input type="textarea" class="inputText" :rows="2" placeholder="请输入内容" v-if="operstatus==1"  v-model="inputText">
             </el-input>          
-            <el-table ref="datatables" class="table_datas" :stripe="true" :data="datas" tooltip-effect="dark" v-if="operstatus==2" 
+            <el-table ref="datatables"  border resizable  class="table_datas" :stripe="true" :data="datas" tooltip-effect="dark" v-if="operstatus==2" 
                     style="width: 100%">
                     <el-table-column type="index" label="#" align="center">
                         <template slot-scope="scope">

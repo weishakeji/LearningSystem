@@ -49,7 +49,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"
+            <el-table ref="datatables"  border resizable  v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"
                 style="width: 100%" @selection-change="val=>selects=val" element-loading-text="拼命加载中..."
                 element-loading-spinner="el-icon-loading" @row-dblclick="row=>{}"
                 @sort-change="sortchange">

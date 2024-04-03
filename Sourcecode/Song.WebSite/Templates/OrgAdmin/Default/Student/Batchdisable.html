@@ -24,7 +24,7 @@
                 </el-input>
             </el-tab-pane>
             <el-tab-pane label="录入数据解析" name="second">
-                <el-table ref="datatables" :stripe="true" :data="datas" tooltip-effect="dark"
+                <el-table ref="datatables" border resizable :stripe="true" :data="datas" tooltip-effect="dark"
                     style="width: 100%">
                     <el-table-column type="index" label="#" align="center">
                         <template slot-scope="scope">

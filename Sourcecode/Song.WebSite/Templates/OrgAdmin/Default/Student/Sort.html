@@ -21,8 +21,8 @@
             </query_panel>
         </div>
 
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects=val"
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
+            v-loading="loading" @selection-change="val=>selects=val"
             :row-class-name="data=>{return data.row.Sts_IsUse ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Sts_ID"
             draggable>
@@ -35,7 +35,7 @@
             </el-table-column>
             <el-table-column label="组名称" min-width="260">
                 <template slot-scope="scope">
-                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>                 
+                    <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>
                 </template>
             </el-table-column>
             <el-table-column label="课程" width="160">

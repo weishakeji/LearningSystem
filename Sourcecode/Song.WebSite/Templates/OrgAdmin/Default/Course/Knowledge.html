@@ -83,7 +83,7 @@
                 </query_panel>
             </div>
             <div class="table">
-                <el-table ref="knls" :stripe="true" :data="knls" tooltip-effect="dark"
+                <el-table ref="knls"  border resizable :stripe="true" :data="knls" tooltip-effect="dark"
                     @selection-change="val=>selects=val" @row-dblclick="row=>{knlShow(true,row);}">
                     <el-table-column type="selection" width="35"> </el-table-column>
                     <el-table-column type="index" width="50" align="center">

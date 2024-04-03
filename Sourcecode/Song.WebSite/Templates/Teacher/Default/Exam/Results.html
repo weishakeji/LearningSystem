@@ -29,7 +29,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" :height="document.documentElement.clientHeight - 60"
+            <el-table ref="datatable"  border resizable  :data="datas" :height="document.documentElement.clientHeight - 60"
                 tooltip-effect="dark" :stripe="true" style="width: 100%" index-key="Exam_Tax" row-key="Exam_ID"
                 @row-click.self="clickTable" default-expand-all>
                 <el-table-column type="index" width="50">

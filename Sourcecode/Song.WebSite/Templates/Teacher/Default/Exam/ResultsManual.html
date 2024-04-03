@@ -25,7 +25,7 @@
         </div>
         <div class="context">
             <div class="accounts_list">
-                <el-table ref="datatables" :data="results" tooltip-effect="dark" style="width: 100%;" row-key="Exr_ID"
+                <el-table ref="datatables"  border resizable  :data="results" tooltip-effect="dark" style="width: 100%;" row-key="Exr_ID"
                     v-loading="loading" @row-click="setCurrent" :highlight-current-row="true">
                     <el-table-column type="index" width="50" label="#">
                         <template slot-scope="scope">

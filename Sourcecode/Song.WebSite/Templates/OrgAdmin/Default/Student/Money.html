@@ -10,7 +10,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <el-table ref="datatables" :stripe="true" :data="datas" v-loading="loading" tooltip-effect="dark"
+        <el-table ref="datatables"   border resizable :stripe="true" :data="datas" v-loading="loading" tooltip-effect="dark"
             style="width: 100%" @row-click="rowclick">
             <el-table-column type="index" width="50" align="center">
                 <template slot-scope="scope">

@@ -21,7 +21,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatable" border resizable  :data="datas" tooltip-effect="dark" style="width: 100%"
                 :row-class-name="data=>{return rowshow(data.row) ? 'show' : 'hide';}"
                 @row-dblclick="row=>$refs.btngroup.modifyrow(row)" row-key="Sys_Id">
                 <el-table-column type="index" width="50">

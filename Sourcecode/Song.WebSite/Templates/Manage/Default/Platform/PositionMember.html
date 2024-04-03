@@ -20,7 +20,7 @@
                         <i class="el-icon-search el-input__icon" slot="suffix" @click="employelist(1)"> </i>
                     </el-input>
                 </div>
-                <el-table ref="accounts" :data="accounts" v-loading="loading.left" tooltip-effect="dark"
+                <el-table ref="accounts" border resizable :data="accounts" v-loading="loading.left" tooltip-effect="dark"
                     style="width: 100%" @selection-change="val=>selects=val">
                     <el-table-column type="selection" width="55">
                     </el-table-column>
@@ -56,7 +56,7 @@
                     </span>
                     <el-tag type="info" class="count" v-if="posiacconts.length>0">共 {{posiacconts.length}} 人</el-tag>
                 </div>
-                <el-table ref="posiacconts" :data="posiacconts" v-loading="loading.right" tooltip-effect="dark"
+                <el-table ref="posiacconts" border resizable :data="posiacconts" v-loading="loading.right" tooltip-effect="dark"
                     style="width: 100%" @selection-change="val=>posiselects=val">
                     <el-table-column type="selection" width="55">
                     </el-table-column>

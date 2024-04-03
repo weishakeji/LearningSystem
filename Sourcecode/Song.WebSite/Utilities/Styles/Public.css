@@ -180,16 +180,6 @@ hr {
     height: 1px;
 }
 
-/* 表格第一列，往往是选择框，居中并对齐*/
-.el-table tr td:first-child, .el-table tr th:first-child {
-    text-align: center;
-}
-
-.el-table tr .cell:first-child, .el-table th .cell:first-child {
-    text-overflow: clip;
-    min-width: auto;
-    padding: 0px;
-}
 
 .el-tree {
     background: none !important;

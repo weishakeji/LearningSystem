@@ -40,7 +40,7 @@
             </div>
         </template>
         <template v-else>
-            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatables"  border resizable  :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
                 v-loading="loading" @selection-change="val=>selects=val" cell-class-name="tdcell"
                 :row-class-name="data=>{return data.row.Lc_State==-1 ? 'disabled' : 'enable';}">
                 <el-table-column type="index" width="60" label="#" align="center">

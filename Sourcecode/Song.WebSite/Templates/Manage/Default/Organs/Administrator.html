@@ -25,7 +25,7 @@
                 </el-form-item>
             </query_panel>
         </div>
-        <el-table ref="datatables" :data="accounts" :stripe="true" tooltip-effect="dark" style="width: 100%"
+        <el-table ref="datatables" :data="accounts" border resizable  :stripe="true" tooltip-effect="dark" style="width: 100%"
             @row-dblclick="rowdblclick">
             <el-table-column type="index" label="#" width="50" align="center">
                 <template slot-scope="scope">

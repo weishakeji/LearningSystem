@@ -59,7 +59,7 @@
         </div>
 
         <template>
-            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" :height="tableHeight">
                 <el-table-column type="selection" width="35">
                 </el-table-column>

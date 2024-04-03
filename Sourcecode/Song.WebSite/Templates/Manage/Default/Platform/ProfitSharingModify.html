@@ -32,7 +32,7 @@
             </el-row>
             <el-divider content-position="left">分润比例设置</el-divider>
 
-            <el-table ref="datatables" :data="childs" v-show="childs.length>0" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatables" border resizable :data="childs" v-show="childs.length>0" tooltip-effect="dark" style="width: 100%"
                 v-loading="loading" row-key="Ps_ID" index-key="Ps_Level" draggable>
                 <el-table-column type="index" label="级别" width="50">
                     <template slot-scope="scope">

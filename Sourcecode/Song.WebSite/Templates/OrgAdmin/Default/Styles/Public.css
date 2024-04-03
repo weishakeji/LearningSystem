@@ -170,7 +170,30 @@ table.el-table__body tr.disabled td img, .disabled * {
 	filter: gray;
 	color: #aaa !important;
 }
+/* 表格第一列，往往是选择框，居中并对齐*/
+.el-table tr td:first-child, .el-table tr th:first-child {
+    text-align: center;
+}
 
+.el-table__cell:first-child .cell{
+    text-overflow: clip;
+    min-width: auto;
+}
+/*不显示表格边线*/
+.el-table--border{
+	border: none;
+}
+.el-table td.el-table__cell {
+    border-bottom: none !important;
+}
+
+.el-table--border .el-table__cell, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-right: none !important;
+}
+.el-table th.el-table__cell.is-leaf{
+	border-right: 1px solid #EBEEF5 !important;
+	text-align: center;
+}
 /*底部栏*/
 .footer {
 	width: calc(100% - 2px);

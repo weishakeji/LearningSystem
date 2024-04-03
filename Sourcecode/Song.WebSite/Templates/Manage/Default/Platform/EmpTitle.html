@@ -14,7 +14,7 @@
                 :selects='selects' idkey='Title_Id'></btngroup>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatable" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick"  row-key="Title_Id" index-key="Title_Tax" >
                 <el-table-column type="selection" width="55">
                 </el-table-column>

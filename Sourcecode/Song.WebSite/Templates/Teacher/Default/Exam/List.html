@@ -25,7 +25,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" tooltip-effect="dark" :stripe="true" style="width: 100%"
+            <el-table ref="datatable"  border resizable  :data="datas" tooltip-effect="dark" :stripe="true" style="width: 100%"
                 index-key="Exam_Tax" row-key="Exam_ID" @row-click.self="clickTable">
                 <el-table-column type="index" width="50">
                     <template slot-scope="scope">

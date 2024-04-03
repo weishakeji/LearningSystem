@@ -59,7 +59,7 @@
             </query_panel>
         </div>
         <!-- 数据列表-->
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+        <el-table ref="datatables"  border resizable  :data="datas" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick="()=>{}" row-key="Tr_ID">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>

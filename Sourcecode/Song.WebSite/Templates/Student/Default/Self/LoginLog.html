@@ -23,7 +23,7 @@
 
         </div>
         <template>
-            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+            <el-table ref="datatables"   border resizable v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
                 style="width: 100%">
                 <el-table-column type="index" label="#" width="80" align="center">
                     <template slot-scope="scope">

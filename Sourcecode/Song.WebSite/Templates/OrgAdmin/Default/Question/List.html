@@ -96,7 +96,7 @@
         </div>
 
         <!-- 数据列表-->
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe :loading="loading"
+        <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe :loading="loading"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
             row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
             <div slot="empty">

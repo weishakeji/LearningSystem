@@ -24,7 +24,7 @@
             </query_panel>
         </div>
         <!--数据列表-->
-        <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+        <el-table ref="datatables"   border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
             v-loading="loading" cell-class-name="tdcell">
             <el-table-column type="index" width="50" align="center">
                 <template slot-scope="scope">

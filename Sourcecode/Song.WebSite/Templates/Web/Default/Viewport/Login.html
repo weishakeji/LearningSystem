@@ -26,7 +26,7 @@
                     </el-button>
                 </el-form-item>
             </el-form>
-            <el-table ref="datatables" :stripe="true" v-loading="loading" :data="listdatas" tooltip-effect="dark"
+            <el-table ref="datatables"  border resizable  :stripe="true" v-loading="loading" :data="listdatas" tooltip-effect="dark"
                 :height="tableHeight">
                 <el-table-column type="index" label="#" width="80" align="center">
                     <template slot-scope="scope">

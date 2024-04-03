@@ -38,7 +38,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatable"   border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" row-key="Lc_ID"
                 :row-class-name="data=>{return data.row.Rc_IsEnable && !data.row.Rc_IsUsed ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">

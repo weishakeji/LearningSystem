@@ -20,7 +20,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatables" class="table_courses" :stripe="true" :data="courses" tooltip-effect="dark"
+            <el-table ref="datatables"  border resizable  class="table_courses" :stripe="true" :data="courses" tooltip-effect="dark"
                 style="width: 100%" @selection-change="val=>selects=val">
                 <el-table-column type="selection" width="35">
                 </el-table-column>

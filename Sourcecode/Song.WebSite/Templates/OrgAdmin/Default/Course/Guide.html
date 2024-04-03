@@ -34,7 +34,7 @@
             </query_panel>
         </div>
 
-        <el-table ref="datatables" :stripe="true" :data="guides" tooltip-effect="dark" style="width: 100%"
+        <el-table ref="datatables"  border resizable :stripe="true" :data="guides" tooltip-effect="dark" style="width: 100%"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
             :row-class-name="data=>{return data.row.Gu_IsUse ? 'enable' : 'disabled';}">
             <el-table-column type="selection" width="35">

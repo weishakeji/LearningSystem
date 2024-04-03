@@ -59,7 +59,7 @@
         </div>
         <!-- 数据列表-->
         <template>
-            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatables"  border resizable  :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-click="row=>entity=row" :height="tableHeight"
                 :row-class-name="data=>{return entity!=null && entity.Ma_ID==data.row.Ma_ID ? 'current' : 'c'}">
                 <el-table-column type="selection" width="35">

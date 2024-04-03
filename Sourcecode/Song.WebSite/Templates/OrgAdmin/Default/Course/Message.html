@@ -25,7 +25,7 @@
             </query_panel>
         </div>
         <!--数据列表-->
-        <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+        <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
             @row-dblclick="modify_show" v-loading="loading" @selection-change="val=>selects=val" row-key="Msg_Id"
             cell-class-name="tdcell">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
