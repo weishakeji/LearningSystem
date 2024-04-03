@@ -67,6 +67,7 @@ $ready(function () {
             'account': {
                 handler: function (nv, ov) {
                     if ($api.isnull(nv)) return;
+                    var th = this;
                     th.query.stid = nv.Ac_ID;
                     th.getpurchase(nv.Ac_ID, th.couid);
                 }, immediate: true
