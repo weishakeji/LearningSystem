@@ -22,7 +22,8 @@ $ready(function () {
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
 
-            loading: true,
+            loading: false,
+            loading_init:true,
             loadingid: 0        //当前操作中的对象id
         },
         computed: {
@@ -37,6 +38,7 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Platform/UploadPath', { 'key': 'Student' })
@@ -47,9 +49,7 @@ $ready(function () {
                 th.getsorts();
                 th.handleCurrentChange(1);
             })).catch(err => alert(err))
-                .finally(() => {
-                    console.log('finally');
-                });
+                .finally(() => th.loading_init = false);
         },
 
         methods: {

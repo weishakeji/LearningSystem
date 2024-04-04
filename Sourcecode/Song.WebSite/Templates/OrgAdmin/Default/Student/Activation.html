@@ -90,7 +90,7 @@
 
                     </div>
                 </el-table-column>
-                <el-table-column label="账号/学员组">
+                <el-table-column label="账号/学员组" min-width="120">
                     <template slot-scope="scope">
                         <div>
                             <icon copy title="复制账号" @click.stop="copytext(scope.row.Ac_AccName)"></icon>
@@ -134,19 +134,19 @@
                         <div> {{scope.row.laststudy|untilnow}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column sortable="custom" label="试题练习" prop="lastexrcise" width="160">
+                <el-table-column sortable="custom" label="试题练习" prop="lastexrcise">
                     <template slot-scope="scope">
                         {{scope.row.lastexrcise|date('yyyy-MM-dd HH:mm:ss')}}
                         <div> {{scope.row.lastexrcise|untilnow}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column sortable="custom" label="模拟测试" prop="lasttest" width="160">
+                <el-table-column sortable="custom" label="模拟测试" prop="lasttest">
                     <template slot-scope="scope">
                         {{scope.row.lasttest|date('yyyy-MM-dd HH:mm:ss')}}
                         <div> {{scope.row.lasttest|untilnow}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column sortable="custom" label="专项考试" prop="lastexam" width="160">
+                <el-table-column sortable="custom" label="专项考试" prop="lastexam">
                     <template slot-scope="scope">
                         {{scope.row.lastexam|date('yyyy-MM-dd HH:mm:ss')}}
                         <div> {{scope.row.lastexam|untilnow}}</div>
