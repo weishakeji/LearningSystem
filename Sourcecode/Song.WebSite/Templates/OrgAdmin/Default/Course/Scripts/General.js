@@ -40,9 +40,8 @@
                 th.admin = admin.data.result;
                 th.teacher = teach.data.result;
                 th.getTreeData();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -165,8 +164,7 @@
                             if (th.upfile != null) para['file'] = th.upfile;
                             // console.log(obj);                           
                             th.loading = true;
-                            $api.post('Course/Modify', para).then(function (req) {
-                                th.loading = false;
+                            $api.post('Course/Modify', para).then(function (req) {                              
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.$message({
@@ -180,7 +178,7 @@
                                 }
                             }).catch(function (err) {
                                 th.$alert(err, '错误');
-                            });
+                            }).finally(() => th.loading = false);
                         });
                     } else {
                         console.log('error submit!!');

@@ -2,24 +2,26 @@
 
     window.vapp = new Vue({
         el: '#vapp',
-        data: {           
+        data: {
             organ: {},
             config: {},      //当前机构配置项        
             datas: {},
             loading_init: true
         },
         mounted: function () {
-            $api.bat(              
+            var th = this;
+            th.loading_init = true;
+            $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         created: function () {
 
