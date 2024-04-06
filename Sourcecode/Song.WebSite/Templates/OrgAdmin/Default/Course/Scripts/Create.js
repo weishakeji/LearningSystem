@@ -22,6 +22,7 @@
         },
         mounted: function () {
             var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Teacher/ForID', { 'id': th.thid })
@@ -35,10 +36,8 @@
                 th.teacher = teach.data.result;
                 if (th.teacher)
                     th.form.thid = th.teacher.Th_ID;
-            })).catch(function (err) {
-                //Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             console.log(window.name);
@@ -238,9 +237,9 @@
                 }
             },
             //当前工作环境，是处于机构管理，还是教师或学员管理
-            workplace:function(){
+            workplace: function () {
                 let meta = $dom('meta[device]', window.top.document.documentElement);
-                let device = meta.attr('device'); 
+                let device = meta.attr('device');
                 return device;
             },
         }
