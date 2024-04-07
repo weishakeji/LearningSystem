@@ -18,9 +18,9 @@
         },
         mounted: function () {
             var th = this;
+            th.loading_init = true;
             th.form.couid = th.id;
             $api.put('Course/ForID', { 'id': this.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.course = result;
@@ -48,18 +48,16 @@
             //获取分类的数据，为树形数据
             getColumnsTree: function () {
                 var th = this;
-                this.loading = true;
+                th.loading = true;
                 $api.put('Guide/ColumnsTree', { 'couid': th.id, 'search': '', 'isuse': '' }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.columns = req.data.result;
                     } else {
                         th.columns = [];
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //分类的编辑    
             columnsModify: function () {
@@ -70,6 +68,7 @@
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
@@ -87,8 +86,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-
-                });
+                }).finally(() => th.loading = false);
             },
             //公告的编辑状态
             //show：是否显示编辑面板
@@ -108,10 +106,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => { });
                 } else {
                     this.guide_form = $api.clone(obj);
                     th.guide_form.state = 'Modify';
@@ -129,6 +126,7 @@
                             if (obj.Gc_UID.length > 0)
                                 obj.Gc_UID = obj.Gc_UID[obj.Gc_UID.length - 1];
                         }
+                        th.loading = true;
                         $api.post('Guide/' + th.guide_form.state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -144,7 +142,7 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -155,6 +153,7 @@
             deleteData: function (datas) {
                 if (datas == '') return;
                 var th = this;
+                th.loading = true;
                 $api.delete('Guide/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -170,7 +169,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //更改使用状态
             changeState: function (row) {
@@ -227,15 +226,12 @@
                                     center: true
                                 });
                                 th.handleCurrentChange();
-                                th.$nextTick(function () {
-                                    loading.close();
-                                });
+                                th.$nextTick(() => loading.close());
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-
-                            th.$alert(err, '错误');
+                            alert(err, '错误');
                         }).finally(() => th.loading = false);
                     }).catch(() => { });
                 }
