@@ -114,6 +114,10 @@ table.el-table__body .disabled img {
 	border-right: 1px solid #EBEEF5 !important;
 	text-align: center;
 }
+.el-table tr th.el-table__cell.is-leaf:first-child{
+	border-left: 1px solid #EBEEF5 !important;
+}
+
 .footer {
     width: 100%;
     box-sizing: border-box;

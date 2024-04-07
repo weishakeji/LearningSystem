@@ -197,6 +197,9 @@ table.el-table__body tr.disabled td img, .disabled * {
 	border-right: 1px solid #EBEEF5 !important;
 	text-align: center;
 }
+.el-table tr th.el-table__cell.is-leaf:first-child{
+	border-left: 1px solid #EBEEF5 !important;
+}
 /*底部栏*/
 .footer {
 	width: calc(100% - 2px);

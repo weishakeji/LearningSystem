@@ -118,6 +118,9 @@ tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
 	border-right: 1px solid #EBEEF5 !important;
 	text-align: center;
 }
+.el-table tr th.el-table__cell.is-leaf:first-child{
+	border-left: 1px solid #EBEEF5 !important;
+}
 /*表单行距*/
 
 .el-form-item {
