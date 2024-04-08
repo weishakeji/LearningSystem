@@ -77,7 +77,7 @@
             },
             guideEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid,fields) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         var obj = th.entity;
                         obj['Cou_ID'] = th.couid;
@@ -99,16 +99,16 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
-                         //未通过验证的字段
-                         let field = Object.keys(fields)[0];
-                         let label = $dom('label[for="' + field + '"]');
-                         while (label.attr('tab') == null)
-                             label = label.parent();
-                         th.activeName = label.attr('tab');
-                         console.log('error submit!!');
-                         return false;
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
+                        console.log('error submit!!');
+                        return false;
                     }
                 });
             },

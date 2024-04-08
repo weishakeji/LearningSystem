@@ -86,18 +86,16 @@
             //获取分类的数据，为树形数据
             getTreeData: function () {
                 var th = this;
-                this.loading = true;
+                th.loading = true;
                 $api.put('Knowledge/SortTree', { 'couid': th.id, 'search': '', 'isuse': '' }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.sorts = req.data.result;
                     } else {
                         th.sorts = [];
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //分类的拖动改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
@@ -105,7 +103,6 @@
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.sorts);
                 $api.post('Knowledge/sortUpdateTaxis', { 'items': arr }).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -121,7 +118,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             //将树形数据转到数据列表，用于递交到服务端更改专业的排序
             tree2array: function (datas) {
@@ -181,7 +178,7 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -194,7 +191,6 @@
                 var th = this;
                 this.loadingid = data.Kns_ID;
                 $api.post('Knowledge/SortModify', { 'entity': data }).then(function (req) {
-                    th.loadingid = -1;
                     if (req.data.success) {
                         th.$message({
                             type: 'success',
@@ -207,8 +203,7 @@
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loadingid = -1;
-                });
+                }).finally(() => th.loadingid = -1);
             },
             //移除分类
             sortRemove: function (node, data) {
@@ -239,7 +234,6 @@
                 var th = this;
                 th.loading_sumbit = true;
                 $api.delete('Knowledge/SortDelete', { 'id': data.Kns_ID }).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -255,7 +249,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             //分类节点击事件
             nodeclick: function (data) {
@@ -282,7 +276,6 @@
                 }
                 th.loading = true;
                 $api.get("Knowledge/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.knls = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -293,8 +286,7 @@
                     }
                 }).catch(function (err) {
                     th.$alert(err);
-                    th.loading = false;
-                });
+                }).finally(() => th.loading = false);
             },
             //知识的编辑状态
             //show：是否显示编辑面板
@@ -315,9 +307,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => { });
                 } else {
                     th.knl_form = $api.clone(obj);
                     th.knl_form.state = 'modify';
@@ -353,7 +345,7 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -379,14 +371,13 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             knlstate: function (data, field) {
                 data[field] = !data[field];
                 var th = this;
                 this.loadingid = data.Kn_ID;
                 $api.post('Knowledge/Modify', { 'entity': data }).then(function (req) {
-                    th.loadingid = -1;
                     if (req.data.success) {
                         th.$message({
                             type: 'success',
@@ -399,8 +390,7 @@
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loadingid = -1;
-                });
+                }).finally(() => th.loadingid = -1);
             }
         }
     });
