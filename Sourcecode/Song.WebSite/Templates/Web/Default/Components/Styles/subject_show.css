@@ -88,6 +88,7 @@ weisha.subject_show .name {
     font-size: 16px;
     max-height: 50px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 weisha.subject_show .price {

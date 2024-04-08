@@ -65,7 +65,6 @@
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.columns);
                 $api.post('Guide/ColumnsUpdateTaxis', { 'items': arr }).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -82,7 +81,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             //将树形数据转到数据列表，用于递交到服务端更改专业的排序
             tree2array: function (datas) {
@@ -143,7 +142,7 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -156,7 +155,6 @@
                 var th = this;
                 this.loadingid = data.Gc_ID;
                 $api.post('Guide/ColumnsModify', { 'entity': data }).then(function (req) {
-                    th.loadingid = -1;
                     if (req.data.success) {
                         th.$message({
                             type: 'success',
@@ -169,9 +167,8 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loadingid = -1;
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = -1);
             },
             //移除分类
             columnRemove: function (node, data) {
@@ -202,7 +199,6 @@
                 var th = this;
                 th.loading_sumbit = true;
                 $api.delete('Guide/ColumnsDelete', { 'id': data.Gc_ID }).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -219,7 +215,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             //刷新上级列表
             fresh_parent: function (isclose) {

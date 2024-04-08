@@ -88,7 +88,7 @@ Vue.component('subject_show', {
                     <img :src="cour.Cou_LogoSmall" v-if="cour.Cou_LogoSmall && cour.Cou_LogoSmall!=''"/>
                     <img :src="path+'images/cou_nophoto.jpg'" v-else />
                     <el-tag type="warning" class="type" v-if="cour.Cou_Type">试题库</el-tag>   
-                    <div class="name">{{ cour.Cou_Name }}</div>
+                    <a class="name">{{ cour.Cou_Name }}</a>
                     <div class="price">
                         <span class="free" v-if="cour.Cou_IsFree">免费</span>
                         <span class="money" v-else-if="cour.Cou_Price>0">
