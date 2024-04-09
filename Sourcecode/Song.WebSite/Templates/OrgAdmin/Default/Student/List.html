@@ -46,8 +46,8 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatables" v-loading="loading" border resizable :stripe="true" :data="accounts" tooltip-effect="dark"
-                style="width: 100%" @selection-change="val=>selects=val"
+            <el-table ref="datatables" v-loading="loading" border resizable :stripe="true" :data="accounts"
+                tooltip-effect="dark" style="width: 100%" @selection-change="val=>selects=val"
                 @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
                 :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
@@ -138,17 +138,14 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="80" align="center" fixed="right">
+                <el-table-column label="操作" width="100" align="center" fixed="right">
                     <template slot-scope="scope">
                         <div>
-                            <el-button-group>
-                                <el-link type="primary" plain
-                                    @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">
-                                    <icon>&#xe813</icon>学员课程
-                                </el-link>
-                            </el-button-group>
+                            <el-link type="primary" plain
+                                @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">
+                                <icon>&#xe813</icon>学员课程
+                            </el-link>
                         </div>
-
                         <el-dropdown>
                             <span class="el-dropdown-link">
                                 <icon>&#xa030</icon><span style="font-size: 12px">管理</span>
