@@ -41,7 +41,6 @@
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.form.orgid = th.organ.Org_ID;
@@ -53,9 +52,8 @@
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         computed: {
 
@@ -183,9 +181,8 @@
                                     console.error(req.data.exception);
                                     throw req.data.message;
                                 }
-                            }).catch(function (err) {
-                                console.error(err);
-                            });
+                            }).catch(err => console.error(err))
+                                .finally(() => { });
                         }
                     });
                     th.loadingid = 0;
@@ -218,7 +215,6 @@
                         th.loading = true;
                         var loading = th.$fulloading();
                         $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null, 'edit': null }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -234,12 +230,11 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     }).catch(() => {
 
-                    });
+                    }).finally(() => th.loading = false);
                 }
             },
             //删除
@@ -247,7 +242,6 @@
                 var th = this;
                 th.loading = true;
                 $api.delete('Course/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         vapp.$notify({
@@ -263,7 +257,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //打开学习记录的面板
             openlog: function (btn) {
