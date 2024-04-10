@@ -7,7 +7,7 @@
             organ: {},
             config: {},      //当前机构配置项   
 
-            form: {'orgid':'', 'couid': $api.querystring('id'), 'olid': '', 'search': '', 'size': 20, 'index': 1 },
+            form: { 'orgid': '', 'couid': $api.querystring('id'), 'olid': '', 'search': '', 'size': 20, 'index': 1 },
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -25,18 +25,19 @@
             loading_init: true
         },
         mounted: function () {
+            var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
-            this.handleCurrentChange(1);
+                th.config = $api.organ(th.organ).config;
+                th.handleCurrentChange(1);
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
+
         },
         created: function () {
 
@@ -56,7 +57,6 @@
                 th.form.size = Math.floor(area / 57);
                 th.loading = true;
                 $api.get("Message/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -66,16 +66,14 @@
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Message/DeleteBatch', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         vapp.$notify({
@@ -91,14 +89,13 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //更改状态
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Msg_Id;
                 $api.post('Message/Modify', { 'entity': row }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',
@@ -108,11 +105,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //打开编辑面板
             modify_show: function (row) {
@@ -123,13 +118,12 @@
                 if (form != null) form.clearValidate();
             },
             //保存修改
-            btnSave:function(formName){
+            btnSave: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        th.loading = true;    
-                        $api.post('Message/Modify', {'entity':th.modifyObj}).then(function (req) {
-                            th.loading = false;
+                        th.loading = true;
+                        $api.post('Message/Modify', { 'entity': th.modifyObj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -146,7 +140,7 @@
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -156,4 +150,4 @@
         }
     });
 
-},['../Components/outline_cascader.js']);
+}, ['../Components/outline_cascader.js']);
