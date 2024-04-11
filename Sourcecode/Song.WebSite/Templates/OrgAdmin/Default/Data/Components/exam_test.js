@@ -71,7 +71,6 @@ Vue.component('exam_test', {
             th.loading = true;
             $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 })
                 .then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         var papers = result;
@@ -98,7 +97,7 @@ Vue.component('exam_test', {
                     th.datas = [];
                     th.finaltest = {};
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
         },
         //获取结课考试的最高成绩
         getfinal_highest: function (stid, tpid) {
@@ -107,7 +106,6 @@ Vue.component('exam_test', {
             th.loading = true;
             th.highest = -1;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var results = req.data.result;
                     var highest = -1;
@@ -139,12 +137,11 @@ Vue.component('exam_test', {
                 }
 
             }).catch(function (err) {
-                th.loading = false;
                 th.results = [];
                 th.highest = -1;
                 Vue.prototype.$alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //跳转的地址
         //isgo:是否跳
@@ -165,7 +162,6 @@ Vue.component('exam_test', {
             }
             th.loading_result = true;
             $api.get('TestPaper/ResultsPager', th.result_query).then(function (req) {
-                th.loading_result = false;
                 if (req.data.success) {
                     th.total = req.data.total;
                     th.results = req.data.result;
@@ -175,10 +171,9 @@ Vue.component('exam_test', {
                 }
 
             }).catch(function (err) {
-                th.loading_result = false;
                 th.results = [];
                 console.error(err);
-            });
+            }).finally(() => th.loading_result = false);
         },
         //得分样式
         scoreStyle: function (score) {
@@ -196,7 +191,6 @@ Vue.component('exam_test', {
             var th = this;
             th.loading_id = item.Tr_ID;
             $api.delete('TestPaper/ResultDelete', { 'trid': item.Tr_ID }).then(function (req) {
-                th.loading_id = -1;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.getresults(1);
@@ -205,10 +199,9 @@ Vue.component('exam_test', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.loading_id = -1;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_id = -1);
         },
         //成绩回顾
         viewresult: function (data) {
