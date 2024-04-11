@@ -71,7 +71,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //附件文件上传
             uploadAccessory: function (file) {

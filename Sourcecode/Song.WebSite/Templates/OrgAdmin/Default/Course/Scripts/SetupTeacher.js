@@ -35,7 +35,6 @@ $ready(function () {
                     th.course = result;
                     th.getTeacher();
                     $api.get('Organization/ForID', { 'id': th.course.Org_ID }).then(function (req) {
-                        th.loading_init = false;
                         if (req.data.success) {
                             th.organ = req.data.result;
                             //机构配置信息
@@ -47,10 +46,9 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading_init = false;
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading_init = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -84,11 +82,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //加载数据页
             getdatas: function (index) {
@@ -99,7 +94,6 @@ $ready(function () {
                 th.query.size = Math.floor(area / 42);
                 th.loading = true;
                 $api.get("Teacher/Pager", th.query).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -108,10 +102,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //选择教师
             selected: function (teach) {
@@ -119,7 +111,6 @@ $ready(function () {
                 th.loading_sel = true;
                 $api.post('Teacher/SetCourse', { 'couid': th.couid, 'teachid': teach != null ? teach.Th_ID : 0 })
                     .then(function (req) {
-                        th.loading_sel = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.teacher = teach;
@@ -128,11 +119,10 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading_sel = false;
-                        Vue.prototype.$alert(err);
+                    }).catch(function (err) {       
+                        alert(err);
                         console.error(err);
-                    });
+                    }) .finally(() => th.loading_sel = false);
             },
             //显示教师详情
             showteach: function (teach) {

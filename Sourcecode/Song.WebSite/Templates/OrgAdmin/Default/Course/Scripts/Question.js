@@ -93,7 +93,6 @@
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.put("Question/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         for (var i = 0; i < result.length; i++) {
@@ -110,9 +109,8 @@
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loading = false;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //刷新行数据，
             freshrow: function (id) {

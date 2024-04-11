@@ -29,16 +29,14 @@
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (org) {
-                vapp.loading_init = false;
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 th.form.orgid = th.org.Org_ID;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -59,7 +57,6 @@
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.put("TestPaper/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         th.datas = result;
@@ -73,9 +70,8 @@
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loading = false;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
@@ -83,7 +79,6 @@
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.delete('TestPaper/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -102,7 +97,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -114,11 +109,10 @@
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Tp_Id;
+                th.loadingid = row.Tp_Id;
                 $api.post('TestPaper/ModifyState', { 'id': row.Tp_Id, 'use': row.Tp_IsUse, 'rec': row.Tp_IsRec }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -126,11 +120,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //批量修改状态
             batchState: function (use) {
@@ -163,7 +155,7 @@
                         }
                     }).catch(function (err) {
                         th.$alert(err, '错误');
-                    });
+                    }).finally(() => { });
                 }).catch(() => {
 
                 });

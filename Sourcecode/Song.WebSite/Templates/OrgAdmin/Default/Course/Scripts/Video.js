@@ -68,7 +68,7 @@
                 $api.put('Accessory/ForUID', { 'uid': th.uid, 'type': 'CourseVideo' }).then(function (req) {
                     if (req.data.success) {
                         th.accessory = req.data.result;
-                        console.error(th.accessory);                       
+                        console.error(th.accessory);
                         th.initState();
                         if (th.tabName == 'video' || th.tabName == 'outer')
                             th.createplayer(th.accessory.As_FileName);
@@ -82,7 +82,7 @@
                     th.initState();
                     th.createplayer('');
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //计算初始状态
             initState: function () {
@@ -116,7 +116,6 @@
                 $api.post('Accessory/SaveOutlineVideoFile',
                     { 'olid': th.olid, 'type': file.pathkey, 'fileinfo': file })
                     .then(function (req) {
-                        th.loading_up = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.$message({
@@ -130,10 +129,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading_up = false;
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading_up = false);
             },
             //播放器是否准备好
             playready: function () {
@@ -199,7 +197,6 @@
                 $api.post('Accessory/SelectOutlineVideoFile',
                     { 'olid': th.olid, 'type': 'CourseVideo', 'fileinfo': file })
                     .then(function (req) {
-                        th.loading_up = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.$message({
@@ -215,10 +212,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading_up = false;
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading_up = false);
 
             },
             //删除视频附件
@@ -241,10 +237,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => {});
                 }).catch(() => { });
             },
             //保存为其它视频平台地址
@@ -258,7 +253,6 @@
                         var url = th.accessory.As_FileName;
                         $api.post('Accessory/SaveOtherVideo', { 'uid': th.uid, 'type': 'CourseVideo', 'url': url, 'outer': true, 'other': true })
                             .then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.getaccessory();
@@ -267,11 +261,10 @@
                                     console.error(req.data.exception);
                                     throw req.config.way + ' ' + req.data.message;
                                 }
-                            }).catch(function (err) {
-                                th.loading = false;
+                            }).catch(function (err) {  
                                 Vue.prototype.$alert(err);
                                 console.error(err);
-                            });
+                            }).finally(() =>  th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -290,7 +283,6 @@
                         if (url.indexOf('%') > -1) url = decodeURIComponent(url);
                         $api.post('Accessory/SaveOtherVideo', { 'uid': th.uid, 'type': 'CourseVideo', 'url': url, 'outer': true, 'other': false })
                             .then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.$message({
@@ -303,11 +295,10 @@
                                     console.error(req.data.exception);
                                     throw req.config.way + ' ' + req.data.message;
                                 }
-                            }).catch(function (err) {
-                                th.loading = false;
-                                Vue.prototype.$alert(err);
+                            }).catch(function (err) {             
+                                alert(err);
                                 console.error(err);
-                            });
+                            }).finally(() =>  th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -316,7 +307,7 @@
             },
             //复制到粘贴板
             copytext: function (val, textbox) {
-                this.copy(val, textbox).then(function(th){
+                this.copy(val, textbox).then(function (th) {
                     th.$message({
                         message: '复制 “' + val + '” 到粘贴板',
                         type: 'success'

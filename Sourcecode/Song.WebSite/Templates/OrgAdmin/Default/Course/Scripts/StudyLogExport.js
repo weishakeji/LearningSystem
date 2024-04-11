@@ -131,7 +131,6 @@ $ready(function () {
                         result["progress"] = isNaN(progress) ? 0 : progress;
                         th.exportProgress = result;
                         if (th.exportProgress["successed"] === true) {
-                            th.exportloading = false;
                             if (th.exportProgress["complete"] <= 0) {
                                 alert('没有可供导出的课程学习信息');
                             }
@@ -144,14 +143,9 @@ $ready(function () {
                                 th.getprogress();
                             }, 3000);
                         }
-                    } else {
-                        th.exportloading = false;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                    th.exportloading = false;
-                    ///th.clearredundance(true);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.exportloading = false);
             }
         },
     });

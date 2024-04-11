@@ -171,7 +171,7 @@
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        });
+                        }).finally(() => { });
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
