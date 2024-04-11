@@ -26,6 +26,7 @@
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.get('Course/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     th.course = req.data.result;
@@ -37,7 +38,7 @@
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
             th.getTreeData(true);
         },
         computed: {
@@ -52,9 +53,8 @@
             //showloading:是否出现预载效果
             getTreeData: function (showloading) {
                 var th = this;
-                if (showloading) this.loading = true;
+                if (showloading) th.loading = true;
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
                         //获取默认展开的节点
@@ -67,9 +67,8 @@
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
                 $api.cache('Outline/TreeList:clear', { 'couid': th.id });
             },
             //拖动节点改变顺序
@@ -78,7 +77,6 @@
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.datas);
                 $api.post('Outline/ModifyTaxis', { 'list': arr }).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -94,7 +92,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
 
             },
             //节点展开事件
@@ -192,7 +190,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             //计算序号，并将时间值从字符串转为时间对象
             calcSerial: function (outline, lvl) {
@@ -252,7 +250,7 @@
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => { });
                 }
             },
             //关闭自身窗体，并刷新父窗体列表

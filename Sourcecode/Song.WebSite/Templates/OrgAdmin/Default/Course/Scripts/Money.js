@@ -56,7 +56,6 @@
             var th = this;
             if (th.id == '' || th.id == null) return;
             $api.put('Course/ForID', { 'id': th.id }).then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.course = req.data.result;
                     document.title = '课程价格：' + th.course.Cou_Name;
@@ -72,7 +71,7 @@
             }).catch(function (err) {
                 th.$alert(err, '错误');
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
 
         },
         created: function () {
@@ -97,6 +96,7 @@
             //获取价格列表
             getprices: function () {
                 var th = this;
+                th.loading = true;
                 $api.put('Course/PriceItems', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
@@ -107,10 +107,8 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //表格跨列的处理
             arraySpanMethod: function ({ row, column, rowIndex, columnIndex }) {
@@ -127,7 +125,7 @@
             tableRowClassName: function ({ row, rowIndex }) {
                 if (row.CP_ID === this.editobj.CP_ID) {
                     return 'edit_row'
-                }else{
+                } else {
                     return row.CP_IsUse ? 'enable' : 'disabled';
                 }
             },
@@ -159,7 +157,6 @@
                         obj.CP_IsUse = true;
                         th.loading = true;
                         $api.post('Course/PriceAdd', { 'entity': obj }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -175,7 +172,7 @@
                         }).catch(function (err) {
                             th.$alert(err, '错误');
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                     }
                 });
             },
@@ -210,7 +207,6 @@
                         //添加记录到服务端
                         th.loading = true;
                         $api.post('Course/PriceModify', { 'entity': obj }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -227,7 +223,7 @@
                         }).catch(function (err) {
                             th.$alert(err, '错误');
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                     }
 
                 });
@@ -251,7 +247,6 @@
                 var th = this;
                 th.loadingid = item.CP_ID;
                 $api.post('Course/PriceModify', { 'entity': item }).then(function (req) {
-                    th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -268,7 +263,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {
@@ -286,13 +281,13 @@
                     },
                     onStart: function (evt) { },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.prices;
@@ -315,7 +310,6 @@
                 var th = this;
                 th.loading = true;
                 $api.post('Course/PriceUpdateTaxis', { 'items': this.prices }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',
@@ -329,14 +323,13 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Course/PriceDelete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -353,7 +346,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //进入编辑状态
             goedit: function (row) {
@@ -386,7 +379,6 @@
                 //去除不相关属性
                 var obj = th.remove_redundance(th.course);
                 $api.post('Course/ModifyJson', { 'course': obj }).then(function (req) {
-                    th.loading_course = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -403,7 +395,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading_course = false);
             },
             //清理冗余的属性，仅保持当前form表单的属性，未在表单中的不提交到服务器
             remove_redundance: function (obj) {

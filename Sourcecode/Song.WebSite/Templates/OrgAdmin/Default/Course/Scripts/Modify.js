@@ -26,8 +26,8 @@
         },
         mounted: function () {
             var th = this;
+            th.loading = true;
             $api.put('Course/ForID', { 'id': this.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.course = result;
@@ -42,9 +42,8 @@
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 
@@ -88,10 +87,10 @@
                 this.close_fresh('vapp.freshrow("' + course.Cou_ID + '")');
 
             },
-             //当前工作环境，是处于机构管理，还是教师或学员管理
-             workplace:function(){
+            //当前工作环境，是处于机构管理，还是教师或学员管理
+            workplace: function () {
                 let meta = $dom('meta[device]', window.top.document.documentElement);
-                let device = meta.attr('device'); 
+                let device = meta.attr('device');
                 return device;
             },
             //关闭自身窗体，并刷新父窗体列表
@@ -167,7 +166,6 @@
                 var th = this;
                 th.loading = true;
                 $api.post('Course/ModifyName', { 'name': this.name, 'couid': this.course.Cou_ID }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.course.Cou_Name = th.name;
@@ -183,10 +181,8 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         template: `<div class="header">
