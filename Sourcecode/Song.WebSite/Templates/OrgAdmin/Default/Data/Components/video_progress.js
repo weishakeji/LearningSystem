@@ -99,7 +99,7 @@ Vue.component('video_progress', {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                .finally(th.loading = false);
+                .finally(() => th.loading = false);
         },
         //是否完成
         finished: function (percentage) {

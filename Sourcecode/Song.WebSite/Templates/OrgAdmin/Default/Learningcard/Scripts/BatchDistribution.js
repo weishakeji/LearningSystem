@@ -36,7 +36,6 @@
             this.lsid = $api.querystring('id');
             th.loading = true;
             $api.get('Learningcard/SetForID', { 'id': th.lsid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.cardset = req.data.result;
                     th.cardset.courses = [];
@@ -54,10 +53,9 @@
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.$alert(err);
-                th.loading = false;
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
             this.getdatainfo();
             this.getCards();
         },
@@ -75,14 +73,13 @@
                 }).catch(function (err) {
                     th.$alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //加载学习卡的卡号
             getCards: function () {
                 var th = this;
                 th.loadingcard = true;
                 $api.get('Learningcard/cards', { 'lsid': th.lsid, 'enable': true, 'used': false }).then(function (req) {
-                    th.loadingcard = false;
                     if (req.data.success) {
                         th.cards = req.data.result;
                         th.num.usable = th.cards.length;
@@ -92,10 +89,9 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loadingcard = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loadingcard = false);
             },
             //向学员派发学习卡           
             distribution: function (arr) {
@@ -123,7 +119,7 @@
                     });
                     return;
                 }
-                this.$confirm('是否批量派发 '+arr.length+' 张学习卡?', '确认', {
+                this.$confirm('是否批量派发 ' + arr.length + ' 张学习卡?', '确认', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -144,7 +140,6 @@
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result) {
-                            th.distribution_tatol--;
                             var index = th.cards.findIndex(x => x.Lc_Code == card.Lc_Code);
                             th.$delete(th.cards[index]);
                             th.distribution_func(++index);
@@ -154,10 +149,9 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.distribution_tatol--;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.distribution_tatol--);
             },
             //操作成功
             operateSuccess: function () {

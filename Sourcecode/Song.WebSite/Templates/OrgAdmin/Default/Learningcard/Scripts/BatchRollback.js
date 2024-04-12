@@ -27,18 +27,17 @@
             }
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.bat(
-                $api.get('Learningcard/SetForID', { 'id': this.id }),
-                $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': ''  })
+                $api.get('Learningcard/SetForID', { 'id': th.id }),
+                $api.get('Learningcard/Cards', { 'lsid': th.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, cards) {
-                vue.loading = false;
                 //获取结果
-                vue.cardset = cardset.data.result;
-                vue.cards = cards.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.cardset = cardset.data.result;
+                th.cards = cards.data.result;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         computed: {
             percentage: function () {
@@ -71,18 +70,19 @@
             },
             gobackFunc: function (clear) {
                 if ((this.usednum - this.backnum) <= 0) return;
-                this.backing = true;
-                for (let index = 0; index < this.cards.length; index++) {
-                    const element = this.cards[index];
+                var th = this;
+                th.backing = true;
+                for (let index = 0; index < th.cards.length; index++) {
+                    const element = th.cards[index];
                     if (!element.Lc_IsUsed) continue;
                     if (element.Lc_State -= 1) continue;
                     var para = { 'code': element.Lc_Code, 'pw': element.Lc_Pw, 'clear': clear };
                     $api.post('Learningcard/CardRollback', para).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
-                            vue.backnum++;
-                            if ((vue.usednum - vue.backnum) <= 0)
-                                vue.backing = false;
+                            th.backnum++;
+                            if ((th.usednum - th.backnum) <= 0)
+                                th.backing = false;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -90,7 +90,7 @@
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.backing = false);
                 }
             }
         },

@@ -1,13 +1,19 @@
 ﻿@charset "utf-8";
 /*学习数量，总数和使用数的排版*/
-.usedCount{
-    display: inline-block;
-    width: 50px;
+td.countscope .cell{
+    display: flex;
+}
+td.countscope .cell span{
+    width: calc((100% - 12px) / 2);
+}
+td.countscope .cell span:nth-child(2){
+    width: 12px;
+    text-align: center;
+}
+td.countscope .cell span:nth-child(1){   
     text-align: right;
 }
-.sumCount{
-    display: inline-block;
-    width: 50px;
+td.countscope .cell span:nth-child(3){   
     text-align: left;
 }
 /*主题，启用和禁用图标*/

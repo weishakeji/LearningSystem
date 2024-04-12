@@ -18,8 +18,9 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
+            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val"
+                @row-dblclick="row=>$refs.btngroup.modifyrow(row)">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
@@ -43,11 +44,11 @@
                         {{scope.row.Lcs_CoursesCount}}
                     </template>
                 </el-table-column>
-                <el-table-column label="数量" width="120">
-                    <div slot="header" style="text-align: center;">数量</div>
+                <el-table-column label="数量" width="160" class-name="countscope">
                     <template slot-scope="scope">
-                        <span title="已经使用" class="usedCount">{{scope.row.Lsc_UsedCount}}</span> / <span title="总数"
-                            class="sumCount">{{scope.row.Lcs_Count}}</span>
+                        <span title="已经使用">{{scope.row.Lsc_UsedCount}}</span>
+                        <span> / </span>
+                        <span title="总数">{{scope.row.Lcs_Count}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="面额" width="80">
