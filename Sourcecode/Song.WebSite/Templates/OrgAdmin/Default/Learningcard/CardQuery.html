@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <el-button-group>
                 <el-button type="danger" size="small" plain class="el-icon-refresh-left" @click="goback()">回滚
@@ -46,7 +46,7 @@
                 </el-table-column>
                 <el-table-column label="卡号-密码">
                     <template slot-scope="scope">
-                        <div title="双击复制学习卡信息" @dblclick="rowdblclick(scope.row)"> <span
+                        <div title="双击复制学习卡信息" @dblclick="rowdblclick(scope.row)" class="large"> <span
                                 v-html='showsearch(scope.row.Lc_Code,form.card)'></span>
                             - {{scope.row.Lc_Pw}}</div>
 

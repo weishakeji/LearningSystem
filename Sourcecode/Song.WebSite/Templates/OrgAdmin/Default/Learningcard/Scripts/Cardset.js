@@ -63,7 +63,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -83,8 +83,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-
-                });
+                }).finally(() => { });
             },
             //刷新行数据，
             freshrow: function (id) {
