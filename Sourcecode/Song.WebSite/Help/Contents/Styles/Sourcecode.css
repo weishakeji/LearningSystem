@@ -1,18 +1,18 @@
-section.project {
+section {
     counter-reset: section;  
     list-style-type: none; 
 }
-dl dt::before {
+section dl dt::before {
     counter-increment: section;  
     content: counter(section) ". ";
 
 }
-dl {
+section dl {
     counter-reset: dd;
     list-style-type: none;
 }
 
-dl dd::before {
+section dl dd::before {
     counter-increment: dd;  
     content: "(" counter(dd) ") ";
 

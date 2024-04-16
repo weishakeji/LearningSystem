@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>源码说明</title>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Sourcecode.css" rel="stylesheet" type="text/css" />
 </head>
@@ -14,7 +16,10 @@
     <div id="head">
         <h1>源码说明</h1>
     </div>
-    <section class="project">
+
+
+    <section>
+
         <p>在源码的解决方案中主要有五个项目，分别如下：</p>
         <dl>
             <dt>Song.WebSite</dt>
@@ -36,13 +41,38 @@
             <dd>调用接口的方法示例：Business.Do().AccountsSingle(id); 其中IAccounts中接口名称，AccountsSingle为方法名；</dd>
 
             <dd>在调用接口前，需要在web.config中的“configuration/spring/objects”节点配置 &lt;object id="IAccounts"
-                    type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" /&gt;</dd>
+                type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" /&gt;</dd>
         </dl>
         <dl>
             <dt>Song.ServiceImpls</dt>
 
             <dd>业务层接口的实现</dd>
         </dl>
+
+
+    </section>
+    <div id="head">
+        <h1>开发指引</h1>
+    </div>
+    <section>
+    
+        <p>
+            源码开放供大家进行二次开发，产品本身我们也在不断升级优化，这导致一些朋友在升级新版本时，自己二次开发的功能会被主版本覆盖掉。这个问题利用GitHub的Fork功能可以完美的解决，既保留自己二次开发的功能，也可以同步升级主版本的源码，有冲突的地方进行自动合并，然后人工修订。
+        </p>
+        <p>
+            Fork中文意译为“分叉”，通过该功能从主版本生成一个属于自己的分叉代码库，这个分叉库与普通库的使用方法是一样的，唯一不同的是它有一个上游库，即我们的主版本库。分叉库可以通过“Pull
+             request（拉请求）”获取上游库的代码。也可以“Compare（比较）”与上游库的代码，查看主版本具体升级了哪些内容。
+            Fork的具体使用方法可以从网上搜索相关教程。
+        </p>
+        <dl>
+            <dt>开源地址</dt>
+            <dd icon="&#xe686">Gitee ： <a copyright="gitee" target="_blank"><span copyright="gitee"></span></a>
+                (推荐)</dd>
+            <dd icon="&#xe691">Github ：<a copyright="github" target="_blank"><span copyright="github"></span></a></dd>
+            <dd icon="&#xe715">Gitcode ：<a copyright="gitcode" target="_blank"><span copyright="gitcode"></span></a>
+            </dd>
+        </dl>
+
     </section>
 </body>
 
