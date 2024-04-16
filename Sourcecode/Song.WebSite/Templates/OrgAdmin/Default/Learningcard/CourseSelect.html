@@ -21,12 +21,13 @@
             <el-col :span="12">
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
-                        <span>供选择的课程({{courses.length}})</span>
+                        <span>课程({{courses.length}})</span>
                         <el-input v-model="form.search" placeholder="课程检索" style="width:120px" clearable
                             prefix-icon="el-icon-search"></el-input>
                         <el-button v-on:click="handleSelectCourse()" type="text">全选 </el-button>
                     </div>
-                    <div v-for="(c,i) in courses" class="item">
+                    <loading v-if="loading"></loading>
+                    <div v-for="(c,i) in courses" class="item" v-else>
                         {{i+1}}.{{c.Cou_Name }}
                         <el-button type="text" size="small" v-on:click="handleSelectCourse(c)">选择</el-button>
                     </div>
@@ -35,7 +36,8 @@
             <el-col :span="12">
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
-                        <span> 已选择课程 ({{selects.length}})</span>
+                        <icon course>已选择课程 ({{selects.length}})</icon>
+                      
                         <el-popconfirm title="确定清空已经选择的课程？" @confirm="handleRemoveourse">
                             <el-button type="text" style="float: right; padding: 3px 0" slot="reference">清空</el-button>
                         </el-popconfirm>

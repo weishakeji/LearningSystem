@@ -1,38 +1,38 @@
-﻿.el-form {
+﻿#vapp {
+    display: flex;
+}
+/*左右布局*/
+#vapp>*:first-child {
+    min-width: 300px;
+    padding: 0px 10px 0px 0px;
+}
+
+#vapp>*:last-child {
+    flex: 1;
+}
+
+#vapp>.el-form, #vapp>.el-card {
     height: calc(100% - 60px);
     width: 100%;
-    margin: 0px;
-    padding: 0px 10px 0px 0px;
+    margin: 0px;   
 
     overflow: auto;
     box-sizing: border-box;
 }
-.el-form-item {
-    width: 100%;
-}
 
-.el-form .el-row {
-    display: flex;
-}
 
-.el-form .el-row .el-col:first-child {
-    margin-right: 10px;
-}
-
-.el-form .el-row .el-col:last-child {
-    margin-left: 10px;
-}
-
-.el-row textarea {
-    width: 100%;
+.el-card__body {
+    padding: 5px 1px 15px 15px;
+    height: calc(100% - 65px);
+    box-sizing: content-box;
+    overflow-y: auto;
 }
 
 .item {
-    font-size: 13px;
     margin-bottom: 10px;
     margin-right: 10px;
-    height: 60px;
-    width: calc(33% - 10px);
+    height: 60px; 
+    width: 100%;
     float: left;
     overflow: hidden;
 }
@@ -100,7 +100,4 @@
 .btn_area>div b {
     font-weight: normal;
     color: #F56C6C;
-}
-.box-card{
-    margin-top: 20px;
 }

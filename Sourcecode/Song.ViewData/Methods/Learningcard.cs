@@ -397,6 +397,7 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 导出
+        private static string _output_item = "LearningCard";
         /// <summary>
         /// 生成导出的Excel文件
         /// </summary>
@@ -407,14 +408,13 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             DateTime date = DateTime.Now;
-            string item = "LearningCard";
             string filename = string.Format("{0}_{1}.xls", set.Lcs_ID.ToString(), date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = WeiSha.Core.Upload.Get[item].Physics + filename;
+            string filePath = WeiSha.Core.Upload.Get[_output_item].Physics + filename;
             filePath = Business.Do<ILearningCard>().Card4Excel(filePath, set.Org_ID, id);
             JObject jo = new JObject();
             jo.Add("name", set.Lcs_Theme);
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get[item].Virtual + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get[_output_item].Virtual + filename);
             jo.Add("date", date);
             return jo;
         }
@@ -427,8 +427,7 @@ namespace Song.ViewData.Methods
         [Admin]
         public bool ExcelDelete(string filename)
         {
-            string item = "LearningCard";
-            string filePath = WeiSha.Core.Upload.Get[item].Physics + filename;
+            string filePath = WeiSha.Core.Upload.Get[_output_item].Physics + filename;
             if (System.IO.File.Exists(filePath))
             {
                 System.IO.File.Delete(filePath);
@@ -444,12 +443,11 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         [Admin]
         public int ExcelDeleteAll(int id)
-        {
-            string item = "LearningCard";
-            string path = WeiSha.Core.Upload.Get[item].Physics;
+        {        
+            string path = WeiSha.Core.Upload.Get[_output_item].Physics;
             if (!System.IO.Directory.Exists(path)) return 0;
 
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[item].Physics);
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
             int i = 0;
             foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
             {
@@ -470,28 +468,26 @@ namespace Song.ViewData.Methods
         /// <returns>name:学习卡主题,file:文件名,url:下载地址,date:创建时间</returns>
         public JArray ExcelFiles(int id)
         {
-            string item = "LearningCard";
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             List<System.IO.FileInfo> list = new List<System.IO.FileInfo>();
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[item].Physics);
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[_output_item].Physics);
             foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
             {
                 if (f.Name.IndexOf("_") < 0) continue;
                 string pre = f.Name.Substring(0, f.Name.IndexOf("_"));
-                if (id.ToString().Equals(pre, StringComparison.OrdinalIgnoreCase))
-                {
+                if (id.ToString().Equals(pre, StringComparison.OrdinalIgnoreCase))              
                     list.Add(f);
-                }
             }
             JArray jarr = new JArray();
             IEnumerable<System.IO.FileInfo> query = from items in list orderby items.CreationTime descending select items;
+            string url = WeiSha.Core.Upload.Get[_output_item].Virtual;
             foreach (var f in query)
             {
                 System.IO.FileInfo file = (System.IO.FileInfo)f;
                 JObject jo = new JObject();
                 jo.Add("name", set.Lcs_Theme);
                 jo.Add("file", file.Name);
-                jo.Add("url", WeiSha.Core.Upload.Get[item].Virtual + file.Name);
+                jo.Add("url", url + file.Name);
                 jo.Add("date", file.CreationTime);
                 jo.Add("size", file.Length);
                 jarr.Add(jo);

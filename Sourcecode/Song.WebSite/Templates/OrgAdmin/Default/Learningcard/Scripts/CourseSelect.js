@@ -71,7 +71,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                }).finally(() => {});
+                }).finally(() => { });
             },
             //生成专业的树形
             buildSbjtree: function (data, pid) {
@@ -92,6 +92,7 @@
             //检索课程
             searchCourse: function () {
                 var th = this;
+                th.loading = true;
                 $api.get('Course/ShowPager', th.form).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
@@ -100,7 +101,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                }).finally(() => {});
+                }).finally(() => th.loading = false);
             },
             //添加选中的课程
             handleSelectCourse: function (data) {
@@ -138,19 +139,12 @@
                         }
                     }
                     this.selects = arr;
-                } 
+                }
                 //获取已经选中的课程，来自父窗体 
                 var parent = window.top.$pagebox.parent(window.name);
                 var doc = parent.document();
                 doc.vapp.coursesChange(this.selects);
             },
-            handleEnter: function (data) {
-            },
-            //保存信息
-            btnEnter: function () {
-                if (this.loading) return;
-            },
-
         }
     });
 

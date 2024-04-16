@@ -9,129 +9,105 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
             <el-form-item label="主题" prop="Lcs_Theme">
-                <el-input v-model.trim="entity.Lcs_Theme"></el-input>
+                <el-input v-model.trim="entity.Lcs_Theme" type="textarea"
+                :rows="3"></el-input>
             </el-form-item>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="面额" prop="Lcs_Price">
-                        <el-input v-model.number="entity.Lcs_Price" type="number">
-                            <icon money slot="prepend"></icon>
-                            <template slot="append">元</template>
-                        </el-input>
 
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="可抵扣" prop="Lcs_Coupon">
-                        <el-input v-model.number="entity.Lcs_Coupon" type="number">
-                            <template slot="append">卡券</template>
-                        </el-input>
+            <el-form-item label="面额" prop="Lcs_Price">
+                <el-input v-model.number="entity.Lcs_Price" type="number">
+                    <icon money slot="prepend"></icon>
+                    <template slot="append">元</template>
+                </el-input>
+            </el-form-item>
 
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            <el-form-item label="" prop="Lcs_Coupon">
+                <el-input v-model.number="entity.Lcs_Coupon" type="number">
+                    <icon coupon slot="prepend">可抵扣</icon>
+                    <template slot="append">卡券</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="数量" prop="Lcs_Count">
+                <el-input v-model.number="entity.Lcs_Count" type="number">
+                    <template slot="append">张
+                        <template v-if="entity.Lsc_UsedCount>0">,已用 {{entity.Lsc_UsedCount}}
+                            张</template></template>
+                </el-input>
+            </el-form-item>
 
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="数量" prop="Lcs_Count">
-                        <el-input v-model.number="entity.Lcs_Count" type="number">
-                            <template slot="append">张
-                                <template v-if="entity.Lsc_UsedCount>0">,已用 {{entity.Lsc_UsedCount}}
-                                    张</template></template>
-                        </el-input>
+            <el-form-item label="状态" prop="Lcs_IsEnable">
+                <el-switch v-model="entity.Lcs_IsEnable" :active-text="entity.Lcs_IsEnable ? '启用' : '禁用'">
+                </el-switch>
+            </el-form-item>
 
+            <el-form-item label="有效期" prop="Lcs_Limit">
+                <el-date-picker type="daterange" v-model="datespan" style="width:100%" range-separator="至"
+                    start-placeholder="起始日期" end-placeholder="结束日期">
+                </el-date-picker>
+            </el-form-item>
 
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="状态" prop="Lcs_IsEnable">
-                        <el-switch v-model="entity.Lcs_IsEnable" :active-text="entity.Lcs_IsEnable ? '启用' : '禁用'">
-                        </el-switch>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="有效期" prop="Lcs_Limit">
-
-                        <el-date-picker type="daterange" v-model="datespan" style="width:100%" range-separator="至"
-                            start-placeholder="起始日期" end-placeholder="结束日期">
-                        </el-date-picker>
-
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="学习时长" prop="Lcs_Span">
-                        <template>
-                            <el-input v-model.number="entity.Lcs_Span" type="number">
-                                <span slot="append">
-                                    <el-dropdown @command="(command)=>entity.Lcs_Unit=command">
-                                        <span class="el-dropdown-link">
-                                            {{entity.Lcs_Unit}}<i class="el-icon-arrow-down el-icon--right"></i>
-                                        </span>
-                                        <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item v-for="item in units" :command="item">
-                                                {{item}}
-                                            </el-dropdown-item>
-
-                                        </el-dropdown-menu>
-                                    </el-dropdown>
+            <el-form-item label="学习时长" prop="Lcs_Span">
+                <template>
+                    <el-input v-model.number="entity.Lcs_Span" type="number">
+                        <span slot="append">
+                            <el-dropdown @command="(command)=>entity.Lcs_Unit=command">
+                                <span class="el-dropdown-link">
+                                    {{entity.Lcs_Unit}}<i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
-                            </el-input>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item v-for="item in units" :command="item">
+                                        {{item}}
+                                    </el-dropdown-item>
 
-                        </template>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-form-item label="说明" prop="Lcs_Intro">
-                    <template v-if="!introEdit">
-                        <el-link type="primary" @click="introEdit=true">{{entity.Lcs_Intro}}</el-link>
-                        <el-link type="primary" @click="introEdit=true">(点击编辑内容)</el-link>
-                    </template>
-                    <el-input type="textarea" v-else :rows="4" placeholder="请输入内容" @blur="introEdit=false"
-                        v-model="entity.Lcs_Intro"></el-input>
-                </el-form-item>
-            </el-row>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </span>
+                    </el-input>
 
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="学习码" prop="Lcs_CodeLength">
-                        <template>
-                            <el-input v-model.number="entity.Lcs_CodeLength" clearable>
-                                <template slot="prepend">长度
-                                </template> <template slot="append">位字符</template>
-                            </el-input>
-                        </template>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="密钥" prop="Lcs_PwLength">
-                        <template>
-                            <el-input v-model.number="entity.Lcs_PwLength" type="number">
-                                <template slot="append">位字符</template>
+                </template>
+            </el-form-item>
 
-                        </template>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-          
-            <el-card class="box-card" shadow="hover">
-                <div slot="header" class="clearfix">
-                    <span>关联课程 （{{courses ? courses.length : 0}}）</span>
-                    <el-button style="float: right; padding: 3px 0" type="text" @click="courseSelect">编辑关联课程</el-button>
-                </div>
-                <div v-for="(c,i) in courses" :key="c" class="item" :title="c.Cou_Name">
-                    <img v-if="c.Cou_LogoSmall!=''" :src="c.Cou_LogoSmall">
-                    <img v-else src="/Utilities/Images/cou_nophoto.jpg" />
-                    <span class="tax">{{i+1}}.</span>
-                    <span class="name">{{c.Cou_Name }}</span>
-                </div>
-            </el-card>
+            <el-form-item label="说明" prop="Lcs_Intro">
+                <template v-if="!introEdit">
+                    <el-link type="primary" @click="introEdit=true">{{entity.Lcs_Intro}}</el-link>
+                    <el-link type="primary" @click="introEdit=true">(点击编辑内容)</el-link>
+                </template>
+                <el-input type="textarea" v-else :rows="4" placeholder="请输入内容" @blur="introEdit=false"
+                    v-model="entity.Lcs_Intro"></el-input>
+            </el-form-item>
+
+            <el-form-item label="学习码" prop="Lcs_CodeLength">
+               
+                    <el-input v-model.number="entity.Lcs_CodeLength" clearable>
+                        <template slot="prepend">长度 </template>
+                        <template slot="append">位字符</template>
+                    </el-input>
+                
+            </el-form-item>
+
+            <el-form-item label="密钥" prop="Lcs_PwLength">
+                
+                    <el-input v-model.number="entity.Lcs_PwLength" type="number">
+                        <template slot="prepend">长度 </template>
+                        <template slot="append">位字符</template>
+
+                    </el-input>
+            </el-form-item>
 
         </el-form>
+        <el-card class="box-card" shadow="never">
+            <div slot="header" class="clearfix">
+                <span icon="&#xe813">关联课程 （{{courses ? courses.length : 0}}）</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="courseSelect">编辑关联课程</el-button>
+            </div>
+            <div v-for="(c,i) in courses" :key="c" class="item" :title="c.Cou_Name">
+                <img v-if="c.Cou_LogoSmall!=''" :src="c.Cou_LogoSmall">
+                <img v-else src="/Utilities/Images/cou_nophoto.jpg" />
+                <span class="tax">{{i+1}}.</span>
+                <span class="name">{{c.Cou_Name }}</span>
+            </div>
+        </el-card>
         <div class="footer">
             <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
                 @click="btnEnter('entity',true)">

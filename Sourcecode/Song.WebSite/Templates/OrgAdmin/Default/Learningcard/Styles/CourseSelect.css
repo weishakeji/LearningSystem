@@ -14,13 +14,13 @@
     top: 5px;
 }
 .topbox {
-    margin: 10px 15px;
-    width: calc(100% - 30px);
+    margin: 10px 15px 10px 10px;
+    width: calc(100% - 25px);
 }
 
 .context {
-    margin: 10px 10px 10px 10px !important;
-    width: calc(100% - 20px);
+    margin: 0px !important;
+    width: 100%;
     height: calc(100% - 65px);
 }
 
@@ -43,7 +43,6 @@
     position: relative;
     padding-right: 40px;
     margin: 0px 0px 15px 0px;
-    font-size: 13px;
 }
 
 .item button {

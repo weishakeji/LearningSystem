@@ -271,26 +271,32 @@ $ready(function () {
             },
             //打开课程选择的窗体
             courseSelect: function () {
-                var file = 'courseSelect';
+                let file = 'courseSelect';
                 //文件路径
-                var url = window.location.href;
+                let url = window.location.href;
                 url = url.substring(0, url.lastIndexOf("/") + 1) + file;
                 //父窗体,通过父窗体生成当前窗体id
-                var parent = window.top.$ctrls.get(window.name).obj;
-                var boxid = parent.id + "_" + file;
+                let parent = window.top.$ctrls.get(window.name).obj;
+                let boxid = parent.id + "_" + file;
                 //创建新窗体
                 var box = window.top.$pagebox.create({
-                    width: 800, height: 400, resize: true, max: false,
+                    width: '48%', height: '90%',left:'1%', resize: true, max: false,
                     min: false, id: boxid, showmask: true, ico: 'e813',
                     pid: window.name, url: url
                 });
                 parent.full = true;     //父窗体全屏显示
-                box.title = '学习卡“' + this.entity.Lcs_Theme + "”与课程的关联";
+                if (this.entity.Lcs_Theme) {
+                    box.title = '学习卡“' + this.entity.Lcs_Theme + '”与课程的关联';
+                } else {
+                    box.title = '新建的学习卡与课程的关联';
+                }
                 //当窗体关闭时，父窗体还原
                 box.onshut(function (sender, event) {
                     sender.parent.full = false;
                 });
+              
                 box.open();
+
             },
             //当更改学习关联的课程时
             coursesChange: function (arr) {
