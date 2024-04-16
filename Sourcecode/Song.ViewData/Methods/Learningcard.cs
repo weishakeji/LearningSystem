@@ -402,7 +402,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">学习卡设置项id</param>
         /// <returns>name:学习卡主题,file:文件名,url:下载地址,date:创建时间</returns>
-        [HttpPost]
+        [HttpPost][Admin]
         public JObject ExcelOutput(int id)
         {
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
@@ -424,6 +424,7 @@ namespace Song.ViewData.Methods
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
         [HttpDelete]
+        [Admin]
         public bool ExcelDelete(string filename)
         {
             string item = "LearningCard";
@@ -434,6 +435,33 @@ namespace Song.ViewData.Methods
                 return true;
             }
             return false;
+        }
+        /// <summary>
+        /// 删除某个学习卡的所有导出文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Admin]
+        public int ExcelDeleteAll(int id)
+        {
+            string item = "LearningCard";
+            string path = WeiSha.Core.Upload.Get[item].Physics;
+            if (!System.IO.Directory.Exists(path)) return 0;
+
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[item].Physics);
+            int i = 0;
+            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            {
+                if (f.Name.IndexOf("_") < 0) continue;
+                string pre = f.Name.Substring(0, f.Name.IndexOf("_"));
+                if (id.ToString().Equals(pre, StringComparison.OrdinalIgnoreCase))
+                {
+                    f.Delete();
+                    i++;
+                }
+            }          
+            return i;
         }
         /// <summary>
         /// 已经生成的Excel文件

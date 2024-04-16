@@ -1,52 +1,90 @@
 ﻿@charset "utf-8";
-body,html,#app{
-    height: 100%;
-    width: 100%;
+
+#vapp {
+    display: flex;
+    flex-direction: column;
 }
-body,html{
-    overflow: hidden;
-}
-#app{
-    padding-top: 10px;
-}
+
 .row {
     line-height: 30px;
     margin: 0px 20px 0px 20px;
     width: calc(100% - 40px);
 }
-.theme{
-    margin-bottom: 10px;
+
+
+dl {
+    counter-reset: section;
+    counter-reset: dd;
+    list-style-type: none;
+    margin: 8px 0px !important;
 }
-.btnOutput{
-    float: right; 
-    margin-top:-5px;
+
+dl dd::before {
+    counter-increment: dd;
+    content: ""counter(dd) " . ";
+
 }
-.box-card{
-    margin-left: 10px;
-    margin-right: 20px;
-    width: calc(100% - 20px);
-    height: calc(100% - 120px);
-}
-.el-card__header{
-    padding-right: 5px !important;
-}
-dl,dd{
+
+dl, dd {
     padding: 0px;
     margin: 0px;
 }
-dl dd{
-    line-height: 30px;
+
+dl dd {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px 10px 25px;
+    box-sizing: content-box;
 }
-dl dd a[href]{
+
+dl dd>* {
+    margin-left: 10px;
+}
+
+dl dd a[href] {
     display: inline-block;
     min-width: 230px;
     color: #409EFF;
+    flex: 1;
 }
-dl dd a[href]:hover{
+dl dd:hover{
+    background-color: rgb(244, 244, 245);
+   
+}
+dl dd a[href]:hover {
     text-decoration: underline;
+    text-align: left;
 }
-.el-card__body{
+
+div.el-card:not(:first-child) {
+    margin-top: 10px !important;
+    flex: 1;
+}
+
+.el-card__header {
+    padding-right: 5px !important;
+}
+
+.el-card__body {
     height: calc(100% - 45px);
     overflow-y: auto;
     overflow-x: hidden;
+  
+}
+
+.el-card.files .clearfix {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+
+.el-card.files .el-card__body {
+    height: calc(100% - 90px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0px;
+}
+.el-card.files help{
+    display: block;
+    padding: 25px;
 }

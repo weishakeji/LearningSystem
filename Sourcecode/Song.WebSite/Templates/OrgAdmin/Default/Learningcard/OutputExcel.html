@@ -3,49 +3,65 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>学习卡导出</title> 
+    <title>学习卡导出</title>
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <el-row class="row theme">
-            学习卡项目：{{cardset.Lcs_Theme}}
-        </el-row>
-    
-        <el-row class="row">
-            <el-col :span="8">面额：<icon money>{{cardset.Lcs_Price}}元</icon></el-col>
-            <el-col :span="8">数量：{{cardset.Lcs_Count}} 张</el-col>
-            <el-col :span="8">已使用：{{cardset.Lsc_UsedCount}} 张</el-col>
-        </el-row>
-        <el-row class="row">
-            <el-col :span="16">有效期：
-                {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
-                至
-                {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}</el-col>
-            <el-col :span="8">学习时长： {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}</el-col>
-        </el-row>
-
-        <el-card class="box-card">
+    <div id="vapp" v-cloak>
+        <el-card shadow="never">
             <div slot="header" class="clearfix">
-                <span> <span v-if="files.length>0">文件列表：</span>
-                    <span v-else>点击右侧按钮生成导出文件</span></span>
+                <icon style="font-size:22px;">&#xe685</icon> {{cardset.Lcs_Theme}}
 
-                <el-button type="primary" class="btnOutput" v-loading="loading" @click="Output">生成Excel导出文件
-                </el-button>
             </div>
-            <dl>
-                <dd v-for="(f,i) in files">
-                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.name+','+f.file">
-                            {{f.file}}</a>
-                            {{f.size|size}}
-                        <el-popconfirm title="确定删除这个文件吗？"  @confirm= "deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete"  v-loading="loading" slot="reference">删除</el-link>
-                        </el-popconfirm>
-                    </div>
-                </dd>                
-            </dl>
+            <el-row class="row">
+                <el-col :span="8">面额：<icon money>{{cardset.Lcs_Price}}元</icon>
+                </el-col>
+                <el-col :span="8">数量：{{cardset.Lcs_Count}} 张</el-col>
+                <el-col :span="8">已使用：{{cardset.Lsc_UsedCount}} 张</el-col>
+            </el-row>
+            <el-row class="row">
+                <el-col :span="16">有效期：
+                    {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                    至
+                    {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}</el-col>
+                <el-col :span="8">学习时长： {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}</el-col>
+            </el-row>
         </el-card>
 
+
+        <el-card shadow="never" class="files">
+            <div slot="header" class="clearfix">
+                <span icon="&#xe6a7"> 文件列表
+                    <span v-if="files.length>0">({{files.length}})</span>
+                </span>
+                <el-popconfirm title="确定删除所有文件吗？" @confirm="deleteFileAll()"  v-if="files.length>0">
+                    <el-link type="danger" v-loading="loading" slot="reference">
+                        <icon>&#xe6fe</icon>删除所有
+                    </el-link>
+                </el-popconfirm>
+            </div>
+            <help v-if="files.length<1">点击右下按钮生成导出文件</help>
+            <dl v-else>
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" target="_blank" title="点击下载" :download="f.name+','+f.file">
+                        {{f.file}}
+                        <icon>&#xe69e</icon>
+                    </a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+
+                </dd>
+            </dl>
+        </el-card>
+        <div class="footer">
+            <el-button type="primary" plain native-type="submit" v-loading="loading" @click="Output">
+                <icon>&#xe73e</icon>导出Excel文件
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
 
     </div>
 

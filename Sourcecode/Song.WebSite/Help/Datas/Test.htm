@@ -20,7 +20,7 @@
 
 <body>
     <div id="vapp">
-        <el-card class="box-card">
+        <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
                 <span icon="&#xe6d8">数据库链接测试</span>
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
@@ -52,7 +52,7 @@
                 {{verison}}
             </div>
         </el-card>
-        <el-card class="box-card" v-if="connState">
+        <el-card class="box-card" v-if="connState" shadow="hover">
             <div slot="header" class="clearfix">
                 <span icon="&#xe6a4">数据库表与字段的完整性</span>
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"

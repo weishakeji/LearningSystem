@@ -126,11 +126,12 @@
                     alert(err, '错误');
                 }).finally(() => th.loadingid = 0);
             },
+            //导出Excel
             outputExcel: function (row) {
                 var file = 'OutputExcel';
                 var title = ' - “' + row.Lcs_Theme + "”导出Excel";
                 var boxid = "Learningcard_" + row.Lcs_ID + "_" + file;
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Lcs_ID, title, boxid, 600, 400,
+                this.$refs.btngroup.pagebox(file + '?id=' + row.Lcs_ID, title, boxid, 640, 480,
                     { pid: window.name, resize: true });
             },
             //导出二维码

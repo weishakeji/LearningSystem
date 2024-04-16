@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             cardset: {},
@@ -16,8 +16,8 @@
                     var imgused = $dom(".qrcode-area>img#used").attr("src");
                     var imgdisable = $dom(".qrcode-area>img#disable").attr("src");
                     var url = window.location.origin + "/mobi/Card/learn?code={code}&pw={pw}";
-                    for (var i = 0; i < vue.cards.length; i++) {
-                        var card = vue.cards[i];
+                    for (var i = 0; i < this.cards.length; i++) {
+                        var card = this.cards[i];
                         var dd = $dom(".qrcode-area dl dd#card_" + card.Lc_ID);
                         var code = dd.attr("code");
                         var pw = dd.attr("pw");
@@ -46,24 +46,24 @@
             }
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.bat(
                 $api.get('Learningcard/SetForID', { 'id': this.id }),
                 $api.get('Learningcard/SetCourses', { 'id': this.id }),
                 $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, courses, cards) {
-                vue.loading = false;
                 //获取结果
-                vue.cardset = cardset.data.result;
-                vue.courses = courses.data.result;
-                vue.cards = cards.data.result;
-                $api.get('Organization/ForID', { 'id': vue.cardset.Org_ID }).then(function (req) {
+                th.cardset = cardset.data.result;
+                th.courses = courses.data.result;
+                th.cards = cards.data.result;
+                $api.get('Organization/ForID', { 'id': th.cardset.Org_ID }).then(function (req) {
                     if (req.data.success) {
-                        vue.organ = req.data.result;
+                        th.organ = req.data.result;
                     } else {
                         $api.get('Organization/Current').then(function (req) {
                             if (req.data.success) {
-                                vue.organ =req.data.result;                        
+                                th.organ = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -76,10 +76,9 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+                }).finally(() => { });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         computed: {},
         methods: {},

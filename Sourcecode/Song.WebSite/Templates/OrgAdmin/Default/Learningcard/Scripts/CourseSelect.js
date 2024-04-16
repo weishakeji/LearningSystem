@@ -71,7 +71,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => {});
             },
             //生成专业的树形
             buildSbjtree: function (data, pid) {
@@ -100,7 +100,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => {});
             },
             //添加选中的课程
             handleSelectCourse: function (data) {
