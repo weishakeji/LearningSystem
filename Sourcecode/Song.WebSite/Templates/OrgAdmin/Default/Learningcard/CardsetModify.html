@@ -11,8 +11,7 @@
     <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
             <el-form-item label="主题" prop="Lcs_Theme">
-                <el-input v-model.trim="entity.Lcs_Theme" type="textarea"
-                :rows="3"></el-input>
+                <el-input v-model.trim="entity.Lcs_Theme" type="textarea" :rows="3"></el-input>
             </el-form-item>
 
             <el-form-item label="面额" prop="Lcs_Price">
@@ -78,21 +77,21 @@
             </el-form-item>
 
             <el-form-item label="学习码" prop="Lcs_CodeLength">
-               
-                    <el-input v-model.number="entity.Lcs_CodeLength" clearable>
-                        <template slot="prepend">长度 </template>
-                        <template slot="append">位字符</template>
-                    </el-input>
-                
+
+                <el-input v-model.number="entity.Lcs_CodeLength" clearable>
+                    <template slot="prepend">长度 </template>
+                    <template slot="append">位字符</template>
+                </el-input>
+
             </el-form-item>
 
             <el-form-item label="密钥" prop="Lcs_PwLength">
-                
-                    <el-input v-model.number="entity.Lcs_PwLength" type="number">
-                        <template slot="prepend">长度 </template>
-                        <template slot="append">位字符</template>
 
-                    </el-input>
+                <el-input v-model.number="entity.Lcs_PwLength" type="number">
+                    <template slot="prepend">长度 </template>
+                    <template slot="append">位字符</template>
+
+                </el-input>
             </el-form-item>
 
         </el-form>
@@ -101,7 +100,12 @@
                 <span icon="&#xe813">关联课程 （{{courses ? courses.length : 0}}）</span>
                 <el-button style="float: right; padding: 3px 0" type="text" @click="courseSelect">编辑关联课程</el-button>
             </div>
-            <div v-for="(c,i) in courses" :key="c" class="item" :title="c.Cou_Name">
+            <loading v-if="loading_init"></loading>
+            <div v-else-if=" courses.length<1" class="nocourse">
+                <icon class="guide">&#xe764</icon>
+                <help>没有关联课程，点击右上方按钮编辑</help>
+            </div>
+            <div v-else v-for="(c,i) in courses" :key="c" class="item" :title="c.Cou_Name">
                 <img v-if="c.Cou_LogoSmall!=''" :src="c.Cou_LogoSmall">
                 <img v-else src="/Utilities/Images/cou_nophoto.jpg" />
                 <span class="tax">{{i+1}}.</span>

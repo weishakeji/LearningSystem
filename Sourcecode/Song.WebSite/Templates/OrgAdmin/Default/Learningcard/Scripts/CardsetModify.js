@@ -110,7 +110,8 @@ $ready(function () {
                         { validator: checkDate, type: 'date', trigger: ["blur", "change"] }
                     ]
                 },
-                loading: false
+                loading: false,
+                loading_init: true
             }
         },
         computed: {
@@ -141,7 +142,6 @@ $ready(function () {
                     th.minLength = req.data.result;
                     if (th.id != '') {
                         $api.get('Learningcard/SetForID', { 'id': th.id }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 th.entity = req.data.result;
                                 //学习有效期
@@ -158,7 +158,7 @@ $ready(function () {
                                 }).catch(function (err) {
                                     alert(err);
                                     console.error(err);
-                                });
+                                }).finally(() => th.loading_init = false);
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -167,6 +167,7 @@ $ready(function () {
                             .finally(() => th.loading = false);
                     } else {
                         th.loading = false;
+                        th.loading_init = false;
                         th.entity.Lcs_IsEnable = true;
                         th.entity.Lcs_Span = 1;
                         th.entity.Lcs_Unit = '月';
@@ -280,7 +281,7 @@ $ready(function () {
                 let boxid = parent.id + "_" + file;
                 //创建新窗体
                 var box = window.top.$pagebox.create({
-                    width: '48%', height: '90%',left:'1%', resize: true, max: false,
+                    width: '48%', height: '90%', left: '1%', resize: true, max: false,
                     min: false, id: boxid, showmask: true, ico: 'e813',
                     pid: window.name, url: url
                 });
@@ -294,7 +295,7 @@ $ready(function () {
                 box.onshut(function (sender, event) {
                     sender.parent.full = false;
                 });
-              
+
                 box.open();
 
             },

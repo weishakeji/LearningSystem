@@ -1,6 +1,9 @@
 ﻿#vapp {
     display: flex;
+    padding-top: 15px;
+    box-sizing: border-box;
 }
+
 /*左右布局*/
 #vapp>*:first-child {
     min-width: 300px;
@@ -14,12 +17,13 @@
 #vapp>.el-form, #vapp>.el-card {
     height: calc(100% - 60px);
     width: 100%;
-    margin: 0px;   
+    margin: 0px;
 
     overflow: auto;
     box-sizing: border-box;
 }
 
+/*关联课程的区域*/
 
 .el-card__body {
     padding: 5px 1px 15px 15px;
@@ -31,7 +35,7 @@
 .item {
     margin-bottom: 10px;
     margin-right: 10px;
-    height: 60px; 
+    height: 60px;
     width: 100%;
     float: left;
     overflow: hidden;
@@ -54,6 +58,21 @@
     font-weight: bold;
 }
 
+/*如果没有关联的课程*/
+.nocourse {
+    height: 200px;
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+}
+icon.guide{
+    font-size: 80px;
+    display: block;
+    margin: 0px auto;
+    color: #999;
+    text-align: right;
+    padding: 0px 50px 0px 0px;
+}
 /*学习时长的选择面板*/
 .studyspan .el-dialog {
     width: 80% !important;
