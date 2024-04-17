@@ -113,7 +113,7 @@
                                 <el-tag type="success" v-else-if="course.Cou_IsTry && o.Ol_IsFree"
                                     @click="tolearing(course,o)">免费</el-tag>
                                 <template v-else>
-                                    <progress_video
+                                    <progress_video class="tolearing"
                                         v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree || forever"
                                         :videolog="videolog" :outline="o" :course="course" text="学习" @click="tolearing(course,o)">
                                     </progress_video>

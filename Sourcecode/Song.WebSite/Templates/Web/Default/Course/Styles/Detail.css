@@ -265,6 +265,9 @@ context.body>section .el-tabs .el-tabs__content>div {
     right: 10px;
     top: 6px;
 }
+.tolearing{
+    cursor: pointer;
+}
 .outlines>div>a  {
     position: absolute;
     right: 10px;
