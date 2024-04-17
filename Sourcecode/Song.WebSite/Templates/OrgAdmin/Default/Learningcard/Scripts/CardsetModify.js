@@ -14,17 +14,12 @@ $ready(function () {
                         return callback();
                     }
                 }
-            }
+            };
             let checkDate = (rule, value, callback) => {
-                if (this.datespan) {
-                    if (this.datespan.length == 0) {
-                        return callback(new Error('请选择时间'));
-                    }
-                    return callback();
-                } else {
-                    return callback();
-                }
-            }
+                if (this.datespan == null || this.datespan.length == 0)
+                    return callback(new Error('请选择时间'));
+                return callback();
+            };
             return {
                 id: $api.querystring('id'),
                 minLength: 0,        //学习卡的卡号最小长度
@@ -112,7 +107,7 @@ $ready(function () {
                 },
                 loading: false,
                 loading_init: true
-            }
+            };
         },
         computed: {
             //是否新增对象
