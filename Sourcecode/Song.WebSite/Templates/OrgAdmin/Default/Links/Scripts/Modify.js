@@ -40,7 +40,7 @@ $ready(function () {
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                th.loading_init = false;
+
                 if (req.data.success) {
                     th.organ = req.data.result;
                     $api.get('Link/SortCount',
@@ -55,7 +55,7 @@ $ready(function () {
                         }).catch(function (err) {
                             alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => { });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -63,14 +63,13 @@ $ready(function () {
 
             }).catch(function (err) {
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         mounted: function () {
             var th = this;
             if (th.id == '') return;
             th.loading = true;
             $api.get('Link/ForID', { 'id': th.id }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.entity = result;
@@ -80,8 +79,8 @@ $ready(function () {
                     throw '未查询到数据';
                 }
             }).catch(function (err) {
-                th.$alert(err, '错误');
-            });
+                alert(err, '错误');
+            }).finally(() => th.loading = false);
         },
         methods: {
             btnEnter: function (formName, isclose) {
@@ -96,8 +95,7 @@ $ready(function () {
                         if (th.upfile == null) para = { 'entity': th.entity };
                         else
                             para = { 'file': th.upfile, 'entity': th.entity };
-                        $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
+                        $api.post(apipath, para).then(function (req) {                  
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$notify({
@@ -113,7 +111,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

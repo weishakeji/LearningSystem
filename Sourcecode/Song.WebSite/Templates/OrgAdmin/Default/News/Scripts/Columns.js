@@ -38,6 +38,7 @@ $ready(function () {
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
@@ -47,9 +48,8 @@ $ready(function () {
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.getTreeData();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
         },
         methods: {
@@ -57,17 +57,12 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('News/ColumnsTree', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
+                    if (req.data.success)
                         th.datas = req.data.result;
-                    } else {
+                    else
                         throw req.data.message;
-                    }
-                    th.loading = false;
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             append: function (d) {
                 var obj = this.clone();
@@ -123,7 +118,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.post('News/ColumnsUpdate', { 'tree': th.datas, "orgid": th.organ.Org_ID }).then(function (req) {
-                    th.loading = false;
+
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -138,11 +133,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    th.loading = false;
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //过滤树形
             filterNode: function (value, data) {
@@ -154,4 +146,4 @@ $ready(function () {
         }
     });
 
-},['Components/article_count.js']);
+}, ['Components/article_count.js']);

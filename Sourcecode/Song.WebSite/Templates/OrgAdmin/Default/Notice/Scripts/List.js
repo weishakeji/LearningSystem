@@ -50,7 +50,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
                 $api.get("Notice/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -61,7 +60,7 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //刷新行数据，
             freshrow: function (id) {

@@ -45,8 +45,7 @@ $ready(function () {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Link/Sort' + (th.id == '' ? 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
-                            th.loading = false;
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {                           
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -62,7 +61,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

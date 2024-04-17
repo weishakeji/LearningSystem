@@ -30,11 +30,8 @@ Vue.component('article_count', {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            }).finally(function () {
-                th.loading = false;
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         }
     },
     template: `<span class="article_count" v-if="count>0">({{count}})</span>`

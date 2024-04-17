@@ -92,7 +92,6 @@ $ready(function () {
                     });
                     if (th.id == '') {
                         $api.get('Snowflake/Generate').then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 th.formData.No_Id = req.data.result;
                             } else {
@@ -100,14 +99,12 @@ $ready(function () {
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                         return;
                     }
                     $api.get('Notice/ForID', { 'id': th.id }).then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.formData = result;
@@ -130,10 +127,9 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading = false;
                         th.$alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading = false);
                 } else {
                     throw req.data.message;
                 }
@@ -170,6 +166,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {
+                        th.loading=true;
                         var apipath = 'Notice/' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.formData }).then(function (req) {
                             if (req.data.success) {
@@ -188,7 +185,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

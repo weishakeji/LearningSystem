@@ -25,15 +25,16 @@ $ready(function () {
             loadingid: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.form.orgid = vapp.organ.Org_ID;
-                vapp.getColumnsTree();
+                th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
+                th.getColumnsTree();
             })).catch(function (err) {
                 console.error(err);
             });
@@ -56,18 +57,14 @@ $ready(function () {
             //加载栏目树
             getColumnsTree: function () {
                 var th = this;
-                $api.get('News/ColumnsTree', { 'orgid': vapp.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;
+                $api.get('News/ColumnsTree', { 'orgid': th.organ.Org_ID }).then(function (req) {
                     if (req.data.success) {
                         th.columns = req.data.result;
                     } else {
                         throw req.data.message;
                     }
-                    //th.loading = false;
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {

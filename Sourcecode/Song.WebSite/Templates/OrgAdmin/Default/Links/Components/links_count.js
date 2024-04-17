@@ -1,7 +1,7 @@
 //分类下的链接数
 Vue.component('links_count', {
     //title:提示信息
-    props: ['sort','title'],
+    props: ['sort', 'title'],
     data: function () {
         return {
             total: 0,       //总数量
@@ -29,11 +29,8 @@ Vue.component('links_count', {
                 //获取结果
                 th.total = total.data.result;
                 th.count = count.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            }).finally(function () {
-                th.loading = false;
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         }
     },
     template: `<span>

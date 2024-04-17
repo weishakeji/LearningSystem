@@ -31,8 +31,7 @@ $ready(function () {
                 Col_UID: [{ type: 'array', required: true, message: '请选择新闻栏目', trigger: 'change' }]
             },
             //图片文件
-            upfile: null, //本地上传文件的对象             
-
+            upfile: null, //本地上传文件的对象
 
 
             loading: false,
@@ -92,7 +91,6 @@ $ready(function () {
                 }
                 th.loading = true;
                 $api.get('News/Article', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.entity = result;
@@ -112,11 +110,11 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loading = false);
             },
             btnEnter: function (formName, isclose) {
                 var th = this;
-                this.$refs[formName].validate((valid,fields) => {
+                this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.loading = true;
                         //为上传数据作处理
@@ -131,7 +129,6 @@ $ready(function () {
                         else
                             para = { 'file': th.upfile, 'entity': obj };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -150,7 +147,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
@@ -206,7 +203,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //附件文件上传
             uploadAccessory: function (file) {
@@ -214,7 +211,6 @@ $ready(function () {
                 th.loading_upload = true;
                 var uid = this.entity.Art_Uid;
                 $api.post('Accessory/Upload', { 'uid': uid, 'type': 'News', 'file': file }).then(function (req) {
-                    th.loading_upload = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getAccessory();
@@ -222,10 +218,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_upload = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_upload = false);
             },
             //删除附件
             delAccessory: function (obj) {
@@ -242,7 +236,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //操作成功
             operateSuccess: function (isclose) {
