@@ -39,7 +39,16 @@ html, body, #vapp {
 .draghandle {
 	cursor: s-resize;
 }
-
+/*字体大小*/
+.large {
+	font-size: 18px;
+}
+.large icon{
+	font-size: 20px;
+}
+.medium {
+	font-size: 14px;
+}
 /*特殊字体*/
 
 red, .red {

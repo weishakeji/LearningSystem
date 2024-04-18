@@ -38,7 +38,6 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
@@ -47,7 +46,7 @@ $ready(function () {
                 th.getEntity();
             })).catch(function (err) {
                 console.error(err);
-            }).finally(()=>{});
+            }).finally(()=> th.loading_init = false);
 
         },
         methods: {
@@ -67,6 +66,10 @@ $ready(function () {
                     th.$alert(err, '错误');
                 }).finally(() => th.loading = false);
             },
+            //校验名称
+            verification:function(val){
+
+            },
             //判断名称是否存在
             isExist: function (val) {
                 var th = this;
@@ -80,7 +83,7 @@ $ready(function () {
                         }
                     }).catch(function (err) {
                         return reject(err);
-                    });
+                    }).finally(() => {});
                 });
             },
             //保存信息

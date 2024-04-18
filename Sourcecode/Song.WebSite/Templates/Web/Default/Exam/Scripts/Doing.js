@@ -514,7 +514,7 @@ $ready(function () {
                         queslist = quesAnswer[att];
                         continue;
                     }
-                    results += att + '="' + quesAnswer[att] + '" ';
+                    results += att + '="' + $api.Base64.encode(quesAnswer[att]) + '" ';
                 }
                 results += ">";
                 //生成试题

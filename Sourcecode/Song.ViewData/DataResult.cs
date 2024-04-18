@@ -252,7 +252,8 @@ namespace Song.ViewData
                 sb.Append("[");
                 for (int i = 0; i < array.Length; i++)
                 {
-                    sb.Append(ObjectToJson(array.GetValue(i), null, false, lv));
+                    string txt = ObjectToJson(array.GetValue(i), null, false, lv);
+                    sb.Append(txt);
                     if (i < array.Length - 1) sb.Append(",");
                 }
                 sb.Append("]");

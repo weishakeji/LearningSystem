@@ -104,6 +104,17 @@
             var regExp = new RegExp('(' + search + ')', 'ig');
             return txt.replace(regExp, `<red>$1</red>`);
         };
+         //常用地址
+         Vue.prototype.commonaddr = function (key) {
+            var urls = {
+                'signin': '/mobi/sign/in',      //登录地址
+                'myself': '/mobi/account/myself'        //个人中心
+            };
+            if (urls[key] == undefined) return '';
+            return $api.url.set(urls[key], {
+                'referrer': encodeURIComponent(location.href)
+            });
+        };
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt) {

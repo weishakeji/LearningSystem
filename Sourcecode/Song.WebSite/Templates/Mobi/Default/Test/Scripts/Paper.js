@@ -24,16 +24,23 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(
-                $api.get('TestPaper/ForID', { 'id': th.tpid }),
-                $api.get('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (paper, course) {
-                th.loading_init = false;
-                th.paper = paper.data.result;
-                th.course = course.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            $api.get('TestPaper/ForID', { 'id': th.tpid }).then(function (req) {
+                if (req.data.success) {
+                    th.paper = req.data.result;
+                    if (th.couid == '') th.couid = th.paper.Cou_ID;
+                    $api.get('Course/ForID', { 'id': th.couid }).then(function (req) {
+                        if (req.data.success) {
+                            th.course = req.data.result;
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                } else {
+                    throw req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

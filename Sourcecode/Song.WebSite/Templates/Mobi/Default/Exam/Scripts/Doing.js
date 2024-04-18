@@ -121,9 +121,9 @@ $ready(function () {
             },
             //当前时间，经过服务器时间校正过的
             nowtime: function () {
-                try {                   
+                try {
                     return new Date(this.time.server.getTime() + (this.time.now - this.time.client.getTime()));
-                } catch { return new Date()}
+                } catch { return new Date() }
             },
             //考试剩余时间
             surplustime: function () {
@@ -514,7 +514,7 @@ $ready(function () {
                         queslist = quesAnswer[att];
                         continue;
                     }
-                    results += att + '="' + quesAnswer[att] + '" ';
+                    results += att + '="' + $api.Base64.encode(quesAnswer[att]) + '" ';
                 }
                 results += ">";
                 //生成试题

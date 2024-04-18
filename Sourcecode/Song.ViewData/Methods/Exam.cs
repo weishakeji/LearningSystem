@@ -452,7 +452,7 @@ namespace Song.ViewData.Methods
 
                 }
             }
-            XmlNode xn = resXml.SelectSingleNode("results");
+            XmlNode xn = getAttrBase64(resXml.SelectSingleNode("results"));
             //试卷id，考试id
             long tpid;
             long.TryParse(xn.Attributes["tpid"].Value, out tpid);
@@ -515,7 +515,7 @@ namespace Song.ViewData.Methods
                 exr.Sbj_Name = sbjname;
                 exr.Exr_IP = WeiSha.Core.Browser.IP;
                 exr.Exr_Mac = WeiSha.Core.Request.UniqueID();   //原本是网卡的mac地址,此处不再记录
-                exr.Exr_Results = xml;
+                exr.Exr_Results = resXml.OuterXml;
                 exr.Exam_UID = uid;
                 exr.Exam_Title = theme;
                 //exr.Exr_IsSubmit = patter == 2;
@@ -559,6 +559,29 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
             return jo;
+        }
+        /// <summary>
+        /// 将属性进行Base64解码
+        /// </summary>
+        /// <param name="xn"></param>
+        /// <returns></returns>
+        private XmlNode getAttrBase64(XmlNode xn)
+        {
+            foreach (XmlAttribute attr in xn.Attributes)
+            {
+                string val = WeiSha.Core.DataConvert.DecryptForBase64(attr.Value);
+                val = val.Replace("<", "＜");
+                val = val.Replace(">", "＞");
+                val = val.Replace("(", "（");
+                val = val.Replace(")", "）");
+                val = val.Replace("&", "＆");
+                val = val.Replace("=", "〓");
+                val = val.Replace("\"", "＂");
+                val = val.Replace("'", "｀");
+                val = val.Replace("\\", "＼");
+                attr.Value = val;
+            }
+            return xn;
         }
         #endregion
 

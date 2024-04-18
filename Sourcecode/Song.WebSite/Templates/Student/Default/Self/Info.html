@@ -12,7 +12,14 @@
         <el-form ref="account" :model="account" @submit.native.prevent label-width="120px">
 
             <el-form-item label="账号" prop="Ac_AccName">
-                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+                <span class="large">
+                    <icon>&#xe804</icon>{{account.Ac_AccName}}
+                </span>
+            </el-form-item>
+            <el-form-item label="学员组" prop="Ac_AccName">
+                <el-tag type="info">
+                    <icon>&#xe812</icon>{{account.Sts_Name}}
+                </el-tag>
             </el-form-item>
             <el-row>
                 <el-col :span="12">
@@ -54,7 +61,7 @@
                 <el-input v-model="account.Ac_CodeNumber" style="width: 220px;">
                     <icon slot="prefix">&#xe687</icon>
                 </el-input>
-                
+
             </el-form-item>
             <el-form-item label="学历" prop="Ac_Education">
                 <education :value="account.Ac_Education" @change="val=>account.Ac_Education=val"></education>
