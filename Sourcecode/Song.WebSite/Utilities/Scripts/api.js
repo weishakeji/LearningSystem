@@ -459,11 +459,7 @@
             instance.interceptors.response.use(function (response) {
                 //是否加密
                 var encrypt = response.config.headers.Encrypt;
-                if (encrypt) {
-                    if (!window.base64_for_api_response)
-                        window.base64_for_api_response = new $api.Base64();
-                    response.data = window.base64_for_api_response.decode(response.data);
-                }
+                if (encrypt) response.data = $api.Base64.decode(response.data);
                 //保留未解析为json之前的数据
                 //response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
@@ -492,9 +488,7 @@
                     $api.api_cache.put(response.config.way, params, response);
                 }
                 //计算执行耗时
-                if (response.data) {
-                    response.data['webspan'] = new Date() - startTime;
-                }
+                if (response.data) response.data['webspan'] = new Date() - startTime;
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);
@@ -677,7 +671,7 @@
     };
     //一些网址的处理方法
     apiObj.prototype.url = {
-         //地址的参数
+        //地址的参数
         params: function (url) {
             if (url == null || url == '') url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return [];
@@ -752,7 +746,7 @@
         },
         //过滤参数，主要为了清除一些危险字符
         //
-        filter: function (val, key) {           
+        filter: function (val, key) {
             if (val == null || val == '') return val;
             try {
                 val = decodeURI(val);
@@ -1021,8 +1015,19 @@
         }
         return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
     };
-    //base64编码
-    apiObj.prototype.Base64 = function () {
+    //base64编码的调用方法
+    apiObj.prototype.Base64 = {
+        encode: function (input) {
+            if (!window._base64_Method_for_api) window._base64_Method_for_api = new $api._Base64_Method();
+            return window._base64_Method_for_api.encode(input);
+        },
+        decode: function (input) {
+            if (!window._base64_Method_for_api) window._base64_Method_for_api = new $api._Base64_Method();
+            return window._base64_Method_for_api.decode(input);
+        }
+    };
+    //base64编码的具体方法，
+    apiObj.prototype._Base64_Method = function () {
 
         // private property 
         var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -1076,6 +1081,12 @@
 
         // private method for UTF-8 encoding 
         _utf8_encode = function (string) {
+            var type = Object.prototype.toString;
+            var myType = type.call(string);
+            var typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
+            if (typeName != 'String') {
+                string = String(string);
+            }
             string = string.replace(/rn/g, "n");
             var utftext = "";
             for (let n = 0; n < string.length; n++) {
