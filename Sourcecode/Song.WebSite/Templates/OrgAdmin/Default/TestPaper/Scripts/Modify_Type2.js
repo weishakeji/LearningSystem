@@ -38,7 +38,9 @@ $ready(function () {
             //录入校验的规划
             rules: {
                 Tp_Name: [
-                    { required: true, message: '标题不得为空', trigger: 'blur' }
+                    { required: true, message: '标题不得为空', trigger: 'blur' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' }
                 ],
                 Tp_Span: [
                     { required: true, message: '限时不得为空', trigger: 'blur' },

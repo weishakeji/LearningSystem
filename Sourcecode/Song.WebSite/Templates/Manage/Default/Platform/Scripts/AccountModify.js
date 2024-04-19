@@ -12,7 +12,9 @@ $ready(function () {
             organ: {},       //当前登录账号所在的机构
             rules: {
                 Ac_Name: [
-                    { required: true, message: '姓名不得为空', trigger: 'blur' }
+                     //{ required: true, message: '姓名不得为空', trigger: 'blur' },
+                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                     { validator: validate.name.danger, trigger: 'change' },
                 ],
                 Ac_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },

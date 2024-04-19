@@ -10,7 +10,7 @@
     <div id="vapp" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item label="名称" prop="Sts_Name">
-                <el-input v-model="entity.Sts_Name" maxlength="140"></el-input>
+                <el-input v-model.trim="entity.Sts_Name" maxlength="140"></el-input>
             </el-form-item>
             <el-form-item label="状态" prop="Sts_IsUse">
                 <el-switch v-model="entity.Sts_IsUse" active-color="#13ce66" inactive-color="#ff4949"

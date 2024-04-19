@@ -16,6 +16,8 @@ $ready(function () {
             },
             rules: {
                 Sts_Name: [{ required: true, message: '名称不得为空', trigger: 'blur' },
+                { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                { validator: validate.name.danger, trigger: 'change' }, 
                 {
                     validator: async function (rule, value, callback) {
                         await vapp.isExist(value).then(res => {
@@ -32,6 +34,8 @@ $ready(function () {
             //是否新增账号
             isadd: t => t.id == null || t.id == '' || this.id == 0,
         },
+        mounted: function () {
+        },
         created: function () {
             var th = this;
             th.loading_init = true;
@@ -46,7 +50,7 @@ $ready(function () {
                 th.getEntity();
             })).catch(function (err) {
                 console.error(err);
-            }).finally(()=> th.loading_init = false);
+            }).finally(() => th.loading_init = false);
 
         },
         methods: {
@@ -67,7 +71,7 @@ $ready(function () {
                 }).finally(() => th.loading = false);
             },
             //校验名称
-            verification:function(val){
+            verification: function (val) {
 
             },
             //判断名称是否存在
@@ -83,7 +87,7 @@ $ready(function () {
                         }
                     }).catch(function (err) {
                         return reject(err);
-                    }).finally(() => {});
+                    }).finally(() => { });
                 });
             },
             //保存信息
@@ -122,5 +126,7 @@ $ready(function () {
             }
         },
     });
+
+
 
 });

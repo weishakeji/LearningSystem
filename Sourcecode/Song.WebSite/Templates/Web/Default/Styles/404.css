@@ -2,10 +2,10 @@
 	display: block;
 	width: 1200px;
 	min-height: 800px;
-	display: table;
 	margin: 0px auto;
 	box-sizing: border-box;
 	padding: 100px;
+	text-align: center;
 }
 context icon{
 	display: block;

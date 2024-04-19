@@ -9,7 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="account" :model="account" @submit.native.prevent label-width="120px">
+        <el-form ref="account" :rules="rules" :model="account" @submit.native.prevent label-width="120px">
 
             <el-form-item label="账号" prop="Ac_AccName">
                 <span class="large">

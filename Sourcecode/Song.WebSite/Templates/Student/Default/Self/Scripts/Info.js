@@ -5,7 +5,13 @@ $ready(function () {
         data: {
             account: {}, //当前登录账号对象
             accPingyin: [],  //账号名称的拼音
-
+            rules: {                
+                Ac_Name: [
+                    //{ required: true, message: '姓名不得为空', trigger: 'blur' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' }, 
+                ]
+            },
             loading: false,
             loading_init: true
         },

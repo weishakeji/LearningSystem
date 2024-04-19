@@ -29,7 +29,10 @@ $ready(function () {
             upfile: null, //本地上传文件的对象  
 
             rules: {
-                Sbj_Name: [{ required: true, message: '专业不得为空', trigger: 'blur' }]
+                Sbj_Name: [{ required: true, message: '专业不得为空', trigger: 'blur' },
+                { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                { validator: validate.name.danger, trigger: 'change' }
+                ]
             },
             loading: false,
             loading_init: true,      //初始化预载

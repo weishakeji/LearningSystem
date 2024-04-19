@@ -65,7 +65,6 @@
             if (val == null) return hashValue;
             if (val == '') return url.substring(0, url.lastIndexOf('#'));
             return url.indexOf('#') > -1 ? url.substring(0, url.lastIndexOf('#') + 1) + val : url + '#' + val;
-
         },
         //地址栏最后一个.后面的字符
         //如果只有一参数，val为默认值，即.后面没有值时，返回默认值
@@ -1554,6 +1553,7 @@ window.addEventListener("load", function () {
     $api.get('Copyright/Info').then(function (req) {
         if (req.data.success) {
             let copyright = req.data.result;
+            //$api.copyright = copyright;
             let nodes = document.querySelectorAll("*[copyright]");
             for (let i = 0; i < nodes.length; i++) {
                 let node = nodes[i];

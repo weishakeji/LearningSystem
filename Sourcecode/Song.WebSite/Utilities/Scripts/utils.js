@@ -155,3 +155,40 @@ Number.prototype.money = function (len) {
     }
     return float_num > 0 ? mstr + '.' + float_num : mstr;
 };
+
+
+/** 表单验证方法 
+ * 
+ * 在ElementUi的表单中提供验证方法
+ * 例如：  { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+*/
+(function () {
+    var validate = {
+        //名称的校验
+        name: {
+            //prohibition,禁止使用的字符
+            proh: function (rule, value, callback) {
+                const pattern = /[\<\>\"\'\&\=\\\/\(\)\:\*\?\|\%]+/;
+                if (pattern.test(value)) {
+                    callback(new Error('不能包含下列字符： <>\"&=\'\/():*?|%  '));
+                } else {
+                    callback();
+                }
+            },
+            //危险的字符
+            danger: function (rule, value, callback) {
+                if (value == '' | value == null) return callback();
+                const rex = 'and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|script|frame|or|etc|style|expression';
+                let arr = rex.split('|');
+                for (let i = 0; i < arr.length; i++) {
+                    if (value.indexOf(' ' + arr[i] + ' ') > -1)
+                        return callback(new Error('存在危险字符： ' + arr[i]));
+                }
+                callback();
+            }
+        }
+    }
+    window.validate = validate;
+})();
+
+//console.error(validate);
