@@ -250,6 +250,8 @@ Vue.component('exam_item_modify', {
             rules: {
                 Exam_Name: [
                     { required: true, message: '不得为空', trigger: 'blur' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' },
                     { min: 3, max: 255, message: '长度在 3 到 255 个字符', trigger: 'blur' }
                 ],
                 Tp_Id: [

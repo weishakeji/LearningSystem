@@ -22,7 +22,11 @@ $ready(function () {
                 Exam_UID: new Date().getTime()
             },
             rules: {
-                Exam_Title: [{ required: true, message: '标题不得为空', trigger: 'blur' }]
+                Exam_Title: [
+                    { required: true, message: '标题不得为空', trigger: 'blur' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' },
+                ]
             },
             //考试时间区间（当设置为“设定时间区间”时)
             dateRange: [],
