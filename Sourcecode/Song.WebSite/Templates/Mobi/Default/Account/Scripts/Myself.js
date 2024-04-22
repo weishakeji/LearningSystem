@@ -38,6 +38,7 @@ $ready(function () {
             },
             'account': {
                 handler: function (nv, ov) {
+                    this.loading = false;
                     if ($api.isnull(nv)) return;
                     this.account.Ac_Sex = String(nv.Ac_Sex);
                     var th = this;
@@ -49,7 +50,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     });
-                    this.loading = false;
+                    
                 }, immediate: true
             },
         },
@@ -58,7 +59,6 @@ $ready(function () {
                 var th = this;
                 th.uploading = true;
                 $api.post('Account/ModifySelf', { 'acc': th.account }).then(function (req) {
-                    th.uploading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({ type: 'success', message: '修改成功' });
@@ -69,7 +69,7 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$notify({ type: 'danger', message: err });
                     console.error(err);
-                });
+                }).finally(() => th.uploading = false);
             },
             changePw: function () {
                 var th = this;

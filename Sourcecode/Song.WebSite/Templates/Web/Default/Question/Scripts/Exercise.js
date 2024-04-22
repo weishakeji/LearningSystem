@@ -60,11 +60,12 @@ $ready(function () {
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-            //当页面退出时，保存学习记录到服务器
-            window.addEventListener('beforeunload', function (e) {
-                window.vapp.state.toserver();
-                e.preventDefault();
-            });
+            //每隔3分钟保存一次到服务器，以前是退出页面时保存
+            window.addEventListener('load', function (e) {
+                window.setInterval(function () {
+                    window.vapp.state.toserver();
+                }, 1000 * 60 * 3);
+            })
             //加载当前课程各个章节的试题到缓存
             window.setTimeout(window.ques.get_cache_data(), 10 * 1000);
         },
@@ -105,7 +106,7 @@ $ready(function () {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
                                     th.$message.success('试题加载完成！用时 ' + span.toFixed(2) + ' 秒');
-                                    
+
                                 }
                             });
                             //获取服务器端的学习记录，如果本地最新则不再取值

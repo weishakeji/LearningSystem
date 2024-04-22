@@ -262,7 +262,6 @@
     };
     //从服务端获取练习记录
     fn.gettoserver = function () {
-
         var para = { 'acid': this.acid, 'couid': this.couid, 'olid': this.olid };
         return new Promise(function (resolve, reject) {
             $api.get('Question/ExerciseLogGet', para).then(function (req) {
