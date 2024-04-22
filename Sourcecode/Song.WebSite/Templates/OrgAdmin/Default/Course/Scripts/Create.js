@@ -8,6 +8,25 @@
             config: {},      //当前机构配置项        
             teacher: {},        //当前登录的教师
             form: { 'name': '', 'orgid': 0, 'sbjid': 0, 'thid': 0 },
+            rules: {
+                name: [{ required: true, message: '名称不得为空', trigger: 'blur' },
+                { min: 1, max: 100, message: '最长输入100个字符', trigger: 'change' },
+                { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                { validator: validate.name.danger, trigger: 'change' },
+                {
+                    validator: function (rule, value, callback) {
+                        let v = $api.trim(value);
+                        if (v == '' || v.length < 1) return callback(new Error('名称不能全部是空格'));
+                        return callback();
+                    }, trigger: 'blur'
+                }],
+                sbjid: [{
+                    validator: function (rule, value, callback) {
+                        if (value <=0) return callback(new Error('没有选择课程专业'));
+                        return callback();
+                    }, trigger: 'blur'
+                }]
+            },
             entity: {},
             //图片文件
             upfile: null, //本地上传文件的对象    
@@ -51,9 +70,7 @@
             },
             //完成后的倒计时，小于零退出当前窗口
             countdown: function (val) {
-                if (val < 0) {
-                    this.callback_modify(this.entity.Cou_ID);
-                }
+                if (val < 0) this.callback_modify(this.entity.Cou_ID);
             }
         },
         methods: {
@@ -133,48 +150,34 @@
             },
             btnEnter: function () {
                 var th = this;
-                if ($api.trim(this.form.name) == '') {
-                    this.$alert('课程名称不得为空！', '提示', {
-                        showConfirmButton: false,
-                        closeOnClickModal: true,
-                        type: 'warning',
-                        callback: () => { }
-                    });
-                    return;
-                }
-                if (this.form.sbjid == 0) {
-                    this.$alert('请选择课程专业！', '提示', {
-                        showConfirmButton: false,
-                        closeOnClickModal: true,
-                        type: 'warning',
-                        callback: () => { }
-                    });
-                    return;
-                }
-                //判断是否存在重名
-                var query = { 'name': th.form.name, 'orgid': th.form.orgid, 'sbjid': th.form.sbjid };
-                $api.get('Course/NameExist', query).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        if (result == true) {
-                            th.$confirm('在当前选择的课程专业下，课程名称存在重复，是否继续创建课程?', '提示', {
-                                confirmButtonText: '确定',
-                                cancelButtonText: '取消',
-                                type: 'warning'
-                            }).then(() => {
-                                th.create_course();
-                            }).catch(() => { });
-                        } else {
-                            th.create_course();
-                        }
+                this.$refs['course'].validate((valid) => {
+                    if (valid) {
+                        //判断是否存在重名
+                        var query = { 'name': th.form.name, 'orgid': th.form.orgid, 'sbjid': th.form.sbjid };
+                        $api.get('Course/NameExist', query).then(function (req) {
+                            if (req.data.success) {
+                                var result = req.data.result;
+                                if (result == true) {
+                                    th.$confirm('在当前选择的课程专业下，课程名称存在重复，是否继续创建课程?', '提示', {
+                                        confirmButtonText: '确定',
+                                        cancelButtonText: '取消',
+                                        type: 'warning'
+                                    }).then(() => {
+                                        th.create_course();
+                                    }).catch(() => { });
+                                } else {
+                                    th.create_course();
+                                }
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.data.message;
+                            }
+                        }).catch(err => console.error(err)).finally(() => { });
                     } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
+                        console.log('course input verification error !!');
+                        return false;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(() => { });
+                });
             },
             //创建课程
             create_course: function () {

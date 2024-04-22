@@ -252,7 +252,14 @@ Vue.component('exam_item_modify', {
                     { required: true, message: '不得为空', trigger: 'blur' },
                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
                     { validator: validate.name.danger, trigger: 'change' },
-                    { min: 3, max: 255, message: '长度在 3 到 255 个字符', trigger: 'blur' }
+                    { min: 3, max: 255, message: '长度在 3 到 255 个字符', trigger: 'blur' },
+                    {
+                        validator: function (rule, value, callback) {
+                            let v = $api.trim(value);
+                            if (v == '' || v.length < 1) return callback(new Error('不能全部是空格'));
+                            return callback();
+                        }, trigger: 'blur'
+                    }
                 ],
                 Tp_Id: [
                     { required: true, message: '不得为空', trigger: 'change' }

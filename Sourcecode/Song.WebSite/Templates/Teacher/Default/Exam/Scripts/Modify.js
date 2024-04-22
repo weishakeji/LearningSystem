@@ -24,8 +24,16 @@ $ready(function () {
             rules: {
                 Exam_Title: [
                     { required: true, message: '标题不得为空', trigger: 'blur' },
+                    { min: 1, max: 255, message: '最长输入255个字符', trigger: 'change' },
                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
                     { validator: validate.name.danger, trigger: 'change' },
+                    {
+                        validator: function (rule, value, callback) {
+                            let v = $api.trim(value);
+                            if (v == '' || v.length < 1) return callback(new Error('不能全部是空格'));
+                            return callback();
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             //考试时间区间（当设置为“设定时间区间”时)

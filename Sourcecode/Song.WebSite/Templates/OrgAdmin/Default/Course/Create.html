@@ -10,16 +10,16 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="form">
+        <el-form ref="course" :rules="rules" :model="form" label-width="120px">
             <div class="content">
-                <div class="cour-name">
-                    <div class="tit">
+                <el-form-item prop="name">
+                    <template slot="label">
                         <icon>&#xe813</icon>课程名称：
-                    </div>
+                    </template>
                     <el-input type="textarea" :rows="2" :maxlength="100" resize="none" placeholder="请输入内容，最长100个字符"
                         v-model="form.name">
                     </el-input>
-                </div>
+                </el-form-item>
                 <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
                     <template v-if="upfile!=null">
                         <img :src="upfile.base64" />
@@ -43,23 +43,26 @@
                     </template>
                 </upload-img>
             </div>
-            <div class="subject">
-                <icon>&#xe750</icon> 专业：
-
-                <el-link type="primary" @click="sbj_panel=true" title="选择专业">
+            <el-form-item prop="sbjid">
+                <template slot="label">
+                    <icon>&#xe750</icon> 专业：
+                </template>
+                <el-link type="primary" class="sbj" @click="sbj_panel=true" title="选择专业">
                     <span v-if="subjectPath()==''">请选择课程专业</span>
                     <span v-else v-html="subjectPath()"></span>
                 </el-link>
+                <el-input style="display: none;" v-model.number="form.sbjid" clearable></el-input>
+            </el-form-item>
+        </el-form>
 
-            </div>
-        </div>
+
         <!--底部按钮-->
         <div class="footer">
             <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter()">
                 <icon v-if="!loading">&#xa048</icon>创建新课程
             </el-button>
             <el-button type='close'>
-               取消
+                取消
             </el-button>
         </div>
         <!-- 专业选择的面板 -->

@@ -1,15 +1,58 @@
 ﻿@charset "utf-8";
-.form {
-	width: 100%;
-	height: calc(100% - 48px);
-	overflow-y: auto;
-	padding: 10px 0px 0px 0px;
+
+.el-form {
+	margin: 0px !important;
 }
 
 .content {
 	display: flex;
+	align-items:stretch;
+	box-sizing: content-box;
+	height: 135px;
+	margin-bottom: 15px;
 }
 
+.content>*:first-child {
+	flex: 1;
+	position: relative;
+	height: 100%;
+}
+
+.content>*:first-child .el-form-item__label{
+	position: absolute;
+	display: block;
+	top: 8px;
+	left: 8px;
+	width: calc(100% - 12px) !important;
+	text-align: left !important;
+	line-height: 30px;
+	font-size: 18px;
+	z-index: 1;
+}
+
+.content>*:first-child .el-form-item__content {
+	width: 100%;
+	height: 100%;
+	margin: 0px !important;
+}
+.content>*:first-child .el-form-item__content>.el-textarea{
+	width: 100%;
+	height: 100%;
+	margin: 0px !important;
+}
+.content>*:first-child .el-form-item__content>.el-textarea>textarea{
+	width: calc(100% - 5px);
+	height: 100%;
+	padding: 40px 15px 15px 15px;
+	font-size: 16px;
+	margin: 0px !important;
+}
+.el-form-item__label{
+	font-size: 18px;
+}
+.el-form-item__label icon{
+	font-size: 20px;
+}
 /*图片上传*/
 
 .upload_img_area {
@@ -39,41 +82,10 @@
 	text-shadow: -1px -1px 3px #fff, 1px 1px 3px #fff;
 }
 
-.cour-name {
-	width: calc(100% - 240px);
-	margin-right: 6px;
-	position: relative;
-}
-
-.tit {
-	position: absolute;
-	left: 1px;
-	top: 1px;
-	z-index: 1;
-	height: 30px;
-	width: calc(100% - 2px);
-	line-height: 20px;
-	padding: 5px 15px 5px 15px;
-	background-color: rgb(255, 255, 255);
-	color: #333;
-	box-sizing: border-box;
-}
-
-.tit icon {
-	font-size: 18px;
-	margin-right: 10px;
-}
-
-.cour-name textarea {
-	height: 135px;
-	padding: 40px 15px 15px 15px;
-	font-size: 16px;
-}
-
 /*没有图片*/
 
 .nophoto {
-	height: 30px;		
+	height: 30px;
 	padding: 0px 0px 0px 15px;
 }
 
@@ -84,24 +96,30 @@
 .nophoto i {
 	font-size: 20px;
 }
-.photo_add{
+
+.photo_add {
 	display: block;
 	width: 100%;
-	margin-top: calc((135px - 40px - 20px) / 2 );
-	text-align:center;
+	margin-top: calc((135px - 40px - 20px) / 2);
+	text-align: center;
 	color: #999;
 	font-size: 25px;
 }
-/*专业*/
 
+/*专业*/
+.sbj, .sbj *{
+	font-size: 16px;
+}
 .subject {
 	height: 40px;
 	padding: 10px 15px 10px 15px;
-	
+
 }
-.subject a *{
+
+.subject a * {
 	font-size: 15px !important;
 }
+
 .subject b {
 	color: #333;
 	margin: 0px 5px;
@@ -137,8 +155,9 @@
 	padding: 5px 0px 10px 0px;
 	box-sizing: border-box;
 }
+
 /*操作成功后的面板*/
-.success_panel{
+.success_panel {
 	position: absolute;
 	width: 100%;
 	height: 100%;

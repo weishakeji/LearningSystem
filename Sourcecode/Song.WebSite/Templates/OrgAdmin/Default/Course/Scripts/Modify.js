@@ -147,7 +147,8 @@
                     {
                         validator: function (rule, value, callback) {
                             let v = $api.trim(value);
-                            if (v == '' || v.length < 1) callback(new Error('名称不能全部是空格'));
+                            if (v == '' || v.length < 1) return callback(new Error('名称不能全部是空格'));
+                            return callback();
                         }, trigger: 'blur'
                     }]
                 },
