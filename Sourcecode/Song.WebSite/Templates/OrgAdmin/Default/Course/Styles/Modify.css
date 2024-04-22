@@ -37,7 +37,24 @@ html, body, #vapp {
 	line-height: 30px;
 	display: flex;
 }
-
+.header .el-form{
+	margin: 0px !important;
+	width: 100%;
+	display: flex;
+}
+.header .el-form>*{
+	margin: 0px !important;	
+}
+.header .el-form>*:not(:last-child){
+	flex: 1;	
+}
+.header .el-form>*>*{
+	width: 100%;
+}
+.header .el-form>*:last-child{
+	width: 120px;
+	text-align: center;
+}
 .cou_name {
 	max-width: calc(100% - 60px);
 	white-space: nowrap;
@@ -45,16 +62,10 @@ html, body, #vapp {
 	overflow: hidden;
 	word-break: break-all;
 }
-
 .cou_name_edit {
 	width: calc(100% - 60px);
 }
 
-.btnName {
-	display: block;
-	width: 60px;
-	text-align: center;
-}
 
 /*选项卡*/
 .el-tabs {

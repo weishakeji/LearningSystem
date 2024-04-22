@@ -135,69 +135,103 @@
         props: ["course"],
         data: function () {
             return {
-                name: '',
+                data: {
+                    name: '', ischange: false,       //是否更改了标题
+                },
                 state: false,    //为true时是编辑状态
-                ischange: false,       //是否更改了标题
+                rules: {
+                    name: [{ required: true, message: '名称不得为空', trigger: 'blur' },
+                    { min: 1, max: 100, message: '最长输入100个字符', trigger: 'change' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' },
+                    {
+                        validator: function (rule, value, callback) {
+                            let v = $api.trim(value);
+                            if (v == '' || v.length < 1) callback(new Error('名称不能全部是空格'));
+                        }, trigger: 'blur'
+                    }]
+                },
+
                 loading: false
             }
         },
         watch: {
             'course': {
                 handler: function (nv, ov) {
-                    this.name = $api.clone(this.course.Cou_Name);
+                    this.data.name = $api.clone(this.course.Cou_Name);
                 }, immediate: true
             },
-            'name': function (nv, ov) {
-                this.ischange = nv != this.course.Cou_Name;
+            'data.name': function (nv, ov) {
+                this.data.ischange = nv != this.course.Cou_Name;
             }
         },
         computed: {},
         mounted: function () { },
         methods: {
             btnChange: function () {
-                if (this.name == '') {
-                    this.name = $api.clone(this.course.Cou_Name);
-                    this.ischange = false;
+                if (this.data.name == '') {
+                    this.data.name = $api.clone(this.course.Cou_Name);
+                    this.data.ischange = false;
                 }
-                if (!this.ischange) {
+                if (!this.data.ischange) {
                     this.state = false;
                     return;
                 }
                 var th = this;
-                th.loading = true;
-                $api.post('Course/ModifyName', { 'name': this.name, 'couid': this.course.Cou_ID }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.course.Cou_Name = th.name;
-                        th.$message({
-                            type: 'success',
-                            showClose: true,
-                            message: '修改课程名称成功！',
-                            center: true
-                        });
-                        th.state = false;
-                        th.$emit('save', th.course.Cou_Name, th.course);
+                this.$refs['cou_name'].validate((valid) => {
+                    if (valid) {
+                        th.loading = true;
+                        $api.post('Course/ModifyName', { 'name': this.data.name, 'couid': this.course.Cou_ID }).then(function (req) {
+                            if (req.data.success) {
+                                var result = req.data.result;
+                                th.course.Cou_Name = th.data.name;
+                                th.$message({
+                                    type: 'success',
+                                    showClose: true,
+                                    message: '修改课程名称成功！',
+                                    center: true
+                                });
+                                th.state = false;
+                                th.$emit('save', th.course.Cou_Name, th.course);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
                     } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
+                        console.log('course name input verification error !!');
+                        return false;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                });
+
+            },
+            //取消
+            btnCancel: function () {
+                this.data.name = $api.clone(this.course.Cou_Name);
+                this.state = false;
             }
         },
         template: `<div class="header">
-        <div class="cou_name" v-if="!state"> 《 {{name}} 》</div>
-        <div class="cou_name_edit" v-else>
-            <el-input  v-model="name" placeholder="请输入内容" clearable></el-input>
-        </div>
-        <el-link type="primary" v-if="!state" class="btnName" :underline="false" @click="state=!state">
-            <span class="el-icon-edit">编辑</span>           
-        </el-link>
-        <el-link type="primary" v-else :disabled="loading" class="btnName" :underline="false" @click="btnChange">   
-            <i class="el-icon-loading" v-if="loading"></i>         
-            <icon v-else>&#xa048</icon>           
-            确认
-        </el-link>
+        <template  v-if="!state">
+            <div class="cou_name"> 《 {{data.name}} 》</div> 
+            <el-link type="primary" v-if="!state" class="btnName" :underline="false" @click="state=!state">
+                <span class="el-icon-edit">编辑</span>           
+            </el-link>
+        </template>
+        <el-form ref="cou_name" :rules="rules" v-else :model="data" label-width="80px" :inline="true">
+            <el-form-item label="" label-width="0"  prop="name">
+                <el-input v-model="data.name" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="" label-width="0">
+                <el-link type="primary" define="enter" :disabled="loading" :underline="false" @click="btnChange">   
+                    确认
+                </el-link>
+                <el-link type="info" define="cancel" :disabled="loading" :underline="false" @click="btnCancel">   
+                    取消
+                </el-link>
+            </el-form-item>
+        </el-form>    
     </div>`
     });
 });

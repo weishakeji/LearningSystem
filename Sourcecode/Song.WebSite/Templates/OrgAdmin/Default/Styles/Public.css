@@ -1,22 +1,27 @@
 ﻿@charset "utf-8";
+
 @media print {
 	html, body, #vapp {
 		width: 100%;
-		height: auto;	
+		height: auto;
 		overflow: auto;
 	}
+
 	body {
 		break-inside: avoid;
 		break-after: auto;
 	}
+
 	.noprint {
 		display: none;
 	}
+
 	.page-break {
 		PAGE-BREAK-AFTER: always;
 		margin-bottom: 0px;
 	}
 }
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -130,9 +135,11 @@ dl, dd {
 .el-table {
 	height: calc(100% - 63px);
 }
-.el-table--border::after, .el-table--group::after, .el-table::before{
-	background-color:transparent !important;
+
+.el-table--border::after, .el-table--group::after, .el-table::before {
+	background-color: transparent !important;
 }
+
 .el-table__body-wrapper {
 	height: calc(100% - 41px);
 	overflow-y: auto;
@@ -155,10 +162,12 @@ dl, dd {
 .el-table--enable-row-transition .el-table__body td, .el-table .cell {
 	--background-color: transparent !important;
 }
+
 /*选中行，高亮显示*/
 tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
 	background-color: rgb(217, 236, 255) !important;
 }
+
 /*当表格行处理禁用状态时*/
 table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag, .el-link) {
 	color: #aaa !important;
@@ -173,33 +182,39 @@ table.el-table__body tr.disabled td img, .disabled * {
 	filter: gray;
 	color: #aaa !important;
 }
+
 /* 表格第一列，往往是选择框，居中并对齐*/
 .el-table tr td:first-child, .el-table tr th:first-child {
-    text-align: center;
+	text-align: center;
 }
 
-.el-table__cell:first-child .cell{
-    text-overflow: clip;
-    min-width: auto;
+.el-table__cell:first-child .cell {
+	text-overflow: clip;
+	min-width: auto;
 }
+
 /*不显示表格边线*/
-.el-table--border{
+.el-table--border {
 	border: none;
 }
+
 .el-table td.el-table__cell {
-    border-bottom: none !important;
+	border-bottom: none !important;
 }
 
 .el-table--border .el-table__cell, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
-    border-right: none !important;
+	border-right: none !important;
 }
-.el-table th.el-table__cell.is-leaf{
+
+.el-table th.el-table__cell.is-leaf {
 	border-right: 1px solid #EBEEF5 !important;
 	text-align: center;
 }
-.el-table tr th.el-table__cell.is-leaf:first-child{
+
+.el-table tr th.el-table__cell.is-leaf:first-child {
 	border-left: 1px solid #EBEEF5 !important;
 }
+
 /*底部栏*/
 .footer {
 	width: calc(100% - 2px);
@@ -234,7 +249,7 @@ table.el-table__body tr.disabled td img, .disabled * {
 }
 
 /*确定保存按钮的样式*/
-.el-button[define="enter"]:not(.is-loading)::before {
+.el-button[define="enter"]:not(.is-loading)::before, .el-link[define="enter"]:not(.is-loading)::before {
 	content: '\a048';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
@@ -253,7 +268,7 @@ table.el-table__body tr.disabled td img, .disabled * {
 	border-color: #c2e7b0;
 }
 
-.el-button[define="apply"]:not(.is-loading)::before {
+.el-button[define="apply"]:not(.is-loading)::before, .el-link[define="apply"]:not(.is-loading)::before {
 	content: '\e634';
 	font-size: 15px;
 	margin-right: 5px;
@@ -261,8 +276,14 @@ table.el-table__body tr.disabled td img, .disabled * {
 }
 
 /*删除按钮*/
-.el-button[define="delete"]:not(.is-loading)::before {
+.el-button[define="delete"]:not(.is-loading)::before, .el-link[define="delete"]:not(.is-loading)::before {
 	content: '\e800';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+}
+/*返回按钮*/
+.el-button[define="cancel"]:not(.is-loading)::before, .el-link[define="cancel"]:not(.is-loading)::before {
+	content: '\e748';
 	font-size: 15px;
 	font-family: "webdesk_icon" !important;
 }
