@@ -72,16 +72,12 @@ $ready(function () {
                 var val = Number(this.config[para]);
                 if (isNaN(val)) return def ? def : '';
                 return val;
-            },
+            }, 
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
             resultScore: function (purchase, config) {
                 if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;
                 //获取机构的配置参数
-                let orgconfig = (para, def) => {
-                    let val = Number(config[para]);
-                    if (isNaN(val)) return def ? def : '';
-                    return val;
-                }
+                let orgconfig = this.orgconfig;
                 //视频得分
                 let weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
@@ -103,13 +99,6 @@ $ready(function () {
                     'exam': exam,
                     'score': score
                 }
-                /*
-                //获取机构的配置参数
-                function orgconfig(para, def) {
-                    let val = Number(th.config[para]);
-                    if (isNaN(val)) return def ? def : '';
-                    return val;
-                };*/
             },
             //更新学习记录的相关数据
             refresh_data: function () {
@@ -125,7 +114,7 @@ $ready(function () {
                                 .then(function (req) {
                                     if (req.data.success) {
                                         th.purchase.Stc_StudyScore = req.data.result;
-                                        th.score = th.resultScore(th.purchase);
+                                        th.score = th.resultScore(th.purchase, th.config);
                                         th.$notify({ type: 'success', message: '更新视频学习进度成功' });
                                     } else {
                                         console.error(req.data.exception);
@@ -141,32 +130,12 @@ $ready(function () {
                     }).catch(err => console.error(err))
                     .finally(() => th.loading_fresh--);
                 //更新结课考试成绩
-                $api.get('TestPaper/FinalPaper', { 'couid': th.couid, 'use': '' }).then(function (req) {
+                var form = { 'acid': th.stid, 'couid': th.couid, 'score': 0 }
+                $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        $api.get('TestPaper/ResultHighest', { 'stid': th.stid, 'tpid': result.Tp_Id }).then(function (req) {
-                            if (req.data.success) {
-                                var score = req.data.result;
-                                if (score <= 0) return;
-                                var form = { 'acid': th.stid, 'couid': th.couid, 'score': score }
-                                $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
-                                    if (req.data.success) {
-                                        th.purchase.Stc_ExamScore = score;
-                                        th.score = th.resultScore(th.purchase);
-                                        th.$notify({ type: 'success', message: '更新结课考试成绩成功' });
-                                    } else {
-                                        console.error(req.data.exception);
-                                        throw req.config.way + ' ' + req.data.message;
-                                    }
-                                }).catch(err => console.error(err));
-                            } else {
-                                console.error(req.data.exception);
-                                throw req.config.way + ' ' + req.data.message;
-                            }
-                        }).catch(function (err) {
-                            alert(err);
-                            console.error(err);
-                        });
+                        th.purchase.Stc_ExamScore = req.data.result;
+                        th.score = th.resultScore(th.purchase, th.config);
+                        th.$notify({ type: 'success', message: '更新结课考试成绩成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;

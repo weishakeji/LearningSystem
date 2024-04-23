@@ -686,17 +686,26 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="couid">课程id</param>
-        /// <param name="score">结课考试的最高分</param>
+        /// <param name="score">结课考试的最高分，如果小于零，则重新获取</param>
         /// <returns></returns>
-        [Student,Admin,Teacher][HttpPost]
-        public bool ResultLogRecord(int acid, long couid, double score)
+        [Student, Admin, Teacher]
+        [HttpPost]
+        public double ResultLogRecord(int acid, long couid, double score)
         {
             Song.Entities.Accounts acc = this.User;
-            if (acc.Ac_ID != acid) return false;
+            if (acc.Ac_ID != acid) return 0;
+            //结课考试的最高分小于零，从成绩中再次读取
+            if (score <= 0)
+            {
+                //获取当前课程的结课考试
+                Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid, null);
+                if (tp != null) score = Business.Do<ITestPaper>().ResultsHighest(tp.Tp_Id, acc.Ac_ID);
+            }
 
+            //获取学员与课程的关联信息，如果没有则创建
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
-            if (sc == null) return false;
+            if (sc == null) return 0;
 
             if (sc.Stc_ExamScore != score)
             {
@@ -712,10 +721,10 @@ namespace Song.ViewData.Methods
                         WeiSha.Core.Log.Error(this.GetType().FullName, ex);
                     }
                 }).Start();
-              
-                return true;
+
+                return score;
             }
-            return false;
+            return score;
         }
         #endregion
     }
