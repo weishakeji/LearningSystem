@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
 using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
+using System;
 using WeiSha.Core;
-using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
@@ -18,6 +14,7 @@ namespace Song.ViewData.Methods
     public class Point : ViewMethod, IViewAPI
     {
         #region 设置项
+
         /// <summary>
         /// 设置积分相关项
         /// </summary>
@@ -49,6 +46,7 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+
         /// <summary>
         /// 积分相关设置项
         /// </summary>
@@ -80,7 +78,8 @@ namespace Song.ViewData.Methods
             dic.Add("PointConvert", Business.Do<ISystemPara>()["PointConvert"].String);
             return dic;
         }
-        #endregion
+
+        #endregion 设置项
 
         /// <summary>
         /// 积分兑换卡券
@@ -93,7 +92,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts acc = this.User;
             try
             {
-                CouponAccount ca= Business.Do<IAccounts>().CouponExchange(acc, coupon);
+                CouponAccount ca = Business.Do<IAccounts>().CouponExchange(acc, coupon);
                 //刷新登录状态的学员信息
                 LoginAccount.Fresh(acc);
                 return ca;
@@ -102,8 +101,8 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
-
         }
+
         /// <summary>
         /// 分页获取学员的积分详情
         /// </summary>
@@ -133,6 +132,7 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+
         /// <summary>
         /// 获取积分流水项的详情
         /// </summary>
@@ -142,6 +142,7 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IAccounts>().PointSingle(id);
         }
+
         /// <summary>
         /// 删除单条信息
         /// </summary>
@@ -161,9 +162,10 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
-
         }
+
         #region 管理员对积分的增减
+
         /// <summary>
         /// 由管理给学员增加积分
         /// </summary>
@@ -177,6 +179,7 @@ namespace Song.ViewData.Methods
         {
             return _admin_operate(acid, 2, point, remark);
         }
+
         /// <summary>
         /// 由管理员减去学员积分
         /// </summary>
@@ -190,6 +193,7 @@ namespace Song.ViewData.Methods
         {
             return _admin_operate(acid, 1, point, remark);
         }
+
         /// <summary>
         /// 管理员操作增减积分
         /// </summary>
@@ -215,7 +219,7 @@ namespace Song.ViewData.Methods
             pa.Pa_Remark = remark;
             pa.Ac_ID = st.Ac_ID;
             pa.Pa_Source = "管理员操作";
-            
+
             //充值方式，管理员充值
             pa.Pa_From = 1;
 
@@ -244,9 +248,11 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
-        #endregion
+
+        #endregion 管理员对积分的增减
 
         #region 积分赚取
+
         /// <summary>
         /// 学员登录时赚取积分
         /// </summary>
@@ -264,6 +270,7 @@ namespace Song.ViewData.Methods
             LoginAccount.Fresh(st);
             return 1;
         }
-        #endregion
+
+        #endregion 积分赚取
     }
 }

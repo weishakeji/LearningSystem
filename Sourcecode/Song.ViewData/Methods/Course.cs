@@ -1529,7 +1529,7 @@ namespace Song.ViewData.Methods
         }
         #endregion
     }
-    #region
+    #region 批量生成学员学习记录
     /// <summary>
     /// 用于批量生成学员学习记录的类（用于多线程）
     /// </summary>

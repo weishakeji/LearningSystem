@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Xml;
-using Newtonsoft.Json.Linq;
-//using System.Web.Mvc;
+﻿using Newtonsoft.Json.Linq;
 using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Web;
+using System.Xml;
 using WeiSha.Core;
-
 
 namespace Song.ViewData.Methods
 {
-
     /// <summary>
     /// 试卷管理
     /// </summary>
@@ -26,9 +20,12 @@ namespace Song.ViewData.Methods
     {
         //资源的虚拟路径和物理路径
         public static string PathKey = "TestPaper";
+
         public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
         public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+
         #region 增删改查
+
         /// <summary>
         /// 获取试卷信息
         /// </summary>
@@ -41,12 +38,13 @@ namespace Song.ViewData.Methods
             if (tp == null) throw new Exception("试卷不存在！");
             return _tran(tp);
         }
+
         ///<summary>
         /// 创建试卷
         /// </summary>
         /// <param name="entity">试卷对象</param>
         /// <returns></returns>
-        [Admin,Teacher]
+        [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "entity")]
@@ -62,10 +60,10 @@ namespace Song.ViewData.Methods
                     {
                         HttpPostedFileBase file = this.Files[key];
                         filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                        file.SaveAs(PhyPath + filename);                      
+                        file.SaveAs(PhyPath + filename);
                         break;
-                    }                 
-                    entity.Tp_Logo = filename;              
+                    }
+                    entity.Tp_Logo = filename;
 
                     Business.Do<ITestPaper>().PaperAdd(entity);
                     return entity;
@@ -80,12 +78,13 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+
         /// <summary>
         /// 修改试卷信息
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [Admin,Teacher]
+        [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "entity")]
@@ -106,7 +105,7 @@ namespace Song.ViewData.Methods
                         {
                             HttpPostedFileBase file = this.Files[key];
                             filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                            file.SaveAs(PhyPath + filename);                         
+                            file.SaveAs(PhyPath + filename);
                             break;
                         }
                         entity.Tp_Logo = filename;
@@ -133,6 +132,7 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+
         /// <summary>
         /// 删除试卷
         /// </summary>
@@ -162,6 +162,7 @@ namespace Song.ViewData.Methods
             }
             return i;
         }
+
         /// <summary>
         /// 修改试卷的状态
         /// </summary>
@@ -205,6 +206,7 @@ namespace Song.ViewData.Methods
             }
             return i;
         }
+
         /// <summary>
         /// 前端的分页获取试卷
         /// </summary>
@@ -228,6 +230,7 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+
         /// <summary>
         /// 获取某个课程的结课考试
         /// </summary>
@@ -239,6 +242,7 @@ namespace Song.ViewData.Methods
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid, use);
             return _tran(tp);
         }
+
         /// <summary>
         /// 分页获取所有试卷
         /// </summary>
@@ -256,14 +260,15 @@ namespace Song.ViewData.Methods
             int count = 0;
             Song.Entities.TestPaper[] tps = Business.Do<ITestPaper>()
                 .PaperPager(orgid, sbjid, couid, diff, isuse, search, size, index, out count);
-            for(int i=0;i<tps.Length;i++)
-                tps[i]= _tran(tps[i]);
+            for (int i = 0; i < tps.Length; i++)
+                tps[i] = _tran(tps[i]);
             ListResult result = new ListResult(tps);
             result.Index = index;
             result.Size = size;
             result.Total = count;
             return result;
         }
+
         /// <summary>
         /// 处理试卷对象的一些信息
         /// </summary>
@@ -274,7 +279,7 @@ namespace Song.ViewData.Methods
             if (paper == null) return paper;
             paper.Tp_Logo = System.IO.File.Exists(PhyPath + paper.Tp_Logo) ? VirPath + paper.Tp_Logo : "";
             //试卷所属的专业名称
-            if(paper.Sbj_ID>0 && string.IsNullOrWhiteSpace(paper.Sbj_Name))
+            if (paper.Sbj_ID > 0 && string.IsNullOrWhiteSpace(paper.Sbj_Name))
             {
                 Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(paper.Sbj_ID);
                 if (sbj != null) paper.Sbj_Name = sbj.Sbj_Name;
@@ -287,18 +292,21 @@ namespace Song.ViewData.Methods
             }
             return paper;
         }
-        #endregion
+
+        #endregion 增删改查
 
         #region 出卷相关
+
         /// <summary>
         /// 获取试题的大项
         /// </summary>
         /// <returns></returns>
-        public List<TestPaperItem> Types(long  tpid)
+        public List<TestPaperItem> Types(long tpid)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(tpid);
             return Business.Do<ITestPaper>().GetItemForAny(tp);
         }
+
         /// <summary>
         /// 生成随机试卷，试题随机抽取
         /// </summary>
@@ -315,14 +323,14 @@ namespace Song.ViewData.Methods
             foreach (var di in dics)
             {
                 //按题型输出
-                Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型                
+                Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型
                 Song.Entities.Questions[] questions = (Song.Entities.Questions[])di.Value;   //当前类型的试题
                 int type = (int)pi.TPI_Type;    //试题类型
                 int count = questions.Length;  //试题数目
                 float num = (float)pi.TPI_Number;   //占用多少分
                 if (count < 1) continue;
                 JObject jo = new JObject();
-                jo.Add("type",type);
+                jo.Add("type", type);
                 jo.Add("count", count);
                 jo.Add("number", num);
                 JArray ques = new JArray();
@@ -336,10 +344,11 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
-        #endregion
 
+        #endregion 出卷相关
 
         #region 成绩
+
         /// <summary>
         /// 递交答题信息与成绩
         /// </summary>
@@ -371,7 +380,6 @@ namespace Song.ViewData.Methods
                 {
                     foreach (XmlNode q in ques.ChildNodes)
                         q.InnerText = Html.ClearHTML(q.InnerText);
-
                 }
             }
             XmlNode xn = getAttrBase64(resXml.SelectSingleNode("results"));
@@ -382,7 +390,7 @@ namespace Song.ViewData.Methods
             int.TryParse(getAttr(xn, "stsex"), out stsex);
             string stname = getAttr(xn, "stname");
             string stsname = getAttr(xn, "stsname");
-            string cardid= getAttr(xn, "stcardid"); //学员身份证
+            string cardid = getAttr(xn, "stcardid"); //学员身份证
             //***验证是否是当前学员
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != stid) throw new Exception("当前登录学员信息与成绩提交的信息不匹配");
@@ -430,7 +438,6 @@ namespace Song.ViewData.Methods
                 {
                     throw new Exception(string.Format("最多允许考试{0}次， 已经考了{1}次，", finaltest_count, trs.Length));
                 }
-
             }
 
             //专业id,专业名称
@@ -491,6 +498,7 @@ namespace Song.ViewData.Methods
             jo.Add("tpid", exr.Tp_Id);
             return jo;
         }
+
         /// <summary>
         /// 获取属性
         /// </summary>
@@ -502,6 +510,7 @@ namespace Song.ViewData.Methods
             if (xn.Attributes[attr] == null) return string.Empty;
             return xn.Attributes[attr].Value.Trim();
         }
+
         /// <summary>
         /// 将属性进行Base64解码
         /// </summary>
@@ -510,9 +519,9 @@ namespace Song.ViewData.Methods
         private XmlNode getAttrBase64(XmlNode xn)
         {
             foreach (XmlAttribute attr in xn.Attributes)
-            {             
+            {
                 string val = WeiSha.Core.DataConvert.DecryptForBase64(attr.Value);
-                val = val.Replace("<","＜");
+                val = val.Replace("<", "＜");
                 val = val.Replace(">", "＞");
                 val = val.Replace("(", "（");
                 val = val.Replace(")", "）");
@@ -525,6 +534,7 @@ namespace Song.ViewData.Methods
             }
             return xn;
         }
+
         /// <summary>
         /// 测试成绩
         /// </summary>
@@ -543,6 +553,7 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+
         /// <summary>
         /// 测试成绩
         /// </summary>
@@ -561,12 +572,12 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, long sbjid,int orgid,
+        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, long sbjid, int orgid,
             string stname, string cardid, float score_min, float score_max, DateTime? time_min, DateTime? time_max,
             int size, int index)
         {
             int count = 0;
-            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsPager(stid, tpid, tpname, couid, sbjid,orgid,
+            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsPager(stid, tpid, tpname, couid, sbjid, orgid,
                 stname, cardid, score_min, score_max, time_min, time_max,
                 size, index, out count);
             ListResult result = new ListResult(trs);
@@ -575,6 +586,7 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+
         /// <summary>
         /// 计算成绩
         /// </summary>
@@ -584,19 +596,21 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<ITestPaper>().ResultsCalc(trid);
         }
+
         /// <summary>
         /// 所有测试成绩
         /// </summary>
         /// <param name="stid">学员id</param>
-        /// <param name="tpid">试卷id</param>    
+        /// <param name="tpid">试卷id</param>
         /// <returns></returns>
         public Song.Entities.TestResults[] ResultsAll(int stid, long tpid)
         {
             if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
             if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
-            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);            
+            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);
             return trs;
         }
+
         /// <summary>
         /// 获取某个试卷的学员最高分
         /// </summary>
@@ -607,8 +621,9 @@ namespace Song.ViewData.Methods
         {
             if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
             if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
-            return Business.Do<ITestPaper>().ResultsHighest(tpid, stid);          
+            return Business.Do<ITestPaper>().ResultsHighest(tpid, stid);
         }
+
         /// <summary>
         /// 获取测试成绩
         /// </summary>
@@ -616,7 +631,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.TestResults ResultForID(int id)
         {
-            Song.Entities.TestResults result= Business.Do<ITestPaper>().ResultsSingle(id);
+            Song.Entities.TestResults result = Business.Do<ITestPaper>().ResultsSingle(id);
             if (result == null) return result;
             XmlDocument resXml = new XmlDocument();
             resXml.LoadXml(result.Tr_Results, false);
@@ -631,18 +646,18 @@ namespace Song.ViewData.Methods
                 {
                     foreach (XmlNode q in ques.ChildNodes)
                         q.InnerText = Html.ClearHTML(q.InnerText);
-
                 }
             }
             result.Tr_Results = resXml.InnerXml;
             return result;
         }
+
         /// <summary>
         /// 删除测试成绩
         /// </summary>
         /// <param name="trid">测试成绩的id</param>
         /// <returns></returns>
-        [HttpDelete,Admin,Teacher,Student]
+        [HttpDelete, Admin, Teacher, Student]
         public int ResultDelete(string trid)
         {
             int i = 0;
@@ -655,7 +670,7 @@ namespace Song.ViewData.Methods
                 if (idval == 0) continue;
                 try
                 {
-                    Business.Do<ITestPaper>().ResultsDelete(idval);                
+                    Business.Do<ITestPaper>().ResultsDelete(idval);
                     i++;
                 }
                 catch (Exception ex)
@@ -663,8 +678,9 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
-            return i;           
+            return i;
         }
+
         /// <summary>
         /// 清空学员的某个测试的所有历史成绩
         /// </summary>
@@ -681,6 +697,7 @@ namespace Song.ViewData.Methods
             }
             return -1;
         }
+
         /// <summary>
         /// 记录结课考试成绩，记录到学员购买课程的记录上
         /// </summary>
@@ -726,6 +743,7 @@ namespace Song.ViewData.Methods
             }
             return score;
         }
-        #endregion
+
+        #endregion 成绩
     }
 }
