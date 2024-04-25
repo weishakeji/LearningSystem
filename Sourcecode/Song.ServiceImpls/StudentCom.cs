@@ -874,13 +874,12 @@ namespace Song.ServiceImpls
             string ver = WeiSha.Core.Browser.Version;
             bool ismobi = WeiSha.Core.Browser.IsMobile;
 
-            //Task task = new Task(() =>
-            //{               
-                _LogForStudyUpdate(couid, olid, st, playTime * 1000, studyTime, totalTime * 1000, ip, os, name, ver, ismobi);
-            //});
-            //task.Start();
+            new Task(() =>
+            {
+                _logForStudyUpdate(couid, olid, st, playTime * 1000, studyTime, totalTime * 1000, ip, os, name, ver, ismobi);
+            }).Start();
         }
-        protected void _LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime,
+        protected void _logForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime,
             string ip, string os, string name, string ver, bool ismobi)
         {
             if (couid <= 0)
@@ -930,6 +929,24 @@ namespace Song.ServiceImpls
                     //保存到数据库
                     tran.Save<LogForStudentStudy>(log);
                     tran.Commit();
+
+                    //更新学习记录到学员与课程关联表
+                    DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(st.Ac_ID, couid);
+                    if(dt!=null && dt.Rows.Count > 0)
+                    {
+                        double rate = 0;
+                        double.TryParse(dt.Rows[0]["complete"].ToString(), out rate);
+                        //记录到学员与课程的关联表
+                        Student_Course sc = Business.Do<ICourse>().StudentCourse(st.Ac_ID, couid);
+                        if (sc != null)
+                        {
+                            if (sc.Stc_StudyScore != rate)
+                            {
+                                sc.Stc_StudyScore = rate;
+                                Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);                                
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

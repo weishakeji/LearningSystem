@@ -1208,7 +1208,7 @@ namespace Song.ServiceImpls
             dv.Sort = "平均分 Desc";
             DataTable dt2 = dv.ToTable();
             return dt2;
-        }        
+        }
         ///// <summary>
         ///// 统计各院系在某个考试中的平均分
         ///// </summary>
@@ -1319,7 +1319,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 计算某个考试主题的及格率
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="uid">考试唯一标识</param>
         /// <returns></returns>
         public double PassRate4Theme(string uid)
         {
@@ -1373,7 +1373,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 计算某场考试的平均分
         /// </summary>
-        /// <param name="exam"></param>
+        /// <param name="examid"></param>
         /// <returns></returns>
         public double Avg4Exam(int examid)
         {
@@ -1576,7 +1576,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 生成考试成绩的工作表
         /// </summary>
-        /// <param name="exrs"></param>
+        /// <param name="exr"></param>
         /// <param name="sheet"></param>
         /// <param name="nodes"></param>
         private void setSheet(ExamResults[] exr, ISheet sheet, XmlNodeList nodes)
