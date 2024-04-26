@@ -106,7 +106,7 @@
                     th.loading_obj.close();
                     if (req.data.success) {
                         th.entity = req.data.result;
-                        console.log(th.entity);
+                        //console.log(th.entity);
                         //将当前课程的专业，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Sbj_ID);

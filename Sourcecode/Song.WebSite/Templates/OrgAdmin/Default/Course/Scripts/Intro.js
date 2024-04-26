@@ -46,7 +46,9 @@
                 }).then(() => {
                     var th = this;
                     th.loading = true;
-                    $api.post('Course/Modify', { 'course': th.clone(th.course) }).then(function (req) {
+                    var obj = { 'Cou_ID': th.course.Cou_ID };
+                    obj['Cou_Intro'] = th.course.Cou_Intro;
+                    $api.post('Course/ModifyJson', { 'course': obj }).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
                             th.$message({

@@ -144,7 +144,7 @@ namespace Song.ViewData.Methods
                 if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
                     WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
                 old = this._upload_photo(this.Files, old);
-            }
+            }           
             try
             {
                 //某些字段将不同步修改                   

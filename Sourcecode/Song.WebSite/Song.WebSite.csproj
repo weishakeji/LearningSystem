@@ -2894,7 +2894,6 @@
     <Content Include="Help\Datas\Entitiy\Message.json" />
     <Content Include="Help\Datas\Entitiy\LogForStudentExercise.json" />
     <Content Include="Help\Datas\Entitiy\LogForStudentOnline.json" />
-    <Content Include="Templates\OrgAdmin\Default\web.config" />
     <Content Include="Templates\web.config" />
     <Content Include="Utilities\ElementUi\fonts\element-icons.ttf" />
     <Content Include="Utilities\ElementUi\fonts\element-icons.woff" />

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
-    <title></title>
+    <title>课程基本信息编辑</title>
 </head>
 
 <body>
@@ -63,6 +63,7 @@
                         &nbsp;
                     </el-col>
                     <el-col :span="10">
+                        <el-form-item label="" prop="Cou_Logo" label-width="0px">
                         <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
                             <template v-if="islogo">
                                 <img v-if="upfile!=null" :src="upfile.base64" />
@@ -95,6 +96,7 @@
                                 4、图片建议宽高比为16：9 <br />
                             </help>
                         </upload-img>
+                    </el-form-item>
                     </el-col>
                 </el-row>
 
