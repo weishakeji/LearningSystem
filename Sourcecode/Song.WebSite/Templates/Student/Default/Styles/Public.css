@@ -23,9 +23,6 @@ html, body, #vapp {
 		height: auto !important;
 	}	
 }
-*[v-cloak] {
-	display: none;
-}
 
 * {
 	touch-action: none;

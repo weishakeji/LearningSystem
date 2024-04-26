@@ -13,7 +13,8 @@ $ready(function () {
         mounted: function () {
         },
         created: function () {
-            console.log(this.referrer);
+            //console.log($dom.device());
+            //console.log(window.top);
         },
         computed: {
             //是否登录
@@ -47,7 +48,7 @@ $ready(function () {
                 window.setTimeout(function () {
                     let referrer = $api.querystring('referrer');
                     if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
-                    if ($api.isnull(referrer)) referrer = '/';
+                    if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/';
                     window.navigateTo(decodeURIComponent(referrer));
                 }, 200);
             },

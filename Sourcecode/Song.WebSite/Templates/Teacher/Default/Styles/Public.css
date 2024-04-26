@@ -13,9 +13,6 @@ body{
 #vapp {
 	position: relative;
 }
-*[v-cloak] {
-	display: none;
-}
 
 * {
 	touch-action: none;
@@ -27,9 +24,6 @@ body{
 }
 .medium{
     font-size: 14px !important;
-}
-*[v-cloak] {
-	display: none;
 }
 
 .van-dialog {

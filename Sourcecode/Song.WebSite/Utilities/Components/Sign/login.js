@@ -284,10 +284,10 @@ Vue.component('login', {
         },
         //滑块拖动完成
         dragfinish: function () {
-            console.log('拖动完成');
+            //console.log('拖动完成');
             //设置验证码输入框为焦点
             $dom('.login_pwd_area .login_vcode input').focus();
-            var ref = this.$refs;
+            //var ref = this.$refs;
             this.getvcode();
         },
         //加载验证码图片
@@ -311,7 +311,7 @@ Vue.component('login', {
         //info:登录信息，例如：微信登录,QQ登录
         //remark:备注
         success: function (account, source, info, remark) {
-            $api.login.in('account', account.Ac_Pw, account.Ac_ID);          
+            $api.login.in('account', account.Ac_Pw, account.Ac_ID);
 
             //查询学员快过期的课程
             var th = this;
@@ -334,7 +334,7 @@ Vue.component('login', {
             });
         },
         //触发组件的事件
-        success_emit: function (account, source, info, remark) {   
+        success_emit: function (account, source, info, remark) {
             var th = this;
             //记录登录信息，以及积分信息              
             $api.bat(
@@ -364,8 +364,15 @@ Vue.component('login', {
                     }
                 });
             }
-        }
-
+        },
+        //登录成功后的跳转
+        goback: function (win) {
+            let referrer = $api.querystring('referrer');
+            if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+            if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/' + $dom.device();
+            let wdw = win == null ? window.top : win;
+            wdw.navigateTo(decodeURIComponent(referrer));
+        },
     },
     template: `<div class="login_weisha">
         <div class="login_loding" v-show="loading"><span></span><span></span></div>

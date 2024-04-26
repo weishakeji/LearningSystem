@@ -139,10 +139,10 @@ $ready(function () {
             //登录成功后的事件,acc:当前登录的账户对象
             successful: function (acc) {
                 window.setTimeout(function () {
-                    var singin_referrer = $api.storage('singin_referrer');
-                    if (singin_referrer != '') window.navigateTo(singin_referrer);
-                    else
-                        window.navigateTo('/mobi/');
+                    let referrer = $api.querystring('referrer');
+                    if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
+                    if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/mobi';
+                    window.navigateTo(decodeURIComponent(referrer));
                 }, 300);
             }
         }

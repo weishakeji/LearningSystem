@@ -28,9 +28,6 @@ html, body {
     background: #EDEDED;
 }
 
-*[v-cloak] {
-    display: none;
-}
 
 /*特殊字体*/
 

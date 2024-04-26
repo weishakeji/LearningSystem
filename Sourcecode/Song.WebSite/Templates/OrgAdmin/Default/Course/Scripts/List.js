@@ -26,7 +26,7 @@
             drawer: false,   //显示滑出的课程详情
             curr: {},        //当前要展示的项       
 
-            loading: false,
+            loading: true,
             loadingid: 0,
             loading_init: true,
             loading_teach: false //加载教师信息时的预载

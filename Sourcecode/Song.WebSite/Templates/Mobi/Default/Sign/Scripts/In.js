@@ -54,7 +54,7 @@ $ready(function () {
                 window.setTimeout(function () {
                     let referrer = $api.querystring('referrer');
                     if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
-                    if ($api.isnull(referrer)) referrer = '/';
+                    if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/mobi';
                     window.navigateTo(decodeURIComponent(referrer));
                 }, 200);
             },

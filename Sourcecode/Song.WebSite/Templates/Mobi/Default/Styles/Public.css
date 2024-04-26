@@ -1,9 +1,4 @@
 ﻿@charset "utf-8";
-
-*[v-cloak] {
-	display: none;
-}
-
 * {
 	touch-action: none;
 	touch-action: pan-y;
@@ -41,10 +36,6 @@ html {
 	-webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
 	border-radius: 3px;
 	background: #EDEDED;
-}
-
-*[v-cloak] {
-	display: none;
 }
 
 .van-dialog {

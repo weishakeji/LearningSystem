@@ -33,9 +33,6 @@ html, body, #vapp {
     background: #EDEDED;
 }
 
-*[v-cloak] {
-    display: none;
-}
 /* 设置滚动条宽度和高度 */
 .el-table__body-wrapper::-webkit-scrollbar {
     width: 20px; /* 横向滚动条 */

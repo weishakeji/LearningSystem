@@ -84,9 +84,8 @@
             return this.querySelectorAll(query);
         }, 1);
         if (res instanceof Array) {
-            for (var i = 0; i < res.length; i++) {
+            for (var i = 0; i < res.length; i++)
                 nodes.push(res[i]);
-            }
         } else {
             nodes = res;
         }
@@ -882,6 +881,11 @@
         let route = this.route();
         if (route.indexOf('/') > -1) route = route.substring(0, route.lastIndexOf('/') + 1);
         return route;
+    };
+    //设备名称
+    webdom.device = function () {
+        let template = webdom('meta[device]');
+        return template.attr("device");
     };
     //加载核心库的javascript文件
     //func:加载完成后的方法

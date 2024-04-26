@@ -12,21 +12,24 @@
         display: none !important;
     }
     *[v-cloak]::before {
-        content: "*";
+        content: "/";
         display: block;
-        width:50px;
-        height:50px;
+          width:24px;
+        height:24px;
         text-align: center;
         float:left;
-        font-size: 50px;
+        font-size: 16px;
         color:#999;
-        animation: rotate_360 0.3s infinite linear;
+        transform-origin: center center;
+        animation: rotate_360 0.5s infinite linear;
     }
     *[v-cloak]::after {
-        content: "...";
+        content: "loading ... ";
         display: inline;
-        line-height:50px;   
-        color:#999;    
+        font-size: 13px;
+        margin-left:10px;
+        line-height:30px;
+        color:#999;       
     }
     @keyframes rotate_360 {
         0% {

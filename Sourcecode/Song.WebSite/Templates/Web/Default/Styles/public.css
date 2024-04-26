@@ -18,11 +18,6 @@ context {
     text-align: left;
     margin-top: 10px;
 }
-
-*[v-cloak] {
-    display: none;
-}
-
 a {
     color: #333;
     text-decoration: none;
