@@ -136,9 +136,7 @@ $ready(function () {
             //登录成功后的事件,acc:当前登录的账户对象
             successful: function (acc) {
                 window.setTimeout(function () {
-                    if (window.top.vapp) {
-                        window.top.vapp.logged(acc);
-                    }
+                    if (window.top.vapp) window.top.vapp.successful(acc);
                 }, 200);
             }
         }
