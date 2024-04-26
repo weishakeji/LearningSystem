@@ -55,9 +55,9 @@
         </el-form>
 
         <template v-if="prices.length>0">
-            <el-table ref="prices"  border resizable :data="prices" :span-method="arraySpanMethod" :row-class-name="tableRowClassName"
-                v-loading="loading" element-loading-text="拼命加载中" :stripe="true" tooltip-effect="dark"
-                style="width: 850px" index-key="CP_Tax" row-key="CP_ID" draggable>
+            <el-table ref="prices" border resizable :data="prices" :span-method="arraySpanMethod"
+                :row-class-name="tableRowClassName" v-loading="loading" element-loading-text="拼命加载中" :stripe="true"
+                tooltip-effect="dark" style="width: 850px" index-key="CP_Tax" row-key="CP_ID" draggable>
                 <el-table-column type="index" label="#" width="50" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.$index + 1}}</span>
@@ -169,20 +169,19 @@
         <el-form ref="course" :model="course" :rules="rules" v-loading="loading_course" @submit.native.prevent
             label-width="80px">
             <el-form-item label="是否免费" prop="Cou_IsFree">
-                <div>
-                    <el-switch v-model="course.Cou_IsFree" @change="updateCourse()"
-                        :active-text="course.Cou_IsFree ? '完全免费' : '完全免费'">
-                    </el-switch>
-                </div>
+                <el-switch v-model="course.Cou_IsFree" @change="updateCourse()"
+                    :active-text="course.Cou_IsFree ? '完全免费' : '完全免费'">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="" prop="Cou_IsLimitFree">
                 <div>
                     <el-switch v-model="course.Cou_IsLimitFree" @change="updateCourse()"
                         :active-text="course.Cou_IsLimitFree ? '限时免费' : '限时免费'">
                     </el-switch>
                 </div>
                 <div v-show="course.Cou_IsLimitFree">
-                    <el-date-picker v-model="limitTime" type="daterange" range-separator="至"
-                        start-placeholder="开始日期" end-placeholder="结束日期">
-                    </el-date-picker>
+                    <date_range @change="selectDate" :start="course.Cou_FreeStart" :end="course.Cou_FreeEnd">
+                    </date_range>
                     <el-button type="primary" plain @click="updateCourse()">
                         <icon>&#xa048</icon>保存限时免费的时限
                     </el-button>

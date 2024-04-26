@@ -18,8 +18,6 @@
                 CP_Price: '',
                 CP_Coupon: ''
             },
-            //限时免费的起此时间
-            limitTime: [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))],
             rules: {
                 CP_Span: [{ required: true, message: '不得为空', trigger: 'blur' },
                 {
@@ -59,11 +57,6 @@
                 if (req.data.success) {
                     th.course = req.data.result;
                     document.title = '课程价格：' + th.course.Cou_Name;
-                    //设置限时免费的时间                   
-                    if (th.course.Cou_FreeStart)
-                        th.$set(th.limitTime, 0, th.course.Cou_FreeStart);
-                    if (th.course.Cou_FreeEnd)
-                        th.$set(th.limitTime, 1, th.course.Cou_FreeEnd);
                     th.getprices();
                 } else {
                     throw '未查询到数据';
@@ -81,18 +74,13 @@
 
         },
         watch: {
-            limitTime: {
-                handler: function (nv, ov) {
-                    this.course.Cou_FreeStart = nv[0];
-                    this.course.Cou_FreeEnd = nv[1];
-                    //console.log('Cou_FreeStart:', this.course.Cou_FreeStart.format('yyyy-M-d HH:mm:ss'));
-                    //console.log('Cou_FreeEnd:', this.course.Cou_FreeEnd.format('yyyy-M-d HH:mm:ss'));
-                },
-                immediate: true,
-                deep: true,
-            }
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.course.Cou_FreeStart = start;
+                this.course.Cou_FreeEnd = end;
+            },
             //获取价格列表
             getprices: function () {
                 var th = this;
@@ -373,9 +361,6 @@
                 if (JSON.stringify(this.course) == '{}') return;
                 var th = this;
                 th.loading_course = true;
-
-                this.course.Cou_FreeStart = this.limitTime[0];
-                this.course.Cou_FreeEnd = this.limitTime[1];
                 //去除不相关属性
                 var obj = th.remove_redundance(th.course);
                 $api.post('Course/ModifyJson', { 'course': obj }).then(function (req) {
