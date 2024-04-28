@@ -15,7 +15,6 @@ $ready(function () {
             var th = this;
             if (th.id == '') {
                 $api.get('Snowflake/Generate').then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.id = req.data.result;
                         //跳转
@@ -27,10 +26,9 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
                 return;
             }
             $api.put('TestPaper/ForID', { 'id': this.id }).then(function (req) {
@@ -43,10 +41,8 @@ $ready(function () {
                 window.setTimeout(function () {
                     th.gourl();
                 }, 100);
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 

@@ -74,9 +74,8 @@ $ready(function () {
                     //获取结果
                     th.data_main = main.data.result ? main.data.result : [];
                     th.data_foot = foot.data.result ? foot.data.result : [];
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                })).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //保存主菜单
             btnSave: function (datas) {
@@ -95,7 +94,6 @@ $ready(function () {
                 th.loading_sumbit = true;
                 var query = { 'site': this.site, 'type': this.type, 'orgid': this.organ.Org_ID, 'items': datas };
                 $api.post('Navig/ModifyMenus', query).then(function (req) {
-                    th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -110,7 +108,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_sumbit = false);
             },
             append: function (parent, datas) {
                 var obj = this.clone();
@@ -170,7 +168,7 @@ $ready(function () {
                 const children = parent.data.children || parent.data;
                 const index = children.findIndex(d => d.id === data.id);
                 children.splice(index, 1);
-                console.log(data);
+                //console.log(data);
                 var th = this;
                 $api.delete('Navig/Delete', { 'id': data.Nav_ID }).then(function (req) {
                     if (req.data.success) {
@@ -204,8 +202,8 @@ $ready(function () {
                 th.loading_id = item.Nav_ID;
                 $api.post('Navig/ModifyState', { 'id': item.Nav_ID, 'show': item.Nav_IsShow }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;   
-                        th.freshcache(item);                    
+                        var result = req.data.result;
+                        th.freshcache(item);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -250,7 +248,6 @@ $ready(function () {
                 var th = this;
                 th.loading_up = true;
                 $api.delete('Navig/ClearLogo', { 'item': item }).then(function (req) {
-                    th.loading_up = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         item.Nav_Logo = "";
@@ -263,7 +260,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_up = false);
             },
             //刷新本地缓存
             freshcache: function (data) {

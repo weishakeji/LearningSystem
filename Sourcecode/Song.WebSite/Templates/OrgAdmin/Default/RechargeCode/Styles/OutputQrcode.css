@@ -16,7 +16,7 @@
 }
 
 
-html, body, #app {
+html, body, #vapp {
     overflow: auto;
     height: auto;
 }
@@ -30,7 +30,7 @@ body, div, td, p {
     position: relative;
 }
 
-#app {
+#vapp {
     margin-left: auto !important;
     margin-right: auto !important;
     size: A4 portrait;

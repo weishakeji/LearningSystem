@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             account: {}, //当前登录账号对象 
@@ -18,7 +18,7 @@ $ready(function () {
                 pw2: [
                     {
                         validator: function (rule, value, callback) {
-                            var pw1 = vue.form.pw1;
+                            var pw1 = vapp.form.pw1;
                             if (pw1 != value) {
                                 callback(new Error("两次输入的密码不相同"));
                             } else {
@@ -38,7 +38,7 @@ $ready(function () {
                     th.account = result;
                     $api.get('Organization/ForID', { 'id': th.account.Org_ID }).then(function (req) {
                         if (req.data.success) {
-                            vue.organ = req.data.result;
+                            th.organ = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -54,7 +54,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            }).finally(()=>{});
+            }).finally(() => { });
 
         },
         methods: {
@@ -70,23 +70,22 @@ $ready(function () {
                             th.loading = true;
                             var apipath = 'Account/ResetPassword';
                             $api.post(apipath, { 'acid': th.account.Ac_ID, 'pw': th.form.pw1 }).then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
-                                    vue.$message({
+                                    th.$message({
                                         type: 'success',
                                         message: '操作成功!',
                                         center: true
                                     });
                                     window.setTimeout(function () {
-                                        vue.operateSuccess();
+                                        th.operateSuccess();
                                     }, 600);
                                 } else {
                                     throw req.data.message;
                                 }
                             }).catch(function (err) {
-                                vue.$alert(err, '错误');
-                            });
+                                alert(err, '错误');
+                            }).finally(() => th.loading = false);
                         }).catch(() => { });
                     } else {
                         return false;

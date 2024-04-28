@@ -27,26 +27,20 @@ $ready(function () {
                 if (req.data.success) {
                     th.organ = req.data.result;
                     $api.get('Organization/Stamp', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.stamp = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading = false;
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
-
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         created: function () {
         },
@@ -76,7 +70,6 @@ $ready(function () {
                         var para = { 'stamp': th.stamp, 'orgid': th.organ.Org_ID };
                         if (th.upfile != null) para['file'] = th.upfile;
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -88,9 +81,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         return false;
                     }

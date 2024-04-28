@@ -28,16 +28,17 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([organ])=> {
                 //获取结果             
                 th.organ = organ.data.result;
+                console.error(th.organ);
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.getColumnsTree();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
+          
             this.handleCurrentChange(1);
         },
         created: function () {

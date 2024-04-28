@@ -17,7 +17,6 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.cache(apimethod).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     //增加多条数据，用于显示是调试布局样式，没有实际业务意义
@@ -34,7 +33,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
             //当前模版
             $api.get('Template/CurrentTemplate', { 'device': this.site }).then(function (req) {
                 if (req.data.success) {
@@ -42,10 +41,8 @@ $ready(function () {
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         watch: {
             'detail': function (nv, ov) {
@@ -67,7 +64,7 @@ $ready(function () {
                             var result = req.data.result;
                             th.currTemplate = result.Tag;
                             $api.put('Template/CurrentTemplate', { 'device': th.site }).then(function (rq) {
-                                var result = rq.data.result;                          
+                                var result = rq.data.result;
                                 th.$message({
                                     type: 'success',
                                     message: '操作成功!'
@@ -79,7 +76,7 @@ $ready(function () {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => { });
                 }).catch(() => { });
             }
         }

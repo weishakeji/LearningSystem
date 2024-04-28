@@ -69,24 +69,23 @@ $ready(function () {
                             th.entity = result;
                             if (th.entity.Ths_ID <= 0) th.entity.Ths_ID = '';
                             $api.get('Organization/ForID', { 'id': th.entity.Org_ID }).then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
-                                    vapp.organ = req.data.result;
-                                    vapp.config = $api.organ(vapp.organ).config;
+                                    th.organ = req.data.result;
+                                    th.config = $api.organ(th.organ).config;
                                 } else {
                                     console.error(req.data.exception);
                                     throw req.data.message;
                                 }
                             }).catch(function (err) {
-                                Vue.prototype.$alert(err);
+                                alert(err);
                                 console.error(err);
-                            });
+                            }).finally(() => th.loading = false);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 } else {
@@ -99,7 +98,7 @@ $ready(function () {
                         th.organ = org.data.result;
                         th.config = $api.organ(th.organ).config;
                     })).catch(function (err) {
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 }
@@ -117,7 +116,6 @@ $ready(function () {
                         else
                             para = { 'file': th.upfile, 'entity': th.entity };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -132,9 +130,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

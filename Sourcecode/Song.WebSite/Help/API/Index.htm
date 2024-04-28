@@ -166,11 +166,11 @@
             $api.get('Account/Current'),
             $api.cache('Question/Types:9999'),
             $api.post('Course/ForID', { 'id': 123 })
-      ).then(axios.spread(function (acc, type, cou) {
-          var result1=acc.data.result;
-          var result2=type.data.result;
-          var result3=cou.data.result;                   
-      })).catch(err => console.error(err))
+      ).then(([acc, type, cou])=> {
+          let result1=acc.data.result;
+          let result2=type.data.result;
+          let result3=cou.data.result;                   
+      }).catch(err => console.error(err))
          .finally(() => {});
                         </pre>
                         <P><b>浏览器本地缓存</b> </P>

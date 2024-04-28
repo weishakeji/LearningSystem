@@ -126,7 +126,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(err => console.error(err)).finally(th.lading_init = false);
+            }).catch(err => console.error(err))
+                .finally(th.lading_init = false);
         },
         methods: {
             //判断是否已经存在

@@ -16,12 +16,10 @@
             $api.bat(
                 $api.get('Learningcard/SetForID', { 'id': th.id }),
                 $api.get('Learningcard/ExcelFiles', { 'id': th.id })
-            ).then(axios.spread(function (cardset, files) {
-                th.loading = false;
-                //获取结果
+            ).then(([cardset, files]) => {
                 th.cardset = cardset.data.result;
                 th.files = files.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         computed: {},

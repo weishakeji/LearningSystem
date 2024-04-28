@@ -53,7 +53,6 @@ $ready(function () {
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.getTreeData(th.organ.Org_ID);
@@ -61,9 +60,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         mounted: function () {
 

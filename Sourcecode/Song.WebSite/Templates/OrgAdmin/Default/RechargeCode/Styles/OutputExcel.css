@@ -1,12 +1,5 @@
 ﻿@charset "utf-8";
-body,html,#app{
-    height: 100%;
-    width: 100%;
-}
-body,html{
-    overflow: hidden;
-}
-#app{
+#vapp{
     padding-top: 10px;
 }
 .row {

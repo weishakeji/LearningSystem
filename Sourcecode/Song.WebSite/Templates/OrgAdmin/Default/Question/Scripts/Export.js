@@ -74,8 +74,8 @@ $ready(function () {
         computed: {
             //禁止选择专业与课程，（例如在课程管理中的试题编辑）
             'disable_select': function () {
-                var couid = $api.querystring('couid', '0');          
-                return couid != '0' && couid!='';
+                var couid = $api.querystring('couid', '0');
+                return couid != '0' && couid != '';
             },
             //选中的章节名称
             'selected_outline': function () {
@@ -140,17 +140,13 @@ $ready(function () {
                 var th = this;
                 $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel', 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
-                        th.files = req.data.result;                      
+                        th.files = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);                 
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });;
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除文件
             deleteFile: function (file) {
@@ -171,10 +167,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    this.loading = false;
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             getCourse: function (couid) {
                 var th = this;
@@ -188,10 +183,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //获取课程专业的数据
             getSubjects: function (organ) {
@@ -272,10 +265,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //当试题的课程更改时
             changeCourse: function (val) {
@@ -304,7 +296,6 @@ $ready(function () {
                 this.loading = true;
                 var couid = th.form.couid && th.form.couid != '' ? th.form.couid : -1;
                 $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.outlines = req.data.result;
                         th.calcSerial(null, '');
@@ -313,7 +304,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.outlines = [];
-                });
+                }).finally(() => th.loading = false);
             },
             //过滤章节树形
             filterNode: function (value, data, node) {

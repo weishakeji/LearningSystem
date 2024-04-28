@@ -77,7 +77,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 67);
                 th.loading = true;
                 $api.cache("Student/Activation", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -89,7 +88,7 @@ $ready(function () {
                 }).catch((err) => {
                     alert(err);
                     console.error(err);
-                }).finally(() => { });
+                }).finally(() => th.loading = false);
             },
             //当表格的排序条件发生变化的时候会触发该事件
             sortchange: function (column) {

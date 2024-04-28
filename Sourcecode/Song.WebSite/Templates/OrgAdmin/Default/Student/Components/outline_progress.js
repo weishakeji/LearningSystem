@@ -112,10 +112,9 @@ Vue.component('outline_progress', {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             }).catch(() => { });
         }
     },

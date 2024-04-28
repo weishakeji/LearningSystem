@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>
         <div class="toolsbar">
             <div></div>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
@@ -28,8 +28,8 @@
             </query_panel>
         </div>
         <template>
-            <el-table ref="datatables"  border resizable  :data="datas" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" row-key="Lc_ID"
+            <el-table ref="datatables" border resizable :data="datas" v-loading="loading" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val" row-key="Lc_ID"
                 :row-class-name="data=>{return data.row.Rc_IsEnable && !data.row.Rc_IsUsed ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">
                 </el-table-column>

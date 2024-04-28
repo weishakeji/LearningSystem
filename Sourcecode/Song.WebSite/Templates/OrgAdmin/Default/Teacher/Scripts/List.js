@@ -42,9 +42,7 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err));
 
         },
         computed: {

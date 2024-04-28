@@ -29,23 +29,21 @@ $ready(function () {
 
         },
         created: function () {
-            var th=this;
+            var th = this;
             $api.get('Organization/Current').then(function (req) {
-                vapp.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.form.orgid = th.organ.Org_ID;
                     //机构配置信息
-                    th.config = $api.organ(vapp.organ).config;
+                    th.config = $api.organ(th.organ).config;
                     th.getTreeData();
                     th.getTotal();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
             $api.storage(this.expanded_storage, null);
         },
         computed: {
@@ -61,7 +59,6 @@ $ready(function () {
                 var th = this;
                 this.loading = true;
                 $api.get('Subject/Tree', th.form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
                         //获取默认展开的节点
@@ -72,16 +69,14 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取专业总数
             getTotal: function () {
                 var th = this;
                 $api.get('Subject/CountOfChildren',
-                    { 'orgid': vapp.organ.Org_ID, 'sbjid': 0, 'use': null })
+                    { 'orgid': th.organ.Org_ID, 'sbjid': 0, 'use': null })
                     .then(function (req) {
                         if (req.data.success) {
                             th.total = req.data.result;
@@ -89,9 +84,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             handleDragStart(node, ev) {
                 //console.log('drag start', node);
@@ -111,7 +105,7 @@ $ready(function () {
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.datas);
                 $api.post('Subject/ModifyTaxis', { 'list': arr }).then(function (req) {
-                    th.loading_sumbit = false;
+
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -125,10 +119,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_sumbit = false);
             },
             handleDrop(draggingNode, dropNode, dropType, ev) {
                 //console.log('tree drop: ', dropNode.label, dropType);
@@ -172,7 +164,7 @@ $ready(function () {
                 $api.post('Subject/Modify', { 'entity': data }).then(function (req) {
                     th.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$message({
+                        th.$message({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -183,7 +175,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    alert(err, '错误');
                     th.loadingid = -1;
                 });
             },
@@ -236,7 +228,7 @@ $ready(function () {
                     th.loading_sumbit = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$message({
+                        th.$message({
                             type: 'success',
                             message: '删除成功!',
                             center: true
@@ -275,7 +267,7 @@ $ready(function () {
             },
             //当专业数据更改时，刷新缓存数据
             fresh_cache: function () {
-                $api.cache('Subject/TreeFront:update', { 'orgid': this.organ.Org_ID });                
+                $api.cache('Subject/TreeFront:update', { 'orgid': this.organ.Org_ID });
             }
         }
     });
@@ -303,7 +295,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('Subject/CountOfCourse', { 'sbjid': th.sbjid, 'use': null }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.count = req.data.result;
                         th.subject.courseCount = req.data.result;
@@ -311,9 +302,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         template: `<span title="课程数">

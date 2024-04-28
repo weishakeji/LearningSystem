@@ -136,7 +136,6 @@ $ready(function () {
                         }
                         th.uploading(true);
                         $api.get('Account/BeginCourse', params).then(function (req) {
-                            th.uploading(false);
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -151,10 +150,8 @@ $ready(function () {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            th.uploading(false);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err))
+                            .finally(() => th.uploading(false));
                     } else {
                         console.log('error submit!!');
                         return false;

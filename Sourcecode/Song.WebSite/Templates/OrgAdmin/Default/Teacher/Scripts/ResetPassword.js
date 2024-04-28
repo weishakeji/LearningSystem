@@ -19,7 +19,7 @@ $ready(function () {
                     th.teacher = result;
                     if (th.teacher == null) return;
                     $api.get('Account/ForID', { 'id': th.teacher.Ac_ID }).then(function (req) {
-                        th.loading = false;
+
                         if (req.data.success) {
                             th.account = req.data.result;
                             window.setInterval(function () {
@@ -30,11 +30,9 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading = false;
-                        //
                         th.createAccount(th.teacher);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading = false);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -68,7 +66,7 @@ $ready(function () {
             },
             //创建学员账号
             createAccount: function (teacher) {
-                var th=this;
+                var th = this;
                 this.$confirm('教师的基础账号不存在，是否创建?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -83,8 +81,7 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 }).catch(() => {

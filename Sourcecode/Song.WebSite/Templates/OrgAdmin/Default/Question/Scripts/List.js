@@ -125,11 +125,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    //th.getCourses();
-                });
+                }).catch(err => console.error(err))
+                    .finally(function () { });
             },
             //获取课程
             getCourses: function (val) {

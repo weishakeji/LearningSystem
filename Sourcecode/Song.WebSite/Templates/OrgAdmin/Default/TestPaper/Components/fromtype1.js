@@ -75,10 +75,9 @@ Vue.component('fromtype1', {
                     th.parseItemsXml();
                 }
             }).catch(function (err) {
-                //alert(err);
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() =>  {});
         },
         //解析试题抽题的设置项
         parserPercXML: function () {

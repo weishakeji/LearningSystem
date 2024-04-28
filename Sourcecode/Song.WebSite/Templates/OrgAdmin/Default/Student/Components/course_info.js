@@ -64,9 +64,8 @@ Vue.component('course_info', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //是否完成
         finished: function (percentage) {

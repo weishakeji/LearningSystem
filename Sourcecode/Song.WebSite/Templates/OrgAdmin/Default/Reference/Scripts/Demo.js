@@ -17,9 +17,8 @@ $ready(['/Utilities/driver/driver.js.iife.js'],
                     th.organ = organ.data.result;
                     //机构配置信息
                     th.config = $api.organ(th.organ).config;
-                })).catch(function (err) {
-                    console.error(err);
-                }).finally(() => th.loading_init = false);
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             created: function () {
                 const driver = window.driver.js.driver;

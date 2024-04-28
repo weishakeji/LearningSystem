@@ -25,11 +25,11 @@ $ready(function () {
 
             accPingyin: [],  //账号名称的拼音
             organ: {},       //当前登录账号所在的机构
-            rules: {                
+            rules: {
                 Ac_Name: [
                     //{ required: true, message: '姓名不得为空', trigger: 'blur' },
                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
-                    { validator: validate.name.danger, trigger: 'change' }, 
+                    { validator: validate.name.danger, trigger: 'change' },
                 ],
                 Ac_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },
@@ -65,9 +65,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
                 }
             }).catch(err => {
                 alert(err);
@@ -127,7 +126,6 @@ $ready(function () {
                     $api.get('Organization/ForID', { 'id': th.account.Org_ID }) :
                     $api.get('Organization/Current'))
                     .then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.organ = req.data.result;
                             th.sortquery.orgid = th.organ.Org_ID;
@@ -139,7 +137,7 @@ $ready(function () {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading = false);
             },
             //分页获取学员组
             sortpaper: function (index) {
@@ -147,7 +145,6 @@ $ready(function () {
                 var th = this;
                 th.sort.loading = true;
                 $api.get("Account/SortPager", th.sortquery).then(function (d) {
-                    th.sort.loading = false;
                     if (d.data.success) {
                         th.sorts = d.data.result;
                         th.sort.paper = Number(d.data.totalpages);
@@ -158,10 +155,9 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.sort.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.sort.loading = false);
             },
             //选择学员组
             sortselect: function (item) {
@@ -230,8 +226,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.post('Account/ModifyPhoto', { 'file': file, 'account': th.account }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
+                     if (req.data.success) {
                         var result = req.data.result;
                         th.account.Ac_Photo = result.Ac_Photo;
                         th.$message({
@@ -246,7 +241,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //判断账号是否存在
             duplicate_check: function (val) {

@@ -31,17 +31,15 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
             ).then(axios.spread(function (organ, types) {
-                th.loading_init = false;
                 //获取结果
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.sbjChange();
                 th.types = types.data.result;
             })).catch(function (err) {
-                th.loading_init = false;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -71,7 +69,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('Course/ForID', { 'id': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.course = req.data.result;
                         th.courseChange(th.course.Cou_ID);
@@ -80,10 +77,9 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //专业选择变更时，返回两个参数，一个是当前专业id，一个是当前专业的id路径（数组）
             sbjChange: function (sbjid, sbjs) {
@@ -98,10 +94,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //课程选择变更
             courseChange: function (couid) {
@@ -111,7 +106,7 @@ $ready(function () {
                     this.$refs['subject'].setsbj(cou.Sbj_ID);
                     this.course = cou;
                 }
-                console.log(cou);
+                //console.log(cou);
             },
             //选择试题类型
             selectType: function (type) {

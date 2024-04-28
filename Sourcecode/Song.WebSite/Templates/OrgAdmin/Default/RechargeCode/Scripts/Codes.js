@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 rsid: '',
@@ -38,12 +38,12 @@
 
         },
         created: function () {
-            this.form.rsid = $api.querystring('id');
-            this.codesetLoading = true;
-            $api.get('RechargeCode/SetForID', { 'id': this.form.rsid }).then(function (req) {
-                vue.codesetLoading = false;
+            var th = this;
+            th.form.rsid = $api.querystring('id');
+            th.codesetLoading = true;
+            $api.get('RechargeCode/SetForID', { 'id': th.form.rsid }).then(function (req) {
                 if (req.data.success) {
-                    vue.codeset = req.data.result;
+                    th.codeset = req.data.result;
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -51,15 +51,16 @@
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.codesetLoading = false);
             this.handleCurrentChange();
         },
         methods: {
             //获取学习卡数据统计信息
             getdatainfo: function () {
-                $api.get('RechargeCode/SetDataInfo', { 'id': this.form.rsid }).then(function (req) {
+                var th = this;
+                $api.get('RechargeCode/SetDataInfo', { 'id': th.form.rsid }).then(function (req) {
                     if (req.data.success) {
-                        vue.num = req.data.result;
+                        th.num = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -67,7 +68,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -82,7 +83,6 @@
                         th.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
                         th.total = req.data.total;
-                        th.loading = false;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -90,15 +90,15 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
                 var title = "充值码：" + row.Rc_Code + " - " + row.Rc_Pw;
                 var txt = title;
                 txt += "\r\n有效时间：" + this.codeset.Rs_LimitStart.format("yyyy-MM-dd") + " 至 " + this.codeset.Rs_LimitEnd.format("yyyy-MM-dd");
-                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";              
-                this.copy(txt, 'textarea').then(function(th){
+                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";
+                this.copy(txt, 'textarea').then(function (th) {
                     th.$message({
                         message: '复制 “' + title + '” 到粘贴板',
                         type: 'success'
@@ -112,23 +112,23 @@
                     this.currentVisible = true;
                     return;
                 }
+                var th = this;
                 var acc = row.Ac_AccName;
                 $api.get('Account/ForAcc', { 'acc': acc }).then(function (req) {
                     if (req.data.success) {
                         row.account = req.data.result;
-                        vue.currentVisible = true;
+                        th.currentVisible = true;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
                     console.error(err);
-                    vue.$alert(err, '提示', {
+                    th.$alert(err, '提示', {
                         confirmButtonText: '确定',
                         callback: action => { }
                     });
-                });
+                }).finally(() => { });
             },
             //导出二维码
             OutputQrcode: function () {
@@ -177,11 +177,11 @@
             //更改启用禁用
             changeEnable: function (row) {
                 var th = this;
-                this.loadingid = row.Rc_ID;
+                th.loadingid = row.Rc_ID;
                 var para = { 'code': row.Rc_Code, 'pw': row.Rc_Pw, 'isenable': row.Rc_IsEnable };
                 $api.post('RechargeCode/CodeChangeEnable', para).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             position: 'bottom-right',
@@ -190,10 +190,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             }
         }
     });

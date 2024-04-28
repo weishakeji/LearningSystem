@@ -31,7 +31,6 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.get('Organization/Current').then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.config = $api.organ(th.organ).config;
@@ -41,10 +40,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
             this.getFiles(false);
         },
@@ -238,7 +235,7 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 }).catch(err => console.error(err))
-                    .finally(() => { });
+                    .finally(() => th.loading = false);
             },
         },
     });

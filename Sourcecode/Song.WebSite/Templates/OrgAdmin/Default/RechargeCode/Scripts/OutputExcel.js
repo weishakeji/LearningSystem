@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             codeset: {},
@@ -11,28 +11,28 @@
 
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.bat(
-                $api.get('RechargeCode/SetForID', { 'id': this.id }),
-                $api.get('RechargeCode/ExcelFiles', { 'id': this.id })
+                $api.get('RechargeCode/SetForID', { 'id': th.id }),
+                $api.get('RechargeCode/ExcelFiles', { 'id': th.id })
             ).then(axios.spread(function (codeset, files) {
-                vue.loading = false;
                 //获取结果
-                vue.codeset = codeset.data.result;
-                vue.files = files.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.codeset = codeset.data.result;
+                th.files = files.data.result;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         computed: {},
         methods: {
             btnOutput: function () {
-                this.loading = true;
-                $api.get('RechargeCode/ExcelOutput', { 'id': this.id }).then(function (req) {
+                var th = this;
+                th.loading = true;
+                $api.get('RechargeCode/ExcelOutput', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.getFiles();
-                        vue.$notify({
+                        th.getFiles();
+                        th.$notify({
                             message: '文件生成成功！',
                             type: 'success',
                             position: 'bottom-right',
@@ -45,15 +45,15 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //获取文件列表
             getFiles: function () {
-                this.files = [];
-                $api.get('RechargeCode/ExcelFiles', { 'id': this.id }).then(function (req) {
+                var th = this;
+                th.files = [];
+                $api.get('RechargeCode/ExcelFiles', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
-                        vue.files = req.data.result;
-                        vue.loading = false;
+                        th.files = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -61,16 +61,17 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除文件
             deleteFile: function (file) {
-                this.loading = true;
+                var th = this;
+                th.loading = true;
                 $api.delete('RechargeCode/ExcelDelete', { 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.getFiles();
-                        vue.$notify({
+                        th.getFiles();
+                        th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
                             position: 'bottom-right',
@@ -83,7 +84,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         },
         mounted: function () {

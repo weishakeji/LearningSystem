@@ -77,7 +77,6 @@
                 th.query.size = Math.floor(area / 200);
                 var apiurl = "Course/" + this.method_name;
                 $api.get(apiurl, th.query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -95,10 +94,9 @@
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
             resultScore: function (purchase) {
@@ -157,16 +155,13 @@
                         if (req.data.success) {
                             var result = req.data.result;
                             var fuc = th.$refs['purchase_data_' + course.Cou_ID][0].onload;
-                            if (fuc != num) fuc();
-                            course['addtime_show'] = false;
-                            //th.handleCurrentChange();                            
+                            if (fuc != num) fuc();                                          
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     }).finally(function () {
                         course['addtime_loading'] = false;
@@ -197,7 +192,6 @@
                 purchase.Stc_IsEnable = enable;
                 var params = { 'stid': th.id, 'couid': purchase.Cou_ID, 'enable': enable };
                 $api.post('Course/PurchaseEnable', params).then(function (req) {
-                    th.loading_id = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -209,10 +203,9 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_id = 0;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_id = 0);
             },
             //删除当前学习记录
             purchaseDel: function (purchase) {
@@ -225,7 +218,6 @@
                     th.loading_id = purchase.Stc_ID;
                     var params = { 'stid': purchase.Ac_ID, 'couid': purchase.Cou_ID };
                     $api.delete('Course/PurchaseDelete', params).then(function (req) {
-                        th.loading_id = 0;
                         if (req.data.success) {
                             var result = req.data.result;
                             th.$message({
@@ -238,10 +230,9 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        th.loading_id = 0;
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
-                    });
+                    }).finally(() => th.loading_id = 0);
 
                 }).catch(() => { });
             }

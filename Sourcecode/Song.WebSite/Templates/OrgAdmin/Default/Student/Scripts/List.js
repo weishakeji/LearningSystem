@@ -54,9 +54,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
 
         },
 
@@ -74,7 +73,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -169,10 +168,10 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
+
                 }).catch(function (err) {
                     alert(err, '错误');
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //导出
             output: function (btn) {

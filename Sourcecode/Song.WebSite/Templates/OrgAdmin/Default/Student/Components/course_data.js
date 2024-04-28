@@ -28,7 +28,6 @@ Vue.component('course_data', {
             $api.cache('Course/Datainfo:20', { 'couid': this.couid }).then(function (req) {
                 if (req.data.success) {
                     th.data = req.data.result;
-                    //...
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -36,7 +35,7 @@ Vue.component('course_data', {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => { });
         }
     },
     //

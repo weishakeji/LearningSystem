@@ -16,7 +16,7 @@ $ready(function () {
             },
             sbjSelects: [],      //选择中的专业项           
             form: {
-                'orgid': '', 'sbjid': '','start': '', 'end': '',  'size': 10, 'index': 1
+                'orgid': '', 'sbjid': '', 'start': '', 'end': '', 'size': 10, 'index': 1
             },
             datas: [],      //数据集
             total: 1, //总记录数
@@ -48,8 +48,8 @@ $ready(function () {
         watch: {
         },
         methods: {
-              //选择时间区间
-              selectDate: function (start, end) {
+            //选择时间区间
+            selectDate: function (start, end) {
                 this.form.start = start;
                 this.form.end = end;
                 this.handleCurrentChange(1);
@@ -70,7 +70,7 @@ $ready(function () {
             //获取热门课程
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
-                var th = this;              
+                var th = this;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 57);

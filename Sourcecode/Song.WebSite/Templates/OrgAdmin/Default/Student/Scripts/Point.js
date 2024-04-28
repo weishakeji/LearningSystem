@@ -1,8 +1,8 @@
 ﻿
 $ready(function () {
 
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
             account: {}, //当前登录账号对象        
@@ -69,23 +69,22 @@ $ready(function () {
                             if (Number(th.operated) == 2) apipath += 'Raise';
                             if (Number(th.operated) == 1) apipath += 'Subtract';
                             $api.post(apipath, th.form).then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
-                                    vue.$message({
+                                    th.$message({
                                         type: 'success',
                                         message: '操作成功!',
                                         center: true
                                     });
                                     window.setTimeout(function () {
-                                        vue.operateSuccess();
+                                        th.operateSuccess();
                                     }, 600);
                                 } else {
                                     throw req.data.message;
                                 }
                             }).catch(function (err) {
-                                vue.$alert(err, '错误');
-                            });
+                                alert(err, '错误');
+                            }).finally(() => th.loading = false);
                         }).catch(() => { });
                     } else {
                         console.log('error submit!!');

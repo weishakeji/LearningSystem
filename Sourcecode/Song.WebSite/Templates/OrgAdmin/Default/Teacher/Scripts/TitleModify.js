@@ -34,7 +34,7 @@ $ready(function () {
                 th.organ = organ.data.result;
                 if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
                 //机构配置信息
-                th.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 th.getEntity();
             })).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);

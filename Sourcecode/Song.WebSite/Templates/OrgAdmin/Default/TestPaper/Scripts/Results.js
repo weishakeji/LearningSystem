@@ -33,9 +33,8 @@
             var th = this;
             $api.bat(
                 $api.get('Organization/Current'),
-                $api.get('TestPaper/ForID',{'id':th.tpid})
-            ).then(axios.spread(function (org,paper) {
-                th.loading_init = false;
+                $api.get('TestPaper/ForID', { 'id': th.tpid })
+            ).then(axios.spread(function (org, paper) {
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
@@ -43,9 +42,8 @@
                 th.form.orgid = th.org.Org_ID;
                 th.testpaper = paper.data.result;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -107,7 +105,6 @@
                 if (form.score_max === '') form.score_max = -1;
                 form.tpid = this.tpid;
                 $api.get("TestPaper/ResultsQueryPager", form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         //添加一些字段，用于增加学员选修时间的表单
@@ -124,17 +121,15 @@
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loading = false;
+                    alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('TestPaper/ResultDelete', { 'trid': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -153,7 +148,7 @@
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //批量计算
             batchcalc: function (datas) {
@@ -177,10 +172,9 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    data.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => data.loading = false);
             },
             //成绩回顾
             viewresult: function (data) {

@@ -64,8 +64,8 @@ $ready(function () {
                         }
                     }
                 }
-                console.log(nv);
-                console.log(this.checkedSorts);
+                //console.log(nv);
+                //console.log(this.checkedSorts);
             }
         },
         methods: {
@@ -80,7 +80,6 @@ $ready(function () {
                 th.form.size = th.form.size >= 50 ? 50 : th.form.size;
                 th.loading = true;
                 $api.get("Account/SortPager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         for (var i = 0; i < result.length; i++) {
@@ -98,9 +97,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //全选,nv:为true全选,false取消全选
             selectAll: function (nv) {
@@ -193,7 +191,7 @@ $ready(function () {
                 //创建生成Excel
                 th.loading_export = true;
                 $api.get('Account/ExcelOutputForSort', { 'orgid': th.organ.Org_ID, 'sorts': sorts }).then(function (req) {
-                    th.loading_export = false;
+
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -207,10 +205,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_export = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_export = false);
             },
             //获取文件列表
             getFiles: function () {
@@ -218,20 +214,17 @@ $ready(function () {
                 $api.get('Account/ExcelFiles', { 'path': 'AccountsToExcelForSort' }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
-                        th.loading = false;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除文件
             deleteFile: function (file) {
                 var th = this;
-                this.loading = true;
+                th.loading = true;
                 $api.delete('Account/ExcelDelete', { 'filename': file, 'path': 'AccountsToExcelForSort' }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -249,7 +242,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //操作成功
             operateSuccess: function () {

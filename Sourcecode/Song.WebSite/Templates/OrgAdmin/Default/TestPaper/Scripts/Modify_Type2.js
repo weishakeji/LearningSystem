@@ -164,7 +164,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //专业选择变更时，返回两个参数，一个是当前专业id，一个是当前专业的id路径（数组）
             sbjChange: function (sbjid, sbjs) {
@@ -180,7 +180,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => { });
             },
             //获取课程
             getCourses: function (val) {
@@ -196,7 +196,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(err => console.error(err));
+                    }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //确定操作
             btnEnter: function (formName, isclose) {
@@ -240,7 +241,6 @@ $ready(function () {
                 var para = { 'entity': th.entity };
                 if (th.upfile != null) para['file'] = th.upfile;
                 $api.post(apipath, para).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -255,8 +255,8 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loading = false);
             },
             //生成配置项
             buildFromConfig: function () {

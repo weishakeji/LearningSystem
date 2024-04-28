@@ -36,19 +36,19 @@ $ready(function () {
                         th.loading = true;
                         var apipath = 'Organization/ModifyIntro';
                         $api.post(apipath, { 'orgid': th.organ.Org_ID, 'text': th.organ.Org_Intro })
-                        .then(function (req) {
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                th.$message({
-                                    type: 'success', center: true,
-                                    message: '操作成功!'
-                                });
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(err => alert(err, '错误'))
+                            .then(function (req) {
+                                if (req.data.success) {
+                                    var result = req.data.result;
+                                    th.$message({
+                                        type: 'success', center: true,
+                                        message: '操作成功!'
+                                    });
+                                } else {
+                                    throw req.data.message;
+                                }
+                            }).catch(err => alert(err, '错误'))
                             .finally(() => th.loading = false);
-                    } else {                       
+                    } else {
                         return false;
                     }
                 });

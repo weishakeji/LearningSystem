@@ -63,33 +63,27 @@ Vue.component('knowledge', {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.sorts = result;
-                    th.handleCurrentChange(1);
                 } else {
                     th.sorts = [];
-                    th.handleCurrentChange(1);
                 }
             }).catch(function (err) {
                 th.sorts = [];
-                th.handleCurrentChange(1);
-                console.error(err);
-            });
+            }).finally(() => th.handleCurrentChange(1));
         },
         //获取单个知识点
         getKnl: function (nv) {
             var th = this;
             th.loading_knl = true;
             $api.get('Knowledge/ForUID', { 'uid': th.knl_uid }).then(function (req) {
-                th.loading_knl = false;
                 if (req.data.success) {
                     th.knowledge = req.data.result;
                 } else {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.loading_knl = false;
                 th.knowledge = null;
                 console.error(err);
-            });
+            }).finally(() => th.loading_knl = false);
         },
         //当知识点分类变更时,获取列表
         getList: function (data) {
@@ -102,13 +96,12 @@ Vue.component('knowledge', {
             var th = this;
             //每页多少条，通过界面高度自动计算
             var area = $dom('.knl_list').height();
-            area=area>0 ? area : $dom('body').height() - 130;
+            area = area > 0 ? area : $dom('body').height() - 130;
             th.form.size = Math.floor(Number(area) / 35);
             th.form.size = th.form.size < 1 ? 1 : th.form.size;
             th.loading = true;
             console.log(th.form);
             $api.get("Knowledge/Pager", th.form).then(function (d) {
-                th.loading = false;
                 if (d.data.success) {
                     var result = d.data.result;
                     th.datas = result;
@@ -119,9 +112,8 @@ Vue.component('knowledge', {
                 }
             }).catch(function (err) {
                 th.$alert(err, '错误');
-                th.loading = false;
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //设置知识点与试题的关联
         setcontact: function (knl) {

@@ -26,8 +26,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Account/SortForID', { 'id': th.id })
-            ).then(axios.spread(function (organ, sort) {
-                th.loading_init = false;
+            ).then(axios.spread(function (organ, sort) {              
                 //获取结果             
                 th.organ = organ.data.result;
                 th.sort = sort.data.result;
@@ -36,9 +35,8 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.form.sortid = th.id;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
 
         },
         mounted: function () {
@@ -209,7 +207,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     console.error(err);
-                }).finally(()=>{});
+                }).finally(() => { });
             },
             //专业更改时
             changeSbj: function (val) {
@@ -242,7 +240,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-                }).finally(()=>{});
+                }).finally(() => { });
             },
             //验证选择按钮是否能用
             checkdisabled: function (cou) {
@@ -300,7 +298,7 @@ $ready(function () {
                     //alert(err);
                     Vue.prototype.$alert(err);
                     console.error(err);
-                }).finally(()=>{});
+                }).finally(() => { });
             },
             //批量添加
             addbatcourse: function () {

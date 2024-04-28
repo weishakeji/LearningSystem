@@ -159,7 +159,7 @@ Vue.component('general', {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            });
+            }) .finally(()=>{});
         },
         //当试题的课程更改时
         changeCourse: function (val) {

@@ -56,6 +56,7 @@ $ready(function () {
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 120;
                 th.form.size = Math.floor(area / 41);
@@ -68,9 +69,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //窗体上方按钮组的批量移除
             batremove: function (btn, items) {
@@ -198,6 +198,7 @@ $ready(function () {
             getpaper: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 30);
@@ -212,14 +213,13 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //增加学员
             add: function (item) {
                 var th = this;
                 th.loading = true;
                 $api.post('Account/SortAddStudent', { 'stsid': th.stsid, 'id': item.Ac_ID }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         item.Sts_ID = th.stsid;
@@ -232,9 +232,8 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
-                    th.loading = false;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         },
         //

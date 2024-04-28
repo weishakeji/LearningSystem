@@ -46,8 +46,7 @@ Vue.component('course_progress', {
             var th = this;
             th.loading = true;
             $api.get('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
-                .then(function (req) {
-                    th.loading = false;
+                .then(function (req) {                 
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result != null && result.length > 0) {
@@ -55,7 +54,7 @@ Vue.component('course_progress', {
                             th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
                             th.percent = 100;
-                            console.log(th.data);
+                            //console.log(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;
@@ -65,9 +64,8 @@ Vue.component('course_progress', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //是否完成
         finished: function (percentage) {
@@ -97,8 +95,8 @@ Vue.component('course_progress', {
         viewDetail: function () {
             var item = this.course;
             var url = $dom.routepath() + 'VideoProgress.' + item.Cou_ID;
-            url ='/Student/Course/VideoProgress.' + item.Cou_ID,
-            url = $api.url.set(url, 'stid', this.stid);
+            url = '/Student/Course/VideoProgress.' + item.Cou_ID,
+                url = $api.url.set(url, 'stid', this.stid);
             var obj = {
                 'url': url,
                 'ico': 'e6ef', 'min': false,

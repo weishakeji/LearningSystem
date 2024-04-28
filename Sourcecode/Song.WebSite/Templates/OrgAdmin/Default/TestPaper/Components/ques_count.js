@@ -30,19 +30,15 @@ Vue.component('ques_count', {
             th.loading = true;
             var query = { 'orgid': '-1', 'sbjid': '-1', 'couid': th.couid, 'olid': th.olid, 'type': th.qtype, 'use': true };
             //console.log(query);
-            $api.get('Question/Count', query)
-                .then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.count = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+            $api.get('Question/Count', query).then(function (req) {
+                if (req.data.success) {
+                    th.count = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         }
 
     },
