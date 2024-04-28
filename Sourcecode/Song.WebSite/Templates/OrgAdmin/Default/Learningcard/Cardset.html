@@ -32,9 +32,7 @@
                     <template slot-scope="scope">
 
                         <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
-                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
-                            <span class="el-icon-open enable" v-if="scope.row.Lcs_IsEnable"></span>
-                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span>
+                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">                           
                             <span class="large" v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
                         </el-link>
                     </template>
