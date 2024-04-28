@@ -107,7 +107,6 @@
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 43);
                 $api.get('Money/PagerForAccount', th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -118,8 +117,8 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                    th.loading = false;
-                });
+                    console.error(err);
+                }).finally(() => th.loading = false);
             },
             //查询订单
             queryOrder: function (detail) {
@@ -187,29 +186,27 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    th.loading_out = false;
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                    th.loading_out = false;
-                });
+                }).finally(() => th.loading_out = false);
             },
             //获取文件列表
             getFiles: function () {
                 var th = this;
+                th.loading_out = true;
                 $api.get('Money/ExcelFiles', { 'path': this.query.path, 'orgid': -1 }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
-                        th.loading_out = false;
+
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
                     alert(err);
-                    th.loading_out = false;
                     console.error(err);
-                });
+                }).finally(() => th.loading_out = false);
             },
             //删除文件
             deleteFile: function (file) {
@@ -232,7 +229,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_out = false);
             }
         }
     });

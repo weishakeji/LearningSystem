@@ -24,7 +24,6 @@
                 $api.cache('Platform/Uploadpath:9999', { 'key': 'Org' }),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, upload, org) {
-                vapp.loading_init = false;
                 //获取结果
                 th.acc = account.data.result;
                 th.upload = upload.data.result;
@@ -36,10 +35,8 @@
                     'positon': th.config.StampPosition ? th.config.StampPosition : 'right-bottom',
                     'path': th.config.Stamp && th.config.Stamp != '' ? th.upload.virtual + th.config.Stamp : ''
                 };
-            })).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
             //获取课程
             this.courseids.split(',').forEach(function (item, index) {
                 console.log(item + "." + index);
@@ -100,18 +97,15 @@
                 var th = this;
                 th.loading = true;
                 $api.get('Course/ForID', { 'id': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        Vue.set(th.courses, index, result);
+                        th.set(th.courses, index, result);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取学历
             getedu: function (val) {
