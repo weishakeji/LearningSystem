@@ -265,8 +265,8 @@
                     '学习记录导出', window.name + '[studylog]', 650, 400);
             },
             //打开编辑界面
-            btnmodify: function (id) {
-                this.$refs.btngroup.modify(id);
+            btnmodify: function (id, title, param) {
+                this.$refs.btngroup.modify(id, title, param);
             },
             //新增课程的按钮事件
             btnadd: function (btn) {

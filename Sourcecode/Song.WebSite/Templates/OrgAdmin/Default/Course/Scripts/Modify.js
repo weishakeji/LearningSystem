@@ -35,7 +35,7 @@
                         //将当前窗体最大化
                         if (window.top.$pagebox) {
                             var box = window.top.$pagebox.get(window.name);
-                            if (box != null) box.full = true;
+                            //if (box != null) box.full = true;
                         }
                     }
                 } else {

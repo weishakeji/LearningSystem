@@ -22,7 +22,7 @@
                 }],
                 sbjid: [{
                     validator: function (rule, value, callback) {
-                        if (value <=0) return callback(new Error('没有选择课程专业'));
+                        if (value <= 0) return callback(new Error('没有选择课程专业'));
                         return callback();
                     }, trigger: 'blur'
                 }]
@@ -59,7 +59,7 @@
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-            console.log(window.name);
+            //console.log(window.name);
             //document.write(window.name);
         },
         computed: {},
@@ -133,9 +133,8 @@
                 }
                 return path != '' ? path : (course ? course.Sbj_Name : '');
                 function getsbj(id, arr) {
-                    var obj = null;
+                    let obj = null;
                     for (let i = 0; i < arr.length; i++) {
-                        const el = arr[i];
                         if (arr[i].Sbj_ID == id) {
                             obj = arr[i];
                             break;
@@ -209,7 +208,7 @@
                 //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
                 if (window.top.$pagebox && window.top.$tabs && this.workplace() == 'orgadmin') {
-                    window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '")', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '",null,{"full":true})', true);
                 } else {
                     //如果处在学员或教师管理界面
                     var winname = window.name;
@@ -218,10 +217,10 @@
                     if (winname.indexOf('[') > -1)
                         winname = winname.substring(0, winname.lastIndexOf('['));
 
-                    window.top.vapp.fresh(winname, 'vapp.btnmodify("' + id + '")');
+                    window.top.vapp.fresh(winname, 'vapp.btnmodify("' + id + '",null,{"full":true})');
                     window.setTimeout(function () {
                         window.top.$pagebox.shut(window.name);
-                    }, 1000);
+                    }, 500);
                 }
             },
             //操作成功
