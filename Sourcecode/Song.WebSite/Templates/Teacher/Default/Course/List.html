@@ -31,7 +31,7 @@
         <el-table ref="datatables"   border resizable :data="datas" :show-header="false" tooltip-effect="dark" style="width: 100%"
             v-loading="loading" @selection-change="val=>selects=val" default-expand-all
             @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID" cell-class-name="tdcell">
-            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            <el-table-column type="selection" width="35">
             </el-table-column>
             <el-table-column type="expand">
                 <div slot-scope="scope" :class="{'course_expand':true}" :title="scope.row.Cou_Name">
@@ -81,7 +81,7 @@
                 </template>
 
             </el-table-column>
-            <el-table-column label="操作" show-overflow-tooltip width="100">
+            <el-table-column label="操作" width="100">
                 <template slot-scope="scope">
                     <el-link type="primary" class="medium" plain @click="()=>{drawer=true;curr=scope.row;}">
                         <icon>&#xe696</icon>课程综述

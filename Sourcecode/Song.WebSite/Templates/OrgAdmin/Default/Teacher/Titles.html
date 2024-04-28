@@ -27,24 +27,24 @@
                 @selection-change="val=>selects=val"
                 @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ths_ID"
                 :row-class-name="data=>{return data.row.Ths_IsUse ? 'enable' : 'disabled';}" draggable>
-                <el-table-column type="selection" width="35" show-overflow-tooltip>
+                <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
                     <template slot-scope="scope">
                         <span>{{scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="职称" show-overflow-tooltip width="150">
+                <el-table-column label="职称" width="150">
                     <template slot-scope="scope">
                         <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle large"> </span>                       
                     </template>
                 </el-table-column>
-                <el-table-column label="教师" show-overflow-tooltip width="60">
+                <el-table-column label="教师" width="60">
                     <template slot-scope="scope">                      
                         <teacher_count :sortid="scope.row.Ths_ID"></teacher_count> 人
                     </template>
                 </el-table-column>
-                <el-table-column label="备注" show-overflow-tooltip min-width="150">
+                <el-table-column label="备注" min-width="150">
                     <template slot-scope="scope">
                         {{scope.row.Ths_Intro}}
                     </template>
@@ -77,7 +77,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip width="120" align="center" fixed="right">
+                <el-table-column label="操作" width="120" align="center" fixed="right">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-if="loadingid==scope.row.Ths_ID"></span>
                         <el-button-group v-else>

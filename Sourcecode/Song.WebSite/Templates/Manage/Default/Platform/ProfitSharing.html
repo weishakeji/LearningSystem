@@ -16,7 +16,7 @@
     <template>
       <el-table ref="datatables" border resizable  :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
         @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Ps_ID" index-key="Ps_Level" draggable>
-        <el-table-column type="selection" width="35" show-overflow-tooltip>
+        <el-table-column type="selection" width="35">
         </el-table-column>
         <el-table-column type="index" width="50">
         </el-table-column>
@@ -38,7 +38,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" show-overflow-tooltip width="120"  fixed="right" align="center" >
+        <el-table-column label="操作" width="120"  fixed="right" align="center" >
 
           <el-button-group slot-scope="scope">
             <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Ps_ID)'>修改

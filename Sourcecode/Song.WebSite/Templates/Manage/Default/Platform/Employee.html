@@ -35,7 +35,7 @@
                         <span v-html='scope.row.Acc_MobileTel'></span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="Posi_Name" label="岗位" show-overflow-tooltip width="120">
+                <el-table-column prop="Posi_Name" label="岗位" width="120">
                     <template slot-scope="scope">{{scope.row.Posi_Name}}
                         <span class="el-icon-s-custom red" v-show='scope.row.isAdminPosi' title="系统管理岗"></span>
                     </template>
@@ -55,7 +55,7 @@
                             重置</el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作"  show-overflow-tooltip width="110" fixed="right"  align="center">
+                <el-table-column label="操作"  width="110" fixed="right"  align="center">
 
                     <el-button-group slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-edit"

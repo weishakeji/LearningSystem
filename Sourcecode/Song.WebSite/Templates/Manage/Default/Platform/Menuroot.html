@@ -16,7 +16,7 @@
       <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
         @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="MM_Id"
         :row-class-name="data=>{return data.row.MM_IsUse ? 'enable' : 'disabled';}" draggable>
-        <el-table-column type="selection" width="35" show-overflow-tooltip>
+        <el-table-column type="selection" width="35">
         </el-table-column>
         <el-table-column type="index" width="50">
         </el-table-column>
@@ -29,11 +29,11 @@
               title="系统级菜单">*</span>
           </template>
         </el-table-column>
-        <el-table-column prop="MM_Marker" label="标识" show-overflow-tooltip width="120">
+        <el-table-column prop="MM_Marker" label="标识" width="120">
           <template slot-scope="scope">{{scope.row.MM_Marker}}
           </template>
         </el-table-column>
-        <el-table-column prop="MM_Intro" label="说明" show-overflow-tooltip>
+        <el-table-column prop="MM_Intro" label="说明">
           <template slot-scope="scope">{{scope.row.MM_Intro}}
           </template>
         </el-table-column>
@@ -53,7 +53,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" show-overflow-tooltip width="120">
+        <el-table-column label="操作" width="120">
 
           <el-button-group slot-scope="scope">
             <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.MM_Id)'>修改

@@ -41,7 +41,7 @@
                     'Posi_'+scope.row.Posi_Id,640,480)">设置成员</el-link>
                     </template>
                 </el-table-column>               
-                <el-table-column label="操作" show-overflow-tooltip width="120">
+                <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Posi_Id"></span>
                         <el-button-group v-show="loadingid!=scope.row.Posi_Id">

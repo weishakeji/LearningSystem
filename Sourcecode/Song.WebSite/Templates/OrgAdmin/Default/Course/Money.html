@@ -124,7 +124,7 @@
                         </template>
                     </template>
                 </el-table-column>
-                <el-table-column label="使用" show-overflow-tooltip width="50">
+                <el-table-column label="使用" width="50">
                     <template slot-scope="scope">
                         <template v-if="editobj.CP_ID!=scope.row.CP_ID">
                             <span class="el-icon-loading" v-show="loadingid==scope.row.CP_ID"></span>

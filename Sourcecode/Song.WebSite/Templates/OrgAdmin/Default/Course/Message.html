@@ -28,7 +28,7 @@
         <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
             @row-dblclick="modify_show" v-loading="loading" @selection-change="val=>selects=val" row-key="Msg_Id"
             cell-class-name="tdcell">
-            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            <el-table-column type="selection" width="35">
             </el-table-column>
             <el-table-column type="index" width="50" align="center">
                 <template slot-scope="scope">
@@ -61,7 +61,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" show-overflow-tooltip width="120">
+            <el-table-column label="操作" width="120">
 
                 <el-button-group slot-scope="scope">
                     <el-link type="primary" plain icon="el-icon-edit" @click='modify_show(scope.row)'>

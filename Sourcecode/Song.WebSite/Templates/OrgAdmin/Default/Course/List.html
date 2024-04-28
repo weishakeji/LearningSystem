@@ -94,14 +94,14 @@
                     <course_data ref="course_data" :course="scope.row" :show_student="true"></course_data>
                 </template>
             </el-table-column>
-            <el-table-column label="所属专业" show-overflow-tooltip>
+            <el-table-column label="所属专业">
                 <template slot-scope="scope">
                     <a :href="'/web/course/index?sbjid='+scope.row.Sbj_ID" target="_blank" underline>
                         <icon>&#xe750</icon> {{scope.row.Sbj_Name}}
                     </a>
                 </template>
             </el-table-column>
-            <el-table-column label="教师" show-overflow-tooltip width="120" class-name="teacher_td">
+            <el-table-column label="教师" width="120" class-name="teacher_td">
                 <template slot="header" slot-scope="scope">
                     <el-tooltip effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
                         <help>教师</help>

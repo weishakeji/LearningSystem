@@ -42,7 +42,7 @@
             <el-table ref="datatables"  border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Lk_Id"
                 :row-class-name="data=>{return data.row.Lk_IsUse ? 'enable' : 'disabled';}">
-                <el-table-column type="selection" width="35" show-overflow-tooltip>
+                <el-table-column type="selection" width="35">
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">
                     <template slot-scope="scope">
@@ -57,7 +57,7 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="序号" show-overflow-tooltip width="80" align="center">
+                <el-table-column label="序号" width="80" align="center">
                     <template slot="header" slot-scope="scope">
                         <el-tooltip class="item" effect="dark" content="调整顺序的数值" placement="top">
                             <span>
@@ -69,13 +69,13 @@
                         {{scope.row.Lk_Tax}}
                     </template>
                 </el-table-column>
-                <el-table-column label="链接" show-overflow-tooltip>
+                <el-table-column label="链接">
                     <template slot-scope="scope">
                         <a target="_blank" :href="scope.row.Lk_Url" underline
                             v-html="showsearch(scope.row.Lk_Url,form.link)"></a>
                     </template>
                 </el-table-column>
-                <el-table-column label="所属分类" show-overflow-tooltip width="120">
+                <el-table-column label="所属分类" width="120">
                     <template slot-scope="scope">
                         {{scope.row.Ls_Name}}
                     </template>
@@ -91,7 +91,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="操作" show-overflow-tooltip width="100" align="center" fixed="right">
+                <el-table-column label="操作" width="100" align="center" fixed="right">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-if="loadingid==scope.row.Lk_Id"></span>
                         <el-button-group v-else>
