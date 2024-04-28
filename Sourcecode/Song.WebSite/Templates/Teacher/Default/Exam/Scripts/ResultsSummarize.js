@@ -114,7 +114,6 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 40);
                 $api.get("Exam/AttendThemeAccounts", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -123,26 +122,22 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //当查看学员信息时，获取当前学员信息
             getaccount: function (row) {
+                var th = this;
                 this.accountVisible = true;
                 this.current = row;
                 $api.get('Account/ForID', { 'id': row.Ac_ID }).then(function (req) {
                     if (req.data.success) {
-                        vapp.account = req.data.result;
+                        th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //导出按钮的事件，显示导出面板
             output: function (btn) {
@@ -152,17 +147,14 @@ $ready(function () {
             getFiles: function () {
                 var th = this;
                 $api.get('Exam/ExcelFiles', { 'examid': th.examid }).then(function (req) {
-                    th.fileloading = false;
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.fileloading = false);
             },
             //生成导出文件
             toexcel: function () {

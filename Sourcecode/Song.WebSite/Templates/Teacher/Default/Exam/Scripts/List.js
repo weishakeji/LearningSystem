@@ -103,14 +103,12 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             this.handleCurrentChange();
@@ -131,7 +129,6 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 49);
                 $api.post('Exam/ThemeAdminPager', this.form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
@@ -146,7 +143,7 @@ $ready(function () {
                 }).catch(function (err) {
                     loading.close();
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //表格行点击事件
             clickTable: function (row, index, e) {
@@ -158,7 +155,7 @@ $ready(function () {
                 var th = this;
                 this.loadingid = row.Exam_ID;
                 $api.post('Exam/ModifyState', { 'id': row.Exam_ID, 'use': row.Exam_IsUse }).then(function (req) {
-                    th.loadingid = -1;
+
                     if (req.data.success) {
                         th.$message({
                             type: 'success',
@@ -168,18 +165,16 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = -1;
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loadingid = -1;
-                });
+                    alert(err, '错误');
+                    console.error(err);
+                }).finally(() => th.loadingid = -1);
             },
             //删除考试主题
             deleteExam: function (row) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Exam/ThemeDelete', { 'id': row.Exam_ID }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -193,10 +188,9 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         },
         components: {
@@ -217,10 +211,8 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
                 },
                 template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
             },
@@ -252,10 +244,7 @@ $ready(function () {
                                 console.error(req.data.exception);
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            //alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err));
                     }
                 },
                 created: function () {
@@ -301,7 +290,7 @@ $ready(function () {
                                 }
                                 th.examlist = result;
                                 for (let i = 0; i < th.examlist.length; i++) {
-                                    th.getexaminfo(th.examlist[i], i);                                   
+                                    th.getexaminfo(th.examlist[i], i);
                                 }
                             } else {
                                 console.error(req.data.exception);
@@ -322,9 +311,7 @@ $ready(function () {
                             exam.number = num.data.result.number;
                             exam.manual = manual.data.result.number;
                             th.$set(th.examlist, index, exam);
-                        })).catch(function (err) {
-                            console.error(err);
-                        });
+                        })).catch(err => console.error(err));
                     }
                 },
                 created: function () {

@@ -44,7 +44,6 @@ $ready(function () {
                 if (code != this.code) return callback(false);
                 var th = this;
                 await $api.get('Sso/ForAPPID', { 'appid': th.appid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.interface = req.data.result;
                         if (!(JSON.stringify(th.interface) != '{}' && th.interface != null)) return callback(false);
@@ -55,10 +54,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
 
             },
             //获取来源页域名
@@ -79,14 +76,12 @@ $ready(function () {
                 th.loading = true;
                 $api.post('Sso/Login', { 'appid': th.appid, 'user': th.user, 'name': th.name, 'sort': th.sort })
                     .then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             //登录成功
                             var result = req.data.result;
-                            $api.login.in('account', result.Ac_Pw, result.Ac_ID);                        
+                            $api.login.in('account', result.Ac_Pw, result.Ac_ID);
                             //跳转到指定页面
                             window.setTimeout(function () {
-                                th.loading = false;
                                 var gourl = th.goto == '' ? '/' : th.goto;
                                 window.location.href = gourl;
                             }, 500);
@@ -97,9 +92,8 @@ $ready(function () {
                     }).catch(err => {
                         if (err.indexOf(' ') > -1) err = err.substring(err.indexOf(' '));
                         th.error = err;
-                        th.loading = false;
                         console.error(err);
-                    });
+                    }).finally(() => th.loading = false);
             }
         }
     });

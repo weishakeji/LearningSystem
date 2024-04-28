@@ -45,8 +45,7 @@ Vue.component('exam_items', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                //alert(err);
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },

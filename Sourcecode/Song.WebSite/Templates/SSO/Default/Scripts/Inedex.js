@@ -35,10 +35,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
         },
         created: function () {
@@ -70,7 +68,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get('Pay/ForID', { 'id': this.params.paiid }).then(function (req) {
-                    th.loading = false;
+
                     if (req.data.success) {
                         th.interface = req.data.result;
                         if (th.ifexist) {
@@ -81,27 +79,23 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //创建资金流水
             createMoneyAccount: function () {
                 var th = this;
-                th.loading_income = true;             
-                $api.post('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface }).then(function (req) {
-                    th.loading_income = false;
-                    if (req.data.success) {
-                        th.moneyaccount = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading_income = false;
-                    console.error(err);
-                });
+                th.loading_income = true;
+                $api.post('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.moneyaccount = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading_income = false);
             }
         }
     });

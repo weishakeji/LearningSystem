@@ -29,7 +29,6 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
@@ -37,10 +36,8 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
 
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -60,7 +57,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 57);
                 th.loading = true;
                 $api.get("Message/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -69,19 +65,17 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
                 $api.delete('Message/DeleteBatch', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -91,17 +85,14 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //更改状态
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Msg_Id;
                 $api.post('Message/Modify', { 'entity': row }).then(function (req) {
-                    this.loadingid = -1;
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',
@@ -111,11 +102,10 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                    console.error(err);
+                }).finally(() => th.loadingid = 0);
             },
             //打开编辑面板
             modify_show: function (row) {
@@ -148,8 +138,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

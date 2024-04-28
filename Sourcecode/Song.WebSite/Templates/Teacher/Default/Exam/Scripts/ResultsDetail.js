@@ -129,7 +129,6 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 42);
                 $api.get("Exam/Result4Exam", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.results = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -138,10 +137,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //计算考试用时
             calcSpan: function (item) {
@@ -160,16 +157,12 @@ $ready(function () {
                 $api.get('Exam/ClacScore', { 'exrid': exrid }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.loadingid = 0;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //删除
             deleteData: function (datas) {
@@ -187,10 +180,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //清空
             clear: function () {
@@ -218,10 +208,7 @@ $ready(function () {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err));
 
                     }).catch(() => { });
                 }).catch(() => { });
@@ -260,18 +247,16 @@ $ready(function () {
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {
-                    th.fileloading = false;
+                th.fileloading = true;
+                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {                   
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.fileloading = false);
             },
             //生成导出文件
             toexcel: function () {

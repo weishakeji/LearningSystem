@@ -48,7 +48,6 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Teacher/Current')
             ).then(axios.spread(function (org, teach) {
-                th.loading_init = false;
                 //获取结果              
                 th.organ = org.data.result;
                 th.teacher = teach.data.result;
@@ -58,11 +57,8 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange(1);
 
-            })).catch(function (err) {
-                th.loading_init = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         computed: {
             //是否登录
@@ -101,7 +97,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 162);
                 th.loading = true;
                 $api.get("Course/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         for (var i = 0; i < d.data.result.length; i++) {
                             d.data.result[i].isAdminPosi = false;
@@ -114,16 +109,14 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //刷新单一课程
             freshrow: function (id) {
                 var th = this;
                 th.loadingid = id;
                 $api.get('Course/ForID', { 'id': id }).then(function (req) {
-                    th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         var index = th.datas.findIndex(item => {
@@ -138,11 +131,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             },
             //更改状态
             changeState: function (row) {
@@ -199,10 +189,9 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.delete('Course/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
@@ -212,10 +201,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //打开编辑界面
             btnmodify: function (id) {
@@ -269,10 +256,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //获取进度
             batch2excelProgress: function () {
@@ -296,10 +281,7 @@ $ready(function () {
                             //console.error(req.data.exception);
                             //throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 }
             }
         }

@@ -123,16 +123,14 @@
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.handleCurrentChange();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         methods: {
             //加载数据页
@@ -144,7 +142,6 @@
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 49);
                 $api.get('Exam/ThemeAdminPager', this.form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         window.vue.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
@@ -153,13 +150,11 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //查看综合成绩
-            btnResultSummarize: function (theme) {               
+            btnResultSummarize: function (theme) {
                 var file = 'ResultsSummarize';
                 var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
                 var title = ' 综述 - “' + theme.Exam_Title + "”";
@@ -190,10 +185,7 @@
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 },
                 template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
             },
@@ -214,10 +206,7 @@
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 },
                 template: '<div class="groups" :title="msg">{{msg}}</div>'
             },
@@ -253,18 +242,13 @@
                                             th.examlist[n].manual = manual.data.result.manual;
                                         }
                                     }
-                                })).catch(function (err) {
-                                    console.error(err);
-                                });
+                                })).catch(err => console.error(err));
                             }
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 },
                 methods: {
                     //查看当前考试的成绩列表

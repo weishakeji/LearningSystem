@@ -92,11 +92,11 @@
             },
             //学员名字的脱敏
             desensitizeName: function (name) {
-                return name.length > 1 ? name.substr(0, 1) + '*'.repeat(name.length - 1) : name;               
+                return name.length > 1 ? name.substr(0, 1) + '*'.repeat(name.length - 1) : name;
             },
             //电话的脱敏
             desensitizePhone: function (phone) {
-                return phone.replace(/^(\d{3})\d+(\d{1})$/, '$1*******$2');             
+                return phone.replace(/^(\d{3})\d+(\d{1})$/, '$1*******$2');
             },
             //设置为当前学员
             setCurrent: function (row, column, event) {
@@ -239,9 +239,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(function () {
-                    th.loading_up = false;
-                });
+                }).finally(() => th.loading_up = false);
             },
             outputxml: function (obj) {
                 var type = $api.getType(obj);

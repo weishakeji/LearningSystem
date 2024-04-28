@@ -29,16 +29,14 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (org) {
-                th.loading_init = false;
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 th.form.orgid = th.org.Org_ID;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -59,7 +57,6 @@ $ready(function () {
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.get("TestPaper/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
                         th.datas = result;
@@ -72,10 +69,9 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
-                    th.loading = false;
+                    alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除
             deleteData: function (datas) {
@@ -83,7 +79,6 @@ $ready(function () {
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.delete('TestPaper/Delete', { 'id': datas }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -102,7 +97,7 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -114,9 +109,9 @@ $ready(function () {
                 var th = this;
                 this.loadingid = row.Tp_Id;
                 $api.post('TestPaper/ModifyState', { 'id': row.Tp_Id, 'use': row.Tp_IsUse, 'rec': row.Tp_IsRec }).then(function (req) {
-                    this.loadingid = -1;
+
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -124,11 +119,10 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
+
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //批量修改状态
             batchState: function (use) {
@@ -165,15 +159,15 @@ $ready(function () {
                 }).catch(() => {
 
                 });
-            },            
+            },
             btnadd: function (btn, ctr) {
                 let couid = $api.querystring('id');
                 var url = $api.url.set(ctr.path, 'couid', couid);
                 console.log(url);
                 ctr.add(url);
             },
-             //查看成绩
-             viewResults: function (row) {
+            //查看成绩
+            viewResults: function (row) {
                 var url = $api.url.set('/orgadmin/TestPaper/Results', 'tpid', row.Tp_Id);
                 this.$refs.btngroup.pagebox(url, '《' + row.Tp_Name + '》的成绩', null, 800, 600, { 'ico': 'e696' });
             }

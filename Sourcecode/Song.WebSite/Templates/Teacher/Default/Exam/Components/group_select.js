@@ -49,8 +49,7 @@ Vue.component('group_select', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                //alert(err);
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },
@@ -63,16 +62,12 @@ Vue.component('group_select', {
                     var result = req.data.result;
                     for (var i = 0; i < result.length; i++)
                         th.selectedSorts.push(result[i].Sts_ID);
-                    th.completed--;                  
+                    th.completed--;
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                //Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err));
         },
         //选中的对象
         selectedObj: function (val) {

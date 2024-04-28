@@ -15,7 +15,7 @@ Vue.component('course_prices', {
         }
     },
     computed: {},
-    mounted: function () { 
+    mounted: function () {
         $dom.load.css([$dom.path() + 'Course/Components/Styles/course_prices.css']);
     },
     methods: {
@@ -24,7 +24,6 @@ Vue.component('course_prices', {
             var th = this;
             th.loading = true;
             $api.get('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.prices = req.data.result;
                     cou.prices = req.data.result;
@@ -32,9 +31,8 @@ Vue.component('course_prices', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //显示所有价格信息
         showdetail: function () {

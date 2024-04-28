@@ -23,7 +23,6 @@ Vue.component('course_data', {
             var th = this;
             th.loading = true;
             $api.get('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.data = req.data.result;
                     th.course.data = req.data.result;
@@ -31,9 +30,8 @@ Vue.component('course_data', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //显示数值，过大的以千为单位显示,例如 10k
         shownum: function (num) {
@@ -59,7 +57,7 @@ Vue.component('course_data', {
                 height: '80%',
                 url: url + '?id=' + this.course.Cou_ID,
                 ico: node && node.MM_IcoCode != '' ? node.MM_IcoCode : 'e67d',
-                showmask:true,min:false,
+                showmask: true, min: false,
                 pid: window.name,
                 title: tit + '《' + this.course.Cou_Name + '》' + '的学员学习记录'
             };

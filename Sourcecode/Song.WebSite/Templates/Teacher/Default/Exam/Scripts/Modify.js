@@ -63,7 +63,6 @@ $ready(function () {
             console.log(this.entity);
             var th = this;
             $api.get('Organization/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.organ = req.data.result;
                     th.getTheme();
@@ -72,10 +71,8 @@ $ready(function () {
                     throw req.data.message;
                 }
 
-            }).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         mounted: function () {
 
@@ -138,8 +135,7 @@ $ready(function () {
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            //alert(err);
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
                         });
                     } else {
