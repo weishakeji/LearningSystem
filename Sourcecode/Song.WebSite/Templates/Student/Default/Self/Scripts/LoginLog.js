@@ -46,7 +46,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 47);
                 th.loading = true;
                 $api.get("Account/LoginLogs", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -56,9 +55,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //显浏览时间
             timeclac: function (second) {

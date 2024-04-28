@@ -27,7 +27,6 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 if (th.account && !!th.account.Ac_ID) {
@@ -38,9 +37,8 @@ $ready(function () {
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -65,7 +63,6 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 100;
                 th.query.size = Math.floor(area / 213);
                 $api.get("Course/ForStudent", query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         th.courses = req.data.result;
@@ -75,10 +72,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //选择要打印的课程
             select: function (cour) {

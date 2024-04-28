@@ -5,11 +5,11 @@ $ready(function () {
         data: {
             account: {}, //当前登录账号对象
             accPingyin: [],  //账号名称的拼音
-            rules: {                
+            rules: {
                 Ac_Name: [
                     //{ required: true, message: '姓名不得为空', trigger: 'blur' },
                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
-                    { validator: validate.name.danger, trigger: 'change' }, 
+                    { validator: validate.name.danger, trigger: 'change' },
                 ]
             },
             loading: false,
@@ -18,7 +18,7 @@ $ready(function () {
         mounted: function () {
             this.getAccount(null);
         },
-        created: function () {},
+        created: function () { },
         computed: {
             //是否登录
             islogin: function () {
@@ -33,7 +33,6 @@ $ready(function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.account = req.data.result;
                         if (func != null) func(th.account);
@@ -41,10 +40,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             //名称转拼音
             pingyin: function () {
@@ -56,11 +53,10 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var obj = th.remove_redundance(th.account);                       
+                        var obj = th.remove_redundance(th.account);
                         th.loading = true;
                         var apipath = 'Account/ModifyJson';
                         $api.post(apipath, { 'acc': obj }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -75,9 +71,9 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                            alert(err, '错误');
+                            console.error(err);
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -103,7 +99,7 @@ $ready(function () {
                             break;
                         }
                     }
-                    if(!exist)delete obj[att];
+                    if (!exist) delete obj[att];
                 }
                 return obj;
             }

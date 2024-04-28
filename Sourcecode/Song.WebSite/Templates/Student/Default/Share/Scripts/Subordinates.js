@@ -22,7 +22,6 @@ $ready(function () {
             var th = this;
             th.loading_init = true;
             $api.get('Account/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.getCount();
@@ -32,10 +31,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -55,7 +52,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 46);
                 th.loading = true;
                 $api.get("Share/FriendPager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -65,9 +61,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取下级学员的数量
             getCount: function () {
@@ -78,14 +73,11 @@ $ready(function () {
                     $api.get('Share/FriendAll', { 'acid': acid }),
                     $api.get("Share/Friends", { 'acid': acid })
                 ).then(axios.spread(function (friendAll, friends) {
-                    th.lading_count = false;
                     //获取结果
                     th.friendAll = friendAll.data.result;
                     th.friends = friends.data.result;
-                })).catch(function (err) {
-                    th.lading_count = false;
-                    console.error(err);
-                });
+                })).catch(err => console.error(err))
+                    .finally(() => th.lading_count = false);
             }
         }
     });

@@ -18,7 +18,6 @@ $ready(function () {
             var th = this;
             th.loading_init = true;
             $api.get('Account/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.form.acid = th.account.Ac_ID;
@@ -27,10 +26,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -54,7 +51,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 47);
                 th.loading = true;
                 $api.get("Point/PagerForAccount", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -64,9 +60,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
         }
     });

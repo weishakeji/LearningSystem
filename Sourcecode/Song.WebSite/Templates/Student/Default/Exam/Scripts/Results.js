@@ -22,7 +22,6 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, organ) {
-                th.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.form.acid = th.account.Ac_ID;
@@ -30,10 +29,8 @@ $ready(function () {
                 th.handleCurrentChange(1);
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -57,7 +54,6 @@ $ready(function () {
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.get("Exam/Result4Student", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.results = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -73,9 +69,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //查看成绩
             review: function (result) {
@@ -121,6 +116,7 @@ $ready(function () {
             //获取详情
             getDatas: function () {
                 var th = this;
+                th.loading = true;
                 //获取“试卷详情”
                 $api.bat(
                     $api.cache('Exam/ForID', { 'id': this.result.Exam_ID }),
@@ -131,9 +127,8 @@ $ready(function () {
                     th.exam = exam.data.result;
                     th.paper = paper.data.result;
                     th.subject = subject.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //得分样式
             scoreStyle: function (score) {

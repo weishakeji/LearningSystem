@@ -50,18 +50,14 @@ $ready(function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             btnEnter: function (formName) {
                 var th = this;
@@ -69,9 +65,8 @@ $ready(function () {
                     if (valid) {
                         th.loading = true;
                         $api.post('Account/ModifyPassword',
-                            { 'oldpw': vapp.formpw.oldpw, 'newpw': vapp.formpw.newpw })
+                            { 'oldpw': th.formpw.oldpw, 'newpw': th.formpw.newpw })
                             .then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.getAccount();
@@ -89,7 +84,7 @@ $ready(function () {
                                 }
                             }).catch(function (err) {
                                 alert(err, '错误');
-                            });
+                            }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

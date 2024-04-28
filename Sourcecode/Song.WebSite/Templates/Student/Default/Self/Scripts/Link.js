@@ -20,8 +20,8 @@ $ready(function () {
         watch: {
         },
         methods: {
-             //获取当前登录账号
-             getAccount: function () {
+            //获取当前登录账号
+            getAccount: function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
@@ -32,21 +32,18 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
-                        var obj = th.remove_redundance(th.account);      
+                        var obj = th.remove_redundance(th.account);
                         var apipath = 'Account/ModifyJson';
                         $api.post(apipath, { 'acc': obj }).then(function (req) {
-                            th.loading = false;
+
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.getAccount();
@@ -54,14 +51,12 @@ $ready(function () {
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
-                                });                               
+                                });
                             } else {
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
-                        });
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -84,7 +79,7 @@ $ready(function () {
                             break;
                         }
                     }
-                    if(!exist)delete obj[att];
+                    if (!exist) delete obj[att];
                 }
                 return obj;
             }

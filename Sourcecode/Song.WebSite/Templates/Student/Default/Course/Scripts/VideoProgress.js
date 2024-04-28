@@ -22,19 +22,15 @@ $ready(function () {
             });
             th.loading_init = true;
             $api.cache('Outline/TreeList', { 'couid': th.couid }).then(function (req) {
-                th.loading_init = false;
-                if (req.data.success) {                   
+                if (req.data.success) {
                     th.outlines = req.data.result;
-                    console.log(th.outlines);                 
+                    console.log(th.outlines);
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading_init = false;
-                //Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -47,7 +43,7 @@ $ready(function () {
         },
         watch: {
         },
-        methods: {            
+        methods: {
             //获取当前学员
             getAccount: async function () {
                 var th = this;
@@ -71,7 +67,6 @@ $ready(function () {
                 th.loading = true;
                 var acid = th.account.Ac_ID;
                 $api.cache('Course/LogForOutlineVideo:10', { 'stid': acid, 'couid': th.couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;
                         th.$message({
@@ -85,11 +80,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         }
     });

@@ -87,15 +87,13 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.get('Point/Param')
             ).then(axios.spread(function (account, param) {
-                th.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.form.acid = th.account.Ac_ID;
                 th.handleCurrentChange();
                 th.param = param.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -110,20 +108,19 @@ $ready(function () {
             }
         },
         methods: {
-             //获取当前登录账号
-             getAccount: function () {
-                var th=this;
+            //获取当前登录账号
+            getAccount: function () {
+                var th = this;
                 $api.post('Account/Current').then(function (req) {
                     if (req.data.success) {
-                        th.account  = req.data.result;                       
+                        th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
                     console.error(err);
-                    th.$toast.success(err);                   
-                   
+                    th.$toast.success(err);
                 });
             },
             //加载数据页
@@ -145,9 +142,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //使用充值卡
             useCard: function (formName) {
@@ -173,10 +169,9 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading_up = false;
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loading_up = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -191,7 +186,7 @@ $ready(function () {
                 return result;
             },
             //兑换卡券的按钮事件
-            exchange:function(formName){
+            exchange: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -218,10 +213,8 @@ $ready(function () {
                                 console.error(req.data.exception);
                                 throw req.data.message;
                             }
-                        }).catch(function (err) {
-                            th.loading_up = false;
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading_up = false);
                     } else {
                         console.log('error submit!!');
                         return false;

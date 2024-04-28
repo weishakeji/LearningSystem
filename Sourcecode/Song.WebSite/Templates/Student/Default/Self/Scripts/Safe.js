@@ -27,18 +27,15 @@ $ready(function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
-                    if (req.data.success) {
+                     if (req.data.success) {
                         th.account = req.data.result;
                         if (func != null) func(th.account);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             //打开弹窗
             openbox: function (url, title, icon, width, height) {

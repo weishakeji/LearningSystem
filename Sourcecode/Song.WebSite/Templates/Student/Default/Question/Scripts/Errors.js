@@ -24,15 +24,14 @@ $ready(function () {
             ).then(axios.spread(function (account, organ) {
                 th.loading_init = false;
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.organ = organ.data.result;
                 th.form.acid = th.account.Ac_ID;
                 th.handleCurrentChange(1);
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.config = $api.organ(th.organ).config;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -55,7 +54,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 142);
                 th.loading = true;
                 $api.get("Question/ErrorCourse", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.courses = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -65,9 +63,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //清除所有错题记录
             clearErrors: function (couid) {
@@ -75,7 +72,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.delete('Question/ErrorClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.$message({
                             message: '清除成功，自动刷新数据',
@@ -86,10 +82,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //打开错题详情的页面
             viewDetail: function (cour) {
@@ -137,7 +131,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.cache('Question/ErrorQues', { 'acid': th.acid, 'couid': th.couid, 'type': -1 }).then(function (req) {
-                    th.loading = false;
+
                     if (req.data.success) {
                         th.questions = req.data.result;
                         th.count = th.questions ? th.questions.length : 0;
@@ -145,10 +139,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         template: "<slot :count='count' v-if='!loading'></slot>"

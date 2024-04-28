@@ -25,25 +25,21 @@ $ready(function () {
         watch: {
         },
         methods: {
-             //获取当前登录账号
-             getAccount: function () {
+            //获取当前登录账号
+            getAccount: function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
-            
+
             //修改安全问题
             btnEnterQues: function (formName) {
                 var th = this;
@@ -53,10 +49,9 @@ $ready(function () {
                         var obj = th.remove_redundance(th.account, formName);
                         $api.post('Account/ModifyJson', { 'acc': obj })
                             .then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
-                                    vapp.$message({
+                                    th.$message({
                                         type: 'success',
                                         message: '修改成功!'
                                     });
@@ -69,8 +64,8 @@ $ready(function () {
                                     throw req.data.message;
                                 }
                             }).catch(function (err) {
-                                vapp.$alert(err, '错误');
-                            });
+                                alert(err, '错误');
+                            }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

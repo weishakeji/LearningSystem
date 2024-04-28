@@ -26,21 +26,21 @@ $ready(function () {
             }
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': this.couid })
             ).then(axios.spread(function (account, types, course) {
-                vapp.loading_init = false;
-                vapp.account = account.data.result;
-                $state.setaccid(vapp.account.Ac_ID);
-                vapp.types = types.data.result;
-                vapp.course = course.data.result;
-                vapp.getQuestion(false);
+                th.account = account.data.result;
+                $state.setaccid(th.account.Ac_ID);
+                th.types = types.data.result;
+                th.course = course.data.result;
+                th.getQuestion(false);
             })).catch(function (err) {
-                vapp.error = err;
+                th.error = err;
                 console.error(err);
-            });
+            }).finally(() => th.loading_init = false);
 
         },
         created: function () {
@@ -91,13 +91,13 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.questions = $state.restore(result);
-                        vapp.$nextTick(function () {
+                        th.questions = $state.restore(result);
+                        th.$nextTick(function () {
                             var last = $state.last();
                             if (last != null)
-                                vapp.swipeIndex = last.index;
+                                th.swipeIndex = last.index;
                         });
-                        if (vapp.questions.length > 0)
+                        if (th.questions.length > 0)
                             th.$message({
                                 message: '试题加载完成',
                                 type: 'success',
@@ -112,7 +112,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.error = err;
+                    th.error = err;
                     console.error(err);
                 });
             },
@@ -159,7 +159,7 @@ $ready(function () {
                 var th = this;
                 if (this.swipeIndex > 0)
                     this.swipeIndex--;
-                $api.get('Question/ErrorDelete', { 'acid': vapp.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
+                $api.get('Question/ErrorDelete', { 'acid': th.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -182,7 +182,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.delete('Question/ErrorClear', { 'acid': acid, 'couid': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.$message({
                             message: '清除成功，关闭窗口',
@@ -193,10 +192,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //操作成功
             operateSuccess: function () {

@@ -66,10 +66,8 @@ Vue.component('quesbuttons', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         //笔记的状态，及内容
         noteState: function () {
@@ -86,9 +84,8 @@ Vue.component('quesbuttons', {
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
         },
         //设置收藏
         addcollect: function (btn) {
@@ -106,9 +103,7 @@ Vue.component('quesbuttons', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             } else {
                 //删除收藏
                 var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
@@ -123,9 +118,7 @@ Vue.component('quesbuttons', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
             console.log(btn);
         },

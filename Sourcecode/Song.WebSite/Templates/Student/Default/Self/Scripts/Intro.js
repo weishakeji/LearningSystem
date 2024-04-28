@@ -24,18 +24,14 @@ $ready(function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.account = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             btnEnter: function (formName) {
                 var th = this;
@@ -43,7 +39,6 @@ $ready(function () {
                 var obj = th.remove_redundance(th.account);
                 var apipath = 'Account/ModifyJson';
                 $api.post(apipath, { 'acc': obj }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getAccount();
@@ -55,10 +50,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //window.top.ELEMENT.MessageBox(err, '错误');
-                    th.$alert(err, '错误');
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //清理冗余的属性，仅保持当前form表单的属性，未在表单中的不提交到服务器
             remove_redundance: function (obj) {

@@ -10,7 +10,7 @@ Vue.component('question', {
         'ques': {
             handler(nv, ov) {
                 //将试题对象中的Qus_Items，解析为json
-                this.ques =  window.ques.parseAnswer(nv);
+                this.ques = window.ques.parseAnswer(nv);
                 //记录答题状态
                 if (!this.ques.state) {
                     this.ques['state'] = {
@@ -72,10 +72,7 @@ Vue.component('question', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         },
         //单选题的解答

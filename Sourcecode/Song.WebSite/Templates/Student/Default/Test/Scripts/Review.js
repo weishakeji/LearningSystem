@@ -43,7 +43,6 @@ $ready(function () {
                 $api.cache('TestPaper/ForID', { 'id': this.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': this.trid }),
             ).then(axios.spread(function (account, plat, org, types, paper, result) {
-                th.loading = false;
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = plat.data.result;
@@ -55,10 +54,9 @@ $ready(function () {
                 th.exrxml = $api.loadxml(th.result.Tr_Results);
 
             })).catch(function (err) {
-                th.loading = false;
                 console.error(err);
-                th.$alert(err);
-            });
+                alert(err);
+            }).finally(() => th.loading = false);
         },
         created: function () {
 

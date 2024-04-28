@@ -32,10 +32,8 @@ Vue.component('course_data', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => { });
         }
     },
     //

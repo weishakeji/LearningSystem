@@ -39,7 +39,7 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => { });
             })).catch(function (err) {
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);
             //获取课程

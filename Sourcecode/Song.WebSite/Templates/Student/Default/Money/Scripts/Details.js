@@ -34,7 +34,6 @@ $ready(function () {
             var th = this;
             th.loading_init = true;
             $api.get('Account/Current').then(function (req) {
-                th.loading_init = false;
                 if (req.data.success) {
                     th.account = req.data.result;
                     th.form.acid = th.account.Ac_ID;
@@ -43,10 +42,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -74,10 +71,7 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        //Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 }
                 console.log(nv);
             }
@@ -92,13 +86,12 @@ $ready(function () {
                 th.form.size = Math.floor(area / 49);
                 th.loading = true;
                 $api.get("Money/PagerForAccount", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                         //刷新当前查看的对象，右侧详情
-                        if (th.detail && th.detail.Ma_Serial) {                          
+                        if (th.detail && th.detail.Ma_Serial) {
                             var detail = th.datas.find(d => d.Ma_Serial == th.detail.Ma_Serial);
                             if (detail != null) th.detail = detail;
                         }
@@ -106,9 +99,8 @@ $ready(function () {
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //查询订单
             queryOrder: function (detail) {

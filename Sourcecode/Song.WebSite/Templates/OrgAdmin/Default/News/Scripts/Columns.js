@@ -42,7 +42,6 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                th.loading_init = false;
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息

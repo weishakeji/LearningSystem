@@ -44,7 +44,7 @@ Vue.component('video_progress', {
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                console.log(result);
+                                //console.log(result);
                                 th.purchase.Stc_StudyScore = result;
                                 //触发更新事件
                                 th.$emit('record', result, th.purchase);
@@ -53,11 +53,8 @@ Vue.component('video_progress', {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            //alert(err);
-                            //Vue.prototype.$alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err))
+                        .finally(() => { });
                 }
                 //console.log(nv);
             }, immediate: true, deep: true
@@ -90,8 +87,7 @@ Vue.component('video_progress', {
             var th = this;
             th.loading = true;
             $api.cache('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
-                .then(function (req) {
-                    th.loading = false;
+                .then(function (req) {                   
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result != null && result.length > 0) {
@@ -110,11 +106,8 @@ Vue.component('video_progress', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    //th.percent = 60;
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //是否完成
         finished: function (percentage) {

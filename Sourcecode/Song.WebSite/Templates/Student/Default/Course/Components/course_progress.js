@@ -47,14 +47,13 @@ Vue.component('course_progress', {
             th.loading = true;
             $api.cache('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
                 .then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result != null && result.length > 0) {
                             th.data = result[0];
                             th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            console.log(th.data);
+                            //console.log(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;
@@ -64,11 +63,8 @@ Vue.component('course_progress', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function(){
-                    
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //是否完成
         finished: function (percentage) {

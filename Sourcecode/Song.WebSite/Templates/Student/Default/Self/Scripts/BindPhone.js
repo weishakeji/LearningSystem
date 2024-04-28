@@ -55,16 +55,14 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading = false;
                 //获取结果
                 th.account = account.data.result;
                 if (th.account) th.form.phone = th.account.Ac_MobiTel1;
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
 
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 
@@ -155,7 +153,7 @@ $ready(function () {
                 console.log(obj.second);
             },
             //绑定
-            phonebind: function (formName) {               
+            phonebind: function (formName) {
                 this.$refs[formName].validateField(['sms'], (valid, v) => {
                     if (!valid) {
                         var th = this;
@@ -164,7 +162,7 @@ $ready(function () {
                             if (req.data.success) {
                                 th.account = req.data.result;
                                 window.setTimeout(function () {
-                                  th.operateSuccess();
+                                    th.operateSuccess();
                                 }, 300);
                             } else {
                                 console.error(req.data.exception);
@@ -181,7 +179,7 @@ $ready(function () {
                 });
             },
             //操作成功
-            operateSuccess: function () {               
+            operateSuccess: function () {
                 window.top.vapp.shut(window.name, 'vapp.fresh');
             }
         }

@@ -54,26 +54,21 @@ $ready(function () {
                 th.exrxml = $api.loadxml(th.result.Exr_Results);
                 //console.log('答题信息：');
                 //console.log(th.exrxml);
+                th.loading = true;
                 $api.bat(
                     $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
                     $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
                 ).then(axios.spread(function (student, paper) {
-                    th.loading = false;
                     //获取结果
                     th.student = student.data.result;
                     th.paper = paper.data.result;
-                })).catch(function (err) {
-                    th.loading = false;
-                    alert(err);
-                    console.error(err);
-                });
-
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             })).catch(function (err) {
-                th.loading = false;
                 th.error = err;
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         created: function () {
 
@@ -101,7 +96,7 @@ $ready(function () {
                         let ans = q.attr('ans');
                         //如果是简答题，答题内容与节点文本
                         if (type == 4 || type == 5) ans = q.text();
-                        let num = Number(q.attr('num'));                    
+                        let num = Number(q.attr('num'));
                         let sucess = q.attr('sucess') == 'true';
                         let score = Number(q.attr('score'));
                         qarr.push({
