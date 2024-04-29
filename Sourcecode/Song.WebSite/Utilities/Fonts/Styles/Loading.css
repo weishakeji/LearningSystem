@@ -20,6 +20,9 @@ textarea {
     overflow: hidden;
     margin-bottom: 20px;
 }
+loading{
+    margin: 0px 10px;
+}
 *[loading]{
     margin: 10px 30px 10px 0px;   
 }

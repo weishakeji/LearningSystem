@@ -253,7 +253,7 @@ Vue.component('editor', {
     },
 
     template: `<div class="editor" :ctrid="id" :model="model">
-        <loading bubble v-if="load"></loading>
+        <loading dot v-if="load"></loading>
         <div v-show="!load">
             <div :id="ctrid"></div>
         </div>

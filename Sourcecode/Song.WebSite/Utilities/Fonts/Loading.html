@@ -12,22 +12,28 @@
     <p>
         在网页中引用“/Utilities/Fonts/icon.css”，即可使用预载图标，默认在/templates/文件夹下的模板文件中，都已经引用该css文件，可以直接采用下述方法使用。
     </p>
-    <p>显示 <loading></loading>，采用如下代码：</p>
+    <p>默认效果 <loading></loading>，采用如下代码：</p>
     <textarea><loading></loading></textarea>
-    <p>显示 <loading>正在加载中...</loading>，（在预载图标后面增加说明文字），代码如下：</p>
+    <p>带提示信息 <loading>正在加载中...</loading>，在预载图标后面增加说明文字</p>
     <textarea><loading>正在加载中...</loading></textarea>
+
+    <p>带省略号 <loading dot></loading>，显示默认的提示信息</p>
+    <textarea><loading dot></loading></textarea>
+  
 
     <p>更多样式</p>
     <div>
-        <loading fish>...</loading>
+        <loading asterisk>loading ...</loading> 
+        <loading fish>预载中...</loading> 
         <loading bubble></loading>
-        <loading fresh></loading>
+        <loading fresh>正在刷新...</loading>
         <loading star></loading>
     </div>
     <textarea rows="5">
-<loading fish>...</loading>   
-<loading bubble></loading>  
-<loading fresh></loading>    
+<loading asterisk>loading ...</loading>
+<loading fish>预载中...</loading>
+<loading bubble></loading>
+<loading fresh>正在刷新...</loading>
 <loading star></loading>
     </textarea>
     <h1>预载的大图标</h1>

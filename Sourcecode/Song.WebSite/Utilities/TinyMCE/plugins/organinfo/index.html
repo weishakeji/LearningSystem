@@ -16,7 +16,7 @@
 
 <body>
     <div id="vapp" :editorid="editorid">
-        <loading bubble v-if="loading"></loading>
+        <loading v-if="loading"></loading>
         <template>
             <div title="平台名称" icon="&#xa020" v-html="organ.Org_PlatformName"></div>
             <div title="电话" icon="&#xe66c" v-html="organ.Org_Phone"></div>

@@ -20,16 +20,18 @@
 */
 icon {
     font-family: "webdesk_icon";
-   
+
     display: inline-block;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
 }
-    icon:not([icon]) {
-        margin-right: 5px;
-    }
+
+icon:not([icon]) {
+    margin-right: 5px;
+}
+
 /*  图标引用方式三，指定特定图标，用于统一的图标设定
 	课程图标 示例：<icon course></icon>
 */
@@ -173,28 +175,34 @@ icon[delete]::before {
 icon[delete] {
     cursor: pointer;
 }
-    icon[qq]::before {
-        content: '\e82a';
-    }
+
+icon[qq]::before {
+    content: '\e82a';
+}
+
 /*帮助、提示*/
 help, alert {
     color: #999;
     font-size: 13px;
     cursor: default;
-    
+
 }
-help *, alert *{
+
+help *, alert * {
     font-size: 13px;
 }
+
 help::before, alert::before {
     font-family: "webdesk_icon" !important;
     display: inline-block;
     margin-right: 8px;
     font-size: 16px;
 }
+
 help[large]::before, alert[large]::before {
     font-size: 25px;
 }
+
 /*多行帮助信息*/
 help[multi], alert[multi] {
     position: relative;
@@ -210,16 +218,20 @@ help[multi]::before, alert[multi]::before {
     left: 0px;
     top: 3px;
 }
+
 /*样式*/
 alert[margin] {
     margin: 15px;
 }
+
 alert[large] {
     font-size: 18px;
 }
+
 alert {
     color: #F56C6C;
 }
+
 help::before {
     content: "\a026";
 }
@@ -230,30 +242,26 @@ alert::before {
 
 /*预载*/
 loading {
-    color: #666;
+    color: #999;
     font-size: 13px;
 }
 
 loading::before {
     font-family: "webdesk_icon" !important;
+    content: "/";
     display: inline-block;
     font-size: 20px;
     margin-right: 10px;
     animation: rotate_360 0.6s infinite linear;
 }
 
-loading[dot]::after {
-    font-family: "webdesk_icon" !important;
-    display: inline-block;
-    content: "\e838";
-    font-size: 16px;
-    margin-left: 5px;
-    line-height: 30px;
-    background-image: -webkit-linear-gradient(left, #333, #fff);
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: loading_after 0.6s infinite linear;
+loading[dot]::after {    
+    display: inline;
+    content: "loading ...";
+    font-size: 13px;
+    margin-left:10px;
+    line-height:30px;
+    color:#999;
 }
 
 @keyframes loading_after {
@@ -265,22 +273,23 @@ loading[dot]::after {
         background-image: -webkit-linear-gradient(left, #fff, #333);
     }
 }
-
-loading::before, loading[fish]::before {
+/*星号*/
+loading[asterisk]::before {
     content: "\e620";
 }
-
+/*汽泡*/
 loading[bubble]::before {
     content: "\e621";
 }
-
+/*刷新*/
 loading[fresh]::before {
     content: "\e651";
 }
-
+/*五角星*/
 loading[star]::before {
     content: "\e747";
 }
+/*太极鱼*/
 loading[fish]::before {
     content: "\e601";
 }
