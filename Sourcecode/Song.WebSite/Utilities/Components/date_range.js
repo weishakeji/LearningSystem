@@ -1,5 +1,6 @@
 //日期区间的选择
-$dom.load.css(['/Utilities/Components/Styles/date_range.css']);
+//事件:change,当日期变更时，返回start,end两个日期值
+//事件:clear,当清除日期时
 Vue.component('date_range', {
     //start:开始时间
     //end：结束时间
@@ -133,6 +134,12 @@ Vue.component('date_range', {
             let end = this.selectDate != null ? this.todate(this.selectDate[1]) : '';
             if (end != null && end != '') end.setDate(end.getDate() + 1);
             this.$emit('change', start, end);
+            //如果为空，则触发clear事件
+            if (start == '' && end == '') this.evt_clear();
+        },
+        //当清空时间时触发事件
+        evt_clear: function () {
+            this.$emit('clear', null, null);
         },
         //只保留日期部分
         todate: function (time) {
@@ -146,8 +153,9 @@ Vue.component('date_range', {
         }
     },
     template: ` <el-date-picker class="date_range" v-model="selectDate" type="daterange" unlink-panels
-        @change="evt_change" style="width: 220px;" range-separator="至"
+        @change="evt_change" @clear="evt_clear" style="width: 220px;" range-separator="至"
         start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
         :default-time="['00:00:00', '23:59:59']">
     </el-date-picker>`
 });
+$dom.load.css(['/Utilities/Components/Styles/date_range.css']);
