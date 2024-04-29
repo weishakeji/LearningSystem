@@ -16,7 +16,6 @@ $ready(function () {
                 state: '-1',       //状态，成功为1，失败为2,-1为所有
                 size: 10, index: 0
             },
-            date_picker: [],
             account: {},
 
             datas: [],      //数据集，此处是学员列表
@@ -51,11 +50,7 @@ $ready(function () {
         computed: {
 
         },
-        watch: {
-            'date_picker': function (nv, ov) {
-                this.form.start = nv[0];
-                this.form.end = nv[1];
-            },
+        watch: {           
             //当前需要查看的详情资金流水项
             'detail': function (nv, ov) {
                 var th = this;

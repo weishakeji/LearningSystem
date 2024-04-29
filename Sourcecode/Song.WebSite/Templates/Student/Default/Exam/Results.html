@@ -32,7 +32,7 @@
             <template v-if="results.length>0">
                 <score_item v-for="(result,index) in results" :result="result" :index="index" :account="account">
                     <template scope="item">
-                        <el-card>
+                        <el-card shadow="hover">
                             <div slot="header" @click="review(result)">
                                 <div class="exam_name">
                                     <span>{{(form.index - 1) * form.size + index + 1}}.</span>

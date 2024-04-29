@@ -63,7 +63,7 @@
                     <alert v-else>试卷不存在</alert>
                 </div>
             </template>
-            <el-card v-if="error!=''" remark="如果考试未结束">
+            <el-card   shadow="hover" v-if="error!=''" remark="如果考试未结束">
                 <alert v-html="error"></alert>
             </el-card>
             <template v-else>

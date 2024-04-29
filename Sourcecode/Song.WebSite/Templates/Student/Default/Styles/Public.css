@@ -111,7 +111,7 @@ tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
 }
 /*不显示表格边线*/
 .el-table--border{
-	border: none;
+	/*border: none;*/
 }
 .el-table td.el-table__cell {
     border-bottom: none !important;

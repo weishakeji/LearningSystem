@@ -4,7 +4,6 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: { 'acid': '', 'start': '', 'end': '', 'type': '-1', 'search': '', 'size': 10, 'index': 1 },
-            date_picker: [],
             account: {},
 
             datas: [],      //数据集，此处是学员列表
@@ -36,10 +35,6 @@ $ready(function () {
 
         },
         watch: {
-            'date_picker': function (nv, ov) {
-                this.form.start = nv[0];
-                this.form.end = nv[1];
-            }
         },
         methods: {
             //加载数据页
