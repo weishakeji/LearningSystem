@@ -13,9 +13,7 @@
             <el-form ref="form" :model="form" @submit.native.prevent label-width="100px"
                 :disabled="exportloading || loading">
                 <el-form-item label="选修时间">
-                    <el-date-picker v-model="export_interval" type="daterange" range-separator="至"
-                        start-placeholder="开始日期" end-placeholder="结束日期">
-                    </el-date-picker>
+                    <date_range @change="(s,e)=>{form['start']=s;form['end']=e}"></date_range>   
                     <br />
                     <help>学员选修课程的开始时间的区间</help>
                 </el-form-item>

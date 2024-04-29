@@ -38,8 +38,8 @@
             </query_panel>
         </div>
         <!--数据列表-->
-        <el-table ref="datatables"  border resizable :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-            v-loading="loading" row-key="Ac_ID" cell-class-name="tdcell">
+        <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+            style="width: 100%" v-loading="loading" row-key="Ac_ID" cell-class-name="tdcell">
 
             <el-table-column type="index" label="#" width="60" align="center">
                 <template slot-scope="scope">
@@ -75,7 +75,7 @@
                 </template>
             </el-table-column>
             <el-table-column label="学习情况" width="260">
-                <div slot-scope="scope" class="progress"> 
+                <div slot-scope="scope" class="progress">
                     <el-tooltip class="item" effect="light" content="视频学习进度" placement="bottom-start">
                         <icon video>{{showcomplete(scope.row.Stc_StudyScore)}} %</icon>
                     </el-tooltip>
@@ -104,9 +104,7 @@
             <el-form ref="exportform" :model="exportform" @submit.native.prevent label-width="100px"
                 :disabled="fileloading || loading">
                 <el-form-item label="选修时间">
-                    <el-date-picker v-model="export_interval" type="daterange" range-separator="至"
-                        start-placeholder="开始日期" end-placeholder="结束日期">
-                    </el-date-picker>
+                    <date_range @change="(s,e)=>{exportform['start']=s;exportform['end']=e}"></date_range>                
                     <help multi>学员选修课程的开始时间的区间</help>
                 </el-form-item>
             </el-form>

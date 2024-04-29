@@ -262,7 +262,7 @@
             //打开学习记录的面板
             openlog: function (btn) {
                 this.$refs.btngroup.pagebox('StudyLogExport?orgid=' + this.organ.Org_ID,
-                    '学习记录导出', window.name + '[studylog]', 650, 400);
+                    '学习记录导出', window.name + '[studylog]', 800, 500);
             },
             //打开编辑界面
             btnmodify: function (id, title, param) {

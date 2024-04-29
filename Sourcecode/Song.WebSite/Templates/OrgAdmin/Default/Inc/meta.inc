@@ -14,7 +14,7 @@
     *[v-cloak]::before {
         content: "/";
         display: block;
-          width:24px;
+        width:24px;
         height:24px;
         text-align: center;
         float:left;

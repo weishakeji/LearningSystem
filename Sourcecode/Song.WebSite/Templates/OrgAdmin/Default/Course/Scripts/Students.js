@@ -18,8 +18,7 @@
             exportVisible: false,    //显示导出面板
             exportform: {
                 couid: $api.querystring('id'), start: '', end: ''
-            },
-            export_interval: {},      //导出时间间隔
+            },    
             files: [],               //导出的文件列表
             fileloading: false,      //导出时的加载状态
 
@@ -49,13 +48,7 @@
         computed: {
         },
         watch: {
-            //导出时间间隔
-            export_interval: function (nv, ov) {
-                if (nv && nv.length > 0) {
-                    this.exportform['start'] = nv[0];
-                    this.exportform['end'] = nv[1];
-                }
-            }
+          
         },
         methods: {
             //加载数据页

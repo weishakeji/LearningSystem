@@ -16,7 +16,7 @@ $ready(function () {
                 }
             };
             let checkDate = (rule, value, callback) => {
-                if (this.datespan == null || this.datespan.length == 0)
+                if (this.entity == null || this.entity.Lcs_LimitStart == '')
                     return callback(new Error('请选择时间'));
                 return callback();
             };
@@ -31,12 +31,14 @@ $ready(function () {
                     Lcs_Unit: '月',
                     Lcs_CodeLength: 16,
                     Lcs_PwLength: 3,
-                    Lcs_RelatedCourses: ''
+                    Lcs_RelatedCourses: '',
+                    Lcs_LimitStart: '',
+                    Lcs_LimitEnd: ''
                 },
                 courses: [],     //关联的课程
                 units: ['日', '周', '月', '年'],
                 introEdit: false,        //简介是否处于编辑状态
-                datespan: [],            //有效期的时间区间,内有两个值，一个开始，一个结束
+
                 //学习时长记录,用于判断学习时长否被更改过
                 studyspan: {
                     Lcs_Span: 0,
@@ -114,19 +116,7 @@ $ready(function () {
             isadd: t => { return t.id == null || t.id == ''; },
         },
         watch: {
-            //有效期
-            'datespan': { //监听的对象
-                deep: true, //深度监听设置为 true
-                handler: function (newV, oldV) {
-                    if (newV != null) {
-                        this.entity.Lcs_LimitStart = newV[0];
-                        this.entity.Lcs_LimitEnd = newV[1];
-                    }
-                }
-            },
-            'courses': function (nl, ol) {
-                //console.log(nl);
-            }
+
         },
         created: function () {
             var th = this;
@@ -139,9 +129,6 @@ $ready(function () {
                         $api.get('Learningcard/SetForID', { 'id': th.id }).then(function (req) {
                             if (req.data.success) {
                                 th.entity = req.data.result;
-                                //学习有效期
-                                th.datespan.push(th.entity.Lcs_LimitStart);
-                                th.datespan.push(th.entity.Lcs_LimitEnd);
                                 //记录学习时长,用于判断学习时长否被更改过
                                 th.studyspan.Lcs_Span = th.entity.Lcs_Span;
                                 th.studyspan.Lcs_Unit = th.entity.Lcs_Unit;
@@ -177,6 +164,11 @@ $ready(function () {
 
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.entity.Lcs_LimitStart = start;
+                this.entity.Lcs_LimitEnd = end;
+            },
             //判断是否已经存在
             isExist: function (val) {
                 var th = this;

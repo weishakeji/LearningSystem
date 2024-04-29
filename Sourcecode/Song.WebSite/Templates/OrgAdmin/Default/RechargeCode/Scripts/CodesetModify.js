@@ -16,8 +16,8 @@ $ready(function () {
                 }
             }
             let checkDate = (rule, value, callback) => {
-                if (this.datespan) {
-                    if (this.datespan.length == 0) {
+                if (this.entity) {
+                    if (this.entity.Rs_LimitStart == '') {
                         return callback(new Error('请选择时间'));
                     }
                     return callback();
@@ -32,10 +32,12 @@ $ready(function () {
                     Rs_Count: 100,
                     Rs_IsEnable: true,
                     Rs_CodeLength: 16,
-                    Rs_PwLength: 3
+                    Rs_PwLength: 3,
+                    Rs_LimitStart: '',
+                    Rs_LimitEnd: ''
+
                 },
 
-                datespan: [],            //时间区间,内有两个值，一个开始，一个结束
                 rules: {
                     Rs_Theme: [
                         { required: true, message: '不得为空', trigger: ["blur", "change"] },
@@ -94,16 +96,6 @@ $ready(function () {
             isadd: t => { return t.id == null || t.id == ''; },
         },
         watch: {
-            //有效期
-            'datespan': { //监听的对象
-                deep: true, //深度监听设置为 true
-                handler: function (newV, oldV) {
-                    if (newV != null) {
-                        this.entity.Rs_LimitStart = newV[0];
-                        this.entity.Rs_LimitEnd = newV[1];
-                    }
-                }
-            }
         },
         created: function () {
             var th = this;
@@ -115,8 +107,6 @@ $ready(function () {
                     $api.get('RechargeCode/SetForID', { 'id': th.id }).then(function (req) {
                         if (req.data.success) {
                             th.entity = req.data.result;
-                            th.datespan.push(th.entity.Rs_LimitStart);
-                            th.datespan.push(th.entity.Rs_LimitEnd);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -130,6 +120,11 @@ $ready(function () {
                 .finally(th.lading_init = false);
         },
         methods: {
+            //选择时间区间
+            selectDate: function (start, end) {
+                this.entity.Rs_LimitStart = start;
+                this.entity.Rs_LimitEnd = end;
+            },
             //判断是否已经存在
             isExist: function (val) {
                 var th = this;

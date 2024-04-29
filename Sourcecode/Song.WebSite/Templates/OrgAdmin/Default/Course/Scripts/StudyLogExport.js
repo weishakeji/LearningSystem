@@ -8,7 +8,7 @@ $ready(function () {
                 orgid: $api.querystring('orgid'),
                 start: '', end: ''
             },
-            export_interval: {},      //导出时间间隔
+         
 
             //批量生成的进度
             exportProgress: {
@@ -24,24 +24,12 @@ $ready(function () {
             this.getFiles();
             this.getprogress();
         },
-        watch: {
-            //导出时间间隔
-            export_interval: function (nv, ov) {
-                if (nv && nv.length > 0) {
-                    this.form['start'] = nv[0];
-                    this.form['end'] = nv[1];
-                }
-                console.log(this.form);
-            }
+        watch: {          
         },
         computed: {
 
         },
         methods: {
-            //生成导出文件
-            enter: function () {
-
-            },
             //获取文件列表
             getFiles: function () {
                 var th = this;
@@ -131,6 +119,7 @@ $ready(function () {
                         result["progress"] = isNaN(progress) ? 0 : progress;
                         th.exportProgress = result;
                         if (th.exportProgress["successed"] === true) {
+                            th.exportloading = false;
                             if (th.exportProgress["complete"] <= 0) {
                                 alert('没有可供导出的课程学习信息');
                             }
@@ -143,9 +132,13 @@ $ready(function () {
                                 th.getprogress();
                             }, 3000);
                         }
+                    } else {
+                        th.exportloading = false;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.exportloading = false);
+                }).catch(err => {
+                    console.error(err);
+                    th.exportloading = false;
+                });               
             }
         },
     });
