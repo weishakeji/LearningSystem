@@ -10,7 +10,7 @@
     <div id="app" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CodesetModify"
-                width="640" height="480" :selects='selects' idkey='Rs_ID' table="datatables"></btngroup>
+                width="800" height="500" :selects='selects' idkey='Rs_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-input v-model.trim="form.search" placeholder="充值码主题" @clear="handleCurrentChange(1)" clearable
