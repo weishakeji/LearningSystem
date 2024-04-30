@@ -19,11 +19,12 @@ $ready(function () {
             totalpages: 1, //总页数
 
             courses: [],     //课程列表
-            loading: false
+            loading: false,
+            loading_init: false
         },
         mounted: function () {
             var th = this;
-            th.loading = true;
+            th.loading_init = true;
             $api.get('News/ColumnsForUID', { 'uid': this.uid }).then(function (req) {
                 if (req.data.success) {
                     th.column = req.data.result;
@@ -32,10 +33,8 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
             this.getcourses();
             this.getArticles();
         },
@@ -60,19 +59,16 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
             },
             //获取新闻文章
             getArticles: function (index) {
                 var th = this;
                 if (index != null) th.query.index = index;
+                th.loading = true;
                 th.query.uid = this.uid;
                 var query = this.query;
                 $api.get('News/ArticlePagerShow', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         th.articles = req.data.result;
@@ -86,10 +82,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         }
     });

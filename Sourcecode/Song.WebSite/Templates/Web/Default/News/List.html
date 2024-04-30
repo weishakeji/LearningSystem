@@ -20,20 +20,23 @@
                         <el-breadcrumb-item v-if="!isempty">{{column.Col_Name}}</el-breadcrumb-item>
                         <el-breadcrumb-item v-else>(当前栏目不存在)</el-breadcrumb-item>
                     </el-breadcrumb>
-                    <div class="articles">
-                        <a :href="'article.'+art.Art_ID" v-for="(art,i) in articles" target="_blank">
-                            <icon>&#xe649</icon>{{art.Art_Title}}
+                    <loading v-if="loading">loading ...</loading>
+                    <template v-else>
+                        <div class="articles">
+                            <a :href="'article.'+art.Art_ID" v-for="(art,i) in articles" target="_blank">
+                                <icon>&#xe649</icon>{{art.Art_Title}}
 
-                            <date>{{art.Art_PushTime|date("yyyy-MM-dd")}} </date>
-                        </a>
+                                <date>{{art.Art_PushTime|date("yyyy-MM-dd")}} </date>
+                            </a>
 
-                    </div>
-                    <div id="pager-box" v-if="articles.length>0">
-                        <el-pagination v-on:current-change="getArticles" :current-page="query.index" :page-sizes="[1]"
-                            :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
-                    </div>
+                        </div>
+                        <div id="pager-box" v-if="articles.length>0">
+                            <el-pagination v-on:current-change="getArticles" :current-page="query.index"
+                                :page-sizes="[1]" :page-size="query.size" :pager-count="12"
+                                layout="total, prev, pager, next, jumper" :total="total">
+                            </el-pagination>
+                        </div>
+                    </template>
                     <div v-if="isempty" class="null">
                         <icon>&#xe854</icon>
                         <div>(当前栏目不存在)</div>

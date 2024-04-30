@@ -29,19 +29,19 @@ $ready(function () {
             loading_menu: false      //菜单加载状态
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
             ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
 
-                document.title += vapp.organ.Org_PlatformName;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                document.title += th.organ.Org_PlatformName;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
+
             this.getmenus();
         },
         created: function () {
@@ -94,11 +94,9 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_photo = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_photo = false);
+
             },
             //加载左侧菜单树
             getmenus: function () {
@@ -106,7 +104,6 @@ $ready(function () {
                 th.loading_menu = true;
                 $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'teacher' })
                     .then(function (req) {
-                        th.loading_menu = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             if (result != null && result.length > 0
@@ -140,10 +137,9 @@ $ready(function () {
                         } else {
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading_menu = false;
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading_menu = false);
+
             },
             //通过uid获取当前菜单项
             getmenu: function (uid, menus) {

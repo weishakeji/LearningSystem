@@ -56,11 +56,8 @@ Vue.component('subject_rec', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //跳转
         godetail: function (id) {

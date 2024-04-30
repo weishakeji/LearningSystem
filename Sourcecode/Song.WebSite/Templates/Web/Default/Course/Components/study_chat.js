@@ -82,7 +82,6 @@ Vue.component('study_chat', {
                 acc: acc, msg: th.send_msg,
                 playtime: th.playtime, couid: couid, olid: olid
             }).then(function (req) {
-                th.loading = false;
                 if (req == null) return;
                 if (req.data.success) {
                     th.send_msg = '';
@@ -91,11 +90,8 @@ Vue.component('study_chat', {
                 } else {
                     th.error = "信息添加发生异常！详情：\r" + d.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });;
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //删除留言
         msgDel: function (item) {
@@ -107,7 +103,6 @@ Vue.component('study_chat', {
             }).then(() => {
                 th.loadingid = item.Msg_Id;
                 $api.delete('Message/Delete', { 'msid': item.Msg_Id }).then(function (req) {
-                    th.loadingid = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message({
@@ -122,11 +117,8 @@ Vue.component('study_chat', {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = -1;
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = -1);
 
             }).catch(() => {
             });

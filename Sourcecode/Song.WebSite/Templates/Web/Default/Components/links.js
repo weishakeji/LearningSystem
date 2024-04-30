@@ -28,8 +28,8 @@ Vue.component('linksorts', {
         //获取链接分类
         getsort: function () {
             var th = this;
+            th.loading = true;
             if (th.sort != null) {
-                th.loading = true;
                 $api.post('Link/SortForID', { 'id': th.sort }).then(function (req) {
                     if (req.data.success) {
                         th.$set(th.sorts, 0, req.data.result);
@@ -40,7 +40,6 @@ Vue.component('linksorts', {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             } else {
-                th.loading = true;
                 $api.post('Link/SortCount', { 'orgid': th.org.Org_ID, 'use': true, 'show': null, 'search': '', 'count': th.count })
                     .then(function (req) {
                         if (req.data.success) {

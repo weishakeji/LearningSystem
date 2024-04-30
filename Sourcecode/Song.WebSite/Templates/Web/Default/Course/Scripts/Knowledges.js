@@ -34,17 +34,14 @@ $ready(function () {
                 var th = this;
                 this.loading_init = true;
                 $api.get('Knowledge/SortTree', { 'couid': th.couid, 'search': '', 'isuse': true }).then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.sorts = req.data.result;
                     } else {
                         th.sorts = [];
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_init = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;

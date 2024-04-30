@@ -6,6 +6,7 @@ Vue.component('page_footer', {
     data: function () {
         return {
             show: false,
+            loading: true,
             menus: []        //导航菜单
         }
     },
@@ -28,14 +29,15 @@ Vue.component('page_footer', {
     },
     computed: {
     },
-    mounted: function () {        
-       
+    mounted: function () {
+
     },
     methods: {
         //获取导航菜单
         getnavi: function () {
             if (!(this.organ && this.organ.Org_ID)) return;
             var th = this;
+            th.loading = true;
             $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'foot' }).then(function (req) {
                 if (req.data.success) {
                     th.menus = req.data.result;
@@ -43,10 +45,8 @@ Vue.component('page_footer', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //导航菜单的点击事件
         menuClick: function (sender, eventArgs) {

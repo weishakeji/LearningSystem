@@ -39,7 +39,6 @@ $ready(function () {
                 $api.get('Platform/ServerTime'),
                 $api.get('TestPaper/ForID', { 'id': th.id })
             ).then(axios.spread(function (time, paper) {
-                th.loading = false;
                 //服务器端时间
                 th.servertime = time.data.result;
                 //试卷
@@ -57,16 +56,14 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
 
             })).catch(function (err) {
-                th.loading = false;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         created: function () {
 
@@ -138,8 +135,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -149,7 +145,6 @@ $ready(function () {
                 var th = this;
                 th.loading_result = true;
                 $api.get('TestPaper/ResultsPager', th.result_query).then(function (req) {
-                    th.loading_result = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         th.results = req.data.result;
@@ -159,10 +154,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading_result = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading_result = false);
             },
             //获取购买课程的记录
             getpurchase: function (query) {
@@ -170,7 +164,6 @@ $ready(function () {
                 if (query.couid <= 0 || query.stid <= 0) return;
                 th.loading = true;
                 $api.get('Course/Purchaselog:5', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;
                         console.log(th.purchase);
@@ -178,11 +171,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //得分样式
             scoreStyle: function (score) {
@@ -206,7 +196,7 @@ $ready(function () {
             },
             btn_buy: function () {
                 var url = "/web/course/buy.";
-                url = $api.dot(this.course.Cou_ID,url);
+                url = $api.dot(this.course.Cou_ID, url);
                 window.location.href = url;
             },
             //结课考试的按钮事件
@@ -246,7 +236,6 @@ $ready(function () {
                 var th = this;
                 th.loading_id = item.Tr_ID;
                 $api.delete('TestPaper/ResultDelete', { 'trid': item.Tr_ID }).then(function (req) {
-                    th.loading_id = -1;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getresults();
@@ -254,11 +243,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading_id = -1;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_id = -1);
             }
         }
     });

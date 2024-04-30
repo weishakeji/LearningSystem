@@ -12,14 +12,14 @@ $ready(function () {
             articles: [],         //新闻文章
             loading: false
         },
-        mounted: function () {            
+        mounted: function () {
         },
         created: function () { },
         computed: {},
         watch: {
             'org': {
                 handler: function (nv, ov) {
-                    this.loadinit(nv.Org_ID);                   
+                    this.loadinit(nv.Org_ID);
                 }, immediate: true
             }
         },
@@ -33,14 +33,11 @@ $ready(function () {
                     $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
                     $api.cache('News/ColumnsShow:60', { 'orgid': orgid, 'pid': '', 'count': 0 })
                 ).then(axios.spread(function (articles, columns) {
-                    vapp.loading = false;
                     //获取结果
                     th.articles = articles.data.result;
                     th.columns = columns.data.result;
-                })).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                })).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
         }
     });

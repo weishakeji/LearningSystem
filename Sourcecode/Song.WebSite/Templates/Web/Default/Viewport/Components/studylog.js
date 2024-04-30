@@ -48,16 +48,12 @@ Vue.component('studylog', {
                         if (d < 0) th.datas.push(el);
                     }
                     th.buildData(th.datas);
-                    th.loading = false;
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                //Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //创建图表所需data
         buildData: function (datas) {

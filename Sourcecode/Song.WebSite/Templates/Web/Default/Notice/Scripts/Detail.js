@@ -26,7 +26,6 @@ $ready(function () {
             var apiurl = this.preview == 'true' ? 'Notice/ForID' : 'Notice/ShowForID';
             var apiobj = this.preview == 'true' ? $api.get(apiurl, { 'id': this.id }) : $api.cache(apiurl, { 'id': this.id });
             apiobj.then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.data = req.data.result;
                     $api.cache('Notice/ViewNum:60', { 'id': th.id, 'num': 1 }).then(function (req) {
@@ -40,10 +39,8 @@ $ready(function () {
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
             th.getnotices();
         },
@@ -56,8 +53,8 @@ $ready(function () {
             }
         },
         watch: {
-             //是否格式化
-             'isformat': {
+            //是否格式化
+            'isformat': {
                 handler: function (nv, ov) {
                     if (nv != null)
                         $api.storage('notice_isformat', nv);
@@ -79,10 +76,8 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             }
         }
     });

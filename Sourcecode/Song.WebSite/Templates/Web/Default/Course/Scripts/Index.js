@@ -26,8 +26,8 @@ $ready(function () {
             loading: true,
             loading_init: true
         },
-        mounted: function () {},
-        created: function () {},
+        mounted: function () { },
+        created: function () { },
         computed: {
             //是否禁止加载专业下的课程
             'sbjcourses_disabled': function () {
@@ -43,7 +43,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (JSON.stringify(nv) == '{}' || nv == null) return;
                     this.query.orgid = nv.Org_ID;
-                    this.getsubjects(nv.Org_ID);                   
+                    this.getsubjects(nv.Org_ID);
                 }, immediate: true
             },
             'sbjCurrent': {
@@ -70,7 +70,6 @@ $ready(function () {
                 var th = this;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': orgid }).then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;
                         th.setSbjChilds(th.sbjid);
@@ -79,12 +78,8 @@ $ready(function () {
                         //console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loading_init = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_init = false);
             },
             //无限下滑加载的方法
             //initial:是否是初始加载，如果为true，则检索的索引页将设置为1
@@ -123,7 +118,6 @@ $ready(function () {
                 var th = this;
                 th.loading_cou = true;
                 $api.get('Course/ShowPager', th.query).then(function (req) {
-                    th.loading_cou = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         //总页数与总记录数
@@ -141,10 +135,9 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_cou = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_cou = false);
                 console.log(this.query);
             },
             //搜索字符串的设置

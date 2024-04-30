@@ -6,7 +6,7 @@ Vue.component('guides', {
     data: function () {
         return {
             guides: [],             //课程公告
-            form: { 'couid': '', 'uid': '', 'show': '', 'use': true,'search': '', 'size': 10, 'index': 1 },
+            form: { 'couid': '', 'uid': '', 'show': '', 'use': true, 'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数
             loading: false,
@@ -41,6 +41,7 @@ Vue.component('guides', {
         handleCurrentChange: function (index) {
             if (index != null) this.form.index = index;
             var th = this;
+            th.loading = true;
             //每页多少条，通过界面高度自动计算
             var area = document.documentElement.clientHeight - 100;
             th.form.size = Math.floor(area / 41);
@@ -53,9 +54,8 @@ Vue.component('guides', {
                     console.error(d.data.exception);
                     throw d.data.message;
                 }
-            }).catch(function (err) {
-
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
     },
     template: `<div class="weisha_guides">

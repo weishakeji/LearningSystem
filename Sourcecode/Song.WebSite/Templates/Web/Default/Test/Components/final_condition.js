@@ -62,7 +62,6 @@ Vue.component('final_condition', {
             if (stid <= 0 || tpid <= 0) return;
             th.loading = true;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.results = req.data.result;
                     console.log(th.results);
@@ -72,11 +71,10 @@ Vue.component('final_condition', {
                 }
 
             }).catch(function (err) {
-                th.loading = false;
                 th.results = [];
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //获取测试的最高得分
         score_highest: function () {

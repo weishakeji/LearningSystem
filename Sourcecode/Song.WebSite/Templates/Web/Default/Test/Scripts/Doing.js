@@ -176,8 +176,7 @@
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            //alert(err);
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
                         });
                     }
@@ -198,8 +197,7 @@
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -209,7 +207,6 @@
                 if (th.couid <= 0 || stid <= 0) return;
                 th.loading = true;
                 $api.get('Course/Purchaselog:5', { 'stid': stid, 'couid': couid }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;
                         console.log(th.purchase);
@@ -217,17 +214,13 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取历史成绩
             getresults: function (stid) {
                 var th = this;
                 $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': th.tpid }).then(function (req) {
-                    th.loading_result = false;
                     if (req.data.success) {
                         th.results = req.data.result;
                         console.log(th.results);
@@ -237,10 +230,9 @@
                     }
 
                 }).catch(function (err) {
-                    th.loading_result = false;
                     th.results = [];
                     console.error(err);
-                });
+                }).finally(() => th.loading_result = false);
             },
             //结果考试的按钮是否通过,为true时表示不通过
             final_disable: function () {
@@ -309,7 +301,6 @@
                 //提交答题信息，async为异步，成绩计算在后台执行
                 var th = this;
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
-                    vapp.submitState.loading = false;
                     if (req.data.success) {
                         th.submitState.result = req.data.result;
                         console.log('成绩递交成功');
@@ -320,7 +311,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }) .finally(() => th.submitState.loading = false);
             },
             //手动交卷
             submitManual: function () {

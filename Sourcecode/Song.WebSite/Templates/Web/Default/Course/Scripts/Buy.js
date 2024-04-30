@@ -38,7 +38,6 @@ $ready(function () {
                 th.couinfo = info.data.result;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;
                     } else {
@@ -46,10 +45,9 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_init = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_init = false);
                 //当前课程
                 th.course = course.data.result;
                 if (th.course != null) {
@@ -71,12 +69,8 @@ $ready(function () {
                         th.select(th.prices[0]);
                     th.sum = sum.data.result;
                     th.teacher = teacher.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+                })).catch(err => console.error(err));
+            })).catch(err => console.error(err));
         },
         created: function () {
 
@@ -140,7 +134,7 @@ $ready(function () {
                         colorLight: "#ffffff",
                         render: "canvas",
                         correctLevel: QRCode.CorrectLevel.L
-                    });                   
+                    });
                 });
             },
             //计算日均多少钱

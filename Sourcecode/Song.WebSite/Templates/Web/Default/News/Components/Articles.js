@@ -13,17 +13,14 @@ Vue.component('articles', {
         var th = this;
         th.loading = true;
         $api.get('News/ArticlesShow', { 'orgid': -1, 'uid': this.column.Col_UID, 'count': this.count, 'order': 'top' }).then(function (req) {
-            th.loading = false;
             if (req.data.success) {
                 th.datas = req.data.result;
             } else {
                 console.error(req.data.exception);
                 throw req.data.message;
             }
-        }).catch(function (err) {
-            alert(err);
-            console.error(err);
-        });
+        }).catch(err => console.error(err))
+            .finally(() => th.loading = false);
     },
     methods: {},
     template: `<card-context> 

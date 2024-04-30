@@ -44,7 +44,6 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.get("Notice/ShowPager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -55,7 +54,8 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
+
             },
             //清除html代码，并截取字符长度
             clearhtml: function (html, len) {
@@ -92,17 +92,14 @@ $ready(function () {
                 var orgid = this.org.Org_ID;
                 th.loading = true;
                 $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': th.count, 'order': 'hot' }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         },
         template: `<weisha_newslist>

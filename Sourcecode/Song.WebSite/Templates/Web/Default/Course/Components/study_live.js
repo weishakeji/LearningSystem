@@ -23,7 +23,7 @@ Vue.component('study_live', {
                         th.startPlay(th.state);
                 });
             }, immediate: true,
-        },        
+        },
         //是否播放异常
         'abnormal': function (nv, ov) {
             var th = this;
@@ -150,7 +150,7 @@ Vue.component('study_live', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(th.loading = false);
+                .finally(() => th.loading = false);
             // alert(liveid);
         }
     },
