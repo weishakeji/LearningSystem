@@ -1862,7 +1862,7 @@ namespace Song.ServiceImpls
                          (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}})  ) as sc  inner join      
                          Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} 
    ) as acc
-   inner join
+   left join
   (SELECT ac_id, MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
                      sum(Lss_StudyTime) as 'studyTime', sum(Lss_Duration)/1000 as 'totalTime', MAX([Lss_PlayTime])/100 as 'playTime',
                      (case  when max(Lss_Duration)> 0 then
