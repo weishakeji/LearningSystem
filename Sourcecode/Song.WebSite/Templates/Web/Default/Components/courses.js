@@ -28,7 +28,7 @@ Vue.component('courses', {
     methods: {
         //跳转
         godetail: function (id) {
-            var url = $api.url.dot(id, '/web/Course/Detail');
+            let url = $api.url.dot(id, '/web/Course/Detail');
             window.location.href = url;
         },
         seturl: function () {

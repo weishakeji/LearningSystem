@@ -84,7 +84,6 @@ $ready(function () {
                 var th = this;
                 th.loading_photo = true;
                 $api.post('Account/ModifyPhoto', { 'account': th.account, 'file': th.upfile }).then(function (req) {
-                    th.loading_photo = false;
                     if (req.data.success) {
                         th.upfile = null;
                         var result = req.data.result;
@@ -95,10 +94,9 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_photo = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_photo = false);
             },
             //加载左侧菜单树
             getmenus: function () {
@@ -106,7 +104,6 @@ $ready(function () {
                 th.loading_menu = true;
                 $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'student' })
                     .then(function (req) {
-                        th.loading_menu = false;
                         if (req.data.success) {
                             var result = req.data.result;
                             if (result != null && result.length > 0
@@ -140,10 +137,8 @@ $ready(function () {
                         } else {
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        th.loading_menu = false;
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading_menu = false);
             },
             //通过uid获取当前菜单项
             getmenu: function (uid, menus) {
