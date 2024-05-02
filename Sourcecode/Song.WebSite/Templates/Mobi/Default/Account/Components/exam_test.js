@@ -32,7 +32,6 @@ Vue.component('exam_test', {
             th.loading = true;
             $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 })
                 .then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         var papers = result;
@@ -48,7 +47,7 @@ Vue.component('exam_test', {
                         //如果有结课考试，则计算结课的最高成绩
                         if (th.final) {
                             th.getfinal_highest(th.stid, th.finaltest.Tp_Id);
-                        }else {
+                        } else {
                             th.highest = -1;
                         }
                     } else {
@@ -59,7 +58,7 @@ Vue.component('exam_test', {
                     th.datas = [];
                     th.finaltest = {};
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
         },
         //获取结课考试的最高成绩
         getfinal_highest: function (stid, tpid) {
@@ -68,7 +67,6 @@ Vue.component('exam_test', {
             th.loading = true;
             th.highest = -1;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var results = req.data.result;
                     var highest = -1;
@@ -88,11 +86,7 @@ Vue.component('exam_test', {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            //alert(err);
-                            //Vue.prototype.$alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err));
                     }
                 } else {
                     console.error(req.data.exception);
@@ -100,12 +94,11 @@ Vue.component('exam_test', {
                 }
 
             }).catch(function (err) {
-                th.loading = false;
                 th.results = [];
                 th.highest = -1;
-                Vue.prototype.$alert(err);
+                alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //跳转的地址
         //isgo:是否跳
