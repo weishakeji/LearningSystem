@@ -109,7 +109,6 @@ $ready(function () {
                 var coupon = Math.floor(num / this.param.PointConvert);
                 if (coupon <= 0) return;
                 $api.get('Point/Exchange', { 'coupon': coupon }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result) {
@@ -126,7 +125,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             }
         }
     });

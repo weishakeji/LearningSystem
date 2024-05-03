@@ -73,19 +73,20 @@ Vue.component('outline_row', {
       var th = this;
       var couid = this.course.Cou_ID;
       var olid = this.outline.Ol_ID;
-      $api.get('Question/Count', { 'orgid': -1, 'sbjid': -1, 'couid': couid, 'olid': olid, 'type': '', 'use': true }).then(function (req) {
-        if (req.data.success) {
-          var result = req.data.result;
-          th.outline.Ol_QuesCount = result;
-          th.getquestions(th.outline);
-        } else {
-          console.error(req.data.exception);
-          throw req.config.way + ' ' + req.data.message;
-        }
-      }).catch(function (err) {
-        alert(err);
-        console.error(err);
-      });
+      $api.get('Question/Count', { 'orgid': -1, 'sbjid': -1, 'couid': couid, 'olid': olid, 'type': '', 'use': true })
+        .then(function (req) {
+          if (req.data.success) {
+            var result = req.data.result;
+            th.outline.Ol_QuesCount = result;
+            th.getquestions(th.outline);
+          } else {
+            console.error(req.data.exception);
+            throw req.config.way + ' ' + req.data.message;
+          }
+        }).catch(function (err) {
+          alert(err);
+          console.error(err);
+        });
     },
     //跳转
     goExercises: function () {
@@ -128,8 +129,7 @@ Vue.component('outline_row', {
           console.error(req.data.exception);
           throw req.data.message;
         }
-      }).catch(function (err) {
-      });
+      }).catch(err => console.error(err));
     }
   },
   //

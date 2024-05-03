@@ -20,23 +20,22 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Platform/Version'),
-                $api.post('Platform/Edition'), 
+                $api.post('Platform/Edition'),
                 $api.cache('Copyright/Datas')
             ).then(axios.spread(function (ver, editon, copyright) {
                 th.loading_init = false;
                 //获取结果     
                 th.version = ver.data.result;
-                th.editon = editon.data.result;            
+                th.editon = editon.data.result;
                 th.copyright_items = copyright.data.result;
                 th.builbrowser();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 
         },
-        computed: {           
+        computed: {
             //当前年份
             year: function () {
                 var date = new Date();
@@ -58,7 +57,7 @@ $ready(function () {
                 }
                 return text;
             },
-            builbrowser: function () {               
+            builbrowser: function () {
                 var md = new MobileDetect(window.navigator.userAgent);
                 var browser = {
                     'OS': md.os(),

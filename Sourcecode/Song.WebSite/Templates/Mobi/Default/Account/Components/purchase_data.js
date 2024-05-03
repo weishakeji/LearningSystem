@@ -36,12 +36,8 @@ Vue.component('purchase_data', {
                 th.data = purchase.data.result;
                 th.existtosort = exist.data.result;
                 console.log(th.existtosort);
-            })).catch(function (err) {
-                //Vue.prototype.$alert(err);
-                console.error(err);
-            }).finally(function () {
-                th.loading = false;
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         }
     },
     //forever:如果课程存在于学员组的关联，则是不限时课程，即永远

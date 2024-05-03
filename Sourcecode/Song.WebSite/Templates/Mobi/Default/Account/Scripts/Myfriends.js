@@ -80,9 +80,7 @@ $ready(function () {
                     //获取结果
                     th.friends = friends.data.result;
                     th.friendsAll = friendsAll.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                })).catch(err => console.error(err));
             },
             //获取赚数的金额、卡券等
             getEarn: function (acid) {
@@ -96,9 +94,7 @@ $ready(function () {
                     th.earn.coupon = coupon.data.result;
                     th.earn.money = money.data.result;
                     th.earn.point = point.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                })).catch(err => console.error(err));
             },
             //获取分润方案
             getProfit: function () {

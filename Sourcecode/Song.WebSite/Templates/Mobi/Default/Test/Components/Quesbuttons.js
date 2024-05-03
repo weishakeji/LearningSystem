@@ -1,6 +1,6 @@
 ﻿//试题右侧的按钮组
 Vue.component('quesbuttons', {
-     //current:当前显示的试题，即滑动到这个试题
+    //current:当前显示的试题，即滑动到这个试题
     props: ['question', 'account', 'couid', 'current'],
     data: function () {
         return {
@@ -87,39 +87,34 @@ Vue.component('quesbuttons', {
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                //console.error(err);
-            });
+            }).catch(err => console.error(err));
         },
         //设置收藏
         addcollect: function (btn) {
+            var th = this;
             if (!btn.used) {
                 var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'couid': this.couid };
                 $api.post('Question/CollectAdd', query).then(function (req) {
                     if (req.data.success) {
                         btn.used = true;
-                        vapp.$toast({ position: 'bottom', message: '试题收藏成功' });
+                        th.$toast({ position: 'bottom', message: '试题收藏成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             } else {
                 //删除收藏
                 var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
                 $api.get('Question/CollectDelete', query).then(function (req) {
                     if (req.data.success) {
                         btn.used = false;
-                        vapp.$toast({ position: 'bottom', message: '删除收藏成功' });
+                        th.$toast({ position: 'bottom', message: '删除收藏成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
             console.log(btn);
         },

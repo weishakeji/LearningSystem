@@ -69,7 +69,6 @@ Vue.component('final_condition', {
             }
             th.loading = true;
             $api.get('TestPaper/ResultsAll', th.query).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.results = req.data.result;
                     // console.log(th.results);
@@ -79,11 +78,10 @@ Vue.component('final_condition', {
                 }
 
             }).catch(function (err) {
-                th.loading = false;
                 th.results = [];
                 window.alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //最高得分
         score_highest: function () {

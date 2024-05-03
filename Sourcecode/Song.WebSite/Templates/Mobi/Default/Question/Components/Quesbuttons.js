@@ -110,13 +110,14 @@ Vue.component('quesbuttons', {
         },
         //设置收藏
         addcollect: function (btn) {
+            var th = this;
             if ($api.isnull(this.account)) return;
             if (!btn.used) {
                 var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'couid': this.couid };
                 $api.post('Question/CollectAdd', query).then(function (req) {
                     if (req.data.success) {
                         btn.used = true;
-                        vapp.$toast({ position: 'bottom', message: '试题收藏成功' });
+                        th.$toast({ position: 'bottom', message: '试题收藏成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -130,8 +131,8 @@ Vue.component('quesbuttons', {
                 $api.get('Question/CollectDelete', query).then(function (req) {
                     if (req.data.success) {
                         btn.used = false;
-                        vapp.$toast({ position: 'bottom', message: '删除收藏成功' });
-                        vapp.deleteQues();
+                        th.$toast({ position: 'bottom', message: '删除收藏成功' });
+                        th.deleteQues();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -191,7 +192,7 @@ Vue.component('quesbuttons', {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });       
+                    });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

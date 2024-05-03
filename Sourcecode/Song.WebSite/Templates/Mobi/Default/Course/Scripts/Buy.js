@@ -33,7 +33,6 @@ $ready(function () {
                 $api.cache('Course/Datainfo', { 'couid': this.couid }),
                 $api.get('Course/Studied', { 'couid': this.couid })
             ).then(axios.spread(function (account, platinfo, organ, course, info, studied) {
-                vapp.loading_init = false;
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -51,10 +50,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
                 //获取价格
                 $api.get('Course/prices', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
@@ -65,13 +61,9 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
-            })).catch(function (err) {
-                console.error(err);
-            });
+                }).catch(err => console.error(err));
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
             this.couid = $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid");
@@ -208,12 +200,10 @@ $ready(function () {
                 };
 
                 $api.get('Course/Buy', form).then(function (req) {
-                    th.loading_buy = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         console.log(result);
                         th.completebuy(result);
-                        //...
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -221,7 +211,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading_buy = false);
             },
             //完成购买的操作
             completebuy: function (sc) {

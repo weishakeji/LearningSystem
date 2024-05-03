@@ -26,12 +26,13 @@ $ready(function () {
             this.init_code();
         },
         created: function () {
+            var th=this;
             //当文件选择输入框变更时
             $dom("#upload_qrcode").bind('change', function (e) {
                 var files = e.target.files;
                 if (files && files.length > 0) {
                     console.log(files[0]);
-                    var url = window.getObjectURL(files[0]);                   
+                    var url = window.getObjectURL(files[0]);
                     qrcode.decode(url);
 
                     qrcode.callback = function (imgMsg) {
@@ -39,8 +40,8 @@ $ready(function () {
                         var code = $api.url.get(txt, 'code');
                         var pw = $api.url.get(txt, 'pw');
                         console.log(code + '-' + pw);
-                        vapp.input_code = code + '-' + pw;
-                        vapp.$notify({ type: 'success', message: '卡号填入输入框，请选择后续操作' });
+                        th.input_code = code + '-' + pw;
+                        th.$notify({ type: 'success', message: '卡号填入输入框，请选择后续操作' });
                     }
                 }
             });
@@ -139,10 +140,11 @@ $ready(function () {
                     this.$notify({ type: 'danger', message: '卡号不得为空' });
                     return;
                 }
+                var th = this;
                 $api.get('Learningcard/UseCode', { 'code': this.input_code }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$dialog.alert({
+                        th.$dialog.alert({
                             message: '通过使用该学习卡，您成功选修 ' + result.length + ' 门课程。',
                         }).then(() => {
                             window.location.reload();
@@ -152,7 +154,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$dialog({ message: err });
+                    th.$dialog({ message: err });
                     console.error(err);
                 });
             },
@@ -162,10 +164,11 @@ $ready(function () {
                     this.$notify({ type: 'danger', message: '卡号不得为空' });
                     return;
                 }
+                var th = this;
                 $api.get('Learningcard/AcceptCode', { 'code': this.input_code }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$dialog.alert({
+                        th.$dialog.alert({
                             message: '操作成功，学习卡被暂存在名下，后续可以在合适时间使用它。',
                         }).then(() => {
                             window.location.reload();
@@ -175,7 +178,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vapp.$dialog({ message: err });
+                    th.$dialog({ message: err });
                     console.error(err);
                 });
             },
@@ -186,7 +189,7 @@ $ready(function () {
             },
             //显示卡号，如果有查询，红色显示
             showcode: function (val) {
-                var sear = vapp.search_code;
+                var sear = this.search_code;
                 if ($api.trim(sear) == '') return val;
                 if ($api.trim(val) == '') return '';
                 var regExp = new RegExp(sear, 'ig');
@@ -282,7 +285,7 @@ $ready(function () {
                 </template>              
             </div>`
     });
-}, ['../Components/page_header.js',    
+}, ['../Components/page_header.js',
     '/Utilities/Scripts/reqrcode.js']);
 
 

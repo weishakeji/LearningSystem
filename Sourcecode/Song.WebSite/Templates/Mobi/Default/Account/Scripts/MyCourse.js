@@ -65,7 +65,6 @@ $ready(function () {
                 var query = $api.clone(this.query);
                 var apiurl = "Course/" + this.method_name;
                 $api.get(apiurl, query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -83,10 +82,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //进入课程详情页
             godetail: function (id) {
@@ -141,10 +139,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         },
         template: `  <div class="cur_data">

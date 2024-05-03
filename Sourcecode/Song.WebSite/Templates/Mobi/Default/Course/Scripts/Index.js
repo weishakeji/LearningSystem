@@ -67,9 +67,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
             //树形菜单
             window.tree = $treemenu.create({ target: '#treemenu', width: "100%" });
@@ -142,7 +140,6 @@ $ready(function () {
                 if (th.query.orgid === undefined || th.query.orgid == -1) return;
                 var query = $api.clone(this.query);
                 $api.cache('Course/ShowPager', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -160,10 +157,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //课程单元格滑动时
             cell_swipe: function (event) {
@@ -181,21 +177,20 @@ $ready(function () {
             },
             //专业面板打开时
             popupSubject: function () {
+                var th = this;
                 if (!window.tree.isnull()) return;
-                if (!vapp.org.Org_ID) return;
-                $api.cache('Subject/TreeFront:60', { orgid: vapp.org.Org_ID }).then(function (req) {
+                if (!th.org.Org_ID) return;
+                $api.cache('Subject/TreeFront:60', { orgid: th.org.Org_ID }).then(function (req) {
                     if (req.data.success) {
-                        var result = vapp.nodeconvert(req.data.result);
+                        var result = th.nodeconvert(req.data.result);
                         if (window.tree.isnull())
                             window.tree.add(result);
-                        window.tree.complete = false;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => window.tree.complete = false);
             },
             /*节点处理方法*/
             nodeconvert: function (obj) {
@@ -243,15 +238,11 @@ $ready(function () {
                 $api.cache('Course/Datainfo:20', { 'couid': this.couid }).then(function (req) {
                     if (req.data.success) {
                         th.data = req.data.result;
-                        //...
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         },
         // 同样也可以在 vm 实例中像 "this.message" 这样使用

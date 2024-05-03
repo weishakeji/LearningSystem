@@ -53,11 +53,7 @@ Vue.component('video_progress', {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(function (err) {
-                            //alert(err);
-                            //Vue.prototype.$alert(err);
-                            console.error(err);
-                        });
+                        }).catch(err => console.error(err));
                 }
                 console.log(nv);
             }, immediate: true, deep: true
@@ -105,11 +101,10 @@ Vue.component('video_progress', {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                }).finally(function () {
+                }).catch(err => console.error(err))
+                .finally(function () {
                     //th.percent = 60;
-                });;
+                });
         },
         gourl: function () {
             var url = "/mobi/course/study";

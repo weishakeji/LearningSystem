@@ -46,7 +46,7 @@ Vue.component('question', {
         },
         'fontsize': function (nv, ov) {
             if (this.init)
-                this.setfontsize(nv - ov);          
+                this.setfontsize(nv - ov);
         }
     },
     computed: {
@@ -210,9 +210,7 @@ Vue.component('question', {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
             }
         },
         //单选题的解答

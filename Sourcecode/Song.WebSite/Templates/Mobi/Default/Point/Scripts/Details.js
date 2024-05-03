@@ -80,7 +80,6 @@ $ready(function () {
                 var query = $api.clone(this.query);
                 console.log(query);
                 $api.get('Point/PagerForAccount', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -98,14 +97,14 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     th.finished = true;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //删除记录
             btnDelete: function (item) {
+                var th = this;
                 this.$dialog.confirm({
                     title: '删除记录',
                     message: '您是否确定删除当前记录？',
@@ -114,12 +113,12 @@ $ready(function () {
                         if (req.data.success) {
                             var result = req.data.result;
                             if (result == true) {
-                                vapp.$toast.success('删除成功');
-                                vapp.datas = [];
-                                vapp.query.index = 0;
-                                vapp.finished = false;
-                                vapp.total = false;
-                                vapp.onload();
+                                th.$toast.success('删除成功');
+                                th.datas = [];
+                                th.query.index = 0;
+                                th.finished = false;
+                                th.total = false;
+                                th.onload();
                             }
                         } else {
                             console.error(req.data.exception);

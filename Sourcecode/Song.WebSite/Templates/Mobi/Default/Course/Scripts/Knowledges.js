@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            sortid: $api.querystring("sortid"),       
+            sortid: $api.querystring("sortid"),
             account: {},     //当前登录账号
             course: {},       //当前课程
             platinfo: {},
@@ -25,24 +25,22 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.bat(               
+            $api.bat(
                 $api.cache('Course/ForID', { 'id': $api.querystring("couid", 0) })
             ).then(axios.spread(function (course) {
                 th.course = course.data.result;
                 if (th.iscourse)
-                    document.title = th.course.Cou_Name + ' - ' + document.title;               
-            })).catch(function (err) {
-                console.error(err);
-            });
+                    document.title = th.course.Cou_Name + ' - ' + document.title;
+            })).catch(err => console.error(err));
         },
         created: function () {
 
         },
         computed: {
-             //是否登录
-             islogin: (t) => { return !$api.isnull(t.account); },
-             //课程是否存在
-             iscourse: (t) => { return !$api.isnull(t.course); }
+            //是否登录
+            islogin: (t) => { return !$api.isnull(t.account); },
+            //课程是否存在
+            iscourse: (t) => { return !$api.isnull(t.course); }
         },
         watch: {
             'org': {
@@ -57,9 +55,8 @@ $ready(function () {
             onload: function () {
                 var th = this;
                 th.query.index++;
-                let query = $api.clone(this.query);             
+                let query = $api.clone(this.query);
                 $api.get('Knowledge/Pager', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
@@ -77,10 +74,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //进入详情页
             detail: function (id) {

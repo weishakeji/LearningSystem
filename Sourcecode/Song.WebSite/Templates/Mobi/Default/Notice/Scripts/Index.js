@@ -65,7 +65,6 @@ $ready(function () {
                 console.log(th.query.index);
                 if (th.query.orgid === undefined || th.query.orgid == -1) return;
                 $api.cache('Notice/ShowPager', th.query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         let result = req.data.result;
@@ -83,10 +82,9 @@ $ready(function () {
                     }
 
                 }).catch(function (err) {
-                    th.loading = false;
                     th.error = err;
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //转向通知公告详情页
             gonotice: function (id) {

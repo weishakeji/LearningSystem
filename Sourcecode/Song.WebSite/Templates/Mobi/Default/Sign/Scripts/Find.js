@@ -31,19 +31,18 @@
             step: 1
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
                 //获取结果             
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.config = $api.organ(th.organ).config;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -70,7 +69,6 @@
                     };
                     this.loading = true;
                     $api.get('Account/ForAcc', { 'acc': th.acc.input }).then(function (req) {
-                        th.loading = false;
                         if (req.data.success) {
                             th.account = req.data.result;
                             th.step = 2;
@@ -78,9 +76,8 @@
                             th.acc.error = true;
                             th.acc.message = '账号不存在';
                         }
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 }
             },
             //校验次数
@@ -107,18 +104,17 @@
                 this.ques.error = false;
                 this.ques.message = '';
                 this.loading = true;
-                $api.get('Account/CheckQues', { 'acc': th.account.Ac_AccName, 'answer': th.ques.input }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.account = req.data.result;
-                        th.step = 3;
-                    } else {
-                        th.ques.error = true;
-                        th.ques.message = '安全问题回答不正确';
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                $api.get('Account/CheckQues', { 'acc': th.account.Ac_AccName, 'answer': th.ques.input })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.account = req.data.result;
+                            th.step = 3;
+                        } else {
+                            th.ques.error = true;
+                            th.ques.message = '安全问题回答不正确';
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //设置密码
             setupPw: function () {
@@ -138,7 +134,6 @@
                 this.loading = true;
                 var query = { 'acc': this.account.Ac_AccName, 'answer': th.ques.input, 'pw': th.pw.input2 };
                 $api.post('Account/ModifyPwForAnswer', query).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.$dialog.alert({
                             message: '设置密码成功',
@@ -149,9 +144,8 @@
                         th.pw.error = true;
                         th.pw.message = req.data.message;
                     }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             }
         }
     });

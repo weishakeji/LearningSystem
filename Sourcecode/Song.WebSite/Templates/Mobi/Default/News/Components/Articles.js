@@ -13,18 +13,16 @@ Vue.component('articles', {
     mounted: function () {
         var th = this;
         th.loading = true;
-        $api.get('News/ArticlesShow', { 'orgid': -1, 'uid': this.column.Col_UID, 'count': 10, 'order': 'top' }).then(function (req) {
-            th.loading = false;
-            if (req.data.success) {
-                th.datas = req.data.result;
-            } else {
-                console.error(req.data.exception);
-                throw req.data.message;
-            }
-        }).catch(function (err) {
-            alert(err);
-            console.error(err);
-        });
+        $api.get('News/ArticlesShow', { 'orgid': -1, 'uid': this.column.Col_UID, 'count': 10, 'order': 'top' })
+            .then(function (req) {
+                if (req.data.success) {
+                    th.datas = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(err => console.error(err))
+            .finally(() => th.loading = false);
     },
     methods: {
         //行的点击事件
@@ -44,12 +42,12 @@ Vue.component('articles', {
 Vue.component('artrow', {
     props: ['art'],
     data: function () {
-        return {         
+        return {
         }
     },
     watch: {},
     computed: {},
-    mounted: function () {       
+    mounted: function () {
     },
     methods: {
         //行的点击事件
