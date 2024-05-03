@@ -95,7 +95,6 @@ $ready(function () {
                 th.loadingid = th.accounts[0].Ac_ID;
                 th.time.start = new Date();
                 $api.delete('Account/Delete', { 'id': th.loadingid }).then(function (req) {
-                    th.loadingid = 0;
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.accounts.findIndex(x => x.Ac_ID == result);
@@ -107,11 +106,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingid = 0;
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             }
         }
     });

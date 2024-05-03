@@ -104,10 +104,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //重置密码的弹窗
             EmployeePwreset: function (row) {

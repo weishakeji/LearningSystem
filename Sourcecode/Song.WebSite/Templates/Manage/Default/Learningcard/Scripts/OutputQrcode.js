@@ -46,24 +46,24 @@
             }
         },
         created: function () {
+            var th = this;
             this.loading = true;
             $api.bat(
                 $api.get('Learningcard/SetForID', { 'id': this.id }),
                 $api.get('Learningcard/SetCourses', { 'id': this.id }),
                 $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, courses, cards) {
-                vue.loading = false;
                 //获取结果
-                vue.cardset = cardset.data.result;
-                vue.courses = courses.data.result;
-                vue.cards = cards.data.result;
-                $api.get('Organization/ForID', { 'id': vue.cardset.Org_ID }).then(function (req) {
+                th.cardset = cardset.data.result;
+                th.courses = courses.data.result;
+                th.cards = cards.data.result;
+                $api.get('Organization/ForID', { 'id': th.cardset.Org_ID }).then(function (req) {
                     if (req.data.success) {
-                        vue.organ = req.data.result;
+                        th.organ = req.data.result;
                     } else {
                         $api.get('Organization/Current').then(function (req) {
                             if (req.data.success) {
-                                vue.organ =req.data.result;                        
+                                th.organ = req.data.result;
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -77,9 +77,8 @@
                     alert(err);
                     console.error(err);
                 });
-            })).catch(function (err) {
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         computed: {},
         methods: {},

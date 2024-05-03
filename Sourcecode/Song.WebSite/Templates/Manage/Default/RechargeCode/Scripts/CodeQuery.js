@@ -78,12 +78,13 @@
                     }
                     if (!isexist) setarr.push(card.Rs_ID);
                 }
+                var th = this;
                 //获取主题信息
                 this.codesetArr = [];
                 for (let i = 0; i < setarr.length; i++) {
                     $api.cache('RechargeCode/SetForID', { 'id': setarr[i] }).then(function (req) {
                         if (req.data.success) {
-                            vue.codesetArr.push(req.data.result);
+                            th.codesetArr.push(req.data.result);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -111,8 +112,8 @@
                 var title = "充值码：" + row.Rc_Code + " - " + row.Rc_Pw;
                 var txt = title;
                 txt += "\r\n有效时间：" + codeset.Rs_LimitStart.format("yyyy-MM-dd") + " 至 " + codeset.Rs_LimitEnd.format("yyyy-MM-dd");
-                txt += "\r\n面　　额：" + codeset.Rs_Price + "元";               
-                this.copy(txt, 'textarea').then(function(th){
+                txt += "\r\n面　　额：" + codeset.Rs_Price + "元";
+                this.copy(txt, 'textarea').then(function (th) {
                     th.$message({
                         message: '复制 “' + title + '” 到粘贴板',
                         type: 'success'
@@ -126,16 +127,17 @@
                     this.currentVisible = true;
                     return;
                 }
+                var th = this;
                 var acc = row.Ac_AccName;
                 $api.get('Account/ForAcc', { 'acc': acc }).then(function (req) {
                     if (req.data.success) {
                         row.account = req.data.result;
-                        vue.currentVisible = true;
+                        th.currentVisible = true;
                     } else {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    vue.$alert(err, '提示', {
+                    th.$alert(err, '提示', {
                         confirmButtonText: '确定',
                         callback: action => { }
                     });
@@ -145,11 +147,11 @@
             //更改启用禁用
             changeEnable: function (row) {
                 var th = this;
-                this.loadingid = row.Rc_ID;
+                th.loadingid = row.Rc_ID;
                 var para = { 'code': row.Rc_Code, 'pw': row.Rc_Pw, 'isenable': row.Rc_IsEnable };
                 $api.post('RechargeCode/CodeChangeEnable', para).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             position: 'bottom-right',
@@ -158,10 +160,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    th.$alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             }
         },
         components: {

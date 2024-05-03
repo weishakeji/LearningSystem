@@ -53,12 +53,8 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //保存
             btnEnter: function (formName, isclose) {

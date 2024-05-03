@@ -54,16 +54,13 @@
                         th.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
                         th.total = req.data.total;
-                        th.loading = false;
                         th.getCardset4Pager(req.data.result);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取当前数据页的学习卡主题信息，可能是多个
             getCardset4Pager: function (cards) {
@@ -90,10 +87,7 @@
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 }
             },
             //显示主题
@@ -110,7 +104,7 @@
             //双击事件
             rowdblclick: function (row, column, event) {
                 let cardset = this.getTheme(row.Lcs_ID);
-                var th=this;
+                var th = this;
                 $api.get('Learningcard/SetCourses', { 'id': cardset.Lcs_ID }).then(function (req) {
                     var courses = req.data.success ? req.data.result : [];
                     var title = "学习卡号：" + row.Lc_Code + " - " + row.Lc_Pw;
@@ -123,7 +117,7 @@
                         var cour = courses[i];
                         txt += "\r\n　　　　　" + (i + 1) + "." + cour.Cou_Name;
                     }
-                    th.copy(txt, 'textarea').then(function(data){
+                    th.copy(txt, 'textarea').then(function (data) {
                         th.$message({
                             message: '复制 “' + title + '” 到粘贴板',
                             type: 'success'
@@ -135,7 +129,7 @@
                     console.error(err);
                 });
 
-            },            
+            },
             //显示激活学习卡的账号的信息
             acccountInfo: function (row) {
                 this.current = row;

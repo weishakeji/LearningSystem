@@ -36,7 +36,6 @@
             this.lsid = $api.querystring('id');
             th.loading = true;
             $api.get('Learningcard/SetForID', { 'id': th.lsid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.cardset = req.data.result;
                     th.cardset.courses = [];
@@ -53,11 +52,8 @@
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.$alert(err);
-                th.loading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
             this.getdatainfo();
             this.getCards();
         },
@@ -72,30 +68,25 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //加载学习卡的卡号
             getCards: function () {
                 var th = this;
                 th.loadingcard = true;
-                $api.get('Learningcard/cards', { 'lsid': th.lsid, 'enable': true, 'used': false }).then(function (req) {
-                    th.loadingcard = false;
-                    if (req.data.success) {
-                        th.cards = req.data.result;
-                        th.num.usable = th.cards.length;
-                        console.log(th.cards);
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loadingcard = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                $api.get('Learningcard/cards', { 'lsid': th.lsid, 'enable': true, 'used': false })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            th.cards = req.data.result;
+                            th.num.usable = th.cards.length;
+                            console.log(th.cards);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loadingcard = false);
             },
             //向学员派发学习卡           
             distribution: function (arr) {
@@ -123,7 +114,7 @@
                     });
                     return;
                 }
-                this.$confirm('是否批量派发 '+arr.length+' 张学习卡?', '确认', {
+                this.$confirm('是否批量派发 ' + arr.length + ' 张学习卡?', '确认', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'

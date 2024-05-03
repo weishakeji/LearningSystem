@@ -104,17 +104,15 @@ $ready(function () {
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 2, 'use': '' }),
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 5, 'use': '' }),
                 ).then(axios.spread(function (t0, t1, t2, t5) {
-                    th.loading = false;
                     //获取结果
                     th.total.type0 = t0.data.result;
                     th.total.type1 = t1.data.result;
                     th.total.type2 = t2.data.result;
                     th.total.type5 = t5.data.result;
                 })).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
             },
             //检测
             check: function () {
@@ -150,7 +148,7 @@ $ready(function () {
                         var result = d.data.result;
                         //th.calc_count = result.length;
                         for (let i = 0; i < result.length; i++) {
-                            result[i] =  window.ques.parseAnswer(result[i]);
+                            result[i] = window.ques.parseAnswer(result[i]);
                             th.checkItems(result[i], type);
 
                         }
@@ -167,7 +165,7 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -256,4 +254,4 @@ $ready(function () {
             }
         }
     });
-},['/Utilities/Components/question/function.js']);
+}, ['/Utilities/Components/question/function.js']);

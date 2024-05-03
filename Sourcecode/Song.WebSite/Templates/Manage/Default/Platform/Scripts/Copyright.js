@@ -11,7 +11,6 @@
             var th = this;
             th.loading = true;
             $api.cache('Copyright/Datas').then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.datas = req.data.result;
                     th.rowdrop();
@@ -20,10 +19,9 @@
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
             $api.post('Admin/IsSuper').then(function (req) {
                 if (req.data.success) {
                     th.issuper = req.data.result;
@@ -94,11 +92,8 @@
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    vapp.loading = false;
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //行的拖动
             rowdrop: function () {

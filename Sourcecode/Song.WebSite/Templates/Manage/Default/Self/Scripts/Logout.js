@@ -6,16 +6,17 @@ $ready(function () {
             account: {} //当前登录账号对象
         },
         created: function () {
+            var th = this;
             $api.post('Admin/Super').then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    vue.account = result;
+                    th.account = result;
                 } else {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
                 //alert(err);
-                vue.account = null;
+                th.account = null;
             });
         },
         methods: {

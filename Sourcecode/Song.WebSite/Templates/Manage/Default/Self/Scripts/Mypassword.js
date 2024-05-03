@@ -30,16 +30,17 @@ $ready(function () {
             }
         },
         created: function () {
+            var th = this;
             $api.post('Admin/Super').then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    vue.account = result;
+                    th.account = result;
                 } else {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
                 // alert(err);
-                vue.account = null;
+                th.account = null;
             });
 
         },
@@ -47,10 +48,11 @@ $ready(function () {
             btnEnter: function (formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        $api.post('Admin/ChangePw', { 'oldpw': vue.form.oldpw, 'newpw': vue.form.newpw }).then(function (req) {
+                        var th = this;
+                        $api.post('Admin/ChangePw', { 'oldpw': th.form.oldpw, 'newpw': th.form.newpw }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vue.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '修改成功!'
                                 });
@@ -63,7 +65,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vue.$alert(err, '错误');
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

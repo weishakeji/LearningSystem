@@ -152,9 +152,8 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             alert(err, '错误');
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -170,7 +169,7 @@ $ready(function () {
                     appid: this.entity.SSO_APPID,
                     user: demo.user,
                     name: demo.name,
-                    sort: demo.sort,                   
+                    sort: demo.sort,
                     code: md5
                 });
                 href = $api.url.set(href, 'goto', goto);

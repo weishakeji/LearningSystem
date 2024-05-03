@@ -27,18 +27,17 @@
             }
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.bat(
-                $api.get('Learningcard/SetForID', { 'id': this.id }),
-                $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': ''  })
+                $api.get('Learningcard/SetForID', { 'id': th.id }),
+                $api.get('Learningcard/Cards', { 'lsid': th.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, cards) {
-                vue.loading = false;
                 //获取结果
-                vue.cardset = cardset.data.result;
-                vue.cards = cards.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                th.cardset = cardset.data.result;
+                th.cards = cards.data.result;
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         computed: {
             percentage: function () {

@@ -21,16 +21,13 @@ $ready(function () {
                     th.organ = req.data.result;
                     //机构配置信息
                     th.config = $api.organ(th.organ).config;
-                    console.log(th.config );
+                    console.log(th.config);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.loading = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         methods: {
 

@@ -47,9 +47,7 @@ $ready(function () {
                             //获取结果
                             th.account = account.data.result;
                             th.organ = organ.data.result;
-                        })).catch(function (err) {
-                            console.error(err);
-                        });
+                        })).catch(err => console.error(err));
                         //如果是在线支付
                         if (th.entity.Ma_From == 3) {
                             $api.get('Pay/ForID', { 'id': th.entity.Pai_ID }).then(function (req) {
@@ -59,19 +57,13 @@ $ready(function () {
                                     console.error(req.data.exception);
                                     throw req.data.message;
                                 }
-                            }).catch(function (err) {
-                                alert(err);
-                                console.error(err);
-                            });
+                            }).catch(err => console.error(err));
                         }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             },
             //来源
             getFrom: function (from) {
@@ -106,25 +98,22 @@ $ready(function () {
             //确认金额的具体方法
             funcConfirm: function () {
                 var th = this;
-                tthhis.loading = true;
-                $api.post('Money/ConfirmSerial', { 'serial': th.entity.Ma_Serial }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$message({
-                            type: 'success',
-                            message: '操作成功!'
-                        });
-                        th.getEntity();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    alert(err);
-                    console.error(err);
-                });
+                th.loading = true;
+                $api.post('Money/ConfirmSerial', { 'serial': th.entity.Ma_Serial })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.$message({
+                                type: 'success',
+                                message: '操作成功!'
+                            });
+                            th.getEntity();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //复制到粘贴板
             copytext: function (val, title) {

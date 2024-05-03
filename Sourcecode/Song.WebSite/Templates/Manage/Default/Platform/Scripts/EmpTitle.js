@@ -88,10 +88,9 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //双击事件
             rowdblclick: function (row, column, event) {

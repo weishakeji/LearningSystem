@@ -50,7 +50,7 @@ $ready(function () {
                 $api.post('Purview/Save', { 'id': this.id, 'type': 'posi', 'mm': mm }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '操作成功',
                             center: true

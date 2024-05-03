@@ -67,10 +67,8 @@
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loadingdel = false;
-                    th.$alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingdel = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -81,7 +79,6 @@
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 41);
                 $api.get("Account/Pager", th.form).then(function (d) {
-                    th.loading = false;
                     if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -90,10 +87,8 @@
                         console.error(d.data.exception);
                         throw d.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    th.$alert(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //显示手机号
             showmobi: function (row) {
@@ -127,10 +122,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
                     alert(err, '错误');
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //导出
             output: function (btn) {

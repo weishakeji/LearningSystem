@@ -12,13 +12,14 @@ $ready(function () {
             loading: false
         },
         created: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (organs, domain) {
                 //获取结果
-                vue.datas = organs.data.result;
-                vue.domain = domain.data.result;
+                th.datas = organs.data.result;
+                th.domain = domain.data.result;
             })).catch(function (err) {
                 console.error(err);
             });
@@ -31,7 +32,6 @@ $ready(function () {
                 th.loading = true;
                 var organs = th.organs.join(',');
                 $api.get('Account/ExcelOutputForOrg', { 'organs': organs }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -45,35 +45,31 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                    vue.loading = false;
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //获取文件列表
             getFiles: function () {
+                var th = this;
                 $api.get('Account/ExcelFiles', { 'path': 'AccountsToExcelForOrgan' }).then(function (req) {
                     if (req.data.success) {
-                        vue.files = req.data.result;
-                        vue.loading = false;
+                        th.files = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //删除文件
             deleteFile: function (file) {
-                this.loading = true;
-                $api.delete('Account/ExcelDelete', { 'filename': file, 'path':'AccountsToExcelForOrgan' }).then(function (req) {
+                var th = this;
+                th.loading = true;
+                $api.delete('Account/ExcelDelete', { 'filename': file, 'path': 'AccountsToExcelForOrgan' }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.getFiles();
-                        vue.$notify({
+                        th.getFiles();
+                        th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
                             position: 'bottom-right',

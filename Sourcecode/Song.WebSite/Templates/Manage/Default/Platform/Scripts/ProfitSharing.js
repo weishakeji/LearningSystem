@@ -70,11 +70,10 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
+
                 }).catch(function (err) {
                     th.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                }).finally(() => th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {

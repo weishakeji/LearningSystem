@@ -66,7 +66,6 @@
                 $api.get('Organization/ForID', { 'id': th.id }),
                 $api.get('Position/All4Organ', { 'orgid': th.id })
             ).then(axios.spread(function (org, posi) {
-                th.loading = false;
                 //获取结果
                 th.org = org.data.result;
                 th.positions = posi.data.result;
@@ -74,11 +73,8 @@
                     th.creatPosi();
                 }
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
-                th.loading = false;
-                Vue.prototype.$alert(err);
-                console.error(err);
-            });
+            })).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
         },
         computed: {
@@ -117,23 +113,23 @@
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(function (err) {
-                        //alert(err);
-                        Vue.prototype.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 }).catch(() => { });
             },
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('Admin/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        vapp.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -283,10 +279,9 @@
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
-                            Vue.prototype.$alert(err);
+                            alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

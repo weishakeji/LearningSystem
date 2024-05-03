@@ -43,36 +43,33 @@
             this.form.lsid = $api.querystring('id');
             th.cardsetLoading = true;
             $api.get('Learningcard/SetForID', { 'id': th.form.lsid }).then(function (req) {
-                th.cardsetLoading = false;
                 if (req.data.success) {
                     th.cardset = req.data.result;
                     th.cardset.courses = [];
-                    $api.get('Learningcard/SetCourses', { 'id': vue.form.lsid }).then(function (req) {
+                    $api.get('Learningcard/SetCourses', { 'id': th.form.lsid }).then(function (req) {
                         if (req.data.success) {
                             th.cardset.courses = [];
-                            th.cardset['courses'] = req.data.result;                           
+                            th.cardset['courses'] = req.data.result;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.$alert(err);
-                th.cardsetLoading = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.cardsetLoading = false);
             this.handleCurrentChange();
         },
         methods: {
             //获取学习卡数据统计信息
             getdatainfo: function () {
-                $api.get('Learningcard/SetDataInfo', { 'id': this.form.lsid }).then(function (req) {
+                var th = this;
+                $api.get('Learningcard/SetDataInfo', { 'id': th.form.lsid }).then(function (req) {
                     if (req.data.success) {
-                        vue.num = req.data.result;
+                        th.num = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -116,14 +113,14 @@
                 for (var i = 0; i < this.cardset.courses.length; i++) {
                     var cour = this.cardset.courses[i];
                     txt += "\r\n　　　　　" + (i + 1) + "." + cour.Cou_Name;
-                }                
-                this.copy(txt, 'textarea').then(function(th){
+                }
+                this.copy(txt, 'textarea').then(function (th) {
                     th.$message({
                         message: '复制 “' + title + '” 到粘贴板',
                         type: 'success'
                     });
                 });
-            },  
+            },
             //显示激活学习卡的账号的信息
             acccountInfo: function (row) {
                 this.current = row;
@@ -131,11 +128,12 @@
                     this.currentVisible = true;
                     return;
                 }
+                var th = this;
                 var acc = row.Ac_AccName;
                 $api.get('Account/ForAcc', { 'acc': acc }).then(function (req) {
                     if (req.data.success) {
                         row.account = req.data.result;
-                        vue.currentVisible = true;
+                        th.currentVisible = true;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -213,10 +211,11 @@
                             message: '没有选择要回滚的学习卡'
                         });
                     } else {
+                        var th = this;
                         //可以回滚的数量（已经使用学习卡可以回滚，未使用的不用回滚）
                         var num = 0;
-                        for (var i = 0; i < vue.selects.length; i++) {
-                            if (vue.selects[i].Lc_IsUsed && vue.selects[i].Lc_State != -1) { num++; }
+                        for (var i = 0; i < th.selects.length; i++) {
+                            if (th.selects[i].Lc_IsUsed && th.selects[i].Lc_State != -1) { num++; }
                         }
                         if (num == 0) {
                             this.$message({
@@ -239,15 +238,15 @@
                             cancelButtonText: '回滚，但保留学习记录',
                             type: 'warning'
                         }).then(() => {
-                            for (var i = 0; i < vue.selects.length; i++) {
-                                if (vue.selects[i].Lc_IsUsed)
-                                    this.gobackFunc(vue.selects[i], true);
+                            for (var i = 0; i < th.selects.length; i++) {
+                                if (th.selects[i].Lc_IsUsed)
+                                    this.gobackFunc(th.selects[i], true);
                             }
                         }).catch(action => {
                             if (action == 'cancel') {
-                                for (var i = 0; i < vue.selects.length; i++) {
-                                    if (vue.selects[i].Lc_IsUsed)
-                                        this.gobackFunc(vue.selects[i], false);
+                                for (var i = 0; i < th.selects.length; i++) {
+                                    if (th.selects[i].Lc_IsUsed)
+                                        this.gobackFunc(th.selects[i], false);
                                 }
                             }
                         });
@@ -257,15 +256,16 @@
             //回滚学习的具体方法
             gobackFunc: function (row, isclear) {
                 row.Lc_State = -100;
+                var th = this;
                 $api.post('Learningcard/CardRollback', { 'code': row.Lc_Code, 'pw': row.Lc_Pw, 'clear': isclear }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        for (var i = 0; i < vue.datas.length; i++) {
-                            if (result.Lc_ID == vue.datas[i].Lc_ID) {
-                                vue.$set(vue.datas, i, result);
+                        for (var i = 0; i < th.datas.length; i++) {
+                            if (result.Lc_ID == th.datas[i].Lc_ID) {
+                                th.$set(th.datas, i, result);
                             }
                         }
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '回滚成功!'
                         });
@@ -285,7 +285,7 @@
                 var para = { 'code': row.Lc_Code, 'pw': row.Lc_Pw, 'isenable': row.Lc_IsEnable };
                 $api.post('Learningcard/CardChangeEnable', para).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             position: 'bottom-right',
@@ -294,10 +294,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             }
         }
     });

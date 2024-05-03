@@ -1,5 +1,5 @@
 ﻿$ready(function () {
-    window.vm = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             form: {},

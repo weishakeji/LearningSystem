@@ -12,7 +12,6 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.post('Admin/Super').then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;
@@ -31,33 +30,32 @@ $ready(function () {
                     throw '未登录，或登录状态已失效';
                 }
             }).catch(function (err) {
-                th.loading = false;
                 th.account = null;
                 th.$alert(err);
-            });
+            }).finally(() => th.loading = false);
         },
         methods: {
             //提交更改
             updateDetails: function () {
                 var th = this;
                 th.loading = true;
-                $api.post('Organization/ModifyIntro', { 'orgid': th.organ.Org_ID, 'text': th.organ.Org_Intro }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$message({
-                            type: 'success',
-                            message: '操作成功!',
-                            center: true
-                        });
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.$alert(err);
-                    console.error(err);
-                });
+                $api.post('Organization/ModifyIntro', { 'orgid': th.organ.Org_ID, 'text': th.organ.Org_Intro })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.$message({
+                                type: 'success',
+                                message: '操作成功!',
+                                center: true
+                            });
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.$alert(err);
+                        console.error(err);
+                    }).finally(() => th.loading = false);
             }
         }
     });

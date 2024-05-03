@@ -18,11 +18,12 @@ $ready(function () {
             selects: [] //数据表中选中的行
         },
         created: function () {
+            var th = this;
             $api.get('Admin/Organ').then(function (req) {
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    vapp.form.orgid = vapp.organ.Org_ID;
-                    vapp.loadDatas();
+                    th.organ = req.data.result;
+                    th.form.orgid = th.organ.Org_ID;
+                    th.loadDatas();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -36,15 +37,16 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 if (datas == '') return;
+                var th = this;
                 $api.delete('Admin/GroupDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vapp.loadDatas();
+                        th.loadDatas();
                     } else {
                         throw req.data.message;
                     }
@@ -60,7 +62,7 @@ $ready(function () {
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
-                $api.post("Admin/GroupPager",this.form).then(function (d) {
+                $api.post("Admin/GroupPager", this.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.rowdrop();
@@ -78,7 +80,7 @@ $ready(function () {
                 this.loadingid = row.Title_Id;
                 $api.post('Admin/GroupModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -86,14 +88,13 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);                
+                this.$refs.btngroup.modifyrow(row);
             },
             //行的拖动
             rowdrop: function () {
@@ -111,13 +112,13 @@ $ready(function () {
                     onStart: function (evt) {
                     },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
@@ -137,9 +138,10 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
                 $api.post('Admin/GroupTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true

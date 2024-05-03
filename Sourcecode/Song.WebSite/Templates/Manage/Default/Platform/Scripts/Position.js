@@ -20,15 +20,16 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 if (datas == '') return;
+                var th = this;
                 $api.delete('Position/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.loadDatas();
+                        th.loadDatas();
                     } else {
                         throw req.data.message;
                     }
@@ -56,10 +57,10 @@ $ready(function () {
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Posi_Id;
+                th.loadingid = row.Posi_Id;
                 $api.post('Position/Modify', { 'posi': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -69,7 +70,7 @@ $ready(function () {
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
+                    alert(err, '错误');
                 });
             },
             //双击事件
@@ -92,13 +93,13 @@ $ready(function () {
                     onStart: function (evt) {
                     },
                     onMove: function (evt, originalEvent) {
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         var table = this.$refs.datatable;
@@ -118,9 +119,10 @@ $ready(function () {
             //更新排序
             changeTax: function () {
                 var arr = $api.clone(this.datas);
+                var th = this;
                 $api.post('Position/UpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true

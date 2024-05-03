@@ -12,10 +12,11 @@ $ready(function () {
             loading: false
         },
         created: function () {
+            var th = this;
             $api.post('Admin/Super').then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    vue.account = result;
+                    th.account = result;
                 } else {
                     throw '未登录，或登录状态已失效';
                 }
@@ -28,10 +29,11 @@ $ready(function () {
             btnEnter: function (formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        $api.post('Admin/Modify', { 'acc': vue.account }).then(function (req) {
+                        var th = this;
+                        $api.post('Admin/Modify', { 'acc': th.account }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vue.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '修改成功!',
                                     center: true
@@ -47,7 +49,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            vue.$alert(err, '错误');
+                            alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

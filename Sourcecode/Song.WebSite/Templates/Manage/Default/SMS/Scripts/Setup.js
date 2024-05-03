@@ -53,9 +53,7 @@
                     }
                 }).catch(function (err) {
                     alert(err, '错误');
-                }).finally(function () {
-                    th.loadingid = '';
-                });
+                }).finally(() => th.loadingid = '');
             },
             //是否作为超链接
             //当前域名为https而要打开的域名为http时，会由于安全限制无法打在openbox中打开

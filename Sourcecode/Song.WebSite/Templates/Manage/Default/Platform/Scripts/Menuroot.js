@@ -18,23 +18,24 @@
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('ManageMenu/Delete', {
                     'id': datas
                 }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.loadDatas();
+                        th.loadDatas();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);                  
+                    alert(err);
                 });
             },
             //加载数据页
@@ -59,10 +60,10 @@
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.MM_Id;
+                th.loadingid = row.MM_Id;
                 $api.post('ManageMenu/Modify', { 'mm': row }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -71,11 +72,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                    th.loadingid = 0;
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             //行的拖动
             rowdrop: function () {
@@ -90,19 +89,19 @@
                         pull: false,
                         put: false
                     },
-                    onStart: function (evt) {                       
+                    onStart: function (evt) {
                     },
                     onMove: function (evt, originalEvent) {
                         if ($dom('table tr.expanded').length > 0) {
                             return false;
                         };
-                        
+
                         evt.dragged; // dragged HTMLElement
                         evt.draggedRect; // TextRectangle {left, top, right и bottom}
                         evt.related; // HTMLElement on which have guided
                         evt.relatedRect; // TextRectangle
                         originalEvent.clientY; // mouse position
-                        
+
                     },
                     onEnd: (e) => {
                         let arr = this.datas; // 获取表数据
@@ -123,14 +122,14 @@
                 for (var i = 0; i < arr.length; i++) {
                     delete arr[i]['childs'];
                 }
-                var th=this;
+                var th = this;
                 $api.post('ManageMenu/ModifyTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
-                        });                 
+                        });
                     } else {
                         throw req.data.message;
                     }

@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             form: {
                 orgid: '',
@@ -29,10 +29,11 @@
             });
         },
         created: function () {
+            var th = this;
             $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }).then(function (req) {
                 if (req.data.success) {
-                    window.vue.organs = req.data.result;
-                    window.vue.handleCurrentChange(1);
+                    th.organs = req.data.result;
+                    th.handleCurrentChange(1);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -49,16 +50,16 @@
         methods: {
             //删除
             deleteData: function (datas) {
-                console.log(datas);
+                var th = this;
                 $api.delete('Learningcard/SetDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -94,10 +95,10 @@
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Lcs_ID;
+                th.loadingid = row.Lcs_ID;
                 $api.post('Learningcard/SetModify', { 'entity': row, 'scope': 1 }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -105,10 +106,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             outputExcel: function (row) {
                 var file = 'OutputExcel';

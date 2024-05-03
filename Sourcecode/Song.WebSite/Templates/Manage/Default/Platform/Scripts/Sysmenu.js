@@ -42,12 +42,11 @@ $ready(function () {
                     } else {
                         throw req.data.message;
                     }
-                    window.vapp.loading = false;
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
-            },           
+            },
             //添加一个节点
             append: function (d) {
                 var obj = this.clone();

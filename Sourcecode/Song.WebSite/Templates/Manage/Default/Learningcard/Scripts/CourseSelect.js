@@ -1,5 +1,6 @@
 ﻿$ready(function () {
-    window.vm = new Vue({
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             orgs: {},       //机构列表
             sbjs: {},        //专业
@@ -10,7 +11,7 @@
                 orgid: '',        //当前机构id
                 sbjids: '',        //当前专业id，字符串
                 search: '',          //课程检索的输入
-                order:'def',       //排序方式
+                order: 'def',       //排序方式
                 size: 10000,
                 index: 1
             },
@@ -20,8 +21,8 @@
             form: {
                 handler(val, oldval) {
                     if (!oldval) return;
-                    vm.orgChange(val.orgid);
-                    vm.searchCourse();
+                    this.orgChange(val.orgid);
+                    this.searchCourse();
                 },
                 immediate: true,
                 deep: true
@@ -29,27 +30,28 @@
             sbjids: {
                 handler(val, oldval) {
                     if (val.length > 0) {
-                        vm.form.sbjids = val[val.length - 1];
+                        this.form.sbjids = val[val.length - 1];
                     }
                 }
             }
         },
         computed: {
-          
+
         },
         created: function () {
+            var th = this;
             $api.get('Organization/AllUse').then(function (req) {
                 if (req.data.success) {
-                    vm.orgs = req.data.result;
+                    th.orgs = req.data.result;
                     window.setTimeout(function () {
-                        if (vm.orgs.length > 0) vm.form.orgid = vm.orgs[0].Org_ID;
-                        vm.searchCourse();
+                        if (th.orgs.length > 0) th.form.orgid = th.orgs[0].Org_ID;
+                        th.searchCourse();
                     }, 100);
 
                     //获取已经选中的课程，来自父窗体 
                     var parent = window.top.$pagebox.parent(window.name);
                     var doc = parent.document();
-                    vm.selects = doc.vapp.courses;
+                    th.selects = doc.vapp.courses;
                 } else {
                     throw req.data.message;
                 }
@@ -63,10 +65,11 @@
         methods: {
             //当机构选择框变化时
             orgChange: function (orgid) {
-                $api.cache('Subject/list', { 'orgid': orgid,'search':'','isuse':'true' }).then(function (req) {
+                var th = this;
+                $api.cache('Subject/list', { 'orgid': orgid, 'search': '', 'isuse': 'true' }).then(function (req) {
                     if (req.data.success) {
-                        var result = vm.buildSbjtree(req.data.result, 0);
-                        vm.sbjs = result;
+                        var result = th.buildSbjtree(req.data.result, 0);
+                        th.sbjs = result;
                     } else {
                         throw req.data.message;
                     }
@@ -86,15 +89,16 @@
                         });
                 }
                 for (var i = 0; i < list.length; i++) {
-                    list[i].children = vm.buildSbjtree(data, list[i].value);
+                    list[i].children = this.buildSbjtree(data, list[i].value);
                 }
                 return list.length > 0 ? list : null;
             },
             //检索课程
             searchCourse: function () {
-                $api.get('Course/ShowPager', vm.form).then(function (req) {
+                var th = this;
+                $api.get('Course/ShowPager', this.form).then(function (req) {
                     if (req.data.success) {
-                        vm.courses = req.data.result;
+                        th.courses = req.data.result;
                     } else {
                         throw req.data.message;
                     }
@@ -104,8 +108,8 @@
             },
             //添加选中的课程
             handleSelectCourse: function (data) {
-                var arr = $api.clone(vm.selects);
-                vm.selects = [];
+                var arr = $api.clone(this.selects);
+                this.selects = [];
                 if (data) {
                     var isExist = false;
                     for (var i = 0; i < arr.length; i++) {
@@ -115,50 +119,44 @@
                         }
                     }
                     if (!isExist) arr.push(data);
-                    vm.selects = arr;
+                    this.selects = arr;
                 } else {
-                    for (var i = 0; i < vm.courses.length; i++) {
-                        vm.handleSelectCourse(vm.courses[i]);
+                    for (var i = 0; i < this.courses.length; i++) {
+                        this.handleSelectCourse(this.courses[i]);
                     }
                 }
                 //获取已经选中的课程，来自父窗体 
                 var parent = window.top.$pagebox.parent(window.name);
                 var doc = parent.document();
-                doc.vapp.coursesChange(vm.selects);
+                doc.vapp.coursesChange(this.selects);
             },
             //清除选中的课程
             handleRemoveourse: function (data) {
-                var arr = $api.clone(vm.selects);
-                vm.selects = [];
-                if (data) {                   
+                var arr = $api.clone(this.selects);
+                this.selects = [];
+                if (data) {
                     for (var i = 0; i < arr.length; i++) {
                         if (arr[i].Cou_ID == data.Cou_ID) {
                             arr.splice(i, 1);
                             break;
                         }
                     }
-                    vm.selects = arr;
+                    this.selects = arr;
                 }
-                //console.log(vm.selects);
+                //console.log(this.selects);
                 //获取已经选中的课程，来自父窗体 
                 var parent = window.top.$pagebox.parent(window.name);
                 var doc = parent.document();
-                doc.vapp.coursesChange(vm.selects);
+                doc.vapp.coursesChange(this.selects);
             },
             handleEnter: function (data) {
             },
             //保存信息
             btnEnter: function () {
-                if (vm.loading) return;
+                if (this.loading) return;
             },
 
         }
-    });
-    vm.$mount('#app');
+    }); 
 
-    $api.effect(function () {
-        vm.loading = true;
-    }, function (response) {
-        vm.loading = false;
-    });
 });

@@ -2,7 +2,7 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data() {
             let checkNum = (rule, value, callback) => {
                 if (!value && value != 0) {
@@ -295,7 +295,7 @@ $ready(function () {
             //操作成功
             operateSuccess: function () {
                 if (window.top.$pagebox)
-                    window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
             }
         },
     });

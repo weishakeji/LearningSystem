@@ -1,5 +1,5 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
+    window.vapp = new Vue({
         el: '#app',
         data: {
             form: {
@@ -31,20 +31,21 @@
             this.handleCurrentChange(1);
         },
         computed: {
-           
+
         },
         methods: {
             //删除
             deleteData: function (datas) {
+                var th = this;
                 $api.delete('RechargeCode/SetDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vue.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         throw req.data.message;
                     }
@@ -80,11 +81,11 @@
             //更改使用状态
             changeUse: function (row) {
                 var th = this;
-                this.loadingid = row.Rs_ID;               
+                th.loadingid = row.Rs_ID;
                 var entity = $api.clone(row);
                 $api.post('RechargeCode/SetModify', { 'entity': entity }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -92,10 +93,9 @@
                     } else {
                         throw req.data.message;
                     }
-                    th.loadingid = 0;
                 }).catch(function (err) {
-                    vue.$alert(err, '错误');
-                });
+                    alert(err, '错误');
+                }).finally(() => th.loadingid = 0);
             },
             outputExcel: function (row) {
                 var file = 'OutputExcel';
