@@ -46,13 +46,11 @@ $ready(function () {
                         $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
                         $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
                     ).then(axios.spread(function (student, paper) {
-                        th.loading = false;
                         //获取结果
                         th.student = student.data.result;
                         th.paper = paper.data.result;
-                    })).catch(function (err) {
-                        console.error(err);
-                    });
+                    })).catch(err => console.error(err))
+                        .finally(() => th.loading = false);
                 } else {
                     throw req.data.message;
                 }
