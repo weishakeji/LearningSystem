@@ -19,14 +19,16 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
+
+                console.log(th.organ);
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
 
             ///*
@@ -53,7 +55,7 @@ $ready(function () {
         watch: {
             'brw_posi': function (nv, ov) {
                 //if (nv.longitude > 0 && nv.latitude > 0)
-                    this.getposi();
+                this.getposi();
             }
         },
         methods: {

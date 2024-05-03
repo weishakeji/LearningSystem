@@ -266,7 +266,7 @@ var rvue = new Vue({
             let urlstr = window.location.protocol + "//" + window.location.host + "/api/v" + $api.version + "/" + method;
             document.getElementById("apiurl").innerText = urlstr.toLowerCase();
             let jsstr = "$api." + http + "('" + method + "'" + (params == "{}" ? "" : "," + params) + ")";
-            jsstr += ".then(function(req){\r\
+            jsstr += ".then(req=>{\r\
             if(req.data.success){\r\
                 var result=req.data.result;\r\
                 //...\r\

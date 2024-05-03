@@ -150,7 +150,7 @@
 
                         <P><b>单个访问</b> </P>
                         <pre>
-      $api.get('Account/Current').then(function(req){
+      $api.get('Account/Current').then(req=>{
             if(req.data.success){
                   var result=req.data.result;
                   //...
@@ -180,7 +180,7 @@
       //当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络
 
       //缓存20分钟，数值可以为空，默认是10分钟
-      $api.cache('News/Article:20',{ 'id': 225 }).then(function(req){
+      $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
             if(req.data.success){
                   var result=req.data.result;
                   //...
