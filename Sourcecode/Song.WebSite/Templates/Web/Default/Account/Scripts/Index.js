@@ -28,19 +28,18 @@ $ready(function () {
             loading_menu: false      //菜单加载状态
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+            ).then(([org]) => {
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = org.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
 
-                document.title += vapp.organ.Org_PlatformName;
-            })).catch(function (err) {
-                console.error(err);
-            });
+                document.title += th.organ.Org_PlatformName;
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
             this.getmenus();
         },
         created: function () {
@@ -48,9 +47,8 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            }
+            islogin: t => !$api.isnull(t.account)
+
         },
         watch: {
             //选项卡切换时，切换显示内容（iframe)
