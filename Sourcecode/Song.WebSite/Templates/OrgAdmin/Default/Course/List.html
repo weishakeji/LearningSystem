@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除,学习记录" ref='btngroup' @delete="deleteData" @add="btnadd" @log="openlog"
-                path="Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
+                path="Modify" width="1000" height="80%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="专业">
                     <sbj_cascader ref="subject" :orgid="form.orgid"
