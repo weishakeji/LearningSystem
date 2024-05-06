@@ -47,22 +47,22 @@
                     </div>
                 </div>
             </el-table-column>
-            <el-table-column label="收益" align="center">
+            <el-table-column label="收益" align="right" width="200">
                 <span slot-scope="scope">                  
                     <course_income :course="scope.row"></course_income>
                 </span>
             </el-table-column>
-            <el-table-column label="价格" width="130">
+            <el-table-column label="价格" width="150">
                 <template slot-scope="scope">
                     <course_prices :course="scope.row"></course_prices>
                 </template>
             </el-table-column>
-            <el-table-column label="信息" width="200">
+            <el-table-column label="信息" width="260">
                 <template slot-scope="scope">
                     <course_data :course="scope.row" :show_student="false"></course_data>
                 </template>
             </el-table-column>
-            <el-table-column label="所属专业" width="120">
+            <el-table-column label="所属专业" width="200">
                 <template slot-scope="scope">
                     <icon>&#xe750</icon> {{scope.row.Sbj_Name}}
                 </template>
