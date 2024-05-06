@@ -57,13 +57,13 @@ $ready(function () {
                 $api.bat(
                     $api.get('Pay/Interface', { 'id': state.pi }),
                     $api.get('Pay/MoneyAccount', { 'serial': state.serial })
-                ).then(axios.spread(function (pi, acc) {
+                ).then(([pi, acc]) => {
                     //获取结果
                     th.interface = pi.data.result;
                     th.moneyAccount = acc.data.result;
                     if (th.ismaccount && th.ifexist)
                         th.getAccountAndOrgan(th.moneyAccount);
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //获取支付账号与所在机构
@@ -72,12 +72,12 @@ $ready(function () {
                 $api.bat(
                     $api.get('Account/ForID', { 'id': moneyAccount.Ac_ID }),
                     $api.get('Organization/ForID', { 'id': moneyAccount.Org_ID })
-                ).then(axios.spread(function (acc, org) {
+                ).then(([acc, org]) => {
                     //获取结果
                     th.account = acc.data.result;
                     th.organ = org.data.result;
                     th.wxJsApiPay(th.interface, th.account, th.moneyAccount, th.organ);
-                })).catch(function (err) {
+                }).catch(function (err) {
                     //alert(err);
                     console.error(err);
                 });

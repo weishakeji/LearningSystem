@@ -31,7 +31,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 if (th.account && !!th.account.Ac_ID)
@@ -42,7 +42,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange();
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -73,7 +73,7 @@ $ready(function () {
                 console.log(document.documentElement.clientHeight);
                 th.query.size = Math.round(area / 200);
                 var apiurl = "Course/" + this.method_name;
-                $api.get(apiurl, th.query).then(function (req) {                
+                $api.get(apiurl, th.query).then(function (req) {
                     if (req.data.success) {
                         th.total = req.data.total;
                         th.datas = [];
@@ -83,10 +83,10 @@ $ready(function () {
                         throw req.data.message;
                     }
 
-                }).catch(function (err) {                 
+                }).catch(function (err) {
                     th.error = err;
                     console.error(err);
-                }) .finally(() => th.loading = false);
+                }).finally(() => th.loading = false);
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
             resultScore: function (purchase) {

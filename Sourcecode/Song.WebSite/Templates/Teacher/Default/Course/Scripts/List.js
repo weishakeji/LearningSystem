@@ -47,7 +47,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Teacher/Current')
-            ).then(axios.spread(function (org, teach) {
+            ).then(([org, teach]) => {
                 //获取结果              
                 th.organ = org.data.result;
                 th.teacher = teach.data.result;
@@ -57,7 +57,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange(1);
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         computed: {

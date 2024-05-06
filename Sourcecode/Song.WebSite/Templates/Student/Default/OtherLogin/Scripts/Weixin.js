@@ -89,11 +89,11 @@ $ready(function () {
                 $api.bat(
                     $api.get('Account/Current'),
                     $api.get('Account/User4Openid', { 'openid': openid, 'field': th.tag })
-                ).then(axios.spread(function (user, bound) {
+                ).then(([user, bound]) => {
                     //获取结果
                     th.onlineuser = user.data.result;
                     th.binduser = bound.data.result;
-                })).catch(function (err) { console.error(err); })
+                }).catch(function (err) { console.error(err); })
                     .finally(function () { th.loading = false; });
             },
             //绑定
@@ -101,16 +101,17 @@ $ready(function () {
                 var th = this;
                 //console.error(this.openid);
                 th.loading = true;
-                $api.get('Account/UserBind', { 'openid': th.openid, 'nickname': th.outeruser.nickname, 'headurl': th.outeruser.headimgurl, 'field': th.tag }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.getuser(th.openid);
-                        th.operateSuccess();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) { console.error(err); })
+                $api.get('Account/UserBind', { 'openid': th.openid, 'nickname': th.outeruser.nickname, 'headurl': th.outeruser.headimgurl, 'field': th.tag })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.getuser(th.openid);
+                            th.operateSuccess();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) { console.error(err); })
                     .finally(function () { th.loading = false; });
             },
             //操作成功
@@ -138,8 +139,8 @@ $ready(function () {
             //first:从第几个字符开始
             //last：从倒数第几个开始
             dataMasking: function (str, first, last) {
-                if (first>0 && str.length > first) { 
-                    
+                if (first > 0 && str.length > first) {
+
                 }
             }
         }

@@ -21,7 +21,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, organ) {
+            ).then(([account, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.form.acid = th.account.Ac_ID;
@@ -29,7 +29,7 @@ $ready(function () {
                 th.handleCurrentChange(1);
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -122,12 +122,12 @@ $ready(function () {
                     $api.cache('Exam/ForID', { 'id': this.result.Exam_ID }),
                     $api.cache('TestPaper/ForID', { 'id': this.result.Tp_Id }),
                     $api.cache('Subject/ForID', { 'id': this.result.Sbj_ID })
-                ).then(axios.spread(function (exam, paper, subject) {
+                ).then(([exam, paper, subject]) => {
                     //获取结果
                     th.exam = exam.data.result;
                     th.paper = paper.data.result;
                     th.subject = subject.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //得分样式

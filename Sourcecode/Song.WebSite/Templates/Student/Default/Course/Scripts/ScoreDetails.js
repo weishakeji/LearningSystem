@@ -27,7 +27,7 @@ $ready(function () {
                 $api.get('Account/ForID', { 'id': th.stid }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -36,7 +36,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.getpurchase();
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -72,7 +72,7 @@ $ready(function () {
                 var val = Number(this.config[para]);
                 if (isNaN(val)) return def ? def : '';
                 return val;
-            }, 
+            },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
             resultScore: function (purchase, config) {
                 if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;

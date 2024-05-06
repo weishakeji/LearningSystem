@@ -42,7 +42,7 @@ $ready(function () {
                 $api.bat(
                     $api.get('Pay/Interface', { 'id': th.pid }),
                     $api.get('Pay/MoneyAccount', { 'serial': th.serial })
-                ).then(axios.spread(function (pi, acc) {
+                ).then(([pi, acc]) => {
                     //获取结果
                     th.interface = pi.data.result;
                     th.moneyAccount = acc.data.result;
@@ -63,10 +63,10 @@ $ready(function () {
                             th.call_succeeded();
                         }, 1000);
                     }
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
-            goback: function () {              
+            goback: function () {
                 window.location.href = this.referrer;
             },
             //验证是否成功

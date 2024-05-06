@@ -7,7 +7,7 @@ $ready(function () {
             organ: {},
             config: {},      //当前机构配置项       
 
-            form: { 'acid': '', 'start': '', 'end': '', 'type': '-1', 'search': '', 'size': 10, 'index': 1 },           
+            form: { 'acid': '', 'start': '', 'end': '', 'type': '-1', 'search': '', 'size': 10, 'index': 1 },
 
             datas: [],      //数据集，此处是学员列表
             total: 1, //总记录数
@@ -85,13 +85,13 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.get('Point/Param')
-            ).then(axios.spread(function (account, param) {
+            ).then(([account, param]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.form.acid = th.account.Ac_ID;
                 th.handleCurrentChange();
                 th.param = param.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -101,7 +101,7 @@ $ready(function () {
 
         },
         watch: {
-           
+
         },
         methods: {
             //获取当前登录账号

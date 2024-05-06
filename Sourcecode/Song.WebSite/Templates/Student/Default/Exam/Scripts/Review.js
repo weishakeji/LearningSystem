@@ -41,7 +41,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Exam/ForID', { 'id': th.examid }),
                 $api.get('Exam/ResultReview', { 'id': th.exrid })
-            ).then(axios.spread(function (types, plat, org, exam, result) {
+            ).then(([types, plat, org, exam, result]) => {
                 //获取结果           
                 th.types = types.data.result;
                 th.platinfo = plat.data.result;
@@ -58,13 +58,13 @@ $ready(function () {
                 $api.bat(
                     $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
                     $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
-                ).then(axios.spread(function (student, paper) {
+                ).then(([student, paper]) => {
                     //获取结果
                     th.student = student.data.result;
                     th.paper = paper.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
-            })).catch(function (err) {
+            }).catch(function (err) {
                 th.error = err;
                 alert(err);
                 console.error(err);

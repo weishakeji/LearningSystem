@@ -102,12 +102,12 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -306,12 +306,12 @@ $ready(function () {
                             $api.cache('Exam/Average4Exam', { 'examid': examid }),
                             $api.get("Exam/AttendCount", { 'examid': examid }),
                             $api.cache("Exam/Manual4Exam", { 'examid': examid })
-                        ).then(axios.spread(function (avg, num, manual) {
+                        ).then(([avg, num, manual]) => {
                             exam.avg = avg.data.result.average;
                             exam.number = num.data.result.number;
                             exam.manual = manual.data.result.number;
                             th.$set(th.examlist, index, exam);
-                        })).catch(err => console.error(err));
+                        }).catch(err => console.error(err));
                     }
                 },
                 created: function () {

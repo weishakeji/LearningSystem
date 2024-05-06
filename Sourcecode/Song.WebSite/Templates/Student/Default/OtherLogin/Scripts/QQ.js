@@ -104,11 +104,11 @@ $ready(function () {
                 $api.bat(
                     $api.get('Account/Current'),
                     $api.get('Account/User4Openid', { 'openid': openid, 'field': th.tag })
-                ).then(axios.spread(function (user, bound) {
+                ).then(([user, bound]) => {
                     //获取结果
                     th.onlineuser = user.data.result;
                     th.binduser = bound.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //绑定

@@ -21,8 +21,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, organ) {
-                th.loading_init = false;
+            ).then(([account, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.organ = organ.data.result;
@@ -30,7 +29,7 @@ $ready(function () {
                 th.handleCurrentChange(1);
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

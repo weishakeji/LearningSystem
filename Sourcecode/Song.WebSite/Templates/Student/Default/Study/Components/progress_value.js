@@ -42,7 +42,7 @@ Vue.component('progress_value', {
             $api.bat(
                 $api.cache('Course/LogForVideo:5', { 'couid': th.course.Cou_ID, 'stid': th.stid }),
                 $api.get('Course/Purchaselog', { 'stid': th.stid, 'couid': th.course.Cou_ID }),
-            ).then(axios.spread(function (cou, purchase) {
+            ).then(([cou, purchase]) => {
                 var result = cou.data.result;
                 if (result != null && result.length > 0) {
                     th.data = result[0];
@@ -56,7 +56,7 @@ Vue.component('progress_value', {
                 //购买记录
                 th.purchase = purchase.data.result;
                 th.score = th.resultScore(purchase.data.result).score;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）

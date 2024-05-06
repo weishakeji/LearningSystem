@@ -31,13 +31,13 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': this.couid })
-            ).then(axios.spread(function (account, types, course) {
+            ).then(([account, types, course]) => {
                 th.account = account.data.result;
                 $state.setaccid(th.account.Ac_ID);
                 th.types = types.data.result;
                 th.course = course.data.result;
                 th.getQuestion(false);
-            })).catch(function (err) {
+            }).catch(function (err) {
                 th.error = err;
                 console.error(err);
             }).finally(() => th.loading_init = false);

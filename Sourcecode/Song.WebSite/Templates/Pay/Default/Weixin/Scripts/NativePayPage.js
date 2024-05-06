@@ -23,12 +23,12 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.get("Organization/Current")
-            ).then(axios.spread(function (acc, org) {
+            ).then(([acc, org]) => {
                 //获取结果
                 th.account = acc.data.result;
                 th.orgin = org.data.result;
                 th.getPayinterface();
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         created: function () {
@@ -60,7 +60,7 @@ $ready(function () {
                 $api.bat(
                     $api.get('Pay/Interface', { 'id': th.pid }),
                     $api.get('Pay/MoneyAccount', { 'serial': th.serial })
-                ).then(axios.spread(function (pi, acc) {
+                ).then(([pi, acc]) => {
                     //获取结果
                     th.interface = pi.data.result;
                     th.moneyAccount = acc.data.result;
@@ -68,7 +68,7 @@ $ready(function () {
                         th.build_pay_url(th.interface, th.account, th.moneyAccount, th.orgin);
                     }
 
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //生成回调地址
@@ -136,7 +136,7 @@ $ready(function () {
                         colorLight: "#ffffff",
                         render: "canvas",
                         correctLevel: QRCode.CorrectLevel.L
-                    }); 
+                    });
                 });
             },
             //验证是否成功

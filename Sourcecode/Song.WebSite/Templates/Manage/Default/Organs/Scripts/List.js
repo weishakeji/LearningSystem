@@ -25,13 +25,13 @@
                 $api.get('Organization/LevelAll', { 'search': '', 'use': '' }),
                 $api.get('Organization/Current'),
                 $api.get('Platform/Domain')
-            ).then(axios.spread(function (level, current, domain) {
+            ).then(([level, current, domain]) => {
                 //获取结果
                 th.levels = level.data.result;
                 th.current = current.data.result;
                 th.handleCurrentChange(1);
                 th.domain = domain.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
                 alert(err);
             }).finally(() => th.loading = false);

@@ -122,14 +122,14 @@
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([org]) => {
                 //获取结果             
-                th.organ = organ.data.result;
+                th.organ = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.handleCurrentChange();
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         methods: {
@@ -234,7 +234,7 @@
                                     $api.cache('Exam/Average4Exam', { 'examid': th.examlist[i].Exam_ID }),
                                     $api.get("Exam/AttendCount", { 'examid': th.examlist[i].Exam_ID }),
                                     $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
-                                ).then(axios.spread(function (avg, num, manual) {
+                                ).then(([avg, num, manual]) => {
                                     for (var n = 0; n < th.examlist.length; n++) {
                                         if (th.examlist[n].Exam_ID == avg.data.result.id) {
                                             th.examlist[n].avg = avg.data.result.average;
@@ -242,7 +242,7 @@
                                             th.examlist[n].manual = manual.data.result.manual;
                                         }
                                     }
-                                })).catch(err => console.error(err));
+                                }).catch(err => console.error(err));
                             }
                         } else {
                             console.error(req.data.exception);

@@ -254,7 +254,7 @@ $ready(function () {
                     $api.bat(
                         $api.get('Exam/Score4Exam', { 'examid': th.examid }),     //当前场次平均分
                         $api.get('Exam/AttendCount', { 'examid': th.examid })     //当前场次参考人数
-                    ).then(axios.spread(function (req, num) {
+                    ).then(([req, num]) => {
                         th.attend = num.data.result.number;
                         var score = req.data.result;
                         console.log(score);
@@ -262,7 +262,7 @@ $ready(function () {
                         th.high = score.highest;
                         th.low = score.lowest;
                         th.pass = score.passrate;
-                    })).catch(err => alert(err))
+                    }).catch(err => alert(err))
                         .finally(() => {
                             console.log('finally');
                         });

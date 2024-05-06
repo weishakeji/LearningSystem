@@ -72,11 +72,11 @@ $ready(function () {
                 $api.bat(
                     $api.get('Share/FriendAll', { 'acid': acid }),
                     $api.get("Share/Friends", { 'acid': acid })
-                ).then(axios.spread(function (friendAll, friends) {
+                ).then(([friendAll, friends]) => {
                     //获取结果
                     th.friendAll = friendAll.data.result;
                     th.friends = friends.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.lading_count = false);
             }
         }

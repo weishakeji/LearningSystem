@@ -40,12 +40,12 @@
                 $api.cache('Question/Types:9999'),
                 $api.get('Organization/Current'),
                 $api.cache('Exam/ForID', { 'id': th.form.examid })
-            ).then(axios.spread(function (types, org, exam) {
+            ).then(([types, org, exam]) => {
                 //获取结果           
                 th.types = types.data.result;
                 th.organ = org.data.result;
                 th.entity = exam.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
             this.handleCurrentChange(1, 0);
         },

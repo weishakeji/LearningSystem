@@ -49,7 +49,7 @@ $ready(function () {
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
                 $api.get('Pay/ListEnable', { 'platform': 'web' })
-            ).then(axios.spread(function (account, platinfo, organ, payi) {
+            ).then(([account, platinfo, organ, payi]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -63,7 +63,7 @@ $ready(function () {
                 }
                 th.setCurrentpay();    //设置或获取当前支付接口，默认是第一个
                 console.log(th.paypis);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

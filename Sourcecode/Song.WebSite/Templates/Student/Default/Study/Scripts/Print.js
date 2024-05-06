@@ -21,7 +21,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/Uploadpath:9999', { 'key': 'Org' }),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, upload, org) {
+            ).then(([account, upload, org]) => {
                 //获取结果
                 th.acc = account.data.result;
                 th.upload = upload.data.result;
@@ -38,7 +38,7 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => { });
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);

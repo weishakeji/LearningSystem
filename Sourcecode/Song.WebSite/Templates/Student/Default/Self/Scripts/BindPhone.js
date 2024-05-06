@@ -54,14 +54,14 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 if (th.account) th.form.phone = th.account.Ac_MobiTel1;
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         created: function () {
