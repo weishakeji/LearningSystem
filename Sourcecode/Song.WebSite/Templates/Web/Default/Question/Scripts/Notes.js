@@ -43,7 +43,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (acc, type, cou) {
+            ).then(([acc, type, cou]) => {
                 th.account = acc.data.result;
                 th.types = type.data.result;
                 th.course = cou.data.result;
@@ -55,7 +55,7 @@ $ready(function () {
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
-            })).catch(err => alert(err))
+            }).catch(err => alert(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -69,8 +69,8 @@ $ready(function () {
             window.setTimeout(window.ques.get_cache_data(), 10 * 1000);
         },
         computed: {
-             //是否有试题
-             isques: (t) => { return !$api.isnull(t.queslist); },
+            //是否有试题
+            isques: (t) => { return !$api.isnull(t.queslist); },
             //是否登录
             islogin: (t) => { return !$api.isnull(t.account); },
             //课程是否加载正确

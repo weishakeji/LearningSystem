@@ -43,7 +43,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (acc, type, cou) {
+            ).then(([acc, type, cou]) => {
                 th.account = acc.data.result;
                 th.types = type.data.result;
                 th.course = cou.data.result;
@@ -55,12 +55,12 @@ $ready(function () {
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
-            })).catch(err => alert(err))
+            }).catch(err => alert(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-             //每隔3分钟保存一次到服务器，以前是退出页面时保存
-             window.addEventListener('load', function (e) {
+            //每隔3分钟保存一次到服务器，以前是退出页面时保存
+            window.addEventListener('load', function (e) {
                 window.setInterval(function () {
                     window.vapp.state.toserver();
                 }, 1000 * 60 * 3);

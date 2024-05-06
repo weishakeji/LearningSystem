@@ -59,7 +59,7 @@ Vue.component('study_outline', {
         $api.bat(
             $api.cache("Outline/tree", { 'couid': th.couid, 'isuse': true }),
             $api.cache("Course/ForID", { id: th.couid })
-        ).then(axios.spread(function (ol, cur) {
+        ).then(([ol, cur]) => {
             if (cur.data.success) {
                 th.course = cur.data.result;
                 document.title = th.course.Cou_Name;
@@ -106,8 +106,7 @@ Vue.component('study_outline', {
                 //if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
                 //if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
             }
-        })).catch(function (err) {
-            //Vue.prototype.$alert(err);
+        }).catch(function (err) {
             th.outlines = [];
             console.error(err);
         }).finally(() => th.loading = false);
@@ -150,7 +149,7 @@ Vue.component('study_outline', {
             $api.bat(
                 $api.get('Outline/State', { 'olid': olid, 'acid': th.account.Ac_ID }),
                 $api.cache("Outline/Info", { 'olid': olid })
-            ).then(axios.spread(function (state, info) {
+            ).then(([state, info]) => {
                 //获取结果
                 var result = info.data.result;
                 for (let key in state.data.result) {
@@ -186,7 +185,7 @@ Vue.component('study_outline', {
                     alert(err);
                     console.error(err);
                 });
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         //下一个章节（视频章节）

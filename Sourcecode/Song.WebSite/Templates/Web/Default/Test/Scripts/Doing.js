@@ -156,8 +156,7 @@
                 $api.bat(
                     $api.cache('Question/Types:9999'),
                     $api.get('TestPaper/ForID', { 'id': this.tpid })
-                ).then(axios.spread(function (type, paper) {
-                    th.loading.init = false;
+                ).then(([type, paper]) => {
                     //试题类型
                     th.types = type.data.result;
                     //试卷
@@ -182,9 +181,8 @@
                     }
                     if (!th.final_disable())
                         th.generatePaper();
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading.init = false);
             },
             //获取课程
             getcourse: function (couid) {
@@ -311,7 +309,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }) .finally(() => th.submitState.loading = false);
+                }).finally(() => th.submitState.loading = false);
             },
             //手动交卷
             submitManual: function () {

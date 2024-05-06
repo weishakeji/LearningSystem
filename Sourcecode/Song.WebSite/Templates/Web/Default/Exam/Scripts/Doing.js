@@ -61,7 +61,7 @@ $ready(function () {
             $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.post('Platform/ServerTime')
-            ).then(axios.spread(function (type, time) {
+            ).then(([type, time]) => {
                 th.types = type.data.result;        //试题类型
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
@@ -71,7 +71,7 @@ $ready(function () {
                     if (th.paperAnswer)
                         th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading.init = false);
         },
         created: function () {
@@ -168,14 +168,14 @@ $ready(function () {
                 $api.bat(
                     $api.get('Exam/State', { 'examid': th.examid }),
                     $api.get('Exam/ForID', { 'id': th.examid })
-                ).then(axios.spread(function (state, exam) {
+                ).then(([state, exam]) => {
                     th.examstate = state.data.result;
                     th.time.span = th.examstate.timespan; //考试限时
                     th.examstate.loading = false;
                     th.paperAnswer = th.examstate.result;     //答题详情，也许不存在                  
                     th.calcTime();
                     th.exam = exam.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading.exam = false);
             },
             //考试对象加载后，加载试卷
@@ -189,7 +189,7 @@ $ready(function () {
                     $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
                     $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
                     $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
-                ).then(axios.spread(function (theme, sbj, paper, exr) {
+                ).then(([theme, sbj, paper, exr]) => {
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;
                     th.paper = paper.data.result;
@@ -204,7 +204,7 @@ $ready(function () {
                             e.preventDefault();
                         });
                     }
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading.paper = false);
             },
             //当前时间

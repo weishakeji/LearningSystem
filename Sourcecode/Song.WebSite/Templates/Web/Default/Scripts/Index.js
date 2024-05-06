@@ -50,8 +50,7 @@ $ready(function () {
                     $api.cache('Showpic/web:60', { 'orgid': orgid }),
                     $api.cache('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
                     $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' })
-                ).then(axios.spread(function (showpic, notice, articles) {
-                    th.loading = false;
+                ).then(([showpic, notice, articles]) => {
                     //获取结果
                     th.showpic = showpic.data.result;
                     th.notice = notice.data.result;
@@ -62,10 +61,8 @@ $ready(function () {
                         }
                     }
                     th.articles = articles.data.result;
-                })).catch(function (err) {
-                    th.loading = false;
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //加载专业
             loadsbj: function () {
@@ -78,7 +75,7 @@ $ready(function () {
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
-                        for (var i = 0; i < result.length; i++) {                            
+                        for (var i = 0; i < result.length; i++) {
                             const exist = th.subject.some(obj => obj.Sbj_ID === result[i].Sbj_ID);
                             if (!exist) th.subject.push(result[i]);
                         }

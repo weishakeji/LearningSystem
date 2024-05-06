@@ -48,7 +48,7 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {                       
+                    }).catch(function (err) {
                         console.error(err);
                     });
             }
@@ -90,7 +90,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true })
-            ).then(axios.spread(function (organ, course, outlines) {
+            ).then(([organ, course, outlines]) => {
                 //机构和当前学员
                 th.organ = organ.data.result;
                 //课程
@@ -105,7 +105,7 @@ $ready(function () {
                     th.loading = false;
                 });
 
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
         },

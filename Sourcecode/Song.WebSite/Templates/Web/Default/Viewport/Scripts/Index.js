@@ -18,8 +18,7 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                th.loading_init = false;
+            ).then(([platinfo, organ]) => {
                 th.platinfo = platinfo.data.result;
                 document.title += ' - ' + th.platinfo.title;
                 th.organ = organ.data.result;
@@ -27,9 +26,8 @@ $ready(function () {
 
                 th.getquantity();
 
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -50,11 +48,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    //alert(err);
-                    //Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         }
     });

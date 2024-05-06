@@ -19,14 +19,14 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, org) {
+            ).then(([platinfo, org]) => {
                 //获取结果             
                 th.platinfo = platinfo.data.result;
                 th.org = org.data.result;
                 th.config = $api.organ(th.org).config;
                 th.form.orgid = th.org.Org_ID;
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             });

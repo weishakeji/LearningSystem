@@ -43,7 +43,7 @@ $ready(function () {
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
-            ).then(axios.spread(function (acc, type, cou, outline) {
+            ).then(([acc, type, cou, outline]) => {
                 th.account = acc.data.result;
                 th.types = type.data.result;
                 th.course = cou.data.result;
@@ -56,7 +56,7 @@ $ready(function () {
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
-            })).catch(err => alert(err))
+            }).catch(err => alert(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

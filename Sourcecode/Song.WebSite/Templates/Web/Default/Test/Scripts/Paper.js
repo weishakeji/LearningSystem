@@ -38,7 +38,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Platform/ServerTime'),
                 $api.get('TestPaper/ForID', { 'id': th.id })
-            ).then(axios.spread(function (time, paper) {
+            ).then(([time, paper]) => {
                 //服务器端时间
                 th.servertime = time.data.result;
                 //试卷
@@ -60,7 +60,7 @@ $ready(function () {
                     console.error(err);
                 }).finally(() => th.loading = false);
 
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             }).finally(() => th.loading = false);
