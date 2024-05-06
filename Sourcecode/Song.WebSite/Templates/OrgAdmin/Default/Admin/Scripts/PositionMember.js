@@ -38,7 +38,8 @@ $ready(function () {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
-                th.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
+                th.position= posi.data.result;
                 th.employelist(1);
                 th.getPosiAccount();
             }).catch(function (err) {
