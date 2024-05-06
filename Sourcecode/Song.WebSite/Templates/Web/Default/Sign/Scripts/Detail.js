@@ -47,16 +47,14 @@
                 $api.get('Account/ForID', { 'id': th.acid }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err));
         },
         computed: {
             //学员的组是否存在

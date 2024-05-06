@@ -28,13 +28,13 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(([platinfo, org]) => {
                 th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
+                th.organ = org.data.result;
                 document.title += th.platinfo.title;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -126,7 +126,7 @@ $ready(function () {
                 eval('this.' + tabitem.tag + '')(1);
             }
         }
-    });   
+    });
     //考试详情（用于“我的考试”）
     Vue.component('exam_data', {
         //exam:考试场次
@@ -146,11 +146,11 @@ $ready(function () {
             $api.bat(
                 $api.cache('TestPaper/ForID', { 'id': this.exam.Tp_Id }),
                 $api.cache('Subject/ForID', { 'id': this.exam.Sbj_ID })
-            ).then(axios.spread(function (paper, subject) {
+            ).then(([paper, subject]) => {
                 //获取结果
                 th.paper = paper.data.result;
                 th.subject = subject.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
         },
@@ -272,13 +272,11 @@ $ready(function () {
                 $api.bat(
                     $api.cache('TestPaper/ForID', { 'id': this.exam.Tp_Id }),
                     $api.cache('Subject/ForID', { 'id': this.exam.Sbj_ID })
-                ).then(axios.spread(function (paper, subject) {
+                ).then(([paper, subject]) => {
                     //获取结果
                     th.paper = paper.data.result;
                     th.subject = subject.data.result;
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
             }
         },
         template: `<div>
@@ -322,14 +320,12 @@ $ready(function () {
                 $api.cache('Exam/ForID', { 'id': this.result.Exam_ID }),
                 $api.cache('TestPaper/ForID', { 'id': this.result.Tp_Id }),
                 $api.cache('Subject/ForID', { 'id': this.result.Sbj_ID })
-            ).then(axios.spread(function (exam, paper, subject) {
+            ).then(([exam, paper, subject]) => {
                 //获取结果
                 th.exam = exam.data.result;
                 th.paper = paper.data.result;
                 th.subject = subject.data.result;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err));
         },
         methods: {
             //得分样式

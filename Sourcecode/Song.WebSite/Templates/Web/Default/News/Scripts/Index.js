@@ -32,11 +32,11 @@ $ready(function () {
                 $api.bat(
                     $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
                     $api.cache('News/ColumnsShow:60', { 'orgid': orgid, 'pid': '', 'count': 0 })
-                ).then(axios.spread(function (articles, columns) {
+                ).then(([articles, columns]) => {
                     //获取结果
                     th.articles = articles.data.result;
                     th.columns = columns.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
         }

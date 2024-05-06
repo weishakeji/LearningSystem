@@ -60,14 +60,14 @@ $ready(function () {
                         $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
                         $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid }),   //章节的视频学习记录  
                         $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID })
-                    ).then(axios.spread(function (studied, purchase, videolog, owned) {
+                    ).then(([studied, purchase, videolog, owned]) => {
                         //获取结果
                         th.studied = studied.data.result;
                         if (purchase.data.result != null)
                             th.purchase = purchase.data.result;
                         th.videolog = videolog.data.result;
                         th.owned = owned.data.result;
-                    })).catch(err => console.error(err))
+                    }).catch(err => console.error(err))
                         .finally(() => th.loading = false);
                 }, immediate: true,
             },
@@ -119,7 +119,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
-            ).then(axios.spread(function (course, viewnum) {
+            ).then(([course, viewnum]) => {
                 //当前课程
                 th.course = course.data.result;
                 if (th.course != null) {
@@ -138,7 +138,7 @@ $ready(function () {
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher) {
+                ).then(([outlines, paper, prices, sum, guideCol, teacher]) => {
                     //章节
                     th.outlines = outlines.data.result;
                     //试卷,结课考试
@@ -156,9 +156,9 @@ $ready(function () {
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading_init = false);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         methods: {
