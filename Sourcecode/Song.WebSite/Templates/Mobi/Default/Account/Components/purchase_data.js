@@ -31,12 +31,12 @@ Vue.component('purchase_data', {
             $api.bat(
                 $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': this.account.Ac_ID }),
                 $api.get('Course/ExistStudentSort', { 'couid': th.couid, 'stsid': this.account.Sts_ID })
-            ).then(axios.spread(function (purchase, exist) {
+            ).then(([purchase, exist]) => {
                 //获取结果
                 th.data = purchase.data.result;
                 th.existtosort = exist.data.result;
                 console.log(th.existtosort);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         }
     },

@@ -71,7 +71,7 @@ Vue.component('generic', {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(([platinfo, organ]) => {
                 //获取结果             
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
@@ -80,7 +80,7 @@ Vue.component('generic', {
                 th.config = $api.organ(th.organ).config;
                 //加载成功的事件
                 th.$emit('load', th.organ, th.config, th.platinfo);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);;
         },
         //跳转到禁用页

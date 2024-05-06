@@ -38,11 +38,11 @@ $ready(function () {
             'olid': {
                 handler: function (nv, ov) {
                     if (nv != 0) {
-                        var uri = $api.url.set('exercise', {                           
+                        var uri = $api.url.set('exercise', {
                             'couid': this.couid,
                             'olid': nv,
-                          });
-                          //window.navigateTo(uri);
+                        });
+                        //window.navigateTo(uri);
                     }
                 }, immediate: true
             },
@@ -80,7 +80,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Account/Current'),
                 $api.cache('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (organ, account, course) {
+            ).then(([organ, account, course]) => {
                 //机构和当前学员
                 th.organ = organ.data.result;
                 th.account = account.data.result;
@@ -95,7 +95,7 @@ $ready(function () {
                 $api.bat(
                     $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
-                ).then(axios.spread(function (outlines, owned) {
+                ).then(([outlines, owned]) => {
                     //章节
                     var outlines = outlines.data.result;
                     th.outlines = outlines;
@@ -107,13 +107,9 @@ $ready(function () {
                         th.loading = false;
                     });
 
-                })).catch(function (err) {
-                    console.error(err);
-                });
+                }).catch(err => console.error(err));
 
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err));
         },
         methods: {
             //将每个章节的状态都记录下来

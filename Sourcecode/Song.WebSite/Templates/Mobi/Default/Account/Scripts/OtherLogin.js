@@ -19,8 +19,8 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading = false;
+            ).then(([account, platinfo, organ])=> {
+                th.loading = false;
                 //获取结果
                 th.account = account.data.result;
                 if (th.account)
@@ -29,7 +29,7 @@ $ready(function () {
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });*/
         },

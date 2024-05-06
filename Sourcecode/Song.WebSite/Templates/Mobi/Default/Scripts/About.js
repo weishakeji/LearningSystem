@@ -22,15 +22,14 @@ $ready(function () {
                 $api.get('Platform/Version'),
                 $api.post('Platform/Edition'),
                 $api.cache('Copyright/Datas')
-            ).then(axios.spread(function (ver, editon, copyright) {
-                th.loading_init = false;
+            ).then(([ver, editon, copyright]) => {
                 //获取结果     
                 th.version = ver.data.result;
                 th.editon = editon.data.result;
                 th.copyright_items = copyright.data.result;
                 th.builbrowser();
-            })).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

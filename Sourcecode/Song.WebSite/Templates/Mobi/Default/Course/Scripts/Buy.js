@@ -32,7 +32,7 @@ $ready(function () {
                 $api.get('Course/ForID', { 'id': this.couid }),
                 $api.cache('Course/Datainfo', { 'couid': this.couid }),
                 $api.get('Course/Studied', { 'couid': this.couid })
-            ).then(axios.spread(function (account, platinfo, organ, course, info, studied) {
+            ).then(([account, platinfo, organ, course, info, studied]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -62,7 +62,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err));
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

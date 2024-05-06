@@ -29,8 +29,7 @@ $ready(function () {
                 $api.cache('Question/Types:9999'),
                 $api.cache('TestPaper/ForID', { 'id': th.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': th.trid }),
-            ).then(axios.spread(function (account, types, paper, result) {
-                th.loading = false;
+            ).then(([account, types, paper, result]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.types = types.data.result;
@@ -39,16 +38,15 @@ $ready(function () {
                 th.scoreFinal = th.result.Tr_Score;
                 th.exrxml = $api.loadxml(th.result.Tr_Results);
 
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 
         },
         computed: {
-             //是否登录
-             islogin: (t) => { return !$api.isnull(t.account); },
+            //是否登录
+            islogin: (t) => { return !$api.isnull(t.account); },
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
             questions: function () {

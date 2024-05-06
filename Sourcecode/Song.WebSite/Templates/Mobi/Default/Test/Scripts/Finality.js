@@ -28,9 +28,7 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Course/ForID', { 'id': th.couid })
-            ).then(axios.spread(function (course) {
-                th.loading_init = false;
-
+            ).then(([course]) => {
                 th.course = course.data.result;
                 if (JSON.stringify(th.course) != '{}' && th.course != null) {
                     $api.get('TestPaper/FinalPaper', { 'couid': th.course.Cou_ID, 'use': true }).then(function (req) {
@@ -42,15 +40,10 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {
-                        //alert(err);
-                        //Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 }
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

@@ -27,11 +27,11 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.cache('Course/ForID', { 'id': $api.querystring("couid", 0) })
-            ).then(axios.spread(function (course) {
+            ).then(([course]) => {
                 th.course = course.data.result;
                 if (th.iscourse)
                     document.title = th.course.Cou_Name + ' - ' + document.title;
-            })).catch(err => console.error(err));
+            }).catch(err => console.error(err));
         },
         created: function () {
 

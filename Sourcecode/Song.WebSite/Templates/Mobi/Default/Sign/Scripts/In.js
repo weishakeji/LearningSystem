@@ -12,20 +12,21 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
+            th.loading = true;
             //平台信息
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (acc, platinfo, organ) {
+            ).then(([acc, platinfo, org]) => {
                 //获取结果   
                 th.account = acc.data.result;
                 th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
+                th.organ = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(err => console.error(err))
-                .finally(() => th.loading_init = false);
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 

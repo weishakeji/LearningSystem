@@ -75,7 +75,7 @@ $ready(function () {
                     $api.get("Outline/TreeList", { couid: couid }),
                     $api.get('Course/Studied', { 'couid': couid }),
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
-                ).then(axios.spread(function (cur, ol, studied, owned) {
+                ).then(([cur, ol, studied, owned]) => {
                     th.course = cur.data.result;
                     document.title = th.course.Cou_Name;
                     th.outlines = ol.data.result;
@@ -84,7 +84,7 @@ $ready(function () {
                     th.owned = owned.data.result;
                     //获取学习记录
                     if (th.islogin) th.getLogForOutlineVideo();
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading_init = false);
             },
             //是否显示
@@ -100,7 +100,7 @@ $ready(function () {
                 $api.bat(
                     $api.get('Outline/State', { 'olid': olid, 'acid': th.account.Ac_ID }),
                     $api.cache("Outline/Info", { 'olid': olid })
-                ).then(axios.spread(function (state, info) {
+                ).then(([state, info]) => {
                     //获取结果
                     let result = info.data.result;
                     for (let key in state.data.result) {
@@ -109,7 +109,7 @@ $ready(function () {
                     th.state = result;
                     //th.$emit('change', th.state, th.outline);
                     //console.log(th.state);
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //记录或获取播放进度，包括播放时间与进度

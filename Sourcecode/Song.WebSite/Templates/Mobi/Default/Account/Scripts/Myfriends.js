@@ -76,11 +76,11 @@ $ready(function () {
                 $api.bat(
                     $api.get('Share/Friends', { 'acid': acid }),
                     $api.get('Share/FriendAll', { 'acid': acid })
-                ).then(axios.spread(function (friends, friendsAll) {
+                ).then(([friends, friendsAll]) => {
                     //获取结果
                     th.friends = friends.data.result;
                     th.friendsAll = friendsAll.data.result;
-                })).catch(err => console.error(err));
+                }).catch(err => console.error(err));
             },
             //获取赚数的金额、卡券等
             getEarn: function (acid) {
@@ -89,12 +89,12 @@ $ready(function () {
                     $api.get('Share/EarnCoupon', { 'acid': acid }),
                     $api.get('Share/EarnMoney', { 'acid': acid }),
                     $api.get('Share/EarnPoint', { 'acid': acid })
-                ).then(axios.spread(function (coupon, money, point) {
+                ).then(([coupon, money, point]) => {
                     //获取结果
                     th.earn.coupon = coupon.data.result;
                     th.earn.money = money.data.result;
                     th.earn.point = point.data.result;
-                })).catch(err => console.error(err));
+                }).catch(err => console.error(err));
             },
             //获取分润方案
             getProfit: function () {

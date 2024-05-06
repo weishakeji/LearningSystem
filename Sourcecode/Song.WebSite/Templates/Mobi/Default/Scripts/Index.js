@@ -14,7 +14,7 @@ $ready(function () {
             subject: [],         //专业
             search: '',      //搜索框
 
-            
+
 
             loading: true,
             loading_init: false
@@ -44,13 +44,13 @@ $ready(function () {
                         $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 10 }),
                         $api.cache('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
                         $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
-                    ).then(axios.spread(function (showpic, notice, menus, subject) {
+                    ).then(([showpic, notice, menus, subject]) => {
                         //获取结果
                         th.showpic = showpic.data.result;
                         th.notice = notice.data.result;
                         th.menus = menus.data.result;
                         th.subject = subject.data.result;
-                    })).catch(err => console.error(err))
+                    }).catch(err => console.error(err))
                         .finally(() => th.loading = false);;
                 }, immediate: true
             },

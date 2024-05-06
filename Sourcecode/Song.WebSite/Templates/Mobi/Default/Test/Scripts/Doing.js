@@ -46,16 +46,14 @@
             $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.get('TestPaper/ForID', { 'id': this.tpid })
-            ).then(axios.spread(function (type, paper) {
-                th.loading.init = false;
+            ).then(([type, paper]) => {
                 //考试相关
                 th.types = type.data.result;
                 th.paper = paper.data.result;
                 //生成试卷
                 th.generatePaper();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading.init = false);
         },
         created: function () { },
         computed: {
@@ -325,7 +323,7 @@
                         queslist = quesAnswer[att];
                         continue;
                     }
-                    results += att + '="' +  $api.Base64.encode(quesAnswer[att]) + '" ';
+                    results += att + '="' + $api.Base64.encode(quesAnswer[att]) + '" ';
                 }
                 results += ">";
                 //生成试题

@@ -44,12 +44,12 @@ $ready(function () {
                     //if ($api.isnull(nv)) return;
                     //this.my_exam();
                 }, immediate: true
-            },            
+            },
         },
         methods: {
             //当前学员今天以及之后的考试
             my_exam: function () {
-                var th = this;           
+                var th = this;
                 th.loading = true;
                 th.index++;
                 $api.get('Exam/SelfExam4Todaylate', {
@@ -164,11 +164,11 @@ $ready(function () {
             $api.bat(
                 $api.cache('TestPaper/ForID', { 'id': this.exam.Tp_Id }),
                 $api.cache('Subject/ForID', { 'id': this.exam.Sbj_ID })
-            ).then(axios.spread(function (paper, subject) {
+            ).then(([paper, subject]) => {
                 //获取结果
                 th.paper = paper.data.result;
                 th.subject = subject.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
         },
@@ -287,11 +287,11 @@ $ready(function () {
                 $api.bat(
                     $api.cache('TestPaper/ForID', { 'id': this.exam.Tp_Id }),
                     $api.cache('Subject/ForID', { 'id': this.exam.Sbj_ID })
-                ).then(axios.spread(function (paper, subject) {
+                ).then(([paper, subject]) => {
                     //获取结果
                     th.paper = paper.data.result;
                     th.subject = subject.data.result;
-                })).catch(function (err) {
+                }).catch(function (err) {
                     console.error(err);
                 });
             }
@@ -337,12 +337,12 @@ $ready(function () {
                 $api.cache('Exam/ForID', { 'id': this.result.Exam_ID }),
                 $api.cache('TestPaper/ForID', { 'id': this.result.Tp_Id }),
                 $api.cache('Subject/ForID', { 'id': this.result.Sbj_ID })
-            ).then(axios.spread(function (exam, paper, subject) {
+            ).then(([exam, paper, subject]) => {
                 //获取结果
                 th.exam = exam.data.result;
                 th.paper = paper.data.result;
                 th.subject = subject.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
         },

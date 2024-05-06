@@ -74,7 +74,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/ViewNum:60', { 'couid': th.couid, 'num': 1 })
-            ).then(axios.spread(function (course, viewnum) {
+            ).then(([course, viewnum]) => {
                 //当前课程
                 th.course = course.data.result;
                 th.course.Cou_Target = th.clearTag(th.course.Cou_Target);
@@ -82,7 +82,7 @@ $ready(function () {
                 if (Number(viewnum.data.result) >= 0)
                     th.course.Cou_ViewNum = viewnum.data.result;
                 document.title = th.course.Cou_Name;
-              
+
                 if (!th.course) return;
 
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
@@ -92,7 +92,7 @@ $ready(function () {
                     $api.get('Course/Datainfo', { 'couid': th.couid }),
                     $api.cache('Guide/Guides:3', { 'couid': th.couid, 'show': '', 'use': true, 'count': 20 }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(axios.spread(function (outlines, prices, datainfo, guides, teacher) {                   
+                ).then(([outlines, prices, datainfo, guides, teacher]) => {
                     //获取结果
                     th.outlines = outlines.data.result;
                     th.prices = prices.data.result;
@@ -107,31 +107,31 @@ $ready(function () {
                             $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }),
                             $api.cache('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account ? th.account.Ac_ID : 0 }),
                             $api.cache('Course/LogForOutlineVideo:10', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录
-                        ).then(axios.spread(function (studied, owned, purchase, videolog) {
+                        ).then(([studied, owned, purchase, videolog]) => {
                             th.studied = studied.data.result;
                             th.owned = owned.data.result;
                             if (purchase.data.result != null)
                                 th.purchase = purchase.data.result;
                             th.videolog = videolog.data.result;
-                        })).catch(function (err) {
+                        }).catch(function (err) {
                             console.error(err);
                         });
                     }
-                })).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
-            })).catch(err => console.error(err))
-                .finally(() => th.loading_init = false);
-        },
-        methods: {
-            //清理Html标签
-            clearTag: function (html, len) {
-                var txt = html.replace(/<\/?.+?>/g, "");
-                txt = $api.trim(txt);
-                if (len != null && len < txt.length)
-                    txt = txt.substring(0, len);
-                return txt;
-            }
-        }
+                }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
+        }).catch(err => console.error(err))
+        .finally(() => th.loading_init = false);
+},
+    methods: {
+    //清理Html标签
+    clearTag: function (html, len) {
+        var txt = html.replace(/<\/?.+?>/g, "");
+        txt = $api.trim(txt);
+        if (len != null && len < txt.length)
+            txt = txt.substring(0, len);
+        return txt;
+    }
+}
     });
 }, ["Components/course_menus.js",
     "Components/progress_video.js"]);

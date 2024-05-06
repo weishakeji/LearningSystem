@@ -26,7 +26,7 @@ $ready(function () {
             this.init_code();
         },
         created: function () {
-            var th=this;
+            var th = this;
             //当文件选择输入框变更时
             $dom("#upload_qrcode").bind('change', function (e) {
                 var files = e.target.files;
@@ -71,11 +71,11 @@ $ready(function () {
                     $api.bat(
                         $api.get('Learningcard/AccountOfCount', { 'acid': th.account.Ac_ID }),
                         $api.get('Learningcard/ForAccount', { 'acid': th.account.Ac_ID })
-                    ).then(axios.spread(function (count, cards) {
+                    ).then(([count, cards]) => {
                         th.carddata.count = count.data.result.count;
                         th.carddata.usecount = count.data.result.usecount;
                         th.carddata.cards = cards.data.result;
-                    })).catch(function (err) {
+                    }).catch(function (err) {
                         console.error(err);
                     });
                     this.loading_init = false;

@@ -31,7 +31,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
                 $api.post('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ])=> {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -45,7 +45,7 @@ $ready(function () {
                 //
                 th.popupSubject();
                 th.tabChange(0, 'rec');
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });*/
         },

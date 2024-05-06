@@ -27,11 +27,11 @@ $ready(function () {
             $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.cache('Exam/ForID', { 'id': this.examid })
-            ).then(axios.spread(function (types, exam, result) {
+            ).then(([types, exam]) => {
                 //获取结果       
                 th.types = types.data.result;
                 th.exam = exam.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
                 th.error = err;
             });
@@ -45,11 +45,11 @@ $ready(function () {
                     $api.bat(
                         $api.cache('Account/ForID', { 'id': th.result.Ac_ID }),
                         $api.cache('TestPaper/ForID', { 'id': th.result.Tp_Id })
-                    ).then(axios.spread(function (student, paper) {
+                    ).then(([student, paper]) => {
                         //获取结果
                         th.student = student.data.result;
                         th.paper = paper.data.result;
-                    })).catch(err => console.error(err))
+                    }).catch(err => console.error(err))
                         .finally(() => th.loading = false);
                 } else {
                     throw req.data.message;

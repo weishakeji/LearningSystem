@@ -41,11 +41,11 @@ Vue.component('knl_header', {
         $api.bat(
             $api.get('Course/ForID', { 'id': this.couid }),
             $api.get('Knowledge/SortTree', { 'couid': this.couid, 'search': '', 'isuse': true })
-        ).then(axios.spread(function (course, sorts) {
+        ).then(([course, sorts]) => {
             //获取结果
             th.course = course.data.result;
             th.sorts = sorts.data.result;
-        })).catch(err => console.error(err))
+        }).catch(err => console.error(err))
             .finally(() => th.loading = false);
     },
     methods: {
