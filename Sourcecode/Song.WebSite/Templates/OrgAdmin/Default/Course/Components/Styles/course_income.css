@@ -3,12 +3,16 @@
 .course_income {
 	color: #e6a23c;
 	font-size: 16px;
+	text-align: right;
 }
 
-.course_income icon {
+.course_income .income_number {
 	margin-right: 2px;
 }
-
+.course_income .income_number::before {
+	content: '\e624';
+	font-family: "webdesk_icon" !important;
+}
 .course_income .income_null {
 	color: #ccc;
 	font-size: 14px;

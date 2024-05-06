@@ -48,9 +48,8 @@
                 </div>
             </el-table-column>
             <el-table-column label="收益" align="center">
-                <span slot-scope="scope" class="income">
-                    <icon>&#xe746</icon>
-                    <b v-html="format(scope.row.Cou_TryNum)"> </b>
+                <span slot-scope="scope">                  
+                    <course_income :course="scope.row"></course_income>
                 </span>
             </el-table-column>
             <el-table-column label="价格" width="130">

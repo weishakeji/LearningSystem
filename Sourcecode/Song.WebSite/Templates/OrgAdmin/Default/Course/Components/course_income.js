@@ -59,10 +59,10 @@ Vue.component('course_income', {
         }
     },
     template: `<div class="course_income">
-        <span class="el-icon-loading" v-if="loading"></span>
-        <span v-else-if="count>0">            
-            <icon>&#xe746</icon> {{format(count)}}                      
-        </span>  
-        <span v-else class="income_null">无</span>
+            <span class="el-icon-loading" v-if="loading"></span>
+            <span v-else-if="count>0" class="income_number">            
+            {{format(count)}}                      
+            </span>  
+            <span v-else class="income_null">无</span>
         </div> `
 });

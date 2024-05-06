@@ -491,7 +491,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public double Income(long couid)
+        public decimal Income(long couid)
         {
             return Business.Do<ICourse>().Income(couid);
         }

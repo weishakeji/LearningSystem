@@ -396,7 +396,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        double Income(long couid);
+        decimal Income(long couid);
         /// <summary>
         /// 课程收益汇总，按时间区间汇总
         /// </summary>

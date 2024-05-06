@@ -606,13 +606,10 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public double Income(long couid)
+        public decimal Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
-
-            //Type t = obj.GetType();
-            //string n = t.FullName;
-            return obj == null ? 0 : (double)obj;
+            return obj == null ? 0 : Convert.ToDecimal(obj);
         }
         /// <summary>
         /// 课程收益汇总
@@ -644,7 +641,7 @@ namespace Song.ServiceImpls
             }
             sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
             object obj = Gateway.Default.FromSql(sql).ToScalar();
-            return obj == null ? 0 : (decimal)obj;
+            return obj == null ? 0 : Convert.ToDecimal(obj);
         }
         /// <summary>
         /// 获取所有课程

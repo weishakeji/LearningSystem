@@ -133,4 +133,5 @@ $ready(function () {
 
 }, ['/Utilities/Components/sbj_cascader.js',
     '../Course/Components/course_data.js',
+    '../Course/Components/course_income.js',
     '../Course/Components/course_prices.js']);
