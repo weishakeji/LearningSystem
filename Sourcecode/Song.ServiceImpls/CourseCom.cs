@@ -606,10 +606,13 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public decimal Income(long couid)
+        public double Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
-            return obj == null ? 0 : (decimal)obj;
+
+            //Type t = obj.GetType();
+            //string n = t.FullName;
+            return obj == null ? 0 : (double)obj;
         }
         /// <summary>
         /// 课程收益汇总
