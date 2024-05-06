@@ -16,11 +16,11 @@
             $api.bat(
                 $api.get('RechargeCode/SetForID', { 'id': th.id }),
                 $api.get('RechargeCode/ExcelFiles', { 'id': th.id })
-            ).then(axios.spread(function (codeset, files) {
+            ).then(([codeset, files]) => {
                 //获取结果
                 th.codeset = codeset.data.result;
                 th.files = files.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         computed: {},

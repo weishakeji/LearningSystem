@@ -34,14 +34,14 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Position/ForID', { 'id': th.id })
-            ).then(axios.spread(function (organ, posi) {
+            ).then(([organ, posi]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
                 th.employelist(1);
                 th.getPosiAccount();
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err, '错误');
                 console.error(err);
             }).finally(() => th.loading = false);

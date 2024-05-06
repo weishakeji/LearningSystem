@@ -35,14 +35,14 @@ $ready(function () {
                 $api.get('Sms/TemplateSMS', { 'mark': th.mark }),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (item, template, plat, organ) {
+            ).then(([item, template, plat, organ]) => {
                 //获取结果
                 th.entity = item.data.result;
                 //th.entity.text = template.data.result;
                 th.$set(th.entity, 'text', template.data.result);
                 th.platinfo = plat.data.result;
                 th.organ = organ.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             });

@@ -59,7 +59,7 @@
         <p>在源码中提供了对Axios的封装，即/Utilities/Scripts/api.js，一般在public.js中已经提供加载，不必单独再引用该js文件。</p>
         <p>示例</p>
         <textarea style="height: 260px;">
-            $api.get('Account/Current').then(function(req){
+            $api.get('Account/Current').then(req=>{
                 if(req.data.success){
                       var result=req.data.result;
                       //...
@@ -78,11 +78,11 @@
                       $api.get('Account/Current'),
                       $api.cache('Question/Types:9999'),
                       $api.post('Course/ForID', { 'id': 123 })
-                ).then(axios.spread(function (acc, type, cou) {
+                ).then(([acc, type, cou]) => {
                     var result1=acc.data.result;
                     var result2=type.data.result;
                     var result3=cou.data.result;                   
-                })).catch(err => alert(err))
+                }).catch(err => alert(err))
                 .finally(() => {
                       console.log('finally');
                 });

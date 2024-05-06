@@ -65,7 +65,7 @@
             $api.bat(
                 $api.get('Organization/ForID', { 'id': th.id }),
                 $api.get('Position/All4Organ', { 'orgid': th.id })
-            ).then(axios.spread(function (org, posi) {
+            ).then(([org, posi]) => {
                 //获取结果
                 th.org = org.data.result;
                 th.positions = posi.data.result;
@@ -73,7 +73,7 @@
                     th.creatPosi();
                 }
                 th.handleCurrentChange(1);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
 
         },

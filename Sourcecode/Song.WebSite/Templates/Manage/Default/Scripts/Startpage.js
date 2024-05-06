@@ -18,7 +18,7 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(([platinfo, organ]) => {
                 th.platinfo = platinfo.data.result;
                 document.title = th.platinfo.title;
                 th.organ = organ.data.result;
@@ -26,7 +26,7 @@ $ready(function () {
 
                 th.getquantity();
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

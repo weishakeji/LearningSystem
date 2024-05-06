@@ -103,13 +103,13 @@ $ready(function () {
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 1, 'use': '' }),
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 2, 'use': '' }),
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': '', 'type': 5, 'use': '' }),
-                ).then(axios.spread(function (t0, t1, t2, t5) {
+                ).then(([t0, t1, t2, t5]) => {
                     //获取结果
                     th.total.type0 = t0.data.result;
                     th.total.type1 = t1.data.result;
                     th.total.type2 = t2.data.result;
                     th.total.type5 = t5.data.result;
-                })).catch(function (err) {
+                }).catch(function (err) {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);

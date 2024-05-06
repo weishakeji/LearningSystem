@@ -81,7 +81,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/LevelAll', { 'search': '', 'use': '' }),
                 $api.get('Platform/Domain')
-            ).then(axios.spread(function (level, domain) {
+            ).then(([level, domain]) => {
                 //获取结果
                 th.levels = level.data.result;
                 th.domain = domain.data.result;
@@ -102,7 +102,7 @@ $ready(function () {
                         console.error(err);
                     });
                 }
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
         },

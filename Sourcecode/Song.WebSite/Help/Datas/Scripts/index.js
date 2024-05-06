@@ -147,7 +147,7 @@ Vue.component('entity', {
             $api.bat(
                 $api.get('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
                 $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
-            ).then(axios.spread(function (field, detal) {
+            ).then(([field, detal]) =>{
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -162,7 +162,7 @@ Vue.component('entity', {
                 th.details = detal.data.result;
                 Vue.set(th.states, 'update', false);
                 th.loading = false;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 th.$alert(err);
                 console.error(err);
                 th.loading = false;

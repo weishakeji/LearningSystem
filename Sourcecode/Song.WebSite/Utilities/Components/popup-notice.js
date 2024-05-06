@@ -44,22 +44,21 @@ Vue.component('popup-notice', {
         var th = this;
         $api.bat(
             $api.get('Notice/OpenItems', { 'forpage': this.forpage }),
-            $api.get('Account/Current')).then(axios.spread(function (n, a) {
-                //当前登录学员
-                th.islogin = a.data.success;
-                if (a.data.success) th.account = a.data.result;
-                //通知公告
-                if (n.data.success) {
-                    //校验时间段
-                    th.items = th.verifyTimeSpan(n.data.result);
-                    //验证分组
-                    th.items = th.verifySort(th.items, th.account);
-                    //验证打开次数
-                    th.items = th.verifyCount(th.items);
-                }
-            })).catch(function (err) {
-                console.error(err);
-            });
+            $api.get('Account/Current')
+        ).then(([n, a]) => {
+            //当前登录学员
+            th.islogin = a.data.success;
+            if (a.data.success) th.account = a.data.result;
+            //通知公告
+            if (n.data.success) {
+                //校验时间段
+                th.items = th.verifyTimeSpan(n.data.result);
+                //验证分组
+                th.items = th.verifySort(th.items, th.account);
+                //验证打开次数
+                th.items = th.verifyCount(th.items);
+            }
+        }).catch(err => console.error(err));
         //关闭时间倒计时
         window.setTimeout(function () {
             window.setInterval(function () {

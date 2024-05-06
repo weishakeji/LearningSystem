@@ -23,7 +23,7 @@
                 $api.get('Account/ForID', { 'id': this.stid }),
                 $api.cache('Platform/Uploadpath:9999', { 'key': 'Org' }),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, upload, org) {
+            ).then(([account, upload, org]) => {
                 //获取结果
                 th.acc = account.data.result;
                 th.upload = upload.data.result;
@@ -35,7 +35,7 @@
                     'positon': th.config.StampPosition ? th.config.StampPosition : 'right-bottom',
                     'path': th.config.Stamp && th.config.Stamp != '' ? th.upload.virtual + th.config.Stamp : ''
                 };
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
             //获取课程
             this.courseids.split(',').forEach(function (item, index) {
@@ -197,7 +197,7 @@
                 $api.bat(
                     $api.cache('Course/LogForVideo:5', { 'couid': th.course.Cou_ID, 'stid': th.stid }),
                     $api.get('Course/Purchaselog', { 'stid': th.stid, 'couid': th.course.Cou_ID }),
-                ).then(axios.spread(function (cou, purchase) {
+                ).then(([cou, purchase]) => {
                     var result = cou.data.result;
                     if (result != null && result.length > 0) {
                         th.data = result[0];
@@ -211,7 +211,7 @@
                     //购买记录
                     th.purchase = purchase.data.result;
                     th.score = th.resultScore(purchase.data.result).score;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）

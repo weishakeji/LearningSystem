@@ -32,11 +32,11 @@
             $api.bat(
                 $api.get('Learningcard/SetForID', { 'id': th.id }),
                 $api.get('Learningcard/Cards', { 'lsid': th.id, 'enable': '', 'used': '' })
-            ).then(axios.spread(function (cardset, cards) {
+            ).then(([cardset, cards]) => {
                 //获取结果
                 th.cardset = cardset.data.result;
                 th.cards = cards.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         computed: {

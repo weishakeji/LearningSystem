@@ -42,11 +42,11 @@
                     $api.bat(
                         $api.get('Platform/ParamForKey', { 'key': th.entity.Sys_Key }),
                         $api.get('Organization/ForID', { 'id': th.admin.Org_ID })
-                    ).then(axios.spread(function (param, org) {
+                    ).then(([param, org]) => {
                         if (param.data.result)
                             th.entity = param.data.result;
                         th.org = org.data.result;
-                    })).catch(err => alert(err))
+                    }).catch(err => alert(err))
                         .finally(() => th.loading = false);
                 } else {
                     throw req.config.way + ' ' + req.data.message;

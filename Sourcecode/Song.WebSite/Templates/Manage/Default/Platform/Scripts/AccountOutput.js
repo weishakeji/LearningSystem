@@ -16,11 +16,11 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }),
                 $api.get('Platform/Domain')
-            ).then(axios.spread(function (organs, domain) {
+            ).then(([organs, domain]) => {
                 //获取结果
                 th.datas = organs.data.result;
                 th.domain = domain.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             });
             this.getFiles();

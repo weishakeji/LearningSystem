@@ -43,11 +43,11 @@ $ready(function () {
                         $api.bat(
                             $api.get('Account/ForID', { 'id': th.entity.Ac_ID }),
                             $api.get('Organization/ForID', { 'id': th.entity.Org_ID })
-                        ).then(axios.spread(function (account, organ) {
+                        ).then(([account, organ]) => {
                             //获取结果
                             th.account = account.data.result;
                             th.organ = organ.data.result;
-                        })).catch(err => console.error(err));
+                        }).catch(err => console.error(err));
                         //如果是在线支付
                         if (th.entity.Ma_From == 3) {
                             $api.get('Pay/ForID', { 'id': th.entity.Pai_ID }).then(function (req) {

@@ -64,13 +64,11 @@ $ready(function () {
                     $api.bat(
                         $api.post('Position/EnableAll'),
                         $api.post("Admin/TitleEnabledList", { 'orgid': th.organ.Org_ID })
-                    ).then(axios.spread(function (posi, title) {
+                    ).then(([posi, title]) => {
                         //获取结果
                         th.position = posi.data.result;
                         th.titles = title.data.result;
-                    })).catch(function (err) {
-                        console.error(err);
-                    });
+                    }).catch(err => console.error(err));
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -143,16 +141,16 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             th.$alert(err, '错误');
-                        }).finally(()=> th.loading = false);
+                        }).finally(() => th.loading = false);
                     } else {
-                         //未通过验证的字段
-                         let field = Object.keys(fields)[0];
-                         let label = $dom('label[for="' + field + '"]');
-                         while (label.attr('tab') == null)
-                             label = label.parent();
-                         th.activeName = label.attr('tab');
-                         console.log('error submit!!');
-                         return false;
+                        //未通过验证的字段
+                        let field = Object.keys(fields)[0];
+                        let label = $dom('label[for="' + field + '"]');
+                        while (label.attr('tab') == null)
+                            label = label.parent();
+                        th.activeName = label.attr('tab');
+                        console.log('error submit!!');
+                        return false;
                     }
                 });
             },

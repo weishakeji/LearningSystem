@@ -15,27 +15,28 @@ $ready(function () {
             }
         },
         created: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.bat(
                 $api.post('Platform/PlatInfo'),
                 $api.get("Platform/MultiOrgan")
-            ).then(axios.spread(function (p, m) {
+            ).then(([p, m]) => {
                 if (p.data.success)
-                    vapp.platinfo = p.data.result;
+                    th.platinfo = p.data.result;
                 if (m.data.success)
-                    vapp.MultiOrgan = String(m.data.result);
+                    th.MultiOrgan = String(m.data.result);
                 vapp.loading = false;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
 
         },
         methods: {
             btnEnter: function (formName) {
-                if (window.vapp.loading) return;
+                if (this.loading) return;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        window.vapp.loading = true;
+                        var th = this;
+                        th.loading = true;
                         $api.post('Platform/PlatInfoUpdate', this.platinfo).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -48,11 +49,10 @@ $ready(function () {
                             } else {
                                 throw req.data.message;
                             }
-                            window.vapp.loading = false;
                         }).catch(function (err) {
                             alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

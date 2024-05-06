@@ -25,16 +25,14 @@
                 $api.bat(
                     $api.post('Sms/ItemsFresh'),
                     $api.get("Sms/Current")
-                ).then(axios.spread(function (items, curr) {
+                ).then(([items, curr]) => {
                     //获取结果
                     th.datas = items.data.result;
                     th.current = curr.data.result;
-                })).catch(function (err) {
+                }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(function () {
-                    th.loading = false;
-                });
+                }).finally(() => th.loading = false);
             },
             //设置当前使用的接口
             setcurrent: function (remark) {

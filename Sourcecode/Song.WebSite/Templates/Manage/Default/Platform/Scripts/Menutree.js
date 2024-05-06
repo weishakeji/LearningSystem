@@ -40,12 +40,12 @@ $ready(function () {
                 $api.get('ManageMenu/ForUID', { 'uid': this.uid }),
                 $api.get('ManageMenu/FuncMenu', { 'uid': this.uid }),
                 $api.get("ManageMenu/Root")     //所有根节点
-            ).then(axios.spread(function (menu, menus, root) {
+            ).then(([menu, menus, root]) => {
                 th.rootMenu = menu.data.result; //当前菜单项
                 if (menus.data.result != null)
                     th.data = menus.data.result; //当前菜单树             
                 th.rootdata = root.data.result;
-            })).catch(err => {
+            }).catch(err => {
                 th.error = err;
                 console.error(err);
             }).finally(() => th.loading_init = false);
@@ -82,7 +82,7 @@ $ready(function () {
                 obj.MM_UID = String(new Date().getTime());
                 if (data != null) {
                     obj.MM_PatId = data.MM_UID;
-                }               
+                }
                 return obj;
             },
             remove(node, data) {
