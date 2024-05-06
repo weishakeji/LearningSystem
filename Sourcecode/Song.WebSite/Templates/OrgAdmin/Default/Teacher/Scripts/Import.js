@@ -14,15 +14,13 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                th.loading_init = false;
+            ).then(([org]) => {
                 //获取结果             
-                th.organ = organ.data.result;
+                th.organ = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

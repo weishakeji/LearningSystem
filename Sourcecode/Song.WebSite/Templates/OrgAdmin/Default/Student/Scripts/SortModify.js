@@ -17,7 +17,7 @@ $ready(function () {
             rules: {
                 Sts_Name: [{ required: true, message: '名称不得为空', trigger: 'blur' },
                 { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
-                { validator: validate.name.danger, trigger: 'change' }, 
+                { validator: validate.name.danger, trigger: 'change' },
                 {
                     validator: async function (rule, value, callback) {
                         await vapp.isExist(value).then(res => {
@@ -41,14 +41,14 @@ $ready(function () {
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
                 th.getEntity();
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             }).finally(() => th.loading_init = false);
 

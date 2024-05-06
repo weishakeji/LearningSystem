@@ -25,11 +25,11 @@ Vue.component('links_count', {
             $api.bat(
                 $api.get('Link/SortOfCount', { 'sortid': sort.Ls_Id, 'use': true }),
                 $api.get('Link/SortOfCount', { 'sortid': sort.Ls_Id, 'use': null })
-            ).then(axios.spread(function (count, total) {
+            ).then(([count, total]) => {
                 //获取结果
                 th.total = total.data.result;
                 th.count = count.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         }
     },

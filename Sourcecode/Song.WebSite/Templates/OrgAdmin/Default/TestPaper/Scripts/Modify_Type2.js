@@ -99,7 +99,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
-            ).then(axios.spread(function (organ, types) {
+            ).then(([organ, types]) => {
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
@@ -116,7 +116,7 @@ $ready(function () {
                         th.getCourse();
                     }
                 }).catch(err => console.error(err)).finally(() => th.loading = false);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

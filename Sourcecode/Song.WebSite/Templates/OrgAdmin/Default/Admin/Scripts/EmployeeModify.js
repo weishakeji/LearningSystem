@@ -51,11 +51,11 @@ $ready(function () {
                     $api.bat(
                         $api.post('Position/EnableAll'),
                         $api.post("Admin/TitleEnabledList", { 'orgid': th.organ.Org_ID })
-                    ).then(axios.spread(function (posi, title) {
+                    ).then(([posi, title]) => {
                         //获取结果
                         th.position = posi.data.result;
                         th.titles = title.data.result;
-                    })).catch(function (err) {
+                    }).catch(function (err) {
                         console.error(err);
                     });
                 } else {

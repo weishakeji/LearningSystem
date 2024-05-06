@@ -28,14 +28,14 @@
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (org) {
+            ).then(([org]) => {
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 th.form.orgid = th.org.Org_ID;
                 th.handleCurrentChange(1);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

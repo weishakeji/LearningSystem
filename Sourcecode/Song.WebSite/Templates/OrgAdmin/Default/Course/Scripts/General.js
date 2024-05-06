@@ -34,13 +34,13 @@
                 $api.get('Organization/Current'),
                 $api.get('Admin/General'),
                 $api.get('Teacher/Current')
-            ).then(axios.spread(function (org, admin, teach) {
+            ).then(([org, admin, teach]) => {
                 //获取结果
                 th.organ = org.data.result;
                 th.admin = admin.data.result;
                 th.teacher = teach.data.result;
                 th.getTreeData();
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -164,7 +164,7 @@
                             if (th.upfile != null) para['file'] = th.upfile;
                             // console.log(obj);                           
                             th.loading = true;
-                            $api.post('Course/Modify', para).then(function (req) {                              
+                            $api.post('Course/Modify', para).then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.$message({

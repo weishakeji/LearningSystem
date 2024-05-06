@@ -59,10 +59,10 @@
                 $api.bat(
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': '', 'end': '' }),
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': '', 'end': '' })
-                ).then(axios.spread(function (pay, recharge) {
+                ).then(([pay, recharge]) => {
                     th.total['pay'] = pay.data.result;
                     th.total['recharge'] = recharge.data.result;
-                })).catch(err => alert(err))
+                }).catch(err => alert(err))
                     .finally(() => { });
             },
             //年度收入
@@ -76,10 +76,10 @@
                 $api.bat(
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
-                ).then(axios.spread(function (pay, recharge) {
+                ).then(([pay, recharge]) => {
                     th.year['pay'] = pay.data.result;
                     th.year['recharge'] = recharge.data.result;
-                })).catch(err => alert(err))
+                }).catch(err => alert(err))
                     .finally(() => { });
             },
             //本季度
@@ -96,10 +96,10 @@
                 $api.bat(
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
-                ).then(axios.spread(function (pay, recharge) {
+                ).then(([pay, recharge]) => {
                     th.quarter['pay'] = pay.data.result;
                     th.quarter['recharge'] = recharge.data.result;
-                })).catch(err => alert(err))
+                }).catch(err => alert(err))
                     .finally(() => { });
             },
             //本月收入
@@ -118,10 +118,10 @@
                 $api.bat(
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 1, 'from': 4, 'start': start, 'end': end }),
                     $api.get('Money/Summary', { 'orgid': th.orgid, 'acid': '', 'type': 2, 'from': 3, 'start': start, 'end': end })
-                ).then(axios.spread(function (pay, recharge) {
+                ).then(([pay, recharge]) => {
                     th.month['pay'] = pay.data.result;
                     th.month['recharge'] = recharge.data.result;
-                })).catch(err => alert(err))
+                }).catch(err => alert(err))
                     .finally(() => { });
             },
             //当前月每天的收入

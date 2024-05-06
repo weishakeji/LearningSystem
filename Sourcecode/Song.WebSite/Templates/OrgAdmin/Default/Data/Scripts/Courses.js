@@ -33,8 +33,7 @@
                 $api.get('Account/ForID', { 'id': th.id }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                th.loading_init = false;
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 if (th.account && !!th.account.Ac_ID)
@@ -45,10 +44,8 @@
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange();
 
-            })).catch(function (err) {
-                th.loading_init = false;
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

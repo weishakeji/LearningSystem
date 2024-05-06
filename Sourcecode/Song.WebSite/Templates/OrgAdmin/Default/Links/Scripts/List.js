@@ -25,7 +25,7 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -45,7 +45,7 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     });
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

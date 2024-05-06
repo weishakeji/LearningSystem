@@ -20,15 +20,13 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 
@@ -109,7 +107,7 @@ $ready(function () {
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                }                
+                }
             },
 
         }

@@ -347,8 +347,7 @@ window.createVapp = function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
-                th.loading_init = false;
+            ).then(([platinfo, organ]) => {
                 //获取结果              
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
@@ -367,9 +366,8 @@ window.createVapp = function () {
                 document.title = '机构管理 - ' + th.organ.Org_PlatformName;
                 //
                 th.getnavi();
-            })).catch(function (err) {
-                console.error(err);
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
         },
         created: function () {
 

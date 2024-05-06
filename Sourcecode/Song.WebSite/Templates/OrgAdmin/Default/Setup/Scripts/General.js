@@ -31,7 +31,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Platform/Domain'),
                 $api.get('Platform/ServerPort')
-            ).then(axios.spread(function (org, domain, port) {
+            ).then(([org, domain, port]) => {
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
@@ -40,7 +40,7 @@ $ready(function () {
                 th.domain.two = th.org.Org_TwoDomain;
                 th.domain.root = domain.data.result;
                 th.domain.port = port.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

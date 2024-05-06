@@ -34,7 +34,7 @@
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('TestPaper/ForID', { 'id': th.tpid })
-            ).then(axios.spread(function (org, paper) {
+            ).then(([org, paper]) => {
                 //获取结果             
                 th.org = org.data.result;
                 //机构配置信息
@@ -42,7 +42,7 @@
                 th.form.orgid = th.org.Org_ID;
                 th.testpaper = paper.data.result;
                 th.handleCurrentChange(1);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

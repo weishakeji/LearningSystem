@@ -33,7 +33,7 @@
                 $api.get('Account/ForID', { 'id': th.id }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 if (th.account && !!th.account.Ac_ID)
@@ -44,7 +44,7 @@
                 th.config = $api.organ(th.organ).config;
                 th.handleCurrentChange();
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -155,7 +155,7 @@
                         if (req.data.success) {
                             var result = req.data.result;
                             var fuc = th.$refs['purchase_data_' + course.Cou_ID][0].onload;
-                            if (fuc != num) fuc();                                          
+                            if (fuc != num) fuc();
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

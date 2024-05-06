@@ -20,7 +20,7 @@ $ready(function () {
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (org) {
+            ).then(([org]) => {
                 //获取结果             
                 th.org = org.data.result;
                 th.orgid = th.org.Org_ID;
@@ -31,7 +31,7 @@ $ready(function () {
                 th.getquestion();
                 th.getnews();
 
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -103,12 +103,13 @@ $ready(function () {
                 $api.bat(
                     $api.cache('News/StorageResources', { 'orgid': th.orgid, 'isreal': true }),
                     $api.get('News/Count', { 'orgid': th.orgid, 'uid': '', 'isuse': '' })
-                ).then(axios.spread(function (res, count) {
+                ).then(([res, count]) => {
                     th.news = res.data.result;
                     th.news['total'] = count.data.result;
-                })).catch(err => alert(err)).finally(() => {
-                    console.log('finally');
-                });
+                }).catch(err => alert(err))
+                    .finally(() => {
+                        console.log('finally');
+                    });
             }
         },
         filters: {

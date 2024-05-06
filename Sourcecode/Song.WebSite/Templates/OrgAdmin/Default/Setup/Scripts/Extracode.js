@@ -11,12 +11,12 @@ $ready(function () {
             var th = this;
             th.loading = true;
             $api.bat($api.get('Organization/Current'))
-                .then(axios.spread(function (org) {
+                .then(([org]) => {
                     //获取结果             
                     th.org = org.data.result;
                     //机构配置信息
                     th.config = $api.organ(th.org).config;
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         created: function () {

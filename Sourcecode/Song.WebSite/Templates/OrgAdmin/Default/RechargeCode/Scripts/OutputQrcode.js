@@ -51,7 +51,7 @@
             $api.bat(
                 $api.get('RechargeCode/SetForID', { 'id': th.id }),
                 $api.get('RechargeCode/Codes', { 'rsid': th.id })
-            ).then(axios.spread(function (codeset, codes) {
+            ).then(([codeset, codes]) => {
                 //获取结果
                 th.codeset = codeset.data.result;
                 th.codes = codes.data.result;
@@ -75,7 +75,7 @@
                     alert(err);
                     console.error(err);
                 });
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         computed: {},

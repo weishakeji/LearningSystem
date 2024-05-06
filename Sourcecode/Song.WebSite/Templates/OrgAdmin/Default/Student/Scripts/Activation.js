@@ -23,7 +23,7 @@ $ready(function () {
             selects: [], //数据表中选中的行
 
             loading: false,
-            loading_init:true,
+            loading_init: true,
             loadingid: 0        //当前操作中的对象id
         },
         computed: {
@@ -42,13 +42,13 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Platform/UploadPath', { 'key': 'Student' })
-            ).then(axios.spread(function (org, path) {
+            ).then(([org, path]) => {
                 th.organ = org.data.result;
                 th.photopath = path.data.result.virtual;
                 th.form.orgid = th.organ.Org_ID;
                 th.getsorts();
                 th.handleCurrentChange(1);
-            })).catch(err => alert(err))
+            }).catch(err => alert(err))
                 .finally(() => th.loading_init = false);
         },
 

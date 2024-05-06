@@ -40,7 +40,7 @@ Vue.component('studentlogin', {
             return m;
         }
     },
-    mounted: function () {      
+    mounted: function () {
     },
     methods: {
         //获取数据
@@ -53,10 +53,10 @@ Vue.component('studentlogin', {
             $api.bat(
                 $api.get('Account/LoginTimeGroup', { 'orgid': orgid, 'interval': 'm', 'start': start, 'end': new Date() }),
                 $api.get('Account/RegTimeGroup', { 'orgid': orgid, 'interval': 'm', 'start': start, 'end': new Date() }),
-            ).then(axios.spread(function (login, reg) {
+            ).then(([login, reg]) => {
                 th.logindata = login.data.result;
                 th.regdata = reg.data.result;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         //生成图给的选项

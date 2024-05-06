@@ -30,13 +30,13 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
-            ).then(axios.spread(function (organ, types) {
+            ).then(([organ, types]) => {
                 //获取结果
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.sbjChange();
                 th.types = types.data.result;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);

@@ -18,7 +18,7 @@
             exportVisible: false,    //显示导出面板
             exportform: {
                 couid: $api.querystring('id'), start: '', end: ''
-            },    
+            },
             files: [],               //导出的文件列表
             fileloading: false,      //导出时的加载状态
 
@@ -31,7 +31,7 @@
             $api.bat(
                 $api.get('Course/ForID', { 'id': th.form.couid }),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (course, organ) {
+            ).then(([course, organ]) => {
                 //获取结果
                 th.course = course.data.result;
                 document.title = '学习记录-《' + th.course.Cou_Name + '》';
@@ -39,7 +39,7 @@
                 th.config = $api.organ(th.organ).config;
                 th.getdata(1);
                 th.getFiles();
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {
@@ -48,7 +48,7 @@
         computed: {
         },
         watch: {
-          
+
         },
         methods: {
             //加载数据页

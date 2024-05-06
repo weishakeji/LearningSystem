@@ -19,13 +19,13 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/ForID', { 'id': th.stid }),
                 $api.cache('Outline/TreeList', { 'couid': th.couid })
-            ).then(axios.spread(function (account, outlines) {
+            ).then(([account, outlines]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.outlines = outlines.data.result;
                 console.log(th.outlines);
                 if (th.islogin) th.getlogs(true);
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);

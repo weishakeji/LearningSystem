@@ -26,7 +26,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Account/SortForID', { 'id': th.id })
-            ).then(axios.spread(function (organ, sort) {              
+            ).then(([organ, sort]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 th.sort = sort.data.result;
@@ -35,7 +35,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.form.sortid = th.id;
                 th.handleCurrentChange(1);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
 
         },

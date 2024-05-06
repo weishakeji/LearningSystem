@@ -79,13 +79,13 @@ Vue.component('modify_main', {
         $api.bat(
             $api.get('Organization/Current'),
             $api.cache('Question/Types:99999')
-        ).then(axios.spread(function (organ, types) {
+        ).then(([organ, types]) => {
             //获取结果
             th.organ = organ.data.result;
             th.config = $api.organ(th.organ).config;
             th.types = types.data.result;
             th.$emit('init', th.organ, th.config, th.types);
-        })).catch((err) => console.error(err))
+        }).catch((err) => console.error(err))
             .finally(() => th.loading_init = false);
         th.getEntity();
     },
@@ -138,7 +138,7 @@ Vue.component('modify_main', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.$emit('load', th.question, th.course);             
+                th.$emit('load', th.question, th.course);
             });
         },
         //选项卡是否显示

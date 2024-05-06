@@ -48,7 +48,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
-            ).then(axios.spread(function (org, types) {
+            ).then(([org, types]) => {
                 th.organ = org.data.result;
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
@@ -58,7 +58,7 @@ $ready(function () {
                 } else {
                     th.getSubjects(th.organ);
                 }
-            })).catch(function (err) {
+            }).catch(function (err) {
                 Vue.prototype.$alert(err);
                 console.error(err);
             });

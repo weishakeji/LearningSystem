@@ -43,7 +43,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Question/Types:99999')
-            ).then(axios.spread(function (organ, types) {
+            ).then(([organ, types]) => {
                 //获取结果
                 th.organ = organ.data.result;
                 th.form.orgid = th.organ.Org_ID;
@@ -52,7 +52,7 @@ $ready(function () {
                 th.getSubjects();
                 th.getCourses();
                 th.handleCurrentChange(1);
-            })).catch(function (err) {
+            }).catch(function (err) {
                 alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);

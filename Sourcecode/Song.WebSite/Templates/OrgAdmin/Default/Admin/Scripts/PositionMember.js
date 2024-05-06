@@ -34,17 +34,17 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Position/ForID', { 'id': th.id })
-            ).then(axios.spread(function (organ, posi) {
+            ).then(([organ, posi]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
                 th.employelist(1);
                 th.getPosiAccount();
-            })).catch(function (err) {
+            }).catch(function (err) {
                 th.$alert(err, '错误');
                 console.error(err);
-            }).finally(() =>th.loading.init = false);
+            }).finally(() => th.loading.init = false);
         },
         created: function () {
 
@@ -76,7 +76,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     console.error(err);
-                }).finally(() =>  th.loading.left = false);
+                }).finally(() => th.loading.left = false);
             },
             //加载当前岗位的人员
             getPosiAccount: function () {
@@ -155,7 +155,7 @@ $ready(function () {
                     }).catch(function (err) {
                         th.$alert(err, '错误');
                         console.error(err);
-                    }).finally(() =>  th.loading.update = false);
+                    }).finally(() => th.loading.update = false);
             },
             //操作成功
             operateSuccess: function (isclose) {

@@ -15,14 +15,14 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, org) {
+            ).then(([platinfo, org]) => {
                 //获取结果           
                 th.platinfo = platinfo.data.result;
                 th.org = org.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 th.getStatistics(th.org);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
 
             window.setTimeout(function () {
@@ -39,7 +39,7 @@ $ready(function () {
         },
         watch: {
             'loading_stat': function (nv, ov) {
-                if (nv) return;             
+                if (nv) return;
             }
         },
         methods: {

@@ -45,7 +45,7 @@
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Teacher/ForID', { 'id': th.thid })
-            ).then(axios.spread(function (organ, teach) {
+            ).then(([organ, teach]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -55,7 +55,7 @@
                 th.teacher = teach.data.result;
                 if (th.teacher)
                     th.form.thid = th.teacher.Th_ID;
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

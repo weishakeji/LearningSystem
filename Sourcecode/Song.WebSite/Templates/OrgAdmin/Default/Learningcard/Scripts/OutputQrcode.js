@@ -52,7 +52,7 @@
                 $api.get('Learningcard/SetForID', { 'id': this.id }),
                 $api.get('Learningcard/SetCourses', { 'id': this.id }),
                 $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': '' })
-            ).then(axios.spread(function (cardset, courses, cards) {
+            ).then(([cardset, courses, cards]) => {
                 //获取结果
                 th.cardset = cardset.data.result;
                 th.courses = courses.data.result;
@@ -77,7 +77,7 @@
                     alert(err);
                     console.error(err);
                 }).finally(() => { });
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
         computed: {},

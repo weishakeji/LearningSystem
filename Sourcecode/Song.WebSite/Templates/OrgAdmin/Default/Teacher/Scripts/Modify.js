@@ -92,12 +92,12 @@ $ready(function () {
                     $api.bat(
                         $api.put('Snowflake/Generate'),
                         $api.get('Organization/Current')
-                    ).then(axios.spread(function (snowid, org) {
+                    ).then(([snowid, org]) => {
                         //获取结果
                         //th.entity.Th_ID = snowid.data.result;
                         th.organ = org.data.result;
                         th.config = $api.organ(th.organ).config;
-                    })).catch(function (err) {
+                    }).catch(function (err) {
                         alert(err);
                         console.error(err);
                     });

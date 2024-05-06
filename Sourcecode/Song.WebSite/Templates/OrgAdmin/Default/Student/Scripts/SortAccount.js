@@ -24,7 +24,7 @@ $ready(function () {
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
@@ -33,7 +33,7 @@ $ready(function () {
                 th.form.orgid = th.organ.Org_ID;
                 th.form.sortid = th.id;
                 th.handleCurrentChange(1);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(th.loading_init = false);
 
         },

@@ -13,13 +13,12 @@
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                th.loading_init = false;
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-            })).catch(function (err) {
+            }).catch(function (err) {
                 console.error(err);
             }).finally(() => th.loading_init = false);
         },

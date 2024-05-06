@@ -48,7 +48,7 @@ $ready(function () {
                 $api.get('Account/ForID', { 'id': th.stid }),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
+            ).then(([account, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
                 th.platinfo = platinfo.data.result;
@@ -56,7 +56,7 @@ $ready(function () {
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.getSubjects(th.organ);
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
         created: function () {

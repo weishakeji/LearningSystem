@@ -34,7 +34,7 @@ $ready(function () {
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
-            ).then(axios.spread(function (platinfo, organ) {
+            ).then(([platinfo, organ]) => {
                 //获取结果          
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
@@ -42,7 +42,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 //获取导航菜单
                 th.getdata();
-            })).catch(err => console.error(err))
+            }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);;
         },
         created: function () {
@@ -70,11 +70,11 @@ $ready(function () {
                 $api.bat(
                     $api.get(path, { 'orgid': th.organ.Org_ID, 'type': 'main' }),
                     $api.get(path, { 'orgid': th.organ.Org_ID, 'type': 'foot' })
-                ).then(axios.spread(function (main, foot) {
+                ).then(([main, foot]) => {
                     //获取结果
                     th.data_main = main.data.result ? main.data.result : [];
                     th.data_foot = foot.data.result ? foot.data.result : [];
-                })).catch(err => console.error(err))
+                }).catch(err => console.error(err))
                     .finally(() => { });
             },
             //保存主菜单
