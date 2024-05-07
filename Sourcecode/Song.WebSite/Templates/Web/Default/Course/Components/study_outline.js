@@ -49,7 +49,7 @@ Vue.component('study_outline', {
     },
     computed: {
         //是否登录
-        islogin: t => { return !$api.isnull(t.account); },
+        islogin: t => !$api.isnull(t.account),
         //课程是否存在
         couexist: t => { return !$api.isnull(t.course); }
     },

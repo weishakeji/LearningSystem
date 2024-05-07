@@ -38,7 +38,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: (t) => { return !$api.isnull(t.account); }
+            islogin: (t) => !$api.isnull(t.account)
         },
         watch: {
             'account': {
@@ -49,7 +49,7 @@ $ready(function () {
                 }, immediate: true
             },
         },
-        methods: {            
+        methods: {
             //是否绑定
             isbind: function (tag) {
                 let field = 'Ac_' + tag;

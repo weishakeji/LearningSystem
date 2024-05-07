@@ -58,9 +58,7 @@
         created: function () { },
         computed: {
             //学员是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => !$api.isnull(t.account),
             //试题总数
             questotal: function () {
                 var total = 0;

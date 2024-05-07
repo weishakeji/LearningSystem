@@ -94,7 +94,7 @@ Vue.component('study_video', {
     },
     computed: {
         //是否登录
-        islogin: t => { return !$api.isnull(t.account); }
+        islogin: t => !$api.isnull(t.account)
     },
     mounted: function () {
 

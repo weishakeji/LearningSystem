@@ -69,9 +69,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => !$api.isnull(t.account)
         },
         watch: {
 

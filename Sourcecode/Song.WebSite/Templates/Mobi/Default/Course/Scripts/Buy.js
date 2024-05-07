@@ -72,7 +72,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: (t) => { return !$api.isnull(t.account); }
+            islogin: (t) => !$api.isnull(t.account)
         },
         watch: {
             'showbtn': function (nv, ov) {
