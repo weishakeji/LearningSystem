@@ -4,14 +4,14 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title></title>
+    <title>试题库</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <loading bubble v-if="loading">...</loading>
-            <btngroup v-else show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
+           
+            <btngroup  show="新增,修改,删除,导入,导出" ref='btngroup' :disabled="!loading" @output="output" @input="input" @delete="deleteData"
                 path="Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
 
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
@@ -96,7 +96,7 @@
         </div>
 
         <!-- 数据列表-->
-        <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe :loading="loading"
+        <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe 
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
             row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
             <div slot="empty">
@@ -104,7 +104,7 @@
             </div>
             <el-table-column type="selection" width="35">
             </el-table-column>
-            <el-table-column label="#" type="index" width="60" align="center">
+            <el-table-column label="#" type="index" width="80" align="center">
                 <template slot-scope="scope">
                     <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
@@ -154,7 +154,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="100" align="center" fixed="right">
+            <el-table-column label="操作" width="120" align="center" fixed="right">
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-if="loadingid==scope.row.Qus_ID"></span>
                     <el-button-group v-else>

@@ -3,7 +3,6 @@ $ready(
         '../Components/course.js',
         '/Utilities/baiduMap/map_show.js'],
     function () {
-
         window.vapp = new Vue({
             el: '#vapp',
             data: {
@@ -15,16 +14,15 @@ $ready(
 
             },
             mounted: function () {
-              
-               
+
+
             },
-            created: function () {
-            },
+            created: function () { },
             computed: {},
-            watch: {
-            },
+            watch: {},
             methods: {
             }
         });
 
-    });
+    }
+);

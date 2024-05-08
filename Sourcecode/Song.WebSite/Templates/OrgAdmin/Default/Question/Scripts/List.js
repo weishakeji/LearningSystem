@@ -30,9 +30,9 @@ $ready(function () {
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
 
-            loading: true,
+            loading: false,
             loadingid: 0,
-            loading_init: true
+            loading_init: true  //是否正在初始化
         },
         updated: function () {
             this.$mathjax();
@@ -152,8 +152,8 @@ $ready(function () {
             },
             //加载数据页
             handleCurrentChange: function (index) {
-                if (index != null) this.form.index = index;
                 var th = this;
+                if (index != null) this.form.index = index;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 42);
@@ -169,9 +169,6 @@ $ready(function () {
                             result[i].Qus_Title = result[i].Qus_Title.replace(/(<([^>]+)>)/ig, "");
                         }
                         th.datas = result;
-                        th.$nextTick(function () {
-                            loading.close();
-                        });
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
@@ -180,7 +177,11 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => {
+                    th.$nextTick(function () {
+                        loading.close();
+                    });
+                });
             },
             //刷新行数据，
             freshrow: function (id) {

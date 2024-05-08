@@ -127,34 +127,6 @@ a[download]:hover {
     background-color: rgba(255, 255, 255, .4);
 }
 
-/*顶部按钮条*/
-
-.toolsbar {
-    width: 100%;
-    background-color: rgba(255, 255, 255, .8);
-    border-bottom: 1px solid #DCDFE6;
-    height: 35px;
-    display: flex;
-    justify-content: space-between;    
-    overflow: visible;
-}
-
-.toolsbar .el-button-group .el-button {
-    border: none !important;
-    bottom: 0px;
-    height: 35px;
-    margin: 0px 0px 0px 0px;
-}
-
-.toolsbar .demo-form-inline {
-    display: flex;
-}
-
-.btngroup {
-    display: table;
-    float: left;
-}
-
 
 .el-link {
     font-size: 12px !important;
