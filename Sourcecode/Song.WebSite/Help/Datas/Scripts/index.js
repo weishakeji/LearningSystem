@@ -76,7 +76,7 @@ window.vapp = new Vue({
         //保存实体的标题说明与简介，不涉及字段
         update: function () {
             var th = this;
-            th.loading = true;       
+            th.loading = true;
             $api.post('Helper/EntitiesUpdate', { 'detail': this.entities }).then(function (req) {
                 if (req.data.success) {
                     th.$notify({
@@ -147,31 +147,17 @@ Vue.component('entity', {
             $api.bat(
                 $api.get('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
                 $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
-            ).then(([field, detal]) =>{
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.exception);
-                        throw arguments[i].config.way + ' ' + data.message;
-                    }
-                }
+            ).then(([field, detal]) => {
                 th.properties = field.data.result;
                 th.details = detal.data.result;
                 Vue.set(th.states, 'update', false);
-                th.loading = false;
-            }).catch(function (err) {
-                th.$alert(err);
-                console.error(err);
-                th.loading = false;
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //更新详细信息
         updateDetails: function () {
-            this.loading = true;
             var th = this;
+            th.loading = true;
             $api.post('Helper/EntityDetails', { 'name': this.clname, 'detail': this.details }).then(function (req) {
                 if (req.data.success) {
                     th.$notify({
@@ -180,15 +166,12 @@ Vue.component('entity', {
                         type: 'success'
                     });
                     Vue.set(th.states, 'update', false);
-                    th.loading = false;
+
                 } else {
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                th.$alert(err);
-                console.error(err);
-                th.loading = false;
-            });
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         //--------------------------------
         //获取内容，attr:实体或字段名称，cont:内容类型
