@@ -65,6 +65,14 @@
 
                         </van-cell>
                     </card-context>
+                    <template v-else-if="!available">
+                        <van-cell>                           
+                            <template #default>
+                                <alert> 未开通短信接口，无法发送短信</alert>
+                            </template>
+                        </van-cell>                        
+                    </template>
+
                     <!-- 未绑定-->
                     <card-context v-else class="phonebind">
                         <div prop="phone">

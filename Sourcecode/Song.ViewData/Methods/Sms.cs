@@ -28,6 +28,31 @@ namespace Song.ViewData.Methods
             return  Business.Do<ISystemPara>().GetValue("SmsCurrent");           
         }
         /// <summary>
+        /// 短信接口是否可用
+        /// </summary>
+        /// <returns></returns>
+        public bool Available()
+        {
+            string curr = Business.Do<ISystemPara>().GetValue("SmsCurrent");
+            if (string.IsNullOrWhiteSpace(curr)) return false;
+            //当前短信接口的对象
+            Song.SMS.SmsItem item=Song.SMS.Config.GetItem(curr);
+            if (item == null) return false;
+
+            item.User = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsAcc");
+            item.Password = Business.Do<ISystemPara>().GetValue(item.Mark + "SmsPw");
+            if (string.IsNullOrWhiteSpace(item.User) || string.IsNullOrWhiteSpace(item.Password)) return false;
+
+            Song.SMS.ISMS sms = Song.SMS.Gatway.GetService(item.Mark);
+            //设置账号与密码
+            sms.Current.User = item.User;
+            sms.Current.Password = item.Password;
+            int count = sms.Query();
+            if (count <= 0) return false;
+
+            return true;
+        }
+        /// <summary>
         /// 所有短信接口
         /// </summary>
         /// <returns></returns>

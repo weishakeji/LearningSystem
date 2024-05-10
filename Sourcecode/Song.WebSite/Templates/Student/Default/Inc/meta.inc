@@ -8,24 +8,30 @@
 <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
 <script type="text/javascript" src="../Scripts/Public.js"></script>
 <style type="text/css">
-    *[v-cloak]>* {
-        display: none !important;
+   *[v-cloak]{
+        text-align:left !important;
+    }
+    *[v-cloak] * {
+         display: none !important;
     }
     *[v-cloak]::before {
-        content: "*";
+        content: "/";
         display: block;
-        width:50px;
-        height:50px;
+        width:24px;
+        height:24px;
         text-align: center;
         float:left;
-        font-size: 50px;
-        color:#999;
-        animation: rotate_360 0.4s infinite linear;
+        font-size: 16px;
+        color:#666;
+        animation: rotate_360 0.5s infinite linear;
+        transform-origin: center center;
     }
     *[v-cloak]::after {
-        content: "...";
-        display: inline;
-        line-height:50px;   
+        content: "loading ... ";
+        display: inline;     
+        font-size: 13px;
+        margin-left:10px;
+        line-height:20px;   
         color:#999;    
     }
     @keyframes rotate_360 {
@@ -49,5 +55,4 @@
             transform: rotate(360deg);
         }
     }
-
 </style>

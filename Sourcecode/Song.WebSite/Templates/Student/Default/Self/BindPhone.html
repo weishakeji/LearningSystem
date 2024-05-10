@@ -13,14 +13,14 @@
             <el-form-item label="" prop="Ac_AccName">
                 <avatar :account="account" circle="true" size="30"></avatar>
                 {{account.Ac_Name}}
-                <span class="accname">( {{account.Ac_AccName}} )</span>               
+                <span class="accname">( {{account.Ac_AccName}} )</span>
             </el-form-item>
             <el-form-item label="移动电话" prop="Ac_MobiTel1">
                 <el-input v-model="account.Ac_MobiTel1" style="width:200px" :disabled="true">
                     <icon slot="prefix">&#xe66c</icon>
                 </el-input>
             </el-form-item>
-            <el-form-item label=""  prop="bind">
+            <el-form-item label="" prop="bind">
                 <el-tag type="success"> 已经绑定</el-tag>
             </el-form-item>
             <el-form-item label="" v-if="false">
@@ -34,26 +34,33 @@
                 {{account.Ac_Name}}
                 <span class="accname">( {{account.Ac_AccName}} )</span>
             </el-form-item>
-            <el-form-item label="移动电话" prop="phone">
-                <el-input v-model="form.phone" style="width:160px" :disabled="sms_seconds>0">
-                    <icon slot="prefix">&#xe66c</icon>
-                </el-input>
-                <el-tag type="warning"> 未绑定</el-tag>
-            </el-form-item>
-            <el-form-item label=" " prop="sms">
-                <el-input v-model="form.sms" style="width:160px" prop>
-                    <icon slot="prefix">&#xe76e</icon>
-                </el-input>             
-                <loading bubble v-if="loading_sms"></loading>
-                <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
-                <el-button type="primary" v-else plain @click="getsms('form')">获取验证码</el-button>
-            </el-form-item>
+            <template v-if="available">
+                <el-form-item label="移动电话" prop="phone">
+                    <el-input v-model="form.phone" style="width:160px" :disabled="sms_seconds>0">
+                        <icon slot="prefix">&#xe66c</icon>
+                    </el-input>
+                    <el-tag type="warning"> 未绑定</el-tag>
+                </el-form-item>
+                <el-form-item label=" " prop="sms">
+                    <el-input v-model="form.sms" style="width:160px" prop>
+                        <icon slot="prefix">&#xe76e</icon>
+                    </el-input>
+                    <loading bubble v-if="loading_sms"></loading>
+                    <span v-else-if="sms_seconds>0">{{sms_seconds}}秒后重发</span>
+                    <el-button type="primary" v-else plain @click="getsms('form')">获取验证码</el-button>
+                </el-form-item>
+            </template>
+            <template v-else>
+                <el-form-item label="提示" >                   
+                    <alert> 未开通短信接口，无法发送短信</alert>
+                </el-form-item>
+            </template>
         </el-form>
         <div class="footer">
             <el-button type="primary" v-if="isbind" define="enter" :loading="loading" @click="phoneUnbind()">
                 取消绑定
             </el-button>
-            <el-button type="primary" v-else define="enter" :loading="loading" @click="phonebind('form')">
+            <el-button type="primary" v-else-if="available" define="enter" :loading="loading" @click="phonebind('form')">
                 绑定手机
             </el-button>
             <el-button type='close'>

@@ -7,7 +7,7 @@ $ready(function () {
             platinfo: {},
             org: {},
             config: {},      //当前机构配置项
-
+            available: false,       //短信接口是否可用
             form: {
                 phone: '',
                 sms: ''
@@ -30,7 +30,17 @@ $ready(function () {
 
         },
         mounted: function () {
-
+            var th = this;
+            th.loading = true;
+            $api.get('Sms/Available').then(req => {
+                if (req.data.success) {
+                    th.available = req.data.result;                   
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading = false);
         },
         created: function () {
 

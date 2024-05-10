@@ -3,11 +3,10 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            account: {}, //当前登录账号对象
-            platinfo: {},
+            account: {}, //当前登录账号对象         
             organ: {},
             config: {},      //当前机构配置项
-
+            available: false,       //短信接口是否可用
             form: {
                 phone: '',
                 sms: ''
@@ -50,17 +49,17 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
+            th.loading = true;
             $api.bat(
+                $api.get('Organization/Current'),
                 $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(([account, platinfo, organ]) => {
+                $api.get('Sms/Available')      //短信接口是否可用            
+            ).then(([org, acc, able]) => {
                 //获取结果
-                th.account = account.data.result;
+                th.account = acc.data.result;
                 if (th.account) th.form.phone = th.account.Ac_MobiTel1;
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-
+                th.organ = org.data.result;
+                th.available = able.data.result;
             }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
@@ -69,9 +68,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => !$api.isnull(t.account),
             //是否绑定手机号了
             isbind: function () {
                 return this.account.Ac_MobiTel1 != '' && this.account.Ac_MobiTel1 == this.account.Ac_MobiTel2;
