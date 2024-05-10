@@ -41,7 +41,7 @@
                         <div class="artIntro" remark="摘要" v-if="article.Art_Intro!=''">
                             <span class="tit">摘要：</span>{{article.Art_Intro}}
                         </div>
-                        <div class="artImg" v-if="article.Art_Logo!=''">
+                        <div class="artImg" v-if="article.Art_Logo!=''" style="display: none;">
                             <img :src="article.Art_Logo" />
                         </div>
                         <!--正文 -->

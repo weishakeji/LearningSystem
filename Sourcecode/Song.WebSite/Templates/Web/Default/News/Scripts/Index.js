@@ -30,7 +30,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.bat(
-                    $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
+                    $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 15, 'order': 'hot' }),
                     $api.cache('News/ColumnsShow:60', { 'orgid': orgid, 'pid': '', 'count': 0 })
                 ).then(([articles, columns]) => {
                     //获取结果
