@@ -85,16 +85,15 @@ context>section nav header {
     bottom: 0px;
     color: #409EFF;
     font-size: 12px;
-    display: none;
     cursor: pointer;
 }
 
+/*
 .upload_img_area:hover .photo-txt, .upload_img_area:hover .photo-btn {
     display: block;
-}
+}*/
 
 .photo-btn {
-    display: none;
     position: absolute;
     right: 0px;
     bottom: 0px;
