@@ -45,11 +45,12 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 修改课程的某些项
         /// </summary>
+        /// <param name="couid">课程id，用于刷新课程章节的缓存</param>
         /// <param name="olid">章节id</param>
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool UpdateField(long olid, Field[] fiels, object[] objs);
+        bool UpdateField(long couid, long olid, Field[] fiels, object[] objs);
         /// <summary>
         /// 更新章节的试题数
         /// </summary>

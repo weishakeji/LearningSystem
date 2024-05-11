@@ -2,7 +2,7 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.querystring('id'),     //课程Id
+            id: $api.querystring('id'),     //课程ID
             uid: $api.querystring('uid'),       //课程的uid         
 
             course: {},  //当前课程
@@ -17,6 +17,7 @@
             live_show: false,            //直播的编辑显示
 
             loading: false,
+            loading_init: false,
             loadingid: -1,
             loading_sumbit: false,   //提交时的预载          
 
@@ -26,7 +27,7 @@
         },
         created: function () {
             var th = this;
-            th.loading = true;
+            th.loading_init = true;
             $api.get('Course/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     th.course = req.data.result;
@@ -38,7 +39,7 @@
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            }).finally(() => th.loading = false);
+            }).finally(() => th.loading_init = false);
             th.getTreeData(true);
         },
         computed: {
@@ -57,6 +58,7 @@
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     if (req.data.success) {
                         th.datas = req.data.result;
+                        console.log(th.datas);
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -122,7 +124,7 @@
                 //let entity = $api.clone(data);
                 this.loadingid = data.Ol_ID;
                 $api.post('Outline/ModifyState',
-                    { 'id': data.Ol_ID, 'use': data.Ol_IsUse, 'finish': data.Ol_IsFinish, 'free': data.Ol_IsFree })
+                    { 'couid': th.id, 'id': data.Ol_ID, 'use': data.Ol_IsUse, 'finish': data.Ol_IsFinish, 'free': data.Ol_IsFree })
                     .then(function (req) {
                         if (req.data.success) {
                             th.$message({
@@ -160,8 +162,6 @@
                 }
             },
             remove: function (node, data) {
-                //console.log(node);
-                //console.log(data);
                 if (!!data.children && data.children.length > 0) {
                     var msg = '当前章节“' + data.Ol_Name + '”下共有 <b>' + data.children.length + '</b> 个子章节，请先删除子章节。'
                     this.$alert(msg, '不可删除', {
@@ -234,7 +234,7 @@
             //freshall:是否刷新所有章节
             updatedEvent: function (freshall) {
                 this.close_fresh('vapp.freshrow("' + this.id + '")');
-                $api.cache('Outline/Tree:clear', { 'couid': this.id, 'isuse': true });
+                $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
                 var th = this;
                 if (freshall == null || freshall == false) {
                     th.getTreeData(false);

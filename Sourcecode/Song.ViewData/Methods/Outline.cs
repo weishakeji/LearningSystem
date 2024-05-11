@@ -63,17 +63,19 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 修改章节状态
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="use"></param>
-        /// <param name="finish"></param>
-        /// <param name="free"></param>
+        /// <param name="couid">课程id</param>
+        /// <param name="id">章节id，多个id用逗号分隔</param>
+        /// <param name="use">是否启用</param>
+        /// <param name="finish">是否完成</param>
+        /// <param name="free">是否免费</param>
         /// <returns></returns>
         [Admin, Teacher]
         [HttpPost]
-        public int ModifyState(string id, bool? use, bool? finish, bool? free)
+        public int ModifyState(long couid, string id, bool? use, bool? finish, bool? free)
         {
             int i = 0;
             if (string.IsNullOrWhiteSpace(id)) return i;
+            List<long> coulist = new List<long>();      //章节所属课程的id集体
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
@@ -83,10 +85,15 @@ namespace Song.ViewData.Methods
                 try
                 {
 
-                    Business.Do<IOutline>().UpdateField(idval,
-                   new WeiSha.Data.Field[] {
+                    Business.Do<IOutline>().UpdateField(0, idval,
+                    new WeiSha.Data.Field[] {
                         Song.Entities.Outline._.Ol_IsUse,Song.Entities.Outline._.Ol_IsFinish,Song.Entities.Outline._.Ol_IsFree },
-                   new object[] { (bool)use, (bool)finish, (bool)free });
+                    new object[] { (bool)use, (bool)finish, (bool)free });
+                    if (couid <= 0)
+                    {
+                        Song.Entities.Outline ol = Business.Do<IOutline>().OutlineSingle(idval);
+                        if (ol != null && !coulist.Contains(ol.Cou_ID)) coulist.Add(ol.Cou_ID);
+                    }
                     i++;
                 }
                 catch (Exception ex)
@@ -94,7 +101,13 @@ namespace Song.ViewData.Methods
                     throw ex;
                 }
             }
+            if (couid > 0) Business.Do<IOutline>().BuildCache(couid);
+            else
+            {
+                foreach (long d in coulist) Business.Do<IOutline>().BuildCache(d);
+            }
             return i;
+
         }
         /// <summary>
         /// 更改章节的排序
