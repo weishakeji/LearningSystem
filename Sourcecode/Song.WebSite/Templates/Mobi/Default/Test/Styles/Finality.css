@@ -135,6 +135,7 @@ score.praise::before {
 .trscore span {
 	font-size: 18px;
 	font-weight: bold;
+	margin-left: 15px;
 }
 
 /*测试时间*/

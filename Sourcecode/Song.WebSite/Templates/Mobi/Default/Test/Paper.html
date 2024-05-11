@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
-        <test_header></test_header>
+        <test_header :course="course"></test_header>
         <div class="context">
             <card class="paper">
                 <card-title icon="&#xe731">{{paper.Tp_Name}}

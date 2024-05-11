@@ -1,5 +1,6 @@
 //结课条件
-$dom.load.css([$dom.pagepath() + 'Styles/final_condition.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/final_condition.css']);
+
 Vue.component('final_condition', {
     //参数：机构参数，购买记录，试卷id，学员,是否一直显示
     props: ['config', 'purchase', 'paperid', 'account', 'show'],
@@ -97,7 +98,7 @@ Vue.component('final_condition', {
     template: `<div class="final_condition" v-if="show || final_disable()">
         <slot></slot>
         <div>
-            1、视频学习完成<b>{{orgconfig('finaltest_condition_video',100)}}%</b>，当前完成<b>{{purchase.Stc_StudyScore}}%</b>，
+            1. 视频学习完成<b>{{orgconfig('finaltest_condition_video',100)}}%</b>，当前完成<b>{{purchase.Stc_StudyScore}}%</b>，
             <van-tag type="success" v-if="orgconfig('finaltest_condition_video',100)<=purchase.Stc_StudyScore">
                 <icon>&#xa048</icon>达成
             </van-tag>
@@ -107,7 +108,7 @@ Vue.component('final_condition', {
             </van-tag>
         </div>
         <div>
-            2、试题练习通过率达到<b>{{orgconfig('finaltest_condition_ques',100)}}%</b>，当前完成<b>{{purchase.Stc_QuesScore}}%</b>，
+            2. 试题练习通过率达到<b>{{orgconfig('finaltest_condition_ques',100)}}%</b>，当前完成<b>{{purchase.Stc_QuesScore}}%</b>，
             <van-tag type="success" v-if="orgconfig('finaltest_condition_ques',100)<=purchase.Stc_QuesScore">
                 <icon>&#xa048</icon>达成
             </van-tag>
@@ -116,7 +117,7 @@ Vue.component('final_condition', {
             </van-tag>
         </div>
         <div>
-            3、最多允许考试 <b>{{orgconfig('finaltest_count',1)}}</b> 次，
+            3. 最多允许考试 <b>{{orgconfig('finaltest_count',1)}}</b> 次，
             <template v-if="results.length>0">
                 已经考了<b>{{results.length}}</b>次，最高得分
                 <b>{{score_highest()}}分</b></template>

@@ -1,7 +1,7 @@
 //搜索框
 $dom.load.css([$dom.pagepath() + 'Components/Styles/TestHeader.css']);
 Vue.component('test_header', {
-    props: ['title', 'icon'],
+    props: ['title', 'icon','course'],
     data: function () {
         return {
             couid: $api.querystring("couid"),
@@ -66,6 +66,9 @@ Vue.component('test_header', {
         //返回课程
         gocourse: function () {
             var couid = $api.querystring("couid", 0);
+            if (couid == 0 && !$api.isnull(this.course)){
+                couid=this.course.Cou_ID;
+            }
             var url = $api.url.dot(couid, '/mobi/course/Detail');
             window.navigateTo(url);
         }
