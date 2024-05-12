@@ -1,12 +1,4 @@
 ﻿@charset "utf-8";
-html, body, #vapp {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-	position: relative;
-}
 
 .context {
 	width: 100%;
@@ -17,7 +9,18 @@ html, body, #vapp {
 .row {
 	line-height: 35px;
 }
-
+.cour_name{
+	flex: 1;
+	font-size: 16px;
+	margin: 4px 10px 4px 0px;
+	padding: 0px 5px 0px 0px;
+	box-sizing: border-box;
+	height: 28px;
+	line-height: 35px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 /*试卷信息*/
 
 card.paper card-title {
@@ -28,10 +31,9 @@ card.paper card-title {
 
 .title {
 	display: block;
-	position: absolute;
+	
 	height: 28px;
-	top: 0px;
-	right: 0px;
+	
 	font-size: 16px;
 	margin: 4px 10px;
 	padding: 0px 5px;

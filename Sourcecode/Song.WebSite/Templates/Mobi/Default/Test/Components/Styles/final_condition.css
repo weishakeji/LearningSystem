@@ -1,4 +1,4 @@
-﻿.final_condition>div {
+﻿.final_condition>div:not(:last-child) {
 	padding-right: 60px;
 	position: relative;
 	margin-bottom: 10px;

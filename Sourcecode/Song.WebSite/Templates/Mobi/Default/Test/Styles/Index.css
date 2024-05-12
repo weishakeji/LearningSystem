@@ -1,12 +1,5 @@
 ﻿@charset "utf-8";
-html, body, #vapp {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-	position: relative;
-}
+
 .context{
 	width: 100%;
 	height: calc(100% - 44px - 55px);

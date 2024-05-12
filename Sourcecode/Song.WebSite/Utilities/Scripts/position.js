@@ -52,7 +52,7 @@
                 msg = "出现未知错误";
                 break;
         }
-        console.error('地理信息：' + msg);
+        //console.error('地理信息：' + msg);
         //alert('地理位置服务_错误提示：' + msg)
     }
 

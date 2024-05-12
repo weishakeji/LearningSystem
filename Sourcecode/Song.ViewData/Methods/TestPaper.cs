@@ -421,13 +421,15 @@ namespace Song.ViewData.Methods
                 WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
                 //视频学习进度是否达成
                 double condition_video = config["finaltest_condition_video"].Value.Double ?? 100;
-                if (condition_video > purchase.Stc_StudyScore)
+                //视频数
+                int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
+                if (video > 0 && condition_video > purchase.Stc_StudyScore)
                 {
                     throw new Exception(string.Format(txt + "视频学习应达到{0}%，实际学习进度{1}%", condition_video, purchase.Stc_StudyScore));
                 }
                 //试题练习通过率是否达成
                 double condition_ques = config["finaltest_condition_ques"].Value.Double ?? 100;
-                if (condition_ques > purchase.Stc_QuesScore)
+                if (condition_ques>0 && condition_ques > purchase.Stc_QuesScore)
                 {
                     throw new Exception(string.Format(txt + "试题通过率应达到{0}%，实际通过率为{1}%", condition_ques, purchase.Stc_QuesScore));
                 }

@@ -74,23 +74,23 @@ Vue.component('test_header', {
         }
     },
     template: `<div class="header">
-    <icon @click="goback">&#xe748</icon>
-    <icon @click="gocourse">&#xe813</icon>
-    <van-tag  size="medium" class="sortname" type="success">
-        <icon v-html="'&#x'+ico"></icon>
-       {{tit}}
-    </van-tag>
-     <van-search v-model.trim="search" placeholder="请输入检索字符" background="transparent" @search="onSearch">
-        <template #action>
+        <icon @click="goback">&#xe748</icon>
+        <icon @click="gocourse">&#xe813</icon>
+        <van-tag  size="medium" class="sortname" type="success">
+            <icon v-html="'&#x'+ico"></icon>
+        {{tit}}
+        </van-tag>
+        <van-search v-model.trim="search" placeholder="请输入检索字符" background="transparent" @search="onSearch">
+            <template #action>
 
-        </template>
-        <template #right-icon>
-            <div @click="onSearch">搜索</div>
-        </template>
-        <template #left-icon>
+            </template>
+            <template #right-icon>
+                <div @click="onSearch">搜索</div>
+            </template>
+            <template #left-icon>
 
-        </template>
-    </van-search> 
+            </template>
+        </van-search> 
     </div>`
 });
 
