@@ -1181,7 +1181,39 @@ namespace Song.ServiceImpls
         public Student_Course StudentCourse(int stid, long couid)
         {
             return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
-                .ToFirst<Student_Course>();
+                .ToFirst<Student_Course>();           
+        }
+        /// <summary>
+        /// 学生与课程的关联记录项，如果autoCreate为true，当没有关联项时，且课程为免费状态，可以自动创建关联
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="autoCreate">是否自动创建关联记录项</param>
+        /// <returns></returns>
+        public Student_Course StudentCourse(int stid, long couid, bool autoCreate)
+        {
+            Student_Course sc = this.StudentCourse(stid, couid);
+            if (sc != null || !autoCreate) return sc;
+
+            //autoCreate为true,
+            //获取课程信息
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
+            //课程在启用状态下，免费或限时免费中，创建记录
+            if (course.Cou_IsUse && (course.Cou_IsFree || course.Cou_IsLimitFree))
+            {
+                if (course.Cou_IsFree)
+                    sc = this.FreeStudy(stid, couid, null, DateTime.Now.AddYears(100));
+                else
+                    sc = this.FreeStudy(stid, couid, course.Cou_FreeStart, course.Cou_FreeEnd);
+            }
+            return sc;
         }
         /// <summary>
         /// 直接开课，创建学员与课程的关联信息

@@ -399,8 +399,9 @@ namespace Song.ViewData.Methods
             long couid = 0;
             long.TryParse(getAttr(xn, "couid"), out couid);
             string couname = getAttr(xn, "couname");
-            //***课程是否购买或过期
-            Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid);
+
+            //***课程是否购买或过期，如果课程免费，则自动创建课程与学员的关联记录
+            Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid, true);
             if (purchase == null) purchase = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
             if (purchase == null || (!purchase.Stc_IsFree && purchase.Stc_EndTime < DateTime.Now && purchase.Stc_StartTime > DateTime.Now))
                 throw new Exception("未购买课程或已经过期");
