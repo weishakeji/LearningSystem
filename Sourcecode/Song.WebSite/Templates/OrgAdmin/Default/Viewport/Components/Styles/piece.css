@@ -56,8 +56,10 @@ div.piece div.area div.contx {
 	padding: 10px 20px 10px 20px;
 	color: #fff;
 	font-size: 18px;
+	text-shadow: 2px 2px 5px #fff,-2px -2px 5px #fff,-2px 2px 5px #fff,2px -2px 5px #fff;
 }
 
 div.piece div.area div.contx b {
 	font-size: 25px;
+	margin-right: 3px;
 }

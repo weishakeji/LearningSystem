@@ -7,7 +7,9 @@ Vue.component('piece', {
         "ico",          //右侧大图标
         "iconsize",     //图标的大小，默认是100像素
         "leftcolor",        //左侧背景色，背景是过渡色
-        "rightcolor"],      //右侧背景色
+        "rightcolor"         //右侧背景色
+       
+    ],
     data: function () {
         return {}
     },
@@ -31,17 +33,22 @@ Vue.component('piece', {
             let left = $api.isnull(this.leftcolor) ? '#fff' : this.leftcolor;
             let right = $api.isnull(this.rightcolor) ? '#fff' : this.rightcolor;
             return 'background: linear-gradient(to right, ' + left + ', ' + right + ');';
+        },
+        //字体颜色
+        "font_color":function(){
+            if ($api.isnull(this.leftcolor)) return '';        
+            return 'color: ' + this.leftcolor + ';';
         }
     },
     mounted: function () {
     },
     methods: {
     },
-    template: `<div class="piece" :style="background_color">        
+    template: `<div class="piece" :style="background_color">    
                 <icon class="bg" v-html="background_ico" v-if="background_ico!=''" :style="background_size"></icon>              
                 <div class="area">
                     <div class="tit">{{title}}</div>
-                    <div class="contx">
+                    <div class="contx" :style="font_color">
                         <slot></slot>
                     </div>
                 </div>

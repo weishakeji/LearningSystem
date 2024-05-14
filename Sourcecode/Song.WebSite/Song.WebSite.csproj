@@ -601,10 +601,12 @@
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Results.js" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\courses_hot.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentlogin.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentage.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\piece.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\dataitem.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\courses_hot.css" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\studentlogin.css" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\studentage.css" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\Styles\piece.css" />

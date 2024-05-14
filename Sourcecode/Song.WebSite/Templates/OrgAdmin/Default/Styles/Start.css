@@ -4,12 +4,42 @@ html, body {
 	background-color: #fff;
 }
 
-#vapp {
-	overflow-y: auto;
+/* 在小屏幕下（最大宽度为600px）设置宽度 */
+@media only screen and (max-width: 100px) {
+	.element {
+		width: 200px;
+	}
 }
 
-#vapp>section {
-	max-width: 1000px;
+#vapp {
+	overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#map {
+	width: 800px;
+
+}
+
+#map>div:first-child {
+	height: 600px !important;
+}
+
+#vapp>section:first-child {
+	width: calc(100% - 800px);
+}
+
+/* 在小屏幕下（最大宽度为600px）设置宽度 */
+@media only screen and (max-width: 1200px) {
+	#vapp {
+		overflow-y: auto;
+		display: block;
+	}
+
+	#vapp>section:first-child {
+		width: 100%;
+	}
 }
 
 div.data_piece {
@@ -32,7 +62,9 @@ div.data_items {
 	display: flex;
 	justify-content: space-between;
 	position: relative;
-	margin: 50px 20px 20px 20px;
+	margin: 50px 20px 0px 20px;
+	overflow: hidden;
+	height: 360px;
 }
 
 div.data_items>div:not(:last-child) {
@@ -45,14 +77,25 @@ div.data_items>div {
 
 .student_chart {
 	width: calc(50% - 10px + 20px);
-	height: calc(100% - 60px);
-	position: absolute;
-	bottom: -15px;
-	left: calc(25% + 5px);
+    height: calc(100% - 130px);
+    position: absolute;
+    bottom: 20px;
+    left: calc(25% + 5px);
+    overflow: hidden;
 }
 
 /*学员登录与注册的图表*/
 .studentlogin {
 	width: 100%;
 	height: 260px;
+}
+
+/*热门课程*/
+.courses_hot .title {
+	padding: 0px 20px;
+	font-size: 16px;
+}
+.courses_hot .title icon{
+	font-size: 22px;
+	color: red;
 }

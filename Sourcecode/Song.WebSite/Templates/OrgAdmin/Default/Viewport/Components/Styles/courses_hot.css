@@ -1,0 +1,73 @@
+/*课程*/
+weisha_courses {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin: 15px 0px 0px 21px;
+}
+
+weisha_courses>div {
+    position: relative;
+    margin: 0px 20px 20px 0px;
+    width: calc(25% - 20px);
+    transition: all 0.5s;
+}
+
+weisha_courses>div.rightmost {
+    margin-right: 0px;
+}
+
+weisha_courses>div[rec]::before {
+    content: '\e741';
+    font-family: "webdesk_icon" !important;
+    font-size: 60px;
+    display: block;
+    position: absolute;
+    margin: -2px 0px 0px -4px;
+    color: rgb(255, 30, 30);
+    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+
+}
+
+weisha_courses>div:hover {
+    transform: scale(1.05);
+}
+
+weisha_courses img:first-child {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+weisha_courses .type {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+weisha_courses a.name {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: #333;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    line-height: 25px;
+    font-size: 14px;
+    max-height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+
+weisha_courses .view {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 14px;   
+}
