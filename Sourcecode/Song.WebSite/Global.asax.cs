@@ -21,7 +21,7 @@ namespace Song.WebSite
             MvcHandler.DisableMvcResponseHeader = true;
 
             //查询开始之前
-            //WeiSha.Data.Gateway.Default.RegisterLogger(new Song.ViewData.Helper.DatabaseLog());
+            WeiSha.Data.Gateway.Default.RegisterLogger(new Song.ViewData.Helper.DatabaseLog());
 
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);

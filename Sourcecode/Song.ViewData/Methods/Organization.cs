@@ -617,5 +617,45 @@ namespace Song.ViewData.Methods
             }
         }
         #endregion
+
+        #region 统计数据
+
+        /// <summary>
+        /// 有多少课程被选修过
+        /// </summary>
+        /// <param name="orgid">机构id</param>    
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int CourseCountBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+            return Business.Do<IOrganization>().CourseCountBuy(orgid, isfree, start, end);
+        }
+        /// <summary>
+        /// 有多少学员购买过课程
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int StudentCountBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+            return Business.Do<IOrganization>().StudentCountBuy(orgid, isfree, start, end);
+        }
+        /// <summary>
+        /// 购买课程的次数，即学员购买课程的次数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int CourseSumBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+            return Business.Do<IOrganization>().CourseSumBuy(orgid, isfree, start, end);
+        }
+        #endregion
     }
 }

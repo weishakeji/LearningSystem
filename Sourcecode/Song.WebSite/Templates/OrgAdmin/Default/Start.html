@@ -66,7 +66,13 @@
                 </div>
                 <div class="courses_hot">
 
-                    <div class="title"><icon>&#xe856</icon>热门课程</div>
+                    <div class="title">
+                        <span icon="&#xe856">热门课程</span>
+                        <span>
+                            共有<b>{{buydata.courseCount|commas}}</b>门课程被<b>{{buydata.studentCount|commas}}</b>名学员选修，
+                            累计学习达<b>{{buydata.courseSum|commas}}</b>人次
+                        </span>
+                    </div>
                     <courses_hot :org="org" :count="8"></courses_hot>
                 </div>
             </section>

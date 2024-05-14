@@ -94,8 +94,19 @@ div.data_items>div {
 .courses_hot .title {
 	padding: 0px 20px;
 	font-size: 16px;
+	display: flex;
+	justify-content: space-between;
 }
-.courses_hot .title icon{
+.courses_hot .title span[icon]::before{
 	font-size: 22px;
 	color: red;
+}
+.courses_hot .title span:last-child{
+	font-size: 14px;
+	color: #666;
+}
+.courses_hot .title span:last-child b{
+	margin: 0px 8px;
+	font-size: 16px;
+	color: rgb(255, 123, 0);
 }

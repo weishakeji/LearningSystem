@@ -602,6 +602,7 @@
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\courses_hot.js" />
+    <Content Include="Templates\OrgAdmin\Default\Viewport\Components\map_display.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentlogin.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\studentage.js" />
     <Content Include="Templates\OrgAdmin\Default\Viewport\Components\piece.js" />

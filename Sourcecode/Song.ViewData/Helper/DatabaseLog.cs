@@ -30,7 +30,7 @@ namespace Song.ViewData.Helper
         /// <param name="elapsedTime">实例测量得出的总运行时间（以毫秒为单位</param>
         public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
         {
-            if (!((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2)) return;
+            if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
             //1秒内的不统计
             //if (elapsedTime < 1000) return;
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
@@ -88,7 +88,7 @@ namespace Song.ViewData.Helper
 
 
             long elapsedNumber = elapsedTime / 1000 * 1000;
-            if (elapsedNumber <= 0) return;
+            //if (elapsedNumber <= 0) return;
             //如果日志目录不存在就创建
             string rootPath = AppDomain.CurrentDomain.BaseDirectory;
             //string apiName=path.i

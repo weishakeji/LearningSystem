@@ -16,7 +16,7 @@ namespace Song.ServiceImpls
 {
     public class OrganizationCom : IOrganization
     {
-
+        #region 机构管理
         public void OrganAdd(Organization entity)
         {
             entity.Org_RegTime = DateTime.Now;
@@ -467,7 +467,8 @@ namespace Song.ServiceImpls
                 .OrderBy(Organization._.Org_RegTime.Desc)
                 .ToArray<Organization>(size, (index - 1) * size);
         }
-        
+        #endregion
+
         #region 机构等级管理
         /// <summary>
         /// 添加机构等级
@@ -669,6 +670,77 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+        }
+        #endregion
+
+        #region 统计数据
+        /// <summary>
+        /// 有多少课程被选修过
+        /// </summary>
+        /// <param name="orgid">机构id</param>    
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int CourseCountBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;
+            if (isfree != null) wc &= Student_Course._.Stc_IsFree == (bool)isfree;
+            if (start != null) wc &= Student_Course._.Stc_StartTime >= (DateTime)start;
+            if (end != null) wc &= Student_Course._.Stc_StartTime < (DateTime)end;
+
+            object o = Gateway.Default.From<Student_Course>().Where(wc).SubQuery("c")
+            .Select(Student_Course._.Cou_ID.At("c"))
+            .GroupBy(Student_Course._.Cou_ID.At("c").Group)
+            .Count();          
+          
+            return o==null ? 0 : Convert.ToInt32(o);
+        }
+    
+        /// <summary>
+        /// 有多少学员进行过学习
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int StudentCountBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;
+            if (isfree != null) wc &= Student_Course._.Stc_IsFree == (bool)isfree;
+            if (start != null) wc &= Student_Course._.Stc_StartTime >= (DateTime)start;
+            if (end != null) wc &= Student_Course._.Stc_StartTime < (DateTime)end;
+
+            object o = Gateway.Default.From<Student_Course>().Where(wc).SubQuery("c")
+            .Select(Student_Course._.Ac_ID.At("c"))
+            .GroupBy(Student_Course._.Ac_ID.At("c").Group)
+            .Count();
+
+            return o == null ? 0 : Convert.ToInt32(o);
+        }
+        /// <summary>
+        /// 学习人次，即学员学习课程的次数
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="isfree">是否包括免费的</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int CourseSumBuy(int orgid, bool? isfree, DateTime? start, DateTime? end)
+        {
+
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Student_Course._.Org_ID == orgid;
+            if (isfree != null) wc &= Student_Course._.Stc_IsFree == (bool)isfree;
+            if (start != null) wc &= Student_Course._.Stc_StartTime >= (DateTime)start;
+            if (end != null) wc &= Student_Course._.Stc_StartTime < (DateTime)end;
+
+            object o = Gateway.Default.From<Student_Course>().Where(wc).Count();
+
+            return o == null ? 0 : Convert.ToInt32(o);
         }
         #endregion
 
