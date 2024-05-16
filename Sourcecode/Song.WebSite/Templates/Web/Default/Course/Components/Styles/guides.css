@@ -56,19 +56,3 @@
 .Gu_Details p {
 	margin-top: 0.5em;
 }
-
-.nocontext {
-	padding: 20px;
-	text-align: center;
-	font-size: 20px;
-	margin: 80px;
-
-}
-
-.nocontext::before {
-	content: "\e849";
-	font-family: webdesk_icon;
-	font-size: 140px;
-	display: block;
-	color: #999;
-}

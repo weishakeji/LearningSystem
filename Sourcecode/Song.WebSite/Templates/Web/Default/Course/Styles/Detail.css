@@ -245,6 +245,7 @@ context.body>section .el-tabs .el-tabs__content>div {
 .outlines {
     box-sizing: border-box;
     margin-left: 30px;
+    min-height: 500px;
 }
 
 .outlines>div {
@@ -265,16 +266,35 @@ context.body>section .el-tabs .el-tabs__content>div {
     right: 10px;
     top: 6px;
 }
-.tolearing{
+
+.tolearing {
     cursor: pointer;
 }
-.outlines>div>a  {
+
+.outlines>div>a {
     position: absolute;
     right: 10px;
     top: 0px;
 }
+
 index {
     margin-right: 8px;
+}
+
+.nocontext {
+    padding: 50px;
+    text-align: center;
+    font-size: 20px;
+    min-height: 400px;
+    line-height:normal !important;
+}
+
+.nocontext::before {
+    content: "\e849";
+    font-family: webdesk_icon;
+    font-size: 140px;
+    display: block;
+    color: #999;
 }
 
 /*课程公告*/
@@ -320,7 +340,6 @@ index {
 }
 
 .guide_null {
-    font-size: 12px;
     color: #999;
     line-height: 25px !important;
 }

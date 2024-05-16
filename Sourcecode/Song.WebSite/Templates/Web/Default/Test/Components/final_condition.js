@@ -57,7 +57,7 @@ Vue.component('final_condition', {
         //结果考试的按钮是否通过,为true时表示不通过
         final_disable: function () {
             //视频学习进度是否达成
-            var condition_video = this.orgconfig('finaltest_condition_video', 100);           
+            var condition_video = this.orgconfig('finaltest_condition_video', 100);
             if (!this.courseData.Cou_Video && this.courseData.Cou_Video > 0) {
                 if (condition_video > this.purchase.Stc_StudyScore) return true;
             }
@@ -69,8 +69,8 @@ Vue.component('final_condition', {
             if (finaltest_count <= this.results.length) return true;
             return false;
         },
-         //获取课程数据
-         getCourseData: function (couid) {
+        //获取课程数据
+        getCourseData: function (couid) {
             var th = this;
             th.loading = true;
             $api.get('Course/Datainfo', { 'couid': couid }).then(req => {
@@ -87,7 +87,7 @@ Vue.component('final_condition', {
         //获取历史成绩
         getresults: function (stid, tpid) {
             var th = this;
-            if (stid <= 0 || tpid <= 0) return;
+            if ($api.isnull(stid) || stid <= 0 || tpid <= 0) return;
             th.loading = true;
             $api.get('TestPaper/ResultsAll', th.query).then(function (req) {
                 if (req.data.success) {

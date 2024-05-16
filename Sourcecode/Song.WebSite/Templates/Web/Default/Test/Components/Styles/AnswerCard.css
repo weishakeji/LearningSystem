@@ -85,14 +85,15 @@
 }
 .quesCard dl dd[current]::after {
 	content: '\e777';
-	font-family: "webdesk_icon" !important;
-	font-size: 22px;
-	display: block;
-	position: absolute;
-	bottom: 1px;
-	right: -15px;
-	width: 20px;
-	height: 20px;
-	text-align: right;
-	color: #67C23A;
+    font-family: "webdesk_icon" !important;
+    font-size: 22px;
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    right: -14px;
+    width: 20px;
+    height: 20px;
+    text-align: right;
+    overflow: hidden;
+    color: #67C23A;
 }
