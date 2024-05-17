@@ -75,11 +75,13 @@
         <el-dialog :visible.sync="submitState.show" class="submitState" :append-to-body="true"
             :close-on-click-modal="false" :show-close="false">
             <template slot="title">
-                <loading v-if="submitState.loading">成绩提交中...</loading>
+                <loading star v-if="submitState.loading">成绩提交中...</loading>
+                <alert v-else-if="!submitState.success">成绩提交失败！</alert>
                 <span v-else>成绩提交成功！</span>
             </template>
             <div class="submitSuccess">
-                <loading v-if="submitState.loading">成绩提交中...</loading>
+                <loading v-if="submitState.loading"></loading>
+                <span v-else-if="!submitState.success">{{submitState.message}}</span>
                 <template v-else>
                     <div>得分：<b v-html="submitState.result.score"></b> 分 </div>
                     <div class="pager_total">

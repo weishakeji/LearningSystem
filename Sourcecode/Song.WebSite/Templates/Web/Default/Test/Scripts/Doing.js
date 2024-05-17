@@ -28,6 +28,7 @@
                 show: false,       //成绩提交的面板提示
                 loading: false,         //考试成绩提交中
                 success: false,           //成绩提交是否成功
+                message: '',                //成绩提交提示信息
                 result: {},
                 submited: false          //是否交卷
             },
@@ -76,9 +77,8 @@
             //试题总数
             questotal: function () {
                 var total = 0;
-                for (var i = 0; i < this.paperQues.length; i++) {
+                for (var i = 0; i < this.paperQues.length; i++)
                     total += this.paperQues[i].count;
-                }
                 return total;
             },
             //已经做的题数
@@ -104,8 +104,7 @@
             //当学员登录后
             'account': {
                 handler: function (nv, ov) {
-                    if (this.islogin)
-                        this.initialize();
+                    if (this.islogin) this.initialize();
                 },
                 immediate: true
             },
@@ -131,11 +130,7 @@
             },
             //剩余时间
             'surplustime': function (nv, ov) {
-                if (nv <= 0) {
-                    console.log('交卷');
-                    this.submit(1);
-                }
-                //console.log(nv);
+                if (nv <= 0) this.submit(1);
             },
             //滑动试题，滑动到指定试题索引
             'swipeIndex': {
@@ -272,6 +267,10 @@
             },
             //跳转到试卷页
             goback: function () {
+                if (!this.submitState.success && this.surplustime > 0) {
+                    this.submitState.show = false;
+                    return;
+                }
                 var file = "/web/test/paper";
                 var url = $api.url.dot(this.tpid, file);
                 window.location.href = url;
@@ -289,29 +288,29 @@
             submit: function (patter) {
                 if (JSON.stringify(this.paperAnswer) == '{}') return;
                 if (this.submitState.submited) return;
-                this.submitState.show = true;
-                this.submitState.loading = true;
-
-                this.submitState.submited = true;
-                this.paperAnswer = this.generateAnswerJson(this.paperQues);
-                //设置为交卷
-                this.paperAnswer.patter = patter;
-                //this.paperAnswer.score = this.calcReslutScore();
-                var xml = this.generateAnswerXml(this.paperAnswer);
-                //提交答题信息，async为异步，成绩计算在后台执行
                 var th = this;
-                $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
-                    if (req.data.success) {
+                th.submitState.show = true;
+                th.submitState.loading = true;
+
+                th.submitState.submited = true;
+                th.paperAnswer = th.generateAnswerJson(th.paperQues);
+                //设置为交卷
+                th.paperAnswer.patter = patter;
+                //th.paperAnswer.score = th.calcReslutScore();
+                var xml = th.generateAnswerXml(th.paperAnswer);
+                //提交答题信息，async为异步，成绩计算在后台执行
+                  $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
+                    if (req.data.success) {                     
                         th.submitState.result = req.data.result;
                         th.submitState.success = true;
-                        console.log('成绩递交成功');
+                        //console.log('成绩递交成功');
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
                     th.submitState.success = false;
-                    alert(err);
+                    th.submitState.message = err;
                     console.error(err);
                 }).finally(() => th.submitState.loading = false);
             },

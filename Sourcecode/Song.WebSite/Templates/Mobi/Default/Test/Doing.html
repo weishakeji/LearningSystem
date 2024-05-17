@@ -3,7 +3,7 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title>考试中...</title>
 </head>
 
@@ -31,7 +31,7 @@
                 <template v-if="!loading.paper">
                     <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'">
                         <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"
-                        :swipeindex="swipeIndex" :total="questotal" :groups="paperQues">
+                            :swipeindex="swipeIndex" :total="questotal" :groups="paperQues">
                         </question>
                     </dl>
                 </template>
@@ -46,6 +46,11 @@
 
             <van-popup v-model="submitState.show" class="submitState" :close-on-click-overlay="false">
                 <van-loading size="24px" v-if="submitState.loading">成绩提交中...</van-loading>
+                <div v-else-if="!submitState.success" class="submitSuccess">
+                    <div>成绩提交失败！</div>
+                    <alert>{{submitState.message}}</alert>
+                    <van-button type="primary"  @click="goback"> 关闭测试</van-button>
+                </div>
                 <div v-else class="submitSuccess">
                     <div>成绩提交成功！</div>
                     <div>测试得分：<b v-html="submitState.result.score"></b> 分 </div>
