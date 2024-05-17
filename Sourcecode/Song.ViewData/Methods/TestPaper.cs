@@ -418,29 +418,23 @@ namespace Song.ViewData.Methods
             if (paper == null) throw new Exception("试卷不存在");
             if (paper.Tp_IsFinal)
             {
-                string txt = string.Format("学员 {0} 未满足结课考试条件：", acc.Ac_Name);
+                string txt = string.Format("学员“{0}”未满足结课考试条件：", acc.Ac_Name);
                 WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
                 //视频学习进度是否达成
-                double condition_video = config["finaltest_condition_video"].Value.Double ?? 100;
+                double condition_video = config["finaltest_condition_video"].Value.Double ?? 0;
                 //视频数
                 int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
-                if (video > 0 && condition_video > purchase.Stc_StudyScore)
-                {
-                    throw new Exception(string.Format(txt + "视频学习应达到{0}%，实际学习进度{1}%", condition_video, purchase.Stc_StudyScore));
-                }
+                if (video > 0 && condition_video > purchase.Stc_StudyScore)             
+                    throw new Exception(string.Format(txt + "视频学习应达到{0}%，实际学习进度{1}%", condition_video, purchase.Stc_StudyScore));              
                 //试题练习通过率是否达成
-                double condition_ques = config["finaltest_condition_ques"].Value.Double ?? 100;
-                if (condition_ques>0 && condition_ques > purchase.Stc_QuesScore)
-                {
-                    throw new Exception(string.Format(txt + "试题通过率应达到{0}%，实际通过率为{1}%", condition_ques, purchase.Stc_QuesScore));
-                }
+                double condition_ques = config["finaltest_condition_ques"].Value.Double ?? 0;
+                if (condition_ques>0 && condition_ques > purchase.Stc_QuesScore)            
+                    throw new Exception(string.Format(txt + "试题通过率应达到{0}%，实际通过率为{1}%", condition_ques, purchase.Stc_QuesScore));              
                 //最多可以考几次
                 int finaltest_count = config["finaltest_count"].Value.Int32 ?? 1;
                 Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);
-                if (finaltest_count <= trs.Length)
-                {
-                    throw new Exception(string.Format("最多允许考试{0}次， 已经考了{1}次，", finaltest_count, trs.Length));
-                }
+                if (finaltest_count <= trs.Length)               
+                    throw new Exception(string.Format("最多允许考试{0}次， 已经考了{1}次，", finaltest_count, trs.Length));               
             }
 
             //专业id,专业名称

@@ -27,6 +27,7 @@
             submitState: {
                 show: false,       //成绩提交的面板提示
                 loading: false,         //考试成绩提交中
+                success: false,           //成绩提交是否成功
                 result: {},
                 submited: false          //是否交卷
             },
@@ -290,6 +291,7 @@
                 if (this.submitState.submited) return;
                 this.submitState.show = true;
                 this.submitState.loading = true;
+
                 this.submitState.submited = true;
                 this.paperAnswer = this.generateAnswerJson(this.paperQues);
                 //设置为交卷
@@ -301,12 +303,14 @@
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     if (req.data.success) {
                         th.submitState.result = req.data.result;
+                        th.submitState.success = true;
                         console.log('成绩递交成功');
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
+                    th.submitState.success = false;
                     alert(err);
                     console.error(err);
                 }).finally(() => th.submitState.loading = false);

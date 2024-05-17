@@ -55,15 +55,7 @@ context#testpaper {
 	padding: 5px 0px;
 }
 
-/*结课考试的条件*/
-.finalinfo * {
-	font-size: 14px;
-	line-height: 30px;
-}
 
-.finalinfo b {
-	margin: 0px 5px;
-}
 
 /*课程学习的按钮*/
 .btnBox {

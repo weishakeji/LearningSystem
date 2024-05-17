@@ -58,12 +58,14 @@ Vue.component('final_condition', {
         final_disable: function () {
             //视频学习进度是否达成
             var condition_video = this.orgconfig('finaltest_condition_video', 100);
-            if (!this.courseData.Cou_Video && this.courseData.Cou_Video > 0) {
+            if (this.courseData.video && this.courseData.video > 0) {
                 if (condition_video > this.purchase.Stc_StudyScore) return true;
             }
             //试题练习通过率是否达成
             var condition_ques = this.orgconfig('finaltest_condition_ques', 100);
-            if (condition_ques > this.purchase.Stc_QuesScore) return true;
+            if (this.courseData.question && this.courseData.question > 0) {
+                if (condition_ques > this.purchase.Stc_QuesScore) return true;
+            }
             //最多可以考几次
             var finaltest_count = this.orgconfig('finaltest_count', 1);
             if (finaltest_count <= this.results.length) return true;
@@ -133,7 +135,7 @@ Vue.component('final_condition', {
     template: `<div class="final_condition" v-if="show || final_disable()">
         <slot></slot>
         <div>
-            <template v-if="!courseData.Cou_Video && courseData.Cou_Video > 0">     
+            <template v-if="courseData.video && courseData.video > 0">     
                 1. 视频学习完成<b>{{orgconfig('finaltest_condition_video',100)}}%</b>，当前完成<b>{{purchase.Stc_StudyScore}}%</b>，
                 <el-tag type="success" v-if="orgconfig('finaltest_condition_video',100)<=purchase.Stc_StudyScore">
                     <icon>&#xa048</icon>达成

@@ -1,13 +1,22 @@
 ﻿.final_condition>div:not(:last-child) {
 	padding-right: 100px;
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 .final_condition .el-tag {
 	position: absolute;
 	top: 2px;
 	right: 0px;
-	line-height: 20px;
+	line-height: 30px;
 	height: 28px;
+}
+/*结课考试的条件*/
+.finalinfo{
+	font-size: 16px;
+	line-height: 25px;
+}
+
+.finalinfo b {
+	margin: 0px 5px;
 }
