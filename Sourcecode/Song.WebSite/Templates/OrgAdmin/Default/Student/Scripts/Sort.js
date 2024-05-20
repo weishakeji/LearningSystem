@@ -198,7 +198,7 @@ $ready(function () {
                         var result = req.data.result;
                         th.$notify({
                             type: 'success',
-                            message: '设置默认组成功!',
+                            message: id > 0 ? '设置默认组成功!' : '取消默认组成功!',
                             center: true
                         });
                         th.handleCurrentChange();

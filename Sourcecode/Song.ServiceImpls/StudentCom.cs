@@ -155,9 +155,10 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {
+                {                   
                     tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_IsDefault }, new object[] { false }, StudentSort._.Org_ID == orgid);
-                    tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_IsDefault }, new object[] { true }, StudentSort._.Sts_ID == identify);
+                    if (identify > 0)
+                        tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_IsDefault }, new object[] { true }, StudentSort._.Sts_ID == identify);
                     tran.Commit();
                 }
                 catch (Exception ex)
