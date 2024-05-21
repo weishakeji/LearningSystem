@@ -14,7 +14,7 @@
                 width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="时间区间">
-                    <date_range @change="selectDate"></date_range>                   
+                    <date_range @change="selectDate"></date_range>
                 </el-form-item>
                 <el-form-item label="关键字">
                     <el-input v-model="form.search" placeholder="说明" style="width: 120px;" clearable></el-input>
@@ -59,8 +59,9 @@
         </div>
         <!-- 数据列表-->
         <template>
-            <el-table ref="datatables"  border resizable  :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-click="row=>entity=row" :height="tableHeight"
+            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val" @row-click="row=>entity=row"
+                :height="tableHeight"
                 :row-class-name="data=>{return entity!=null && entity.Ma_ID==data.row.Ma_ID ? 'current' : 'c'}">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -187,17 +188,15 @@
                 <template v-if="files.length>0">
                     <el-divider></el-divider>
                     <el-form-item label="文件下载">
-                        <dl>
+                        <dl class="files">
                             <dd v-for="(f,i) in files">
-                                <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                                        {{f.file}}</a>
-                                    {{f.size|size}}
-                                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                                        <el-link type="danger" icon="el-icon-delete" v-loading="loading"
-                                            slot="reference">删除
-                                        </el-link>
-                                    </el-popconfirm>
-                                </div>
+                                <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                    {{f.file}}</a>
+                                <span> {{f.size|size}}</span>
+                                <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                    <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
                             </dd>
                         </dl>
                     </el-form-item>

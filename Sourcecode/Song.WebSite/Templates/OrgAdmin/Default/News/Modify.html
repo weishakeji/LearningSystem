@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="panel">
-            <el-tabs  type="border-card" v-model="activeName">
+            <el-tabs type="border-card" v-model="activeName">
                 <el-tab-pane name="tab1"> <span slot="label">
                         <icon>&#xe731</icon> 基本信息
                     </span> </el-tab-pane>
@@ -61,7 +61,7 @@
                         </el-input>
                     </el-form-item>
                 </div>
-                <div v-show="activeName=='tab2'" tab="tab2" class="about_editor" >
+                <div v-show="activeName=='tab2'" tab="tab2" class="about_editor">
                     <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor" upload="News"
                         :dataid="entity.Art_ID" placeholder="请输入内容" @change="text=>entity.Art_Details=text"> </editor>
                 </div>
@@ -102,14 +102,12 @@
                                 </el-tooltip>
                             </upload-file>
                         </div>
-                        <dl>
+                        <dl class="files">
                             <dd v-for="(f,i) in accessories">
-                                <span><span>{{i+1}}.</span>
-                                    <a :href="f.As_FileName" target="_blank" :download="f.As_Name"><span
-                                            v-html="f.As_Name"></span>
-                                    </a>
-                                    <span class="filesize">{{f.As_Size|size}}</span>
-                                </span>
+                                <a :href="f.As_FileName" target="_blank" :download="f.As_Name">
+                                    <span v-html="f.As_Name"></span>
+                                </a>
+                                <span>{{f.As_Size|size}}</span>
                                 <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
                                     <el-link type="danger" class="el-icon-delete" slot="reference"> 删除</el-link>
                                 </el-popconfirm>

@@ -1,4 +1,9 @@
 ﻿@charset "utf-8";
+dl.files{
+    margin: 10px;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
 .nofiles{
 	margin: 20px;
 	text-align: center;
@@ -10,43 +15,7 @@
 	margin-bottom: 20px;
 	color: #999;
 }
-/*附件列表*/
-dl.files {
-    width: 100%;
-    box-sizing: border-box;
-	padding: 20px;
-	max-height: calc(100% - 50px);
-	overflow-y: auto;
-}
 
-dl dd {
-    line-height: 30px;
-    display: flex;
-    padding: 0px 60px 0px 0px;
-    position: relative;
-}
-
-dl dd:hover {
-    background-color: #eee;
-}
-
-dl dd a {
-    width: auto;
-    min-width: auto;
-}
-
-.filesize {
-    font-size: 12px;
-    color: #666666;
-    margin-left: 10px;
-}
-
-dd .btndel {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    display: block;
-}
 
 .upload_file_area {
     margin-right: 10px;

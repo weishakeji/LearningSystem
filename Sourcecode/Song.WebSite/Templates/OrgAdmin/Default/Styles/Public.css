@@ -357,10 +357,12 @@ dl.files, dl.files dd, dl.files dt {
 	padding: 0px;
 	margin: 0px;
 }
+
 dl.files dt {
 	padding: 8px;
 
 }
+
 dl.files dd::before {
 	counter-increment: dd;
 	content: ""counter(dd) " . ";
@@ -370,7 +372,7 @@ dl.files dd::before {
 dl.files dd {
 	display: flex;
 	justify-content: space-between;
-	padding: 8px 15px 8px 25px;
+	padding: 3px 10px;
 	box-sizing: content-box;
 }
 
@@ -407,4 +409,10 @@ dl.files dd:hover {
 dl.files dd a[href]:hover {
 	text-decoration: underline;
 	text-align: left;
+}
+
+dl.files .el-link {
+	line-height: 20px;
+	display: inline-block;
+	height: 25px;
 }

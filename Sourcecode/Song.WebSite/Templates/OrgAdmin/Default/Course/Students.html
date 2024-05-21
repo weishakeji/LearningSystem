@@ -104,21 +104,20 @@
             <el-form ref="exportform" :model="exportform" @submit.native.prevent label-width="100px"
                 :disabled="fileloading || loading">
                 <el-form-item label="选修时间">
-                    <date_range @change="(s,e)=>{exportform['start']=s;exportform['end']=e}"></date_range>                
+                    <date_range @change="(s,e)=>{exportform['start']=s;exportform['end']=e}"></date_range>
                     <help multi>学员选修课程的开始时间的区间</help>
                 </el-form-item>
             </el-form>
-            <dl v-if="files.length>0">
+            <dl v-if="files.length>0" class="files">
                 <el-divider content-position="left">已经生成的导出文件</el-divider>
                 <dd v-for="(f,i) in files">
-                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                            {{f.file}}</a>
-                        {{f.size|size}}
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                    </div>
+                    <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
                 </dd>
             </dl>
             <span slot="footer" class="dialog-footer">

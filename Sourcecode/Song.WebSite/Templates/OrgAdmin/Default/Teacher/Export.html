@@ -33,7 +33,7 @@
             <loading v-if="loading">正在加载...</loading>
             <template v-else-if="sorts.length>0">
                 <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                    {{i+1}}.  <span v-html="item.Ths_Name"> </span>
+                    {{i+1}}. <span v-html="item.Ths_Name"> </span>
                     <teacher_count :sort="item"></teacher_count>
                 </el-checkbox>
             </template>
@@ -61,20 +61,22 @@
         </el-drawer>
         <!--导出文件的面板-->
         <el-dialog title="提示" :visible.sync="filepanel" width="80%" custom-class="filepanel">
-            <span slot="title"> <icon>&#xe85e</icon>已经生成的导出文件</span>
-            <dl v-if="files.length>0">
+            <span slot="title">
+                <icon>&#xe85e</icon>已经生成的导出文件
+            </span>
+            <dl v-if="files.length>0" class="files">
                 <dd v-for="(f,i) in files">
-                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                            {{f.file}}</a>
-                        {{f.size|size}}
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                    </div>
+                    <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+
                 </dd>
             </dl>
-            <div v-else >没有文件，请操作“导出教师信息”</div>
+            <div v-else>没有文件，请操作“导出教师信息”</div>
         </el-dialog>
     </div>
 </body>

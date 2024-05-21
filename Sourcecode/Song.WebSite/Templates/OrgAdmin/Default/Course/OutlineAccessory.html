@@ -15,10 +15,10 @@
         <dl v-if="datas.length>0" remark="附件列表" class="files">
             <dd v-for="(data,i) in datas">
                 <a :href="data.As_FileName" v-if="data.As_FileName!=''" target="_blank" type="link"
-                    v-on:click="accessClick(data.As_FileName,data.As_Name,$event)" :download="data.As_Name">{{(i+1)}} .
+                    v-on:click="accessClick(data.As_FileName,data.As_Name,$event)" :download="data.As_Name">
                     {{data.As_Name}}</a>
                 <span v-else title="文件不存在">{{(i+1)}} . {{data.As_Name}}</span>
-                <span class="filesize">{{data.As_Size|size}}</span>
+                <span>{{data.As_Size|size}}</span>
                 <el-popconfirm title="确定删除吗？" class="btndel" @confirm="deleteitem(data)">
                     <el-link icon="el-icon-delete" type="danger" slot="reference">删除</el-link>
                 </el-popconfirm>

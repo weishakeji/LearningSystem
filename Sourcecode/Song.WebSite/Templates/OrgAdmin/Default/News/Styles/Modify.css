@@ -98,43 +98,7 @@
 
 }
 
-.art_access .file_tools+dl {
-    height: calc(100% - 60px) !important;
-    width: 100%;
-    overflow: auto;
-}
 
-.art_access dl, .art_access dd {
-    margin: 0px;
-    padding: 0px;
-}
-
-.art_access dd {
-    display: flex;
-    line-height: 30px;
-    padding: 0px 10px 0px 0px;
-    box-sizing: border-box;
-    justify-content: space-between;
-    color: #999;
-}
-.art_access dd:hover{
-    background-color: #efefef;
-}
-
-.art_access dd a span:first-child {
-    margin-right: 8px;
-}
-
-
-.art_access dd .el-link::before {
-    margin-right: 8px;
-}
-
-.filesize {
-    font-size: 13px;
-    color: #999;
-    margin-left: 10px;
-}
 
 .upload_file_area {
     margin-right: 40px;
