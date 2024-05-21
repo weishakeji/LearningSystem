@@ -41,11 +41,10 @@
                 </el-popconfirm>
             </div>
             <help v-if="files.length<1">点击右下按钮生成导出文件</help>
-            <dl v-else>
+            <dl v-else class="files">
                 <dd v-for="(f,i) in files">
                     <a :href="f.url" target="_blank" title="点击下载" :download="f.name+','+f.file">
-                        {{f.file}}
-                        <icon>&#xe69e</icon>
+                        {{f.file}}                     
                     </a>
                     <span>{{f.size|size}}</span>
                     <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">

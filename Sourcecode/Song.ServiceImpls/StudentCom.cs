@@ -313,6 +313,176 @@ namespace Song.ServiceImpls
         }
         #endregion
 
+        #region 学员组的学习记录统计
+        /// <summary>
+        /// 学员组的学员的学习成果
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <returns></returns>
+        public DataTable LearningOutcomes(long stsid, bool isall)
+        {
+            //StudentSort sort = this.SortSingle(stsid);
+            //if (sort == null) throw new Exception("StudentSort non-existent");
+            ////课程所在机构
+            //Organization org = Business.Do<IOrganization>().OrganSingle(sort.Org_ID);
+            //if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            ////计算综合成绩时，要获取机构的相关参数
+            //WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            ////视频学习的权重   //试题通过率的权重   //结课考试的权重
+            //double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
+            //double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
+            //double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
+            ////视频完成度的容差
+            //double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+
+
+            string sql = @"select * from Accounts as ac
+                        inner join 
+                        (select * from Student_Course where {{stsid}}) as sc on ac.Ac_id =sc.Ac_id
+                        left join course on sc.Cou_id=course.cou_id
+                    order by sc.ac_id desc";
+            sql = sql.Replace("{{stsid}}", stsid > 0 ? "Sts_ID=" + stsid.ToString() : "1=1");
+            //如果取所有学员的记录
+            if(isall) sql = sql.Replace("inner", "left");
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            //完成度大于100，则等于100
+            DataTable dt = ds.Tables[0];
+            return dt;
+        }
+        /// <summary>
+        /// 学员组的学员的学习成果,导出成excel
+        /// </summary>
+        /// <param name="path">文件的存放路径</param>
+        /// <param name="stsid">学员组id</param>
+        /// <returns>文件的路径</returns>
+        public string LearningOutcomesToExcel(string path, long stsid, bool isall)
+        {
+            StudentSort sort = this.SortSingle(stsid);
+            if (sort == null) throw new Exception("StudentSort non-existent");
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(sort.Org_ID);
+            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            //计算综合成绩时，要获取机构的相关参数
+            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //视频学习的权重   //试题通过率的权重   //结课考试的权重
+            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
+            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
+            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
+            //视频完成度的容差
+            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生组学习记录.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+
+            //创建工作簿，每个工作簿多少条
+            int size = 10000, index = 1;
+
+            //生成数据行
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            style_size.WrapText = true;
+
+
+
+            DataTable dt = this.LearningOutcomes(stsid, isall);
+            if (dt.Rows.Count < 1)
+            {
+                throw new Exception("未获取到选修该课程的学员信息");
+                return path;
+            }
+
+            ISheet sheet = _studentToExcel_CreateSheet(hssfworkbook, nodes, index);
+            //遍历行               
+            for (int r = 0; r < dt.Rows.Count; r++)
+            {
+                IRow row = sheet.CreateRow(r + 1);
+                DataRow dr = dt.Rows[r];
+                //遍历列
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    //遍历配置项
+                    for (int n = 0; n < nodes.Count; n++)
+                    {
+                        string field = nodes[n].Attributes["Field"].Value;
+                        if (dt.Columns[c].ColumnName.Equals(field))
+                        {
+                            object obj = dr[c];
+                            if (obj != null)
+                            {
+                                string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
+                                string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
+                                string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
+                                string value = "";
+                                switch (datatype)
+                                {
+                                    case "date":
+                                        DateTime tm = Convert.ToDateTime(obj);
+                                        value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                        break;
+                                    case "double":
+                                        double t = Convert.ToDouble(obj);
+                                        value = t >0 ? t.ToString(format) : "";
+                                        break;
+                                    default:
+                                        value = obj.ToString();
+                                        break;
+                                }
+                                if (defvalue.Trim() != "")
+                                {
+                                    foreach (string s in defvalue.Split('|'))
+                                    {
+                                        string h = s.Substring(0, s.IndexOf("="));
+                                        string f = s.Substring(s.LastIndexOf("=") + 1);
+                                        if (value.ToLower() == h.ToLower()) value = f;
+                                    }
+                                }
+                                row.CreateCell(n).SetCellValue(value);
+                            }
+                        }
+                    }
+                }
+                //计算学员的课程综合成绩
+                double score = 0, video = 0, ques = 0, exam = 0;
+                video = dr["Stc_StudyScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_StudyScore"]);
+                video = video > 0 ? video + (double)video_lerance : video;
+                video = video >= 100 ? 100 : video;
+                ques = dr["Stc_QuesScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_QuesScore"]);
+                exam = dr["Stc_ExamScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_ExamScore"]);
+                score = (video * (double)weight_video / 100) + (ques * (double)weight_ques / 100) + (exam * (double)weight_exam / 100);
+                score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
+                if(dr["Stc_StudyScore"] != DBNull.Value && dr["Stc_QuesScore"] != DBNull.Value && dr["Stc_ExamScore"] != DBNull.Value)
+                    row.CreateCell(nodes.Count).SetCellValue((double)score);
+            }
+
+            FileStream file = new FileStream(path, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return path;
+        }
+        /// <summary>
+        /// 生成表头
+        /// </summary>
+        /// <param name="hssfworkbook"></param>
+        /// <param name="nodes"></param>
+        /// <param name="index"></param>
+        /// <returns>当前索引起始</returns>
+        private ISheet _studentToExcel_CreateSheet(HSSFWorkbook hssfworkbook, XmlNodeList nodes, int index)
+        {
+            //创建工作簿对象       
+            ISheet sheet = hssfworkbook.CreateSheet(string.Format("{0:00}", index));
+            //创建数据行对象，第一行
+            IRow rowHead = sheet.CreateRow(0);
+            for (int i = 0; i < nodes.Count; i++)
+                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+            rowHead.CreateCell(nodes.Count).SetCellValue("综合成绩");
+            //rowHead.CreateCell(nodes.Count + 1).SetCellValue("成绩评定");
+            return sheet;
+        }
+        #endregion
+
         #region 学员组与课程
         /// <summary>
         /// 增加学员组与课程的关联

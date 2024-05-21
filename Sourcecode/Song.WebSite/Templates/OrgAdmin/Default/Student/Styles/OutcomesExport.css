@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+dl.files{
+    margin: 10px;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+div.nofiles{
+    margin: 20px;
+}

@@ -582,13 +582,16 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Activation.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortAccount.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\OutcomesExport.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\SortCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\SortAccount.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\OutcomesExport.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\CapitalRecords.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\Activation.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\OutcomesExport.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
@@ -1511,6 +1514,7 @@
     <Content Include="Utilities\Components\Styles\upload-excel.css" />
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />
     <Content Include="Utilities\driver\driver.css" />
     <Content Include="Utilities\driver\driver.js.iife.js" />
     <Content Include="Utilities\echarts\echarts.min.js" />

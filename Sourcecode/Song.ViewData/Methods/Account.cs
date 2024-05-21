@@ -1222,6 +1222,7 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IStudent>().SortUpdateCount(stsid);
         }
+
         #endregion
 
         #region 导出学员信息       
@@ -1309,6 +1310,57 @@ namespace Song.ViewData.Methods
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
                 jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        #endregion
+
+        #region 学员组成绩导出
+        /// <summary>
+        /// 员组的学员的学习成果
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <returns></returns>
+        public JObject SortOutcomesToExcel(long stsid, bool isall)
+        {
+            string outputPath = "SortOutcomesToExcel";
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + stsid.ToString() + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("学习成果{0}.({1}).xls", stsid, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<IStudent>().LearningOutcomesToExcel(filePath, stsid, isall);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + stsid.ToString() + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 已经生成的员组的学员的学习成果Excel文件
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray SortOutcomesExcelFiles(long stsid)
+        {
+            string outputPath = "SortOutcomesToExcel";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + stsid.ToString() + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            {
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + stsid.ToString() + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);

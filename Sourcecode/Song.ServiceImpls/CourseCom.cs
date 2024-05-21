@@ -1841,8 +1841,13 @@ namespace Song.ServiceImpls
         /// 分页获取当前课程的学员（即学习该课程的学员），并计算出完成度
         /// </summary>
         /// <param name="couid"></param>
+        /// <param name="stsid"></param>
         /// <param name="acc">学员账号或姓名</param>
         /// <param name="name">学员的姓名</param>
+        /// <param name="idcard"></param>
+        /// <param name="mobi"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>

@@ -38,7 +38,6 @@ $ready(function () {
 
         },
         mounted: function () {
-            //var t = this.$refs['btngroup'];
             this.$refs['btngroup'].addbtn({
                 text: '批量添加', tips: '批量添加学员到当前组',
                 id: 'batadd', type: 'primary',
@@ -49,7 +48,6 @@ $ready(function () {
                 id: 'batremove', type: 'warning',
                 icon: 'e800'
             });
-            //console.log(t);
         },
         methods: {
             //加载数据页

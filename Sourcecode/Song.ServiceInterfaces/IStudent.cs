@@ -137,6 +137,25 @@ namespace Song.ServiceInterfaces
         StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum);
         #endregion
 
+        #region 学员组的学习记录统计
+        /// <summary>
+        /// 学员组的学员的学习成果
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <returns></returns>
+        DataTable LearningOutcomes(long stsid, bool isall);
+        /// <summary>
+        /// 学员组的学员的学习成果,导出成excel
+        /// </summary>
+        /// <param name="path">文件的存放路径</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <returns>文件的路径</returns>
+        string LearningOutcomesToExcel(string path, long stsid, bool isall);
+
+        #endregion
+
         #region 学员组与课程
         /// <summary>
         /// 增加学员组与课程的关联

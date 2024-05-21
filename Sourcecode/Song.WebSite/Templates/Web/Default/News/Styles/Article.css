@@ -56,9 +56,14 @@ context .right {
 #artImg {
 	text-align: center;
 }
-
 #artImg img {
 	max-width: 100% !important;
+	margin: 0 auto;
+}
+
+#artBox img {
+	max-width: 100% !important;
+	margin: 0 auto;
 }
 
 .artContext {

@@ -1326,13 +1326,13 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 导出课程的学习记录
-        private static string outputPath_StudentsLog = "StudentsLogToExcel";      
+        private static string outputPath_StudentsLog = "StudentsLogToExcel";
         /// <summary>
         /// 学员学习记录生成excel
         /// </summary>
         /// <param name="couid">课程的id</param>
-        /// <param name="start"></param>
-        /// <param name="end"></param> 
+        /// <param name="start">按时间区间查询时，开始时间</param>
+        /// <param name="end">按时间区间查询时，结束时间</param> 
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
