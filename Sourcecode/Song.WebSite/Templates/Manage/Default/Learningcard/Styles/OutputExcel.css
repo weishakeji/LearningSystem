@@ -30,21 +30,7 @@ body,html{
 .el-card__header{
     padding-right: 5px !important;
 }
-dl,dd{
-    padding: 0px;
-    margin: 0px;
-}
-dl dd{
-    line-height: 30px;
-}
-dl dd a[href]{
-    display: inline-block;
-    min-width: 230px;
-    color: #409EFF;
-}
-dl dd a[href]:hover{
-    text-decoration: underline;
-}
+
 .el-card__body{
     height: calc(100% - 45px);
     overflow-y: auto;
