@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 //using System.Web.Mvc;
@@ -235,7 +236,7 @@ namespace Song.ViewData.Methods
             Song.Entities.RechargeSet set = Business.Do<IRecharge>().RechargeSetSingle(id);
             DateTime date = DateTime.Now;         
             //创建文件
-            string filename = string.Format("{0}-充值码（{1}）.xls", set.Rs_Theme, DateTime.Now.ToString("yyyy-MM-dd hh-mm"));
+            string filename = string.Format("充值码[{0}]（{1}）.xls", set.Rs_ID, DateTime.Now.ToString("yyyy-MM-dd hh-mm"));
             string filePath = rootpath + filename;
             filePath = Business.Do<IRecharge>().RechargeCode4Excel(filePath, -1, id);
             JObject jo = new JObject();
@@ -280,6 +281,14 @@ namespace Song.ViewData.Methods
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
             {
+                //if (f.Name.IndexOf("-") < 0) continue;
+                //if (f.Name.IndexOf("-") == f.Name.LastIndexOf("-")) continue;
+                //if (f.Name.Substring(f.Name.IndexOf("-"), f.Name.LastIndexOf("-")) != id.ToString()) continue;
+                Regex regex = new Regex(@"\[(\d+)\]");
+                Match match = regex.Match(f.Name);
+                if (!match.Success) continue;
+                if (match.Groups[1].Value != id.ToString()) continue;
+
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
                 jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + f.Name);
