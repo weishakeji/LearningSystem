@@ -33,7 +33,8 @@
                 </el-tab-pane>
             </el-tabs>
             <!-- 编辑区域-->
-            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+                label-width="100px" @keyup.native.enter="btnEnter('entity',false)">
                 <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item>
                         <upload-img @change="file=>upfile=file" :data="entity" size="1024" height="100"

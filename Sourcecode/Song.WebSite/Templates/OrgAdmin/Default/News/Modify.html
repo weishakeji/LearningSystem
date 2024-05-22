@@ -28,7 +28,8 @@
                     </span></el-tab-pane>
             </el-tabs>
 
-            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+                @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
                 <div v-show="activeName=='tab1'" tab="tab1">
                     <el-form-item label="标题" prop="Art_Title">
                         <el-input v-model="entity.Art_Title" maxlength="140"></el-input>

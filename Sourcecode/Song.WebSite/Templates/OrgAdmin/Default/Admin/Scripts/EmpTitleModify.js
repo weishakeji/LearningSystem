@@ -61,12 +61,13 @@ $ready(function () {
                     if (valid) {
                         var th = this;
                         if (th.loading) return;
+                        th.loading = true;
                         var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 th.$notify({
                                     type: 'success', position: 'bottom-left',
-                                    message: '操作成功!'
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 th.operateSuccess(isclose);
                             } else {
@@ -74,7 +75,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => { });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -85,7 +86,7 @@ $ready(function () {
             operateSuccess: function (isclose) {
                 //刷新列表页中的单条数据
                 //window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
-                
+
                 //刷新列表页，原本只用刷新单条数据，考虑到编辑页中有排序号的更改
                 window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange()', isclose);
             }

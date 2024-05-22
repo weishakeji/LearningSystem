@@ -120,7 +120,7 @@ $ready(function () {
                                 var result = req.data.result;
                                 th.$message({
                                     type: 'success',
-                                    message: '操作成功!',
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！',
                                     center: true
                                 });
                                 window.setTimeout(function () {

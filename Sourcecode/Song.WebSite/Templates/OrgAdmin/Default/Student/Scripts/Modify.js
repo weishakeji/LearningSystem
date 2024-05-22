@@ -191,7 +191,7 @@ $ready(function () {
                                 var result = req.data.result;
                                 th.$notify({
                                     type: 'success', position: 'bottom-left',
-                                    message: '操作成功!'
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);
@@ -226,7 +226,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 $api.post('Account/ModifyPhoto', { 'file': file, 'account': th.account }).then(function (req) {
-                     if (req.data.success) {
+                    if (req.data.success) {
                         var result = req.data.result;
                         th.account.Ac_Photo = result.Ac_Photo;
                         th.$message({

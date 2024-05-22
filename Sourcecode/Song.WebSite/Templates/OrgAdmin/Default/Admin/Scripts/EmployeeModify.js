@@ -101,21 +101,20 @@ $ready(function () {
                         else
                             para = { 'file': th.upfile, 'acc': th.account };
                         $api.post(apipath, para).then(function (req) {
-                            th.loading = false;
+
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$notify({
                                     type: 'success', position: 'bottom-left',
-                                    message: '操作成功!'
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.loading = false;
                             th.$alert(err, '错误');
-                        }).finally(() => { });
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

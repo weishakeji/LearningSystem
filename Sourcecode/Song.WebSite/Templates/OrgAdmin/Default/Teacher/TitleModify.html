@@ -9,7 +9,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+            @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
 
             <el-form-item label="名称" prop="Ths_Name">
                 <el-input v-model="entity.Ths_Name" maxlength="140"></el-input>

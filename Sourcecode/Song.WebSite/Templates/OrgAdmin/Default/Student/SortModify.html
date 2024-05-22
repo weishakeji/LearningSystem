@@ -8,7 +8,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+            @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
             <el-form-item label="名称" prop="Sts_Name">
                 <el-input v-model.trim="entity.Sts_Name" maxlength="140"></el-input>
             </el-form-item>
@@ -20,7 +21,7 @@
             <el-form-item label="排序号" prop="Sts_Tax">
                 <el-tooltip class="item" effect="dark" content="数值越小越靠前" placement="right">
                     <el-input v-model="entity.Sts_Tax" type="number" style="width: 100px;"></el-input>
-                </el-tooltip>              
+                </el-tooltip>
             </el-form-item>
             <el-form-item label="备注" prop="Sts_Intro">
                 <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Sts_Intro">

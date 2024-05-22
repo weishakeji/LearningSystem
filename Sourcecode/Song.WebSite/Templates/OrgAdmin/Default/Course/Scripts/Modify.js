@@ -220,7 +220,7 @@
                 <span class="el-icon-edit">编辑</span>           
             </el-link>
         </template>
-        <el-form ref="cou_name" :rules="rules" v-else :model="data" label-width="80px" :inline="true"  @submit.native.prevent @keyup.native.enter="btnChange">
+        <el-form ref="cou_name" :rules="rules" v-else :model="data" label-width="80px" :inline="true" @submit.native.prevent @keyup.native.enter="btnChange">
             <el-form-item label="" label-width="0"  prop="name">
                 <el-input v-model="data.name" clearable></el-input>
             </el-form-item>

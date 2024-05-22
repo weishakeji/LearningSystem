@@ -9,7 +9,8 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+            @keyup.native.enter="btnEnter('entity',false)" label-width="100px">
             <el-form-item label="主题" prop="Lcs_Theme">
                 <el-input v-model.trim="entity.Lcs_Theme" type="textarea" :rows="3"></el-input>
             </el-form-item>
@@ -41,7 +42,8 @@
             </el-form-item>
 
             <el-form-item label="有效期" prop="Lcs_Limit">
-                <date_range @change="selectDate" :start="entity.Lcs_LimitStart" :end="entity.Lcs_LimitEnd" style="width:100%" ></date_range>
+                <date_range @change="selectDate" :start="entity.Lcs_LimitStart" :end="entity.Lcs_LimitEnd"
+                    style="width:100%"></date_range>
             </el-form-item>
 
             <el-form-item label="学习时长" prop="Lcs_Span">
