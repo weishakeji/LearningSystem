@@ -175,6 +175,7 @@ $ready(function () {
                 console.log(this.isbindmobi);
             },
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {

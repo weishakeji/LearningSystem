@@ -57,6 +57,7 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var th = this;

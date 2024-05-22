@@ -8,11 +8,10 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+            @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
             <el-form-item label="名称" prop="Ls_Name">
                 <el-input v-model="entity.Ls_Name" maxlength="140"></el-input>
-
             </el-form-item>
             <el-form-item label="状态" prop="Ls_IsShow">
                 <el-switch v-model="entity.Ls_IsShow" :active-text="entity.Ls_IsShow ? '显示' : '隐藏'">
@@ -38,7 +37,6 @@
                 <el-switch v-model="entity.Ls_IsText" active-text="显示文字链接">
                 </el-switch>
             </el-form-item>
-
         </el-form>
         <div class="footer">
             <el-button type="primary" native-type="submit" define="enter" :loading="loading" plain

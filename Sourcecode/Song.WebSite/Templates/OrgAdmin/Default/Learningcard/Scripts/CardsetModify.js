@@ -239,6 +239,7 @@ $ready(function () {
             },
             //提交更改
             sumbitEnter: function (apiurl, param, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 th.loading = true;
                 $api.post(apiurl, param).then(function (req) {

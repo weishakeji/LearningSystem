@@ -142,6 +142,7 @@ $ready(function () {
                 });
             },
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

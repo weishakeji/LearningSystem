@@ -30,7 +30,8 @@
             </el-tabs>
 
             <!-- 编辑区域-->
-            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent
+                @keyup.native.enter="btnEnter('entity',false)" label-width="80px">
                 <div v-show="activeName=='general'" remark="基本信息" tab="general">
                     <el-form-item label="名称" prop="Lk_Name">
                         <el-input v-model="entity.Lk_Name" maxlength="140"></el-input>
@@ -104,7 +105,7 @@
                     </el-form-item>
                     <el-form-item label="" prop="Lk_IsShow">
                         <el-switch v-model="entity.Lk_IsShow" :active-text="entity.Lk_IsShow ? '显示联系方式' : '不显示联系方式'">
-                        </el-switch>                       
+                        </el-switch>
                     </el-form-item>
                 </div>
             </el-form>

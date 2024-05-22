@@ -89,11 +89,12 @@
                     <el-form-item label="学员组">
                         <template v-if="sortexist">
                             <el-tooltip content="点击更改学员组" effect="light" placement="right">
-                                <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
+                                <el-tag type="success" class="btnsort" @click="sortpanel=true">
+                                    <icon>&#xe67d</icon> {{accsort.Sts_Name}}
                                 </el-tag>
                             </el-tooltip>
-                            <el-tag type="warning" class="el-icon-close" style="cursor:pointer;"
-                                @click="account.Sts_ID = ''">取消学员组</el-tag>
+                            <el-link type="warning" class="el-icon-close" style="cursor:pointer;"
+                                @click="account.Sts_ID = ''">取消学员组</el-link>
                         </template>
                         <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
                             <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>

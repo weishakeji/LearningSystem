@@ -40,18 +40,18 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;
                         var apipath = 'Link/Sort' + (th.id == '' ? 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {                           
+                        $api.post(apipath, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
+                                    type: 'success', center: true,
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);

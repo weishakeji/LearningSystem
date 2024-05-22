@@ -84,6 +84,7 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
@@ -95,13 +96,12 @@ $ready(function () {
                         if (th.upfile == null) para = { 'entity': th.entity };
                         else
                             para = { 'file': th.upfile, 'entity': th.entity };
-                        $api.post(apipath, para).then(function (req) {                  
+                        $api.post(apipath, para).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$notify({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    position: 'bottom-left'
+                                    type: 'success', position: 'bottom-left',
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);

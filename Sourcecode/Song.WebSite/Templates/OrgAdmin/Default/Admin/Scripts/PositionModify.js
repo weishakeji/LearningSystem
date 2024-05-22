@@ -53,6 +53,7 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName, isclose) {
+                if (!isclose && this.isadd) return;
                 var th = this;
                 if (this.loading) return;
                 this.$refs[formName].validate((valid) => {
