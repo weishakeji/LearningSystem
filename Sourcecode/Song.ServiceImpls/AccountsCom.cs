@@ -321,7 +321,9 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {                                
+                {
+                    //删除第三方登录
+                    tran.Delete<ThirdpartyAccounts>(ThirdpartyAccounts._.Ac_ID == entity.Ac_ID);
                     //删除相关数据
                     tran.Delete<Student_Ques>(Student_Ques._.Ac_ID == entity.Ac_ID);
                     tran.Delete<Student_Notes>(Student_Notes._.Ac_ID == entity.Ac_ID);
