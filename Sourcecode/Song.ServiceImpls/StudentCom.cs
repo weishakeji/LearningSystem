@@ -341,10 +341,11 @@ namespace Song.ServiceImpls
                         inner join 
                         (select * from Student_Course where {{stsid}}) as sc on ac.Ac_id =sc.Ac_id
                         left join course on sc.Cou_id=course.cou_id
-                    order by sc.ac_id desc";
+                    where {{stsid2}}  order by sc.ac_id desc";
             sql = sql.Replace("{{stsid}}", stsid > 0 ? "Sts_ID=" + stsid.ToString() : "1=1");
+            sql = sql.Replace("{{stsid2}}", stsid > 0 ? "ac.Sts_ID=" + stsid.ToString() : "1=1");
             //如果取所有学员的记录
-            if(isall) sql = sql.Replace("inner", "left");
+            if (isall) sql = sql.Replace("inner", "left");
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             //完成度大于100，则等于100
             DataTable dt = ds.Tables[0];
