@@ -16,12 +16,12 @@ $ready(function () {
                 'couid': $api.querystring("couid"),
                 'search': $api.querystring("s"),
                 'diff': -1,
-                'size': 6, 'index': 0
+                'size': 20, 'index': 0
             },
             total: 0
         },
         mounted: function () {
-
+            this.onload();
         },
         created: function () {
 
@@ -42,10 +42,12 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
-                        var result = req.data.result;
-                        for (var i = 0; i < result.length; i++) {
-                            if (!result[i].Tp_IsFinal)
-                                th.datas.push(result[i]);
+                        let result = req.data.result;
+                        for (let i = 0; i < result.length; i++) {
+                            if (result[i].Tp_IsFinal) continue;
+                            const isexist = th.datas.some(obj => obj.Tp_Id === result[i].Tp_Id);
+                            if (isexist) continue;
+                            th.datas.push(result[i]);
                         }
                         var totalpages = req.data.totalpages;
                         // 数据全部加载完成
