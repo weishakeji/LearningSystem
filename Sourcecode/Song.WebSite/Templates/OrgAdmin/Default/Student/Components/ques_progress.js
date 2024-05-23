@@ -49,6 +49,7 @@ Vue.component('ques_progress', {
         },
         //查看课程学习记录详情
         viewDetail: function (item) {
+            /*
             if (!window.top || !window.top.vapp) return;
             if (!window.top.vapp.open) {
                 this.$message({
@@ -56,17 +57,21 @@ Vue.component('ques_progress', {
                     type: 'warning'
                 });
                 return;
-            }
-            var url = '/web/Question/course';
+            }*/
+            var url = '/orgadmin/Student/QuestionProgress';
             url = $api.url.set(url, { 'couid': item.Cou_ID, 'stid': this.stid });
             var obj = {
                 'url': url,
-                'ico': 'e731', 'min': false,
+                'ico': 'e731', 'min': false, 'showmask': true,
                 'title': '试题练习 - ' + item.Cou_Name,
-                'width': '600',
-                'height': '80%'
+                'width': '414',
+                'height': '736'
             }
-            window.top.vapp.open(obj);
+            if (window.top.$pagebox) {
+                var pbox = window.top.$pagebox.create(obj);
+                pbox.open();
+            }
+            //window.top.vapp.open(obj);
 
         }
     },

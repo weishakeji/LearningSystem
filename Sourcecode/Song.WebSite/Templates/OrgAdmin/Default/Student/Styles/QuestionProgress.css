@@ -1,0 +1,170 @@
+﻿html{
+	overflow-x: hidden;
+}
+.topbox{
+	width: 100%;
+	height: 160px;
+	display: flex;
+}
+.topbox>*:last-child{
+	flex: 1;
+}
+.topbox .top_right{
+	box-sizing: border-box;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+/*图片区*/
+.chart-area {
+	height: 180px;
+	width: 180px;
+	position: relative;
+	text-align: center;
+	padding-top: 10px;
+
+}
+.chart-area .chart-back {
+	background: linear-gradient(to bottom right, #b4d0e5, #fff); /* 标准的语法 */
+	height: 100px;
+	width: 100px;
+	top: 20px;
+	border-radius: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	border: 20px solid #DFEFFF;
+	box-shadow: 0 10px 20px rgba(223, 239, 255, .3);
+}
+.chart-area .y {
+	background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.1) 80%); /* 标准的语法 */
+	height: 80px;
+	width: 80px;
+	margin-top: 5px;
+	border-radius: 80px 80px 80px 80px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.chart-txt {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	top: 60px;
+}
+.chart-txt span {
+	display: block;
+	font-size: 14px;
+	color: #666;	
+}
+.chart-txt span.cou-rate {
+	font-size: 30px;
+	line-height: 40px;
+	color: #666;
+	font-weight: bold;
+}
+.chart-txt span.cou-rate::after{
+	content: '%';
+}
+.quesnumbox{
+	bottom:0px;
+	margin:0px;
+	padding:20px;
+}
+.quesnumbox dd{
+	margin:0px;
+	padding:0px;
+	line-height:40px;
+	text-align:center;
+}
+/*主菜单*/
+
+.mainmenu {
+    width: calc(100% - 20px);
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.mainmenu>div {
+    flex: 1;
+    width: calc((100% - 20px)/5 - 20px);
+    flex-basis: auto;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px 5px 0px 5px;
+	cursor: pointer;
+}
+.mainmenu>div icon{
+	display: block;
+	text-align: center;
+	margin: 0px;
+}
+.mainmenu span{  
+    display: block;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/*上次练习的时候*/
+.log {
+	display:none;
+}
+.right {
+	margin-right: 20px;
+}
+.curr-logo {
+	width: 30px;
+	height: 30px !important;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: -6px;
+	border: 2px solid #CCC !important;
+	display: block;
+}
+.curr-box {
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.outline-tit .el-tag:first-child {
+	margin-left: 10px;
+}
+/*章节列表*/
+.outline{
+	padding: 10px 0px 10px 10px;
+	width: calc(100% - 10px);
+	height: calc(100% - 180px);
+}
+.outline>div:first-child{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.outline>div.outlinelist{
+	padding-right: 10px !important;
+}
+.el-tag{
+	cursor: pointer;
+}
+.olname {
+	font-size: 16px;
+	color: #666;
+}
+.olname[preload] {
+	color: #333;
+}
+/*正确率的百分比*/
+.van-circle{
+	font-size: 12px;
+}
+.van-circle__text{
+	font-size: 12px;
+}
+/*继续练习*/
+.continue{
+	float: right;
+}

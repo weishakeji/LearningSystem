@@ -140,7 +140,7 @@ Vue.component('video_progress', {
                 'title': item.Cou_Name + ' - 学习进度',
                 'width': '60%',
                 'height': '50%',
-                'full': true,
+                'full': false,
                 'showmask': true
             }
             if (window.top.$pagebox) {

@@ -9,24 +9,41 @@ html, body {
 
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
-    width: 3px;
+    width: 10px;
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
 }
 
+
 *::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
-    background: #b9b9b9;
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    background: #888888;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent),
+        url(/Utilities/scrollbar-thumb.gif);
+    --background-image: url(/Utilities/scrollbar-thumb.gif);
+    background-repeat: no-repeat;
 }
+
 
 *::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
+    -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
     border-radius: 3px;
     background: #EDEDED;
+    --background-image: url(/Utilities/scrollbar-track.gif);
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
+
 
 
 /*特殊字体*/
