@@ -538,5 +538,21 @@ namespace Song.ViewData.Methods
         {
             return WeiSha.Core.IDCardNumber.Get(card);
         }
+        /// <summary>
+        /// 平台所有数据
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string,int> DataDetails()
+        {
+            return WeiSha.Data.Gateway.Count();
+        }
+        /// <summary>
+        /// 数据记录的总数
+        /// </summary>
+        /// <returns></returns>
+        public int DataTotal()
+        {
+            return WeiSha.Data.Gateway.Total();
+        }
     }
 }
