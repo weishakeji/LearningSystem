@@ -899,11 +899,9 @@
         for (let t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
         //附加js文件
         if (jsfile != null) {
-            if (jsfile instanceof Array && jsfile.length > 0) {
-                for (let i = 0; i < jsfile.length; i++)
-                    arr.push(jsfile[i]);
-            } else arr.push(jsfile);
-
+            if (jsfile instanceof Array)
+                arr = arr.concat(jsfile);
+            else arr.push(jsfile);
         }
         webdom.load.js(arr, func);
     };
