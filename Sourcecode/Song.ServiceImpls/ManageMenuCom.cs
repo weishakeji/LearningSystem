@@ -55,15 +55,10 @@ namespace Song.ServiceImpls
                     //    ManageMenu._.MM_Root == entity.MM_Id);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
             return entity.MM_Id;
@@ -85,14 +80,10 @@ namespace Song.ServiceImpls
                     this._Delete(uid, tran);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
             return 0;
@@ -229,15 +220,10 @@ namespace Song.ServiceImpls
                     this._Delete(dep.MM_UID, tran);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
 
@@ -248,7 +234,7 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         public void Delete(int identify)
         {
-          
+
             ManageMenu dep = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Id == identify).ToFirst<ManageMenu>();
             if (dep == null) return;
             if (dep.MM_IsFixed)
@@ -257,21 +243,18 @@ namespace Song.ServiceImpls
                 throw new Exception(msg);
             }
             using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
                 try
                 {
                     this._Delete(dep.MM_UID, tran);
                     tran.Commit();
                 }
-                catch
+                catch (Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
+                    throw ex;
                 }
-                finally
-                {
-                    tran.Close();
-                }
+            }
         }
         /// <summary>
         /// 删除，按栏目名称
@@ -288,16 +271,7 @@ namespace Song.ServiceImpls
                     this._Delete(dep.MM_UID, tran);
                     tran.Commit();
                 }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                catch (Exception ex) { tran.Rollback(); throw ex; }
             }
         }
         /// <summary>
@@ -526,15 +500,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -562,15 +531,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -603,16 +567,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }               
             }
         }
         #region 私有方法

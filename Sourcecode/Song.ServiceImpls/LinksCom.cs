@@ -262,14 +262,10 @@ namespace Song.ServiceImpls
                     tran.Update<Links>(new Field[] { Links._.Ls_Name }, new object[] { entity.Ls_Name }, Links._.Ls_Id == entity.Ls_Id);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -306,15 +302,10 @@ namespace Song.ServiceImpls
                     tran.Delete<Links>(Links._.Ls_Id == identify);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -452,16 +443,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                } 
             }
         }
         #endregion

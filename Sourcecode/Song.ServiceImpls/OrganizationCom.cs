@@ -101,15 +101,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     this.OrganBuildCache();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
             this.OrganBuildCache();  //重新构建缓存    
@@ -330,16 +325,7 @@ namespace Song.ServiceImpls
                     tran.Delete<Notice>(Notice._.Org_ID == identify);
                     tran.Commit();
                 }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                catch (Exception ex) { tran.Rollback(); throw ex; }
             }
             this.OrganBuildCache();  //重新构建缓存
         }       
@@ -426,16 +412,7 @@ namespace Song.ServiceImpls
                     tran.Delete<Notice>(Notice._.Org_ID == identify);
                     tran.Commit();
                 }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                catch (Exception ex) { tran.Rollback(); throw ex; }
             }
         }
         private static readonly object lock_cache_build = new object();
@@ -659,16 +636,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }                
             }
         }
         #endregion

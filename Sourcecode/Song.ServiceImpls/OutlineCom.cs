@@ -79,11 +79,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                }               
                 return entity;
             }
         }
@@ -431,11 +427,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                }              
             }
         }
         /// <summary>
@@ -704,11 +696,7 @@ namespace Song.ServiceImpls
                     {
                         tran.Rollback();
                         throw ex;
-                    }
-                    finally
-                    {
-                        tran.Close();
-                    }
+                    }                  
                 }
             }
             return count;
@@ -998,15 +986,11 @@ namespace Song.ServiceImpls
                     //this.BuildCache(couid);
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }               
             }
         }
         #endregion

@@ -74,12 +74,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                }              
             }
         }
         /// <summary>
@@ -103,11 +98,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -398,12 +388,7 @@ namespace Song.ServiceImpls
                     .ToArray<RechargeCode>(realcount - set.Rs_Count);
                 foreach (RechargeCode r in lcard)
                     tran.Delete<RechargeCode>(r);
-                if (isNull)
-                {
-                    tran.Commit();
-                    tran.Dispose();
-                    tran.Close();
-                }
+                if (isNull) tran.Commit();
                 return null;
             }
             if (count <= 0) return null;
@@ -560,11 +545,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }

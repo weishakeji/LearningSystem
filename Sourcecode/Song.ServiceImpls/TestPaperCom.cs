@@ -77,11 +77,7 @@ namespace Song.ServiceImpls
             //    {
             //        tran.Rollback();
             //        throw ex;
-            //    }
-            //    finally
-            //    {
-            //        tran.Close();
-            //    }
+            //    }   
         }
 
         public void PaperSave(TestPaper entity)
@@ -118,10 +114,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -163,14 +155,10 @@ namespace Song.ServiceImpls
                     WeiSha.Core.Upload.Get["TestPaper"].DeleteDirectory(tp.Tp_Id.ToString());
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }

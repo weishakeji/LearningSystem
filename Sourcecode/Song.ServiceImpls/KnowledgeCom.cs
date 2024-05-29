@@ -206,10 +206,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
 
@@ -247,10 +243,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -324,14 +316,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }

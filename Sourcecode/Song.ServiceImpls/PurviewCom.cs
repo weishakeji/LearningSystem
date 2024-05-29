@@ -76,16 +76,11 @@ namespace Song.ServiceImpls
                     }
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }              
             }
         }
         

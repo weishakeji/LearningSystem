@@ -60,15 +60,10 @@ namespace Song.ServiceImpls
                     tran.Update<StudentSort>(new Field[] { StudentSort._.Dep_CnName }, new object[] { entity.Dep_CnName }, StudentSort._.Dep_Id == entity.Dep_Id);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
            
@@ -114,10 +109,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
         /// <summary>
@@ -143,15 +134,10 @@ namespace Song.ServiceImpls
                     this._Delete(identify, tran);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -336,15 +322,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
+                    throw ex;
 
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -372,15 +354,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }

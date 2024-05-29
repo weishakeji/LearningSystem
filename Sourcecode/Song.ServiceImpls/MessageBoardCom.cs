@@ -141,11 +141,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
 
@@ -173,6 +168,7 @@ namespace Song.ServiceImpls
             {
                 Song.Entities.MessageBoard theme = Gateway.Default.From<MessageBoard>().Where(MessageBoard._.Mb_IsTheme == true && MessageBoard._.Mb_UID == mb.Mb_UID).ToFirst<MessageBoard>();
                 using (DbTrans tran = Gateway.Default.BeginTrans())
+                {
                     try
                     {
                         theme.Mb_AnsTime = DateTime.Now;
@@ -187,11 +183,7 @@ namespace Song.ServiceImpls
                         tran.Rollback();
                         throw ex;
                     }
-                    finally
-                    {
-                        tran.Close();
-                    }
-
+                }
             }
         }
         public MessageBoard AnswerSingle(int identify)

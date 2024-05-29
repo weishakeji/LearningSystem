@@ -88,16 +88,11 @@ namespace Song.ServiceImpls
                     tran.Delete<ProfitSharing>(ProfitSharing._.Ps_PID == identify);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }              
             }
         }
         /// <summary>
@@ -153,16 +148,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }            
             }
         }
         #endregion
@@ -252,16 +242,11 @@ namespace Song.ServiceImpls
                     }
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }              
             }
         }
         /// <summary>

@@ -67,11 +67,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -101,18 +96,12 @@ namespace Song.ServiceImpls
                       Student_Course._.Stc_Type == 5 &&
                       Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == cou.Cou_ID);
                     }
-
                     tran.Commit();
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
             return true;
@@ -165,11 +154,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -299,15 +283,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }
@@ -526,15 +505,10 @@ namespace Song.ServiceImpls
                         tran.Commit();
                         this._update_cache(ssc.Sts_ID);
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         tran.Rollback();
-                        throw;
-
-                    }
-                    finally
-                    {
-                        tran.Close();
+                        throw ex;
                     }
                 }
             }
@@ -581,15 +555,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     this._update_cache(stsid);
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
             return true;
@@ -1124,11 +1093,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
             

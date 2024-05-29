@@ -43,16 +43,11 @@ namespace Song.ServiceImpls
                         new object[] { entity.Posi_Name }, EmpAccount._.Posi_Id == entity.Posi_Id);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }               
             }
         }
         /// <summary>
@@ -73,16 +68,11 @@ namespace Song.ServiceImpls
                     tran.Delete<Position>(entity);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }               
             }
         }
         /// <summary>
@@ -214,16 +204,11 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                    throw ex;
+                }              
             }
         }
 

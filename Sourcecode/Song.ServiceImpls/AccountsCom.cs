@@ -144,7 +144,7 @@ namespace Song.ServiceImpls
                     entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
                     entity.Ac_IDCardNumber = card.CardNumber;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ex;
                 }
@@ -168,30 +168,25 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {                   
+                {
                     //if (old != null && old.Sts_ID != entity.Sts_ID)
                     //{
-                        //同步考试成绩中的学员组
+                    //同步考试成绩中的学员组
                     tran.Update<ExamResults>(new Field[] { ExamResults._.Sts_ID, ExamResults._.Ac_Sex, ExamResults._.Ac_Name, ExamResults._.Ac_IDCardNumber },
                         new object[] { entity.Sts_ID, entity.Ac_Sex, entity.Ac_Name, entity.Ac_IDCardNumber }, ExamResults._.Ac_ID == entity.Ac_ID);
-                        //同步教师信息
-                        tran.Update<Teacher>(new Field[] { Teacher._.Th_Sex, Teacher._.Th_Birthday, Teacher._.Th_IDCardNumber, Teacher._.Th_Nation, Teacher._.Th_Native },
-                        new object[] { entity.Ac_Sex, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);
+                    //同步教师信息
+                    tran.Update<Teacher>(new Field[] { Teacher._.Th_Sex, Teacher._.Th_Birthday, Teacher._.Th_IDCardNumber, Teacher._.Th_Nation, Teacher._.Th_Native },
+                    new object[] { entity.Ac_Sex, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);
                     //}
                     tran.Save<Accounts>(entity);
-                    tran.Commit(); 
+                    tran.Commit();
                 }
-                catch
+                catch (Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
+                    throw ex;
                 }
-                finally
-                {
-                    tran.Close();
-                }
-            }           
+            }
         }
         /// <summary>
         /// 修改密码
@@ -366,11 +361,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                }   
             }
         }
         /// <summary>
@@ -1181,10 +1172,6 @@ namespace Song.ServiceImpls
                     throw ex;
 
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
         /// <summary>
@@ -1315,10 +1302,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
 
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -1482,10 +1465,6 @@ namespace Song.ServiceImpls
                     throw ex;
 
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
         /// <summary>
@@ -1525,10 +1504,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
 
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -1606,11 +1581,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -1771,10 +1741,6 @@ namespace Song.ServiceImpls
                     throw ex;
 
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
         /// <summary>
@@ -1803,10 +1769,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
 
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -1849,10 +1811,6 @@ namespace Song.ServiceImpls
                     {
                         tran.Rollback();
                         throw ex;
-                    }
-                    finally
-                    {
-                        tran.Close();
                     }
                 }
             }

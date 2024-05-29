@@ -82,16 +82,12 @@ namespace Song.ServiceImpls
                     tran.Delete<EmpGroup>(entity);
                     tran.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
+                    throw ex;
+                }
 
-                }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
         /// <summary>
@@ -203,15 +199,10 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }

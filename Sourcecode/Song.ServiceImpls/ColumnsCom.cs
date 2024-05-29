@@ -92,10 +92,6 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
                 }
-                finally
-                {
-                    tran.Close();
-                }
             }
         }
 
@@ -121,10 +117,6 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
                 }
             }
         }
@@ -217,22 +209,17 @@ namespace Song.ServiceImpls
                     foreach (Columns item in items)
                     {
                         item.Org_ID = orgid;
-                        if (string.IsNullOrWhiteSpace(item.Col_Name))                     
-                            item.Col_Name = "null";                     
+                        if (string.IsNullOrWhiteSpace(item.Col_Name))
+                            item.Col_Name = "null";
                         tran.Save<Columns>(item);
                     }
                     tran.Commit();
                     return true;
                 }
-                catch
+                catch (Exception ex)
                 {
                     tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
+                    throw ex;
                 }
             }
         }

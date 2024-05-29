@@ -66,11 +66,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Rollback();
                     throw ex;
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                }                
             }
         }
 
