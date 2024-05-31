@@ -1,0 +1,46 @@
+
+
+/*将nvarchar(max) 转为 ntext,主要原因是数据库转换为PostgreSQL时，nvarchar(max)转换失败的问题*/
+ALTER TABLE Article ALTER COLUMN Art_Intro ntext;
+ALTER TABLE Article ALTER COLUMN Art_Details ntext;
+ALTER TABLE Article ALTER COLUMN Art_Endnote ntext;
+ALTER TABLE Article ALTER COLUMN OtherData ntext;
+ALTER TABLE Course ALTER COLUMN Cou_Intro ntext;
+ALTER TABLE Course ALTER COLUMN Cou_Content ntext;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Results ntext;
+ALTER TABLE LearningCard ALTER COLUMN Lc_QrcodeBase64 ntext;
+ALTER TABLE LearningCardSet ALTER COLUMN Lcs_RelatedCourses ntext;
+ALTER TABLE LogForStudentExercise ALTER COLUMN Lse_JsonData ntext;
+ALTER TABLE LogForStudentExercise ALTER COLUMN Lse_GeogData ntext;
+ALTER TABLE LogForStudentStudy ALTER COLUMN Lss_Details ntext;
+ALTER TABLE LogForStudentStudy ALTER COLUMN Lss_GeogData ntext;
+ALTER TABLE Navigation ALTER COLUMN Nav_Event ntext;
+ALTER TABLE Notice ALTER COLUMN No_BgImage ntext;
+ALTER TABLE Organization ALTER COLUMN Org_Intro ntext;
+ALTER TABLE Organization ALTER COLUMN Org_ExtraMobi ntext;
+ALTER TABLE Organization ALTER COLUMN Org_ExtraWeb ntext;
+ALTER TABLE Organization ALTER COLUMN Org_Config ntext;
+ALTER TABLE Outline ALTER COLUMN Ol_Intro ntext;
+ALTER TABLE Outline ALTER COLUMN Ol_Courseware ntext;
+ALTER TABLE Outline ALTER COLUMN Ol_Video ntext;
+ALTER TABLE Outline ALTER COLUMN Ol_LessonPlan ntext;
+ALTER TABLE OutlineEvent ALTER COLUMN Oe_Context ntext;
+ALTER TABLE OutlineEvent ALTER COLUMN Oe_Datatable ntext;
+ALTER TABLE PayInterface ALTER COLUMN Pai_Config ntext;
+ALTER TABLE Questions ALTER COLUMN Qus_Title ntext;
+ALTER TABLE Questions ALTER COLUMN Qus_Answer ntext;
+ALTER TABLE Questions ALTER COLUMN Qus_Explain ntext;
+ALTER TABLE Questions ALTER COLUMN Qus_WrongInfo ntext;
+ALTER TABLE Questions ALTER COLUMN Qus_Items ntext;
+ALTER TABLE QuesTypes ALTER COLUMN Qt_Intro ntext;
+ALTER TABLE RechargeCode ALTER COLUMN Rc_QrcodeBase64 ntext;
+ALTER TABLE SingleSignOn ALTER COLUMN SSO_Config ntext;
+ALTER TABLE Student_Collect ALTER COLUMN Qus_Title ntext;
+ALTER TABLE Student_Notes ALTER COLUMN Qus_Title ntext;
+ALTER TABLE Subject ALTER COLUMN Sbj_Intro ntext;
+ALTER TABLE Subject ALTER COLUMN Sbj_Details ntext;
+ALTER TABLE SystemPara ALTER COLUMN Sys_Value ntext;
+ALTER TABLE TestPaper ALTER COLUMN Tp_Intro ntext;
+ALTER TABLE TestPaper ALTER COLUMN Tp_Remind ntext;
+ALTER TABLE TestPaper ALTER COLUMN Tp_FromConfig ntext;
+ALTER TABLE ThirdpartyLogin ALTER COLUMN Tl_Config ntext;
