@@ -116,7 +116,7 @@
             },
             //刷新单一课程
             freshrow: function (id) {
-                if (id == null || id == '') return this.handleCurrentChange();
+                if (id == null || id == '' || id == 0) return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Cou_ID == id);
