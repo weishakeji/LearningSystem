@@ -35,7 +35,7 @@ namespace Song.ServiceImpls
                 object obj = Gateway.Default.Max<StudentSort>(StudentSort._.Sts_Tax, StudentSort._.Org_ID == entity.Org_ID);               
                 int tax = 0;
                 int.TryParse(obj.ToString(), out tax);
-                entity.Sts_Tax = tax;
+                entity.Sts_Tax = tax + 1;
             }
             Gateway.Default.Save<StudentSort>(entity);
         }
