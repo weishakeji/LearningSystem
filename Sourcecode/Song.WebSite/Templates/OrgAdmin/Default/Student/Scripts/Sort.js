@@ -21,9 +21,6 @@ $ready(function () {
             selects: [] //数据表中选中的行
         },
         watch: {
-            'loading': function (val, old) {
-                //console.log(val);
-            }
         },
         computed: {
         },
@@ -55,6 +52,7 @@ $ready(function () {
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 th.form.size = th.form.size >= 100 ? 100 : th.form.size;
                 th.loading = true;
+                var loading = this.$fulloading();
                 $api.get("Account/SortPager", th.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
@@ -64,8 +62,13 @@ $ready(function () {
                         throw d.data.message;
                     }
                     th.rowdrop();
-                }).catch(err => th.$alert(err, '错误'))
-                    .finally(() => th.loading = false);
+                }).catch(err => alert(err, '错误'))
+                    .finally(() => {
+                        th.loading = false;
+                        th.$nextTick(function () {
+                            loading.close();
+                        });
+                    });
             },
             //刷新行数据，
             freshrow: function (id) {
@@ -166,8 +169,8 @@ $ready(function () {
             changeTax: function () {
                 //初始索引
                 let datas = this.datas;
-                let initindex = datas.reduce((p, c) => p.Sts_Tax > c.Sts_Tax ? p : c).Sts_Tax;                
-                for (let i = 0; i < this.datas.length; i++) 
+                let initindex = datas.reduce((p, c) => p.Sts_Tax > c.Sts_Tax ? p : c).Sts_Tax;
+                for (let i = 0; i < this.datas.length; i++)
                     this.datas[i].Sts_Tax = initindex - i;
                 var arr = $api.clone(this.datas);
                 for (let i = 0; i < arr.length; i++) delete arr[i]['childs'];
