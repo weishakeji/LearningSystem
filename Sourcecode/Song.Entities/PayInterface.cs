@@ -28,7 +28,7 @@ namespace Song.Entities {
     		
     		protected String _Pai_InterfaceType;
     		
-    		protected Single _Pai_Feerate;
+    		protected Double _Pai_Feerate;
     		
     		protected String _Pai_Config;
     		
@@ -140,7 +140,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Single Pai_Feerate {
+    		public Double Pai_Feerate {
     			get {
     				return this._Pai_Feerate;
     			}
@@ -303,7 +303,7 @@ namespace Song.Entities {
     				this._Pai_InterfaceType = reader.GetString(_.Pai_InterfaceType);
     			}
     			if ((false == reader.IsDBNull(_.Pai_Feerate))) {
-    				this._Pai_Feerate = reader.GetFloat(_.Pai_Feerate);
+    				this._Pai_Feerate = reader.GetDouble(_.Pai_Feerate);
     			}
     			if ((false == reader.IsDBNull(_.Pai_Config))) {
     				this._Pai_Config = reader.GetString(_.Pai_Config);
@@ -397,7 +397,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Pai_InterfaceType = new WeiSha.Data.Field<PayInterface>("Pai_InterfaceType");
     			
     			/// <summary>
-    			/// 字段名：Pai_Feerate - 数据类型：Single
+    			/// 字段名：Pai_Feerate - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Pai_Feerate = new WeiSha.Data.Field<PayInterface>("Pai_Feerate");
     			

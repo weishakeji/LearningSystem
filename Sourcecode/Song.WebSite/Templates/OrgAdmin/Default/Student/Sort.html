@@ -35,6 +35,7 @@
             </el-table-column>
             <el-table-column label="组名称" min-width="260">
                 <template slot-scope="scope">
+                    {{scope.row.Sts_Tax}}
                     <span v-html="showsearch(scope.row.Sts_Name,form.search)" class="draghandle large"></span>
                     <el-tag type="danger" v-if="scope.row.Sts_IsDefault" title="当学员未设置学员组时，默认归属到此组">
                         <icon>&#xe747</icon>默认

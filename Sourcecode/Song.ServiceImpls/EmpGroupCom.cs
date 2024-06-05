@@ -221,7 +221,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(EmpGroup._.Org_ID == orgid);
             if (isUse != null) wc.And(EmpGroup._.EGrp_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpGroup._.EGrp_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpGroup._.EGrp_Name.Contains(name));
             countSum = Gateway.Default.Count<EmpGroup>(wc);
             return Gateway.Default.From<EmpGroup>().Where(wc).OrderBy(EmpGroup._.EGrp_Tax.Asc).ToArray<EmpGroup>(size, (index - 1) * size);
         }

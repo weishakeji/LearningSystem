@@ -10,13 +10,13 @@ namespace Song.Entities {
     		
     		protected Int32 _Tr_ID;
     		
-    		protected Single? _Tr_Score;
+    		protected Double _Tr_Score;
     		
-    		protected Single? _Tr_ScoreFinal;
+    		protected Double _Tr_ScoreFinal;
     		
-    		protected Single? _Tr_Draw;
+    		protected Double _Tr_Draw;
     		
-    		protected Single? _Tr_Colligate;
+    		protected Double _Tr_Colligate;
     		
     		protected String _Tr_Results;
     		
@@ -74,7 +74,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single? Tr_Score {
+    		public Double Tr_Score {
     			get {
     				return this._Tr_Score;
     			}
@@ -87,7 +87,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single? Tr_ScoreFinal {
+    		public Double Tr_ScoreFinal {
     			get {
     				return this._Tr_ScoreFinal;
     			}
@@ -100,7 +100,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single? Tr_Draw {
+    		public Double Tr_Draw {
     			get {
     				return this._Tr_Draw;
     			}
@@ -113,7 +113,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single? Tr_Colligate {
+    		public Double Tr_Colligate {
     			get {
     				return this._Tr_Colligate;
     			}
@@ -444,16 +444,16 @@ namespace Song.Entities {
     				this._Tr_ID = reader.GetInt32(_.Tr_ID);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Score))) {
-    				this._Tr_Score = reader.GetFloat(_.Tr_Score);
+    				this._Tr_Score = reader.GetDouble(_.Tr_Score);
     			}
     			if ((false == reader.IsDBNull(_.Tr_ScoreFinal))) {
-    				this._Tr_ScoreFinal = reader.GetFloat(_.Tr_ScoreFinal);
+    				this._Tr_ScoreFinal = reader.GetDouble(_.Tr_ScoreFinal);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Draw))) {
-    				this._Tr_Draw = reader.GetFloat(_.Tr_Draw);
+    				this._Tr_Draw = reader.GetDouble(_.Tr_Draw);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Colligate))) {
-    				this._Tr_Colligate = reader.GetFloat(_.Tr_Colligate);
+    				this._Tr_Colligate = reader.GetDouble(_.Tr_Colligate);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Results))) {
     				this._Tr_Results = reader.GetString(_.Tr_Results);
@@ -547,22 +547,22 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tr_ID = new WeiSha.Data.Field<TestResults>("Tr_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Tr_Score - 数据类型：Single(可空)
+    			/// -1 - 字段名：Tr_Score - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Score = new WeiSha.Data.Field<TestResults>("Tr_Score");
     			
     			/// <summary>
-    			/// -1 - 字段名：Tr_ScoreFinal - 数据类型：Single(可空)
+    			/// -1 - 字段名：Tr_ScoreFinal - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Tr_ScoreFinal = new WeiSha.Data.Field<TestResults>("Tr_ScoreFinal");
     			
     			/// <summary>
-    			/// -1 - 字段名：Tr_Draw - 数据类型：Single(可空)
+    			/// -1 - 字段名：Tr_Draw - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Draw = new WeiSha.Data.Field<TestResults>("Tr_Draw");
     			
     			/// <summary>
-    			/// -1 - 字段名：Tr_Colligate - 数据类型：Single(可空)
+    			/// -1 - 字段名：Tr_Colligate - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Colligate = new WeiSha.Data.Field<TestResults>("Tr_Colligate");
     			

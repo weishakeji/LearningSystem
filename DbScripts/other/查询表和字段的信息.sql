@@ -32,5 +32,12 @@ length,(type_name(xtype)+'('+CONVERT(varchar,length)+')') as fulltype,
 --是否可空，0为可空
 isnullable as nullable
 FROM syscolumns
-WHERE (id = OBJECT_ID('course'))
+WHERE (id = OBJECT_ID('questions'))
 order by name asc
+
+/*查询某个数据类型的字段*/
+SELECT 
+    TABLE_NAME,
+    COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE DATA_TYPE = 'float'

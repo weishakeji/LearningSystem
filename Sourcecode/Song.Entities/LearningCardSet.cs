@@ -22,7 +22,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Lcs_IsFixed;
     		
-    		protected Single _Lcs_Price;
+    		protected Double _Lcs_Price;
     		
     		protected Int32 _Lcs_Coupon;
     		
@@ -122,7 +122,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Single Lcs_Price {
+    		public Double Lcs_Price {
     			get {
     				return this._Lcs_Price;
     			}
@@ -378,7 +378,7 @@ namespace Song.Entities {
     				this._Lcs_IsFixed = reader.GetBoolean(_.Lcs_IsFixed);
     			}
     			if ((false == reader.IsDBNull(_.Lcs_Price))) {
-    				this._Lcs_Price = reader.GetFloat(_.Lcs_Price);
+    				this._Lcs_Price = reader.GetDouble(_.Lcs_Price);
     			}
     			if ((false == reader.IsDBNull(_.Lcs_Coupon))) {
     				this._Lcs_Coupon = reader.GetInt32(_.Lcs_Coupon);
@@ -484,7 +484,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lcs_IsFixed = new WeiSha.Data.Field<LearningCardSet>("Lcs_IsFixed");
     			
     			/// <summary>
-    			/// 字段名：Lcs_Price - 数据类型：Single
+    			/// 字段名：Lcs_Price - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Lcs_Price = new WeiSha.Data.Field<LearningCardSet>("Lcs_Price");
     			

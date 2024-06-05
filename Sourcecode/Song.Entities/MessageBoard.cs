@@ -18,11 +18,11 @@ namespace Song.Entities {
     		
     		protected String _Mb_Answer;
     		
-    		protected Int32? _Mb_PID;
+    		protected Int32 _Mb_PID;
     		
     		protected String _Mb_UID;
     		
-    		protected Int32? _Mb_At;
+    		protected Int32 _Mb_At;
     		
     		protected DateTime? _Mb_CrtTime;
     		
@@ -42,9 +42,9 @@ namespace Song.Entities {
     		
     		protected String _Mb_QQ;
     		
-    		protected Int32? _Mb_FluxNumber;
+    		protected Int32 _Mb_FluxNumber;
     		
-    		protected Int32? _Mb_ReplyNumber;
+    		protected Int32 _Mb_ReplyNumber;
     		
     		protected Int32 _Org_ID;
     		
@@ -128,7 +128,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Mb_PID {
+    		public Int32 Mb_PID {
     			get {
     				return this._Mb_PID;
     			}
@@ -154,7 +154,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Mb_At {
+    		public Int32 Mb_At {
     			get {
     				return this._Mb_At;
     			}
@@ -284,7 +284,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Mb_FluxNumber {
+    		public Int32 Mb_FluxNumber {
     			get {
     				return this._Mb_FluxNumber;
     			}
@@ -297,7 +297,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Mb_ReplyNumber {
+    		public Int32 Mb_ReplyNumber {
     			get {
     				return this._Mb_ReplyNumber;
     			}
@@ -599,7 +599,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Mb_Answer = new WeiSha.Data.Field<MessageBoard>("Mb_Answer");
     			
     			/// <summary>
-    			/// -1 - 字段名：Mb_PID - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Mb_PID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Mb_PID = new WeiSha.Data.Field<MessageBoard>("Mb_PID");
     			
@@ -609,7 +609,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Mb_UID = new WeiSha.Data.Field<MessageBoard>("Mb_UID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Mb_At - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Mb_At - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Mb_At = new WeiSha.Data.Field<MessageBoard>("Mb_At");
     			
@@ -659,12 +659,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Mb_QQ = new WeiSha.Data.Field<MessageBoard>("Mb_QQ");
     			
     			/// <summary>
-    			/// -1 - 字段名：Mb_FluxNumber - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Mb_FluxNumber - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Mb_FluxNumber = new WeiSha.Data.Field<MessageBoard>("Mb_FluxNumber");
     			
     			/// <summary>
-    			/// -1 - 字段名：Mb_ReplyNumber - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Mb_ReplyNumber - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Mb_ReplyNumber = new WeiSha.Data.Field<MessageBoard>("Mb_ReplyNumber");
     			

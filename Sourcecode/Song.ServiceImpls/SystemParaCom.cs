@@ -216,11 +216,11 @@ namespace Song.ServiceImpls
             WhereClip wc = SystemPara._.Sys_Id > -1;
             if (searKey != null && searKey != "")
             {
-                wc.And(SystemPara._.Sys_Key.Like("%" + searKey + "%"));
+                wc.And(SystemPara._.Sys_Key.Contains(searKey));
             }
             if (searIntro != null && searIntro != "")
             {
-                wc.And(SystemPara._.Sys_ParaIntro.Like("%" + searIntro + "%"));
+                wc.And(SystemPara._.Sys_ParaIntro.Contains(searIntro));
             }
             DataSet ds = Gateway.Default.From<SystemPara>().Where(wc).OrderBy(SystemPara._.Sys_Key.Asc).ToDataSet();
             if (ds.Tables.Count > 0)

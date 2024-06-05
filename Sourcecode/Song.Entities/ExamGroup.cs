@@ -10,7 +10,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Eg_ID;
     		
-    		protected Int32? _Eg_Type;
+    		protected Int32 _Eg_Type;
     		
     		protected Int64 _Sts_ID;
     		
@@ -36,7 +36,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Eg_Type {
+    		public Int32 Eg_Type {
     			get {
     				return this._Eg_Type;
     			}
@@ -194,7 +194,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Eg_ID = new WeiSha.Data.Field<ExamGroup>("Eg_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Eg_Type - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Eg_Type - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Eg_Type = new WeiSha.Data.Field<ExamGroup>("Eg_Type");
     			

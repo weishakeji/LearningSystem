@@ -389,7 +389,7 @@ namespace Song.ServiceImpls
                 WhereClip wc = Student_Course._.Ac_ID == stid;
                 if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
                 wc.And(Student_Course._.Stc_IsTry == (bool)istry);           
-                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
                 countSum = Gateway.Default.From<Course>()
                         .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
                         .Where(wc).Count();
@@ -503,7 +503,7 @@ namespace Song.ServiceImpls
                 WhereClip wc = Student_Course._.Ac_ID == stid;
                 if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
                 wc.And(Student_Course._.Stc_IsTry == (bool)istry);
-                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
               
                 return Gateway.Default.From<Course>()
                         .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
@@ -796,7 +796,7 @@ namespace Song.ServiceImpls
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(wcOrder).ToList<Course>(count);
@@ -826,7 +826,7 @@ namespace Song.ServiceImpls
             }
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (islive != null) wc.And(Course._.Cou_ExistLive == (bool)islive);
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(Course._.Cou_Tax.Desc).ToList<Course>(count);
@@ -853,7 +853,7 @@ namespace Song.ServiceImpls
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -886,7 +886,7 @@ namespace Song.ServiceImpls
             }
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains("%" + searTxt));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -953,7 +953,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             if (order == "live") isLive = true;
             if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains("%" + searTxt.Trim()));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -1599,12 +1599,12 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = Student_Course._.Cou_ID == couid;
 
-            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + stname + "%"));
+            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Contains("%" + stname));
             if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "")
             {
                 WhereClip wcOr = new WhereClip();              
-                wcOr.Or(Accounts._.Ac_MobiTel1.Like("%" + stmobi + "%"));
-                wcOr.Or(Accounts._.Ac_MobiTel2.Like("%" + stmobi + "%"));
+                wcOr.Or(Accounts._.Ac_MobiTel1.Contains("%" + stmobi));
+                wcOr.Or(Accounts._.Ac_MobiTel2.Contains("%" + stmobi));
                 wc.And(wcOr);
             }            
             countSum = Gateway.Default.From<Accounts>().InnerJoin<Student_Course>(Student_Course._.Ac_ID == Accounts._.Ac_ID)

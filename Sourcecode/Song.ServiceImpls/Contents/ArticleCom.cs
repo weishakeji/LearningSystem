@@ -348,7 +348,7 @@ namespace Song.ServiceImpls
             }
             if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
             if (searTxt != null && searTxt.Trim() != "")
-                  wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                  wc.And(Article._.Art_Title.Contains("%" + searTxt));
               countSum = Gateway.Default.Count<Article>(wc);
               return Gateway.Default.From<Article>().Where(wc).OrderBy(Article._.Art_PushTime.Desc).ToArray<Article>(size, (index - 1) * size);
         }
@@ -365,7 +365,7 @@ namespace Song.ServiceImpls
                     wcColid.Or(Article._.Col_UID == l);
                 wc.And(wcColid);
             }
-            if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+            if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Contains("%" + searTxt));
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             countSum = Gateway.Default.Count<Article>(wc);
@@ -384,7 +384,7 @@ namespace Song.ServiceImpls
                     wcColid.Or(Article._.Col_UID == l);
                 wc.And(wcColid);
             }
-            if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+            if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Contains("%" + searTxt));
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
             OrderByClip wcOrder = new OrderByClip();

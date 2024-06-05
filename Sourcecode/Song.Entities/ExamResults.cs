@@ -10,13 +10,13 @@ namespace Song.Entities {
     		
     		protected Int32 _Exr_ID;
     		
-    		protected Single _Exr_Score;
+    		protected Double _Exr_Score;
     		
-    		protected Single _Exr_ScoreFinal;
+    		protected Double _Exr_ScoreFinal;
     		
-    		protected Single _Exr_Draw;
+    		protected Double _Exr_Draw;
     		
-    		protected Single _Exr_Colligate;
+    		protected Double _Exr_Colligate;
     		
     		protected String _Exr_Results;
     		
@@ -86,7 +86,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single Exr_Score {
+    		public Double Exr_Score {
     			get {
     				return this._Exr_Score;
     			}
@@ -99,7 +99,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single Exr_ScoreFinal {
+    		public Double Exr_ScoreFinal {
     			get {
     				return this._Exr_ScoreFinal;
     			}
@@ -112,7 +112,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single Exr_Draw {
+    		public Double Exr_Draw {
     			get {
     				return this._Exr_Draw;
     			}
@@ -125,7 +125,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Single Exr_Colligate {
+    		public Double Exr_Colligate {
     			get {
     				return this._Exr_Colligate;
     			}
@@ -543,16 +543,16 @@ namespace Song.Entities {
     				this._Exr_ID = reader.GetInt32(_.Exr_ID);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Score))) {
-    				this._Exr_Score = reader.GetFloat(_.Exr_Score);
+    				this._Exr_Score = reader.GetDouble(_.Exr_Score);
     			}
     			if ((false == reader.IsDBNull(_.Exr_ScoreFinal))) {
-    				this._Exr_ScoreFinal = reader.GetFloat(_.Exr_ScoreFinal);
+    				this._Exr_ScoreFinal = reader.GetDouble(_.Exr_ScoreFinal);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Draw))) {
-    				this._Exr_Draw = reader.GetFloat(_.Exr_Draw);
+    				this._Exr_Draw = reader.GetDouble(_.Exr_Draw);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Colligate))) {
-    				this._Exr_Colligate = reader.GetFloat(_.Exr_Colligate);
+    				this._Exr_Colligate = reader.GetDouble(_.Exr_Colligate);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Results))) {
     				this._Exr_Results = reader.GetString(_.Exr_Results);
@@ -664,22 +664,22 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Exr_ID = new WeiSha.Data.Field<ExamResults>("Exr_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Exr_Score - 数据类型：Single
+    			/// -1 - 字段名：Exr_Score - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Score = new WeiSha.Data.Field<ExamResults>("Exr_Score");
     			
     			/// <summary>
-    			/// -1 - 字段名：Exr_ScoreFinal - 数据类型：Single
+    			/// -1 - 字段名：Exr_ScoreFinal - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Exr_ScoreFinal = new WeiSha.Data.Field<ExamResults>("Exr_ScoreFinal");
     			
     			/// <summary>
-    			/// -1 - 字段名：Exr_Draw - 数据类型：Single
+    			/// -1 - 字段名：Exr_Draw - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Draw = new WeiSha.Data.Field<ExamResults>("Exr_Draw");
     			
     			/// <summary>
-    			/// -1 - 字段名：Exr_Colligate - 数据类型：Single
+    			/// -1 - 字段名：Exr_Colligate - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Colligate = new WeiSha.Data.Field<ExamResults>("Exr_Colligate");
     			

@@ -16,15 +16,15 @@ namespace Song.Entities {
     		
     		protected DateTime? _Sms_CrtTime;
     		
-    		protected Int32? _Sms_Type;
+    		protected Int32 _Sms_Type;
     		
-    		protected Int32? _Sms_SendId;
+    		protected Int32 _Sms_SendId;
     		
     		protected String _Sms_SendName;
     		
-    		protected Int32? _Sms_MailBox;
+    		protected Int32 _Sms_MailBox;
     		
-    		protected Int32? _Sms_State;
+    		protected Int32 _Sms_State;
     		
     		protected Int32 _Org_ID;
     		
@@ -85,7 +85,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sms_Type {
+    		public Int32 Sms_Type {
     			get {
     				return this._Sms_Type;
     			}
@@ -98,7 +98,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sms_SendId {
+    		public Int32 Sms_SendId {
     			get {
     				return this._Sms_SendId;
     			}
@@ -124,7 +124,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sms_MailBox {
+    		public Int32 Sms_MailBox {
     			get {
     				return this._Sms_MailBox;
     			}
@@ -137,7 +137,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sms_State {
+    		public Int32 Sms_State {
     			get {
     				return this._Sms_State;
     			}
@@ -309,12 +309,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Sms_CrtTime = new WeiSha.Data.Field<SmsMessage>("Sms_CrtTime");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sms_Type - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sms_Type - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sms_Type = new WeiSha.Data.Field<SmsMessage>("Sms_Type");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sms_SendId - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sms_SendId - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sms_SendId = new WeiSha.Data.Field<SmsMessage>("Sms_SendId");
     			
@@ -324,12 +324,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Sms_SendName = new WeiSha.Data.Field<SmsMessage>("Sms_SendName");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sms_MailBox - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sms_MailBox - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sms_MailBox = new WeiSha.Data.Field<SmsMessage>("Sms_MailBox");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sms_State - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sms_State - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sms_State = new WeiSha.Data.Field<SmsMessage>("Sms_State");
     			

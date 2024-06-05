@@ -135,7 +135,7 @@ namespace Song.ServiceImpls
             if (type != null) wc.And(SmsMessage._.Sms_Type == (int)type);
             if (box != null) wc.And(SmsMessage._.Sms_MailBox == (int)box);
             if (state != null) wc.And(SmsMessage._.Sms_State == (int)state);
-            if (search != string.Empty) wc.And(SmsMessage._.Sms_Context.Like("%" + search + "%"));
+            if (search != string.Empty) wc.And(SmsMessage._.Sms_Context.Contains(search));
             countSum = Gateway.Default.Count<SmsMessage>(wc);
             return Gateway.Default.From<SmsMessage>().Where(wc).OrderBy(SmsMessage._.Sms_CrtTime.Desc).ToArray<SmsMessage>(size, (index - 1) * size);
         }

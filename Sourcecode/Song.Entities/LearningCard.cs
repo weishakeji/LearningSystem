@@ -14,7 +14,7 @@ namespace Song.Entities {
     		
     		protected String _Lc_Pw;
     		
-    		protected Single _Lc_Price;
+    		protected Double _Lc_Price;
     		
     		protected Int32 _Lc_Coupon;
     		
@@ -76,7 +76,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Single Lc_Price {
+    		public Double Lc_Price {
     			get {
     				return this._Lc_Price;
     			}
@@ -324,7 +324,7 @@ namespace Song.Entities {
     				this._Lc_Pw = reader.GetString(_.Lc_Pw);
     			}
     			if ((false == reader.IsDBNull(_.Lc_Price))) {
-    				this._Lc_Price = reader.GetFloat(_.Lc_Price);
+    				this._Lc_Price = reader.GetDouble(_.Lc_Price);
     			}
     			if ((false == reader.IsDBNull(_.Lc_Coupon))) {
     				this._Lc_Coupon = reader.GetInt32(_.Lc_Coupon);
@@ -413,7 +413,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lc_Pw = new WeiSha.Data.Field<LearningCard>("Lc_Pw");
     			
     			/// <summary>
-    			/// 字段名：Lc_Price - 数据类型：Single
+    			/// 字段名：Lc_Price - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Lc_Price = new WeiSha.Data.Field<LearningCard>("Lc_Price");
     			

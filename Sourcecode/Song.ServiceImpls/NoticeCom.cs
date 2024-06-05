@@ -192,7 +192,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Notice._.No_Ttl.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Notice._.No_Ttl.Contains(searTxt));
             countSum = Gateway.Default.Count<Notice>(wc);
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(size, (index - 1) * size);
         }

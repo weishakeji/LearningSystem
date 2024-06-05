@@ -762,7 +762,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(Outline._.Org_ID == orgid);
             if (islive != null) wc.And(Outline._.Ol_IsLive == (bool)islive);
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
-            if(!string.IsNullOrWhiteSpace(search)) wc.And(Outline._.Ol_Name.Like("%" + search + "%"));
+            if(!string.IsNullOrWhiteSpace(search)) wc.And(Outline._.Ol_Name.Contains(search));
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>(count);
         }
         /// <summary>
@@ -921,7 +921,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = Outline._.Cou_ID == couid;
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Outline._.Ol_Name.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Outline._.Ol_Name.Contains(searTxt));
             countSum = Gateway.Default.Count<Outline>(wc);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>(size, (index - 1) * size);
         }

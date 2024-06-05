@@ -16,7 +16,7 @@ namespace Song.Entities {
     		
     		protected Boolean _FPI_IsShow;
     		
-    		protected Int32? _Org_Id;
+    		protected Int32 _Org_Id;
     		
     		protected String _Org_Name;
     		
@@ -72,7 +72,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32? Org_Id {
+    		public Int32 Org_Id {
     			get {
     				return this._Org_Id;
     			}
@@ -209,7 +209,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field FPI_IsShow = new WeiSha.Data.Field<FuncPoint>("FPI_IsShow");
     			
     			/// <summary>
-    			/// 字段名：Org_Id - 数据类型：Int32(可空)
+    			/// 字段名：Org_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_Id = new WeiSha.Data.Field<FuncPoint>("Org_Id");
     			

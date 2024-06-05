@@ -22,7 +22,7 @@ namespace Song.Entities {
     		
     		protected DateTime? _No_EndTime;
     		
-    		protected Int32? _Acc_Id;
+    		protected Int32 _Acc_Id;
     		
     		protected String _Acc_Name;
     		
@@ -149,7 +149,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Acc_Id {
+    		public Int32 Acc_Id {
     			get {
     				return this._Acc_Id;
     			}
@@ -555,7 +555,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field No_EndTime = new WeiSha.Data.Field<Notice>("No_EndTime");
     			
     			/// <summary>
-    			/// False - 字段名：Acc_Id - 数据类型：Int32(可空)
+    			/// False - 字段名：Acc_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Acc_Id = new WeiSha.Data.Field<Notice>("Acc_Id");
     			

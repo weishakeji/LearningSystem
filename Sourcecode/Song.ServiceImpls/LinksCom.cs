@@ -180,8 +180,8 @@ namespace Song.ServiceImpls
             if (sortId > 0) wc.And(Links._.Ls_Id == sortId);
             if (isUse != null) wc.And(Links._.Lk_IsUse == (bool)isUse);
             if (isShow != null) wc.And(Links._.Lk_IsShow == (bool)isShow);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(Links._.Lk_Name.Like("%" + name.Trim() + "%"));
-            if (!string.IsNullOrWhiteSpace(link)) wc.And(Links._.Lk_Url.Like("%" + link.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Links._.Lk_Name.Contains(name.Trim()));
+            if (!string.IsNullOrWhiteSpace(link)) wc.And(Links._.Lk_Url.Contains(link.Trim()));
             countSum = Gateway.Default.Count<Links>(wc);
             return Gateway.Default.From<Links>().Where(wc).OrderBy(Links._.Lk_Tax.Asc).ToArray<Links>(size, (index - 1) * size);
         }       
@@ -397,7 +397,7 @@ namespace Song.ServiceImpls
             WhereClip wc = LinksSort._.Org_ID == orgid;
             if (isUse != null) wc.And(LinksSort._.Ls_IsUse == isUse);
             if (isShow != null) wc.And(LinksSort._.Ls_IsShow == isShow);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(LinksSort._.Ls_Name.Like("%" + searTxt.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(LinksSort._.Ls_Name.Contains(searTxt.Trim()));
             countSum = Gateway.Default.Count<LinksSort>(wc);
             return Gateway.Default.From<LinksSort>().Where(wc).OrderBy(LinksSort._.Ls_Tax.Asc).ToArray<LinksSort>(size, (index - 1) * size);
         }

@@ -16,7 +16,7 @@ namespace Song.Entities {
     		
     		protected DateTime _Stc_CrtTime;
     		
-    		protected Single _Stc_Money;
+    		protected Double _Stc_Money;
     		
     		protected DateTime _Stc_StartTime;
     		
@@ -88,7 +88,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Single Stc_Money {
+    		public Double Stc_Money {
     			get {
     				return this._Stc_Money;
     			}
@@ -341,7 +341,7 @@ namespace Song.Entities {
     				this._Stc_CrtTime = reader.GetDateTime(_.Stc_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.Stc_Money))) {
-    				this._Stc_Money = reader.GetFloat(_.Stc_Money);
+    				this._Stc_Money = reader.GetDouble(_.Stc_Money);
     			}
     			if ((false == reader.IsDBNull(_.Stc_StartTime))) {
     				this._Stc_StartTime = reader.GetDateTime(_.Stc_StartTime);
@@ -435,7 +435,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stc_CrtTime = new WeiSha.Data.Field<Student_Course>("Stc_CrtTime");
     			
     			/// <summary>
-    			/// 字段名：Stc_Money - 数据类型：Single
+    			/// 字段名：Stc_Money - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Stc_Money = new WeiSha.Data.Field<Student_Course>("Stc_Money");
     			

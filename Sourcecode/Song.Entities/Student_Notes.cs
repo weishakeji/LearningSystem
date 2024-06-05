@@ -10,7 +10,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Stn_ID;
     		
-    		protected Int32? _Stn_PID;
+    		protected Int32 _Stn_PID;
     		
     		protected Int32 _Ac_ID;
     		
@@ -42,7 +42,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32? Stn_PID {
+    		public Int32 Stn_PID {
     			get {
     				return this._Stn_PID;
     			}
@@ -284,7 +284,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stn_ID = new WeiSha.Data.Field<Student_Notes>("Stn_ID");
     			
     			/// <summary>
-    			/// 字段名：Stn_PID - 数据类型：Int32(可空)
+    			/// 字段名：Stn_PID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Stn_PID = new WeiSha.Data.Field<Student_Notes>("Stn_PID");
     			

@@ -243,7 +243,7 @@ namespace Song.ServiceImpls
             if (titile == string.Empty) return null;
             WhereClip wc = new WhereClip();
             if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (titile.Trim() != "") wc.And(Questions._.Qus_Title.Like(titile.Trim()));
+            if (titile.Trim() != "") wc.And(Questions._.Qus_Title.Contains(titile.Trim()));
             Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(wc).ToFirst<Questions>();
             if (qus == null) return qus;           
             return qus;
@@ -469,7 +469,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (diff > 0 && diff <= 5) wc.And(Questions._.Qus_Diff == diff);
             if (searTxt != string.Empty && searTxt.ToLower() != "")
-                wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
+                wc.And(Questions._.Qus_Title.Contains("%" + searTxt.Trim()));
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>()
                 .Where(wc).OrderBy(Questions._.Qus_ID.Desc)
@@ -500,7 +500,7 @@ namespace Song.ServiceImpls
             if (diff > 0 && diff <= 5) wc.And(Questions._.Qus_Diff == diff);
             if (!string.IsNullOrWhiteSpace(searTxt) && searTxt.ToLower() != "")
             {
-                wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
+                wc.And(Questions._.Qus_Title.Contains("%" + searTxt.Trim()));
             }
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)

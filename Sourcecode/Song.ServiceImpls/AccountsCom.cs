@@ -464,7 +464,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (string.IsNullOrWhiteSpace(name)) return null;
-            wc.And(Accounts._.Ac_Name.Like("%" + name + "%"));
+            wc.And(Accounts._.Ac_Name.Contains(name));
             Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
             foreach (Song.Entities.Accounts ac in accs)
                 _acc_init(ac);
@@ -831,16 +831,16 @@ namespace Song.ServiceImpls
             if (pid > 0) wc.And(Accounts._.Ac_PID == pid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
             //
-            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
-            if (!string.IsNullOrWhiteSpace(idcard) && idcard.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Like("%" + idcard.Trim() + "%"));
-            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Contains(acc.Trim()));
+            if (!string.IsNullOrWhiteSpace(idcard) && idcard.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Contains(idcard.Trim()));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Contains(name.Trim()));
 
             if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")
             {
                 WhereClip wc2 = new WhereClip();                 
-                wc2.Or(Accounts._.Ac_MobiTel1.Like("%" + phone.Trim() + "%"));
-                wc2.Or(Accounts._.Ac_MobiTel2.Like("%" + phone.Trim() + "%"));
-                wc2.Or(Accounts._.Ac_AccName.Like("%" + phone.Trim() + "%"));
+                wc2.Or(Accounts._.Ac_MobiTel1.Contains(phone.Trim()));
+                wc2.Or(Accounts._.Ac_MobiTel2.Contains(phone.Trim()));
+                wc2.Or(Accounts._.Ac_AccName.Contains(phone.Trim()));
                 wc.And(wc2);
             }
             countSum = Gateway.Default.Count<Accounts>(wc);
@@ -1119,14 +1119,14 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Accounts._.Ac_PID == acid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
-            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
-            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Contains(acc.Trim()));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Contains(name.Trim()));
             if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")
             {
                 WhereClip wc2 = new WhereClip();
-                wc2.Or(Accounts._.Ac_MobiTel1.Like("%" + phone.Trim() + "%"));
-                wc2.Or(Accounts._.Ac_MobiTel2.Like("%" + phone.Trim() + "%"));
-                wc2.Or(Accounts._.Ac_AccName.Like("%" + phone.Trim() + "%"));
+                wc2.Or(Accounts._.Ac_MobiTel1.Contains(phone.Trim()));
+                wc2.Or(Accounts._.Ac_MobiTel2.Contains(phone.Trim()));
+                wc2.Or(Accounts._.Ac_AccName.Contains(phone.Trim()));
                 wc.And(wc2);
             }
             countSum = Gateway.Default.Count<Accounts>(wc);
@@ -1421,7 +1421,7 @@ namespace Song.ServiceImpls
             if (type > 0) wc &= PointAccount._.Pa_Type == type;
             if (start != null && ((DateTime)start) > DateTime.Now.AddYears(-100)) wc &= PointAccount._.Pa_CrtTime >= ((DateTime)start).Date;
             if (end != null && ((DateTime)end) > DateTime.Now.AddYears(-100)) wc &= PointAccount._.Pa_CrtTime < ((DateTime)end).AddDays(1).Date;
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc &= PointAccount._.Pa_Info.Like("%" + searTxt + "%");
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc &= PointAccount._.Pa_Info.Contains(searTxt);
             countSum = Gateway.Default.Count<PointAccount>(wc);
             return Gateway.Default.From<PointAccount>()
                 .Where(wc).OrderBy(PointAccount._.Pa_CrtTime.Desc).ToArray<PointAccount>(size, (index - 1) * size);
@@ -1680,7 +1680,7 @@ namespace Song.ServiceImpls
             if (type > 0) wc &= CouponAccount._.Ca_Type == type;
             if (start != null) wc &= CouponAccount._.Ca_CrtTime >= (DateTime)start;
             if (end != null) wc &= CouponAccount._.Ca_CrtTime < (DateTime)end;
-            if (!string.IsNullOrWhiteSpace(search)) wc &= CouponAccount._.Ca_Info.Like("%" + search + "%");
+            if (!string.IsNullOrWhiteSpace(search)) wc &= CouponAccount._.Ca_Info.Contains(search);
             countSum = Gateway.Default.Count<CouponAccount>(wc);
             return Gateway.Default.From<CouponAccount>()
                 .Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(size, (index - 1) * size);
@@ -1702,7 +1702,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= CouponAccount._.Org_ID == orgid;
             if (stid > 0) wc &= CouponAccount._.Ac_ID == stid;
             if (type > 0) wc &= CouponAccount._.Ca_Type == type;
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc &= CouponAccount._.Ca_Info.Like("%" + searTxt + "%");
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc &= CouponAccount._.Ca_Info.Contains(searTxt);
             countSum = Gateway.Default.Count<CouponAccount>(wc);
             return Gateway.Default.From<CouponAccount>()
                 .Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(size, (index - 1) * size);
@@ -2090,13 +2090,13 @@ namespace Song.ServiceImpls
             if (start != null) wc &= MoneyAccount._.Ma_CrtTime >= (DateTime)start;
             if (end != null) wc &= MoneyAccount._.Ma_CrtTime < (DateTime)end;
 
-            if (!string.IsNullOrWhiteSpace(search)) wc &= MoneyAccount._.Ma_Info.Like("%" + search + "%");
+            if (!string.IsNullOrWhiteSpace(search)) wc &= MoneyAccount._.Ma_Info.Contains(search);
 
             //金额区间
             if (moneymin >= 0) wc &= MoneyAccount._.Ma_Money >= moneymin;
             if (moneymax > 0) wc &= MoneyAccount._.Ma_Money < moneymax;
             //流水号
-            if (!string.IsNullOrWhiteSpace(serial)) wc &= MoneyAccount._.Ma_Serial.Like("%" + serial + "%");
+            if (!string.IsNullOrWhiteSpace(serial)) wc &= MoneyAccount._.Ma_Serial.Contains(serial);
 
             //状态，-1为所有，1为成功，2为失败
             if (state == 1) wc &= MoneyAccount._.Ma_IsSuccess == true;
@@ -2132,8 +2132,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(account))
             {
                 WhereClip wc2 = new WhereClip();
-                wc2 |= MoneyAccount._.Ac_AccName.Like("%" + account + "%");
-                wc2 |= MoneyAccount._.Ac_Name.Like("%" + account + "%");
+                wc2 |= MoneyAccount._.Ac_AccName.Contains(account);
+                wc2 |= MoneyAccount._.Ac_Name.Contains(account);
                 wc.And(wc2);
             }
             //时间区间
@@ -2143,7 +2143,7 @@ namespace Song.ServiceImpls
             if (moneymin >= 0) wc &= MoneyAccount._.Ma_Money >= moneymin;
             if (moneymax > 0) wc &= MoneyAccount._.Ma_Money < moneymax;
             //流水号
-            if (!string.IsNullOrWhiteSpace(serial)) wc &= MoneyAccount._.Ma_Serial.Like("%" + serial + "%");
+            if (!string.IsNullOrWhiteSpace(serial)) wc &= MoneyAccount._.Ma_Serial.Contains(serial);
             //状态，-1为所有，1为成功，2为失败
             if (state == 1) wc &= MoneyAccount._.Ma_IsSuccess == true;
             if (state == 2) wc &= MoneyAccount._.Ma_IsSuccess == false;
@@ -2250,13 +2250,16 @@ namespace Song.ServiceImpls
         public DataTable AgeGroup(int orgid, int interval)
         {
             if (interval <= 0) interval = 10;
+            //支持sqlserver,sqlite
             string sql = @"select interval*{interval} as 'group',COUNT(0) as 'count' from
                             (select FLOOR(age / {interval}) as interval, age  from
                             (select * from
-                            (select  YEAR(GETDATE()) - Ac_Age as 'age' from Accounts where {orgid}) as agedata where age < 100 and age > 0) as tt
+                            (select  {year} - Ac_Age as 'age' from Accounts where {orgid}) as agedata where age < 100 and age > 0) as tt
                             ) as result group by interval order by interval asc";
             sql = sql.Replace("{interval}", interval.ToString());
             sql = sql.Replace("{orgid}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
+            sql = sql.Replace("{year}", DateTime.Now.Year.ToString());
+
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             return ds.Tables[0];
         }

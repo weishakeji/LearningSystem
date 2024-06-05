@@ -81,7 +81,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == identify;
             if (searTxt.Trim() != "" && searTxt != null)
             {
-                wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                wc.And(Article._.Art_Title.Contains(searTxt));
             }
             return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>();
  
@@ -92,7 +92,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == identify;
             if (searTxt != null && searTxt.Trim() != "")
             {
-                wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                wc.And(Article._.Art_Title.Contains(searTxt));
             }
             if (num <= 1) num = int.MaxValue;
             if (type == null || type == "")
@@ -218,7 +218,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special._.Sp_Id != -1;
             if (searTxt.Trim() != "" && searTxt != null)
             {
-                wc.And(Special._.Sp_Name.Like("%" + searTxt + "%"));
+                wc.And(Special._.Sp_Name.Contains(searTxt));
             }
             countSum = Gateway.Default.Count<Special>(wc);
             return Gateway.Default.From<Special>().Where(wc).OrderBy(Special._.Sp_Tax.Desc).ToArray<Special>(size, (index - 1) * size);
@@ -229,7 +229,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == spId;
             if (searTxt != null && searTxt.Trim() != "")
             {
-                wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                wc.And(Article._.Art_Title.Contains(searTxt));
             }
             countSum = this.Special4Article(spId, searTxt).Length;
             return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>(size, (index - 1) * size);
@@ -240,7 +240,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == spId && Article._.Art_IsDel == false;
             if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
             if (isUse != null) wc.And(Article._.Art_IsUse == isUse);
-            if (searTxt != null && searTxt.Trim() != "")wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+            if (searTxt != null && searTxt.Trim() != "")wc.And(Article._.Art_Title.Contains(searTxt));
             countSum = this.Special4Article(spId, searTxt).Length;
             return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>(size, (index - 1) * size);
         }
@@ -251,7 +251,7 @@ namespace Song.ServiceImpls
             if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
             if (isDel != null) wc.And(Article._.Art_IsDel == (bool)isDel);
             if (isUse != null) wc.And(Article._.Art_IsUse == (bool)isUse);
-            if (!string.IsNullOrEmpty(searTxt) && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrEmpty(searTxt) && searTxt.Trim() != "") wc.And(Article._.Art_Title.Contains(searTxt));
             countSum = this.Special4Article(spId, searTxt).Length;
             return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID)
                 .Where(wc).ToArray<Article>(size, (index - 1) * size);
@@ -262,7 +262,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == spId;
             if (searTxt != null && searTxt.Trim() != "")
             {
-                wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                wc.And(Article._.Art_Title.Contains(searTxt));
             }
             if (count > 0)
             {
@@ -277,7 +277,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Special_Article._.Sp_Id == spId;
             if (count < 1) count = int.MaxValue;
             if (searTxt != null && searTxt.Trim() != "")
-                  wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
+                  wc.And(Article._.Art_Title.Contains(searTxt));
             if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
             if (isDel != null) wc.And(Article._.Art_IsDel == (bool)isDel);
             if (isUse != null) wc.And(Article._.Art_IsUse == (bool)isUse);

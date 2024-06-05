@@ -66,7 +66,7 @@ namespace Song.ServiceImpls
             if (isShow != null) wc.And(NewsNote._.Nn_IsShow == (bool)isShow);
             if (searTxt != null && searTxt.Length > 0)
             {
-                wc.And(NewsNote._.Nn_Title.Like("%" + searTxt + "%"));
+                wc.And(NewsNote._.Nn_Title.Contains(searTxt));
             }
             countSum = Gateway.Default.Count<NewsNote>(wc);
             return Gateway.Default.From<NewsNote>().Where(wc).OrderBy(NewsNote._.Nn_CrtTime.Desc).ToArray<NewsNote>(size, (index - 1) * size);

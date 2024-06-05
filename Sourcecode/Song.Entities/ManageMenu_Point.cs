@@ -16,9 +16,9 @@ namespace Song.Entities {
     		
     		protected Boolean _MMP_IsShow;
     		
-    		protected Int16? _MM_Id;
+    		protected Int32 _MM_Id;
     		
-    		protected Int16? _FPI_Id;
+    		protected Int32 _FPI_Id;
     		
     		/// <summary>
     		/// False
@@ -75,7 +75,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int16? MM_Id {
+    		public Int32 MM_Id {
     			get {
     				return this._MM_Id;
     			}
@@ -88,7 +88,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int16? FPI_Id {
+    		public Int32 FPI_Id {
     			get {
     				return this._FPI_Id;
     			}
@@ -163,10 +163,10 @@ namespace Song.Entities {
     				this._MMP_IsShow = reader.GetBoolean(_.MMP_IsShow);
     			}
     			if ((false == reader.IsDBNull(_.MM_Id))) {
-    				this._MM_Id = reader.GetInt16(_.MM_Id);
+    				this._MM_Id = reader.GetInt32(_.MM_Id);
     			}
     			if ((false == reader.IsDBNull(_.FPI_Id))) {
-    				this._FPI_Id = reader.GetInt16(_.FPI_Id);
+    				this._FPI_Id = reader.GetInt32(_.FPI_Id);
     			}
     		}
     		
@@ -215,12 +215,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field MMP_IsShow = new WeiSha.Data.Field<ManageMenu_Point>("MMP_IsShow");
     			
     			/// <summary>
-    			/// False - 字段名：MM_Id - 数据类型：Int16(可空)
+    			/// False - 字段名：MM_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field MM_Id = new WeiSha.Data.Field<ManageMenu_Point>("MM_Id");
     			
     			/// <summary>
-    			/// False - 字段名：FPI_Id - 数据类型：Int16(可空)
+    			/// False - 字段名：FPI_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field FPI_Id = new WeiSha.Data.Field<ManageMenu_Point>("FPI_Id");
     		}

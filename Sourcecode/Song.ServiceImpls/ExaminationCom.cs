@@ -337,7 +337,7 @@ namespace Song.ServiceImpls
             #region 查询条件
             //查询条件
             WhereClip wc = Examination._.Exam_IsTheme == false && Examination._.Exam_IsUse == true; //基础条件
-            if (!string.IsNullOrWhiteSpace(search)) wc.And(Examination._.Exam_Name.Like("%" + search + "%"));
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(Examination._.Exam_Name.Contains("%" + search));
             //准时开始的条件
             WhereClip wcType1 = Examination._.Exam_DateType == 1;
             if (start != null) wcType1.And(Examination._.Exam_Date >= (DateTime)start);
@@ -424,7 +424,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Examination._.Exam_IsTheme == true;
             if (orgid > 0) wc.And(Examination._.Org_ID == orgid);
             if (isUse != null) wc.And(Examination._.Exam_IsUse == (bool)isUse);
-            if (searName != null && searName != "") wc.And(Examination._.Exam_Title.Like("%" + searName + "%"));
+            if (searName != null && searName != "") wc.And(Examination._.Exam_Title.Contains("%" + searName));
             if (start != null) wc.And(Examination._.Exam_Date >= (DateTime)start);
             if (end != null) wc.And(Examination._.Exam_Date < (DateTime)end);
             countSum = Gateway.Default.Count<Examination>(wc);
@@ -439,7 +439,7 @@ namespace Song.ServiceImpls
             //是否考试结束，或已经交卷
             wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);
 
-            if (sear != null && sear != "") wc.And(ExamResults._.Exam_Name.Like("%" + sear + "%"));
+            if (sear != null && sear != "") wc.And(ExamResults._.Exam_Name.Contains("%" + sear));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)
@@ -1456,8 +1456,8 @@ namespace Song.ServiceImpls
             wc.And(ExamResults._.Exr_OverTime < DateTime.Now || ExamResults._.Exr_IsSubmit == true);           
 
             if (manual != null) wc.And(ExamResults._.Exr_IsManual == (bool)manual);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Like("%" + name + "%"));           
-            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Like("%" + idcard + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Contains("%" + name));           
+            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Contains("%" + idcard));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)

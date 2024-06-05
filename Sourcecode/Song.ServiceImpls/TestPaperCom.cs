@@ -241,7 +241,7 @@ namespace Song.ServiceImpls
             if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
             if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
             if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
-            if (search != null && search.Trim() != "") wc.And(TestPaper._.Tp_Name.Like("%" + search + "%"));
+            if (search != null && search.Trim() != "") wc.And(TestPaper._.Tp_Name.Contains(search));
             count = count > 0 ? count : int.MaxValue;
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(count);
         }
@@ -261,7 +261,7 @@ namespace Song.ServiceImpls
             if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
             if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
             if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
-            if (sear != null && sear.Trim() != "") wc.And(TestPaper._.Tp_Name.Like("%" + sear + "%"));
+            if (sear != null && sear.Trim() != "") wc.And(TestPaper._.Tp_Name.Contains(sear));
             countSum = Gateway.Default.Count<TestPaper>(wc);
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(size, (index - 1) * size);
         }
@@ -734,7 +734,7 @@ namespace Song.ServiceImpls
             WhereClip wc = TestResults._.Tr_ID > -1;
             if (stid > 0) wc.And(TestResults._.Ac_ID == stid);         
             if (couid > 0) wc.And(TestResults._.Cou_ID == couid);
-            if (!string.IsNullOrWhiteSpace(search)) wc.And(TestResults._.Tp_Name.Like("%" + search + "%"));
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(TestResults._.Tp_Name.Contains(search));
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(count);
         }
         /// <summary>
@@ -779,10 +779,10 @@ namespace Song.ServiceImpls
             if (sbjid > 0) wc.And(TestResults._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(TestResults._.Cou_ID == couid);
             if (orgid > 0) wc.And(TestResults._.Org_ID == orgid);
-            if (!string.IsNullOrWhiteSpace(tpname)) wc.And(TestResults._.Tp_Name.Like("%" + tpname + "%"));
+            if (!string.IsNullOrWhiteSpace(tpname)) wc.And(TestResults._.Tp_Name.Contains(tpname));
 
-            if (!string.IsNullOrWhiteSpace(acc)) wc.And(TestResults._.Ac_Name.Like("%" + acc + "%"));
-            if (!string.IsNullOrWhiteSpace(cardid)) wc.And(TestResults._.St_IDCardNumber.Like("%" + cardid + "%"));
+            if (!string.IsNullOrWhiteSpace(acc)) wc.And(TestResults._.Ac_Name.Contains(acc));
+            if (!string.IsNullOrWhiteSpace(cardid)) wc.And(TestResults._.St_IDCardNumber.Contains(cardid));
             //成绩区间
             if (score_min >= 0) wc.And(TestResults._.Tr_Score >= score_min);
             if (score_max >= 0) wc.And(TestResults._.Tr_Score <= score_max);

@@ -315,8 +315,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(searTxt))
             {
                 WhereClip like = new WhereClip();
-                like &= LearningCardSet._.Lcs_Theme.Like("%" + searTxt + "%");
-                like |= LearningCardSet._.Lcs_Intro.Like("%" + searTxt + "%");
+                like &= LearningCardSet._.Lcs_Theme.Contains(searTxt);
+                like |= LearningCardSet._.Lcs_Intro.Contains(searTxt);
                 wc.And(like);
             }
             countSum = Gateway.Default.Count<LearningCardSet>(wc);
@@ -1049,8 +1049,8 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= LearningCard._.Org_ID == orgid;
             if (lcsid > 0) wc &= LearningCard._.Lcs_ID == lcsid;
-            if (!string.IsNullOrWhiteSpace(code)) wc &= LearningCard._.Lc_Code.Like("%" + code + "%");
-            if (!string.IsNullOrWhiteSpace(account)) wc &= LearningCard._.Ac_AccName.Like("%" + account + "%"); 
+            if (!string.IsNullOrWhiteSpace(code)) wc &= LearningCard._.Lc_Code.Contains(code);
+            if (!string.IsNullOrWhiteSpace(account)) wc &= LearningCard._.Ac_AccName.Contains(account); 
             if (isEnable != null) wc &= LearningCard._.Lc_IsEnable == isEnable;
             if (isUsed != null)
             {
@@ -1255,7 +1255,7 @@ namespace Song.ServiceImpls
                 else
                     wc &= LearningCard._.Lc_State == 1;
             }
-            if (!string.IsNullOrWhiteSpace(code)) wc &= LearningCard._.Lc_Code.Like("%" + code + "%");
+            if (!string.IsNullOrWhiteSpace(code)) wc &= LearningCard._.Lc_Code.Contains(code);
             countSum = Gateway.Default.Count<LearningCard>(wc);
             return Gateway.Default.From<LearningCard>()
                 .Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(size, (index - 1) * size);

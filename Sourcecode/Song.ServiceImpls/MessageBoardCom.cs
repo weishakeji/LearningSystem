@@ -78,7 +78,7 @@ namespace Song.ServiceImpls
             WhereClip wc = MessageBoard._.Mb_IsTheme == true;
             if (orgid > 0) wc.And(MessageBoard._.Org_ID == orgid);
             if (couid > 0) wc.And(MessageBoard._.Cou_ID == couid);
-            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Like("%" + searTxt.Trim() + "%"));
+            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Contains(searTxt.Trim()));
             count = count < 1 ? int.MaxValue : count;
             return Gateway.Default.From<MessageBoard>().Where(wc).OrderBy(MessageBoard._.Mb_CrtTime.Desc).ToArray<MessageBoard>(count);
         }
@@ -89,7 +89,7 @@ namespace Song.ServiceImpls
             if (couid >= 0) wc.And(MessageBoard._.Cou_ID == couid);
             if (isDel != null) wc.And(MessageBoard._.Mb_IsDel == isDel);
             if (isShow != null) wc.And(MessageBoard._.Mb_IsShow == isShow);
-            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Like("%" + searTxt.Trim() + "%"));
+            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Contains(searTxt.Trim()));
             countSum = Gateway.Default.Count<MessageBoard>(wc);
             return Gateway.Default.From<MessageBoard>().Where(wc).OrderBy(MessageBoard._.Mb_CrtTime.Desc).ToArray<MessageBoard>(size, (index - 1) * size);
         }
@@ -101,7 +101,7 @@ namespace Song.ServiceImpls
             if (isDel != null) wc.And(MessageBoard._.Mb_IsDel == isDel);
             if (isShow != null) wc.And(MessageBoard._.Mb_IsShow == isShow);
             if (isAns != null) wc.And(MessageBoard._.Mb_IsAns == isAns);
-            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Like("%" + searTxt.Trim() + "%"));
+            if (searTxt.Trim() != "") wc.And(MessageBoard._.Mb_Title.Contains(searTxt.Trim()));
             countSum = Gateway.Default.Count<MessageBoard>(wc);
             return Gateway.Default.From<MessageBoard>().Where(wc).OrderBy(MessageBoard._.Mb_CrtTime.Desc).ToArray<MessageBoard>(size, (index - 1) * size);
         }

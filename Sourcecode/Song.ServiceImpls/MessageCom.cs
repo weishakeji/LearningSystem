@@ -132,7 +132,7 @@ namespace Song.ServiceImpls
             if (olid > 0) wc &= Message._.Ol_ID == olid;
             if (stid > 0) wc &= Message._.Ac_ID == stid;
             if (!string.IsNullOrWhiteSpace(sear))
-                wc.And(Message._.Msg_Context.Like("%" + sear + "$"));
+                wc.And(Message._.Msg_Context.Contains(sear + "$"));
             if (startTime != null)
             {
                 wc.And(Message._.Msg_CrtTime >= (DateTime)startTime);
@@ -164,7 +164,7 @@ namespace Song.ServiceImpls
             if (olid > 0) wc &= Message._.Ol_ID == olid;
             if (stid > 0) wc &= Message._.Ac_ID == stid;
             if (!string.IsNullOrWhiteSpace(sear))
-                wc.And(Message._.Msg_Context.Like("%" + sear + "$"));
+                wc.And(Message._.Msg_Context.Contains(sear + "$"));
             if (startPlay >= 0)
             {
                 wc.And(Message._.Msg_PlayTime >= startPlay);

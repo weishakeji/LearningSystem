@@ -10,11 +10,11 @@ namespace Song.Entities {
     		
     		protected Int32 _Spa_Id;
     		
-    		protected Int32? _Sp_Id;
+    		protected Int32 _Sp_Id;
     		
     		protected Int64 _Art_Id;
     		
-    		protected Int32? _Org_Id;
+    		protected Int32 _Org_Id;
     		
     		protected String _Org_Name;
     		
@@ -34,7 +34,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sp_Id {
+    		public Int32 Sp_Id {
     			get {
     				return this._Sp_Id;
     			}
@@ -57,7 +57,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32? Org_Id {
+    		public Int32 Org_Id {
     			get {
     				return this._Org_Id;
     			}
@@ -174,7 +174,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Spa_Id = new WeiSha.Data.Field<Special_Article>("Spa_Id");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sp_Id - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sp_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sp_Id = new WeiSha.Data.Field<Special_Article>("Sp_Id");
     			
@@ -184,7 +184,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Art_Id = new WeiSha.Data.Field<Special_Article>("Art_Id");
     			
     			/// <summary>
-    			/// 字段名：Org_Id - 数据类型：Int32(可空)
+    			/// 字段名：Org_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_Id = new WeiSha.Data.Field<Special_Article>("Org_Id");
     			

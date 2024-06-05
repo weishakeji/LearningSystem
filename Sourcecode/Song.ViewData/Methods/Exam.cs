@@ -531,7 +531,7 @@ namespace Song.ViewData.Methods
                 //是否重复提交
                 jo.Add("resubmit", exr.Exr_IsCalc);
                 //如果是手动提交，且没有计算成绩的，此处计算成绩
-                float score = -1;
+                double score = -1;
                 if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)
                 {
                     //异步计算成绩

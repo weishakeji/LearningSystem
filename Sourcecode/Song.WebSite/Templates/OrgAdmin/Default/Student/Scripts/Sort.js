@@ -69,7 +69,7 @@ $ready(function () {
             },
             //刷新行数据，
             freshrow: function (id) {
-                if (id == null || id == '' || id == 0) return this.handleCurrentChange();
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Sts_ID == id);
@@ -164,14 +164,13 @@ $ready(function () {
             },
             //更新排序
             changeTax: function () {
-                let initindex = this.form.index == 1 ? 1 : this.datas[0].Sts_Tax;
-                for (let i = 0; i < this.datas.length; i++) {
-                    this.datas[i].Sts_Tax = initindex + i;
-                }
+                //初始索引
+                let datas = this.datas;
+                let initindex = datas.reduce((p, c) => p.Sts_Tax > c.Sts_Tax ? p : c).Sts_Tax;                
+                for (let i = 0; i < this.datas.length; i++) 
+                    this.datas[i].Sts_Tax = initindex - i;
                 var arr = $api.clone(this.datas);
-                for (let i = 0; i < arr.length; i++) {
-                    delete arr[i]['childs'];
-                }
+                for (let i = 0; i < arr.length; i++) delete arr[i]['childs'];
                 var th = this;
                 $api.post('Account/SortUpdateTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {

@@ -188,8 +188,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(searTxt))
             {
                 WhereClip like = new WhereClip();
-                like &= RechargeSet._.Rs_Theme.Like("%" + searTxt + "%");
-                like |= RechargeSet._.Rs_Intro.Like("%" + searTxt + "%");
+                like &= RechargeSet._.Rs_Theme.Contains(searTxt);
+                like |= RechargeSet._.Rs_Intro.Contains(searTxt);
                 wc.And(like);
             }
             countSum = Gateway.Default.Count<RechargeSet>(wc);
@@ -681,8 +681,8 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= RechargeCode._.Org_ID == orgid;
             if (rsid > 0) wc &= RechargeCode._.Rs_ID == rsid;
-            if (!string.IsNullOrWhiteSpace(code)) wc &= RechargeCode._.Rc_Code.Like("%" + code + "%");
-            if (!string.IsNullOrWhiteSpace(account)) wc &= RechargeCode._.Ac_AccName.Like("%" + account + "%");
+            if (!string.IsNullOrWhiteSpace(code)) wc &= RechargeCode._.Rc_Code.Contains(code);
+            if (!string.IsNullOrWhiteSpace(account)) wc &= RechargeCode._.Ac_AccName.Contains(account);
             if (isEnable != null) wc &= RechargeCode._.Rc_IsEnable == isEnable;
             if (isUsed != null) wc &= RechargeCode._.Rc_IsUsed == isUsed;
             countSum = Gateway.Default.Count<RechargeCode>(wc);

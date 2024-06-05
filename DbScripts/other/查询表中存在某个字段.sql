@@ -7,7 +7,7 @@ fetch First from cursor_obj into @name
 while @@fetch_status=0  
  begin    
     --select @count=COUNT(*) from syscolumns Where ID=OBJECT_ID(@name) and name='Cou_UID'
-    select @count=COUNT(*) from syscolumns Where ID=OBJECT_ID(@name) and name like '%uid%'
+    select @count=COUNT(*) from syscolumns Where ID=OBJECT_ID(@name) and name like '%Qus_Number%'
     if @count>0
 	   begin
 		 set @tatol=@tatol+1;

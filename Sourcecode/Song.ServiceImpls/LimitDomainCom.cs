@@ -98,7 +98,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc &= LimitDomain._.LD_IsUse == (bool)isUse;
-            if (!string.IsNullOrWhiteSpace(search)) wc &= LimitDomain._.LD_Name.Like("%" + search + "%");
+            if (!string.IsNullOrWhiteSpace(search)) wc &= LimitDomain._.LD_Name.Contains(search);
             countSum = Gateway.Default.Count<LimitDomain>(wc);
             return Gateway.Default.From<LimitDomain>().Where(wc).ToArray<LimitDomain>(size, (index - 1) * size);
         }

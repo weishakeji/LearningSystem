@@ -29,9 +29,14 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
-            //添加对象，并设置排序号
-            object obj = Gateway.Default.Max<StudentSort>(StudentSort._.Sts_Tax, StudentSort._.Org_ID == entity.Org_ID);
-            entity.Sts_Tax = obj is int ? (int)obj + 1 : 0;
+            if (entity.Sts_Tax <= 0)
+            {
+                //添加对象，并设置排序号
+                object obj = Gateway.Default.Max<StudentSort>(StudentSort._.Sts_Tax, StudentSort._.Org_ID == entity.Org_ID);               
+                int tax = 0;
+                int.TryParse(obj.ToString(), out tax);
+                entity.Sts_Tax = tax;
+            }
             Gateway.Default.Save<StudentSort>(entity);
         }
 
@@ -258,9 +263,9 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = StudentSort._.Org_ID == orgid;            
             if (isUse != null) wc.And(StudentSort._.Sts_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(StudentSort._.Sts_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(StudentSort._.Sts_Name.Contains(name));
             countSum = Gateway.Default.Count<StudentSort>(wc);
-            return Gateway.Default.From<StudentSort>().Where(wc).OrderBy(StudentSort._.Sts_Tax.Asc).ToArray<StudentSort>(size, (index - 1) * size);
+            return Gateway.Default.From<StudentSort>().Where(wc).OrderBy(StudentSort._.Sts_Tax.Desc).ToArray<StudentSort>(size, (index - 1) * size);
         }
         /// <summary>
         /// 更改学员组的排序
@@ -654,7 +659,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             wc.And(StudentSort_Course._.Sts_ID == stsid);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Contains(name.Trim()));
             return Gateway.Default.From<Course>()
                 .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
                 .Where(wc).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>();
@@ -672,7 +677,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (stsid > 0) wc.And(StudentSort_Course._.Sts_ID == stsid);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Contains( name.Trim()));
             //countSum = Gateway.Default.Count<StudentSort_Course>(wc);
             countSum = Gateway.Default.From<Course>()
                 .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
@@ -882,8 +887,8 @@ namespace Song.ServiceImpls
             }
             if (start != null) wc.And(LogForStudentOnline._.Lso_LoginTime >= (DateTime)start);
             if (end != null) wc.And(LogForStudentOnline._.Lso_LoginTime < (DateTime)end);
-            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Like("%" + name + "%"));
-            if (!string.IsNullOrWhiteSpace(acname) && acname.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Like("%" + acname + "%"));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(LogForStudentOnline._.Ac_Name.Contains( name));
+            if (!string.IsNullOrWhiteSpace(acname) && acname.Trim() != "") wc.And(LogForStudentOnline._.Ac_AccName.Contains(acname));
 
             countSum = Gateway.Default.Count<LogForStudentOnline>(wc);
             return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_CrtTime.Desc).ToArray<LogForStudentOnline>(size, (index - 1) * size);
@@ -899,6 +904,7 @@ namespace Song.ServiceImpls
         /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
         public DataTable LoginLogsSummary(int orgid, DateTime? start, DateTime? end, string province, string city)
         {
+            //支持sqlserver,sqlite
             string sql = @"SELECT 
                         CASE WHEN {{field}} = '' THEN 'Other'       
                                 ELSE {{field}}
@@ -929,42 +935,6 @@ namespace Song.ServiceImpls
                 sql = sql.Replace("{{parent}}", "Lso_City");
                 sql = sql.Replace("{{area}}", city);
             }
-
-              
-            /*
-            if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
-            {
-                sql = @"SELECT 
-                        CASE 
-                                WHEN Lso_Province = '' THEN 'Other'       
-                                ELSE Lso_Province
-                            END AS 'area'
-                        ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {{orgid}} and {{start}} and {{end}} group by Lso_Province order by count desc";
-
-            }
-            else if (!string.IsNullOrWhiteSpace(province))
-            {
-                sql = @"SELECT 
-                        CASE 
-                                WHEN Lso_City = '' THEN 'Other'       
-                                ELSE Lso_City
-                            END AS 'area'
-                        ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_Province='{{area}}'  group by Lso_City order by count desc";
-                sql = sql.Replace("{area}", province);
-            }
-            else if (!string.IsNullOrWhiteSpace(city))
-            {
-                sql = @"SELECT 
-                        CASE 
-                                WHEN Lso_District = '' THEN 'Other'       
-                                ELSE Lso_District
-                            END AS 'area'
-                        ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' from LogForStudentOnline where {orgid} and Lso_City='{{area}'  group by Lso_District order by count desc";
-                sql = sql.Replace("{area}", city);
-            }*/
 
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             return ds.Tables[0];   
@@ -2094,7 +2064,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
             if (acid > 0) wc.And(Student_Notes._.Ac_ID == acid);
             if (quesid > 0) wc.And(Student_Notes._.Qus_ID == quesid);
             if (searTxt != null && searTxt.Trim() != "")
-                wc.And(Student_Notes._.Stn_Context.Like("%" + searTxt + "%"));
+                wc.And(Student_Notes._.Stn_Context.Contains(searTxt));
             countSum = Gateway.Default.Count<Student_Notes>(wc);
             return Gateway.Default.From<Student_Notes>()
                .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Student_Notes>(size, (index - 1) * size);

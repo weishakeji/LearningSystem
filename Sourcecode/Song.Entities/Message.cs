@@ -18,11 +18,11 @@ namespace Song.Entities {
     		
     		protected DateTime? _Msg_ReadTime;
     		
-    		protected Int32? _Msg_State;
+    		protected Int32 _Msg_State;
     		
     		protected Boolean _Msg_Del;
     		
-    		protected Int32? _Org_Id;
+    		protected Int32 _Org_Id;
     		
     		protected Int32 _Ac_ID;
     		
@@ -118,7 +118,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Msg_State {
+    		public Int32 Msg_State {
     			get {
     				return this._Msg_State;
     			}
@@ -141,7 +141,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32? Org_Id {
+    		public Int32 Org_Id {
     			get {
     				return this._Org_Id;
     			}
@@ -478,7 +478,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Msg_ReadTime = new WeiSha.Data.Field<Message>("Msg_ReadTime");
     			
     			/// <summary>
-    			/// False - 字段名：Msg_State - 数据类型：Int32(可空)
+    			/// False - 字段名：Msg_State - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Msg_State = new WeiSha.Data.Field<Message>("Msg_State");
     			
@@ -488,7 +488,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Msg_Del = new WeiSha.Data.Field<Message>("Msg_Del");
     			
     			/// <summary>
-    			/// 字段名：Org_Id - 数据类型：Int32(可空)
+    			/// 字段名：Org_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_Id = new WeiSha.Data.Field<Message>("Org_Id");
     			

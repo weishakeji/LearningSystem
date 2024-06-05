@@ -373,14 +373,14 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Teacher._.Th_IsUse == (bool)isUse);
             if (isShow != null) wc.And(Teacher._.Th_IsShow == (bool)isShow);
             if (gender >=0) wc.And(Teacher._.Th_Sex == gender);
-            if (!string.IsNullOrWhiteSpace(acc)) wc.And(Teacher._.Th_AccName.Like("%" + acc + "%"));
-            if (!string.IsNullOrWhiteSpace(searName)) wc.And(Teacher._.Th_Name.Like("%" + searName + "%"));
-            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Teacher._.Th_IDCardNumber.Like("%" + idcard + "%"));
+            if (!string.IsNullOrWhiteSpace(acc)) wc.And(Teacher._.Th_AccName.Contains(acc));
+            if (!string.IsNullOrWhiteSpace(searName)) wc.And(Teacher._.Th_Name.Contains(searName));
+            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Teacher._.Th_IDCardNumber.Contains(idcard));
             if (!string.IsNullOrWhiteSpace(phone))
             {
                 WhereClip wcphone = new WhereClip();
-                wcphone.Or(Teacher._.Th_Phone.Like("%" + phone + "%"));
-                wcphone.Or(Teacher._.Th_PhoneMobi.Like("%" + phone + "%"));
+                wcphone.Or(Teacher._.Th_Phone.Contains(phone));
+                wcphone.Or(Teacher._.Th_PhoneMobi.Contains(phone));
                 wc.And(wcphone);
             }
             //排序方式
@@ -469,7 +469,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = TeacherSort._.Org_ID == orgid;
             if (isUse != null) wc.And(TeacherSort._.Ths_IsUse == isUse);
-            if(!string.IsNullOrWhiteSpace(search)) wc.And(TeacherSort._.Ths_Name.Like("%" + search + "%"));
+            if(!string.IsNullOrWhiteSpace(search)) wc.And(TeacherSort._.Ths_Name.Contains(search));
             return Gateway.Default.From<TeacherSort>().Where(wc).OrderBy(TeacherSort._.Ths_Tax.Asc).ToArray<TeacherSort>();
         }
 

@@ -102,7 +102,7 @@ namespace Song.ServiceImpls
             if (couid >= 0) wc.And(Knowledge._.Cou_ID == couid);
             if (isUse != null) wc.And(Knowledge._.Kn_IsUse == (bool)isUse);
             if (kns > 0) wc.And(Knowledge._.Kns_ID == kns);
-            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Like("%" + searTxt + "%"));
+            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Contains(searTxt));
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(count);
         }
         public int KnowledgeOfCount(int orgid, long kns, bool? isUse)
@@ -128,7 +128,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(Knowledge._.Org_ID == orgid);
             if (isUse != null) wc.And(Knowledge._.Kn_IsUse == isUse);
             if (kns > 0) wc.And(Knowledge._.Kns_ID == kns);
-            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Like("%" + searTxt + "%"));
+            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Contains(searTxt));
             countSum = Gateway.Default.Count<Knowledge>(wc);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(size, (index - 1) * size);
         }
@@ -143,7 +143,7 @@ namespace Song.ServiceImpls
             if (isHot != null) wc.And(Knowledge._.Kn_IsHot == isHot);
             if (isRec != null) wc.And(Knowledge._.Kn_IsRec == isRec);
             if (isTop != null) wc.And(Knowledge._.Kn_IsTop == isTop);
-            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Like("%" + searTxt + "%"));
+            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Contains(searTxt));
             countSum = Gateway.Default.Count<Knowledge>(wc);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(size, (index - 1) * size);
         }
@@ -160,7 +160,7 @@ namespace Song.ServiceImpls
                     wcSbjid.Or(Knowledge._.Kns_ID == l);
                 wc.And(wcSbjid);
             } 
-            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Like("%" + searTxt + "%"));
+            if (searTxt != string.Empty) wc.And(Knowledge._.Kn_Title.Contains(searTxt));
             countSum = Gateway.Default.Count<Knowledge>(wc);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(size, (index - 1) * size);
         }
@@ -274,7 +274,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(KnowledgeSort._.Org_ID == orgid);
             if (couid >= 0) wc.And(KnowledgeSort._.Cou_ID == couid);
             if (isUse != null) wc.And(KnowledgeSort._.Kns_IsUse == (bool)isUse);
-            if(!string.IsNullOrWhiteSpace(search)) wc.And(KnowledgeSort._.Kns_Name.Like("%" + search + "%"));
+            if(!string.IsNullOrWhiteSpace(search)) wc.And(KnowledgeSort._.Kns_Name.Contains(search));
             return Gateway.Default.From<KnowledgeSort>().Where(wc).OrderBy(KnowledgeSort._.Kns_Tax.Asc).ToArray<KnowledgeSort>();
         }
 

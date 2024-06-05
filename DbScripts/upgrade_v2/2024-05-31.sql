@@ -1,53 +1,176 @@
 
+/*将real类型，转为 float*/
+ALTER TABLE ExamResults ALTER COLUMN Exr_Score float;
+ALTER TABLE ExamResults ALTER COLUMN Exr_ScoreFinal float;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Draw float;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Colligate float;
+ALTER TABLE LearningCard ALTER COLUMN Lc_Price float;
+ALTER TABLE LearningCardSet ALTER COLUMN Lcs_Price float;
+ALTER TABLE PayInterface ALTER COLUMN Pai_Feerate float;
+ALTER TABLE Questions ALTER COLUMN Qus_Number float;
+ALTER TABLE Student_Course ALTER COLUMN Stc_Money float;
+ALTER TABLE TestPaperQues ALTER COLUMN Tq_Number float;
+ALTER TABLE TestResults ALTER COLUMN Tr_Score float;
+ALTER TABLE TestResults ALTER COLUMN Tr_ScoreFinal float;
+ALTER TABLE TestResults ALTER COLUMN Tr_Draw float;
+ALTER TABLE TestResults ALTER COLUMN Tr_Colligate float;
 
-/*将nvarchar(max) 转为 ntext,主要原因是数据库转换为PostgreSQL时，nvarchar(max)转换失败的问题*/
-ALTER TABLE Article ALTER COLUMN Art_Intro ntext;
-ALTER TABLE Article ALTER COLUMN Art_Details ntext;
-ALTER TABLE Article ALTER COLUMN Art_Endnote ntext;
-ALTER TABLE Article ALTER COLUMN OtherData ntext;
-ALTER TABLE Course ALTER COLUMN Cou_Intro ntext;
-ALTER TABLE Course ALTER COLUMN Cou_Content ntext;
-ALTER TABLE ExamResults ALTER COLUMN Exr_Results ntext;
-ALTER TABLE LearningCard ALTER COLUMN Lc_QrcodeBase64 ntext;
-ALTER TABLE LearningCardSet ALTER COLUMN Lcs_RelatedCourses ntext;
-ALTER TABLE LogForStudentExercise ALTER COLUMN Lse_JsonData ntext;
-ALTER TABLE LogForStudentExercise ALTER COLUMN Lse_GeogData ntext;
-ALTER TABLE LogForStudentStudy ALTER COLUMN Lss_Details ntext;
-ALTER TABLE LogForStudentStudy ALTER COLUMN Lss_GeogData ntext;
-ALTER TABLE Navigation ALTER COLUMN Nav_Event ntext;
-ALTER TABLE Notice ALTER COLUMN No_BgImage ntext;
-ALTER TABLE Organization ALTER COLUMN Org_Intro ntext;
-ALTER TABLE Organization ALTER COLUMN Org_ExtraMobi ntext;
-ALTER TABLE Organization ALTER COLUMN Org_ExtraWeb ntext;
-ALTER TABLE Organization ALTER COLUMN Org_Config ntext;
-ALTER TABLE Outline ALTER COLUMN Ol_Intro ntext;
-ALTER TABLE Outline ALTER COLUMN Ol_Courseware ntext;
-ALTER TABLE Outline ALTER COLUMN Ol_Video ntext;
-ALTER TABLE Outline ALTER COLUMN Ol_LessonPlan ntext;
-ALTER TABLE OutlineEvent ALTER COLUMN Oe_Context ntext;
-ALTER TABLE OutlineEvent ALTER COLUMN Oe_Datatable ntext;
-ALTER TABLE PayInterface ALTER COLUMN Pai_Config ntext;
-ALTER TABLE Questions ALTER COLUMN Qus_Title ntext;
-ALTER TABLE Questions ALTER COLUMN Qus_Answer ntext;
-ALTER TABLE Questions ALTER COLUMN Qus_Explain ntext;
-ALTER TABLE Questions ALTER COLUMN Qus_WrongInfo ntext;
-ALTER TABLE Questions ALTER COLUMN Qus_Items ntext;
-ALTER TABLE QuesTypes ALTER COLUMN Qt_Intro ntext;
-ALTER TABLE RechargeCode ALTER COLUMN Rc_QrcodeBase64 ntext;
-ALTER TABLE SingleSignOn ALTER COLUMN SSO_Config ntext;
-ALTER TABLE Student_Collect ALTER COLUMN Qus_Title ntext;
-ALTER TABLE Student_Notes ALTER COLUMN Qus_Title ntext;
-ALTER TABLE Subject ALTER COLUMN Sbj_Intro ntext;
-ALTER TABLE Subject ALTER COLUMN Sbj_Details ntext;
-ALTER TABLE SystemPara ALTER COLUMN Sys_Value ntext;
-ALTER TABLE TestPaper ALTER COLUMN Tp_Intro ntext;
-ALTER TABLE TestPaper ALTER COLUMN Tp_Remind ntext;
-ALTER TABLE TestPaper ALTER COLUMN Tp_FromConfig ntext;
-ALTER TABLE ThirdpartyLogin ALTER COLUMN Tl_Config ntext;
+/*float类型，全部设置为不可为空*/
+update ExamResults set Exr_Score=0 where Exr_Score IS NULL;;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Score float not null;
+--
+update ExamResults set Exr_ScoreFinal=0 where Exr_ScoreFinal IS NULL;;
+ALTER TABLE ExamResults ALTER COLUMN Exr_ScoreFinal float not null;
+--
+update ExamResults set Exr_Draw=0 where Exr_Draw IS NULL;;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Draw float not null;
+--
+update ExamResults set Exr_Colligate=0 where Exr_Colligate IS NULL;;
+ALTER TABLE ExamResults ALTER COLUMN Exr_Colligate float not null;
+--
+update LearningCard set Lc_Price=0 where Lc_Price IS NULL;;
+ALTER TABLE LearningCard ALTER COLUMN Lc_Price float not null;
+--
+update LearningCardSet set Lcs_Price=0 where Lcs_Price IS NULL;;
+ALTER TABLE LearningCardSet ALTER COLUMN Lcs_Price float not null;
+--
+update PayInterface set Pai_Feerate=0 where Pai_Feerate IS NULL;;
+ALTER TABLE PayInterface ALTER COLUMN Pai_Feerate float not null;
+--
+update Questions set Qus_Number=0 where Qus_Number IS NULL;;
+ALTER TABLE Questions ALTER COLUMN Qus_Number float not null;
+--
+update Student_Course set Stc_Money=0 where Stc_Money IS NULL;;
+ALTER TABLE Student_Course ALTER COLUMN Stc_Money float not null;
+--
+update TestPaperQues set Tq_Number=0 where Tq_Number IS NULL;;
+ALTER TABLE TestPaperQues ALTER COLUMN Tq_Number float not null;
+--
+update TestResults set Tr_Score=0 where Tr_Score IS NULL;;
+ALTER TABLE TestResults ALTER COLUMN Tr_Score float not null;
+--
+update TestResults set Tr_ScoreFinal=0 where Tr_ScoreFinal IS NULL;;
+ALTER TABLE TestResults ALTER COLUMN Tr_ScoreFinal float not null;
+--
+update TestResults set Tr_Draw=0 where Tr_Draw IS NULL;;
+ALTER TABLE TestResults ALTER COLUMN Tr_Draw float not null;
+--
+update TestResults set Tr_Colligate=0 where Tr_Colligate IS NULL;;
+ALTER TABLE TestResults ALTER COLUMN Tr_Colligate float not null;
+--
 
+/*smallint类型，转int*/
+ALTER TABLE ManageMenu_Point ALTER COLUMN MM_Id int;
+ALTER TABLE ManageMenu_Point ALTER COLUMN FPI_Id int;
 
-/**/
-ALTER TABLE Course ALTER COLUMN Cou_Allowedit DROP DEFAULT;
-ALTER TABLE ExamResults ALTER COLUMN Exr_IsManual DROP DEFAULT;
-ALTER TABLE Outline ALTER COLUMN Ol_IsAccessory DROP DEFAULT;
-ALTER TABLE SingleSignOn ALTER COLUMN SSO_IsAddSort DROP DEFAULT;
+/*所有int，设置为不可为空*/
+update EmpAcc_Group set Acc_Id=0 where Acc_Id IS NULL;;
+ALTER TABLE EmpAcc_Group ALTER COLUMN Acc_Id int not null;
+--
+update EmpAcc_Group set EGrp_Id=0 where EGrp_Id IS NULL;;
+ALTER TABLE EmpAcc_Group ALTER COLUMN EGrp_Id int not null;
+--
+update EmpAcc_Group set Org_Id=0 where Org_Id IS NULL;;
+ALTER TABLE EmpAcc_Group ALTER COLUMN Org_Id int not null;
+--
+update EmpTitle set Title_Tax=0 where Title_Tax IS NULL;;
+ALTER TABLE EmpTitle ALTER COLUMN Title_Tax int not null;
+--
+update ExamGroup set Eg_Type=0 where Eg_Type IS NULL;;
+ALTER TABLE ExamGroup ALTER COLUMN Eg_Type int not null;
+--
+update FuncPoint set Org_Id=0 where Org_Id IS NULL;;
+ALTER TABLE FuncPoint ALTER COLUMN Org_Id int not null;
+--
+update Guide set Acc_Id=0 where Acc_Id IS NULL;;
+ALTER TABLE Guide ALTER COLUMN Acc_Id int not null;
+--
+update Links set Ls_Id=0 where Ls_Id IS NULL;;
+ALTER TABLE Links ALTER COLUMN Ls_Id int not null;
+--
+update Links set Lk_Tax=0 where Lk_Tax IS NULL;;
+ALTER TABLE Links ALTER COLUMN Lk_Tax int not null;
+--
+update LinksSort set Ls_PatId=0 where Ls_PatId IS NULL;;
+ALTER TABLE LinksSort ALTER COLUMN Ls_PatId int not null;
+--
+update LinksSort set Ls_Tax=0 where Ls_Tax IS NULL;;
+ALTER TABLE LinksSort ALTER COLUMN Ls_Tax int not null;
+--
+update Logs set Acc_Id=0 where Acc_Id IS NULL;;
+ALTER TABLE Logs ALTER COLUMN Acc_Id int not null;
+--
+update Logs set Log_MenuId=0 where Log_MenuId IS NULL;;
+ALTER TABLE Logs ALTER COLUMN Log_MenuId int not null;
+--
+update ManageMenu_Point set MM_Id=0 where MM_Id IS NULL;;
+ALTER TABLE ManageMenu_Point ALTER COLUMN MM_Id int not null;
+--
+update ManageMenu_Point set FPI_Id=0 where FPI_Id IS NULL;;
+ALTER TABLE ManageMenu_Point ALTER COLUMN FPI_Id int not null;
+--
+update Message set Msg_State=0 where Msg_State IS NULL;;
+ALTER TABLE Message ALTER COLUMN Msg_State int not null;
+--
+update Message set Org_Id=0 where Org_Id IS NULL;;
+ALTER TABLE Message ALTER COLUMN Org_Id int not null;
+--
+update MessageBoard set Mb_PID=0 where Mb_PID IS NULL;;
+ALTER TABLE MessageBoard ALTER COLUMN Mb_PID int not null;
+--
+update MessageBoard set Mb_At=0 where Mb_At IS NULL;;
+ALTER TABLE MessageBoard ALTER COLUMN Mb_At int not null;
+--
+update MessageBoard set Mb_FluxNumber=0 where Mb_FluxNumber IS NULL;;
+ALTER TABLE MessageBoard ALTER COLUMN Mb_FluxNumber int not null;
+--
+update MessageBoard set Mb_ReplyNumber=0 where Mb_ReplyNumber IS NULL;;
+ALTER TABLE MessageBoard ALTER COLUMN Mb_ReplyNumber int not null;
+--
+update Notice set Acc_Id=0 where Acc_Id IS NULL;;
+ALTER TABLE Notice ALTER COLUMN Acc_Id int not null;
+--
+update SmsMessage set Sms_Type=0 where Sms_Type IS NULL;;
+ALTER TABLE SmsMessage ALTER COLUMN Sms_Type int not null;
+--
+update SmsMessage set Sms_SendId=0 where Sms_SendId IS NULL;;
+ALTER TABLE SmsMessage ALTER COLUMN Sms_SendId int not null;
+--
+update SmsMessage set Sms_MailBox=0 where Sms_MailBox IS NULL;;
+ALTER TABLE SmsMessage ALTER COLUMN Sms_MailBox int not null;
+--
+update SmsMessage set Sms_State=0 where Sms_State IS NULL;;
+ALTER TABLE SmsMessage ALTER COLUMN Sms_State int not null;
+--
+update Special set Sp_PatId=0 where Sp_PatId IS NULL;;
+ALTER TABLE Special ALTER COLUMN Sp_PatId int not null;
+--
+update Special set Sp_Tax=0 where Sp_Tax IS NULL;;
+ALTER TABLE Special ALTER COLUMN Sp_Tax int not null;
+--
+update Special_Article set Sp_Id=0 where Sp_Id IS NULL;;
+ALTER TABLE Special_Article ALTER COLUMN Sp_Id int not null;
+--
+update Special_Article set Org_Id=0 where Org_Id IS NULL;;
+ALTER TABLE Special_Article ALTER COLUMN Org_Id int not null;
+--
+update Student_Notes set Stn_PID=0 where Stn_PID IS NULL;;
+ALTER TABLE Student_Notes ALTER COLUMN Stn_PID int not null;
+--
+update SystemPara set Org_Id=0 where Org_Id IS NULL;;
+ALTER TABLE SystemPara ALTER COLUMN Org_Id int not null;
+--
+update TestPaperQues set Qk_Id=0 where Qk_Id IS NULL;;
+ALTER TABLE TestPaperQues ALTER COLUMN Qk_Id int not null;
+--
+update TestPaperQues set Tq_Percent=0 where Tq_Percent IS NULL;;
+ALTER TABLE TestPaperQues ALTER COLUMN Tq_Percent int not null;
+--
+update TestPaperQues set Tq_Type=0 where Tq_Type IS NULL;;
+ALTER TABLE TestPaperQues ALTER COLUMN Tq_Type int not null;
+--
+
+/*所有bit，设置不可为空*/
+update RechargeCode set Rc_IsEnable=1 where Rc_IsEnable IS NULL;;
+ALTER TABLE RechargeCode ALTER COLUMN Rc_IsEnable bit not null;
+--

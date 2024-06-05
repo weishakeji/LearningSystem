@@ -222,7 +222,7 @@ namespace Song.ServiceImpls
                 wc.And(wcUid);
             }      
             if (searTxt != null && searTxt.Trim() != "")
-                wc.And(Guide._.Gu_Title.Like("%" + searTxt + "%"));
+                wc.And(Guide._.Gu_Title.Contains(searTxt));
             countSum = Gateway.Default.Count<Guide>(wc);
             return Gateway.Default.From<Guide>().Where(wc).OrderBy(Guide._.Gu_PushTime.Desc).ToArray<Guide>(size, (index - 1) * size);
         }
@@ -350,7 +350,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(GuideColumns._.Cou_ID == couid);
             if (isUse != null) wc.And(GuideColumns._.Gc_IsUse == (bool)isUse);
-            if(!string.IsNullOrWhiteSpace(search)) wc.And(GuideColumns._.Gc_Title.Like("%" + search + "%"));
+            if(!string.IsNullOrWhiteSpace(search)) wc.And(GuideColumns._.Gc_Title.Contains(search));
             return Gateway.Default.From<GuideColumns>().Where(wc).OrderBy(GuideColumns._.Gc_Tax.Asc).ToArray<GuideColumns>();
         }
         /// <summary>

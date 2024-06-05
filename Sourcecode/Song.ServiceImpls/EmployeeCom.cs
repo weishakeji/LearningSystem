@@ -375,7 +375,7 @@ namespace Song.ServiceImpls
         public bool IsOnJob(string phoneNumber)
         {
             //验证员工帐号与密码
-            WhereClip wc = EmpAccount._.Acc_MobileTel.Like("%" + phoneNumber + "%");
+            WhereClip wc = EmpAccount._.Acc_MobileTel.Contains(phoneNumber);
             //员工必须在职
             wc.And(EmpAccount._.Acc_IsUse == true);
             EmpAccount ac = Gateway.Default.From<EmpAccount>().Where(wc).ToFirst<EmpAccount>();
@@ -400,7 +400,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(EmpAccount._.Org_ID == orgid);
             if (depId > 0) wc.And(EmpAccount._.Dep_Id == depId);
             if (isUse != null) wc.And(EmpAccount._.Acc_IsUse == isUse);
-            if (!string.IsNullOrWhiteSpace(searTxt) && searTxt != "") wc.And(EmpAccount._.Acc_Name.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt) && searTxt != "") wc.And(EmpAccount._.Acc_Name.Contains(searTxt));
             return Gateway.Default.From<EmpAccount>().Where(wc).OrderBy(EmpAccount._.Acc_NamePinyin.Asc).ToArray<EmpAccount>();
         }
         /// <summary>
@@ -415,7 +415,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(EmpAccount._.Org_ID == orgid);
             if (isUse != null) wc.And(EmpAccount._.Acc_IsUse == (bool)isUse);
-            if (!string.IsNullOrEmpty(searTxt) && searTxt != "") wc.And(EmpAccount._.Acc_Name.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrEmpty(searTxt) && searTxt != "") wc.And(EmpAccount._.Acc_Name.Contains(searTxt));
             return Gateway.Default.From<EmpAccount>().Where(wc).OrderBy(EmpAccount._.Acc_EmpCode.Asc).ToArray<EmpAccount>();
         }
         /// <summary>
@@ -432,7 +432,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(EmpAccount._.Org_ID == orgid);
             if (posi > 0) wc.And(EmpAccount._.Posi_Id == posi);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpAccount._.Acc_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpAccount._.Acc_Name.Contains(name));
             countSum = Gateway.Default.Count<EmpAccount>(wc);
             return Gateway.Default.From<EmpAccount>().Where(wc).OrderBy(EmpAccount._.Acc_RegTime.Desc).ToArray<EmpAccount>(size, (index - 1) * size);
         }
@@ -519,7 +519,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(EmpTitle._.Org_ID == orgid);
             if (isUse != null) wc.And(EmpTitle._.Title_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpTitle._.Title_Name.Like("%" + name + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(EmpTitle._.Title_Name.Contains(name));
             countSum = Gateway.Default.Count<EmpTitle>(wc);
             return Gateway.Default.From<EmpTitle>().Where(wc).OrderBy(EmpTitle._.Title_Tax.Asc).ToArray<EmpTitle>(size, (index - 1) * size);
         }

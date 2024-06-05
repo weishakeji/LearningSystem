@@ -225,7 +225,7 @@ namespace Song.ServiceImpls
             }
             if (mmSear.Trim() != "")
             {
-                wc.And(Logs._.Log_MenuName.Like("%" + mmSear + "%"));
+                wc.And(Logs._.Log_MenuName.Contains(mmSear));
             }
             wc.And(Logs._.Log_Time > start && Logs._.Log_Time < end);
             countSum = Gateway.Default.Count<Logs>(wc);

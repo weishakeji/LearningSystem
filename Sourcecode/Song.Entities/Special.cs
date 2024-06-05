@@ -10,9 +10,9 @@ namespace Song.Entities {
     		
     		protected Int32 _Sp_Id;
     		
-    		protected Int32? _Sp_PatId;
+    		protected Int32 _Sp_PatId;
     		
-    		protected Int32? _Sp_Tax;
+    		protected Int32 _Sp_Tax;
     		
     		protected String _Sp_Name;
     		
@@ -68,7 +68,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sp_PatId {
+    		public Int32 Sp_PatId {
     			get {
     				return this._Sp_PatId;
     			}
@@ -81,7 +81,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Sp_Tax {
+    		public Int32 Sp_Tax {
     			get {
     				return this._Sp_Tax;
     			}
@@ -514,12 +514,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Sp_Id = new WeiSha.Data.Field<Special>("Sp_Id");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sp_PatId - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sp_PatId - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sp_PatId = new WeiSha.Data.Field<Special>("Sp_PatId");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sp_Tax - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Sp_Tax - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sp_Tax = new WeiSha.Data.Field<Special>("Sp_Tax");
     			

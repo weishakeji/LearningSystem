@@ -10,11 +10,11 @@ namespace Song.Entities {
     		
     		protected Int32 _Ls_Id;
     		
-    		protected Int32? _Ls_PatId;
+    		protected Int32 _Ls_PatId;
     		
     		protected String _Ls_Name;
     		
-    		protected Int32? _Ls_Tax;
+    		protected Int32 _Ls_Tax;
     		
     		protected Boolean _Ls_IsUse;
     		
@@ -48,7 +48,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Ls_PatId {
+    		public Int32 Ls_PatId {
     			get {
     				return this._Ls_PatId;
     			}
@@ -74,7 +74,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Ls_Tax {
+    		public Int32 Ls_Tax {
     			get {
     				return this._Ls_Tax;
     			}
@@ -308,7 +308,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ls_Id = new WeiSha.Data.Field<LinksSort>("Ls_Id");
     			
     			/// <summary>
-    			/// False - 字段名：Ls_PatId - 数据类型：Int32(可空)
+    			/// False - 字段名：Ls_PatId - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ls_PatId = new WeiSha.Data.Field<LinksSort>("Ls_PatId");
     			
@@ -318,7 +318,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ls_Name = new WeiSha.Data.Field<LinksSort>("Ls_Name");
     			
     			/// <summary>
-    			/// False - 字段名：Ls_Tax - 数据类型：Int32(可空)
+    			/// False - 字段名：Ls_Tax - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ls_Tax = new WeiSha.Data.Field<LinksSort>("Ls_Tax");
     			

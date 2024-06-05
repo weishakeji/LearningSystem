@@ -438,7 +438,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
             if (level > 0) wc.And(Organization._.Olv_ID == level);
             if (!string.IsNullOrWhiteSpace(searTxt))
-                wc.And(Organization._.Org_Name.Like("%" + searTxt + "%"));
+                wc.And(Organization._.Org_Name.Contains(searTxt));
             countSum = Gateway.Default.Count<Organization>(wc);
             return Gateway.Default.From<Organization>().Where(wc)
                 .OrderBy(Organization._.Org_RegTime.Desc)
@@ -547,7 +547,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(OrganLevel._.Olv_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(search)) wc.And(OrganLevel._.Olv_Name.Like("%" + search + "%"));
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(OrganLevel._.Olv_Name.Contains(search));
             return Gateway.Default.From<OrganLevel>().Where(wc).OrderBy(OrganLevel._.Olv_Tax.Asc).ToArray<OrganLevel>();
 
         }

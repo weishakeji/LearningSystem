@@ -10,7 +10,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Log_Id;
     		
-    		protected Int32? _Acc_Id;
+    		protected Int32 _Acc_Id;
     		
     		protected String _Acc_Name;
     		
@@ -26,7 +26,7 @@ namespace Song.Entities {
     		
     		protected String _Log_MenuName;
     		
-    		protected Int32? _Log_MenuId;
+    		protected Int32 _Log_MenuId;
     		
     		protected String _Log_FileName;
     		
@@ -50,7 +50,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Acc_Id {
+    		public Int32 Acc_Id {
     			get {
     				return this._Acc_Id;
     			}
@@ -154,7 +154,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// False
     		/// </summary>
-    		public Int32? Log_MenuId {
+    		public Int32 Log_MenuId {
     			get {
     				return this._Log_MenuId;
     			}
@@ -334,7 +334,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Log_Id = new WeiSha.Data.Field<Logs>("Log_Id");
     			
     			/// <summary>
-    			/// False - 字段名：Acc_Id - 数据类型：Int32(可空)
+    			/// False - 字段名：Acc_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Acc_Id = new WeiSha.Data.Field<Logs>("Acc_Id");
     			
@@ -374,7 +374,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Log_MenuName = new WeiSha.Data.Field<Logs>("Log_MenuName");
     			
     			/// <summary>
-    			/// False - 字段名：Log_MenuId - 数据类型：Int32(可空)
+    			/// False - 字段名：Log_MenuId - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Log_MenuId = new WeiSha.Data.Field<Logs>("Log_MenuId");
     			

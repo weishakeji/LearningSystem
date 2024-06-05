@@ -14,7 +14,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Title_IsUse;
     		
-    		protected Int32? _Title_Tax;
+    		protected Int32 _Title_Tax;
     		
     		protected String _Title_Intro;
     		
@@ -64,7 +64,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Title_Tax {
+    		public Int32 Title_Tax {
     			get {
     				return this._Title_Tax;
     			}
@@ -224,7 +224,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Title_IsUse = new WeiSha.Data.Field<EmpTitle>("Title_IsUse");
     			
     			/// <summary>
-    			/// -1 - 字段名：Title_Tax - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Title_Tax - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Title_Tax = new WeiSha.Data.Field<EmpTitle>("Title_Tax");
     			
