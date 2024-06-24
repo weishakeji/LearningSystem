@@ -26,31 +26,40 @@
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
                     :loading="loadingConn" @click="checkConn">重新测试</el-button>
             </div>
-            <div v-if="!loadingConn">
-                <div v-if="connState">
-                    <el-tag type="success" class="el-icon-connection connState"> 链接正常</el-tag>
-                    以下是数据库版本信息：<br />
-                </div>
-                <div v-else>
-                    <el-tag type="danger" class="el-icon-link connState">数据库链接失败</el-tag>
-                    <div class="error" v-if="error!=''">
-                        提示信息：{{error}}
-                    </div>
-                    <help multi>帮助<br />
-                        1、请检查db.config中的数据库链接配置项
-                        <br />
-                        2、检测数据库服务是否启用
-                    </help>
-                </div>
+            <loading asterisk v-if="loadingConn">
+                detecting ...
+            </loading>
+            <template v-else>
+                <div class="database">
+                   
+                    <span>
+                        <icon v-if="database=='SQLite'">&#xa05b</icon>
+                        <icon v-if="database=='PostgreSQL'">&#xa05d</icon>
+                        <icon v-if="database=='SQLServer'">&#xa05a</icon>
+                        {{database}}
+                    </span>
 
-            </div>
-            <div v-else>
-                <span class="el-icon-loading"></span> 正在检测...
-            </div>
-            <div v-if="connState" class="version">
+                    <template v-if="connState">
+                        <el-tag type="success" class="el-icon-connection connState"> 链接正常</el-tag>
 
-                {{verison}}
-            </div>
+                    </template>
+                    <template v-else>
+                        <el-tag type="danger" class="el-icon-link connState">数据库链接失败</el-tag>
+                        <div class="error" v-if="error!=''">
+                            提示信息：{{error}}
+                        </div>
+                        <help multi>帮助<br />
+                            1、请检查db.config中的数据库链接配置项
+                            <br />
+                            2、检测数据库服务是否启用
+                        </help>
+                    </template>
+                </div>
+                <div v-if="connState" class="version">
+                    数据库版本信息：<br />                  
+                    <span>{{verison}}</span>
+                </div>
+            </template>
         </el-card>
         <el-card class="box-card" v-if="connState" shadow="hover">
             <div slot="header" class="clearfix">

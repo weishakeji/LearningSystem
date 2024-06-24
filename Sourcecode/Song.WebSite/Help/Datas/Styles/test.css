@@ -12,7 +12,20 @@ body {
 #vapp {
     padding-top: 10px;
 }
-
+/*数据库相关*/
+.database{
+    margin-bottom: 20px;
+}
+.database icon{
+    font-size: 35px;
+    line-height: 20px;
+}
+.database .el-tag{
+    margin-left: 15px;
+}
+.version span{
+    line-height: 30px;
+}
 .el-card {
     margin: 10px 20px 10px 20px;
 }

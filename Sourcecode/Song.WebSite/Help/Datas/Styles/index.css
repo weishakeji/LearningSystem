@@ -86,7 +86,7 @@ menu .tit .searchbox i {
 }
 
 #menu dl {
-    height: calc(100% - 0px);
+    height: calc(100% - 40px);
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;

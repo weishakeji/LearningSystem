@@ -10,6 +10,7 @@
 window.vapp = new Vue({
     el: '#vapp',
     data: {
+        database: '',   //数据库名称
         verison: '', //数据库版本
         connState: false,    //数据库是否链接       
         compDatas: [],       //数据完整性信息，这里是缺失的表和字段
@@ -31,27 +32,17 @@ window.vapp = new Vue({
     methods: {
         //检测链接
         checkConn: function () {
-            /*
             var th = this;
-            th.loadingConn = true;
-            th.connState = false;
-            th.verison = '';
-            $api.bat(
-                $api.post('Platform/DbConnection'),
-                $api.post("Platform/DbVersion")
-            ).then(axios.spread(function (conn, ver) {
-                th.connState = conn.data.result;
-                th.verison = ver.data.result;
-                th.checkComplete();
-            })).catch(function (err) {
-                console.error(err);
-                th.connState = false;
-                th.verison = '';
-            }).finally(() => {
-                th.loadingConn = false;
-            });*/
-            //
-            var th = this;
+            //检测数据库名称
+            $api.get('Platform/DataBase').then(req => {
+                if (req.data.success) {
+                    th.database = req.data.result;
+                } else {
+                    throw req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => { });
+            //检测链接是否正常
             th.error = '';
             th.loadingConn = true;
             th.connState = false;
@@ -59,8 +50,8 @@ window.vapp = new Vue({
                 if (req.data.success) {
                     th.connState = req.data.result;
                     if (th.connState) {
-                        th.checkComplete();
                         th.getversion();
+                        th.checkComplete();
                     }
                 } else {
                     th.error = req.data.message;
