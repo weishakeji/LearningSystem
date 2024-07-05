@@ -35,7 +35,7 @@
 
 ## 开发环境
 * 采用C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>
-* 数据库采用Sqlserver2008或更高版本
+* 数据库采用Postgresql 或 Sqlite
 * 开发工具 Microsoft Visual Studio Community 2019
 
 ## 源码库说明
