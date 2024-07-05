@@ -10,13 +10,13 @@ namespace Song.Entities {
     		
     		protected Int32 _Ssc_ID;
     		
-    		protected DateTime _Ssc_StartTime;
+    		protected Int64 _Cou_ID;
     		
     		protected DateTime _Ssc_EndTime;
     		
     		protected Boolean _Ssc_IsEnable;
     		
-    		protected Int64 _Cou_ID;
+    		protected DateTime _Ssc_StartTime;
     		
     		protected Int64 _Sts_ID;
     		
@@ -30,13 +30,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public DateTime Ssc_StartTime {
+    		public Int64 Cou_ID {
     			get {
-    				return this._Ssc_StartTime;
+    				return this._Cou_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ssc_StartTime, _Ssc_StartTime, value);
-    				this._Ssc_StartTime = value;
+    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
+    				this._Cou_ID = value;
     			}
     		}
     		
@@ -60,13 +60,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int64 Cou_ID {
+    		public DateTime Ssc_StartTime {
     			get {
-    				return this._Cou_ID;
+    				return this._Ssc_StartTime;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
-    				this._Cou_ID = value;
+    				this.OnPropertyValueChange(_.Ssc_StartTime, _Ssc_StartTime, value);
+    				this._Ssc_StartTime = value;
     			}
     		}
     		
@@ -88,13 +88,6 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Ssc_ID;
-    		}
-    		
-    		/// <summary>
     		/// 获取实体中的主键列
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
@@ -108,10 +101,10 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.Ssc_ID,
-    					_.Ssc_StartTime,
+    					_.Cou_ID,
     					_.Ssc_EndTime,
     					_.Ssc_IsEnable,
-    					_.Cou_ID,
+    					_.Ssc_StartTime,
     					_.Sts_ID};
     		}
     		
@@ -121,10 +114,10 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._Ssc_ID,
-    					this._Ssc_StartTime,
+    					this._Cou_ID,
     					this._Ssc_EndTime,
     					this._Ssc_IsEnable,
-    					this._Cou_ID,
+    					this._Ssc_StartTime,
     					this._Sts_ID};
     		}
     		
@@ -135,8 +128,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ssc_ID))) {
     				this._Ssc_ID = reader.GetInt32(_.Ssc_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ssc_StartTime))) {
-    				this._Ssc_StartTime = reader.GetDateTime(_.Ssc_StartTime);
+    			if ((false == reader.IsDBNull(_.Cou_ID))) {
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
     			if ((false == reader.IsDBNull(_.Ssc_EndTime))) {
     				this._Ssc_EndTime = reader.GetDateTime(_.Ssc_EndTime);
@@ -144,8 +137,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ssc_IsEnable))) {
     				this._Ssc_IsEnable = reader.GetBoolean(_.Ssc_IsEnable);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_ID))) {
-    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
+    			if ((false == reader.IsDBNull(_.Ssc_StartTime))) {
+    				this._Ssc_StartTime = reader.GetDateTime(_.Ssc_StartTime);
     			}
     			if ((false == reader.IsDBNull(_.Sts_ID))) {
     				this._Sts_ID = reader.GetInt64(_.Sts_ID);
@@ -182,9 +175,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ssc_ID = new WeiSha.Data.Field<StudentSort_Course>("Ssc_ID");
     			
     			/// <summary>
-    			/// 字段名：Ssc_StartTime - 数据类型：DateTime
+    			/// 字段名：Cou_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Ssc_StartTime = new WeiSha.Data.Field<StudentSort_Course>("Ssc_StartTime");
+    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<StudentSort_Course>("Cou_ID");
     			
     			/// <summary>
     			/// 字段名：Ssc_EndTime - 数据类型：DateTime
@@ -197,9 +190,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ssc_IsEnable = new WeiSha.Data.Field<StudentSort_Course>("Ssc_IsEnable");
     			
     			/// <summary>
-    			/// 字段名：Cou_ID - 数据类型：Int64
+    			/// 字段名：Ssc_StartTime - 数据类型：DateTime
     			/// </summary>
-    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<StudentSort_Course>("Cou_ID");
+    			public static WeiSha.Data.Field Ssc_StartTime = new WeiSha.Data.Field<StudentSort_Course>("Ssc_StartTime");
     			
     			/// <summary>
     			/// 字段名：Sts_ID - 数据类型：Int64

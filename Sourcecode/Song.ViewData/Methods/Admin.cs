@@ -211,41 +211,41 @@ namespace Song.ViewData.Methods
                 return false;
             }
         }
-        /// <summary>
-        /// 当前管理员的菜单项
-        /// </summary>
-        /// <returns></returns>
-        [Admin]
-        [HttpGet]
-        public string Menu()
-        {
-            Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
-            if (acc == null) throw new ExceptionForNoLogin();
-            Song.Entities.ManageMenu[] menus = Business.Do<IPurview>().GetAll4Emplyee((int)acc.Posi_Id);
-            string path = WeiSha.Core.Server.MapPath("/Utilities/datas/");
-            string result = "[";
-            if (LoginAdmin.Status.IsSuperAdmin(this.Letter))
-            {
-                result += File.ReadAllText(path + "SuperAdmin.json");
-            }
-            else
-            {
-                foreach (Song.Entities.ManageMenu m in menus)
-                {
-                    if (string.IsNullOrWhiteSpace(m.MM_Marker)) continue;
-                    try
-                    {
-                        result += File.ReadAllText(path + m.MM_Marker + ".json") + ",";
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-            }
-            result += "]";
-            return result;
-        }
+        ///// <summary>
+        ///// 当前管理员的菜单项
+        ///// </summary>
+        ///// <returns></returns>
+        //[Admin]
+        //[HttpGet]
+        //public string Menu()
+        //{
+        //    Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
+        //    if (acc == null) throw new ExceptionForNoLogin();
+        //    Song.Entities.ManageMenu[] menus = Business.Do<IPurview>().GetAll4Emplyee((int)acc.Posi_Id);
+        //    string path = WeiSha.Core.Server.MapPath("/Utilities/datas/");
+        //    string result = "[";
+        //    if (LoginAdmin.Status.IsSuperAdmin(this.Letter))
+        //    {
+        //        result += File.ReadAllText(path + "SuperAdmin.json");
+        //    }
+        //    else
+        //    {
+        //        foreach (Song.Entities.ManageMenu m in menus)
+        //        {
+        //            if (string.IsNullOrWhiteSpace(m.MM_Marker)) continue;
+        //            try
+        //            {
+        //                result += File.ReadAllText(path + m.MM_Marker + ".json") + ",";
+        //            }
+        //            catch
+        //            {
+        //                continue;
+        //            }
+        //        }
+        //    }
+        //    result += "]";
+        //    return result;
+        //}
         #endregion
 
         #region 增删改查

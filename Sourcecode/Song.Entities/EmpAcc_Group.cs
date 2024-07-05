@@ -16,9 +16,6 @@ namespace Song.Entities {
     		
     		protected Int32 _Org_Id;
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 Emgr_Id {
     			get {
     				return this._Emgr_Id;
@@ -29,9 +26,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 Acc_Id {
     			get {
     				return this._Acc_Id;
@@ -42,9 +36,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 EGrp_Id {
     			get {
     				return this._EGrp_Id;
@@ -70,13 +61,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<EmpAcc_Group>("EmpAcc_Group");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Emgr_Id;
     		}
     		
     		/// <summary>
@@ -152,17 +136,17 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<EmpAcc_Group>();
     			
     			/// <summary>
-    			/// False - 字段名：Emgr_Id - 数据类型：Int32
+    			/// 字段名：Emgr_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Emgr_Id = new WeiSha.Data.Field<EmpAcc_Group>("Emgr_Id");
     			
     			/// <summary>
-    			/// False - 字段名：Acc_Id - 数据类型：Int32
+    			/// 字段名：Acc_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Acc_Id = new WeiSha.Data.Field<EmpAcc_Group>("Acc_Id");
     			
     			/// <summary>
-    			/// False - 字段名：EGrp_Id - 数据类型：Int32
+    			/// 字段名：EGrp_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field EGrp_Id = new WeiSha.Data.Field<EmpAcc_Group>("EGrp_Id");
     			

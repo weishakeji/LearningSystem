@@ -14,21 +14,18 @@ namespace Song.Entities {
     		
     		protected Int32 _EGrp_Id;
     		
-    		protected Int32 _Posi_Id;
-    		
     		protected String _MM_UID;
+    		
+    		protected Int32 _Olv_ID;
+    		
+    		protected Int32 _Org_ID;
+    		
+    		protected Int32 _Posi_Id;
     		
     		protected String _Pur_State;
     		
     		protected String _Pur_Type;
     		
-    		protected Int32 _Org_ID;
-    		
-    		protected Int32 _Olv_ID;
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 Pur_Id {
     			get {
     				return this._Pur_Id;
@@ -39,9 +36,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 Dep_Id {
     			get {
     				return this._Dep_Id;
@@ -52,9 +46,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 EGrp_Id {
     			get {
     				return this._EGrp_Id;
@@ -65,22 +56,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32 Posi_Id {
-    			get {
-    				return this._Posi_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Posi_Id, _Posi_Id, value);
-    				this._Posi_Id = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public String MM_UID {
     			get {
     				return this._MM_UID;
@@ -88,42 +63,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.MM_UID, _MM_UID, value);
     				this._MM_UID = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// True
-    		/// </summary>
-    		public String Pur_State {
-    			get {
-    				return this._Pur_State;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Pur_State, _Pur_State, value);
-    				this._Pur_State = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// True
-    		/// </summary>
-    		public String Pur_Type {
-    			get {
-    				return this._Pur_Type;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Pur_Type, _Pur_Type, value);
-    				this._Pur_Type = value;
-    			}
-    		}
-    		
-    		public Int32 Org_ID {
-    			get {
-    				return this._Org_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
-    				this._Org_ID = value;
     			}
     		}
     		
@@ -137,18 +76,51 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Org_ID {
+    			get {
+    				return this._Org_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
+    				this._Org_ID = value;
+    			}
+    		}
+    		
+    		public Int32 Posi_Id {
+    			get {
+    				return this._Posi_Id;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Posi_Id, _Posi_Id, value);
+    				this._Posi_Id = value;
+    			}
+    		}
+    		
+    		public String Pur_State {
+    			get {
+    				return this._Pur_State;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Pur_State, _Pur_State, value);
+    				this._Pur_State = value;
+    			}
+    		}
+    		
+    		public String Pur_Type {
+    			get {
+    				return this._Pur_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Pur_Type, _Pur_Type, value);
+    				this._Pur_Type = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Purview>("Purview");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Pur_Id;
     		}
     		
     		/// <summary>
@@ -167,12 +139,12 @@ namespace Song.Entities {
     					_.Pur_Id,
     					_.Dep_Id,
     					_.EGrp_Id,
-    					_.Posi_Id,
     					_.MM_UID,
-    					_.Pur_State,
-    					_.Pur_Type,
+    					_.Olv_ID,
     					_.Org_ID,
-    					_.Olv_ID};
+    					_.Posi_Id,
+    					_.Pur_State,
+    					_.Pur_Type};
     		}
     		
     		/// <summary>
@@ -183,12 +155,12 @@ namespace Song.Entities {
     					this._Pur_Id,
     					this._Dep_Id,
     					this._EGrp_Id,
-    					this._Posi_Id,
     					this._MM_UID,
-    					this._Pur_State,
-    					this._Pur_Type,
+    					this._Olv_ID,
     					this._Org_ID,
-    					this._Olv_ID};
+    					this._Posi_Id,
+    					this._Pur_State,
+    					this._Pur_Type};
     		}
     		
     		/// <summary>
@@ -204,23 +176,23 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.EGrp_Id))) {
     				this._EGrp_Id = reader.GetInt32(_.EGrp_Id);
     			}
-    			if ((false == reader.IsDBNull(_.Posi_Id))) {
-    				this._Posi_Id = reader.GetInt32(_.Posi_Id);
-    			}
     			if ((false == reader.IsDBNull(_.MM_UID))) {
     				this._MM_UID = reader.GetString(_.MM_UID);
+    			}
+    			if ((false == reader.IsDBNull(_.Olv_ID))) {
+    				this._Olv_ID = reader.GetInt32(_.Olv_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_ID))) {
+    				this._Org_ID = reader.GetInt32(_.Org_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Posi_Id))) {
+    				this._Posi_Id = reader.GetInt32(_.Posi_Id);
     			}
     			if ((false == reader.IsDBNull(_.Pur_State))) {
     				this._Pur_State = reader.GetString(_.Pur_State);
     			}
     			if ((false == reader.IsDBNull(_.Pur_Type))) {
     				this._Pur_Type = reader.GetString(_.Pur_Type);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_ID))) {
-    				this._Org_ID = reader.GetInt32(_.Org_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Olv_ID))) {
-    				this._Olv_ID = reader.GetInt32(_.Olv_ID);
     			}
     		}
     		
@@ -249,39 +221,29 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Purview>();
     			
     			/// <summary>
-    			/// False - 字段名：Pur_Id - 数据类型：Int32
+    			/// 字段名：Pur_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Pur_Id = new WeiSha.Data.Field<Purview>("Pur_Id");
     			
     			/// <summary>
-    			/// False - 字段名：Dep_Id - 数据类型：Int32
+    			/// 字段名：Dep_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Dep_Id = new WeiSha.Data.Field<Purview>("Dep_Id");
     			
     			/// <summary>
-    			/// False - 字段名：EGrp_Id - 数据类型：Int32
+    			/// 字段名：EGrp_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field EGrp_Id = new WeiSha.Data.Field<Purview>("EGrp_Id");
     			
     			/// <summary>
-    			/// False - 字段名：Posi_Id - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Posi_Id = new WeiSha.Data.Field<Purview>("Posi_Id");
-    			
-    			/// <summary>
-    			/// False - 字段名：MM_UID - 数据类型：String
+    			/// 字段名：MM_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field MM_UID = new WeiSha.Data.Field<Purview>("MM_UID");
     			
     			/// <summary>
-    			/// True - 字段名：Pur_State - 数据类型：String
+    			/// 字段名：Olv_ID - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Pur_State = new WeiSha.Data.Field<Purview>("Pur_State");
-    			
-    			/// <summary>
-    			/// True - 字段名：Pur_Type - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Pur_Type = new WeiSha.Data.Field<Purview>("Pur_Type");
+    			public static WeiSha.Data.Field Olv_ID = new WeiSha.Data.Field<Purview>("Olv_ID");
     			
     			/// <summary>
     			/// 字段名：Org_ID - 数据类型：Int32
@@ -289,9 +251,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<Purview>("Org_ID");
     			
     			/// <summary>
-    			/// 字段名：Olv_ID - 数据类型：Int32
+    			/// 字段名：Posi_Id - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Olv_ID = new WeiSha.Data.Field<Purview>("Olv_ID");
+    			public static WeiSha.Data.Field Posi_Id = new WeiSha.Data.Field<Purview>("Posi_Id");
+    			
+    			/// <summary>
+    			/// 字段名：Pur_State - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Pur_State = new WeiSha.Data.Field<Purview>("Pur_State");
+    			
+    			/// <summary>
+    			/// 字段名：Pur_Type - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Pur_Type = new WeiSha.Data.Field<Purview>("Pur_Type");
     		}
     	}
     }

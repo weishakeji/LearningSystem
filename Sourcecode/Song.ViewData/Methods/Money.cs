@@ -350,12 +350,8 @@ namespace Song.ViewData.Methods
         /// <param name="end">结束时间</param>
         /// <returns></returns>
         public JObject Statistics(string unit,int orgid, int acid, int type, int from, DateTime? start, DateTime? end)
-        {
-            string interval = "MONTH";
-            if(unit=="y") interval = "YEAR";
-            if (unit == "w") interval = "WEEK";
-            if (unit == "d") interval = "Day";
-            Dictionary<string, double> dic = Business.Do<IAccounts>().MoneyStatistics(interval, orgid, acid, type, from, start, end);
+        {           
+            Dictionary<string, double> dic = Business.Do<IAccounts>().MoneyStatistics(unit, orgid, acid, type, from, start, end);
             JObject jo = new JObject();
             foreach (KeyValuePair<string, double> item in dic)
             {

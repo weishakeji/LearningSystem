@@ -10,8 +10,10 @@
 window.vapp = new Vue({
     el: '#vapp',
     data: {
-        database: '',   //数据库名称
+        dbType: '',   //数据库类型
+        dbName: '',     //数据库名称
         verison: '', //数据库版本
+
         connState: false,    //数据库是否链接       
         compDatas: [],       //数据完整性信息，这里是缺失的表和字段
         error: '',          //提示信息
@@ -34,9 +36,9 @@ window.vapp = new Vue({
         checkConn: function () {
             var th = this;
             //检测数据库名称
-            $api.get('Platform/DataBase').then(req => {
+            $api.get('Platform/DataBaseType').then(req => {
                 if (req.data.success) {
-                    th.database = req.data.result;
+                    th.dbType = req.data.result;
                 } else {
                     throw req.data.message;
                 }
@@ -50,6 +52,7 @@ window.vapp = new Vue({
                 if (req.data.success) {
                     th.connState = req.data.result;
                     if (th.connState) {
+                        th.getDbname();
                         th.getversion();
                         th.checkComplete();
                     }
@@ -72,6 +75,18 @@ window.vapp = new Vue({
                     throw req.data.message;
                 }
             }).catch(err => console.error(err));
+        },
+        //获取数据库名称
+        getDbname: function () {
+            var th = this;
+            $api.post('Platform/DataBaseName').then(function (req) {
+                if (req.data.success) {
+                    th.dbName = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(err => th.dbName = '');
         },
         //检测完整性
         checkComplete: function () {

@@ -10,23 +10,20 @@ namespace Song.Entities {
     		
     		protected Int32 _EGrp_Id;
     		
-    		protected String _EGrp_Name;
-    		
-    		protected Boolean _EGrp_IsUse;
-    		
-    		protected Int32 _EGrp_Tax;
-    		
     		protected String _EGrp_Intro;
     		
     		protected Boolean _EGrp_IsSystem;
+    		
+    		protected Boolean _EGrp_IsUse;
+    		
+    		protected String _EGrp_Name;
+    		
+    		protected Int32 _EGrp_Tax;
     		
     		protected Int32 _Org_ID;
     		
     		protected String _Org_Name;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
     		public Int32 EGrp_Id {
     			get {
     				return this._EGrp_Id;
@@ -37,48 +34,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public String EGrp_Name {
-    			get {
-    				return this._EGrp_Name;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.EGrp_Name, _EGrp_Name, value);
-    				this._EGrp_Name = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Boolean EGrp_IsUse {
-    			get {
-    				return this._EGrp_IsUse;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.EGrp_IsUse, _EGrp_IsUse, value);
-    				this._EGrp_IsUse = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 EGrp_Tax {
-    			get {
-    				return this._EGrp_Tax;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.EGrp_Tax, _EGrp_Tax, value);
-    				this._EGrp_Tax = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
     		public String EGrp_Intro {
     			get {
     				return this._EGrp_Intro;
@@ -89,9 +44,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
     		public Boolean EGrp_IsSystem {
     			get {
     				return this._EGrp_IsSystem;
@@ -99,6 +51,36 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.EGrp_IsSystem, _EGrp_IsSystem, value);
     				this._EGrp_IsSystem = value;
+    			}
+    		}
+    		
+    		public Boolean EGrp_IsUse {
+    			get {
+    				return this._EGrp_IsUse;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.EGrp_IsUse, _EGrp_IsUse, value);
+    				this._EGrp_IsUse = value;
+    			}
+    		}
+    		
+    		public String EGrp_Name {
+    			get {
+    				return this._EGrp_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.EGrp_Name, _EGrp_Name, value);
+    				this._EGrp_Name = value;
+    			}
+    		}
+    		
+    		public Int32 EGrp_Tax {
+    			get {
+    				return this._EGrp_Tax;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.EGrp_Tax, _EGrp_Tax, value);
+    				this._EGrp_Tax = value;
     			}
     		}
     		
@@ -130,13 +112,6 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.EGrp_Id;
-    		}
-    		
-    		/// <summary>
     		/// 获取实体中的主键列
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
@@ -150,11 +125,11 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.EGrp_Id,
-    					_.EGrp_Name,
-    					_.EGrp_IsUse,
-    					_.EGrp_Tax,
     					_.EGrp_Intro,
     					_.EGrp_IsSystem,
+    					_.EGrp_IsUse,
+    					_.EGrp_Name,
+    					_.EGrp_Tax,
     					_.Org_ID,
     					_.Org_Name};
     		}
@@ -165,11 +140,11 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._EGrp_Id,
-    					this._EGrp_Name,
-    					this._EGrp_IsUse,
-    					this._EGrp_Tax,
     					this._EGrp_Intro,
     					this._EGrp_IsSystem,
+    					this._EGrp_IsUse,
+    					this._EGrp_Name,
+    					this._EGrp_Tax,
     					this._Org_ID,
     					this._Org_Name};
     		}
@@ -181,20 +156,20 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.EGrp_Id))) {
     				this._EGrp_Id = reader.GetInt32(_.EGrp_Id);
     			}
-    			if ((false == reader.IsDBNull(_.EGrp_Name))) {
-    				this._EGrp_Name = reader.GetString(_.EGrp_Name);
-    			}
-    			if ((false == reader.IsDBNull(_.EGrp_IsUse))) {
-    				this._EGrp_IsUse = reader.GetBoolean(_.EGrp_IsUse);
-    			}
-    			if ((false == reader.IsDBNull(_.EGrp_Tax))) {
-    				this._EGrp_Tax = reader.GetInt32(_.EGrp_Tax);
-    			}
     			if ((false == reader.IsDBNull(_.EGrp_Intro))) {
     				this._EGrp_Intro = reader.GetString(_.EGrp_Intro);
     			}
     			if ((false == reader.IsDBNull(_.EGrp_IsSystem))) {
     				this._EGrp_IsSystem = reader.GetBoolean(_.EGrp_IsSystem);
+    			}
+    			if ((false == reader.IsDBNull(_.EGrp_IsUse))) {
+    				this._EGrp_IsUse = reader.GetBoolean(_.EGrp_IsUse);
+    			}
+    			if ((false == reader.IsDBNull(_.EGrp_Name))) {
+    				this._EGrp_Name = reader.GetString(_.EGrp_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.EGrp_Tax))) {
+    				this._EGrp_Tax = reader.GetInt32(_.EGrp_Tax);
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
@@ -229,34 +204,34 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<EmpGroup>();
     			
     			/// <summary>
-    			/// -1 - 字段名：EGrp_Id - 数据类型：Int32
+    			/// 字段名：EGrp_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field EGrp_Id = new WeiSha.Data.Field<EmpGroup>("EGrp_Id");
     			
     			/// <summary>
-    			/// -1 - 字段名：EGrp_Name - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field EGrp_Name = new WeiSha.Data.Field<EmpGroup>("EGrp_Name");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：EGrp_IsUse - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field EGrp_IsUse = new WeiSha.Data.Field<EmpGroup>("EGrp_IsUse");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：EGrp_Tax - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field EGrp_Tax = new WeiSha.Data.Field<EmpGroup>("EGrp_Tax");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：EGrp_Intro - 数据类型：String
+    			/// 字段名：EGrp_Intro - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field EGrp_Intro = new WeiSha.Data.Field<EmpGroup>("EGrp_Intro");
     			
     			/// <summary>
-    			/// -1 - 字段名：EGrp_IsSystem - 数据类型：Boolean
+    			/// 字段名：EGrp_IsSystem - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field EGrp_IsSystem = new WeiSha.Data.Field<EmpGroup>("EGrp_IsSystem");
+    			
+    			/// <summary>
+    			/// 字段名：EGrp_IsUse - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field EGrp_IsUse = new WeiSha.Data.Field<EmpGroup>("EGrp_IsUse");
+    			
+    			/// <summary>
+    			/// 字段名：EGrp_Name - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field EGrp_Name = new WeiSha.Data.Field<EmpGroup>("EGrp_Name");
+    			
+    			/// <summary>
+    			/// 字段名：EGrp_Tax - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field EGrp_Tax = new WeiSha.Data.Field<EmpGroup>("EGrp_Tax");
     			
     			/// <summary>
     			/// 字段名：Org_ID - 数据类型：Int32

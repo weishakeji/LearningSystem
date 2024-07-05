@@ -14,21 +14,21 @@ namespace Song.Entities {
     		
     		protected Int64 _Cou_ID;
     		
-    		protected Int64 _Qus_ID;
-    		
-    		protected Int32 _Qus_Type;
-    		
     		protected Int32 _Qus_Diff;
+    		
+    		protected Int64 _Qus_ID;
     		
     		protected String _Qus_Title;
     		
+    		protected Int32 _Qus_Type;
+    		
     		protected Int64 _Sbj_ID;
+    		
+    		protected DateTime _Stc_CrtTime;
     		
     		protected Int32 _Stc_Level;
     		
     		protected Int32 _Stc_Strange;
-    		
-    		protected DateTime _Stc_CrtTime;
     		
     		public Int32 Stc_ID {
     			get {
@@ -60,26 +60,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int64 Qus_ID {
-    			get {
-    				return this._Qus_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Qus_ID, _Qus_ID, value);
-    				this._Qus_ID = value;
-    			}
-    		}
-    		
-    		public Int32 Qus_Type {
-    			get {
-    				return this._Qus_Type;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Qus_Type, _Qus_Type, value);
-    				this._Qus_Type = value;
-    			}
-    		}
-    		
     		public Int32 Qus_Diff {
     			get {
     				return this._Qus_Diff;
@@ -87,6 +67,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Qus_Diff, _Qus_Diff, value);
     				this._Qus_Diff = value;
+    			}
+    		}
+    		
+    		public Int64 Qus_ID {
+    			get {
+    				return this._Qus_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Qus_ID, _Qus_ID, value);
+    				this._Qus_ID = value;
     			}
     		}
     		
@@ -100,6 +90,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Qus_Type {
+    			get {
+    				return this._Qus_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Qus_Type, _Qus_Type, value);
+    				this._Qus_Type = value;
+    			}
+    		}
+    		
     		public Int64 Sbj_ID {
     			get {
     				return this._Sbj_ID;
@@ -107,6 +107,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Sbj_ID, _Sbj_ID, value);
     				this._Sbj_ID = value;
+    			}
+    		}
+    		
+    		public DateTime Stc_CrtTime {
+    			get {
+    				return this._Stc_CrtTime;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_CrtTime, _Stc_CrtTime, value);
+    				this._Stc_CrtTime = value;
     			}
     		}
     		
@@ -130,28 +140,11 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public DateTime Stc_CrtTime {
-    			get {
-    				return this._Stc_CrtTime;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Stc_CrtTime, _Stc_CrtTime, value);
-    				this._Stc_CrtTime = value;
-    			}
-    		}
-    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Student_Collect>("Student_Collect");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Stc_ID;
     		}
     		
     		/// <summary>
@@ -170,14 +163,14 @@ namespace Song.Entities {
     					_.Stc_ID,
     					_.Ac_ID,
     					_.Cou_ID,
-    					_.Qus_ID,
-    					_.Qus_Type,
     					_.Qus_Diff,
+    					_.Qus_ID,
     					_.Qus_Title,
+    					_.Qus_Type,
     					_.Sbj_ID,
+    					_.Stc_CrtTime,
     					_.Stc_Level,
-    					_.Stc_Strange,
-    					_.Stc_CrtTime};
+    					_.Stc_Strange};
     		}
     		
     		/// <summary>
@@ -188,14 +181,14 @@ namespace Song.Entities {
     					this._Stc_ID,
     					this._Ac_ID,
     					this._Cou_ID,
-    					this._Qus_ID,
-    					this._Qus_Type,
     					this._Qus_Diff,
+    					this._Qus_ID,
     					this._Qus_Title,
+    					this._Qus_Type,
     					this._Sbj_ID,
+    					this._Stc_CrtTime,
     					this._Stc_Level,
-    					this._Stc_Strange,
-    					this._Stc_CrtTime};
+    					this._Stc_Strange};
     		}
     		
     		/// <summary>
@@ -211,29 +204,29 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Qus_ID))) {
-    				this._Qus_ID = reader.GetInt64(_.Qus_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Qus_Type))) {
-    				this._Qus_Type = reader.GetInt32(_.Qus_Type);
-    			}
     			if ((false == reader.IsDBNull(_.Qus_Diff))) {
     				this._Qus_Diff = reader.GetInt32(_.Qus_Diff);
+    			}
+    			if ((false == reader.IsDBNull(_.Qus_ID))) {
+    				this._Qus_ID = reader.GetInt64(_.Qus_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_Title))) {
     				this._Qus_Title = reader.GetString(_.Qus_Title);
     			}
+    			if ((false == reader.IsDBNull(_.Qus_Type))) {
+    				this._Qus_Type = reader.GetInt32(_.Qus_Type);
+    			}
     			if ((false == reader.IsDBNull(_.Sbj_ID))) {
     				this._Sbj_ID = reader.GetInt64(_.Sbj_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_CrtTime))) {
+    				this._Stc_CrtTime = reader.GetDateTime(_.Stc_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.Stc_Level))) {
     				this._Stc_Level = reader.GetInt32(_.Stc_Level);
     			}
     			if ((false == reader.IsDBNull(_.Stc_Strange))) {
     				this._Stc_Strange = reader.GetInt32(_.Stc_Strange);
-    			}
-    			if ((false == reader.IsDBNull(_.Stc_CrtTime))) {
-    				this._Stc_CrtTime = reader.GetDateTime(_.Stc_CrtTime);
     			}
     		}
     		
@@ -277,19 +270,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Student_Collect>("Cou_ID");
     			
     			/// <summary>
-    			/// 字段名：Qus_ID - 数据类型：Int64
-    			/// </summary>
-    			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<Student_Collect>("Qus_ID");
-    			
-    			/// <summary>
-    			/// 字段名：Qus_Type - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Qus_Type = new WeiSha.Data.Field<Student_Collect>("Qus_Type");
-    			
-    			/// <summary>
     			/// 字段名：Qus_Diff - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Qus_Diff = new WeiSha.Data.Field<Student_Collect>("Qus_Diff");
+    			
+    			/// <summary>
+    			/// 字段名：Qus_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<Student_Collect>("Qus_ID");
     			
     			/// <summary>
     			/// 字段名：Qus_Title - 数据类型：String
@@ -297,9 +285,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Qus_Title = new WeiSha.Data.Field<Student_Collect>("Qus_Title");
     			
     			/// <summary>
+    			/// 字段名：Qus_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Qus_Type = new WeiSha.Data.Field<Student_Collect>("Qus_Type");
+    			
+    			/// <summary>
     			/// 字段名：Sbj_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<Student_Collect>("Sbj_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_CrtTime - 数据类型：DateTime
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_CrtTime = new WeiSha.Data.Field<Student_Collect>("Stc_CrtTime");
     			
     			/// <summary>
     			/// 字段名：Stc_Level - 数据类型：Int32
@@ -310,11 +308,6 @@ namespace Song.Entities {
     			/// 字段名：Stc_Strange - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Stc_Strange = new WeiSha.Data.Field<Student_Collect>("Stc_Strange");
-    			
-    			/// <summary>
-    			/// 字段名：Stc_CrtTime - 数据类型：DateTime
-    			/// </summary>
-    			public static WeiSha.Data.Field Stc_CrtTime = new WeiSha.Data.Field<Student_Collect>("Stc_CrtTime");
     		}
     	}
     }

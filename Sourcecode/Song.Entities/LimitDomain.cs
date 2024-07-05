@@ -10,11 +10,11 @@ namespace Song.Entities {
     		
     		protected Int32 _LD_ID;
     		
-    		protected String _LD_Name;
+    		protected String _LD_Intro;
     		
     		protected Boolean _LD_IsUse;
     		
-    		protected String _LD_Intro;
+    		protected String _LD_Name;
     		
     		public Int32 LD_ID {
     			get {
@@ -23,26 +23,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.LD_ID, _LD_ID, value);
     				this._LD_ID = value;
-    			}
-    		}
-    		
-    		public String LD_Name {
-    			get {
-    				return this._LD_Name;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.LD_Name, _LD_Name, value);
-    				this._LD_Name = value;
-    			}
-    		}
-    		
-    		public Boolean LD_IsUse {
-    			get {
-    				return this._LD_IsUse;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.LD_IsUse, _LD_IsUse, value);
-    				this._LD_IsUse = value;
     			}
     		}
     		
@@ -56,18 +36,31 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean LD_IsUse {
+    			get {
+    				return this._LD_IsUse;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.LD_IsUse, _LD_IsUse, value);
+    				this._LD_IsUse = value;
+    			}
+    		}
+    		
+    		public String LD_Name {
+    			get {
+    				return this._LD_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.LD_Name, _LD_Name, value);
+    				this._LD_Name = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<LimitDomain>("LimitDomain");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.LD_ID;
     		}
     		
     		/// <summary>
@@ -84,9 +77,9 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.LD_ID,
-    					_.LD_Name,
+    					_.LD_Intro,
     					_.LD_IsUse,
-    					_.LD_Intro};
+    					_.LD_Name};
     		}
     		
     		/// <summary>
@@ -95,9 +88,9 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._LD_ID,
-    					this._LD_Name,
+    					this._LD_Intro,
     					this._LD_IsUse,
-    					this._LD_Intro};
+    					this._LD_Name};
     		}
     		
     		/// <summary>
@@ -107,14 +100,14 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.LD_ID))) {
     				this._LD_ID = reader.GetInt32(_.LD_ID);
     			}
-    			if ((false == reader.IsDBNull(_.LD_Name))) {
-    				this._LD_Name = reader.GetString(_.LD_Name);
+    			if ((false == reader.IsDBNull(_.LD_Intro))) {
+    				this._LD_Intro = reader.GetString(_.LD_Intro);
     			}
     			if ((false == reader.IsDBNull(_.LD_IsUse))) {
     				this._LD_IsUse = reader.GetBoolean(_.LD_IsUse);
     			}
-    			if ((false == reader.IsDBNull(_.LD_Intro))) {
-    				this._LD_Intro = reader.GetString(_.LD_Intro);
+    			if ((false == reader.IsDBNull(_.LD_Name))) {
+    				this._LD_Name = reader.GetString(_.LD_Name);
     			}
     		}
     		
@@ -148,9 +141,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field LD_ID = new WeiSha.Data.Field<LimitDomain>("LD_ID");
     			
     			/// <summary>
-    			/// 字段名：LD_Name - 数据类型：String
+    			/// 字段名：LD_Intro - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field LD_Name = new WeiSha.Data.Field<LimitDomain>("LD_Name");
+    			public static WeiSha.Data.Field LD_Intro = new WeiSha.Data.Field<LimitDomain>("LD_Intro");
     			
     			/// <summary>
     			/// 字段名：LD_IsUse - 数据类型：Boolean
@@ -158,9 +151,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field LD_IsUse = new WeiSha.Data.Field<LimitDomain>("LD_IsUse");
     			
     			/// <summary>
-    			/// 字段名：LD_Intro - 数据类型：String
+    			/// 字段名：LD_Name - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field LD_Intro = new WeiSha.Data.Field<LimitDomain>("LD_Intro");
+    			public static WeiSha.Data.Field LD_Name = new WeiSha.Data.Field<LimitDomain>("LD_Name");
     		}
     	}
     }

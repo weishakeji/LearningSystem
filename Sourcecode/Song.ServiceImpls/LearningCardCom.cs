@@ -703,7 +703,7 @@ namespace Song.ServiceImpls
                             sc.Ac_ID = card.Ac_ID;
                             sc.Cou_ID = cou.Cou_ID;
                             sc.Stc_IsEnable = true;                           
-                            sc.Stc_Money = card.Lc_Price;
+                            sc.Stc_Money = (decimal)card.Lc_Price;
                             sc.Org_ID = card.Org_ID;
                             sc.Lc_Code = card.Lc_Code;
                             sc.Lc_Pw = card.Lc_Pw;
@@ -780,7 +780,7 @@ namespace Song.ServiceImpls
             sc.Ac_ID = card.Ac_ID;
             sc.Cou_ID = cou.Cou_ID;
             sc.Stc_IsEnable = true;
-            sc.Stc_Money = card.Lc_Price;
+            sc.Stc_Money = (decimal)card.Lc_Price;
             sc.Org_ID = card.Org_ID;
             sc.Lc_Code = card.Lc_Code;
             sc.Lc_Pw = card.Lc_Pw;

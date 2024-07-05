@@ -16,15 +16,27 @@ body {
 .database{
     margin-bottom: 20px;
 }
+.database>span{
+    white-space: nowrap;
+}
 .database icon{
-    font-size: 35px;
+    font-size: 45px;
     line-height: 20px;
+    margin-right: 0px;
 }
 .database .el-tag{
     margin-left: 15px;
 }
 .version span{
     line-height: 30px;
+}
+.dbName{
+    margin-left: 5px;
+    color: #999;
+}
+.dbName::before{
+    content: ":";
+    margin-right: 10px;
 }
 .el-card {
     margin: 10px 20px 10px 20px;
@@ -56,4 +68,27 @@ body {
 .data_row span {
     margin-right: 10px;
     margin-top: 10px;
+}
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    .database{
+        display: flex;
+        flex-direction: column;
+    }
+    .database .el-tag{
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+    .list{
+        display: flex;
+        flex-direction: column;
+    }
+    .data_title{
+        display: flex;
+        flex-direction: column;
+    }
+    .data_title .el-tag{
+        margin-left: 0px;
+        margin-bottom: 10px;
+    }
 }

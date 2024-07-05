@@ -12,7 +12,7 @@ namespace Song.ServiceImpls
     /// <summary>
     /// 权限管理
     /// </summary>
-    public class PurviewCom :IPurview
+    public class PurviewCom : IPurview
     {
         /// <summary>
         /// 添加
@@ -47,15 +47,15 @@ namespace Song.ServiceImpls
                             break;
                         case "depart":
                             tran.Delete<Purview>(wc && Purview._.Dep_Id == memberid);
-                            break;                     
+                            break;
                         case "orglevel":
                             tran.Delete<Purview>(wc && Purview._.Olv_ID == memberid);
                             break;
                     }
                     foreach (string uid in mmids)
-                    {                        
+                    {
                         Song.Entities.Purview p = new Song.Entities.Purview();
-                        p.Pur_Type = type;                   
+                        p.Pur_Type = type;
                         p.MM_UID = uid;
                         switch (type)
                         {
@@ -76,14 +76,14 @@ namespace Song.ServiceImpls
                     }
                     tran.Commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     tran.Rollback();
                     throw ex;
-                }              
+                }
             }
         }
-        
+
         /// <summary>
         /// 修改
         /// </summary>
@@ -192,140 +192,137 @@ namespace Song.ServiceImpls
             }
             return pur;
         }
-        /// <summary>
-        /// 获取某个员工所拥用的全部操作权限，包括所在组、所属角色、所在院系的所有权限
-        /// </summary>
-        /// <param name="empId"></param>
-        /// <returns></returns>
-        public ManageMenu[] GetAll4Emplyee(int empId)
-        {
-            //以下代码，先取员工所在组的权限；
-            //员工所属角色权限
-            //员工所在院系的权限
-            string sql = @"select * from 
-                (select [mm].* from [ManageMenu] as mm inner join
-                (SELECT [pu].* from [EmpGroup] as em inner join [Purview] as pu on ([em].EGrp_Id=[pu].EGrp_Id)
-                where [pu].EGrp_Id in
-                (Select [ea].EGrp_Id from [EmpAccount] as e inner join [EmpAcc_Group] as ea 
-                on ([e].Acc_Id=[ea].Acc_Id)
-                where [ea].Acc_Id=" + empId + @")  and [em].EGrp_IsUse=true
-                ) as p 
-                on ([mm].MM_uId=[p].MM_uId)
 
-                UNION
+        ///// <summary>
+        ///// 获取某个员工所拥用的全部操作权限，包括所在组、所属角色、所在院系的所有权限
+        ///// </summary>
+        ///// <param name="accid"></param>
+        ///// <returns></returns>
+        //public ManageMenu[] GetAll4Emplyee(int accid)
+        //{
+        //    //以下代码，先取员工所在组的权限；
+        //    //员工所属角色权限
+        //    //员工所在院系的权限
+        //    string sql = @"select * from 
+        //        (select [mm].* from [ManageMenu] as mm inner join
+        //        (SELECT [pu].* from [EmpGroup] as em inner join [Purview] as pu on ([em].EGrp_Id=[pu].EGrp_Id)
+        //        where [pu].EGrp_Id in
+        //        (Select [ea].EGrp_Id from [EmpAccount] as e inner join [EmpAcc_Group] as ea 
+        //        on ([e].Acc_Id=[ea].Acc_Id)
+        //        where [ea].Acc_Id={{acid}})  and [em].EGrp_IsUse=true
+        //        ) as p 
+        //        on ([mm].MM_uId=[p].MM_uId)
 
-                SELECT [mm].*
-                FROM [ManageMenu] AS mm INNER JOIN 
-                (SELECT [pu].* from [Position] as po inner join [Purview] as pu on ([po].Posi_Id=[pu].Posi_Id)
-                where [pu].Posi_id = (Select [Posi_Id] from [EmpAccount] where [Acc_Id]=" + empId + @")  and [po].Posi_IsUse=true)  AS p ON ([mm].MM_uId=[p].MM_uId)
+        //        UNION
 
-                UNION 
+        //        SELECT [mm].*
+        //        FROM [ManageMenu] AS mm INNER JOIN 
+        //        (SELECT [pu].* from [Position] as po inner join [Purview] as pu on ([po].Posi_Id=[pu].Posi_Id)
+        //        where [pu].Posi_id = (Select [Posi_Id] from [EmpAccount] where [Acc_Id]={{acid}})  and [po].Posi_IsUse=true)  AS p ON ([mm].MM_uId=[p].MM_uId)
 
-                SELECT [mm].*
-                FROM [ManageMenu] AS mm INNER JOIN (SELECT [pu].* from [Depart] as d inner join [Purview] as pu on ([d].Dep_Id=[pu].Dep_Id)
-                where [pu].Dep_Id =
-                (Select [Dep_Id] from [EmpAccount] where [Acc_Id]=" + empId + @")  and [d].Dep_IsUse=true)  AS p ON ([mm].MM_uId=[p].MM_uId)
-                ) as tm where MM_IsUse=true";
-            //如果不是access，就是sqlserver
-            if (WeiSha.Core.Server.DatabaseType != "access")
-            {
-                sql = sql.Replace("true","1");
-            }
-            return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
-        }
+        //        UNION 
+
+        //        SELECT [mm].*
+        //        FROM [ManageMenu] AS mm INNER JOIN (SELECT [pu].* from [Depart] as d inner join [Purview] as pu on ([d].Dep_Id=[pu].Dep_Id)
+        //        where [pu].Dep_Id =
+        //        (Select [Dep_Id] from [EmpAccount] where [Acc_Id]={{acid}})  and [d].Dep_IsUse=true)  AS p ON ([mm].MM_uId=[p].MM_uId)
+        //        ) as tm where MM_IsUse=true";
+        //    sql = sql.Replace("{{acid}}", accid.ToString());
+        //    return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
+        //}
 
 
-        /// <summary>
-        /// 某个机构的权限
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <returns></returns>
-        public ManageMenu[] GetAll4Org(int orgid)
-        {
-            //取当前机构等级
-            object objid = Gateway.Default.Max<Organization>(Organization._.Olv_ID, 
-                Organization._.Org_ID == orgid && Organization._.Org_IsUse==true && Organization._.Org_IsPass==true);
-            int olv = objid is int ? (int)objid : 0;
-            if (olv == 0) return null;
-            //判断当前机构等级是否可用
-            objid = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_ID, OrganLevel._.Olv_IsUse == true && OrganLevel._.Olv_ID == olv);
-            olv = objid is int ? (int)objid : 0;
-            if (olv == 0) return null;
-            //当前机构是否有权限
-            int num = Gateway.Default.Count<Purview>(Purview._.Pur_Type == "orglevel" && Purview._.Olv_ID == olv);
-            string sql = "";
-            if (num < 1)
-            {
-                //如果当前机构等级没有设置权限，则返回基础权限
-                //return GetOrganPurview();
-                return null;
-            }
-            else
-            {
-                //获取当前机构等级的权限，与基础专权为交集
-                sql = @"select m2.* from
-                    (select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
-                    where pur.org_id={orgid}
-                    UNION ALL
-                    select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
-                    where pur.olv_id={olvid} ) as m2  where m2.mm_isuse=true order by m2.mm_tax asc";
-                sql = sql.Replace("{orgid}", orgid.ToString());
-                sql = sql.Replace("{olvid}", olv.ToString());
-            }
-            //如果不是access，就是sqlserver
-            if (WeiSha.Core.Server.DatabaseType != "Access")
-                sql = sql.Replace("true", "1");
-            return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
-        }
-        /// <summary>
-        /// 获取机构的某一个根菜单项的权限
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="marker">例如教师管理teacher,学生管理student,机构管理organAdmin</param>
-        /// <returns></returns>
-        public ManageMenu[] GetAll4Org(int orgid, string marker)
-        {
-            if (string.IsNullOrWhiteSpace(marker)) return this.GetAll4Org(orgid);
-            //取当前机构等级
-            object objid = Gateway.Default.Max<Organization>(Organization._.Olv_ID,
-                Organization._.Org_ID == orgid && Organization._.Org_IsUse == true && Organization._.Org_IsPass == true);
-            int olv = objid is int ? (int)objid : 0;
-            if (olv == 0) return null;
-            //判断当前机构等级是否可用
-            objid = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_ID, OrganLevel._.Olv_IsUse == true && OrganLevel._.Olv_ID == olv);
-            olv = objid is int ? (int)objid : 0;
-            if (olv == 0) return null;
-            //当前机构是否有权限
-            int num = Gateway.Default.Count<Purview>(Purview._.Pur_Type == "orglevel" && Purview._.Olv_ID == olv);
-            string sql = "";
-            if (num < 1)
-            {
-                //如果当前机构等级没有设置权限，则返回基础权限
-                //return GetOrganPurview(marker);
-                return null;
-            }
-            else
-            {
-                //根菜单项
-                ManageMenu root = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Marker == marker && ManageMenu._.MM_PatId == 0).ToFirst<ManageMenu>();
-                int rootid = root == null ? 0 : (int)root.MM_Root;
-                //获取当前机构等级的权限，与基础专权为交集
-                sql = @"select m2.* from
-                    (select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
-                    where pur.org_id={orgid}
-                    UNION ALL
-                    select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
-                    where pur.olv_id={olvid}) as m2
-                   where m2.mm_isuse=true and m2.mm_root={root} order by m2.mm_tax asc";
-                sql = sql.Replace("{orgid}", orgid.ToString());
-                sql = sql.Replace("{olvid}", olv.ToString());
-                sql = sql.Replace("{root}", rootid.ToString());
-            }
-            //如果不是access，就是sqlserver
-            if (WeiSha.Core.Server.DatabaseType != "Access")
-                sql = sql.Replace("true", "1");
-            return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
-        }
+        ///// <summary>
+        ///// 某个机构的权限
+        ///// </summary>
+        ///// <param name="orgid"></param>
+        ///// <returns></returns>
+        //public ManageMenu[] GetAll4Org(int orgid)
+        //{
+        //    //取当前机构等级
+        //    object objid = Gateway.Default.Max<Organization>(Organization._.Olv_ID, 
+        //        Organization._.Org_ID == orgid && Organization._.Org_IsUse==true && Organization._.Org_IsPass==true);
+        //    int olv = objid is int ? (int)objid : 0;
+        //    if (olv == 0) return null;
+        //    //判断当前机构等级是否可用
+        //    objid = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_ID, OrganLevel._.Olv_IsUse == true && OrganLevel._.Olv_ID == olv);
+        //    olv = objid is int ? (int)objid : 0;
+        //    if (olv == 0) return null;
+        //    //当前机构是否有权限
+        //    int num = Gateway.Default.Count<Purview>(Purview._.Pur_Type == "orglevel" && Purview._.Olv_ID == olv);
+        //    string sql = "";
+        //    if (num < 1)
+        //    {
+        //        //如果当前机构等级没有设置权限，则返回基础权限
+        //        //return GetOrganPurview();
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        //获取当前机构等级的权限，与基础专权为交集
+        //        sql = @"select m2.* from
+        //            (select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
+        //            where pur.org_id={orgid}
+        //            UNION ALL
+        //            select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
+        //            where pur.olv_id={olvid} ) as m2  where m2.mm_isuse=true order by m2.mm_tax asc";
+        //        sql = sql.Replace("{orgid}", orgid.ToString());
+        //        sql = sql.Replace("{olvid}", olv.ToString());
+        //    }
+        //    ////如果不是access，就是sqlserver
+        //    //if (WeiSha.Core.Server.DatabaseType != "Access")
+        //    //    sql = sql.Replace("true", "1");
+        //    return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
+        //}
+        ///// <summary>
+        ///// 获取机构的某一个根菜单项的权限
+        ///// </summary>
+        ///// <param name="orgid"></param>
+        ///// <param name="marker">例如教师管理teacher,学生管理student,机构管理organAdmin</param>
+        ///// <returns></returns>
+        //public ManageMenu[] GetAll4Org(int orgid, string marker)
+        //{
+        //    if (string.IsNullOrWhiteSpace(marker)) return this.GetAll4Org(orgid);
+        //    //取当前机构等级
+        //    object objid = Gateway.Default.Max<Organization>(Organization._.Olv_ID,
+        //        Organization._.Org_ID == orgid && Organization._.Org_IsUse == true && Organization._.Org_IsPass == true);
+        //    int olv = objid is int ? (int)objid : 0;
+        //    if (olv == 0) return null;
+        //    //判断当前机构等级是否可用
+        //    objid = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_ID, OrganLevel._.Olv_IsUse == true && OrganLevel._.Olv_ID == olv);
+        //    olv = objid is int ? (int)objid : 0;
+        //    if (olv == 0) return null;
+        //    //当前机构是否有权限
+        //    int num = Gateway.Default.Count<Purview>(Purview._.Pur_Type == "orglevel" && Purview._.Olv_ID == olv);
+        //    string sql = "";
+        //    if (num < 1)
+        //    {
+        //        //如果当前机构等级没有设置权限，则返回基础权限
+        //        //return GetOrganPurview(marker);
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        //根菜单项
+        //        ManageMenu root = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Marker == marker && ManageMenu._.MM_PatId == 0).ToFirst<ManageMenu>();
+        //        int rootid = root == null ? 0 : (int)root.MM_Root;
+        //        //获取当前机构等级的权限，与基础专权为交集
+        //        sql = @"select m2.* from
+        //            (select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
+        //            where pur.org_id={orgid}
+        //            UNION ALL
+        //            select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
+        //            where pur.olv_id={olvid}) as m2
+        //           where m2.mm_isuse=true and m2.mm_root={root} order by m2.mm_tax asc";
+        //        sql = sql.Replace("{orgid}", orgid.ToString());
+        //        sql = sql.Replace("{olvid}", olv.ToString());
+        //        sql = sql.Replace("{root}", rootid.ToString());
+        //    }
+        //    ////如果不是access，就是sqlserver
+        //    //if (WeiSha.Core.Server.DatabaseType != "Access")
+        //    //    sql = sql.Replace("true", "1");
+        //    return Gateway.Default.FromSql(sql).ToArray<ManageMenu>();
+        //}
         /// <summary>
         /// 获取机构的基础权限，如果不设置机构所在等级的所权，则获取此权限
         /// </summary>

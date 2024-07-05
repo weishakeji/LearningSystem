@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <ConnectionStrings>
+    <item dbtype="PostgreSQL" server="localhost" port="5432" dbname="examweisha" user="postgres" pwd="weishakeji" />
+    <item dbtype="PostgreSQL" server="localhost" port="5432" dbname="examweisha_empty" user="postgres" pwd="weishakeji" />
+    <item dbtype="PostgreSQL" server="localhost" port="5432" dbname="test" user="postgres" pwd="weishakeji" />
+  </ConnectionStrings>
+  <SaveSqlScript type="single">
+    <Files>
+      <item>E:\SourceCode\02_GenereteForPostgreSQL\Generate\Publish\1.sql</item>
+    </Files>
+    <Folders>
+      <item>E:\SourceCode\02_GenereteForPostgreSQL\Generate\Publish\SqlScripts</item>
+    </Folders>
+  </SaveSqlScript>
+  <EntityFolder>
+    <item>..\Song.Entities</item>
+  </EntityFolder>
+</Config>

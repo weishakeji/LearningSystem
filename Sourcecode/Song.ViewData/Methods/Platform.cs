@@ -154,6 +154,7 @@ namespace Song.ViewData.Methods
         {
             return WeiSha.Core.Server.Port;
         }
+        #region 数据库相关
         /// <summary>
         /// 数据库是否链接正常
         /// </summary>
@@ -163,27 +164,29 @@ namespace Song.ViewData.Methods
             bool isCorrect = Business.Do<ISystemPara>().DatabaseLinkTest();
             return isCorrect;
         }
-
+        /// <summary>
+        /// 数据库类型，例如Sqlserver或PostgreSql
+        /// </summary>
+        /// <returns></returns>
+        public string DataBaseType()
+        {
+            return Business.Do<ISystemPara>().DataBaseType();
+        }
+        /// <summary>
+        /// 数据库的名称
+        /// </summary>
+        /// <returns></returns>
+        public string DataBaseName()
+        {
+            return Business.Do<ISystemPara>().DataBaseName();
+        }
         /// <summary>
         /// 数据库版本
         /// </summary>
         /// <returns></returns>
         public string DbVersion()
         {
-            object version = Business.Do<ISystemPara>().ScalarSql("select @@version");
-            if (version == null) return string.Empty;
-            string str = version.ToString();
-            str = str.Replace("\n", "").Replace("\t", "").Replace("\r", "");
-            return str;
-        }
-        /// <summary>
-        /// 服务器端的时间，用于考试等场景，保持所有学员跨时区时间同步
-        /// </summary>
-        /// <returns>时间戳，客户端通过eval('new ' + eval('/Date({$servertime})/').source)转为本地时间</returns>
-        [HttpGet, HttpPost]
-        public long ServerTime()
-        {
-            return WeiSha.Core.Server.getTime();
+            return Business.Do<ISystemPara>().DbVersion();
         }
         /// <summary>
         /// 数据库字段与表是否完成
@@ -206,6 +209,16 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        #endregion
+        /// <summary>
+        /// 服务器端的时间，用于考试等场景，保持所有学员跨时区时间同步
+        /// </summary>
+        /// <returns>时间戳，客户端通过eval('new ' + eval('/Date({$servertime})/').source)转为本地时间</returns>
+        [HttpGet, HttpPost]
+        public long ServerTime()
+        {
+            return WeiSha.Core.Server.getTime();
+        }       
         /// <summary>
         /// 是否支持多机构
         /// </summary>

@@ -14,17 +14,17 @@ namespace Song.Entities {
     		
     		protected Int64 _Cou_ID;
     		
+    		protected Int32 _Qus_Diff;
+    		
     		protected Int64 _Qus_ID;
     		
     		protected Int32 _Qus_Type;
     		
-    		protected Int32 _Qus_Diff;
-    		
     		protected Int64 _Sbj_ID;
     		
-    		protected Int32 _Squs_Level;
-    		
     		protected DateTime _Squs_CrtTime;
+    		
+    		protected Int32 _Squs_Level;
     		
     		public Int32 Squs_ID {
     			get {
@@ -56,6 +56,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Qus_Diff {
+    			get {
+    				return this._Qus_Diff;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Qus_Diff, _Qus_Diff, value);
+    				this._Qus_Diff = value;
+    			}
+    		}
+    		
     		public Int64 Qus_ID {
     			get {
     				return this._Qus_ID;
@@ -76,16 +86,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Qus_Diff {
-    			get {
-    				return this._Qus_Diff;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Qus_Diff, _Qus_Diff, value);
-    				this._Qus_Diff = value;
-    			}
-    		}
-    		
     		public Int64 Sbj_ID {
     			get {
     				return this._Sbj_ID;
@@ -93,16 +93,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Sbj_ID, _Sbj_ID, value);
     				this._Sbj_ID = value;
-    			}
-    		}
-    		
-    		public Int32 Squs_Level {
-    			get {
-    				return this._Squs_Level;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Squs_Level, _Squs_Level, value);
-    				this._Squs_Level = value;
     			}
     		}
     		
@@ -116,18 +106,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Squs_Level {
+    			get {
+    				return this._Squs_Level;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Squs_Level, _Squs_Level, value);
+    				this._Squs_Level = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Student_Ques>("Student_Ques");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Squs_ID;
     		}
     		
     		/// <summary>
@@ -146,12 +139,12 @@ namespace Song.Entities {
     					_.Squs_ID,
     					_.Ac_ID,
     					_.Cou_ID,
+    					_.Qus_Diff,
     					_.Qus_ID,
     					_.Qus_Type,
-    					_.Qus_Diff,
     					_.Sbj_ID,
-    					_.Squs_Level,
-    					_.Squs_CrtTime};
+    					_.Squs_CrtTime,
+    					_.Squs_Level};
     		}
     		
     		/// <summary>
@@ -162,12 +155,12 @@ namespace Song.Entities {
     					this._Squs_ID,
     					this._Ac_ID,
     					this._Cou_ID,
+    					this._Qus_Diff,
     					this._Qus_ID,
     					this._Qus_Type,
-    					this._Qus_Diff,
     					this._Sbj_ID,
-    					this._Squs_Level,
-    					this._Squs_CrtTime};
+    					this._Squs_CrtTime,
+    					this._Squs_Level};
     		}
     		
     		/// <summary>
@@ -183,23 +176,23 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
+    			if ((false == reader.IsDBNull(_.Qus_Diff))) {
+    				this._Qus_Diff = reader.GetInt32(_.Qus_Diff);
+    			}
     			if ((false == reader.IsDBNull(_.Qus_ID))) {
     				this._Qus_ID = reader.GetInt64(_.Qus_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_Type))) {
     				this._Qus_Type = reader.GetInt32(_.Qus_Type);
     			}
-    			if ((false == reader.IsDBNull(_.Qus_Diff))) {
-    				this._Qus_Diff = reader.GetInt32(_.Qus_Diff);
-    			}
     			if ((false == reader.IsDBNull(_.Sbj_ID))) {
     				this._Sbj_ID = reader.GetInt64(_.Sbj_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Squs_Level))) {
-    				this._Squs_Level = reader.GetInt32(_.Squs_Level);
-    			}
     			if ((false == reader.IsDBNull(_.Squs_CrtTime))) {
     				this._Squs_CrtTime = reader.GetDateTime(_.Squs_CrtTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Squs_Level))) {
+    				this._Squs_Level = reader.GetInt32(_.Squs_Level);
     			}
     		}
     		
@@ -243,6 +236,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Student_Ques>("Cou_ID");
     			
     			/// <summary>
+    			/// 字段名：Qus_Diff - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Qus_Diff = new WeiSha.Data.Field<Student_Ques>("Qus_Diff");
+    			
+    			/// <summary>
     			/// 字段名：Qus_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<Student_Ques>("Qus_ID");
@@ -253,24 +251,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Qus_Type = new WeiSha.Data.Field<Student_Ques>("Qus_Type");
     			
     			/// <summary>
-    			/// 字段名：Qus_Diff - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Qus_Diff = new WeiSha.Data.Field<Student_Ques>("Qus_Diff");
-    			
-    			/// <summary>
     			/// 字段名：Sbj_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<Student_Ques>("Sbj_ID");
     			
     			/// <summary>
-    			/// 字段名：Squs_Level - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Squs_Level = new WeiSha.Data.Field<Student_Ques>("Squs_Level");
-    			
-    			/// <summary>
     			/// 字段名：Squs_CrtTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Squs_CrtTime = new WeiSha.Data.Field<Student_Ques>("Squs_CrtTime");
+    			
+    			/// <summary>
+    			/// 字段名：Squs_Level - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Squs_Level = new WeiSha.Data.Field<Student_Ques>("Squs_Level");
     		}
     	}
     }

@@ -12,27 +12,27 @@ namespace Song.Entities {
     		
     		protected Int32 _Ac_ID;
     		
-    		protected Int32 _Ca_Total;
+    		protected DateTime _Ca_CrtTime;
     		
-    		protected Int32 _Ca_TotalAmount;
-    		
-    		protected Int32 _Ca_Value;
-    		
-    		protected String _Ca_Source;
-    		
-    		protected Int32 _Ca_Type;
+    		protected Int32 _Ca_From;
     		
     		protected String _Ca_Info;
     		
     		protected String _Ca_Remark;
     		
-    		protected DateTime _Ca_CrtTime;
-    		
-    		protected Int32 _Org_ID;
-    		
     		protected String _Ca_Serial;
     		
-    		protected Int32 _Ca_From;
+    		protected String _Ca_Source;
+    		
+    		protected Int32 _Ca_Total;
+    		
+    		protected Int32 _Ca_TotalAmount;
+    		
+    		protected Int32 _Ca_Type;
+    		
+    		protected Int32 _Ca_Value;
+    		
+    		protected Int32 _Org_ID;
     		
     		protected String _Rc_Code;
     		
@@ -56,53 +56,23 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ca_Total {
+    		public DateTime Ca_CrtTime {
     			get {
-    				return this._Ca_Total;
+    				return this._Ca_CrtTime;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ca_Total, _Ca_Total, value);
-    				this._Ca_Total = value;
+    				this.OnPropertyValueChange(_.Ca_CrtTime, _Ca_CrtTime, value);
+    				this._Ca_CrtTime = value;
     			}
     		}
     		
-    		public Int32 Ca_TotalAmount {
+    		public Int32 Ca_From {
     			get {
-    				return this._Ca_TotalAmount;
+    				return this._Ca_From;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ca_TotalAmount, _Ca_TotalAmount, value);
-    				this._Ca_TotalAmount = value;
-    			}
-    		}
-    		
-    		public Int32 Ca_Value {
-    			get {
-    				return this._Ca_Value;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ca_Value, _Ca_Value, value);
-    				this._Ca_Value = value;
-    			}
-    		}
-    		
-    		public String Ca_Source {
-    			get {
-    				return this._Ca_Source;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ca_Source, _Ca_Source, value);
-    				this._Ca_Source = value;
-    			}
-    		}
-    		
-    		public Int32 Ca_Type {
-    			get {
-    				return this._Ca_Type;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ca_Type, _Ca_Type, value);
-    				this._Ca_Type = value;
+    				this.OnPropertyValueChange(_.Ca_From, _Ca_From, value);
+    				this._Ca_From = value;
     			}
     		}
     		
@@ -126,26 +96,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public DateTime Ca_CrtTime {
-    			get {
-    				return this._Ca_CrtTime;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ca_CrtTime, _Ca_CrtTime, value);
-    				this._Ca_CrtTime = value;
-    			}
-    		}
-    		
-    		public Int32 Org_ID {
-    			get {
-    				return this._Org_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
-    				this._Org_ID = value;
-    			}
-    		}
-    		
     		public String Ca_Serial {
     			get {
     				return this._Ca_Serial;
@@ -156,13 +106,63 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ca_From {
+    		public String Ca_Source {
     			get {
-    				return this._Ca_From;
+    				return this._Ca_Source;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ca_From, _Ca_From, value);
-    				this._Ca_From = value;
+    				this.OnPropertyValueChange(_.Ca_Source, _Ca_Source, value);
+    				this._Ca_Source = value;
+    			}
+    		}
+    		
+    		public Int32 Ca_Total {
+    			get {
+    				return this._Ca_Total;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ca_Total, _Ca_Total, value);
+    				this._Ca_Total = value;
+    			}
+    		}
+    		
+    		public Int32 Ca_TotalAmount {
+    			get {
+    				return this._Ca_TotalAmount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ca_TotalAmount, _Ca_TotalAmount, value);
+    				this._Ca_TotalAmount = value;
+    			}
+    		}
+    		
+    		public Int32 Ca_Type {
+    			get {
+    				return this._Ca_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ca_Type, _Ca_Type, value);
+    				this._Ca_Type = value;
+    			}
+    		}
+    		
+    		public Int32 Ca_Value {
+    			get {
+    				return this._Ca_Value;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ca_Value, _Ca_Value, value);
+    				this._Ca_Value = value;
+    			}
+    		}
+    		
+    		public Int32 Org_ID {
+    			get {
+    				return this._Org_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
+    				this._Org_ID = value;
     			}
     		}
     		
@@ -184,13 +184,6 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Ca_ID;
-    		}
-    		
-    		/// <summary>
     		/// 获取实体中的主键列
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
@@ -205,17 +198,17 @@ namespace Song.Entities {
     			return new WeiSha.Data.Field[] {
     					_.Ca_ID,
     					_.Ac_ID,
-    					_.Ca_Total,
-    					_.Ca_TotalAmount,
-    					_.Ca_Value,
-    					_.Ca_Source,
-    					_.Ca_Type,
+    					_.Ca_CrtTime,
+    					_.Ca_From,
     					_.Ca_Info,
     					_.Ca_Remark,
-    					_.Ca_CrtTime,
-    					_.Org_ID,
     					_.Ca_Serial,
-    					_.Ca_From,
+    					_.Ca_Source,
+    					_.Ca_Total,
+    					_.Ca_TotalAmount,
+    					_.Ca_Type,
+    					_.Ca_Value,
+    					_.Org_ID,
     					_.Rc_Code};
     		}
     		
@@ -226,17 +219,17 @@ namespace Song.Entities {
     			return new object[] {
     					this._Ca_ID,
     					this._Ac_ID,
-    					this._Ca_Total,
-    					this._Ca_TotalAmount,
-    					this._Ca_Value,
-    					this._Ca_Source,
-    					this._Ca_Type,
+    					this._Ca_CrtTime,
+    					this._Ca_From,
     					this._Ca_Info,
     					this._Ca_Remark,
-    					this._Ca_CrtTime,
-    					this._Org_ID,
     					this._Ca_Serial,
-    					this._Ca_From,
+    					this._Ca_Source,
+    					this._Ca_Total,
+    					this._Ca_TotalAmount,
+    					this._Ca_Type,
+    					this._Ca_Value,
+    					this._Org_ID,
     					this._Rc_Code};
     		}
     		
@@ -250,20 +243,11 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ac_ID))) {
     				this._Ac_ID = reader.GetInt32(_.Ac_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ca_Total))) {
-    				this._Ca_Total = reader.GetInt32(_.Ca_Total);
+    			if ((false == reader.IsDBNull(_.Ca_CrtTime))) {
+    				this._Ca_CrtTime = reader.GetDateTime(_.Ca_CrtTime);
     			}
-    			if ((false == reader.IsDBNull(_.Ca_TotalAmount))) {
-    				this._Ca_TotalAmount = reader.GetInt32(_.Ca_TotalAmount);
-    			}
-    			if ((false == reader.IsDBNull(_.Ca_Value))) {
-    				this._Ca_Value = reader.GetInt32(_.Ca_Value);
-    			}
-    			if ((false == reader.IsDBNull(_.Ca_Source))) {
-    				this._Ca_Source = reader.GetString(_.Ca_Source);
-    			}
-    			if ((false == reader.IsDBNull(_.Ca_Type))) {
-    				this._Ca_Type = reader.GetInt32(_.Ca_Type);
+    			if ((false == reader.IsDBNull(_.Ca_From))) {
+    				this._Ca_From = reader.GetInt32(_.Ca_From);
     			}
     			if ((false == reader.IsDBNull(_.Ca_Info))) {
     				this._Ca_Info = reader.GetString(_.Ca_Info);
@@ -271,17 +255,26 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ca_Remark))) {
     				this._Ca_Remark = reader.GetString(_.Ca_Remark);
     			}
-    			if ((false == reader.IsDBNull(_.Ca_CrtTime))) {
-    				this._Ca_CrtTime = reader.GetDateTime(_.Ca_CrtTime);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_ID))) {
-    				this._Org_ID = reader.GetInt32(_.Org_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Ca_Serial))) {
     				this._Ca_Serial = reader.GetString(_.Ca_Serial);
     			}
-    			if ((false == reader.IsDBNull(_.Ca_From))) {
-    				this._Ca_From = reader.GetInt32(_.Ca_From);
+    			if ((false == reader.IsDBNull(_.Ca_Source))) {
+    				this._Ca_Source = reader.GetString(_.Ca_Source);
+    			}
+    			if ((false == reader.IsDBNull(_.Ca_Total))) {
+    				this._Ca_Total = reader.GetInt32(_.Ca_Total);
+    			}
+    			if ((false == reader.IsDBNull(_.Ca_TotalAmount))) {
+    				this._Ca_TotalAmount = reader.GetInt32(_.Ca_TotalAmount);
+    			}
+    			if ((false == reader.IsDBNull(_.Ca_Type))) {
+    				this._Ca_Type = reader.GetInt32(_.Ca_Type);
+    			}
+    			if ((false == reader.IsDBNull(_.Ca_Value))) {
+    				this._Ca_Value = reader.GetInt32(_.Ca_Value);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_ID))) {
+    				this._Org_ID = reader.GetInt32(_.Org_ID);
     			}
     			if ((false == reader.IsDBNull(_.Rc_Code))) {
     				this._Rc_Code = reader.GetString(_.Rc_Code);
@@ -323,29 +316,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ac_ID = new WeiSha.Data.Field<CouponAccount>("Ac_ID");
     			
     			/// <summary>
-    			/// 字段名：Ca_Total - 数据类型：Int32
+    			/// 字段名：Ca_CrtTime - 数据类型：DateTime
     			/// </summary>
-    			public static WeiSha.Data.Field Ca_Total = new WeiSha.Data.Field<CouponAccount>("Ca_Total");
+    			public static WeiSha.Data.Field Ca_CrtTime = new WeiSha.Data.Field<CouponAccount>("Ca_CrtTime");
     			
     			/// <summary>
-    			/// 字段名：Ca_TotalAmount - 数据类型：Int32
+    			/// 字段名：Ca_From - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Ca_TotalAmount = new WeiSha.Data.Field<CouponAccount>("Ca_TotalAmount");
-    			
-    			/// <summary>
-    			/// 字段名：Ca_Value - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Ca_Value = new WeiSha.Data.Field<CouponAccount>("Ca_Value");
-    			
-    			/// <summary>
-    			/// 字段名：Ca_Source - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Ca_Source = new WeiSha.Data.Field<CouponAccount>("Ca_Source");
-    			
-    			/// <summary>
-    			/// 字段名：Ca_Type - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Ca_Type = new WeiSha.Data.Field<CouponAccount>("Ca_Type");
+    			public static WeiSha.Data.Field Ca_From = new WeiSha.Data.Field<CouponAccount>("Ca_From");
     			
     			/// <summary>
     			/// 字段名：Ca_Info - 数据类型：String
@@ -358,24 +336,39 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ca_Remark = new WeiSha.Data.Field<CouponAccount>("Ca_Remark");
     			
     			/// <summary>
-    			/// 字段名：Ca_CrtTime - 数据类型：DateTime
-    			/// </summary>
-    			public static WeiSha.Data.Field Ca_CrtTime = new WeiSha.Data.Field<CouponAccount>("Ca_CrtTime");
-    			
-    			/// <summary>
-    			/// 字段名：Org_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<CouponAccount>("Org_ID");
-    			
-    			/// <summary>
     			/// 字段名：Ca_Serial - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ca_Serial = new WeiSha.Data.Field<CouponAccount>("Ca_Serial");
     			
     			/// <summary>
-    			/// 字段名：Ca_From - 数据类型：Int32
+    			/// 字段名：Ca_Source - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Ca_From = new WeiSha.Data.Field<CouponAccount>("Ca_From");
+    			public static WeiSha.Data.Field Ca_Source = new WeiSha.Data.Field<CouponAccount>("Ca_Source");
+    			
+    			/// <summary>
+    			/// 字段名：Ca_Total - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Ca_Total = new WeiSha.Data.Field<CouponAccount>("Ca_Total");
+    			
+    			/// <summary>
+    			/// 字段名：Ca_TotalAmount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Ca_TotalAmount = new WeiSha.Data.Field<CouponAccount>("Ca_TotalAmount");
+    			
+    			/// <summary>
+    			/// 字段名：Ca_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Ca_Type = new WeiSha.Data.Field<CouponAccount>("Ca_Type");
+    			
+    			/// <summary>
+    			/// 字段名：Ca_Value - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Ca_Value = new WeiSha.Data.Field<CouponAccount>("Ca_Value");
+    			
+    			/// <summary>
+    			/// 字段名：Org_ID - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<CouponAccount>("Org_ID");
     			
     			/// <summary>
     			/// 字段名：Rc_Code - 数据类型：String

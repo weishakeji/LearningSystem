@@ -1079,25 +1079,12 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int StatisticalQuestion(long[] olid)
         {
-            //更新章节试题数            
-            string sql = @"select ol_id, COUNT(*) from Questions where {where} group by Ol_ID";
-            if (olid.Length < 1)
-            {
-                sql = sql.Replace("{where}", "1=1");
-            }
-            else
-            {
-                string where = "";
-                for(int i = 0; i < olid.Length; i++)
-                {
-                    where += " Ol_ID=" + olid[i];
-                    if(i<olid.Length-1)
-                        where += " or ";
-                }
-                sql = sql.Replace("{where}", where);
-            }
+            WhereClip wc = new WhereClip();
+            for (int i = 0; i < olid.Length; i++)
+                wc.Or(Questions._.Ol_ID == olid[i]);
             int num = 0;
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+            using (SourceReader reader = Gateway.Default.From<Questions>().Where(wc).GroupBy(Questions._.Ol_ID.Group)
+                .Select(new Field[] { Questions._.Ol_ID, new Field("COUNT(*)").As("count") }).ToReader())
             {
                 while (reader.Read())
                 {
@@ -1112,7 +1099,6 @@ namespace Song.ServiceImpls
                 }
                 reader.Close();
                 reader.Dispose();
-
             }
             return num;
         }

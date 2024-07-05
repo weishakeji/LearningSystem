@@ -10,19 +10,16 @@ namespace Song.Entities {
     		
     		protected Int32 _MMP_Id;
     		
-    		protected String _MMP_FileName;
+    		protected Int32 _FPI_Id;
     		
-    		protected Boolean _MMP_IsUse;
+    		protected String _MMP_FileName;
     		
     		protected Boolean _MMP_IsShow;
     		
+    		protected Boolean _MMP_IsUse;
+    		
     		protected Int32 _MM_Id;
     		
-    		protected Int32 _FPI_Id;
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Int32 MMP_Id {
     			get {
     				return this._MMP_Id;
@@ -33,9 +30,16 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// True
-    		/// </summary>
+    		public Int32 FPI_Id {
+    			get {
+    				return this._FPI_Id;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.FPI_Id, _FPI_Id, value);
+    				this._FPI_Id = value;
+    			}
+    		}
+    		
     		public String MMP_FileName {
     			get {
     				return this._MMP_FileName;
@@ -46,22 +50,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Boolean MMP_IsUse {
-    			get {
-    				return this._MMP_IsUse;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.MMP_IsUse, _MMP_IsUse, value);
-    				this._MMP_IsUse = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
     		public Boolean MMP_IsShow {
     			get {
     				return this._MMP_IsShow;
@@ -72,9 +60,16 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
+    		public Boolean MMP_IsUse {
+    			get {
+    				return this._MMP_IsUse;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MMP_IsUse, _MMP_IsUse, value);
+    				this._MMP_IsUse = value;
+    			}
+    		}
+    		
     		public Int32 MM_Id {
     			get {
     				return this._MM_Id;
@@ -86,30 +81,10 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32 FPI_Id {
-    			get {
-    				return this._FPI_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.FPI_Id, _FPI_Id, value);
-    				this._FPI_Id = value;
-    			}
-    		}
-    		
-    		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<ManageMenu_Point>("ManageMenu_Point");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.MMP_Id;
     		}
     		
     		/// <summary>
@@ -126,11 +101,11 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.MMP_Id,
+    					_.FPI_Id,
     					_.MMP_FileName,
-    					_.MMP_IsUse,
     					_.MMP_IsShow,
-    					_.MM_Id,
-    					_.FPI_Id};
+    					_.MMP_IsUse,
+    					_.MM_Id};
     		}
     		
     		/// <summary>
@@ -139,11 +114,11 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._MMP_Id,
+    					this._FPI_Id,
     					this._MMP_FileName,
-    					this._MMP_IsUse,
     					this._MMP_IsShow,
-    					this._MM_Id,
-    					this._FPI_Id};
+    					this._MMP_IsUse,
+    					this._MM_Id};
     		}
     		
     		/// <summary>
@@ -153,20 +128,20 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.MMP_Id))) {
     				this._MMP_Id = reader.GetInt32(_.MMP_Id);
     			}
+    			if ((false == reader.IsDBNull(_.FPI_Id))) {
+    				this._FPI_Id = reader.GetInt32(_.FPI_Id);
+    			}
     			if ((false == reader.IsDBNull(_.MMP_FileName))) {
     				this._MMP_FileName = reader.GetString(_.MMP_FileName);
-    			}
-    			if ((false == reader.IsDBNull(_.MMP_IsUse))) {
-    				this._MMP_IsUse = reader.GetBoolean(_.MMP_IsUse);
     			}
     			if ((false == reader.IsDBNull(_.MMP_IsShow))) {
     				this._MMP_IsShow = reader.GetBoolean(_.MMP_IsShow);
     			}
+    			if ((false == reader.IsDBNull(_.MMP_IsUse))) {
+    				this._MMP_IsUse = reader.GetBoolean(_.MMP_IsUse);
+    			}
     			if ((false == reader.IsDBNull(_.MM_Id))) {
     				this._MM_Id = reader.GetInt32(_.MM_Id);
-    			}
-    			if ((false == reader.IsDBNull(_.FPI_Id))) {
-    				this._FPI_Id = reader.GetInt32(_.FPI_Id);
     			}
     		}
     		
@@ -195,34 +170,34 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<ManageMenu_Point>();
     			
     			/// <summary>
-    			/// False - 字段名：MMP_Id - 数据类型：Int32
+    			/// 字段名：MMP_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field MMP_Id = new WeiSha.Data.Field<ManageMenu_Point>("MMP_Id");
     			
     			/// <summary>
-    			/// True - 字段名：MMP_FileName - 数据类型：String
+    			/// 字段名：FPI_Id - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field FPI_Id = new WeiSha.Data.Field<ManageMenu_Point>("FPI_Id");
+    			
+    			/// <summary>
+    			/// 字段名：MMP_FileName - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field MMP_FileName = new WeiSha.Data.Field<ManageMenu_Point>("MMP_FileName");
     			
     			/// <summary>
-    			/// False - 字段名：MMP_IsUse - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field MMP_IsUse = new WeiSha.Data.Field<ManageMenu_Point>("MMP_IsUse");
-    			
-    			/// <summary>
-    			/// False - 字段名：MMP_IsShow - 数据类型：Boolean
+    			/// 字段名：MMP_IsShow - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field MMP_IsShow = new WeiSha.Data.Field<ManageMenu_Point>("MMP_IsShow");
     			
     			/// <summary>
-    			/// False - 字段名：MM_Id - 数据类型：Int32
+    			/// 字段名：MMP_IsUse - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field MM_Id = new WeiSha.Data.Field<ManageMenu_Point>("MM_Id");
+    			public static WeiSha.Data.Field MMP_IsUse = new WeiSha.Data.Field<ManageMenu_Point>("MMP_IsUse");
     			
     			/// <summary>
-    			/// False - 字段名：FPI_Id - 数据类型：Int32
+    			/// 字段名：MM_Id - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field FPI_Id = new WeiSha.Data.Field<ManageMenu_Point>("FPI_Id");
+    			public static WeiSha.Data.Field MM_Id = new WeiSha.Data.Field<ManageMenu_Point>("MM_Id");
     		}
     	}
     }

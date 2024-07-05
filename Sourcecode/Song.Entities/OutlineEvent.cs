@@ -10,35 +10,35 @@ namespace Song.Entities {
     		
     		protected Int32 _Oe_ID;
     		
-    		protected Int64 _Ol_ID;
+    		protected Int64 _Cou_ID;
     		
-    		protected String _Ol_UID;
+    		protected String _Oe_Answer;
     		
-    		protected String _Oe_Title;
+    		protected String _Oe_Context;
     		
-    		protected Int32 _Oe_Width;
+    		protected DateTime _Oe_CrtTime;
+    		
+    		protected String _Oe_Datatable;
+    		
+    		protected Int32 _Oe_EventType;
     		
     		protected Int32 _Oe_Height;
     		
     		protected Boolean _Oe_IsUse;
     		
-    		protected Int32 _Oe_EventType;
+    		protected Int32 _Oe_Questype;
+    		
+    		protected String _Oe_Title;
     		
     		protected Int32 _Oe_TriggerPoint;
     		
-    		protected String _Oe_Context;
+    		protected Int32 _Oe_Width;
     		
-    		protected String _Oe_Datatable;
+    		protected Int64 _Ol_ID;
     		
-    		protected Int32 _Oe_Questype;
-    		
-    		protected String _Oe_Answer;
-    		
-    		protected Int64 _Cou_ID;
+    		protected String _Ol_UID;
     		
     		protected Int32 _Org_ID;
-    		
-    		protected DateTime _Oe_CrtTime;
     		
     		public Int32 Oe_ID {
     			get {
@@ -50,43 +50,63 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int64 Ol_ID {
+    		public Int64 Cou_ID {
     			get {
-    				return this._Ol_ID;
+    				return this._Cou_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
-    				this._Ol_ID = value;
+    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
+    				this._Cou_ID = value;
     			}
     		}
     		
-    		public String Ol_UID {
+    		public String Oe_Answer {
     			get {
-    				return this._Ol_UID;
+    				return this._Oe_Answer;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ol_UID, _Ol_UID, value);
-    				this._Ol_UID = value;
+    				this.OnPropertyValueChange(_.Oe_Answer, _Oe_Answer, value);
+    				this._Oe_Answer = value;
     			}
     		}
     		
-    		public String Oe_Title {
+    		public String Oe_Context {
     			get {
-    				return this._Oe_Title;
+    				return this._Oe_Context;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_Title, _Oe_Title, value);
-    				this._Oe_Title = value;
+    				this.OnPropertyValueChange(_.Oe_Context, _Oe_Context, value);
+    				this._Oe_Context = value;
     			}
     		}
     		
-    		public Int32 Oe_Width {
+    		public DateTime Oe_CrtTime {
     			get {
-    				return this._Oe_Width;
+    				return this._Oe_CrtTime;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_Width, _Oe_Width, value);
-    				this._Oe_Width = value;
+    				this.OnPropertyValueChange(_.Oe_CrtTime, _Oe_CrtTime, value);
+    				this._Oe_CrtTime = value;
+    			}
+    		}
+    		
+    		public String Oe_Datatable {
+    			get {
+    				return this._Oe_Datatable;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Oe_Datatable, _Oe_Datatable, value);
+    				this._Oe_Datatable = value;
+    			}
+    		}
+    		
+    		public Int32 Oe_EventType {
+    			get {
+    				return this._Oe_EventType;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Oe_EventType, _Oe_EventType, value);
+    				this._Oe_EventType = value;
     			}
     		}
     		
@@ -110,13 +130,23 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Oe_EventType {
+    		public Int32 Oe_Questype {
     			get {
-    				return this._Oe_EventType;
+    				return this._Oe_Questype;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_EventType, _Oe_EventType, value);
-    				this._Oe_EventType = value;
+    				this.OnPropertyValueChange(_.Oe_Questype, _Oe_Questype, value);
+    				this._Oe_Questype = value;
+    			}
+    		}
+    		
+    		public String Oe_Title {
+    			get {
+    				return this._Oe_Title;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Oe_Title, _Oe_Title, value);
+    				this._Oe_Title = value;
     			}
     		}
     		
@@ -130,53 +160,33 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Oe_Context {
+    		public Int32 Oe_Width {
     			get {
-    				return this._Oe_Context;
+    				return this._Oe_Width;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_Context, _Oe_Context, value);
-    				this._Oe_Context = value;
+    				this.OnPropertyValueChange(_.Oe_Width, _Oe_Width, value);
+    				this._Oe_Width = value;
     			}
     		}
     		
-    		public String Oe_Datatable {
+    		public Int64 Ol_ID {
     			get {
-    				return this._Oe_Datatable;
+    				return this._Ol_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_Datatable, _Oe_Datatable, value);
-    				this._Oe_Datatable = value;
+    				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
+    				this._Ol_ID = value;
     			}
     		}
     		
-    		public Int32 Oe_Questype {
+    		public String Ol_UID {
     			get {
-    				return this._Oe_Questype;
+    				return this._Ol_UID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Oe_Questype, _Oe_Questype, value);
-    				this._Oe_Questype = value;
-    			}
-    		}
-    		
-    		public String Oe_Answer {
-    			get {
-    				return this._Oe_Answer;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Oe_Answer, _Oe_Answer, value);
-    				this._Oe_Answer = value;
-    			}
-    		}
-    		
-    		public Int64 Cou_ID {
-    			get {
-    				return this._Cou_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
-    				this._Cou_ID = value;
+    				this.OnPropertyValueChange(_.Ol_UID, _Ol_UID, value);
+    				this._Ol_UID = value;
     			}
     		}
     		
@@ -190,28 +200,11 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public DateTime Oe_CrtTime {
-    			get {
-    				return this._Oe_CrtTime;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Oe_CrtTime, _Oe_CrtTime, value);
-    				this._Oe_CrtTime = value;
-    			}
-    		}
-    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<OutlineEvent>("OutlineEvent");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Oe_ID;
     		}
     		
     		/// <summary>
@@ -228,21 +221,21 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.Oe_ID,
-    					_.Ol_ID,
-    					_.Ol_UID,
-    					_.Oe_Title,
-    					_.Oe_Width,
+    					_.Cou_ID,
+    					_.Oe_Answer,
+    					_.Oe_Context,
+    					_.Oe_CrtTime,
+    					_.Oe_Datatable,
+    					_.Oe_EventType,
     					_.Oe_Height,
     					_.Oe_IsUse,
-    					_.Oe_EventType,
-    					_.Oe_TriggerPoint,
-    					_.Oe_Context,
-    					_.Oe_Datatable,
     					_.Oe_Questype,
-    					_.Oe_Answer,
-    					_.Cou_ID,
-    					_.Org_ID,
-    					_.Oe_CrtTime};
+    					_.Oe_Title,
+    					_.Oe_TriggerPoint,
+    					_.Oe_Width,
+    					_.Ol_ID,
+    					_.Ol_UID,
+    					_.Org_ID};
     		}
     		
     		/// <summary>
@@ -251,21 +244,21 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._Oe_ID,
-    					this._Ol_ID,
-    					this._Ol_UID,
-    					this._Oe_Title,
-    					this._Oe_Width,
+    					this._Cou_ID,
+    					this._Oe_Answer,
+    					this._Oe_Context,
+    					this._Oe_CrtTime,
+    					this._Oe_Datatable,
+    					this._Oe_EventType,
     					this._Oe_Height,
     					this._Oe_IsUse,
-    					this._Oe_EventType,
-    					this._Oe_TriggerPoint,
-    					this._Oe_Context,
-    					this._Oe_Datatable,
     					this._Oe_Questype,
-    					this._Oe_Answer,
-    					this._Cou_ID,
-    					this._Org_ID,
-    					this._Oe_CrtTime};
+    					this._Oe_Title,
+    					this._Oe_TriggerPoint,
+    					this._Oe_Width,
+    					this._Ol_ID,
+    					this._Ol_UID,
+    					this._Org_ID};
     		}
     		
     		/// <summary>
@@ -275,17 +268,23 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Oe_ID))) {
     				this._Oe_ID = reader.GetInt32(_.Oe_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_ID))) {
-    				this._Ol_ID = reader.GetInt64(_.Ol_ID);
+    			if ((false == reader.IsDBNull(_.Cou_ID))) {
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_UID))) {
-    				this._Ol_UID = reader.GetString(_.Ol_UID);
+    			if ((false == reader.IsDBNull(_.Oe_Answer))) {
+    				this._Oe_Answer = reader.GetString(_.Oe_Answer);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_Title))) {
-    				this._Oe_Title = reader.GetString(_.Oe_Title);
+    			if ((false == reader.IsDBNull(_.Oe_Context))) {
+    				this._Oe_Context = reader.GetString(_.Oe_Context);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_Width))) {
-    				this._Oe_Width = reader.GetInt32(_.Oe_Width);
+    			if ((false == reader.IsDBNull(_.Oe_CrtTime))) {
+    				this._Oe_CrtTime = reader.GetDateTime(_.Oe_CrtTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Oe_Datatable))) {
+    				this._Oe_Datatable = reader.GetString(_.Oe_Datatable);
+    			}
+    			if ((false == reader.IsDBNull(_.Oe_EventType))) {
+    				this._Oe_EventType = reader.GetInt32(_.Oe_EventType);
     			}
     			if ((false == reader.IsDBNull(_.Oe_Height))) {
     				this._Oe_Height = reader.GetInt32(_.Oe_Height);
@@ -293,32 +292,26 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Oe_IsUse))) {
     				this._Oe_IsUse = reader.GetBoolean(_.Oe_IsUse);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_EventType))) {
-    				this._Oe_EventType = reader.GetInt32(_.Oe_EventType);
+    			if ((false == reader.IsDBNull(_.Oe_Questype))) {
+    				this._Oe_Questype = reader.GetInt32(_.Oe_Questype);
+    			}
+    			if ((false == reader.IsDBNull(_.Oe_Title))) {
+    				this._Oe_Title = reader.GetString(_.Oe_Title);
     			}
     			if ((false == reader.IsDBNull(_.Oe_TriggerPoint))) {
     				this._Oe_TriggerPoint = reader.GetInt32(_.Oe_TriggerPoint);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_Context))) {
-    				this._Oe_Context = reader.GetString(_.Oe_Context);
+    			if ((false == reader.IsDBNull(_.Oe_Width))) {
+    				this._Oe_Width = reader.GetInt32(_.Oe_Width);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_Datatable))) {
-    				this._Oe_Datatable = reader.GetString(_.Oe_Datatable);
+    			if ((false == reader.IsDBNull(_.Ol_ID))) {
+    				this._Ol_ID = reader.GetInt64(_.Ol_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Oe_Questype))) {
-    				this._Oe_Questype = reader.GetInt32(_.Oe_Questype);
-    			}
-    			if ((false == reader.IsDBNull(_.Oe_Answer))) {
-    				this._Oe_Answer = reader.GetString(_.Oe_Answer);
-    			}
-    			if ((false == reader.IsDBNull(_.Cou_ID))) {
-    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
+    			if ((false == reader.IsDBNull(_.Ol_UID))) {
+    				this._Ol_UID = reader.GetString(_.Ol_UID);
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Oe_CrtTime))) {
-    				this._Oe_CrtTime = reader.GetDateTime(_.Oe_CrtTime);
     			}
     		}
     		
@@ -352,24 +345,34 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Oe_ID = new WeiSha.Data.Field<OutlineEvent>("Oe_ID");
     			
     			/// <summary>
-    			/// 字段名：Ol_ID - 数据类型：Int64
+    			/// 字段名：Cou_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<OutlineEvent>("Ol_ID");
+    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<OutlineEvent>("Cou_ID");
     			
     			/// <summary>
-    			/// 字段名：Ol_UID - 数据类型：String
+    			/// 字段名：Oe_Answer - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Ol_UID = new WeiSha.Data.Field<OutlineEvent>("Ol_UID");
+    			public static WeiSha.Data.Field Oe_Answer = new WeiSha.Data.Field<OutlineEvent>("Oe_Answer");
     			
     			/// <summary>
-    			/// 字段名：Oe_Title - 数据类型：String
+    			/// 字段名：Oe_Context - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_Title = new WeiSha.Data.Field<OutlineEvent>("Oe_Title");
+    			public static WeiSha.Data.Field Oe_Context = new WeiSha.Data.Field<OutlineEvent>("Oe_Context");
     			
     			/// <summary>
-    			/// 字段名：Oe_Width - 数据类型：Int32
+    			/// 字段名：Oe_CrtTime - 数据类型：DateTime
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_Width = new WeiSha.Data.Field<OutlineEvent>("Oe_Width");
+    			public static WeiSha.Data.Field Oe_CrtTime = new WeiSha.Data.Field<OutlineEvent>("Oe_CrtTime");
+    			
+    			/// <summary>
+    			/// 字段名：Oe_Datatable - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Oe_Datatable = new WeiSha.Data.Field<OutlineEvent>("Oe_Datatable");
+    			
+    			/// <summary>
+    			/// 字段名：Oe_EventType - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Oe_EventType = new WeiSha.Data.Field<OutlineEvent>("Oe_EventType");
     			
     			/// <summary>
     			/// 字段名：Oe_Height - 数据类型：Int32
@@ -382,9 +385,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Oe_IsUse = new WeiSha.Data.Field<OutlineEvent>("Oe_IsUse");
     			
     			/// <summary>
-    			/// 字段名：Oe_EventType - 数据类型：Int32
+    			/// 字段名：Oe_Questype - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_EventType = new WeiSha.Data.Field<OutlineEvent>("Oe_EventType");
+    			public static WeiSha.Data.Field Oe_Questype = new WeiSha.Data.Field<OutlineEvent>("Oe_Questype");
+    			
+    			/// <summary>
+    			/// 字段名：Oe_Title - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Oe_Title = new WeiSha.Data.Field<OutlineEvent>("Oe_Title");
     			
     			/// <summary>
     			/// 字段名：Oe_TriggerPoint - 数据类型：Int32
@@ -392,39 +400,24 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Oe_TriggerPoint = new WeiSha.Data.Field<OutlineEvent>("Oe_TriggerPoint");
     			
     			/// <summary>
-    			/// 字段名：Oe_Context - 数据类型：String
+    			/// 字段名：Oe_Width - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_Context = new WeiSha.Data.Field<OutlineEvent>("Oe_Context");
+    			public static WeiSha.Data.Field Oe_Width = new WeiSha.Data.Field<OutlineEvent>("Oe_Width");
     			
     			/// <summary>
-    			/// 字段名：Oe_Datatable - 数据类型：String
+    			/// 字段名：Ol_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_Datatable = new WeiSha.Data.Field<OutlineEvent>("Oe_Datatable");
+    			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<OutlineEvent>("Ol_ID");
     			
     			/// <summary>
-    			/// 字段名：Oe_Questype - 数据类型：Int32
+    			/// 字段名：Ol_UID - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Oe_Questype = new WeiSha.Data.Field<OutlineEvent>("Oe_Questype");
-    			
-    			/// <summary>
-    			/// 字段名：Oe_Answer - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Oe_Answer = new WeiSha.Data.Field<OutlineEvent>("Oe_Answer");
-    			
-    			/// <summary>
-    			/// 字段名：Cou_ID - 数据类型：Int64
-    			/// </summary>
-    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<OutlineEvent>("Cou_ID");
+    			public static WeiSha.Data.Field Ol_UID = new WeiSha.Data.Field<OutlineEvent>("Ol_UID");
     			
     			/// <summary>
     			/// 字段名：Org_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<OutlineEvent>("Org_ID");
-    			
-    			/// <summary>
-    			/// 字段名：Oe_CrtTime - 数据类型：DateTime
-    			/// </summary>
-    			public static WeiSha.Data.Field Oe_CrtTime = new WeiSha.Data.Field<OutlineEvent>("Oe_CrtTime");
     		}
     	}
     }

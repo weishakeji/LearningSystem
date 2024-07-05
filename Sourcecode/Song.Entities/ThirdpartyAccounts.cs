@@ -10,15 +10,15 @@ namespace Song.Entities {
     		
     		protected Int32 _Ta_ID;
     		
-    		protected String _Ta_NickName;
+    		protected Int64 _Ac_ID;
     		
     		protected String _Ta_Headimgurl;
+    		
+    		protected String _Ta_NickName;
     		
     		protected String _Ta_Openid;
     		
     		protected String _Ta_Tag;
-    		
-    		protected Int64 _Ac_ID;
     		
     		public Int32 Ta_ID {
     			get {
@@ -30,13 +30,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Ta_NickName {
+    		public Int64 Ac_ID {
     			get {
-    				return this._Ta_NickName;
+    				return this._Ac_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ta_NickName, _Ta_NickName, value);
-    				this._Ta_NickName = value;
+    				this.OnPropertyValueChange(_.Ac_ID, _Ac_ID, value);
+    				this._Ac_ID = value;
     			}
     		}
     		
@@ -47,6 +47,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Ta_Headimgurl, _Ta_Headimgurl, value);
     				this._Ta_Headimgurl = value;
+    			}
+    		}
+    		
+    		public String Ta_NickName {
+    			get {
+    				return this._Ta_NickName;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ta_NickName, _Ta_NickName, value);
+    				this._Ta_NickName = value;
     			}
     		}
     		
@@ -70,28 +80,11 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int64 Ac_ID {
-    			get {
-    				return this._Ac_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ac_ID, _Ac_ID, value);
-    				this._Ac_ID = value;
-    			}
-    		}
-    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<ThirdpartyAccounts>("ThirdpartyAccounts");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Ta_ID;
     		}
     		
     		/// <summary>
@@ -108,11 +101,11 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.Ta_ID,
-    					_.Ta_NickName,
+    					_.Ac_ID,
     					_.Ta_Headimgurl,
+    					_.Ta_NickName,
     					_.Ta_Openid,
-    					_.Ta_Tag,
-    					_.Ac_ID};
+    					_.Ta_Tag};
     		}
     		
     		/// <summary>
@@ -121,11 +114,11 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._Ta_ID,
-    					this._Ta_NickName,
+    					this._Ac_ID,
     					this._Ta_Headimgurl,
+    					this._Ta_NickName,
     					this._Ta_Openid,
-    					this._Ta_Tag,
-    					this._Ac_ID};
+    					this._Ta_Tag};
     		}
     		
     		/// <summary>
@@ -135,20 +128,20 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ta_ID))) {
     				this._Ta_ID = reader.GetInt32(_.Ta_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ta_NickName))) {
-    				this._Ta_NickName = reader.GetString(_.Ta_NickName);
+    			if ((false == reader.IsDBNull(_.Ac_ID))) {
+    				this._Ac_ID = reader.GetInt64(_.Ac_ID);
     			}
     			if ((false == reader.IsDBNull(_.Ta_Headimgurl))) {
     				this._Ta_Headimgurl = reader.GetString(_.Ta_Headimgurl);
+    			}
+    			if ((false == reader.IsDBNull(_.Ta_NickName))) {
+    				this._Ta_NickName = reader.GetString(_.Ta_NickName);
     			}
     			if ((false == reader.IsDBNull(_.Ta_Openid))) {
     				this._Ta_Openid = reader.GetString(_.Ta_Openid);
     			}
     			if ((false == reader.IsDBNull(_.Ta_Tag))) {
     				this._Ta_Tag = reader.GetString(_.Ta_Tag);
-    			}
-    			if ((false == reader.IsDBNull(_.Ac_ID))) {
-    				this._Ac_ID = reader.GetInt64(_.Ac_ID);
     			}
     		}
     		
@@ -182,14 +175,19 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ta_ID = new WeiSha.Data.Field<ThirdpartyAccounts>("Ta_ID");
     			
     			/// <summary>
-    			/// 字段名：Ta_NickName - 数据类型：String
+    			/// 字段名：Ac_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Ta_NickName = new WeiSha.Data.Field<ThirdpartyAccounts>("Ta_NickName");
+    			public static WeiSha.Data.Field Ac_ID = new WeiSha.Data.Field<ThirdpartyAccounts>("Ac_ID");
     			
     			/// <summary>
     			/// 字段名：Ta_Headimgurl - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ta_Headimgurl = new WeiSha.Data.Field<ThirdpartyAccounts>("Ta_Headimgurl");
+    			
+    			/// <summary>
+    			/// 字段名：Ta_NickName - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ta_NickName = new WeiSha.Data.Field<ThirdpartyAccounts>("Ta_NickName");
     			
     			/// <summary>
     			/// 字段名：Ta_Openid - 数据类型：String
@@ -200,11 +198,6 @@ namespace Song.Entities {
     			/// 字段名：Ta_Tag - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ta_Tag = new WeiSha.Data.Field<ThirdpartyAccounts>("Ta_Tag");
-    			
-    			/// <summary>
-    			/// 字段名：Ac_ID - 数据类型：Int64
-    			/// </summary>
-    			public static WeiSha.Data.Field Ac_ID = new WeiSha.Data.Field<ThirdpartyAccounts>("Ac_ID");
     		}
     	}
     }

@@ -159,6 +159,22 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable ForSql(string sql);
 
+        #region 数据库信息
+        /// <summary>
+        /// 数据库类型，例如Sqlserver或PostgreSql
+        /// </summary>
+        /// <returns></returns>
+        string DataBaseType();
+        /// <summary>
+        ///  数据库名称
+        /// </summary>
+        /// <returns></returns>
+        string DataBaseName();
+        /// <summary>
+        ///  数据库版本号
+        /// </summary>
+        /// <returns></returns>
+        string DbVersion();
         /// <summary>
         /// 数据库里所有的表
         /// </summary>
@@ -182,5 +198,6 @@ namespace Song.ServiceInterfaces
         /// <param name="tablename">表</param>
         /// <returns></returns>
         List<string> DataFieldNames(string tablename);
+        #endregion
     }
 }

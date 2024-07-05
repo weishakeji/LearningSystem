@@ -8,97 +8,37 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class StudentSort : WeiSha.Data.Entity {
     		
-    		protected String _Sts_Name;
-    		
-    		protected Int32 _Sts_Tax;
-    		
-    		protected String _Sts_Intro;
-    		
-    		protected Boolean _Sts_IsUse;
-    		
-    		protected Boolean _Sts_IsDefault;
-    		
-    		protected Int32 _Org_ID;
-    		
-    		protected String _Org_Name;
+    		protected Int64 _Sts_ID;
     		
     		protected String _Dep_CnName;
     		
     		protected Int32 _Dep_Id;
     		
-    		protected Boolean _Sts_SwitchPlay;
+    		protected Int32 _Org_ID;
     		
-    		protected Int64 _Sts_ID;
+    		protected String _Org_Name;
     		
     		protected Int32 _Sts_Count;
     		
-    		public String Sts_Name {
-    			get {
-    				return this._Sts_Name;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_Name, _Sts_Name, value);
-    				this._Sts_Name = value;
-    			}
-    		}
+    		protected String _Sts_Intro;
     		
-    		public Int32 Sts_Tax {
-    			get {
-    				return this._Sts_Tax;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_Tax, _Sts_Tax, value);
-    				this._Sts_Tax = value;
-    			}
-    		}
+    		protected Boolean _Sts_IsDefault;
     		
-    		public String Sts_Intro {
-    			get {
-    				return this._Sts_Intro;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_Intro, _Sts_Intro, value);
-    				this._Sts_Intro = value;
-    			}
-    		}
+    		protected Boolean _Sts_IsUse;
     		
-    		public Boolean Sts_IsUse {
-    			get {
-    				return this._Sts_IsUse;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_IsUse, _Sts_IsUse, value);
-    				this._Sts_IsUse = value;
-    			}
-    		}
+    		protected String _Sts_Name;
     		
-    		public Boolean Sts_IsDefault {
-    			get {
-    				return this._Sts_IsDefault;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_IsDefault, _Sts_IsDefault, value);
-    				this._Sts_IsDefault = value;
-    			}
-    		}
+    		protected Boolean _Sts_SwitchPlay;
     		
-    		public Int32 Org_ID {
-    			get {
-    				return this._Org_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
-    				this._Org_ID = value;
-    			}
-    		}
+    		protected Int32 _Sts_Tax;
     		
-    		public String Org_Name {
+    		public Int64 Sts_ID {
     			get {
-    				return this._Org_Name;
+    				return this._Sts_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Org_Name, _Org_Name, value);
-    				this._Org_Name = value;
+    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
+    				this._Sts_ID = value;
     			}
     		}
     		
@@ -122,23 +62,23 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Sts_SwitchPlay {
+    		public Int32 Org_ID {
     			get {
-    				return this._Sts_SwitchPlay;
+    				return this._Org_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Sts_SwitchPlay, _Sts_SwitchPlay, value);
-    				this._Sts_SwitchPlay = value;
+    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
+    				this._Org_ID = value;
     			}
     		}
     		
-    		public Int64 Sts_ID {
+    		public String Org_Name {
     			get {
-    				return this._Sts_ID;
+    				return this._Org_Name;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
-    				this._Sts_ID = value;
+    				this.OnPropertyValueChange(_.Org_Name, _Org_Name, value);
+    				this._Org_Name = value;
     			}
     		}
     		
@@ -149,6 +89,66 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Sts_Count, _Sts_Count, value);
     				this._Sts_Count = value;
+    			}
+    		}
+    		
+    		public String Sts_Intro {
+    			get {
+    				return this._Sts_Intro;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_Intro, _Sts_Intro, value);
+    				this._Sts_Intro = value;
+    			}
+    		}
+    		
+    		public Boolean Sts_IsDefault {
+    			get {
+    				return this._Sts_IsDefault;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_IsDefault, _Sts_IsDefault, value);
+    				this._Sts_IsDefault = value;
+    			}
+    		}
+    		
+    		public Boolean Sts_IsUse {
+    			get {
+    				return this._Sts_IsUse;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_IsUse, _Sts_IsUse, value);
+    				this._Sts_IsUse = value;
+    			}
+    		}
+    		
+    		public String Sts_Name {
+    			get {
+    				return this._Sts_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_Name, _Sts_Name, value);
+    				this._Sts_Name = value;
+    			}
+    		}
+    		
+    		public Boolean Sts_SwitchPlay {
+    			get {
+    				return this._Sts_SwitchPlay;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_SwitchPlay, _Sts_SwitchPlay, value);
+    				this._Sts_SwitchPlay = value;
+    			}
+    		}
+    		
+    		public Int32 Sts_Tax {
+    			get {
+    				return this._Sts_Tax;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_Tax, _Sts_Tax, value);
+    				this._Sts_Tax = value;
     			}
     		}
     		
@@ -172,18 +172,18 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Sts_Name,
-    					_.Sts_Tax,
-    					_.Sts_Intro,
-    					_.Sts_IsUse,
-    					_.Sts_IsDefault,
-    					_.Org_ID,
-    					_.Org_Name,
+    					_.Sts_ID,
     					_.Dep_CnName,
     					_.Dep_Id,
+    					_.Org_ID,
+    					_.Org_Name,
+    					_.Sts_Count,
+    					_.Sts_Intro,
+    					_.Sts_IsDefault,
+    					_.Sts_IsUse,
+    					_.Sts_Name,
     					_.Sts_SwitchPlay,
-    					_.Sts_ID,
-    					_.Sts_Count};
+    					_.Sts_Tax};
     		}
     		
     		/// <summary>
@@ -191,44 +191,26 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Sts_Name,
-    					this._Sts_Tax,
-    					this._Sts_Intro,
-    					this._Sts_IsUse,
-    					this._Sts_IsDefault,
-    					this._Org_ID,
-    					this._Org_Name,
+    					this._Sts_ID,
     					this._Dep_CnName,
     					this._Dep_Id,
+    					this._Org_ID,
+    					this._Org_Name,
+    					this._Sts_Count,
+    					this._Sts_Intro,
+    					this._Sts_IsDefault,
+    					this._Sts_IsUse,
+    					this._Sts_Name,
     					this._Sts_SwitchPlay,
-    					this._Sts_ID,
-    					this._Sts_Count};
+    					this._Sts_Tax};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Sts_Name))) {
-    				this._Sts_Name = reader.GetString(_.Sts_Name);
-    			}
-    			if ((false == reader.IsDBNull(_.Sts_Tax))) {
-    				this._Sts_Tax = reader.GetInt32(_.Sts_Tax);
-    			}
-    			if ((false == reader.IsDBNull(_.Sts_Intro))) {
-    				this._Sts_Intro = reader.GetString(_.Sts_Intro);
-    			}
-    			if ((false == reader.IsDBNull(_.Sts_IsUse))) {
-    				this._Sts_IsUse = reader.GetBoolean(_.Sts_IsUse);
-    			}
-    			if ((false == reader.IsDBNull(_.Sts_IsDefault))) {
-    				this._Sts_IsDefault = reader.GetBoolean(_.Sts_IsDefault);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_ID))) {
-    				this._Org_ID = reader.GetInt32(_.Org_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Org_Name))) {
-    				this._Org_Name = reader.GetString(_.Org_Name);
+    			if ((false == reader.IsDBNull(_.Sts_ID))) {
+    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
     			}
     			if ((false == reader.IsDBNull(_.Dep_CnName))) {
     				this._Dep_CnName = reader.GetString(_.Dep_CnName);
@@ -236,14 +218,32 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Dep_Id))) {
     				this._Dep_Id = reader.GetInt32(_.Dep_Id);
     			}
-    			if ((false == reader.IsDBNull(_.Sts_SwitchPlay))) {
-    				this._Sts_SwitchPlay = reader.GetBoolean(_.Sts_SwitchPlay);
+    			if ((false == reader.IsDBNull(_.Org_ID))) {
+    				this._Org_ID = reader.GetInt32(_.Org_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Sts_ID))) {
-    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
+    			if ((false == reader.IsDBNull(_.Org_Name))) {
+    				this._Org_Name = reader.GetString(_.Org_Name);
     			}
     			if ((false == reader.IsDBNull(_.Sts_Count))) {
     				this._Sts_Count = reader.GetInt32(_.Sts_Count);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_Intro))) {
+    				this._Sts_Intro = reader.GetString(_.Sts_Intro);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_IsDefault))) {
+    				this._Sts_IsDefault = reader.GetBoolean(_.Sts_IsDefault);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_IsUse))) {
+    				this._Sts_IsUse = reader.GetBoolean(_.Sts_IsUse);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_Name))) {
+    				this._Sts_Name = reader.GetString(_.Sts_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_SwitchPlay))) {
+    				this._Sts_SwitchPlay = reader.GetBoolean(_.Sts_SwitchPlay);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_Tax))) {
+    				this._Sts_Tax = reader.GetInt32(_.Sts_Tax);
     			}
     		}
     		
@@ -272,39 +272,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<StudentSort>();
     			
     			/// <summary>
-    			/// 字段名：Sts_Name - 数据类型：String
+    			/// 字段名：Sts_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Sts_Name = new WeiSha.Data.Field<StudentSort>("Sts_Name");
-    			
-    			/// <summary>
-    			/// 字段名：Sts_Tax - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_Tax = new WeiSha.Data.Field<StudentSort>("Sts_Tax");
-    			
-    			/// <summary>
-    			/// 字段名：Sts_Intro - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_Intro = new WeiSha.Data.Field<StudentSort>("Sts_Intro");
-    			
-    			/// <summary>
-    			/// 字段名：Sts_IsUse - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_IsUse = new WeiSha.Data.Field<StudentSort>("Sts_IsUse");
-    			
-    			/// <summary>
-    			/// 字段名：Sts_IsDefault - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_IsDefault = new WeiSha.Data.Field<StudentSort>("Sts_IsDefault");
-    			
-    			/// <summary>
-    			/// 字段名：Org_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<StudentSort>("Org_ID");
-    			
-    			/// <summary>
-    			/// 字段名：Org_Name - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<StudentSort>("Org_Name");
+    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<StudentSort>("Sts_ID");
     			
     			/// <summary>
     			/// 字段名：Dep_CnName - 数据类型：String
@@ -317,19 +287,49 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Dep_Id = new WeiSha.Data.Field<StudentSort>("Dep_Id");
     			
     			/// <summary>
-    			/// 字段名：Sts_SwitchPlay - 数据类型：Boolean
+    			/// 字段名：Org_ID - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Sts_SwitchPlay = new WeiSha.Data.Field<StudentSort>("Sts_SwitchPlay");
+    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<StudentSort>("Org_ID");
     			
     			/// <summary>
-    			/// 字段名：Sts_ID - 数据类型：Int64
+    			/// 字段名：Org_Name - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<StudentSort>("Sts_ID");
+    			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<StudentSort>("Org_Name");
     			
     			/// <summary>
     			/// 字段名：Sts_Count - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sts_Count = new WeiSha.Data.Field<StudentSort>("Sts_Count");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_Intro - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_Intro = new WeiSha.Data.Field<StudentSort>("Sts_Intro");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_IsDefault - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_IsDefault = new WeiSha.Data.Field<StudentSort>("Sts_IsDefault");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_IsUse - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_IsUse = new WeiSha.Data.Field<StudentSort>("Sts_IsUse");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_Name - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_Name = new WeiSha.Data.Field<StudentSort>("Sts_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_SwitchPlay - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_SwitchPlay = new WeiSha.Data.Field<StudentSort>("Sts_SwitchPlay");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_Tax - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_Tax = new WeiSha.Data.Field<StudentSort>("Sts_Tax");
     		}
     	}
     }

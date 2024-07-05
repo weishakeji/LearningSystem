@@ -125,18 +125,21 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataSet GetLately(int accId, string type, int count)
         {
-            string sql = @"select top {count} * from 
-                (SELECT logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName, Max(logs.Log_Time) AS Log_Time
-                FROM logs
-                WHERE 1=1 AND logs.Log_Type='{type}' 
-                GROUP BY logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName) as t order by log_time desc";
-            sql = sql.Replace("{type}", type);
-            sql = sql.Replace("{count}",count.ToString());
-            if (accId > 0)
-            {
-                sql=sql.Replace("1=1","Acc_Id="+accId);
-            }
-            return Gateway.Default.FromSql(sql).ToDataSet();
+            //string sql = @"select top {count} * from 
+            //    (SELECT logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName, Max(logs.Log_Time) AS Log_Time
+            //    FROM logs
+            //    WHERE 1=1 AND logs.Log_Type='{type}' 
+            //    GROUP BY logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName) as t order by log_time desc";
+            //sql = sql.Replace("{type}", type);
+            //sql = sql.Replace("{count}",count.ToString());
+            //if (accId > 0)
+            //{
+            //    sql=sql.Replace("1=1","Acc_Id="+accId);
+            //}
+            //return Gateway.Default.FromSql(sql).ToDataSet();
+
+            //日志功能并没有用到，暂时屏蔽代码
+            return null;
         }
         /// <summary>
         /// 获取某用户某时间段内，访问次数最多的操作项
@@ -147,16 +150,19 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataSet GetFrequently(int accId, string type, int count)
         {
-            string sql = @"select top {count} * from 
-                (SELECT logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName, count(logs.Log_MenuName) AS num
-                FROM logs
-                WHERE 1=1 AND logs.Log_Type='{type}'
-                GROUP BY logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName) as t  order by num desc,log_menuId desc";
-            sql = sql.Replace("{type}", type);
-            sql = sql.Replace("{count}", count.ToString());
-            if (accId > 0)
-                sql = sql.Replace("1=1", "Acc_Id=" + accId);
-            return Gateway.Default.FromSql(sql).ToDataSet();
+            //string sql = @"select top {count} * from 
+            //    (SELECT logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName, count(logs.Log_MenuName) AS num
+            //    FROM logs
+            //    WHERE 1=1 AND logs.Log_Type='{type}'
+            //    GROUP BY logs.Log_MenuName, logs.Log_MenuId, logs.Log_FileName) as t  order by num desc,log_menuId desc";
+            //sql = sql.Replace("{type}", type);
+            //sql = sql.Replace("{count}", count.ToString());
+            //if (accId > 0)
+            //    sql = sql.Replace("1=1", "Acc_Id=" + accId);
+            //return Gateway.Default.FromSql(sql).ToDataSet();
+
+            //日志功能并没有用到，暂时屏蔽代码
+            return null;
         }
         /// <summary>
         /// 分页获取所有日志记录

@@ -12,17 +12,14 @@ namespace Song.Entities {
     		
     		protected Int32 _Eg_Type;
     		
-    		protected Int64 _Sts_ID;
-    		
     		protected String _Exam_UID;
     		
     		protected Int32 _Org_ID;
     		
     		protected String _Org_Name;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
+    		protected Int64 _Sts_ID;
+    		
     		public Int32 Eg_ID {
     			get {
     				return this._Eg_ID;
@@ -33,9 +30,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
     		public Int32 Eg_Type {
     			get {
     				return this._Eg_Type;
@@ -46,22 +40,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int64 Sts_ID {
-    			get {
-    				return this._Sts_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
-    				this._Sts_ID = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
     		public String Exam_UID {
     			get {
     				return this._Exam_UID;
@@ -92,18 +70,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Sts_ID {
+    			get {
+    				return this._Sts_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
+    				this._Sts_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<ExamGroup>("ExamGroup");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Eg_ID;
     		}
     		
     		/// <summary>
@@ -121,10 +102,10 @@ namespace Song.Entities {
     			return new WeiSha.Data.Field[] {
     					_.Eg_ID,
     					_.Eg_Type,
-    					_.Sts_ID,
     					_.Exam_UID,
     					_.Org_ID,
-    					_.Org_Name};
+    					_.Org_Name,
+    					_.Sts_ID};
     		}
     		
     		/// <summary>
@@ -134,10 +115,10 @@ namespace Song.Entities {
     			return new object[] {
     					this._Eg_ID,
     					this._Eg_Type,
-    					this._Sts_ID,
     					this._Exam_UID,
     					this._Org_ID,
-    					this._Org_Name};
+    					this._Org_Name,
+    					this._Sts_ID};
     		}
     		
     		/// <summary>
@@ -150,9 +131,6 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Eg_Type))) {
     				this._Eg_Type = reader.GetInt32(_.Eg_Type);
     			}
-    			if ((false == reader.IsDBNull(_.Sts_ID))) {
-    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Exam_UID))) {
     				this._Exam_UID = reader.GetString(_.Exam_UID);
     			}
@@ -161,6 +139,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Name))) {
     				this._Org_Name = reader.GetString(_.Org_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_ID))) {
+    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
     			}
     		}
     		
@@ -189,22 +170,17 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<ExamGroup>();
     			
     			/// <summary>
-    			/// -1 - 字段名：Eg_ID - 数据类型：Int32
+    			/// 字段名：Eg_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Eg_ID = new WeiSha.Data.Field<ExamGroup>("Eg_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Eg_Type - 数据类型：Int32
+    			/// 字段名：Eg_Type - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Eg_Type = new WeiSha.Data.Field<ExamGroup>("Eg_Type");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sts_ID - 数据类型：Int64
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<ExamGroup>("Sts_ID");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Exam_UID - 数据类型：String
+    			/// 字段名：Exam_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Exam_UID = new WeiSha.Data.Field<ExamGroup>("Exam_UID");
     			
@@ -217,6 +193,11 @@ namespace Song.Entities {
     			/// 字段名：Org_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<ExamGroup>("Org_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<ExamGroup>("Sts_ID");
     		}
     	}
     }

@@ -1,0 +1,5 @@
+1.修正主键的自增ID的启始值为最大ID值
+2.创建索引
+	在Sqlserver中执行“从Sqlserver中生成Postgresql的索引创建脚本.sql”
+	在“消息”框中得到创建Postgresql索引的脚本
+	全部复制到Postgresql中执行

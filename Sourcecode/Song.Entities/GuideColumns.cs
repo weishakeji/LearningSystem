@@ -10,35 +10,35 @@ namespace Song.Entities {
     		
     		protected Int32 _Gc_ID;
     		
-    		protected String _Gc_PID;
-    		
     		protected Int64 _Cou_ID;
     		
     		protected String _Cou_Name;
     		
     		protected String _Gc_ByName;
     		
-    		protected String _Gc_Title;
-    		
-    		protected String _Gc_Keywords;
+    		protected DateTime _Gc_CrtTime;
     		
     		protected String _Gc_Descr;
     		
     		protected String _Gc_Intro;
     		
-    		protected String _Gc_Type;
-    		
-    		protected Int32 _Gc_Tax;
+    		protected Boolean _Gc_IsNote;
     		
     		protected Boolean _Gc_IsUse;
     		
-    		protected Boolean _Gc_IsNote;
+    		protected String _Gc_Keywords;
     		
-    		protected DateTime _Gc_CrtTime;
+    		protected String _Gc_PID;
     		
-    		protected Int32 _Org_ID;
+    		protected Int32 _Gc_Tax;
+    		
+    		protected String _Gc_Title;
+    		
+    		protected String _Gc_Type;
     		
     		protected String _Gc_UID;
+    		
+    		protected Int32 _Org_ID;
     		
     		public Int32 Gc_ID {
     			get {
@@ -47,16 +47,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Gc_ID, _Gc_ID, value);
     				this._Gc_ID = value;
-    			}
-    		}
-    		
-    		public String Gc_PID {
-    			get {
-    				return this._Gc_PID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Gc_PID, _Gc_PID, value);
-    				this._Gc_PID = value;
     			}
     		}
     		
@@ -90,23 +80,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Gc_Title {
+    		public DateTime Gc_CrtTime {
     			get {
-    				return this._Gc_Title;
+    				return this._Gc_CrtTime;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Gc_Title, _Gc_Title, value);
-    				this._Gc_Title = value;
-    			}
-    		}
-    		
-    		public String Gc_Keywords {
-    			get {
-    				return this._Gc_Keywords;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Gc_Keywords, _Gc_Keywords, value);
-    				this._Gc_Keywords = value;
+    				this.OnPropertyValueChange(_.Gc_CrtTime, _Gc_CrtTime, value);
+    				this._Gc_CrtTime = value;
     			}
     		}
     		
@@ -130,23 +110,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Gc_Type {
+    		public Boolean Gc_IsNote {
     			get {
-    				return this._Gc_Type;
+    				return this._Gc_IsNote;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Gc_Type, _Gc_Type, value);
-    				this._Gc_Type = value;
-    			}
-    		}
-    		
-    		public Int32 Gc_Tax {
-    			get {
-    				return this._Gc_Tax;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Gc_Tax, _Gc_Tax, value);
-    				this._Gc_Tax = value;
+    				this.OnPropertyValueChange(_.Gc_IsNote, _Gc_IsNote, value);
+    				this._Gc_IsNote = value;
     			}
     		}
     		
@@ -160,33 +130,53 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Gc_IsNote {
+    		public String Gc_Keywords {
     			get {
-    				return this._Gc_IsNote;
+    				return this._Gc_Keywords;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Gc_IsNote, _Gc_IsNote, value);
-    				this._Gc_IsNote = value;
+    				this.OnPropertyValueChange(_.Gc_Keywords, _Gc_Keywords, value);
+    				this._Gc_Keywords = value;
     			}
     		}
     		
-    		public DateTime Gc_CrtTime {
+    		public String Gc_PID {
     			get {
-    				return this._Gc_CrtTime;
+    				return this._Gc_PID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Gc_CrtTime, _Gc_CrtTime, value);
-    				this._Gc_CrtTime = value;
+    				this.OnPropertyValueChange(_.Gc_PID, _Gc_PID, value);
+    				this._Gc_PID = value;
     			}
     		}
     		
-    		public Int32 Org_ID {
+    		public Int32 Gc_Tax {
     			get {
-    				return this._Org_ID;
+    				return this._Gc_Tax;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
-    				this._Org_ID = value;
+    				this.OnPropertyValueChange(_.Gc_Tax, _Gc_Tax, value);
+    				this._Gc_Tax = value;
+    			}
+    		}
+    		
+    		public String Gc_Title {
+    			get {
+    				return this._Gc_Title;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Gc_Title, _Gc_Title, value);
+    				this._Gc_Title = value;
+    			}
+    		}
+    		
+    		public String Gc_Type {
+    			get {
+    				return this._Gc_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Gc_Type, _Gc_Type, value);
+    				this._Gc_Type = value;
     			}
     		}
     		
@@ -200,18 +190,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Org_ID {
+    			get {
+    				return this._Org_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_ID, _Org_ID, value);
+    				this._Org_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<GuideColumns>("GuideColumns");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Gc_ID;
     		}
     		
     		/// <summary>
@@ -228,21 +221,21 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.Gc_ID,
-    					_.Gc_PID,
     					_.Cou_ID,
     					_.Cou_Name,
     					_.Gc_ByName,
-    					_.Gc_Title,
-    					_.Gc_Keywords,
+    					_.Gc_CrtTime,
     					_.Gc_Descr,
     					_.Gc_Intro,
-    					_.Gc_Type,
-    					_.Gc_Tax,
-    					_.Gc_IsUse,
     					_.Gc_IsNote,
-    					_.Gc_CrtTime,
-    					_.Org_ID,
-    					_.Gc_UID};
+    					_.Gc_IsUse,
+    					_.Gc_Keywords,
+    					_.Gc_PID,
+    					_.Gc_Tax,
+    					_.Gc_Title,
+    					_.Gc_Type,
+    					_.Gc_UID,
+    					_.Org_ID};
     		}
     		
     		/// <summary>
@@ -251,21 +244,21 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._Gc_ID,
-    					this._Gc_PID,
     					this._Cou_ID,
     					this._Cou_Name,
     					this._Gc_ByName,
-    					this._Gc_Title,
-    					this._Gc_Keywords,
+    					this._Gc_CrtTime,
     					this._Gc_Descr,
     					this._Gc_Intro,
-    					this._Gc_Type,
-    					this._Gc_Tax,
-    					this._Gc_IsUse,
     					this._Gc_IsNote,
-    					this._Gc_CrtTime,
-    					this._Org_ID,
-    					this._Gc_UID};
+    					this._Gc_IsUse,
+    					this._Gc_Keywords,
+    					this._Gc_PID,
+    					this._Gc_Tax,
+    					this._Gc_Title,
+    					this._Gc_Type,
+    					this._Gc_UID,
+    					this._Org_ID};
     		}
     		
     		/// <summary>
@@ -274,9 +267,6 @@ namespace Song.Entities {
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
     			if ((false == reader.IsDBNull(_.Gc_ID))) {
     				this._Gc_ID = reader.GetInt32(_.Gc_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Gc_PID))) {
-    				this._Gc_PID = reader.GetString(_.Gc_PID);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
@@ -287,11 +277,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Gc_ByName))) {
     				this._Gc_ByName = reader.GetString(_.Gc_ByName);
     			}
-    			if ((false == reader.IsDBNull(_.Gc_Title))) {
-    				this._Gc_Title = reader.GetString(_.Gc_Title);
-    			}
-    			if ((false == reader.IsDBNull(_.Gc_Keywords))) {
-    				this._Gc_Keywords = reader.GetString(_.Gc_Keywords);
+    			if ((false == reader.IsDBNull(_.Gc_CrtTime))) {
+    				this._Gc_CrtTime = reader.GetDateTime(_.Gc_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.Gc_Descr))) {
     				this._Gc_Descr = reader.GetString(_.Gc_Descr);
@@ -299,26 +286,32 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Gc_Intro))) {
     				this._Gc_Intro = reader.GetString(_.Gc_Intro);
     			}
-    			if ((false == reader.IsDBNull(_.Gc_Type))) {
-    				this._Gc_Type = reader.GetString(_.Gc_Type);
-    			}
-    			if ((false == reader.IsDBNull(_.Gc_Tax))) {
-    				this._Gc_Tax = reader.GetInt32(_.Gc_Tax);
+    			if ((false == reader.IsDBNull(_.Gc_IsNote))) {
+    				this._Gc_IsNote = reader.GetBoolean(_.Gc_IsNote);
     			}
     			if ((false == reader.IsDBNull(_.Gc_IsUse))) {
     				this._Gc_IsUse = reader.GetBoolean(_.Gc_IsUse);
     			}
-    			if ((false == reader.IsDBNull(_.Gc_IsNote))) {
-    				this._Gc_IsNote = reader.GetBoolean(_.Gc_IsNote);
+    			if ((false == reader.IsDBNull(_.Gc_Keywords))) {
+    				this._Gc_Keywords = reader.GetString(_.Gc_Keywords);
     			}
-    			if ((false == reader.IsDBNull(_.Gc_CrtTime))) {
-    				this._Gc_CrtTime = reader.GetDateTime(_.Gc_CrtTime);
+    			if ((false == reader.IsDBNull(_.Gc_PID))) {
+    				this._Gc_PID = reader.GetString(_.Gc_PID);
     			}
-    			if ((false == reader.IsDBNull(_.Org_ID))) {
-    				this._Org_ID = reader.GetInt32(_.Org_ID);
+    			if ((false == reader.IsDBNull(_.Gc_Tax))) {
+    				this._Gc_Tax = reader.GetInt32(_.Gc_Tax);
+    			}
+    			if ((false == reader.IsDBNull(_.Gc_Title))) {
+    				this._Gc_Title = reader.GetString(_.Gc_Title);
+    			}
+    			if ((false == reader.IsDBNull(_.Gc_Type))) {
+    				this._Gc_Type = reader.GetString(_.Gc_Type);
     			}
     			if ((false == reader.IsDBNull(_.Gc_UID))) {
     				this._Gc_UID = reader.GetString(_.Gc_UID);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_ID))) {
+    				this._Org_ID = reader.GetInt32(_.Org_ID);
     			}
     		}
     		
@@ -352,11 +345,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Gc_ID = new WeiSha.Data.Field<GuideColumns>("Gc_ID");
     			
     			/// <summary>
-    			/// 字段名：Gc_PID - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Gc_PID = new WeiSha.Data.Field<GuideColumns>("Gc_PID");
-    			
-    			/// <summary>
     			/// 字段名：Cou_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<GuideColumns>("Cou_ID");
@@ -372,14 +360,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Gc_ByName = new WeiSha.Data.Field<GuideColumns>("Gc_ByName");
     			
     			/// <summary>
-    			/// 字段名：Gc_Title - 数据类型：String
+    			/// 字段名：Gc_CrtTime - 数据类型：DateTime
     			/// </summary>
-    			public static WeiSha.Data.Field Gc_Title = new WeiSha.Data.Field<GuideColumns>("Gc_Title");
-    			
-    			/// <summary>
-    			/// 字段名：Gc_Keywords - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Gc_Keywords = new WeiSha.Data.Field<GuideColumns>("Gc_Keywords");
+    			public static WeiSha.Data.Field Gc_CrtTime = new WeiSha.Data.Field<GuideColumns>("Gc_CrtTime");
     			
     			/// <summary>
     			/// 字段名：Gc_Descr - 数据类型：String
@@ -392,14 +375,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Gc_Intro = new WeiSha.Data.Field<GuideColumns>("Gc_Intro");
     			
     			/// <summary>
-    			/// 字段名：Gc_Type - 数据类型：String
+    			/// 字段名：Gc_IsNote - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field Gc_Type = new WeiSha.Data.Field<GuideColumns>("Gc_Type");
-    			
-    			/// <summary>
-    			/// 字段名：Gc_Tax - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Gc_Tax = new WeiSha.Data.Field<GuideColumns>("Gc_Tax");
+    			public static WeiSha.Data.Field Gc_IsNote = new WeiSha.Data.Field<GuideColumns>("Gc_IsNote");
     			
     			/// <summary>
     			/// 字段名：Gc_IsUse - 数据类型：Boolean
@@ -407,24 +385,39 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Gc_IsUse = new WeiSha.Data.Field<GuideColumns>("Gc_IsUse");
     			
     			/// <summary>
-    			/// 字段名：Gc_IsNote - 数据类型：Boolean
+    			/// 字段名：Gc_Keywords - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Gc_IsNote = new WeiSha.Data.Field<GuideColumns>("Gc_IsNote");
+    			public static WeiSha.Data.Field Gc_Keywords = new WeiSha.Data.Field<GuideColumns>("Gc_Keywords");
     			
     			/// <summary>
-    			/// 字段名：Gc_CrtTime - 数据类型：DateTime
+    			/// 字段名：Gc_PID - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Gc_CrtTime = new WeiSha.Data.Field<GuideColumns>("Gc_CrtTime");
+    			public static WeiSha.Data.Field Gc_PID = new WeiSha.Data.Field<GuideColumns>("Gc_PID");
     			
     			/// <summary>
-    			/// 字段名：Org_ID - 数据类型：Int32
+    			/// 字段名：Gc_Tax - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<GuideColumns>("Org_ID");
+    			public static WeiSha.Data.Field Gc_Tax = new WeiSha.Data.Field<GuideColumns>("Gc_Tax");
+    			
+    			/// <summary>
+    			/// 字段名：Gc_Title - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Gc_Title = new WeiSha.Data.Field<GuideColumns>("Gc_Title");
+    			
+    			/// <summary>
+    			/// 字段名：Gc_Type - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Gc_Type = new WeiSha.Data.Field<GuideColumns>("Gc_Type");
     			
     			/// <summary>
     			/// 字段名：Gc_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Gc_UID = new WeiSha.Data.Field<GuideColumns>("Gc_UID");
+    			
+    			/// <summary>
+    			/// 字段名：Org_ID - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<GuideColumns>("Org_ID");
     		}
     	}
     }

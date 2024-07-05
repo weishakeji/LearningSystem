@@ -59,29 +59,29 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取所有对象，按权限主题的id
         /// </summary>
-        /// <param name="memberId"></param>
+        /// <param name="memberId">成员id</param>
         /// <param name="type">用于区分不同权限分配，"Posi"角色(岗位)、"Group"组、"Depart"院系</param>
         /// <returns></returns>
         Purview[] GetAll(int memberId,string type);
-        /// <summary>
-        /// 获取某个员工所拥用的全部操作权限，包括所在组、所属角色、所在院系的所有权限
-        /// </summary>
-        /// <param name="empId"></param>
-        /// <returns></returns>
-        ManageMenu[] GetAll4Emplyee(int empId);
-        /// <summary>
-        /// 机构的权限(机构权限与机构等级权限为并集)
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <returns></returns>
-        ManageMenu[] GetAll4Org(int orgid);
-        /// <summary>
-        /// 获取机构的某一个根菜单项的权限
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="marker">例如教师管理teacher,学生管理student,机构管理organAdmin</param>
-        /// <returns></returns>
-        ManageMenu[] GetAll4Org(int orgid, string marker);
+        ///// <summary>
+        ///// 获取某个员工所拥用的全部操作权限，包括所在组、所属角色、所在院系的所有权限
+        ///// </summary>
+        ///// <param name="accid">员工id</param>
+        ///// <returns></returns>
+        //ManageMenu[] GetAll4Emplyee(int accid);
+        ///// <summary>
+        ///// 机构的权限(机构权限与机构等级权限为并集)
+        ///// </summary>
+        ///// <param name="orgid"></param>
+        ///// <returns></returns>
+        //ManageMenu[] GetAll4Org(int orgid);
+        ///// <summary>
+        ///// 获取机构的某一个根菜单项的权限
+        ///// </summary>
+        ///// <param name="orgid"></param>
+        ///// <param name="marker">例如教师管理teacher,学生管理student,机构管理organAdmin</param>
+        ///// <returns></returns>
+        //ManageMenu[] GetAll4Org(int orgid, string marker);
         /// <summary>
         /// 获取机构等级的权限
         /// </summary>

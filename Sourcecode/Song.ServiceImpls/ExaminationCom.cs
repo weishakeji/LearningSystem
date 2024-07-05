@@ -899,20 +899,24 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public StudentSort[] StudentSort4Theme(int id)
         {
-            //Examination theme = this.ExamSingle(id);
-            string sql = @"select  sts.Sts_ID, Sts_Name,exr.count as 'Sts_Count' from studentsort as sts  inner join 
-                  (select   Sts_ID,COUNT(*) as 'count' from
-                         (select ac_id,max(sts_id) as 'sts_id' from ExamResults where  Exam_ID in
-				(
-                    select Exam_ID from Examination
-                    where
+            //下述Sql语句，兼容Sqlserver,postgresql,sqlite
+            string sql = @"select  sts.""Sts_ID"", ""Sts_Name"",exr.count as Sts_Count from ""StudentSort"" as sts  inner join 
+           (select sts_id, COUNT(*) as count from
+                (select ""Ac_ID"", max(""Sts_ID"") as Sts_ID from ""ExamResults"" where  ""Exam_ID"" in
+                    (
+                        select ""Exam_ID"" from ""Examination""
 
-                    Exam_UID in (select Exam_UID from Examination where Exam_ID = {0}) 
-					and Exam_IsTheme = 0
-				)  group by ac_id)
-                         as ac group by Sts_ID)  as exr 
-                        on sts.sts_id=exr.sts_id order by sts.Sts_Tax asc";
-            sql=string.Format(sql,id.ToString());
+                        where
+
+                        ""Exam_UID"" in (select ""Exam_UID"" from ""Examination"" where ""Exam_ID"" = {0})
+
+                        and ""Exam_IsTheme"" = false
+                    )  group by ""Ac_ID""
+				)as ac group by sts_id)  as exr
+            on sts.""Sts_ID"" = exr.""sts_id"" order by sts.""Sts_Tax"" asc";
+            sql = string.Format(sql, id.ToString());
+            if (Gateway.Default.DbType != DbProviderType.PostgreSQL)
+                sql = sql.Replace("true", "1").Replace("false", "0");
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
         /// <summary>
@@ -922,9 +926,10 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public StudentSort[] StudentSort4Exam(int examid)
         {
-            string sql = @"select sts.Sts_ID, Sts_Name,exr.count as 'Sts_Count' from studentsort as sts  inner join 
-                        (select Sts_ID,COUNT(*) as count from ExamResults where ExamResults.Exam_ID={0} group by Sts_ID) as exr 
-                        on sts.sts_id=exr.sts_id order by sts.Sts_Tax asc";
+            //下述Sql语句，兼容Sqlserver,postgresql,sqlite
+            string sql = @"select sts.""Sts_ID"", ""Sts_Name"",exr.count as Sts_Count from ""StudentSort"" as sts  inner join 
+                        (select ""Sts_ID"", COUNT(*) as count from ""ExamResults"" where ""ExamResults"".""Exam_ID"" = {0} group by ""Sts_ID"") as exr
+                        on sts.""Sts_ID"" = exr.""Sts_ID"" order by sts.""Sts_Tax"" asc";
             sql = string.Format(sql, examid);
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
@@ -1147,11 +1152,16 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable Result4StudentSort(int examid)
         {
+            //下述Sql语句，兼容Sqlserver,postgresql,sqlite
             //当前考试下的所有学员分组
             StudentSort[] sts = null;
-            string sql = @"select distinct sts.* from studentsort as sts  inner join (select  * from ExamResults where ExamResults.Exam_ID='{0}') as exr on sts.sts_id=exr.sts_id";
-            sql = string.Format(sql, examid.ToString());
+            string sql = @"select distinct sts.* from ""StudentSort"" as sts 
+                            inner join
+                            (select* from ""ExamResults"" where ""Exam_ID"" ={0}) as exr
+                            on sts.""Sts_ID"" = exr.""Sts_ID""";
+             sql = string.Format(sql, examid.ToString());
             sts = Gateway.Default.FromSql(sql).ToArray<StudentSort>();
+
             //数据集
             DataTable dt = new DataTable("DataBase");
             dt.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));
@@ -1413,36 +1423,50 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Accounts> AttendThemeAccounts(int id, string name, string idcard, int stsid, int size, int index, out int countSum)
         {
+            //下述Sql语句，兼容Sqlserver,postgresql,sqlite
             //当前考试主题下的所有参考学员
-            string sql = @"select ac_id,max(ac_name) as 'ac_name',MAX(ac_sex) as 'ac_sex',MAX(Ac_IDCardNumber) as 'Ac_IDCardNumber',
-                            MAX(Exr_OverTime) as 'Exr_OverTime', MAX(Sts_ID) as 'Sts_ID'
-            from ExamResults where Exam_ID in
+            string sql = @"select ""Ac_ID"",max(""Ac_Name"") as Ac_Name,MAX(""Ac_Sex"") as ac_sex,MAX(""Ac_IDCardNumber"") as Ac_IDCardNumber,
+                            MAX(""Exr_OverTime"") as Exr_OverTime, MAX(""Sts_ID"") as Sts_ID
+            from ""ExamResults"" where ""Exam_ID"" in
 				(
-                    select Exam_ID from Examination
+                    select ""Exam_ID"" from ""Examination""
                     where
-
-                    Exam_UID in (select Exam_UID from Examination where Exam_ID = {0}) 
-					and Exam_IsTheme = 0
-				) group by ac_id";
+                    ""Exam_UID"" in (select ""Exam_UID"" from ""Examination"" where ""Exam_ID"" = {0}) 
+					and ""Exam_IsTheme"" = false
+				) group by ""Ac_ID""";
             sql = string.Format(sql, id);
             //查询条件
             string where = "where {stsid} and {name} and {idcard}";
-            where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : "ac_name like '%" + name + "%'");
-            where = where.Replace("{idcard}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "Ac_IDCardNumber like '%" + idcard + "%'");
-            if (stsid > 0) where = where.Replace("{stsid}", "Sts_ID=" + stsid);
-            else if (stsid == -1) where = where.Replace("{stsid}", "Sts_ID=0");
+            where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"""Ac_Name ILIKE"" '%" + name + "%'");
+            where = where.Replace("{idcard}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : @"""Ac_IDCardNumber"" ILIKE '%" + idcard + "%'");
+            if (stsid > 0) where = where.Replace("{stsid}", @"""Sts_ID""=" + stsid);
+            else if (stsid == -1) where = where.Replace("{stsid}", @"""Sts_ID""=0");
             else where = where.Replace("{stsid}", "1=1");
+
+            //数据库类型不同，造成的差异
+            if (Gateway.Default.DbType != DbProviderType.PostgreSQL)
+                sql = sql.Replace("true", "1").Replace("false", "0");
             //计算总数
-            string total = "select COUNT(*) from ( "+sql+ ") as t " + where;
+            string total = "select COUNT(*) from ( " + sql + ") as t " + where;
             object obj = Gateway.Default.FromSql(total).ToScalar();
-            countSum = obj == null ? 0 : (int)obj;
+            countSum = obj == null ? 0 : Convert.ToInt32(obj);
             //查询结果
-            int start = (index - 1) * size;
-            int end = (index - 1) * size + size;
-            string result = "select * from (select ROW_NUMBER() OVER(Order by Exr_OverTime desc) AS 'rowid',* from ( " + sql + ") as t " + where + " ) as n where  rowid > {{start}} and rowid<={{end}}";
-            result = result.Replace("{{start}}", start.ToString());
-            result = result.Replace("{{end}}", end.ToString());
-            return Gateway.Default.FromSql(result).ToList<Accounts>();
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
+            {
+                int start = (index - 1) * size;
+                int end = (index - 1) * size + size;
+                string result = "select * from (select ROW_NUMBER() OVER(Order by Exr_OverTime desc) AS 'rowid',* from ( " + sql + ") as t " + where + " ) as n where  rowid > {{start}} and rowid<={{end}}";
+                result = result.Replace("{{start}}", start.ToString());
+                result = result.Replace("{{end}}", end.ToString());
+                return Gateway.Default.FromSql(result).ToList<Accounts>();
+            }
+            else
+            {
+                string result = "select * from ( " + sql + ") as t " + where + " LIMIT  {{size}} OFFSET {{index}}";
+                result = result.Replace("{{size}}", size.ToString());
+                result = result.Replace("{{index}}", ((index - 1) * size).ToString());
+                return Gateway.Default.FromSql(result).ToList<Accounts>();
+            }
         }
         public ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {

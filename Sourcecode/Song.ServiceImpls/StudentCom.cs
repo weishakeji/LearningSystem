@@ -306,34 +306,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable LearningOutcomes(long stsid, bool isall)
         {
-            //StudentSort sort = this.SortSingle(stsid);
-            //if (sort == null) throw new Exception("StudentSort non-existent");
-            ////课程所在机构
-            //Organization org = Business.Do<IOrganization>().OrganSingle(sort.Org_ID);
-            //if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
-            ////计算综合成绩时，要获取机构的相关参数
-            //WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            ////视频学习的权重   //试题通过率的权重   //结课考试的权重
-            //double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
-            //double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
-            //double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
-            ////视频完成度的容差
-            //double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
-
-
-            string sql = @"select * from Accounts as ac
-                        inner join 
-                        (select * from Student_Course where {{stsid}}) as sc on ac.Ac_id =sc.Ac_id
-                        left join course on sc.Cou_id=course.cou_id
-                    where {{stsid2}}  order by sc.ac_id desc";
-            sql = sql.Replace("{{stsid}}", stsid > 0 ? "Sts_ID=" + stsid.ToString() : "1=1");
-            sql = sql.Replace("{{stsid2}}", stsid > 0 ? "ac.Sts_ID=" + stsid.ToString() : "1=1");
-            //如果取所有学员的记录
-            if (isall) sql = sql.Replace("inner", "left");
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            //完成度大于100，则等于100
-            DataTable dt = ds.Tables[0];
-            return dt;
+            return DataQuery.DbQuery.Call<DataTable>(new object[] { stsid, isall });
         }
         /// <summary>
         /// 学员组的学员的学习成果,导出成excel
@@ -904,40 +877,7 @@ namespace Song.ServiceImpls
         /// <returns>返回三列，area:行政区划名称,code:区划编码,count:登录人次</returns>
         public DataTable LoginLogsSummary(int orgid, DateTime? start, DateTime? end, string province, string city)
         {
-            //支持sqlserver,sqlite
-            string sql = @"SELECT 
-                        CASE WHEN {{field}} = '' THEN 'Other'       
-                                ELSE {{field}}
-                             END AS 'area'
-                        ,MAX(lso_code) as 'code'
-                        ,count(*) as 'count' 
-                FROM LogForStudentOnline 
-                WHERE {{orgid}} and {{start}} and {{end}} and {{parent}}='{{area}}'  
-                GROUP BY {{field}} order by count desc";
-            sql = sql.Replace("{{orgid}}", orgid > 0 ? "Org_ID=" + orgid : "1=1");
-            sql = sql.Replace("{{start}}", start == null ? "1=1" : "Lso_LoginTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sql = sql.Replace("{{end}}", end == null ? "1=1" : "Lso_LoginTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            if (string.IsNullOrWhiteSpace(province) && string.IsNullOrWhiteSpace(city))
-            {
-                sql = sql.Replace("{{field}}", "Lso_Province");
-                sql = sql.Replace("{{parent}}", "''");
-                sql = sql.Replace("{{area}}", "");
-            }
-            else if (!string.IsNullOrWhiteSpace(province))
-            {
-                sql = sql.Replace("{{field}}", "Lso_City");
-                sql = sql.Replace("{{parent}}", "Lso_Province");
-                sql = sql.Replace("{{area}}", province);
-            }
-            else if (!string.IsNullOrWhiteSpace(city))
-            {
-                sql = sql.Replace("{{field}}", "Lso_District");
-                sql = sql.Replace("{{parent}}", "Lso_City");
-                sql = sql.Replace("{{area}}", city);
-            }
-
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];   
+            return DataQuery.DbQuery.Call<DataTable>(new object[] { orgid, start, end, province, city });
         }
         #endregion
 
@@ -1003,10 +943,11 @@ namespace Song.ServiceImpls
                 try
                 {
                     //当前章节的学习记录
-                    //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
-                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ac_ID={1} and Ol_ID={0} order by Lss_ID desc";
-                    sql = string.Format(sql, olid, st.Ac_ID);
-                    Song.Entities.LogForStudentStudy log = tran.FromSql(sql).ToFirst<LogForStudentStudy>();
+                    WhereClip wc = LogForStudentStudy._.Ac_ID == st.Ac_ID;
+                    if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
+                    Song.Entities.LogForStudentStudy log = Gateway.Default.From<LogForStudentStudy>()
+                        .Where(wc).OrderBy(LogForStudentStudy._.Lss_ID.Desc)
+                        .ToFirst<LogForStudentStudy>();
                     if (log == null)
                     {
                         log = new LogForStudentStudy();
@@ -1043,7 +984,7 @@ namespace Song.ServiceImpls
 
                     //更新学习记录到学员与课程关联表
                     DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(st.Ac_ID, couid);
-                    if(dt!=null && dt.Rows.Count > 0)
+                    if (dt != null && dt.Rows.Count > 0)
                     {
                         double rate = 0;
                         double.TryParse(dt.Rows[0]["complete"].ToString(), out rate);
@@ -1054,7 +995,7 @@ namespace Song.ServiceImpls
                             if (sc.Stc_StudyScore != rate)
                             {
                                 sc.Stc_StudyScore = rate;
-                                Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);                                
+                                Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
                             }
                         }
                     }
@@ -1065,7 +1006,6 @@ namespace Song.ServiceImpls
                     throw ex;
                 }
             }
-            
         }
         /// <summary>
         /// 根据学员id与章节id,返回学习记录
@@ -1155,91 +1095,7 @@ namespace Song.ServiceImpls
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int acid)
         {
-            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
-            if (student == null) throw new Exception("当前学员不存在！");
-            Organization org= Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
-            if (org == null) throw new Exception("学员所在的机构不存在！");
-            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //容差，例如完成度小于5%，则默认100%
-            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
-
-            ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
-            //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
-            //SourceReader lfs = Gateway.Default.FromSql(string.Format("select Ol_ID from [LogForStudentStudy] where Ac_ID={0} group by Ol_ID",acid)).ToReader();
-            //while (lfs.Read())
-            //{
-            //    long olid = lfs.GetInt64("Ol_ID");
-            //    Outline ol = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
-            //    if (ol == null || ol.Ol_IsVideo == false || ol.Ol_IsUse == false || ol.Ol_IsFinish == false)
-            //    {
-            //        Gateway.Default.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == olid);
-            //    }
-            //} ;
-            //开始计算
-            string sql = @"
-select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inner join 
-	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
-		sum(case when complete>=100 then 100 else complete end) as 'complete'
-		from 
-			(SELECT top 90000 ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-				 sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-				 (case  when max(Lss_Duration)>0 then
-					 cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
-					 else 0 end
-				  ) as 'complete'
-			 FROM [LogForStudentStudy]  where {acid}  group by ol_id 
-			 ) as s where s.totalTime>0 group by s.cou_id
-	) as tm on c.cou_id=tm.cou_id  ";
-            //sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
-            sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            try
-            {
-                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-                DataTable dt = ds.Tables[0];
-                if (dt.Rows.Count > 0)
-                {
-                    ///* 不要删除
-                    //*****如果没有购买的，则去除
-                    //购买的课程(含概试用的）
-                    int count = 0;
-                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0,null, null);
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        bool isExist = false;
-                        for (int j = 0; j < cous.Count; j++)
-                        {
-                            if (dt.Rows[i]["Cou_ID"].ToString() == cous[j].Cou_ID.ToString())
-                            {
-                                isExist = true;
-                                break;
-                            }
-                        }
-                        if (!isExist)
-                        {
-                            dt.Rows.RemoveAt(i);
-                            i--;
-                        }
-                    }
-                    // * */
-                    //计算完成度                   
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        //课程的累计完成度
-                        double complete = Convert.ToDouble(dr["complete"].ToString());
-                        //课程id
-                        long couid = Convert.ToInt64(dr["Cou_ID"].ToString());
-                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
-                        //完成度
-                        double peracent = Math.Floor(complete / olnum * 100) / 100;
-                        dr["complete"] = peracent >= (100 - tolerance) ? 100 : peracent;
-                    }
-                }
-                return dt;
-            }
-            catch
-            {
-                return null;
-            }
+            return DataQuery.DbQuery.Call<DataTable>(new object[] { acid });
         }
         /// <summary>
         /// 学员指定学习课程的记录
@@ -1285,8 +1141,8 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <returns></returns>
         public DataTable StudentStudyCourseLog(int acid, long couid)
         {
-            //课程数据
-            DataSet ds = Gateway.Default.FromSql("select * from Course where Cou_ID=" + couid).ToDataSet();
+            //课程数据         
+            DataSet ds = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToDataSet();
             DataTable dt = ds.Tables[0];
             dt.Columns.Add("lastTime", typeof(DateTime));
             dt.Columns.Add("studyTime", typeof(int));
@@ -1299,11 +1155,6 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             //容差，例如完成度小于5%，则默认100%
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
-            //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_Complete FROM [LogForStudentStudy] where {acid} and {couid}";
-            sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
-
             //当前课程的所有视频章节
             List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, true);
             //最后学习时间
@@ -1311,25 +1162,29 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             //累计学习时间，累计完成度
             double totalStudy = 0, totalComplete = 0;
             int count = 0;
-            using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
+            //获取学习记录
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);
+            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
+            using (SourceReader reader = Gateway.Default.From<LogForStudentStudy>().Where(wc).ToReader())
             {
                 while (reader.Read())
                 {
                     //章节id
-                    long olid = reader.GetValue<long>(0);
+                    long olid = reader.GetValue<long>("Ol_ID");
                     Song.Entities.Outline outline = outlines.Find(x => x.Ol_ID == olid);
                     if (outline == null) continue;
                     count++;
                     //时间
-                    DateTime time = reader.GetValue<DateTime>(1);
+                    DateTime time = reader.GetValue<DateTime>("Lss_LastTime");
                     if (time > lasttime) lasttime = time;
                     //学习时长,单位秒
-                    double study = reader.GetValue<double>(2);
+                    double study = reader.GetValue<double>("Lss_StudyTime");
                     totalStudy += study;
                     //视频时长，单位秒
-                    int dura = reader.GetValue<int>(3) / 1000;
+                    int dura = reader.GetValue<int>("Lss_Duration") / 1000;
                     //完成度
-                    double complete = reader.GetValue<double>(4);
+                    double complete = reader.GetValue<double>("Lss_Complete");
                     totalComplete += complete > 100 - tolerance ? 100 : complete;
                 }
                 reader.Close();
@@ -1346,37 +1201,6 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             dt.Rows[0]["studyTime"] = (int)totalStudy;
             dt.Rows[0]["complete"] = totalComplete;
             return dt;
-
-            ////开始计算
-            //string sql = @"select * from course as c inner join 
-            //            (
-            //             select Cou_ID, max(lastTime) as 'lastTime', SUM(studyTime) as 'studyTime'	
-            //             ,cast(convert(decimal(18,4), cast(sum(complete) as float)/COUNT(*)) as float) as 'complete'
-            //              from 
-            //             (	
-            //              select c.*, s.lastTime
-            //              ,CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime'
-            //              ,CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
-            //              from 
-            //              (
-            //               (SELECT * from outline where {couid} and Ol_IsUse=1 and Ol_IsFinish=1 and Ol_IsVideo=1)  as c left join 
-            //                (SELECT ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-            //                    sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-            //                    (case  when max(Lss_Duration)>0 then
-            //                    cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
-            //                    else 0 end
-            //                    ) as 'complete'
-            //                 FROM [LogForStudentStudy]  where {couid} and  {acid}  group by ol_id 
-            //                ) as s on c.Ol_ID=s.Ol_ID
-            //              ) 
-            //             ) as t group by Cou_ID
-            //            ) as tm on c.Cou_ID=tm.Cou_ID";
-            ////sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
-            //sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            //sql = sql.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
-            //DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            //return ds.Tables[0];
-
         }
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
@@ -1405,27 +1229,27 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime,Lss_Complete FROM [LogForStudentStudy] where  {acid} and {couid}";
-            sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
-            using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);
+            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
+            using (SourceReader reader = Gateway.Default.From<LogForStudentStudy>().Where(wc).ToReader())
             {
                 while (reader.Read())
                 {
                     //章节id
-                    long olid = reader.GetValue<long>(0);
+                    long olid = reader.GetValue<long>("Ol_ID");
                     DataRow dr = dt.Rows.Find(olid);
                     if (dr == null) continue;
                     //最后时间
-                    DateTime lasttime = reader.GetValue<DateTime>(1);
+                    DateTime lasttime = reader.GetValue<DateTime>("Lss_LastTime");
                     //学习时长,单位秒
-                    double study = reader.GetValue<double>(2);
+                    double study = reader.GetValue<double>("Lss_StudyTime");
                     //视频时长，单位毫秒
-                    int dura = reader.GetValue<int>(3);
+                    int dura = reader.GetValue<int>("Lss_Duration");
                     //播放进度，单位毫秒
-                    int play = reader.GetValue<int>(4);
+                    int play = reader.GetValue<int>("Lss_PlayTime");
                     //完成度
-                    double complete = reader.GetValue<double>(5);
+                    double complete = reader.GetValue<double>("Lss_Complete");
                     complete = complete > 100 - tolerance ? 100 : complete;
 
                     dr["lastTime"] = lasttime;
@@ -1438,27 +1262,6 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 reader.Dispose();
             }
             return dt;
-
-            ////读取学员学习记录
-            //string sql = @"select
-            //            c.*,s.ol_id, s.lastTime,
-            //            CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime',
-            //            CASE WHEN s.totalTime is null THEN 0 ELSE s.totalTime END as 'totalTime',
-            //            CASE WHEN s.playTime is null THEN 0 ELSE s.playTime END as 'playTime',
-            //            CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
-            //            from outline as c left join 
-            //            (SELECT ol_id, MAX(Lss_LastTime) as 'lastTime', 
-	           //             sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-            //                cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100 as 'complete'
-
-            //              FROM [LogForStudentStudy] where {acid} and  {couid}  and Lss_Duration>0
-            //            group by ol_id ) as s
-            //            on c.ol_id=s.ol_id where {couid} order by ol_tax asc";
-            //sql = sql.Replace("{couid}", "cou_id=" + couid);
-            //sql = sql.Replace("{acid}", "ac_id=" + acid);
-
-            //DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            //return ds.Tables[0];           
         }
         /// <summary>
         /// 章节学习记录作弊，直接将学习进度设置为100
@@ -1681,13 +1484,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <returns></returns>
         public Questions[] QuesOftenwrong(long couid, int type, int count)
         {
-            string sql = @"select {top} sq.count as Qus_Errornum,c.* from Questions as c inner join 
-(SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {type} group by qus_id) as sq
-on c.qus_id=sq.qus_id order by sq.count desc";
-            sql = sql.Replace("{couid}", couid > 0 ? "cou_id=" + couid : "1=1");
-            sql = sql.Replace("{type}", type > 0 ? "Qus_Type=" + type : "1=1");
-            sql = sql.Replace("{top}", count > 0 ? "top " + count : "");
-            return Gateway.Default.FromSql(sql).ToArray<Questions>();
+            return DataQuery.DbQuery.Call<Questions[]>(new object[] { count, type, count });
         }
         /// <summary>
         /// 分页获取学员的错误试题
@@ -1723,28 +1520,10 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <returns></returns>
         public Course[] QuesForCourse(int stid, string couname, int size, int index, out int countSum)
         {
-            //计算满足条件的数量
-            string sumSql = @"select COUNT(*) from course as c inner join 
-                            (select cou_id from Student_Ques where Ac_ID={stid} group by cou_id) as q
-                            on c.cou_id=q.cou_id where {course}";
-            sumSql = sumSql.Replace("{stid}", stid.ToString());
-            sumSql = sumSql.Replace("{course}", string.IsNullOrWhiteSpace(couname) ? "1=1" : "Cou_Name LIKE '%" + couname + "%'");
-            countSum = Convert.ToInt32(Gateway.Default.FromSql(sumSql).ToScalar());
-            
-            //分页获取数据
-            string sql = @"SELECT [TMP_TABLE].* FROM 
-	                ( select c.*,q.count,ROW_NUMBER() OVER( ORDER BY q.sid desc ) AS TMP__ROWID  from course as c inner join 
-                (select cou_id,max(Squs_ID) as 'sid',COUNT(*) as 'count' from Student_Ques where Ac_ID={stid} group by cou_id) as q
-                on c.cou_id=q.cou_id where {course}  ) 
-	                [TMP_TABLE] WHERE TMP__ROWID BETWEEN {start} AND {end}";
-            sql = sql.Replace("{stid}", stid.ToString());
-            sql = sql.Replace("{course}", string.IsNullOrWhiteSpace(couname) ? "1=1" : "Cou_Name LIKE '%" + couname + "%'");
-            //RowNum BETWEEN (页码-1)*页大小+1 AND 页码*页大小
-            sql = sql.Replace("{start}", ((index - 1) * size + 1).ToString());
-            sql = sql.Replace("{end}", (index * size).ToString());           
-
-            return Gateway.Default.FromSql(sql).ToArray<Course>();
-
+            object[] objs = new object[] { stid, couname, size, index, 0 };
+            Course[] courses= DataQuery.DbQuery.Call<Course[]>(objs);
+            countSum = (int)objs[objs.Length - 1];
+            return courses; 
         }
         #endregion
 
@@ -2092,51 +1871,10 @@ on c.qus_id=sq.qus_id order by sq.count desc";
             string acc, string name, string idcard, string mobi,
            DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
-            //计算总数的脚本
-            string sqlsum = @"select COUNT(*) as total from 
-    (select ac_id,count(ac_id) as 'count' from 
-		(select * from Student_Course where {{where4sc}} and ({{start}} and {{end}}) ) as ss   group by ac_id 
-	) as sc  inner join
-    Accounts as a on sc.Ac_ID = a.Ac_ID {{where4acc}}"; ;
-            //购买记录的条件
-            string where4sc = "{{orgid}} and {{couid}} and {{stsid}}";
-            where4sc = where4sc.Replace("{{orgid}}", orgid > 0 ? "Student_Course.Org_ID =" + orgid.ToString() : "1=1");
-            where4sc = where4sc.Replace("{{couid}}", couid > 0 ? "Student_Course.Cou_ID =" + couid.ToString() : "1=1");
-            where4sc = where4sc.Replace("{{stsid}}", stsid > 0 ? "Student_Course.Sts_ID =" + stsid.ToString() : "1=1");
-            //学员查询条件
-            string where4acc = "where {{acc}} and {{name}} and {{idcard}} and {{mobi}}";
-            where4acc = where4acc.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
-            where4acc = where4acc.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");
-            where4acc = where4acc.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "a.Ac_IDCardNumber LIKE '%" + idcard + "%'");
-            where4acc = where4acc.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : "a.Ac_MobiTel1 LIKE '%" + mobi + "%'");
-
-            //计算满足条件的记录总数          
-            sqlsum = sqlsum.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqlsum = sqlsum.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqlsum = sqlsum.Replace("{{where4acc}}", where4acc);
-            sqlsum = sqlsum.Replace("{{where4sc}}", where4sc);
-            object o = Gateway.Default.FromSql(sqlsum).ToScalar();
-            countSum = Convert.ToInt32(o);
-
-            //分页查询的脚本
-            string sqljquery = @"select Ac_ID,count as 'Ac_CurrCourse',Ac_AccName,Ac_Name,Ac_IDCardNumber,Ac_Age,Ac_Photo,
-Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel2
-                        from
-                       (select a.*,count,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
-                         (select ac_id,count(ac_id) as 'count' from 
-		(select * from Student_Course where {{where4sc}} and ({{start}} and {{end}}) ) as ss   group by ac_id 
-	) as sc  inner join      
-                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} ";
-            sqljquery = sqljquery.Replace("{{start}}", start == null ? "1=1" : "Stc_StartTime>='" + ((DateTime)start).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqljquery = sqljquery.Replace("{{end}}", end == null ? "1=1" : "Stc_StartTime<'" + ((DateTime)end).ToString("yyyy-MM-dd HH:mm:ss") + "'");
-            sqljquery = sqljquery.Replace("{{where4acc}}", where4acc);
-            sqljquery = sqljquery.Replace("{{where4sc}}", where4sc);
-            int startindex = (index - 1) * size;
-            int endindex = (index - 1) * size + size;
-            sqljquery = sqljquery.Replace("{{startindex}}", startindex.ToString());
-            sqljquery = sqljquery.Replace("{{endindex}}", endindex.ToString());
-
-            return Gateway.Default.FromSql(sqljquery).ToList<Accounts>();
+            object[] objs = new object[] { orgid, stsid, couid, acc, name, idcard, mobi, start, end, size, index, 0 };
+            List<Accounts> list = DataQuery.DbQuery.Call<List<Accounts>>(objs);
+            countSum = (int)objs[objs.Length - 1];
+            return list;
         }
         #endregion
 
@@ -2222,59 +1960,10 @@ Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel
              string orderby, string orderpattr,
             int size, int index, out int countSum)
         {
-            string sql = @"select *  from (
-	                    select acc.Ac_ID,Ac_Name,Ac_AccName,Ac_Sex,Ac_Photo,Ac_IDCardNumber,Ac_MobiTel1,Ac_LastTime,Sts_ID,Sts_Name,Ac_Money
-		                    ,logincount,logintime
-		                    ,coursecount,rechargecount,lastrecharge,laststudy,lastexrcise,lasttest,lastexam
-		                    ,ROW_NUMBER() OVER( ORDER BY {{orderby}} {{orderpattr}} ) AS rowid from Accounts as acc
-	                    left join  --登录次数与最后登录时间
-	                    (select Ac_id, COUNT(0) as 'logincount', max(Lso_CrtTime) as 'logintime' from LogForStudentOnline group by Ac_ID) as ol
-		                    on acc.Ac_ID=ol.Ac_id
-	                    left join --课程购买个数
-	                    (select Ac_id, COUNT(0) as 'coursecount' from Student_Course group by Ac_ID) as buy
-		                    on acc.Ac_ID=buy.Ac_id
-	                    left join ----资金动向
-	                    (select Ac_id, COUNT(*) as 'rechargecount',max(Ma_CrtTime) as 'lastrecharge'  from MoneyAccount where Ma_Type=2  group by Ac_ID) as recharge
-		                    on acc.Ac_ID=recharge.Ac_ID			
-	                    left join --视频学习记录
-	                    (select Ac_id, max(Lss_LastTime) as 'laststudy' from LogForStudentStudy group by Ac_ID) as video
-		                    on acc.Ac_ID=video.Ac_ID
-	                    left join --试题练习记录
-	                    (select Ac_id, max(Lse_LastTime) as 'lastexrcise' from LogForStudentExercise group by Ac_ID) as ques
-		                    on acc.Ac_ID=ques.Ac_ID
-	                    left join --测试成绩
-	                    (select Ac_id, max(Tr_CrtTime) as 'lasttest' from TestResults group by Ac_ID) as test
-		                    on acc.Ac_ID=test.Ac_ID
-	                    left join --考试成绩
-	                    (select Ac_id, max(Exr_CrtTime) as 'lastexam' from ExamResults group by Ac_ID) as exam
-		                    on acc.Ac_ID=exam.Ac_ID
-	                    --查询条件
-	                    where {{where}}  	
-                    ) as res where rowid BETWEEN {{start}} AND {{end}}";
-            //查询条件
-            string wheresql = @" {{orgid}} and {{stsid}} and {{acc}} and {{name}} and {{mobi}} and {{idcard}} and {{code}}";
-            wheresql = wheresql.Replace("{{orgid}}", orgid<=0 ? "1=1" : "Org_ID=" + orgid);
-            wheresql = wheresql.Replace("{{stsid}}", stsid <= 0 ? "1=1" : "Sts_ID=" + stsid);
-            wheresql = wheresql.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "Ac_AccName like '%" + acc + "%'");
-            wheresql = wheresql.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "Ac_Name like '%" + name + "%'");
-            wheresql = wheresql.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : "Ac_MobiTel1 like '%" + mobi + "%'");
-            wheresql = wheresql.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : "Ac_IDCardNumber like '%" + idcard + "%'");
-            wheresql = wheresql.Replace("{{code}}", string.IsNullOrWhiteSpace(code) ? "1=1" : "Ac_CodeNumber like '%" + code + "%'");
-            //获取记录总数
-            string sumSql = @"select COUNT(*) from Accounts where " + wheresql;        
-            countSum = Convert.ToInt32(Gateway.Default.FromSql(sumSql).ToScalar());
-
-            //查询
-            sql = sql.Replace("{{where}}", wheresql);
-            //排序条件与方式
-            sql = sql.Replace("{{orderby}}", string.IsNullOrWhiteSpace(orderby) ? "Ac_LastTime" : orderby);
-            sql = sql.Replace("{{orderpattr}}", "asc".Equals(orderpattr, StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC");
-            //RowNum BETWEEN(页码-1)*页大小 + 1 AND 页码*页大小
-            sql = sql.Replace("{{start}}", ((index - 1) * size + 1).ToString());
-            sql = sql.Replace("{{end}}", (index * size).ToString());
-
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];        
+            object[] objs = new object[] { orgid, stsid, acc, name, mobi, idcard, code, orderby, orderpattr, size, index, 0 };
+            DataTable dt = DataQuery.DbQuery.Call<DataTable>(objs);
+            countSum = (int)objs[objs.Length - 1];
+            return dt;
         }
         #endregion
     }

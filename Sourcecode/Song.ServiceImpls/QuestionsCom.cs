@@ -370,81 +370,53 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Questions[] QuesRandom(int orgid, long sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
         {
-            #region 
+            WhereClip wc = Questions._.Qus_IsError == false;
+            //机构
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             //试题类型
             string[] types = WeiSha.Core.App.Get["QuesType"].Split(',');
             if (type < 1 || type > types.Length) type = -1;
+            if (type > 0) wc.And(Questions._.Qus_Type == type);
             //难度区间
             diff1 = diff1 < 1 ? 1 : diff1;
             diff2 = diff2 < 1 || diff2 > 5 ? 5 : diff2;
-            //基本属性
-            string where = " Qus_IsError=false ";           
-                          
+            if (diff1 > 0) wc.And(Questions._.Qus_Diff >= diff1);  //最小难度等级
+            if (diff2 > 0) wc.And(Questions._.Qus_Diff <= diff2);  //最大难度
+            //章节id
             if (olid > 0)
-            {
-                //章节id
+            {                
                 List<long> list = Business.Do<IOutline>().TreeID(olid);
-                string olstr = string.Empty;
-                foreach(int id in list) olstr += " or Ol_ID=" + id;
-                //string olstr = _quesRandom_buildOlid(olid);
-                where += " and (Ol_ID=" + olid + olstr + ")";
+                WhereClip wcOl = new WhereClip();
+                foreach (int id in list) wc.Or(Questions._.Ol_ID == id);
+                wc.And(wcOl);
             }
+            else if (couid > 0) wc.And(Questions._.Cou_ID==couid);  //课程id
+            else if(sbjid>0) wc.And(Questions._.Sbj_ID == sbjid);   //专业id
+            //随机排序
+            OrderByClip order;
+            if (Gateway.Default.DbType != DbProviderType.SQLServer)
+                order= new OrderByClip("RANDOM()");
             else
-            {
-                if (couid > 0)
-                {
-                    where += " and Cou_ID=" + couid; //课程
-                }
-                else
-                {
-                    if (sbjid > 0) where += " and Sbj_ID=" + sbjid; //专业id   
-                }
-            }
-            if (orgid > 0) where += " and org_id=" + orgid; //试题类型
-            if (type > 0) where += " and Qus_Type=" + type; //试题类型
-            if (diff1 > 0) where += " and Qus_Diff>=" + diff1;  //最小难度等级
-            if (diff2 > 0) where += " and Qus_Diff<=" + diff2;  //最大难度
-            if (isUse != null) where += " and Qus_IsUse=" + ((bool)isUse).ToString().ToLower(); //是否包括未使用的试题，true为只限启用的试题      
-            //根据不同的数据库拼接SQL语句
-            string sql = "";
-            //string dataype = WeiSha.Core.Server.DatabaseType; //数据库类型
-            //if (dataype != "access")
-            //{
-                sql = "select top " + count + "  *, newid() as n from Questions where " + where + " order by n";
-                sql = sql.Replace("true", "1");
-                sql = sql.Replace("false", "0");
-            //}
-            //else
-            //{
-            //    int rdid = new System.Random(unchecked((int)DateTime.Now.Ticks)).Next();
-            //    sql = "select top " + count + " * from Questions where " + where + " order by rnd(" + (-1 * rdid) + "*Qus_ID)";
-            //    sql = "select * from (" + sql + ") as t order by t.Qus_Type asc";
-            //    return Gateway.Default.FromSql(sql).ToArray<Questions>();
-            //}
-            sql = "select * from (" + sql + ") as t order by t.Qus_Type asc";
-            #endregion
-            //
-            //string sqlProc = "exec PROC_QuesRandom {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}";
-            //sqlProc = string.Format(sqlProc, orgid, sbjid, couid, olid, type, diff1, diff2, 1, count);
-            return Gateway.Default.FromSql(sql).ToArray<Questions>();
+                order = new OrderByClip("NEWID()");
+            return Gateway.Default.From<Questions>().Where(wc).OrderBy(order).ToArray<Questions>(count);
         }
-        /// <summary>
-        /// 为了获取章节下面的子章节中的试题，生成相关条件判断
-        /// </summary>
-        /// <param name="olid"></param>
-        /// <returns></returns>
-        private string _quesRandom_buildOlid(long olid)
-        {
-            string sql = "";
-            Outline[] ols = Gateway.Default.From<Outline>().Where(Outline._.Ol_PID == olid).ToArray<Outline>();
-            foreach (Outline o in ols)
-            {
-                sql += " or Ol_ID=" + o.Ol_ID;
-                sql += _quesRandom_buildOlid(o.Ol_ID);
-            }
-            return sql;
-        }
-        
+        ///// <summary>
+        ///// 为了获取章节下面的子章节中的试题，生成相关条件判断
+        ///// </summary>
+        ///// <param name="olid"></param>
+        ///// <returns></returns>
+        //private string _quesRandom_buildOlid(long olid)
+        //{
+        //    string sql = "";
+        //    Outline[] ols = Gateway.Default.From<Outline>().Where(Outline._.Ol_PID == olid).ToArray<Outline>();
+        //    foreach (Outline o in ols)
+        //    {
+        //        sql += " or Ol_ID=" + o.Ol_ID;
+        //        sql += _quesRandom_buildOlid(o.Ol_ID);
+        //    }
+        //    return sql;
+        //}
+
         public Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
         {
             return this.QuesRandom(-1, sbjid, couid, -1, type, diff1, diff2, isUse, count);           

@@ -31,12 +31,13 @@
             </loading>
             <template v-else>
                 <div class="database">
-                   
+
                     <span>
-                        <icon v-if="database=='SQLite'">&#xa05b</icon>
-                        <icon v-if="database=='PostgreSQL'">&#xa05d</icon>
-                        <icon v-if="database=='SQLServer'">&#xa05a</icon>
-                        {{database}}
+                        <icon v-if="dbType=='SQLite'">&#xa05b</icon>
+                        <icon v-if="dbType=='PostgreSQL'">&#xa05d</icon>
+                        <icon v-if="dbType=='SQLServer'">&#xa05a</icon>
+                        {{dbType}}
+                        <span class="dbName" v-if="dbName!=''" v-html="dbName"></span>
                     </span>
 
                     <template v-if="connState">
@@ -56,16 +57,18 @@
                     </template>
                 </div>
                 <div v-if="connState" class="version">
-                    数据库版本信息：<br />                  
+                    数据库版本信息：<br />
                     <span>{{verison}}</span>
                 </div>
             </template>
         </el-card>
         <el-card class="box-card" v-if="connState" shadow="hover">
             <div slot="header" class="clearfix">
-                <span icon="&#xe6a4">数据库表与字段的完整性</span>
-                <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
-                    :loading="loadingComp" @click="checkComplete">重新测试</el-button>
+                <span icon="&#xe6a4">表与字段的完整性</span>
+                <el-button style="float: right; padding: 3px 0" type="text" :loading="loadingComp"
+                    @click="checkComplete">
+                    <icon>&#xe6d8</icon>检测
+                </el-button>
             </div>
             <div v-if="loadingComp">
                 <span class="el-icon-loading"></span> 正在检测...
@@ -90,9 +93,7 @@
                         </span>
                     </div>
                 </template>
-                <div v-else>
-                    <el-tag type="success" class="el-icon-circle-check connState"> 没有缺失的表或字段</el-tag>
-                </div>
+                <el-tag v-else type="success"><icon>&#xa048</icon> 没有缺失的表或字段</el-tag>
             </div>
         </el-card>
     </div>

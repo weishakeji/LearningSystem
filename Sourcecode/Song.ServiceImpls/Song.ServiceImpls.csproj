@@ -192,6 +192,10 @@
     <Compile Include="LiveCom.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Song.DataQuery\Song.DataQuery.csproj">
+      <Project>{e62b4e64-82bc-4028-a338-a92a86bb791a}</Project>
+      <Name>Song.DataQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985a8268-3a87-46b9-9744-650664719e67}</Project>
       <Name>Song.Entities</Name>
