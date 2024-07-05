@@ -57,3 +57,5 @@ packages/
 /Sourcecode/Song.WebSite/license.weisha.txt
 /Sourcecode/.cr
 /Sourcecode/Lib/WeiSha.Data.XML
+/Sourcecode/Song.WebSite/App_Data/weisha.db-shm
+/Sourcecode/Song.WebSite/App_Data/weisha.db-wal
