@@ -7,7 +7,7 @@
   </ConnectionStrings>
   <SaveSqlScript type="single">
     <Files>
-      <item>E:\SourceCode\02_GenereteForPostgreSQL\Generate\Publish\1.sql</item>
+      <item>..\..\DbScripts\pgscript.sql</item>
     </Files>
     <Folders>
       <item>E:\SourceCode\02_GenereteForPostgreSQL\Generate\Publish\SqlScripts</item>

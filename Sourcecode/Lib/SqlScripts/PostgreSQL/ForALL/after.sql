@@ -19,7 +19,7 @@ DECLARE cur_name CURSOR FOR
 	tbname VARCHAR(200);	--表名
 	mainkey VARCHAR(50);	--字段名
 	tmsql VARCHAR(500);		
-	maxid int;			--最大的自增id的值
+	maxid bigint;			--最大的自增id的值
 BEGIN
 OPEN cur_name;
 	LOOP
