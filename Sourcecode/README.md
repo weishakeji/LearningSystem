@@ -3,7 +3,7 @@
 
 ## 开发环境
 * C#（dotNet 4.6.2 ), 开发工具 Microsoft Visual Studio Community 2019
-* 数据库Sqlserver2008或更高版本
+* 数据库 PostgreSQL 或Sqlite
 
 ## 初始信息
  * 测试账号： tester 密码1 
