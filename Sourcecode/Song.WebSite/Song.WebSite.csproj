@@ -87,6 +87,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Lib\Sqlite\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6">
+      <HintPath>..\Lib\Sqlite\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\Lib\Sqlite\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.6.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -2849,7 +2858,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
@@ -3304,6 +3312,7 @@
     <Content Include="Help\Datas\Entitiy\NewsNote.json" />
     <Content Include="Help\Datas\Entitiy\OutlineEvent.json" />
     <Content Include="Help\Datas\Entitiy\ThirdpartyAccounts.json" />
+    <Content Include="App_Data\weisha.db" />
     <None Include="packages.config" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win10\intro.json" />
