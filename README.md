@@ -1,5 +1,5 @@
 ﻿# LearningSystem
-# 微厦在线学习考试系统 2.2
+# 微厦在线学习考试系统 2.3
 ##### [![](https://img.shields.io/badge/-%E5%AE%98%E6%96%B9%E7%BD%91%E7%AB%99-blue)](http://www.weishakeji.net) [![](https://img.shields.io/badge/help-%E5%9C%A8%E7%BA%BF%E5%B8%AE%E5%8A%A9-orange)](http://www.weisha100.net/) [![](https://img.shields.io/badge/upgrade-%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97-green)](http://www.weishakeji.net/download.html)  [![](https://img.shields.io/badge/QQ%E7%BE%A4-10237400-brightgreen)](https://qm.qq.com/cgi-bin/qm/qr?k=lL7qjJPXlfMnxo4cOd2xr-OMe-_4u8hW&jump_from=webapi&authKey=4vWIzSa9ceJ0Cn6/cDKp08SuOxv4xfGDfMn1ZI//1XG+p5nzeqW9v/PUVdI9gEh+)  [![](https://img.shields.io/badge/%E7%94%B5%E8%AF%9D-400%206015%20615-lightgrey)]()
 
 >《微厦在线学习考试系统》将“ **视频学习、试题练习、在线考试** ”紧密相联，打造成为集 **“学、练、考”** 于一体的在线学习系统。“点播/直播”、“刷题/测试”、“组卷/考试”，根据学习内容的不同权重汇总综合成绩，生成学习证明。支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。
@@ -30,7 +30,7 @@
 > “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
 
 ## 技术特点
- * 前后端分离（自研架构），C#、Sqlserver、Vue
+ * 前后端分离（自研架构），C#、Postgresql/Sqlite、Vue
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
 ## 开发环境
