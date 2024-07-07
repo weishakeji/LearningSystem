@@ -330,7 +330,7 @@ namespace Song.ServiceImpls
         /// <returns>链接正确为true，否则为false</returns>
         public bool DatabaseLinkTest()
         {
-            return  Gateway.IsCorrect;
+            return  Gateway.Default.IsCorrect;
         }
         /// <summary>
         /// 执行sql语句
@@ -397,7 +397,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string DataBaseName()
         {
-            return DataQuery.DbQuery.Call<string>();
+            return Gateway.Default.DatabaseName();
         }
         /// <summary>
         ///  数据库版本号
@@ -405,7 +405,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string DbVersion()
         {
-            return DataQuery.DbQuery.Call<string>();
+            return Gateway.Default.DbVersion();
         }
         /// <summary>
         /// 数据库里所有的表

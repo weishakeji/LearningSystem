@@ -19,34 +19,6 @@ namespace Song.DataQuery.SQLite
     public class SystemParaCom
     {
         /// <summary>
-        ///  数据库名称
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseName()
-        {
-            Gateway gt = new Gateway(DbProviderFactory.Default);
-            System.Data.Common.DbConnection conn = gt.CreateConnection();
-            string str = conn.ConnectionString;
-            if (str.LastIndexOf("\\") > -1) str = str.Substring(str.LastIndexOf("\\") + 1);
-            Match match = Regex.Match(str, @"(\w[^\.]+)\.db");
-            if (match.Success) str = match.Value;
-                if (conn.State == ConnectionState.Open)
-                conn.Close();
-            return str;
-        } 
-        /// <summary>
-        ///  数据库版本号
-        /// </summary>
-        /// <returns></returns>
-        public string DbVersion()
-        {
-            object version = Gateway.Default.FromSql("SELECT 'SQLite ' || sqlite_version();").ToScalar();
-            if (version == null) return string.Empty;
-            string str = version.ToString();
-            str = str.Replace("\n", "").Replace("\t", "").Replace("\r", "");
-            return str;
-        }
-        /// <summary>
         /// 数据库里所有的表
         /// </summary>
         /// <returns></returns>

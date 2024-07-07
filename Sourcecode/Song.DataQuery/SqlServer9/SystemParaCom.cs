@@ -18,28 +18,6 @@ namespace Song.DataQuery.SqlServer9
     public class SystemParaCom
     {
         /// <summary>
-        ///  数据库名称
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseName()
-        {
-            object obj = Gateway.Default.FromSql("SELECT DB_NAME() AS DatabaseName").ToScalar();
-            if (obj == null) return string.Empty;
-            return obj.ToString();
-        }
-        /// <summary>
-        ///  数据库版本号
-        /// </summary>
-        /// <returns></returns>
-        public string DbVersion()
-        {
-            object version = Gateway.Default.FromSql("select @@version").ToScalar();
-            if (version == null) return string.Empty;
-            string str = version.ToString();
-            str = str.Replace("\n", "").Replace("\t", "").Replace("\r", "");
-            return str;
-        }
-        /// <summary>
         /// 数据库里所有的表
         /// </summary>
         /// <returns></returns>

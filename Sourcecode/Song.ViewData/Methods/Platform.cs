@@ -557,7 +557,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Dictionary<string,int> DataDetails()
         {
-            return WeiSha.Data.Gateway.Number();
+            return WeiSha.Data.Gateway.TablesCount;
         }
         /// <summary>
         /// 数据记录的总数
@@ -565,7 +565,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int DataTotal()
         {
-            return WeiSha.Data.Gateway.Total();
+            return WeiSha.Data.Gateway.Default.Total;
         }
         /// <summary>
         /// 数据库的初始时间
