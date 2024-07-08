@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("www.weishakeji.net")]
 [assembly: AssemblyDescription("集“学、练、考”与一体的在线学习系统")]
-//[assembly: AssemblyConfiguration("Beta")]
+[assembly: AssemblyConfiguration("10522779@qq.com")]
 [assembly: AssemblyCompany("郑州微厦计算机科技有限公司")]
 [assembly: AssemblyProduct("微厦在线学习平台")]
 [assembly: AssemblyCopyright("版权所有 (C) 微厦科技")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("微厦科技")]
 [assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 将使此程序集中的类型
