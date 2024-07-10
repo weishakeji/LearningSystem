@@ -23,7 +23,7 @@ p {
 
 .opensourse p,
 .opensourse p a {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 20px;
   color: #444;
 }
@@ -62,7 +62,7 @@ dd {
 }
 
 dl dt {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 dl dd {
@@ -73,5 +73,11 @@ dl dd {
 
 dl dd,
 dl dd * {
-  font-size: 16px;
+  font-size: 18px;
+}
+
+*.tip dd {
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+  line-height: 35px;
 }

@@ -18,46 +18,55 @@ window.vapp = new Vue({
             { type: 'line' },
             {
                 name: '安装部署', type: 'node', url: 'Contents/Deployment.html',
-                icon: { i: 'a030', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
+                icon: { i: 'e79b', s: 23, l: 0, t: 2 }, color: { f: '', b: '' }
             },
             {
                 name: '软件升级', type: 'node', url: 'Contents/Upgrade.html',
-                icon: { i: 'e836', s: 30, l: -2, t: -2 }, color: { f: '', b: '' }
+                icon: { i: 'e836', s: 30, l: -5, t: -2 }, color: { f: '', b: '' }
             },
             {
                 name: '检测数据库', type: 'node', hot: true, url: 'datas/test.htm',
-                icon: { i: 'e6a4', s: 20, l: 4, t: 1 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
+                icon: { i: 'a030', s: 20, l: 3, t: 1 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
             },
             { type: 'line' },
             {
-                name: '源代码（二次开发）', type: 'node', url: 'Contents/Sourcecode.html',
-                icon: { i: 'a034', s: 24, l: 0, t: 0 }, color: { f: '', b: '' }
+                name: '源代码说明', type: 'node', url: 'Contents/Sourcecode.html',
+                icon: { i: 'a034', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: '模版使用', type: 'node', url: 'Contents/Templates.html',
+                name: '视图模版', type: 'node', url: 'Contents/Templates.html',
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: 'RESTful API接口', type: 'node', url: 'api/',
+                name: 'RESTful API', type: 'node', url: 'api/',
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: '数据实体说明', type: 'node', url: 'datas/index.htm',
-                icon: { i: 'e85a', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
+                name: '数据字典', type: 'node', url: 'datas/index.htm',
+                icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
                 name: '数据实体生成', type: 'node', url: 'Contents/DataEntity.html',
-                icon: { i: 'e852', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
+                icon: { i: 'e820', s: 28, l: 1, t: 0 }, color: { f: '', b: '' }
             },
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
                 icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '', b: '' }
+            },
+            {
+                name: 'WebdeskUI', type: 'node', url: 'Webdeskui/index.html',
+                icon: { i: 'a010', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             { type: 'line' },
             {
                 name: '版权信息修改', type: 'node', url: 'copyright.html',
                 icon: { i: 'a027', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
+            {
+                name: '开源协议', type: 'node', url: 'License.html',
+                icon: { i: 'a037', s: 21, l: 3, t: 1 }, color: { f: 'rgb(64, 158, 255)', b: '' }
+            },
+
         ],
         showmenu: false,
         //当前点击的对象
@@ -94,7 +103,7 @@ window.vapp = new Vue({
         },
         //图标样式
         iconstyle: function (icon) {
-            const left = 8, top = 10;
+            const left = 15, top = 10;
             let size = 'font-size:' + icon.s + 'px;';
             return size + 'left:' + (left + icon.l) + 'px;top:' + (top + icon.t) + 'px';
         },

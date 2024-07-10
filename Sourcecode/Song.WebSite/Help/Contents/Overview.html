@@ -2,46 +2,76 @@
 <html lang="zh">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>系统概述</title>
-    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
-    <script type="text/javascript" src="Scripts/Overview.js"></script>
-    <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
-    <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
-    <link href="Styles/Overview.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>系统概述</title>
+  <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+  <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+  <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
+  <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+  <script type="text/javascript" src="Scripts/Overview.js"></script>
+  <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
+  <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+  <link href="Styles/Overview.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <div id="head">      
-        <h1 copyright="product"></h1>
-    </div>
-    <p class="tip" copyright="intro"></p>
-    <p copyright="detail"></p>
+  <div id="head">
+    <h1 copyright="product"></h1>
+  </div>
+  <p class="tip" copyright="intro"></p>
+  <p copyright="detail"></p>
+  <ul>
+    <li>适用：大学、中职中专、培训机构、企事业单位</li>
+    <li>行业：企业内训、成人教育、技能培训、继续教育</li>
+  </ul>
+  <div class="tip">
+    产品分为“社区版”与“商业版”，可以私有化部署。<br />
+    <ul>
+      <li><strong>社区版</strong> 采用SQLite数据库，没有功能限制，没有注册数量限制，没有并发限制。遵循GPL开源协议，仅限开源社区学习交流，不建议用于商业用途。</li>
+      <li><strong>商业版</strong> 采用PostgreSQL数据库，可以用于正式商业用途。商业授权为永久授权，一次购买永久有效。</li>
+    </ul>
+  </div>
+
+  <p></p>
+  <dl>
+    <dt>A、运行环境</dt>
+    <dd>硬件环境：CPU1.6Mhz以上，内存4GB以上</dd>
+    <dd>软件环境：IIS7以上版本、DotNet4.6 Framework</dd>
+    <dd icon="&#xe69e">程序下载：<a copyright="download" target="_blank"><span copyright="download"></span></a></dd>
+  </dl>
+  <dl>
+    <dt>B、开发环境</dt>
+    <dd>C#，dotNet CLR 4.6，数据库支持 SQLite、PostgreSQL、MSSqlServer</dd>
+    <dd>开发工具 Microsoft Visual Studio Community 2019，Visual Studio Code </dd>
+  </dl>
+  <dl>
+    <dt>C、开源地址</dt>
+    <dd icon="&#xe686">Gitee ： <a copyright="gitee" target="_blank"><span copyright="gitee"></span></a>
+      (推荐)</dd>
+    <dd icon="&#xe691">Github ：<a copyright="github" target="_blank"><span copyright="github"></span></a></dd>
+    <dd icon="&#xe715">Gitcode ：<a copyright="gitcode" target="_blank"><span copyright="gitcode"></span></a></dd>
+  </dl>
+
+  <div class="tip">
+    演示信息<br />
     <dl>
-        <dt>A、运行环境</dt>
-        <dd>硬件环境：CPU1.6Mhz以上，内存4GB以上</dd>
-        <dd>软件环境：IIS7以上版本、DotNet4.6 Framework</dd>
-        <dd icon="&#xe69e">程序下载：<a copyright="download" target="_blank"><span copyright="download"></span></a></dd>
-      </dl>
-      <dl>
-        <dt>B、开发环境</dt>
-        <dd>C#，dotNet CLR 4.6，数据库支持 SQLite、PostgreSQL、MSSqlServer</dd>
-        <dd>开发工具 Microsoft Visual Studio Community 2019，Visual Studio Code </dd>      
-      </dl>    
-      <dl>
-        <dt>C、开源地址</dt>
-        <dd icon="&#xe686">Gitee ： <a copyright="gitee" target="_blank"><span copyright="gitee"></span></a>
-          (推荐)</dd>
-        <dd icon="&#xe691">Github ：<a copyright="github" target="_blank"><span copyright="github"></span></a></dd>
-        <dd icon="&#xe715">Gitcode ：<a copyright="gitcode" target="_blank"><span copyright="gitcode"></span></a></dd>
-      </dl>
-  
-    
+      <dt>微厦一百： <a href="http://www.weisha100.cn" target="_blank">www.weisha100.cn</a></dt>
+      <dd>学员账号： tester 密码1 【教师同号-登录后点击右上角“进入教学管理”】</dd>
+      <dd>机构管理员： <a href="http://www.weisha100.cn/orgadmin" target="_blank">/orgadmin</a> 账号admin 密码1 【教学教务管理，专业设置，课程题库，用户管理，考试管理，学员开课，通知公告……等】</dd>
+      <dd>超级管理员： <a href="http://www.weisha100.cn/manage" target="_blank">/manage</a> 账号super 密码1 【支付接口，直播接口，短信接口，第三方登录，权限管理，分支机构管理……等】</dd>
+    </dl>
+  </div>
+  <dl>
+    <dt>更多演示信息</dt>
+    <dd>融课云学院： gxmk.weisha100.net</dd>
+    <dd>手机端下载： <a href="http://fir.weishakeji.net/u42b" target="_blank">安卓APP</a> <a href="http://gxmk.weisha100.net/app.html" target="_blank">苹果APP</a></dd>
+    <dd>微信小程序
+    <img src="images/weixinMiniApp.jpg" width="120px"/></dd>
+    <dd>企培云学院-打造学习型组织 ： <a href="http://jkdz.weisha100.net" target="_blank">jkdz.weisha100.net</a></dd>
+    <dd>技能培训鉴定平台-人人持证上岗 ： <a href="http://jnpx.weisha100.net" target="_blank">jnpx.weisha100.net</a></dd>
+  </dl>
 </body>
 
 </html>

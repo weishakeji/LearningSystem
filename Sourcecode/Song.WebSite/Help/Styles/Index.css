@@ -41,8 +41,8 @@ html, body, #vapp {
        margin-top: 3px;
     }
     nav>div[current]::after, nav>a[current]::after{
-        right: -9px !important;
-        bottom: -1px !important;
+        right: -6px !important;
+        bottom: 1px !important;
     }
 }
 
@@ -174,12 +174,12 @@ nav {
 }
 
 nav>div, nav>a {
-    padding: 10px 6px 10px 45px;
+    padding: 10px 6px 10px 55px;
     display: block;
   
     position: relative;
     color: #333;
-    margin: 0px 8px;
+    margin: 0px 8px 0px 0px;
     border-radius: 3px;
     --background-image: linear-gradient(-45deg, transparent 5%, rgba(255, 255, 255, 0.6) 85%, transparent);
     cursor: pointer;
@@ -193,25 +193,22 @@ nav>div:hover, nav>a:hover {
 }
 
 nav>div[current], nav>a[current] {
-    --border-image-source: linear-gradient(172deg, #fff 35%, #67C23A);
-    border-image-slice: 1;
-    border-radius: 5px 5px 0px 5px;
-    background-color: #d5fdc0;
-    box-shadow: inset 0px 0px 8px #fff;
-    border: 1px solid #80e34e;
-    color: #67C23A !important;
+    background: rgb(236, 245, 255); 
+   
+    border: 1px solid rgb(140, 197, 255);
+    color: #409EFF !important;
 }
 
 nav>div[current], nav>a[current], div[current] *:first {
-    color: #67C23A !important;
+    color: #409EFF !important;
 }
 
 nav>div[current] hot::before, nav>a[current] hot::before {
-    color: #67C23A;
+    color: #409EFF;
 }
 
 nav>div[current]:hover, nav>a[current]:hover {
-    color: #67C23A;
+    color: #409EFF
 }
 
 nav>div[current]::before, nav>a[current]::before {
@@ -223,7 +220,7 @@ nav>div[current]::before, nav>a[current]::before {
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 40px solid #67C23A;
+    border-bottom: 40px solid #409EFF;
     transform: rotate(3deg);
     z-index: 1;
 
@@ -231,13 +228,14 @@ nav>div[current]::before, nav>a[current]::before {
 
 nav>div[current]::after, nav>a[current]::after {
     content: '\e777';
+    font-size: 16px;
     font-family: "webdesk_icon" !important;
     color: #fff;
     position: absolute;
-    bottom: 1px;
+    bottom: -1px;
     right: -6px;
     z-index: 2;
-    transform: rotate(-3deg);
+    transform: rotate(-4deg);
 }
 
 nav>p.line {

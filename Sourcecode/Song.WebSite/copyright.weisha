@@ -13,7 +13,7 @@
   <edition remark="版本名称" type="text" fixed="true"><![CDATA[大客户版（版本名称可以自定义）]]></edition>
   <product remark="产品名称" type="text" fixed="true"><![CDATA[微厦在线学习考试系统]]></product>
   <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[视频学习（直播点播）、在线刷题、在线考试、学习证明、在线支付；支持电脑、手机、微信小程序；可私有化部署。]]></intro>
-  <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习系统》是一款基于B/S架构的在线教育系统，将“在线视频学习、在线试题练习、在线同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。并带有“分享、分润、分销”的辅助功能，对于平台推广、课程销售起到非常有效的帮助。]]></detail>
+  <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习考试系统》是一款基于B/S架构的在线教育系统，将“在线视频学习、直播、试题练习、同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统。“点播/直播”、“刷题/测试”、“组卷/考试”，根据学习内容的不同权重汇总综合成绩，生成学习证明。支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。]]></detail>
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
   <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>
   <gitcode remark="gitcode" type="link" fixed="false"><![CDATA[https://gitcode.net/songleiming/LearningSystem]]></gitcode>
