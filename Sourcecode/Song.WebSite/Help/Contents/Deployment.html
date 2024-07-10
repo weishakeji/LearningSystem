@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script> 
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Deployment.css" rel="stylesheet" type="text/css" />
@@ -20,51 +20,76 @@
         <h1>安装部署</h1>
     </div>
     <section>
-        <p>部署步骤为“数据库部署”->“创建站点，部署程序”->“配置db.config中数据库链接”->“设置上传文件夹的读写权限”
-            以下为详细讲解。</p>
-            <dd  icon="&#xe69e">程序下载：<a copyright="download" target="_blank"><span copyright="download"></span></a></dd>
+        <div class="tip">
+            部署环境：Windows Serever，IIS7<br />
+            数据库：社区版SQLite（无须安装）、商业版Postgresql 16
+        </div>
+        <p class="download" icon="&#xe69e">程序下载：<a copyright="download" target="_blank"><span
+                    copyright="download"></span></a></p>
         <dl>
-            <dt>1、数据库部署</dt>
-            <dd>手工创建数据库examweisha，然后执行安装文件中提供的script.sql即可。</dd>
-        </dl>
-        <dl>
-            <dt>2、程序部署 </dt>
-            <dd> A、将部署文件“yyyy-mm-dd.zip”解压。</dd>
-            <dd> B、建设IIS站点, 将网站“主目录”指向程序文件夹，绑定合适的域名或端口；</dd>
-            <dd> C、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，不要选择“经典”。</dd>
-        </dl>
-
-        <dl>
-            <dt>3、配置数据库连接</dt>
-            <dd>A、在站点的根文件夹下找到db.config，用记事本打开</dd>
-            <dd>
-                &lt;connectionstrings&gt;<br/>&lt;add name="weisha100.cn" connectionString="Data
-                Source=192.168.1.212;Initial Catalog=examweisha;User
-                ID=sa;password=weisha;"
-                providerName="WeiSha.Data.SqlServer9.SqlServer9Provider" /&gt;
-                                         <br />&lt;/connectionstrings&gt;
-            </dd>
-
-            <dd>
-                B、说明如下： <br>
-                Data Source=（数据库服务器的IP地址）;<br>
-                Initial Catalog=（数据库名称）;<br>
-                User ID=（数据 库管理账号）;<br>
-                password=（密码）;
-            </dd>
-            <dd>
-                C、检查数据库连接<br>
-                打开/help页面，选择左侧菜单项“检测数据库”，查看链接是否正确
-            </dd>
-        </dl>
-        <dl>
-            <dt>4、上传权限设置</dt>
-            <dd>学习系统上传资料（例如课程图片、学员照片等）需要有文件写入权限。上传资料的默认文件夹是~/upload/，当然也可以在web.config中修改。</dd>
-            <dd> 设置步骤： 在该文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
+            <dt>
+                <icon>&#xe72d</icon>社区版 部署
+            </dt>
+            <dd> 社区版采用SQLite数据库，部署比较简单。无须安装SQLite数据库，也无须配置数据库链接。具体步聚如下：</dd>
+            <dd> 1、将部署文件“v2_yyyy-mm-dd.zip”解压。</dd>
+            <dd> 2、建设IIS站点, 将网站“主目录”指向程序文件夹，绑定合适的域名或端口；</dd>
+            <dd> 3、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，<alert>不要选择“经典”</alert>。<br />
+                其实，默认就是“集成”模式，应用程序池可以不用设置。</dd>
+            <dd> 4、上传资料（例如课程图片、学员照片等）需要有文件写入权限。在Upload文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
                 此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
                 SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
                 为“完全控制”，确定即可。</dd>
+            <dd>
+                <alert>上述操作关键步聚在第2步，第3步一般是默认的，无须设置；完成第2步，就可以看到效果了。第4步只有在上传资料时才会有影响。</alert>
+            </dd>
         </dl>
+
+        <dl>
+            <dt>
+                <icon>&#xa027</icon>商业版 部署
+            </dt>
+            <dd>商业版与社区版采用同一套程序，只是授权不同。商业版需要安装Postgresql数据库，并配置数据库链接，其余都一样。具体步聚如下：</dd>
+            <dd> 1、安装Postgresql数据库，手工创建数据库examweisha，然后执行安装文件中提供的script.sql即可。<br />
+                <help><a href="https://www.postgresql.org/download/" target="_blank">下载Postgresql数据库</a>，选择合适的版本即可。
+                </help>
+            </dd>
+            <dd> 2、将部署文件“v2_yyyy-mm-dd.zip”解压。</dd>
+            <dd> 3、建设IIS站点, 将网站“主目录”指向程序文件夹，绑定合适的域名或端口；</dd>
+            <dd> 4、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，不要选择“经典”。<br />
+                其实，默认就是“集成”模式，应用程序池可以不用设置。</dd>
+            <dd> 5、配置数据库连接
+                <dl>
+                    <dd> A、在站点的根文件夹下找到db.config，用记事本打开，如下所示：</dd>
+                    <dd><textarea rows="5">
+   <!-- PostgreSQL 数据库 -->
+   <add name="Song"
+      connectionString="Server=localhost;Port=5432;Database=examweisha;User Id=postgres;Password=weishakeji;"
+    providerName="WeiSha.Data.PostgreSQL.PostgreSQLProvider"  /></textarea>
+                    </dd>
+                    <dd> B、说明如下：<br>
+                        Source=（数据库服务器的IP地址）;<br>
+                        Port=（数据库访问端口）;<br>
+                        Database=（数据库名称）;<br>
+                        User ID=（数据 库管理账号）;<br>
+                        password=（密码）;
+                    </dd>
+                    <dd>
+                        C、检查数据库连接<br>
+                        打开/help页面，选择左侧菜单项“检测数据库”，查看链接是否正确
+                    </dd>
+                </dl>
+
+            </dd>
+
+            <dd> 6、上传资料（例如课程图片、学员照片等）需要有文件写入权限。在Upload文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
+                此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
+                SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
+                为“完全控制”，确定即可。</dd>
+                <dd>
+                    <alert>当前支持PostgreSQL、MSSQLServer、SQLite三种数据库，后续将逐步放弃MSSQLServer的支持，建议采用PostgreSQL数据库。</alert>
+                </dd>
+        </dl>
+
     </section>
 </body>
 

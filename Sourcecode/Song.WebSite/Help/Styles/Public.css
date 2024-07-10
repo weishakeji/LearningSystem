@@ -10,11 +10,12 @@ h1 {
 }
 
 p, dd {
-    font-size: 16px;
+    font-size: 18px;
     margin: 0.5rem 0px 0px 0px;
     line-height: 35px;
     text-indent: 2rem;
 }
+
 li{
     font-size: 18px;  
     line-height: 35px;
@@ -79,6 +80,7 @@ dl dd {
 dl dd,
 dl dd * {
     font-size: 16px;
+    line-height: 30px;
 }
 *::-webkit-scrollbar {
     /*滚动条整体样式*/

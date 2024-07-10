@@ -1,8 +1,7 @@
 
 
-p[copyright="intro"] {
-    color: #666;
-    margin: 20px 0px; 
+p.download{  
+    margin: 20px 20px; 
 }
 
 .opensourse p,
@@ -12,9 +11,11 @@ p[copyright="intro"] {
     color: #444;
 }
 
-#head {
-    box-sizing: border-box;
-    padding: 0px 0px 0px 20px;
-    display: flex;
+dt icon{
+    font-size: 24px;
+    margin-right: 10px !important;
 }
-
+dl dl{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
