@@ -231,6 +231,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Help\Contents\DataEntity.html" />
+    <Content Include="Help\Contents\Images\weixinMiniApp.jpg" />
     <Content Include="Help\Contents\Styles\Tutorials.css" />
     <Content Include="Help\Contents\Styles\Upgrade.css" />
     <Content Include="Help\Contents\Styles\Templates.css" />
@@ -271,6 +272,9 @@
     <Content Include="Help\Styles\About.css" />
     <Content Include="Help\Styles\Index.css" />
     <Content Include="Help\Styles\Public.css" />
+    <Content Include="Help\WebdeskUI\Index.html" />
+    <Content Include="Help\WebdeskUI\Scripts\Index.js" />
+    <Content Include="Help\WebdeskUI\Styles\Index.css" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
     <Content Include="Templates\Manage\Default\Accounts\Styles\CapitalRecords.css" />

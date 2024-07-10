@@ -128,3 +128,9 @@ dl dd * {
     text-align: left;
     text-indent: 0px;
 }
+*.tip p{
+    text-indent: 0px;
+}
+alert,help{
+    font-size: 16px;
+}
