@@ -231,6 +231,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Help\Contents\DataEntity.html" />
+    <Content Include="Help\Contents\Images\DataEntity\1.png" />
+    <Content Include="Help\Contents\Images\DataEntity\2.png" />
     <Content Include="Help\Contents\Images\weixinMiniApp.jpg" />
     <Content Include="Help\Contents\Styles\Tutorials.css" />
     <Content Include="Help\Contents\Styles\Upgrade.css" />
