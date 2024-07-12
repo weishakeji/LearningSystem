@@ -21,11 +21,12 @@
     </div>
     <section>
         <div class="tip">
-            部署环境：Windows Serever，IIS7<br />
+            部署环境：Windows Serever，IIS7，dotNet4.6<br />
             数据库：社区版SQLite（无须安装）、商业版Postgresql 16
         </div>
         <p class="download" icon="&#xe69e">程序下载：<a copyright="download" target="_blank"><span
                     copyright="download"></span></a></p>
+        <p class="download" icon="&#xe69e">dotNet 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a></p>
         <dl>
             <dt>
                 <icon>&#xe72d</icon>社区版 部署
@@ -33,8 +34,11 @@
             <dd> 社区版采用SQLite数据库，部署比较简单。无须安装SQLite数据库，也无须配置数据库链接。具体步聚如下：</dd>
             <dd> 1、将部署文件“v2_yyyy-mm-dd.zip”解压。</dd>
             <dd> 2、在IIS中添加站点, 将网站“物理路径”指向程序文件夹，绑定合适的域名或端口；</dd>
+            <dd><img src="images/Deployment/1.png"/></dd>
             <dd> 3、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，<alert>不要选择“经典”</alert>。<br />
-                其实，默认就是“集成”模式，应用程序池可以不用设置。</dd>
+                其实，默认就是“集成”模式，应用程序池可以不用设置。<br />
+                <alert>如果没有“.Net CLR 版本 4.0”的选项，是没有安装dotNet 4.6.2，按上方提供的下载地址，安装即可。</alert>
+            </dd>
             <dd> 4、上传资料（例如课程图片、学员照片等）需要有文件写入权限。在Upload文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
                 此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
                 SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
@@ -85,9 +89,9 @@
                 此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
                 SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
                 为“完全控制”，确定即可。</dd>
-                <dd>
-                    <alert>当前支持PostgreSQL、MSSQLServer、SQLite三种数据库，后续将逐步放弃MSSQLServer的支持，建议采用PostgreSQL数据库。</alert>
-                </dd>
+            <dd>
+                <alert>当前支持PostgreSQL、MSSQLServer、SQLite三种数据库，后续将逐步放弃MSSQLServer的支持，建议采用PostgreSQL数据库。</alert>
+            </dd>
         </dl>
 
     </section>
