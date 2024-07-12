@@ -64,7 +64,7 @@ window.vapp = new Vue({
             },
             {
                 name: '开源协议', type: 'node', url: 'License.html',
-                icon: { i: 'a037', s: 21, l: 3, t: 1 }, color: { f: 'rgb(64, 158, 255)', b: '' }
+                icon: { i: 'a037', s: 21, l: 3, t: 1 }, color: { f: '', b: '' }
             },
 
         ],

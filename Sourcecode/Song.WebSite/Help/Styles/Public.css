@@ -134,3 +134,13 @@ dl dd * {
 alert,help{
     font-size: 16px;
 }
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    dl,dl dt,dl dd{
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+    img{
+        max-width: 100%;
+    }
+}

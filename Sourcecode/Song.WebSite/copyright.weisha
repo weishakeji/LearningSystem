@@ -9,7 +9,7 @@
 1、版权信息的文件在系统根文件夹下的Copyright.weisha；<br/>
 2、可以手动更改Copyright.weisha内容，也可以通过超级管理员在“版权信息”中修改；<br/>
 3、页面的Html源码中的&lt;meta powerby="..."/&gt;，也是来源于Copyright.weisha文件中的powerby项目；
-    ]]></readme>
+    ]]>  </readme>
   <edition remark="版本名称" type="text" fixed="true"><![CDATA[大客户版（版本名称可以自定义）]]></edition>
   <product remark="产品名称" type="text" fixed="true"><![CDATA[微厦在线学习考试系统]]></product>
   <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[视频学习（直播点播）、在线刷题、在线考试、学习证明、在线支付；支持电脑、手机、微信小程序；可私有化部署。]]></intro>
@@ -17,6 +17,7 @@
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
   <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>
   <gitcode remark="gitcode" type="link" fixed="false"><![CDATA[https://gitcode.net/songleiming/LearningSystem]]></gitcode>
+  <openlicense remark="开源协议" type="text" fixed="true">GPL（GNU General Public License）</openlicense>
   <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>
   <address remark="办公地址" type="text" fixed="false"><![CDATA[河南郑州市郑东新区]]></address>
   <title remark="宣传口号" type="text" fixed="false"><![CDATA[微厦科技，专注在线教育系统开发！]]></title>

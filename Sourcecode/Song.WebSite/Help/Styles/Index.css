@@ -324,6 +324,7 @@ img[copyright='weixinqr'] {
 
     header div[mobi][icon] {
         font-size: 22px;
+        display: block;
     }
 
     footer {

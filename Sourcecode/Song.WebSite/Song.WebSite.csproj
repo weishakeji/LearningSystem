@@ -233,6 +233,7 @@
     <Content Include="Help\Contents\DataEntity.html" />
     <Content Include="Help\Contents\Images\DataEntity\1.png" />
     <Content Include="Help\Contents\Images\DataEntity\2.png" />
+    <Content Include="Help\Contents\Images\Deployment\1.png" />
     <Content Include="Help\Contents\Images\weixinMiniApp.jpg" />
     <Content Include="Help\Contents\Styles\Tutorials.css" />
     <Content Include="Help\Contents\Styles\Upgrade.css" />
@@ -269,10 +270,12 @@
     <Content Include="Help\Scripts\Copyrigh.js" />
     <Content Include="Help\Scripts\About.js" />
     <Content Include="Help\Scripts\Index.js" />
+    <Content Include="Help\Scripts\License.js" />
     <Content Include="Help\Service.html" />
     <Content Include="Help\Styles\Copyrigh.css" />
     <Content Include="Help\Styles\About.css" />
     <Content Include="Help\Styles\Index.css" />
+    <Content Include="Help\Styles\License.css" />
     <Content Include="Help\Styles\Public.css" />
     <Content Include="Help\WebdeskUI\Index.html" />
     <Content Include="Help\WebdeskUI\Scripts\Index.js" />

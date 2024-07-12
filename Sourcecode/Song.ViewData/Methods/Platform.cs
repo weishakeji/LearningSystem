@@ -34,9 +34,19 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet]
         [Cache(Expires = 999)]
-        public System.Data.DataTable ProductEdition()
+        public System.Data.DataTable EditionsChinese()
         {
-            return WeiSha.Core.Parameters.Authorization.VersionLevel.LevelTable;
+            return WeiSha.Core.Request.EditionsChinese();
+        }
+        /// <summary>
+        /// 公司产品版本
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Cache(Expires = 999)]
+        public System.Data.DataTable Editions()
+        {
+            return WeiSha.Core.Request.Editions();
         }
         /// <summary>
         /// 平台信息

@@ -1,0 +1,35 @@
+dt icon{
+    font-size: 24px;
+    margin-right: 10px !important;
+}
+table.editions{
+    width: calc(100% - 60px);
+    margin-left: 30px;
+}
+table.editions td{
+    text-align: center;
+}
+table.editions td.label{
+    font-size: 14px;
+    text-align: left;
+}
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+    table.editions{
+        width: 100%;
+        margin: 0px;
+    }
+    table.editions  tr td:nth-child(4) ~ *, table.editions  tr th:nth-child(4) ~ *{
+        display: none;
+    }
+    
+    table.editions  tr td:nth-child(3), table.editions  tr th:nth-child(3){
+        display: none;
+    }
+    table.editions  tr td:nth-child(7), table.editions  tr th:nth-child(7){
+        display: table-cell;
+    }
+    table.editions  tr td:nth-child(8), table.editions  tr th:nth-child(8){
+        display:table-cell;
+    }
+}

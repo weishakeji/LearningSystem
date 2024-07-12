@@ -9,8 +9,8 @@
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
-   
-    <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
+
+    <link href="../Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/License.css" rel="stylesheet" type="text/css" />
     <title>开源协议</title>
@@ -25,13 +25,70 @@
         <p>《<span copyright="product"></span>》采用双协议，社区版采用<span copyright="openlicense"></span>开源协议，商业版需要购买商业授权。
         </p>
 
-        <p>社区版仅限开源社区学习交流，没有功能限制，没有注册数量限制，没有并发限制。采用SQLite数据库，不建议用于商业用途。</p>
+       
     </div>
-    <div id="vapp">
-       <div v-for="(item,i) in editions">
+    <dl>
+        <dt>
+            <icon>&#xe72d</icon>社区版
+        </dt>
+        <dd>
+            采用<span copyright="openlicense"></span>开源协议
+        </dd>
+        <dd>
+            没有功能限制
+        </dd>
+        <dd>
+            没有学员注册数量限制
+        </dd>
+        <dd>
+            没有并发数限制
+        </dd>
+        <dd>
+            <alert>只能使用SQLite数据库。<br />SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于商业用途。</alert>
+        </dd>
+    </dl>
+    <dl>
+        <dt>
+            <icon>&#xa027</icon>商业版
+        </dt>
+        <dd>
+            采用PostgreSQL数据库。PostgreSQL是一个功能非常强大的、源代码开放的数据库管理系统，可用于商业环境。
+        </dd>
+        <dd>
+            需要购买商业授权，可以从<a copyright="taobao" target="_blank">淘宝店</a>购买，或致电 <icon phone copyright="tel"></icon>
+        </dd>
+        <dd>各版本详情如下：</dd>
+        <div id="vapp">
+            <table class="editions">
+                <thead>
+                    <tr>
+                        <template v-for="(row,i) in editions">
+                            <template v-if="i==0">
+                                <th>#</th>
+                                <th v-for="key in Object.keys(row)" v-if="key!='启用'">
+                                    {{key}}
+                                </th>
+                            </template>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row,i) in editions">
+                        <td>{{i+1}}</td>
+                        <td v-for="(val,key) in row" v-if="key!='启用'" :class="{'label':key=='版本'}">
+                            <template v-if="key=='版本'">{{val}} Edition</template>
+                            <template v-else-if="val==0">-</template>
+                            <template v-else>{{val}}</template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-for="(item,i) in editions">
 
-       </div>
-    </div>
+            </div>
+        </div>
+    </dl>
+
 
     <dl>
         <dt>开源地址</dt>
