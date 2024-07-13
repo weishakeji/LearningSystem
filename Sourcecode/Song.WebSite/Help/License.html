@@ -25,7 +25,7 @@
         <p>《<span copyright="product"></span>》采用双协议，社区版采用<span copyright="openlicense"></span>开源协议，商业版需要购买商业授权。
         </p>
 
-       
+
     </div>
     <dl>
         <dt>
@@ -55,7 +55,7 @@
             采用PostgreSQL数据库。PostgreSQL是一个功能非常强大的、源代码开放的数据库管理系统，可用于商业环境。
         </dd>
         <dd>
-            需要购买商业授权，可以从<a copyright="taobao" target="_blank">淘宝店</a>购买，或致电 <icon phone copyright="tel"></icon>
+            如需要购买商业授权，可以从<a copyright="taobao" target="_blank">淘宝店</a>购买，或致电 <icon phone copyright="tel"></icon>
         </dd>
         <dd>各版本详情如下：</dd>
         <div id="vapp">
@@ -73,8 +73,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(row,i) in editions">
-                        <td>{{i+1}}</td>
+                    <tr v-for="(row,i) in editions" v-if="row['启用']">
+                        <td></td>
                         <td v-for="(val,key) in row" v-if="key!='启用'" :class="{'label':key=='版本'}">
                             <template v-if="key=='版本'">{{val}} Edition</template>
                             <template v-else-if="val==0">-</template>

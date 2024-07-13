@@ -13,6 +13,19 @@ table.editions td.label{
     font-size: 14px;
     text-align: left;
 }
+/* 定义一个计数器 */
+table.editions {
+    counter-reset: count;
+}
+
+/* 应用计数器到列表项，并在内容前显示计数器的值 */
+table.editions tbody tr {
+    counter-increment: count;
+}
+
+table.editions tr td:first-child:before {
+    content: counter(count); 
+}
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
     table.editions{

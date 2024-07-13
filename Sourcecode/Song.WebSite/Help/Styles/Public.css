@@ -79,7 +79,7 @@ dl dd {
 
 dl dd,
 dl dd * {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 30px;
 }
 *::-webkit-scrollbar {

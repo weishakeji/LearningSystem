@@ -55,6 +55,31 @@
       background-position: bottom;
     }
 
+    *.tip {
+      padding: 20px 20px 20px 40px;
+      background-color: #ecf8ff;
+      border-radius: 4px;
+      border-left: 5px solid #50bfff;
+      margin: 20px 0;
+      text-align: left;
+      text-indent: 0px;
+    }
+
+    *.tip p {
+      text-indent: 0px;
+    }
+
+    textarea {
+      width: calc(100% - 50px);
+      background-color: rgb(248, 252, 203);
+      padding: 10px 10px 0px 10px;
+      line-height: 20px;
+      border: 1px solid rgb(219, 199, 108);
+      resize: none;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+
     body>header {
       background: #efefef;
       width: 100%;
@@ -99,8 +124,9 @@
       position: relative;
       z-index: 2;
       padding: 0px;
-      line-height: 40px;
-      height: 40px;
+      line-height: 35px;
+      height: 35px;
+      margin-bottom: 10px;
       text-indent: 40px;
     }
 
@@ -209,8 +235,7 @@
     }
 
     article {
-      min-height: 100%;
-      margin-bottom: 50%;
+      margin-bottom: 100px;
     }
 
     article header {
@@ -253,7 +278,8 @@
     }
 
     article dl dt {
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: bold;
     }
 
     article dl dd {
@@ -264,7 +290,7 @@
 
     article dl dd,
     article dl dd * {
-      font-size: 15px;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -273,7 +299,7 @@
   <header> 微厦在线学习考试系统- 自述文件 <a href="http://www.weishakeji.net/" target="_blank" class="logo"><img
         src="data:image/gif;base64,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" /></a>
   </header>
-  <section>
+  <section class="context">
     <nav>
       <div>
         <a href="#a1" class="curr">1、系统简述</a>
@@ -303,11 +329,11 @@
           <dl>
             <dt>A、运行环境</dt>
             <dd>硬件环境：CPU1.6Mhz以上，内存4GB以上</dd>
-            <dd>软件环境：Windows server 2008或以上版本、IIS7以上版本、DotNet4.6 Framework、SQLserver2008或以上版本</dd>
+            <dd>软件环境：Windows server 2008或以上版本、IIS7以上版本、DotNet4.6 Framework、PostgreSQL</dd>
           </dl>
           <dl>
             <dt>B、开发环境</dt>
-            <dd>C#，.Net CLR 4.6，数据库 Sqlserver2008</dd>
+            <dd>C#，.Net CLR 4.6，数据库 SQLite、PostgreSQL、MSSqlServer</dd>
             <dd>开发工具 Microsoft Visual Studio Community 2019 </dd>
             <dd>安装程序：<a href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a></dd>
           </dl>
@@ -348,59 +374,94 @@
       <article id="a3">
         <header> 安装部署</header>
         <section>
-          <p>部署步骤为“数据库部署”->“创建站点，部署程序”->“配置db.config中数据库链接”->“设置上传文件夹的读写权限”
-            以下为详细讲解。</p>
-            <dl>
-              <dt>1、数据库部署</dt>
-              <dd>手工创建数据库examweisha，然后执行安装文件中提供的script.sql即可。</dd>
-            </dl>
-            <dl>
-              <dt>2、程序部署 </dt>
-              <dd> A、将部署文件“yyyy-mm-dd.zip”解压。</dd>
-              <dd> B、建设IIS站点, 将网站“主目录”指向程序文件夹，绑定合适的域名或端口；</dd>
-              <dd> C、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，不要选择“经典”。</dd>
-            </dl>
+          <div class="tip">
+            部署环境：Windows Serever，IIS7，dotNet4.6<br />
+            数据库：社区版SQLite（无须安装）、商业版Postgresql 16
+          </div>
+          <p class="download">程序下载：<a href="http://pan.baidu.com/s/1bppzM15"
+              target="_blank">http://pan.baidu.com/s/1bppzM15</a></p>
+          <p class="download">dotNet 4.6.2 <a
+              href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe"
+              target="_blank" size=12>[下载]</a></p>
 
           <dl>
-            <dt>3、配置数据库连接</dt>
-            <dd>A、在站点的根文件夹下找到db.config，用记事本打开</dd>
-            <dd>&lt;add name="weisha100.cn" connectionString="Data
-              Source=192.168.1.212;Initial Catalog=examweisha;User
-              ID=sa;password=weisha;"
-              providerName="WeiSha.Data.SqlServer9.SqlServer9Provider" /&gt;
-              &lt;/connectionstrings&gt;</dd>
-
-            <dd>
-              B、说明如下： <br>
-              Data Source=（数据库服务器的IP地址）;<br>
-              Initial Catalog=（数据库名称）;<br>
-              User ID=（数据 库管理账号）;<br>
-              password=（密码）;
+            <dt>
+              社区版 部署
+            </dt>
+            <dd> 社区版采用SQLite数据库，部署比较简单。无须安装SQLite数据库，也无须配置数据库链接。具体步聚如下：</dd>
+            <dd> 1、将部署文件“v2_yyyy-mm-dd.zip”解压。</dd>
+            <dd> 2、在IIS中添加站点, 将网站“物理路径”指向程序文件夹，绑定合适的域名或端口；</dd>
+            <dd> 3、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，<alert>不要选择“经典”</alert>。<br />
+              其实，默认就是“集成”模式，应用程序池可以不用设置。<br />
+              <alert>如果没有“.Net CLR 版本 4.0”的选项，是没有安装dotNet 4.6.2，按上方提供的下载地址，安装即可。</alert>
             </dd>
+            <dd> 4、上传资料（例如课程图片、学员照片等）需要有文件写入权限。在Upload文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
+              此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
+              SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
+              为“完全控制”，确定即可。</dd>
             <dd>
-              C、检查数据库连接<br>
-              打开/help页面，选择左侧菜单项“检测数据库”，查看链接是否正确
+              <alert>关键步聚在第2步，第3步一般是默认的，无须设置；完成第2步，就可以看到效果了。第4步只有在上传资料时才会有影响。</alert>
             </dd>
           </dl>
+
           <dl>
-            <dt>4、上传权限设置</dt>
-            <dd>学习系统上传资料（例如课程图片、学员照片等）需要有文件写入权限。上传资料的默认文件夹是~/upload/，当然也可以在web.config中修改。</dd>
-            <dd> 设置步骤： 在该文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
-            此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
-            SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
-            为“完全控制”，确定即可。</dd>
-          </dl>          
+            <dt>
+              商业版 部署
+            </dt>
+            <dd>商业版与社区版采用同一套程序，只是授权不同。商业版需要安装Postgresql数据库，并配置数据库链接，其余都一样。具体步聚如下：</dd>
+            <dd> 1、安装Postgresql数据库，手工创建数据库examweisha，然后执行安装文件中提供的script.sql即可。<br />
+              <help><a href="https://www.postgresql.org/download/" target="_blank">下载Postgresql数据库</a>，选择合适的版本即可。
+              </help>
+            </dd>
+            <dd> 2、将部署文件“v2_yyyy-mm-dd.zip”解压。</dd>
+            <dd> 3、在IIS中添加站点, 将网站“物理路径”指向程序文件夹，绑定合适的域名或端口；</dd>
+            <dd> 4、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可,托管管道模式选择默认的“集成”，不要选择“经典”。<br />
+              其实，默认就是“集成”模式，应用程序池可以不用设置。</dd>
+            <dd> 5、配置数据库连接
+              <dl>
+                <dd> A、在站点的根文件夹下找到db.config，用记事本打开，如下所示：</dd>
+                <dd><textarea rows="5">
+     <!-- PostgreSQL 数据库 -->
+     <add name="Song"
+        connectionString="Server=localhost;Port=5432;Database=examweisha;User Id=postgres;Password=weishakeji;"
+      providerName="WeiSha.Data.PostgreSQL.PostgreSQLProvider"  /></textarea>
+                </dd>
+                <dd> B、说明如下：<br>
+                  Source=（数据库服务器的IP地址）;<br>
+                  Port=（数据库访问端口）;<br>
+                  Database=（数据库名称）;<br>
+                  User ID=（数据 库管理账号）;<br>
+                  password=（密码）;
+                </dd>
+                <dd>
+                  C、检查数据库连接<br>
+                  打开/help页面，选择左侧菜单项“检测数据库”，查看链接是否正确
+                </dd>
+              </dl>
+
+            </dd>
+
+            <dd> 6、上传资料（例如课程图片、学员照片等）需要有文件写入权限。在Upload文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
+              此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
+              SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
+              为“完全控制”，确定即可。</dd>
+            <dd>
+              <alert>当前支持PostgreSQL、MSSQLServer、SQLite三种数据库，后续将逐步放弃MSSQLServer的支持，建议采用PostgreSQL数据库。</alert>
+            </dd>
+          </dl>
         </section>
       </article>
       <article id="a4">
         <header> 升级指南</header>
-        <section> <p>
+        <section>
+          <p>
             系统升级分为程序升级与数据库结构升级，大多数升级会同时涉及这两部分。
             程序升级比较简单，可以通过覆盖原来的程序实现升级，数据库升级需要执行脚本，以修改数据库的结构。
             以下就两种升级进行说明。</p>
           <dl>
             <dt>如何获取升级包</dt>
-            <dd>可以在<a href="http://www.weishakeji.net" target="_blank">微厦科技官网</a>下载；或从云盘下载<a href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a> </dd>
+            <dd>可以在<a href="http://www.weishakeji.net" target="_blank">微厦科技官网</a>下载；或从云盘下载<a
+                href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a> </dd>
             <dd>请关注我们微信公众号(weishakeji)，发布新版本时会通知。</dd>
           </dl>
           <dl>
@@ -415,16 +476,17 @@
           <dl>
             <dt>2、数据库升级</dt>
             <dd>升级涉及数据库的更改，才会有相应SQL升级脚本，如果没有数据库更改，这一步可以省略。</dd>
-            <dd> A、升级脚本的文件存在<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts/upgrade_v2" target="_blank">upgrade_v2</a>文件夹，用时间命名，如“2015-05-14.sql”
-            表示该升级脚本写于2015年5月14日，在此之前的程序，都应该执行该脚本。</dd>
-            <dd>B、如何查看当前程序版本的发布时间<br/>
-            打开~/license界面，可以看到当前软件的信息，如version（内部版本号）、发布日期、商业授权等</dd>
-            <dd>C、查看数据库是否完整<br/>
+            <dd> A、升级脚本的文件存在<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts/upgrade_v2"
+                target="_blank">upgrade_v2</a>文件夹，用时间命名，如“2015-05-14.sql”
+              表示该升级脚本写于2015年5月14日，在此之前的程序，都应该执行该脚本。</dd>
+            <dd>B、如何查看当前程序版本的发布时间<br />
+              打开~/license界面，可以看到当前软件的信息，如version（内部版本号）、发布日期、商业授权等</dd>
+            <dd>C、查看数据库是否完整<br />
               打开~/help/datas/test.htm页面，查看数据库是否完整。
             </dd>
           </dl>
 
-          
+
         </section>
       </article>
       <article id="a5">
@@ -432,11 +494,16 @@
         <section>
           <dl>
             <dt>1、应用程序池中没有.Net CLR4.0的选项</dt>
-            <dd>没有安装.Net Framework 4.0，点这里 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>，并安装</dd>
-            <dd></dd>
-            <dd></dd>
-          </dl>
+            <dd>没有安装.Net Framework 4.0，点这里 <a
+                href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe"
+                target="_blank" size=12>[下载]</a>，并安装</dd>
 
+
+          </dl>
+          <dl>
+            <dt>2、首页可以正常显示，但是课程页或新闻页，提示找不到页面</dt>
+            <dd>将站点的应用程序池设置为“.Net CLR 版本 4.0”，托管管道模式选择默认的“集成”，不要选择“经典”。</dd>
+          </dl>
         </section>
       </article>
       <article id="a6">
@@ -451,7 +518,7 @@
             <dd>超级管理员： ~/manage 账号 super 密码 1</dd>
           </dl>
 
-         <p>&nbsp;</p>
+          <p>&nbsp;</p>
           <p>（说明：机构管理员与超级管理员的区别）</p>
           <p>该系统是一款基于多机构的学习系统，每一个机构都相当于一个独立的网校系统，拥有不同的域名、界面风格、功能权限等等，由超级管理员进行全方位管理。
 
@@ -463,10 +530,36 @@
         <header> 版权声明</header>
         <section>
 
-          <p>《微厦学习云服务平台》由郑州微厦计算机科技有限公司（简称：微厦科技）独立开发、设计的软件，依法独立享有该软件之所有权利。该平台源码开放，允许对所开放的源码修改、转发、复制、抄录、发布，商业使用需要购买授权。</p>
-          <p>详情咨询 400-6015 615</p>
-          <p>技术沟通 10522779@qq.com</p>
-
+          <p class="tip">
+            《微厦在线学习考试系统》由郑州微厦计算机科技有限公司（简称：微厦科技）独立开发、设计的软件，依法独立享有该软件之所有权利。该系统源码开放，允许对所开放的源码修改、转发、复制、抄录、发布，商业使用需要购买授权。</p>
+          <dl>
+            <dt> 社区版 </dt>
+            <dd>
+              采用GPL开源协议
+            </dd>
+            <dd>
+              没有功能限制
+            </dd>
+            <dd>
+              没有学员注册数量限制
+            </dd>
+            <dd>
+              没有并发数限制
+            </dd>
+            <dd>
+              <alert>只能使用SQLite数据库<br />SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于商业用途。</alert>
+            </dd>
+          </dl>
+          <dl>
+            <dt> 商业版 </dt>
+            <dd>
+              采用PostgreSQL数据库。PostgreSQL是一个功能非常强大的、源代码开放的数据库管理系统，可用于商业环境。
+            </dd>
+            <dd>
+              如需要购买商业授权，详情咨询 400-6015 615</icon>
+            </dd>
+            <dd>技术沟通 10522779@qq.com</dd>
+          </dl>
         </section>
       </article>
 
@@ -508,11 +601,41 @@
     }
     var href = window.location.href;
     if (href.indexOf('#') > -1) {
-      var anchor = href.substring(href.indexOf('#'));
-      var menu = document.querySelectorAll("nav a[href='" + anchor + "']");
+      let anchor = href.substring(href.indexOf('#'));
+      let menu = document.querySelectorAll("nav a[href='" + anchor + "']");
       if (menu.length > 0) menu[0].click();
     }
   }
+  //当滚动内容时，左侧菜单与地址栏同步变化
+  var context = document.querySelector("section.context");
+  context.addEventListener('scroll', function (evt) {
+    var target = evt.target;
+    let scrolltop = target.scrollTop;   //内容区的滚动
+
+    //内容的滚动可视区间
+    var range = { top: target.scrollTop - 80, bottom: target.scrollTop + window.innerHeight - 80 };
+    var articles = target.querySelectorAll("article");
+    let artid = null;
+    for (var i = 0; i < articles.length; i++) {
+      let top = articles[i].offsetTop;
+      if (top > range.top && top < range.bottom) {
+        artid = articles[i].getAttribute('id');
+        break;
+      }
+    }
+    if (artid == null) return;
+    var menus = document.querySelectorAll("nav a[href]");
+    for (var j = 0; j < menus.length; j++) {
+      menus[j].classList.remove('curr');
+      if (menus[j].getAttribute('href').replace('#', '') == artid) {
+        menus[j].classList.add('curr');
+      }
+    }
+    var href = window.location.href;
+    if (href.indexOf('#') > -1) href = href.substring(0, href.indexOf('#'));
+    history.pushState({}, null, href + '#' + artid);
+
+  }, true); 
 </script>
 
 </html>
