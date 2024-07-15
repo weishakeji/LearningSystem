@@ -117,7 +117,7 @@ $ready(function () {
             //获取课程专业的数据
             getSubjects: function () {
                 var th = this;
-                th.loading = true;
+                //th.loading = true;
                 var form = { orgid: th.organ.Org_ID, search: '', isuse: null };
                 $api.get('Subject/Tree', form).then(function (req) {
                     if (req.data.success) {
@@ -185,7 +185,7 @@ $ready(function () {
             },
             //刷新行数据，
             freshrow: function (id) {
-                if (id == null || id == '' || id == 0) return this.handleCurrentChange();
+                if (id == null || id == '') return this.handleCurrentChange();
                 if (this.datas.length < 1) return;
                 //要刷新的行数据
                 let entity = this.datas.find(item => item.Qus_ID == id);
@@ -208,7 +208,7 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;
+                //th.loading = true;
                 var loading = this.$fulloading();
                 var quesid = datas.split(',');
                 var form = { 'qusid': quesid };
@@ -220,7 +220,6 @@ $ready(function () {
                 //console.log(form['couid'] );
                 //return;        
                 $api.delete('Question/Delete', form).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -240,6 +239,7 @@ $ready(function () {
                 }).finally(() => {
                     th.$nextTick(function () {
                         loading.close();
+                        //th.loading = false;
                     });
                 });
             },
