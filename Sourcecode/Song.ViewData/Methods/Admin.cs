@@ -25,8 +25,8 @@ namespace Song.ViewData.Methods
     {
         //资源的虚拟路径和物理路径
         public static string PathKey = "Employee";
-        public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
-        public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+        private static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
+        private static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
 
         #region 登录验证
         /// <summary>
@@ -293,6 +293,7 @@ namespace Song.ViewData.Methods
                         if (posi.Posi_IsAdmin == true && !issuper) throw new Exception("管理员不可以删除！");
                     }
                     Business.Do<IEmployee>().Delete(emp);
+                    LoginAdmin.CacheRemove(emp.Acc_Id); //清理登录状态
                     i++;
                 }
                 catch (Exception ex)
@@ -349,6 +350,8 @@ namespace Song.ViewData.Methods
                 old.Copy<Song.Entities.EmpAccount>(acc, "Acc_AccName,Acc_Pw,Acc_CheckUID");
             if (!string.IsNullOrWhiteSpace(filename)) old.Acc_Photo = filename;
             Business.Do<IEmployee>().Save(old);
+            //刷新登录中的账号信息
+            LoginAdmin.Status.Fresh(old); 
             return true;
         }
         /// <summary>
@@ -431,6 +434,8 @@ namespace Song.ViewData.Methods
             Business.Do<IEmployee>().Update(acc.Acc_Id, new WeiSha.Data.Field[] {
                     Song.Entities.EmpAccount._.Acc_Photo
                 }, new object[] { filename });
+            //刷新登录中的账号信息
+            LoginAdmin.Status.Fresh(acc);
             return VirPath + filename;
         }
         /// <summary>

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Song.ViewData
 {
@@ -16,19 +17,24 @@ namespace Song.ViewData
     {
         private static readonly LoginAdmin _singleton = new LoginAdmin();
         //资源的虚拟路径和物理路径
-        public static string VirPath = WeiSha.Core.Upload.Get["Admin"].Virtual;
-        public static string PhyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
+        private string virPath = WeiSha.Core.Upload.Get["Admin"].Virtual;
+        private string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
         //登录相关参数, 密钥，键，过期时间（分钟）
-        public static string secretkey = WeiSha.Core.Login.Get["Admin"].Secretkey.String;
-        public static string keyname = WeiSha.Core.Login.Get["Admin"].KeyName.String;
-        public static int expires = WeiSha.Core.Login.Get["Admin"].Expires.Int32 ?? 0;
+        private string secretkey = WeiSha.Core.Login.Get["Admin"].Secretkey.String;
+        private string keyname = WeiSha.Core.Login.Get["Admin"].KeyName.String;
+        private int expires = WeiSha.Core.Login.Get["Admin"].Expires.Int32 ?? 0;
+
+        private Timer timer;
+        private LoginAdmin()
+        {
+            // 每隔60分钟触发一次事件
+            timer = new Timer(state => LoginAdmin.CacheClearExpired(), null, TimeSpan.Zero, TimeSpan.FromMinutes(60));
+        }
+
         /// <summary>
         /// 当前单件对象
         /// </summary>
-        public static LoginAdmin Status
-        {
-            get { return _singleton; }
-        }
+        public static LoginAdmin Status => _singleton;
         /// <summary>
         /// 返回当前登录用户的实体
         /// </summary>
@@ -57,7 +63,7 @@ namespace Song.ViewData
             if (time < DateTime.Now) return null;
             //判断登录码
             int accid = Convert.ToInt32(status[1]);
-            Song.Entities.EmpAccount acc = Business.Do<IEmployee>().GetSingle(accid);
+            Song.Entities.EmpAccount acc = LoginAdmin.CacheGet(accid);
             if (acc == null || string.IsNullOrWhiteSpace(acc.Acc_CheckUID) || !acc.Acc_CheckUID.Equals(status[4])) return null;
             acc = acc.DeepClone<Song.Entities.EmpAccount>();
             if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
@@ -82,7 +88,7 @@ namespace Song.ViewData
         /// 是否登录
         /// </summary>
         /// <returns></returns>
-        public bool Login(Letter letter)
+        public bool IsLogin(Letter letter)
         {
             Song.Entities.EmpAccount acc = this.User(letter);
             return acc != null;
@@ -91,11 +97,11 @@ namespace Song.ViewData
         /// 是否登录
         /// </summary>
         /// <returns></returns>
-        public bool Login()
+        public bool IsLogin()
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
             Letter letter = Letter.Constructor(_context);
-            return this.Login(letter);
+            return this.IsLogin(letter);
         }
         /// <summary>
         /// 登录
@@ -106,7 +112,14 @@ namespace Song.ViewData
         {                     
             //识别码，记录到数据库
             string uid = WeiSha.Core.Request.UniqueID();
-            Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, uid);
+            acc.Acc_CheckUID = uid;
+            LoginAdmin.CacheAdd(acc);
+            //异步存储
+            new System.Threading.Tasks.Task(() =>
+            {
+                Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, uid);
+            }).Start();
+
             //返回加密状态码
             return _generate_checkcode(acc.Acc_Id, uid);
         }
@@ -164,9 +177,18 @@ namespace Song.ViewData
         public string Fresh(Letter letter)
         {
             Song.Entities.EmpAccount acc = this.User(letter);
+            return this.Fresh(acc);
+        }
+        /// <summary>
+        /// 刷新登录状态
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
+        public string Fresh(Song.Entities.EmpAccount acc)
+        {
             if (acc == null) return string.Empty;
-            string code = _generate_checkcode(acc.Acc_Id, acc.Acc_CheckUID);
-            return code;
+            LoginAdmin.CacheAdd(acc);
+            return _generate_checkcode(acc.Acc_Id, acc.Acc_CheckUID);           
         }
         /// <summary>
         /// 生成登录校验码
@@ -186,5 +208,92 @@ namespace Song.ViewData
             checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
             return checkcode;
         }
+
+        #region 内存数据管理
+        private static object _lock_list = new object();        
+        private static readonly string _cachaName= "LoginAdmin_EmpAccount_List";
+        /// <summary>
+        /// 缓存中的列表数据
+        /// </summary>
+        /// <returns></returns>
+        private static List<EmpAccount> CacheList()
+        {
+            MemoryCache cache = MemoryCache.Default;
+            List<EmpAccount> list = cache.Get(_cachaName) as List<EmpAccount>;
+            if (list == null) list = new List<EmpAccount>();
+            return list;
+        }
+        private static List<EmpAccount> CacheUpdate(List<EmpAccount> list)
+        {
+            MemoryCache cache = MemoryCache.Default;
+            if (cache.Contains(_cachaName)) cache.Remove(_cachaName);
+            cache.Add(_cachaName, list, DateTimeOffset.UtcNow.AddYears(2));        
+            return list;
+        }
+        /// <summary>
+        /// 添加在线账号
+        /// </summary>
+        /// <param name="acc"></param>
+        public static void CacheAdd(EmpAccount acc)
+        {
+           
+            if (acc == null) return;
+            acc.Acc_LastTime = DateTime.Now;
+            lock (_lock_list)
+            {
+                List<EmpAccount> list = CacheList();
+                int idx = list.FindIndex(x => x.Acc_Id == acc.Acc_Id);
+                if (idx >= 0) list[idx] = acc;
+                else list.Add(acc);
+                CacheUpdate(list);
+            }
+        }
+        /// <summary>
+        /// 清除掉某个登录账号
+        /// </summary>
+        /// <param name="id"></param>
+        public static void CacheRemove(int id)
+        {
+            List<EmpAccount> list = CacheList();
+            int idx = list.FindIndex(x => x.Acc_Id == id);
+            if (idx >= 0) list.RemoveAt(idx);
+            CacheUpdate(list);
+        }
+        /// <summary>
+        /// 获取内存中的当前登录账号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Song.Entities.EmpAccount CacheGet(int id)
+        {
+            List<EmpAccount> list = CacheList();
+            EmpAccount acc = list.Find(x => x.Acc_Id == id);
+            if (acc == null)
+            {
+                acc = Business.Do<IEmployee>().GetSingle(id);
+                CacheAdd(acc);
+            }
+            return acc.Acc_IsUse ? acc : null;
+        }
+        /// <summary>
+        /// 清理过期
+        /// </summary>
+        public static void CacheClearExpired()
+        {
+            lock (_lock_list)
+            {
+                List<EmpAccount> list = CacheList();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].Acc_LastTime > DateTime.Now.AddMinutes(-60))
+                    {
+                        list.RemoveAt(i);
+                        i--;
+                    }
+                }
+                CacheUpdate(list);
+            }
+        }
+        #endregion
     }
 }

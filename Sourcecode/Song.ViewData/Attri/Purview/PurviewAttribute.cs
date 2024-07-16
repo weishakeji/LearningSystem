@@ -36,7 +36,7 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public bool Logged()
         {
-            return LoginAdmin.Status.Login();           
+            return LoginAdmin.Status.IsLogin();           
         }
         /// <summary>
         /// 将执行结果写入日志

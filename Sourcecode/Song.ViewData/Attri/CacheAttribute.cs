@@ -30,7 +30,7 @@ namespace Song.ViewData.Attri
             }
         }
 
-        private bool _adminDisable = false;
+        //private bool _adminDisable = false;
         /// <summary>
         /// 管理员是否不用缓存，为true时不用缓存，为false继续用缓存
         /// </summary>
