@@ -88,7 +88,10 @@ $ctrljs(function () {
     $api.login.current('admin',
         d => ready(d),
         () => window.login.loading = false);
-
+    //10分钟刷新一次登录状态
+    window.setInterval(function () {
+        $api.login.fresh('admin');
+    }, 1000 * 60 * 10);
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
