@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script> 
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <link href="/Utilities/Fonts/icon.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
     <link href="Styles/Upgrade.css" rel="stylesheet" type="text/css" />
@@ -48,10 +48,10 @@
     <dl>
         <dt>3、涉及管理菜单权限</dt>
         <dd>
-            如果新增了一些管理模块，生成新的管理菜单项，在执行完升级脚本后，可能仍然无法显示。         
+            如果新增了一些管理模块，生成新的管理菜单项，在执行完升级脚本后，可能仍然无法显示。
         </dd>
         <dd>
-           需要重新设置菜单使用权限，需要进入超管，在“机构”=>“机构等级”界页，设置当前机构所属机构等级的权限。
+            需要重新设置菜单使用权限，需要进入超管，在“机构”=>“机构等级”界页，设置当前机构所属机构等级的权限。
         </dd>
     </dl>
     <dl>
@@ -67,13 +67,21 @@
     <dl>
         <dt>1、检查原有版本信息，确认升级内容</dt>
         <dd>
-
+            打开站点/license页面，可以看到当前版本的发布时间。
         </dd>
     </dl>
     <dl>
         <dt>2、做好数据备份</dt>
         <dd>
             强烈建议升级之前做好数据备份。
+        </dd>
+
+    </dl>
+    <h2>常见问题</h2>
+    <dl>
+        <dt>1、当用新版本程序覆盖原有程序时，提示“bin”文件夹里的某些dll文件被占用</dt>
+        <dd>
+            先停用站点，，应用程序池也禁用，覆盖完成后，再启用站点。
         </dd>
 
     </dl>
