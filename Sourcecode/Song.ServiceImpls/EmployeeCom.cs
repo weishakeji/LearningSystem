@@ -159,7 +159,9 @@ namespace Song.ServiceImpls
         {
             try
             {
-                Gateway.Default.Update<EmpAccount>(new Field[] { EmpAccount._.Acc_CheckUID }, new object[] { code },
+                Gateway.Default.Update<EmpAccount>(new Field[] { 
+                    EmpAccount._.Acc_CheckUID, EmpAccount ._.Acc_LastTime}, 
+                    new object[] { code,DateTime.Now },
                     EmpAccount._.Acc_Id == accid);
                 return true;
             }
