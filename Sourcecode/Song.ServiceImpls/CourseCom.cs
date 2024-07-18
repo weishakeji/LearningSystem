@@ -268,12 +268,16 @@ namespace Song.ServiceImpls
             bool isExist = CourseIsChildren(entity.Org_ID, entity.Cou_ID, null);
             if (isExist) throw new Exception("当前课程下还有子课程，请先删除子课程。");
           
-            Song.Entities.GuideColumns[] gcs = Business.Do<IGuide>().GetColumnsAll(entity.Cou_ID,string.Empty, null);
+            //Song.Entities.GuideColumns[] gcs = Business.Do<IGuide>().GetColumnsAll(entity.Cou_ID,string.Empty, null);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
                 {
-                    this.CourseClear(entity.Cou_ID);   
+                    new System.Threading.Tasks.Task(() =>
+                    {
+                        this.CourseClear(entity.Cou_ID);
+                    }).Start();
+                   
 
                     tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
                     //删除购买记录

@@ -441,7 +441,7 @@ line-height:35px;
               <div class="card-tit">各版本功能对比</div>
               <table border="1" class="card-cont">
                 <tr>
-                  <xsl:for-each select="LicenseInfo/LevelTable/level[index='1']/*">
+                  <xsl:for-each select="LicenseInfo/Editions/level[index='1']/*">
                     <th>
                       <xsl:if test="local-name() = 'index'">
                       #
@@ -454,7 +454,7 @@ line-height:35px;
                   </xsl:for-each>
                 </tr>
 
-                <xsl:for-each select="LicenseInfo/LevelTable/*">
+                <xsl:for-each select="LicenseInfo/Editions/*">
                   <tr>
                     <xsl:for-each select="*">
                       <td>
