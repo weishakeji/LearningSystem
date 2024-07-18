@@ -32,18 +32,13 @@ namespace Song.ViewData.Helper
         {
             if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
             //1秒内的不统计
-            if (elapsedTime < 1000) return;
-            System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            if (_context == null || _context.Request == null) return;
-            string path = _context.Request.Url.AbsolutePath;          
-            path = path.IndexOf("v1/") > -1 ? path.Substring(path.LastIndexOf("v1/") + 3) : path;
-            path = path.Replace("/", "_");
-            //path =path.IndexOf("")
+            //if (elapsedTime < 1000) return;
 
             string sql = command.CommandText;
             for (int i = 0; i < command.Parameters.Count; i++)
             {
-                System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
+                System.Data.IDbDataParameter para = (IDbDataParameter)command.Parameters[i];
+                //System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
                 string vl = para.Value.ToString();
                 string tp = para.DbType.ToString();
                 if (tp.IndexOf("Int") > -1)
@@ -51,11 +46,25 @@ namespace Song.ViewData.Helper
                 if (tp == "String")
                     sql = sql.Replace("@p" + i.ToString(), "'" + vl + "'");
                 if (tp == "Boolean")
-                    sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
+                {
+                    if(Gateway.Default.DbType==DbProviderType.PostgreSQL)
+                        sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "true" : "false");
+                    else
+                        sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
+                }
                 if (tp == "DateTime")
                     sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
             }
 
+
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            if (_context == null || _context.Request == null) return;
+            string path = _context.Request.Url.AbsolutePath;          
+            path = path.IndexOf("v1/") > -1 ? path.Substring(path.LastIndexOf("v1/") + 3) : path;
+            path = path.Replace("/", "_");
+            //path =path.IndexOf("")
+
+          
             WriteLog(path, sql, retValue, elapsedTime);
         }
         #region 日志写入的方法
@@ -88,7 +97,7 @@ namespace Song.ViewData.Helper
 
 
             long elapsedNumber = elapsedTime / 1000 * 1000;
-            if (elapsedNumber <= 0) return;
+            //if (elapsedNumber <= 0) return;
             //如果日志目录不存在就创建
             string rootPath = AppDomain.CurrentDomain.BaseDirectory;
             //string apiName=path.i

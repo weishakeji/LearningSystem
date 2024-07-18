@@ -17,7 +17,7 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public override bool Logged(Letter letter)
         {
-            return LoginAccount.Status.Login(letter);         
+            return LoginAccount.Status.IsLogin(letter);         
         }
     }
 }

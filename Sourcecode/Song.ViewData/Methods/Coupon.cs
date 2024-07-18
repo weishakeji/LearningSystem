@@ -36,7 +36,7 @@ namespace Song.ViewData.Methods
             CouponAccount ca= Business.Do<IRecharge>().CouponUseCode(card);
             acc.Ac_Coupon = ca.Ca_Total;
             //刷新登录状态的学员信息
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return ca;
         }
         /// <summary>
@@ -110,7 +110,7 @@ namespace Song.ViewData.Methods
                 }
                 st.Ac_Coupon = ca.Ca_Total;
                 //刷新登录状态的学员信息
-                LoginAccount.Fresh(st);
+                LoginAccount.Status.Fresh(st);
                 return true;
             }
             catch (Exception ex)

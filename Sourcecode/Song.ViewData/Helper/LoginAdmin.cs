@@ -169,7 +169,11 @@ namespace Song.ViewData
         {
             Song.Entities.EmpAccount acc = this.User();
             if (acc == null) return;
-            Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, string.Empty);           
+            //异步存储
+            new System.Threading.Tasks.Task(() =>
+            {
+                Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, string.Empty);
+            }).Start();                   
         }
         /// <summary>
         /// 刷新登录状态
@@ -273,6 +277,7 @@ namespace Song.ViewData
                 acc = Business.Do<IEmployee>().GetSingle(id);
                 CacheAdd(acc);
             }
+            if (acc == null) return null;
             return acc.Acc_IsUse ? acc : null;
         }
         /// <summary>

@@ -181,7 +181,7 @@ namespace Song.ViewData.Helper
                         sb.AppendLine("Params:(null)");
                     }
                     sb.AppendLine("-------------------------------------");
-                    sb.AppendLine("online:" + LoginAccount.list.Count.ToString());
+                    sb.AppendLine("online:" + LoginAccount.CacheList().Count.ToString());
 
                     //学员，教师，管理员
                     Song.Entities.Accounts acc = LoginAccount.Status.User(letter);

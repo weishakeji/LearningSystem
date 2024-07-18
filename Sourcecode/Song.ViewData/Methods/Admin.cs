@@ -79,18 +79,18 @@ namespace Song.ViewData.Methods
         }
         private Song.Entities.EmpAccount _login(string acc, string pw, Song.Entities.Organization organ, int posid)
         {
-            Song.Entities.EmpAccount EmpAccount = Business.Do<IEmployee>().EmpLogin(acc, pw, organ.Org_ID, posid);
-            if (EmpAccount == null) throw VExcept.Verify("密码错误", 102);
-            if (!(bool)EmpAccount.Acc_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
+            Song.Entities.EmpAccount emp = Business.Do<IEmployee>().EmpLogin(acc, pw, organ.Org_ID, posid);
+            if (emp == null) throw VExcept.Verify("密码错误", 102);
+            if (!(bool)emp.Acc_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             //克隆当前对象
-            EmpAccount = EmpAccount.DeepClone<Song.Entities.EmpAccount>();
-            if (!string.IsNullOrWhiteSpace(EmpAccount.Acc_Photo))
+            emp = emp.DeepClone<Song.Entities.EmpAccount>();
+            if (!string.IsNullOrWhiteSpace(emp.Acc_Photo))
             {
-                EmpAccount.Acc_Photo = string.IsNullOrWhiteSpace(EmpAccount.Acc_Photo) ? "" : VirPath + EmpAccount.Acc_Photo;
-                if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(EmpAccount.Acc_Photo))) EmpAccount.Acc_Photo = "";
+                emp.Acc_Photo = string.IsNullOrWhiteSpace(emp.Acc_Photo) ? "" : VirPath + emp.Acc_Photo;
+                if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(emp.Acc_Photo))) emp.Acc_Photo = "";
             }            //登录，密码被设置成加密状态值
-            EmpAccount.Acc_Pw = LoginAdmin.Status.Login(EmpAccount);
-            return EmpAccount;
+            emp.Acc_Pw = LoginAdmin.Status.Login(emp);
+            return emp;
         }
         /// <summary>
         /// 当前登录的普通管理员

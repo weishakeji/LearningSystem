@@ -1098,7 +1098,7 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Student_Course sc = Business.Do<ICourse>().Buy(st.Ac_ID, couid, price);
                 //刷新登录状态的学员信息
-                LoginAccount.Fresh(st.Ac_ID);
+                LoginAccount.Status.Fresh(st);
                 return sc;
             }
             catch (Exception ex)

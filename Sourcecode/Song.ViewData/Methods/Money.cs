@@ -70,7 +70,7 @@ namespace Song.ViewData.Methods
                 }
                 st.Ac_Money = ma.Ma_Total;
                 //刷新登录状态的学员信息
-                LoginAccount.Fresh(st);
+                LoginAccount.Status.Fresh(st);
             }
             catch (Exception ex)
             {

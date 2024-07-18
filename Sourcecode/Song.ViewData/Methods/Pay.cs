@@ -237,7 +237,7 @@ namespace Song.ViewData.Methods
                     Business.Do<IAccounts>().MoneyConfirm(macc);
                     //刷新当前登录的学员信息
                     Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(macc.Ac_ID);
-                    Song.ViewData.LoginAccount.Fresh(acc);
+                    Song.ViewData.LoginAccount.Status.Fresh(acc);
                 }
                 //WxPayAPI.Log.Debug("WxPayApi", "OrderQuery response : " + response);
             }

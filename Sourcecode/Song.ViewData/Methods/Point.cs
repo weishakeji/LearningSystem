@@ -94,7 +94,7 @@ namespace Song.ViewData.Methods
             {
                 CouponAccount ca = Business.Do<IAccounts>().CouponExchange(acc, coupon);
                 //刷新登录状态的学员信息
-                LoginAccount.Fresh(acc);
+                LoginAccount.Status.Fresh(acc);
                 return ca;
             }
             catch (Exception ex)
@@ -240,7 +240,7 @@ namespace Song.ViewData.Methods
                 }
                 st.Ac_Point = pa.Pa_Total;
                 //刷新登录状态的学员信息
-                LoginAccount.Fresh(st);
+                LoginAccount.Status.Fresh(st);
                 return true;
             }
             catch (Exception ex)
@@ -267,7 +267,7 @@ namespace Song.ViewData.Methods
             if (st == null) return 1;
             Business.Do<IAccounts>().PointAdd4Login(st.Ac_ID, source, info, remark);
             //刷新登录状态的学员信息
-            LoginAccount.Fresh(st);
+            LoginAccount.Status.Fresh(st);
             return 1;
         }
 

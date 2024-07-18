@@ -118,14 +118,15 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLogin(acc, pw, true);
             if (account == null) throw VExcept.Verify("密码错误或账号不存在", 102);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            LoginAccount.Add(account);
+            //LoginAccount.CacheAdd(account);
            
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
-            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
+            //user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
+            user.Ac_Pw= LoginAccount.Status.Login(user);
             return user;
         }
         /// <summary>
@@ -166,7 +167,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
             if (account == null) throw VExcept.Verify("验证码不正确", 105);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            LoginAccount.Add(account);         
+            LoginAccount.CacheAdd(account);         
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
@@ -233,7 +234,7 @@ namespace Song.ViewData.Methods
             {
                 tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
                 tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
-                LoginAccount.Add(tmp);
+                LoginAccount.CacheAdd(tmp);
             }
             return tmp;
         }
@@ -291,7 +292,7 @@ namespace Song.ViewData.Methods
             old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             Business.Do<IAccounts>().AccountsSave(old);
-            Song.ViewData.LoginAccount.Fresh(old);
+            Song.ViewData.LoginAccount.Status.Fresh(old);
             return true;
         }
         /// <summary>
@@ -669,7 +670,7 @@ namespace Song.ViewData.Methods
             old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             Business.Do<IAccounts>().AccountsSave(old);
-            Song.ViewData.LoginAccount.Fresh(old);
+            Song.ViewData.LoginAccount.Status.Fresh(old);
             return true;
         }
         /// <summary>
@@ -720,7 +721,7 @@ namespace Song.ViewData.Methods
 
             old.Copy<Song.Entities.Accounts>(acc);
             Business.Do<IAccounts>().AccountsSave(old);
-            Song.ViewData.LoginAccount.Fresh(old);
+            Song.ViewData.LoginAccount.Status.Fresh(old);
             return true;
         }
         /// <summary>
@@ -796,7 +797,7 @@ namespace Song.ViewData.Methods
                 Business.Do<IAccounts>().AccountsUpdate(old,new WeiSha.Data.Field[] { 
                     Song.Entities.Accounts._.Ac_Photo
                 },new object[] { filename });
-                Song.ViewData.LoginAccount.Fresh(old.Ac_ID);
+                Song.ViewData.LoginAccount.Status.Fresh(old);
                 //
                 old.Ac_Photo = System.IO.File.Exists(PhyPath + old.Ac_Photo) ? VirPath + old.Ac_Photo : "";
                 return old;
@@ -826,7 +827,7 @@ namespace Song.ViewData.Methods
             try
             {
                 Business.Do<IAccounts>().AccountsSave(old);
-                Song.ViewData.LoginAccount.Fresh(old);
+                Song.ViewData.LoginAccount.Status.Fresh(old);
                 return true;
             }catch(Exception ex)
             {
@@ -1490,7 +1491,7 @@ namespace Song.ViewData.Methods
             if (isExist)
             {
                 Business.Do<IAccounts>().AccountsSave(obj);
-                Song.ViewData.LoginAccount.Fresh(obj);
+                Song.ViewData.LoginAccount.Status.Fresh(obj);
             }
             else
             {
@@ -1609,7 +1610,7 @@ namespace Song.ViewData.Methods
             if (accphone != null && accphone.Ac_ID != acc.Ac_ID)
                 throw new Exception("手机号已经占用");
             Business.Do<IAccounts>().AccountsSave(acc);
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return _tran(acc);
         }
         /// <summary>
@@ -1627,7 +1628,7 @@ namespace Song.ViewData.Methods
             }
             acc.Ac_MobiTel2 = "";
             Business.Do<IAccounts>().AccountsSave(acc);
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return _tran(acc);
         }
         #endregion
@@ -1658,7 +1659,7 @@ namespace Song.ViewData.Methods
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);               
                 acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
             }
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return acc;
         }
         /// <summary>
@@ -1682,7 +1683,7 @@ namespace Song.ViewData.Methods
                 acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, nickname, headurl, field);
             }          
             acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return _tran(acc);
         }
         /// <summary>
@@ -1696,7 +1697,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts acc = this.User;
             acc = Business.Do<IAccounts>().UnBindThirdparty(acc, field);
             acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
-            LoginAccount.Fresh(acc);
+            LoginAccount.Status.Fresh(acc);
             return _tran(acc);
         }
         /// <summary>
@@ -1734,7 +1735,7 @@ namespace Song.ViewData.Methods
             _tran(nacc);
             nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
             nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc, this.Letter);
-            LoginAccount.Fresh(nacc);
+            LoginAccount.Status.Fresh(nacc);
             return nacc;
         }
         /// <summary>
