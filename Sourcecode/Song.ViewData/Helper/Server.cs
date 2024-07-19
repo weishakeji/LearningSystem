@@ -228,26 +228,10 @@ namespace Song.ViewData
         /// <summary>
         /// 当前应用程序的物理路径
         /// </summary>
-        public string ProgramPath
-        {
-            get
-            {
-                return System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-            }
-        }
-
-        public DateTime _initDate = DateTime.Now.AddYears(-200);
+        public string ProgramPath => System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath; 
         /// <summary>
-        /// 系统部署运行的初始时间
+        /// 系统创建初始时间
         /// </summary>
-        public DateTime InitDate
-        {
-            get
-            {
-                if (_initDate > DateTime.Now.AddYears(-100)) return _initDate;
-                _initDate = WeiSha.Core.License.Value.InitDate;
-                return _initDate;
-            }
-        }
+        public DateTime InitDateTime => WeiSha.Core.Server.InitDateTime;
     }
 }

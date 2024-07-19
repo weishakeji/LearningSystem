@@ -23,6 +23,11 @@ html, body, #vapp {
         left: 0px;
         width: 100%;
     }
+
+    nav {
+        width: 180px !important;
+        margin-right: 0px !important;
+    }
 }
 
 
@@ -33,14 +38,20 @@ html, body, #vapp {
         max-width: 1600px;
     }
 
+    nav {
+        width: 250px !important;
+    }
+
     nav>div, nav>a {
         font-size: 20px;
     }
-    nav>* icon{
-       transform: scale(1.2);
-       margin-top: 3px;
+
+    nav>* icon {
+        transform: scale(1.2);
+        margin-top: 3px;
     }
-    nav>div[current]::after, nav>a[current]::after{
+
+    nav>div[current]::after, nav>a[current]::after {
         right: -6px !important;
         bottom: 1px !important;
     }
@@ -166,7 +177,7 @@ section aside iframe {
 
 /*菜单*/
 nav {
-    width: 250px;
+    width: 200px;
     height: 100%;
     padding: 0px 10px 30px 10px;
     margin-right: 20px;
@@ -176,7 +187,7 @@ nav {
 nav>div, nav>a {
     padding: 10px 6px 10px 55px;
     display: block;
-  
+
     position: relative;
     color: #333;
     margin: 0px 8px 0px 0px;
@@ -193,8 +204,8 @@ nav>div:hover, nav>a:hover {
 }
 
 nav>div[current], nav>a[current] {
-    background: rgb(236, 245, 255); 
-   
+    background: rgb(236, 245, 255);
+
     border: 1px solid rgb(140, 197, 255);
     color: #409EFF !important;
 }
@@ -339,4 +350,5 @@ img[copyright='weixinqr'] {
         right: 10px;
         bottom: -10px;
     }
+
 }

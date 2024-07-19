@@ -298,13 +298,13 @@ line-height:35px;
       <body>
         <header>
         系统于
-          <xsl:for-each select="LicenseInfo/license/InitDate">
+          <xsl:for-each select="LicenseInfo/license/InitTime">
             <span>
               <xsl:value-of select="text()" />
             </span>
           </xsl:for-each>
-        开始运行，已经正常运行
-          <xsl:for-each select="LicenseInfo/license/RunTimeSpan">
+        开始运行，已经运行
+          <xsl:for-each select="LicenseInfo/license/RunTime">
             <span>
               <xsl:value-of select="text()" />
             </span>
