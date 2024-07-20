@@ -18,6 +18,8 @@ window.vapp = new Vue({
         compDatas: [],       //数据完整性信息，这里是缺失的表和字段
         error: '',          //提示信息
 
+        editon:{},      //版本信息
+
         loadingConn: false,     //
         loadingComp: false,     //比较字段是否完整的预载状态
 
@@ -29,7 +31,11 @@ window.vapp = new Vue({
 
     },
     created: function () {
+        //检测数据库链接
         this.checkConn();
+        
+        //获取产品商业版本的信息
+        this.getEditon();
     },
     methods: {
         //检测链接
@@ -102,6 +108,20 @@ window.vapp = new Vue({
                 }
             }).catch(err => console.error(err))
                 .finally(() => th.loadingComp = false);
+        },
+        //获取版本信息
+        getEditon: function () {
+            var th = this;
+            th.loading = true;
+            $api.post('Platform/edition').then(function (req) {
+                if (req.data.success) {
+                    th.editon = req.data.result;
+                    console.log(th.editon);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(err=> console.error(err));
         }
     }
 });

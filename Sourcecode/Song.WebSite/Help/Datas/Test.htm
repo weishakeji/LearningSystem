@@ -22,7 +22,11 @@
     <div id="vapp">
         <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
-                <span icon="&#xe6d8">数据库链接测试</span>
+                <span icon="&#xe6d8">数据库链接测试
+                    <span v-if="!editon.IsLicense" class="editon">
+                        <span v-html="editon.Edition"></span>                       
+                    </span>
+                </span>
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
                     :loading="loadingConn" @click="checkConn">重新测试</el-button>
             </div>

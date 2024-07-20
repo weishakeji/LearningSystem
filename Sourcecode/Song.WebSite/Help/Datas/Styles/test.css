@@ -12,6 +12,17 @@ body {
 #vapp {
     padding-top: 10px;
 }
+/*产品版本信息*/
+.editon{
+    margin: auto 15px;
+    font-size: 16px;
+    color: #999;
+}
+.editon::before{
+    content: " -  ";
+    margin-right: 10px;
+}
+
 /*数据库相关*/
 .database{
     margin-bottom: 20px;
