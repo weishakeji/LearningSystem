@@ -343,12 +343,14 @@ img[copyright='weixinqr'] {
     }
 }
 
-@media (min-width: 1320px) {
+@media (min-width: 1500px) {
     img[copyright='weixinqr'] {
         display: block;
         position: absolute;
         right: 10px;
         bottom: -10px;
     }
-
+    footer {
+        padding-right: 130px;      
+    }
 }
