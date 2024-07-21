@@ -132,7 +132,7 @@ dl dd * {
     text-indent: 0px;
 }
 alert,help{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {

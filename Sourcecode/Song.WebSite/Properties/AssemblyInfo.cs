@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息是通过以下项进行控制的
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("www.weishakeji.net")]
+[assembly: AssemblyTitle("微厦科技，专注在线教育系统开发！")]
 [assembly: AssemblyDescription("集“学、练、考”与一体的在线学习系统")]
 [assembly: AssemblyConfiguration("10522779@qq.com")]
 [assembly: AssemblyCompany("郑州微厦计算机科技有限公司")]
-[assembly: AssemblyProduct("微厦在线学习平台")]
+[assembly: AssemblyProduct("微厦在线学习考试系统")]
 [assembly: AssemblyCopyright("版权所有 (C) 微厦科技")]
 [assembly: AssemblyTrademark("微厦科技")]
 [assembly: AssemblyCulture("")]

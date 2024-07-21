@@ -1564,6 +1564,9 @@
     <Content Include="Utilities\Images\Pay\支付宝网页直付.png" />
     <Content Include="Utilities\Images\testpaper.jpg" />
     <Content Include="Utilities\Images\weishakeji.png" />
+    <Content Include="Utilities\License\Index.xsl" />
+    <Content Include="Utilities\License\Scripts\Index.js" />
+    <Content Include="Utilities\License\Styles\Index.css" />
     <Content Include="Utilities\MathJax\globalVariable.js" />
     <Content Include="Utilities\MathJax\output\chtml.js" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\tex.js" />
@@ -2130,7 +2133,6 @@
     <Content Include="Utilities\Images\weishakeji_weixin.jpg" />
     <Content Include="Utilities\Images\weixin.jpg" />
     <Content Include="Utilities\Images\winClose.gif" />
-    <Content Include="Utilities\License.xsl" />
     <Content Include="Utilities\logo.jpg" />
     <Content Include="Utilities\Qiniuyun\crossdomain.xml" />
     <Content Include="Utilities\Qiniuyun\demo.html" />
