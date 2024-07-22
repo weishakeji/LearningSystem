@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("10522779@qq.com")]
 [assembly: AssemblyCompany("郑州微厦计算机科技有限公司")]
 [assembly: AssemblyProduct("微厦在线学习考试系统")]
-[assembly: AssemblyCopyright("版权所有 (C) 微厦科技")]
+[assembly: AssemblyCopyright("www.weishakeji.net")]
 [assembly: AssemblyTrademark("微厦科技")]
 [assembly: AssemblyCulture("")]
 
