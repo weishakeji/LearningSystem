@@ -20,7 +20,7 @@
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
   <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>
   <gitcode remark="gitcode" type="link" fixed="false"><![CDATA[https://gitcode.net/songleiming/LearningSystem]]></gitcode>
-  <openlicense remark="开源协议" type="text" fixed="true">GPL（GNU General Public License）</openlicense>
+  <openlicense remark="开源协议" type="text" fixed="true">GPL-2.0（GNU General Public License）</openlicense>
   <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>
   <address remark="办公地址" type="text" fixed="false"><![CDATA[河南郑州市郑东新区]]></address>
   
