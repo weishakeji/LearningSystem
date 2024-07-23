@@ -441,4 +441,10 @@ footer *{
     table.editions tr td:nth-child(8), table.editions tr th:nth-child(8) {
         display: table-cell;
     }
+    footer {
+        flex-direction: column;
+    }
+    footer>div:last-child{
+        margin-top: 15px;
+    }
 }
