@@ -19,7 +19,10 @@
           text-decoration: none;
           color: blue;
         }
-
+      red{
+        color:red;
+        margin-right:6px;
+      }
         .context {
           max-width: 980px;
           padding: 20px;
@@ -70,11 +73,13 @@
                 <xsl:text>box </xsl:text>
                 <xsl:value-of select="name()" />
               </xsl:attribute>
-              <span class="remark">&#8727;
+              <span class="remark">
+                <xsl:if test="@fixed = 'true'">
+                  <red>&#8727;</red>
+                </xsl:if>
                 <xsl:value-of select="name()" />
 ：
                 <xsl:value-of select="@remark" />
-
               </span>
 
               <!--如果是图片-->

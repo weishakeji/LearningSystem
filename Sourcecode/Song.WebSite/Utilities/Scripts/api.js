@@ -1549,7 +1549,7 @@ $api.effect(function () {
 //版权信息的展现
 //示例： <span copyright="powerby"></span> html属性增加copyright，其值为copyrigth.weisha中的节点；
 //示例： <a copyright="url"></a>，超链接的href属性将显示copyright中的url
-window.addEventListener("load", function () {
+document.addEventListener("DOMContentLoaded", function () {
     $api.get('Copyright/Info').then(function (req) {
         if (req.data.success) {
             let copyright = req.data.result;

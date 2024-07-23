@@ -1,223 +1,213 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:template match="/">
+  <xsl:template match="/Platform">
     <html lang="zh">
-
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
         <title>授权信息</title>
-        <script src="/Utilities/Scripts/jquery.js"></script>
-        <script src="/Utilities/Scripts/axios_min.js"></script>
+        <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+        <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+        <script type="text/javascript" src="/Utilities/Scripts/utils.js"></script>
+        <script src="/Utilities/Scripts/api.js"></script>
+        <script type="text/javascript" src="/Utilities/License/Scripts/Index.js"></script>
+        <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css"/>
         <link href="/Utilities/License/Styles/Index.css" rel="stylesheet" type="text/css"/>
       </head>
 
       <body>
-
-        <header>
-        系统于
-          <xsl:for-each select="Platform/License/InitTime">
-            <span>
-              <xsl:value-of select="text()" />
-            </span>
-          </xsl:for-each>
-        开始运行，已经运行
-          <xsl:for-each select="Platform/License/RunTime">
-            <span>
-              <xsl:value-of select="text()" />
-            </span>
-          </xsl:for-each>
-          <div class="context">
-            <div class="card">
-              <div class="verInfo">
-                <div class="title">
-                  <div class="titleLeft">
-                    <xsl:for-each select="Platform/License/Edition">
-                      <xsl:value-of select="text()" />
-                    </xsl:for-each>
-
-                  </div>
-                  <div class="titleRight">
-                    <div class="spanVersion">
-                    Version                      
-                      <xsl:value-of select="/Platform/AppDetails/item[@remark='内部版本号']"/>
-                    </div>
-                    <div class="spanVersion">
-                      <xsl:value-of select="/Platform/AppDetails/item[@remark='发布时间']"/>                   
-                    </div>
-                    <div class="spanStatus">
-                      <xsl:value-of select="/Platform/AppDetails/item[@remark='发布状态']"/>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="licInfo">
-
-                  <xsl:if test="Platform/License/VersionLevel != '0'">
-
-                    <xsl:for-each select="Platform/License/Type">
-                      <span>授权类型：
-                        <xsl:value-of select="text()" />
-                      </span>
-                    </xsl:for-each>
-
-                    <span>（
-                      <xsl:for-each select="Platform/License/Serial">
-                        <xsl:value-of select="text()" />
-                      </xsl:for-each>:
-                      <xsl:for-each select="Platform/License/Port">
-                        <xsl:value-of select="text()" />
-                      </xsl:for-each>）
-                    </span>
-
-                    <span>授权时效：
-                      <xsl:for-each select="Platform/License/StartTime">
-                        <xsl:value-of select="substring(text(), 1, 11)" />
-                      </xsl:for-each>
-                    至
-                      <xsl:for-each select="Platform/License/EndTime">
-                        <xsl:value-of select="substring(text(), 1, 11)" />
-                      </xsl:for-each>
-                    </span>
-
-                  </xsl:if>
-                  <xsl:if test="Platform/License/VersionLevel = '0'">
-                  未授权版本！
-                  </xsl:if>
-                  <a href="?action=refresh">刷新</a>
-                </div>
-              </div>
-              <div class="card-cont">
-                <dl class="limititems">
-                  <xsl:for-each select="Platform/License/Limititems/*">
-                    <dd>
-                      <xsl:value-of select="@value" />
-                    ：
-                      <xsl:if test="text() = '0'">
-                      不限
-                      </xsl:if>
-                      <xsl:if test="text() != '0'">
-                        <xsl:value-of select="text()" />
-                      个
-                      </xsl:if>
-                    </dd>
-                  </xsl:for-each>
-                </dl>
+        <div id="vapp">
+          <header>
+            <div class="topbar">
+              <span class="title"><xsl:value-of select="AppDetails/item[@remark='团队介绍']"/></span>
+               <!--右侧，联系方式与返回首页-->
+              <div class="right">
+                <span copyright="tel"></span>
+                <a href="?action=refresh" class="fresh">刷新授权</a>
+                <a copyright="website" class="brand"><xsl:value-of select="AppDetails/item[@remark='商标']"/></a>
+                <a href="/" target="_blank"  class="home">首页</a>
               </div>
             </div>
+            <section>             
+                <span class="product">
+                  <span><xsl:value-of select="AppDetails/item[@remark='产品名称']"/></span>
+                  <span class="ver">ver <xsl:value-of select="AppDetails/item[@remark='版本号']"/></span>
+                </span>  
+                <span class="edition">
+                  <xsl:value-of select="License/Edition"/>    
+                  <xsl:if test="License/EdtionLevel = '0'">
+                    <span class="stage">
+                      - <xsl:value-of select="AppDetails/item[@remark='发布状态']"/>
+                    </span>
+                  </xsl:if> 
+                  <xsl:if test="License/Label != ''">
+                    <span class="label">（ <xsl:value-of select="License/Label"/> Edition ）</span>
+                  </xsl:if> 
+                </span>
+            </section>
+          </header>
+          <!--头部结束，产品介绍，内容开始-->
+          <div class="content">
+            <p copyright="intro" class="tip"></p>
+            <p copyright="detail" class="tip"></p>
           </div>
-        </header>
-        <section>
-          <div class="context">
-
-
-            <div class="card intro">
-              <div class="card-tit">说明</div>
-              <div class="card-cont">
-                <p>1、如果上述版本的功能无法满足您的需求，升级请联系<a href="https://shop35387540.taobao.com/" target="_blank" copyright="taobao">在线销售（淘宝店）</a>
-                </p>
-                <p>2、升级方法：将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在站点根目录即可。</p>
-                <p>3、授权说明：主域名授权仅限.net、.com、.org、.cn、.me、.site、.co、.cc、.info、.net.cn、.com.cn、.org.cn。</p>
+          <!--发行相关的信息-->
+          <div class="release">
+            <span title="内部版本号"><xsl:value-of select="AppDetails/item[@remark='内部版本号']"/></span>
+            <span title="发布时间"><xsl:value-of select="AppDetails/item[@remark='发布时间']"/></span>
+            <span title="初始运行"><xsl:value-of select="License/InitTime"/></span>
+            <span title="已经运行"><xsl:value-of select="License/RunTime"/></span>
+          </div>
+          <!--中间内容-->
+          <div class="context">           
+            <div class="card lic" remark="授权信息">
+              <div class="tit">
+                    <!--社区版-->
+                    <xsl:if test="License/EdtionLevel = '0'">社区版 
+                      <span class="stage">
+                          - <xsl:value-of select="AppDetails/item[@remark='发布状态']"/>
+                      </span>
+                    </xsl:if>
+                     <!--商业版-->
+                    <xsl:if test="License/EdtionLevel != '0'">
+                        <xsl:value-of select="License/Edition"/>
+                    </xsl:if>
+                    <xsl:if test="License/Label != ''">
+                        <span class="label">（ <xsl:value-of select="License/Label"/> Edition ）</span>
+                    </xsl:if>  
+              </div>
+              <div class="cont">
+                  <!--社区版-->
+                  <xsl:if test="License/EdtionLevel = '0'">  
+                    <xsl:if test="DataDetails/@dbType != 'SQLite'">
+                        <alert>
+                          当前版本仅限使用SQLite数据库，实际采用的数据库为 
+                          <xsl:value-of select="DataDetails/@dbType"/>     
+                        </alert>             
+                      </xsl:if>
+                      <xsl:if test="AppDetails/item[@remark='发布状态'] = 'Trial'">
+                        <xsl:if test="License/Trial != '0'">
+                            <alert> 
+                              当前发行状态为Trial，即试用，可试用 
+                              <xsl:value-of select="License/Trial"/>天，
+                              已经运行 <xsl:value-of select="License/RunTime"/>
+                            </alert>  
+                        </xsl:if>                  
+                      </xsl:if>
+                  </xsl:if>
+                   <!--商业版-->
+                  <xsl:if test="License/EdtionLevel != '0'">
+                      <xsl:variable name="accCount" select="number(DataDetails/Accounts)"/>
+                      <xsl:variable name="entCount" select="number(License/LimitItems/item[@entity])"/>
+                      <xsl:if test="$accCount > $entCount">                
+                        <alert>当前版本限制 <xsl:value-of select="License/LimitItems/item[@entity]" /> 个账号，
+                        已经存在账号数 <xsl:value-of select="DataDetails/Accounts" /> 个，
+                        超出 <xsl:value-of select=" DataDetails/Accounts -License/LimitItems/item[@entity]" /> 个账号，
+                        请删除多余的账号，或联系客服增加账号数量。
+                        </alert>
+                      </xsl:if>
+                  </xsl:if>    
+                  <!--公共内容-当前版本的限制数量-->
+                  <p>当前版本所能承载的最大数据量，如下：</p>
+                  <dl class="limitItems">
+                        <xsl:for-each select="License/LimitItems/*">
+                          <xsl:variable name="entity" select="@entity"/>
+                          <xsl:variable name="value" select="text()"/>
+                          <xsl:variable name="name" select="@name"/>
+                          <dd entity="{$entity}" value="{$value}" name="{$name}">                            
+                            <xsl:if test="text() = '0'">（不限）</xsl:if>
+                            <xsl:if test="text() != '0'">
+                              <xsl:value-of select="text()" />
+                            </xsl:if> 
+                          </dd>
+                        </xsl:for-each>
+                  </dl>
               </div>
             </div>
-            <div class="card intro">
-              <div class="card-tit">激活码</div>
-              <dl class="card-cont Activationcode">
-                <xsl:for-each select="Platform/Activationcode/*">
+            <!--开源协议-->
+            <div class="card protocol">
+                <div class="tit">开源协议</div>
+                <div class="cont">
+                  <p>《<span copyright="product"></span>》采用双协议，社区版采用<span copyright="openlicense"></span>开源协议，商业版需要购买商业授权。</p>
+                  <p>> 社区版只能使用SQLite数据库。<br/>没有功能限制，没有学员注册数量限制，没有并发数限制。
+                  <br /><br /><alert>SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于商业用途。</alert>
+                    
+                  </p>
+                  <p>> 商业版与社区版功能相同。<br />采用PostgreSQL数据库，且不同版本对注册量有一定限制（在线人数、并发量等没有限制）。</p>
+                </div>
+            </div>
+            <!--说明信息-->
+            <div class="card explain">
+              <div class="tit">说明</div>
+                <div class="cont">
+                  <p>1、如果当前版本无法满足您的需求，请联系<a target="_blank" copyright="taobao">在线销售（淘宝店）</a>，或致电 <span copyright="tel"></span>
+                  </p>
+                  <p>2、将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在站点根目录即可。</p>                                             
+                  <p>3、主域授权的后缀仅限：<xsl:value-of select="License/LimitDomain"/>。</p>
+                </div>
+            </div>
+            <!-- 激活码  START-->
+             <div class="card code">
+              <div class="tit">激活码</div>
+              <dl class="cont">
+                <xsl:for-each select="Activationcode/*">
                   <dd>
-                    <xsl:if test="local-name() = 'CPU'">
-                    CPU
-                    </xsl:if>
-                    <xsl:if test="local-name() = 'HardDisk'">
-                    硬盘
-                    </xsl:if>
-                    <xsl:if test="local-name() = 'IP'">
-                    IP
-                    </xsl:if>
-                    <xsl:if test="local-name() = 'Domain'">
-                    域名
-                    </xsl:if>
-                    <xsl:if test="local-name() = 'Root'">
-                    根域
-                    </xsl:if>
-                    <br />
-                    <xsl:value-of select="text()" />
+                    <xsl:if test="local-name() = 'CPU'">CPU</xsl:if>
+                    <xsl:if test="local-name() = 'HardDisk'">硬盘</xsl:if>
+                    <xsl:if test="local-name() = 'IP'">IP</xsl:if>
+                    <xsl:if test="local-name() = 'Domain'">域名</xsl:if>
+                    <xsl:if test="local-name() = 'Root'">根域</xsl:if>
+                    : <span><xsl:value-of select="@value"/></span>
+                    <div><xsl:value-of select="text()" /></div>
                   </dd>
-
                 </xsl:for-each>
               </dl>
             </div>
-            <div class="card intro">
-              <div class="card-tit">各版本功能对比</div>
-              <table border="1" class="card-cont">
+             <!-- 激活码  END  -->
+          </div>
+
+          <!-- 各版本功能对比  START-->
+          <div class="card edition">
+            <div class="tit">各版本详情</div>
+            <table border="1" class="editions cont">
+              <thead> 
                 <tr>
-                  <xsl:for-each select="Platform/Editions/level[index='1']/*">
+                  <xsl:for-each select="Editions/level[index='1']/*">
                     <th>
-                      <xsl:if test="local-name() = 'index'">
-                      #
-                      </xsl:if>
+                      <xsl:if test="local-name() = 'index'">#</xsl:if>
                       <xsl:if test="local-name() != 'index'">
                         <xsl:value-of select="local-name()" />
                       </xsl:if>
                     </th>
-
                   </xsl:for-each>
                 </tr>
-
-                <xsl:for-each select="Platform/Editions/*">
+              </thead>
+              <tbody>
+                <xsl:for-each select="Editions/*">
                   <tr>
                     <xsl:for-each select="*">
-                      <td>
-                        <xsl:value-of select="text()" />
+                      <xsl:variable name="item" select="local-name()"/>
+                      <td item="{$item}">
+                        <xsl:if test="text() = '0'">-</xsl:if>
+                        <xsl:if test="text() != '0'">
+                          <xsl:value-of select="text()" />
+                        </xsl:if>
+                        <xsl:if test="local-name() = '版本'"> Edition</xsl:if>
                       </td>
                     </xsl:for-each>
                   </tr>
-                </xsl:for-each>
-
-              </table>
-            </div>
+                </xsl:for-each>                                  
+              </tbody>
+            </table>
           </div>
-        </section>
-        <div id="footer">
-          <div class="copyright">
-          Copyright © 2014-2021
-            <a href="http://www.weishakeji.net" target="_blank" copyright="url">
-              <span copyright="powerby"></span>
-            </a>
-          . All rights reserved
-          </div>
+          <!-- 各版本功能对比  END  -->
+        <footer>
+          <div class="copyright">Copyright © <a copyright="website" target="_blank"><span copyright="company"></span></a> All Rights Reserved.</div>
+          <div><xsl:value-of select="AppDetails/item[@remark='核心开发者']"/></div>
+        </footer>
+       
         </div>
       </body>
-      <script type="text/javascript">
-      $.get('/api/v1/Copyright/Info', function (req) {
-        var d = eval("(" + req + ")");
-        var copyright = d.result;
-        /*for (var t in copyright) {
-          copyright[t] = unescape(copyright[t]);
-        }*/
-        $("*[copyright]").each(function (index, element) {
-          var name = $(this).get(0).tagName.toLowerCase(); //html元素的标签名         
-          var val = $(this).attr("copyright"); 	//copyright的值，对应json的属性
-          for (var attr in copyright) {
-            if (attr == val) {
-              var txt = unescape(copyright[attr]);
-              switch (name) {
-                case "a":
-                  $(this).attr("href", txt);
-                  break;
-                case "img":
-                  $(this).attr("src", txt);
-                  break;
-                default:
-                  $(this).text(txt);
-              }
-            }
-          }
-        });
-      })
-      </script>
-      <script src="/Utilities/Scripts/api.js"></script>
     </html>
   </xsl:template>
-
 </xsl:stylesheet>
