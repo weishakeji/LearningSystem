@@ -403,9 +403,13 @@ table.editions th,
 table.editions td {
     border: none;
 }
-
+table.editions td[item=名称]{
+    width: 120px;
+}
 table.editions td[item=版本] {
     font-size: 16px;
+    text-align: left;
+    width: 160px;
 }
 
 /*底部*/
@@ -519,7 +523,9 @@ footer * {
     table.editions tr td:nth-child(8), table.editions tr th:nth-child(8) {
         display: table-cell;
     }
-
+    table.editions td[item=名称]{
+        width: 80px;
+    }
     footer {
         flex-direction: column;
     }

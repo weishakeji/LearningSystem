@@ -100,7 +100,7 @@
                       <!--授权主题与时限-->                     
                       <p>
                           <xsl:variable name="lictype" select="License/Type"/>
-                          授权主题：<xsl:value-of select="$lictype" />->
+                          授权主题：<xsl:value-of select="$lictype" /> ->
                           <xsl:value-of select="License/Serial" />
                           <xsl:if test="$lictype = 'IP' or $lictype = 'Domain' or $lictype = 'Root'">:
                               <xsl:value-of select="License/Port" />
