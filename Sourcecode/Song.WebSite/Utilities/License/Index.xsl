@@ -155,6 +155,7 @@
                   <dl>
                     <dt class="business">商业版</dt>
                     <dd>与社区版功能相同，采用PostgreSQL数据库，且不同版本对注册量有一定限制（在线人数、并发量等没有限制）。</dd>
+                    <dd>商业授权为永久授权，一次购买永久有效。</dd>
                   </dl>                 
                   <p class="opensourse">开源地址：
                     <a target="_blank" copyright="gitee">Gitee</a>

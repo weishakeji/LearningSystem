@@ -181,6 +181,9 @@ icon[qq]::before {
 }
 
 /*帮助、提示*/
+help,help *{
+    color: #777;
+}
 help, alert, help *, alert * {
     font-size: 13px;
     cursor: default;
