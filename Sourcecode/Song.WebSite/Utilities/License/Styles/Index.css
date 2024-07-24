@@ -23,13 +23,9 @@ a {
 }
 
 alert {
-    font-size: 18px !important;
     display: block;
-    line-height: 30px;
 }
-alert::before{
-    font-size: 25px;
-}
+
 alert:not(:last-child) {
     margin-bottom: 15px;
 }
@@ -87,16 +83,19 @@ alert:not(:last-child) {
     font-size: 26px;
     margin-right: 10px;
 }
+
 .protocol .tit::before {
-    content: '\a037';
+    content: '\a034';
     font-size: 22px;
     margin-right: 10px;
 }
+
 .code .tit::before {
     content: '\a050';
     font-size: 22px;
     margin-right: 10px;
 }
+
 .explain .tit::before {
     content: '\a026';
     font-size: 20px;
@@ -126,17 +125,20 @@ alert:not(:last-child) {
 header {
     margin-top: 10px;
 }
+
 /*最顶部*/
 header .topbar {
     width: 100%;
     color: #666;
-    margin: 10px 0px 20px 0px;   
+    margin: 10px 0px 20px 0px;
     display: flex;
     justify-content: space-between;
 }
-header .topbar .title{
+
+header .topbar .title {
     font-size: 16px;
 }
+
 /*右上方菜单项*/
 header .topbar .right {
     display: flex;
@@ -163,23 +165,27 @@ header *[copyright='tel']::before {
 *.fresh::before {
     content: '\e651';
 }
+
 *.brand::before {
     content: '\a003';
     font-size: 22px;
 }
+
 *.home::before {
     content: '\a020';
 }
 
 /**左上方,产品名称*/
 header>section {
-    display: flex;   
+    display: flex;
     margin: 30px 0px 20px 0px;
     justify-content: center;
 }
-header>section *{
+
+header>section * {
     line-height: 50px;
 }
+
 header>section .product {
     font-weight: bold;
     color: rgb(255, 255, 255);
@@ -215,21 +221,26 @@ header>section .edition .label {
     font-size: 15px;
 
 }
+
 /*中部内容区*/
-.context{
+.context {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
-.context>*{
+
+.context>* {
     width: calc(50% - 18px);
 }
-.context>*:nth-child(odd) {  
+
+.context>*:nth-child(odd) {
     margin-right: 15px;
 }
-.context>*:nth-child(even) {  
+
+.context>*:nth-child(even) {
     margin-left: 15px;
 }
+
 /*发行相关的信息*/
 .release {
     width: 100%;
@@ -282,10 +293,13 @@ dl.limitItems dd {
     border-radius: 5px;
     margin: 0px 12px 12px 0px;
 }
-dl.limitItems dd[value='0']{
-    font-size: 14px;;
+
+dl.limitItems dd[value='0'] {
+    font-size: 14px;
+    ;
     color: #777;
 }
+
 dl.limitItems dd::before {
     content: attr(name) ' : ';
     background-color: #fff;
@@ -296,15 +310,65 @@ dl.limitItems dd::before {
     border-right: 1px solid #eee;
 }
 
+/*开源协议*/
+.protocol dl:not(:first-child) {
+    margin-bottom: 10px;
+}
+
+.protocol dt::before {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.protocol dt.free::before {
+    content: '\e72d';
+}
+
+.protocol dt.business::before {
+    content: '\a027';
+}
+
+.protocol dl dd {
+    margin-left: 35px;
+    font-size: 17px;
+}
+
+.protocol dl dd alert {
+    font-size: 16px !important;
+}
+
+.protocol .opensourse a {
+    margin-right: 15px;
+    color: #777;
+}
+.protocol .opensourse a:hover{
+    text-decoration: underline;
+}
+a[copyright="gitee"]{
+    color: brown !important;
+}
+a[copyright="gitee"]::before{
+    content: '\e686';
+    font-size: 19px;    
+}
+a[copyright="github"]::before{
+    content: '\e691';
+    font-size: 22px;
+}
+a[copyright="gitcode"]::before{
+    content: '\e715';
+    font-size: 20px;
+}
 /*激活码*/
 .code dl {
     counter-reset: show-list;
     list-style-type: none;
     counter-reset: sectioncounter;
+    margin-top: 15px;
 }
 
-.code dl dd {
-    margin-bottom: 10px;
+.code dl dd:not(:last-child) {
+    margin-bottom: 20px;
 }
 
 .code dl dd:before {
@@ -343,6 +407,7 @@ table.editions td {
 table.editions td[item=版本] {
     font-size: 16px;
 }
+
 /*底部*/
 footer {
     width: 100%;
@@ -353,9 +418,11 @@ footer {
     padding: 15px 20px;
     box-sizing: border-box;
 }
-footer *{
+
+footer * {
     font-size: 16px;
 }
+
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
     .card .cont {
@@ -379,31 +446,38 @@ footer *{
         flex-direction: column;
     }
 
-    header .topbar  .right * {
+    header .topbar .right * {
         font-size: 16px;
     }
-    header .topbar  .right a:not(.fresh) {
+
+    header .topbar .right a:not(.fresh) {
         display: none;
     }
+
     header .topbar .right *:first-child {
         margin-left: 0px;
     }
+
     header *[copyright='tel']::before {
         font-size: 20px;
         margin-right: 10px;
     }
-    header>section .ver{
+
+    header>section .ver {
         margin-right: 0px;
     }
+
     /*中部内容区*/
-    .context{
-        display: block;      
+    .context {
+        display: block;
     }
-    .context>*{
+
+    .context>* {
         width: 100%;
         margin-left: 0px !important;
         margin-right: 0px !important;
     }
+
     /*发行相关的信息*/
     .release {
         width: 100%;
@@ -412,19 +486,23 @@ footer *{
     }
 
     .release>* {
-        margin-right: 0px !important;       
+        margin-right: 0px !important;
     }
+
     .release>*::before {
         width: 90px;
         text-align: right;
     }
+
     .release>*:not(:last-child) {
         margin-bottom: 15px;
     }
-    dl.limitItems dd{
+
+    dl.limitItems dd {
         min-width: 100%;
-        margin: 0px 0px 12px 0px;       
+        margin: 0px 0px 12px 0px;
     }
+
     /*各版本的授权限制数*/
     table.editions tr td:nth-child(4)~*, table.editions tr th:nth-child(4)~* {
         display: none;
@@ -441,10 +519,12 @@ footer *{
     table.editions tr td:nth-child(8), table.editions tr th:nth-child(8) {
         display: table-cell;
     }
+
     footer {
         flex-direction: column;
     }
-    footer>div:last-child{
+
+    footer>div:last-child {
         margin-top: 15px;
     }
 }

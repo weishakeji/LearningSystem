@@ -181,15 +181,9 @@ icon[qq]::before {
 }
 
 /*帮助、提示*/
-help, alert {
-    color: #999;
+help, alert, help *, alert * {
     font-size: 13px;
     cursor: default;
-
-}
-
-help *, alert * {
-    font-size: 13px;
 }
 
 help::before, alert::before {
@@ -224,8 +218,9 @@ alert[margin] {
     margin: 15px;
 }
 
-alert[large] {
+help[large], alert[large], help[large] *, alert[large] * {
     font-size: 18px;
+    line-height: 30px;
 }
 
 alert {
@@ -237,7 +232,7 @@ help::before {
 }
 
 alert::before {
-    content: "\e74f";
+    content: "\e70e";
 }
 
 /*预载*/
@@ -255,13 +250,13 @@ loading::before {
     animation: rotate_360 0.6s infinite linear;
 }
 
-loading[dot]::after {    
+loading[dot]::after {
     display: inline;
     content: "loading ...";
     font-size: 13px;
-    margin-left:10px;
-    line-height:30px;
-    color:#999;
+    margin-left: 10px;
+    line-height: 30px;
+    color: #999;
 }
 
 @keyframes loading_after {
@@ -273,22 +268,27 @@ loading[dot]::after {
         background-image: -webkit-linear-gradient(left, #fff, #333);
     }
 }
+
 /*星号*/
 loading[asterisk]::before {
     content: "\e620";
 }
+
 /*汽泡*/
 loading[bubble]::before {
     content: "\e621";
 }
+
 /*刷新*/
 loading[fresh]::before {
     content: "\e651";
 }
+
 /*五角星*/
 loading[star]::before {
     content: "\e747";
 }
+
 /*太极鱼*/
 loading[fish]::before {
     content: "\e601";

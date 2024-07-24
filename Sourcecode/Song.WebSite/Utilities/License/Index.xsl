@@ -80,27 +80,42 @@
                   <!--社区版-->
                   <xsl:if test="License/EdtionLevel = '0'">  
                     <xsl:if test="DataDetails/@dbType != 'SQLite'">
-                        <alert>
-                          当前版本仅限使用SQLite数据库，实际采用的数据库为 
-                          <xsl:value-of select="DataDetails/@dbType"/>     
+                        <alert large="true">
+                          社区版仅限使用SQLite数据库，实际数据库 
+                          <b><xsl:value-of select="DataDetails/@dbType"/></b>
                         </alert>             
                       </xsl:if>
                       <xsl:if test="AppDetails/item[@remark='发布状态'] = 'Trial'">
                         <xsl:if test="License/Trial != '0'">
-                            <alert> 
-                              当前发行状态为Trial，即试用，可试用 
+                            <alert large="true"> 
+                              发行状态为Trial，允许试用 
                               <xsl:value-of select="License/Trial"/>天，
-                              已经运行 <xsl:value-of select="License/RunTime"/>
+                              已运行 <b><xsl:value-of select="License/RunTime"/></b>
                             </alert>  
                         </xsl:if>                  
                       </xsl:if>
                   </xsl:if>
                    <!--商业版-->
                   <xsl:if test="License/EdtionLevel != '0'">
+                      <!--授权主题与时限-->                     
+                      <p>
+                          <xsl:variable name="lictype" select="License/Type"/>
+                          授权主题：<xsl:value-of select="$lictype" />->
+                          <xsl:value-of select="License/Serial" />
+                          <xsl:if test="$lictype = 'IP' or $lictype = 'Domain' or $lictype = 'Root'">:
+                              <xsl:value-of select="License/Port" />
+                          </xsl:if>                          
+                      </p>
+                      <p>
+                          授权时效：
+                          <xsl:value-of select="License/StartTime" /> 至
+                          <xsl:value-of select="License/EndTime" />
+                      </p>
+                      <!--账户数量超出允许的数量时的提示-->
                       <xsl:variable name="accCount" select="number(DataDetails/Accounts)"/>
                       <xsl:variable name="entCount" select="number(License/LimitItems/item[@entity])"/>
                       <xsl:if test="$accCount > $entCount">                
-                        <alert>当前版本限制 <xsl:value-of select="License/LimitItems/item[@entity]" /> 个账号，
+                        <alert large="true">当前版本限制 <xsl:value-of select="License/LimitItems/item[@entity]" /> 个账号，
                         已经存在账号数 <xsl:value-of select="DataDetails/Accounts" /> 个，
                         超出 <xsl:value-of select=" DataDetails/Accounts -License/LimitItems/item[@entity]" /> 个账号，
                         请删除多余的账号，或联系客服增加账号数量。
@@ -129,11 +144,23 @@
                 <div class="tit">开源协议</div>
                 <div class="cont">
                   <p>《<span copyright="product"></span>》采用双协议，社区版采用<span copyright="openlicense"></span>开源协议，商业版需要购买商业授权。</p>
-                  <p>> 社区版只能使用SQLite数据库。<br/>没有功能限制，没有学员注册数量限制，没有并发数限制。
-                  <br /><br /><alert>SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于商业用途。</alert>
-                    
+                  <dl>
+                    <dt class="free">社区版</dt>
+                    <dd>
+                      没有功能限制，没有学员注册数量限制，没有并发数限制。
+                    </dd>
+                    <dd>社区版使用SQLite数据库，安装部署简单。</dd>
+                    <dd><alert>SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于商业用途。</alert></dd>
+                  </dl>
+                  <dl>
+                    <dt class="business">商业版</dt>
+                    <dd>与社区版功能相同，采用PostgreSQL数据库，且不同版本对注册量有一定限制（在线人数、并发量等没有限制）。</dd>
+                  </dl>                 
+                  <p class="opensourse">开源地址：
+                    <a target="_blank" copyright="gitee">Gitee</a>
+                    <a target="_blank" copyright="github">GitHub</a>
+                    <a target="_blank" copyright="gitcode">Gitcode</a>
                   </p>
-                  <p>> 商业版与社区版功能相同。<br />采用PostgreSQL数据库，且不同版本对注册量有一定限制（在线人数、并发量等没有限制）。</p>
                 </div>
             </div>
             <!--说明信息-->
@@ -144,6 +171,7 @@
                   </p>
                   <p>2、将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在站点根目录即可。</p>                                             
                   <p>3、主域授权的后缀仅限：<xsl:value-of select="License/LimitDomain"/>。</p>
+                  <img copyright="weixinqr" width="120px" />
                 </div>
             </div>
             <!-- 激活码  START-->
