@@ -738,6 +738,8 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="size">每页取多少数据</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>

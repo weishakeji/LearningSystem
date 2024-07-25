@@ -47,7 +47,7 @@
             </section>
           </header>
           <!--头部结束，产品介绍，内容开始-->
-          <div class="content">
+          <div class="details">
             <p copyright="intro" class="tip"></p>
             <p copyright="detail" class="tip"></p>
           </div>

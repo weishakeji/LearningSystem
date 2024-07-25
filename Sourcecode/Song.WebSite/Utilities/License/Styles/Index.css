@@ -341,24 +341,30 @@ dl.limitItems dd::before {
     margin-right: 15px;
     color: #777;
 }
-.protocol .opensourse a:hover{
+
+.protocol .opensourse a:hover {
     text-decoration: underline;
 }
-a[copyright="gitee"]{
+
+a[copyright="gitee"] {
     color: brown !important;
 }
-a[copyright="gitee"]::before{
+
+a[copyright="gitee"]::before {
     content: '\e686';
-    font-size: 19px;    
+    font-size: 19px;
 }
-a[copyright="github"]::before{
+
+a[copyright="github"]::before {
     content: '\e691';
     font-size: 22px;
 }
-a[copyright="gitcode"]::before{
+
+a[copyright="gitcode"]::before {
     content: '\e715';
     font-size: 20px;
 }
+
 /*激活码*/
 .code dl {
     counter-reset: show-list;
@@ -403,9 +409,11 @@ table.editions th,
 table.editions td {
     border: none;
 }
-table.editions td[item=名称]{
+
+table.editions td[item=名称] {
     width: 120px;
 }
+
 table.editions td[item=版本] {
     font-size: 16px;
     text-align: left;
@@ -471,9 +479,14 @@ footer * {
         margin-right: 0px;
     }
 
+    .details {
+        display: none !important;
+    }
+
     /*中部内容区*/
     .context {
         display: block;
+
     }
 
     .context>* {
@@ -523,9 +536,11 @@ footer * {
     table.editions tr td:nth-child(8), table.editions tr th:nth-child(8) {
         display: table-cell;
     }
-    table.editions td[item=名称]{
+
+    table.editions td[item=名称] {
         width: 80px;
     }
+
     footer {
         flex-direction: column;
     }
