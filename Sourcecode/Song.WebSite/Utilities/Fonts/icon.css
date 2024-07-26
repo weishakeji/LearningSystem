@@ -181,27 +181,34 @@ icon[qq]::before {
 }
 
 /*帮助、提示*/
-help,help *{
+help, help * {
     color: #777;
 }
-help, alert, help *, alert * {
-    font-size: 13px;
+
+alert, alert * {
+    color: #F56C6C;
+}
+
+warning, warning * {
+    color: #E6A23C;
+}
+
+help, alert, help *, alert *, warning, warning * {
+    font-size: 14px;
     cursor: default;
 }
 
-help::before, alert::before {
+help::before, alert::before, warning::before {
     font-family: "webdesk_icon" !important;
     display: inline-block;
     margin-right: 8px;
     font-size: 16px;
 }
 
-help[large]::before, alert[large]::before {
-    font-size: 25px;
-}
+
 
 /*多行帮助信息*/
-help[multi], alert[multi] {
+help[multi], alert[multi],warning[multi] {
     position: relative;
     display: block;
     padding-left: 25px;
@@ -210,7 +217,7 @@ help[multi], alert[multi] {
 
 }
 
-help[multi]::before, alert[multi]::before {
+help[multi]::before, alert[multi]::before, warning[multi]::before {
     position: absolute;
     left: 0px;
     top: 3px;
@@ -221,14 +228,14 @@ alert[margin] {
     margin: 15px;
 }
 
-help[large], alert[large], help[large] *, alert[large] * {
+help[large], alert[large],warning[large], help[large] *, alert[large] *, warning[large] * {
     font-size: 18px;
     line-height: 30px;
 }
-
-alert {
-    color: #F56C6C;
+help[large]::before, alert[large]::before,warning[large]::before {
+    font-size: 25px;
 }
+
 
 help::before {
     content: "\a026";
@@ -238,6 +245,10 @@ alert::before {
     content: "\e70e";
 }
 
+warning::before {
+    content: "\e646";
+    font-size: 23px;
+}
 /*预载*/
 loading {
     color: #999;

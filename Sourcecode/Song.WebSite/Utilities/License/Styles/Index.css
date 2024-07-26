@@ -333,7 +333,7 @@ dl.limitItems dd::before {
     font-size: 17px;
 }
 
-.protocol dl dd alert {
+.protocol dl dd alert, .protocol dl dd warning {
     font-size: 16px !important;
 }
 
