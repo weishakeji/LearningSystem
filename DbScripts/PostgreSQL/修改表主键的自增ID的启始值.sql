@@ -17,6 +17,7 @@ FROM information_schema.sequences order by sequence_name;
 --修改序列的启始值
 ALTER SEQUENCE "Accounts_Ac_ID_seq" RESTART WITH 10000;
 */
+
 --利用游标，获取序列与所属表、字段
 DO $$
 DECLARE cur_name CURSOR FOR
