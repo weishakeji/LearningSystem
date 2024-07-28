@@ -246,6 +246,12 @@
             if (null == u) return true;
             return regex_match.exec(u) != null;
         },
+        //是否处于APP中
+        isapp: function () {
+            //判断变色龙打包工具
+            let isbsl = window.navigator.userAgent.toLowerCase().indexOf('bsl') > -1;
+            return isbsl;
+        },
         //对象转Json
         toJson: function (value) {
             //将对象中为的DateTime对象转为数值

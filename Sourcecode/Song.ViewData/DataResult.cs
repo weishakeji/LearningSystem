@@ -50,13 +50,17 @@ namespace Song.ViewData
         /// </summary>
         public long Timestamp { get; set; }
         /// <summary>
+        /// 当前系统所采用的数据库的类型，例如SQLite或PostgreSQL
+        /// </summary>
+        public string DataBase { get; set; }
+        /// <summary>
         /// 详细的异常信息
         /// </summary>
         public Exception Exception { get; set; }
         /// <summary>
-        /// 数据类型
+        /// 当前数据的数据类型
         /// </summary>
-        public object DataType { get; set; }
+        public object DataType { get; set; }       
         /// <summary>
         /// 实际返回的数据
         /// </summary>
@@ -80,7 +84,15 @@ namespace Song.ViewData
             DateTime = DateTime.Now;
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds;
             Message = success && obj != null ? "" : "未查询到数据";
+            //数据库类型
+            DataBase = WeiSha.Core.Database.DbType;
         }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="success"></param>
+        /// <param name="span"></param>
         public DataResult(object obj,bool success,double span) :this(obj,success){
             this.ExecSpan = span;
         }
@@ -102,6 +114,9 @@ namespace Song.ViewData
             Message = exception.Message;
             //执行时间
             ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
+            //数据库类型
+            DataBase = WeiSha.Core.Database.DbType;
+
             if (exception is System.Data.SqlClient.SqlException)
             {
                 System.Data.SqlClient.SqlException sqlexc = (System.Data.SqlClient.SqlException)exception;

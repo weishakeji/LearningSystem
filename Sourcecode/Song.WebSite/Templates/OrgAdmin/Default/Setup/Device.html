@@ -15,36 +15,42 @@
                 <div slot="header">
                     <span icon="&#xe677">移动端</span>
                 </div>
-                <el-form-item label="" prop="DisenableWeixin">
-                    <icon slot="label" icon="&#xe730">微信</icon>
-                    <el-switch v-model="config.DisenableWeixin" active-text="禁止在微信中使用"> </el-switch>
+                <el-form-item label="" prop="DisenableMobileDevice">
+                    <span slot="label" icon="&#xe677">移动端</span>
+                    <el-switch v-model="config.DisenableMobileDevice" active-text="禁止所有移动端"> </el-switch>
                 </el-form-item>
-                <el-form-item label="" prop="DisenableMini">
-                    <el-switch v-model="config.DisenableMini" active-text="禁止在微信小程序中使用"> </el-switch>
-                </el-form-item>
-                <el-form-item label="" prop="DisenableMweb">
-                    <icon slot="label" icon="&#xa03d">手机网页</icon>
-                    <el-switch v-model="config.DisenableMweb" active-text="禁止在手机网页中使用"> </el-switch>
-                </el-form-item>
-                <el-form-item label="" prop="DisenableAPP">
-                    <icon slot="label" icon="&#xe820">App</icon>
-                    <el-switch v-model="config.DisenableAPP" active-text="禁止在手机APP中使用"> </el-switch>
-                </el-form-item>
-                <el-form-item label="" prop="IsMobileRemoveMoney">
-                    <icon slot="label" icon="&#xe746">资金显示</icon>
-                    <el-switch v-model="config.IsMobileRemoveMoney" active-text="手机端隐藏关于“充值收费”等资费相关信息"> </el-switch>
-                </el-form-item>
+                <panel :disabled="!config.DisenableMobileDevice">
+                    <el-form-item label="" prop="DisenableWeixin">
+                        <span slot="label" icon="&#xe730">微信</span>
+                        <el-switch v-model="config.DisenableWeixin" active-text="禁止在微信中使用"> </el-switch>
+                    </el-form-item>
+                    <el-form-item label="" prop="DisenableMini">
+                        <el-switch v-model="config.DisenableMini" active-text="禁止在微信小程序中使用"> </el-switch>
+                    </el-form-item>
+                    <el-form-item label="" prop="DisenableMweb">
+                        <span slot="label" icon="&#xa03d">手机网页</span>
+                        <el-switch v-model="config.DisenableMweb" active-text="禁止在手机网页中使用"> </el-switch>
+                    </el-form-item>
+                    <el-form-item label="" prop="DisenableAPP">
+                        <span slot="label" icon="&#xe66b">App</span>
+                        <el-switch v-model="config.DisenableAPP" active-text="禁止在手机APP中使用"> </el-switch>
+                    </el-form-item>
+                    <el-form-item label="" prop="IsMobileRemoveMoney">
+                        <span slot="label" icon="&#xe746">资金显示</span>
+                        <el-switch v-model="config.IsMobileRemoveMoney" active-text="手机端隐藏关于“充值收费”等资费相关信息"> </el-switch>
+                    </el-form-item>
+                </panel>
             </el-card>
             <el-card shadow="hover">
                 <div slot="header">
                     <span icon="&#xe609">电脑端</span>
                 </div>
                 <el-form-item label="" prop="IsWebRemoveMoney">
-                    <icon slot="label" icon="&#xe746">资金显示</icon>
+                    <span slot="label" icon="&#xe746">资金显示</span>
                     <el-switch v-model="config.IsWebRemoveMoney" active-text="电脑端隐藏资金相关信息"> </el-switch>
                 </el-form-item>
                 <el-form-item label="" prop="WebForDeskapp">
-                    <icon slot="label" icon="&#xe820">桌面应用</icon>
+                    <span slot="label" icon="&#xe820">桌面应用</span>
                     <el-switch v-model="config.WebForDeskapp" active-text="当前系统必须运行于桌面应用之中"> </el-switch>
                     <help multi>如果本地未安装桌面应用，请勿轻易勾选</help>
                 </el-form-item>
@@ -63,7 +69,7 @@
                 </el-button>
             </div>
         </el-form>
-      
+
     </div>
 </body>
 

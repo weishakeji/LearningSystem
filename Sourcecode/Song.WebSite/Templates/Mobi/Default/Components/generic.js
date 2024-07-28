@@ -20,27 +20,39 @@ Vue.component('generic', {
         'config': {
             handler: function (nv, ov) {
                 if ($api.isnull(nv)) return;
-                //是否在手机中
-                let ismobi = $api.ismobi();
-                let disenableMweb = nv.DisenableMweb ? nv.DisenableMweb : false;
-                if (disenableMweb && ismobi) {
-                    return this.goAccessDenied('禁止手机端访问');
+
+                let ismobi = $api.ismobi();   //是否在手机中     
+                let isapp=$api.isapp();         //是否在APP中
+                let isWeixin = $api.isWeixin(); //是否在微信中              
+                let isWeixinApp = $api.isWeixinApp();     //是否在微信小程序中
+
+                //是否允许在手机端运行
+                let disenableMobileDevice = nv.DisenableMobileDevice ? nv.DisenableMobileDevice : false;
+                if (disenableMobileDevice && ismobi) {
+
+                    return this.goAccessDenied('禁止手机端端访问');
                 }
-                //是否在微信中
-                let isWeixin = $api.isWeixin();
+                //是否允许在手机网页中运行
+                let disenableMweb = nv.DisenableMweb ? nv.DisenableMweb : false;
+                if (disenableMweb && (ismobi && !(isWeixin || isWeixinApp || isapp ))) {
+
+                    return this.goAccessDenied('禁止手机网页中端访问');
+                }
+                //是否允许在微信中运行
                 let disenableWeixin = nv.DisenableWeixin ? nv.DisenableWeixin : false;
                 if (disenableWeixin && isWeixin) {
                     return this.goAccessDenied('禁止在微信中访问');
                 }
-                //是否在微信小程序中
-                let isWeixinApp = $api.isWeixinApp();
+                //是否允许运行在微信小程序中
                 let disenableMini = nv.DisenableMini ? nv.DisenableMini : false;
                 if (disenableMini && isWeixinApp) {
                     return this.goAccessDenied('禁止在微信小程序中访问');
                 }
-                //是否在手机APP中
-                //..(还没有编写)
-                //console.log(nv);
+                //是否允许在手机APP中
+                let disenableAPP = nv.DisenableAPP ? nv.DisenableAPP : false;
+                if (disenableAPP && isapp) {
+                    return this.goAccessDenied('禁止APP中访问');
+                }
             }, immediate: true
         },
     },

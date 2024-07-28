@@ -1,0 +1,20 @@
+/*控件的面板*/
+
+.ws_disabled {
+    position: relative;
+}
+
+.ws_disabled::after{
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    left: 0px;
+    top: 0px;
+}
+
+.table.el-table__body tr.ws_disabled td img, .ws_disabled * {
+    color: #aaa !important;
+}
