@@ -59,13 +59,14 @@
                     <el-checkbox v-model="config.IsTraningLogin">试题练习需要学员登录后才能操作</el-checkbox>
                 </el-form-item>
             </el-card>
+            <div></div>
+            <div class="btn_bar">
+                <el-button type="primary" define="enter" native-type="submit" :loading="loading"
+                    @click="btnEnter('entity')">
+                    确认修改
+                </el-button>
+            </div>
         </el-form>
-        <div id="footer-box">
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading"
-                @click="btnEnter('entity')">
-                确认修改
-            </el-button>
-        </div>
     </div>
 </body>
 

@@ -55,14 +55,15 @@
                     <el-checkbox v-model="config.FreeForDeskapp">免费课程和试用章节除外</el-checkbox>
                 </el-form-item>
             </el-card>
+            <div></div>
+            <div class="btn_bar">
+                <el-button type="primary" define="enter" native-type="submit" :loading="loading"
+                    @click="btnEnter('entity')">
+                    确认修改
+                </el-button>
+            </div>
         </el-form>
-        <div id="footer-box">
-
-            <el-button type="primary" define="enter" native-type="submit" :loading="loading"
-                @click="btnEnter('entity')">
-                确认修改
-            </el-button>
-        </div>
+      
     </div>
 </body>
 

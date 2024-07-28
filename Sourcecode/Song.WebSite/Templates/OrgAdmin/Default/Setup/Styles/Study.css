@@ -1,19 +1,20 @@
 ﻿@charset "utf-8";
 
 .el-form {
-	height: calc(100% - 60px);
+	height: calc(100% - 100px);
 	padding-bottom: 0px;
 	overflow-y: auto;
 	box-sizing: border-box;
 	display: flex;
 	flex-wrap:wrap;	
+	max-width: 1500px;
 }
-
-.el-card {
+.el-form>*{	
 	width: 600px;	
 	margin: 0px 10px 10px 0px;
-	background-color: #fff !important;
 }
+
+
 
 .el-card__header *[icon]::before {
 	font-size: 20px;
@@ -22,11 +23,9 @@
 /*底部按钮区*/
 #footer-box {
 	background-color: #fff;
-	width: 100%;
-	position: absolute;
+	width: 1220px;
 	height: 50px;
-	padding: 10px 10px 0px 155px;
+	padding: 0px;
 	box-sizing: border-box;
-	left: 0px;
-	bottom: 0px;
+	text-align: right;
 }

@@ -7,13 +7,15 @@
 	box-sizing: border-box;
 	display: flex;
     justify-content: flex-start;
-    max-width: 1000px;
+	flex-wrap: wrap;
+    max-width: 1100px;
 }
-
-.el-card {
-	width: 500px;	
-	flex: 1;
+.el-form>*{
+	
+	min-width: 500px;	
 	margin: 0px 10px 10px 0px;
+}
+.el-card {		
 	background-color: #fff !important;
 }
 
@@ -22,13 +24,6 @@
 }
 
 /*底部按钮区*/
-#footer-box {
-	background-color: #fff;
-	width: 100%;
-	position: absolute;
-	height: 50px;
-	padding: 10px 10px 0px 135px;
-	box-sizing: border-box;
-	left: 0px;
-	bottom: 0px;
+.btn_bar{
+	text-align: right;
 }
