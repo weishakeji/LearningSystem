@@ -87,13 +87,12 @@
                 this.$refs.btngroup.modify(row[rowkey]);
             },
             //更改使用状态
-            changeUse: function (row) {
+            changeUse: function (row, column, obj) {
                 var th = this;
                 th.loadingid = row.Org_ID;
+                if (obj != null) row[column] = obj;
                 let exclude = '';
-                for (var key in row) {
-                    if (key != 'Org_IsUse') exclude += key + ',';
-                }
+                for (let key in row) if (key != column) exclude += key + ',';
                 $api.post('Organization/Modify', { 'entity': row, 'exclude': exclude }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
