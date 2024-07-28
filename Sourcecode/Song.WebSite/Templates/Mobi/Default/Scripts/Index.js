@@ -23,6 +23,7 @@ $ready(function () {
 
         },
         created: function () {
+          
         },
         computed: {
         },
