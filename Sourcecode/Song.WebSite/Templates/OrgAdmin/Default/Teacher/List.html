@@ -68,7 +68,7 @@
                 <el-table-column label="姓名/电话" width="230">
                     <template slot-scope="scope">
                         <photo :teacher="scope.row" circle="true" size="45"></photo>
-                        <div class="info" :class="{'woman': scope.row.Th_Sex==2}">
+                        <div class="info" :class="{'woman': scope.row.Th_Sex==2,'man': scope.row.Th_Sex==1}">
                             <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex==1"></icon>
                             <span v-html='showsearch(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Th_Name)"></span>

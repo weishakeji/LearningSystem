@@ -805,9 +805,9 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc, string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum)
         {
-            return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, idcard, size, index, out countSum);
+            return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, idcard,gender,isuse, size, index, out countSum);
         }
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
@@ -819,11 +819,14 @@ namespace Song.ServiceImpls
         /// <param name="acc"></param>
         /// <param name="name"></param>
         /// <param name="phone"></param>
+        /// <param name="idcard"></param>
+        /// <param name="gender"></param>
+        /// <param name="isuse"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
@@ -843,6 +846,8 @@ namespace Song.ServiceImpls
                 wc2.Or(Accounts._.Ac_AccName.Contains(phone.Trim()));
                 wc.And(wc2);
             }
+            if (gender > -1) wc.And(Accounts._.Ac_Sex == gender);
+            if (isuse != null) wc.And(Accounts._.Ac_IsUse == (bool)isuse);
             countSum = Gateway.Default.Count<Accounts>(wc);
             Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
             foreach (Song.Entities.Accounts ac in accs)

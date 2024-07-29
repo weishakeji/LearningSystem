@@ -245,7 +245,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc,string name, string phone, string idcard, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc,string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
         /// </summary>
@@ -261,7 +261,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone,string idcard, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone,string idcard, int gender, bool? isuse, int size, int index, out int countSum);
         /// <summary>
         /// 学员账号信息导出
         /// </summary>

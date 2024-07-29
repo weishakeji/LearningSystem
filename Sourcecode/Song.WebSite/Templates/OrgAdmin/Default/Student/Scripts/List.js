@@ -4,7 +4,8 @@ $ready(function () {
         data: {
             form: {
                 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
-                size: 20, index: 1
+                'gender': '-1', 'isuse': '',
+                'size': 20, 'index': 1
             },
             rules: {
                 name: [{ min: 1, max: 10, message: '长度限 1 到 10 个字符', trigger: 'blur' }],

@@ -11,13 +11,20 @@
 	line-height: 24px;	
 	overflow: hidden;
 	font-size: 16px;
-	color: rgb(72, 127, 210);
+	color: #333;
 }
-
+.info>icon:first-child{
+	display: none;
+}
 .woman{
 	color: rgb(240, 104, 117);
 }
-
+.man{
+	color: rgb(72, 127, 210);
+}
+.woman>icon:first-child,.man>icon:first-child{
+	display: inline-block;
+}
 .teacher::before {
 	color: rgb(3, 167, 3);
 	margin: 0px;

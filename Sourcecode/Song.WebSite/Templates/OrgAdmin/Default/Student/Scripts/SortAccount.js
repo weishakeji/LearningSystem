@@ -10,7 +10,7 @@ $ready(function () {
             config: {},
 
             accounts: [],
-            form: { 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '', 'index': 1, 'size': '' },
+            form: { 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '', 'gender': '-1', 'isuse': '','index': 1, 'size': '' },
             total: 1, //总记录数
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
@@ -165,7 +165,7 @@ $ready(function () {
                 showpanel: false,        //是否显示面板
 
                 accounts: [],
-                form: { 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '', 'index': 1, 'size': '' },
+                form: { 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '', 'gender': '-1', 'isuse': '','index': 1, 'size': '' },
                 total: 1, //总记录数
                 totalpages: 1, //总页数
                 selects: [], //数据表中选中的行

@@ -555,13 +555,15 @@ namespace Song.ViewData.Methods
         /// <param name="name">姓名</param>
         /// <param name="phone">电话</param>
         /// <param name="idcard">身份证号</param>
+        /// <param name="gender">性别</param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, long sortid, bool? use, string acc, string name, string phone,string idcard, int index, int size)
+        public ListResult Pager(int orgid, long sortid, bool? use, string acc, string name, string phone,string idcard,int gender,bool? isuse, int index, int size)
         {
             int sum = 0;
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, sortid, use, acc, name, phone, idcard, size, index, out sum);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, sortid, use, acc, name, phone, idcard, gender, isuse, size, index, out sum);
             for (int i = 0; i < accs.Length; i++)
             {
                 accs[i] = _tran(accs[i]);
@@ -583,7 +585,7 @@ namespace Song.ViewData.Methods
         public ListResult PagerOfAll(int orgid, string search, int index, int size)
         {
             int sum = 0;
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, -1, null, search, search, search, search, size, index, out sum);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, -1, null, search, search, search, search,-1,null, size, index, out sum);
             for (int i = 0; i < accs.Length; i++)
             {
                 accs[i] = _tran(accs[i]);
