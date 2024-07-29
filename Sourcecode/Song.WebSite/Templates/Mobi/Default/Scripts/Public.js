@@ -45,8 +45,8 @@
             window.navigateTo(href + dot + search);
             return;
         }
-         //如果参数没有按顺序传，自动调整，例如原本第一个是方法，第二个是资源路径，调用时写反了也可以
-         var func = null, jsfile = [];
+        //如果参数没有按顺序传，自动调整，例如原本第一个是方法，第二个是资源路径，调用时写反了也可以
+        var func = null, jsfile = [];
         for (let i = 0; i < arguments.length; i++) {
             if (arguments[i].constructor === Function) func = arguments[i];
             if (arguments[i] instanceof Array) {
@@ -112,11 +112,20 @@
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt, title) {
+            let message = txt;
+            //匹配标题
+            var regx = /(?<=\().[^\)]+(?=\))/;
+            const result = txt.match(regx);
+            if (result && (title == '' || title == null)) {
+                title = result[0];
+                message = txt.replace(/\(.[^\)]+\)/, '');
+            }
+
             //手机端
             if ($dom.ismobi()) {
-                return vant.Dialog ? vant.Dialog.alert({ message: txt, title: title }) : window.alert_base(txt);
+                vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
             } else {
-                return Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
+                Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
             }
         };
         //重构确认

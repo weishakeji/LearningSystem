@@ -34,8 +34,10 @@ $ready(function () {
                 } else {
                     throw req.data.message;
                 }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+            }).catch(err => {
+                console.error(err);
+                alert(err);
+            }).finally(() => th.loading = false);
         },
         created: function () {
         },

@@ -54,6 +54,10 @@ namespace Song.ViewData
         /// </summary>
         public string DataBase { get; set; }
         /// <summary>
+        /// 版本信息
+        /// </summary>
+        public string Edition { get; set; }
+        /// <summary>
         /// 详细的异常信息
         /// </summary>
         public Exception Exception { get; set; }
@@ -79,13 +83,20 @@ namespace Song.ViewData
             this.Result = obj;
             if (obj != null)
                 this.DataType = obj.GetType().SimpleName();
+
+            //数据库类型
+            DataBase = WeiSha.Core.Database.DbType;
+            Edition = WeiSha.Core.License.Value.Edition;
+
             Success = success;
             State = 1;
             DateTime = DateTime.Now;
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds;
             Message = success && obj != null ? "" : "未查询到数据";
-            //数据库类型
-            DataBase = WeiSha.Core.Database.DbType;
+            if (WeiSha.Core.License.Value.EdtionLevel <= 0)
+                Message = string.Format("{0} ({1} - {2})", Message, Edition, WeiSha.Core.Database.DbType);
+            else
+                Message = string.Format("{0} ({1} - {2})", Message, "DataBase", WeiSha.Core.Database.DbType);
         }
         /// <summary>
         /// 构造方法
@@ -103,6 +114,11 @@ namespace Song.ViewData
         /// <param name="time"></param>
         public DataResult(Exception exc, DateTime time)
         {
+            //数据库类型
+            DataBase = WeiSha.Core.Database.DbType;
+            //版本信息
+            Edition = WeiSha.Core.License.Value.Edition;
+
             Success = false;
             DateTime = DateTime.Now;
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds;
@@ -110,12 +126,15 @@ namespace Song.ViewData
             //异常最深处的消息
             Exception exception = exc;            
             while (exception.InnerException != null)           
-                exception = exception.InnerException;         
-            Message = exception.Message;
+                exception = exception.InnerException;
+            if (WeiSha.Core.License.Value.EdtionLevel <= 0)
+                Message = string.Format("{0} ({1} - {2})", exception.Message, Edition, WeiSha.Core.Database.DbType);
+            else
+                Message = string.Format("{0} ({1} - {2})", exception.Message, "DataBase", WeiSha.Core.Database.DbType);
             //执行时间
             ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
-            //数据库类型
-            DataBase = WeiSha.Core.Database.DbType;
+           
+
 
             if (exception is System.Data.SqlClient.SqlException)
             {

@@ -45,7 +45,7 @@
             var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
             for (var t in arr) arr[t] = $dom.path() + 'Panel/Scripts/' + arr[t] + '.js';
             $dom.load.js(arr, f);
-        },['/Utilities/Panel/Scripts/ctrls.js']);
+        }, ['/Utilities/Panel/Scripts/ctrls.js']);
     };
     //加载必要的资源完成
     //f:加载完成要执行的方法
@@ -124,11 +124,21 @@
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt) {
+            let title = '';
+            let message = txt;
+            //匹配标题
+            var regx = /(?<=\().[^\)]+(?=\))/;
+            const result = txt.match(regx);
+            if (result) {
+                title = result[0];
+                message=txt.replace(/\(.[^\)]+\)/,'');
+            }
+
             //手机端
             if ($dom.ismobi()) {
-                vant.Dialog ? vant.Dialog.alert({ message: txt }) : window.alert_base(txt);
+                vant.Dialog ? vant.Dialog.alert({ message: message, title:title }) : window.alert_base(txt);
             } else {
-                Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
+                Vue.prototype.$alert ? Vue.prototype.$alert(message, title ) : window.alert_base(txt);
             }
         };
     };
