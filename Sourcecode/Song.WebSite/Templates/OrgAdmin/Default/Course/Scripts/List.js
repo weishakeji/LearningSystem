@@ -230,7 +230,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => { });
                     }).catch(() => {
 
@@ -255,7 +255,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
             },

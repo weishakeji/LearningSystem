@@ -62,7 +62,7 @@
                     throw '未查询到数据';
                 }
             }).catch(function (err) {
-                th.$alert(err, '错误');
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);
 
@@ -158,7 +158,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                             console.error(err);
                         }).finally(() => th.loading = false);
                     }
@@ -209,7 +209,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                             console.error(err);
                         }).finally(() => th.loading = false);
                     }
@@ -249,7 +249,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loadingid = 0);
             },
@@ -309,7 +309,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
@@ -332,7 +332,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
@@ -378,7 +378,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading_course = false);
             },

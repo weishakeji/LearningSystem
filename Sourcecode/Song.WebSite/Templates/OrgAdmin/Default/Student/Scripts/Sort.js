@@ -108,7 +108,7 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => th.$alert(err, '错误'))
+                }).catch(err => alert(err))
                     .finally(() => th.loading = false);
             },
             //更改使用状态

@@ -111,7 +111,7 @@ Vue.component('knowledge', {
                     throw d.data.message;
                 }
             }).catch(function (err) {
-                th.$alert(err, '错误');
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading = false);
         },

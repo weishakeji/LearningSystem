@@ -75,7 +75,7 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 });
             },
             //行的拖动

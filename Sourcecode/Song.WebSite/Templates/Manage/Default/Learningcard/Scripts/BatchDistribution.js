@@ -45,7 +45,7 @@
                             th.courses = req.data.result;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 } else {

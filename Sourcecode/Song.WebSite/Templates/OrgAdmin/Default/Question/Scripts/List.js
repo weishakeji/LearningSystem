@@ -175,7 +175,7 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => {
                     th.$nextTick(function () {
@@ -234,7 +234,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => {
                     th.$nextTick(function () {
@@ -318,7 +318,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err, '错误');
+                        alert(err);
                     });
                 }).catch(() => {
 

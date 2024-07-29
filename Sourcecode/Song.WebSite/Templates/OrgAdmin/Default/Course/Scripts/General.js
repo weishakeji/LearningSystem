@@ -120,7 +120,7 @@
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 });
             },
@@ -177,7 +177,7 @@
                                     throw req.data.message;
                                 }
                             }).catch(function (err) {
-                                th.$alert(err, '错误');
+                                alert(err);
                             }).finally(() => th.loading = false);
                         });
                     } else {

@@ -52,7 +52,7 @@ Vue.component('outline_live', {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err, '错误');
+                        alert(err);
                     });
                 } else {
                     console.log('error submit!!');

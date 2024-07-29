@@ -52,7 +52,7 @@
                             th.cardset['courses'] = req.data.result;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 } else {
@@ -60,7 +60,7 @@
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.$alert(err);
+                alert(err);
                 console.error(err);
             }).finally(() => th.cardsetLoading = false);
             this.handleCurrentChange();
@@ -296,7 +296,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loadingid = 0);
             }
         }

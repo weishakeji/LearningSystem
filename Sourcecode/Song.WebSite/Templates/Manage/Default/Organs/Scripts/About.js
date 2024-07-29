@@ -23,7 +23,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     });
                 } else {
@@ -31,7 +31,7 @@ $ready(function () {
                 }
             }).catch(function (err) {
                 th.account = null;
-                th.$alert(err);
+                alert(err);
             }).finally(() => th.loading = false);
         },
         methods: {
@@ -53,7 +53,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     }).finally(() => th.loading = false);
             }

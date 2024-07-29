@@ -100,7 +100,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    th.$alert(err, '错误');
+                    alert(err);
                 });
             },
             //当前增加场次时

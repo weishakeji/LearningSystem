@@ -39,7 +39,7 @@ $ready(function () {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.$alert(err, '错误');
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading = false);
         },
@@ -65,7 +65,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');

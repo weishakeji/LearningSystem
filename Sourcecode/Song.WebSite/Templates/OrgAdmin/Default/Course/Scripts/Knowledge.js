@@ -177,7 +177,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => { });
                     } else {
                         console.log('error submit!!');
@@ -202,7 +202,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loadingid = -1);
             },
             //移除分类
@@ -285,7 +285,7 @@
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err);
+                    alert(err);
                 }).finally(() => th.loading = false);
             },
             //知识的编辑状态
@@ -344,7 +344,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => { });
                     } else {
                         console.log('error submit!!');
@@ -389,7 +389,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loadingid = -1);
             }
         }

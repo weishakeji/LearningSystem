@@ -22,7 +22,7 @@
                     throw '未查询到数据';
                 }
             }).catch(function (err) {
-                th.$alert(err, '错误');
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading_init = false);
 
@@ -59,7 +59,7 @@
                         } else {
                             throw req.data.message;
                         }
-                    }).catch(err => $alert(err, '错误'))
+                    }).catch(err => alert(err))
                         .finally(() => th.loading = false);
                 });
             },

@@ -187,7 +187,7 @@
                     }
                     th.loadingid = 0;
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 });
             },
             //重置密码的弹窗
@@ -232,7 +232,7 @@
                             }
                         }).catch(function (err) {
                             th.loading = false;
-                            th.$alert(err, '错误');
+                            alert(err);
                         });
                     } else {
                         console.log('error submit!!');

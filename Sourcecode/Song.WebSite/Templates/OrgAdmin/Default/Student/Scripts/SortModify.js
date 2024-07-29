@@ -67,7 +67,7 @@ $ready(function () {
                         throw '未查底到数据';
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loading = false);
             },
             //校验名称

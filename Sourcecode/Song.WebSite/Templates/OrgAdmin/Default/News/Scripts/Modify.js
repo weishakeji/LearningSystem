@@ -109,7 +109,7 @@ $ready(function () {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loading = false);
             },
             btnEnter: function (formName, isclose) {
@@ -146,7 +146,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段

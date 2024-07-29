@@ -105,7 +105,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                 }).finally(() => th.loadingid = 0);
             },
             //重置密码的弹窗

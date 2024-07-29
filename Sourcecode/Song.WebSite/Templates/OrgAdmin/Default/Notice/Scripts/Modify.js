@@ -127,7 +127,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err);
+                        alert(err);
                         console.error(err);
                     }).finally(() => th.loading = false);
                 } else {
@@ -137,7 +137,7 @@ $ready(function () {
 
             }).catch(function (err) {
                 th.loading = false;
-                th.$alert(err);
+                alert(err);
                 console.error(err);
             });
         },
@@ -184,7 +184,7 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');

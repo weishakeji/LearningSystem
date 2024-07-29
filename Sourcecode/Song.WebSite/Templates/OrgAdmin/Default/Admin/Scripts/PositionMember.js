@@ -43,7 +43,7 @@ $ready(function () {
                 th.employelist(1);
                 th.getPosiAccount();
             }).catch(function (err) {
-                th.$alert(err, '错误');
+                alert(err);
                 console.error(err);
             }).finally(() => th.loading.init = false);
         },
@@ -91,7 +91,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err, '错误');
+                    alert(err);
                     console.error(err);
                 }).finally(() => th.loading.right = false);
             },
@@ -154,7 +154,7 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        th.$alert(err, '错误');
+                        alert(err);
                         console.error(err);
                     }).finally(() => th.loading.update = false);
             },

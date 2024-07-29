@@ -133,7 +133,7 @@
                                 throw req.config.way + ' ' + req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err);
+                            alert(err);
                         }).finally(() => th.loading = false);
                     }
                 });

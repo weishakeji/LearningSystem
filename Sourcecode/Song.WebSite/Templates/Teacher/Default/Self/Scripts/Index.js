@@ -116,7 +116,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             //window.top.ELEMENT.MessageBox(err, '错误');
-                            th.$alert(err, '错误');
+                            alert(err);
                         });
                     } else {
                         console.log('error submit!!');

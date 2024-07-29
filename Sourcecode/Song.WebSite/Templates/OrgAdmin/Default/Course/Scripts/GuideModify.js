@@ -98,7 +98,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            th.$alert(err, '错误');
+                            alert(err);
                         }).finally(() => { });
                     } else {
                         //未通过验证的字段
