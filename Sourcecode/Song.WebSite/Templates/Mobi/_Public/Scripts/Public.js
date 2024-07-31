@@ -102,11 +102,20 @@
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt, title) {
+            let message = txt;
+            //匹配标题
+            var regx = /(?<=\().[^\)]+(?=\))/;
+            const result = txt.match(regx);
+            if (result) {
+                title = result[0];
+                message=txt.replace(/\(.[^\)]+\)/,'');
+            }
+
             //手机端
             if ($dom.ismobi()) {
-                return vant.Dialog ? vant.Dialog.alert({ message: txt, title: title }) : window.alert_base(txt);
+                vant.Dialog ? vant.Dialog.alert({ message: message, title:title }) : window.alert_base(txt);
             } else {
-                return Vue.prototype.$alert ? Vue.prototype.$alert(txt, title) : window.alert_base(txt);
+                Vue.prototype.$alert ? Vue.prototype.$alert(message, title ) : window.alert_base(txt);
             }
         };
         //重构确认
