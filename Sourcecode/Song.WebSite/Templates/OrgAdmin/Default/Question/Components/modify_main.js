@@ -14,6 +14,7 @@ Vue.component('modify_main', {
                 Cou_ID: 0,
                 Sbj_ID: 0,
                 Ol_ID: 0,
+                Qus_Diff: 3,
                 Ol_Name: '',
                 Qus_IsCorrect: false,
                 Qus_Items: []
