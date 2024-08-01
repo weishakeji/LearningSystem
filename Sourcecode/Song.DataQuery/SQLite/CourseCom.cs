@@ -51,7 +51,7 @@ namespace Song.DataQuery.SQLite
              */
             //实现Sqlite的支持
             //学员购买课程记录中的课程
-            string sql1 = @"select cou.* from ""Course"" as cou left join  ""Student_Course"" as sc 
+            string sql1 = @"select cou.* from ""Course"" as cou inner join  ""Student_Course"" as sc 
                             on cou.""Cou_ID"" = sc.""Cou_ID""
                             where sc.""Ac_ID"" = {{acid}} and sc.""Stc_Type""!=5 and {{enable}} and {{istry}}
                             and {{expired}} ";
