@@ -45,6 +45,7 @@ Vue.component('ques_progress', {
         },
         //进度条显示的数值样式
         format(percentage) {
+            percentage = Math.round(percentage * 100) / 100;
             return this.finished(percentage) ? '完成学习！100%' : '通过率：' + percentage + '%';
         },
         //查看课程学习记录详情

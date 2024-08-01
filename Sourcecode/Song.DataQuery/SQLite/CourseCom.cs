@@ -51,7 +51,7 @@ namespace Song.DataQuery.SQLite
              */
             //实现Sqlite的支持
             //学员购买课程记录中的课程
-            string sql1 = @"select cou.* from ""Course"" as cou inner join  ""Student_Course"" as sc 
+            string sql1 = @"select cou.* from ""Course"" as cou left join  ""Student_Course"" as sc 
                             on cou.""Cou_ID"" = sc.""Cou_ID""
                             where sc.""Ac_ID"" = {{acid}} and sc.""Stc_Type""!=5 and {{enable}} and {{istry}}
                             and {{expired}} ";
@@ -62,10 +62,10 @@ namespace Song.DataQuery.SQLite
                 sql1 = sql1.Replace("{{enable}}", "1=1");
             //购买时间内的
             if (state == 1)
-                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < CURRENT_DATE and  sc.""Stc_EndTime"" > CURRENT_DATE)");
+                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < datetime('now') and  sc.""Stc_EndTime"" > datetime('now'))");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<CURRENT_DATE");
+                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<datetime('now')");
             else
                 sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
@@ -77,7 +77,7 @@ namespace Song.DataQuery.SQLite
                 StudentSort sort = Business.Do<IStudent>().SortSingle(student.Sts_ID);
                 if (sort != null && sort.Sts_IsUse)
                 {
-                    string sql2 = @"select cou.* from ""Course"" as cou right join  ""StudentSort_Course"" as ssc
+                    string sql2 = @"select cou.* from ""Course"" as cou left join  ""StudentSort_Course"" as ssc
                                     on cou.""Cou_ID"" = ssc.""Cou_ID""
                                     where ssc.""Sts_ID"" = " + student.Sts_ID;
                     //如果取过期课程，则去除学员组关联的课程
@@ -89,14 +89,16 @@ namespace Song.DataQuery.SQLite
                 }
             }
             //计算总数
-            string sql_total = @"select count(*) from ({{sql}}) as r";
+            string sql_total = @"select count(*) as count from ({{sql}}) as r";
             if (!string.IsNullOrWhiteSpace(sear)) sql_total += @" where ""Cou_Name"" LIKE '%" + sear + "%'";
             sql_total = sql_total.Replace("{{sql}}", sql1);
             object o = Gateway.Default.FromSql(sql_total).ToScalar();
             countSum = o == null ? 0 : Convert.ToInt32(o);
 
             //综合sql1和sql2,主要是查询
-            string sql3 = @" select muster.*, sc.""Stc_EndTime"",ssc.""Ssc_ID"" from 
+            string sql3 = @" 
+                     select * from (
+                        select muster.*, sc.""Stc_EndTime"",ssc.""Ssc_ID"" from 
 		                    (
 			                    {{sql}}
 		                    ) as muster 
@@ -104,15 +106,15 @@ namespace Song.DataQuery.SQLite
 		                     (
 			                    select * from  ""Student_Course"" as sc
 			                    where sc.""Ac_ID""={{acid}} and sc.""Stc_IsEnable""=1 and sc.""Stc_Type""!=5
-			                    and (sc.""Stc_StartTime""<CURRENT_DATE and  sc.""Stc_EndTime"">CURRENT_DATE)
+			                    and (sc.""Stc_StartTime""<datetime('now') and  sc.""Stc_EndTime"">datetime('now'))
 			                    and sc.""Cou_ID"" not in (select ""Cou_ID"" from  ""StudentSort_Course"" where ""Sts_ID""={{stsid}})			
 		                     ) as sc on muster.""Cou_ID"" = sc.""Cou_ID""
 		                     left join  
 		                     (
 			                    select * from  ""StudentSort_Course"" where ""Sts_ID""={{stsid}}
 		                     ) as ssc  on muster.""Cou_ID"" = ssc.""Cou_ID""  order by muster.""Cou_ID"" desc
-                        LIMIT  {{size}} OFFSET {{index}}";
-            if (!string.IsNullOrWhiteSpace(sear)) sql3 += @" where ""Cou_Name"" LIKE '%" + sear + "%'";
+                        ) where {{where}}  LIMIT  {{size}} OFFSET {{index}}";
+            sql3 = sql3.Replace("{{where}}", !string.IsNullOrWhiteSpace(sear) ? @" ""Cou_Name"" LIKE '%" + sear + "%'" : "1=1");
             sql3 = sql3.Replace("{{sql}}", sql1);
             sql3 = sql3.Replace("{{acid}}", stid.ToString());
             sql3 = sql3.Replace("{{stsid}}", student.Sts_ID.ToString());
@@ -166,10 +168,10 @@ namespace Song.DataQuery.SQLite
                 sql1 = sql1.Replace("{{enable}}", "1=1");
             //购买时间内的
             if (state == 1)
-                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < CURRENT_DATE and  sc.""Stc_EndTime"" > CURRENT_DATE)");
+                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < datetime('now') and  sc.""Stc_EndTime"" > datetime('now'))");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<CURRENT_DATE");
+                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<datetime('now')");
             else
                 sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
@@ -181,7 +183,7 @@ namespace Song.DataQuery.SQLite
                 StudentSort sort = Business.Do<IStudent>().SortSingle(student.Sts_ID);
                 if (sort != null && sort.Sts_IsUse)
                 {
-                    string sql2 = @"select cou.* from ""Course"" as cou right join  ""StudentSort_Course"" as ssc
+                    string sql2 = @"select cou.* from ""Course"" as cou left join  ""StudentSort_Course"" as ssc
                                     on cou.""Cou_ID"" = ssc.""Cou_ID""
                                     where ssc.""Sts_ID"" = " + student.Sts_ID;
                     //如果取过期课程，则去除学员组关联的课程

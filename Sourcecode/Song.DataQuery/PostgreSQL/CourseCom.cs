@@ -62,10 +62,10 @@ namespace Song.DataQuery.PostgreSQL
                 sql1 = sql1.Replace("{{enable}}", "1=1");
             //购买时间内的
             if (state == 1)
-                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < CURRENT_DATE and  sc.""Stc_EndTime"" > CURRENT_DATE)");
+                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < now() and  sc.""Stc_EndTime"" > now())");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<CURRENT_DATE");
+                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<now()");
             else
                 sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
@@ -96,7 +96,9 @@ namespace Song.DataQuery.PostgreSQL
             countSum = o == null ? 0 : Convert.ToInt32(o);
 
             //综合sql1和sql2,主要是查询
-            string sql3 = @" select muster.*, sc.""Stc_EndTime"",ssc.""Ssc_ID"" from 
+            string sql3 = @" 
+                select * from (
+                    select muster.*, sc.""Stc_EndTime"",ssc.""Ssc_ID"" from 
 		                    (
 			                    {{sql}}
 		                    ) as muster 
@@ -104,15 +106,15 @@ namespace Song.DataQuery.PostgreSQL
 		                     (
 			                    select * from  ""Student_Course"" as sc
 			                    where sc.""Ac_ID""={{acid}} and sc.""Stc_IsEnable""=true and sc.""Stc_Type""!=5
-			                    and (sc.""Stc_StartTime""<CURRENT_DATE and  sc.""Stc_EndTime"">CURRENT_DATE)
+			                    and (sc.""Stc_StartTime""<now() and  sc.""Stc_EndTime"">now())
 			                    and sc.""Cou_ID"" not in (select ""Cou_ID"" from  ""StudentSort_Course"" where ""Sts_ID""={{stsid}})			
 		                     ) as sc on muster.""Cou_ID"" = sc.""Cou_ID""
 		                     left join  
 		                     (
 			                    select * from  ""StudentSort_Course"" where ""Sts_ID""={{stsid}}
 		                     ) as ssc  on muster.""Cou_ID"" = ssc.""Cou_ID""  order by muster.""Cou_ID"" desc
-                        LIMIT  {{size}} OFFSET {{index}}";
-            if (!string.IsNullOrWhiteSpace(sear)) sql3 += @" where ""Cou_Name"" ILIKE '%" + sear + "%'";
+                ) where {{where}}  LIMIT  {{size}} OFFSET {{index}}";
+            sql3 = sql3.Replace("{{where}}", !string.IsNullOrWhiteSpace(sear) ? @" ""Cou_Name"" ILIKE '%" + sear + "%'" : "1=1");
             sql3 = sql3.Replace("{{sql}}", sql1);
             sql3 = sql3.Replace("{{acid}}", stid.ToString());
             sql3 = sql3.Replace("{{stsid}}", student.Sts_ID.ToString());
@@ -166,10 +168,10 @@ namespace Song.DataQuery.PostgreSQL
                 sql1 = sql1.Replace("{{enable}}", "1=1");
             //购买时间内的
             if (state == 1)
-                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < CURRENT_DATE and  sc.""Stc_EndTime"" > CURRENT_DATE)");
+                sql1 = sql1.Replace("{{expired}}", @"(sc.""Stc_StartTime"" < now() and  sc.""Stc_EndTime"" > now())");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<CURRENT_DATE");
+                sql1 = sql1.Replace("{{expired}}", @"sc.""Stc_EndTime""<now()");
             else
                 sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
