@@ -137,7 +137,7 @@
                     resolve(req.data.result);
                 } else {
                     console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
+                    throw req.config.way + ' ' + req.data.message;                    
                 }
             }).catch(function (err) {
                 reject(err);

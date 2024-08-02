@@ -30,7 +30,9 @@ Vue.component('ques_progress', {
         },
         //完成度，加了容差之后的
         'progress': function () {
-            return this.percent + this.tolerance >= 100 ? 100 : this.percent;
+            let per=this.percent + this.tolerance >= 100 ? 100 : this.percent;
+            per = Math.round(per * 100) / 100;
+            return per;
         },
         //是否有购买记录
         ispurchase:t=>!$api.isnull(t.purchase)       
@@ -42,7 +44,7 @@ Vue.component('ques_progress', {
             return percentage >= 100;
         },
         //进度条显示的数值样式
-        format(percentage) {
+        format(percentage) {           
             return this.finished(percentage) ? '完成学习！100%' : '通过率：' + percentage + '%';
         },
         gourl:function(){
@@ -52,7 +54,7 @@ Vue.component('ques_progress', {
         }
     },
     template: `<div @click="gourl()">
-    <icon>&#xe75e</icon>
-    <van-progress :percentage="progress" :color="color"></van-progress>
+        <icon>&#xe75e</icon>
+        <van-progress :percentage="progress" :color="color"></van-progress>
     </div>`
 });

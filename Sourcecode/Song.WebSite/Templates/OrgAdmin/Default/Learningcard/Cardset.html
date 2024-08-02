@@ -49,13 +49,13 @@
                         <span title="总数">{{scope.row.Lcs_Count}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="面额" width="80">
+                <el-table-column label="面额" width="100">
                     <template slot-scope="scope">
                         <icon money style="font-size: 14px;"></icon>{{scope.row.Lcs_Price}}
 
                     </template>
                 </el-table-column>
-                <el-table-column label="有效期">
+                <el-table-column label="有效期" width="250"  align="center">
                     <template slot="header">
                         <el-tooltip placement="bottom" effect="light">
                             <help>有效期</help>
@@ -66,12 +66,12 @@
                         </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                        <span class="limit">{{scope.row.Lcs_LimitStart|date('yyyy-MM-dd')}}</span>
                         至
-                        {{scope.row.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+                        <span class="limit">{{scope.row.Lcs_LimitEnd|date('yyyy-MM-dd')}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="学习时长" width="100">
+                <el-table-column label="学习时长" width="120">
                     <template slot="header">
                         <el-tooltip placement="bottom" effect="light">
                             <help>学习时长</help>
@@ -87,7 +87,7 @@
                         {{scope.row.Lcs_Unit}}
                     </template>
                 </el-table-column>
-                <el-table-column label="启用" width="100">
+                <el-table-column label="启用" width="120">
                     <template slot-scope="scope">
                         <el-switch v-model="scope.row.Lcs_IsEnable" size="mini" active-text="启用"
                             @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Lcs_ID">
