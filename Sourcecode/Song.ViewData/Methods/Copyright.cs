@@ -127,12 +127,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Dictionary<string, string> Mark()
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            System.Web.HttpContext context = System.Web.HttpContext.Current;
-            string file = context.Server.MapPath(xmlPath);
-            if (!System.IO.File.Exists(file)) return null;
+            Dictionary<string, string> dic = new Dictionary<string, string>();           
+            //string file = xmlPath;
+            if (!System.IO.File.Exists(xmlPath)) return null;
             System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
-            doc.Load(file);
+            doc.Load(xmlPath);
             XmlNode root = doc.LastChild;
 
             foreach (XmlElement n in root.ChildNodes)
