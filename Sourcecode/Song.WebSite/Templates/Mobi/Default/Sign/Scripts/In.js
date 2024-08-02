@@ -52,6 +52,7 @@ $ready(function () {
                     let referrer = $api.querystring('referrer');
                     if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
                     if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/mobi';
+                    $api.storage('singin_referrer', null);      //去除本地记录的来源页信息
                     window.navigateTo(decodeURIComponent(referrer));
                 }, 200);
             },
