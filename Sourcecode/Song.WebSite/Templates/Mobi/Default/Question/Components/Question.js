@@ -154,9 +154,7 @@ Vue.component('question', {
             return ques;
         },
         //选项的序号转字母
-        toletter: function (index) {
-            return String.fromCharCode(65 + index);
-        },
+        toletter: index => String.fromCharCode(65 + index),
         //试题的正确答案
         sucessAnswer: function () {
             if (this.ques.Qus_Type == 1 || this.ques.Qus_Type == 2) {
@@ -197,7 +195,11 @@ Vue.component('question', {
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
             this.state.index = this.index;
-            this.$emit('answer', this.state, this.ques);
+            //只有点击时，才添加记录的时间
+            let state=$api.clone(this.state);
+            state['time'] = new Date();
+            //触发答题事件
+            this.$emit('answer', state, this.ques);
             if (correct == null) return;
             if (!correct) {
                 let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
@@ -226,10 +228,8 @@ Vue.component('question', {
             ans.selected = !ans.selected;
             //判断是否正确
             this.state['ans'] = String(ans.selected ? ans.Ans_ID : 0);
-            this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
+            this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";          
+            if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });         
             return this.state['correct'] == 'succ';
         },
         //多选题的选择
@@ -267,10 +267,8 @@ Vue.component('question', {
             }
             //判断是否正确
             this.state['ans'] = ans_ids.join(',');
-            this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            if (correct) this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
+            this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";       
+            if (correct) this.$parent.swipe({ 'direction': 2 });            
             return correct;
         },
         //判断题的选择,logic为true或false
@@ -282,10 +280,8 @@ Vue.component('question', {
             }
             var correct = ques.Qus_IsCorrect == logic;
             this.state['ans'] = String(logic);
-            this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
-            //this.$emit('answer', this.state, this.ques);
+            this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";         
+            if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });           
             return this.state['correct'] == 'succ';
         },
         //简答题
@@ -293,8 +289,6 @@ Vue.component('question', {
             var correct = this.state.ans == ques.Qus_Answer;
             this.state['ans'] = this.state.ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
-            //this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
         //填空题
@@ -310,7 +304,6 @@ Vue.component('question', {
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
-            this.state['time'] = new Date();
             return this.state['correct'] == 'succ';
         }
     },
