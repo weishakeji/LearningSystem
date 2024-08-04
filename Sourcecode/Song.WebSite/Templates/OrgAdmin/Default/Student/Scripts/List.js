@@ -3,7 +3,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: {
-                'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                'orgid': '', 'sortid': '', 'use': 'null', 'acc': '', 'name': '', 'phone': '', 'idcard': '',
                 'gender': '-1', 'orderby': '','orderpattr':'',
                 'size': 20, 'index': 1
             },
