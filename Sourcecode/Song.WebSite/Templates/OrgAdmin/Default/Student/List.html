@@ -120,7 +120,7 @@
                         </template>
                     </template>
                 </el-table-column>
-                <el-table-column label="资金/卡券/积分" width="180">
+                <el-table-column  sortable="custom"  prop="Ac_Money" label="资金/卡券/积分" width="180">
                     <template slot-scope="scope">
                         <icon money @click="openSubpage('money',scope.row,'资金明细',800,600,'e818')" title="资金余额">
                             {{scope.row.Ac_Money}}</icon>
