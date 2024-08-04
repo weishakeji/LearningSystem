@@ -4,7 +4,7 @@ $ready(function () {
         data: {
             form: {
                 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
-                'gender': '-1', 'isuse': '',
+                'gender': '-1', 'orderby': '','orderpattr':'',
                 'size': 20, 'index': 1
             },
             rules: {
@@ -96,6 +96,20 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //当表格的排序条件发生变化的时候会触发该事件
+            sortchange: function (column) {
+                //排序方式
+                if (column.order == null || column.order == '') {
+                    this.form.orderby = '';
+                    this.form.orderpattr = '';
+                } else {
+                    let order = column.order.substring(0, 3);
+                    if (order != 'asc') order = 'desc';
+                    this.form.orderpattr = order;
+                    this.form.orderby = column.prop;
+                }
+                this.handleCurrentChange();
             },
             //刷新行数据，
             freshrow: function (id) {

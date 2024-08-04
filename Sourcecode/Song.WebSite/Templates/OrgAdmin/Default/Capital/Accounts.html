@@ -45,7 +45,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="姓名" width="150">
-                    <template slot-scope="scope">
+                    <template slot-scope="scope"> 
                         <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2" class="large">
                             <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Ac_Name)"></span>

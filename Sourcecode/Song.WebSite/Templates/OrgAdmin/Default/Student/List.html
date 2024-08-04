@@ -52,7 +52,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="状态">
-                        <el-radio-group v-model="form.isuse">
+                        <el-radio-group v-model="form.use">
                             <el-radio-button label="">所有</el-radio-button>
                             <el-radio-button label="true">启用</el-radio-button>
                             <el-radio-button label="false">禁用</el-radio-button>
@@ -64,7 +64,7 @@
         <template>
             <el-table ref="datatables" v-loading="loading" border resizable :stripe="true" :data="accounts"
                 tooltip-effect="dark" style="width: 100%" @selection-change="val=>selects=val"
-                @row-dblclick="row=>$refs.btngroup.modifyrow(row)"
+                @row-dblclick="row=>$refs.btngroup.modifyrow(row)" @sort-change="sortchange"
                 :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -104,7 +104,7 @@
 
                     </div>
                 </el-table-column>
-                <el-table-column label="年龄" width="150">
+                <el-table-column  sortable="custom" prop="Ac_Birthday"  label="年龄" width="150">
                     <template slot-scope="scope">
                         <template v-if="!timeisnull(scope.row.Ac_Birthday) && scope.row.Ac_Birthday<new Date()">
                             <div title="年龄">
@@ -148,7 +148,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="最后登录" width="150">
+                <el-table-column  sortable="custom"  prop="Ac_LastTime" label="最后登录" width="150">
                     <template slot-scope="scope">
                         <template v-if="!timeisnull(scope.row.Ac_LastTime)">
                             <div title="时间">

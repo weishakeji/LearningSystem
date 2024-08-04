@@ -773,7 +773,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>
-        /// 分页获取所有的网站账户帐号；
+        /// 分页获取所有的帐号；
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="isUse"></param>
@@ -797,17 +797,21 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sortid">账户分类id</param>
-        /// <param name="isUse"></param>
+        /// <param name="isuse"></param>
         /// <param name="acc"></param>
         /// <param name="name">账户名称</param>
         /// <param name="phone">账户账号</param>
+        /// <param name="idcard"></param>
+        /// <param name="gender">性别,0为所有，1为男，2为女</param>
+        /// <param name="orderby">排序字段</param>
+        /// <param name="orderpattr">排序方式，asc或desc</param> 
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc, string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, bool? isuse, string acc, string name, string phone, string idcard, int gender, string orderby, string orderpattr,  int size, int index, out int countSum)
         {
-            return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, idcard,gender,isuse, size, index, out countSum);
+            return AccountsPager(orgid, sortid, -1, isuse, acc, name, phone, idcard, gender, orderby, orderpattr, size, index, out countSum);
         }
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
@@ -815,24 +819,25 @@ namespace Song.ServiceImpls
         /// <param name="orgid">机构id</param>
         /// <param name="sortid"></param>
         /// <param name="pid">推荐人id</param>
-        /// <param name="isUse"></param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="acc"></param>
         /// <param name="name"></param>
         /// <param name="phone"></param>
         /// <param name="idcard"></param>
-        /// <param name="gender"></param>
-        /// <param name="isuse"></param>
+        /// <param name="gender">性别,0为所有，1为男，2为女</param>
+        /// <param name="orderby">排序字段</param>
+        /// <param name="orderpattr">排序方式，asc或desc</param> 
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isuse, string acc, string name, string phone, string idcard, int gender, string orderby, string orderpattr, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             if (sortid > 0) wc.And(Accounts._.Sts_ID == sortid);
             if (pid > 0) wc.And(Accounts._.Ac_PID == pid);
-            if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            if (isuse != null) wc.And(Accounts._.Ac_IsUse == (bool)isuse);
             //
             if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Contains(acc.Trim()));
             if (!string.IsNullOrWhiteSpace(idcard) && idcard.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Contains(idcard.Trim()));
@@ -847,9 +852,19 @@ namespace Song.ServiceImpls
                 wc.And(wc2);
             }
             if (gender > -1) wc.And(Accounts._.Ac_Sex == gender);
-            if (isuse != null) wc.And(Accounts._.Ac_IsUse == (bool)isuse);
+           
             countSum = Gateway.Default.Count<Accounts>(wc);
-            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
+            //排序方法
+            OrderByClip order = Accounts._.Ac_ID.Desc;
+            if (!string.IsNullOrWhiteSpace(orderby))
+            {
+                string ordtype="asc";
+                if ("asc".Equals(orderpattr, StringComparison.CurrentCultureIgnoreCase) ||
+                    "desc".Equals(orderpattr, StringComparison.CurrentCultureIgnoreCase))
+                    ordtype = orderpattr;
+                order = new OrderByClip(string.Format("__[Accounts]__.__[{0}]__ {1} ", orderby, ordtype));
+            }
+            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(order).ToArray<Accounts>(size, (index - 1) * size);
             foreach (Song.Entities.Accounts ac in accs)
                 _acc_init(ac);
             return accs;

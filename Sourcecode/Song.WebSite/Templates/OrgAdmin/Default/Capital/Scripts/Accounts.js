@@ -3,7 +3,8 @@
         el: '#vapp',
         data: {
             form: {
-                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '','gender': '-1', 'isuse': '',
+                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                'gender': '-1',  'orderby': '','orderpattr':'',
                 size: 20, index: 1
             },
             accounts: [], //账号列表
@@ -42,7 +43,7 @@
                 th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
-                th.form.size = Math.floor(area / 41);
+                th.form.size = Math.floor(area / 48);
                 $api.get("Account/Pager", th.form).then(function (d) {
                     if (d.data.success) {
                         th.accounts = d.data.result;

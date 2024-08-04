@@ -226,6 +226,7 @@ namespace Song.ServiceInterfaces
         /// 分页获取所有的网站账户帐号；
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="isUse"></param>
         /// <param name="size">每页显示几条记录</param>
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
@@ -236,32 +237,38 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sortid">学员分组id</param>
-        /// <param name="isUse"></param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="acc">账户名称</param>
         /// <param name="name">姓名或昵称</param>
         /// <param name="phone">手机号</param>
         /// <param name="idcard">身份证号</param>
+        /// <param name="gender">性别,0为所有，1为男，2为女</param>
+        /// <param name="orderby">排序字段</param>
+        /// <param name="orderpattr">排序方式，asc或desc</param>        
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc,string name, string phone, string idcard, int gender, bool? isuse, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, long sortid, bool? isuse, string acc,string name, string phone, string idcard, int gender, string orderby, string orderpattr, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sortid">学员分组id</param>
         /// <param name="pid">推荐人id</param>
-        /// <param name="isUse"></param>
+        /// <param name="isuse">是否启用</param>
         /// <param name="acc">账户名称</param>
         /// <param name="name">姓名或昵称</param>
         /// <param name="phone">手机号</param>
         /// <param name="idcard">身份证号</param>
+        /// <param name="gender">性别,0为所有，1为男，2为女</param>
+        /// <param name="orderby">排序字段</param>
+        /// <param name="orderpattr">排序方式，asc或desc</param> 
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone,string idcard, int gender, bool? isuse, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isuse, string acc, string name, string phone,string idcard, int gender,string orderby, string orderpattr, int size, int index, out int countSum);
         /// <summary>
         /// 学员账号信息导出
         /// </summary>

@@ -11,21 +11,20 @@
     <div id="app" v-cloak>
         <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="80px">
             <el-row>
-
                 <el-form-item label="">
-                    <icon :man="entity.Ac_Sex!=2" :woman="entity.Ac_Sex==2" class="large">
-                        <span v-html='entity.Ac_Name' v-if="entity.Ac_Name!=''"></span>
-                        <span v-else class="noname">(没有名字)</span>
-                    </icon>
-                    ({{entity.Ac_AccName}})
+                    <avatar :account="entity" circle="true" size="60"></avatar>
+                    <div>
+                        <div>
+                            <icon :man="entity.Ac_Sex!=2" :woman="entity.Ac_Sex==2" class="large">
+                                <span v-html='entity.Ac_Name' v-if="entity.Ac_Name!=''"></span>
+                                <span v-else class="noname">(没有名字)</span>
+                            </icon>
+                            ({{entity.Ac_AccName}})
+                        </div>
+                        <div> 余额： <icon money> <span>{{entity.Ac_Money}}</span> 元</icon></div>
+                    </div>
                 </el-form-item>
-
-            </el-row>
-            <el-row>
-                <el-form-item label="余额" prop="Ac_Name">
-                    <icon money> {{entity.Ac_Money}} 元</icon>                   
-                </el-form-item>
-            </el-row>
+            </el-row>         
             <el-row>
                 <el-form-item label="操作">
                     <template>
@@ -60,7 +59,8 @@
 
         </el-form>
         <div class="footer">
-            <el-button type="primary"   define="enter" native-type="submit" :loading="loading" plain @click="btnEnter('form')">确认
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('form')">确认
             </el-button>
             <el-button type='close'>取消</el-button>
         </div>

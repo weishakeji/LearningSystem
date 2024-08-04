@@ -3,7 +3,8 @@
         el: '#vapp',
         data: {
             form: {
-                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '','gender': '-1', 'isuse': '',
+                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                'gender': '-1',  'orderby': '','orderpattr':'',
                 size: 20, index: 1
             },
             organs: [],
