@@ -30,9 +30,14 @@ div[disabled] {
 
 icon[teacher] {
 	display: block;
-	position: absolute;
-	right: 10px;
-	top: 1px;
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    left: -8px;
+    top: 6px;
+    border-radius: 50%;
+    background-color: #fff;
 }
 
 icon[teacher]::before {
