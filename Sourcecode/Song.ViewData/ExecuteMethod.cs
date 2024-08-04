@@ -436,7 +436,7 @@ namespace Song.ViewData
                 {
                     if (kv.Key.Equals(opi.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        string val = kv.Value.ToString();
+                        string val = kv.Value==null ? string.Empty : kv.Value.ToString();
                         //实体属性的值
                         try
                         {
@@ -444,9 +444,9 @@ namespace Song.ViewData
                             switch (opi.PropertyType.Name)
                             {
                                 case "DateTime":
-                                    if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                                    if (string.IsNullOrWhiteSpace(val))
                                     {
-                                        piValue = DateTime.Now;
+                                        piValue = DateTime.MinValue;
                                         break;
                                     }
                                     DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));

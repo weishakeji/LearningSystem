@@ -106,14 +106,14 @@
                 </el-table-column>
                 <el-table-column  sortable="custom" prop="Ac_Birthday"  label="年龄" width="150">
                     <template slot-scope="scope">
-                        <template v-if="!timeisnull(scope.row.Ac_Birthday) && scope.row.Ac_Birthday<new Date() && scope.row.Ac_Age>0">
-                            <div title="年龄">
+                        <template v-if="(!timeisnull(scope.row.Ac_Birthday) || scope.row.Ac_Age>0 ) && scope.row.Ac_Birthday<new Date() ">
+                            <div title="年龄" v-if="scope.row.Ac_Age>0">
                                 <icon>&#xe84d</icon>
                                 <template v-if="scope.row.Ac_Age>0">
                                     {{scope.row.Ac_Age}} 岁
                                 </template>
                             </div>
-                            <div title="生日">
+                            <div title="生日" v-if="!timeisnull(scope.row.Ac_Birthday)">
                                 <icon>&#xe82c</icon>
                                 {{scope.row.Ac_Birthday|date('yyyy-MM-dd')}}
                             </div>

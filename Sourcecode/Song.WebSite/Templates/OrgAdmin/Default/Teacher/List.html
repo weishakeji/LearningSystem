@@ -111,13 +111,11 @@
                 <el-table-column label="年龄" width="120">
                     <template slot-scope="scope">
                         <template v-if="!timeisnull(scope.row.Th_Birthday) && scope.row.Th_Birthday<new Date()">
-                            <div title="年龄">
+                            <div title="年龄" v-if="scope.row.Th_Age>0">
                                 <icon>&#xe84d</icon>
-                                <template v-if="scope.row.Th_Age>0">
-                                    {{scope.row.Th_Age}} 岁
-                                </template>
+                                {{scope.row.Th_Age}} 岁                               
                             </div>
-                            <div title="生日">
+                            <div title="生日" v-if="!timeisnull(scope.row.Th_Birthday)">
                                 <icon>&#xe82c</icon>
                                 {{scope.row.Th_Birthday|date('yyyy-MM-dd')}}
                             </div>
