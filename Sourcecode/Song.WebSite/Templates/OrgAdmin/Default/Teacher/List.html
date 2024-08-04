@@ -54,8 +54,8 @@
 
         </div>
         <template>
-            <el-table ref="datatables" border resizable v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
-                style="width: 100%" @selection-change="val=>selects=val"
+            <el-table ref="datatables" border resizable v-loading="loading" :stripe="true" :data="datas"
+                tooltip-effect="dark" style="width: 100%" @selection-change="val=>selects=val"
                 @row-dblclick="row=> $refs.btngroup.modifyrow(row)"
                 :row-class-name="data=>{return data.row.Th_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
@@ -65,7 +65,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名/电话" width="230">
+                <el-table-column label="姓名/电话" width="300">
                     <template slot-scope="scope">
                         <photo :teacher="scope.row" circle="true" size="45"></photo>
                         <div class="info" :class="{'woman': scope.row.Th_Sex==2,'man': scope.row.Th_Sex==1}">
@@ -110,28 +110,33 @@
                 </el-table-column>
                 <el-table-column label="年龄" width="120">
                     <template slot-scope="scope">
-                        <div title="年龄">
-                            <icon>&#xe84d</icon>
-                            <template v-if="scope.row.Th_Age>0">
-                                {{scope.row.Th_Age}} 岁
-                            </template>
-                        </div>
-                        <div title="生日">
-                            <icon>&#xe82c</icon>
-                            {{scope.row.Th_Birthday|date('yyyy-MM-dd')}}
-                        </div>
+                        <template v-if="!timeisnull(scope.row.Th_Birthday) && scope.row.Th_Birthday<new Date()">
+                            <div title="年龄">
+                                <icon>&#xe84d</icon>
+                                <template v-if="scope.row.Th_Age>0">
+                                    {{scope.row.Th_Age}} 岁
+                                </template>
+                            </div>
+                            <div title="生日">
+                                <icon>&#xe82c</icon>
+                                {{scope.row.Th_Birthday|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
                     </template>
                 </el-table-column>
                 <el-table-column label="最后登录" width="120">
                     <template slot-scope="scope">
-                        <div title="时间">
-                            <icon>&#xe81a</icon>
-                            {{scope.row.Th_LastTime|date('HH:mm:ss')}}
-                        </div>
-                        <div title="日期">
-                            <icon>&#xe671</icon>
-                            {{scope.row.Th_LastTime|date('yyyy-MM-dd')}}
-                        </div>
+                        <template v-if="!timeisnull(scope.row.Th_LastTime)">
+                            <div title="时间">
+                                <icon>&#xe81a</icon>
+                                {{scope.row.Th_LastTime|date('HH:mm:ss')}}
+                            </div>
+                            <div title="日期">
+                                <icon>&#xe671</icon>
+                                {{scope.row.Th_LastTime|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
+
                     </template>
                 </el-table-column>
                 <el-table-column label="账号">

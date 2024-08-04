@@ -43,7 +43,7 @@
                         </el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="数量" class-name="countscope">
+                <el-table-column label="数量"  width="150"  class-name="countscope">
                     <template slot-scope="scope">
                         <span title="已经使用">{{scope.row.Rs_UsedCount}}</span> 
                         <span> / </span>
@@ -56,11 +56,11 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="有效期">
+                <el-table-column label="有效期" width="250"  align="center">
                     <template slot-scope="scope">
-                        {{scope.row.Rs_LimitStart|date('yyyy-MM-dd')}}
+                        <span class="limit">{{scope.row.Rs_LimitStart|date('yyyy-MM-dd')}}</span>
                         至
-                        {{scope.row.Rs_LimitEnd|date('yyyy-MM-dd')}}
+                        <span class="limit">{{scope.row.Rs_LimitEnd|date('yyyy-MM-dd')}}</span>
                     </template>
 
                 </el-table-column>

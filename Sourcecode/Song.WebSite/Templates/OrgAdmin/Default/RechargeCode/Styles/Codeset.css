@@ -22,3 +22,14 @@ td.countscope .cell span:nth-child(3){
     line-height: 23px;
     vertical-align: middle;
 }
+/*有效期*/
+td span.limit{
+    font-size: 15px;
+    color: #333;
+}
+td span.limit:first-child{
+    margin-right: 5px;
+}
+td span.limit:last-child{
+    margin-left: 5px;
+}

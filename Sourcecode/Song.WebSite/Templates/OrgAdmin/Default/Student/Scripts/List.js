@@ -141,6 +141,13 @@ $ready(function () {
                 var phone = row.Ac_MobiTel1;
                 return phone != '' ? phone : row.Ac_MobiTel2;
             },
+            //时间是否为空
+            timeisnull: function (time) {
+                if (!(Object.prototype.toString.call(time) === '[object Date]'))
+                    return true;
+                if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
+                return false;             
+            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modifyrow(row);

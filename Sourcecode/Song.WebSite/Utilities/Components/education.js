@@ -46,7 +46,15 @@ Vue.component('education', {
                 return v.value == val;
             });
             if (item != null) return item.name;
-            return '未填写';
+            return '(未填写)';
+        },
+        //是否存在
+        isexist: function (val) {
+            var item = this.datas.find(function (v) {
+                return v.value == val;
+            });
+            if (item != null) return true;
+            return false;
         }
     },
     template: `<span class="weisha_education">
@@ -61,7 +69,10 @@ Vue.component('education', {
             </el-select>
         </template>
         <template v-if="ctr_type=='span'">
-            {{getname(value)}}
+            <template v-if="isexist(value)">
+                {{getname(value)}}
+            </template>
+            <span v-else style="color:#aaa;">(未填写)</span>
         </template>
     </span>`
 });

@@ -114,6 +114,13 @@ $ready(function () {
                 var phone = row.Th_PhoneMobi;
                 return phone != '' ? phone : row.Th_Phone;
             },
+            //时间是否为空
+            timeisnull: function (time) {
+                if (!(Object.prototype.toString.call(time) === '[object Date]'))
+                    return true;
+                if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
+                return false;           
+            },
             //复制到粘贴板
             copytext: function (val, textbox) {
                 this.copy(val, textbox).then(function (th) {

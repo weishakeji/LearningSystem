@@ -85,7 +85,7 @@
                             </icon>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
                             <div remark="电话">
-                                <span @dblclick.stop="copytext(showmobi(scope.row))">
+                                <span @dblclick.stop="copytext(showmobi(scope.row))" title="手机号">
                                     <template
                                         v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
                                         <icon mobile></icon>
@@ -103,6 +103,22 @@
                         </div>
 
                     </div>
+                </el-table-column>
+                <el-table-column label="年龄" width="150">
+                    <template slot-scope="scope">
+                        <template v-if="!timeisnull(scope.row.Ac_Birthday) && scope.row.Ac_Birthday<new Date()">
+                            <div title="年龄">
+                                <icon>&#xe84d</icon>
+                                <template v-if="scope.row.Ac_Age>0">
+                                    {{scope.row.Ac_Age}} 岁
+                                </template>
+                            </div>
+                            <div title="生日">
+                                <icon>&#xe82c</icon>
+                                {{scope.row.Ac_Birthday|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
+                    </template>
                 </el-table-column>
                 <el-table-column label="资金/卡券/积分" width="180">
                     <template slot-scope="scope">
@@ -132,7 +148,22 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="身份证">
+                <el-table-column label="最后登录" width="150">
+                    <template slot-scope="scope">
+                        <template v-if="!timeisnull(scope.row.Ac_LastTime)">
+                            <div title="时间">
+                                <icon>&#xe81a</icon>
+                                {{scope.row.Ac_LastTime|date('HH:mm:ss')}}
+                            </div>
+                            <div title="日期">
+                                <icon>&#xe671</icon>
+                                {{scope.row.Ac_LastTime|date('yyyy-MM-dd')}}
+                            </div>
+                        </template>
+                       
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证" width="180">
                     <template slot-scope="scope">
                         <div @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)">
                             <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
