@@ -22,7 +22,10 @@ div[disabled] {
 	color: #8492a6;
 	font-size: 13px;
 }
-
+/*索引列*/
+td.index>div.cell{
+	padding: 0px;
+}
 /*学员账号信息*/
 .account {
 	position: relative;
