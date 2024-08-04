@@ -5,7 +5,9 @@ CREATE INDEX IF NOT EXISTS "Accessory_As_Uid_Type" ON "Accessory" ("As_Uid" DESC
 CREATE INDEX IF NOT EXISTS "Accessory_IX_As_Uid" ON "Accessory" ("As_Uid" DESC);
 CREATE INDEX IF NOT EXISTS "Accessory_IX_Org_ID" ON "Accessory" ("Org_ID" ASC);
 -- 2 . Accounts
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Birthday" ON "Accounts" ("Ac_Birthday" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_IDCardNumber" ON "Accounts" ("Ac_IDCardNumber" DESC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_LastTime" ON "Accounts" ("Ac_LastTime" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_MobiTel1" ON "Accounts" ("Ac_MobiTel1" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Name" ON "Accounts" ("Ac_Name" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_AccName" ON "Accounts" ("Ac_AccName" DESC);
@@ -188,4 +190,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON "ThirdpartyAccounts"
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON "ThirdpartyAccounts" ("Ta_Openid" DESC);
 -- 78 . ThirdpartyLogin
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
---总共索引有：112
+--总共索引有：114
