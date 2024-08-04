@@ -159,7 +159,7 @@ $ready(function () {
             timeisnull: function (time) {
                 if (!(Object.prototype.toString.call(time) === '[object Date]'))
                     return true;
-                if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
+                //if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
                 return false;             
             },
             //双击事件

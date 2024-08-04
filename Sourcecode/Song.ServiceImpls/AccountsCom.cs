@@ -210,19 +210,10 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private Accounts _acc_init(Accounts ac)
         {
-            if (ac != null)
-            {
-                if (ac.Ac_Birthday > DateTime.Now.AddYears(-100))
-                {
-                    ac.Ac_Age = (int)((DateTime.Now - ac.Ac_Birthday).TotalDays / (365 * 3 + 366) * 4);
-                    ac.Ac_Age = ac.Ac_Age > 150 ? 0 : ac.Ac_Age;
-                }
-                else
-                {
-                    if (ac.Ac_Age > 0) ac.Ac_Age = DateTime.Now.Year - ac.Ac_Age;
-                }
-            }
-
+            if (ac == null) return ac;
+            if (ac.Ac_Age > 0) ac.Ac_Age = DateTime.Now.Year - ac.Ac_Age;
+            else
+                ac.Ac_Age = (int)((DateTime.Now - ac.Ac_Birthday).TotalDays / (365 * 3 + 366) * 4);
             return ac;
         }
         /// <summary>
