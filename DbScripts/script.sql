@@ -5,7 +5,7 @@
 
 	数据库类型：PostgreSQL 16
 	
-	生成时间：2024-07-24 14:49:36
+	生成时间：2024-08-04 17:31:11
 
 	提示：
 	        您需要手工创建数据库，然后执行下述代码
@@ -16,7 +16,6 @@
 
 
 -- 创建表 Accessory --
-DROP TABLE IF EXISTS public."Accessory" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Accessory"
 (
 	"As_Id" integer NOT NULL,
@@ -46,7 +45,6 @@ ALTER TABLE "Accessory" ALTER COLUMN "As_Id" SET DEFAULT NEXTVAL('"Accessory_As_
 CREATE UNIQUE INDEX IF NOT EXISTS "Accessory_aaaaaAccessory_PK" ON public."Accessory" USING btree ("As_Id");
 
 -- 创建表 Accounts --
-DROP TABLE IF EXISTS public."Accounts" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Accounts"
 (
 	"Ac_ID" integer NOT NULL,
@@ -117,10 +115,11 @@ ALTER TABLE "Accounts" ALTER COLUMN "Ac_ID" SET DEFAULT NEXTVAL('"Accounts_Ac_ID
 
 INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (2,'tester','','',1978,'13','1995-03-07 00:00:00','e7d5ac9764e621c908e99265d2ae19df','',1002,84,'','31','666@qq.com','410105199503071228','3333ss',False,False,True,True,True,'','::1','2024-01-22 17:58:18','6','777','111','400 6015615','400 6015615',160.0000,'韩梅梅','','河南省,郑州市,金水区','1753-01-01 00:00:00',0,'523656bef604ea1b2519550ffd952802.jpg','HMM',2434,9358,'c4ca4238a0b923820dcc509a6f75849b','','111','','1在','1753-01-01 00:00:00','',2,'我的签名，测试一下下','400 6015615','0f6305210623cffd6f966db6a3606a1c','1','','','','',0,4,15012714616000001,'默认组d');INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (44,'lilei','','',2017,'','2017-09-13 00:00:00','0eddf0907fb4276e31f4e1cee2d9f77a','',0,0,'','81','','','',False,False,True,False,True,'','::1','2017-08-08 16:06:15','','','','18037155756','18037155756',0.0000,'李雷','','','1753-01-01 00:00:00',0,'','LL',1020,1020,'c4ca4238a0b923820dcc509a6f75849b','','55','','','2017-07-16 19:07:57','郑州大学',1,'','','','ss','','','','',0,4,15012714616000001,'默认组d');
 -- 表 Accounts 的索引 --
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Birthday" ON public."Accounts" USING btree ("Ac_Birthday" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "Accounts_aaaaaAccounts_PK" ON public."Accounts" USING btree ("Ac_ID");
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_LastTime" ON public."Accounts" USING btree ("Ac_LastTime" DESC);
 
 -- 创建表 Article --
-DROP TABLE IF EXISTS public."Article" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Article"
 (
 	"Art_ID" bigint NOT NULL,
@@ -172,7 +171,6 @@ CREATE TABLE IF NOT EXISTS public."Article"
 
 
 -- 创建表 Columns --
-DROP TABLE IF EXISTS public."Columns" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Columns"
 (
 	"Col_ID" integer NOT NULL,
@@ -204,7 +202,6 @@ ALTER TABLE "Columns" ALTER COLUMN "Col_ID" SET DEFAULT NEXTVAL('"Columns_Col_ID
 CREATE UNIQUE INDEX IF NOT EXISTS "Columns_aaaaaColumns_PK" ON public."Columns" USING btree ("Col_ID");
 
 -- 创建表 CouponAccount --
-DROP TABLE IF EXISTS public."CouponAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."CouponAccount"
 (
 	"Ca_ID" integer NOT NULL,
@@ -231,7 +228,6 @@ ALTER TABLE "CouponAccount" ALTER COLUMN "Ca_ID" SET DEFAULT NEXTVAL('"CouponAcc
 
 
 -- 创建表 Course --
-DROP TABLE IF EXISTS public."Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Course"
 (
 	"Cou_ID" bigint NOT NULL,
@@ -280,7 +276,6 @@ CREATE TABLE IF NOT EXISTS public."Course"
 
 
 -- 创建表 CoursePrice --
-DROP TABLE IF EXISTS public."CoursePrice" CASCADE;
 CREATE TABLE IF NOT EXISTS public."CoursePrice"
 (
 	"CP_ID" integer NOT NULL,
@@ -304,7 +299,6 @@ ALTER TABLE "CoursePrice" ALTER COLUMN "CP_ID" SET DEFAULT NEXTVAL('"CoursePrice
 
 
 -- 创建表 Depart --
-DROP TABLE IF EXISTS public."Depart" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Depart"
 (
 	"Dep_Id" integer NOT NULL,
@@ -341,7 +335,6 @@ ALTER TABLE "Depart" ALTER COLUMN "Dep_Id" SET DEFAULT NEXTVAL('"Depart_Dep_Id_s
 CREATE UNIQUE INDEX IF NOT EXISTS "Depart_aaaaaDepart_PK" ON public."Depart" USING btree ("Dep_Id");
 
 -- 创建表 EmpAcc_Group --
-DROP TABLE IF EXISTS public."EmpAcc_Group" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpAcc_Group"
 (
 	"Emgr_Id" integer NOT NULL,
@@ -360,7 +353,6 @@ ALTER TABLE "EmpAcc_Group" ALTER COLUMN "Emgr_Id" SET DEFAULT NEXTVAL('"EmpAcc_G
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpAcc_Group_aaaaaEmpAcc_Group_PK" ON public."EmpAcc_Group" USING btree ("Emgr_Id");
 
 -- 创建表 EmpAccount --
-DROP TABLE IF EXISTS public."EmpAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpAccount"
 (
 	"Acc_Id" integer NOT NULL,
@@ -413,7 +405,6 @@ INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthda
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpAccount_aaaaaEmpAccount_PK" ON public."EmpAccount" USING btree ("Acc_Id");
 
 -- 创建表 EmpGroup --
-DROP TABLE IF EXISTS public."EmpGroup" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpGroup"
 (
 	"EGrp_Id" integer NOT NULL,
@@ -436,7 +427,6 @@ INSERT INTO "EmpGroup"("EGrp_Id","EGrp_Intro","EGrp_IsSystem","EGrp_IsUse","EGrp
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpGroup_aaaaaEmpGroup_PK" ON public."EmpGroup" USING btree ("EGrp_Id");
 
 -- 创建表 EmpTitle --
-DROP TABLE IF EXISTS public."EmpTitle" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpTitle"
 (
 	"Title_Id" integer NOT NULL,
@@ -458,7 +448,6 @@ INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpTitle_aaaaaEmpTitle_PK" ON public."EmpTitle" USING btree ("Title_Id");
 
 -- 创建表 ExamGroup --
-DROP TABLE IF EXISTS public."ExamGroup" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ExamGroup"
 (
 	"Eg_ID" integer NOT NULL,
@@ -479,7 +468,6 @@ ALTER TABLE "ExamGroup" ALTER COLUMN "Eg_ID" SET DEFAULT NEXTVAL('"ExamGroup_Eg_
 CREATE UNIQUE INDEX IF NOT EXISTS "ExamGroup_aaaaaExamGroup_PK" ON public."ExamGroup" USING btree ("Eg_ID");
 
 -- 创建表 ExamResults --
-DROP TABLE IF EXISTS public."ExamResults" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ExamResults"
 (
 	"Exr_ID" integer NOT NULL,
@@ -525,7 +513,6 @@ ALTER TABLE "ExamResults" ALTER COLUMN "Exr_ID" SET DEFAULT NEXTVAL('"ExamResult
 CREATE UNIQUE INDEX IF NOT EXISTS "ExamResults_aaaaaExamResults_PK" ON public."ExamResults" USING btree ("Exr_ID");
 
 -- 创建表 Examination --
-DROP TABLE IF EXISTS public."Examination" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Examination"
 (
 	"Exam_ID" integer NOT NULL,
@@ -567,7 +554,6 @@ ALTER TABLE "Examination" ALTER COLUMN "Exam_ID" SET DEFAULT NEXTVAL('"Examinati
 CREATE UNIQUE INDEX IF NOT EXISTS "Examination_aaaaaExamination_PK" ON public."Examination" USING btree ("Exam_ID");
 
 -- 创建表 FuncPoint --
-DROP TABLE IF EXISTS public."FuncPoint" CASCADE;
 CREATE TABLE IF NOT EXISTS public."FuncPoint"
 (
 	"FPI_Id" integer NOT NULL,
@@ -588,7 +574,6 @@ INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","O
 CREATE UNIQUE INDEX IF NOT EXISTS "FuncPoint_aaaaaFuncPoint_PK" ON public."FuncPoint" USING btree ("FPI_Id");
 
 -- 创建表 Guide --
-DROP TABLE IF EXISTS public."Guide" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Guide"
 (
 	"Gu_ID" bigint NOT NULL,
@@ -642,7 +627,6 @@ CREATE TABLE IF NOT EXISTS public."Guide"
 
 
 -- 创建表 GuideColumns --
-DROP TABLE IF EXISTS public."GuideColumns" CASCADE;
 CREATE TABLE IF NOT EXISTS public."GuideColumns"
 (
 	"Gc_ID" integer NOT NULL,
@@ -673,7 +657,6 @@ ALTER TABLE "GuideColumns" ALTER COLUMN "Gc_ID" SET DEFAULT NEXTVAL('"GuideColum
 CREATE UNIQUE INDEX IF NOT EXISTS "GuideColumns_aaaaaGuideColumns_PK" ON public."GuideColumns" USING btree ("Gc_ID");
 
 -- 创建表 InternalLink --
-DROP TABLE IF EXISTS public."InternalLink" CASCADE;
 CREATE TABLE IF NOT EXISTS public."InternalLink"
 (
 	"IL_ID" integer NOT NULL,
@@ -697,7 +680,6 @@ ALTER TABLE "InternalLink" ALTER COLUMN "IL_ID" SET DEFAULT NEXTVAL('"InternalLi
 CREATE UNIQUE INDEX IF NOT EXISTS "InternalLink_aaaaaInternalLink_PK" ON public."InternalLink" USING btree ("IL_ID");
 
 -- 创建表 Knowledge --
-DROP TABLE IF EXISTS public."Knowledge" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Knowledge"
 (
 	"Kn_ID" bigint NOT NULL,
@@ -735,7 +717,6 @@ CREATE TABLE IF NOT EXISTS public."Knowledge"
 
 
 -- 创建表 KnowledgeSort --
-DROP TABLE IF EXISTS public."KnowledgeSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
 (
 	"Kns_ID" bigint NOT NULL,
@@ -755,7 +736,6 @@ CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
 
 
 -- 创建表 LearningCard --
-DROP TABLE IF EXISTS public."LearningCard" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LearningCard"
 (
 	"Lc_ID" integer NOT NULL,
@@ -787,7 +767,6 @@ ALTER TABLE "LearningCard" ALTER COLUMN "Lc_ID" SET DEFAULT NEXTVAL('"LearningCa
 
 
 -- 创建表 LearningCardSet --
-DROP TABLE IF EXISTS public."LearningCardSet" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LearningCardSet"
 (
 	"Lcs_ID" integer NOT NULL,
@@ -822,7 +801,6 @@ ALTER TABLE "LearningCardSet" ALTER COLUMN "Lcs_ID" SET DEFAULT NEXTVAL('"Learni
 
 
 -- 创建表 LimitDomain --
-DROP TABLE IF EXISTS public."LimitDomain" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LimitDomain"
 (
 	"LD_ID" integer NOT NULL,
@@ -839,7 +817,6 @@ ALTER TABLE "LimitDomain" ALTER COLUMN "LD_ID" SET DEFAULT NEXTVAL('"LimitDomain
 INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (1,'邮件服务器2',True,'email');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (2,'',True,'bbs');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (3,'',True,'student');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (4,'',True,'admin');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (5,'',True,'teacher');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (6,'',False,'course');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (7,'',True,'classone');
 
 -- 创建表 Links --
-DROP TABLE IF EXISTS public."Links" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Links"
 (
 	"Lk_Id" integer NOT NULL,
@@ -874,7 +851,6 @@ INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk
 CREATE UNIQUE INDEX IF NOT EXISTS "Links_aaaaaLinks_PK" ON public."Links" USING btree ("Lk_Id");
 
 -- 创建表 LinksSort --
-DROP TABLE IF EXISTS public."LinksSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LinksSort"
 (
 	"Ls_Id" integer NOT NULL,
@@ -901,7 +877,6 @@ INSERT INTO "LinksSort"("Ls_Id","Ls_IsImg","Ls_IsShow","Ls_IsText","Ls_IsUse","L
 CREATE UNIQUE INDEX IF NOT EXISTS "LinksSort_aaaaaLinksSort_PK" ON public."LinksSort" USING btree ("Ls_Id");
 
 -- 创建表 LogForStudentExercise --
-DROP TABLE IF EXISTS public."LogForStudentExercise" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentExercise"
 (
 	"Lse_ID" integer NOT NULL,
@@ -934,7 +909,6 @@ ALTER TABLE "LogForStudentExercise" ALTER COLUMN "Lse_ID" SET DEFAULT NEXTVAL('"
 
 
 -- 创建表 LogForStudentOnline --
-DROP TABLE IF EXISTS public."LogForStudentOnline" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentOnline"
 (
 	"Lso_ID" integer NOT NULL,
@@ -974,7 +948,6 @@ ALTER TABLE "LogForStudentOnline" ALTER COLUMN "Lso_ID" SET DEFAULT NEXTVAL('"Lo
 INSERT INTO "LogForStudentOnline"("Lso_ID","Ac_AccName","Ac_ID","Ac_Name","Lso_Address","Lso_BrowseTime","Lso_Browser","Lso_City","Lso_Code","Lso_CrtTime","Lso_District","Lso_GeogType","Lso_IP","Lso_Info","Lso_LastTime","Lso_Latitude","Lso_LoginDate","Lso_LoginTime","Lso_LogoutTime","Lso_Longitude","Lso_OS","Lso_OnlineTime","Lso_Platform","Lso_Province","Lso_Source","Lso_UID","Org_ID") VALUES (949,'tester',2,'韩梅梅','',0,'Chrome 94.0','',0,'2024-01-22 17:58:18','',0,'::1','账号密码登录','2024-01-22 17:58:18',0.000000000000000,'2024-01-22 00:00:00','2024-01-22 17:58:18','2024-01-22 17:59:18',0.000000000000000,'Windows 10',1,'PC','','电脑网页','e7d5ac9764e621c908e99265d2ae19df',4);
 
 -- 创建表 LogForStudentQuestions --
-DROP TABLE IF EXISTS public."LogForStudentQuestions" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentQuestions"
 (
 	"Lsq_ID" integer NOT NULL,
@@ -997,7 +970,6 @@ ALTER TABLE "LogForStudentQuestions" ALTER COLUMN "Lsq_ID" SET DEFAULT NEXTVAL('
 
 
 -- 创建表 LogForStudentStudy --
-DROP TABLE IF EXISTS public."LogForStudentStudy" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentStudy"
 (
 	"Lss_ID" integer NOT NULL,
@@ -1030,7 +1002,6 @@ ALTER TABLE "LogForStudentStudy" ALTER COLUMN "Lss_ID" SET DEFAULT NEXTVAL('"Log
 
 
 -- 创建表 Logs --
-DROP TABLE IF EXISTS public."Logs" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Logs"
 (
 	"Log_Id" integer NOT NULL,
@@ -1058,7 +1029,6 @@ ALTER TABLE "Logs" ALTER COLUMN "Log_Id" SET DEFAULT NEXTVAL('"Logs_Log_Id_seq"'
 CREATE UNIQUE INDEX IF NOT EXISTS "Logs_aaaaaLogs_PK" ON public."Logs" USING btree ("Log_Id");
 
 -- 创建表 ManageMenu --
-DROP TABLE IF EXISTS public."ManageMenu" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ManageMenu"
 (
 	"MM_Id" integer NOT NULL,
@@ -1107,7 +1077,6 @@ INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font
 CREATE UNIQUE INDEX IF NOT EXISTS "ManageMenu_aaaaaManageMenu_PK" ON public."ManageMenu" USING btree ("MM_Id");
 
 -- 创建表 ManageMenu_Point --
-DROP TABLE IF EXISTS public."ManageMenu_Point" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ManageMenu_Point"
 (
 	"MMP_Id" integer NOT NULL,
@@ -1128,7 +1097,6 @@ ALTER TABLE "ManageMenu_Point" ALTER COLUMN "MMP_Id" SET DEFAULT NEXTVAL('"Manag
 CREATE UNIQUE INDEX IF NOT EXISTS "ManageMenu_Point_aaaaaManageMenu_Point_PK" ON public."ManageMenu_Point" USING btree ("MMP_Id");
 
 -- 创建表 Message --
-DROP TABLE IF EXISTS public."Message" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Message"
 (
 	"Msg_Id" integer NOT NULL,
@@ -1164,7 +1132,6 @@ ALTER TABLE "Message" ALTER COLUMN "Msg_Id" SET DEFAULT NEXTVAL('"Message_Msg_Id
 CREATE UNIQUE INDEX IF NOT EXISTS "Message_aaaaaMessage_PK" ON public."Message" USING btree ("Msg_Id");
 
 -- 创建表 MessageBoard --
-DROP TABLE IF EXISTS public."MessageBoard" CASCADE;
 CREATE TABLE IF NOT EXISTS public."MessageBoard"
 (
 	"Mb_Id" integer NOT NULL,
@@ -1205,7 +1172,6 @@ ALTER TABLE "MessageBoard" ALTER COLUMN "Mb_Id" SET DEFAULT NEXTVAL('"MessageBoa
 CREATE UNIQUE INDEX IF NOT EXISTS "MessageBoard_aaaaaMessageBoard_PK" ON public."MessageBoard" USING btree ("Mb_Id");
 
 -- 创建表 MoneyAccount --
-DROP TABLE IF EXISTS public."MoneyAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."MoneyAccount"
 (
 	"Ma_ID" integer NOT NULL,
@@ -1238,7 +1204,6 @@ ALTER TABLE "MoneyAccount" ALTER COLUMN "Ma_ID" SET DEFAULT NEXTVAL('"MoneyAccou
 
 
 -- 创建表 Navigation --
-DROP TABLE IF EXISTS public."Navigation" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Navigation"
 (
 	"Nav_ID" integer NOT NULL,
@@ -1277,7 +1242,6 @@ INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnN
 CREATE UNIQUE INDEX IF NOT EXISTS "Navigation_aaaaaNavigation_PK" ON public."Navigation" USING btree ("Nav_ID");
 
 -- 创建表 NewsNote --
-DROP TABLE IF EXISTS public."NewsNote" CASCADE;
 CREATE TABLE IF NOT EXISTS public."NewsNote"
 (
 	"Nn_Id" integer NOT NULL,
@@ -1305,7 +1269,6 @@ ALTER TABLE "NewsNote" ALTER COLUMN "Nn_Id" SET DEFAULT NEXTVAL('"NewsNote_Nn_Id
 CREATE UNIQUE INDEX IF NOT EXISTS "NewsNote_aaaaaNewsNote_PK" ON public."NewsNote" USING btree ("Nn_Id");
 
 -- 创建表 Notice --
-DROP TABLE IF EXISTS public."Notice" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Notice"
 (
 	"No_Id" bigint NOT NULL,
@@ -1351,7 +1314,6 @@ INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_C
 </ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',True,False,'',0,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
 
 -- 创建表 OrganLevel --
-DROP TABLE IF EXISTS public."OrganLevel" CASCADE;
 CREATE TABLE IF NOT EXISTS public."OrganLevel"
 (
 	"Olv_ID" integer NOT NULL,
@@ -1373,7 +1335,6 @@ ALTER TABLE "OrganLevel" ALTER COLUMN "Olv_ID" SET DEFAULT NEXTVAL('"OrganLevel_
 INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (1,'',False,True,1,'VIP','vip0',2,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (2,'',False,True,0,'钻石级','vip1',1,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (5,'',True,True,0,'默认机构','default',0,14);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (6,'仅提供在线考试功能。',False,True,0,'在线考试','exam',3,0);
 
 -- 创建表 Organization --
-DROP TABLE IF EXISTS public."Organization" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Organization"
 (
 	"Org_ID" integer NOT NULL,
@@ -1438,7 +1399,6 @@ INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_Ab
 CREATE UNIQUE INDEX IF NOT EXISTS "Organization_aaaaaOrganization_PK" ON public."Organization" USING btree ("Org_ID");
 
 -- 创建表 Outline --
-DROP TABLE IF EXISTS public."Outline" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Outline"
 (
 	"Ol_ID" bigint NOT NULL,
@@ -1475,7 +1435,6 @@ CREATE TABLE IF NOT EXISTS public."Outline"
 
 
 -- 创建表 OutlineEvent --
-DROP TABLE IF EXISTS public."OutlineEvent" CASCADE;
 CREATE TABLE IF NOT EXISTS public."OutlineEvent"
 (
 	"Oe_ID" integer NOT NULL,
@@ -1504,7 +1463,6 @@ ALTER TABLE "OutlineEvent" ALTER COLUMN "Oe_ID" SET DEFAULT NEXTVAL('"OutlineEve
 
 
 -- 创建表 PayInterface --
-DROP TABLE IF EXISTS public."PayInterface" CASCADE;
 CREATE TABLE IF NOT EXISTS public."PayInterface"
 (
 	"Pai_ID" integer NOT NULL,
@@ -1533,7 +1491,6 @@ ALTER TABLE "PayInterface" ALTER COLUMN "Pai_ID" SET DEFAULT NEXTVAL('"PayInterf
 
 
 -- 创建表 PointAccount --
-DROP TABLE IF EXISTS public."PointAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."PointAccount"
 (
 	"Pa_ID" integer NOT NULL,
@@ -1559,7 +1516,6 @@ ALTER TABLE "PointAccount" ALTER COLUMN "Pa_ID" SET DEFAULT NEXTVAL('"PointAccou
 INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1770,2,4,'2023-12-05 04:26:46',1,'账号密码登录','','0004202312050426465585EXAM19','电脑网页',2424,9348,2,10);INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1771,2,4,'2024-01-22 17:58:18',1,'账号密码登录','','0004202401220558185804EXAM14','电脑网页',2434,9358,2,10);
 
 -- 创建表 Position --
-DROP TABLE IF EXISTS public."Position" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Position"
 (
 	"Posi_Id" integer NOT NULL,
@@ -1582,7 +1538,6 @@ INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin"
 CREATE UNIQUE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON public."Position" USING btree ("Posi_Id");
 
 -- 创建表 ProfitSharing --
-DROP TABLE IF EXISTS public."ProfitSharing" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ProfitSharing"
 (
 	"Ps_ID" integer NOT NULL,
@@ -1606,7 +1561,6 @@ ALTER TABLE "ProfitSharing" ALTER COLUMN "Ps_ID" SET DEFAULT NEXTVAL('"ProfitSha
 INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (1,0,0,'含自身，则为三级',True,True,1,0.0000,0,'二级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (4,0,30,'',False,True,1,0.0000,40,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (9,0,20,'',False,True,7,0.0000,18,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (13,0,0,'含自身，则为四级',True,False,2,0.0000,0,'三级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (14,0,0,'只有直接下线购买课程有提成',True,True,0,0.0000,0,'一级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (15,0,50,'',False,True,1,0.0000,35,'',14);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (17,0,30,'',False,True,0,0.0000,35,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (18,0,30,'',False,True,2,0.0000,20,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (20,0,20,'',False,True,1,0.0000,5,'',13);
 
 -- 创建表 Purview --
-DROP TABLE IF EXISTS public."Purview" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Purview"
 (
 	"Pur_Id" integer NOT NULL,
@@ -1630,7 +1584,6 @@ INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Po
 CREATE UNIQUE INDEX IF NOT EXISTS "Purview_aaaaaPurview_PK" ON public."Purview" USING btree ("Pur_Id");
 
 -- 创建表 QuesAnswer --
-DROP TABLE IF EXISTS public."QuesAnswer" CASCADE;
 CREATE TABLE IF NOT EXISTS public."QuesAnswer"
 (
 	"Ans_Context" text,
@@ -1642,7 +1595,6 @@ CREATE TABLE IF NOT EXISTS public."QuesAnswer"
 
 
 -- 创建表 QuesTypes --
-DROP TABLE IF EXISTS public."QuesTypes" CASCADE;
 CREATE TABLE IF NOT EXISTS public."QuesTypes"
 (
 	"Qt_ID" integer NOT NULL,
@@ -1665,7 +1617,6 @@ ALTER TABLE "QuesTypes" ALTER COLUMN "Qt_ID" SET DEFAULT NEXTVAL('"QuesTypes_Qt_
 
 
 -- 创建表 Questions --
-DROP TABLE IF EXISTS public."Questions" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Questions"
 (
 	"Qus_ID" bigint NOT NULL,
@@ -1701,7 +1652,6 @@ CREATE TABLE IF NOT EXISTS public."Questions"
 
 
 -- 创建表 RechargeCode --
-DROP TABLE IF EXISTS public."RechargeCode" CASCADE;
 CREATE TABLE IF NOT EXISTS public."RechargeCode"
 (
 	"Rc_ID" integer NOT NULL,
@@ -1730,7 +1680,6 @@ ALTER TABLE "RechargeCode" ALTER COLUMN "Rc_ID" SET DEFAULT NEXTVAL('"RechargeCo
 
 
 -- 创建表 RechargeSet --
-DROP TABLE IF EXISTS public."RechargeSet" CASCADE;
 CREATE TABLE IF NOT EXISTS public."RechargeSet"
 (
 	"Rs_ID" integer NOT NULL,
@@ -1757,7 +1706,6 @@ ALTER TABLE "RechargeSet" ALTER COLUMN "Rs_ID" SET DEFAULT NEXTVAL('"RechargeSet
 
 
 -- 创建表 ShowPicture --
-DROP TABLE IF EXISTS public."ShowPicture" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ShowPicture"
 (
 	"Shp_ID" integer NOT NULL,
@@ -1780,7 +1728,6 @@ ALTER TABLE "ShowPicture" ALTER COLUMN "Shp_ID" SET DEFAULT NEXTVAL('"ShowPictur
 
 
 -- 创建表 SingleSignOn --
-DROP TABLE IF EXISTS public."SingleSignOn" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SingleSignOn"
 (
 	"SSO_ID" integer NOT NULL,
@@ -1807,7 +1754,6 @@ ALTER TABLE "SingleSignOn" ALTER COLUMN "SSO_ID" SET DEFAULT NEXTVAL('"SingleSig
 
 
 -- 创建表 SmsFault --
-DROP TABLE IF EXISTS public."SmsFault" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SmsFault"
 (
 	"Smf_Id" integer NOT NULL,
@@ -1831,7 +1777,6 @@ ALTER TABLE "SmsFault" ALTER COLUMN "Smf_Id" SET DEFAULT NEXTVAL('"SmsFault_Smf_
 CREATE UNIQUE INDEX IF NOT EXISTS "SmsFault_aaaaaSmsFault_PK" ON public."SmsFault" USING btree ("Smf_Id");
 
 -- 创建表 SmsMessage --
-DROP TABLE IF EXISTS public."SmsMessage" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SmsMessage"
 (
 	"SMS_Id" integer NOT NULL,
@@ -1857,7 +1802,6 @@ ALTER TABLE "SmsMessage" ALTER COLUMN "SMS_Id" SET DEFAULT NEXTVAL('"SmsMessage_
 CREATE UNIQUE INDEX IF NOT EXISTS "SmsMessage_aaaaaSmsMessage_PK" ON public."SmsMessage" USING btree ("SMS_Id");
 
 -- 创建表 Special --
-DROP TABLE IF EXISTS public."Special" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Special"
 (
 	"Sp_Id" integer NOT NULL,
@@ -1894,7 +1838,6 @@ ALTER TABLE "Special" ALTER COLUMN "Sp_Id" SET DEFAULT NEXTVAL('"Special_Sp_Id_s
 CREATE UNIQUE INDEX IF NOT EXISTS "Special_aaaaaSpecial_PK" ON public."Special" USING btree ("Sp_Id");
 
 -- 创建表 Special_Article --
-DROP TABLE IF EXISTS public."Special_Article" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Special_Article"
 (
 	"Spa_Id" integer NOT NULL,
@@ -1914,7 +1857,6 @@ ALTER TABLE "Special_Article" ALTER COLUMN "Spa_Id" SET DEFAULT NEXTVAL('"Specia
 CREATE UNIQUE INDEX IF NOT EXISTS "Special_Article_aaaaaSpecial_Article_PK" ON public."Special_Article" USING btree ("Spa_Id");
 
 -- 创建表 StudentSort --
-DROP TABLE IF EXISTS public."StudentSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."StudentSort"
 (
 	"Sts_ID" bigint NOT NULL,
@@ -1934,7 +1876,6 @@ CREATE TABLE IF NOT EXISTS public."StudentSort"
 INSERT INTO "StudentSort"("Sts_ID","Dep_CnName","Dep_Id","Org_ID","Org_Name","Sts_Count","Sts_Intro","Sts_IsDefault","Sts_IsUse","Sts_Name","Sts_SwitchPlay","Sts_Tax") VALUES (15012714616000001,'',0,4,'郑州微厦计算机科技有限公司',2,'',True,True,'默认组d',False,2);
 
 -- 创建表 StudentSort_Course --
-DROP TABLE IF EXISTS public."StudentSort_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."StudentSort_Course"
 (
 	"Ssc_ID" integer NOT NULL,
@@ -1953,7 +1894,6 @@ ALTER TABLE "StudentSort_Course" ALTER COLUMN "Ssc_ID" SET DEFAULT NEXTVAL('"Stu
 
 
 -- 创建表 Student_Collect --
-DROP TABLE IF EXISTS public."Student_Collect" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Collect"
 (
 	"Stc_ID" integer NOT NULL,
@@ -1977,7 +1917,6 @@ ALTER TABLE "Student_Collect" ALTER COLUMN "Stc_ID" SET DEFAULT NEXTVAL('"Studen
 
 
 -- 创建表 Student_Course --
-DROP TABLE IF EXISTS public."Student_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Course"
 (
 	"Stc_ID" integer NOT NULL,
@@ -2010,7 +1949,6 @@ ALTER TABLE "Student_Course" ALTER COLUMN "Stc_ID" SET DEFAULT NEXTVAL('"Student
 
 
 -- 创建表 Student_Notes --
-DROP TABLE IF EXISTS public."Student_Notes" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Notes"
 (
 	"Stn_ID" integer NOT NULL,
@@ -2035,7 +1973,6 @@ ALTER TABLE "Student_Notes" ALTER COLUMN "Stn_ID" SET DEFAULT NEXTVAL('"Student_
 
 
 -- 创建表 Student_Ques --
-DROP TABLE IF EXISTS public."Student_Ques" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Ques"
 (
 	"Squs_ID" integer NOT NULL,
@@ -2057,7 +1994,6 @@ ALTER TABLE "Student_Ques" ALTER COLUMN "Squs_ID" SET DEFAULT NEXTVAL('"Student_
 
 
 -- 创建表 Subject --
-DROP TABLE IF EXISTS public."Subject" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Subject"
 (
 	"Sbj_ID" bigint NOT NULL,
@@ -2085,7 +2021,6 @@ CREATE TABLE IF NOT EXISTS public."Subject"
 
 
 -- 创建表 SystemPara --
-DROP TABLE IF EXISTS public."SystemPara" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SystemPara"
 (
 	"Sys_Id" integer NOT NULL,
@@ -2646,7 +2581,6 @@ INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","S
 CREATE UNIQUE INDEX IF NOT EXISTS "SystemPara_aaaaaSystemPara_PK" ON public."SystemPara" USING btree ("Sys_Id");
 
 -- 创建表 Teacher --
-DROP TABLE IF EXISTS public."Teacher" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Teacher"
 (
 	"Th_ID" integer NOT NULL,
@@ -2708,7 +2642,6 @@ ALTER TABLE "Teacher" ALTER COLUMN "Th_ID" SET DEFAULT NEXTVAL('"Teacher_Th_ID_s
 INSERT INTO "Teacher"("Th_ID","Ac_ID","Ac_UID","Dep_Id","Org_ID","Org_Name","Th_AccName","Th_AddrContact","Th_Address","Th_Age","Th_Anwser","Th_Birthday","Th_CodeNumber","Th_CrtTime","Th_Education","Th_Email","Th_IDCardNumber","Th_Intro","Th_IsOpenMobi","Th_IsOpenPhone","Th_IsPass","Th_IsShow","Th_IsUse","Th_Job","Th_LastTime","Th_LinkMan","Th_LinkManPhone","Th_Major","Th_Name","Th_Nation","Th_Native","Th_Phone","Th_PhoneMobi","Th_Photo","Th_Pinyin","Th_Pw","Th_Qq","Th_Qus","Th_RegTime","Th_Score","Th_Sex","Th_Signature","Th_Tax","Th_Title","Th_ViewNum","Th_Weixin","Th_Zip","Ths_ID","Ths_Name") VALUES (28,2,'0f6305210623cffd6f966db6a3606a1c',0,4,'郑州微厦计算机科技有限公司','tester','','',1995,'','1995-03-07 00:00:00','','2016-11-26 17:40:41','31','','410105199503071228','',True,False,True,False,True,'','2024-01-22 17:58:18','','','','韩晓梅','','河南省,郑州市,金水区','','400 6015615','','HXM','e10adc3949ba59abbe56e057f20f883e','','','1753-01-01 00:00:00',0,2,'',0,'',6,'','',1,'讲师');
 
 -- 创建表 TeacherComment --
-DROP TABLE IF EXISTS public."TeacherComment" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherComment"
 (
 	"Thc_ID" integer NOT NULL,
@@ -2734,7 +2667,6 @@ ALTER TABLE "TeacherComment" ALTER COLUMN "Thc_ID" SET DEFAULT NEXTVAL('"Teacher
 
 
 -- 创建表 TeacherHistory --
-DROP TABLE IF EXISTS public."TeacherHistory" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherHistory"
 (
 	"Thh_ID" integer NOT NULL,
@@ -2763,7 +2695,6 @@ ALTER TABLE "TeacherHistory" ALTER COLUMN "Thh_ID" SET DEFAULT NEXTVAL('"Teacher
 
 
 -- 创建表 TeacherSort --
-DROP TABLE IF EXISTS public."TeacherSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherSort"
 (
 	"Ths_ID" integer NOT NULL,
@@ -2784,7 +2715,6 @@ ALTER TABLE "TeacherSort" ALTER COLUMN "Ths_ID" SET DEFAULT NEXTVAL('"TeacherSor
 INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (1,4,'郑州微厦计算机科技有限公司','中级（讲师、中学一级教师、小学高级教师、实验师）',True,True,'讲师',2);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (4,4,'郑州微厦计算机科技有限公司','初级（助教、助理讲师、教员、中学二级教师、中学三级教师、小学一级教师、小学二级教师、助理实验师、实验员）',False,True,'助教',1);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (5,4,'郑州微厦计算机科技有限公司','副高（副教授、中学高级教师、高级讲师、高级实验师）',False,True,'副教授',3);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (6,4,'郑州微厦计算机科技有限公司','正高级（教授、中学研究员级教师）',False,True,'正教授',4);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (7,4,'郑州微厦计算机科技有限公司','',False,False,'金牌大师',5);
 
 -- 创建表 Teacher_Course --
-DROP TABLE IF EXISTS public."Teacher_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Teacher_Course"
 (
 	"Thc_ID" integer NOT NULL,
@@ -2800,7 +2730,6 @@ ALTER TABLE "Teacher_Course" ALTER COLUMN "Thc_ID" SET DEFAULT NEXTVAL('"Teacher
 
 
 -- 创建表 TestPaper --
-DROP TABLE IF EXISTS public."TestPaper" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaper"
 (
 	"Tp_Id" bigint NOT NULL,
@@ -2839,7 +2768,6 @@ CREATE TABLE IF NOT EXISTS public."TestPaper"
 
 
 -- 创建表 TestPaperItem --
-DROP TABLE IF EXISTS public."TestPaperItem" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaperItem"
 (
 	"TPI_ID" integer NOT NULL,
@@ -2863,7 +2791,6 @@ INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TP
 CREATE UNIQUE INDEX IF NOT EXISTS "TestPaperItem_aaaaaTestPagerItem_PK" ON public."TestPaperItem" USING btree ("TPI_ID");
 
 -- 创建表 TestPaperQues --
-DROP TABLE IF EXISTS public."TestPaperQues" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaperQues"
 (
 	"Tq_Id" integer NOT NULL,
@@ -2886,7 +2813,6 @@ ALTER TABLE "TestPaperQues" ALTER COLUMN "Tq_Id" SET DEFAULT NEXTVAL('"TestPaper
 CREATE UNIQUE INDEX IF NOT EXISTS "TestPaperQues_aaaaaTestPaperQues_PK" ON public."TestPaperQues" USING btree ("Tq_Id");
 
 -- 创建表 TestResults --
-DROP TABLE IF EXISTS public."TestResults" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestResults"
 (
 	"Tr_ID" integer NOT NULL,
@@ -2926,7 +2852,6 @@ ALTER TABLE "TestResults" ALTER COLUMN "Tr_ID" SET DEFAULT NEXTVAL('"TestResults
 CREATE UNIQUE INDEX IF NOT EXISTS "TestResults_aaaaaTestResults_PK" ON public."TestResults" USING btree ("Tr_ID");
 
 -- 创建表 ThirdpartyAccounts --
-DROP TABLE IF EXISTS public."ThirdpartyAccounts" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ThirdpartyAccounts"
 (
 	"Ta_ID" integer NOT NULL,
@@ -2947,7 +2872,6 @@ ALTER TABLE "ThirdpartyAccounts" ALTER COLUMN "Ta_ID" SET DEFAULT NEXTVAL('"Thir
 CREATE UNIQUE INDEX IF NOT EXISTS "ThirdpartyAccounts_aaaaaThirdpartyAccounts_PK" ON public."ThirdpartyAccounts" USING btree ("Ta_ID");
 
 -- 创建表 ThirdpartyLogin --
-DROP TABLE IF EXISTS public."ThirdpartyLogin" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ThirdpartyLogin"
 (
 	"Tl_ID" integer NOT NULL,
