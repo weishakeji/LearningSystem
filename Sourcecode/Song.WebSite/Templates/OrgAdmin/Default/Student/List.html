@@ -101,7 +101,6 @@
                                 </span>
                             </div>
                         </div>
-
                     </div>
                 </el-table-column>
                 <el-table-column  sortable="custom" prop="Ac_Birthday"  label="年龄" width="150">
@@ -167,7 +166,6 @@
                     <template slot-scope="scope">
                         <div @dblclick.stop="copytext(scope.row.Ac_IDCardNumber)">
                             <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'></span>
-
                         </div>
                         <div title="籍贯">
                             <span v-html='scope.row.Ac_Native'></span>

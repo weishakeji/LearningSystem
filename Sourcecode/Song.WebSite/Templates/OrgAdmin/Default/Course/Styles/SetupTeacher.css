@@ -63,17 +63,9 @@ th .el-input{
 icon .large{
 	cursor: pointer;
 }
-.man{
-	color: rgb(73 128 210);
+.el-table{
+	border-top: 1px solid #eee;
 }
-.woman{
-	color: rgb(248, 87, 87);
-}
-.noname{
-	color: #aaa;
-	font-size: 12px;
-}
-
 
 /*详情中的图片*/
 .el-drawer__body .ws_avatar {
