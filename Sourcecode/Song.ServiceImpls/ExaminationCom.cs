@@ -1421,7 +1421,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Accounts> AttendThemeAccounts(int id, string name, string idcard, int stsid, int size, int index, out int countSum)
+        public List<Accounts> AttendThemeAccounts(int id, string name, string idcard, long stsid, int size, int index, out int countSum)
         {
             //下述Sql语句，兼容Sqlserver,postgresql,sqlite
             //当前考试主题下的所有参考学员
@@ -1468,7 +1468,7 @@ namespace Song.ServiceImpls
                 return Gateway.Default.FromSql(result).ToList<Accounts>();
             }
         }
-        public ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index, out int countSum)
+        public ExamResults[] Results(int examid, string name, string idcard, long stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if(examid>0) wc.And(ExamResults._.Exam_ID == examid);
