@@ -1427,27 +1427,30 @@ namespace Song.ServiceImpls
             //当前考试主题下的所有参考学员
             string sql = @"select ""Ac_ID"",max(""Ac_Name"") as Ac_Name,MAX(""Ac_Sex"") as ac_sex,MAX(""Ac_IDCardNumber"") as Ac_IDCardNumber,
                             MAX(""Exr_OverTime"") as Exr_OverTime, MAX(""Sts_ID"") as Sts_ID
-            from ""ExamResults"" where ""Exam_ID"" in
-				(
-                    select ""Exam_ID"" from ""Examination""
-                    where
-                    ""Exam_UID"" in (select ""Exam_UID"" from ""Examination"" where ""Exam_ID"" = {0}) 
-					and ""Exam_IsTheme"" = false
-				) group by ""Ac_ID""";
-            sql = string.Format(sql, id);
+            from ""ExamResults"" where {where} and ({examid}) group by ""Ac_ID""";
+            //考试id的判断条件            
+            Examination[] items = this.ExamItem(id);
+            string examid = string.Empty;
+            for(int i=0;i<items.Length;i++)          
+                examid += @"""Exam_ID""=" + items[0].Exam_ID + (i < items.Length - 1 ? " or " : "");
+            sql = sql.Replace("{examid}", string.IsNullOrWhiteSpace(examid) ? "1=1" : examid);
+            
             //查询条件
-            string where = "where {stsid} and {name} and {idcard}";
-            where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"""Ac_Name ILIKE"" '%" + name + "%'");
-            where = where.Replace("{idcard}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : @"""Ac_IDCardNumber"" ILIKE '%" + idcard + "%'");
+            string where = " {stsid} and {name} and {idcard}";
+            where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"""Ac_Name"" LIKE '%" + name + "%'");
+            where = where.Replace("{idcard}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : @"""Ac_IDCardNumber"" LIKE '%" + idcard + "%'");
             if (stsid > 0) where = where.Replace("{stsid}", @"""Sts_ID""=" + stsid);
             else if (stsid == -1) where = where.Replace("{stsid}", @"""Sts_ID""=0");
             else where = where.Replace("{stsid}", "1=1");
+            sql = sql.Replace("{where}", where);
 
             //数据库类型不同，造成的差异
-            if (Gateway.Default.DbType != DbProviderType.PostgreSQL)
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
                 sql = sql.Replace("true", "1").Replace("false", "0");
+            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
+                sql = sql.Replace("LIKE", "ILIKE");
             //计算总数
-            string total = "select COUNT(*) from ( " + sql + ") as t " + where;
+            string total = "select COUNT(*) as count from ( " + sql + ") as t ";
             object obj = Gateway.Default.FromSql(total).ToScalar();
             countSum = obj == null ? 0 : Convert.ToInt32(obj);
             //查询结果
@@ -1455,14 +1458,14 @@ namespace Song.ServiceImpls
             {
                 int start = (index - 1) * size;
                 int end = (index - 1) * size + size;
-                string result = "select * from (select ROW_NUMBER() OVER(Order by Exr_OverTime desc) AS 'rowid',* from ( " + sql + ") as t " + where + " ) as n where  rowid > {{start}} and rowid<={{end}}";
+                string result = "select * from (select ROW_NUMBER() OVER(Order by Exr_OverTime desc) AS 'rowid',* from ( " + sql + ") as t ) as n where  rowid > {{start}} and rowid<={{end}}";
                 result = result.Replace("{{start}}", start.ToString());
                 result = result.Replace("{{end}}", end.ToString());
                 return Gateway.Default.FromSql(result).ToList<Accounts>();
             }
             else
             {
-                string result = "select * from ( " + sql + ") as t " + where + " LIMIT  {{size}} OFFSET {{index}}";
+                string result = "select * from ( " + sql + ") as t  LIMIT  {{size}} OFFSET {{index}}";
                 result = result.Replace("{{size}}", size.ToString());
                 result = result.Replace("{{index}}", ((index - 1) * size).ToString());
                 return Gateway.Default.FromSql(result).ToList<Accounts>();

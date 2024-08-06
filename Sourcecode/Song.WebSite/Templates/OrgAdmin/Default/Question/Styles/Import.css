@@ -48,3 +48,13 @@
 .upload_excel_area{
     height: calc(100% - 50px) !important;
 }
+/*返回按钮*/
+.back{
+    margin-right: 10px;
+}
+.back span{
+    font-size: 16px;
+}
+.back icon{
+    font-size: 22px;
+}

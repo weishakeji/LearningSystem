@@ -881,7 +881,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult AttendThemeAccounts(int id, string name, string idcard, int stsid, int size,int index)
+        public ListResult AttendThemeAccounts(int id, string name, string idcard, long stsid, int size,int index)
         {
             int total = 0;
             List<Accounts> datas = Business.Do<IExamination>().AttendThemeAccounts(id, name, idcard, stsid,size, index, out total);

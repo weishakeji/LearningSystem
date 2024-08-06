@@ -43,7 +43,9 @@
 th div.cell, td div.cell {
     text-align: center;
 }
-
+td.left div.cell{
+    text-align: left;
+}
 /*考试成绩得分*/
 .score {
     color: #999;

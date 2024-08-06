@@ -321,46 +321,46 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 计算某场考试的平均分
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
         double Avg4Exam(int examid);
         /// <summary>
         /// 某场考试的最高分
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
         double Highest4Exam(int examid);
         /// <summary>
         /// 某场考试的最低分
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
         double Lowest4Exam(int examid);
         /// <summary>
         /// 当前考试的参考人数
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
         int Number4Exam(int examid);
         /// <summary>
         /// 参加考试主题的学员列表
         /// </summary>
         /// <param name="id">考试主题的id</param>
-        /// <param name="name"></param>
-        /// <param name="idcard"></param>
-        /// <param name="stsid"></param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组ID</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Accounts> AttendThemeAccounts(int id, string name, string idcard, int stsid, int size, int index, out int countSum);
+        List<Accounts> AttendThemeAccounts(int id, string name, string idcard, long stsid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的所有人员成绩
         /// </summary>
         /// <param name="examid"></param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard">身份证号</param>
-        /// <param name="stsid"></param>
+        /// <param name="stsid">学员组ID</param>
         /// <param name="min">按分数区间获取记录，此处是最低分</param>
         /// <param name="max">最高分</param>
         /// <param name="manual">是否批阅</param>
@@ -368,7 +368,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, string idcard, int stsid, float min, float max,bool? manual, int size, int index, out int countSum);
+        ExamResults[] Results(int examid, string name, string idcard, long stsid, float min, float max,bool? manual, int size, int index, out int countSum);
       
         /// <summary>
         /// 当前考试场次下的所有人员成绩

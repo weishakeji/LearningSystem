@@ -42,7 +42,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名" width="120">
+                <el-table-column label="姓名" width="150" class-name="left">
                     <template slot-scope="scope">
                         <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
                             v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large"

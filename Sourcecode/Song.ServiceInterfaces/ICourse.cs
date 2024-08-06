@@ -52,7 +52,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 是否为直播课
         /// </summary>
-        /// <param name="couid"></param>
+        /// <param name="couid">课程ID</param>
         /// <returns></returns>
         bool IsLiveCourse(long couid);
         /// <summary>

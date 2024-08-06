@@ -39,16 +39,16 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 修改账户，按条件修改
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="fiels"></param>
-        /// <param name="objs"></param>
+        /// <param name="entity">账号对象的实体</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
         void AccountsUpdate(Accounts entity, Field[] fiels, object[] objs);
         /// <summary>
         /// 修改账户，按条件修改
         /// </summary>
-        /// <param name="acid"></param>
-        /// <param name="fiels"></param>
-        /// <param name="objs"></param>
+        /// <param name="acid">账号ID</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
         void AccountsUpdate(int acid, Field[] fiels, object[] objs);
         /// <summary>
         /// 删除，按主键ID；
@@ -58,8 +58,8 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 删除账户
         /// </summary>
-        /// <param name="entity"></param>
-        void AccountsDelete(Song.Entities.Accounts entity);
+        /// <param name="entity">账号对象的实体</param>
+        void AccountsDelete(Accounts entity);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -67,7 +67,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Accounts AccountsSingle(int identify);
         /// <summary>
-        /// 获取单一实体对象，按网站账户名称
+        /// 获取单一实体对象，按账户名称
         /// </summary>
         /// <param name="accname">账户名称</param>
         /// <param name="pw">密码</param>
@@ -78,14 +78,14 @@ namespace Song.ServiceInterfaces
         /// 通过账号名获取
         /// </summary>
         /// <param name="accname">账户名称</param>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <returns></returns>
         Accounts AccountsSingle(string accname, int orgid);
         /// <summary>
         /// 通过手机号获取账户
         /// </summary>
         /// <param name="phone">手机号</param>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <param name="isPass">是否通过审核</param>
         /// <param name="isUse">是否启用</param>
         /// <returns></returns>
@@ -93,10 +93,10 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 用身份证号查询账号
         /// </summary>
-        /// <param name="idcard"></param>
-        /// <param name="orgid"></param>
-        /// <param name="isPass"></param>
-        /// <param name="isUse"></param>
+        /// <param name="idcard">身份让号</param>
+        /// <param name="orgid">机构ID</param>
+        /// <param name="isPass">是否审核通过</param>
+        /// <param name="isUse">是否启用</param>
         /// <returns></returns>
         Accounts AccountsForIDCard(string idcard, int orgid, bool? isPass, bool? isUse);
         /// <summary>
@@ -109,7 +109,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 通过姓名获取账号
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">账号名称</param>
         /// <returns></returns>
         Accounts[] Account4Name(string name);
         /// <summary>
@@ -122,7 +122,8 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 通过基础账号的id，获取教师账户
         /// </summary>
-        /// <param name="acid"></param>
+        /// <param name="acid">账号ID</param>
+        /// <param name="isPass">是否通过审核的，null为所有</param>
         /// <returns></returns>
         Teacher GetTeacher(int acid, bool? isPass);
         /// <summary>
@@ -149,16 +150,16 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 短信验证登录
         /// </summary>
-        /// <param name="phone"></param>
-        /// <param name="vcode"></param>
+        /// <param name="phone">手机号</param>
+        /// <param name="vcode">校验码</param>
         /// <returns></returns>
         Accounts AccountsLoginSms(string phone, string vcode);
 
         /// <summary>
         /// 用于记录每次登录生成的验证码，用于：同一账号登录时，当前账号下线
         /// </summary>
-        /// <param name="acid"></param>
-        /// <param name="code"></param>
+        /// <param name="acid">账号ID</param>
+        /// <param name="code">登录状态的状态码</param>
         /// <returns></returns>
         void RecordLoginCode(int acid, string code);
         /// <summary>
@@ -185,14 +186,14 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 判断账户是否已经在存，将判断账号与手机号
         /// </summary>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <param name="enity"></param>
         /// <returns></returns>
         Accounts IsAccountsExist(int orgid, Accounts enity);
         /// <summary>
         /// 当前用帐号是否重名
         /// </summary>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <param name="accname"></param>
         /// <param name="answer">安全问题答案</param>
         /// <returns></returns>
@@ -201,8 +202,8 @@ namespace Song.ServiceInterfaces
         /// 获取账户
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="isUse"></param>
-        /// <param name="count"></param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="count">取多少条</param>
         /// <returns></returns>
         Accounts[] AccountsCount(int orgid, bool? isUse, int count);
         /// <summary>
@@ -217,7 +218,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 计算有多少账户
         /// </summary>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <param name="isUse"></param>
         /// <param name="gender">性别</param>
         /// <returns></returns>
@@ -225,7 +226,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 分页获取所有的网站账户帐号；
         /// </summary>
-        /// <param name="orgid"></param>
+        /// <param name="orgid">机构ID</param>
         /// <param name="isUse"></param>
         /// <param name="size">每页显示几条记录</param>
         /// <param name="index">当前第几页</param>
@@ -285,7 +286,7 @@ namespace Song.ServiceInterfaces
         /// <param name="orgs">机构id,用逗号分隔</param>
         /// <returns></returns>
         string AccountsExport4Excel(string path, string orgs);
-        #endregion       
+        #endregion
 
         #region 第三方平台绑定
         /// <summary>
@@ -293,6 +294,8 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acid">本系统账号id</param>
         /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="nickname"></param>
+        /// <param name="headurl"></param>
         /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
         /// <returns></returns>
         Accounts BindThirdparty(int acid, string openid,string nickname,string headurl, string field);
@@ -301,13 +304,31 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acc">本系统账号账号</param>
         /// <param name="openid">第三方平台账号的openid</param>
+        /// <param name="nickname"></param>
+        /// <param name="headurl"></param>
         /// <param name="field">本系统账号记录openid的字段名，类自配置项config.js中的tag,即没有字段前缀Ac_</param>
         /// <returns></returns>
         Accounts BindThirdparty(Song.Entities.Accounts acc, string openid, string nickname, string headurl, string field);
-
+        /// <summary>
+        /// 解绑第三方平台账号的openid
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
         Accounts UnBindThirdparty(int acid, string field);
+        /// <summary>
+        /// 解绑第三方平台账号的openid
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
         Accounts UnBindThirdparty(Song.Entities.Accounts acc, string field);
-
+        /// <summary>
+        /// 获取第三方平台账号
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
         ThirdpartyAccounts ThirdpartyAccount(int acid, string tag);
         #endregion
 
@@ -324,12 +345,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acid">当前账号id</param>
         /// <param name="isUse">是否启用</param>
-        /// <param name="acc"></param>
-        /// <param name="name"></param>
-        /// <param name="phone"></param>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
-        /// <param name="countSum"></param>
+        /// <param name="acc">账号</param>
+        /// <param name="name">名称</param>
+        /// <param name="phone">手机号</param>
+        /// <param name="size">当前页多少条</param>
+        /// <param name="index">第几页</param>
+        /// <param name="countSum">总记录数</param>
         /// <returns></returns>
         Accounts[] SubordinatesPager(int acid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum);
         /// <summary>
@@ -338,6 +359,11 @@ namespace Song.ServiceInterfaces
         /// <param name="accid">当前账户id</param>
         /// <returns></returns>
         Accounts[] Parents(int accid);
+        /// <summary>
+        /// 当前账户的所有父级账户，依次向上
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
         Accounts[] Parents(Accounts acc);
         #endregion
 
@@ -366,13 +392,13 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 增加分享链接的访问积分
         /// </summary>
-        /// <param name="acc"></param>
+        /// <param name="acc">账号对象的实体</param>
         /// <returns></returns>
         void PointAdd4Share(Accounts acc);
         /// <summary>
         /// 增加分享链接的注册积分
         /// </summary>
-        /// <param name="acc"></param>
+        /// <param name="acc">账号对象的实体</param>
         /// <returns></returns>
         void PointAdd4Register(Accounts acc);
         /// <summary>
@@ -421,15 +447,15 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acid">学员账户</param>
         /// <param name="formType">来源分类，1登录，2分享访问；3分享注册；4兑换; </param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">起始时间</param>
+        /// <param name="end">结束时间</param>
         /// <returns></returns>
         int PointClac(int acid, int formType, DateTime? start, DateTime? end);
         /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="st">学员id</param>
+        /// <param name="stid">学员id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
@@ -623,11 +649,13 @@ namespace Song.ServiceInterfaces
         /// <param name="type">1支出，2收入（包括充值、分润等）</param>
         /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
         /// <returns></returns>
-        int MoneyForAccount(int orgid, int type, int from);       
+        int MoneyForAccount(int orgid, int type, int from);
         /// <summary>
         /// 充值的资金量
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="type"></param>
+        /// <param name="from"></param>
         /// <returns></returns>
         decimal MoneyForTotal(int orgid, int type, int from);
         /// <summary>
@@ -718,6 +746,7 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 考试成绩
+
         #endregion
 
         #region 统计数据

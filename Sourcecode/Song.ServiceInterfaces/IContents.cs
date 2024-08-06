@@ -87,12 +87,14 @@ namespace Song.ServiceInterfaces
         /// 当前新闻的上一条新闻
         /// </summary>
         /// <param name="identify"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
         Article ArticlePrev(long identify, int orgid);
         /// <summary>
         /// 当前新闻的下一条新闻
         /// </summary>
         /// <param name="identify"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
         Article ArticleNext(long identify, int orgid);
         /// <summary>
@@ -105,11 +107,20 @@ namespace Song.ServiceInterfaces
         /// 按新闻栏目获取新闻文章
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="colId">栏目id,如果id小于0，则取全部</param>
+        /// <param name="coluid">栏目的UID</param>
         /// <param name="topNum">获取记录数</param>
         /// <param name="order">获取类别，默认null取最新置顶的优先，hot热点优先，flux流量最大优先,img为图片新闻</param>
         /// <returns></returns>
         Article[] ArticleCount(int orgid, string coluid, int topNum, string order);
+        /// <summary>
+        /// 按新闻栏目获取新闻文章
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="coluid">栏目的UID</param>
+        /// <param name="topNum">获取记录数</param>
+        /// <param name="isuse">是否启用</param>
+        /// <param name="order">获取类别，默认null取最新置顶的优先，hot热点优先，flux流量最大优先,img为图片新闻</param>
+        /// <returns></returns>
         Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isuse, string order);
         /// <summary>
         /// 统计文章数量

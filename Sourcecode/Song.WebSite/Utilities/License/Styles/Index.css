@@ -348,17 +348,26 @@ dl.limitItems dd::before {
 }
 
 a[copyright="gitee"] {
-    color: brown !important;
+    color:#e13737 !important;
 }
 
 a[copyright="gitee"]::before {
     content: '\e686';
     font-size: 19px;
 }
+a[copyright="github"] {
+    color:#333 !important;
+    font-size: 16px;
+}
 
 a[copyright="github"]::before {
     content: '\e691';
     font-size: 22px;
+}
+a[copyright="gitcode"] {
+    color:#fb5531 !important;
+
+    font-size: 16px;
 }
 
 a[copyright="gitcode"]::before {
