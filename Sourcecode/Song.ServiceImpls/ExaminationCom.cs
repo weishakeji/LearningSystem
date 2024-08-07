@@ -1431,10 +1431,10 @@ namespace Song.ServiceImpls
             //考试id的判断条件            
             Examination[] items = this.ExamItem(id);
             string examid = string.Empty;
-            for(int i=0;i<items.Length;i++)          
+            for (int i = 0; items != null && i < items.Length; i++)
                 examid += @"""Exam_ID""=" + items[0].Exam_ID + (i < items.Length - 1 ? " or " : "");
             sql = sql.Replace("{examid}", string.IsNullOrWhiteSpace(examid) ? "1=1" : examid);
-            
+
             //查询条件
             string where = " {stsid} and {name} and {idcard}";
             where = where.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"""Ac_Name"" LIKE '%" + name + "%'");
