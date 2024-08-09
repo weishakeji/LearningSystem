@@ -89,31 +89,10 @@ namespace Song.DataQuery.SQLite
         /// 学员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <returns></returns>
-        public DataTable LearningOutcomes(long stsid, bool isall)
+        public DataTable LearningOutcomes(long stsid, bool isnot)
         {
-            //StudentSort sort = this.SortSingle(stsid);
-            //if (sort == null) throw new Exception("StudentSort non-existent");
-            ////课程所在机构
-            //Organization org = Business.Do<IOrganization>().OrganSingle(sort.Org_ID);
-            //if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
-            ////计算综合成绩时，要获取机构的相关参数
-            //WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            ////视频学习的权重   //试题通过率的权重   //结课考试的权重
-            //double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
-            //double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
-            //double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
-            ////视频完成度的容差
-            //double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
-
-
-            //string sql = @"select * from Accounts as ac
-            //            inner join 
-            //            (select * from Student_Course where {{stsid}}) as sc on ac.Ac_id =sc.Ac_id
-            //            left join course on sc.Cou_id=course.cou_id
-            //        where {{stsid2}}  order by sc.ac_id desc";
-
             string sql= @"select * from ""Accounts"" as ac
                         inner join
                         (select* from ""Student_Course"" where {{stsid}) as sc on ac.""Ac_ID"" = sc.""Ac_ID""
@@ -122,7 +101,7 @@ namespace Song.DataQuery.SQLite
             sql = sql.Replace("{{stsid}}", stsid > 0 ? @"""Sts_ID""=" + stsid.ToString() : "1=1");
             sql = sql.Replace("{{stsid2}}", stsid > 0 ? @"ac.""Sts_ID""=" + stsid.ToString() : "1=1");
             //如果取所有学员的记录
-            if (isall) sql = sql.Replace("inner", "left");
+            if (isnot) sql = sql.Replace("inner", "left");
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             //完成度大于100，则等于100
             DataTable dt = ds.Tables[0];
