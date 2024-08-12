@@ -47,6 +47,7 @@
             output_panel: false,      //导出面板
             query: {
                 path: 'MoneyOutputToExcel_' + $api.querystring('id'),     //导出的文件的存储路径
+                orgid:0,
                 acid: $api.querystring('id'),      //学员id 
                 from: -1,     //来源
                 type: -1,     //类型，支出或充值               
@@ -171,7 +172,7 @@
                 //创建生成Excel
                 this.loading_out = true;
                 var th = this;
-                $api.get('Money/ExcelAccountOutput', this.query).then(function (req) {
+                $api.get('Money/ExcelAccountOutput', th.query).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({

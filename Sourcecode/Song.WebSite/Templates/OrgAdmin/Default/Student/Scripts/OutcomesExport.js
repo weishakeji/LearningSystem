@@ -39,11 +39,41 @@ $ready(function () {
 
         },
         methods: {
+            //顶部下拉菜单的事件
+            handleSelect: function (key, keyPath) {
+                console.log(key, keyPath);
+                switch (key) {
+                    case 'output_study':
+                        this.$confirm('导出当前学员组所关联课程的学习记录，<br/><red>仅包括已经参与学习的学员</red>。', '提示', {
+                            confirmButtonText: '确定', cancelButtonText: '取消',
+                            type: 'info', dangerouslyUseHTMLString: true
+                        }).then(() => {
+                            this.btnOutput(false);
+                        }).catch(() => { });                        
+                        break;
+                    case 'output_full':
+                        this.$confirm('导出当前学员组所关联课程的所有学习记录，<br/><red>包括未参与学习的学员</red>。', '提示', {
+                            confirmButtonText: '确定', cancelButtonText: '取消',
+                            type: 'info', dangerouslyUseHTMLString: true
+                        }).then(() => {
+                            this.btnOutput(true);
+                        }).catch(() => { });                       
+                        break;
+                    case 'output_all':
+                        this.$confirm('导出当前学员组的学员所有学习记录，<br/><red>包括学员自主选修的课程（即学员组关联课+学员自主选修课程）</red>。', '提示', {
+                            confirmButtonText: '确定', cancelButtonText: '取消',
+                            type: 'info', dangerouslyUseHTMLString: true
+                        }).then(() => {
+                            alert(3);
+                        }).catch(() => { });
+                        break;
+                }
+            },
             //创建生成Excel
-            btnOutput: function (isall) {
+            btnOutput: function (isnot) {
                 var th = this;
                 th.loading = true;
-                $api.get('Account/SortOutcomesToExcel', { 'stsid': th.id, 'isall': isall }).then(function (req) {
+                $api.get('Account/SortOutcomesToExcel', { 'stsid': th.id, 'isnot': isnot }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -58,8 +88,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                }).catch(err => {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loading = false);
             },
             //获取文件列表
             getFiles: function (hide) {
