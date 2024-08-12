@@ -85,28 +85,7 @@ namespace Song.DataQuery.PostgreSQL
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             return ds.Tables[0];
         }
-        /// <summary>
-        /// 学员组的学员的学习成果
-        /// </summary>
-        /// <param name="stsid">学员组id</param>
-        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
-        /// <returns></returns>
-        public DataTable LearningOutcomes(long stsid, bool isnot)
-        {
-            string sql= @"select * from ""Accounts"" as ac
-                        inner join
-                        (select* from ""Student_Course"" where {{stsid}}) as sc on ac.""Ac_ID"" = sc.""Ac_ID""
-                        left join ""Course"" on sc.""Cou_ID"" = ""Course"".""Cou_ID""
-                    where {{stsid2}}  order by sc.""Ac_ID"" desc";
-            sql = sql.Replace("{{stsid}}", stsid > 0 ? @"""Sts_ID""=" + stsid.ToString() : "1=1");
-            sql = sql.Replace("{{stsid2}}", stsid > 0 ? @"ac.""Sts_ID""=" + stsid.ToString() : "1=1");
-            //如果取所有学员的记录
-            if (isnot) sql = sql.Replace("inner", "left");
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            //完成度大于100，则等于100
-            DataTable dt = ds.Tables[0];
-            return dt;
-        }
+
         /// <summary>
         /// 错题所属的课程
         /// </summary>

@@ -347,7 +347,7 @@ namespace Song.ServiceImpls
             //WhereClip wc = new WhereClip();
             //if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
             //if (level > 0) wc.And(Organization._.Olv_ID == level);
-            //if (!string.IsNullOrWhiteSpace(search)) wc.And(Organization._.Org_Name.Like("%"+search+"%"));
+            //if (!string.IsNullOrWhiteSpace(search)) wc.And(Organization._.Org_Name.Contains(search));
             //return Gateway.Default.From<Organization>().Where(wc)
             //    .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
         }

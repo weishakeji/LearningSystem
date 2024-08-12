@@ -437,7 +437,7 @@ namespace Song.ServiceInterfaces
         /// 获取指定个数的记录
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="st">学员id</param>
+        /// <param name="stid">学员id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="count"></param>
         /// <returns></returns>
@@ -552,7 +552,7 @@ namespace Song.ServiceInterfaces
         /// 分页获取所有的公告；
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="st">学员id</param>
+        /// <param name="stid">学员id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
@@ -667,7 +667,7 @@ namespace Song.ServiceInterfaces
         /// 获取指定个数的记录
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="st">学员id</param>
+        /// <param name="stid">学员id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="isSuccess">是否操作成功</param>
         /// <param name="count"></param>

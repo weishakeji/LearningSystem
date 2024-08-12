@@ -51,7 +51,7 @@
                         <span v-if="scope.row.Exam_DateType==2">时间区间</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="考试时间" width="120" align="center">
+                <el-table-column label="考试时间" width="260" align="center">
                     <template slot-scope="scope">
                         <span v-if="scope.row.Exam_DateType==1"> {{scope.row.Exam_Date|date('yyyy-MM-dd HH:mm')}}</span>
                         <span v-if="scope.row.Exam_DateType==2">
@@ -71,7 +71,7 @@
                         <group :exam="scope.row"></group>
                     </template>
                 </el-table-column>
-                <el-table-column label="管理"  width="100"  align="center" fixed="right">
+                <el-table-column label="管理"  width="120"  align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-link type="primary" plain icon="el-icon-edit"
                             @click.stop='$refs.btngroup.modify(scope.row.Exam_ID)'>

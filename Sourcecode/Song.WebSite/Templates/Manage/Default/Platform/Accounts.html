@@ -74,7 +74,7 @@
                         </icon>
                     </template>
                 </el-table-column>
-                <el-table-column label="电话" width="100">
+                <el-table-column label="电话" width="180">
                     <template slot-scope="scope">
                         <span v-html='showsearch(showmobi(scope.row),form.phone)'
                             @dblclick.stop="copytext(showmobi(scope.row))"></span>

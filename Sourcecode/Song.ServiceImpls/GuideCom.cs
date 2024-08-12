@@ -14,10 +14,13 @@ using System.Data.Common;
 
 namespace Song.ServiceImpls
 {
+    /// <summary>
+    /// 指南
+    /// </summary>
     public class GuideCom :IGuide
     {
         private string _artUppath = "Guide";
-        #region 考试指南
+        #region 增删改查
         /// <summary>
         /// 添加考试指南
         /// </summary>

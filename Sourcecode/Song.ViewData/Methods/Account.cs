@@ -1326,14 +1326,27 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 学员成绩导出
+        /// <summary>
+        /// 学员的学习成果
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
+        public DataTable Outcomes4Student(int acid)
+        {
+            return Business.Do<IStudent>().Outcomes4Student(acid);
+        }
+
+        #endregion
+
         #region 学员组成绩导出
         /// <summary>
         /// 员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <returns></returns>
-        public JObject SortOutcomesToExcel(long stsid, bool isall)
+        public JObject SortOutcomesToExcel(long stsid, bool isnot)
         {
             string outputPath = "SortOutcomesToExcel";
             //导出文件的位置
@@ -1344,7 +1357,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("学习成果{0}.({1}).xls", stsid, date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IStudent>().LearningOutcomesToExcel(filePath, stsid, isall);
+            filePath = Business.Do<IStudent>().LearningOutcomesToExcel(filePath, stsid, isnot);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + stsid.ToString() + "/" + filename);

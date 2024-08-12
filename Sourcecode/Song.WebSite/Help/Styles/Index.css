@@ -298,10 +298,12 @@ img[copyright='weixinqr'] {
     #vapp {
         top: 0px;
         left: 0px;
+        padding: 0px !important;
+       
     }
 
     section {
-        height: calc(100% - 100px);
+        height: calc(100%);
     }
 
     section>nav {

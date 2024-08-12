@@ -48,7 +48,7 @@ html, body {
 
 /*特殊字体*/
 
-red, .red {
+red, .red, red *, .red * {
     color: red;
     font-weight: bold;
 }
@@ -74,7 +74,20 @@ a[download]:hover {
 .draghandle {
     cursor: move;
 }
-
+/*下拉菜单*/
+.el-menu--horizontal>.el-submenu .el-submenu__title{
+    height: 40px;
+    line-height: 40px;
+    color: #555;
+}
+.el-menu--horizontal>.el-menu-item{
+    height: 40px;
+    line-height: 40px;
+    color: #555;
+}
+.el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title{
+    color: #555;
+}
 /*表格背景透明*/
 
 .table-wrapper .el-table--fit {
@@ -179,72 +192,72 @@ hr {
 /*文件下载列表*/
 
 dl.files {
-	counter-reset: section;
-	counter-reset: dd;
-	list-style-type: none;
-	margin: 8px 0px;
+    counter-reset: section;
+    counter-reset: dd;
+    list-style-type: none;
+    margin: 8px 0px;
 }
 
 dl.files, dl.files dd, dl.files dt {
-	padding: 0px;
-	margin: 0px;
+    padding: 0px;
+    margin: 0px;
 }
 
 dl.files dt {
-	padding: 8px;
+    padding: 8px;
 
 }
 
 dl.files dd::before {
-	counter-increment: dd;
-	content: ""counter(dd) " . ";
+    counter-increment: dd;
+    content: ""counter(dd) " . ";
 
 }
 
 dl.files dd {
-	display: flex;
-	justify-content: space-between;
-	padding: 3px 10px;
-	box-sizing: content-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 10px;
+    box-sizing: content-box;
 }
 
 dl.files dd>* {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 dl.files dd a[href] {
-	display: inline-block;
-	min-width: 230px;
-	color: #409EFF;
-	flex: 1;
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+    flex: 1;
 }
 
 dl.files dd a[href]::after {
-	content: '\e69e';
-	font-size: 18px;
-	margin-left: 10px;
-	color: #666;
-	font-family: "webdesk_icon" !important;
+    content: '\e69e';
+    font-size: 18px;
+    margin-left: 10px;
+    color: #666;
+    font-family: "webdesk_icon" !important;
 }
 
 dl.files dd a[href]+span {
-	color: #666;
-	font-size: 14px;
-	margin-left: 10px;
+    color: #666;
+    font-size: 14px;
+    margin-left: 10px;
 }
 
 dl.files dd:hover {
-	background-color: rgb(244, 244, 245);
+    background-color: rgb(244, 244, 245);
 
 }
 
 dl.files dd a[href]:hover {
-	text-decoration: underline;
-	text-align: left;
+    text-decoration: underline;
+    text-align: left;
 }
 
 dl.files .el-link {
-	line-height: 20px;
-	display: inline-block;
-	height: 25px;
+    line-height: 20px;
+    display: inline-block;
+    height: 25px;
 }

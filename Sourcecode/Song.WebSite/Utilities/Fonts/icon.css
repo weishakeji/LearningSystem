@@ -246,7 +246,7 @@ alert::before {
 }
 
 warning::before {
-    content: "\e646";
+    content: "\f73f";
     font-size: 23px;
 }
 /*预载*/

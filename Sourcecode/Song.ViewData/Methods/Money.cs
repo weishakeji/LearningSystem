@@ -7,6 +7,7 @@ using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Song.ViewData.Methods
 {
@@ -309,7 +310,8 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);

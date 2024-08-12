@@ -80,7 +80,7 @@ header h2 {
     margin: 0;
 }
 
-header>span {
+header h2>span {
     font-size: 16px;
     line-height: 45px;
     margin-left: 10px;
@@ -187,13 +187,25 @@ div.panel iframe {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
+   
     header{
         flex-direction: column;
     }
     header div.right{
         position: static;
+        margin: 10px 0px 0px 0px;
     }
     header form#search{
         margin-left: 0px;
     }
+    /*弹出面板*/
+    div.panel{
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    div.panel iframe{
+        width: 85%;
+        box-shadow: none;
+        border-left: solid 1px #ccc;
+    }
+   
 }

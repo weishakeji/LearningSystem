@@ -102,6 +102,7 @@
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt, title) {
+            txt=String(txt);
             let message = txt;
             //匹配标题
             var regx = /(?<=\().[^\)]+(?=\))/;

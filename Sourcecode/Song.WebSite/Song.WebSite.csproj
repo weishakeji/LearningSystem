@@ -209,7 +209,6 @@
     <Compile Include="Controllers\API\V2Controller.cs" />
     <Compile Include="Controllers\API\V1Controller.cs" />
     <Compile Include="Controllers\DownController.cs" />
-    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\View\PadController.cs" />
     <Compile Include="Controllers\View\PayController.cs" />
     <Compile Include="Controllers\View\SSOController.cs" />

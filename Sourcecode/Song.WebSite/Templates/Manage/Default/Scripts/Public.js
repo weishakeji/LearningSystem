@@ -92,6 +92,7 @@
         //重构alert
         window.alert_base = window.alert;
         window.alert = function (txt) {
+            txt=String(txt);
             let title = '';
             let message = txt;
             //匹配标题

@@ -123,22 +123,22 @@
         };
         //重构alert
         window.alert_base = window.alert;
-        window.alert = function (txt) {
-            let title = '';
+        window.alert = function (txt, title) {
+            txt=String(txt);
             let message = txt;
             //匹配标题
             var regx = /(?<=\().[^\)]+(?=\))/;
             const result = txt.match(regx);
-            if (result) {
+            if (result && (title == '' || title == null)) {
                 title = result[0];
-                message=txt.replace(/\(.[^\)]+\)/,'');
+                message = txt.replace(/\(.[^\)]+\)/, '');
             }
 
             //手机端
             if ($dom.ismobi()) {
-                vant.Dialog ? vant.Dialog.alert({ message: message, title:title }) : window.alert_base(txt);
+                vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
             } else {
-                Vue.prototype.$alert ? Vue.prototype.$alert(message, title ) : window.alert_base(txt);
+                Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
             }
         };
     };

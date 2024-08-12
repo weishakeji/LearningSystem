@@ -75,7 +75,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = InternalLink._.IL_ID > -1;
             if (isUse != null) wc.And(InternalLink._.IL_IsUse == (bool)isUse);
-            if (searTxt != null && searTxt.Length > 0) wc.And(InternalLink._.IL_Name.Like("%"+searTxt+"%"));
+            if (searTxt != null && searTxt.Length > 0) wc.And(InternalLink._.IL_Name.Contains(searTxt));
             countSum = Gateway.Default.Count<InternalLink>(wc);
             return Gateway.Default.From<InternalLink>().Where(wc).OrderBy(InternalLink._.IL_CrtTime.Desc).ToArray<InternalLink>(size, (index - 1) * size);
         }

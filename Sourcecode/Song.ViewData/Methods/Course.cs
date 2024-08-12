@@ -1349,6 +1349,10 @@ namespace Song.ViewData.Methods
             if (course == null) throw new Exception("当前课程不存在");
             DateTime date = DateTime.Now;
             string filename = string.Format("{0}.{1}.({2}).xls", course.Cou_ID, WeiSha.Core.Upload.NameFilter(course.Cou_Name), date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if(File.Exists(rootpath + filename))
+            {
+                throw new Exception("当前课程的记录文件已经存在，请删除或稍后再操作");
+            }
             Business.Do<ICourse>().StudentLogToExcel(rootpath + filename, course, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
@@ -1388,7 +1392,8 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
             {
                 if (f.Name.IndexOf(".") < 0) continue;
                 string prefix = f.Name.Substring(0, f.Name.IndexOf("."));

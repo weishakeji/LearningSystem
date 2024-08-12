@@ -137,22 +137,42 @@ namespace Song.ServiceInterfaces
         StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum);
         #endregion
 
-        #region 学员组的学习记录统计
+        #region 学员的学习记录统计
         /// <summary>
         /// 学员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns></returns>
-        DataTable LearningOutcomes(long stsid, bool isall);
+        DataTable LearningOutcomes(long stsid, bool isnot, bool isall);
+        /// <summary>
+        /// 学员组的学员的学习成果
+        /// </summary>
+        /// <param name="stsid"></param>
+        /// <param name="isnot"></param>
+        /// <returns></returns>
+        DataTable Outcomes4Sort(long stsid, bool isnot);
+        /// <summary>
+        /// 学员的学习成果
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
+        DataTable Outcomes4Student(int acid);
+        /// <summary>
+        /// 学习卡的学习成果
+        /// </summary>
+        /// <param name="lcsid">学习卡设置项的id</param>
+        /// <returns></returns>
+        DataTable Outcomes4LearningCard(long lcsid);
         /// <summary>
         /// 学员组的学员的学习成果,导出成excel
         /// </summary>
         /// <param name="path">文件的存放路径</param>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isall">是否导出学员的学习成果，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <returns>文件的路径</returns>
-        string LearningOutcomesToExcel(string path, long stsid, bool isall);
+        string LearningOutcomesToExcel(string path, long stsid, bool isnot);
 
         #endregion
 
