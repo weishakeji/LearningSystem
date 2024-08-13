@@ -26,11 +26,11 @@ namespace Song.ViewData.Methods
     /// </summary>
     [HttpPut, HttpGet]
     public class Account : ViewMethod, IViewAPI
-    { 
+    {
         //资源的虚拟路径和物理路径
-        public static string PathKey = "Accounts";
-        public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
-        public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
+        private static string _pathKey = "Accounts";
+        private static string _virPath = WeiSha.Core.Upload.Get[_pathKey].Virtual;
+        private static string _phyPath = WeiSha.Core.Upload.Get[_pathKey].Physics;
         #region 登录注册相关
         /// <summary>
         /// 当前登录的学员
@@ -122,7 +122,7 @@ namespace Song.ViewData.Methods
            
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
-            user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
+            user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
             //user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
@@ -170,7 +170,7 @@ namespace Song.ViewData.Methods
             LoginAccount.CacheAdd(account);         
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
-            user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
+            user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
             user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
@@ -286,7 +286,7 @@ namespace Song.ViewData.Methods
             string filename = _uploadLogo();
             //如果有上传的图片，且之前也有图片,则删除原图片
             if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(acc.Ac_Photo)) && !string.IsNullOrWhiteSpace(old.Ac_Photo))
-                WeiSha.Core.Upload.Get[PathKey].DeleteFile(old.Ac_Photo);
+                WeiSha.Core.Upload.Get[_pathKey].DeleteFile(old.Ac_Photo);
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             //账号，密码，登录状态值，不更改
             old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
@@ -613,7 +613,7 @@ namespace Song.ViewData.Methods
                 curr.Ac_CheckUID = string.Empty;
                 curr.Ac_Ans = string.Empty;
             }
-            curr.Ac_Photo = System.IO.File.Exists(PhyPath + curr.Ac_Photo) ? VirPath + curr.Ac_Photo : "";
+            curr.Ac_Photo = System.IO.File.Exists(_phyPath + curr.Ac_Photo) ? _virPath + curr.Ac_Photo : "";
 
             return curr;
         }
@@ -647,7 +647,7 @@ namespace Song.ViewData.Methods
             if (!string.IsNullOrWhiteSpace(acc.Ac_Pw))
                 acc.Ac_Pw = ConvertToAnyValue.Create(acc.Ac_Pw).MD5;
             Business.Do<IAccounts>().AccountsAdd(acc);
-            acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
+            acc.Ac_Photo = System.IO.File.Exists(_phyPath + acc.Ac_Photo) ? _virPath + acc.Ac_Photo : "";
             return acc;
         }
         /// <summary>
@@ -667,7 +667,7 @@ namespace Song.ViewData.Methods
             string filename = _uploadLogo();
             //如果有上传的图片，且之前也有图片,则删除原图片
             if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(acc.Ac_Photo)) && !string.IsNullOrWhiteSpace(old.Ac_Photo))
-                WeiSha.Core.Upload.Get[PathKey].DeleteFile(old.Ac_Photo);      
+                WeiSha.Core.Upload.Get[_pathKey].DeleteFile(old.Ac_Photo);      
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             //账号，密码，登录状态值，不更改
             old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
@@ -687,7 +687,7 @@ namespace Song.ViewData.Methods
             {
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                file.SaveAs(PhyPath + filename);
+                file.SaveAs(_phyPath + filename);
                 break;
             }
             //转jpg
@@ -696,12 +696,12 @@ namespace Song.ViewData.Methods
                 if (!".jpg".Equals(Path.GetExtension(filename), StringComparison.CurrentCultureIgnoreCase))
                 {
                     string old = filename;
-                    using (System.Drawing.Image image = WeiSha.Core.Images.FileTo.ToImage(PhyPath + filename))
+                    using (System.Drawing.Image image = WeiSha.Core.Images.FileTo.ToImage(_phyPath + filename))
                     {
                         filename = Path.ChangeExtension(filename, "jpg");
-                        image.Save(PhyPath + Path.ChangeExtension(filename, "jpg"), ImageFormat.Jpeg);
+                        image.Save(_phyPath + Path.ChangeExtension(filename, "jpg"), ImageFormat.Jpeg);
                     }
-                    System.IO.File.Delete(PhyPath + old);
+                    System.IO.File.Delete(_phyPath + old);
                 }
             }
             return filename;
@@ -770,19 +770,19 @@ namespace Song.ViewData.Methods
                 {
                     HttpPostedFileBase file = this.Files[key];
                     filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                    file.SaveAs(PhyPath + filename);
+                    file.SaveAs(_phyPath + filename);
                     break;
                 }
 
                 Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(account.Ac_ID);
                 if (old == null)
                 {
-                    account.Ac_Photo = System.IO.File.Exists(PhyPath + account.Ac_Photo) ? VirPath + account.Ac_Photo : "";
+                    account.Ac_Photo = System.IO.File.Exists(_phyPath + account.Ac_Photo) ? _virPath + account.Ac_Photo : "";
                     return account;
                 }
                 if (!string.IsNullOrWhiteSpace(old.Ac_Photo))
                 {
-                    string filehy = PhyPath + old.Ac_Photo;
+                    string filehy = _phyPath + old.Ac_Photo;
                     try
                     {
                         //删除原图
@@ -802,7 +802,7 @@ namespace Song.ViewData.Methods
                 },new object[] { filename });
                 Song.ViewData.LoginAccount.Status.Fresh(old);
                 //
-                old.Ac_Photo = System.IO.File.Exists(PhyPath + old.Ac_Photo) ? VirPath + old.Ac_Photo : "";
+                old.Ac_Photo = System.IO.File.Exists(_phyPath + old.Ac_Photo) ? _virPath + old.Ac_Photo : "";
                 return old;
             }
             catch (Exception ex)
@@ -1740,7 +1740,7 @@ namespace Song.ViewData.Methods
             string headurl = acc.Ac_Photo;
             if (!string.IsNullOrWhiteSpace(headurl))
             {
-                string photoPath = PhyPath + openid + ".jpg";
+                string photoPath = _phyPath + openid + ".jpg";
                 WeiSha.Core.Request.LoadFile(headurl, photoPath);
                 acc.Ac_Photo = openid + ".jpg";
             }
