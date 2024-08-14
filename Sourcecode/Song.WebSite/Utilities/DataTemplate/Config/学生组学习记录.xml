@@ -8,8 +8,8 @@
   <item Column="性别" Field="Ac_Sex" DefautValue="0=未知|1=男|2=女"/>
   <item Column="学生组" Field="Sts_Name" />
   <item Column="课程名称" Field="Cou_Name" />
-  <item Column="视频学习" Field="Stc_StudyScore" />
-  <item Column="试题练习" Field="Stc_QuesScore" />
-  <item Column="结课考试" Field="Stc_ExamScore" />
-  
+  <item Column="视频学习" Field="Stc_StudyScore"  DataType="double" Format="0.00"/>
+  <item Column="试题练习" Field="Stc_QuesScore"  DataType="double" Format="0.00"/>
+  <item Column="结课考试" Field="Stc_ExamScore"  DataType="double" Format="0.00"/>
+  <item Column="综合成绩" Field="Stc_ResultScore"  DataType="double" Format="0.00"/>
 </config>

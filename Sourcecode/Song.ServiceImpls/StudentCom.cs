@@ -307,6 +307,12 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable LearningOutcomes(long stsid, bool isnot, bool isall)
         {
+            //计算综合成绩
+            WhereClip wc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
+            wc.And(Student_Course._.Stc_StudyScore != 0 && Student_Course._.Stc_QuesScore != 0 && Student_Course._.Stc_ExamScore != 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wc).ToList<Student_Course>();
+            foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
+            //获取学员的学习成果
             string sql = @"select * from ""Accounts"" as ac
                         inner join
                         (select * from ""Student_Course"" where {{stsid}}) as sc on ac.""Ac_ID"" = sc.""Ac_ID""
@@ -315,7 +321,7 @@ namespace Song.ServiceImpls
             sql = sql.Replace("{{stsid}}", stsid > 0 ? @"""Sts_ID""=" + stsid.ToString() : "1=1");
             sql = sql.Replace("{{stsid2}}", stsid > 0 ? @"ac.""Sts_ID""=" + stsid.ToString() : "1=1");
             //如果取所有学员的记录
-            if (isnot) sql = sql.Replace("inner", "left");         
+            if (isnot) sql = sql.Replace("inner", "left");
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             //完成度大于100，则等于100
             DataTable dt = ds.Tables[0];
@@ -336,11 +342,47 @@ namespace Song.ServiceImpls
         /// 学员的学习成果
         /// </summary>
         /// <param name="acid">学员账号id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="search">按课程搜索</param>
+        /// <param name="start">按时间区间查询时，选修课程的开始时间</param>
+        /// <param name="end">按时间区间查询时，选修课程的开始时间的结束</param>
+        /// <param name="size">每页多少条</param>
+        /// <param name="index">第几页</param>
+        /// <param name="countSum">总数</param>
         /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
-        public DataTable Outcomes4Student(int acid)
+        public DataTable Outcomes4Student(int acid, long sbjid, string search, DateTime? start, DateTime? end, int size, int index, out int countSum)
         {
-            DataSet ds = Gateway.Default.From<Student_Course>().LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                .LeftJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID).Where(Accounts._.Ac_ID == acid).ToDataSet();
+            //计算综合成绩
+            WhereClip wccalc = Student_Course._.Ac_ID == acid && Student_Course._.Stc_ResultScore <= 0;
+            wccalc.And(Student_Course._.Stc_StudyScore != 0 && Student_Course._.Stc_QuesScore != 0 && Student_Course._.Stc_ExamScore != 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
+            foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
+            //获取学生成绩
+            WhereClip wc = Accounts._.Ac_ID == acid;
+            if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(Course._.Cou_Name.Contains(search));
+            if (start != null) wc.And(Student_Course._.Stc_CrtTime > start);
+            if (end != null) wc.And(Student_Course._.Stc_CrtTime < end);
+
+            //
+            QuerySection<Student_Course> query = Gateway.Default.From<Student_Course>().LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                .LeftJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID).Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
+            countSum = query.Count();
+            DataSet ds = query.ToDataSet((index - 1) * size+1, index * size);
+            return ds.Tables[0];
+        }
+        /// <summary>
+        /// 学员选修的课程的专业信息
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns>专业信息，仅为一级，不是树形结构</returns>
+        public DataTable Subject4Student(int acid)
+        {
+            WhereClip wc = Student_Course._.Ac_ID == acid;
+            QuerySection<Course> query = Gateway.Default.From<Course>().LeftJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                .Where(wc).Select(Course._.Sbj_ID, Course._.Sbj_Name,Course._.Sbj_ID.Count().As("Count"))
+                .GroupBy(Course._.Sbj_ID.Group & Course._.Sbj_Name.Group);
+            DataSet ds =query.ToDataSet();
             return ds.Tables[0];
         }
         /// <summary>
@@ -363,17 +405,7 @@ namespace Song.ServiceImpls
         {
             StudentSort sort = this.SortSingle(stsid);
             if (sort == null) throw new Exception("StudentSort non-existent");
-            //课程所在机构
-            Organization org = Business.Do<IOrganization>().OrganSingle(sort.Org_ID);
-            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
-            //计算综合成绩时，要获取机构的相关参数
-            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //视频学习的权重   //试题通过率的权重   //结课考试的权重
-            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
-            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
-            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
-            //视频完成度的容差
-            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
@@ -388,14 +420,9 @@ namespace Song.ServiceImpls
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
 
-
-
             DataTable dt = this.LearningOutcomes(stsid, isall, false);
-            if (dt.Rows.Count < 1)
-            {
-                throw new Exception("未获取到学员组的学员信息");
-                //return path;
-            }
+            if (dt.Rows.Count < 1)           
+                throw new Exception("未获取到学员组的学员信息");          
 
             ISheet sheet = _studentToExcel_CreateSheet(hssfworkbook, nodes, index);
             //遍历行               
@@ -447,17 +474,6 @@ namespace Song.ServiceImpls
                         }
                     }
                 }
-                //计算学员的课程综合成绩
-                double score = 0, video = 0, ques = 0, exam = 0;
-                video = dr["Stc_StudyScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_StudyScore"]);
-                video = video > 0 ? video + (double)video_lerance : video;
-                video = video >= 100 ? 100 : video;
-                ques = dr["Stc_QuesScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_QuesScore"]);
-                exam = dr["Stc_ExamScore"] == DBNull.Value ? 0 : Convert.ToDouble(dr["Stc_ExamScore"]);
-                score = (video * (double)weight_video / 100) + (ques * (double)weight_ques / 100) + (exam * (double)weight_exam / 100);
-                score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
-                if(dr["Stc_StudyScore"] != DBNull.Value && dr["Stc_QuesScore"] != DBNull.Value && dr["Stc_ExamScore"] != DBNull.Value)
-                    row.CreateCell(nodes.Count).SetCellValue((double)score);
             }
 
             FileStream file = new FileStream(path, FileMode.Create);
@@ -480,7 +496,7 @@ namespace Song.ServiceImpls
             IRow rowHead = sheet.CreateRow(0);
             for (int i = 0; i < nodes.Count; i++)
                 rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
-            rowHead.CreateCell(nodes.Count).SetCellValue("综合成绩");
+            //rowHead.CreateCell(nodes.Count).SetCellValue("综合成绩");
             //rowHead.CreateCell(nodes.Count + 1).SetCellValue("成绩评定");
             return sheet;
         }
@@ -2009,6 +2025,15 @@ namespace Song.ServiceImpls
             DataTable dt = DataQuery.DbQuery.Call<DataTable>(objs);
             countSum = (int)objs[objs.Length - 1];
             return dt;
+        }
+        /// <summary>
+        /// 学员选修的课程数
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        public int CourseCount(int acid)
+        {
+            return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == acid).Count();
         }
         #endregion
     }

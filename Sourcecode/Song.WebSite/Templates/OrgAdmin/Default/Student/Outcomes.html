@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>学员的学习成果</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="导出" ref='btngroup' @delete="deleteData" @output="output_panel=true" path="RecordView"
+                width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="课程">
+                    <el-input v-model="form.search" placeholder="课程" style="width: 180px;" @clear="handleCurrentChange(1)" clearable></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <!-- 数据列表-->
+        <template>
+            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val" :height="tableHeight">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程">
+                    <template slot-scope="scope">
+                        <a v-html='showsearch(scope.row.Cou_Name,form.search)' class="large" underline
+                            :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank"></a>
+                    </template>
+                </el-table-column>
+                <el-table-column label="学习情况" width="260">
+                    <div slot-scope="scope" class="progress">
+                        <el-tooltip class="item" effect="light" content="视频学习进度" placement="bottom-start">
+                            <icon video>{{showcomplete(scope.row.Stc_StudyScore)}} %</icon>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="light" content="试题通过率" placement="bottom">
+                            <icon question>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
+                            <icon exam>{{scope.row.Stc_ExamScore}} 分</icon>
+                        </el-tooltip>
+                    </div>
+                </el-table-column>
+                <el-table-column label="综合成绩" width="100" align="left">
+                    <template slot-scope="scope">
+                        {{scope.row.Stc_ResultScore}} 分
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!--底部按钮-->
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+        </template>
+
+        <!-- 导出面板-->
+        <el-drawer :visible.sync="output_panel" size="50%" direction="ttb" class="output" :show-close="false">
+            <el-form ref="query" :model="query" @submit.native.prevent label-width="80px">
+
+                <el-form-item label="">
+                    <el-button :type="loading_out ? 'info' : 'success'" v-on:click="btnOutput" class="el-icon-position"
+                        :loading="loading_out" native-type="submit">
+                        导出学习成果
+                    </el-button>
+                </el-form-item>
+                <template v-if="files.length>0">
+                    <el-divider></el-divider>
+                    <el-form-item label="文件下载">
+                        <dl class="files">
+                            <dd v-for="(f,i) in files">
+                                <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                    {{f.file}}</a>
+                                <span> {{f.size|size}}</span>
+                                <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                    <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </dd>
+                        </dl>
+                    </el-form-item>
+                </template>
+            </el-form>
+        </el-drawer>
+
+    </div>
+
+
+</body>
+
+</html>

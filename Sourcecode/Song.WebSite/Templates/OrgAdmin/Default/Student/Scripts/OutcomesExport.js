@@ -49,7 +49,7 @@ $ready(function () {
                             type: 'info', dangerouslyUseHTMLString: true
                         }).then(() => {
                             this.btnOutput(false);
-                        }).catch(() => { });                        
+                        }).catch(() => { });
                         break;
                     case 'output_full':
                         this.$confirm('导出当前学员组所关联课程的所有学习记录，<br/><red>包括未参与学习的学员</red>。', '提示', {
@@ -57,7 +57,7 @@ $ready(function () {
                             type: 'info', dangerouslyUseHTMLString: true
                         }).then(() => {
                             this.btnOutput(true);
-                        }).catch(() => { });                       
+                        }).catch(() => { });
                         break;
                     case 'output_all':
                         this.$confirm('导出当前学员组的学员所有学习记录，<br/><red>包括学员自主选修的课程（即学员组关联课+学员自主选修课程）</red>。', '提示', {
@@ -73,6 +73,7 @@ $ready(function () {
             btnOutput: function (isnot) {
                 var th = this;
                 th.loading = true;
+                var loading = th.$fulloading();
                 $api.get('Account/SortOutcomesToExcel', { 'stsid': th.id, 'isnot': isnot }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -90,22 +91,32 @@ $ready(function () {
                     }
                 }).catch(err => {
                     alert(err);
+                    loading.close();
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => {
+                    th.loading = false;
+                    loading.close();
+                });
             },
             //获取文件列表
             getFiles: function (hide) {
                 var th = this;
                 th.loading = true;
+                var loading = th.$fulloading();
                 $api.get('Account/SortOutcomesExcelFiles', { 'stsid': th.id }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
+                        th.$nextTick(function () {
+                            loading.close();
+                        });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                }).catch(err => console.error(err)).finally(() => {
+                    th.loading = false;
+                    loading.close();
+                });
             },
             //删除文件
             deleteFile: function (file) {

@@ -39,7 +39,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public bool NameExist(string name, int orgid, long sbjid)
         {
-            Song.Entities.Course cur = Business.Do<ICourse>().CourseIsExist(orgid, sbjid, -1, name);
+            Song.Entities.Course cur = Business.Do<ICourse>().Exist(orgid, sbjid, -1, name);
             return cur != null;
         }
         /// <summary>

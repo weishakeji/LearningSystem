@@ -42,6 +42,11 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
         TestPaper PaperSingle(long identify);
+        /// <summary>
+        /// 获取单一试卷实体对象，按试卷名称；
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         TestPaper PaperSingle(string name);
         /// <summary>
         /// 获取某个课程的结课考试
@@ -49,7 +54,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="use"></param>
         /// <returns></returns>
-        TestPaper FinalPaper(long couid,bool? use);
+        TestPaper FinalPaper(long couid, bool? use);
         /// <summary>
         /// 获取试卷
         /// </summary>

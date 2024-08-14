@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -471,7 +472,8 @@ namespace Song.ViewData.Methods
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             List<System.IO.FileInfo> list = new List<System.IO.FileInfo>();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[_output_item].Physics);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
             {
                 if (f.Name.IndexOf("_") < 0) continue;
                 string pre = f.Name.Substring(0, f.Name.IndexOf("_"));

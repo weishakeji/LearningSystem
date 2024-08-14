@@ -4,7 +4,7 @@ $ready(function () {
         data: {
             form: {
                 'orgid': '', 'sortid': '', 'use': 'null', 'acc': '', 'name': '', 'phone': '', 'idcard': '',
-                'gender': '-1', 'orderby': '','orderpattr':'',
+                'gender': '-1', 'orderby': '', 'orderpattr': '',
                 'size': 20, 'index': 1
             },
             rules: {
@@ -161,7 +161,7 @@ $ready(function () {
                     return true;
                 if (time.getTime() == 0) return true;
                 //if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
-                return false;             
+                return false;
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -226,5 +226,53 @@ $ready(function () {
                 this.$refs.btngroup.pagebox(page + '?id=' + account.Ac_ID, title, null, width, height, param);
             }
         }
+    });
+    //学员的课程数
+    Vue.component('course_count', {
+        //acid:学员id
+        props: ['acid'],
+        data: function () {
+            return {
+                count: 0,
+                loading: false
+            }
+        },
+        watch: {
+            'acid': {
+                handler: function (nv, ov) {
+                    if (!$api.isnull(nv)) this.getcount();
+                }, immediate: true, deep: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+            getcount: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Account/CourseCount', { 'acid': th.acid }).then(function (req) {
+                    if (req.data.success) {
+                        th.count = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+
+        },
+        template: `<span :class="{ 'disabled': count<1 }">
+            <loading asterisk v-if="loading">...</loading>
+            <template v-else>
+                <icon>&#xe813</icon>
+                <template v-if="count>0">
+                    课程 ({{count}})
+                </template>
+                <template v-else>
+                    课程 (0)
+                </template>
+            </template>            
+        </span>`
     });
 });

@@ -599,10 +599,12 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Components\ExerciseState.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\OutlineList.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\Styles\OutlineList.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Outcomes.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\QuestionProgress.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\CapitalRecords.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Activation.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Outcomes.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\QuestionProgress.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortAccount.js" />
@@ -613,6 +615,7 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\CapitalRecords.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\Activation.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Outcomes.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\QuestionProgress.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />

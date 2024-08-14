@@ -153,12 +153,28 @@ namespace Song.ServiceInterfaces
         /// <param name="isnot"></param>
         /// <returns></returns>
         DataTable Outcomes4Sort(long stsid, bool isnot);
+
+        #region 学员的学习成果
         /// <summary>
         /// 学员的学习成果
         /// </summary>
         /// <param name="acid">学员账号id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="search">按课程搜索</param>
+        /// <param name="start">按时间区间查询时，选修课程的开始时间</param>
+        /// <param name="end">按时间区间查询时，选修课程的开始时间的结束</param>
+        /// <param name="size">每页多少条</param>
+        /// <param name="index">第几页</param>
+        /// <param name="countSum">总数</param>
         /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
-        DataTable Outcomes4Student(int acid);
+        DataTable Outcomes4Student(int acid, long sbjid, string search, DateTime? start, DateTime? end, int size, int index, out int countSum);
+        /// <summary>
+        /// 学员选修的课程的专业信息
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns>专业信息，仅为一级，不是树形结构</returns>
+        DataTable Subject4Student(int acid);
+        #endregion
         /// <summary>
         /// 学习卡的学习成果
         /// </summary>
@@ -745,10 +761,19 @@ namespace Song.ServiceInterfaces
         /// lastexam：最后考试时间
         /// </param>
         /// <param name="orderpattr">排序方式，asc或desc</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
         /// <returns></returns>
         DataTable Activation(int orgid, long stsid, string acc, string name, string mobi, string idcard, string code,
             string orderby, string orderpattr,
             int size, int index, out int countSum);
+        /// <summary>
+        /// 学员选修的课程数
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        int CourseCount(int acid);
         #endregion
     }
 }

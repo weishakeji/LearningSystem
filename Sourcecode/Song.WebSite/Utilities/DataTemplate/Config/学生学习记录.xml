@@ -17,4 +17,5 @@
   <item Column="视频学习" Field="Stc_StudyScore" DataType="double" Format="0.00"/>
   <item Column="试题练习" Field="Stc_QuesScore" DataType="double" Format="0.00"/>
   <item Column="结课考试" Field="Stc_ExamScore" DataType="double" Format="0.00"/>
+  <item Column="综合成绩" Field="Stc_ResultScore" DataType="double" Format="0.00" />
 </config>

@@ -1313,7 +1313,8 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
@@ -1331,12 +1332,41 @@ namespace Song.ViewData.Methods
         /// 学员的学习成果
         /// </summary>
         /// <param name="acid">学员账号id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="search">按课程搜索</param>
+        /// <param name="start">按时间区间查询时，选修课程的开始时间</param>
+        /// <param name="end">按时间区间查询时，选修课程的开始时间的结束</param>
+        /// <param name="size">每页多少条</param>
+        /// <param name="index">第几页</param>      
         /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
-        public DataTable Outcomes4Student(int acid)
+        public ListResult Outcomes4Student(int acid, long sbjid, string search, DateTime? start, DateTime? end, int size, int index)
         {
-            return Business.Do<IStudent>().Outcomes4Student(acid);
+            int sum;
+            DataTable dt= Business.Do<IStudent>().Outcomes4Student(acid, sbjid, search, start, end, size, index, out sum);
+            Song.ViewData.ListResult result = new ListResult(dt);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
         }
-
+        /// <summary>
+        /// 学员选修的课程的专业信息
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        public DataTable Subject4Student(int acid)
+        {
+            return Business.Do<IStudent>().Subject4Student(acid);
+        }
+        /// <summary>
+        /// 学员选修的课程的个数
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        public int CourseCount(int acid)
+        {
+            return Business.Do<IStudent>().CourseCount(acid);
+        }
         #endregion
 
         #region 学员组成绩导出
@@ -1377,7 +1407,8 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);

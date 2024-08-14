@@ -40,6 +40,8 @@ namespace Song.Entities {
     		
     		protected Double _Stc_QuesScore;
     		
+    		protected Double _Stc_ResultScore;
+    		
     		protected DateTime _Stc_StartTime;
     		
     		protected Double _Stc_StudyScore;
@@ -208,6 +210,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Double Stc_ResultScore {
+    			get {
+    				return this._Stc_ResultScore;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_ResultScore, _Stc_ResultScore, value);
+    				this._Stc_ResultScore = value;
+    			}
+    		}
+    		
     		public DateTime Stc_StartTime {
     			get {
     				return this._Stc_StartTime;
@@ -291,6 +303,7 @@ namespace Song.Entities {
     					_.Stc_IsTry,
     					_.Stc_Money,
     					_.Stc_QuesScore,
+    					_.Stc_ResultScore,
     					_.Stc_StartTime,
     					_.Stc_StudyScore,
     					_.Stc_Type,
@@ -318,6 +331,7 @@ namespace Song.Entities {
     					this._Stc_IsTry,
     					this._Stc_Money,
     					this._Stc_QuesScore,
+    					this._Stc_ResultScore,
     					this._Stc_StartTime,
     					this._Stc_StudyScore,
     					this._Stc_Type,
@@ -375,6 +389,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Stc_QuesScore))) {
     				this._Stc_QuesScore = reader.GetDouble(_.Stc_QuesScore);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_ResultScore))) {
+    				this._Stc_ResultScore = reader.GetDouble(_.Stc_ResultScore);
     			}
     			if ((false == reader.IsDBNull(_.Stc_StartTime))) {
     				this._Stc_StartTime = reader.GetDateTime(_.Stc_StartTime);
@@ -495,6 +512,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stc_QuesScore = new WeiSha.Data.Field<Student_Course>("Stc_QuesScore");
     			
     			/// <summary>
+    			/// 字段名：Stc_ResultScore - 数据类型：Double
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_ResultScore = new WeiSha.Data.Field<Student_Course>("Stc_ResultScore");
+    			
+    			/// <summary>
     			/// 字段名：Stc_StartTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Stc_StartTime = new WeiSha.Data.Field<Student_Course>("Stc_StartTime");
@@ -516,4 +538,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

@@ -305,11 +305,12 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
 
             JArray jarr = new JArray();
-            if (string.IsNullOrWhiteSpace(couid)) return jarr;          
-            string[] files = System.IO.Directory.GetFiles(rootpath, "*." + couid + ".xls");
-            foreach(string file in files)
+            if (string.IsNullOrWhiteSpace(couid)) return jarr;
+            //string[] files = System.IO.Directory.GetFiles(rootpath, "*." + couid + ".xls");
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            FileInfo[] files = dir.GetFiles("*." + couid + ".xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (FileInfo f in files)
             {
-                FileInfo f = new FileInfo(file);
                 string name = f.Name.Replace("." + couid, "");
                 JObject jo = new JObject();
                 jo.Add("name", name);

@@ -26,16 +26,7 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
         /// <returns></returns>
-        Course CourseBatchAdd(Teacher teacher, int orgid, long  sbjid, string names);
-        /// <summary>
-        /// 是否已经存在课程
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="pid">上级id</param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        Course CourseIsExist(int orgid, long  sbjid, long pid, string name);
+        Course CourseBatchAdd(Teacher teacher, int orgid, long  sbjid, string names);        
         /// <summary>
         /// 修改课程
         /// </summary>
@@ -48,20 +39,7 @@ namespace Song.ServiceInterfaces
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool CourseUpdate(long couid, Field[] fiels, object[] objs);
-        /// <summary>
-        /// 是否为直播课
-        /// </summary>
-        /// <param name="couid">课程ID</param>
-        /// <returns></returns>
-        bool IsLiveCourse(long couid);
-        /// <summary>
-        /// 是否为直播课
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
-        /// <returns></returns>
-        bool IsLiveCourse(long couid, bool check);
+        bool CourseUpdate(long couid, Field[] fiels, object[] objs);       
         /// <summary>
         /// 增加课程浏览数
         /// </summary>
@@ -84,7 +62,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 删除，按主键ID；
         /// </summary>
-        /// <param name="identify">实体的主键</param>
+        /// <param name="couid">课程的主键id</param>
         void CourseDelete(long couid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -101,7 +79,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取课程名称，如果为多级，则带上父级名称
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="couid">课程的主键id</param>
         /// <returns></returns>
         string CourseName(long couid);
         /// <summary>
@@ -135,6 +113,9 @@ namespace Song.ServiceInterfaces
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
         List<Course> CourseCount(int orgid, long  sbjid, int thid, int pid, string sear, bool? isUse, int count);
+        /// <summary>
+        /// 获取指定个数的课程列表
+        /// </summary>
         List<Course> CourseCount(int orgid, long  sbjid, string sear, string order, bool? isUse, int count);
         /// <summary>
         /// 获取指定个数的课程列表
@@ -240,6 +221,43 @@ namespace Song.ServiceInterfaces
 
         #endregion
 
+        #region 课程的状态
+        /// <summary>
+        /// 课程是否已经存在
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="pid">上级id</param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Course Exist(int orgid, long sbjid, long pid, string name);
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        bool IsLiveCourse(long couid);
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
+        /// <returns></returns>
+        bool IsLiveCourse(long couid, bool check);
+        /// <summary>
+        /// 课程是否在有视频
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        bool ExistVideo(long couid);
+        /// <summary>
+        /// 课程是否在有试题
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        bool ExistQuestion(long couid);
+        #endregion
+
         #region 课程购买        
         /// <summary>
         /// 购买课程
@@ -342,6 +360,7 @@ namespace Song.ServiceInterfaces
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <param name="couid">课程id</param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
         int BeginCourse(int stid, DateTime start, DateTime end, long couid, int orgid);
         /// <summary>
@@ -357,7 +376,17 @@ namespace Song.ServiceInterfaces
         /// <param name="study">学习记录，即视频观看进度</param>
         /// <param name="ques">试题练习记录，通过率</param>
         /// <param name="exam">结课考试的成绩</param>
-        void StudentScoreSave(Student_Course sc, double study,double ques,double exam);
+        void StudentScoreSave(Student_Course sc, double study, double ques, double exam);
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="sc">学员选修记录的实体</param>
+        Student_Course StudentScoreCalc(Student_Course sc);
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stcid">学员选修记录的主键id</param>
+        Student_Course StudentScoreCalc(int stcid);
         /// <summary>
         /// 取消课程学习，直接删除购买记录
         /// </summary>

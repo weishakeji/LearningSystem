@@ -47,8 +47,8 @@ namespace Song.ServiceImpls
             entity.Cou_IsFree = true;
             entity.Cou_Allowedit = true;    //默认允许编辑
 
-            entity.Cou_Level = _ClacLevel(entity);
-            entity.Cou_XPath = _ClacXPath(entity);
+            entity.Cou_Level = _calcLevel(entity);
+            entity.Cou_XPath = _calcXPath(entity);
             Gateway.Default.Save<Course>(entity);
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace Song.ServiceImpls
             Song.Entities.Course last = null;
             for (int i = 0; i < listName.Count; i++)
             {
-                Song.Entities.Course current = CourseIsExist(orgid, sbjid, pid, listName[i]);
+                Song.Entities.Course current = Exist(orgid, sbjid, pid, listName[i]);
                 if (current == null)
                 {
                     current = new Course();
@@ -97,23 +97,7 @@ namespace Song.ServiceImpls
                 pid = current.Cou_ID;
             }
             return last;
-        }
-        /// <summary>
-        /// 是否已经存在专业
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="sbjid"></param>
-        /// <param name="pid"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Course CourseIsExist(int orgid, long sbjid, long pid, string name)
-        {
-            WhereClip wc = new WhereClip();
-            if(orgid>0) wc &= Course._.Org_ID == orgid;
-            if (sbjid > 0) wc &= Course._.Sbj_ID == sbjid;
-            if (pid >= 0) wc &= Course._.Cou_PID == pid;
-            return Gateway.Default.From<Course>().Where(wc && Course._.Cou_Name == name.Trim()).ToFirst<Course>();
-        }
+        }       
         /// <summary>
         /// 修改课程
         /// </summary>
@@ -131,8 +115,8 @@ namespace Song.ServiceImpls
                 entity.Cou_Logo = entity.Cou_Logo.Substring(entity.Cou_Logo.LastIndexOf("/") + 1);
             if (!string.IsNullOrWhiteSpace(entity.Cou_LogoSmall) && entity.Cou_LogoSmall.IndexOf("/") > -1)
                 entity.Cou_LogoSmall = entity.Cou_LogoSmall.Substring(entity.Cou_LogoSmall.LastIndexOf("/") + 1);
-            entity.Cou_Level = _ClacLevel(entity);
-            entity.Cou_XPath = _ClacXPath(entity);
+            entity.Cou_Level = _calcLevel(entity);
+            entity.Cou_XPath = _calcXPath(entity);
             //专业名称
             if (entity.Sbj_ID > 0)
             {
@@ -194,43 +178,7 @@ namespace Song.ServiceImpls
             {
                 throw ex;
             }
-        }
-        /// <summary>
-        /// 是否为直播课
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <returns></returns>
-        public bool IsLiveCourse(long couid)
-        {
-            Course cou = this.CourseSingle(couid);
-            if (cou == null) return false;
-            return cou.Cou_ExistLive;
-        }
-        /// <summary>
-        /// 是否为直播课
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
-        /// <returns></returns>
-        public bool IsLiveCourse(long couid, bool check)
-        {
-            if (!check) return this.IsLiveCourse(couid);
-            List<Outline> outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
-            bool isExist = false;
-            foreach (Outline o in outs)
-            {
-                if (o.Ol_IsUse && o.Ol_IsLive)
-                {
-                    isExist = true;
-                    break;
-                }
-            }
-            Gateway.Default.Update<Course>(
-                new Field[] { Course._.Cou_ExistLive },
-                new object[] { isExist }, Course._.Cou_ID == couid);
-
-            return isExist;
-        }
+        }       
         /// <summary>
         /// 增加课程浏览数
         /// </summary>
@@ -867,7 +815,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        private int _ClacLevel(Song.Entities.Course entity)
+        private int _calcLevel(Song.Entities.Course entity)
         {
             //if (entity.Cou_PID == 0) return 1;
             int level = 1;
@@ -886,7 +834,7 @@ namespace Song.ServiceImpls
             List<Song.Entities.Course> childs = Gateway.Default.From<Course>().Where(Course._.Cou_PID == entity.Cou_ID).ToList<Course>();
             foreach (Course s in childs)
             {
-                _ClacLevel(s);
+                _calcLevel(s);
             }
             return level;
         }
@@ -895,7 +843,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        private string _ClacXPath(Song.Entities.Course entity)
+        private string _calcXPath(Song.Entities.Course entity)
         {
             //if (entity.Cou_PID == 0) return "";
             string xpath = "";
@@ -914,12 +862,88 @@ namespace Song.ServiceImpls
             List<Song.Entities.Course> childs = Gateway.Default.From<Course>().Where(Course._.Cou_PID == entity.Cou_ID).ToList<Course>();
             foreach (Course s in childs)
             {
-                _ClacXPath(s);
+                _calcXPath(s);
             }
             return xpath;
         }
         #endregion
 
+        #endregion
+
+        #region 课程状态
+        /// <summary>
+        /// 课程是否已经存在
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="pid"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Course Exist(int orgid, long sbjid, long pid, string name)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Course._.Org_ID == orgid;
+            if (sbjid > 0) wc &= Course._.Sbj_ID == sbjid;
+            if (pid >= 0) wc &= Course._.Cou_PID == pid;
+            return Gateway.Default.From<Course>().Where(wc && Course._.Cou_Name == name.Trim()).ToFirst<Course>();
+        }
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool IsLiveCourse(long couid)
+        {
+            Course cou = this.CourseSingle(couid);
+            if (cou == null) return false;
+            return cou.Cou_ExistLive;
+        }
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
+        /// <returns></returns>
+        public bool IsLiveCourse(long couid, bool check)
+        {
+            if (!check) return this.IsLiveCourse(couid);
+            List<Outline> outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
+            bool isExist = false;
+            foreach (Outline o in outs)
+            {
+                if (o.Ol_IsUse && o.Ol_IsLive)
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+            Gateway.Default.Update<Course>(
+                new Field[] { Course._.Cou_ExistLive },
+                new object[] { isExist }, Course._.Cou_ID == couid);
+
+            return isExist;
+        }
+        /// <summary>
+        /// 课程是否在有视频
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool ExistVideo(long couid)
+        {
+            int count = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid && Outline._.Ol_IsVideo==true 
+                && Outline._.Ol_IsUse==true && Outline._.Ol_IsFinish==true).Count();
+            return count > 0;
+        }
+        /// <summary>
+        /// 课程是否在有试题
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool ExistQuestion(long couid)
+        {
+            int count = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true).Count();
+            return count > 0;
+        }
         #endregion
 
         #region 课程关联管理（与学生或教师）
@@ -1050,7 +1074,88 @@ namespace Song.ServiceImpls
                 sc.Stc_QuesScore = sc.Stc_QuesScore != ques ? ques : sc.Stc_QuesScore;
             if (exam >= 0)
                 sc.Stc_ExamScore = sc.Stc_ExamScore != exam ? exam : sc.Stc_ExamScore;
+            //此处要计算综合成绩
+            sc = this.StudentScoreCalc(sc);
             Gateway.Default.Save<Student_Course>(sc);
+        }
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="sc">学员选修记录的实体</param>
+        public Student_Course StudentScoreCalc(Student_Course sc)
+        {
+            if (sc == null) return sc;
+            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == sc.Cou_ID).ToFirst<Course>();
+            if (course == null) return sc;       
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
+            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            //计算综合成绩时，要获取机构的相关参数
+            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //视频学习的权重   //试题通过率的权重   //结课考试的权重
+            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3333;
+            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3333;
+            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3333;
+            //视频完成度的容差
+            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+
+            //课程是否有视频与视频
+            bool existvideo = this.ExistVideo(course.Cou_ID);
+            bool existques = this.ExistQuestion(course.Cou_ID);            
+            if (!existvideo)
+            {
+                //如果课程没有视频，则权重分摊到试题与结课考试
+                weight_ques += weight_ques * weight_video;
+                weight_exam += weight_exam * weight_video;
+                weight_video = 0;
+            }
+            if (!existques)
+            {
+                //如果没有试是，则权重分摊到视频与结果考试
+                weight_video += weight_video * weight_ques;
+                weight_exam += weight_exam * weight_ques;
+                weight_ques = 0;
+            }
+            //结课考试
+            TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
+            if (test == null)
+            {
+                weight_ques += weight_ques * weight_exam;
+                weight_video += weight_video * weight_exam;
+                weight_exam = 0;
+            }
+            else
+            {
+                //总分与及格分
+                double total = test.Tp_Total;
+                double pass = (double)test.Tp_PassScore / (double)test.Tp_Total * 100;
+                //成绩转为百分制
+                sc.Stc_ExamScore = sc.Stc_ExamScore / total * 100;
+                sc.Stc_ExamScore = sc.Stc_ExamScore >= 100 ? 100 : sc.Stc_ExamScore;
+                //及格分转为60分制
+                sc.Stc_ExamScore = sc.Stc_ExamScore - pass > 0 ?
+                    (sc.Stc_ExamScore - pass) / (total - pass) * 40 + 60 :
+                     (sc.Stc_ExamScore - pass) / pass * 60 + 60;
+            }
+            //开始计算综合成绩
+            double score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
+            video = video > 0 ? video + (double)video_lerance : video;
+            video = video >= 100 ? 100 : video;
+            score = (video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam) / 100;
+            score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
+            sc.Stc_ResultScore = score;
+            //保存结果
+            Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
+            return sc;
+        }
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stcid">学员选修记录的主键id</param>
+        public Student_Course StudentScoreCalc(int stcid)
+        {
+            Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Stc_ID == stcid).ToFirst<Student_Course>();
+            return StudentScoreCalc(sc);
         }
         /// <summary>
         /// 购买课程
@@ -1638,18 +1743,6 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string StudentLogToExcel(string path, Course course,DateTime? start, DateTime? end)
         {
-            //课程所在机构
-            Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
-            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
-            //计算综合成绩时，要获取机构的相关参数
-            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //视频学习的权重   //试题通过率的权重   //结课考试的权重
-            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
-            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
-            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
-            //视频完成度的容差
-            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
-
 
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -1659,7 +1752,7 @@ namespace Song.ServiceImpls
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
 
             //创建工作簿，每个工作簿多少条
-            int size = 10000, index = 1;
+            int size = 100000, index = 1;
 
             //生成数据行
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
@@ -1669,13 +1762,9 @@ namespace Song.ServiceImpls
             do
             {
                 DataTable dt = this.StudentLogPager(course.Cou_ID, -1,null, null, null, null, start, end, size, index, out total);
-                if (total < 1)
-                {
-                    throw new Exception("未获取到选修该课程的学员信息");
-                    return path;
-                }
+                if (total < 1)               
+                    throw new Exception("未获取到选修该课程的学员信息"); 
                 totalPage = (total + size - 1) / size;
-
                 ISheet sheet = _studentToExcel_CreateSheet(hssfworkbook, nodes, index);
                 //遍历行               
                 for (int r = 0; r < dt.Rows.Count; r++)
@@ -1721,17 +1810,7 @@ namespace Song.ServiceImpls
                                 }
                             }
                         }
-                    }
-                    //计算学员的课程综合成绩
-                    decimal score = 0, video = 0, ques = 0, exam = 0;
-                    video = Convert.ToDecimal(dr["Stc_StudyScore"]);
-                    video = video > 0 ? video + (decimal)video_lerance : video;
-                    video = video >= 100 ? 100 : video;
-                    ques = Convert.ToDecimal(dr["Stc_QuesScore"]);
-                    exam = Convert.ToDecimal(dr["Stc_ExamScore"]);
-                    score = (video * (decimal)weight_video / 100) + (ques * (decimal)weight_ques / 100) + (exam * (decimal)weight_exam / 100);
-                    score = score>=100 ? 100 : Math.Round(score * 100) / 100;                   
-                    row.CreateCell(nodes.Count).SetCellValue((double)score);                    
+                    }                                   
                 }
                 index++;
             } while (index <= totalPage);
@@ -1786,9 +1865,7 @@ namespace Song.ServiceImpls
             //创建数据行对象，第一行
             IRow rowHead = sheet.CreateRow(0);
             for (int i = 0; i < nodes.Count; i++)
-                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
-            rowHead.CreateCell(nodes.Count).SetCellValue("综合成绩");
-            //rowHead.CreateCell(nodes.Count + 1).SetCellValue("成绩评定");
+                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);          
             return sheet;
         }
         #endregion
