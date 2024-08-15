@@ -1066,7 +1066,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 计算课程学习的综合成绩
+        /// 计算某个课程学习的综合成绩
         /// </summary>
         /// <param name="stcid">学习记录的id,取Student_Course表的主键id</param>
         /// <returns>综合成绩得分</returns>
@@ -1074,6 +1074,15 @@ namespace Song.ViewData.Methods
         {
             Student_Course sc= Business.Do<ICourse>().StudentScoreCalc(stcid);
             return sc.Stc_ResultScore;
+        }
+        /// <summary>
+        /// 批量计算某个学员所有课程学习的综合成绩
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        public bool StudentScoreCalc(int acid)
+        {
+            return Business.Do<ICourse>().StudentScoreBatchCalc(acid);
         }
         #endregion
 

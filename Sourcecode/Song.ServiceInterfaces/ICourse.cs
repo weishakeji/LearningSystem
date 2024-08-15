@@ -388,6 +388,12 @@ namespace Song.ServiceInterfaces
         /// <param name="stcid">学员选修记录的主键id</param>
         Student_Course StudentScoreCalc(int stcid);
         /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stid">学员账号id</param>
+        /// <returns></returns>
+        bool StudentScoreBatchCalc(int stid);
+        /// <summary>
         /// 取消课程学习，直接删除购买记录
         /// </summary>
         /// <param name="stid"></param>

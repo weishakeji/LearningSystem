@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出" ref='btngroup' @output="output_panel=true" path="RecordView"
+            <btngroup show="导出,重新计算" ref='btngroup' @output="output_panel=true" @batcalc="allcalcResultScore"
                 width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="课程">
@@ -50,6 +50,18 @@
                     </div>
                 </el-table-column>
                 <el-table-column label="综合成绩" width="100" align="left">
+                    <template slot="header" slot-scope="scope">
+                        <el-dropdown @command="batcalcResultScore">
+                            <span class="el-dropdown-link">
+                                综合成绩<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item :command="1">
+                                    <icon>&#xa067</icon>重新计算
+                                </el-dropdown-item>                             
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
                     <template slot-scope="scope">
                         <loading v-if="loadingid==scope.row.Stc_ID" asterisk>...</loading>
                         <el-dropdown v-else>

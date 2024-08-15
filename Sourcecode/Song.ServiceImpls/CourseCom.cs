@@ -1105,23 +1105,23 @@ namespace Song.ServiceImpls
             if (!existvideo)
             {
                 //如果课程没有视频，则权重分摊到试题与结课考试
-                weight_ques += weight_ques * weight_video;
-                weight_exam += weight_exam * weight_video;
+                weight_ques *= 1 / weight_video;
+                weight_exam *= 1 / weight_video;
                 weight_video = 0;
             }
             if (!existques)
             {
                 //如果没有试是，则权重分摊到视频与结果考试
-                weight_video += weight_video * weight_ques;
-                weight_exam += weight_exam * weight_ques;
+                weight_video *= 1 / weight_ques;
+                weight_exam *= 1 / weight_ques;
                 weight_ques = 0;
             }
             //结课考试
             TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
             if (test == null)
             {
-                weight_ques += weight_ques * weight_exam;
-                weight_video += weight_video * weight_exam;
+                weight_ques *= 1 / weight_exam;
+                weight_video *= 1 / weight_exam;
                 weight_exam = 0;
             }
             else
@@ -1148,6 +1148,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
             return sc;
         }
+  
         /// <summary>
         /// 计算学员的综合成绩
         /// </summary>
@@ -1156,6 +1157,21 @@ namespace Song.ServiceImpls
         {
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Stc_ID == stcid).ToFirst<Student_Course>();
             return StudentScoreCalc(sc);
+        }
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stid">学员账号id</param>
+        /// <returns></returns>
+        public bool StudentScoreBatchCalc(int stid)
+        {
+            //获取学员的学习记录
+            WhereClip wccalc = Student_Course._.Ac_ID == stid;
+            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
+            //循环计算
+            foreach (Student_Course stc in list)this.StudentScoreCalc(stc);
+            return true;
         }
         /// <summary>
         /// 购买课程

@@ -32,7 +32,11 @@
             loading_out: false
         },
         mounted: function () {
-
+            this.$refs.btngroup.addbtn({
+                text: '重新计算', tips: '重新计算学员综合成绩',
+                id: 'batcalc', type: 'success',
+                icon: 'a067'
+            });
             this.handleCurrentChange();
             this.getFiles();
         },
@@ -49,23 +53,6 @@
         watch: {
         },
         methods: {
-            //重新计算综合成绩
-            calcResultScore: function (stcid) {
-                var th=this;
-                th.loadingid=stcid;
-                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
-                    if (req.data.success) {
-                        var result = req.data.result; 
-                        //更新结果
-                        var idx=th.datas.findIndex(item => item.Stc_ID == stcid);
-                        this.datas[idx].Stc_ResultScore=result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loadingid=-1);
-            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -85,6 +72,81 @@
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //重新计算综合成绩
+            calcResultScore: function (stcid) {
+                var th = this;
+                th.loadingid = stcid;
+                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        //更新结果
+                        var idx = th.datas.findIndex(item => item.Stc_ID == stcid);
+                        th.datas[idx].Stc_ResultScore = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = -1);
+            },
+            //批量计算成绩
+            batcalcResultScore: function () {
+                this.$confirm('重新计算当前页面的 ' + this.datas.length + ' 条成绩, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => this.calcScore_onebyone(0))
+                    .catch(() => { });
+            },
+            //逐一计算成绩
+            calcScore_onebyone: function (index) {
+                var th = this;
+                if (index >= th.datas.length) {
+                    this.$message({
+                        message: '当前页的所有成绩全部计算完成！',
+                        type: 'success'
+                    });
+                    return;
+                }
+                var stcid = th.datas[index].Stc_ID;
+                th.loadingid = stcid;
+                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.datas[index].Stc_ResultScore = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        th.loadingid = -1;
+                        th.calcScore_onebyone(++index);
+                    });
+            },
+            //计算所有成绩
+            allcalcResultScore: function () {
+                this.$confirm('重新当前学员所有综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => this.allcalcResultScore_func())
+                    .catch(() => { });
+            },
+            //计算所有成绩的具体方法
+            allcalcResultScore_func: function () {
+                var th=this;
+                var loading = th.$fulloading();
+                $api.get('Course/studentscorecalc', { 'acid': th.form.acid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;    
+                        th.handleCurrentChange();                    
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>  th.$nextTick(() => loading.close()));
             },
             //显示完成度
             showcomplete: num => Math.round((num > 100 ? 100 : num) * 100) / 100,
