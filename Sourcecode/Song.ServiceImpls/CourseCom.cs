@@ -1540,10 +1540,10 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 分摊权重的算法
         /// </summary>
-        /// <param name="weight">获取分摊权重的值</param>
         /// <param name="shared">被分摊的权重值</param>
+        /// <param name="weight">分摊权重的值</param>
         /// <returns></returns>
-        private double _share_weight(double shared, double weight) => weight / (1 - shared) * shared + weight;
+        private double _share_weight(double shared, double weight) => weight * (1 / (1 - shared)) * shared + weight;
         
         /// <summary>
         /// 计算学员的综合成绩
