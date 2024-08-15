@@ -1494,23 +1494,23 @@ namespace Song.ServiceImpls
             if (!existvideo)
             {
                 //如果课程没有视频，则权重分摊到试题与结课考试
-                weight_ques = _share_weight(weight_video, weight_ques);
-                weight_exam = _share_weight(weight_video, weight_exam);
+                weight_ques *= 1/(1- weight_video);
+                weight_exam *= 1 / (1 - weight_video);
                 weight_video = 0;
             }
             if (!existques)
             {
                 //如果没有试是，则权重分摊到视频与结果考试
-                weight_video = _share_weight(weight_ques, weight_video);
-                weight_exam = _share_weight(weight_ques, weight_exam);
+                weight_video *= 1 / (1 - weight_ques);
+                weight_exam *= 1 / (1 - weight_ques);
                 weight_ques = 0;
             }
             //结课考试
             TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
             if (test == null)
             {
-                weight_ques = _share_weight(weight_exam, weight_ques);
-                weight_video = _share_weight(weight_exam, weight_video);
+                weight_ques *= 1 / (1 - weight_exam);
+                weight_video *= 1 / (1 - weight_exam);
                 weight_exam = 0;
             }
             else
@@ -1537,14 +1537,6 @@ namespace Song.ServiceImpls
             Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
             return sc;
         }
-        /// <summary>
-        /// 分摊权重的算法
-        /// </summary>
-        /// <param name="shared">被分摊的权重值</param>
-        /// <param name="weight">分摊权重的值</param>
-        /// <returns></returns>
-        private double _share_weight(double shared, double weight) => weight * (1 / (1 - shared)) * shared + weight;
-        
         /// <summary>
         /// 计算学员的综合成绩
         /// </summary>
