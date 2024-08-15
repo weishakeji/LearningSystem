@@ -871,10 +871,7 @@ namespace Song.ViewData.Methods
             //计算完成度的百分比
             double per = (double)studyTime * 1000 / (double)totalTime;
             per = Math.Floor(per * 10000) / 100;
-            //new System.Threading.Tasks.Task(() =>
-            //{
-                Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);
-            //}).Start();           
+            Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);                      
             return per;
         }
         /// <summary>
@@ -1067,7 +1064,17 @@ namespace Song.ViewData.Methods
                     jo.Add("state", "fine");
             }
             return jo;
-        }         
+        }
+        /// <summary>
+        /// 计算课程学习的综合成绩
+        /// </summary>
+        /// <param name="stcid">学习记录的id,取Student_Course表的主键id</param>
+        /// <returns>综合成绩得分</returns>
+        public double ResultScoreCalc(int stcid)
+        {
+            Student_Course sc= Business.Do<ICourse>().StudentScoreCalc(stcid);
+            return sc.Stc_ResultScore;
+        }
         #endregion
 
         #region 课程购买(或叫选修)

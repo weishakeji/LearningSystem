@@ -1093,9 +1093,9 @@ namespace Song.ServiceImpls
             //计算综合成绩时，要获取机构的相关参数
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //视频学习的权重   //试题通过率的权重   //结课考试的权重
-            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3333;
-            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3333;
-            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3333;
+            double weight_video = (config["finaltest_weight_video"].Value.Double ?? 33.3333)/100;
+            double weight_ques = (config["finaltest_weight_ques"].Value.Double ?? 33.3333)/100;
+            double weight_exam = (config["finaltest_weight_exam"].Value.Double ?? 33.3333)/100;
             //视频完成度的容差
             double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
 
@@ -1141,7 +1141,7 @@ namespace Song.ServiceImpls
             double score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
             video = video > 0 ? video + (double)video_lerance : video;
             video = video >= 100 ? 100 : video;
-            score = (video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam) / 100;
+            score = video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam;
             score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
             sc.Stc_ResultScore = score;
             //保存结果

@@ -48,25 +48,23 @@
         },
         watch: {
         },
-        methods: {          
-            //删除
-            deleteData: function (datas) {
-                var th = this;
-                $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
+        methods: {
+            //重新计算综合成绩
+            calcResultScore: function (stcid) {
+                var th=this;
+                th.loadingid=stcid;
+                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        th.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        th.handleCurrentChange();
+                        var result = req.data.result; 
+                        //更新结果
+                        var idx=th.datas.findIndex(item => item.Stc_ID == stcid);
+                        this.datas[idx].Stc_ResultScore=result;
                     } else {
-                        throw req.data.message;
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                }).finally(() => { });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid=-1);
             },
             //加载数据页
             handleCurrentChange: function (index) {

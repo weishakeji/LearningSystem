@@ -309,7 +309,7 @@ namespace Song.ServiceImpls
         {
             //计算综合成绩
             WhereClip wc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
-            wc.And(Student_Course._.Stc_StudyScore != 0 && Student_Course._.Stc_QuesScore != 0 && Student_Course._.Stc_ExamScore != 0);
+            wc.And(Student_Course._.Stc_StudyScore != 0 || Student_Course._.Stc_QuesScore != 0 || Student_Course._.Stc_ExamScore != 0);
             List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wc).ToList<Student_Course>();
             foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
             //获取学员的学习成果
@@ -354,7 +354,7 @@ namespace Song.ServiceImpls
         {
             //计算综合成绩
             WhereClip wccalc = Student_Course._.Ac_ID == acid && Student_Course._.Stc_ResultScore <= 0;
-            wccalc.And(Student_Course._.Stc_StudyScore != 0 && Student_Course._.Stc_QuesScore != 0 && Student_Course._.Stc_ExamScore != 0);
+            wccalc.And(Student_Course._.Stc_StudyScore != 0 || Student_Course._.Stc_QuesScore != 0 || Student_Course._.Stc_ExamScore != 0);
             List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
             foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
             //获取学生成绩
