@@ -311,7 +311,7 @@ namespace Song.ServiceImpls
             WhereClip wc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
             wc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
             List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wc).ToList<Student_Course>();
-            foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
+            foreach (Student_Course stc in list) Business.Do<ICourse>().ResultScoreCalc(stc);
             //获取学员的学习成果
             string sql = @"select * from ""Accounts"" as ac
                         inner join
@@ -356,7 +356,7 @@ namespace Song.ServiceImpls
             WhereClip wccalc = Student_Course._.Ac_ID == acid && Student_Course._.Stc_ResultScore <= 0;
             wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
             List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
-            foreach (Student_Course stc in list) Business.Do<ICourse>().StudentScoreCalc(stc);
+            foreach (Student_Course stc in list) Business.Do<ICourse>().ResultScoreCalc(stc);
             //获取学生成绩
             WhereClip wc = Accounts._.Ac_ID == acid;
             if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
@@ -384,6 +384,91 @@ namespace Song.ServiceImpls
                 .GroupBy(Course._.Sbj_ID.Group & Course._.Sbj_Name.Group);
             DataSet ds =query.ToDataSet();
             return ds.Tables[0];
+        }
+        /// <summary>
+        /// 导出学员的学习成果
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        public string ResultScoreToExcel(string path, int acid)
+        {
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学员的学习成果.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+
+            //创建工作簿，每个工作簿多少条
+            int size = 100000, index = 1;
+
+            //生成数据行
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            style_size.WrapText = true;
+
+            int total = 0, totalPage = 0;
+
+            do
+            {
+                DataTable dt = Business.Do<IStudent>().Outcomes4Student(acid, -1, string.Empty, null, null, size, index, out total);
+                if (total < 1)
+                    throw new Exception("未获取到选修该课程的学员信息");
+                totalPage = (total + size - 1) / size;
+                ISheet sheet = _studentToExcel_CreateSheet(hssfworkbook, nodes, index);
+                //遍历行               
+                for (int r = 0; r < dt.Rows.Count; r++)
+                {
+                    IRow row = sheet.CreateRow(r + 1);
+                    DataRow dr = dt.Rows[r];
+                    //遍历列
+                    for (int c = 0; c < dt.Columns.Count; c++)
+                    {
+                        //遍历配置项
+                        for (int n = 0; n < nodes.Count; n++)
+                        {
+                            string field = nodes[n].Attributes["Field"].Value;
+                            if (dt.Columns[c].ColumnName.Equals(field))
+                            {
+                                object obj = dr[c];
+                                if (obj != null)
+                                {
+                                    string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
+                                    string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
+                                    string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
+                                    string value = "";
+                                    switch (datatype)
+                                    {
+                                        case "date":
+                                            DateTime tm = Convert.ToDateTime(obj);
+                                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                            break;
+                                        default:
+                                            value = obj.ToString();
+                                            break;
+                                    }
+                                    if (defvalue.Trim() != "")
+                                    {
+                                        foreach (string s in defvalue.Split('|'))
+                                        {
+                                            string h = s.Substring(0, s.IndexOf("="));
+                                            string f = s.Substring(s.LastIndexOf("=") + 1);
+                                            if (value.ToLower() == h.ToLower()) value = f;
+                                        }
+                                    }
+                                    row.CreateCell(n).SetCellValue(value);
+                                }
+                            }
+                        }
+                    }
+                }
+                index++;
+            } while (index <= totalPage);
+
+            FileStream file = new FileStream(path, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return path;
         }
         /// <summary>
         /// 学习卡的学习成果

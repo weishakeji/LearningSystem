@@ -1544,7 +1544,9 @@
     <Content Include="Utilities\Components\Styles\upload-excel.css" />
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\DataTemplate\Config\学员的学习成果.xml" />
     <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />
+    <Content Include="Utilities\DataTemplate\Config\课程的学习成果.xml" />
     <Content Include="Utilities\driver\driver.css" />
     <Content Include="Utilities\driver\driver.js.iife.js" />
     <Content Include="Utilities\echarts\echarts.min.js" />
@@ -1903,7 +1905,6 @@
     <Content Include="Utilities\Components\Styles\Avatar.css" />
     <Content Include="Utilities\Components\upload-file.js" />
     <Content Include="Utilities\Components\upload-img.js" />
-    <Content Include="Utilities\DataTemplate\Config\学生学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\考试成绩.xml" />
     <Content Include="Utilities\Images\disable.png" />
     <Content Include="Utilities\Images\ghs.png" />

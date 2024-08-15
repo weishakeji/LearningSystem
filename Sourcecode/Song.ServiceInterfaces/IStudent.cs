@@ -174,6 +174,15 @@ namespace Song.ServiceInterfaces
         /// <param name="acid">学员账号id</param>
         /// <returns>专业信息，仅为一级，不是树形结构</returns>
         DataTable Subject4Student(int acid);
+
+        /// <summary>
+        /// 导出学员的学习成果
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        string ResultScoreToExcel(string filepath, int acid);
+
         #endregion
         /// <summary>
         /// 学习卡的学习成果

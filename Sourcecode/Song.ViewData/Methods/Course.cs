@@ -1072,18 +1072,10 @@ namespace Song.ViewData.Methods
         /// <returns>综合成绩得分</returns>
         public double ResultScoreCalc(int stcid)
         {
-            Student_Course sc= Business.Do<ICourse>().StudentScoreCalc(stcid);
+            Student_Course sc= Business.Do<ICourse>().ResultScoreCalc(stcid);
             return sc.Stc_ResultScore;
         }
-        /// <summary>
-        /// 批量计算某个学员所有课程学习的综合成绩
-        /// </summary>
-        /// <param name="acid">学员账号id</param>
-        /// <returns></returns>
-        public bool StudentScoreCalc(int acid)
-        {
-            return Business.Do<ICourse>().StudentScoreBatchCalc(acid);
-        }
+        
         #endregion
 
         #region 课程购买(或叫选修)

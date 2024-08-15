@@ -1075,104 +1075,10 @@ namespace Song.ServiceImpls
             if (exam >= 0)
                 sc.Stc_ExamScore = sc.Stc_ExamScore != exam ? exam : sc.Stc_ExamScore;
             //此处要计算综合成绩
-            sc = this.StudentScoreCalc(sc);
+            sc = this.ResultScoreCalc(sc);
             Gateway.Default.Save<Student_Course>(sc);
         }
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="sc">学员选修记录的实体</param>
-        public Student_Course StudentScoreCalc(Student_Course sc)
-        {
-            if (sc == null) return sc;
-            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == sc.Cou_ID).ToFirst<Course>();
-            if (course == null) return sc;       
-            //课程所在机构
-            Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
-            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
-            //计算综合成绩时，要获取机构的相关参数
-            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //视频学习的权重   //试题通过率的权重   //结课考试的权重
-            double weight_video = (config["finaltest_weight_video"].Value.Double ?? 33.3333)/100;
-            double weight_ques = (config["finaltest_weight_ques"].Value.Double ?? 33.3333)/100;
-            double weight_exam = (config["finaltest_weight_exam"].Value.Double ?? 33.3333)/100;
-            //视频完成度的容差
-            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
-
-            //课程是否有视频与视频
-            bool existvideo = this.ExistVideo(course.Cou_ID);
-            bool existques = this.ExistQuestion(course.Cou_ID);            
-            if (!existvideo)
-            {
-                //如果课程没有视频，则权重分摊到试题与结课考试
-                weight_ques *= 1 / weight_video;
-                weight_exam *= 1 / weight_video;
-                weight_video = 0;
-            }
-            if (!existques)
-            {
-                //如果没有试是，则权重分摊到视频与结果考试
-                weight_video *= 1 / weight_ques;
-                weight_exam *= 1 / weight_ques;
-                weight_ques = 0;
-            }
-            //结课考试
-            TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
-            if (test == null)
-            {
-                weight_ques *= 1 / weight_exam;
-                weight_video *= 1 / weight_exam;
-                weight_exam = 0;
-            }
-            else
-            {
-                //总分与及格分
-                double total = test.Tp_Total;
-                double pass = (double)test.Tp_PassScore / (double)test.Tp_Total * 100;
-                //成绩转为百分制
-                sc.Stc_ExamScore = sc.Stc_ExamScore / total * 100;
-                sc.Stc_ExamScore = sc.Stc_ExamScore >= 100 ? 100 : sc.Stc_ExamScore;
-                //及格分转为60分制
-                sc.Stc_ExamScore = sc.Stc_ExamScore - pass > 0 ?
-                    (sc.Stc_ExamScore - pass) / (total - pass) * 40 + 60 :
-                     (sc.Stc_ExamScore - pass) / pass * 60 + 60;
-            }
-            //开始计算综合成绩
-            double score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
-            video = video > 0 ? video + (double)video_lerance : video;
-            video = video >= 100 ? 100 : video;
-            score = video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam;
-            score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
-            sc.Stc_ResultScore = score;
-            //保存结果
-            Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
-            return sc;
-        }
-  
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="stcid">学员选修记录的主键id</param>
-        public Student_Course StudentScoreCalc(int stcid)
-        {
-            Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Stc_ID == stcid).ToFirst<Student_Course>();
-            return StudentScoreCalc(sc);
-        }
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="stid">学员账号id</param>
-        /// <returns></returns>
-        public bool StudentScoreBatchCalc(int stid)
-        {
-            //获取学员的学习记录
-            WhereClip wccalc = Student_Course._.Ac_ID == stid;
-            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
-            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
-            //循环计算
-            foreach (Student_Course stc in list)this.StudentScoreCalc(stc);
-            return true;
-        }
+        
         /// <summary>
         /// 购买课程
         /// </summary>
@@ -1556,6 +1462,105 @@ namespace Song.ServiceImpls
         }
         #endregion
 
+        #region 学习成果计算
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="sc">学员选修记录的实体</param>
+        public Student_Course ResultScoreCalc(Student_Course sc)
+        {
+            if (sc == null) return sc;
+            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == sc.Cou_ID).ToFirst<Course>();
+            if (course == null) return sc;
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
+            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            //计算综合成绩时，要获取机构的相关参数
+            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //视频学习的权重   //试题通过率的权重   //结课考试的权重
+            double weight_video = (config["finaltest_weight_video"].Value.Double ?? 33.3333) / 100;
+            double weight_ques = (config["finaltest_weight_ques"].Value.Double ?? 33.3333) / 100;
+            double weight_exam = (config["finaltest_weight_exam"].Value.Double ?? 33.3333) / 100;
+            //视频完成度的容差
+            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+
+            //课程是否有视频与视频
+            bool existvideo = this.ExistVideo(course.Cou_ID);
+            bool existques = this.ExistQuestion(course.Cou_ID);
+            if (!existvideo)
+            {
+                //如果课程没有视频，则权重分摊到试题与结课考试
+                weight_ques *= 1 / weight_video;
+                weight_exam *= 1 / weight_video;
+                weight_video = 0;
+            }
+            if (!existques)
+            {
+                //如果没有试是，则权重分摊到视频与结果考试
+                weight_video *= 1 / weight_ques;
+                weight_exam *= 1 / weight_ques;
+                weight_ques = 0;
+            }
+            //结课考试
+            TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
+            if (test == null)
+            {
+                weight_ques *= 1 / weight_exam;
+                weight_video *= 1 / weight_exam;
+                weight_exam = 0;
+            }
+            else
+            {
+                //总分与及格分
+                double total = test.Tp_Total;
+                double pass = (double)test.Tp_PassScore / (double)test.Tp_Total * 100;
+                //成绩转为百分制
+                sc.Stc_ExamScore = sc.Stc_ExamScore / total * 100;
+                sc.Stc_ExamScore = sc.Stc_ExamScore >= 100 ? 100 : sc.Stc_ExamScore;
+                //及格分转为60分制
+                sc.Stc_ExamScore = sc.Stc_ExamScore - pass > 0 ?
+                    (sc.Stc_ExamScore - pass) / (total - pass) * 40 + 60 :
+                     (sc.Stc_ExamScore - pass) / pass * 60 + 60;
+            }
+            //开始计算综合成绩
+            double score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
+            video = video > 0 ? video + (double)video_lerance : video;
+            video = video >= 100 ? 100 : video;
+            score = video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam;
+            score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
+            sc.Stc_ResultScore = score;
+            //保存结果
+            Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
+            return sc;
+        }
+
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stcid">学员选修记录的主键id</param>
+        public Student_Course ResultScoreCalc(int stcid)
+        {
+            Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Stc_ID == stcid).ToFirst<Student_Course>();
+            return ResultScoreCalc(sc);
+        }
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stid">学员账号id</param>
+        /// <returns></returns>
+        public bool ResultScoreCalc4Student(int stid)
+        {
+            //获取学员的学习记录
+            WhereClip wccalc = Student_Course._.Ac_ID == stid;
+            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
+            //循环计算
+            foreach (Student_Course stc in list) this.ResultScoreCalc(stc);
+            return true;
+        }
+
+        #endregion
+
         #region 价格管理
         /// <summary>
         /// 添加价格记录
@@ -1763,7 +1768,7 @@ namespace Song.ServiceImpls
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
-            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生学习记录.xml";
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "课程的学习成果.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
 

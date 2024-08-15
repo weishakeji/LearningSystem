@@ -376,23 +376,7 @@ namespace Song.ServiceInterfaces
         /// <param name="study">学习记录，即视频观看进度</param>
         /// <param name="ques">试题练习记录，通过率</param>
         /// <param name="exam">结课考试的成绩</param>
-        void StudentScoreSave(Student_Course sc, double study, double ques, double exam);
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="sc">学员选修记录的实体</param>
-        Student_Course StudentScoreCalc(Student_Course sc);
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="stcid">学员选修记录的主键id</param>
-        Student_Course StudentScoreCalc(int stcid);
-        /// <summary>
-        /// 计算学员的综合成绩
-        /// </summary>
-        /// <param name="stid">学员账号id</param>
-        /// <returns></returns>
-        bool StudentScoreBatchCalc(int stid);
+        void StudentScoreSave(Student_Course sc, double study, double ques, double exam);        
         /// <summary>
         /// 取消课程学习，直接删除购买记录
         /// </summary>
@@ -449,6 +433,25 @@ namespace Song.ServiceInterfaces
         /// <param name="end">结束时间</param>
         /// <returns></returns>
         decimal Income(int orgid, long sbjid, DateTime? start, DateTime? end);
+        #endregion
+
+        #region 学习成果计算
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="sc">学员选修记录的实体</param>
+        Student_Course ResultScoreCalc(Student_Course sc);
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stcid">学员选修记录的主键id</param>
+        Student_Course ResultScoreCalc(int stcid);
+        /// <summary>
+        /// 计算学员的综合成绩
+        /// </summary>
+        /// <param name="stid">学员账号id</param>
+        /// <returns></returns>
+        bool ResultScoreCalc4Student(int stid);
         #endregion
 
         #region 课程关联管理（与学生或教师）        
@@ -557,8 +560,13 @@ namespace Song.ServiceInterfaces
         /// 分页获取当前课程的学员（即学习该课程的学员），并计算出完成度
         /// </summary>
         /// <param name="couid"></param>
+        /// <param name="stsid"></param>
         /// <param name="acc">学员账号或姓名</param>
         /// <param name="name">学员的姓名</param>
+        /// <param name="idcard"></param>
+        /// <param name="mobi"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>

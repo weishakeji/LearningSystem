@@ -137,7 +137,7 @@
             allcalcResultScore_func: function () {
                 var th=this;
                 var loading = th.$fulloading();
-                $api.get('Course/studentscorecalc', { 'acid': th.form.acid }).then(req => {
+                $api.get('Student/ResultScoreCalc', { 'acid': th.form.acid }).then(req => {
                     if (req.data.success) {
                         var result = req.data.result;    
                         th.handleCurrentChange();                    
@@ -150,12 +150,12 @@
             },
             //显示完成度
             showcomplete: num => Math.round((num > 100 ? 100 : num) * 100) / 100,
-            //导出学员的资金流水
+            //导出学员的学习成果
             btnOutput: function () {
                 //创建生成Excel
                 this.loading_out = true;
                 var th = this;
-                $api.get('Money/ExcelAccountOutput', th.query).then(function (req) {
+                $api.get('Student/ResultScoreOutputExcel',  { 'acid':th.form.acid  }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -177,7 +177,7 @@
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Money/ExcelFiles', { 'path': this.query.path, 'orgid': -1 }).then(function (req) {
+                $api.get('Student/ResultScoreFiles', { 'acid':th.form.acid  }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -193,7 +193,7 @@
             deleteFile: function (file) {
                 var th = this;
                 th.loading_out = true;
-                $api.get('Money/ExcelDelete', { 'path': th.query.path, 'orgid': -1, 'filename': file }).then(function (req) {
+                $api.get('Student/ResultScoreFileDelete', { 'acid':th.form.acid, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();

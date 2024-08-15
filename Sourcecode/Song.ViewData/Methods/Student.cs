@@ -9,7 +9,8 @@ using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Core;
 using System.Data;
-
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Song.ViewData.Methods
 {
@@ -211,6 +212,98 @@ namespace Song.ViewData.Methods
             return result;
         }
 
+        #endregion
+
+        #region 学习成绩
+        /// <summary>
+        /// 批量计算某个学员所有课程学习的综合成绩
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        public bool ResultScoreCalc(int acid)
+        {
+            return Business.Do<ICourse>().ResultScoreCalc4Student(acid);
+        }
+        private static string outputPath_ResultScore = "ResultScoreToExcel";
+        /// <summary>
+        /// 学员学习记录生成excel
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Admin, Teacher]
+        public JObject ResultScoreOutputExcel(int acid)
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null) throw new Exception("当前学员不存在");
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("{0}.{1}.({2}).xls", acid, acc.Ac_Name, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (File.Exists(rootpath + filename))
+            {
+                throw new Exception("当前文档已经存在，请删除或稍后再操作");
+            }
+            Business.Do<IStudent>().ResultScoreToExcel(rootpath + filename, acid);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_ResultScore, filename));
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 删除学习成果导出的Excel文件
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ResultScoreFileDelete(int acid, string filename)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            string filePath = rootpath + acid + "." + filename;
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 学员学习成绩的导出，已经生成的Excel文件
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray ResultScoreFiles(int acid)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
+            {
+                if (f.Name.IndexOf(".") < 0) continue;
+                string prefix = f.Name.Substring(0, f.Name.IndexOf("."));
+                if (prefix.Length < 1) continue;
+                if (prefix != acid.ToString()) continue;
+
+                JObject jo = new JObject();
+                string name = f.Name.Substring(f.Name.IndexOf(".") + 1);
+                jo.Add("file", name);
+                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_ResultScore, f.Name));
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
         #endregion
     }
 }
