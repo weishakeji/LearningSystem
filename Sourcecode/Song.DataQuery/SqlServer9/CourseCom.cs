@@ -324,7 +324,7 @@ namespace Song.DataQuery.SqlServer9
             string sqljquery = string.Empty;
             sqljquery = @"select * from
 (select * from
-                       (select a.*,sc.Cou_ID,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id desc ) AS rowid from 
+                       (select a.*,sc.Cou_ID,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,sc.Stc_ResultScore,sc.Stc_ID, ROW_NUMBER() OVER(Order by a.ac_id desc ) AS rowid from 
                          (select * from Student_Course where {{where4sc}} and ({{start}} and {{end}})  ) as sc  inner join      
                          Accounts as a on sc.Ac_ID=a.Ac_ID {{where4acc}}) as pager  where  rowid > {{startindex}} and rowid<={{endindex}} 
    ) as acc

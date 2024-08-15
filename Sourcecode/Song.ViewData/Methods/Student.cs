@@ -275,7 +275,7 @@ namespace Song.ViewData.Methods
             return false;
         }
         /// <summary>
-        /// 学员学习成绩的导出，已经生成的Excel文件
+        /// 学员学习成果的导出，已经生成的Excel文件
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>

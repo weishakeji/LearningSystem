@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出,说明" ref='btngroup' path="Modify" @help="btnhelp" @output="exportVisible=true" width="880"
+            <btngroup show="导出,重新计算,说明" ref='btngroup'  @batcalc="allcalcResultScore" @help="btnhelp" @output="exportVisible=true" width="880"
                 height="60%" idkey='Ac_ID' table="datatables">
             </btngroup>
             <query_panel :model="form" :loading="loading" @search="getdata(1)">
@@ -88,8 +88,32 @@
                 </div>
             </el-table-column>
             <el-table-column label="综合成绩" width="100" align="center">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="batcalcResultScore">
+                        <span class="el-dropdown-link">
+                            综合成绩<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="1">
+                                <icon>&#xa067</icon>重新计算
+                            </el-dropdown-item>                             
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
                 <template slot-scope="scope">
-                    <result_score :account="scope.row" :config="config"></result_score>
+                    <loading v-if="loadingid==scope.row.Stc_ID" asterisk>...</loading>
+                        <el-dropdown v-else>
+                            <span class="el-dropdown-link">
+                                {{scope.row.Stc_ResultScore}} 分
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-link type="primary" plain
+                                    @click='calcResultScore(scope.row.Stc_ID)'> <icon>&#xa067</icon>重新计算</el-link>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                 </template>
             </el-table-column>
         </el-table>

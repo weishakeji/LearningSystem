@@ -1076,7 +1076,11 @@ namespace Song.ServiceImpls
                 sc.Stc_ExamScore = sc.Stc_ExamScore != exam ? exam : sc.Stc_ExamScore;
             //此处要计算综合成绩
             sc = this.ResultScoreCalc(sc);
-            Gateway.Default.Save<Student_Course>(sc);
+            //保存更新
+            Gateway.Default.Update<Student_Course>(
+                new Field[] { Student_Course._.Stc_StudyScore, Student_Course._.Stc_QuesScore, Student_Course._.Stc_ExamScore },
+                new object[] { sc.Stc_StudyScore, sc.Stc_QuesScore, sc.Stc_ExamScore },
+                Student_Course._.Stc_ID == sc.Stc_ID); 
         }
         
         /// <summary>
@@ -1490,23 +1494,23 @@ namespace Song.ServiceImpls
             if (!existvideo)
             {
                 //如果课程没有视频，则权重分摊到试题与结课考试
-                weight_ques *= 1 / weight_video;
-                weight_exam *= 1 / weight_video;
+                weight_ques = _share_weight(weight_video, weight_ques);
+                weight_exam = _share_weight(weight_video, weight_exam);
                 weight_video = 0;
             }
             if (!existques)
             {
                 //如果没有试是，则权重分摊到视频与结果考试
-                weight_video *= 1 / weight_ques;
-                weight_exam *= 1 / weight_ques;
+                weight_video = _share_weight(weight_ques, weight_video);
+                weight_exam = _share_weight(weight_ques, weight_exam);
                 weight_ques = 0;
             }
             //结课考试
             TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
             if (test == null)
             {
-                weight_ques *= 1 / weight_exam;
-                weight_video *= 1 / weight_exam;
+                weight_ques = _share_weight(weight_exam, weight_ques);
+                weight_video = _share_weight(weight_exam, weight_video);
                 weight_exam = 0;
             }
             else
@@ -1533,7 +1537,14 @@ namespace Song.ServiceImpls
             Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
             return sc;
         }
-
+        /// <summary>
+        /// 分摊权重的算法
+        /// </summary>
+        /// <param name="weight">获取分摊权重的值</param>
+        /// <param name="shared">被分摊的权重值</param>
+        /// <returns></returns>
+        private double _share_weight(double shared, double weight) => weight / (1 - shared) * shared + weight;
+        
         /// <summary>
         /// 计算学员的综合成绩
         /// </summary>
@@ -1558,7 +1569,21 @@ namespace Song.ServiceImpls
             foreach (Student_Course stc in list) this.ResultScoreCalc(stc);
             return true;
         }
-
+        /// <summary>
+        /// 计算选修课程学员的综合成绩
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public bool ResultScoreCalc4Course(long couid)
+        {
+            //获取学习记录
+            WhereClip wccalc = Student_Course._.Cou_ID == couid;
+            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
+            //循环计算
+            foreach (Student_Course stc in list) this.ResultScoreCalc(stc);
+            return true;
+        }
         #endregion
 
         #region 价格管理

@@ -45,7 +45,7 @@
                             <icon question>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
                         </el-tooltip>
                         <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
-                            <icon exam>{{scope.row.Stc_ExamScore}} </icon>
+                            <icon exam>{{scope.row.Stc_ExamScore}} 分</icon> 
                         </el-tooltip>
                     </div>
                 </el-table-column>
@@ -76,7 +76,6 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-
                     </template>
                 </el-table-column>
             </el-table>
@@ -90,7 +89,7 @@
 
         <!-- 导出面板-->
         <el-drawer :visible.sync="output_panel" size="50%" direction="ttb" class="output" :show-close="false">
-            <el-form ref="query" :model="query" @submit.native.prevent label-width="80px">
+            <el-form ref="query"  @submit.native.prevent label-width="80px">
 
                 <el-form-item label="">
                     <el-button :type="loading_out ? 'info' : 'success'" v-on:click="btnOutput" class="el-icon-position"

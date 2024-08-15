@@ -18,22 +18,13 @@
 
 
             //导出
-            output_panel: false,      //导出面板
-            query: {
-                path: 'MoneyOutputToExcel_' + $api.querystring('id'),     //导出的文件的存储路径
-                orgid: 0,
-                acid: $api.querystring('id'),      //学员id 
-                from: -1,     //来源
-                type: -1,     //类型，支出或充值               
-                start: '',       //时间区间的开始时间
-                end: ''         //结束时间    
-            },
+            output_panel: false,      //导出面板  
             files: [],          //已经生成的excel文件列表
             loading_out: false
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
-                text: '重新计算', tips: '重新计算学员综合成绩',
+                text: '重新计算', tips: '重新计算综合成绩',
                 id: 'batcalc', type: 'success',
                 icon: 'a067'
             });

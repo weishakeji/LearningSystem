@@ -23,9 +23,15 @@
             fileloading: false,      //导出时的加载状态
 
             loading: true,
+            loadingid: 0,
             loading_init: true
         },
         mounted: function () {
+            this.$refs.btngroup.addbtn({
+                text: '重新计算', tips: '重新计算学员综合成绩',
+                id: 'batcalc', type: 'success',
+                icon: 'a067'
+            });
             var th = this;
             th.loading_init = true;
             $api.bat(
@@ -43,7 +49,7 @@
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-
+            
         },
         computed: {
         },
@@ -73,6 +79,81 @@
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
+            },
+            //重新计算综合成绩
+            calcResultScore: function (stcid) {
+                var th = this;
+                th.loadingid = stcid;
+                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        //更新结果
+                        var idx = th.datas.findIndex(item => item.Stc_ID == stcid);
+                        th.datas[idx].Stc_ResultScore = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = -1);
+            },
+            //批量计算成绩
+            batcalcResultScore: function () {
+                this.$confirm('重新计算当前页面的 ' + this.datas.length + ' 条成绩, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => this.calcScore_onebyone(0))
+                    .catch(() => { });
+            },
+            //逐一计算成绩
+            calcScore_onebyone: function (index) {
+                var th = this;
+                if (index >= th.datas.length) {
+                    this.$message({
+                        message: '当前页的所有成绩全部计算完成！',
+                        type: 'success'
+                    });
+                    return;
+                }
+                var stcid = th.datas[index].Stc_ID;
+                th.loadingid = stcid;
+                $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.datas[index].Stc_ResultScore = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        th.loadingid = -1;
+                        th.calcScore_onebyone(++index);
+                    });
+            },
+            //计算所有成绩
+            allcalcResultScore: function () {
+                this.$confirm('重新当前课程的所有综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => this.allcalcResultScore_func())
+                    .catch(() => { });
+            },
+            //计算所有成绩的具体方法
+            allcalcResultScore_func: function () {
+                var th=this;
+                var loading = th.$fulloading();
+                $api.get('Course/ResultScoreBatchCalc', { 'couid': th.form.couid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;    
+                        th.getdata();                    
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>  th.$nextTick(() => loading.close()));
             },
             //显示电话
             showTel: function (row) {
@@ -142,65 +223,5 @@
                     .finally(() => th.fileloading = false);
             },
         }
-    });
-    //课程综合成绩
-    Vue.component('result_score', {
-        //account:学员记录，其中包括视频学习等的值，Stc_QuesScore,Stc_StudyScore,Stc_ExamScore,
-        props: ["account", "config"],
-        data: function () {
-            return {
-                result: {},  //成绩 {"score":成绩得分，没有成绩为-1,"state":nopass不及格，normal及格，fine优秀}
-                loading: false
-            }
-        },
-        watch: {
-            'account': {
-                handler: function (nv, ov) {
-                    this.result = this.resultScore();
-                }, immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            //综合得分
-            resultScore: function () {
-                var purchase = this.account;
-                var th = this;
-                //视频得分
-                var weight_video = orgconfig('finaltest_weight_video', 33.3);
-                //加上容差
-                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-                video = weight_video * video / 100;
-                //试题得分
-                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
-                var ques = weight_ques * purchase.Stc_QuesScore / 100;
-                //结考课试分
-                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
-                var exam = weight_exam * purchase.Stc_ExamScore / 100;
-                //最终得分
-                var score = Math.round((video + ques + exam) * 100) / 100;
-                score = score >= 100 ? 100 : score;
-                return score;
-                //获取机构的配置参数
-                function orgconfig(para, def) {
-                    var val = th.config[para];
-                    if (!val) return def ? def : '';
-                    return val;
-                };
-            },
-            //显示所有价格信息
-            showdetail: function () {
-                let price = '';
-                for (let i = 0; i < this.prices.length; i++) {
-                    const item = this.prices[i];
-                    price += item.CP_Span + item.CP_Unit + item.CP_Price + "元\n";
-                }
-                return price;
-            }
-        },
-        template: `<div class="exam_result">
-               {{result}}
-            </div> `
     });
 });

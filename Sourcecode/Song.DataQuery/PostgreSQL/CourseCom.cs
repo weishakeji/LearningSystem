@@ -302,7 +302,7 @@ namespace Song.DataQuery.PostgreSQL
             //学员查询条件
             string where4acc = "where {{acc}} and {{name}} and {{idcard}} and {{mobi}}";
             where4acc = where4acc.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : @"a.""Ac_AccName"" ILIKE '%" + acc + "%'");
-            where4acc = where4acc.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"a.""Ac_Name ILIKE"" '%" + name + "%'");
+            where4acc = where4acc.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : @"a.""Ac_Name"" ILIKE '%" + name + "%'");
             where4acc = where4acc.Replace("{{idcard}}", string.IsNullOrWhiteSpace(idcard) ? "1=1" : @"a.""Ac_IDCardNumber"" ILIKE '%" + idcard + "%'");
             where4acc = where4acc.Replace("{{mobi}}", string.IsNullOrWhiteSpace(mobi) ? "1=1" : @"a.""Ac_MobiTel1"" ILIKE '%" + mobi + "%'");
 
@@ -317,7 +317,7 @@ namespace Song.DataQuery.PostgreSQL
             //分页查询的脚本
             string sqljquery = string.Empty;
             sqljquery = @"  select * from
-                       (select a.*,sc.""Cou_ID"",sc.""Stc_QuesScore"",sc.""Stc_StudyScore"",sc.""Stc_ExamScore"" from 
+                       (select a.*,sc.""Cou_ID"",sc.""Stc_QuesScore"",sc.""Stc_StudyScore"",sc.""Stc_ExamScore"",sc.""Stc_ResultScore"",sc.""Stc_ID"" from 
                          (select * from ""Student_Course"" where {{where4sc}} and {{start}} and {{end}}) as sc  inner join
                          ""Accounts"" as a on sc.""Ac_ID"" = a.""Ac_ID"" {{where4acc}} order by ""Ac_ID"" desc LIMIT  {{size}} OFFSET {{index}} )
                 as acc

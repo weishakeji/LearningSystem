@@ -452,6 +452,12 @@ namespace Song.ServiceInterfaces
         /// <param name="stid">学员账号id</param>
         /// <returns></returns>
         bool ResultScoreCalc4Student(int stid);
+        /// <summary>
+        /// 计算选修课程学员的综合成绩
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        bool ResultScoreCalc4Course(long couid);
         #endregion
 
         #region 课程关联管理（与学生或教师）        

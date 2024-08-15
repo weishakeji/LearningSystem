@@ -1066,16 +1066,24 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 计算某个课程学习的综合成绩
+        /// 计算某个课程学习记录的综合成绩
         /// </summary>
-        /// <param name="stcid">学习记录的id,取Student_Course表的主键id</param>
+        /// <param name="stcid">学习记录的id,取自Student_Course表的主键id</param>
         /// <returns>综合成绩得分</returns>
         public double ResultScoreCalc(int stcid)
         {
             Student_Course sc= Business.Do<ICourse>().ResultScoreCalc(stcid);
             return sc.Stc_ResultScore;
         }
-        
+        /// <summary>
+        /// 批量计算某个课程学习的综合成绩
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool ResultScoreBatchCalc(long couid)
+        {
+            return Business.Do<ICourse>().ResultScoreCalc4Course(couid);
+        }
         #endregion
 
         #region 课程购买(或叫选修)
