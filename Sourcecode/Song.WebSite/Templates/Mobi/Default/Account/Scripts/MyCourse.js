@@ -105,7 +105,7 @@ $ready(function () {
             },
         }
     });
-    // 课程详情
+    // 课程详情（左滑显示的内容）
     Vue.component('course_data', {
         props: ['couid', 'viewnum'],
         data: function () {
@@ -142,28 +142,53 @@ $ready(function () {
                 }).catch(err => console.error(err));
             }
         },
-        template: `  <div class="cur_data">
-                    <div>
-                        <icon outline></icon>
-                        章节 {{data.outline}} 
-                    </div>
-                    <div>
-                        <icon question></icon>
-                        试题 {{data.question}} 
-                    </div>
-                    <div>
-                        <icon video></icon>
-                        视频 {{data.video}}
-                    </div>
-                    <div>
-                        <icon test></icon>
-                        测试 {{data.testpaper}}
-                    </div>
-                    <div>
-                        <icon view></icon>
-                        关注 {{viewnum}}
-                    </div>
+        template: ` <div class="cur_data">                
+                        <icon outline>章节 {{data.outline}} </icon>                    
+                        <icon question>试题 {{data.question}} </icon>                     
+                        <icon video>视频 {{data.video}}</icon>                     
+                        <icon test>测试 {{data.testpaper}}</icon>                     
+                        <icon view>关注 {{viewnum}}</icon>                    
                 </div>`
+    });
+    // 课程的综合成绩
+    Vue.component('result_score', {
+        props: ['purchase'],
+        data: function () {
+            return {
+                loading: false
+            }
+        },
+        watch: {},
+        computed: {},
+        mounted: function () { },
+        methods: {
+            btnclick: function () {
+                vant.Dialog.confirm({ message: '重新计算课程的综合成绩，是否继续？' }).then(() => {
+                    this.calcResultScore();
+                }).catch(err => { });
+            },
+            //重新计算综合成绩
+            calcResultScore: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Course/ResultScoreCalc', { 'stcid': th.purchase.Stc_ID }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.purchase.Stc_ResultScore = result;                     
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+        },
+        template: `<div class="result_score" @click="btnclick">
+            <loading v-if="loading" asterisk></loading>
+            <template v-else>           
+                <icon>&#xe829</icon>{{purchase.Stc_ResultScore}}     
+            </template>        
+        </div>`
     });
 
 }, ['../Components/courses.js',

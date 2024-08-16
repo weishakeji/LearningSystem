@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>我的课程</title>  
+    <title>我的课程</title>
 </head>
 
 <body>
@@ -36,11 +36,14 @@
                 </div>
             </van-row>
             <van-row style="margin-top: 20px;" v-if="islogin">
-                <van-tag type="warning" @click="gourl('../Recharge/index')"><icon money>{{account.Ac_Money}}元</icon>
+                <van-tag type="warning" @click="gourl('../Recharge/index')">
+                    <icon money>{{account.Ac_Money}}元</icon>
                 </van-tag>
-                <van-tag type="primary" @click="gourl('../Point/index')"><icon coupon>券{{account.Ac_Coupon}}</icon>
+                <van-tag type="primary" @click="gourl('../Point/index')">
+                    <icon coupon>券{{account.Ac_Coupon}}</icon>
                 </van-tag>
-                <van-tag type="primary" @click="gourl('../Point/index')" plain><icon point>积分{{account.Ac_Point}}</icon>
+                <van-tag type="primary" @click="gourl('../Point/index')" plain>
+                    <icon point>积分{{account.Ac_Point}}</icon>
                 </van-tag>
             </van-row>
         </div>
@@ -76,10 +79,10 @@
                             <picture @click="godetail(item.Cou_ID)">
                                 <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
                                 <img :src="defimg" v-else />
-                                <rec v-if="item.Cou_IsRec"></rec>                                 
+                                <rec v-if="item.Cou_IsRec"></rec>
                                 <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}
                                 </van-tag>
-                                <van-tag type="primary" class="type" v-if="item.Cou_Type==2">题库</van-tag> 
+                                <van-tag type="primary" class="type" v-if="item.Cou_Type==2">题库</van-tag>
                             </picture>
                             <info @click="godetail(item.Cou_ID)">
                                 <div class="curname">
@@ -92,7 +95,9 @@
                                 <div class="cursubject"> {{item.Sbj_Name}}</div>
                                 <price>
                                     <template v-if="scope.forever">
-                                        <van-tag type="success"><icon>&#xa048</icon>不限时</van-tag>
+                                        <van-tag type="success">
+                                            <icon>&#xa048</icon>不限时
+                                        </van-tag>
                                     </template>
                                     <van-tag type="success " class="free"
                                         v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
@@ -105,16 +110,16 @@
                                 </price>
                             </info>
                             <div class="progress">
-                                <video_progress  v-if="item.Cou_Type!=2" :course="item" :stid="account.Ac_ID" :config="config"
-                                    :purchase="scope.data">
+                                <video_progress v-if="item.Cou_Type!=2" :course="item" :stid="account.Ac_ID"
+                                    :config="config" :purchase="scope.data">
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                                 </ques_progress>
                                 <exam_test :course="item" v-show="false" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data">
                                 </exam_test>
-                                <div><icon>&#xe829</icon>{{scope.data.Stc_ResultScore}}</div>
-                             
+                                <!-- 综合成绩 --->
+                                <result_score :purchase="scope.data"></result_score>
                             </div>
                         </template>
                     </van-cell>

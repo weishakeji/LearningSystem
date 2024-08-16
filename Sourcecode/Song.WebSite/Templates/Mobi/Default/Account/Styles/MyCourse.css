@@ -221,16 +221,13 @@
     display: flex;
     flex-direction: column;
 }
-
-.cur_data>div {
-    flex: auto;
-    width: 100%;
-    line-height: 100%;
-    white-space: nowrap;
+.cur_data>icon::before{
+    font-size: 20px;
 }
-
-.cur_data>div icon {
-    font-size: 16px;
+.cur_data>icon {
+    flex: auto;
+    white-space: nowrap;
+    font-size: 14px;
     margin-right: 4px;
 }
 
