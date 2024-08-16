@@ -50,7 +50,7 @@
                                     <progress_value :stid="account.Ac_ID" :course="item" :config="config">
                                         <template slot-scope="count">
                                             <el-tag>
-                                                <icon>&#xe6ef</icon>完成 {{count.value}} %
+                                                <icon style="font-size: 20px;">&#xe829</icon>成绩 : {{count.purchase.Stc_ResultScore}} 分
                                             </el-tag>
                                         </template>
                                     </progress_value>
@@ -88,7 +88,7 @@
                                 <progress_value :stid="account.Ac_ID" :course="item" :config="config">
                                     <template slot-scope="count">
                                         <el-tag>
-                                            <icon>&#xe6ef</icon>完成 {{count.value}} %
+                                            <icon style="font-size: 20px;">&#xe829</icon>成绩 : {{count.purchase.Stc_ResultScore}} 分
                                         </el-tag>
                                     </template>
                                 </progress_value>

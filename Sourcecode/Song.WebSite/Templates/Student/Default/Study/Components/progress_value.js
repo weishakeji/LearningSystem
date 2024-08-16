@@ -54,41 +54,9 @@ Vue.component('progress_value', {
                     th.percent = 0;
                 }
                 //购买记录
-                th.purchase = purchase.data.result;
-                th.score = th.resultScore(purchase.data.result).score;
+                th.purchase = purchase.data.result;               
             }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
-        },
-        //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
-        resultScore: function (purchase) {
-            var th = this;
-            //视频得分
-            var weight_video = orgconfig('finaltest_weight_video', 33.3);
-            //加上容差
-            var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-            video = video >= 100 ? 100 : video;
-            video = weight_video * video / 100;
-            //试题得分
-            var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
-            var ques = weight_ques * purchase.Stc_QuesScore / 100;
-            //结考课试分
-            var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
-            var exam = weight_exam * purchase.Stc_ExamScore / 100;
-            //最终得分
-            var score = Math.round((video + ques + exam) * 100) / 100;
-            score = score >= 100 ? 100 : score;
-            return {
-                'video': video,
-                'ques': ques,
-                'exam': exam,
-                'score': score
-            }
-            //获取机构的配置参数
-            function orgconfig(para, def) {
-                var val = Number(th.config[para]);
-                if (isNaN(val)) return def ? def : '';
-                return val;
-            };
         },
     },
     template: `<dd>
