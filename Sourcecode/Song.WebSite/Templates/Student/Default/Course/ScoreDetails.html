@@ -22,30 +22,29 @@
         <div v-else class="context">
             <div class="row video">
                 <span>视频学习完成<b>{{purchase.Stc_StudyScore}}%</b>，
-                    权重<b>{{orgconfig('finaltest_weight_video',33.3)}}%</b>，</span>
-                <span>得分：{{Math.round(score.video*100)/100}}</span>
+                    权重<b>{{orgconfig('finaltest_weight_video',33.3)}}%</b></span>
+             
             </div>
             <div class="row ques">
                 <span>试题通过率达到<b>{{purchase.Stc_QuesScore}}%</b>，
-                    权重<b>{{orgconfig('finaltest_weight_ques',33.3)}}%</b>，</span>
-                <span>得分：{{Math.round(score.ques*100)/100}}</span>
+                    权重<b>{{orgconfig('finaltest_weight_ques',33.3)}}%</b></span>
+              
             </div>
             <div class="row exam">
                 <span>结课考试得分<b>{{purchase.Stc_ExamScore}}分</b>，
-                    权重<b>{{orgconfig('finaltest_weight_exam',33.3)}}%</b>，</span>
-                <span>得分：{{Math.round(score.exam*100)/100}}</span>
+                    权重<b>{{orgconfig('finaltest_weight_exam',33.3)}}%</b></span>
+               
             </div>
             <div class="footer">
                 <div>
                     <el-button v-if="true" type="primary" plain @click="refresh_data()" :loading="loading_fresh!=0">
-                        更新学习记录</el-button>
+                        更新学习记录并重新计算</el-button>
                 </div>
-                <div class="score">综合成绩：<span :class="{'nopass':score.score<60}">{{Math.round(score.score*100)/100}}
+                <div class="score">综合成绩：<span :class="{'nopass':purchase.Stc_ResultScore<60}">{{purchase.Stc_ResultScore}}
                     </span>分</div>
             </div>
         </div>
     </div>
-
 
 </body>
 

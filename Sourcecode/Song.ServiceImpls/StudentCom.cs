@@ -335,7 +335,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable Outcomes4Sort(long stsid, bool isnot)
         {
-
+            //还没有编写
             return null;
         }
         /// <summary>
@@ -477,6 +477,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable Outcomes4LearningCard(long lcsid)
         {
+            //还没有编写
             return null;
         }
         /// <summary>

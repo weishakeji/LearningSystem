@@ -8,26 +8,28 @@
 	counter-reset: section;
 }
 .row {
-	padding: 10px 15px 5px 80px;
-	height: 80px;
+	padding: 10px 15px 5px 40px;	
 	box-sizing: border-box;
 	display: flex;
 	justify-content: space-between;
 	text-align: left;
 	position: relative;
-	font-size: 20px;
+	font-size: 18px;
 }
 .row::before{
 	font-family:"webdesk_icon" !important;	
-	font-size: 60px;
+	font-size: 23px;
 	display: block;
 	position: absolute;
-	top: 0px;
+	top: 10px;
 	left: 0px;
 }
 .row>span:first-child::before{
 	counter-increment: section;
   content: counter(section) ". ";
+}
+.row b{
+	margin: auto 10px;
 }
 .video::before{
 	content: '\e83a';
@@ -38,10 +40,7 @@
 .exam::before{
 	content: '\e810';
 }
-.row span:last-child{
-	display: block;
-	width: 120px;
-}
+
 /*底部*/
 .footer{
 	justify-content: space-between;

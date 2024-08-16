@@ -4,7 +4,8 @@ $ready(function () {
         el: '#vapp',
         data: {
             couid: $api.dot(),
-            stid: $api.querystring('stid'),
+            stid: $api.querystring('stid'), //学员ID
+            stcid: $api.querystring('stcid'),    //学习记录的ID，即Student_Course的主键ID
             account: {},     //当前登录账号       
 
             platinfo: {},
@@ -13,8 +14,6 @@ $ready(function () {
 
             purchase: {},        //课程购买的记录
             purchase_query: { 'couid': -1, 'stid': -1 },
-            //得分信息
-            score: {},
 
             loading_init: true,
             loading_fresh: 0,        //刷新的预载
@@ -49,17 +48,19 @@ $ready(function () {
             isnull: t => $api.isnull(t.purchase)
         },
         watch: {
+            //当数据更新完，重新计算综合成绩
+            'loading_fresh': function (n, o) {
+                if (n <= 0) this.calcResultScore();
+            }
         },
         methods: {
             //获取购买课程的记录
             getpurchase: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
+                $api.get('Course/Purchaselog:5', { 'stcid': th.stcid }).then(function (req) {
                     if (req.data.success) {
                         th.purchase = req.data.result;
-                        //计算得分
-                        th.score = th.resultScore(th.purchase, th.config);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -72,33 +73,6 @@ $ready(function () {
                 var val = Number(this.config[para]);
                 if (isNaN(val)) return def ? def : '';
                 return val;
-            },
-            //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
-            resultScore: function (purchase, config) {
-                if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;
-                //获取机构的配置参数
-                let orgconfig = this.orgconfig;
-                //视频得分
-                let weight_video = orgconfig('finaltest_weight_video', 33.3);
-                //加上容差
-                let video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-                video = video >= 100 ? 100 : video;
-                video = weight_video * video / 100;
-                //试题得分
-                let weight_ques = orgconfig('finaltest_weight_ques', 33.3);
-                let ques = weight_ques * purchase.Stc_QuesScore / 100;
-                //结考课试分
-                let weight_exam = orgconfig('finaltest_weight_exam', 33.3);
-                let exam = weight_exam * purchase.Stc_ExamScore / 100;
-                //最终得分
-                let score = Math.round((video + ques + exam) * 100) / 100;
-                score = score >= 100 ? 100 : score;
-                return {
-                    'video': video,
-                    'ques': ques,
-                    'exam': exam,
-                    'score': score
-                }
             },
             //更新学习记录的相关数据
             refresh_data: function () {
@@ -114,8 +88,7 @@ $ready(function () {
                                 .then(function (req) {
                                     if (req.data.success) {
                                         th.purchase.Stc_StudyScore = req.data.result;
-                                        th.score = th.resultScore(th.purchase, th.config);
-                                        th.$notify({ type: 'success', message: '更新视频学习进度成功' });
+                                        th.$notify({ message: '更新视频学习进度成功' });
                                     } else {
                                         console.error(req.data.exception);
                                         throw req.config.way + ' ' + req.data.message;
@@ -134,15 +107,29 @@ $ready(function () {
                 $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                     if (req.data.success) {
                         th.purchase.Stc_ExamScore = req.data.result;
-                        th.score = th.resultScore(th.purchase, th.config);
-                        th.$notify({ type: 'success', message: '更新结课考试成绩成功' });
+                        th.$notify({  message: '更新结课考试成绩成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading_fresh--);
-            }
+            },
+            //重新计算综合成绩
+            calcResultScore: function () {
+                var th = this;              
+                $api.get('Course/ResultScoreCalc', { 'stcid': th.stcid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;                      
+                        th.purchase.Stc_ResultScore = result;
+                        th.$notify({ type: 'success', message: '更新计算综合成绩完成' });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = -1);
+            },
         }
     });
 

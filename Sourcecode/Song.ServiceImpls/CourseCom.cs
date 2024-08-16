@@ -986,6 +986,15 @@ namespace Song.ServiceImpls
                 .ToFirst<Student_Course>();           
         }
         /// <summary>
+        /// 学生与课程的关联记录项
+        /// </summary>
+        /// <param name="stcid">记录项的主键id</param>
+        /// <returns></returns>
+        public Student_Course StudentCourse(int stcid)
+        {
+            return Gateway.Default.From<Student_Course>().Where(Student_Course._.Stc_ID == stcid).ToFirst<Student_Course>();
+        }
+        /// <summary>
         /// 学生与课程的关联记录项，如果autoCreate为true，当没有关联项时，且课程为免费状态，可以自动创建关联
         /// </summary>
         /// <param name="stid">学员id</param>
@@ -1494,7 +1503,7 @@ namespace Song.ServiceImpls
             if (!existvideo)
             {
                 //如果课程没有视频，则权重分摊到试题与结课考试
-                weight_ques *= 1/(1- weight_video);
+                weight_ques *= 1 / (1 - weight_video);
                 weight_exam *= 1 / (1 - weight_video);
                 weight_video = 0;
             }

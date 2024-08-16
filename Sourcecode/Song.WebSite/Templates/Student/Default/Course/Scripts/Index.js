@@ -86,43 +86,17 @@ $ready(function () {
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
-            //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
-            resultScore: function (purchase) {
-                if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;
-                var th = this;
-                //视频得分
-                var weight_video = orgconfig('finaltest_weight_video', 33.3);
-                //加上容差
-                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-                video = video >= 100 ? 100 : video;
-                video = weight_video * video / 100;
-                //试题得分
-                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
-                var ques = weight_ques * purchase.Stc_QuesScore / 100;
-                //结考课试分
-                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
-                var exam = weight_exam * purchase.Stc_ExamScore / 100;
-                //最终得分
-                var score = Math.round((video + ques + exam) * 100) / 100;
-                score = score >= 100 ? 100 : score;
-                return score;
-                //获取机构的配置参数
-                function orgconfig(para, def) {
-                    var val = Number(th.config[para]);
-                    if (isNaN(val)) return def ? def : '';
-                    return val;
-                };
-            },
             //查看结课成绩的详情
-            viewScore: function (item) {
+            //参数：课程、学习记录
+            viewScore: function (course, purchase) {
                 if (!window.top || !window.top.vapp) return;
                 var url = "/student/course/ScoreDetails";
-                url = $api.url.dot(item.Cou_ID, url);
-                url = $api.url.set(url, { 'stid': this.account.Ac_ID });
+                url = $api.url.dot(course.Cou_ID, url);
+                url = $api.url.set(url, { 'stid': this.account.Ac_ID, 'stcid': purchase.Stc_ID });
                 var obj = {
                     'url': url,
                     'ico': 'e6ef', 'min': false,
-                    'title': '成绩详情 - ' + item.Cou_Name,
+                    'title': '成绩详情 - ' + course.Cou_Name,
                     'width': '800px',
                     'height': '400px'
                 }

@@ -346,6 +346,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Course StudentCourse(int stid, long couid);
         /// <summary>
+        /// 学生与课程的关联记录项
+        /// </summary>
+        /// <param name="stcid">记录项的主键id</param>
+        /// <returns></returns>
+        Student_Course StudentCourse(int stcid);
+        /// <summary>
         /// 学生与课程的关联记录项，如果autoCreate为true，当没有关联项时，且课程为免费状态，可以自动创建关联
         /// </summary>
         /// <param name="stid">学员id</param>

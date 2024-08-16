@@ -1278,6 +1278,15 @@ namespace Song.ViewData.Methods
             return sc;
         }
         /// <summary>
+        /// 学生课程的记录项
+        /// </summary>
+        /// <param name="stcid">Student_Course表的主键id</param>
+        /// <returns></returns>
+        public Student_Course Purchaselog(int stcid)
+        {
+            return Business.Do<ICourse>().StudentCourse(stcid);  //学员购买课程的记录          
+        }
+        /// <summary>
         /// 当前登录学员，是否在学习这门课程
         /// </summary>
         /// <param name="couid">课程id</param>
