@@ -168,7 +168,6 @@ $ready(function () {
 
 }, ['../Components/courses.js',
     'Components/purchase_data.js',
-    'Components/result_score.js',
     'Components/video_progress.js',
     'Components/ques_progress.js',
     'Components/exam_test.js']);

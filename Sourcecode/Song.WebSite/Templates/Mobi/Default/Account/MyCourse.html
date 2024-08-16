@@ -113,8 +113,8 @@
                                 <exam_test :course="item" v-show="false" :stid="account.Ac_ID" :config="config"
                                     :purchase="scope.data">
                                 </exam_test>
-                                <result_score :config="config"  v-if="item.Cou_Type!=2" :stid="account.Ac_ID" :purchase="scope.data">
-                                </result_score>
+                                <div><icon>&#xe829</icon>{{scope.data.Stc_ResultScore}}</div>
+                             
                             </div>
                         </template>
                     </van-cell>

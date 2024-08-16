@@ -69,13 +69,12 @@
                             </ques_progress>
                             <exam_test :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
                             </exam_test>
-                            <div class="score" @click="viewScore(item)">
+                            <div class="score" @click="viewScore(item,scope.data)">
                                 <div>
                                     <icon>&#xe6ef</icon>综合成绩
                                 </div>
 
-                                <span :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}}
-                                    分</span>
+                                <span  :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}} 分</span>
 
                             </div>
                         </div>

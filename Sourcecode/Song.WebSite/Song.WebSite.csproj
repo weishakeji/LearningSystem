@@ -329,6 +329,7 @@
     <Content Include="Templates\Mobi\Default\Account\Styles\BindPhone.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\OtherLogin.css" />
     <Content Include="Templates\Mobi\Default\Components\generic.js" />
+    <Content Include="Templates\Mobi\Default\Components\links.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_float.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_footer.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_live.js" />
@@ -698,7 +699,6 @@
     <Content Include="Templates\Mobi\Default\Account\Components\ques_progress.js" />
     <Content Include="Templates\Mobi\Default\Account\Components\Styles\video_progress.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\purchase_data.js" />
-    <Content Include="Templates\Mobi\Default\Account\Components\result_score.js" />
     <Content Include="Templates\Mobi\Default\Account\Components\video_progress.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\ExerciseState.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\OutlineList.js" />

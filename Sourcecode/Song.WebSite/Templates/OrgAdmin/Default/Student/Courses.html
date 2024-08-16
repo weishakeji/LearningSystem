@@ -47,9 +47,9 @@
                                 <span>{{(query.index - 1) * query.size + index + 1}}.</span>
                                 <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                             </div>
-                            <el-button type="text" @click="viewScore(item)">
-                                <icon>&#xe6ef</icon>综合成绩：<span
-                                    :class="{'nopass':resultScore(scope.data)<60}">{{resultScore(scope.data)}} 分</span>
+                            <el-button type="text" @click="viewScore(item,scope.data)">
+                                <icon>&#xe829</icon>综合成绩：<span
+                                :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}} 分</span>
                             </el-button>
                         </template>
                         <div class="cour_img">

@@ -44,7 +44,7 @@
                                 <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                             </div>
                             <el-button type="text" @click="viewScore(item,scope.data)" v-if="item.Cou_Type!=2">
-                                <icon>&#xe6ef</icon>综合成绩：<span
+                                <icon>&#xe829</icon>综合成绩：<span
                                     :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}}
                                     分</span>
                             </el-button>
