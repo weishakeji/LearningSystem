@@ -320,8 +320,9 @@ namespace Song.ServiceImpls
             {
                 //所有学习，包括学员组成员自己选修的课程
                 WhereClip wc = Accounts._.Sts_ID == stsid;
-                QuerySection<Student_Course> query = Gateway.Default.From<Student_Course>().LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                   .LeftJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID).Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
+                QuerySection<Student_Course> query = Gateway.Default.From<Student_Course>().InnerJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID)
+                   .LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                   .Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
                 DataSet ds = query.ToDataSet();
                 return ds.Tables[0];
             }
@@ -475,14 +476,21 @@ namespace Song.ServiceImpls
             return path;
         }
         /// <summary>
-        /// 学习卡的学习成果
+        /// 学习卡的学员的学习成果
         /// </summary>
         /// <param name="lcsid">学习卡设置项的id</param>
         /// <returns></returns>
         public DataTable Outcomes4LearningCard(long lcsid)
         {
-            //还没有编写
-            return null;
+            WhereClip wc = LearningCard._.Lcs_ID == lcsid;
+
+            QuerySection<LearningCard> query = Gateway.Default.From<LearningCard>()
+                .LeftJoin<Student_Course>(Student_Course._.Lc_Code == LearningCard._.Lc_Code)
+                .InnerJoin<Accounts>(LearningCard._.Ac_ID == Accounts._.Ac_ID)
+                .LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                .Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
+            DataSet ds = query.ToDataSet();
+            return ds.Tables[0];
         }
         /// <summary>
         /// 学员组的学员的学习成果,导出成excel

@@ -178,7 +178,7 @@ namespace Song.ServiceInterfaces
 
         #endregion
         /// <summary>
-        /// 学习卡的学习成果
+        /// 学习卡的学员的学习成果
         /// </summary>
         /// <param name="lcsid">学习卡设置项的id</param>
         /// <returns></returns>
