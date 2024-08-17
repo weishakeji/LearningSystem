@@ -142,17 +142,10 @@ namespace Song.ServiceInterfaces
         /// 学员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns></returns>
-        DataTable LearningOutcomes(long stsid, bool isnot, bool isall);
-        /// <summary>
-        /// 学员组的学员的学习成果
-        /// </summary>
-        /// <param name="stsid"></param>
-        /// <param name="isnot"></param>
-        /// <returns></returns>
-        DataTable Outcomes4Sort(long stsid, bool isnot);
+        DataTable Outcomes4Sort(long stsid, bool islearned, bool isall);
 
         #region 学员的学习成果
         /// <summary>
@@ -195,9 +188,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="path">文件的存放路径</param>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns>文件的路径</returns>
-        string LearningOutcomesToExcel(string path, long stsid, bool isnot);
+        string LearningOutcomesToExcel(string path, long stsid, bool islearned,bool isall);
 
         #endregion
 

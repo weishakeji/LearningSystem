@@ -301,41 +301,46 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 学员组的学员的学习成果
         /// </summary>
+        /// <summary>
+        /// 学员组的学员的学习成果
+        /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns></returns>
-        public DataTable LearningOutcomes(long stsid, bool isnot, bool isall)
+        public DataTable Outcomes4Sort(long stsid, bool islearned, bool isall)
         {
             //计算综合成绩
-            WhereClip wc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
-            wc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
-            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wc).ToList<Student_Course>();
+            WhereClip wccalc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
+            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
             foreach (Student_Course stc in list) Business.Do<ICourse>().ResultScoreCalc(stc);
-            //获取学员的学习成果
-            string sql = @"select * from ""Accounts"" as ac
+
+            if (isall)
+            {
+                //所有学习，包括学员组成员自己选修的课程
+                WhereClip wc = Accounts._.Sts_ID == stsid;
+                QuerySection<Student_Course> query = Gateway.Default.From<Student_Course>().LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                   .LeftJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID).Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
+                DataSet ds = query.ToDataSet();
+                return ds.Tables[0];
+            }
+            else
+            {
+                //获取学员组关联课程的学习成果
+                string sql = @"select * from ""Accounts"" as ac
                         inner join
                         (select * from ""Student_Course"" where {{stsid}}) as sc on ac.""Ac_ID"" = sc.""Ac_ID""
                         left join ""Course"" on sc.""Cou_ID"" = ""Course"".""Cou_ID""
                     where {{stsid2}}  order by sc.""Ac_ID"" desc";
-            sql = sql.Replace("{{stsid}}", stsid > 0 ? @"""Sts_ID""=" + stsid.ToString() : "1=1");
-            sql = sql.Replace("{{stsid2}}", stsid > 0 ? @"ac.""Sts_ID""=" + stsid.ToString() : "1=1");
-            //如果取所有学员的记录
-            if (isnot) sql = sql.Replace("inner", "left");
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            //完成度大于100，则等于100
-            DataTable dt = ds.Tables[0];
-            return dt;
-        }
-        /// <summary>
-        /// 学员组的学员的学习成果
-        /// </summary>
-        /// <param name="stsid"></param>
-        /// <param name="isnot"></param>
-        /// <returns></returns>
-        public DataTable Outcomes4Sort(long stsid, bool isnot)
-        {
-            //还没有编写
+                sql = sql.Replace("{{stsid}}", stsid > 0 ? @"""Sts_ID""=" + stsid.ToString() : "1=1");
+                sql = sql.Replace("{{stsid2}}", stsid > 0 ? @"ac.""Sts_ID""=" + stsid.ToString() : "1=1");
+                //包括学员组关联课程的未学习的课程
+                if (islearned) sql = sql.Replace("inner", "left");
+                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+                //完成度大于100，则等于100
+                DataTable dt = ds.Tables[0];
+            }         
             return null;
         }
         /// <summary>
@@ -431,33 +436,32 @@ namespace Song.ServiceImpls
                             if (dt.Columns[c].ColumnName.Equals(field))
                             {
                                 object obj = dr[c];
-                                if (obj != null)
+                                bool isnull = obj == null || obj.GetType().FullName == "System.DBNull" || obj is DBNull;
+                                //
+                                string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
+                                string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
+                                string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
+                                string value = "";
+                                switch (datatype)
                                 {
-                                    string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
-                                    string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
-                                    string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
-                                    string value = "";
-                                    switch (datatype)
-                                    {
-                                        case "date":
-                                            DateTime tm = Convert.ToDateTime(obj);
-                                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                                            break;
-                                        default:
-                                            value = obj.ToString();
-                                            break;
-                                    }
-                                    if (defvalue.Trim() != "")
-                                    {
-                                        foreach (string s in defvalue.Split('|'))
-                                        {
-                                            string h = s.Substring(0, s.IndexOf("="));
-                                            string f = s.Substring(s.LastIndexOf("=") + 1);
-                                            if (value.ToLower() == h.ToLower()) value = f;
-                                        }
-                                    }
-                                    row.CreateCell(n).SetCellValue(value);
+                                    case "date":
+                                        DateTime tm = isnull ? DateTime.MinValue : Convert.ToDateTime(obj);
+                                        value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                        break;
+                                    default:
+                                        value = obj.ToString();
+                                        break;
                                 }
+                                if (defvalue.Trim() != "")
+                                {
+                                    foreach (string s in defvalue.Split('|'))
+                                    {
+                                        string h = s.Substring(0, s.IndexOf("="));
+                                        string f = s.Substring(s.LastIndexOf("=") + 1);
+                                        if (value.ToLower() == h.ToLower()) value = f;
+                                    }
+                                }
+                                row.CreateCell(n).SetCellValue(value);
                             }
                         }
                     }
@@ -485,9 +489,10 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="path">文件的存放路径</param>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isall"></param>
+        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns>文件的路径</returns>
-        public string LearningOutcomesToExcel(string path, long stsid, bool isall)
+        public string LearningOutcomesToExcel(string path, long stsid, bool islearned, bool isall)
         {
             StudentSort sort = this.SortSingle(stsid);
             if (sort == null) throw new Exception("StudentSort non-existent");
@@ -506,7 +511,7 @@ namespace Song.ServiceImpls
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
 
-            DataTable dt = this.LearningOutcomes(stsid, isall, false);
+            DataTable dt = this.Outcomes4Sort(stsid, islearned, isall);
             if (dt.Rows.Count < 1)           
                 throw new Exception("未获取到学员组的学员信息");          
 
@@ -526,37 +531,36 @@ namespace Song.ServiceImpls
                         if (dt.Columns[c].ColumnName.Equals(field))
                         {
                             object obj = dr[c];
-                            if (obj != null)
+                            bool isnull = obj == null || obj.GetType().FullName == "System.DBNull" || obj is DBNull;
+                            //
+                            string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
+                            string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
+                            string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
+                            string value = "";
+                            switch (datatype)
                             {
-                                string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
-                                string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
-                                string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
-                                string value = "";
-                                switch (datatype)
-                                {
-                                    case "date":
-                                        DateTime tm = Convert.ToDateTime(obj);
-                                        value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                                        break;
-                                    case "double":
-                                        double t = Convert.ToDouble(obj);
-                                        value = t >0 ? t.ToString(format) : "";
-                                        break;
-                                    default:
-                                        value = obj.ToString();
-                                        break;
-                                }
-                                if (defvalue.Trim() != "")
-                                {
-                                    foreach (string s in defvalue.Split('|'))
-                                    {
-                                        string h = s.Substring(0, s.IndexOf("="));
-                                        string f = s.Substring(s.LastIndexOf("=") + 1);
-                                        if (value.ToLower() == h.ToLower()) value = f;
-                                    }
-                                }
-                                row.CreateCell(n).SetCellValue(value);
+                                case "date":
+                                    DateTime tm = isnull ? DateTime.MinValue : Convert.ToDateTime(obj);
+                                    value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                    break;
+                                case "double":
+                                    double t = isnull ? 0 : Convert.ToDouble(obj);
+                                    value = t > 0 ? t.ToString(format) : "";
+                                    break;
+                                default:
+                                    value = isnull ? string.Empty : obj.ToString();
+                                    break;
                             }
+                            if (defvalue.Trim() != "")
+                            {
+                                foreach (string s in defvalue.Split('|'))
+                                {
+                                    string h = s.Substring(0, s.IndexOf("="));
+                                    string f = s.Substring(s.LastIndexOf("=") + 1);
+                                    if (value.ToLower() == h.ToLower()) value = f;
+                                }
+                            }
+                            row.CreateCell(n).SetCellValue(value);
                         }
                     }
                 }

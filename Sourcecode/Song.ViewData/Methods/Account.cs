@@ -1371,12 +1371,13 @@ namespace Song.ViewData.Methods
 
         #region 学员组成绩导出
         /// <summary>
-        /// 员组的学员的学习成果
+        /// 学员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
-        /// <param name="isnot">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="learned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="all">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
         /// <returns></returns>
-        public JObject SortOutcomesToExcel(long stsid, bool isnot)
+        public JObject SortOutcomesToExcel(long stsid, bool learned, bool all)
         {
             string outputPath = "SortOutcomesToExcel";
             //导出文件的位置
@@ -1387,7 +1388,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("学习成果{0}.({1}).xls", stsid, date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IStudent>().LearningOutcomesToExcel(filePath, stsid, isnot);
+            filePath = Business.Do<IStudent>().LearningOutcomesToExcel(filePath, stsid, learned, all);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + stsid.ToString() + "/" + filename);

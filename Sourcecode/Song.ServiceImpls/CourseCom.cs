@@ -1828,33 +1828,33 @@ namespace Song.ServiceImpls
                             if (dt.Columns[c].ColumnName.Equals(field))
                             {
                                 object obj = dr[c];
-                                if (obj != null)
+                                bool isnull = obj == null || obj.GetType().FullName == "System.DBNull" || obj is DBNull;
+                                if (isnull) continue;
+                                string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
+                                string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
+                                string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
+                                string value = "";
+                                switch (datatype)
                                 {
-                                    string format = nodes[n].Attributes["Format"] != null ? nodes[n].Attributes["Format"].Value : "";
-                                    string datatype = nodes[n].Attributes["DataType"] != null ? nodes[n].Attributes["DataType"].Value : "";
-                                    string defvalue = nodes[n].Attributes["DefautValue"] != null ? nodes[n].Attributes["DefautValue"].Value : "";
-                                    string value = "";
-                                    switch (datatype)
-                                    {
-                                        case "date":
-                                            DateTime tm = Convert.ToDateTime(obj);
-                                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                                            break;
-                                        default:
-                                            value = obj.ToString();
-                                            break;
-                                    }
-                                    if (defvalue.Trim() != "")
-                                    {
-                                        foreach (string s in defvalue.Split('|'))
-                                        {
-                                            string h = s.Substring(0, s.IndexOf("="));
-                                            string f = s.Substring(s.LastIndexOf("=") + 1);
-                                            if (value.ToLower() == h.ToLower()) value = f;
-                                        }
-                                    }
-                                    row.CreateCell(n).SetCellValue(value);
+                                    case "date":
+                                        DateTime tm = isnull ? DateTime.MinValue : Convert.ToDateTime(obj);
+                                        value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                        break;
+                                    default:
+                                        value = isnull ? string.Empty : obj.ToString();
+                                        break;
                                 }
+                                if (defvalue.Trim() != "")
+                                {
+                                    foreach (string s in defvalue.Split('|'))
+                                    {
+                                        string h = s.Substring(0, s.IndexOf("="));
+                                        string f = s.Substring(s.LastIndexOf("=") + 1);
+                                        if (value.ToLower() == h.ToLower()) value = f;
+                                    }
+                                }
+                                row.CreateCell(n).SetCellValue(value);
+
                             }
                         }
                     }                                   

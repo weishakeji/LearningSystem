@@ -48,7 +48,7 @@ $ready(function () {
                             confirmButtonText: '确定', cancelButtonText: '取消',
                             type: 'info', dangerouslyUseHTMLString: true
                         }).then(() => {
-                            this.btnOutput(false);
+                            this.toexcel(false,false);
                         }).catch(() => { });
                         break;
                     case 'output_full':
@@ -56,7 +56,7 @@ $ready(function () {
                             confirmButtonText: '确定', cancelButtonText: '取消',
                             type: 'info', dangerouslyUseHTMLString: true
                         }).then(() => {
-                            this.btnOutput(true);
+                            this.toexcel(true,false);
                         }).catch(() => { });
                         break;
                     case 'output_all':
@@ -64,17 +64,17 @@ $ready(function () {
                             confirmButtonText: '确定', cancelButtonText: '取消',
                             type: 'info', dangerouslyUseHTMLString: true
                         }).then(() => {
-                            alert(3);
+                            this.toexcel(false,true);
                         }).catch(() => { });
                         break;
                 }
             },
             //创建生成Excel
-            btnOutput: function (isnot) {
+            toexcel: function (learned, all) {
                 var th = this;
                 th.loading = true;
                 var loading = th.$fulloading();
-                $api.get('Account/SortOutcomesToExcel', { 'stsid': th.id, 'isnot': isnot }).then(function (req) {
+                $api.get('Account/SortOutcomesToExcel', { 'stsid': th.id, 'learned': learned, 'all': all }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({

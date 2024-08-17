@@ -164,6 +164,9 @@ namespace Song.ServiceImpls
             {
                 Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
                 Business.Do<IStudent>().SortUpdateCount(old.Sts_ID);
+                //学员选修课程的记录
+                Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Sts_ID },
+                        new object[] { entity.Sts_ID, }, Student_Course._.Ac_ID == entity.Ac_ID);
             }
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
