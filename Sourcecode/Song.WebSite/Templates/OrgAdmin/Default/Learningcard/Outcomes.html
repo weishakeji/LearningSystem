@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出,重新计算" ref='btngroup' @output="output_panel=true" @batcalc="allcalcResultScore"
+            <btngroup show="导出,重新计算,说明" ref='btngroup' @output="output_panel=true" @batcalc="allcalcResultScore" @help="btnhelp"
                 width="600" height="600" :selects='selects' idkey='Ma_ID' table="datatables"></btngroup>
             <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="课程">

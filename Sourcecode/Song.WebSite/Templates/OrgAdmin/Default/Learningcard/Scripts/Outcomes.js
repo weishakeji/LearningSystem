@@ -42,6 +42,14 @@
         watch: {
         },
         methods: {
+             //显示帮助
+             btnhelp: function () {
+                var msg = "学习卡派发或领用后，只有学员学习课程，才会生成学习记录；<br/>";
+                msg += "只有学习了课程，才有学习成果。";
+                this.$alert(msg, '说明', {
+                    dangerouslyUseHTMLString: true
+                });
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
