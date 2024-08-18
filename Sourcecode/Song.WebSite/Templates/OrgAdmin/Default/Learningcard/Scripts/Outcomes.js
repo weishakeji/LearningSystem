@@ -3,13 +3,11 @@
         el: '#vapp',
         data: {
             form: {
-                'acid': $api.querystring('id'),      //学员id 
-                'sbjid': '', 'search': '', 'start': '', 'end': '',
-                'size': 20, 'index': 1
+                'lcsid': $api.querystring('id'),    //学习卡设置项的id
+                'name': '', 'acc': '', 'phone': '', 'gender': -1, 'couname': '', 'size': 20, 'index': 1
             },
-
             loading: false,
-            loadingid: 0,        //当前操作中的对象id
+            loadingid: -1,        //当前操作中的对象id
 
             datas: [],          //数据集
             total: 1, //总记录数
@@ -52,7 +50,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 43);
-                $api.get('Account/outcomes4student', th.form).then(function (d) {
+                $api.get('Learningcard/Outcomes', th.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -118,7 +116,7 @@
             },
             //计算所有成绩
             allcalcResultScore: function () {
-                this.$confirm('重新计算当前学员所有综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                this.$confirm('重新计算学习卡关联课程的综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
                     confirmButtonText: '确定', cancelButtonText: '取消',
                     type: 'warning', dangerouslyUseHTMLString: true
                 }).then(() => this.allcalcResultScore_func())
@@ -126,18 +124,18 @@
             },
             //计算所有成绩的具体方法
             allcalcResultScore_func: function () {
-                var th=this;
+                var th = this;
                 var loading = th.$fulloading();
-                $api.get('Student/ResultScoreCalc', { 'acid': th.form.acid }).then(req => {
+                $api.get('Learningcard/ResultScoreCalc', { 'lcsid': th.form.lcsid }).then(req => {
                     if (req.data.success) {
-                        var result = req.data.result;    
-                        th.handleCurrentChange();                    
+                        var result = req.data.result;
+                        th.handleCurrentChange();
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() =>  th.$nextTick(() => loading.close()));
+                    .finally(() => th.$nextTick(() => loading.close()));
             },
             //显示完成度
             showcomplete: num => Math.round((num > 100 ? 100 : num) * 100) / 100,
@@ -146,7 +144,7 @@
                 //创建生成Excel
                 this.loading_out = true;
                 var th = this;
-                $api.get('Student/ResultScoreOutputExcel',  { 'acid':th.form.acid  }).then(function (req) {
+                $api.get('Learningcard/ResultScoreOutputExcel', { 'lcsid': th.form.lcsid }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -168,7 +166,7 @@
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Student/ResultScoreFiles', { 'acid':th.form.acid  }).then(function (req) {
+                $api.get('Learningcard/ResultScoreFiles', { 'lcsid': th.form.lcsid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -184,7 +182,7 @@
             deleteFile: function (file) {
                 var th = this;
                 th.loading_out = true;
-                $api.get('Student/ResultScoreFileDelete', { 'acid':th.form.acid, 'filename': file }).then(function (req) {
+                $api.get('Learningcard/ResultScoreFileDelete', { 'lcsid': th.form.lcsid, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();

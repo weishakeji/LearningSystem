@@ -9,8 +9,9 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CardsetModify"
-                width="800" height="600" :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData"
+                @cardquery="childwindow(null,'Cardquery','查询',1000,600)" path="CardsetModify" width="800" height="600"
+                :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-input v-model.trim="form.search" placeholder="主题" clearable style="width:150px"> </el-input>
@@ -32,7 +33,7 @@
                     <template slot-scope="scope">
 
                         <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
-                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">                           
+                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
                             <span class="large" v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
                         </el-link>
                     </template>
@@ -55,7 +56,7 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="有效期" width="250"  align="center">
+                <el-table-column label="有效期" width="250" align="center">
                     <template slot="header">
                         <el-tooltip placement="bottom" effect="light">
                             <help>有效期</help>
@@ -104,34 +105,37 @@
                             </span>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
-                                    <span icon="&#xe685"
-                                        @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡号管理',null,'900','80%')">
+                                    <span icon="&#xe685" @click="childwindow(scope.row,'cards','卡号管理','900','80%')">
                                         卡号管理
                                     </span>
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <span icon="&#xa04d"
-                                        @click="$refs.btngroup.pagebox('BatchDistribution?id='+scope.row.Lcs_ID,' - 批量派发“'+scope.row.Lcs_Theme+'”的卡号',null,'1000','80%')">
+                                        @click="childwindow(scope.row,'BatchDistribution','批量派发“','1000','80%')">
                                         批量派发
                                     </span>
                                 </el-dropdown-item>
-                                <el-divider></el-divider>
-                                <el-dropdown-item @click.native="outputExcel(scope.row)">
+                                <el-dropdown-item
+                                    @click.native="childwindow(scope.row,'BatchRollback','回滚使用过的学习卡',600,400)">
+                                    <span icon="&#xf007c"> 批量回滚 </span>
+                                </el-dropdown-item>                        
+                                <el-dropdown-item divided
+                                    @click.native="childwindow(scope.row,'OutputExcel','导出Excel',640,480)">
                                     <span icon="&#xe85e">导出Excel</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item @click.native="outputQrCode(scope.row)">
+                                <el-dropdown-item
+                                    @click.native="childwindow(scope.row,'OutputQrcode','导出二维码',600,400,{full: true})">
                                     <span icon="&#xa053">导出二维码</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item @click.native="batGoback(scope.row)">
-                                    <span icon="&#xf007c"> 批量回滚 </span>
-                                </el-dropdown-item>
-                                <el-divider></el-divider>
+                                <el-dropdown-item>
+                                    <span icon="&#xe811" @click="childwindow(scope.row,'Outcomes','学习成果','1000','80%')">
+                                        学习成果
+                                    </span>
+                                </el-dropdown-item>                      
                                 <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
                                     @click.native='$refs.btngroup.modifyrow(scope.row)'>
                                     修改
                                 </el-dropdown-item>
-
-
                                 <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
                                     @click.native='$refs.btngroup.delete(scope.row.Lcs_ID,{})'>
                                     删除

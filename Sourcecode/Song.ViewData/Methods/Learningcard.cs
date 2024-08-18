@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -277,7 +278,7 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-        #region 学习卡相关
+        #region 学习卡查询 回滚
         /// <summary>
         /// 学习卡的卡号，分页获取
         /// </summary>
@@ -397,7 +398,122 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-        #region 导出
+        #region 学习成果
+        /// <summary>
+        /// 学习卡关联课程的的学习成果
+        /// </summary>
+        /// </summary>
+        /// <param name="lcsid">学习卡设置项的id</param>
+        /// <param name="name">按学员姓名检索</param>
+        /// <param name="acc">学员账号</param>
+        /// <param name="phone">按学员手机号检索</param>
+        /// <param name="gender">学员性别</param>
+        /// <param name="couname">按课程名称查询</param>
+        /// <param name="size">每页多少条</param>
+        /// <param name="index">第几页</param>      
+        /// <returns>Student_Course、Course、Accounts三个表的数据合集</returns>
+        public ListResult Outcomes(long lcsid, string name, string acc, string phone, int gender, string couname, int size, int index)
+        {
+            int sum;
+            DataTable dt = Business.Do<IStudent>().Outcomes4LearningCard(lcsid, name, acc, phone, gender, couname, size, index, out sum);
+            Song.ViewData.ListResult result = new ListResult(dt);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
+        }
+        /// <summary>
+        /// 批量计算学习关联课程的综合成绩，只有学员参与学习了才会有成绩
+        /// </summary>
+        /// <param name="lcsid">学习卡设置的id</param>
+        /// <returns></returns>
+        public bool ResultScoreCalc(int lcsid)
+        {
+            return Business.Do<ICourse>().ResultScoreCalc4LearningCard(lcsid);
+        }
+        private static string outputPath_ResultScore = "Learningcard_ResultScoreToExcel";
+        /// <summary>
+        /// 学习卡关联课程的学习成果导出Excel文件
+        /// </summary>
+        /// <param name="lcsid">学习卡设项卡的id</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Admin, Teacher]
+        public JObject ResultScoreOutputExcel(int lcsid)
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            LearningCardSet set = Business.Do<ILearningCard>().SetSingle(lcsid);
+            if (set == null) throw new Exception("学习卡不存在");
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("{0}.{1}.({2}).xls", lcsid, set.Lcs_Theme, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (File.Exists(rootpath + filename))
+            {
+                throw new Exception("当前文档已经存在，请删除或稍后再操作");
+            }
+            Business.Do<ILearningCard>().ResultScoreToExcel(rootpath + filename, lcsid);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_ResultScore, filename));
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 删除学习卡关联课程的学习成果导出的Excel文件
+        /// </summary>
+        /// <param name="lcsid">学习卡设项卡的id</param>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ResultScoreFileDelete(int lcsid, string filename)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            string filePath = rootpath + lcsid + "." + filename;
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 学习卡关联课程的学习成果的导出，已经生成的Excel文件
+        /// </summary>
+        /// <param name="lcsid">学习卡设项卡的id</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray ResultScoreFiles(int lcsid)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
+            {
+                if (f.Name.IndexOf(".") < 0) continue;
+                string prefix = f.Name.Substring(0, f.Name.IndexOf("."));
+                if (prefix.Length < 1) continue;
+                if (prefix != lcsid.ToString()) continue;
+
+                JObject jo = new JObject();
+                string name = f.Name.Substring(f.Name.IndexOf(".") + 1);
+                jo.Add("file", name);
+                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath_ResultScore, f.Name));
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        #endregion
+
+        #region 导出学习卡
         private static string _output_item = "LearningCard";
         /// <summary>
         /// 生成导出的Excel文件

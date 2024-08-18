@@ -1585,6 +1585,23 @@ namespace Song.ServiceImpls
             foreach (Student_Course stc in list) this.ResultScoreCalc(stc);
             return true;
         }
+
+        /// <summary>
+        /// 批量计算学习关联课程的综合成绩，只有学员参与学习了才会有成绩
+        /// </summary>
+        /// <param name="lcsid">学习卡设置的id</param>
+        /// <returns></returns>
+        public bool ResultScoreCalc4LearningCard(int lcsid)
+        {
+            WhereClip wccalc = LearningCard._.Lcs_ID == lcsid;
+            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+            List<Student_Course> list = Gateway.Default.From<Student_Course>()
+                .InnerJoin<LearningCard>(Student_Course._.Lc_Code == LearningCard._.Lc_Code)
+                .ToList<Student_Course>();
+            //循环计算
+            foreach (Student_Course stc in list) this.ResultScoreCalc(stc);
+            return true;
+        }
         #endregion
 
         #region 价格管理

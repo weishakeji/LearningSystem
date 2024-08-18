@@ -138,14 +138,26 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 学员的学习记录统计
+        #region 学员组的学习成果
         /// <summary>
         /// 学员组的学员的学习成果
         /// </summary>
         /// <param name="stsid">学员组id</param>
         /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
+        /// <param name="iscalc">是否在导出之前计算综合成绩</param>
         /// <returns></returns>
-        DataTable Outcomes4Sort(long stsid, bool islearned, bool isall);
+        DataTable Outcomes4Sort(long stsid, bool islearned, bool isall, bool iscalc);
+        /// <summary>
+        /// 学员组的学员的学习成果,导出成excel
+        /// </summary>
+        /// <param name="path">文件的存放路径</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
+        /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
+        /// <returns>文件的路径</returns>
+        string LearningOutcomesToExcel(string path, long stsid, bool islearned, bool isall);
+        #endregion
 
         #region 学员的学习成果
         /// <summary>
@@ -177,21 +189,23 @@ namespace Song.ServiceInterfaces
         string ResultScoreToExcel(string filepath, int acid);
 
         #endregion
+
+        #region 学习卡的学习成果
         /// <summary>
         /// 学习卡的学员的学习成果
         /// </summary>
         /// <param name="lcsid">学习卡设置项的id</param>
+        /// <param name="name">按学员姓名检索</param>
+        /// <param name="acc">学员账号</param>
+        /// <param name="phone">按学员手机号检索</param>
+        /// <param name="gender">学员性别</param>
+        /// <param name="couname">按课程名称查询</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="total"></param>
         /// <returns></returns>
-        DataTable Outcomes4LearningCard(long lcsid);
-        /// <summary>
-        /// 学员组的学员的学习成果,导出成excel
-        /// </summary>
-        /// <param name="path">文件的存放路径</param>
-        /// <param name="stsid">学员组id</param>
-        /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
-        /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
-        /// <returns>文件的路径</returns>
-        string LearningOutcomesToExcel(string path, long stsid, bool islearned,bool isall);
+        DataTable Outcomes4LearningCard(long lcsid, string name, string acc, string phone, int gender, string couname, int size, int index, out int total);
+        #endregion
 
         #endregion
 

@@ -1,0 +1,27 @@
+﻿@charset "utf-8";
+
+.el-form--inline .el-form-item {
+    display: inline-block;
+    margin-right: 1px;
+    margin-bottom: 0px;
+    vertical-align: top;
+}
+/*完成度的各项值*/
+.progress{
+	display: flex;
+}
+.progress>*{
+	flex: 1;
+	
+}
+.progress>*{
+	cursor: default;
+}
+.progress icon::before{
+	font-size: 16px;
+}
+/*导出面板*/
+.output .el-drawer__header{
+    margin-bottom: 10px;
+    padding: 20px 20px 0;
+}

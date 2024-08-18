@@ -462,6 +462,7 @@
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Cardset.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\CardsetModify.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\CourseSelect.html" />
+    <Content Include="Templates\OrgAdmin\Default\Learningcard\Outcomes.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\OutputExcel.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\OutputQrcode.html" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\BatchDistribution.js" />
@@ -471,6 +472,7 @@
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\Cardset.js" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\CardsetModify.js" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\CourseSelect.js" />
+    <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\Outcomes.js" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\OutputExcel.js" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Scripts\OutputQrcode.js" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\BatchDistribution.css" />
@@ -480,6 +482,7 @@
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\Cardset.css" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\CardsetModify.css" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\CourseSelect.css" />
+    <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\Outcomes.css" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\OutputExcel.css" />
     <Content Include="Templates\OrgAdmin\Default\Learningcard\Styles\OutputQrcode.css" />
     <Content Include="Templates\OrgAdmin\Default\Links\Components\links_count.js" />
@@ -1544,6 +1547,7 @@
     <Content Include="Utilities\Components\Styles\upload-excel.css" />
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\DataTemplate\Config\学习卡的学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\学员的学习成果.xml" />
     <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\课程的学习成果.xml" />

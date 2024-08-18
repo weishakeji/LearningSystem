@@ -300,5 +300,12 @@ namespace Song.ServiceInterfaces
         LearningCard[] AccountCards(int accid, bool? isused, bool? isback, bool? isdisable, string code, int index, int size, out int countSum);
         #endregion
 
+        /// <summary>
+        /// 导出学员的学习成果
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        string ResultScoreToExcel(string filepath, int acid);
     }
 }

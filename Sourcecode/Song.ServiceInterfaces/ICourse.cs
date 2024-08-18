@@ -464,6 +464,12 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         bool ResultScoreCalc4Course(long couid);
+        /// <summary>
+        /// 批量计算学习关联课程的综合成绩，只有学员参与学习了才会有成绩
+        /// </summary>
+        /// <param name="lcsid">学习卡设置的id</param>
+        /// <returns></returns>
+        bool ResultScoreCalc4LearningCard(int lcsid);
         #endregion
 
         #region 课程关联管理（与学生或教师）        

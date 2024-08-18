@@ -126,38 +126,18 @@
                     alert(err, '错误');
                 }).finally(() => th.loadingid = 0);
             },
-            //导出Excel
-            outputExcel: function (row) {
-                var file = 'OutputExcel';
-                var title = ' - “' + row.Lcs_Theme + "”导出Excel";
-                var boxid = "Learningcard_" + row.Lcs_ID + "_" + file;
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Lcs_ID, title, boxid, 640, 480,
-                    { pid: window.name, resize: true });
+            //打开子窗体
+            childwindow: function (row, file, title, width, height, param) {
+                if (row != null) title += ' -“' + row.Lcs_Theme + "”";
+                var boxid = "Learningcard_" + (row != null ? row.Lcs_ID + "_" : "") + file;
+                var href = file + (row != null ? '?id=' + row.Lcs_ID : "");
+                var params = { 'pid': window.name };
+                if (param != null) {
+                    for (var i in param)
+                        params[i] = param[i];
+                }
+                this.$refs.btngroup.pagebox(href, title, boxid, width, height, params);
             },
-            //导出二维码
-            outputQrCode: function (row) {
-                var file = 'OutputQrcode';
-                var boxid = "Learningcard_" + row.Lcs_ID + "_" + file;
-                var title = ' - “' + row.Lcs_Theme + "”导出二维码";
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Lcs_ID, title, boxid, 600, 400,
-                    { pid: window.name, resize: true, full: true });
-            },
-            //批量回滚
-            batGoback: function (row) {
-                var file = 'BatchRollback';
-                var boxid = "Learningcard_" + row.Lcs_ID + "_" + file;
-                var title = ' - 回滚“' + row.Lcs_Theme + "”所有使用过的学习卡";
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Lcs_ID, title, boxid, 600, 400,
-                    { pid: window.name, resize: true });
-            },
-            //学习卡查询
-            cardquery: function (obj) {
-                var file = 'Cardquery';
-                var boxid = "Learningcard_" + obj.id + "_" + file;
-                var title = ' - ' + obj.tips;
-                this.$refs.btngroup.pagebox(file, title, boxid, 1000, 600,
-                    { pid: window.name, resize: true });
-            }
         }
     });
 

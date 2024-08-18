@@ -60,6 +60,12 @@ CREATE INDEX IF NOT EXISTS "InternalLink_aaaaaInternalLink_PK" ON "InternalLink"
 -- 20 . Knowledge
 -- 21 . KnowledgeSort
 -- 22 . LearningCard
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_ID" ON "LearningCard" ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Code" ON "LearningCard" ("Lc_Code" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_IsUsed" ON "LearningCard" ("Lc_IsUsed" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Pw" ON "LearningCard" ("Lc_Pw" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_State" ON "LearningCard" ("Lc_State" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lcs_ID" ON "LearningCard" ("Lcs_ID" DESC);
 -- 23 . LearningCardSet
 -- 24 . LimitDomain
 -- 25 . Links
@@ -190,4 +196,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON "ThirdpartyAccounts"
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON "ThirdpartyAccounts" ("Ta_Openid" DESC);
 -- 78 . ThirdpartyLogin
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
---总共索引有：114
+--总共索引有：120

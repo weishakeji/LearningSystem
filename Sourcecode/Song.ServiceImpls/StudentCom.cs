@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Linq;
 using System.Xml;
 using WeiSha.Core;
 using Song.Entities;
@@ -307,15 +308,20 @@ namespace Song.ServiceImpls
         /// <param name="stsid">学员组id</param>
         /// <param name="islearned">是否包括未学习的学员，如果为false，则仅导出已经参与学习的</param>
         /// <param name="isall">学员组所有学员的学习成绩，包括自主选修的，如果为false，则仅包括学员组选修的课程</param>
+        /// <param name="iscalc">是否在导出之前计算综合成绩</param>
         /// <returns></returns>
-        public DataTable Outcomes4Sort(long stsid, bool islearned, bool isall)
+        public DataTable Outcomes4Sort(long stsid, bool islearned, bool isall, bool iscalc)
         {
             //计算综合成绩
-            WhereClip wccalc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
-            wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
-            List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
-            foreach (Student_Course stc in list) Business.Do<ICourse>().ResultScoreCalc(stc);
+            if (iscalc)
+            {
+                WhereClip wccalc = Student_Course._.Sts_ID == stsid && Student_Course._.Stc_ResultScore <= 0;
+                wccalc.And(Student_Course._.Stc_StudyScore > 0 || Student_Course._.Stc_QuesScore > 0 || Student_Course._.Stc_ExamScore > 0);
+                List<Student_Course> list = Gateway.Default.From<Student_Course>().Where(wccalc).ToList<Student_Course>();
+                foreach (Student_Course stc in list) Business.Do<ICourse>().ResultScoreCalc(stc);
+            }
 
+            DataTable dt = null;
             if (isall)
             {
                 //所有学习，包括学员组成员自己选修的课程
@@ -324,7 +330,7 @@ namespace Song.ServiceImpls
                    .LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
                    .Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
                 DataSet ds = query.ToDataSet();
-                return ds.Tables[0];
+                dt= ds.Tables[0];
             }
             else
             {
@@ -339,10 +345,19 @@ namespace Song.ServiceImpls
                 //包括学员组关联课程的未学习的课程
                 if (islearned) sql = sql.Replace("inner", "left");
                 DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-                //完成度大于100，则等于100
-                DataTable dt = ds.Tables[0];
-            }         
-            return null;
+                dt = ds.Tables[0];
+            }
+            //清除指定列
+            bool columnExists = dt.Columns.Contains("Ac_Pw");
+            if (columnExists) dt.Columns.Remove("Ac_Pw");
+            // 删除重复的列，sql返回自动带了括号
+            var cols = from column in dt.Columns.Cast<DataColumn>()
+                                where column.DataType == typeof(string) && column.ColumnName.Contains("(")
+                                select column;
+            // 删除包含指定字符的列
+            foreach (DataColumn column in cols)         
+                dt.Columns.Remove(column);          
+            return dt;
         }
         /// <summary>
         /// 学员的学习成果
@@ -479,18 +494,45 @@ namespace Song.ServiceImpls
         /// 学习卡的学员的学习成果
         /// </summary>
         /// <param name="lcsid">学习卡设置项的id</param>
+        /// <param name="name">按学员姓名检索</param>
+        /// <param name="acc">学员账号</param>
+        /// <param name="phone">按学员手机号检索</param>
+        /// <param name="gender">学员性别</param>
+        /// <param name="couname">按课程名称查询</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="total"></param>
         /// <returns></returns>
-        public DataTable Outcomes4LearningCard(long lcsid)
+        public DataTable Outcomes4LearningCard(long lcsid, string name, string acc,string phone, int gender, string couname, int size, int index, out int total)
         {
             WhereClip wc = LearningCard._.Lcs_ID == lcsid;
-
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Accounts._.Ac_Name.Contains(name));
+            if (!string.IsNullOrWhiteSpace(acc)) wc.And(Accounts._.Ac_AccName.Contains(acc));
+            if (!string.IsNullOrWhiteSpace(phone)) wc.And(Accounts._.Ac_MobiTel1.Contains(phone) || Accounts._.Ac_MobiTel2.Contains(phone));
+            if (gender >= 0) wc.And(Accounts._.Ac_Sex == gender);
+            if (!string.IsNullOrWhiteSpace(couname)) wc.And(Course._.Cou_Name.Contains(couname));
+            //查询方法
             QuerySection<LearningCard> query = Gateway.Default.From<LearningCard>()
                 .LeftJoin<Student_Course>(Student_Course._.Lc_Code == LearningCard._.Lc_Code)
                 .InnerJoin<Accounts>(LearningCard._.Ac_ID == Accounts._.Ac_ID)
-                .LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                .InnerJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
                 .Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
-            DataSet ds = query.ToDataSet();
-            return ds.Tables[0];
+
+            total = query.Count();
+            DataSet ds = query.ToDataSet((index - 1) * size + 1, index * size);  
+            DataTable dt = ds.Tables[0];
+
+            //清除指定列
+            bool columnExists = dt.Columns.Contains("Ac_Pw");
+            if (columnExists) dt.Columns.Remove("Ac_Pw");
+            // 删除重复的列，sql返回自动带了括号
+            var cols = from column in dt.Columns.Cast<DataColumn>()
+                       where column.DataType == typeof(string) && column.ColumnName.Contains("(")
+                       select column;
+            // 删除包含指定字符的列
+            foreach (DataColumn column in cols)
+                dt.Columns.Remove(column);
+            return dt;
         }
         /// <summary>
         /// 学员组的学员的学习成果,导出成excel
@@ -519,7 +561,7 @@ namespace Song.ServiceImpls
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
 
-            DataTable dt = this.Outcomes4Sort(stsid, islearned, isall);
+            DataTable dt = this.Outcomes4Sort(stsid, islearned, isall, true);
             if (dt.Rows.Count < 1)           
                 throw new Exception("未获取到学员组的学员信息");          
 
