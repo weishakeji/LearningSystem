@@ -48,9 +48,6 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int BufferCount()
         {
-           
-
-
             int total = 0;
             //foreach (System.Web.Caching.Cache c in HttpRuntime.Cache)
             //{

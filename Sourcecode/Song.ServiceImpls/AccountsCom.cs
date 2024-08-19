@@ -129,6 +129,9 @@ namespace Song.ServiceImpls
             {
                 entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);
             }
+            //如果手机号为空，则绑定的手机号也为空
+            if(string.IsNullOrWhiteSpace(entity.Ac_MobiTel1))
+                entity.Ac_MobiTel2 = entity.Ac_MobiTel1;
             //如果密码不为空
             //if (!string.IsNullOrWhiteSpace(entity.Ac_Pw))
             //    entity.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 
