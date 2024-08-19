@@ -392,6 +392,7 @@ namespace Song.DataQuery.PostgreSQL
             sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
             object obj = Gateway.Default.FromSql(sql).ToScalar();
             return obj == null ? 0 : Convert.ToDecimal(obj);
+
         }
         #region 相关方法
         /// <summary>
