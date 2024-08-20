@@ -33,10 +33,8 @@ namespace Song.ServiceImpls
             if (entity.Sts_Tax <= 0)
             {
                 //添加对象，并设置排序号
-                object obj = Gateway.Default.Max<StudentSort>(StudentSort._.Sts_Tax, StudentSort._.Org_ID == entity.Org_ID);               
-                int tax = 0;
-                int.TryParse(obj.ToString(), out tax);
-                entity.Sts_Tax = tax + 1;
+                object obj = Gateway.Default.Max<StudentSort>(StudentSort._.Sts_Tax, StudentSort._.Org_ID == entity.Org_ID);
+                entity.Sts_Tax = obj is int ? (int)obj + 1 : 0;
             }
             Gateway.Default.Save<StudentSort>(entity);
         }

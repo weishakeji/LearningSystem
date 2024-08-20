@@ -156,6 +156,49 @@ Number.prototype.money = function (len) {
     return float_num > 0 ? mstr + '.' + float_num : mstr;
 };
 
+/** 提示框 
+
+*/
+//重构alert
+window.alert_base = window.alert;
+window.alert = function (txt, title) {
+    txt = String(txt);
+    let message = txt;
+    //匹配标题
+    try {
+        const result = txt.match(/(?<=\().[^\)]+(?=\))/);
+        if (result && (title == '' || title == null)) {
+            title = result[0];
+            message = txt.replace(/\(.[^\)]+\)/, '');
+        }
+    } catch (e) { }
+    //手机端
+    if ($dom.ismobi()) {
+        vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
+    } else {
+        Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
+    }
+};
+//重构确认
+window.confirm_base = window.confirm;
+window.confirm = function (title, msg, evtConfirm, evtCancel) {
+    //手机端
+    if ($dom.ismobi()) {
+        if (vant.Dialog) {
+            vant.Dialog.confirm({ title: title, message: msg, })
+                .then(evtConfirm != null ? evtConfirm : () => { })
+                .catch(evtCancel != null ? evtCancel : () => { });
+        }
+    } else {
+        if (Vue.prototype.$confirm) {
+            Vue.prototype.$confirm(msg, title, {
+                dangerouslyUseHTMLString: true, type: 'warning',
+                confirmButtonText: '确定', cancelButtonText: '取消'
+            }).then(evtConfirm != null ? evtConfirm : () => { })
+                .catch(evtCancel != null ? evtCancel : () => { });
+        }
+    }
+};
 
 /** 表单验证方法 
  * 

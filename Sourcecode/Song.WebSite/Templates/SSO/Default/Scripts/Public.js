@@ -73,27 +73,9 @@
             if (txt == null || txt == '') return '';
             if (search == null || search == '') return txt;
             var regExp = new RegExp('(' + search + ')', 'ig');
-            return txt.replace(regExp, `<red>$1</red>`);
-        };
-        //重构alert
-        window.alert_base = window.alert;
-        window.alert = function (txt) {
-            txt=String(txt);
-            let message = txt;
-            //匹配标题
-            var regx = /(?<=\().[^\)]+(?=\))/;
-            const result = txt.match(regx);
-            if (result && (title == '' || title == null)) {
-                title = result[0];
-                message = txt.replace(/\(.[^\)]+\)/, '');
-            }
-
-            //手机端
-            if ($dom.ismobi()) {
-                vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
-            } else {
-                Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
-            }
+            return txt.replace(regExp, function (match, p1) {
+                return '<red>' + p1 + '</red>';
+            });
         };
     };
 })();

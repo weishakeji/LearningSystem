@@ -311,12 +311,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<ManageMenu>(ManageMenu._.MM_Tax, ManageMenu._.MM_PatId == parentId);
-            int tax = 0;
-            if (obj is int)
-            {
-                tax = (int)obj;
-            }
-            return tax;
+            return obj is int ? (int)obj : 0;
         }        
         /// <summary>
         /// 获取对象；即所有栏目；

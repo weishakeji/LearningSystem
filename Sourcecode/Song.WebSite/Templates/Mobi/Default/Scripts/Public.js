@@ -96,7 +96,9 @@
             if (txt == null || txt == '') return '';
             if (search == null || search == '') return txt;
             var regExp = new RegExp('(' + search + ')', 'ig');
-            return txt.replace(regExp, `<red>$1</red>`);
+            return txt.replace(regExp, function(match, p1) {
+                return '<red>' + p1 + '</red>';
+            });
         };
         //常用地址
         Vue.prototype.commonaddr = function (key) {
@@ -108,47 +110,8 @@
             return $api.url.set(urls[key], {
                 'referrer': encodeURIComponent(location.href)
             });
-        };
-        //重构alert
-        window.alert_base = window.alert;
-        window.alert = function (txt, title) {
-            txt=String(txt);
-            let message = txt;
-            //匹配标题
-            var regx = /(?<=\().[^\)]+(?=\))/;
-            const result = txt.match(regx);
-            if (result && (title == '' || title == null)) {
-                title = result[0];
-                message = txt.replace(/\(.[^\)]+\)/, '');
-            }
+        };      
 
-            //手机端
-            if ($dom.ismobi()) {
-                vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
-            } else {
-                Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
-            }
-        };
-        //重构确认
-        window.confirm_base = window.confirm;
-        window.confirm = function (title, msg, evtConfirm, evtCancel) {
-            //手机端
-            if ($dom.ismobi()) {
-                if (vant.Dialog) {
-                    vant.Dialog.confirm({ title: title, message: msg, })
-                        .then(evtConfirm != null ? evtConfirm : () => { })
-                        .catch(evtCancel != null ? evtCancel : () => { });
-                }
-            } else {
-                if (Vue.prototype.$confirm) {
-                    Vue.prototype.$confirm(msg, title, {
-                        dangerouslyUseHTMLString: true, type: 'warning',
-                        confirmButtonText: '确定', cancelButtonText: '取消'
-                    }).then(evtConfirm != null ? evtConfirm : () => { })
-                        .catch(evtCancel != null ? evtCancel : () => { });
-                }
-            }
-        };
     };
     //重构一些方法
     //页面跳转

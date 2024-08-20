@@ -6,8 +6,8 @@
         //$dom.path() + 'styles/dropmenu.css',
         '/Utilities/Fonts/icon.css'
     ], $dom.selfresource);
-     //加载相关组件
-     window.$components = function (f) {
+    //加载相关组件
+    window.$components = function (f) {
         var arr2 = new Array();
         //加载ElementUI
         arr2.push('/Utilities/ElementUi/index.js');
@@ -27,10 +27,10 @@
         arr2.push('/Utilities/Components/avatar.js');
         //加载状态组件
         arr2.push('/Utilities/Components/useicon.js');
-         //mathjax，解析latex公式
-         arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
-         arr2.push('/Utilities/MathJax/globalVariable.js');
-          //查询面板与控件面板
+        //mathjax，解析latex公式
+        arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+        arr2.push('/Utilities/MathJax/globalVariable.js');
+        //查询面板与控件面板
         arr2.push('/Utilities/Components/query_panel.js');
         arr2.push('/Utilities/Components/panel.js');
         window.$dom.load.js(arr2, f);
@@ -106,29 +106,10 @@
         Vue.prototype.showsearch = function (txt, search) {
             if (txt == null || txt == '') return '';
             if (search == null || search == '') return txt;
-            var regExp = new RegExp('('+search+')', 'ig');                 
-            return txt.replace(regExp, `<red>$1</red>`);
-        };
-        //重构alert
-        window.alert_base = window.alert;
-        window.alert = function (txt) {
-            txt=String(txt);
-            let title = '';
-            let message = txt;
-            //匹配标题
-            var regx = /(?<=\().[^\)]+(?=\))/;
-            const result = txt.match(regx);
-            if (result) {
-                title = result[0];
-                message=txt.replace(/\(.[^\)]+\)/,'');
-            }
-
-            //手机端
-            if ($dom.ismobi()) {
-                vant.Dialog ? vant.Dialog.alert({ message: message, title:title }) : window.alert_base(txt);
-            } else {
-                Vue.prototype.$alert ? Vue.prototype.$alert(message, title ) : window.alert_base(txt);
-            }
+            var regExp = new RegExp('(' + search + ')', 'ig');
+            return txt.replace(regExp, function (match, p1) {
+                return '<red>' + p1 + '</red>';
+            });
         };
     };
 })();
