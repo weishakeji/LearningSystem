@@ -931,7 +931,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student,Admin]
         [HttpPost]
-        public double LogForVideoRecord(int acid, long couid, float rate)
+        public float LogForVideoRecord(int acid, long couid, float rate)
         {
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
             if (acc == null) return rate;
@@ -1070,7 +1070,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="stcid">学习记录的id,取自Student_Course表的主键id</param>
         /// <returns>综合成绩得分</returns>
-        public double ResultScoreCalc(int stcid)
+        public float ResultScoreCalc(int stcid)
         {
             Student_Course sc= Business.Do<ICourse>().ResultScoreCalc(stcid);
             return sc.Stc_ResultScore;

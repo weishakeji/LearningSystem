@@ -1264,7 +1264,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="exrid">考试记录的id</param>
         /// <returns></returns>
-        public double ClacScore(int exrid)
+        public float ClacScore(int exrid)
         {
             ExamResults exr=Business.Do<IExamination>().ResultSingle(exrid);
             if (exr == null) return 0;

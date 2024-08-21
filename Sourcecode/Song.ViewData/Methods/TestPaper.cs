@@ -704,7 +704,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student, Admin, Teacher]
         [HttpPost]
-        public double ResultLogRecord(int acid, long couid, float score)
+        public float ResultLogRecord(int acid, long couid, float score)
         {
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != acid) return 0;

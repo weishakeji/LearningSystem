@@ -1542,8 +1542,8 @@ namespace Song.ServiceImpls
             video = video > 0 ? video + (float)video_lerance : video;
             video = video >= 100 ? 100 : video;
             score = video * (float)weight_video + ques * (float)weight_ques + exam * (float)weight_exam;
-            score = score > 0 && score >= 100 ? 100 : (float)Math.Round(score * 100) / 100;
             score = float.IsNaN(score) ? 0 : score;
+            score = score > 0 && score >= 100 ? 100 : (float)Math.Round(score * 100) / 100;           
             sc.Stc_ResultScore = score;
             //保存结果
             Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);
