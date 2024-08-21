@@ -156,6 +156,22 @@ Number.prototype.money = function (len) {
     return float_num > 0 ? mstr + '.' + float_num : mstr;
 };
 
+/** 数学方法 */
+Math.round2 = Math.round;
+Math.round = function (num, decimal) {
+    if (decimal == null) return Math.round2(num);
+    return Math.round2(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
+}
+Math.floor2 = Math.floor;
+Math.floor = function (num, decimal) {
+    if (decimal == null) return Math.floor2(num);
+    return Math.floor2(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
+}
+Math.ceil2 = Math.ceil;
+Math.ceil = function (num, decimal) {
+    if (decimal == null) return Math.ceil2(num);
+    return Math.ceil2(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
+}
 /** 提示框 
 
 */

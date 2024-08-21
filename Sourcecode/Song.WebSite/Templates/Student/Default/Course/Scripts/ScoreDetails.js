@@ -107,7 +107,7 @@ $ready(function () {
                 $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                     if (req.data.success) {
                         th.purchase.Stc_ExamScore = req.data.result;
-                        th.$notify({  message: '更新结课考试成绩成功' });
+                        th.$notify({ message: '更新结课考试成绩成功' });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -117,10 +117,10 @@ $ready(function () {
             },
             //重新计算综合成绩
             calcResultScore: function () {
-                var th = this;              
+                var th = this;
                 $api.get('Course/ResultScoreCalc', { 'stcid': th.stcid }).then(req => {
                     if (req.data.success) {
-                        var result = req.data.result;                      
+                        var result = req.data.result;
                         th.purchase.Stc_ResultScore = result;
                         th.$notify({ type: 'success', message: '更新计算综合成绩完成' });
                     } else {
@@ -130,6 +130,12 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loadingid = -1);
             },
+            //取整
+            //val:要取整的值
+            //decimal:小数位数
+            round: function (val, decimal) {
+                return Math.round(val * Math.pow(10, decimal)) / Math.pow(10, decimal);
+            }
         }
     });
 

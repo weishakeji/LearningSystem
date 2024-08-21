@@ -73,7 +73,7 @@ Vue.component('video_progress', {
         'progress': function () {
             this.percent = this.ispurchase ? this.purchase.Stc_StudyScore : 0;
             this.percent = (this.percent + this.tolerance) >= 100 ? 100 : this.percent;
-            return Math.round(this.percent * 100) / 100;
+            return Math.round(this.percent, 2);
         },
         //是否有购买记录
         ispurchase: function () {
@@ -87,7 +87,7 @@ Vue.component('video_progress', {
             var th = this;
             th.loading = true;
             $api.cache('Course/LogForVideo:5', { 'couid': this.course.Cou_ID, 'stid': this.stid })
-                .then(function (req) {                   
+                .then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result != null && result.length > 0) {

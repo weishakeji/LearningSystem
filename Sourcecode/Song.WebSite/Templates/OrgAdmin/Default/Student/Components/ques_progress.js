@@ -8,7 +8,7 @@ Vue.component('ques_progress', {
         return {
             data: {},        //进度信息
             percent: 0,     //完成的真实百分比
-            tolerance: 10,       //容差，例如容差为10，则完成90%即可认为是100%
+            tolerance: 0,       //容差，例如容差为10，则完成90%即可认为是100%
             loading: false
         }
     },
@@ -81,7 +81,7 @@ Vue.component('ques_progress', {
             <el-tooltip effect="light" content="点击进度条，查看详情" placement="bottom-end"> 
                 <el-progress :text-inside="true" :format="format" :stroke-width="20" :color="color"
                 @click.native="viewDetail(course)" style="width:100%"
-                :status="progress>=100 ? 'success' : ''" :percentage="progress"></el-progress>   
+                :status="progress>=100 ? 'success' : ''" :percentage="Math.round(progress,2)"></el-progress>   
             </el-tooltip>
         </div> 
     </div>`
