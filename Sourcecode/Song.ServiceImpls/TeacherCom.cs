@@ -850,7 +850,7 @@ namespace Song.ServiceImpls
                 .GroupBy(TeacherComment._.Th_Name.Group).Where(wc).OrderBy(new OrderByClip("Thc_Score desc")).ToArray<TeacherComment>(count);
             foreach (TeacherComment t in tcs)
             {
-                t.Thc_Score = Math.Round(t.Thc_Score * 100) / 100;
+                t.Thc_Score = (float)Math.Round(t.Thc_Score * 100) / 100;
             }
             return tcs;
         }

@@ -30,11 +30,11 @@ namespace Song.Entities {
     		
     		protected DateTime _Exr_CalcTime;
     		
-    		protected Double _Exr_Colligate;
+    		protected Single _Exr_Colligate;
     		
     		protected DateTime _Exr_CrtTime;
     		
-    		protected Double _Exr_Draw;
+    		protected Single _Exr_Draw;
     		
     		protected String _Exr_IP;
     		
@@ -52,9 +52,9 @@ namespace Song.Entities {
     		
     		protected String _Exr_Results;
     		
-    		protected Double _Exr_Score;
+    		protected Single _Exr_Score;
     		
-    		protected Double _Exr_ScoreFinal;
+    		protected Single _Exr_ScoreFinal;
     		
     		protected DateTime _Exr_SubmitTime;
     		
@@ -180,7 +180,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Exr_Colligate {
+    		public Single Exr_Colligate {
     			get {
     				return this._Exr_Colligate;
     			}
@@ -200,7 +200,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Exr_Draw {
+    		public Single Exr_Draw {
     			get {
     				return this._Exr_Draw;
     			}
@@ -290,7 +290,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Exr_Score {
+    		public Single Exr_Score {
     			get {
     				return this._Exr_Score;
     			}
@@ -300,7 +300,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Exr_ScoreFinal {
+    		public Single Exr_ScoreFinal {
     			get {
     				return this._Exr_ScoreFinal;
     			}
@@ -516,13 +516,13 @@ namespace Song.Entities {
     				this._Exr_CalcTime = reader.GetDateTime(_.Exr_CalcTime);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Colligate))) {
-    				this._Exr_Colligate = reader.GetDouble(_.Exr_Colligate);
+    				this._Exr_Colligate = reader.GetFloat(_.Exr_Colligate);
     			}
     			if ((false == reader.IsDBNull(_.Exr_CrtTime))) {
     				this._Exr_CrtTime = reader.GetDateTime(_.Exr_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Draw))) {
-    				this._Exr_Draw = reader.GetDouble(_.Exr_Draw);
+    				this._Exr_Draw = reader.GetFloat(_.Exr_Draw);
     			}
     			if ((false == reader.IsDBNull(_.Exr_IP))) {
     				this._Exr_IP = reader.GetString(_.Exr_IP);
@@ -549,10 +549,10 @@ namespace Song.Entities {
     				this._Exr_Results = reader.GetString(_.Exr_Results);
     			}
     			if ((false == reader.IsDBNull(_.Exr_Score))) {
-    				this._Exr_Score = reader.GetDouble(_.Exr_Score);
+    				this._Exr_Score = reader.GetFloat(_.Exr_Score);
     			}
     			if ((false == reader.IsDBNull(_.Exr_ScoreFinal))) {
-    				this._Exr_ScoreFinal = reader.GetDouble(_.Exr_ScoreFinal);
+    				this._Exr_ScoreFinal = reader.GetFloat(_.Exr_ScoreFinal);
     			}
     			if ((false == reader.IsDBNull(_.Exr_SubmitTime))) {
     				this._Exr_SubmitTime = reader.GetDateTime(_.Exr_SubmitTime);
@@ -657,7 +657,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Exr_CalcTime = new WeiSha.Data.Field<ExamResults>("Exr_CalcTime");
     			
     			/// <summary>
-    			/// 字段名：Exr_Colligate - 数据类型：Double
+    			/// 字段名：Exr_Colligate - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Colligate = new WeiSha.Data.Field<ExamResults>("Exr_Colligate");
     			
@@ -667,7 +667,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Exr_CrtTime = new WeiSha.Data.Field<ExamResults>("Exr_CrtTime");
     			
     			/// <summary>
-    			/// 字段名：Exr_Draw - 数据类型：Double
+    			/// 字段名：Exr_Draw - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Draw = new WeiSha.Data.Field<ExamResults>("Exr_Draw");
     			
@@ -712,12 +712,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Exr_Results = new WeiSha.Data.Field<ExamResults>("Exr_Results");
     			
     			/// <summary>
-    			/// 字段名：Exr_Score - 数据类型：Double
+    			/// 字段名：Exr_Score - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Exr_Score = new WeiSha.Data.Field<ExamResults>("Exr_Score");
     			
     			/// <summary>
-    			/// 字段名：Exr_ScoreFinal - 数据类型：Double
+    			/// 字段名：Exr_ScoreFinal - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Exr_ScoreFinal = new WeiSha.Data.Field<ExamResults>("Exr_ScoreFinal");
     			

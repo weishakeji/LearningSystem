@@ -1175,7 +1175,7 @@ namespace Song.ServiceImpls
                     log.Lss_OS = os;
                     log.Lss_Browser = name + " " + ver;
                     log.Lss_Platform = ismobi ? "Mobi" : "PC";
-                    log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
+                    log.Lss_Complete = (float)Math.Floor((float)log.Lss_StudyTime * 1000 / (float)log.Lss_Duration * 10000) / 100;
                     log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
                     //保存到数据库
                     tran.Save<LogForStudentStudy>(log);
@@ -1185,8 +1185,8 @@ namespace Song.ServiceImpls
                     DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(st.Ac_ID, couid);
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        double rate = 0;
-                        double.TryParse(dt.Rows[0]["complete"].ToString(), out rate);
+                        float rate = 0;
+                        float.TryParse(dt.Rows[0]["complete"].ToString(), out rate);
                         //记录到学员与课程的关联表
                         Student_Course sc = Business.Do<ICourse>().StudentCourse(st.Ac_ID, couid);
                         if (sc != null)
@@ -1533,7 +1533,7 @@ namespace Song.ServiceImpls
                 int totalSeconds = (int)span.TotalSeconds;
                 int seconds = totalSeconds > 0 ? new Random().Next(0, totalSeconds) : 0;
                 log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(seconds);
-                log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
+                log.Lss_Complete = (float)Math.Floor((float)log.Lss_StudyTime * 1000 / (float)log.Lss_Duration * 10000) / 100;
                 log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
                 Gateway.Default.Save<LogForStudentStudy>(log);               
             }

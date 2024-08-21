@@ -1074,7 +1074,7 @@ namespace Song.ServiceImpls
         /// <param name="study">学习记录，即视频观看进度</param>
         /// <param name="ques">试题练习记录，通过率</param>
         /// <param name="exam">结课考试的成绩</param>
-        public void StudentScoreSave(Student_Course sc, double study, double ques, double exam)
+        public void StudentScoreSave(Student_Course sc, float study, float ques, float exam)
         {           
             if (sc == null) return;
             if (study >= 0)
@@ -1491,23 +1491,23 @@ namespace Song.ServiceImpls
             //计算综合成绩时，要获取机构的相关参数
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //视频学习的权重   //试题通过率的权重   //结课考试的权重
-            double weight_video = (config["finaltest_weight_video"].Value.Double ?? 33.3333) / 100;
-            double weight_ques = (config["finaltest_weight_ques"].Value.Double ?? 33.3333) / 100;
-            double weight_exam = (config["finaltest_weight_exam"].Value.Double ?? 33.3333) / 100;
+            float weight_video = (float)(config["finaltest_weight_video"].Value.Double ?? 33.3333) / 100;
+            float weight_ques = (float)(config["finaltest_weight_ques"].Value.Double ?? 33.3333) / 100;
+            float weight_exam = (float)(config["finaltest_weight_exam"].Value.Double ?? 33.3333) / 100;
             //视频完成度的容差
-            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+            float video_lerance = (float)(config["VideoTolerance"].Value.Double ?? 0);
 
             //课程是否有视频与视频
             bool existvideo = this.ExistVideo(course.Cou_ID);
             bool existques = this.ExistQuestion(course.Cou_ID);
-            if (!existvideo)
+            if (!existvideo && weight_video > 0)
             {
                 //如果课程没有视频，则权重分摊到试题与结课考试
                 weight_ques *= 1 / (1 - weight_video);
                 weight_exam *= 1 / (1 - weight_video);
                 weight_video = 0;
             }
-            if (!existques)
+            if (!existques && weight_ques > 0)
             {
                 //如果没有试是，则权重分摊到视频与结果考试
                 weight_video *= 1 / (1 - weight_ques);
@@ -1516,31 +1516,34 @@ namespace Song.ServiceImpls
             }
             //结课考试
             TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
-            if (test == null)
+            if (test != null)
             {
-                weight_ques *= 1 / (1 - weight_exam);
-                weight_video *= 1 / (1 - weight_exam);
-                weight_exam = 0;
-            }
-            else
-            {
-                //总分与及格分
-                double total = test.Tp_Total;
-                double pass = (double)test.Tp_PassScore / (double)test.Tp_Total * 100;
+                //总分与及格分,及格转为百分制
+                float total = test.Tp_Total;
+                float pass = (float)test.Tp_PassScore / (float)test.Tp_Total * 100;
                 //成绩转为百分制
                 sc.Stc_ExamScore = sc.Stc_ExamScore / total * 100;
                 sc.Stc_ExamScore = sc.Stc_ExamScore >= 100 ? 100 : sc.Stc_ExamScore;
                 //及格分转为60分制
                 sc.Stc_ExamScore = sc.Stc_ExamScore - pass > 0 ?
-                    (sc.Stc_ExamScore - pass) / (total - pass) * 40 + 60 :
+                    (sc.Stc_ExamScore - pass) / (100 - pass) * 40 + 60 :
                      (sc.Stc_ExamScore - pass) / pass * 60 + 60;
+            } else if (weight_exam > 0)
+            {
+                weight_ques *= 1 / (1 - weight_exam);
+                weight_video *= 1 / (1 - weight_exam);
+                weight_exam = 0;
             }
+            weight_video = float.IsNaN(weight_video) ? 0: weight_video;
+            weight_ques = float.IsNaN(weight_ques) ? 0 : weight_ques;
+            weight_exam = float.IsNaN(weight_exam) ? 0 : weight_exam;
             //开始计算综合成绩
-            double score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
-            video = video > 0 ? video + (double)video_lerance : video;
+            float score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
+            video = video > 0 ? video + (float)video_lerance : video;
             video = video >= 100 ? 100 : video;
-            score = video * (double)weight_video + ques * (double)weight_ques + exam * (double)weight_exam;
-            score = score >= 100 ? 100 : Math.Round(score * 100) / 100;
+            score = video * (float)weight_video + ques * (float)weight_ques + exam * (float)weight_exam;
+            score = score > 0 && score >= 100 ? 100 : (float)Math.Round(score * 100) / 100;
+            score = float.IsNaN(score) ? 0 : score;
             sc.Stc_ResultScore = score;
             //保存结果
             Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Stc_ResultScore }, new object[] { score }, Student_Course._.Stc_ID == sc.Stc_ID);

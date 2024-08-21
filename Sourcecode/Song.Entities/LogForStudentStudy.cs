@@ -20,7 +20,7 @@ namespace Song.Entities {
     		
     		protected String _Lss_Browser;
     		
-    		protected Double _Lss_Complete;
+    		protected Single _Lss_Complete;
     		
     		protected DateTime _Lss_CrtTime;
     		
@@ -108,7 +108,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Lss_Complete {
+    		public Single Lss_Complete {
     			get {
     				return this._Lss_Complete;
     			}
@@ -347,7 +347,7 @@ namespace Song.Entities {
     				this._Lss_Browser = reader.GetString(_.Lss_Browser);
     			}
     			if ((false == reader.IsDBNull(_.Lss_Complete))) {
-    				this._Lss_Complete = reader.GetDouble(_.Lss_Complete);
+    				this._Lss_Complete = reader.GetFloat(_.Lss_Complete);
     			}
     			if ((false == reader.IsDBNull(_.Lss_CrtTime))) {
     				this._Lss_CrtTime = reader.GetDateTime(_.Lss_CrtTime);
@@ -445,7 +445,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lss_Browser = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Browser");
     			
     			/// <summary>
-    			/// 字段名：Lss_Complete - 数据类型：Double
+    			/// 字段名：Lss_Complete - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Lss_Complete = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Complete");
     			

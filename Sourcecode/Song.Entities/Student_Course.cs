@@ -28,7 +28,7 @@ namespace Song.Entities {
     		
     		protected DateTime _Stc_EndTime;
     		
-    		protected Double _Stc_ExamScore;
+    		protected Single _Stc_ExamScore;
     		
     		protected Boolean _Stc_IsEnable;
     		
@@ -38,13 +38,13 @@ namespace Song.Entities {
     		
     		protected Decimal _Stc_Money;
     		
-    		protected Double _Stc_QuesScore;
+    		protected Single _Stc_QuesScore;
     		
-    		protected Double _Stc_ResultScore;
+    		protected Single _Stc_ResultScore;
     		
     		protected DateTime _Stc_StartTime;
     		
-    		protected Double _Stc_StudyScore;
+    		protected Single _Stc_StudyScore;
     		
     		protected Int32 _Stc_Type;
     		
@@ -150,7 +150,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Stc_ExamScore {
+    		public Single Stc_ExamScore {
     			get {
     				return this._Stc_ExamScore;
     			}
@@ -200,7 +200,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Stc_QuesScore {
+    		public Single Stc_QuesScore {
     			get {
     				return this._Stc_QuesScore;
     			}
@@ -210,7 +210,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Stc_ResultScore {
+    		public Single Stc_ResultScore {
     			get {
     				return this._Stc_ResultScore;
     			}
@@ -230,7 +230,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Stc_StudyScore {
+    		public Single Stc_StudyScore {
     			get {
     				return this._Stc_StudyScore;
     			}
@@ -373,7 +373,7 @@ namespace Song.Entities {
     				this._Stc_EndTime = reader.GetDateTime(_.Stc_EndTime);
     			}
     			if ((false == reader.IsDBNull(_.Stc_ExamScore))) {
-    				this._Stc_ExamScore = reader.GetDouble(_.Stc_ExamScore);
+    				this._Stc_ExamScore = reader.GetFloat(_.Stc_ExamScore);
     			}
     			if ((false == reader.IsDBNull(_.Stc_IsEnable))) {
     				this._Stc_IsEnable = reader.GetBoolean(_.Stc_IsEnable);
@@ -388,16 +388,16 @@ namespace Song.Entities {
     				this._Stc_Money = reader.GetDecimal(_.Stc_Money);
     			}
     			if ((false == reader.IsDBNull(_.Stc_QuesScore))) {
-    				this._Stc_QuesScore = reader.GetDouble(_.Stc_QuesScore);
+    				this._Stc_QuesScore = reader.GetFloat(_.Stc_QuesScore);
     			}
     			if ((false == reader.IsDBNull(_.Stc_ResultScore))) {
-    				this._Stc_ResultScore = reader.GetDouble(_.Stc_ResultScore);
+    				this._Stc_ResultScore = reader.GetFloat(_.Stc_ResultScore);
     			}
     			if ((false == reader.IsDBNull(_.Stc_StartTime))) {
     				this._Stc_StartTime = reader.GetDateTime(_.Stc_StartTime);
     			}
     			if ((false == reader.IsDBNull(_.Stc_StudyScore))) {
-    				this._Stc_StudyScore = reader.GetDouble(_.Stc_StudyScore);
+    				this._Stc_StudyScore = reader.GetFloat(_.Stc_StudyScore);
     			}
     			if ((false == reader.IsDBNull(_.Stc_Type))) {
     				this._Stc_Type = reader.GetInt32(_.Stc_Type);
@@ -482,7 +482,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stc_EndTime = new WeiSha.Data.Field<Student_Course>("Stc_EndTime");
     			
     			/// <summary>
-    			/// 字段名：Stc_ExamScore - 数据类型：Double
+    			/// 字段名：Stc_ExamScore - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Stc_ExamScore = new WeiSha.Data.Field<Student_Course>("Stc_ExamScore");
     			
@@ -507,12 +507,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stc_Money = new WeiSha.Data.Field<Student_Course>("Stc_Money");
     			
     			/// <summary>
-    			/// 字段名：Stc_QuesScore - 数据类型：Double
+    			/// 字段名：Stc_QuesScore - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Stc_QuesScore = new WeiSha.Data.Field<Student_Course>("Stc_QuesScore");
     			
     			/// <summary>
-    			/// 字段名：Stc_ResultScore - 数据类型：Double
+    			/// 字段名：Stc_ResultScore - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Stc_ResultScore = new WeiSha.Data.Field<Student_Course>("Stc_ResultScore");
     			
@@ -522,7 +522,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Stc_StartTime = new WeiSha.Data.Field<Student_Course>("Stc_StartTime");
     			
     			/// <summary>
-    			/// 字段名：Stc_StudyScore - 数据类型：Double
+    			/// 字段名：Stc_StudyScore - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Stc_StudyScore = new WeiSha.Data.Field<Student_Course>("Stc_StudyScore");
     			
@@ -538,3 +538,4 @@ namespace Song.Entities {
     		}
     	}
     }
+    

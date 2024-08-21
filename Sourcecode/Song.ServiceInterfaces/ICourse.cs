@@ -382,7 +382,7 @@ namespace Song.ServiceInterfaces
         /// <param name="study">学习记录，即视频观看进度</param>
         /// <param name="ques">试题练习记录，通过率</param>
         /// <param name="exam">结课考试的成绩</param>
-        void StudentScoreSave(Student_Course sc, double study, double ques, double exam);        
+        void StudentScoreSave(Student_Course sc, float study, float ques, float exam);        
         /// <summary>
         /// 取消课程学习，直接删除购买记录
         /// </summary>

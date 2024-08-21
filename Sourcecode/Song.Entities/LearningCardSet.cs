@@ -34,7 +34,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Lcs_MaxCount;
     		
-    		protected Double _Lcs_Price;
+    		protected Single _Lcs_Price;
     		
     		protected Int32 _Lcs_PwLength;
     		
@@ -182,7 +182,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Lcs_Price {
+    		public Single Lcs_Price {
     			get {
     				return this._Lcs_Price;
     			}
@@ -396,7 +396,7 @@ namespace Song.Entities {
     				this._Lcs_MaxCount = reader.GetInt32(_.Lcs_MaxCount);
     			}
     			if ((false == reader.IsDBNull(_.Lcs_Price))) {
-    				this._Lcs_Price = reader.GetDouble(_.Lcs_Price);
+    				this._Lcs_Price = reader.GetFloat(_.Lcs_Price);
     			}
     			if ((false == reader.IsDBNull(_.Lcs_PwLength))) {
     				this._Lcs_PwLength = reader.GetInt32(_.Lcs_PwLength);
@@ -514,7 +514,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lcs_MaxCount = new WeiSha.Data.Field<LearningCardSet>("Lcs_MaxCount");
     			
     			/// <summary>
-    			/// 字段名：Lcs_Price - 数据类型：Double
+    			/// 字段名：Lcs_Price - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Lcs_Price = new WeiSha.Data.Field<LearningCardSet>("Lcs_Price");
     			

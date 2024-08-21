@@ -36,11 +36,11 @@ namespace Song.Entities {
     		
     		protected String _Tp_Name;
     		
-    		protected Double _Tr_Colligate;
+    		protected Single _Tr_Colligate;
     		
     		protected DateTime? _Tr_CrtTime;
     		
-    		protected Double _Tr_Draw;
+    		protected Single _Tr_Draw;
     		
     		protected String _Tr_IP;
     		
@@ -52,9 +52,9 @@ namespace Song.Entities {
     		
     		protected String _Tr_Results;
     		
-    		protected Double _Tr_Score;
+    		protected Single _Tr_Score;
     		
-    		protected Double _Tr_ScoreFinal;
+    		protected Single _Tr_ScoreFinal;
     		
     		protected String _Tr_UID;
     		
@@ -198,7 +198,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Tr_Colligate {
+    		public Single Tr_Colligate {
     			get {
     				return this._Tr_Colligate;
     			}
@@ -218,7 +218,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Tr_Draw {
+    		public Single Tr_Draw {
     			get {
     				return this._Tr_Draw;
     			}
@@ -278,7 +278,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Tr_Score {
+    		public Single Tr_Score {
     			get {
     				return this._Tr_Score;
     			}
@@ -288,7 +288,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Tr_ScoreFinal {
+    		public Single Tr_ScoreFinal {
     			get {
     				return this._Tr_ScoreFinal;
     			}
@@ -441,13 +441,13 @@ namespace Song.Entities {
     				this._Tp_Name = reader.GetString(_.Tp_Name);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Colligate))) {
-    				this._Tr_Colligate = reader.GetDouble(_.Tr_Colligate);
+    				this._Tr_Colligate = reader.GetFloat(_.Tr_Colligate);
     			}
     			if ((false == reader.IsDBNull(_.Tr_CrtTime))) {
     				this._Tr_CrtTime = reader.GetDateTime(_.Tr_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Draw))) {
-    				this._Tr_Draw = reader.GetDouble(_.Tr_Draw);
+    				this._Tr_Draw = reader.GetFloat(_.Tr_Draw);
     			}
     			if ((false == reader.IsDBNull(_.Tr_IP))) {
     				this._Tr_IP = reader.GetString(_.Tr_IP);
@@ -465,10 +465,10 @@ namespace Song.Entities {
     				this._Tr_Results = reader.GetString(_.Tr_Results);
     			}
     			if ((false == reader.IsDBNull(_.Tr_Score))) {
-    				this._Tr_Score = reader.GetDouble(_.Tr_Score);
+    				this._Tr_Score = reader.GetFloat(_.Tr_Score);
     			}
     			if ((false == reader.IsDBNull(_.Tr_ScoreFinal))) {
-    				this._Tr_ScoreFinal = reader.GetDouble(_.Tr_ScoreFinal);
+    				this._Tr_ScoreFinal = reader.GetFloat(_.Tr_ScoreFinal);
     			}
     			if ((false == reader.IsDBNull(_.Tr_UID))) {
     				this._Tr_UID = reader.GetString(_.Tr_UID);
@@ -570,7 +570,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tp_Name = new WeiSha.Data.Field<TestResults>("Tp_Name");
     			
     			/// <summary>
-    			/// 字段名：Tr_Colligate - 数据类型：Double
+    			/// 字段名：Tr_Colligate - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Colligate = new WeiSha.Data.Field<TestResults>("Tr_Colligate");
     			
@@ -580,7 +580,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tr_CrtTime = new WeiSha.Data.Field<TestResults>("Tr_CrtTime");
     			
     			/// <summary>
-    			/// 字段名：Tr_Draw - 数据类型：Double
+    			/// 字段名：Tr_Draw - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Draw = new WeiSha.Data.Field<TestResults>("Tr_Draw");
     			
@@ -610,12 +610,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tr_Results = new WeiSha.Data.Field<TestResults>("Tr_Results");
     			
     			/// <summary>
-    			/// 字段名：Tr_Score - 数据类型：Double
+    			/// 字段名：Tr_Score - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Tr_Score = new WeiSha.Data.Field<TestResults>("Tr_Score");
     			
     			/// <summary>
-    			/// 字段名：Tr_ScoreFinal - 数据类型：Double
+    			/// 字段名：Tr_ScoreFinal - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Tr_ScoreFinal = new WeiSha.Data.Field<TestResults>("Tr_ScoreFinal");
     			

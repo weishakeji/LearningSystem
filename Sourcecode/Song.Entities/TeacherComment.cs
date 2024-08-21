@@ -32,7 +32,7 @@ namespace Song.Entities {
     		
     		protected String _Thc_Reply;
     		
-    		protected Double _Thc_Score;
+    		protected Single _Thc_Score;
     		
     		public Int32 Thc_ID {
     			get {
@@ -154,7 +154,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Thc_Score {
+    		public Single Thc_Score {
     			get {
     				return this._Thc_Score;
     			}
@@ -267,7 +267,7 @@ namespace Song.Entities {
     				this._Thc_Reply = reader.GetString(_.Thc_Reply);
     			}
     			if ((false == reader.IsDBNull(_.Thc_Score))) {
-    				this._Thc_Score = reader.GetDouble(_.Thc_Score);
+    				this._Thc_Score = reader.GetFloat(_.Thc_Score);
     			}
     		}
     		
@@ -356,7 +356,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Thc_Reply = new WeiSha.Data.Field<TeacherComment>("Thc_Reply");
     			
     			/// <summary>
-    			/// 字段名：Thc_Score - 数据类型：Double
+    			/// 字段名：Thc_Score - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Thc_Score = new WeiSha.Data.Field<TeacherComment>("Thc_Score");
     		}

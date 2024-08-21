@@ -931,7 +931,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student,Admin]
         [HttpPost]
-        public double LogForVideoRecord(int acid, long couid, double rate)
+        public double LogForVideoRecord(int acid, long couid, float rate)
         {
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
             if (acc == null) return rate;
@@ -942,7 +942,7 @@ namespace Song.ViewData.Methods
             if (sc == null) return rate;
             if (sc.Stc_StudyScore != rate)
             {
-                sc.Stc_StudyScore = rate;
+                sc.Stc_StudyScore = (float)rate;
                 Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
                 return rate;
             }

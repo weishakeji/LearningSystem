@@ -478,7 +478,7 @@ namespace Song.ViewData.Methods
                 {
                     try
                     {
-                        double highest = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid);
+                        float highest = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid);
                         purchase.Stc_ExamScore = highest;
                         Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
                     }
@@ -704,7 +704,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student, Admin, Teacher]
         [HttpPost]
-        public double ResultLogRecord(int acid, long couid, double score)
+        public double ResultLogRecord(int acid, long couid, float score)
         {
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != acid) return 0;

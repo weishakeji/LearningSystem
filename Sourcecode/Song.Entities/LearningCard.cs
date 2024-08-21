@@ -28,7 +28,7 @@ namespace Song.Entities {
     		
     		protected DateTime _Lc_LimitStart;
     		
-    		protected Double _Lc_Price;
+    		protected Single _Lc_Price;
     		
     		protected String _Lc_Pw;
     		
@@ -146,7 +146,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Lc_Price {
+    		public Single Lc_Price {
     			get {
     				return this._Lc_Price;
     			}
@@ -345,7 +345,7 @@ namespace Song.Entities {
     				this._Lc_LimitStart = reader.GetDateTime(_.Lc_LimitStart);
     			}
     			if ((false == reader.IsDBNull(_.Lc_Price))) {
-    				this._Lc_Price = reader.GetDouble(_.Lc_Price);
+    				this._Lc_Price = reader.GetFloat(_.Lc_Price);
     			}
     			if ((false == reader.IsDBNull(_.Lc_Pw))) {
     				this._Lc_Pw = reader.GetString(_.Lc_Pw);
@@ -448,7 +448,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Lc_LimitStart = new WeiSha.Data.Field<LearningCard>("Lc_LimitStart");
     			
     			/// <summary>
-    			/// 字段名：Lc_Price - 数据类型：Double
+    			/// 字段名：Lc_Price - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Lc_Price = new WeiSha.Data.Field<LearningCard>("Lc_Price");
     			

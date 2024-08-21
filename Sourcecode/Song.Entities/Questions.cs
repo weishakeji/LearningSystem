@@ -48,7 +48,7 @@ namespace Song.Entities {
     		
     		protected DateTime _Qus_LastTime;
     		
-    		protected Double _Qus_Number;
+    		protected Single _Qus_Number;
     		
     		protected Int32 _Qus_Tax;
     		
@@ -264,7 +264,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Qus_Number {
+    		public Single Qus_Number {
     			get {
     				return this._Qus_Number;
     			}
@@ -494,7 +494,7 @@ namespace Song.Entities {
     				this._Qus_LastTime = reader.GetDateTime(_.Qus_LastTime);
     			}
     			if ((false == reader.IsDBNull(_.Qus_Number))) {
-    				this._Qus_Number = reader.GetDouble(_.Qus_Number);
+    				this._Qus_Number = reader.GetFloat(_.Qus_Number);
     			}
     			if ((false == reader.IsDBNull(_.Qus_Tax))) {
     				this._Qus_Tax = reader.GetInt32(_.Qus_Tax);
@@ -644,7 +644,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Qus_LastTime = new WeiSha.Data.Field<Questions>("Qus_LastTime");
     			
     			/// <summary>
-    			/// 字段名：Qus_Number - 数据类型：Double
+    			/// 字段名：Qus_Number - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Qus_Number = new WeiSha.Data.Field<Questions>("Qus_Number");
     			

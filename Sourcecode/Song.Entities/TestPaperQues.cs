@@ -18,7 +18,7 @@ namespace Song.Entities {
     		
     		protected Int64 _Tp_Id;
     		
-    		protected Double _Tq_Number;
+    		protected Single _Tq_Number;
     		
     		protected Int32 _Tq_Percent;
     		
@@ -74,7 +74,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Double Tq_Number {
+    		public Single Tq_Number {
     			get {
     				return this._Tq_Number;
     			}
@@ -176,7 +176,7 @@ namespace Song.Entities {
     				this._Tp_Id = reader.GetInt64(_.Tp_Id);
     			}
     			if ((false == reader.IsDBNull(_.Tq_Number))) {
-    				this._Tq_Number = reader.GetDouble(_.Tq_Number);
+    				this._Tq_Number = reader.GetFloat(_.Tq_Number);
     			}
     			if ((false == reader.IsDBNull(_.Tq_Percent))) {
     				this._Tq_Percent = reader.GetInt32(_.Tq_Percent);
@@ -236,7 +236,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tp_Id = new WeiSha.Data.Field<TestPaperQues>("Tp_Id");
     			
     			/// <summary>
-    			/// 字段名：Tq_Number - 数据类型：Double
+    			/// 字段名：Tq_Number - 数据类型：Single
     			/// </summary>
     			public static WeiSha.Data.Field Tq_Number = new WeiSha.Data.Field<TestPaperQues>("Tq_Number");
     			
