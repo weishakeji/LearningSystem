@@ -79,7 +79,8 @@ namespace Song.ViewData
             if (acc == null) acc = LoginAccount.CacheGet(accid);
             if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(status[3])) return null;
             acc = acc.DeepClone<Song.Entities.Accounts>();
-            acc.Ac_Photo = System.IO.File.Exists(phyPath + acc.Ac_Photo) ? virPath + acc.Ac_Photo : "";
+            if(!string.IsNullOrWhiteSpace(acc.Ac_Photo) && !acc.Ac_Photo.StartsWith("/"))
+                acc.Ac_Photo = System.IO.File.Exists(phyPath + acc.Ac_Photo) ? virPath + acc.Ac_Photo : "";
             acc.Ac_Pw = string.Empty;
             return acc;
         }

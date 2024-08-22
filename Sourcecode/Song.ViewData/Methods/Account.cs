@@ -760,52 +760,45 @@ namespace Song.ViewData.Methods
         public Accounts ModifyPhoto(Accounts account)
         {
             string filename = string.Empty;
-            try
+            //只保存第一张图片
+            foreach (string key in this.Files)
             {
-                //只保存第一张图片
-                foreach (string key in this.Files)
-                {
-                    HttpPostedFileBase file = this.Files[key];
-                    filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                    file.SaveAs(_phyPath + filename);
-                    break;
-                }
-
-                Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(account.Ac_ID);
-                if (old == null)
-                {
-                    account.Ac_Photo = System.IO.File.Exists(_phyPath + account.Ac_Photo) ? _virPath + account.Ac_Photo : "";
-                    return account;
-                }
-                if (!string.IsNullOrWhiteSpace(old.Ac_Photo))
-                {
-                    string filehy = _phyPath + old.Ac_Photo;
-                    try
-                    {
-                        //删除原图
-                        if (System.IO.File.Exists(filehy))
-                            System.IO.File.Delete(filehy);
-                        //删除缩略图，如果有
-                        string smallfile = WeiSha.Core.Images.Name.ToSmall(filehy);
-                        if (System.IO.File.Exists(smallfile))
-                            System.IO.File.Delete(smallfile);
-                    }
-                    catch { }
-                }
-                old.Ac_Photo = filename;
-                //Business.Do<IAccounts>().AccountsSave(old);
-                Business.Do<IAccounts>().AccountsUpdate(old,new WeiSha.Data.Field[] { 
-                    Song.Entities.Accounts._.Ac_Photo
-                },new object[] { filename });
-                Song.ViewData.LoginAccount.Status.Fresh(old);
-                //
-                old.Ac_Photo = System.IO.File.Exists(_phyPath + old.Ac_Photo) ? _virPath + old.Ac_Photo : "";
-                return old;
+                HttpPostedFileBase file = this.Files[key];
+                filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                file.SaveAs(_phyPath + filename);
+                break;
             }
-            catch (Exception ex)
+
+            Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(account.Ac_ID);
+            if (old == null)
             {
-                throw ex;
-            }          
+                account.Ac_Photo = System.IO.File.Exists(_phyPath + account.Ac_Photo) ? _virPath + account.Ac_Photo : "";
+                return account;
+            }
+            if (!string.IsNullOrWhiteSpace(old.Ac_Photo))
+            {
+                string filehy = _phyPath + old.Ac_Photo;
+                try
+                {
+                    //删除原图
+                    if (System.IO.File.Exists(filehy))
+                        System.IO.File.Delete(filehy);
+                    //删除缩略图，如果有
+                    string smallfile = WeiSha.Core.Images.Name.ToSmall(filehy);
+                    if (System.IO.File.Exists(smallfile))
+                        System.IO.File.Delete(smallfile);
+                }
+                catch { }
+            }
+            old.Ac_Photo = filename;
+            //Business.Do<IAccounts>().AccountsSave(old);
+            Business.Do<IAccounts>().AccountsUpdate(old.Ac_ID, new WeiSha.Data.Field[] {
+                    Song.Entities.Accounts._.Ac_Photo
+                }, new object[] { filename });
+            Song.ViewData.LoginAccount.Status.Fresh(old);
+            //
+            old.Ac_Photo = System.IO.File.Exists(_phyPath + old.Ac_Photo) ? _virPath + old.Ac_Photo : "";
+            return old;
         }
         /// <summary>
         /// 修改自身账号信息
