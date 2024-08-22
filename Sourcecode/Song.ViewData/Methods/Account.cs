@@ -765,7 +765,9 @@ namespace Song.ViewData.Methods
             {
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                file.SaveAs(_phyPath + filename);
+                string phyfile = _phyPath + filename;
+                file.SaveAs(phyfile);              
+                WeiSha.Core.Images.FileTo.Zoom(phyfile, 200, 200, false);
                 break;
             }
 
@@ -781,17 +783,14 @@ namespace Song.ViewData.Methods
                 try
                 {
                     //删除原图
-                    if (System.IO.File.Exists(filehy))
-                        System.IO.File.Delete(filehy);
+                    if (System.IO.File.Exists(filehy)) System.IO.File.Delete(filehy);
                     //删除缩略图，如果有
                     string smallfile = WeiSha.Core.Images.Name.ToSmall(filehy);
-                    if (System.IO.File.Exists(smallfile))
-                        System.IO.File.Delete(smallfile);
+                    if (System.IO.File.Exists(smallfile)) System.IO.File.Delete(smallfile);
                 }
                 catch { }
             }
             old.Ac_Photo = filename;
-            //Business.Do<IAccounts>().AccountsSave(old);
             Business.Do<IAccounts>().AccountsUpdate(old.Ac_ID, new WeiSha.Data.Field[] {
                     Song.Entities.Accounts._.Ac_Photo
                 }, new object[] { filename });
