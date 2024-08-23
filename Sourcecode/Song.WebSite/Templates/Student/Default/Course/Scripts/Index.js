@@ -95,6 +95,7 @@ $ready(function () {
                 url = $api.url.set(url, { 'stid': this.account.Ac_ID, 'stcid': purchase.Stc_ID });
                 var obj = {
                     'url': url,
+                    'pid': window.name,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + course.Cou_Name,
                     'width': '800px',

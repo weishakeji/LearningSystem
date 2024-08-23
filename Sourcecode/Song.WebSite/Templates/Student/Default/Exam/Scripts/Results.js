@@ -81,6 +81,7 @@ $ready(function () {
                 });
                 var obj = {
                     'url': url,
+                    'pid': window.name,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩查看 - ' + result.Exam_Title,
                     'width': 900,

@@ -367,7 +367,8 @@
             var logintokens = this.login.tokens();
             //地理位置信息，具体代码在/Utilities/Scripts/position.js
             var position = window.$posi ? window.$posi.coords : {};
-            //var position={};
+            //api所在的页面地址，包括上溯的父级页面
+            var pages = this.apipages();
             //创建axiso对象
             var instance = axios.create({
                 method: true_method,
@@ -388,8 +389,7 @@
                 },
                 auth: {
                     //username: 'weishakeji ' + custom_method + ' ' + action + ' ' + returntype + ' ' + window.location,
-                    username: window.location,
-                    password: logintokens
+                    username: pages, password: logintokens
                 },
                 timeout: config.timeout,
                 returntype: returntype
@@ -540,7 +540,45 @@
             eval("this." + m + "=" + methods[m] + ";");
         }
     };
-
+    //api请求时，获取所在页面的url，会上溯父级页面
+    apiObj.prototype.apipages = function () {
+        var list = [];
+        //当前页面名称
+        var name = window.name;
+        if (name == "") {
+            list.push(window.location.pathname);
+        } else {
+            if (window.top.$pagebox) {
+                var pagebox = window.top.$pagebox;
+                var boxs = [];
+                //当前窗体
+                let box = pagebox.get(name);
+                while (box != null) {
+                    boxs.push(box);
+                    let win = box.document();
+                    list.push(win.location.pathname);
+                    box = pagebox.get(box.pid);
+                }
+                if (boxs.length > 0) {
+                    let iframe = window.top.$dom('iframe[name=\'' + boxs[0].pid + '\']');
+                    if (iframe.length > 0) {
+                        let win = iframe[0].contentWindow;
+                        list.push(win.location.pathname);
+                    }
+                } else {
+                    list.push(window.location.pathname);
+                }
+            }
+        }
+        //最顶层页面
+        let topurl = window.top.location.pathname;
+        if (!list.includes(topurl)) list.push(topurl);
+        if (list.length > 0) {
+            let txt = list.join(',');
+            console.error(txt);
+        }
+        return list.join(',');
+    };
     //分享页面的超链接处理
     apiObj.prototype.spread = function (f) {
 

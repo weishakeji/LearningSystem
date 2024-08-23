@@ -70,6 +70,7 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(s)) continue;
                     users.Add(s);
                 }
+                //api请求的所在页面
                 if (users.Count > 0 && !string.IsNullOrWhiteSpace(WEB_PAGE)) WEB_PAGE = users[0];
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);

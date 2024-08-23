@@ -147,6 +147,7 @@ Vue.component('video_progress', {
             url = $api.url.set(url, { 'stid': this.stid });
             var obj = {
                 'url': url,
+                'pid': window.name,
                 'ico': 'e6ef', 'min': false,
                 'title': '学习进度 - ' + item.Cou_Name,
                 'width': '80%',

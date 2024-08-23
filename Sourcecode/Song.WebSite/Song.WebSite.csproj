@@ -3371,6 +3371,7 @@
     <Content Include="Utilities\ChinaMap\640000_full.json" />
     <Content Include="Utilities\ChinaMap\650000_full.json" />
     <Content Include="Utilities\ChinaMap\710000_full.json" />
+    <Content Include="Utilities\PageCheck\Config.weisha" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

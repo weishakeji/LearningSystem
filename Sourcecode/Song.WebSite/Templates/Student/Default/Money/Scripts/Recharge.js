@@ -159,6 +159,7 @@ $ready(function () {
                 var url = this.payurl;
                 var obj = {
                     'url': url,
+                    'pid': window.name,
                     'ico': 'e62d', 'min': false,
                     'title': '在线充值',
                     'width': '400px',

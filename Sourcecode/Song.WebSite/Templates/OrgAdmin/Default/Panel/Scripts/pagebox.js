@@ -701,6 +701,7 @@
     //获取上级窗体对象，如果没有上级，则返回为空
     box.parent = function (boxid) {
         let ctrl = $ctrls.get(boxid);
+        if (ctrl == null) return null;
         return ctrl.obj.parent;
     };
     //所有窗体

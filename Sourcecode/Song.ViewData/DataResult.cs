@@ -93,10 +93,13 @@ namespace Song.ViewData
             DateTime = DateTime.Now;
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds;
             Message = success && obj != null ? "" : "未查询到数据";
-            if (WeiSha.Core.License.Value.EdtionLevel <= 0)
-                Message = string.Format("{0} ({1} - {2})", Message, Edition, WeiSha.Core.Database.DbType);
-            else
-                Message = string.Format("{0} ({1} - {2})", Message, "DataBase", WeiSha.Core.Database.DbType);
+            if (!string.IsNullOrWhiteSpace(Message))
+            {
+                if (WeiSha.Core.License.Value.EdtionLevel <= 0)
+                    Message = string.Format("{0} ({1} - {2})", Message, Edition, WeiSha.Core.Database.DbType);
+                else
+                    Message = string.Format("{0} ({1} - {2})", Message, "DataBase", WeiSha.Core.Database.DbType);
+            }
         }
         /// <summary>
         /// 构造方法
@@ -127,10 +130,13 @@ namespace Song.ViewData
             Exception exception = exc;            
             while (exception.InnerException != null)           
                 exception = exception.InnerException;
-            if (WeiSha.Core.License.Value.EdtionLevel <= 0)
-                Message = string.Format("{0} ({1} - {2})", exception.Message, Edition, WeiSha.Core.Database.DbType);
-            else
-                Message = string.Format("{0} ({1} - {2})", exception.Message, "DataBase", WeiSha.Core.Database.DbType);
+            if (!string.IsNullOrWhiteSpace(exception.Message))
+            {
+                if (WeiSha.Core.License.Value.EdtionLevel <= 0)
+                    Message = string.Format("{0} ({1} - {2})", exception.Message, Edition, WeiSha.Core.Database.DbType);
+                else
+                    Message = string.Format("{0} ({1} - {2})", exception.Message, "DataBase", WeiSha.Core.Database.DbType);
+            }
             //执行时间
             ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
            

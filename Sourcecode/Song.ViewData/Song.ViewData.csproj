@@ -184,6 +184,7 @@
     <Compile Include="Helper\LoginAdmin.cs" />
     <Compile Include="Helper\Logs.cs" />
     <Compile Include="Helper\OnlineAccounts.cs" />
+    <Compile Include="Helper\PageCheck.cs" />
     <Compile Include="Helper\Server.cs" />
     <Compile Include="IViewAPI.cs" />
     <Compile Include="Letter\LetterBox.cs" />

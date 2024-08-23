@@ -85,7 +85,6 @@ namespace Song.ViewData
 
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
-            //method.ReturnType
             //清除缓存
             if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
                 CacheAttribute.Remove(method, letter);
