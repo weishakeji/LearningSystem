@@ -80,6 +80,24 @@ namespace Song.ViewData
         /// <returns></returns>
         public static object Exec(Letter letter,out bool success)
         {
+            //基础校验
+            if (!"weishakeji".Equals(letter.HTTP_Mark, StringComparison.OrdinalIgnoreCase))
+                throw VExcept.System("The request mark is incorrect", 102);
+            //是否验证调用接口的js所在页面host，是否与地址栏一致
+            WeiSha.Core.RESTfulAPI apicheck = WeiSha.Core.RESTfulAPI.Get;
+            if (apicheck.HostCheck)
+            {
+                //如果不在白名单内，如果API与所在页面host相同也会通过
+                if (!(apicheck.EnableWhite && apicheck.WhitePassed(letter.HTTP_HOST)))
+                {
+                    //验证黑名单
+                    if (apicheck.EnableBlack && apicheck.BlackPassed(letter.HTTP_HOST))
+                        throw VExcept.System("The API requests are restricted", 102);
+                    else if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
+                        throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
+                }
+            }
+            //
             //1.创建对象,即$api.get("account/single")中的account
             IViewAPI execObj = ExecuteMethod.CreateInstance(letter);
 
@@ -103,17 +121,18 @@ namespace Song.ViewData
             UploadAttribute.Verify(method, letter);
             //----验证是否需要登录
             LoginAttribute loginattr = LoginAttribute.Verify(method, letter);
-
-            //----清理参数值中的html标签,默认全部清理，通过设置not参数不过虑某参数
-            HtmlClearAttribute.Clear(method, letter);
+            //----验证API请求的所在页面，是否拥有操作权限
+            if (apicheck.PageCheck) Helper.PageCheck.Instance.CheckPageAccess(letter);
             //----验证是否购买课程,是否可以学习课程内容
-            bool isBuy = PurchasedAttribute.Verify(method, letter);
-            bool isStudy = StudyAttribute.Verify(method, letter);
+            Attri.PurchasedAttribute.Verify(method, letter);
+            Attri.StudyAttribute.Verify(method, letter);
 
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
 
             //5.执行方法，返回结果
+            //----清理参数值中的html标签,默认全部清理，通过设置not参数不过虑某参数
+            HtmlClearAttribute.Clear(method, letter);
             object objResult = null;    //结果
             //只有get方式时，才使用缓存
             CacheAttribute cache = null;
@@ -161,24 +180,6 @@ namespace Song.ViewData
             DateTime time = DateTime.Now;   //接口开始执行的时间
             try
             {
-                if (!"weishakeji".Equals(letter.HTTP_Mark, StringComparison.OrdinalIgnoreCase))
-                    throw VExcept.System("The request mark is incorrect", 102);
-
-                //是否验证调用接口的js所在页面host，是否与地址栏一致
-                WeiSha.Core.RESTfulAPI apicheck = WeiSha.Core.RESTfulAPI.Get;
-                if (apicheck.HostCheck)
-                {
-                    //如果不在白名单内，如果API与所在页面host相同也会通过
-                    if (!(apicheck.EnableWhite && apicheck.WhitePassed(letter.HTTP_HOST)))
-                    {
-                        //验证黑名单
-                        if (apicheck.EnableBlack && apicheck.BlackPassed(letter.HTTP_HOST))
-                            throw VExcept.System("The API requests are restricted", 102);
-                        else if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
-                            throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
-                    }
-                }
-
                 bool success = false;
                 //执行方法
                 object res = Exec(letter, out success);              
