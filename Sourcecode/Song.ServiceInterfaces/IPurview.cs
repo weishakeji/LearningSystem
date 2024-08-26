@@ -10,6 +10,13 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface IPurview : WeiSha.Core.IBusinessInterface
     {
+        #region 事件
+        /// <summary>
+        /// 当菜单项变化时，包括增删改、权限设置
+        /// </summary>
+        event EventHandler OnChanged;
+
+        #endregion
         /// <summary>
         /// 添加
         /// </summary>

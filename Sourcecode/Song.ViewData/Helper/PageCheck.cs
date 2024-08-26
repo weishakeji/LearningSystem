@@ -47,8 +47,20 @@ namespace Song.ViewData.Helper
         private PageCheck()
         {
             configPath = WeiSha.Core.Server.MapPath(configPath);
+            Business.Do<IManageMenu>().OnChanged += PageCheck_Changed;
+            Business.Do<IPurview>().OnChanged += PageCheck_Changed;
             this.InitializedData();
         }
+        /// <summary>
+        /// 当管理菜单或权限变更时，刷新菜单信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PageCheck_Changed(object sender, EventArgs e)
+        {
+            this.InitializedMenu();
+        }
+
         /// <summary>
         /// 获取配置项
         /// </summary>

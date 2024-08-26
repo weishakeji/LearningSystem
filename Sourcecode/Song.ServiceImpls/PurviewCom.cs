@@ -14,6 +14,13 @@ namespace Song.ServiceImpls
     /// </summary>
     public class PurviewCom : IPurview
     {
+        #region 事件
+        /// <summary>
+        /// 当菜单项变化时，包括增删改、权限设置
+        /// </summary>
+        public event EventHandler OnChanged;
+
+        #endregion
         /// <summary>
         /// 添加
         /// </summary>
@@ -21,6 +28,8 @@ namespace Song.ServiceImpls
         public void Add(Purview entity)
         {
             Gateway.Default.Save<Purview>(entity);
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// 批量添加
@@ -75,6 +84,8 @@ namespace Song.ServiceImpls
                         tran.Save<Purview>(p);
                     }
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -91,6 +102,8 @@ namespace Song.ServiceImpls
         public void Save(Purview entity)
         {
             Gateway.Default.Save<Purview>(entity);
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// 删除
@@ -99,6 +112,8 @@ namespace Song.ServiceImpls
         public void Delete(Purview entity)
         {
             Gateway.Default.Delete<Purview>(entity);
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// 根据分类、对象id删除
@@ -127,6 +142,8 @@ namespace Song.ServiceImpls
                     Gateway.Default.Delete<Purview>(wc && Purview._.Olv_ID == memberId);
                     break;
             }
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// 删除，按主键ID；
@@ -135,6 +152,8 @@ namespace Song.ServiceImpls
         public void Delete(int identify)
         {
             Gateway.Default.Delete<Purview>(Purview._.Pur_Id == identify);
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；

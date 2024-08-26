@@ -11,6 +11,14 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface IManageMenu : WeiSha.Core.IBusinessInterface
     {
+        #region 事件
+        /// <summary>
+        /// 当菜单项变化时，包括增删改、权限设置
+        /// </summary>
+        event EventHandler OnChanged;
+
+        #endregion
+
         #region 菜单树的管理
         /// <summary>
         /// 添加

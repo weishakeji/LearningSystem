@@ -15,6 +15,14 @@ namespace Song.ServiceImpls
 {
     public class ManageMenuCom : IManageMenu
     {
+        #region 事件
+        /// <summary>
+        /// 当菜单项变化时，包括增删改、权限设置
+        /// </summary>
+        public event EventHandler OnChanged;
+
+        #endregion
+
         #region 菜单树的管理
         /// <summary>
         /// 添加
@@ -37,6 +45,8 @@ namespace Song.ServiceImpls
             entity.MM_Tax = this.GetMaxTaxis("0") + 1;
             entity.MM_PatId = "0";
             Gateway.Default.Save<ManageMenu>(entity);
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
             return id;
         }
         /// <summary>
@@ -61,6 +71,8 @@ namespace Song.ServiceImpls
                     throw ex;
                 }
             }
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
             return entity.MM_Id;
         }
         /// <summary>
@@ -79,6 +91,8 @@ namespace Song.ServiceImpls
                 {
                     this._Delete(uid, tran);
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch(Exception ex)
                 {
@@ -168,6 +182,8 @@ namespace Song.ServiceImpls
                 entity.MM_UID = WeiSha.Core.Request.UniqueID();
             Gateway.Default.Save<ManageMenu>(entity);
             entity = Gateway.Default.From<ManageMenu>().OrderBy(ManageMenu._.MM_Id.Desc).ToFirst<ManageMenu>();
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
             return entity.MM_Id;
         }
         /// <summary>
@@ -176,33 +192,9 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void Save(ManageMenu entity)
         {
-            //entity.MM_IsShow
             Gateway.Default.Save<ManageMenu>(entity);
-        }
-
-        /// <summary>
-        /// 复制一个新增节点
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        private ManageMenu _copySingle(ManageMenu entity)
-        {
-            ManageMenu mm = new ManageMenu();
-            Type info = mm.GetType();
-            //获取对象的属性列表
-            PropertyInfo[] properties = info.GetProperties();
-            for (int i = 0; i < properties.Length; i++)
-            {
-                PropertyInfo pi = properties[i];
-                string pname = pi.Name;
-                if (pi.Name.IndexOf("_") > -1)
-                    pname = pname.Substring(pname.IndexOf("_") + 1);
-                if (pname.Trim().ToLower() == "id") continue;
-                //当前属性的值
-                object obj = info.GetProperty(pi.Name).GetValue(entity, null);
-                info.GetProperty(pi.Name).SetValue(mm, obj, null);
-            }
-            return mm;
+            //执行事件
+            OnChanged?.Invoke(this, EventArgs.Empty);
         }
  
         /// <summary>
@@ -219,6 +211,8 @@ namespace Song.ServiceImpls
                 {
                     this._Delete(dep.MM_UID, tran);
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch(Exception ex)
                 {
@@ -248,6 +242,8 @@ namespace Song.ServiceImpls
                 {
                     this._Delete(dep.MM_UID, tran);
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -269,6 +265,8 @@ namespace Song.ServiceImpls
                 try
                 {
                     this._Delete(dep.MM_UID, tran);
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                     tran.Commit();
                 }
                 catch (Exception ex) { tran.Rollback(); throw ex; }
@@ -493,6 +491,8 @@ namespace Song.ServiceImpls
                             ManageMenu._.MM_Id == item.MM_Id);
                     }
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                     return true;
                 }
                 catch(Exception ex)
@@ -524,6 +524,8 @@ namespace Song.ServiceImpls
                         tran.Save<ManageMenu>(item);
                     }
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                     return true;
                 }
                 catch(Exception ex)
@@ -560,6 +562,8 @@ namespace Song.ServiceImpls
                         tran.Save<ManageMenu>(item);
                     }
                     tran.Commit();
+                    //执行事件
+                    OnChanged?.Invoke(this, EventArgs.Empty);
                     return true;
                 }
                 catch(Exception ex)
