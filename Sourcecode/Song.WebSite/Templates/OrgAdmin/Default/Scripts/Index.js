@@ -138,7 +138,7 @@ function ready(result) {
         }
     });
     //加载左侧菜单树
-    $api.get('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
+    $api.get('ManageMenu/OrganMarkerMenus', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
             var result = nodeconvert(req.data.result);//return;
             //console.log(result);

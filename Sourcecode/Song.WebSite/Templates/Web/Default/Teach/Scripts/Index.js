@@ -102,7 +102,7 @@ $ready(function () {
             getmenus: function () {
                 var th = this;
                 th.loading_menu = true;
-                $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'teacher' })
+                $api.get('ManageMenu/OrganMarkerMenus', { 'marker': 'teacher' })
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;

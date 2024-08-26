@@ -132,7 +132,7 @@ function ready(result) {
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
     //加载左侧菜单树
-    $api.cache('ManageMenu/OrganMarkerMenus:60', { 'marker': 'organAdmin' }).then(function (req) {
+    $api.get('ManageMenu/OrganMarkerMenus', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
             var result = nodeconvert(req.data.result);
             if (result[0].childs.length > 0)

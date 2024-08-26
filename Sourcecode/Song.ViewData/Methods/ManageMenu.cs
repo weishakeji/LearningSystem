@@ -266,7 +266,6 @@ namespace Song.ViewData.Methods
         //[Cache(AdminDisable = true, Expires = 1440)]
         public JArray OrganMarkerMenus(string marker)
         {
-            //JArray ja = new JArray();
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             List<Song.Entities.ManageMenu> mm = Business.Do<IPurview>().GetOrganPurview(org, marker);
             return mm.Count > 0 ? _MenuNode(null, mm,false) : null;
@@ -435,16 +434,9 @@ namespace Song.ViewData.Methods
             if (LoginAdmin.Status.IsSuperAdmin(this.Letter))
             {
                 List<Song.Entities.ManageMenu> mm = Business.Do<IManageMenu>().GetFunctionMenu("0", true, true);
-                if (mm.Count > 0)
-                {
-                    return _MenuNode(null, mm, true);
-                }
+                if (mm.Count > 0) return _MenuNode(null, mm, true);
                 return null;
-            }
-            else
-            {
-              
-            }          
+            }                   
             return null;
         }
     }
