@@ -102,14 +102,14 @@ namespace Song.ServiceInterfaces
         /// 获取对象；即所有栏目；
         /// </summary>
         /// <returns></returns>
-        ManageMenu[] GetAll();
+        List<ManageMenu> GetAll();
         /// <summary>
         /// 获取对象；即所有可用栏目；
         /// </summary>
         /// <param name="isUse"></param>
         /// <param name="isShow"></param>
         /// <returns></returns>
-        ManageMenu[] GetAll(bool? isUse, bool? isShow);
+        List<ManageMenu> GetAll(bool? isUse, bool? isShow);
         /// <summary>
         /// 获取所有对象，功能菜单或系统菜菜
         /// </summary>
@@ -117,7 +117,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isShow"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        ManageMenu[] GetAll(bool? isUse, bool? isShow, string type);
+        List<ManageMenu> GetAll(bool? isUse, bool? isShow, string type);
         /// <summary>
         /// 获取某一个根菜单下的所有分级
         /// </summary>

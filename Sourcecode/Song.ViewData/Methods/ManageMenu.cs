@@ -279,8 +279,8 @@ namespace Song.ViewData.Methods
         [SuperAdmin]
         public JArray SystemMenu()
         {
-            Song.Entities.ManageMenu[] mm = Business.Do<IManageMenu>().GetAll(null, null, "sys");
-            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>(),false) : null;
+            List<Song.Entities.ManageMenu> mm = Business.Do<IManageMenu>().GetAll(null, null, "sys");
+            return mm.Count > 0 ? _MenuNode(null, mm,false) : null;
         }
         /// <summary>
         /// 显示系统菜单项
@@ -290,8 +290,8 @@ namespace Song.ViewData.Methods
         [Cache]
         public JArray SystemMenuShow()
         {
-            Song.Entities.ManageMenu[] mm = Business.Do<IManageMenu>().GetAll(true, true, "sys");
-            return mm.Length > 0 ? _MenuNode(null, mm.ToList<Song.Entities.ManageMenu>(),true) : null;
+            List<Song.Entities.ManageMenu> mm = Business.Do<IManageMenu>().GetAll(true, true, "sys");
+            return mm.Count > 0 ? _MenuNode(null, mm,true) : null;
         }
         /// <summary>
         /// 生成菜单子节点

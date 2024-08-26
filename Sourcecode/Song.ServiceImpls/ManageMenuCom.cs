@@ -317,15 +317,15 @@ namespace Song.ServiceImpls
         /// 获取对象；即所有栏目；
         /// </summary>
         /// <returns></returns>
-        public ManageMenu[] GetAll()
+        public List<ManageMenu> GetAll()
         {
-            return Gateway.Default.From<ManageMenu>().ToArray<ManageMenu>();
+            return Gateway.Default.From<ManageMenu>().ToList<ManageMenu>();
         }
         /// <summary>
         /// 获取对象；即所有可用栏目；
         /// </summary>
         /// <returns></returns>
-        public ManageMenu[] GetAll(bool? isUse, bool? isShow)
+        public List<ManageMenu> GetAll(bool? isUse, bool? isShow)
         {
             WhereClip wc = ManageMenu._.MM_Name != "";
             if (isUse != null)
@@ -336,7 +336,7 @@ namespace Song.ServiceImpls
             {
                 wc.And(ManageMenu._.MM_IsShow == isShow);
             }
-            return Gateway.Default.From<ManageMenu>().Where(wc).OrderBy(ManageMenu._.MM_Tax.Asc).ToArray<ManageMenu>();
+            return Gateway.Default.From<ManageMenu>().Where(wc).OrderBy(ManageMenu._.MM_Tax.Asc).ToList<ManageMenu>();
         }
         /// <summary>
         /// 获取所有对象，功能菜单或系统菜菜
@@ -345,7 +345,7 @@ namespace Song.ServiceImpls
         /// <param name="isShow"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ManageMenu[] GetAll(bool? isUse, bool? isShow, string type)
+        public List<ManageMenu> GetAll(bool? isUse, bool? isShow, string type)
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(ManageMenu._.MM_IsUse == isUse);
@@ -358,7 +358,7 @@ namespace Song.ServiceImpls
             {
                 wc.And(ManageMenu._.MM_Func == "func");
             }
-            return Gateway.Default.From<ManageMenu>().Where(wc).OrderBy(ManageMenu._.MM_Tax.Asc).ToArray<ManageMenu>();
+            return Gateway.Default.From<ManageMenu>().Where(wc).OrderBy(ManageMenu._.MM_Tax.Asc).ToList<ManageMenu>();
         }
         //public ManageMenu[] GetAll(int rootid, bool? isUse, bool? isShow, string type)
         //{

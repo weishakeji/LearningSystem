@@ -574,8 +574,9 @@
         let topurl = window.top.location.pathname;
         if (!list.includes(topurl)) list.push(topurl);
         if (list.length > 0) {
-            let txt = list.join(',');
-            console.error(txt);
+            for (let i = 0; i < list.length; i++)
+                list[i] = list[i].toLowerCase();           
+            console.error(list.join(','));
         }
         return list.join(',');
     };

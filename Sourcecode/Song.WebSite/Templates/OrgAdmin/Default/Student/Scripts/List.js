@@ -55,7 +55,7 @@ $ready(function () {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(err => console.error(err))
+            }).catch(err => alert(err))
                 .finally(() => { });
 
         },
