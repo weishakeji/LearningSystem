@@ -126,6 +126,7 @@ CREATE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON "Position" ("Posi_Id" 
 -- 47 . ProfitSharing
 -- 48 . Purview
 CREATE INDEX IF NOT EXISTS "Purview_aaaaaPurview_PK" ON "Purview" ("Pur_Id" DESC);
+CREATE INDEX IF NOT EXISTS "Purview_IX_Olv_ID" ON "Purview" ("Olv_ID" DESC);
 -- 49 . QuesAnswer
 -- 50 . Questions
 CREATE INDEX IF NOT EXISTS "Questions_IX_Cou_ID" ON "Questions" ("Cou_ID" ASC);
@@ -155,6 +156,7 @@ CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Qus_ID" ON "Student_Collect" ("Qu
 -- 61 . Student_Course
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Ac_ID" ON "Student_Course" ("Ac_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Cou_ID" ON "Student_Course" ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Lc_Code" ON "Student_Course" ("Lc_Code" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Org_ID" ON "Student_Course" ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_EndTime" ON "Student_Course" ("Stc_EndTime" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_StartTime" ON "Student_Course" ("Stc_StartTime" DESC);
@@ -196,4 +198,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON "ThirdpartyAccounts"
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON "ThirdpartyAccounts" ("Ta_Openid" DESC);
 -- 78 . ThirdpartyLogin
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
---总共索引有：120
+--总共索引有：122

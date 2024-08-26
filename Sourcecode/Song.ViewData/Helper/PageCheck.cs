@@ -19,9 +19,7 @@ namespace Song.ViewData.Helper
 
         private static string configPath = "/Utilities/PageCheck";
         private static string configFile = "Config.weisha";
-
-        //
-       
+        //       
         private static readonly PageCheck _instance = new PageCheck();
         /// <summary>
         /// 单例对象
@@ -39,28 +37,17 @@ namespace Song.ViewData.Helper
                 System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
                 object cachevalue = cache.Get(configFile);
                 if (cachevalue != null) dic = (Dictionary<string, List<string>>)cachevalue;
-                else
-                    dic = this.InitializedData();
+                else dic = this.InitializedData();
                 return dic;
             }
         }
         private PageCheck()
         {
             configPath = WeiSha.Core.Server.MapPath(configPath);
-            Business.Do<IManageMenu>().OnChanged += PageCheck_Changed;
-            Business.Do<IPurview>().OnChanged += PageCheck_Changed;
+            Business.Do<IManageMenu>().OnChanged+= (object sender, EventArgs e) => this.InitializedMenu();
+            Business.Do<IPurview>().OnChanged += (object sender, EventArgs e) => this.InitializedMenu();
             this.InitializedData();
-        }
-        /// <summary>
-        /// 当管理菜单或权限变更时，刷新菜单信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PageCheck_Changed(object sender, EventArgs e)
-        {
-            this.InitializedMenu();
-        }
-
+        } 
         /// <summary>
         /// 获取配置项
         /// </summary>
