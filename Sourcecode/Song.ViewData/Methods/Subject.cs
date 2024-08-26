@@ -76,7 +76,9 @@ namespace Song.ViewData.Methods
             if (old == null) throw new Exception("Not found entity for Subject！");
             //上传的图片
             string oldlogo = old.Sbj_Logo;      //之前的图片
-            entity = this._upload_photo(this.Files, entity);
+
+            if (this.Files.Count > 0)
+                entity = this._upload_photo(this.Files, entity);
             try
             {
                 string nomidfy = "Sbj_CrtTime";

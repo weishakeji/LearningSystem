@@ -24,8 +24,7 @@ $ready(function () {
                 if (p.data.success)
                     th.platinfo = p.data.result;
                 if (m.data.success)
-                    th.MultiOrgan = String(m.data.result);
-                vapp.loading = false;
+                    th.MultiOrgan = String(m.data.result);                
             }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
 
@@ -41,7 +40,7 @@ $ready(function () {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 top.window.login.onlayout();
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
@@ -61,9 +60,10 @@ $ready(function () {
             },
             //保存多机构的设置
             btnMultiOrgan: function () {
-                $api.post('Platform/MultiOrganUpdate', { 'multi': this.MultiOrgan }).then(function (req) {
+                var th = this;
+                $api.post('Platform/MultiOrganUpdate', { 'multi': th.MultiOrgan }).then(function (req) {
                     if (req.data.success) {
-                        vapp.$message({
+                        th.$message({
                             type: 'success',
                             message: '操作成功!',
                             center: true

@@ -17,8 +17,6 @@
                 <el-form-item label="平台名称" prop="title">
                     <el-input v-model="platinfo.title" @keyup.enter.native="btnEnter('platinfo')"
                         :style="{width: '100%'}"></el-input>
-
-                    </span>
                 </el-form-item>
                 <el-form-item label="描述" prop="intro">
                     <el-input v-model="platinfo.intro" type="textarea" placeholder="请输入描述"
@@ -35,7 +33,7 @@
             <div slot="header" class="clearfix">
                 <span icon="&#xa038">多机构平台设置</span>              
             </div>
-            <el-form ref="platinfo" :model="platinfo" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form ref="platsetup" @submit.native.prevent label-width="80px">
                 <template>
                     <div>
                         <el-radio v-model="MultiOrgan" label="0">启用多机构</el-radio>
