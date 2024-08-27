@@ -575,8 +575,8 @@
         if (!list.includes(topurl)) list.push(topurl);
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++)
-                list[i] = list[i].toLowerCase();           
-            //console.error(list.join(','));
+                list[i] = list[i].toLowerCase();
+            console.error(list.join(','));
         }
         return list.join(',');
     };

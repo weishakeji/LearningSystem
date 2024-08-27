@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-    <orgadmin>
-        <page value="/orgadmin"/>
-        <page value="/orgadmin/start"/>
-        <page value="/orgadmin/account/selfinfo"/>
-        <page value="/orgadmin/account/Modify"/>
-        <page value="/orgadmin/account/mypassword"/>
-        <page value="/orgadmin/account/safeanswer"/>
-        <page value="/orgadmin/account/logout"/>
-    </orgadmin>
-    <manage>
-        <page value="/manage"/>
-        <page value="/web/viewport/index"/>
-        <page value="/manage/self/selfinfo"/>
-        <page value="/manage/self/Modify"/>
-        <page value="/manage/self/mypassword"/>
-        <page value="/manage/self/logout"/>
-    </manage>
-    <student>
-    </student>
-    <teacher>
-    </teacher>
+    <device remark="路由配置">
+        <orgadmin>
+            <page value="/orgadmin"/>
+            <page value="/orgadmin/start"/>
+            <page value="/orgadmin/account/selfinfo"/>
+            <page value="/orgadmin/account/Modify"/>
+            <page value="/orgadmin/account/mypassword"/>
+            <page value="/orgadmin/account/safeanswer"/>
+            <page value="/orgadmin/account/logout"/>
+        </orgadmin>
+        <manage>
+            <page value="/manage"/>
+            <page value="/web/viewport/index"/>
+            <page value="/manage/self/selfinfo"/>
+            <page value="/manage/self/Modify"/>
+            <page value="/manage/self/mypassword"/>
+            <page value="/manage/self/logout"/>
+        </manage>
+        <student>
+        </student>
+        <teacher>
+        </teacher>
+    </device>
+    <allow remark="满足下述条件的页面可以访问,支持正则表达式">
+        <item value="/utilities/.*"/>
+    </allow>
 </config>

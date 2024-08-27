@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using WeiSha.Core;
@@ -35,16 +36,31 @@ namespace Song.ViewData.Helper
             {
                 Dictionary<string, List<string>> dic;
                 System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
-                object cachevalue = cache.Get(configFile);
+                object cachevalue = cache.Get(configFile + "Items");
                 if (cachevalue != null) dic = (Dictionary<string, List<string>>)cachevalue;
                 else dic = this.InitializedData();
                 return dic;
             }
         }
+        /// <summary>
+        /// 不受限制的页面项，支持正则表达式
+        /// </summary>
+        public List<string> Allows
+        {
+            get
+            {
+                List<string> list;
+                System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
+                object cachevalue = cache.Get(configFile + "Allows");
+                if (cachevalue != null) list = (List<string>)cachevalue;
+                else list = this.InitializedAllow();
+                return list;
+            }
+        }
         private PageCheck()
         {
             configPath = WeiSha.Core.Server.MapPath(configPath);
-            Business.Do<IManageMenu>().OnChanged+= (object sender, EventArgs e) => this.InitializedMenu();
+            Business.Do<IManageMenu>().OnChanged += (object sender, EventArgs e) => this.InitializedMenu();
             Business.Do<IPurview>().OnChanged += (object sender, EventArgs e) => this.InitializedMenu();
             this.InitializedData();
         } 
@@ -61,7 +77,7 @@ namespace Song.ViewData.Helper
                 if (!File.Exists(configPath + configFile)) return dic;
                 xmldoc.Load(configPath + configFile);
                 //需要权限管控的路由，即根节点配置项
-                XmlNodeList nodes = xmldoc.LastChild.ChildNodes;
+                XmlNodeList nodes = xmldoc.LastChild.FirstChild.ChildNodes;
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     XmlNode node = nodes[i];
@@ -82,8 +98,34 @@ namespace Song.ViewData.Helper
                 }
                 //加入缓存
                 System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
-                cache.Insert(configFile, dic, new System.Web.Caching.CacheDependency(configPath + configFile));
+                cache.Insert(configFile + "Items", dic, new System.Web.Caching.CacheDependency(configPath + configFile));
                 return dic;
+            }
+        }
+        /// <summary>
+        /// 初始化允许通过的路由
+        /// </summary>
+        /// <returns></returns>
+        public List<string> InitializedAllow()
+        {
+            lock (this)
+            {
+                List<string> list = new List<string>();
+                XmlDocument xmldoc = new XmlDocument();
+                if (!File.Exists(configPath + configFile)) return list;
+                xmldoc.Load(configPath + configFile);
+                //需要权限管控的路由，即根节点配置项
+                XmlNodeList nodes = xmldoc.LastChild.SelectNodes("allow/item");
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    XmlNode node = nodes[i];
+                    if (node.NodeType == XmlNodeType.Element)
+                        list.Add(node.Attributes["value"].Value);
+                }
+                //加入缓存
+                System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
+                cache.Insert(configFile + "Allows", list, new System.Web.Caching.CacheDependency(configPath + configFile));
+                return list;
             }
         }
         /// <summary>
@@ -202,9 +244,14 @@ namespace Song.ViewData.Helper
         /// <returns></returns>
         public bool CheckPageAccess(string page, string device, Letter letter)
         {
-            //如果不是限制的页面
+            //如果不是模板库限制的页面
             List<string> list = this.PageList(device);
             if (list == null || list.Contains(page)) return true;
+            //模板库之外的不限制页面
+            foreach(string s in this.Allows)
+            {
+                if (Regex.IsMatch(page, s)) return true;
+            }
             //
             List<ManageMenu> menus = null;          
             Song.Entities.Organization org = null;

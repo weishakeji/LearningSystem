@@ -85,5 +85,9 @@ namespace Song.ViewData.Methods
             ViewData.Helper.PageCheck pageCheck = ViewData.Helper.PageCheck.Instance;
             return pageCheck.Items;
         }
+        public List<string> PageAllows()
+        {
+            return ViewData.Helper.PageCheck.Instance.Allows;
+        }
     }
 }
