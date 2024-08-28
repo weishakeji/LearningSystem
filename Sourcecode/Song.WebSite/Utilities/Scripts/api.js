@@ -560,7 +560,7 @@
                     box = pagebox.get(box.pid);
                 }
                 if (boxs.length > 0) {
-                    let iframe = window.top.$dom('iframe[name=\'' + boxs[0].pid + '\']');
+                    let iframe = window.top.$dom('iframe[name=\'' + boxs[boxs.length-1].pid + '\']');
                     if (iframe.length > 0) {
                         let win = iframe[0].contentWindow;
                         list.push(win.location.pathname);

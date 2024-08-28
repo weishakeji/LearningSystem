@@ -1516,18 +1516,20 @@ namespace Song.ServiceImpls
             }
             //结课考试
             TestPaper test = Business.Do<ITestPaper>().FinalPaper(course.Cou_ID, true);
+            float examScore = 0;
             if (test != null)
             {
                 //总分与及格分,及格转为百分制
                 float total = test.Tp_Total;
                 float pass = (float)test.Tp_PassScore / (float)test.Tp_Total * 100;
                 //成绩转为百分制
-                sc.Stc_ExamScore = sc.Stc_ExamScore / total * 100;
-                sc.Stc_ExamScore = sc.Stc_ExamScore >= 100 ? 100 : sc.Stc_ExamScore;
+                examScore = sc.Stc_ExamScore;
+                examScore = examScore / total * 100;
+                examScore = examScore >= 100 ? 100 : examScore;
                 //及格分转为60分制
-                sc.Stc_ExamScore = sc.Stc_ExamScore - pass > 0 ?
-                    (sc.Stc_ExamScore - pass) / (100 - pass) * 40 + 60 :
-                     (sc.Stc_ExamScore - pass) / pass * 60 + 60;
+                examScore = examScore - pass > 0 ?
+                    (examScore - pass) / (100 - pass) * 40 + 60 :
+                     (examScore - pass) / pass * 60 + 60;
             } else if (weight_exam > 0)
             {
                 weight_ques *= 1 / (1 - weight_exam);
@@ -1538,7 +1540,7 @@ namespace Song.ServiceImpls
             weight_ques = float.IsNaN(weight_ques) ? 0 : weight_ques;
             weight_exam = float.IsNaN(weight_exam) ? 0 : weight_exam;
             //开始计算综合成绩
-            float score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = sc.Stc_ExamScore;
+            float score = 0, video = sc.Stc_StudyScore, ques = sc.Stc_QuesScore, exam = examScore;
             video = video > 0 ? video + (float)video_lerance : video;
             video = video >= 100 ? 100 : video;
             score = video * (float)weight_video + ques * (float)weight_ques + exam * (float)weight_exam;
