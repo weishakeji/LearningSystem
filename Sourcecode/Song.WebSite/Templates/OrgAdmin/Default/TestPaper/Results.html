@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除" ref='btngroup' @delete="deleteData" @calc="batchcalc" width="800" height="600"
+            <btngroup show="删除,重新计算" ref='btngroup'  @batcalc="allcalcResultScore"  @delete="deleteData" width="800" height="600"
                 :selects='selects' idkey='Tr_ID' table="datatables" :modal="true"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="姓名">
@@ -59,7 +59,7 @@
             </query_panel>
         </div>
         <!-- 数据列表-->
-        <el-table ref="datatables"  border resizable  :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+        <el-table ref="datatables"  border resizable  :data="datas" v-loading="loading" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick="()=>{}" row-key="Tr_ID">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>

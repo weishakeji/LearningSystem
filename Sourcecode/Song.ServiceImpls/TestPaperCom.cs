@@ -627,6 +627,20 @@ namespace Song.ServiceImpls
             return this.ResultsSave(tr, true);
         }
         /// <summary>
+        /// 批量计算试卷的所有成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public bool ResultsBatchCalc(int tpid)
+        {
+            List<TestResults> trs = Gateway.Default.From<TestResults>().Where(TestResults._.Tp_Id == tpid).ToList<TestResults>();
+            for(int i = 0; i < trs.Count; i++)
+            {
+                this.ResultsSave(trs[i], true);
+            }           
+            return true;
+        }
+        /// <summary>
         /// 当前考试的及格率
         /// </summary>
         /// <param name="identify"></param>

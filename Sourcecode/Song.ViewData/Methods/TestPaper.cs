@@ -593,7 +593,15 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<ITestPaper>().ResultsCalc(trid);
         }
-
+        /// <summary>
+        /// 批量计算试卷的所有成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public bool ResultsBatchCalc(int tpid)
+        {
+            return Business.Do<ITestPaper>().ResultsBatchCalc(tpid);
+        }
         /// <summary>
         /// 所有测试成绩
         /// </summary>

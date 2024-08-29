@@ -27,8 +27,8 @@
         mounted: function () {
             this.$refs['btngroup'].addbtn({
                 text: '重新计算', tips: '重新计算成绩',
-                id: 'calc', type: 'primary',
-                class: 'el-icon-finished'
+                id: 'batcalc', type: 'primary',
+                icon: 'a067'
             });
             var th = this;
             $api.bat(
@@ -150,9 +150,28 @@
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
-            //批量计算
-            batchcalc: function (datas) {
-                console.log(3);
+            //计算所有成绩
+            allcalcResultScore: function () {
+                this.$confirm('重新计算所有成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => this.allcalcResultScore_func())
+                    .catch(() => { });
+            },
+            //计算所有成绩的具体方法
+            allcalcResultScore_func: function () {
+                var th = this;
+                var loading = th.$fulloading();
+                $api.get('TestPaper/ResultsBatchCalc', { 'tpid': th.tpid }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.handleCurrentChange();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.$nextTick(() => loading.close()));
             },
             //批量计算成绩
             batcalcResultScore: function () {

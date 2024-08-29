@@ -153,6 +153,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         float ResultsCalc(int trid);
         /// <summary>
+        /// 批量计算试卷的所有成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        bool ResultsBatchCalc(int tpid);
+        /// <summary>
         /// 当前考试的及格率
         /// </summary>
         /// <param name="identify"></param>
