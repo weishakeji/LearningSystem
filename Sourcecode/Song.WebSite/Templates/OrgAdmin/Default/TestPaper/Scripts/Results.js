@@ -154,14 +154,50 @@
             batchcalc: function (datas) {
                 console.log(3);
             },
+            //批量计算成绩
+            batcalcResultScore: function () {
+                this.$confirm('重新计算当前页面的 ' + this.datas.length + ' 条成绩, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => this.calcScore_onebyone(0))
+                    .catch(() => { });
+            },
+            //逐一计算成绩
+            calcScore_onebyone: function (index) {
+                var th = this;
+                if (index >= th.datas.length) {
+                    this.$message({
+                        message: '当前页的所有成绩全部计算完成！',
+                        type: 'success'
+                    });
+                    return;
+                }
+                var id = th.datas[index].Tr_ID;
+                th.loadingid = id;
+                $api.get('TestPaper/ResultsCalc', { 'trid': id }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.datas[index].Tr_Score = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        th.loadingid = -1;
+                        th.calcScore_onebyone(++index);
+                    });
+            },
             //计算成绩
             calcscore: function (data) {
                 var th = this;
-                data.loading = true;
+                th.loadingid = data.Tr_ID;
                 $api.get('TestPaper/ResultsCalc', { 'trid': data.Tr_ID }).then(function (req) {
-                    data.loading = false;
                     if (req.data.success) {
                         data.Tr_Score = req.data.result;
+                        var idx = th.datas.findIndex(item => item.Tr_ID == data.Tr_ID);
+                        th.datas[idx].Tr_Score = data.Tr_Score;
                         th.$notify({
                             type: 'success',
                             message: '重新计算成功',
@@ -174,7 +210,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => data.loading = false);
+                }).finally(() => th.loadingid = -1);
             },
             //成绩回顾
             viewresult: function (data) {
@@ -201,20 +237,30 @@
                         after: ''
                     }
                 },
+                watch: {
+                    'number': function (nv, ov) {
+                        this.init();
+                    }
+                },
                 created: function () {
-                    var num = String(Math.round(this.number * 100) / 100);
-                    if (num.indexOf('.') > -1) {
-                        this.prev = num.substring(0, num.indexOf('.'));
-                        this.after = num.substring(num.indexOf('.') + 1);
-                    } else {
-                        this.prev = num;
-                        this.dot = '&nbsp;';
+                    this.init();
+                },
+                methods: {
+                    init: function () {
+                        var num = String(Math.round(this.number * 100) / 100);
+                        if (num.indexOf('.') > -1) {
+                            this.prev = num.substring(0, num.indexOf('.'));
+                            this.after = num.substring(num.indexOf('.') + 1);
+                        } else {
+                            this.prev = num;
+                            this.dot = '&nbsp;';
+                        }
                     }
                 },
                 template: `<div class="score">
-                <span class="prev">{{prev}}</span>
-                <span class="dot" v-html="dot"></span>
-                <span class="after">{{after}}</span>
+                    <span class="prev">{{prev}}</span>
+                    <span class="dot" v-html="dot"></span>
+                    <span class="after">{{after}}</span>
                 </div>`
             }
         }
