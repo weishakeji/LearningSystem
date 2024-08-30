@@ -221,6 +221,7 @@ namespace Song.ViewData.Methods
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
+        [Student,Admin,SuperAdmin,Teacher]
         public JObject ExcelOutput(string path,int orgid, int type, int from, DateTime? start, DateTime? end)
         {
             DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
@@ -249,6 +250,7 @@ namespace Song.ViewData.Methods
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
+        [Student, Admin, SuperAdmin, Teacher]
         public JObject ExcelAccountOutput(string path,int orgid,int acid, int type, int from, DateTime? start, DateTime? end)
         {
             DateTime dts = start == null ? DateTime.MinValue : (DateTime)start;
@@ -282,12 +284,12 @@ namespace Song.ViewData.Methods
         /// <param name="orgid"></param>
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
+        [Student, Admin, SuperAdmin, Teacher]
         public bool ExcelDelete(string path,int orgid,string filename)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (orgid > 0) rootpath += orgid.ToString() + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
+            if (!System.IO.Directory.Exists(rootpath)) return false;
             string filePath = rootpath + filename;
             if (System.IO.File.Exists(filePath))
             {
@@ -306,9 +308,8 @@ namespace Song.ViewData.Methods
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (orgid > 0) rootpath += orgid.ToString() + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr; 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)

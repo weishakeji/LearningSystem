@@ -1437,8 +1437,7 @@ namespace Song.ViewData.Methods
         public bool ExcelDelete(int examid, string filename)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
+            if (!System.IO.Directory.Exists(rootpath)) return false;
             string filePath = rootpath + filename;
             if (System.IO.File.Exists(filePath))
             {

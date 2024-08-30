@@ -282,8 +282,7 @@ namespace Song.ViewData.Methods
         public bool ExcelDelete(string filename, string path)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
+            if (!System.IO.Directory.Exists(rootpath))return false;
             string filePath = rootpath + filename;
             if (System.IO.File.Exists(filePath))
             {
@@ -301,10 +300,8 @@ namespace Song.ViewData.Methods
         public JArray ExcelFiles(string path, string couid)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-
             JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr;           
             if (string.IsNullOrWhiteSpace(couid)) return jarr;
             //string[] files = System.IO.Directory.GetFiles(rootpath, "*." + couid + ".xls");
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);

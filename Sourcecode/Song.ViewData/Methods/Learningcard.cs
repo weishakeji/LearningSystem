@@ -471,8 +471,7 @@ namespace Song.ViewData.Methods
         public bool ResultScoreFileDelete(int lcsid, string filename)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
+            if (!System.IO.Directory.Exists(rootpath)) return false;
             string filePath = rootpath + lcsid + "." + filename;
             if (System.IO.File.Exists(filePath))
             {
@@ -489,9 +488,8 @@ namespace Song.ViewData.Methods
         public JArray ResultScoreFiles(int lcsid)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr;            
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)

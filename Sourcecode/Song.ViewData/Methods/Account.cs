@@ -1281,8 +1281,7 @@ namespace Song.ViewData.Methods
         public bool ExcelDelete(string filename,string path)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
+            if (!System.IO.Directory.Exists(rootpath)) return false;
             string filePath = rootpath + filename;
             if (System.IO.File.Exists(filePath))
             {
@@ -1298,9 +1297,9 @@ namespace Song.ViewData.Methods
         public JArray ExcelFiles(string path)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr;
+            
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
@@ -1393,9 +1392,8 @@ namespace Song.ViewData.Methods
         {
             string outputPath = "SortOutcomesToExcel";
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + stsid.ToString() + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr;          
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
