@@ -30,14 +30,14 @@ namespace Song.ViewData.Helper
         /// <summary>
         /// 不受限制的页面项，key值为模板库名称，value为页面列表
         /// </summary>
-        public Dictionary<string, List<string>> Items
+        public Dictionary<string, HashSet<string>> Items
         {
             get
             {
-                Dictionary<string, List<string>> dic;
+                Dictionary<string, HashSet<string>> dic;
                 System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
                 object cachevalue = cache.Get(configFile + "Items");
-                if (cachevalue != null) dic = (Dictionary<string, List<string>>)cachevalue;
+                if (cachevalue != null) dic = (Dictionary<string, HashSet<string>>)cachevalue;
                 else dic = this.InitializedData();
                 return dic;
             }
@@ -68,11 +68,11 @@ namespace Song.ViewData.Helper
         /// 获取配置项
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, List<string>> InitializedData()
+        public Dictionary<string, HashSet<string>> InitializedData()
         {
             lock (this)
             {
-                Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+                Dictionary<string, HashSet<string>> dic = new Dictionary<string, HashSet<string>>();
                 XmlDocument xmldoc = new XmlDocument();
                 if (!File.Exists(configPath + configFile)) return dic;
                 xmldoc.Load(configPath + configFile);
@@ -82,7 +82,7 @@ namespace Song.ViewData.Helper
                 {
                     XmlNode node = nodes[i];
                     string key = node.Name;
-                    List<string> list = new List<string>();
+                    HashSet<string> list = new HashSet<string>();
                     //不需要权限管理的页面
                     XmlNodeList childs = node.ChildNodes;
                     for (int j = 0; j < childs.Count; j++)
@@ -133,9 +133,9 @@ namespace Song.ViewData.Helper
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public List<string> PageList(string key)
+        public HashSet<string> PageList(string key)
         {
-            Dictionary<string, List<string>> items = this.Items;
+            Dictionary<string, HashSet<string>> items = this.Items;
             return items != null && items.ContainsKey(key) ? items[key] : null;
         }
         /// <summary>
@@ -255,7 +255,7 @@ namespace Song.ViewData.Helper
         public bool CheckPageAccess(string page, string device, Letter letter)
         {
             //如果不是模板库限制的页面
-            List<string> list = this.PageList(device);
+            HashSet<string> list = this.PageList(device);
             if (list == null || list.Contains(page)) return true;
             //模板库之外的不限制页面
             foreach(string s in this.Allows)           

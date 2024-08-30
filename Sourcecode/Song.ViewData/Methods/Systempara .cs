@@ -80,7 +80,7 @@ namespace Song.ViewData.Methods
             long id = Business.Do<ISystemPara>().SerialSnow();
             return id.ToString();
         }
-        public Dictionary<string, List<string>> PageCheck()
+        public Dictionary<string, HashSet<string>> PageCheck()
         {
             ViewData.Helper.PageCheck pageCheck = ViewData.Helper.PageCheck.Instance;
             return pageCheck.Items;
