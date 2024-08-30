@@ -161,6 +161,14 @@ namespace Song.ViewData.Helper
                     foreach (Organization org in orgs)
                     {
                         List<ManageMenu> mms = Business.Do<IPurview>().GetOrganPurview(org, keys[i]);
+                        for (int j = 0; j < mms.Count; j++)
+                        {
+                            if(string.IsNullOrWhiteSpace(mms[j].MM_Link) || mms[j].MM_Link.StartsWith("http"))
+                            {
+                                mms.RemoveAt(j);
+                                j--;
+                            }
+                        }
                         dic.Add(org.Org_ID, mms);
                     }
                     menu.Add(keys[i], dic);
@@ -175,6 +183,14 @@ namespace Song.ViewData.Helper
                         if (!list.Exists(m2 => m2.MM_Id == m.MM_Id)) list.Add(m);
                     }
                     Dictionary<int, List<ManageMenu>> dic = new Dictionary<int, List<ManageMenu>>();
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if (string.IsNullOrWhiteSpace(list[j].MM_Link) || list[j].MM_Link.StartsWith("http"))
+                        {
+                            list.RemoveAt(j);
+                            j--;
+                        }
+                    }
                     dic.Add(0, list);
                     menu.Add("manage", dic);
                 }
@@ -189,11 +205,9 @@ namespace Song.ViewData.Helper
         {
             if (menu == null) this.InitializedMenu();
             if (key.Equals("orgadmin")) return menu["organAdmin"];
-            foreach (string str in menu.Keys)
-            {
+            foreach (string str in menu.Keys)          
                 if(String.Equals(str, key, StringComparison.OrdinalIgnoreCase))                      
-                    return menu[str];
-            }
+                    return menu[str];           
             return null;          
         }
         /// <summary>
@@ -248,10 +262,8 @@ namespace Song.ViewData.Helper
             List<string> list = this.PageList(device);
             if (list == null || list.Contains(page)) return true;
             //模板库之外的不限制页面
-            foreach(string s in this.Allows)
-            {
-                if (Regex.IsMatch(page, s)) return true;
-            }
+            foreach(string s in this.Allows)           
+                if (Regex.IsMatch(page, s)) return true;           
             //
             List<ManageMenu> menus = null;          
             Song.Entities.Organization org = null;
