@@ -271,9 +271,20 @@ namespace Song.ServiceImpls
                 .OrderBy(Examination._.Exam_Date.Desc)
                 .ToFirst<Examination>();
         }
-        public ExamResults ResultClacScore(ExamResults resu)
+    
+        /// <summary>
+        /// 批量计算考试成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public bool ResultBatchClac(int examid)
         {
-            return ClacScore(resu);
+            List<ExamResults> ers = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exam_ID == examid).ToList<ExamResults>();
+            for(int i = 0; i < ers.Count; i++)
+            {
+                ResultClacScore(ers[i]);
+            }
+            return true;
         }
         public Examination[] ExamItem(string uid)
         {
@@ -445,7 +456,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < exr.Length; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc==false)
-                    exr[i] = ClacScore(exr[i]);
+                    exr[i] = ResultClacScore(exr[i]);
             }
             return exr;
         }
@@ -674,7 +685,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < exr.Length; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
-                    exr[i] = ClacScore(exr[i]);
+                    exr[i] = ResultClacScore(exr[i]);
             }
             return exr;
         }
@@ -711,7 +722,7 @@ namespace Song.ServiceImpls
             if (next != null)
             {
                 if (next.Exr_Score < 0 || next.Exr_IsCalc == false)
-                    next = ClacScore(exr);
+                    next = ResultClacScore(exr);
             }
             return next;
         }
@@ -721,7 +732,7 @@ namespace Song.ServiceImpls
             if (exr != null)
             {
                 if (exr.Exr_Score < 0 || exr.Exr_IsCalc == false)
-                    exr = ClacScore(exr);
+                    exr = ResultClacScore(exr);
             }
             return exr;
         }
@@ -779,7 +790,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        public Song.Entities.ExamResults ClacScore(ExamResults result)
+        public Song.Entities.ExamResults ResultClacScore(ExamResults result)
         {
             //如果考试没有结束，且学员没有交卷，则不进行计算；
             if (DateTime.Now < result.Exr_OverTime && result.Exr_IsSubmit == false) return result;
@@ -966,7 +977,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < results.Length; i++)
             {
                 if (results[i].Exr_Score < 0 || results[i].Exr_IsCalc == false)
-                    results[i] = ClacScore(results[i]);
+                    results[i] = ResultClacScore(results[i]);
             }
             foreach (ExamResults er in results)
             {
@@ -1125,7 +1136,7 @@ namespace Song.ServiceImpls
             {
                 //如果没有计算，则计算成绩
                 if (results[i].Exr_Score < 0 || results[i].Exr_IsCalc == false)
-                    results[i] = ClacScore(results[i]);
+                    results[i] = ResultClacScore(results[i]);
             }
             //遍历学员datatable，向其填充考试成绩
             foreach (DataRow dr in dt.Rows)
@@ -1490,7 +1501,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < exr.Length; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
-                    exr[i] = ClacScore(exr[i]);
+                    exr[i] = ResultClacScore(exr[i]);
             }
             return exr;
         }
@@ -1508,7 +1519,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < exr.Length; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
-                    exr[i] = ClacScore(exr[i]);
+                    exr[i] = ResultClacScore(exr[i]);
             }
             exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToArray<ExamResults>(count);
             return exr;

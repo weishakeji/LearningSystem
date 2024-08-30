@@ -545,7 +545,7 @@ namespace Song.ViewData.Methods
                     else
                     {
                         //实时计算成绩
-                        Business.Do<IExamination>().ClacScore(exr);
+                        Business.Do<IExamination>().ResultClacScore(exr);
                     }
                 }
                 if (exr.Exr_IsCalc) score = exr.Exr_ScoreFinal;
@@ -1264,13 +1264,22 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="exrid">考试记录的id</param>
         /// <returns></returns>
-        public float ClacScore(int exrid)
+        public float ResultClacScore(int exrid)
         {
             ExamResults exr=Business.Do<IExamination>().ResultSingle(exrid);
             if (exr == null) return 0;
-            exr=Business.Do<IExamination>().ClacScore(exr);
+            exr=Business.Do<IExamination>().ResultClacScore(exr);
             if (exr == null) return 0;
             return exr.Exr_ScoreFinal;
+        }
+        /// <summary>
+        /// 批量计算考试成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public bool ResultBatchClac(int examid)
+        {
+            return Business.Do<IExamination>().ResultBatchClac(examid);
         }
         #endregion
 
@@ -1478,7 +1487,7 @@ namespace Song.ViewData.Methods
         }
         public void Calc()
         {
-            Business.Do<IExamination>().ClacScore(this.ExamResult);
+            Business.Do<IExamination>().ResultClacScore(this.ExamResult);
         }
     }
 }

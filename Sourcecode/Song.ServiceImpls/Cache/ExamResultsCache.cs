@@ -320,7 +320,7 @@ namespace Song.ServiceImpls.Cache
             lock (this._lock)
             {
                 if (this.Result == null) return 0;
-                Business.Do<IExamination>().ClacScore(this.Result);
+                Business.Do<IExamination>().ResultClacScore(this.Result);
                 this.IsProcessing = false;
             }
             return this.Result.Exr_ScoreFinal;

@@ -12,7 +12,7 @@ $ready(function () {
             },
             entity: {}, //当前考试对象
             sorts: {},       //当前场次的学员组（根据参考学员判断）
-            results: [],     //成绩
+            datas: [],     //成绩
             account: {},      //当前学员信息
             current: {},     //当前行对象
             accountVisible: false,   //是否显示当前学员
@@ -46,6 +46,11 @@ $ready(function () {
                 text: '清空', tips: '清空当前考试下的所有成绩',
                 id: 'clear', type: 'warning',
                 icon: 'e839'
+            });
+            this.$refs['btngroup'].addbtn({
+                text: '重新计算', tips: '重新计算成绩',
+                id: 'batcalc', type: 'primary',
+                icon: 'a067'
             });
         },
         created: function () {
@@ -130,7 +135,7 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 $api.get("Exam/Result4Exam", th.form).then(function (d) {
                     if (d.data.success) {
-                        th.results = d.data.result;
+                        th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
@@ -150,13 +155,73 @@ $ready(function () {
                 let minute = Math.round((d2.getTime() - d1.getTime()) / 1000 / 60);      //考试用时（分钟）                        
                 return (minute <= 0 ? "<1" : minute) + ' 分钟';
             },
-            //计算考试成绩
-            clacScore: function (exrid) {
+             //计算所有成绩
+             allcalcResultScore: function () {
+                this.$confirm('重新计算所有成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => this.allcalcResultScore_func())
+                    .catch(() => { });
+            },
+            //计算所有成绩的具体方法
+            allcalcResultScore_func: function () {
                 var th = this;
-                th.loadingid = exrid;
-                $api.get('Exam/ClacScore', { 'exrid': exrid }).then(function (req) {
+                var loading = th.$fulloading();
+                $api.get('Exam/ResultBatchClac', { 'examid': th.form.examid }).then(req => {
                     if (req.data.success) {
                         var result = req.data.result;
+                        th.handleCurrentChange();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.$nextTick(() => loading.close()));
+            },
+             //批量计算成绩
+             batcalcResultScore: function () {
+                this.$confirm('重新计算当前页面的 ' + this.datas.length + ' 条成绩, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => this.calcScore_onebyone(0))
+                    .catch(() => { });
+            },
+            //逐一计算成绩
+            calcScore_onebyone: function (index) {
+                var th = this;
+                if (index >= th.datas.length) {
+                    this.$message({
+                        message: '当前页的所有成绩全部计算完成！',
+                        type: 'success'
+                    });
+                    return;
+                }
+                var id = th.datas[index].Exr_ID;
+                th.loadingid = id;
+                $api.get('Exam/ResultClacScore', { 'exrid': id }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.datas[index].Exr_ScoreFinal = result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        th.loadingid = -1;
+                        th.calcScore_onebyone(++index);
+                    });
+            },
+            //计算考试成绩
+            ResultClacScore: function (exrid) {
+                var th = this;
+                th.loadingid = exrid;
+                $api.get('Exam/ResultClacScore', { 'exrid': exrid }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        var idx = th.datas.findIndex(item => item.Exr_ID == exrid);
+                        th.datas[idx].Exr_ScoreFinal = result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -352,20 +417,30 @@ $ready(function () {
                         after: ''
                     }
                 },
+                watch: {
+                    'number': function (nv, ov) {
+                        this.init();
+                    }
+                },
                 created: function () {
-                    var num = String(Math.round(this.number * 100) / 100);
-                    if (num.indexOf('.') > -1) {
-                        this.prev = num.substring(0, num.indexOf('.'));
-                        this.after = num.substring(num.indexOf('.') + 1);
-                    } else {
-                        this.prev = num;
-                        this.dot = '&nbsp;';
+                    this.init();
+                },
+                methods: {
+                    init: function () {
+                        var num = String(Math.round(this.number * 100) / 100);
+                        if (num.indexOf('.') > -1) {
+                            this.prev = num.substring(0, num.indexOf('.'));
+                            this.after = num.substring(num.indexOf('.') + 1);
+                        } else {
+                            this.prev = num;
+                            this.dot = '&nbsp;';
+                        }
                     }
                 },
                 template: `<div class="score">
-                <span class="prev">{{prev}}</span>
-                <span class="dot" v-html="dot"></span>
-                <span class="after">{{after}}</span>
+                    <span class="prev">{{prev}}</span>
+                    <span class="dot" v-html="dot"></span>
+                    <span class="after">{{after}}</span>
                 </div>`
             }
         }

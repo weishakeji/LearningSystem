@@ -152,7 +152,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        Song.Entities.ExamResults ClacScore(ExamResults result);
+        ExamResults ResultClacScore(ExamResults result);
+        /// <summary>
+        /// 批量计算考试成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        bool ResultBatchClac(int examid);
         /// <summary>
         /// 删除考试成绩
         /// </summary>
@@ -233,12 +239,6 @@ namespace Song.ServiceInterfaces
         /// <param name="examid"></param>
         /// <returns></returns>
         ExamResults ResultSingle(int accid, int examid);
-        /// <summary>
-        /// 计算当前考试结果的成绩
-        /// </summary>
-        /// <param name="resu"></param>
-        /// <returns></returns>
-        ExamResults ResultClacScore(ExamResults resu);
         /// <summary>
         /// 根据答题信息，获取试题（针对答题过程中死机，又上线时）
         /// </summary>
