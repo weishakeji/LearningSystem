@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Web;
 using System.Security.Cryptography;
+using System.Data.HashFunction;
+using System.Data.HashFunction.FNV;
+using System.Data.HashFunction;
 
 namespace Song.ViewData
 {
@@ -280,6 +283,19 @@ namespace Song.ViewData
                     }
                 }
                 
+            }
+        }
+        /// <summary>
+        /// 一个速度很快的哈希算法
+        /// </summary>
+        public string FNV1a
+        {
+            get
+            {
+                if (_paravlue == null) return string.Empty;
+                IFNV1a fnv1a = FNV1aFactory.Instance.Create();        
+                IHashValue hashValue = fnv1a.ComputeHash(Encoding.UTF8.GetBytes(_paravlue.ToString()));
+                return hashValue.AsHexString();
             }
         }
         /// <summary>

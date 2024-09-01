@@ -293,13 +293,7 @@ namespace Song.ViewData
         /// </summary>
         /// <param name="key">参数名</param>
         /// <returns></returns>
-        public ConvertToAnyValue this[string key]
-        {
-            get
-            {
-                return GetParameter(key);
-            }
-        }
+        public ConvertToAnyValue this[string key]=>GetParameter(key);
         /// <summary>
         /// 获取参数值
         /// </summary>
@@ -307,15 +301,7 @@ namespace Song.ViewData
         /// <returns>参数Value值</returns>
         public ConvertToAnyValue GetParameter(string key)
         {
-            string val = string.Empty;
-            foreach (KeyValuePair<string, string> kv in _params)
-            {
-                if (key.Trim().Equals(kv.Key, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    val = kv.Value;
-                    break;
-                }
-            }
+            string val = _params.FirstOrDefault(kv => key.Trim().Equals(kv.Key, StringComparison.CurrentCultureIgnoreCase)).Value;        
             return new ConvertToAnyValue(val);
         }
         /// <summary>
@@ -327,17 +313,12 @@ namespace Song.ViewData
         public Dictionary<string, string> SetParameter(string key, string val)
         {
             //清理html标签
-            if (!string.IsNullOrWhiteSpace(val))
-                val = Html.ClearScript(val);
+            if (!string.IsNullOrWhiteSpace(val)) val = Html.ClearScript(val);
             //过滤
             Dictionary<string, string> dic = Letter.FilterWords;
             foreach (KeyValuePair<string, string> kv in dic)
                 val = val.Replace(kv.Key, kv.Value);
-
-            if (_params.ContainsKey(key))
-                _params[key] = val;
-            else
-                _params.Add(key, val);
+            _params[key] = val;
             return _params;
         }
         /// <summary>
@@ -346,37 +327,18 @@ namespace Song.ViewData
         /// <param name="key"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public Dictionary<string, string> SetCookies(string key, string val)
-        {
-            if (!string.IsNullOrWhiteSpace(val))
-                val = Html.ClearScript(val);
-            if (_cookies.ContainsKey(key))
-                _cookies[key] = val;
-            else
-                _cookies.Add(key, val);
-            return _cookies;
-        }
+        public void SetCookies(string key, string val) => _cookies[key] = Html.ClearScript(val);
         /// <summary>
         /// 是否存在某参数
         /// </summary>
         /// <param name="key">参数的Key值</param>
         /// <returns>参数Value值</returns>
-        public bool ExistParameter(string key)
-        {
-            if (_params.ContainsKey(key))
-            {
-                return true;
-            }
-            return false;
-        }
+        public bool ExistParameter(string key) => _params.ContainsKey(key);
         /// <summary>
         /// 将参数名称串联
         /// </summary>
         /// <returns></returns>
-        public string ParamsNames()
-        {
-            return this.ParamsNames(string.Empty);
-        }
+        public string ParamsNames() => this.ParamsNames(string.Empty);
         /// <summary>
         /// 将参数名称串联
         /// </summary>

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Web;
+using System.Data.HashFunction.FNV;
+using System.Data.HashFunction;
 
 namespace Song.ViewData.Attri
 {
@@ -50,11 +52,10 @@ namespace Song.ViewData.Attri
             //如果是本机，不缓存数据
             bool islocal = WeiSha.Core.Server.IsLocalIP;
             if (islocal) return null;
-            //获取缓存数据
-            string domain = letter.HTTP_HOST;
-            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
+            string cacheName = _getCacheName(method, letter);
             return HttpRuntime.Cache.Get(cacheName);
         }
+        private static readonly object _lock = new object();
         /// <summary>
         /// 移除和某个缓存
         /// </summary>
@@ -62,9 +63,9 @@ namespace Song.ViewData.Attri
         /// <param name="letter"></param>
         public static void Remove(MethodInfo method, Letter letter)
         {
-            string domain = letter.HTTP_HOST;
-            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
-            HttpRuntime.Cache.Remove(cacheName);
+            string cacheName = _getCacheName(method, letter);
+            lock (_lock) HttpRuntime.Cache.Remove(cacheName);
+
         }
         /// <summary>
         /// 创建缓存
@@ -76,13 +77,33 @@ namespace Song.ViewData.Attri
         public static void Insert(int expires, MethodInfo method, Letter letter, object result)
         {
             if (result == null) return;
-            //缓存名称
-            string domain = letter.HTTP_HOST;
-            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
+            //缓存名称        
+            string cacheName = _getCacheName(method, letter);
             //过期时间
-            DateTime expTime = DateTime.Now.AddMinutes(expires);            
-            HttpRuntime.Cache.Insert(cacheName, result, null, expTime, TimeSpan.Zero);
+            DateTime expTime = DateTime.Now.AddMinutes(expires);
+            lock (_lock) HttpRuntime.Cache.Insert(cacheName, result, null, expTime, TimeSpan.Zero);
         }
+        #region 私有方法
+        /// <summary>
+        /// 一个速度很快的哈希算法
+        /// </summary>
+        /// <param name="str">要加密的字符</param>
+        /// <returns>哈希值的十六进制字符串</returns>
+        private static string _FNV1a(string str)
+        {
+            IFNV1a fnv1a = FNV1aFactory.Instance.Create();
+            IHashValue hashValue = fnv1a.ComputeHash(Encoding.UTF8.GetBytes(str));
+            return hashValue.AsHexString();
+        }
+        /// <summary>
+        /// 获取缓存名称
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="letter"></param>
+        /// <returns></returns>
+        private static string _getCacheName(MethodInfo method, Letter letter)
+            => _FNV1a(string.Format(_cacheName, letter.HTTP_HOST, method.DeclaringType.Name, method.Name, letter.ToString()));
         
+        #endregion
     }
 }
