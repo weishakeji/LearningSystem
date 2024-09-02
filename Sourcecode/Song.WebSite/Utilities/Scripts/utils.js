@@ -204,6 +204,8 @@ window.confirm = function (title, msg, evtConfirm, evtCancel) {
             vant.Dialog.confirm({ title: title, message: msg, })
                 .then(evtConfirm != null ? evtConfirm : () => { })
                 .catch(evtCancel != null ? evtCancel : () => { });
+        }else{
+            return window.confirm_base(title);
         }
     } else {
         if (Vue.prototype.$confirm) {
@@ -212,6 +214,8 @@ window.confirm = function (title, msg, evtConfirm, evtCancel) {
                 confirmButtonText: '确定', cancelButtonText: '取消'
             }).then(evtConfirm != null ? evtConfirm : () => { })
                 .catch(evtCancel != null ? evtCancel : () => { });
+        }else{
+            return window.confirm_base(title);
         }
     }
 };
