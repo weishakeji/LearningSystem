@@ -256,16 +256,7 @@ namespace Song.ViewData.Methods
         [HttpGet(Ignore=true)]
         public bool ExcelDelete(string filename)
         {
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            if (!System.IO.Directory.Exists(rootpath)) return false;
-            string filePath = rootpath + filename;
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-                return true;
-            }
-            return false;
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, outputPath, "Temp");
         }
         /// <summary>
         /// 已经生成的Excel文件

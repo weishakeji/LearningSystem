@@ -65,7 +65,6 @@ namespace Song.ViewData.Attri
         {
             string cacheName = _getCacheName(method, letter);
             lock (_lock) HttpRuntime.Cache.Remove(cacheName);
-
         }
         /// <summary>
         /// 创建缓存
@@ -77,6 +76,9 @@ namespace Song.ViewData.Attri
         public static void Insert(int expires, MethodInfo method, Letter letter, object result)
         {
             if (result == null) return;
+            //如果是本机，不缓存数据
+            bool islocal = WeiSha.Core.Server.IsLocalIP;
+            if (islocal) return;
             //缓存名称        
             string cacheName = _getCacheName(method, letter);
             //过期时间

@@ -155,11 +155,15 @@
             },
             //查看综合成绩
             btnResultSummarize: function (theme) {
-                var file = 'ResultsSummarize';
+                var file = 'ResultsSummarize?id=' + theme.Exam_ID;
                 var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
                 var title = ' 综述 - “' + theme.Exam_Title + "”";
-                window.vue.$refs.btngroup.pagebox(file + '?id=' + theme.Exam_ID, title, boxid, 900, '80%',
-                    { pid: window.name, resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
+                this.openbox(file, boxid, title, 900, '80%', { resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
+            },
+            //打开弹窗
+            openbox: function (file, boxid, title, width, height, params) {
+                if (params == null) params = {};
+                window.vue.$refs.btngroup.pagebox(file, title, boxid, width, height, params);
             },
             //表格行点击事件
             clickTable: function (row, index, e) {
@@ -253,19 +257,17 @@
                 methods: {
                     //查看当前考试的成绩列表
                     btnResultView: function (row) {
-                        var file = 'ResultsDetail';
+                        var file = 'ResultsDetail?id=' + row.Exam_ID;
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
-                        window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 1000, '80%',
-                            { pid: window.name, resize: true, 'showmask': false, 'min': false, 'ico': 'e696' });
+                        window.vue.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {
-                        var file = 'ResultsManual';
+                        var file = 'ResultsManual?id=' + row.Exam_ID, title;
                         var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
                         var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
-                        window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
-                            { pid: window.name, resize: true, 'showmask': false, 'min': false, 'ico': 'e696' });
+                        window.vue.openbox(file, boxid, title, 900, '80%', { 'ico': 'e696' });
                     }
                 },
                 template: `<div><el-row :gutter="20" class="row_title">

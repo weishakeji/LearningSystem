@@ -287,16 +287,7 @@ namespace Song.ViewData.Methods
         [Student, Admin, SuperAdmin, Teacher]
         public bool ExcelDelete(string path,int orgid,string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
-            if (orgid > 0) rootpath += orgid.ToString() + "\\";
-            if (!System.IO.Directory.Exists(rootpath)) return false;
-            string filePath = rootpath + filename;
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-                return true;
-            }
-            return false;
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, path + "\\"+ orgid.ToString(), "Temp");
         }
         /// <summary>
         /// 已经生成的Excel文件

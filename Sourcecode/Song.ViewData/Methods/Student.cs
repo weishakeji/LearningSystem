@@ -263,15 +263,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool ResultScoreFileDelete(int acid, string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
-            if (!System.IO.Directory.Exists(rootpath)) return false;
-            string filePath = rootpath + acid + "." + filename;
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-                return true;
-            }
-            return false;
+            return Song.ViewData.Helper.Excel.DeleteFile(acid + "." + filename, outputPath_ResultScore, "Temp");
         }
         /// <summary>
         /// 学员学习成果的导出，已经生成的Excel文件

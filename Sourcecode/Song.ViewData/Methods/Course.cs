@@ -1394,12 +1394,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool StudentsLogOutputDelete(long couid,string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLog + "\\";
-            if (!System.IO.Directory.Exists(rootpath))return false;
-            string filePath = rootpath + couid + "." + filename;
-            if (System.IO.File.Exists(filePath))
-                System.IO.File.Delete(filePath);             
-            return true;
+            return Song.ViewData.Helper.Excel.DeleteFile(couid + "." + filename, outputPath_StudentsLog , "Temp");
         }
         /// <summary>
         /// 已经生成的Excel文件
@@ -1471,11 +1466,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool StudentsLogBatOutputDelete(string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_StudentsLogBat + "\\";
-            if (!System.IO.Directory.Exists(rootpath)) return false;
-            string filePath = rootpath + filename;
-            if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
-            return true;
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, outputPath_StudentsLogBat, "Temp");
         }
         /// <summary>
         /// 清理批量导出学习记录的冗余数据，不包括打包文件，仅excel文件与progress.json

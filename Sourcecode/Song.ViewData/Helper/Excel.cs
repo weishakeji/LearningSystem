@@ -15,6 +15,7 @@ namespace Song.ViewData.Helper
 {
     public class Excel
     {
+        #region 读取或解析Excel文件
         /// <summary>
         /// 从Excel中读取一个工作薄，生成Datatable对象。
         /// </summary>
@@ -22,8 +23,8 @@ namespace Song.ViewData.Helper
         /// <param name="sheetIndex">工作簿索引</param>
         /// <param name="cfgFile">配置文件</param>
         /// <returns></returns>
-        public static DataTable SheetToDatatable(string xlsFile, int sheetIndex,string cfgFile)
-        {                      
+        public static DataTable SheetToDatatable(string xlsFile, int sheetIndex, string cfgFile)
+        {
             //创建工作薄对象
             IWorkbook workbook = createWorkbook(xlsFile);
             //判断是xls还是xlsx
@@ -52,9 +53,9 @@ namespace Song.ViewData.Helper
                     DataRow dr = dt.NewRow();
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
-                        ICell cell = row.GetCell(i);                       
+                        ICell cell = row.GetCell(i);
                         if (cell == null) continue;
-                        string value =string.Empty;
+                        string value = string.Empty;
                         //读取Excel格式，根据格式读取数据类型
                         switch (dt.Columns[i].DataType.FullName)
                         {
@@ -90,7 +91,7 @@ namespace Song.ViewData.Helper
                                 dr[i] = WeiSha.Core.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
                                 break;
                         }
-                       
+
                     }
                     dt.Rows.Add(dr);
                 }
@@ -108,7 +109,7 @@ namespace Song.ViewData.Helper
         /// <param name="ext">excel的扩展名，用于判断是xls还是xlsx</param>
         /// <param name="workbook">文档对象</param>
         /// <returns></returns>
-        private static string getCellValue(ICell cell,string ext, IWorkbook workbook)
+        private static string getCellValue(ICell cell, string ext, IWorkbook workbook)
         {
             string val = string.Empty;
             switch (cell.CellType)
@@ -279,8 +280,8 @@ namespace Song.ViewData.Helper
         /// <param name="colname"></param>
         /// <param name="dtConfig">配置信息</param>
         /// <returns></returns>
-        private static System.Type getColumnType(string colname,DataTable dtConfig)
-        {          
+        private static System.Type getColumnType(string colname, DataTable dtConfig)
+        {
             System.Type type = null;
             foreach (DataRow dr in dtConfig.Rows)
             {
@@ -292,5 +293,74 @@ namespace Song.ViewData.Helper
             if (type == null) type = Type.GetType("System.String");
             return type;
         }
+        #endregion
+
+        #region 删除文件
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="file">文件名</param>
+        /// <param name="folder">文件所在的文件夹</param>
+        /// <param name="uploadkey">上传文件所在的根文件夹，此处为配置项的Key值，配置项来自web.config的Upload节点</param>
+        public static bool DeleteFile(string file, string folder, string uploadkey)
+        {
+            //校验文件
+            if (string.IsNullOrWhiteSpace(file)) return false;
+            file = WeiSha.Core.Server.LegalName(file);
+            if (string.IsNullOrWhiteSpace(file)) return false;
+            //上传的根文件夹
+            string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;
+            //校验文件夹
+            if (!string.IsNullOrWhiteSpace(folder)) rootPhy += WeiSha.Core.Server.LegalPath(folder);
+            if (!rootPhy.EndsWith("\\")) rootPhy += "\\";
+            if (!Directory.Exists(rootPhy)) return false;
+            //删除文件
+            string filePath = rootPhy + file;
+            if (!File.Exists(filePath)) return false;
+            File.Delete(filePath);
+            return true;
+        }
+        /// <summary>
+        /// 获取文件列表
+        /// </summary>
+        /// <param name="folder">文件所在的文件夹</param>
+        /// <param name="uploadkey">上传文件所在的根文件夹，此处为配置项的Key值，配置项来自web.config的Upload节点</param>
+        /// <param name="rule">按文件名查询时的规则</param>
+        /// <returns></returns>
+        public static JArray Files(string folder, string uploadkey, string rule)
+        {
+            //上传的根文件夹
+            string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;     //物理路径
+            string rootVir = WeiSha.Core.Upload.Get[uploadkey].Virtual;     //虚拟路径
+            //校验文件夹
+            if (!string.IsNullOrWhiteSpace(folder))
+            {
+                folder = WeiSha.Core.Server.LegalPath(folder);
+                rootPhy += folder;
+                rootVir += folder;
+                if (!rootPhy.EndsWith("\\")) rootPhy += "\\";
+                if (!rootVir.EndsWith("/")) rootVir += "/";
+            }
+            //
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootPhy);
+            if (!dir.Exists) return jarr;
+            //
+            if (string.IsNullOrWhiteSpace(rule)) rule = "*.xls";
+            FileInfo[] files = dir.GetFiles(rule).OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (FileInfo f in files)
+            {
+                string name = Path.GetFileNameWithoutExtension(f.Name);
+                JObject jo = new JObject();
+                jo.Add("name", name);
+                jo.Add("file", f.Name);
+                jo.Add("url", rootVir + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        #endregion
     }
 }

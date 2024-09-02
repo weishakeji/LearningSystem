@@ -470,15 +470,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool ResultScoreFileDelete(int lcsid, string filename)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath_ResultScore + "\\";
-            if (!System.IO.Directory.Exists(rootpath)) return false;
-            string filePath = rootpath + lcsid + "." + filename;
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-                return true;
-            }
-            return false;
+            return Song.ViewData.Helper.Excel.DeleteFile(lcsid + "." + filename, outputPath_ResultScore + "\\", "Temp");
         }
         /// <summary>
         /// 学习卡关联课程的学习成果的导出，已经生成的Excel文件
@@ -542,13 +534,7 @@ namespace Song.ViewData.Methods
         [Admin]
         public bool ExcelDelete(string filename)
         {
-            string filePath = WeiSha.Core.Upload.Get[_output_item].Physics + filename;
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-                return true;
-            }
-            return false;
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, string.Empty, _output_item);          
         }
         /// <summary>
         /// 删除某个学习卡的所有导出文件
