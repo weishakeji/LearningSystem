@@ -49,6 +49,7 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static object GetResult(MethodInfo method, Letter letter)
         {
+            if (!WeiSha.Core.RESTfulAPI.Get.EnableCache) return null;
             //如果是本机，不缓存数据
             bool islocal = WeiSha.Core.Server.IsLocalIP;
             if (islocal) return null;
@@ -76,6 +77,7 @@ namespace Song.ViewData.Attri
         public static void Insert(int expires, MethodInfo method, Letter letter, object result)
         {
             if (result == null) return;
+            if (!WeiSha.Core.RESTfulAPI.Get.EnableCache) return;
             //如果是本机，不缓存数据
             bool islocal = WeiSha.Core.Server.IsLocalIP;
             if (islocal) return;
