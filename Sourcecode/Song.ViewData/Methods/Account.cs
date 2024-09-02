@@ -308,7 +308,7 @@ namespace Song.ViewData.Methods
         /// 默认密码，当管理员添加学员时的默认密码
         /// </summary>
         /// <returns></returns>
-        [HttpGet,Admin]
+        [HttpGet,Admin,SuperAdmin]
         public string DefaultPw()
         {
             return WeiSha.Core.Login.Get["Accounts"].DefaultPw.Value;

@@ -28,10 +28,12 @@ $ready(function () {
                     }
                 ]
             },
-            loading: false
+            loading: false,
+            fulloading: {}
         },
         created: function () {
             var th = this;
+            th.loading = true;
             $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -54,7 +56,7 @@ $ready(function () {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            }).finally(() => { });
+            }).finally(() => th.loading = false);
 
         },
         methods: {
@@ -68,6 +70,7 @@ $ready(function () {
                             type: 'warning'
                         }).then(() => {
                             th.loading = true;
+                            th.fulloading = this.$fulloading();
                             var apipath = 'Account/ResetPassword';
                             $api.post(apipath, { 'acid': th.account.Ac_ID, 'pw': th.form.pw1 }).then(function (req) {
                                 if (req.data.success) {
@@ -85,12 +88,42 @@ $ready(function () {
                                 }
                             }).catch(function (err) {
                                 alert(err, '错误');
-                            }).finally(() => th.loading = false);
+                            }).finally(() => {
+                                th.loading = false;
+                                th.fulloading.close();
+                            });
                         }).catch(() => { });
                     } else {
                         return false;
                     }
                 });
+            },
+            //生成随机字符串
+            btnRandom: function () {
+                function getRandomString(length) {
+                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+                    let result = '';
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = Math.floor(Math.random() * chars.length);
+                        result += chars[randomIndex];
+                    }
+                    return result;
+                }
+                let str = getRandomString(16);
+                this.form.pw1 = this.form.pw2 = str;
+            },
+            //默认密码
+            btnDefaultPw: function () {
+                var th = this;
+                $api.get('Account/defaultpw').then(req => {
+                    if (req.data.success) {
+                        th.form.pw1 = th.form.pw2 = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => { });
             },
             //操作成功
             operateSuccess: function () {
