@@ -180,6 +180,23 @@ Vue.component('question', {
         },
         //填空题
         doing_type5: function (ans, ques) {
+            let ansstr = [];
+            let correct = true;
+            for (let i = 0; i < ques.Qus_Items.length; i++) {
+                let answer = ques.Qus_Items[i].answer;            //答题信息
+                ansstr.push(answer);
+                let items = ques.Qus_Items[i].Ans_Context.split(","); //正确答案
+                if(!items.includes(answer)){
+                    correct = false;
+                    break;
+                }
+            }
+            ques.Qus_Answer = ansstr.join(',');
+            ques.state['ans'] = ansstr.join(',');
+            ques.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
+            ques.state['time'] = new Date();
+            return ques.state['correct'] == 'succ';
+            /*
             var ansstr = [];
             var correct = true;
             for (let i = 0; i < ques.Qus_Items.length; i++) {
@@ -193,6 +210,7 @@ Vue.component('question', {
             ques.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
             return ques.state['correct'] == 'succ';
+            */
         }
     },
     template: `<dd :qid="ques.Qus_ID" :render="init">

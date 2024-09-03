@@ -194,10 +194,10 @@ Vue.component('question', {
             var correct = func(ans, ques, judge);
             if (correct == null) return;
             //只有点击时，才添加记录的时间
-            let state=$api.clone(this.state);
+            let state = $api.clone(this.state);
             state['time'] = new Date();
             //触发答题事件
-            this.$emit('answer', state, this.ques);  
+            this.$emit('answer', state, this.ques);
             if (!correct) {
                 let acid = $api.isnull(this.account) ? 0 : this.account.Ac_ID;
                 if (acid <= 0) return;
@@ -228,7 +228,7 @@ Vue.component('question', {
             ans.selected = !ans.selected;
             //判断是否正确
             this.state['ans'] = String(ans.selected ? ans.Ans_ID : 0);
-            this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";         
+            this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
             return this.state['correct'] == 'succ';
         },
@@ -268,7 +268,7 @@ Vue.component('question', {
             }
             //判断是否正确
             this.state['ans'] = ans_ids.join(',');
-            this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";          
+            this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
             if (correct) this.$parent.swipe({ 'direction': 2 });
             return correct;
         },
@@ -279,7 +279,7 @@ Vue.component('question', {
             ques.Qus_Answer = ques.Qus_Answer == ans ? '' : ans;
             let correct = ques.Qus_IsCorrect == logic;
             this.state['ans'] = ans;
-            this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";        
+            this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
             if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
             return this.state['correct'] == 'succ';
         },
@@ -288,11 +288,28 @@ Vue.component('question', {
             let answer = ques.Qus_Answer.replace(/<[^>]+>/g, '').trim();
             let correct = this.state.ans == answer;
             this.state['ans'] = this.state.ans;
-            this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";       
+            this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
             return this.state['correct'] == 'succ';
         },
         //填空题
         doing_type5: function (ans, ques, judge) {
+            let ansstr = [];
+            let correct = true;
+            for (let i = 0; i < ques.Qus_Items.length; i++) {
+                let answer = ques.Qus_Items[i].answer;            //答题信息
+                ansstr.push(answer);
+                let items = ques.Qus_Items[i].Ans_Context.split(","); //正确答案
+                if(!items.includes(answer)){
+                    correct = false;
+                    break;
+                }
+            }
+            ques.Qus_Answer = ansstr.join(',');
+            this.state['ans'] = ansstr.join(',');
+            this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null"; 
+            if (correct) this.$parent.swipe({ 'direction': 2 });
+            return correct;
+            /*
             let ansstr = [];
             let correct = true;
             for (let i = 0; i < ques.Qus_Items.length; i++) {
@@ -301,11 +318,13 @@ Vue.component('question', {
                     correct = false;
                 }
             }
+            //console.error(3);
             if (this.state['ans'] == ansstr.join(',')) return null;
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";        
             return this.state['correct'] == 'succ';
+            */
         }
     },
     template: `<dd :qid="qid" :current="current" :render="init">

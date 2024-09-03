@@ -139,7 +139,7 @@ namespace Song.ViewData.Helper
             return items != null && items.ContainsKey(key) ? items[key] : null;
         }
         /// <summary>
-        /// 菜单项
+        /// 菜单项，第一层key值是角色名称，第二层key值是机构id，HashSet为菜单项的link
         /// </summary>
         private static Dictionary<string ,Dictionary<int, HashSet<string>>> menu = null;               
         private static object lockObj = new object();
@@ -256,7 +256,10 @@ namespace Song.ViewData.Helper
         {
             //如果不是模板库限制的页面
             HashSet<string> list = this.PageList(device);
-            if (list == null || list.Contains(page)) return true;          
+            if (list == null || list.Contains(page)) return true;
+            //模板库之外的不限制页面，正则表达式匹配
+            foreach (string s in this.Allows)
+                if (Regex.IsMatch(page, s)) return true;
             //
             HashSet<string> menus = null;          
             Song.Entities.Organization org = null;
@@ -282,13 +285,11 @@ namespace Song.ViewData.Helper
                 default:
                     return true;
             }
-            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            if (org == null) return false;
             menus = Menus(device, org.Org_ID);
             if (menus == null) return false;
             if( menus.Contains(page))return true;
-            //模板库之外的不限制页面，正则表达式匹配
-            foreach (string s in this.Allows)
-                if (Regex.IsMatch(page, s)) return true;
+            
             return false;
         }
         #endregion
