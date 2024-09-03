@@ -195,22 +195,7 @@ Vue.component('question', {
             ques.state['ans'] = ansstr.join(',');
             ques.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
-            return ques.state['correct'] == 'succ';
-            /*
-            var ansstr = [];
-            var correct = true;
-            for (let i = 0; i < ques.Qus_Items.length; i++) {
-                ansstr.push(ques.Qus_Items[i].answer);
-                if (ques.Qus_Items[i].Ans_Context != ques.Qus_Items[i].answer) {
-                    correct = false;
-                }
-            }
-            ques.Qus_Answer = ansstr.join(',');
-            ques.state['ans'] = ansstr.join(',');
-            ques.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
-            ques.state['time'] = new Date();
-            return ques.state['correct'] == 'succ';
-            */
+            return ques.state['correct'] == 'succ';           
         }
     },
     template: `<dd :qid="ques.Qus_ID" :render="init">

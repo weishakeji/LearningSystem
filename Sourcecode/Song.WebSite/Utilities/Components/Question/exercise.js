@@ -308,23 +308,7 @@ Vue.component('question', {
             this.state['ans'] = ansstr.join(',');
             this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null"; 
             if (correct) this.$parent.swipe({ 'direction': 2 });
-            return correct;
-            /*
-            let ansstr = [];
-            let correct = true;
-            for (let i = 0; i < ques.Qus_Items.length; i++) {
-                ansstr.push(ques.Qus_Items[i].answer);
-                if (ques.Qus_Items[i].Ans_Context != ques.Qus_Items[i].answer) {
-                    correct = false;
-                }
-            }
-            //console.error(3);
-            if (this.state['ans'] == ansstr.join(',')) return null;
-            ques.Qus_Answer = ansstr.join(',');
-            this.state['ans'] = ansstr.join(',');
-            this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";        
-            return this.state['correct'] == 'succ';
-            */
+            return correct;           
         }
     },
     template: `<dd :qid="qid" :current="current" :render="init">

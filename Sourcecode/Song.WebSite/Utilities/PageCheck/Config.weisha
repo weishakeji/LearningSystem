@@ -19,6 +19,7 @@
             <page value="/manage/self/logout"/>
         </manage>
         <student>
+          <page value="/student/exam/Review"/>
         </student>
         <teacher>
         </teacher>
