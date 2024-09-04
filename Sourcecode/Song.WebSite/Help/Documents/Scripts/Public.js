@@ -16,7 +16,8 @@
         //加载ElementUI
         arr2.push('/Utilities/ElementUi/index.js');
         arr2.push('/Utilities/Components/btngroup.js');    
-        arr2.push('/Utilities/TinyMCE/tinymce.js');      
+        arr2.push('/Utilities/TinyMCE/tinymce.js');     
+        arr2.push('/Utilities/TinyMCE/tinymce.vue.js'); 
         //mathjax，解析latex公式
         arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
         arr2.push('/Utilities/MathJax/globalVariable.js');       

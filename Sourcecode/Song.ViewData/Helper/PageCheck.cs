@@ -200,7 +200,7 @@ namespace Song.ViewData.Helper
         public Dictionary<int, HashSet<string>> Menus(string key)
         {
             if (menu == null) this.InitializedMenu();
-            if (key.Equals("orgadmin")) return menu["organAdmin"];
+            if (key.Equals("orgadmin")) return menu.ContainsKey("organAdmin") ? menu["organAdmin"] : null;
             foreach (string str in menu.Keys)          
                 if(String.Equals(str, key, StringComparison.OrdinalIgnoreCase))                      
                     return menu[str];           

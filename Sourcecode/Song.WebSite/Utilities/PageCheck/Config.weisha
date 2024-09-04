@@ -19,12 +19,13 @@
             <page value="/manage/self/logout"/>
         </manage>
         <student>
-          <page value="/student/exam/Review"/>
+            <page value="/student/exam/Review"/>
         </student>
         <teacher>
         </teacher>
     </device>
     <allow remark="满足下述条件的页面可以访问,支持正则表达式">
         <item value="/utilities/.*"/>
+        <item value="/help/.*"/>
     </allow>
 </config>

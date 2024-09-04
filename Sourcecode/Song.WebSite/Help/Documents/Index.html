@@ -70,7 +70,8 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading"></loading>
         <div v-else-if="edit" class="file-detail">
-            编辑状态
+            <editor :content="context" model="general" ref="editor" upload="Help" :dataid="file.name"
+                @change="text=>context=text"> </editor>
         </div>
         <div v-else-if="!file.exist" class="no-data">
             <div>
@@ -80,22 +81,28 @@
                 <p>帮助文件“{{file.url}}”不存在</p>
             </div>
         </div>
-        <iframe class="context" v-else :name="file.name" frameborder="0" marginwidth="0" marginheight="0"
-            :src="file.url"></iframe>
-
+        <iframe class="context" v-else :name="file.name" :id="file.name" frameborder="0" marginwidth="0"
+            marginheight="0" :src="file.url"></iframe>
+        <!--底部按钮栏-->
         <div class="footer">
-            <el-button type="primary" native-type="submit" v-if="islocal && admin && !edit" define="enter" @click="edit=true"
-                plain>
-                编辑帮助信息
-            </el-button>
-            <el-button type="primary" native-type="submit" v-if="islocal && admin && edit" define="apply" @click="edit=false"
-                plain>
-                保存修改
-            </el-button>
-            </el-button>
-            <el-button type='close'>
-                关闭
-            </el-button>
+            <div>
+                <el-button type="primary" native-type="submit" v-if="islocal && admin && !edit" define="enter"
+                    @click="edit=true" plain>
+                    编辑帮助信息
+                </el-button>
+                <template v-if="edit">
+                    <el-button type="primary" native-type="submit" v-if="islocal && admin" define="apply"
+                        @click="btnSave" plain>
+                        保存修改
+                    </el-button>
+                    <el-button type="info" @click="edit=false">
+                        <icon>&#xe748</icon>退出编辑
+                    </el-button>
+                </template>
+                <el-button type='close'>
+                    关闭
+                </el-button>
+            </div>
         </div>
     </div>
 </body>

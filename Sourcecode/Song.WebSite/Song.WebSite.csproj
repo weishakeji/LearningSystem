@@ -263,6 +263,14 @@
     <Content Include="Help\Datas\Scripts\index.js" />
     <Content Include="Help\Datas\Styles\index.css" />
     <Content Include="Help\Default.html" />
+    <Content Include="Help\Documents\Files\orgadmin_start.html" />
+    <Content Include="Help\Documents\Files\orgadmin_teacher_list.html" />
+    <Content Include="Help\Documents\Index.html" />
+    <Content Include="Help\Documents\readme.txt" />
+    <Content Include="Help\Documents\Scripts\Index.js" />
+    <Content Include="Help\Documents\Scripts\Public.js" />
+    <Content Include="Help\Documents\Styles\Index.css" />
+    <Content Include="Help\Documents\Styles\Public.css" />
     <Content Include="Help\Images\help.ico" />
     <Content Include="Help\Index.html" />
     <Content Include="Help\Images\api.ico" />

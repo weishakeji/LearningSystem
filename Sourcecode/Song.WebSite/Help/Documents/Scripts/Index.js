@@ -12,9 +12,10 @@
             islocal: $api.islocal(),
             admin: null,    //管理员信息
 
-            edit:false,      //是否为编辑模式
+            edit: false,      //是否为编辑模式
+            context: '',     //帮助文件的内容
             loading: false,
-          
+
         },
         mounted: function () {
 
@@ -38,17 +39,49 @@
                     name = name.replace(/\//g, "_");
                     this.file['name'] = name.toLowerCase();
                     this.file['url'] = ("/help/Documents/Files/" + name + ".html").toLowerCase();
+                   
                     this.fileExist(this.file['url']);
 
+                }, immediate: true
+            },
+            //是否为编辑状态
+            'edit': {
+                handler: function (nv, ov) {
+                    if (nv) this.getcontext(this.file.url);
+                    else {
+                        this.$nextTick(function () {
+                            this.iframecss();
+                        });
+                    }
+                    this.fileExist(this.file['url']);
                 }, immediate: true
             }
         },
         methods: {
+            //设置iframe的样式
+            iframecss: function () {
+                const iframe = document.getElementById(this.file.name);
+                if (iframe) {
+                    iframe.onload = function () {
+                        let styles=['../Styles/iframe.css','/Utilities/Fonts/icon.css']
+                        for (let i = 0; i < styles.length; i++) {
+                            let style = document.createElement('link');
+                            style.rel = 'stylesheet';
+                            style.href = styles[i];
+                            iframe.contentWindow.document.head.appendChild(style);
+                        }                       
+                    };
+                } else {
+                    window.setTimeout(function () {
+                        this.vapp.iframecss();
+                    }, 100);
+                }
+            },
             //文件是否存在
             fileExist: function (url) {
                 var th = this;
                 th.loading = true;
-                $api.get('Helper/Fileexist', { 'file': url }).then(req => {
+                $api.get('HelpDocument/Fileexist', { 'file': url }).then(req => {
                     if (req.data.success) {
                         th.file['exist'] = req.data.result;
                     } else {
@@ -57,7 +90,38 @@
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
-            }
+            },
+            //获取帮助文件的内容
+            getcontext: function (url) {
+                var th = this;
+                th.loading = true;
+                $api.get('HelpDocument/FileContext', { 'file': url }).then(req => {
+                    if (req.data.success) {
+                        th.context = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+            //保存编辑状态
+            btnSave: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('HelpDocument/FileSave', { 'file': th.file.url, 'context': th.context }).then(req => {
+                    if (req.data.success) {
+
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => {
+                        th.loading = false;
+                        this.edit = false;
+                    });
+            },
         }
     });
 

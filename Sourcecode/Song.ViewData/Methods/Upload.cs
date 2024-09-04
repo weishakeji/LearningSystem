@@ -54,12 +54,12 @@ namespace Song.ViewData.Methods
         /// <param name="pathkey">路径配置项，来自web.config中的upload节点</param>
         /// <param name="dataid">数据id，</param>
         /// <returns></returns>
-        public JArray Images(string pathkey, long dataid)
+        public JArray Images(string pathkey, string dataid)
         {
             JArray arr = new JArray();
             if (string.IsNullOrWhiteSpace(pathkey)) return arr;
-            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString() + "/" : "");
-            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + (dataid > 0 ? dataid.ToString() : "");
+            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + dataid.ToString() + "/";
+            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + dataid.ToString() + "\\";
             if (!Directory.Exists(phyPath)) return arr;
 
             DirectoryInfo dir = new DirectoryInfo(phyPath);
@@ -126,16 +126,16 @@ namespace Song.ViewData.Methods
         /// <param name="swidth">缩略图的宽度</param>
         /// <param name="sheight">缩略图的高度</param>
         /// <returns></returns>
-        [Admin, Teacher]
+        [Admin,Student, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = true)]
-        public JObject ImageSave(string pathkey, long dataid, bool small,int swidth,int sheight)
+        public JObject ImageSave(string pathkey, string dataid, bool small,int swidth,int sheight)
         {
             if (base.Files.Count < 1) return null;
             if (string.IsNullOrWhiteSpace(pathkey)) return null;
 
-            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString() + "/" : "");
-            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + (dataid > 0 ? dataid.ToString() + "/" : "");
+            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + dataid + "/";
+            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + dataid + "\\";
             if (!Directory.Exists(phyPath)) Directory.CreateDirectory(phyPath);
             string filename = string.Empty, smallfile = string.Empty;
             //只保存第一张图片

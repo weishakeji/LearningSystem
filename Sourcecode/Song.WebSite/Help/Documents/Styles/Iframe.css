@@ -1,0 +1,89 @@
+﻿@charset "utf-8";
+
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 10px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    background: #888888;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent),
+        url(/Utilities/scrollbar-thumb.gif);
+    --background-image: url(/Utilities/scrollbar-thumb.gif);
+    background-repeat: no-repeat;
+}
+
+
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
+    border-radius: 3px;
+    background: #EDEDED;
+    --background-image: url(/Utilities/scrollbar-track.gif);
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+body {
+    padding: 20px;
+}
+
+img {
+    max-width: 100%;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    text-indent: 2rem;
+}
+
+h1::before, h2::before, h3::before, h4::before {
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+h1::before {
+    content: '\a02e';
+    font-size: 22px;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+h2::before {
+    content: '\e6c6';
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-left: 30px;
+}
+
+h3::before {
+    content: '\e670';
+    font-size: 16px;
+}
