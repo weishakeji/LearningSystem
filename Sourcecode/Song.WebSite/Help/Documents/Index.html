@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta build-number="2.30" />
+    <meta device="help" template="documents" cache="true" path="/help/documents/" />
+    <meta view="index" route="/help/documents/index" page="/help/documents/index.html" />
+    <title>帮助文档</title>
+    <script type="text/javascript" src="/utilities/scripts/webdom.js"></script>
+    <script type="text/javascript" src="scripts/public.js"></script>
+    <style type="text/css">
+        *[v-cloak] {
+            text-align: left !important;
+            color: #999;
+        }
+
+        *[v-cloak]>* {
+            display: none !important;
+        }
+
+        *[v-cloak]::before {
+            content: "/";
+            display: block;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            float: left;
+            font-size: 16px;
+            animation: rotate_360 0.5s infinite linear;
+            transform-origin: center center;
+        }
+
+        *[v-cloak]::after {
+            content: "loading ... ";
+            display: block;
+            font-size: 13px;
+            margin-left: 10px;
+            line-height: 20px;
+            position: absolute;
+            top: 8px;
+            left: 20px;
+        }
+
+        @keyframes rotate_360 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(90deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            75% {
+                transform: rotate(270deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <loading v-if="loading"></loading>
+        <div v-else-if="edit" class="file-detail">
+            编辑状态
+        </div>
+        <div v-else-if="!file.exist" class="no-data">
+            <div>
+                <icon>&#xe70e</icon>帮助信息未编辑！
+            </div>
+            <div class="context">
+                <p>帮助文件“{{file.url}}”不存在</p>
+            </div>
+        </div>
+        <iframe class="context" v-else :name="file.name" frameborder="0" marginwidth="0" marginheight="0"
+            :src="file.url"></iframe>
+
+        <div class="footer">
+            <el-button type="primary" native-type="submit" v-if="islocal && admin && !edit" define="enter" @click="edit=true"
+                plain>
+                编辑帮助信息
+            </el-button>
+            <el-button type="primary" native-type="submit" v-if="islocal && admin && edit" define="apply" @click="edit=false"
+                plain>
+                保存修改
+            </el-button>
+            </el-button>
+            <el-button type='close'>
+                关闭
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

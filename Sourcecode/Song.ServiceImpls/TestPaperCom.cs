@@ -631,7 +631,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        public bool ResultsBatchCalc(int tpid)
+        public bool ResultsBatchCalc(long tpid)
         {
             List<TestResults> trs = Gateway.Default.From<TestResults>().Where(TestResults._.Tp_Id == tpid).ToList<TestResults>();
             for(int i = 0; i < trs.Count; i++)

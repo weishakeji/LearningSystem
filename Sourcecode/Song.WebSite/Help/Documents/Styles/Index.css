@@ -1,0 +1,17 @@
+﻿.no-data{
+    margin: 60px;
+    font-size: 18px;
+    color: #666;
+}
+.no-data icon{
+    font-size: 22px;
+}
+.no-data .context{
+    font-size: 18px;
+}
+/*帮助详情*/
+iframe.context{
+    width: 100%;
+    height: calc(100% - 55px);
+    border: none;
+}

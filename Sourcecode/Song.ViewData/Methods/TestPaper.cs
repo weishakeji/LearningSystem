@@ -598,7 +598,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        public bool ResultsBatchCalc(int tpid)
+        public bool ResultsBatchCalc(long tpid)
         {
             return Business.Do<ITestPaper>().ResultsBatchCalc(tpid);
         }

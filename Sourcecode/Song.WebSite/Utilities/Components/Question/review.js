@@ -241,7 +241,7 @@ Vue.component('question', {
             return false;
         }
     },
-    template: `<card :qid="qans.id" v-if="showQues()">
+    template: `<card :qid="qans.id" v-if="showQues()"  shadow="hover">
         <card-title :index="calcIndex(index+1)" v-if="loading">
             <loading type="spinner" size="24px" > 加载中...</loading>
         </card-title>        

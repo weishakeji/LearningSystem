@@ -16,6 +16,7 @@ using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Core;
+using Song.ViewData;
 
 
 namespace Song.ViewData.Methods
@@ -1278,10 +1279,8 @@ namespace Song.ViewData.Methods
         /// <param name="path"></param>
         /// <returns></returns>
         [HttpDelete]
-        public bool ExcelDelete(string filename,string path)
-        {
-            return Song.ViewData.Helper.Excel.DeleteFile(filename, path, "Temp");           
-        }
+        public bool ExcelDelete(string filename, string path)
+            => ViewData.Helper.Excel.DeleteFile(filename, path, "Temp");
         /// <summary>
         /// 已经生成的Excel文件
         /// </summary>

@@ -149,7 +149,7 @@ function ready(result) {
     //选项卡
     var tabs = $tabs.create({
         target: '#tabs-area',
-        width: 1,
+        help: true,    //不显示帮助按钮
         default: {
             title: '启始页',
             path: '机构管理,启始页',
@@ -160,14 +160,12 @@ function ready(result) {
     tabs.onshut(tabsShut).onchange(tabsChange).onfull(function (s, e) {
         //alert(s);
     });
-    tabs.onhelp(function (s, e) {
-        let url = e.data.help && e.data.help != '' ? e.data.help : '/help' + e.data.url + '.html';
+    tabs.onhelp(function (s, e) {        
+        let url = e.data.help && e.data.help != '' ? e.data.help : '/help/Documents/index.html?page=' + encodeURIComponent(e.data.url);
         $pagebox.create({
             pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
-            width: '80%',
-            height: '80%',
-            url: url,
-            title: e.data.title + '- 帮助'
+            width: '800', height: '80%', ico: 'a026',
+            url: url, title: e.data.title + ' - 帮助说明'
         }).open();
     });
     window.tabsContent = tabs;

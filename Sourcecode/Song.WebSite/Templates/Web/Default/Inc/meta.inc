@@ -9,31 +9,33 @@
 <script type="text/javascript" src="../Scripts/Public.js"></script>
 <style type="text/css">
     *[v-cloak]{
-        text-align:left !important;
-    }
-    *[v-cloak] * {
-         display: none !important;
-    }
-    *[v-cloak]::before {
-        content: "/";
-        display: block;
-        width:24px;
-        height:24px;
-        text-align: center;
-        float:left;
-        font-size: 16px;
-        color:#666;
-        animation: rotate_360 0.5s infinite linear;
-        transform-origin: center center;
-    }
-    *[v-cloak]::after {
-        content: "loading ... ";
-        display: inline;     
-        font-size: 13px;
-        margin-left:10px;
-        line-height:20px;   
-        color:#999;    
-    }
+            text-align:left !important;
+            color:#999;   
+        }
+        *[v-cloak]>* {
+             display: none !important;
+        }
+        *[v-cloak]::before {
+            content: "/";
+            display: block;
+            width:24px;
+            height:24px;
+            text-align: center;
+            float:left;
+            font-size: 16px;           
+            animation: rotate_360 0.5s infinite linear;
+            transform-origin: center center;
+        }
+        *[v-cloak]::after {
+            content: "loading ... ";
+            display: block;     
+            font-size: 13px;
+            margin-left:10px;
+            line-height:20px;               
+            position: absolute;
+            top:8px;
+            left: 20px;
+        }
     @keyframes rotate_360 {
         0% {
             transform: rotate(0deg);

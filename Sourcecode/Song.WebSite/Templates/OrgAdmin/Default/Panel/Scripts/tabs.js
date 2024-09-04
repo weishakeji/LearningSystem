@@ -22,6 +22,8 @@
             height: '100%',
             default: null, //默认标签
             id: '',
+            help: true,     //是否显示帮助按钮
+            print: true,     //是否显示打印按钮
             nowheel: false, //禁用鼠标滚轮切换
             morebox: false, //更多标签的面板是否显示
             cntmenu: false //右键菜单是否显示
@@ -130,7 +132,7 @@
             let menu = obj.dom.add('tabs_contextmenu');
             menu.add('menu_fresh').html('刷新');
             //menu.add('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
-            menu.add('menu_print').html('打印');
+            if (obj.print) menu.add('menu_print').html('打印');
             menu.add('hr');
             menu.add('menu_full').html('最大化');
             //menu.add('menu_restore').html('还原').addClass('disable');
@@ -212,7 +214,7 @@
                     iframe.attr('src', iframe.attr('src'));
                 }
                 //打印
-                if (action == 'print') obj.print(tabid);
+                if (action == 'print') obj.printtab(tabid);
                 //关闭
                 if (action.indexOf('close') > -1) {
                     let tabids = new Array();
@@ -347,8 +349,11 @@
             }
             //右侧按钮
             let btn = path.add('tabbar-btnbox');
+            btn.add('div').attr('title', 'help').html('&#xa026');
+            if (!this.help) btn.find("div[title='help']").hide();
+            //打印按钮
             btn.add('div').attr('title', 'print').html('&#xa046');
-            if (!!tab.help) btn.add('div').attr('title', 'help').html('&#xa026');
+            if (!this.print) btn.find("div[title='print']").hide();
             path.width('100%').height(35);
             iframe.height('calc(100% - 35px)');
         } else {
@@ -479,7 +484,7 @@
                 while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
                 let tabid = $dom(node).attr('tabid');
                 let obj = tabs._getObj(node);
-                obj.print(tabid);
+                obj.printtab(tabid);
             });
         }
     };
@@ -559,7 +564,7 @@
         return tagcurr.length > 0;
     };
     //打印选项卡的iframe中的内容页
-    fn.print = function (tabid) {
+    fn.printtab = function (tabid) {
         if (window.frames[tabid] == null) {
             let doc = $dom('iframe[name=\'' + tabid + '\']');
             if (doc.length > 0) doc[0].contentWindow.print();

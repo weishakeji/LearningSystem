@@ -731,6 +731,16 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        /// <summary>
+        /// 判断某个文件是否存在
+        /// </summary>
+        /// <param name="file">文件名，带虚拟路径</param>
+        /// <returns></returns>
+        public bool FileExist(string file)
+        {
+            string fileHy = WeiSha.Core.Server.MapPath(file);
+            return System.IO.File.Exists(fileHy);
+        }
        
     }
     #region 一些需要用到的类

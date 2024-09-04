@@ -289,6 +289,12 @@ tabs_tagbox tab_tag close:hover {
     text-shadow: 1px 1px 2px #666;
 }
 
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>div[title="help"] {
+    font-size: 20px;
+}
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>div[title="print"] {
+    font-size: 18px;
+}
 .tabsbox tabs_body tabpace iframe {
     bottom: 0px;
     left: 0px;

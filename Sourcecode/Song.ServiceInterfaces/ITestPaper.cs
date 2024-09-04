@@ -157,7 +157,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        bool ResultsBatchCalc(int tpid);
+        bool ResultsBatchCalc(long tpid);
         /// <summary>
         /// 当前考试的及格率
         /// </summary>
