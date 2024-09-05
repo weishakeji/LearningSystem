@@ -82,7 +82,7 @@
             </div>
         </div>
         <iframe class="context" v-else :name="file.name" :id="file.name" frameborder="0" marginwidth="0"
-            marginheight="0" :src="file.url"></iframe>
+            marginheight="0" :src="file.url+'?t='+new Date().getTime()"></iframe>
         <!--底部按钮栏-->
         <div class="footer">
             <div>

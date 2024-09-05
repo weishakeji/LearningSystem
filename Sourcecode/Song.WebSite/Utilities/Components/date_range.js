@@ -4,20 +4,24 @@
 Vue.component('date_range', {
     //start:开始时间
     //end：结束时间
-    props: ['start', 'end'],
+    //forward:时间向前选择，默认为false，即当前时间向前推
+    props: ['start', 'end', 'forward'],
     data: function () {
-        var setTimeInterval = function (subtract) {
+        //设置时间间隔，返回两个时间值
+        //subtract:相减的时间
+        //direction: 时间方向，false是向前推，true是向后推，
+        var setTimeInterval = function (subtract, direction) {
             let end = new Date();           // 获取当前时间     
             let month = end.getMonth();     // 获取当前月份
             let year = end.getFullYear();    //当前年份
             // 计算要减去的月份后的目标月份            
-            month = month - subtract;
+            month = month - (direction ? -subtract : subtract);
             year = month < 0 ? end.getFullYear() - 1 : end.getFullYear();
             if (month < 0) month += 12;
             // 设置目标日期为当前日期
             let start = new Date(end);
             start.setFullYear(year, month); // 设置目标年份和月份
-            return [start, end];
+            return direction ? [end, start] : [start, end];
         };
         return {
             //当前选择的日期
@@ -25,10 +29,17 @@ Vue.component('date_range', {
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
-                    onClick(p) {
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        p.$emit('pick', [start, new Date()]);
+                    onClick: p => {
+                        if (this.direction) {
+                            const end = new Date();
+                            end.setTime(end.getTime() + 3600 * 1000 * 24 * 6);
+                            p.$emit('pick', [new Date(), end]);
+                        } else {
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+                            p.$emit('pick', [start, new Date()]);
+                        }
+
                     }
                 }, {
                     text: '本周',
@@ -45,7 +56,7 @@ Vue.component('date_range', {
                     }
                 }, {
                     text: '最近一个月',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(1))
+                    onClick: (p) => p.$emit('pick', setTimeInterval(1, this.direction))
                 }, {
                     text: '本月', onClick(picker) {
                         const start = new Date();
@@ -61,7 +72,7 @@ Vue.component('date_range', {
                     }
                 }, {
                     text: '最近三个月',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(3))
+                    onClick: (p) => p.$emit('pick', setTimeInterval(3, this.direction))
                 }, {
                     text: '本季度', onClick(picker) {
                         const start = new Date();
@@ -75,7 +86,7 @@ Vue.component('date_range', {
                     }
                 }, {
                     text: '最近半年',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(6))
+                    onClick: (p) => p.$emit('pick', setTimeInterval(6, this.direction))
                 }, {
                     text: '本学期',
                     onClick: (p) => {
@@ -94,7 +105,7 @@ Vue.component('date_range', {
                     }
                 }, {
                     text: '最近一年',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(12))
+                    onClick: (p) => p.$emit('pick', setTimeInterval(12, this.direction))
                 }, {
                     text: '本年', onClick(picker) {
                         const start = new Date();
@@ -105,9 +116,17 @@ Vue.component('date_range', {
                     }
                 }, {
                     text: '最近三年',
-                    onClick: (p) => p.$emit('pick', setTimeInterval(36))
+                    onClick: (p) => p.$emit('pick', setTimeInterval(36, this.direction))
                 }]
             },
+        }
+    },
+    computed: {
+        //时间选择的方向，默认为false，即当前时间向前推
+        'direction': function () {
+            if (this.forward == null) return false;
+            if (this.forward == 'true' || this.forward == true) return true;
+            else return false;
         }
     },
     watch: {
@@ -132,7 +151,7 @@ Vue.component('date_range', {
             let start = this.selectDate != null ? this.todate(this.selectDate[0]) : '';
             //结束时间由当前日期加一，即查询条件中包含结束那一天的当天
             let end = this.selectDate != null ? this.todate(this.selectDate[1]) : '';
-            if (end != null && end != '') end.setDate(end.getDate() + 1);
+            if (end != null && end != '') end.setDate(end.getDate());
             this.$emit('change', start, end);
             //如果为空，则触发clear事件
             if (start == '' && end == '') this.evt_clear();

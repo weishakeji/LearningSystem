@@ -180,7 +180,7 @@
                     </el-switch>
                 </div>
                 <div v-show="course.Cou_IsLimitFree">
-                    <date_range @change="selectDate" :start="course.Cou_FreeStart" :end="course.Cou_FreeEnd">
+                    <date_range @change="selectDate" :start="course.Cou_FreeStart" :end="course.Cou_FreeEnd" :forward="true">
                     </date_range>
                     <el-button type="primary" plain @click="updateCourse()">
                         <icon>&#xa048</icon>保存限时免费的时限

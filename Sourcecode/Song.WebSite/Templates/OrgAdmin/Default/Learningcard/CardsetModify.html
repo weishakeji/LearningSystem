@@ -42,7 +42,7 @@
             </el-form-item>
 
             <el-form-item label="有效期" prop="Lcs_Limit">
-                <date_range @change="selectDate" :start="entity.Lcs_LimitStart" :end="entity.Lcs_LimitEnd"
+                <date_range @change="selectDate" :start="entity.Lcs_LimitStart" :end="entity.Lcs_LimitEnd" :forward="true"
                     style="width:100%"></date_range>
             </el-form-item>
 

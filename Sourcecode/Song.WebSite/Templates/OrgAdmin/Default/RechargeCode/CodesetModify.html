@@ -40,7 +40,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="有效期" prop="Rs_Limit">
-                        <date_range @change="selectDate" :start="entity.Rs_LimitStart" :end="entity.Rs_LimitEnd"
+                        <date_range @change="selectDate" :start="entity.Rs_LimitStart" :end="entity.Rs_LimitEnd" :forward="true"
                             style="width:100%"></date_range>
                     </el-form-item>
                 </el-col>
