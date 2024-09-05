@@ -83,13 +83,8 @@
                 <template slot-scope="scope">
                     <course_prices :course="scope.row"></course_prices>
                 </template>
-            </el-table-column>
-            <el-table-column label="收益" v-if="false">
-                <template slot-scope="scope">
-                    <course_income :course="scope.row"></course_income>
-                </template>
-            </el-table-column>
-            <el-table-column label="信息" width="200">
+            </el-table-column>           
+            <el-table-column label="信息" width="200" v-if="false">
                 <template slot-scope="scope">
                     <course_data ref="course_data" :course="scope.row" :show_student="true"></course_data>
                 </template>

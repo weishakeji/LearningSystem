@@ -206,7 +206,7 @@ namespace Song.ServiceInterfaces
         /// 当前课程下的章节数
         /// </summary>
         /// <param name="couid">课程id</param>
-        /// <param name="pid"></param>
+        /// <param name="pid">父章节id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
         int OutlineOfCount(long couid, long pid, bool? isUse);
@@ -214,7 +214,7 @@ namespace Song.ServiceInterfaces
         /// 当前课程下的章节数
         /// </summary>
         /// <param name="couid">课程id<</param>
-        /// <param name="pid"></param>
+        /// <param name="pid">父章节id</param>
         /// <param name="isUse"></param>
         /// <param name="children">是否含下级</param>
         /// <returns></returns>

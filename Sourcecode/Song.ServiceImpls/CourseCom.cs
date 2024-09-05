@@ -503,7 +503,10 @@ namespace Song.ServiceImpls
         public int CourseOfCount(long sbjid)
         {
             int count = this.CourseOfCount(-1, sbjid, -1, null, null);
-            Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CouNumber }, new object[] { count }, Subject._.Sbj_ID == sbjid);
+            new System.Threading.Tasks.Task(() =>
+            {
+                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CouNumber }, new object[] { count }, Subject._.Sbj_ID == sbjid);
+            }).Start();           
             return count;
         }
         /// <summary>

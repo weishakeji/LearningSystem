@@ -202,7 +202,7 @@ Ac_Money,Ac_Point,Ac_Coupon,Org_ID,Sts_ID,Sts_Name,Ac_Sex,Ac_MobiTel1,Ac_MobiTel
             int size, int index, out int countSum)
         {
             string sql = @"select *  from (
-	                    select acc.Ac_ID,Ac_Name,Ac_AccName,Ac_Sex,Ac_Photo,Ac_IDCardNumber,Ac_MobiTel1,Ac_LastTime,Sts_ID,Sts_Name,Ac_Money
+	                    select acc.Ac_ID,Ac_Name,Ac_AccName,Ac_Sex,Ac_IDCardNumber,Ac_MobiTel1,Ac_LastTime,Sts_ID,Sts_Name,Ac_Money,Ac_Photo
 		                    ,logincount,logintime
 		                    ,coursecount,rechargecount,lastrecharge,laststudy,lastexrcise,lasttest,lastexam
 		                    ,ROW_NUMBER() OVER( ORDER BY {{orderby}} {{orderpattr}} ) AS rowid from Accounts as acc

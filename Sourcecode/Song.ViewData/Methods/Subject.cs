@@ -306,8 +306,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Cache(AdminDisable = true)]
         public int CountOfCourse(long sbjid, bool? use)
-        {
-            Business.Do<ICourse>().CourseOfCount(sbjid);
+        {           
             return Business.Do<ICourse>().CourseOfCount(-1, sbjid, -1, use, null);
         }
         /// <summary>

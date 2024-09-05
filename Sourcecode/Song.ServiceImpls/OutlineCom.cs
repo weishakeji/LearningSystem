@@ -817,19 +817,15 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int OutlineOfCount(long couid, long pid, bool? isUse, bool children)
         {
-            return this.OutlineOfCount(couid, pid, isUse, null, null, children);
-
-            //包括子级，当前专业下的所有专业数
-            List<long> list = new List<long>();
-            //取同一个机构下的所有章节
-            WhereClip wc = new WhereClip();
-            if (couid > 0) wc.And(Outline._.Cou_ID == couid);
+            //如果章节id大于0，则取当前章节下的子级章节
+            if (pid > 0) return this.OutlineOfCount(couid, pid, isUse, null, null, children);
+            //当前课程下的章节数
+            WhereClip wc = Outline._.Cou_ID == couid;
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
-            //List<Outline> entities = Gateway.Default.From<Outline>().Where(wc).ToArray<Outline>();
-            //list = _treeid(pid, entities);
-            return list.Count;
+            return Gateway.Default.Count<Outline>(wc);
+
         }
-       
+
         /// <summary>
         /// 当前课程下的章节数
         /// </summary>
@@ -837,6 +833,8 @@ namespace Song.ServiceImpls
         /// <param name="pid">父id</param>
         /// <param name="isUse">是否启用</param>
         /// <param name="isVideo">是否有视频</param>
+        /// <param name="isFinish"></param>
+        /// <param name="children"></param>
         /// <returns></returns>
         public int OutlineOfCount(long couid, long pid, bool? isUse, bool? isVideo, bool? isFinish, bool? children)
         {
