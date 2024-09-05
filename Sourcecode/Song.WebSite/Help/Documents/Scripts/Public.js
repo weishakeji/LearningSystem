@@ -4,47 +4,25 @@
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         $dom.path() + 'styles/public.css',
-        $dom.path() + 'styles/dropmenu.css',
         '/Utilities/Fonts/icon.css'
     ], $dom.selfresource);
     //加载相关组件
-    window.$components = function (f) {
-        //电脑端拖动与手式拖动的js库,以及其它
-        var arr2 = ['Sortable.min', 'vuedraggable.min', 'hammer.min', 'vue-touch'];
-        for (var t in arr2) arr2[t] = '/Utilities/Scripts/' + arr2[t] + '.js';
-        let webpath = $dom.path();    //
+    window.$components = function (f) {      
+        var arr2 = [];       
         //加载ElementUI
         arr2.push('/Utilities/ElementUi/index.js');
-        arr2.push('/Utilities/Components/btngroup.js');    
-        arr2.push('/Utilities/TinyMCE/tinymce.js');     
-        arr2.push('/Utilities/TinyMCE/tinymce.vue.js'); 
+        arr2.push('/Utilities/TinyMCE/tinymce.js');
+        arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
         //mathjax，解析latex公式
         arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
-        arr2.push('/Utilities/MathJax/globalVariable.js');       
+        arr2.push('/Utilities/MathJax/globalVariable.js');
         window.$dom.load.js(arr2, f);
     };
-    //加载组件所需的javascript文件
-    $dom.ctrljs = function (f) {
-        $dom.corejs(function () {
-            var arr = ['pagebox', 'treemenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
-            for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
-            window.$dom.load.js(arr, f);
-        }, '/Utilities/Panel/Scripts/ctrls.js');
-    };
+
     //加载必要的资源完成
     //f:加载完成要执行的方法
     //source:要加载的资源
     window.$ready = function (f, source) {
-        var route = $dom.route().toLowerCase();
-        //如果设备是手机端，转向手机页面
-        if (($dom.ismobi() || $dom.isWeixinApp() || $dom.ispad()) && route.indexOf('/web/') > -1) {
-            var search = window.location.search;
-            var href = route.replace('/web/', '/mobi/');
-            var pathname = window.location.pathname;
-            var dot = pathname.indexOf('.') > -1 ? pathname.substring(pathname.lastIndexOf('.')) : '';
-            window.location.href = href + dot + search;
-            return;
-        }
         //如果参数没有按顺序传，自动调整，例如原本第一个是方法，第二个是资源路径，调用时写反了也可以
         var func = null, jsfile = [];
         for (let i = 0; i < arguments.length; i++) {
@@ -56,14 +34,12 @@
             if (typeof arguments[i] === 'string') jsfile.push(arguments[i]);
         }
         $dom.ready(function () {
-            //$dom.corejs(function () {
-            $dom.ctrljs(function () {
+            $dom.corejs(function () {
                 $components(function () {
                     window.$init_func();
                     $dom.componentjs(jsfile, func);
                 });
             });
-            //});
         });
     };
     //加载完成后的初始化方法
@@ -110,29 +86,6 @@
             return txt.replace(regExp, function (match, p1) {
                 return '<red>' + p1 + '</red>';
             });
-        };
-        //常用地址
-        Vue.prototype.commonaddr = function (key) {
-            var urls = {
-                'signin': '/web/sign/in',      //登录地址
-                'myself': '/mobi/account/myself'        //个人中心
-            };
-            if (urls[key] == undefined) return '';
-            return $api.url.set(urls[key], {
-                'referrer': encodeURIComponent(location.href)
-            });
-        };
-    };
-    //重构一些方法
-    //页面跳转
-    window.navigateTo = function (url) {
-        //如果处在微信小程序中
-        if ($dom.isWeixinApp()) {
-            //alert(wx);
-            //wx.navigateTo({ url: url });
-            window.location.href = url;
-        } else {
-            window.location.href = url;
-        }
-    }
+        };       
+    };    
 })();
