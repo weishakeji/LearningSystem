@@ -12,8 +12,8 @@ $ready(function () {
             columns: [],     //新闻栏目
             curr_column: null,     //当前选中的栏目
             form: {
-                'orgid': '', 'uid': '', 'search': '', 'verify': '', 'del': '', 'order': '', size: 20,
-                index: 1
+                'orgid': '', 'uid': '', 'search': '', 'verify': '', 'del': '', 'order': '', 'isintro': false,
+                size: 20, index: 1
             },
             datas: [],
             total: 1, //总记录数
@@ -28,7 +28,7 @@ $ready(function () {
             var th = this;
             $api.bat(
                 $api.get('Organization/Current')
-            ).then(([organ])=> {
+            ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
                 console.error(th.organ);
@@ -38,7 +38,7 @@ $ready(function () {
                 th.getColumnsTree();
             }).catch(err => console.error(err))
                 .finally(() => { });
-          
+
             this.handleCurrentChange(1);
         },
         created: function () {

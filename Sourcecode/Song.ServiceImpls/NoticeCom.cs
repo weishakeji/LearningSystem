@@ -105,6 +105,7 @@ namespace Song.ServiceImpls
         /// 当前公告的下一条公告
         /// </summary>
         /// <param name="identify"></param>
+        /// <param name="orgid"></param>
         /// <returns></returns>
         public Notice NoticeNext(long identify,int orgid)
         {

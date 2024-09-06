@@ -250,14 +250,16 @@ namespace Song.ViewData.Methods
         /// <param name="verify">是否通过审核</param>
         /// <param name="del">是否被删除</param>
         /// <param name="order">排序方式，默认null取最新置顶的优先，hot热点优先，flux流量最大优先,img为图片新闻</param>
+        /// <param name="isintro">是否返回文章内容</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ArticlePager(int orgid, string uid, string search, bool? verify, bool? del, string order, int size, int index)
+        public ListResult ArticlePager(int orgid, string uid, string search, bool? verify, bool? del, string order,bool isintro, int size, int index)
         {
             int count = 0;
             Song.Entities.Article[] news = Business.Do<IContents>().ArticlePager(orgid, uid, search, verify, del, order, size, index, out count);
-
+            if (!isintro)
+                foreach (Song.Entities.Article art in news) art.Art_Intro = string.Empty;
             ListResult result = new ListResult(news);
             result.Index = index;
             result.Size = size;

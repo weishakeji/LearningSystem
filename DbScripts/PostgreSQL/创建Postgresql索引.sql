@@ -36,6 +36,10 @@ CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Tax" ON "Columns" ("Col_Tax" DESC);
 CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Type" ON "Columns" ("Col_Type" DESC);
 CREATE INDEX IF NOT EXISTS "Columns_IX_Org_ID" ON "Columns" ("Org_ID" DESC);
 -- 5 . CouponAccount
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ac_ID" ON "CouponAccount" ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_CrtTime" ON "CouponAccount" ("Ca_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_Type" ON "CouponAccount" ("Ca_Type" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Org_ID" ON "CouponAccount" ("Org_ID" DESC);
 -- 6 . Course
 CREATE INDEX IF NOT EXISTS "Course_IX_Cou_CrtTime" ON "Course" ("Cou_CrtTime" DESC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ExistLive" ON "Course" ("Cou_ExistLive" DESC);
@@ -60,10 +64,19 @@ CREATE INDEX IF NOT EXISTS "Depart_aaaaaDepart_PK" ON "Depart" ("Dep_Id" DESC);
 CREATE INDEX IF NOT EXISTS "EmpAcc_Group_aaaaaEmpAcc_Group_PK" ON "EmpAcc_Group" ("Emgr_Id" DESC);
 -- 10 . EmpAccount
 CREATE INDEX IF NOT EXISTS "EmpAccount_aaaaaEmpAccount_PK" ON "EmpAccount" ("Acc_Id" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_IsUse" ON "EmpAccount" ("Acc_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_Name" ON "EmpAccount" ("Acc_Name" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_RegTime" ON "EmpAccount" ("Acc_RegTime" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Org_ID" ON "EmpAccount" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Posi_Id" ON "EmpAccount" ("Posi_Id" DESC);
 -- 11 . EmpGroup
 CREATE INDEX IF NOT EXISTS "EmpGroup_aaaaaEmpGroup_PK" ON "EmpGroup" ("EGrp_Id" DESC);
 -- 12 . EmpTitle
 CREATE INDEX IF NOT EXISTS "EmpTitle_aaaaaEmpTitle_PK" ON "EmpTitle" ("Title_Id" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Org_ID" ON "EmpTitle" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_IsUse" ON "EmpTitle" ("Title_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Name" ON "EmpTitle" ("Title_Name" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Tax" ON "EmpTitle" ("Title_Tax" DESC);
 -- 13 . ExamGroup
 CREATE INDEX IF NOT EXISTS "ExamGroup_aaaaaExamGroup_PK" ON "ExamGroup" ("Eg_ID" DESC);
 -- 14 . Examination
@@ -92,18 +105,40 @@ CREATE INDEX IF NOT EXISTS "InternalLink_aaaaaInternalLink_PK" ON "InternalLink"
 -- 20 . Knowledge
 -- 21 . KnowledgeSort
 -- 22 . LearningCard
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_AccName" ON "LearningCard" ("Ac_AccName" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_ID" ON "LearningCard" ("Ac_ID" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Code" ON "LearningCard" ("Lc_Code" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_IsUsed" ON "LearningCard" ("Lc_IsUsed" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Pw" ON "LearningCard" ("Lc_Pw" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_State" ON "LearningCard" ("Lc_State" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lcs_ID" ON "LearningCard" ("Lcs_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Org_ID" ON "LearningCard" ("Org_ID" DESC);
 -- 23 . LearningCardSet
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Count" ON "LearningCardSet" ("Lcs_Count" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CoursesCount" ON "LearningCardSet" ("Lcs_CoursesCount" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CrtTime" ON "LearningCardSet" ("Lcs_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_IsEnable" ON "LearningCardSet" ("Lcs_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Price" ON "LearningCardSet" ("Lcs_Price" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Theme" ON "LearningCardSet" ("Lcs_Theme" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lsc_UsedCount" ON "LearningCardSet" ("Lsc_UsedCount" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Org_ID" ON "LearningCardSet" ("Org_ID" DESC);
 -- 24 . LimitDomain
 -- 25 . Links
 CREATE INDEX IF NOT EXISTS "Links_aaaaaLinks_PK" ON "Links" ("Lk_Id" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsShow" ON "Links" ("Lk_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsUse" ON "Links" ("Lk_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Name" ON "Links" ("Lk_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Tax" ON "Links" ("Lk_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Url" ON "Links" ("Lk_Url" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Ls_Id" ON "Links" ("Ls_Id" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Org_ID" ON "Links" ("Org_ID" DESC);
 -- 26 . LinksSort
 CREATE INDEX IF NOT EXISTS "LinksSort_aaaaaLinksSort_PK" ON "LinksSort" ("Ls_Id" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsShow" ON "LinksSort" ("Ls_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsUse" ON "LinksSort" ("Ls_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Name" ON "LinksSort" ("Ls_Name" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Tax" ON "LinksSort" ("Ls_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Org_ID" ON "LinksSort" ("Org_ID" DESC);
 -- 27 . LogForStudentExercise
 CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Ac_ID" ON "LogForStudentExercise" ("Ac_ID" DESC);
 CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Cou_ID" ON "LogForStudentExercise" ("Cou_ID" DESC);
@@ -136,15 +171,35 @@ CREATE INDEX IF NOT EXISTS "Message_aaaaaMessage_PK" ON "Message" ("Msg_Id" DESC
 -- 35 . MessageBoard
 CREATE INDEX IF NOT EXISTS "MessageBoard_aaaaaMessageBoard_PK" ON "MessageBoard" ("Mb_Id" DESC);
 -- 36 . MoneyAccount
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_AccName" ON "MoneyAccount" ("Ac_AccName" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_ID" ON "MoneyAccount" ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_Name" ON "MoneyAccount" ("Ac_Name" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_CrtTime" ON "MoneyAccount" ("Ma_CrtTime" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_From" ON "MoneyAccount" ("Ma_From" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_IsSuccess" ON "MoneyAccount" ("Ma_IsSuccess" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Money" ON "MoneyAccount" ("Ma_Money" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Serial" ON "MoneyAccount" ("Ma_Serial" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Type" ON "MoneyAccount" ("Ma_Type" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Org_ID" ON "MoneyAccount" ("Org_ID" DESC);
 -- 37 . Navigation
 CREATE INDEX IF NOT EXISTS "Navigation_aaaaaNavigation_PK" ON "Navigation" ("Nav_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_IsShow" ON "Navigation" ("Nav_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Site" ON "Navigation" ("Nav_Site" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Type" ON "Navigation" ("Nav_Type" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Org_ID" ON "Navigation" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_PID" ON "Navigation" ("Nav_PID" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_Tax" ON "Navigation" ("Nav_Tax" DESC);
 -- 38 . NewsNote
 CREATE INDEX IF NOT EXISTS "NewsNote_aaaaaNewsNote_PK" ON "NewsNote" ("Nn_Id" DESC);
 -- 39 . Notice
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_EndTime" ON "Notice" ("No_EndTime" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsShow" ON "Notice" ("No_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsTop" ON "Notice" ("No_IsTop" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Page" ON "Notice" ("No_Page" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_StartTime" ON "Notice" ("No_StartTime" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Ttl" ON "Notice" ("No_Ttl" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Type" ON "Notice" ("No_Type" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_Org_ID" ON "Notice" ("Org_ID" DESC);
 -- 40 . Organization
 CREATE INDEX IF NOT EXISTS "Organization_aaaaaOrganization_PK" ON "Organization" ("Org_ID" DESC);
 -- 41 . OrganLevel
@@ -155,8 +210,16 @@ CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsUse" ON "Outline" ("Ol_IsUse" ASC);
 -- 43 . OutlineEvent
 -- 44 . PayInterface
 -- 45 . PointAccount
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Ac_ID" ON "PointAccount" ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Org_ID" ON "PointAccount" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_CrtTime" ON "PointAccount" ("Pa_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Info" ON "PointAccount" ("Pa_Info" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Type" ON "PointAccount" ("Pa_Type" DESC);
 -- 46 . Position
 CREATE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON "Position" ("Posi_Id" DESC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Org_ID" ON "Position" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_IsUse" ON "Position" ("Posi_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_Tax" ON "Position" ("Posi_Tax" DESC);
 -- 47 . ProfitSharing
 -- 48 . Purview
 CREATE INDEX IF NOT EXISTS "Purview_aaaaaPurview_PK" ON "Purview" ("Pur_Id" DESC);
@@ -173,8 +236,29 @@ CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Type" ON "Questions" ("Qus_Type" DE
 CREATE INDEX IF NOT EXISTS "Questions_IX_Sbj_ID" ON "Questions" ("Sbj_ID" DESC);
 -- 51 . QuesTypes
 -- 52 . RechargeCode
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Ac_AccName" ON "RechargeCode" ("Ac_AccName" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Org_ID" ON "RechargeCode" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Code" ON "RechargeCode" ("Rc_Code" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_CrtTime" ON "RechargeCode" ("Rc_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsEnable" ON "RechargeCode" ("Rc_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsUsed" ON "RechargeCode" ("Rc_IsUsed" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Pw" ON "RechargeCode" ("Rc_Pw" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_UsedTime" ON "RechargeCode" ("Rc_UsedTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rs_ID" ON "RechargeCode" ("Rs_ID" DESC);
 -- 53 . RechargeSet
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Org_ID" ON "RechargeSet" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Count" ON "RechargeSet" ("Rs_Count" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_CrtTime" ON "RechargeSet" ("Rs_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Intro" ON "RechargeSet" ("Rs_Intro" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_IsEnable" ON "RechargeSet" ("Rs_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Price" ON "RechargeSet" ("Rs_Price" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Theme" ON "RechargeSet" ("Rs_Theme" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_UsedCount" ON "RechargeSet" ("Rs_UsedCount" DESC);
 -- 54 . ShowPicture
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Org_ID" ON "ShowPicture" ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_IsShow" ON "ShowPicture" ("Shp_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Site" ON "ShowPicture" ("Shp_Site" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Tax" ON "ShowPicture" ("Shp_Tax" DESC);
 -- 55 . SingleSignOn
 -- 56 . SmsFault
 CREATE INDEX IF NOT EXISTS "SmsFault_aaaaaSmsFault_PK" ON "SmsFault" ("Smf_Id" DESC);
@@ -267,4 +351,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON "ThirdpartyAccounts"
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON "ThirdpartyAccounts" ("Ta_Openid" DESC);
 -- 78 . ThirdpartyLogin
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
---总共索引有：191
+--总共索引有：275

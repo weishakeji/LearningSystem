@@ -5,8 +5,8 @@ $ready(function () {
         data: {
             organ: {},
             config: {},      //当前机构配置项 
-
-            form: { 'orgid': 0, 'search': '', 'size': 20, 'index': 1 },
+            //iscontext:是否输出内容，有时为了方便列表展示，可以不输出通知的内容部分，以方便快速加载
+            form: { 'orgid': 0, 'search': '', 'size': 20, 'iscontext': false, 'index': 1 },
 
             datas: [],
             total: 1, //总记录数

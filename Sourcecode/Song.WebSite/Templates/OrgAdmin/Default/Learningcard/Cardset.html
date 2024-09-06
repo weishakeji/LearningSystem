@@ -13,9 +13,20 @@
                 @cardquery="childwindow(null,'Cardquery','查询',1000,600)" path="CardsetModify" width="800" height="600"
                 :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
-                <el-form-item label="">
+                <el-form-item label="主题">
                     <el-input v-model.trim="form.search" placeholder="主题" clearable style="width:150px"> </el-input>
                 </el-form-item>
+                <template v-slot:more v-if="false">
+                    <el-form-item label="课程数">
+                       
+                    </el-form-item>
+                    <el-form-item label="数量">
+                       
+                    </el-form-item>
+                    <el-form-item label="面额">
+                       
+                    </el-form-item>
+                </template>
             </query_panel>
         </div>
         <template>

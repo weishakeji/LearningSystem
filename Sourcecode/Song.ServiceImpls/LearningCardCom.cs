@@ -312,13 +312,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= LearningCardSet._.Org_ID == orgid;
             if (isEnable != null) wc &= LearningCardSet._.Lcs_IsEnable == isEnable;
-            if (!string.IsNullOrWhiteSpace(searTxt))
-            {
-                WhereClip like = new WhereClip();
-                like &= LearningCardSet._.Lcs_Theme.Contains(searTxt);
-                like |= LearningCardSet._.Lcs_Intro.Contains(searTxt);
-                wc.And(like);
-            }
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc &= LearningCardSet._.Lcs_Theme.Contains(searTxt);
             countSum = Gateway.Default.Count<LearningCardSet>(wc);
             return Gateway.Default.From<LearningCardSet>()
                 .Where(wc).OrderBy(LearningCardSet._.Lcs_CrtTime.Desc).ToArray<LearningCardSet>(size, (index - 1) * size);

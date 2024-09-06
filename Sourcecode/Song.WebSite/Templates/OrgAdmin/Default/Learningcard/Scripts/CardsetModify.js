@@ -48,7 +48,7 @@ $ready(function () {
                 rules: {
                     Lcs_Theme: [
                         { required: true, message: '不得为空', trigger: ["blur", "change"] },
-                        { min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur' },
+                        { min: 1, max: 500, message: '长度在 1 到 200 个字符', trigger: 'blur' },
                         {
                             validator: async function (rule, value, callback) {
                                 await vapp.isExist(value).then(res => {

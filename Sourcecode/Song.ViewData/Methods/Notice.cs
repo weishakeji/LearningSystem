@@ -111,17 +111,21 @@ namespace Song.ViewData.Methods
             return i;
         }
         /// <summary>
-        /// 后面分页获取
+        /// 分页获取
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="search"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="search">按标题检索的字符</param>
+        /// <param name="iscontext">是否输出内容，有时为了方便列表展示，可以不输出通知的内容部分，以方便快速加载</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, string search, int size, int index)
+        public ListResult Pager(int orgid, string search,bool iscontext, int size, int index)
         {            
             int count = 0;
             Song.Entities.Notice[] eas = Business.Do<INotice>().GetPager(orgid, null, search, size, index, out count);
+            if (!iscontext) 
+                foreach (Song.Entities.Notice e in eas) e.No_Context = "";
+            
             ListResult result = new ListResult(eas);
             result.Index = index;
             result.Size = size;

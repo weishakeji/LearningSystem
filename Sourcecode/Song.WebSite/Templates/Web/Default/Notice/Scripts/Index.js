@@ -6,8 +6,8 @@ $ready(function () {
             platinfo: {},
             org: {},
             config: {},      //当前机构配置项
-
-            form: { 'orgid': 0, 'search': '', 'size': 10, 'index': 1 },
+        
+            form: { 'orgid': 0, 'search': '', 'size': 10,  'index': 1 },
             datas: [],
             total: 1, //总记录数
             totalpages: 1, //总页数
