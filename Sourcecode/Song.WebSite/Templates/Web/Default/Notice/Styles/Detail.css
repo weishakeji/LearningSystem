@@ -1,4 +1,7 @@
-﻿context {
+﻿a{
+	color: #333;
+}
+context {
 	display: flex;
 	width: 1200px;
 	min-height: 800px;
@@ -157,7 +160,4 @@ table td{
 }
 .notices .noItem:nth-child(4) b{
 	color: #ff9a03;
-}
-a{
-	color: #666;
 }

@@ -326,7 +326,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取第三方平台账号
         /// </summary>
-        /// <param name="acid"></param>
+        /// <param name="acid">账号id</param>
         /// <param name="tag"></param>
         /// <returns></returns>
         ThirdpartyAccounts ThirdpartyAccount(int acid, string tag);

@@ -22,81 +22,7 @@ $ready(function () {
             loading: false,
             loadingid: false,
             loading_init: true,
-            pickerOptions: {
-                shortcuts: [{
-                    text: '最近一周', onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近一个月', onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近三个月', onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近六个月', onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '本周', onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setDate(start.getDate() - start.getDay() + 1);
-                        end.setDate(start.getDate() + 6);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '本月', onClick(picker) {
-                        const start = new Date();
-                        start.setDate(1);
-                        var yy = start.getFullYear();
-                        var mm = start.getMonth() + 1;
-                        if (mm > 12) {
-                            mm = 1;
-                            yy = yy + 1;
-                        }
-                        var end = new Date(yy, mm, 0);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '本季度', onClick(picker) {
-                        const start = new Date();
-                        var yy = start.getFullYear();
-                        var mm = start.getMonth();
-                        if (mm >= 1 && mm <= 3) mm = 0;
-                        if (mm >= 4 && mm <= 6) mm = 3;
-                        if (mm >= 7 && mm <= 9) mm = 6;
-                        if (mm >= 10 && mm <= 12) mm = 9;
-                        start.setDate(1);
-                        start.setMonth(mm);
-                        const end = new Date(yy, mm + 3, 0);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '本年', onClick(picker) {
-                        const start = new Date();
-                        start.setDate(1);
-                        start.setMonth(0);
-                        const end = new Date(start.getFullYear(), 12, 0);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }]
-            },
-            selectDate: '',
+          
         },
         mounted: function () {
             var th = this;
@@ -119,6 +45,12 @@ $ready(function () {
         watch: {
         },
         methods: {
+             //选择时间区间
+             selectDate: function (start, end) {
+                this.form.start = start;
+                this.form.end = end;
+                this.handleCurrentChange(1);
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;

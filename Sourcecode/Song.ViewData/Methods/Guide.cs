@@ -104,10 +104,6 @@ namespace Song.ViewData.Methods
         public JArray ColumnsTree(long couid, string search, bool? isuse)
         {
             Song.Entities.GuideColumns[] arr = Business.Do<IGuide>().GetColumnsAll(couid, search, isuse);
-            for (int i = 0; i < arr.Length; i++)
-            {
-                //sbjs[i] = _tran(sbjs[i]);
-            }
             return arr.Length > 0 ? _childrenNode(null, arr.ToList< GuideColumns>()) : null;
         }
         /// <summary>

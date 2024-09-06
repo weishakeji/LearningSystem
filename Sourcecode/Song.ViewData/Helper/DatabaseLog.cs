@@ -56,16 +56,16 @@ namespace Song.ViewData.Helper
                     sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
             }
 
-
-            System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            if (_context == null || _context.Request == null) return;
-            string path = _context.Request.Url.AbsolutePath;          
-            path = path.IndexOf("v1/") > -1 ? path.Substring(path.LastIndexOf("v1/") + 3) : path;
-            path = path.Replace("/", "_");
-            //path =path.IndexOf("")
-
-          
-            WriteLog(path, sql, retValue, elapsedTime);
+            try
+            {
+                System.Web.HttpContext _context = System.Web.HttpContext.Current;
+                if (_context == null || _context.Request == null) return;
+                string path = _context.Request.Url.AbsolutePath;
+                path = path.IndexOf("v1/") > -1 ? path.Substring(path.LastIndexOf("v1/") + 3) : path;
+                path = path.Replace("/", "_");
+                WriteLog(path, sql, retValue, elapsedTime);
+            }
+            catch { }
         }
         #region 日志写入的方法
         //日志目录,相对于根路径
