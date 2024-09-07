@@ -9,8 +9,9 @@
                 'sbjids': '', 'thid': '',
                 'search': '',
                 'order': 'new',
-                'size': 20, 'index': 1
+                'size': 1, 'index': 1
             },
+            tableKey:0,
             checkRec: false,     //是否推荐的选项
 
             organ: {},
@@ -71,15 +72,18 @@
                     //console.log(nv)
                 }, deep: true,
             },
+            'tableKey':function(nv,ov){
+                console.error(nv);
+            }
         },
         methods: {
             //加载数据页
-            handleCurrentChange: function (index) {
+            handleCurrentChange: function (index) {               
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
-                th.form.size = Math.floor(area / 57);
+               //th.form.size = Math.floor(area / 57);
                 th.loading = true;
                 $api.get("Course/Pager", th.form).then(function (d) {
                     if (d.data.success) {

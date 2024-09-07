@@ -22,7 +22,7 @@ $ready(function () {
             //试题的查询条件
             form: {
                 'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
-                'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
+                'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 1, 'index': 1
             },
 
             datas: [],
@@ -130,7 +130,7 @@ $ready(function () {
             },
             //获取课程
             getCourses: function (val) {
-                var th = this;
+                var th = this;   
                 th.loading = true;
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
@@ -348,7 +348,7 @@ $ready(function () {
         computed: {},
         mounted: function () { },
         methods: {
-            getcourse: function (couid) {
+            getcourse: function (couid) {              
                 if (this.courses) {
                     this.course = this.courses.find(item => item.Cou_ID == couid);
                     if (this.course != undefined) return;

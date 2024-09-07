@@ -38,7 +38,7 @@ $ready(function () {
         watch: {},
         methods: {
             //获取统计数据
-            getStatistics: function (org) {
+            getStatistics: function (org) {                
                 var th = this;
                 th.loading_stat = true;
                 $api.cache('Organization/Statistics', { 'orgid': org.Org_ID }).then(function (req) {

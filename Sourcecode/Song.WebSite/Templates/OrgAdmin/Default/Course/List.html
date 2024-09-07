@@ -39,9 +39,9 @@
             </query_panel>
         </div>
         <!--课程列表-->
-        <el-table ref="datatables" :data="datas" border resizable  :stripe="true" style="width: 100%"
-            v-loading="loading" @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)"
-            row-key="Cou_ID" cell-class-name="tdcell">
+        <el-table ref="datatables" :data="datas" border resizable :stripe="true" style="width: 100%" v-loading="loading"
+            @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID"
+            cell-class-name="tdcell" :key="tableKey">
             <el-table-column type="selection" width="35">
             </el-table-column>
             <el-table-column type="index" label="#" width="50" align="center">
@@ -81,9 +81,12 @@
             </el-table-column>
             <el-table-column label="价格">
                 <template slot-scope="scope">
-                    <course_prices :course="scope.row"></course_prices>
+                    <keep-alive>
+                        <course_prices :course="scope.row" :uid="scope.row.Cou_UID" :index="scope.$index">
+                        </course_prices>
+                    </keep-alive>
                 </template>
-            </el-table-column>           
+            </el-table-column>
             <el-table-column label="信息" width="200" v-if="true">
                 <template slot-scope="scope">
                     <course_data ref="course_data" :course="scope.row" :show_student="true"></course_data>
@@ -161,7 +164,7 @@
                     </el-switch>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="90" fixed="right" align="center">
+            <el-table-column label="操作" width="90" align="center" >
                 <template slot-scope="scope">
                     <div>
                         <el-link type="primary" plain @click="()=>{drawer=true;curr=scope.row;}">
