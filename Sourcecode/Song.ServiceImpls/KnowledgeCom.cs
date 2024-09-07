@@ -107,11 +107,7 @@ namespace Song.ServiceImpls
         }
         public int KnowledgeOfCount(int orgid, long kns, bool? isUse)
         {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Knowledge._.Org_ID == orgid);
-            if (isUse != null) wc.And(Knowledge._.Kn_IsUse == (bool)isUse);
-            if (kns > 0) wc.And(Knowledge._.Kns_ID == kns);
-            return Gateway.Default.Count<Knowledge>(wc);
+            return KnowledgeOfCount(orgid, -1, kns, isUse);
         }
         public int KnowledgeOfCount(int orgid, long couid, long kns, bool? isUse)
         {

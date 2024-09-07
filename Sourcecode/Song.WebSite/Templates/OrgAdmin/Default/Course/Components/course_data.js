@@ -1,6 +1,6 @@
 ﻿//课程的数据信息，例如章节数、试题数等
 Vue.component('course_data', {
-    props: ["course", "show_student"],
+    props: ["course", "show_student", "index"],
     data: function () {
         return {
             data: {},
@@ -10,7 +10,9 @@ Vue.component('course_data', {
     watch: {
         'course': {
             handler: function (nv, ov) {
-                this.getcount();
+                if (!$api.isnull(nv)) {
+                    if (this.index == 0) this.getInit();
+                }
             }, immediate: true
         }
     },
@@ -19,22 +21,38 @@ Vue.component('course_data', {
         $dom.load.css([$dom.path() + 'Course/Components/Styles/course_data.css']);
     },
     methods: {
-        getcount: function () {
-            var th = this;
-            th.loading = true;
-            $api.put('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {
-                th.loading = false;
-                if (req.data.success) {
-                    th.data = req.data.result;
-                    th.course.data = req.data.result;
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
+         //初始加载
+         getInit: function () {
+            //加载完成，则加载后一个组件，实现逐个加载的效果
+            this.getcount().finally(() => {
+                var vapp = window.vapp;
+                var ctr = vapp.$refs['course_data_' + (this.index + 1)];
+                if (ctr != null) ctr.getInit();
             });
+        },
+        //获取课程的数据信息
+        getcount: function () {
+            var th = this;        
+            return new Promise(function (res, rej) {
+                th.loading = true;
+                $api.put('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {                 
+                    if (req.data.success) {
+                        th.data = req.data.result;
+                        th.course.data = req.data.result;
+                        return res();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }) .finally(() => {
+                    th.loading = false;
+                    return res();
+                });
+            });
+           
         },
         //显示数值，过大的以千为单位显示,例如 10k
         shownum: function (num) {

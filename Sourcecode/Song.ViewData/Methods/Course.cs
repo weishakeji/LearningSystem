@@ -330,7 +330,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <returns>
-        /// "outline":章节数,MostHot
+        /// "outline":章节数,
         /// "question":试题数,
         /// "video":视频数,
         /// "student":当前课程的学习人数,

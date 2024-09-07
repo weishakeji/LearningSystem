@@ -11,7 +11,6 @@
                 'order': 'new',
                 'size': 1, 'index': 1
             },
-            tableKey:0,
             checkRec: false,     //是否推荐的选项
 
             organ: {},
@@ -83,7 +82,7 @@
                 var th = this;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
-               //th.form.size = Math.floor(area / 57);
+               th.form.size = Math.floor(area / 57);
                 th.loading = true;
                 $api.get("Course/Pager", th.form).then(function (d) {
                     if (d.data.success) {

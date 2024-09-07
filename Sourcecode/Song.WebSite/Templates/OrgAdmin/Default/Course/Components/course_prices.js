@@ -4,14 +4,16 @@ Vue.component('course_prices', {
     data: function () {
         return {
             prices: [],
-            init: false,     //初始化
+
             loading: false
         }
     },
     watch: {
         'uid': {
             handler: function (nv, ov) {
-                if (!$api.isnull(nv)) this.getInit();
+                if (!$api.isnull(nv)) {
+                    if (this.index == 0) this.getInit();
+                }
             }, immediate: true
         }
     },
@@ -22,25 +24,24 @@ Vue.component('course_prices', {
     methods: {
         //初始加载
         getInit: function () {
-            if (this.init) return;
-            this.init = true;
-            if (this.index == 0)
-                this.getPrices().finally(() => {
-                    console.error(this);
-                });
+            //加载完成，则加载后一个组件，实现逐个加载的效果
+            this.getPrices().finally(() => {
+                var vapp = window.vapp;
+                var ctr = vapp.$refs['prices' + (this.index + 1)];
+                if (ctr != null) ctr.getInit();
+            });
         },
         //加载价格信息
         getPrices: function () {
-            var th = this;
-            if (th.loading) return;
+            var th = this;           
             return new Promise(function (res, rej) {
                 var cou = th.course;
                 if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return res();
                 th.loading = true;
                 $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
                     if (req.data.success) {
-                        //th.prices = req.data.result;
-                        //cou.prices = req.data.result;
+                        th.prices = req.data.result;
+                        cou.prices = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
