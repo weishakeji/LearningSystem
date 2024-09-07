@@ -4,7 +4,8 @@ Vue.component('course_data', {
     data: function () {
         return {
             data: {},
-            loading: true
+            init:false,     //是否初始化
+            loading: false
         }
     },
     watch: {
@@ -23,6 +24,7 @@ Vue.component('course_data', {
     methods: {
          //初始加载
          getInit: function () {
+            this.init = true;
             //加载完成，则加载后一个组件，实现逐个加载的效果
             this.getcount().finally(() => {
                 var vapp = window.vapp;
@@ -96,8 +98,8 @@ Vue.component('course_data', {
         },
     },
     template: `<div class="course_data">
-        <span class="el-icon-loading" v-if="loading"></span>
-        <template v-else-if="data==null">(数据异常)</template>
+        <template v-if="!init"></template>
+        <span class="el-icon-loading" v-else-if="loading"></span>       
         <template v-else>
             <div>
                 <div :title="'章节数：'+data.outline" :class="{'zero':data.outline<=0}">
