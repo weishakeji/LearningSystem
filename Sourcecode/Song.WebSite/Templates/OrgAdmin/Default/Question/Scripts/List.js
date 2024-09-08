@@ -330,7 +330,7 @@ $ready(function () {
     Vue.component('course_name', {
         //couid:当前试题的id
         //courses：所有课程
-        props: ["couid", "courses"],
+        props: ["couid", "courses","index"],
         data: function () {
             return {
                 course: {},

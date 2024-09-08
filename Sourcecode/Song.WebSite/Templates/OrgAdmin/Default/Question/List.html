@@ -125,7 +125,7 @@
             </el-table-column>
             <el-table-column label="课程">
                 <template slot-scope="scope">
-                    <course_name :couid="scope.row.Cou_ID" :courses="courses_all"></course_name>
+                    <course_name :couid="scope.row.Cou_ID"  :ref="'couname_'+scope.$index"  :courses="courses_all" :index="scope.$index"></course_name>
                 </template>
             </el-table-column>
             <el-table-column label="使用" width="70">

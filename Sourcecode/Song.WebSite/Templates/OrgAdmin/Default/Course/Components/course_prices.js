@@ -12,7 +12,7 @@ Vue.component('course_prices', {
         'uid': {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
-                    if (this.index == 0) this.getInit();
+                    if (this.index == 0) this.startInit();
                 }
             }, immediate: true
         }
@@ -23,12 +23,12 @@ Vue.component('course_prices', {
     },
     methods: {
         //初始加载
-        getInit: function () {
+        startInit: function () {
             //加载完成，则加载后一个组件，实现逐个加载的效果
             this.getPrices().finally(() => {
                 var vapp = window.vapp;
                 var ctr = vapp.$refs['prices' + (this.index + 1)];
-                if (ctr != null) ctr.getInit();
+                if (ctr != null) ctr.startInit();
             });
         },
         //加载价格信息

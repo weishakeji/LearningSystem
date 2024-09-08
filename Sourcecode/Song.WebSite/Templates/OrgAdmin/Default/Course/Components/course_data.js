@@ -12,7 +12,7 @@ Vue.component('course_data', {
         'course': {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
-                    if (this.index == 0) this.getInit();
+                    if (this.index == 0) this.startInit();
                 }
             }, immediate: true
         }
@@ -23,13 +23,13 @@ Vue.component('course_data', {
     },
     methods: {
          //初始加载
-         getInit: function () {
+         startInit: function () {
             this.init = true;
             //加载完成，则加载后一个组件，实现逐个加载的效果
             this.getcount().finally(() => {
                 var vapp = window.vapp;
                 var ctr = vapp.$refs['course_data_' + (this.index + 1)];
-                if (ctr != null) ctr.getInit();
+                if (ctr != null) ctr.startInit();
             });
         },
         //获取课程的数据信息
