@@ -67,7 +67,14 @@ a[download] {
 a[download]:hover {
     text-decoration: underline;
 }
+/*字体大小*/
+.large {
+	font-size: 16px;
+}
 
+.medium {
+	font-size: 14px;
+}
 /*卡片*/
 
 card {

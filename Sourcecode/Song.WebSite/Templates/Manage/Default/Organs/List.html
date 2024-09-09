@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="OrganModify" width="600" height="500"
+            <btngroup show="新增,修改" ref='btngroup' @delete="deleteData" path="OrganModify" width="600" height="500"
                 :selects='selects' idkey='Org_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="等级">
@@ -40,6 +40,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
+                <el-table-column label="名称" align="center">
                 <el-table-column label="机构名称" min-width="200">
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
@@ -49,18 +50,42 @@
                             <span class="def" icon="&#xa006" style="font-size: 16px;"></span>
                         </el-tooltip>
 
-                        <span v-html='showsearch(scope.row.Org_Name,form.search)'></span>
+                        <span v-html='showsearch(scope.row.Org_Name,form.search)' class="large"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="平台名称" min-width="180">
                     <template slot-scope="scope">
-                        <el-tooltip v-if='scope.row.Org_ID==current.Org_ID' effect="light" content="当前机构"
-                            placement="left-start">
-                            <span class="root" icon="&#xa020" style="font-size: 16px;"></span>
-                        </el-tooltip>
                         <span v-html='scope.row.Org_PlatformName'></span>
                     </template>
                 </el-table-column>
+            </el-table-column>
+                <el-table-column label="类型" align="center">
+                    <el-table-column label="当前机构" width="80" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip v-if='scope.row.Org_ID==current.Org_ID' effect="light" content="当前机构"
+                                placement="left-start">
+                                <span class="root" icon="&#xa020">当前机构</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="默认机构" width="80" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip v-if='scope.row.Org_IsDefault' effect="light" content="默认机构"
+                                placement="left-start">
+                                <span class="def" icon="&#xa006">默认机构</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label="根机构" width="80" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
+                                <span class="root" icon="&#xa003">根机构</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                </el-table-column>
+                
                 <el-table-column label="二级域名" width="80" align="center">
                     <template slot-scope="scope">
                         <el-link :href="domainLink(scope.row.Org_TwoDomain)" target="_blank"
@@ -72,11 +97,15 @@
                         <span v-html='scope.row.Olv_Name'></span>
                     </template>
                 </el-table-column>
+                
+                <el-table-column label="状态" align="center">
+              
                 <el-table-column label="审核" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Org_ID"></span>
                         <el-switch v-model="scope.row.Org_IsPass" @change="changeUse(scope.row,'Org_IsPass')"
-                            v-show="loadingid!=scope.row.Org_ID" :disabled='scope.row.Org_IsRoot'>
+                            v-show="loadingid!=scope.row.Org_ID"
+                            :disabled='scope.row.Org_IsPass && (scope.row.Org_IsRoot || scope.row.Org_IsDefault)'>
                         </el-switch>
                     </template>
                 </el-table-column>
@@ -84,7 +113,8 @@
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Org_ID"></span>
                         <el-switch v-model="scope.row.Org_IsUse" @change="changeUse(scope.row,'Org_IsUse')"
-                            v-show="loadingid!=scope.row.Org_ID" :disabled='scope.row.Org_IsRoot'>
+                            v-show="loadingid!=scope.row.Org_ID"
+                            :disabled='scope.row.Org_IsUse && (scope.row.Org_IsRoot || scope.row.Org_IsDefault)'>
                         </el-switch>
                     </template>
                 </el-table-column>
@@ -92,10 +122,12 @@
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Org_ID"></span>
                         <el-switch v-model="scope.row.Org_IsShow" @change="changeUse(scope.row,'Org_IsShow')"
-                            v-show="loadingid!=scope.row.Org_ID" :disabled='scope.row.Org_IsRoot'>
+                            v-show="loadingid!=scope.row.Org_ID"
+                            :disabled='scope.row.Org_IsShow && (scope.row.Org_IsRoot || scope.row.Org_IsDefault)'>
                         </el-switch>
                     </template>
                 </el-table-column>
+            </el-table-column>
                 <el-table-column label="操作" width="80" align="center">
                     <template slot-scope="scope">
                         <el-dropdown>
@@ -122,6 +154,7 @@
                                     修改
                                 </el-dropdown-item>
                                 <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    v-if='!scope.row.Org_IsRoot && !scope.row.Org_IsDefault'
                                     @click.native='$refs.btngroup.delete(scope.row.Org_ID,{})'>
                                     删除
                                 </el-dropdown-item>

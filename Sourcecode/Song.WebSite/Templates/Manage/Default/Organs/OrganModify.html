@@ -66,11 +66,17 @@
                         </span>
                     </el-form-item>
                     <el-form-item label="状态" prop="Org_IsUse">
-                        <el-switch v-model="entity.Org_IsUse" :active-text="entity.Org_IsUse ? '启用' : '禁用'">
+                        <el-switch v-model="entity.Org_IsUse"
+                            :disabled='entity.Org_IsUse && (entity.Org_IsRoot || entity.Org_IsDefault)'
+                            :active-text="entity.Org_IsUse ? '启用' : '禁用'">
                         </el-switch>
-                        <el-switch v-model="entity.Org_IsShow" :active-text="entity.Org_IsShow ? '显示' : '隐藏'">
+                        <el-switch v-model="entity.Org_IsShow"
+                            :disabled='entity.Org_IsShow && (entity.Org_IsRoot || entity.Org_IsDefault)'
+                            :active-text="entity.Org_IsShow ? '显示' : '隐藏'">
                         </el-switch>
-                        <el-switch v-model="entity.Org_IsPass" :active-text="entity.Org_IsPass ? '通过' : '未审核'">
+                        <el-switch v-model="entity.Org_IsPass"
+                            :disabled='entity.Org_IsPass && (entity.Org_IsRoot || entity.Org_IsDefault)'
+                            :active-text="entity.Org_IsPass ? '通过' : '未审核'">
                         </el-switch>
                     </el-form-item>
                 </div>
@@ -100,7 +106,7 @@
                                         <icon slot="prefix">&#xe6a2</icon>
                                     </el-input>
                                 </el-form-item>
-                            </el-row>                   
+                            </el-row>
                             <el-row>
                                 <el-col :span="12">
                                     <el-form-item label="经度" prop="Org_Longitude" label-width="60px">

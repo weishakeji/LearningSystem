@@ -29,6 +29,7 @@
                 //获取结果
                 th.levels = level.data.result;
                 th.current = current.data.result;
+                if (th.current == null) th.current = {};
                 th.handleCurrentChange(1);
                 th.domain = domain.data.result;
             }).catch(function (err) {
@@ -65,7 +66,9 @@
                 th.form.size = Math.floor(area / 41);
                 $api.get("Organization/Pager", th.form).then(function (d) {
                     if (d.data.success) {
-                        th.organs = d.data.result;
+                        let organs = d.data.result;
+                        //for (var i = 0; i < organs.length; i++)organs[i].Org_IsShow = false;
+                        th.organs = organs;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {

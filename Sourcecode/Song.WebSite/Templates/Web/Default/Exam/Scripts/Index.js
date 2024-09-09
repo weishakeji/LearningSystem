@@ -161,7 +161,7 @@ $ready(function () {
                 return url
             }
         },
-        template: `<card>
+        template: `<card  shadow="hover">
         <card-title>{{index+1}}.《{{exam.Exam_Name}}》
             <a type="button" :examid="exam.Exam_ID" :href="goexaming(exam)">
                 参加考试<icon>&#xe6c6</icon>
@@ -240,7 +240,7 @@ $ready(function () {
                 });
             }
         },
-        template: `<card class="theme">
+        template: `<card class="theme"  shadow="hover">
         <card-title>{{index+1}}.《{{theme.Exam_Title}}》 </card-title>
         <card-context>
         <div class="item">参考人员：{{group}} </div>     
@@ -355,7 +355,7 @@ $ready(function () {
                 $pagebox.create(obj).open();
             }
         },
-        template: `<card>
+        template: `<card shadow="hover">
         <card-title style="cursor: pointer" @click="gourl">{{index+1}}.《{{exam.Exam_Name}}》
         <score :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分</score>
         </card-title>
