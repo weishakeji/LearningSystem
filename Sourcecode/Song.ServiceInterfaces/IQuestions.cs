@@ -123,7 +123,26 @@ namespace Song.ServiceInterfaces
         /// <param name="count">取多少条</param>
         /// <returns></returns>
         Questions[] QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
+        /// <summary>
+        /// 统计题库数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <returns></returns>
         int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse);
+        /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        void QuesCountUpdate(int orgid, long sbjid, long couid, long olid);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -200,6 +219,7 @@ namespace Song.ServiceInterfaces
         /// <param name="path">导出文件的路径（服务器端）</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
+        /// <param name="sbjid"></param>
         /// <param name="sbjId"></param>
         /// <param name="couid"></param>
         /// <param name="olid"></param>

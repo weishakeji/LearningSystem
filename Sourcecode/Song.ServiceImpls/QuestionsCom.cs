@@ -356,6 +356,43 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Questions>(wc);
         }
         /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        public void QuesCountUpdate(int orgid, long sbjid, long couid, long olid)
+        {
+            //课程中的试题数量
+            int cou_count = this.QuesOfCount(-1, -1, couid, -1, 0, -1, null);
+            Gateway.Default.Update<Course>(new Field[] { Course._.Cou_QuesCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
+            //章节下的试题数量
+            //当前章节，以及当前章节之下的所有试题
+            List<long> olist = new List<long>();
+            if (olid > 0)
+            {
+                olist = Business.Do<IOutline>().TreeID(olid);
+            }
+            //课程下所有章节
+            else if (couid > 0)
+            {
+                List<Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, null, null, null);
+                for (int i = 0; i < outlines.Count; i++)                
+                    olist.Add(outlines[i].Ol_ID);               
+            }
+            if (olist.Count > 0)
+            {
+                foreach(long id in olist)
+                {
+                    int olcount = this.QuesOfCount(-1, -1, 0, id, 0, -1, null);
+                    Gateway.Default.Update<Outline>(new Field[] { Outline._.Ol_QuesCount }, new object[] { olcount }, Outline._.Ol_ID == id);
+                }
+            }
+
+
+        }
+        /// <summary>
         /// 获取随机试题
         /// </summary>
         /// <param name="orgid">机构id</param>

@@ -84,6 +84,8 @@ namespace Song.Entities {
     		
     		protected String _Org_Province;
     		
+    		protected Int32 _Org_QuesCount;
+    		
     		protected DateTime _Org_RegTime;
     		
     		protected String _Org_Street;
@@ -482,6 +484,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Org_QuesCount {
+    			get {
+    				return this._Org_QuesCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_QuesCount, _Org_QuesCount, value);
+    				this._Org_QuesCount = value;
+    			}
+    		}
+    		
     		public DateTime Org_RegTime {
     			get {
     				return this._Org_RegTime;
@@ -637,6 +649,7 @@ namespace Song.Entities {
     					_.Org_Phone,
     					_.Org_PlatformName,
     					_.Org_Province,
+    					_.Org_QuesCount,
     					_.Org_RegTime,
     					_.Org_Street,
     					_.Org_Template,
@@ -691,6 +704,7 @@ namespace Song.Entities {
     					this._Org_Phone,
     					this._Org_PlatformName,
     					this._Org_Province,
+    					this._Org_QuesCount,
     					this._Org_RegTime,
     					this._Org_Street,
     					this._Org_Template,
@@ -819,6 +833,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Province))) {
     				this._Org_Province = reader.GetString(_.Org_Province);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_QuesCount))) {
+    				this._Org_QuesCount = reader.GetInt32(_.Org_QuesCount);
     			}
     			if ((false == reader.IsDBNull(_.Org_RegTime))) {
     				this._Org_RegTime = reader.GetDateTime(_.Org_RegTime);
@@ -1062,6 +1079,11 @@ namespace Song.Entities {
     			/// 字段名：Org_Province - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Province = new WeiSha.Data.Field<Organization>("Org_Province");
+    			
+    			/// <summary>
+    			/// 字段名：Org_QuesCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Org_QuesCount = new WeiSha.Data.Field<Organization>("Org_QuesCount");
     			
     			/// <summary>
     			/// 字段名：Org_RegTime - 数据类型：DateTime

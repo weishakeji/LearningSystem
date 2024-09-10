@@ -52,8 +52,6 @@ namespace Song.Entities {
     		
     		protected Int32 _Ol_QuesCount;
     		
-    		protected Int32 _Ol_QusNumber;
-    		
     		protected Int32 _Ol_Tax;
     		
     		protected String _Ol_UID;
@@ -286,16 +284,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ol_QusNumber {
-    			get {
-    				return this._Ol_QusNumber;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ol_QusNumber, _Ol_QusNumber, value);
-    				this._Ol_QusNumber = value;
-    			}
-    		}
-    		
     		public Int32 Ol_Tax {
     			get {
     				return this._Ol_Tax;
@@ -398,7 +386,6 @@ namespace Song.Entities {
     					_.Ol_Name,
     					_.Ol_PID,
     					_.Ol_QuesCount,
-    					_.Ol_QusNumber,
     					_.Ol_Tax,
     					_.Ol_UID,
     					_.Ol_Video,
@@ -434,7 +421,6 @@ namespace Song.Entities {
     					this._Ol_Name,
     					this._Ol_PID,
     					this._Ol_QuesCount,
-    					this._Ol_QusNumber,
     					this._Ol_Tax,
     					this._Ol_UID,
     					this._Ol_Video,
@@ -512,9 +498,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_QuesCount))) {
     				this._Ol_QuesCount = reader.GetInt32(_.Ol_QuesCount);
-    			}
-    			if ((false == reader.IsDBNull(_.Ol_QusNumber))) {
-    				this._Ol_QusNumber = reader.GetInt32(_.Ol_QusNumber);
     			}
     			if ((false == reader.IsDBNull(_.Ol_Tax))) {
     				this._Ol_Tax = reader.GetInt32(_.Ol_Tax);
@@ -669,11 +652,6 @@ namespace Song.Entities {
     			/// 字段名：Ol_QuesCount - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ol_QuesCount = new WeiSha.Data.Field<Outline>("Ol_QuesCount");
-    			
-    			/// <summary>
-    			/// 字段名：Ol_QusNumber - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Ol_QusNumber = new WeiSha.Data.Field<Outline>("Ol_QusNumber");
     			
     			/// <summary>
     			/// 字段名：Ol_Tax - 数据类型：Int32

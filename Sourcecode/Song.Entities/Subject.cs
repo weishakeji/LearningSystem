@@ -44,6 +44,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Sbj_PassScore;
     		
+    		protected Int32 _Sbj_QuesCount;
+    		
     		protected Int32 _Sbj_Tax;
     		
     		protected String _Sbj_XPath;
@@ -228,6 +230,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Sbj_QuesCount {
+    			get {
+    				return this._Sbj_QuesCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sbj_QuesCount, _Sbj_QuesCount, value);
+    				this._Sbj_QuesCount = value;
+    			}
+    		}
+    		
     		public Int32 Sbj_Tax {
     			get {
     				return this._Sbj_Tax;
@@ -286,6 +298,7 @@ namespace Song.Entities {
     					_.Sbj_Name,
     					_.Sbj_PID,
     					_.Sbj_PassScore,
+    					_.Sbj_QuesCount,
     					_.Sbj_Tax,
     					_.Sbj_XPath};
     		}
@@ -313,6 +326,7 @@ namespace Song.Entities {
     					this._Sbj_Name,
     					this._Sbj_PID,
     					this._Sbj_PassScore,
+    					this._Sbj_QuesCount,
     					this._Sbj_Tax,
     					this._Sbj_XPath};
     		}
@@ -374,6 +388,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Sbj_PassScore))) {
     				this._Sbj_PassScore = reader.GetInt32(_.Sbj_PassScore);
+    			}
+    			if ((false == reader.IsDBNull(_.Sbj_QuesCount))) {
+    				this._Sbj_QuesCount = reader.GetInt32(_.Sbj_QuesCount);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_Tax))) {
     				this._Sbj_Tax = reader.GetInt32(_.Sbj_Tax);
@@ -496,6 +513,11 @@ namespace Song.Entities {
     			/// 字段名：Sbj_PassScore - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_PassScore = new WeiSha.Data.Field<Subject>("Sbj_PassScore");
+    			
+    			/// <summary>
+    			/// 字段名：Sbj_QuesCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Sbj_QuesCount = new WeiSha.Data.Field<Subject>("Sbj_QuesCount");
     			
     			/// <summary>
     			/// 字段名：Sbj_Tax - 数据类型：Int32
