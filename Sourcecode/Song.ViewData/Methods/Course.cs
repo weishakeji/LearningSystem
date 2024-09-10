@@ -401,6 +401,11 @@ namespace Song.ViewData.Methods
         {
             if (string.IsNullOrWhiteSpace(uid)) return null;           
             Song.Entities.CoursePrice[] prices = Business.Do<ICourse>().PriceCount(0, uid, null, 0);
+            new Task(() =>
+            {
+                Business.Do<ICourse>().PriceSetCourse(uid);
+            }).Start();
+            
             return prices;
         }
         /// <summary>

@@ -20,8 +20,6 @@ namespace Song.Entities {
     		
     		protected Boolean _Cou_ExistLive;
     		
-    		protected Boolean _Cou_ExistQues;
-    		
     		protected DateTime _Cou_FreeEnd;
     		
     		protected DateTime _Cou_FreeStart;
@@ -40,6 +38,8 @@ namespace Song.Entities {
     		
     		protected Boolean _Cou_IsUse;
     		
+    		protected Int32 _Cou_KnlCount;
+    		
     		protected Int32 _Cou_Level;
     		
     		protected String _Cou_Logo;
@@ -47,6 +47,8 @@ namespace Song.Entities {
     		protected String _Cou_LogoSmall;
     		
     		protected String _Cou_Name;
+    		
+    		protected Int32 _Cou_OutlineCount;
     		
     		protected Int64 _Cou_PID;
     		
@@ -56,6 +58,10 @@ namespace Song.Entities {
     		
     		protected String _Cou_PriceUnit;
     		
+    		protected String _Cou_Prices;
+    		
+    		protected Int32 _Cou_QuesCount;
+    		
     		protected Int32 _Cou_Score;
     		
     		protected Int32 _Cou_StudentSum;
@@ -64,11 +70,15 @@ namespace Song.Entities {
     		
     		protected Int32 _Cou_Tax;
     		
+    		protected Int32 _Cou_TestCount;
+    		
     		protected Int32 _Cou_TryNum;
     		
     		protected Int32 _Cou_Type;
     		
     		protected String _Cou_UID;
+    		
+    		protected Int32 _Cou_VideoCount;
     		
     		protected Int32 _Cou_ViewNum;
     		
@@ -147,16 +157,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Cou_ExistLive, _Cou_ExistLive, value);
     				this._Cou_ExistLive = value;
-    			}
-    		}
-    		
-    		public Boolean Cou_ExistQues {
-    			get {
-    				return this._Cou_ExistQues;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Cou_ExistQues, _Cou_ExistQues, value);
-    				this._Cou_ExistQues = value;
     			}
     		}
     		
@@ -250,6 +250,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Cou_KnlCount {
+    			get {
+    				return this._Cou_KnlCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_KnlCount, _Cou_KnlCount, value);
+    				this._Cou_KnlCount = value;
+    			}
+    		}
+    		
     		public Int32 Cou_Level {
     			get {
     				return this._Cou_Level;
@@ -287,6 +297,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Cou_Name, _Cou_Name, value);
     				this._Cou_Name = value;
+    			}
+    		}
+    		
+    		public Int32 Cou_OutlineCount {
+    			get {
+    				return this._Cou_OutlineCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_OutlineCount, _Cou_OutlineCount, value);
+    				this._Cou_OutlineCount = value;
     			}
     		}
     		
@@ -330,6 +350,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Cou_Prices {
+    			get {
+    				return this._Cou_Prices;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_Prices, _Cou_Prices, value);
+    				this._Cou_Prices = value;
+    			}
+    		}
+    		
+    		public Int32 Cou_QuesCount {
+    			get {
+    				return this._Cou_QuesCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_QuesCount, _Cou_QuesCount, value);
+    				this._Cou_QuesCount = value;
+    			}
+    		}
+    		
     		public Int32 Cou_Score {
     			get {
     				return this._Cou_Score;
@@ -370,6 +410,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Cou_TestCount {
+    			get {
+    				return this._Cou_TestCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_TestCount, _Cou_TestCount, value);
+    				this._Cou_TestCount = value;
+    			}
+    		}
+    		
     		public Int32 Cou_TryNum {
     			get {
     				return this._Cou_TryNum;
@@ -397,6 +447,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Cou_UID, _Cou_UID, value);
     				this._Cou_UID = value;
+    			}
+    		}
+    		
+    		public Int32 Cou_VideoCount {
+    			get {
+    				return this._Cou_VideoCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_VideoCount, _Cou_VideoCount, value);
+    				this._Cou_VideoCount = value;
     			}
     		}
     		
@@ -526,7 +586,6 @@ namespace Song.Entities {
     					_.Cou_CrtTime,
     					_.Cou_ExistExam,
     					_.Cou_ExistLive,
-    					_.Cou_ExistQues,
     					_.Cou_FreeEnd,
     					_.Cou_FreeStart,
     					_.Cou_Intro,
@@ -536,21 +595,27 @@ namespace Song.Entities {
     					_.Cou_IsStudy,
     					_.Cou_IsTry,
     					_.Cou_IsUse,
+    					_.Cou_KnlCount,
     					_.Cou_Level,
     					_.Cou_Logo,
     					_.Cou_LogoSmall,
     					_.Cou_Name,
+    					_.Cou_OutlineCount,
     					_.Cou_PID,
     					_.Cou_Price,
     					_.Cou_PriceSpan,
     					_.Cou_PriceUnit,
+    					_.Cou_Prices,
+    					_.Cou_QuesCount,
     					_.Cou_Score,
     					_.Cou_StudentSum,
     					_.Cou_Target,
     					_.Cou_Tax,
+    					_.Cou_TestCount,
     					_.Cou_TryNum,
     					_.Cou_Type,
     					_.Cou_UID,
+    					_.Cou_VideoCount,
     					_.Cou_ViewNum,
     					_.Cou_XPath,
     					_.Dep_CnName,
@@ -574,7 +639,6 @@ namespace Song.Entities {
     					this._Cou_CrtTime,
     					this._Cou_ExistExam,
     					this._Cou_ExistLive,
-    					this._Cou_ExistQues,
     					this._Cou_FreeEnd,
     					this._Cou_FreeStart,
     					this._Cou_Intro,
@@ -584,21 +648,27 @@ namespace Song.Entities {
     					this._Cou_IsStudy,
     					this._Cou_IsTry,
     					this._Cou_IsUse,
+    					this._Cou_KnlCount,
     					this._Cou_Level,
     					this._Cou_Logo,
     					this._Cou_LogoSmall,
     					this._Cou_Name,
+    					this._Cou_OutlineCount,
     					this._Cou_PID,
     					this._Cou_Price,
     					this._Cou_PriceSpan,
     					this._Cou_PriceUnit,
+    					this._Cou_Prices,
+    					this._Cou_QuesCount,
     					this._Cou_Score,
     					this._Cou_StudentSum,
     					this._Cou_Target,
     					this._Cou_Tax,
+    					this._Cou_TestCount,
     					this._Cou_TryNum,
     					this._Cou_Type,
     					this._Cou_UID,
+    					this._Cou_VideoCount,
     					this._Cou_ViewNum,
     					this._Cou_XPath,
     					this._Dep_CnName,
@@ -633,9 +703,6 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ExistLive))) {
     				this._Cou_ExistLive = reader.GetBoolean(_.Cou_ExistLive);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_ExistQues))) {
-    				this._Cou_ExistQues = reader.GetBoolean(_.Cou_ExistQues);
-    			}
     			if ((false == reader.IsDBNull(_.Cou_FreeEnd))) {
     				this._Cou_FreeEnd = reader.GetDateTime(_.Cou_FreeEnd);
     			}
@@ -663,6 +730,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_IsUse))) {
     				this._Cou_IsUse = reader.GetBoolean(_.Cou_IsUse);
     			}
+    			if ((false == reader.IsDBNull(_.Cou_KnlCount))) {
+    				this._Cou_KnlCount = reader.GetInt32(_.Cou_KnlCount);
+    			}
     			if ((false == reader.IsDBNull(_.Cou_Level))) {
     				this._Cou_Level = reader.GetInt32(_.Cou_Level);
     			}
@@ -674,6 +744,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_Name))) {
     				this._Cou_Name = reader.GetString(_.Cou_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_OutlineCount))) {
+    				this._Cou_OutlineCount = reader.GetInt32(_.Cou_OutlineCount);
     			}
     			if ((false == reader.IsDBNull(_.Cou_PID))) {
     				this._Cou_PID = reader.GetInt64(_.Cou_PID);
@@ -687,6 +760,12 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_PriceUnit))) {
     				this._Cou_PriceUnit = reader.GetString(_.Cou_PriceUnit);
     			}
+    			if ((false == reader.IsDBNull(_.Cou_Prices))) {
+    				this._Cou_Prices = reader.GetString(_.Cou_Prices);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_QuesCount))) {
+    				this._Cou_QuesCount = reader.GetInt32(_.Cou_QuesCount);
+    			}
     			if ((false == reader.IsDBNull(_.Cou_Score))) {
     				this._Cou_Score = reader.GetInt32(_.Cou_Score);
     			}
@@ -699,6 +778,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_Tax))) {
     				this._Cou_Tax = reader.GetInt32(_.Cou_Tax);
     			}
+    			if ((false == reader.IsDBNull(_.Cou_TestCount))) {
+    				this._Cou_TestCount = reader.GetInt32(_.Cou_TestCount);
+    			}
     			if ((false == reader.IsDBNull(_.Cou_TryNum))) {
     				this._Cou_TryNum = reader.GetInt32(_.Cou_TryNum);
     			}
@@ -707,6 +789,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_UID))) {
     				this._Cou_UID = reader.GetString(_.Cou_UID);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_VideoCount))) {
+    				this._Cou_VideoCount = reader.GetInt32(_.Cou_VideoCount);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ViewNum))) {
     				this._Cou_ViewNum = reader.GetInt32(_.Cou_ViewNum);
@@ -795,11 +880,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ExistLive = new WeiSha.Data.Field<Course>("Cou_ExistLive");
     			
     			/// <summary>
-    			/// 字段名：Cou_ExistQues - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field Cou_ExistQues = new WeiSha.Data.Field<Course>("Cou_ExistQues");
-    			
-    			/// <summary>
     			/// 字段名：Cou_FreeEnd - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Cou_FreeEnd = new WeiSha.Data.Field<Course>("Cou_FreeEnd");
@@ -845,6 +925,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_IsUse = new WeiSha.Data.Field<Course>("Cou_IsUse");
     			
     			/// <summary>
+    			/// 字段名：Cou_KnlCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_KnlCount = new WeiSha.Data.Field<Course>("Cou_KnlCount");
+    			
+    			/// <summary>
     			/// 字段名：Cou_Level - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Cou_Level = new WeiSha.Data.Field<Course>("Cou_Level");
@@ -863,6 +948,11 @@ namespace Song.Entities {
     			/// 字段名：Cou_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Cou_Name = new WeiSha.Data.Field<Course>("Cou_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_OutlineCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_OutlineCount = new WeiSha.Data.Field<Course>("Cou_OutlineCount");
     			
     			/// <summary>
     			/// 字段名：Cou_PID - 数据类型：Int64
@@ -885,6 +975,16 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_PriceUnit = new WeiSha.Data.Field<Course>("Cou_PriceUnit");
     			
     			/// <summary>
+    			/// 字段名：Cou_Prices - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_Prices = new WeiSha.Data.Field<Course>("Cou_Prices");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_QuesCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_QuesCount = new WeiSha.Data.Field<Course>("Cou_QuesCount");
+    			
+    			/// <summary>
     			/// 字段名：Cou_Score - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Cou_Score = new WeiSha.Data.Field<Course>("Cou_Score");
@@ -905,6 +1005,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_Tax = new WeiSha.Data.Field<Course>("Cou_Tax");
     			
     			/// <summary>
+    			/// 字段名：Cou_TestCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_TestCount = new WeiSha.Data.Field<Course>("Cou_TestCount");
+    			
+    			/// <summary>
     			/// 字段名：Cou_TryNum - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Cou_TryNum = new WeiSha.Data.Field<Course>("Cou_TryNum");
@@ -918,6 +1023,11 @@ namespace Song.Entities {
     			/// 字段名：Cou_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Cou_UID = new WeiSha.Data.Field<Course>("Cou_UID");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_VideoCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_VideoCount = new WeiSha.Data.Field<Course>("Cou_VideoCount");
     			
     			/// <summary>
     			/// 字段名：Cou_ViewNum - 数据类型：Int32
@@ -971,4 +1081,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

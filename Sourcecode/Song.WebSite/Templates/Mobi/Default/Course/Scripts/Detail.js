@@ -85,17 +85,16 @@ $ready(function () {
 
                 if (!th.course) return;
 
-                //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
+                //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）    
+                th.getPrices(th.course);//获取价格               
                 $api.bat(
                     $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
-                    $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/Datainfo', { 'couid': th.couid }),
                     $api.cache('Guide/Guides:3', { 'couid': th.couid, 'show': '', 'use': true, 'count': 20 }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(([outlines, prices, datainfo, guides, teacher]) => {
+                ).then(([outlines, datainfo, guides, teacher]) => {
                     //获取结果
                     th.outlines = outlines.data.result;
-                    th.prices = prices.data.result;
                     th.datainfo = datainfo.data.result;
                     th.guides = guides.data.result;
                     th.teacher = teacher.data.result;
@@ -118,20 +117,38 @@ $ready(function () {
                         });
                     }
                 }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
-        }).catch(err => console.error(err))
-        .finally(() => th.loading_init = false);
-},
-    methods: {
-    //清理Html标签
-    clearTag: function (html, len) {
-        var txt = html.replace(/<\/?.+?>/g, "");
-        txt = $api.trim(txt);
-        if (len != null && len < txt.length)
-            txt = txt.substring(0, len);
-        return txt;
-    }
-}
+                    .finally(() => th.loading = false);
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_init = false);
+        },
+        methods: {
+            //清理Html标签
+            clearTag: function (html, len) {
+                var txt = html.replace(/<\/?.+?>/g, "");
+                txt = $api.trim(txt);
+                if (len != null && len < txt.length)
+                    txt = txt.substring(0, len);
+                return txt;
+            },
+            //获取价格信息
+            getPrices: function (cou) {
+                if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
+                if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
+                    this.prices = $api.parseJson(cou.Cou_Prices);
+                    return;
+                }
+                var th = this;
+                $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
+                    if (req.data.success) {
+                        th.prices = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
+        }
     });
 }, ["Components/course_menus.js",
     "Components/progress_video.js"]);

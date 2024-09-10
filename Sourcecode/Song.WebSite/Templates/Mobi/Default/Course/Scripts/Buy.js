@@ -52,16 +52,7 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err));
                 //获取价格
-                $api.get('Course/prices', { 'uid': th.course.Cou_UID }).then(function (req) {
-                    if (req.data.success) {
-                        th.prices = req.data.result;
-                        if (th.prices.length > 0)
-                            th.select(th.prices[0]);
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => console.error(err));
+                th.getPrices(th.course);//获取价格      
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -82,6 +73,28 @@ $ready(function () {
             }
         },
         methods: {
+             //获取价格信息
+             getPrices: function (cou) {
+                var th = this;
+                if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
+                if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
+                    th.prices = $api.parseJson(cou.Cou_Prices);
+                    if (th.prices.length > 0)
+                        th.select(th.prices[0]);
+                    return;
+                }
+                $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
+                    if (req.data.success) {
+                        th.prices = req.data.result;
+                        if (th.prices.length > 0)
+                            th.select(th.prices[0]);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
             //计算日均多少钱
             averageday: function (item) {
                 var span = item.CP_Span;    //时间数

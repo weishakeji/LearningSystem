@@ -21,6 +21,10 @@ Vue.component('course_prices', {
     methods: {
         getPrices: function (cou) {
             if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
+            if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
+                this.prices = cou.prices =  $api.parseJson(cou.Cou_Prices);
+                return;
+            }
             var th = this;
             th.loading = true;
             $api.get('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {

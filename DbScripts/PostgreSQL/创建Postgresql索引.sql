@@ -341,6 +341,7 @@ CREATE INDEX IF NOT EXISTS "Student_Course_IX_Cou_ID" ON "Student_Course" ("Cou_
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Lc_Code" ON "Student_Course" ("Lc_Code" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Org_ID" ON "Student_Course" ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_EndTime" ON "Student_Course" ("Stc_EndTime" DESC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_ResultScore" ON "Student_Course" ("Stc_ResultScore" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_StartTime" ON "Student_Course" ("Stc_StartTime" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_Type" ON "Student_Course" ("Stc_Type" DESC);
 -- 62 . Student_Notes
@@ -426,4 +427,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Tag" ON "ThirdpartyAccounts
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_IsUse" ON "ThirdpartyLogin" ("Tl_IsUse" DESC);
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_Tag" ON "ThirdpartyLogin" ("Tl_Tag" DESC);
---总共索引有：350
+--总共索引有：351

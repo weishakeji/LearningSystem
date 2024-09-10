@@ -33,12 +33,17 @@ Vue.component('course_prices', {
         },
         //加载价格信息
         getPrices: function () {
-            var th = this;           
+            var th = this;
             return new Promise(function (res, rej) {
                 var cou = th.course;
                 if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return res();
+                if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
+                    //console.error(cou.Cou_Prices);
+                    th.prices = cou.prices = $api.parseJson(cou.Cou_Prices);
+                    return res();
+                }
                 th.loading = true;
-                $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
+                $api.put('Course/PriceItems', { 'uid': cou.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
                         cou.prices = req.data.result;

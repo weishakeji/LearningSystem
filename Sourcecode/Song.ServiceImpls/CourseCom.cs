@@ -9,6 +9,8 @@ using Song.Entities;
 using Song.ServiceInterfaces;
 using WeiSha.Core;
 using WeiSha.Data;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -1643,27 +1645,36 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="uid">课程UID</param>
         public void PriceSetCourse(string uid) {
-           
-            Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
-            if (course != null)
-            {
-                CoursePrice[] prices = PriceCount(0, uid, true, 0);
-                if (prices.Length > 0)
-                {
-                    CoursePrice p = prices[0];
-                    course.Cou_Price = p.CP_Price;
-                    course.Cou_PriceSpan = p.CP_Span;
-                    course.Cou_PriceUnit = p.CP_Unit;
-                }
-                else
-                {
-                    course.Cou_Price =0;
-                    course.Cou_PriceSpan =0;
-                    course.Cou_PriceUnit = string.Empty;
-                }
-                Gateway.Default.Save<Course>(course);
-            }
 
+            Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
+            if (course == null) return;
+
+            CoursePrice[] prices = PriceCount(0, uid, true, 0);
+            if (prices == null || prices.Length == 0)
+            {
+                course.Cou_Price = course.Cou_PriceSpan = 0;
+                course.Cou_PriceUnit = course.Cou_Prices = string.Empty;
+            } else
+            {
+                //记录第一条价格
+                CoursePrice cp = prices[0];
+                course.Cou_Price = cp.CP_Price;
+                course.Cou_PriceSpan = cp.CP_Span;
+                course.Cou_PriceUnit = cp.CP_Unit;
+                //记录所有价格
+                JArray jarr=new JArray();
+                foreach (CoursePrice p in prices)
+                {
+                    JObject jo=new JObject();
+                    jo.Add("CP_Price", p.CP_Price);
+                    jo.Add("CP_Span", p.CP_Span);
+                    jo.Add("CP_Unit", p.CP_Unit);
+                    jo.Add("CP_Coupon", p.CP_Coupon);
+                    jarr.Add(jo);
+                }
+                course.Cou_Prices = jarr.ToString();
+            }
+            Gateway.Default.Save<Course>(course);
         }
         /// <summary>
         /// 修改价格记录
@@ -1745,9 +1756,11 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {  
+                {
+                    string uid = string.Empty;
                     foreach (CoursePrice item in items)
                     {
+                        uid = item.Cou_UID;
                         tran.Update<CoursePrice>(
                             new Field[] { CoursePrice._.CP_Tax },
                             new object[] { item.CP_Tax },
@@ -1771,6 +1784,8 @@ namespace Song.ServiceImpls
                                Course._.Cou_UID == first.Cou_UID);
                     }
                     tran.Commit();
+                    if(!string.IsNullOrWhiteSpace(uid))
+                        PriceSetCourse(uid);
                     return true;
                 }
                 catch(Exception ex)

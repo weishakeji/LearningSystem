@@ -130,15 +130,15 @@ $ready(function () {
                     document.title = th.course.Cou_Name;
                 }
                 if (!th.course) return;
-                //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
+                //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）     
+                th.getPrices(th.course);//获取价格          
                 $api.bat(
                     $api.cache('Outline/TreeList', { 'couid': th.couid }),
-                    $api.get('TestPaper/ShowPager', { 'couid': th.couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 }),
-                    $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
+                    $api.get('TestPaper/ShowPager', { 'couid': th.couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 }),              
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(([outlines, paper, prices, sum, guideCol, teacher]) => {
+                ).then(([outlines, paper, sum, guideCol, teacher]) => {
                     //章节
                     th.outlines = outlines.data.result;
                     //试卷,结课考试
@@ -151,8 +151,7 @@ $ready(function () {
                             };
                         }
                         th.testpapers = papers;
-                    }
-                    th.prices = prices.data.result;
+                    }                 
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
@@ -166,6 +165,24 @@ $ready(function () {
             clearTag: function (html) {
                 if (!html) return "";
                 return $api.trim(html.replace(/<\/?.+?>/g, ""));
+            },
+            //获取价格信息
+            getPrices: function (cou) {
+                if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
+                if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
+                    this.prices = $api.parseJson(cou.Cou_Prices);
+                    return;
+                }
+                var th = this;
+                $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
+                    if (req.data.success) {
+                        th.prices = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //生成二维码
             qrcode: function () {
