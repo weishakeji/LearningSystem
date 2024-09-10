@@ -73,7 +73,12 @@ namespace Song.ServiceImpls
                     }
                     tran.Save<Outline>(entity);
                     tran.Commit();
-                    this.BuildCache(entity.Cou_ID);
+ 
+                    new Task(() =>
+                    {
+                        //试题导入有可能新增了章节，这里刷新一下章节的缓存
+                        Business.Do<IOutline>().BuildCache(entity.Cou_ID);                      
+                    }).Start();
                 }
                 catch (Exception ex)
                 {

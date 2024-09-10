@@ -32,6 +32,11 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         void QuesInput(Questions entity, List<Song.Entities.QuesAnswer> ansItem);
         /// <summary>
+        /// 删除试题
+        /// </summary>
+        /// <param name="entity">试题实体</param>
+        void QuesDelete(Questions entity);
+        /// <summary>
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>

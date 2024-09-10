@@ -98,10 +98,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int CourseStudentSum(long couid, bool? isAll);
         /// <summary>
+        /// 清理课程内容
+        /// </summary>
+        /// <param name="course">课程实体</param>
+        /// <param name="isfreshData">是否刷新相关数据，例如课程内容清空了，专业的试题是否重新统计</param>
+        void CourseClear(Course course,bool isfreshData);
+        /// <summary>
         /// 清除课程的内容
         /// </summary>
-        /// <param name="couid"></param>
-        void CourseClear(long couid);
+        /// <param name="couid">课程id</param>
+        /// <param name="isfreshData">是否刷新相关数据，例如课程内容清空了，专业的试题是否重新统计</param>
+        void CourseClear(long couid, bool isfreshData);
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>

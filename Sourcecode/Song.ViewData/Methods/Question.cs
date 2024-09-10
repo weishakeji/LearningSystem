@@ -13,6 +13,7 @@ using WeiSha.Data;
 using System.Data;
 using NPOI.HSSF.UserModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Song.ViewData.Methods
 {
@@ -217,8 +218,14 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
-            //试题导入有可能新增了章节，这里刷新一下章节的缓存
-            Business.Do<IOutline>().BuildCache(couid);
+            new Task(() =>
+            {
+                //试题导入有可能新增了章节，这里刷新一下章节的缓存
+                Business.Do<IOutline>().BuildCache(couid);
+                //刷新课程与章节的统计数据，当前课程下的章节试题也会计算
+                Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
+            }).Start();
+           
 
             JObject jo = new JObject();
             jo.Add("success", success);

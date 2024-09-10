@@ -301,6 +301,10 @@
                 handler: function (nv) {
                     if (nv == null) return;
                     var th = this;
+                    if (nv.Ol_QuesCount > 0) {
+                        th.count = nv.Ol_QuesCount;
+                        return;
+                    }
                     th.loading = true;
                     $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': nv.Ol_ID, 'type': '', 'use': '' })
                         .then(function (req) {

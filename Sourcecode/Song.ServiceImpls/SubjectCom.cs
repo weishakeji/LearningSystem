@@ -10,8 +10,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Data.Common;
 using System.Collections;
-
-
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -161,20 +160,23 @@ namespace Song.ServiceImpls
 
         public void SubjectClear(long identify)
         {
+            Subject sbj = this.SubjectSingle(identify);
             //清理课程
             Song.Entities.Course[] cous = Gateway.Default.From<Course>().Where(Course._.Sbj_ID == identify).ToArray<Course>();
             if (cous != null && cous.Length > 0)
             {
                 foreach (Song.Entities.Course c in cous)
-                    Business.Do<ICourse>().CourseClear(c.Cou_ID);
+                    Business.Do<ICourse>().CourseClear(c, false);
             }
             //清理试题
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(Questions._.Sbj_ID == identify).ToArray<Questions>();
             if (ques != null && ques.Length > 0)
             {
                 foreach (Song.Entities.Questions c in ques)
-                    Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
+                    Business.Do<IQuestions>().QuesDelete(c);
             }
+            //更新题库统计
+            Business.Do<IQuestions>().QuesCountUpdate(sbj.Org_ID, identify, 0, -1);
         }
 
         public Subject SubjectSingle(long identify)

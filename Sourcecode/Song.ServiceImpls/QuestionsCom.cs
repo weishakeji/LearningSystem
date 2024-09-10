@@ -85,6 +85,11 @@ namespace Song.ServiceImpls
                     throw ex;
                 }
             }
+            //更新统计数据
+            new Task(() =>
+            {
+                Business.Do<IQuestions>().QuesCountUpdate(-1, entity.Sbj_ID, entity.Cou_ID, entity.Ol_ID);
+            }).Start();
         }
 
         public void QuesInput(Questions entity, List<Song.Entities.QuesAnswer> ansItem)
@@ -127,14 +132,25 @@ namespace Song.ServiceImpls
                 Gateway.Default.Save<Questions>(old);
             }
         }
-        public void QuesDelete(long identify)
-        {          
-            Gateway.Default.Delete<Questions>(Questions._.Qus_ID == identify);
+        /// <summary>
+        /// 删除试题
+        /// </summary>
+        /// <param name="entity">试题实体</param>
+        public void QuesDelete(Questions entity)
+        {
+            if (entity == null) return;
+            Gateway.Default.Delete<Questions>(Questions._.Qus_ID == entity.Qus_ID);
+            this.OnDelete(entity, EventArgs.Empty);
+            //更新统计数据
             new Task(() =>
             {
-                Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == identify);
-                Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == identify);  
-            }).Start();           
+                Business.Do<IQuestions>().QuesCountUpdate(entity.Org_ID, entity.Sbj_ID, entity.Cou_ID, entity.Ol_ID);
+            }).Start();
+        }
+        public void QuesDelete(long identify)
+        {
+            Questions ques = this.QuesSingle(identify);
+            this.QuesDelete(ques);            
         }
         /// <summary>
         /// 批量删除
@@ -142,22 +158,30 @@ namespace Song.ServiceImpls
         /// <param name="ids"></param>
         public void QuesDelete(string[] ids)
         {
-            long[] arr = new long[ids.Length];
-            for(int i = 0; i < ids.Length; i++)
-            {
-                long idval = 0;
-                long.TryParse(ids[i], out idval);
-                arr[i] = idval;
-            }
+            long[] arr = ids.Select(long.Parse).ToArray();
             this.QuesDelete(arr);
         }
         public void QuesDelete(long[] idarray)
         {
-            //删除试题
+            //计算试题的机构id,专业id,课程id,章节id
+            List<int> orgids = new List<int>();
+            List<long> sbjids = new List<long>();
+            List<long> couids = new List<long>();
             WhereClip wc = new WhereClip();
             foreach (long id in idarray)
                 wc.Or(Questions._.Qus_ID == id);
+            List<Questions> ques = Gateway.Default.From<Questions>().Where(wc).ToList<Questions>();
+            foreach(Questions q in ques)
+            {
+                if (!orgids.Contains(q.Org_ID)) orgids.Add(q.Org_ID);
+                if (!sbjids.Contains(q.Sbj_ID)) sbjids.Add(q.Sbj_ID);
+                if (!couids.Contains(q.Cou_ID)) couids.Add(q.Cou_ID);
+            }
+            //删除并重新统计
             Gateway.Default.Delete<Questions>(wc);
+            foreach (int orgid in orgids) Business.Do<IQuestions>().QuesCountUpdate(orgid, -1, -1, -1);
+            foreach (int sbjid in sbjids) Business.Do<IQuestions>().QuesCountUpdate(-1, sbjid, -1, -1);
+            foreach (int couid in couids) Business.Do<IQuestions>().QuesCountUpdate(-1, couid, couid, -1);
             //删除图片等资源
             new Task(() =>
             {
@@ -193,6 +217,8 @@ namespace Song.ServiceImpls
                 Gateway.Default.Delete<Student_Ques>(wcErr);
 
             }).Start();
+            this.OnDelete(idarray, EventArgs.Empty);
+
         }
         /// <summary>
         /// 修改课程的某些项
@@ -365,8 +391,11 @@ namespace Song.ServiceImpls
         public void QuesCountUpdate(int orgid, long sbjid, long couid, long olid)
         {
             //课程中的试题数量
-            int cou_count = this.QuesOfCount(-1, -1, couid, -1, 0, -1, null);
-            Gateway.Default.Update<Course>(new Field[] { Course._.Cou_QuesCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
+            if (couid > 0)
+            {
+                int cou_count = this.QuesOfCount(-1, -1, couid, -1, 0, -1, null);
+                Gateway.Default.Update<Course>(new Field[] { Course._.Cou_QuesCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
+            }
             //章节下的试题数量
             //当前章节，以及当前章节之下的所有试题
             List<long> olist = new List<long>();
@@ -389,8 +418,18 @@ namespace Song.ServiceImpls
                     Gateway.Default.Update<Outline>(new Field[] { Outline._.Ol_QuesCount }, new object[] { olcount }, Outline._.Ol_ID == id);
                 }
             }
-
-
+            //专业下的试题数
+            if (sbjid > 0)
+            {
+                int sbj_count = this.QuesOfCount(-1, sbjid, -1, -1, 0, -1, null);
+                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_QuesCount }, new object[] { sbj_count }, Subject._.Sbj_ID == sbjid);
+            }
+            //机构的试题数
+            if (orgid > 0)
+            {
+                int org_count = this.QuesOfCount(orgid, -1, -1, -1, 0, -1, null);
+                Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == orgid);
+            }
         }
         /// <summary>
         /// 获取随机试题
@@ -837,7 +876,7 @@ namespace Song.ServiceImpls
         {
             Questions[] ques = Gateway.Default.From<Questions>().Where(Questions._.Qt_ID == identify).ToArray<Questions>();
             foreach (Questions q in ques)        
-                QuesDelete(q.Qus_ID);
+                QuesDelete(q);
         
             Gateway.Default.Delete<QuesTypes>(QuesTypes._.Qt_ID == identify);
         }
@@ -1269,25 +1308,39 @@ namespace Song.ServiceImpls
             if (ques == null) return;
 
             //更新章节试题数
-            if (ques.Ol_ID > 0)
+            new Task(() =>
             {
-                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
-            }
-
+                //更新试题统计数
+                Business.Do<IQuestions>().QuesCountUpdate(ques.Org_ID, ques.Sbj_ID, ques.Cou_ID, ques.Ol_ID);
+            }).Start();
             if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
         {
-            //更新章节试题数量
-            if (!(sender is Questions)) return;
-            Questions ques = (Questions)sender;
-            if (ques == null) return;
-            //更新章节试题数
-            if (ques.Ol_ID > 0)
+            //如果是试题
+            if (sender is Questions)
             {
-                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-                Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+
+                Questions ques = (Questions)sender;
+                //删除笔记与收藏
+                new Task(() =>
+                {
+                    Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == ques.Qus_ID);
+                    Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == ques.Qus_ID);
+                    Gateway.Default.Delete<Student_Ques>(Student_Ques._.Qus_ID == ques.Qus_ID);
+                }).Start();
+                //删除图片等资源
+                new Task(() =>
+                {
+                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(ques.Qus_ID.ToString());
+                }).Start();                
+            }
+
+            //如果是试题ID的数组
+            if (sender is long[])
+            {
+                long[] ids = (long[])sender;
+
             }
 
             if (Delete != null) Delete(sender, e);

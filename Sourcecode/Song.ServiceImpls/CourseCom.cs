@@ -11,6 +11,7 @@ using WeiSha.Core;
 using WeiSha.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -222,13 +223,7 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {
-                    new System.Threading.Tasks.Task(() =>
-                    {
-                        this.CourseClear(entity.Cou_ID);
-                    }).Start();
-                   
-
+                {                   
                     tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
                     //删除购买记录
                     tran.Delete<Student_Course>(Student_Course._.Cou_ID == entity.Cou_ID && Student_Course._.Stc_Type != 2);
@@ -239,7 +234,10 @@ namespace Song.ServiceImpls
                     WeiSha.Core.Upload.Get["Course"].DeleteDirectory(entity.Cou_ID.ToString());
                     tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
                     tran.Commit();
-
+                    new Task(() =>
+                    {
+                        this.CourseClear(entity, true);
+                    }).Start();
                 }
                 catch (Exception ex)
                 {
@@ -254,8 +252,8 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         public void CourseDelete(long identify)
         {
-            Song.Entities.Course ol = this.CourseSingle(identify);
-            this.CourseDelete(ol);
+            Song.Entities.Course course = this.CourseSingle(identify);
+            this.CourseDelete(course);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -424,11 +422,14 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Student_Course>(wc);
         }
         /// <summary>
-        /// 清除课程的内容
+        /// 清理课程内容
         /// </summary>
-        /// <param name="couid"></param>
-        public void CourseClear(long couid)
+        /// <param name="course">课程实体</param>
+        /// <param name="isfreshData">是否刷新相关数据，例如课程内容清空了，专业的试题是否重新统计</param>
+        public void CourseClear(Course course,bool isfreshData)
         {
+            if (course == null) return;
+            long couid = course.Cou_ID;
             //删除章节
             List<Song.Entities.Outline> outline = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid).ToList<Outline>();
             if (outline != null && outline.Count > 0)
@@ -465,11 +466,29 @@ namespace Song.ServiceImpls
             if (ques != null && ques.Count > 0)
             {
                 foreach (Song.Entities.Questions c in ques)
-                    Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
+                    Business.Do<IQuestions>().QuesDelete(c);
+                //更新试题数
+                if (isfreshData)
+                {
+                    new Task(() =>
+                    {
+                        Business.Do<IQuestions>().QuesCountUpdate(course.Org_ID, course.Sbj_ID, course.Cou_ID, -1);
+                    }).Start();
+                }
             }
             //删除留言
             Gateway.Default.Delete<Message>(Message._.Cou_ID == couid);
             Gateway.Default.Delete<MessageBoard>(MessageBoard._.Cou_ID == couid);
+        }
+        /// <summary>
+        /// 清除课程的内容
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="isfreshData">是否刷新相关数据，例如课程内容清空了，专业的试题是否重新统计</param>
+        public void CourseClear(long couid, bool isfreshData)
+        {
+            Course course = this.CourseSingle(couid);
+            this.CourseClear(course, isfreshData);
         }
         /// <summary>
         /// 课程数量
