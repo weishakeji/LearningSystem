@@ -181,7 +181,19 @@ namespace Song.ServiceImpls
             {
                 throw ex;
             }
-        }       
+        }
+        /// <summary>
+        /// 修改课程的某些项
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="field">字段</param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool CourseUpdate(long couid, Field field, object obj)
+        {
+            Gateway.Default.Update<Course>(field, obj, Course._.Cou_ID == couid);
+            return true;
+        }
         /// <summary>
         /// 增加课程浏览数
         /// </summary>

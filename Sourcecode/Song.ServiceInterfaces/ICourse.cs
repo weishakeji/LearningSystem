@@ -36,10 +36,18 @@ namespace Song.ServiceInterfaces
         /// 修改课程的某些项
         /// </summary>
         /// <param name="couid">课程id</param>
-        /// <param name="fiels"></param>
+        /// <param name="fields">字段</param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool CourseUpdate(long couid, Field[] fiels, object[] objs);       
+        bool CourseUpdate(long couid, Field[] fields, object[] objs);
+        /// <summary>
+        /// 修改课程的某些项
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="field">字段</param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool CourseUpdate(long couid, Field field, object obj);
         /// <summary>
         /// 增加课程浏览数
         /// </summary>

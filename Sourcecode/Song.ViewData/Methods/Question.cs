@@ -731,7 +731,9 @@ namespace Song.ViewData.Methods
                 if (ques == null) return false;
                 ques.Qus_WrongInfo = error;
                 ques.Qus_IsWrong = !string.IsNullOrWhiteSpace(error);
-                Business.Do<IQuestions>().QuesSave(ques);
+                Business.Do<IQuestions>().QuesUpdate(qid,
+                    new Field[] { Questions._.Qus_WrongInfo, Questions._.Qus_IsWrong },
+                    new object[] { ques.Qus_WrongInfo, ques.Qus_IsWrong });
                 return ques.Qus_IsWrong;
             }
             catch (Exception ex)

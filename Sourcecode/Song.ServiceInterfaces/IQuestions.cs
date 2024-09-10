@@ -55,10 +55,18 @@ namespace Song.ServiceInterfaces
         /// 修改试题的某些项
         /// </summary>
         /// <param name="qusid">试题id</param>
-        /// <param name="fiels"></param>
+        /// <param name="fields"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool QuesUpdate(long qusid, Field[] fiels, object[] objs);
+        bool QuesUpdate(long qusid, Field[] fields, object[] objs);
+        /// <summary>
+        /// 修改试题的某些项
+        /// </summary>
+        /// <param name="qusid"></param>
+        /// <param name="field"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool QuesUpdate(long qusid, Field field, object obj);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>

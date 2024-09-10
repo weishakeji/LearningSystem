@@ -239,6 +239,18 @@ namespace Song.ServiceImpls
                 throw ex;
             }
         }
+        /// <summary>
+        /// 修改试题的某些项
+        /// </summary>
+        /// <param name="qusid"></param>
+        /// <param name="field"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool QuesUpdate(long qusid, Field field, object obj)
+        {
+            Gateway.Default.Update<Questions>(field, obj, Questions._.Qus_ID == qusid);
+            return true;
+        }
         public Questions QuesSingle(long identify)
         {
             Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();       
