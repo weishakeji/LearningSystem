@@ -293,7 +293,7 @@
         data: function () {
             return {
                 count: 0,
-                loading: true
+                loading: false
             }
         },
         watch: {
@@ -325,7 +325,7 @@
 
         },
         template: `<span class="ques_count">
-        <loading v-if="loading"></loading>
+        <loading  bubble v-if="loading"></loading>
         <template v-else-if="count>0">({{count}})</template>
         </span>`
     });

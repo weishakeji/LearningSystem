@@ -76,8 +76,14 @@ namespace Song.ServiceImpls
  
                     new Task(() =>
                     {
-                        //试题导入有可能新增了章节，这里刷新一下章节的缓存
-                        Business.Do<IOutline>().BuildCache(entity.Cou_ID);                      
+                        //试题导入有可能新增了章节，这里刷新一下章节的缓存                      
+                        this.BuildCache(entity.Cou_ID);
+                    }).Start();
+                    //统计课程下章节的数量
+                    new Task(() =>
+                    {
+                        int count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID);
+                        Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_OutlineCount, count);
                     }).Start();
                 }
                 catch (Exception ex)
@@ -227,11 +233,16 @@ namespace Song.ServiceImpls
                 }                
             }
             Gateway.Default.Save<Outline>(entity);
-            this.BuildCache(entity.Cou_ID);
+            new Task(() =>
+            {
+                //试题导入有可能新增了章节，这里刷新一下章节的缓存
+                this.BuildCache(entity.Cou_ID);
+            }).Start();
+           
             Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);          
         }
         /// <summary>
-        /// 修改课程的某些项
+        /// 修改章节的某些项
         /// </summary>
         /// <param name="couid">课程id，用于刷新课程章节的缓存</param>
         /// <param name="olid">章节id</param>
@@ -266,25 +277,6 @@ namespace Song.ServiceImpls
                     this.BuildCache(outline.Cou_ID);
             }).Start();
             return count;
-        }
-        /// <summary>
-        /// 导入章节，导入时不立即生成缓存
-        /// </summary>
-        /// <param name="entity"></param>
-        public void OutlineInput(Outline entity)
-        {
-            new Task(() => {
-                //计算排序号
-                object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
-                entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
-                if (string.IsNullOrWhiteSpace(entity.Ol_UID))
-                    entity.Ol_UID = WeiSha.Core.Request.UniqueID();
-                //层级
-                entity.Ol_Level = _ClacLevel(entity);
-                entity.Ol_XPath = _ClacXPath(entity);
-                Gateway.Default.Save<Outline>(entity);
-                this.BuildCache(entity.Cou_ID);
-            }).Start();            
         }
         /// <summary>
         /// 导出课程章节到Excel
@@ -427,6 +419,12 @@ namespace Song.ServiceImpls
                     //刷新缓存
                     if(freshCache)
                         this.BuildCache(entity.Cou_ID);
+                    //统计课程下章节的数量
+                    new Task(() =>
+                    {
+                        int count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID);
+                        Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_OutlineCount, count);
+                    }).Start();
                 }
                 catch (Exception ex)
                 {
@@ -585,7 +583,8 @@ namespace Song.ServiceImpls
                     }
 
                 }
-            }
+            }           
+           
             Cache.EntitiesCache.Save<Outline>(list, couid);
             return Cache.EntitiesCache.GetList<Outline>(couid);
         }

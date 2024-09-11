@@ -59,11 +59,6 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int UpdateQuesCount(long olid, int count);
         /// <summary>
-        /// 导入章节，导入时不立即生成缓存
-        /// </summary>
-        /// <param name="entity"></param>
-        void OutlineInput(Outline entity);
-        /// <summary>
         /// 导出课程章节到Excel
         /// </summary>
         /// <param name="path"></param>

@@ -343,7 +343,12 @@ namespace Song.ViewData.Methods
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) throw new Exception("Not found entity for Course！");
             //章节数
-            int outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
+            int outline = course.Cou_OutlineCount;
+            if (outline <= 0)
+            {
+                outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
+                Business.Do<ICourse>().CourseUpdate(couid, Song.Entities.Course._.Cou_OutlineCount, outline);
+            }
             //试题数
             int qus = course.Cou_QuesCount;
             if (qus <= 0)
@@ -356,7 +361,7 @@ namespace Song.ViewData.Methods
             //课程通知
             int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
             //视频数
-            int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
+            //int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
             ////学习人数
             //int student = Business.Do<ICourse>().CourseStudentSum(couid, true);
             //试卷数
@@ -372,7 +377,7 @@ namespace Song.ViewData.Methods
             jo.Add("guide", guide);
             jo.Add("testpaper", testpaper);
             jo.Add("testfinal", final != null && final.Tp_IsUse ? 1 : 0);
-            jo.Add("video", video);
+            jo.Add("video", 0);
             jo.Add("student", 0);
             jo.Add("view", course.Cou_ViewNum);     //课程浏览数
             jo.Add("live", course.Cou_ExistLive);       //是否为直播课
