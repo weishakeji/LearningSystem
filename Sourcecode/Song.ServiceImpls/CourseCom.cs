@@ -167,14 +167,14 @@ namespace Song.ServiceImpls
         /// 修改课程的某些项
         /// </summary>
         /// <param name="couid">课程id</param>
-        /// <param name="fiels"></param>
+        /// <param name="fields"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool CourseUpdate(long couid, Field[] fiels, object[] objs)
+        public bool CourseUpdate(long couid, Field[] fields, object[] objs)
         {
             try
             {
-                Gateway.Default.Update<Course>(fiels, objs, Course._.Cou_ID == couid);
+                Gateway.Default.Update<Course>(fields, objs, Course._.Cou_ID == couid);
                 return true;
             }
             catch (Exception ex)
@@ -448,11 +448,10 @@ namespace Song.ServiceImpls
             {
                 foreach (Song.Entities.Outline ol in outline)
                 {
-                    Business.Do<IOutline>().OutlineClear(ol, false);
-                    Business.Do<IOutline>().OutlineDelete(ol, false);
+                    Business.Do<IOutline>().OutlineClear(ol);
+                    Business.Do<IOutline>().OutlineDelete(ol);
                 }
-            }
-            Business.Do<IOutline>().BuildCache(couid);
+            }           
             //删除试卷
             List<Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == couid).ToList<TestPaper>();
             if (tps != null && tps.Count > 0)
@@ -538,7 +537,7 @@ namespace Song.ServiceImpls
             int count = this.CourseOfCount(-1, sbjid, -1, null, null);
             new System.Threading.Tasks.Task(() =>
             {
-                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CouNumber }, new object[] { count }, Subject._.Sbj_ID == sbjid);
+                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CourseCount }, new object[] { count }, Subject._.Sbj_ID == sbjid);
             }).Start();           
             return count;
         }
@@ -546,7 +545,10 @@ namespace Song.ServiceImpls
         /// 获取指定个数的课程列表
         /// </summary>
         /// <param name="orgid">所在机构id</param>
+        /// <param name="sbjid"></param>
         /// <param name="thid">教师id</param>
+        /// <param name="pid"></param>
+        /// <param name="sear"></param>
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>

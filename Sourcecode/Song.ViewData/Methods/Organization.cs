@@ -174,8 +174,8 @@ namespace Song.ViewData.Methods
         public ListResult Pager(int lvid, string search, int index, int size)
         {
             int sum = 0;
-            Ett.Organization[] orgs = Business.Do<IOrganization>().OrganPager(null, lvid, search, size, index, out sum);
-            for (int i = 0; i < orgs.Length; i++)
+            List<Ett.Organization> orgs = Business.Do<IOrganization>().OrganPager(null, lvid, search, size, index, out sum);
+            for (int i = 0; i < orgs.Count; i++)
             {
                 orgs[i] = _trans(orgs[i]);
             }

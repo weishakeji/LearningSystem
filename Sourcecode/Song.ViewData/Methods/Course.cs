@@ -148,7 +148,7 @@ namespace Song.ViewData.Methods
             try
             {
                 //某些字段将不同步修改                   
-                string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name,Cou_Logo,Cou_LogoSmall";
+                string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name,Cou_Logo,Cou_LogoSmall,Cou_Prices";
                 ////如果名称为空，则不修改
                 //if (string.IsNullOrWhiteSpace(course.Cou_Name))
                 //    nomidfy = "Cou_Name," + nomidfy;

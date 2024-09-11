@@ -379,15 +379,16 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list)
-                    wcSbjid.Or(Questions._.Ol_ID == l);
-                wc.And(wcSbjid);
-            }
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            ////当前章节，以及当前章节之下的所有试题
+            //if (olid > 0)
+            //{
+            //    WhereClip wcSbjid = new WhereClip();
+            //    List<long> list = Business.Do<IOutline>().TreeID(olid);
+            //    foreach (long l in list)
+            //        wcSbjid.Or(Questions._.Ol_ID == l);
+            //    wc.And(wcSbjid);
+            //}
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
@@ -426,7 +427,7 @@ namespace Song.ServiceImpls
             {
                 foreach(long id in olist)
                 {
-                    int olcount = this.QuesOfCount(-1, -1, 0, id, 0, -1, null);
+                    int olcount = this.QuesOfCount(-1, -1, -1, id, -1, -1, null);
                     Gateway.Default.Update<Outline>(new Field[] { Outline._.Ol_QuesCount }, new object[] { olcount }, Outline._.Ol_ID == id);
                 }
             }

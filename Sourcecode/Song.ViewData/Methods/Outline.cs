@@ -100,12 +100,7 @@ namespace Song.ViewData.Methods
                 {
                     throw ex;
                 }
-            }
-            if (couid > 0) Business.Do<IOutline>().BuildCache(couid);
-            else
-            {
-                foreach (long d in coulist) Business.Do<IOutline>().BuildCache(d);
-            }
+            }           
             return i;
 
         }
@@ -179,23 +174,6 @@ namespace Song.ViewData.Methods
         public List<Song.Entities.Outline> List(long couid, long pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
-        }
-        /// <summary>
-        /// 刷新课程下的章节缓存
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <returns></returns>
-        [HttpPut,HttpPost]
-        public bool FreshCache(long couid)
-        {
-            try
-            {
-                Business.Do<IOutline>().BuildCache(couid);
-                return true;
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
         }
         #endregion
 

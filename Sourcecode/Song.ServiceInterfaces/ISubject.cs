@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Song.Entities;
+using WeiSha.Data;
 
 namespace Song.ServiceInterfaces
 {
@@ -37,6 +38,22 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void SubjectSave(Subject entity);
         /// <summary>
+        /// 修改专业的某些项
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="fields">字段</param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        bool SubjectUpdate(long sbjid, Field[] fields, object[] objs);
+        /// <summary>
+        /// 修改专业的某些项
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="field">字段</param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool SubjectUpdate(long sbjid, Field field, object obj);
+        /// <summary>
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -69,15 +86,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="identify">当前专业Id</param>
+        /// <param name="isUse">是否启用</param>
         /// <returns>有子级，返回true</returns>
         bool SubjectIsChildren(int orgid, long identify, bool? isUse);
-        /// <summary>
-        /// 获取学科/专业
-        /// </summary>
-        /// <param name="isUse"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        List<Subject> SubjectCount(bool? isUse, int count);
+        
         /// <summary>
         /// 获取学科/专业
         /// </summary>

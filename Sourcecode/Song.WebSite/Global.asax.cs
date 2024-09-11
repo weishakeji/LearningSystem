@@ -46,6 +46,8 @@ namespace Song.WebSite
             {
                 Log.Error(this.GetType().ToString(), ex);
             }
+            //更新统计数据
+            WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
         }
     }
 }

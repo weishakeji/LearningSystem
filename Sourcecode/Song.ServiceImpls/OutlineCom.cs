@@ -73,12 +73,7 @@ namespace Song.ServiceImpls
                     }
                     tran.Save<Outline>(entity);
                     tran.Commit();
- 
-                    new Task(() =>
-                    {
-                        //试题导入有可能新增了章节，这里刷新一下章节的缓存                      
-                        this.BuildCache(entity.Cou_ID);
-                    }).Start();
+
                     //统计课程下章节的数量
                     new Task(() =>
                     {
@@ -156,20 +151,13 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Outline OutlineIsExist(int orgid, long sbjid, long couid, long pid, string name)
         {
-            //从缓存中读取
-            List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
-            if (list == null || list.Count < 1) list = this.BuildCache(couid);
-            //自定义查询条件
-            Func<Outline, bool> exp = x =>
-            {               
-                var org_exp = orgid > 0 ? x.Org_ID == orgid : true;
-                var sbj_exp = sbjid > 0 ? x.Sbj_ID == sbjid : true;
-                var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
-                var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
-                var name_exp = !string.IsNullOrWhiteSpace(name) ? x.Ol_Name.Equals(name) : true;
-                return org_exp && sbj_exp && cou_exp && pid_exp && name_exp;
-            };
-            return list.Where(exp).FirstOrDefault<Outline>();            
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Outline._.Org_ID == orgid);
+            if (sbjid > 0) wc.And(Outline._.Sbj_ID == sbjid);
+            if (couid > 0) wc.And(Outline._.Cou_ID == couid);
+            if (pid > 0) wc.And(Outline._.Ol_PID == pid);
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Outline._.Ol_Name == name);
+            return Gateway.Default.From<Outline>().Where(wc).ToFirst<Outline>();           
         }
         /// <summary>
         /// 修改章节
@@ -237,11 +225,6 @@ namespace Song.ServiceImpls
                 }                
             }
             Gateway.Default.Save<Outline>(entity);
-            new Task(() =>
-            {
-                //试题导入有可能新增了章节，这里刷新一下章节的缓存
-                this.BuildCache(entity.Cou_ID);
-            }).Start();
            
             Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);          
         }
@@ -257,8 +240,7 @@ namespace Song.ServiceImpls
         {
             try
             {
-                Gateway.Default.Update<Outline>(fiels, objs, Outline._.Ol_ID == olid);
-                if (couid > 0) this.BuildCache(couid);
+                Gateway.Default.Update<Outline>(fiels, objs, Outline._.Ol_ID == olid);               
                 return true;
             }
             catch (Exception ex)
@@ -275,11 +257,6 @@ namespace Song.ServiceImpls
         public int UpdateQuesCount(long olid, int count)
         {
             Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == olid);
-            new Task(()=> {
-                Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
-                if (outline != null)
-                    this.BuildCache(outline.Cou_ID);
-            }).Start();
             return count;
         }
         /// <summary>
@@ -390,8 +367,7 @@ namespace Song.ServiceImpls
         /// 删除章节
         /// </summary>
         /// <param name="entity">业务实体</param>
-        /// <param name="freshCache"></param>
-        public void OutlineDelete(Outline entity, bool freshCache)
+        public void OutlineDelete(Outline entity)
         {
             if (entity == null) return;
             List<Song.Entities.Accessory> acs = Business.Do<IAccessory>().GetAll(entity.Ol_UID);
@@ -419,10 +395,7 @@ namespace Song.ServiceImpls
                         catch
                         {
                         }
-                    }
-                    //刷新缓存
-                    if(freshCache)
-                        this.BuildCache(entity.Cou_ID);
+                    }                   
                     //统计课程下章节的数量
                     new Task(() =>
                     {
@@ -448,7 +421,7 @@ namespace Song.ServiceImpls
         public void OutlineDelete(long identify)
         {
             Song.Entities.Outline ol = this.OutlineSingle(identify);
-            this.OutlineDelete(ol, true);        
+            this.OutlineDelete(ol);        
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -497,21 +470,20 @@ namespace Song.ServiceImpls
             Outline ol = this.OutlineSingle(olid);
             if (ol == null) return ints;
             //从缓存中读取
-            List<Outline> list = Cache.EntitiesCache.GetList<Outline>(ol.Cou_ID);
-            if (list == null || list.Count < 1) list = this.BuildCache(ol.Cou_ID);
+            List<Outline> list = this.OutlineAll(ol.Cou_ID, null, null, null);         
             ints = _treeid(olid, list);
             return ints;
         }
-        private List<long> _treeid(long id, List<Outline> ols)
+        private List<long> _treeid(long id, List<Outline> ols, int level = 1)
         {
+            if (level > 10) return null;
             List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (Outline o in ols)
             {
                 if (o.Ol_PID != id) continue;
-                List<long> tm = _treeid(o.Ol_ID, ols);
-                foreach (long t in tm)
-                    list.Add(t);
+                List<long> tm = _treeid(o.Ol_ID, ols, level++);
+                if (tm != null) list.AddRange(tm);              
             }
             return list;
         }
@@ -549,53 +521,46 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Outline> OutlineAll(long couid, bool? use, bool? finish, bool? video)
         {
-            //从缓存中读取
-            List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
-            if (list == null || list.Count < 1) list = this.BuildCache(couid);
-            //自定义查询条件
-            Func<Outline, bool> exp = x =>
-            {
-                var use_exp = use != null ? x.Ol_IsUse == (bool)use : true;
-                var finish_exp = finish != null ? x.Ol_IsFinish == (bool)finish : true;
-                var video_exp = video != null ? x.Ol_IsVideo == (bool)video : true;
-                return use_exp && finish_exp && video_exp;
-            };
-            List<Outline> result = list.Where(exp).ToList<Outline>();
-            return result;           
+            if (couid <= 0) return null;
+            WhereClip wc = Outline._.Cou_ID == couid;
+            if (use != null) wc.And(Outline._.Ol_IsUse == use);
+            if (finish != null) wc.And(Outline._.Ol_IsFinish == finish);
+            if (video != null) wc.And(Outline._.Ol_IsVideo == video);
+            return Gateway.Default.From<Outline>().Where(wc).ToList<Outline>();
         }
 
-        /// <summary>
-        /// 构建缓存，章节缓存以课程为单位存储
-        /// </summary>
-        public List<Outline> BuildCache(long couid)
-        {
-            Cache.EntitiesCache.Clear<Outline>(couid);
-            List<Outline> list = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid)
-                .OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>();
-            foreach(Outline o in list)
-            {
-                if (!o.Ol_IsAccessory)
-                {
-                    //如果有视频，设置视频节点
-                    int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid == o.Ol_UID);
-                    o.Ol_IsVideo = videoCount > 0;
-                    //如果有附件
-                    int accCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "Course" && Accessory._.As_Uid == o.Ol_UID);
-                    o.Ol_IsAccessory = accCount > 0;
-                    if (videoCount > 0 || accCount > 0)
-                    {
-                        new Task(() =>
-                        {
-                            Gateway.Default.Save<Outline>(o);                         
-                        }).Start();
-                    }
+        ///// <summary>
+        ///// 构建缓存，章节缓存以课程为单位存储
+        ///// </summary>
+        //public List<Outline> BuildCache(long couid)
+        //{
+        //    Cache.EntitiesCache.Clear<Outline>(couid);
+        //    List<Outline> list = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid)
+        //        .OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>();
+        //    foreach(Outline o in list)
+        //    {
+        //        if (!o.Ol_IsAccessory)
+        //        {
+        //            //如果有视频，设置视频节点
+        //            int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid == o.Ol_UID);
+        //            o.Ol_IsVideo = videoCount > 0;
+        //            //如果有附件
+        //            int accCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "Course" && Accessory._.As_Uid == o.Ol_UID);
+        //            o.Ol_IsAccessory = accCount > 0;
+        //            if (videoCount > 0 || accCount > 0)
+        //            {
+        //                new Task(() =>
+        //                {
+        //                    Gateway.Default.Save<Outline>(o);                         
+        //                }).Start();
+        //            }
 
-                }
-            }           
+        //        }
+        //    }           
            
-            Cache.EntitiesCache.Save<Outline>(list, couid);
-            return Cache.EntitiesCache.GetList<Outline>(couid);
-        }
+        //    Cache.EntitiesCache.Save<Outline>(list, couid);
+        //    return Cache.EntitiesCache.GetList<Outline>(couid);
+        //}
         #region 生成树形结构的章节列表
         /// <summary>
         /// 生成树形结构的章节列表
@@ -659,22 +624,18 @@ namespace Song.ServiceImpls
         {         
             //清理附件
             Outline ol = this.OutlineSingle(olid);
-            this.OutlineClear(ol, true);       
+            this.OutlineClear(ol);       
         }
         /// <summary>
         /// 清空章节下试题和附件
         /// </summary>
         /// <param name="entity">章节对象</param>
-        /// <param name="freshCache"></param>
-        public void OutlineClear(Outline entity, bool freshCache)
+        public void OutlineClear(Outline entity)
         {
             //清理试题
             Gateway.Default.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);
             //清理附件
             Business.Do<IAccessory>().Delete(entity.Ol_UID, string.Empty);
-
-            if (freshCache)
-                this.BuildCache(entity.Cou_ID);
         }
         /// <summary>
         /// 清理无效章节
@@ -701,8 +662,7 @@ namespace Song.ServiceImpls
                             tran.Delete<Outline>(Outline._.Ol_ID == o.Ol_ID);
                             tran.Commit();
                             count++;
-                        }
-                        this.BuildCache(couid);
+                        }                       
                     }
                     catch (Exception ex)
                     {
@@ -742,27 +702,13 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Outline> OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count)
         {
-            //从缓存中读取
-            List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
-            if (list == null || list.Count < 1) list = this.BuildCache(couid);
-            //自定义查询条件
-            Func<Outline, bool> exp = x =>
-            {               
-                var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
-                var pid_exp = pid > -1 ? x.Ol_PID == pid : true;
-
-                var live_exp = islive != null ? x.Ol_IsLive == (bool)islive : true;
-                var search_exp = !string.IsNullOrWhiteSpace(search) ? x.Ol_Name.Contains(search) : true;
-                var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true;
-
-                return cou_exp && pid_exp && live_exp && use_exp && search_exp;
-            };
-            if (count > 0)
-            {
-                IEnumerable<Outline> result = list.Where(exp).Take<Outline>(count);
-                return result.ToList();
-            }
-            return list.Where(exp).ToList<Outline>();
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc.And(Outline._.Cou_ID == couid);
+            if (pid >= 0) wc.And(Outline._.Ol_PID == pid); 
+            if (islive != null) wc.And(Outline._.Ol_IsLive == (bool)islive);
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(Outline._.Ol_Name.Contains(search));
+            if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
+            return Gateway.Default.From<Outline>().Where(wc).ToList<Outline>();
         }
        
         public List<Outline> OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count)
@@ -850,30 +796,45 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int OutlineOfCount(long couid, long pid, bool? isUse, bool? isVideo, bool? isFinish, bool? children)
         {
-            //从缓存中读取
-            List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
-            if (list == null || list.Count < 1) list = this.BuildCache(couid);
-            //自定义查询条件
-            Func<Outline, bool> exp = x =>
-            {            
-                var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
-                var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
-
-                var video_exp = isVideo != null ? x.Ol_IsVideo == (bool)isVideo : true;
-                var finish_exp = isFinish != null ? x.Ol_IsFinish == (bool)isFinish : true;
-                var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true;
-
-                return cou_exp && pid_exp && video_exp && finish_exp && use_exp;
-            };
-            List<Outline> result = list.Where(exp).ToList<Outline>();
-
-            if(children!=null && !(bool)children)
+            WhereClip wc = new WhereClip();           
+            if (couid > 0) wc.And(Outline._.Cou_ID == couid);  
+            if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
+            if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
+            if (isVideo != null) wc.And(Outline._.Ol_IsVideo == (bool)isVideo);
+            if (isFinish != null) wc.And(Outline._.Ol_IsFinish == (bool)isFinish);
+            //含下级
+            if (children != null && !(bool)children)
             {
-                List<long> count_list = new List<long>();
-                count_list = _treeid(pid, result);
-                return count_list.Count;
+                List<Outline> outlines=Gateway.Default.From<Outline>().Where(wc).ToList<Outline>();
+                List<long> list = this._treeid(pid, outlines);
+                return list.Count;
             }
-            return result.Count;
+            return Gateway.Default.Count<Outline>(wc);
+
+            //从缓存中读取
+            //List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
+            //if (list == null || list.Count < 1) list = this.BuildCache(couid);
+            ////自定义查询条件
+            //Func<Outline, bool> exp = x =>
+            //{
+            //    var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
+            //    var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
+
+            //    var video_exp = isVideo != null ? x.Ol_IsVideo == (bool)isVideo : true;
+            //    var finish_exp = isFinish != null ? x.Ol_IsFinish == (bool)isFinish : true;
+            //    var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true;
+
+            //    return cou_exp && pid_exp && video_exp && finish_exp && use_exp;
+            //};
+            //List<Outline> result = list.Where(exp).ToList<Outline>();
+
+            //if (children != null && !(bool)children)
+            //{
+            //    List<long> count_list = new List<long>();
+            //    count_list = _treeid(pid, result);
+            //    return count_list.Count;
+            //}
+            //return result.Count;
         }
         /// <summary>
         /// 是否有子级章节
@@ -954,7 +915,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 当前章节有多少道试题
         /// </summary>
-        /// <param name="olid"></param>
+        /// <param name="olid">章节id</param>
         /// <param name="type"></param>
         /// <param name="isUse"></param>
         /// <param name="isAll">是否取所有（当前章节下所有子章节的试题一块算）</param>

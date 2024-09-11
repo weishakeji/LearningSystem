@@ -135,7 +135,30 @@ namespace Song.ServiceImpls
                 }
             }
         }
-
+        /// <summary>
+        /// 修改专业的某些项
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="fields">字段</param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public bool SubjectUpdate(long sbjid, Field[] fields, object[] objs)
+        {
+            Gateway.Default.Update<Subject>(fields, objs,Subject._.Sbj_ID == sbjid);
+            return true;
+        }
+        /// <summary>
+        /// 修改专业的某些项
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="field">字段</param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool SubjectUpdate(long sbjid, Field field, object obj)
+        {
+            Gateway.Default.Update<Subject>(field, obj, Subject._.Sbj_ID == sbjid);
+            return true;
+        }
         public void SubjectDelete(long identify)
         {
             //是否存在试题
@@ -253,15 +276,6 @@ namespace Song.ServiceImpls
             int count = Gateway.Default.Count<Subject>(wc && Subject._.Sbj_PID == identify);
             return count > 0;
         }
-        public List<Subject> SubjectCount(bool? isUse, int count)
-        {
-            WhereClip wc = new WhereClip();
-            wc.And(Subject._.Sbj_ID > -1);
-            if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
-            count = count > 0 ? count : int.MaxValue;
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToList<Subject>(count);
-        }
-
         public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, int count)
         {
             WhereClip wc = new WhereClip();

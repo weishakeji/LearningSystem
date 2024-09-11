@@ -69,8 +69,7 @@ namespace Song.ServiceInterfaces
         /// 删除章节
         /// </summary>
         /// <param name="entity">章节对象</param>
-        /// <param name="freshCache"></param>
-        void OutlineDelete(Outline entity, bool freshCache);
+        void OutlineDelete(Outline entity);
         /// <summary>
         /// 删除，按主键ID；
         /// </summary>
@@ -116,10 +115,10 @@ namespace Song.ServiceInterfaces
         /// <param name="video">是否为视频章节</param>
         /// <returns></returns>
         List<Outline> OutlineAll(long couid, bool? use, bool? finish, bool? video);
-        /// <summary>
-        /// 构建缓存，章节缓存以课程为单位存储
-        /// </summary>
-        List<Outline> BuildCache(long couid);
+        ///// <summary>
+        ///// 构建缓存，章节缓存以课程为单位存储
+        ///// </summary>
+        //List<Outline> BuildCache(long couid);
         /// <summary>
         /// 生成树形结构的章节列表
         /// </summary>
@@ -135,8 +134,7 @@ namespace Song.ServiceInterfaces
         /// 清空章节下试题和附件
         /// </summary>
         /// <param name="entity">章节对象</param>
-        /// <param name="freshCache"></param>
-        void OutlineClear(Outline entity, bool freshCache);
+        void OutlineClear(Outline entity);
         /// <summary>
         /// 清理无效章节
         /// </summary>

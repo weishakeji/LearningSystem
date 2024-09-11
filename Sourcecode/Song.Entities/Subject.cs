@@ -20,7 +20,7 @@ namespace Song.Entities {
     		
     		protected String _Sbj_ByName;
     		
-    		protected Int32 _Sbj_CouNumber;
+    		protected Int32 _Sbj_CourseCount;
     		
     		protected DateTime _Sbj_CrtTime;
     		
@@ -112,13 +112,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Sbj_CouNumber {
+    		public Int32 Sbj_CourseCount {
     			get {
-    				return this._Sbj_CouNumber;
+    				return this._Sbj_CourseCount;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Sbj_CouNumber, _Sbj_CouNumber, value);
-    				this._Sbj_CouNumber = value;
+    				this.OnPropertyValueChange(_.Sbj_CourseCount, _Sbj_CourseCount, value);
+    				this._Sbj_CourseCount = value;
     			}
     		}
     		
@@ -298,7 +298,7 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Org_Name,
     					_.Sbj_ByName,
-    					_.Sbj_CouNumber,
+    					_.Sbj_CourseCount,
     					_.Sbj_CrtTime,
     					_.Sbj_Details,
     					_.Sbj_Intro,
@@ -327,7 +327,7 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Org_Name,
     					this._Sbj_ByName,
-    					this._Sbj_CouNumber,
+    					this._Sbj_CourseCount,
     					this._Sbj_CrtTime,
     					this._Sbj_Details,
     					this._Sbj_Intro,
@@ -367,8 +367,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Sbj_ByName))) {
     				this._Sbj_ByName = reader.GetString(_.Sbj_ByName);
     			}
-    			if ((false == reader.IsDBNull(_.Sbj_CouNumber))) {
-    				this._Sbj_CouNumber = reader.GetInt32(_.Sbj_CouNumber);
+    			if ((false == reader.IsDBNull(_.Sbj_CourseCount))) {
+    				this._Sbj_CourseCount = reader.GetInt32(_.Sbj_CourseCount);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_CrtTime))) {
     				this._Sbj_CrtTime = reader.GetDateTime(_.Sbj_CrtTime);
@@ -472,9 +472,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Sbj_ByName = new WeiSha.Data.Field<Subject>("Sbj_ByName");
     			
     			/// <summary>
-    			/// 字段名：Sbj_CouNumber - 数据类型：Int32
+    			/// 字段名：Sbj_CourseCount - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Sbj_CouNumber = new WeiSha.Data.Field<Subject>("Sbj_CouNumber");
+    			public static WeiSha.Data.Field Sbj_CourseCount = new WeiSha.Data.Field<Subject>("Sbj_CourseCount");
     			
     			/// <summary>
     			/// 字段名：Sbj_CrtTime - 数据类型：DateTime

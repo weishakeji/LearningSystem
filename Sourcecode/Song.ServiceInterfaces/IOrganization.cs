@@ -88,7 +88,7 @@ namespace Song.ServiceInterfaces
         /// <param name="level">机构等级</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Organization[] OrganCount(bool? isUse, bool? isShow, int level, int count);
+        List<Organization> OrganCount(bool? isUse, bool? isShow, int level, int count);
         /// <summary>
         /// 清理临时文件
         /// </summary>
@@ -114,7 +114,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum);
+        List<Organization> OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum);
 
         #endregion
 
@@ -211,6 +211,11 @@ namespace Song.ServiceInterfaces
         /// <param name="end"></param>
         /// <returns></returns>
         int CourseSumBuy(int orgid, bool? isfree, DateTime? start, DateTime? end);
+
+        /// <summary>
+        /// 更新机构的统计数据
+        /// </summary>
+        void UpdateStatisticalData();
         #endregion
     }
 }

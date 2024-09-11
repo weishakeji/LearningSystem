@@ -11,6 +11,7 @@ using Song.ServiceInterfaces;
 using System.IO;
 using System.Collections;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -352,7 +353,7 @@ namespace Song.ServiceImpls
             //    .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
         }
 
-        public Organization[] OrganCount(bool? isUse, bool? isShow, int level, int count)
+        public List<Organization> OrganCount(bool? isUse, bool? isShow, int level, int count)
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
@@ -360,7 +361,7 @@ namespace Song.ServiceImpls
             if (level > 0) wc.And(Organization._.Olv_ID == level);
             count = count > 0 ? count : int.MaxValue;
             return Gateway.Default.From<Organization>().Where(wc)
-                .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>(count);
+                .OrderBy(Organization._.Org_RegTime.Desc).ToList<Organization>(count);
         }
         /// <summary>
         /// 清理缓存文件
@@ -432,7 +433,7 @@ namespace Song.ServiceImpls
                 return Cache.EntitiesCache.GetList<Organization>();
             }
         }
-        public Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
+        public List<Organization> OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
@@ -442,7 +443,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Organization>(wc);
             return Gateway.Default.From<Organization>().Where(wc)
                 .OrderBy(Organization._.Org_RegTime.Desc)
-                .ToArray<Organization>(size, (index - 1) * size);
+                .ToList<Organization>(size, (index - 1) * size);
         }
         #endregion
 
@@ -714,6 +715,85 @@ namespace Song.ServiceImpls
 
             return o == null ? 0 : Convert.ToInt32(o);
         }
+
+        /// <summary>
+        /// 更新机构的统计数据
+        /// </summary>
+        public void UpdateStatisticalData()
+        {
+            if (!Gateway.Default.IsCorrect) return;
+            WeiSha.Core.Log.Info(this.GetType().FullName, "更新机构的统计数据");
+            List<Organization> orgs = this.OrganCount(null, null, -1, 0);
+            foreach (Organization org in orgs)
+            {
+                //统计机构的课程数
+                int org_count = Business.Do<IQuestions>().QuesOfCount(org.Org_ID, -1, -1, -1, 0, -1, null);
+                Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == org.Org_ID);
+            }
+            _update_Subject_StatisticalData();
+            _update_Course_StatisticalData();
+        }
+        #region 专业的统计数据
+        /// <summary>
+        /// 更新专业的数据，包括试题数，试卷数，课程数
+        /// </summary>
+        private static void _update_Subject_StatisticalData()
+        {
+            List<Subject> list = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
+            List< Task > tasks = new List<Task>();
+            foreach (Subject item in list)
+            {
+                tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
+            }
+            // 逐个等待任务完成
+            foreach (Task task in tasks)
+            {
+                task.Wait();
+            }
+        }
+        /// <summary>
+        /// 更新专业的数据，包括试题数，试卷数，课程数
+        /// </summary>
+        /// <param name="subject">专业</param>
+        private static void _update_Subject_StatisticalData_task(Subject subject)
+        {
+            int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
+            int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
+            int course_count = Business.Do<ICourse>().CourseOfCount(-1, subject.Sbj_ID, -1, null, null);
+            Business.Do<ISubject>().SubjectUpdate(subject.Sbj_ID,
+                new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
+                new object[] { ques_count, paper_count, course_count });
+        }
+        #endregion
+
+        #region 课程的统计数据
+        private static void _update_Course_StatisticalData()
+        {
+            List<Course> list = Business.Do<ICourse>().CourseCount(-1, -1, -1, -1, null, null, 0);
+            List<Task> tasks = new List<Task>();
+            foreach (Course item in list)
+            {
+                tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
+            }
+            // 逐个等待任务完成
+            foreach (Task task in tasks)
+            {
+                task.Wait();
+            }
+        }
+        private static void _update_Course_StatisticalData_task(Course course)
+        {
+            //更新课程的试卷数，章节数，视频数
+            int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, course.Cou_ID, -1, null);
+            int outline_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null);
+            int video_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, null, null, null);
+            Business.Do<ICourse>().CourseUpdate(course.Cou_ID,
+                new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
+                new object[] { paper_count, outline_count, video_count });
+            //更新课程与章节下的试题数量
+            Business.Do<IQuestions>().QuesCountUpdate(-1, -1, course.Cou_ID, -1);
+        }
+        #endregion
         #endregion
 
     }

@@ -236,22 +236,9 @@
                 this.close_fresh('vapp.freshrow("' + this.id + '")');
                 $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
                 var th = this;
-                if (freshall == null || freshall == false) {
+               
                     th.getTreeData(false);
-                } else {
-                    $api.put('Outline/FreshCache', { 'couid': this.id }).then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            th.getTreeData(false);
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
-                    }).finally(() => { });
-                }
+              
             },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {

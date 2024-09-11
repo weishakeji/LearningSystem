@@ -151,8 +151,8 @@ Vue.component('sbj_cascader', {
             :disabled="disabled" :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">
                 <span>{{ data.Sbj_Name }}</span>
-                <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
-                    <icon>&#xe813</icon>{{ data.Sbj_CouNumber }}
+                <span class="sbj_course" v-if="data.Sbj_CourseCount>0">
+                    <icon>&#xe813</icon>{{ data.Sbj_CourseCount }}
                 </span>
             </template>
         </el-cascader>      
