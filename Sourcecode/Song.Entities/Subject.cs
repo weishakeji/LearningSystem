@@ -48,6 +48,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Sbj_Tax;
     		
+    		protected Int32 _Sbj_TestCount;
+    		
     		protected String _Sbj_XPath;
     		
     		public Int64 Sbj_ID {
@@ -250,6 +252,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Sbj_TestCount {
+    			get {
+    				return this._Sbj_TestCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sbj_TestCount, _Sbj_TestCount, value);
+    				this._Sbj_TestCount = value;
+    			}
+    		}
+    		
     		public String Sbj_XPath {
     			get {
     				return this._Sbj_XPath;
@@ -300,6 +312,7 @@ namespace Song.Entities {
     					_.Sbj_PassScore,
     					_.Sbj_QuesCount,
     					_.Sbj_Tax,
+    					_.Sbj_TestCount,
     					_.Sbj_XPath};
     		}
     		
@@ -328,6 +341,7 @@ namespace Song.Entities {
     					this._Sbj_PassScore,
     					this._Sbj_QuesCount,
     					this._Sbj_Tax,
+    					this._Sbj_TestCount,
     					this._Sbj_XPath};
     		}
     		
@@ -394,6 +408,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Sbj_Tax))) {
     				this._Sbj_Tax = reader.GetInt32(_.Sbj_Tax);
+    			}
+    			if ((false == reader.IsDBNull(_.Sbj_TestCount))) {
+    				this._Sbj_TestCount = reader.GetInt32(_.Sbj_TestCount);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_XPath))) {
     				this._Sbj_XPath = reader.GetString(_.Sbj_XPath);
@@ -523,6 +540,11 @@ namespace Song.Entities {
     			/// 字段名：Sbj_Tax - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_Tax = new WeiSha.Data.Field<Subject>("Sbj_Tax");
+    			
+    			/// <summary>
+    			/// 字段名：Sbj_TestCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Sbj_TestCount = new WeiSha.Data.Field<Subject>("Sbj_TestCount");
     			
     			/// <summary>
     			/// 字段名：Sbj_XPath - 数据类型：String

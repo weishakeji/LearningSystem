@@ -79,7 +79,7 @@
                     {{scope.row.Cou_Tax}}
                 </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column label="价格" width="160" >
                 <template slot-scope="scope">
                     <keep-alive>
                         <course_prices :course="scope.row" :ref="'prices'+scope.$index" :uid="scope.row.Cou_UID"

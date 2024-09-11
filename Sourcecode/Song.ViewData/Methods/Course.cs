@@ -358,14 +358,19 @@ namespace Song.ViewData.Methods
         }
             //知识点
             int knl = Business.Do<IKnowledge>().KnowledgeOfCount(-1, couid, -1, true);
-            //课程通知
-            int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
+            ////课程通知
+            //int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
             //视频数
             //int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
             ////学习人数
             //int student = Business.Do<ICourse>().CourseStudentSum(couid, true);
             //试卷数
-            int testpaper = Business.Do<ITestPaper>().PaperOfCount(-1, -1, couid, -1, true);
+            int testpaper = course.Cou_TestCount;
+            if (testpaper <= 0)
+            {
+                testpaper = Business.Do<ITestPaper>().PaperOfCount(-1, -1, couid, -1, true);
+                Business.Do<ICourse>().CourseUpdate(couid, Entities.Course._.Cou_TestCount, testpaper);
+            }
             //结课考试
             Song.Entities.TestPaper final = Business.Do<ITestPaper>().FinalPaper(couid, null);
             if (final != null) testpaper--;
@@ -374,15 +379,15 @@ namespace Song.ViewData.Methods
             jo.Add("outline", outline);
             jo.Add("question", qus);
             jo.Add("knowledge", knl);
-            jo.Add("guide", guide);
+            //jo.Add("guide", guide);
             jo.Add("testpaper", testpaper);
             jo.Add("testfinal", final != null && final.Tp_IsUse ? 1 : 0);
             jo.Add("video", 0);
             jo.Add("student", 0);
             jo.Add("view", course.Cou_ViewNum);     //课程浏览数
             jo.Add("live", course.Cou_ExistLive);       //是否为直播课
-            return jo;
-        }
+            return jo;           
+        }       
         #endregion
 
         #region 课程价格   

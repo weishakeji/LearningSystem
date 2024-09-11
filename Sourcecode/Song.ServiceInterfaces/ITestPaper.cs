@@ -56,16 +56,27 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TestPaper FinalPaper(long couid, bool? use);
         /// <summary>
-        /// 获取试卷
+        /// 获取指定数据的试卷
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">学科id</param>
         /// <param name="couid">课程id</param>
         /// <param name="diff"></param>
         /// <param name="isUse"></param>
-        /// <param name="count"></param>
+        /// <param name="count">指定数量</param>
         /// <returns></returns>
         TestPaper[] PaperCount(int orgid, long sbjid, long couid, int diff, bool? isUse, int count);
+        /// <summary>
+        /// 获取指定数据的试卷
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">学科id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="diff"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count">指定数量</param>
+        /// <returns></returns>
         TestPaper[] PaperCount(string search, int orgid, long sbjid, long couid, int diff, bool? isUse, int count);
         /// <summary>
         /// 计算有多少个试卷
@@ -76,7 +87,13 @@ namespace Song.ServiceInterfaces
         /// <param name="diff"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse);       
+        int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse);
+        /// <summary>
+        /// 试卷数量更新到专业、课程，方便展示
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        void PaperCountUpdate(long sbjid, long couid);
         /// <summary>
         /// 分页获取试卷
         /// </summary>

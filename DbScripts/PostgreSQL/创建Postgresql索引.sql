@@ -262,7 +262,14 @@ CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_Tax" ON "OrganLevel" ("Olv_Tax" DE
 -- 42 . Outline
 CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID" ON "Outline" ("Cou_ID" ASC,"Ol_Tax" DESC);
 CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID2" ON "Outline" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsFinish" ON "Outline" ("Ol_IsFinish" ASC);
 CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsUse" ON "Outline" ("Ol_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsVideo" ON "Outline" ("Ol_IsVideo" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Name" ON "Outline" ("Ol_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_PID" ON "Outline" ("Ol_PID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Tax" ON "Outline" ("Ol_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Org_ID" ON "Outline" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Sbj_ID" ON "Outline" ("Sbj_ID" ASC);
 -- 43 . OutlineEvent
 -- 44 . PayInterface
 CREATE INDEX IF NOT EXISTS "PayInterface_IX_Org_ID" ON "PayInterface" ("Org_ID" DESC);
@@ -427,4 +434,4 @@ CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Tag" ON "ThirdpartyAccounts
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" DESC);
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_IsUse" ON "ThirdpartyLogin" ("Tl_IsUse" DESC);
 CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_Tag" ON "ThirdpartyLogin" ("Tl_Tag" DESC);
---总共索引有：351
+--总共索引有：358

@@ -82,8 +82,12 @@ namespace Song.ServiceImpls
                     //统计课程下章节的数量
                     new Task(() =>
                     {
+                        //章节数量
                         int count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID);
                         Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_OutlineCount, count);
+                        //视频章节的数量
+                        count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_IsVideo==true);
+                        Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_VideoCount, count);
                     }).Start();
                 }
                 catch (Exception ex)
@@ -422,8 +426,12 @@ namespace Song.ServiceImpls
                     //统计课程下章节的数量
                     new Task(() =>
                     {
+                        //章节数量
                         int count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID);
                         Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_OutlineCount, count);
+                        //视频章节的数量
+                        count = Gateway.Default.Count<Outline>(Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_IsVideo == true);
+                        Business.Do<ICourse>().CourseUpdate(entity.Cou_ID, Course._.Cou_VideoCount, count);
                     }).Start();
                 }
                 catch (Exception ex)

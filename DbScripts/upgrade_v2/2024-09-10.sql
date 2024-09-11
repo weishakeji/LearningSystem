@@ -40,6 +40,9 @@ alter table "Organization" add "Org_QuesCount" int NULL;
 update "Organization" set "Org_QuesCount"=0;
 alter table "Organization" ALTER COLUMN "Org_QuesCount" set NOT NULL;
 
+alter table "Subject" add "Sbj_TestCount" int NULL;
+update "Subject" set "Sbj_TestCount"=0;
+alter table "Subject" ALTER COLUMN "Sbj_TestCount" set NOT NULL;
 
 
 /* SQLserver  Éý¼¶½Å±¾*/
@@ -98,4 +101,11 @@ go
 update "Organization" set "Org_QuesCount"=0 where "Org_QuesCount" is null
 go
 alter table "Organization" ALTER COLUMN "Org_QuesCount" int NOT NULL
+go
+
+alter table "Subject" add  "Sbj_TestCount" int
+go
+update "Subject" set "Sbj_TestCount"=0 where "Sbj_TestCount" is null
+go
+alter table "Subject" ALTER COLUMN "Sbj_TestCount" int NOT NULL
 go

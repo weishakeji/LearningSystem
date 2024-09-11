@@ -11,8 +11,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Data.Common;
 using System.Xml;
-
-
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -52,32 +51,12 @@ namespace Song.ServiceImpls
               new object[] { false }, TestPaper._.Cou_ID == entity.Cou_ID);
             }
             Gateway.Default.Save<TestPaper>(entity);
-            return entity.Tp_Id;
-            //if (items == null)
-            //{
-            //    return Gateway.Default.Save<TestPaper>(entity);
-            //}
-            //int id = -1;
-            //using (DbTrans tran = Gateway.Default.BeginTrans())
-            //    try
-            //    {
-            //        int sumCount = 0;
-            //        foreach (TestPaperItem tpi in items)
-            //        {
-            //            tpi.Tp_UID = entity.Tp_UID;
-            //            tran.Save<TestPaperItem>(tpi);
-            //            sumCount += (int)tpi.TPI_Count;
-            //        }
-            //        entity.Tp_Count = sumCount;
-            //        id = tran.Save<TestPaper>(entity);
-            //        tran.Commit();
-            //        return id;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        tran.Rollback();
-            //        throw ex;
-            //    }   
+            //更新统计信息
+            new Task(() => {
+                Business.Do<ITestPaper>().PaperCountUpdate(entity.Sbj_ID, entity.Cou_ID);
+            }).Start();
+            
+            return entity.Tp_Id;  
         }
 
         public void PaperSave(TestPaper entity)
@@ -154,6 +133,10 @@ namespace Song.ServiceImpls
                     tran.Delete<TestResults>(TestResults._.Tp_Id == identify);
                     WeiSha.Core.Upload.Get["TestPaper"].DeleteDirectory(tp.Tp_Id.ToString());
                     tran.Commit();
+                    //更新统计信息
+                    new Task(() => {
+                        Business.Do<ITestPaper>().PaperCountUpdate(tp.Sbj_ID, tp.Cou_ID);
+                    }).Start();
                 }
                 catch(Exception ex)
                 {
@@ -208,24 +191,6 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(count);
         }
 
-        public int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
-            if (sbjid > 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                foreach (long l in list)
-                    wcSbjid.Or(TestPaper._.Sbj_ID == l);
-                wc.And(wcSbjid);
-            }
-            if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
-            if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
-            if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
-            return Gateway.Default.Count<TestPaper>(wc);
-        }
-        
         public TestPaper[] PaperCount(string search, int orgid, long sbjid, long couid, int diff, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
@@ -246,6 +211,41 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(count);
         }
 
+        public int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list)
+                    wcSbjid.Or(TestPaper._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
+            if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
+            if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
+            return Gateway.Default.Count<TestPaper>(wc);
+        }
+        /// <summary>
+        /// 试卷数量更新到专业、课程，方便展示
+        /// </summary>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        public void PaperCountUpdate(long sbjid, long couid)
+        {
+            if (sbjid > 0)
+            {
+                int sbj_count = Gateway.Default.Count<TestPaper>(TestPaper._.Sbj_ID == sbjid);
+                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_TestCount }, new object[] { sbj_count }, Subject._.Sbj_ID == sbjid);
+            }
+            if (couid > 0)
+            {
+                int cou_count = Gateway.Default.Count<TestPaper>(TestPaper._.Cou_ID == couid);
+                Gateway.Default.Update<Course>(new Field[] { Course._.Cou_TestCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
+            }
+        }
         public TestPaper[] PaperPager(int orgid, long sbjid, long couid, int diff, bool? isUse, string sear, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
