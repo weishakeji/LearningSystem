@@ -12,6 +12,9 @@ using System.IO;
 using System.Collections;
 using System.Web;
 using System.Threading.Tasks;
+using System.Threading;
+using Quartz;
+using Quartz.Impl;
 
 namespace Song.ServiceImpls
 {
@@ -716,6 +719,37 @@ namespace Song.ServiceImpls
             return o == null ? 0 : Convert.ToInt32(o);
         }
 
+        #endregion
+
+        #region 定时统计数据
+
+        /// <summary>
+        /// 创建统计数据的定时任务
+        /// </summary>
+        public void UpdateStatisticalData_CronJob()
+        {
+            // 创建调度器  
+            IScheduler scheduler = (IScheduler)StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.Start();
+
+            // 定义任务  
+            IJobDetail job = JobBuilder.Create<MyJob>()
+                .WithIdentity("myJob", "group1")
+                .Build();
+
+            // 定义触发器，设置为每天凌晨两点执行  
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("myTrigger", "group1")
+                .StartNow()
+                .WithCronSchedule("0 30 12 * * ?") // 每天凌晨2点  
+                .Build();
+
+            // 将任务和触发器添加到调度器  
+            scheduler.ScheduleJob(job, trigger);            
+
+            // 关闭调度器  
+            scheduler.Shutdown();
+        }
         /// <summary>
         /// 更新机构的统计数据
         /// </summary>
@@ -723,6 +757,7 @@ namespace Song.ServiceImpls
         {
             if (!Gateway.Default.IsCorrect) return;
             WeiSha.Core.Log.Info(this.GetType().FullName, "更新机构的统计数据");
+
             List<Organization> orgs = this.OrganCount(null, null, -1, 0);
             foreach (Organization org in orgs)
             {
@@ -740,7 +775,7 @@ namespace Song.ServiceImpls
         private static void _update_Subject_StatisticalData()
         {
             List<Subject> list = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
-            List< Task > tasks = new List<Task>();
+            List<Task> tasks = new List<Task>();
             foreach (Subject item in list)
             {
                 tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
@@ -796,5 +831,19 @@ namespace Song.ServiceImpls
         #endregion
         #endregion
 
+    }
+    // 定义任务类  
+    public class MyJob : IJob
+    {
+        Task IJob.Execute(IJobExecutionContext context)
+        {
+            WeiSha.Core.Log.Info("定时任务", "更新机构的统计数据");
+            Task task = new Task(() =>
+            {
+                //更新统计数据
+                WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
+            });
+            return task;
+        }
     }
 }

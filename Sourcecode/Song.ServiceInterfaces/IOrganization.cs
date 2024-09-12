@@ -213,6 +213,10 @@ namespace Song.ServiceInterfaces
         int CourseSumBuy(int orgid, bool? isfree, DateTime? start, DateTime? end);
 
         /// <summary>
+        /// 创建统计数据的定时任务
+        /// </summary>
+        void UpdateStatisticalData_CronJob();
+        /// <summary>
         /// 更新机构的统计数据
         /// </summary>
         void UpdateStatisticalData();
