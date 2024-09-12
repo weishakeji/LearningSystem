@@ -62,6 +62,7 @@ $ready(function () {
             //过滤树形数据
             filterText: function (val) {
                 this.$refs.tree.filter(val);
+                this.fold = true;
             },
             //树形是否折叠
             fold: function (nv, ov) {
@@ -118,9 +119,18 @@ $ready(function () {
                     childarr[i]['CourseCount'] = 0;
                     childarr[i]['QuesCount'] = 0;
                     childarr[i]['TestCount'] = 0;
+                    childarr[i]['calcChild'] = this.calcChild(childarr[i]);
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
+            },
+            calcChild: function (sbj) {
+                if (!sbj.children) return 0;
+                var count = sbj.children.length;
+                for (var i = 0; i < sbj.children.length; i++) {
+                    count += this.calcChild(sbj.children[i]);
+                }
+                return count;
             },
             //拖动改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
@@ -324,40 +334,5 @@ $ready(function () {
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
         }
-    });
-
-    //专业下的所有子专业数
-    Vue.component('sbj_count', {
-        props: ["sbjid", "subject"],
-        data: function () {
-            return {
-                count: 0,
-                loading: true
-            }
-        },
-        watch: {
-            'subject': {
-                handler: function (nv, ov) {
-                    this.count = this.calcChild(nv);
-                    this.loading = false;
-                }, immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            calcChild: function (sbj) {
-                if (!sbj.children) return 0;
-                var count = sbj.children.length;
-                for (var i = 0; i < sbj.children.length; i++) {
-                    count += this.calcChild(sbj.children[i]);
-                }
-                return count;
-            }
-        },
-        template: `<span title="子级专业数" v-if="count>0">
-            <span class="el-icon-loading" v-if="loading"></span>
-            <span class="sbjcount">({{count}})</span>
-        </span> `
     });
 });

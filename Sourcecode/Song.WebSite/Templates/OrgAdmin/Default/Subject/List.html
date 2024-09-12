@@ -27,7 +27,7 @@
         </div>
 
         <div class="tree-box">
-            <el-tree ref="tree"  :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
+            <el-tree ref="tree" :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
                 :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
                 @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
                 v-loading="loading || loading_sumbit">
@@ -38,7 +38,7 @@
                             @mouseout="$dom('.logoSmall').hide()">&#xe672</icon>
                         <img :src="data.Sbj_LogoSmall" v-show="false" class="logoSmall" :id="'logo_'+data.Sbj_ID" />
                         <span class="large" v-html="showsearch(data.Sbj_Name,filterText)"></span>
-                        <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>
+                        <span class="sbjcount" v-if="data.calcChild>0">({{data.calcChild}})</span>
                     </span>
                     <div class="column_count">
                         <icon title="课程数" course :zero="data.CourseCount<=0">{{data.CourseCount|commas}}</icon>
