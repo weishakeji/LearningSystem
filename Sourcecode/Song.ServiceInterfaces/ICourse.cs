@@ -207,7 +207,18 @@ namespace Song.ServiceInterfaces
         /// <param name="thid">教师id</param>
         /// <param name="isUse">是否启用</param>
         /// <param name="searTxt"></param>
-        /// <param name="order">排序方式，def:默认，先推荐，然后按访问量倒序;flux：按访问量倒序;tax：按自定义排序要求;new:按创建时间，最新发布在前面;rec:按推荐，先推荐，然后按tax排序</param>
+        /// <param name="order">排序方式，
+        /// def:默认，按创建时间倒序;
+        /// flux：按访问量倒序;
+        /// tax：按自定义排序要求;
+        /// new:按创建时间，最新发布在前面;
+        /// last:按创建时间，倒序，即最发布在前面
+        /// rec:按推荐，先推荐，然后按tax排序
+        /// quesAsc:试题最少的排前面
+        /// quesDesc：试题最多排前面
+        /// videoAsc：视频最少排前面
+        /// videoDesc：视频最多的排前面
+        /// </param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>

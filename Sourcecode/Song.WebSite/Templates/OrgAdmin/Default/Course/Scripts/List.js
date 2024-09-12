@@ -12,10 +12,10 @@
             //排序方式
             orderItem: [
                 { text: '默认排序', value: 'def', icon:'&#xb006',div:false },
-                { text: '按推荐排序', value: 'rec' , icon:'&#xe826',div:true },
-                { text: '按访问量排序', value: 'flux', icon:'&#xa03a',div:false  },
-                { text: '按最新创建排序', value: 'new', icon:'&#xe81a',div:true },
-                { text: '按最新创建倒序', value: 'last', icon:'&#xe737',div:false  },
+                { text: '推荐优先', value: 'rec' , icon:'&#xe826',div:true },
+                { text: '访问量最大', value: 'flux', icon:'&#xa03a',div:false  },
+                { text: '最新创建', value: 'new', icon:'&#xe81a',div:true },
+                { text: '最后创建', value: 'last', icon:'&#xe671',div:false  },
                 { text: '试题量最大', value: 'quesDesc', icon:'&#xe755',div:true  },
                 { text: '试题量最小', value: 'quesAsc', icon:'&#xa02e',div:false  },
                 { text: '视频资源最多', value: 'videoDesc', icon:'&#xe761',div:false  },

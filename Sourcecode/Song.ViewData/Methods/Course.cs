@@ -533,7 +533,18 @@ namespace Song.ViewData.Methods
         /// <param name="live">是否为直播课</param>
         /// <param name="free">是否免费</param>
         /// <param name="search">检索字符，按课程名称</param>
-        /// <param name="order">排序方式,排序方式，def:默认，先推荐，然后按访问量倒序;flux：按访问量倒序;tax：按自定义排序要求;new:按创建时间，最新发布在前面;rec:按推荐，先推荐，然后按tax排序</param>
+        /// <param name="order">排序方式，
+        /// def:默认，按创建时间倒序;
+        /// flux：按访问量倒序;
+        /// tax：按自定义排序要求;
+        /// new:按创建时间，最新发布在前面;
+        /// last:按创建时间，倒序，即最发布在前面
+        /// rec:按推荐，先推荐，然后按tax排序
+        /// quesAsc:试题最少的排前面
+        /// quesDesc：试题最多排前面
+        /// videoAsc：视频最少排前面
+        /// videoDesc：视频最多的排前面
+        /// </param>
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
