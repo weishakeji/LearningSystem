@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>课程专业</title>
+    <title>专业/学科</title>
 </head>
 
 <body>
@@ -41,15 +41,15 @@
                         <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>
                     </span>
                     <span class="course_count" title="课程数">
-                        <icon course :class="{'count':true,'zero':data.Sbj_CourseCount<=0}">{{data.Sbj_CourseCount|commas}}
+                        <icon course :class="{'count':true,'zero':data.CourseCount<=0}">{{data.CourseCount|commas}}
                         </icon>
                     </span>
                     <span class="course_count" title="试题数">
-                        <icon question :class="{'count':true,'zero':data.Sbj_QuesCount<=0}">{{data.Sbj_QuesCount|commas}}
+                        <icon question :class="{'count':true,'zero':data.QuesCount<=0}">{{data.QuesCount|commas}}
                         </icon>
                     </span>
                     <span class="course_count" title="试卷数">
-                        <icon test :class="{'count':true,'zero':data.Sbj_TestCount<=0}">{{data.Sbj_TestCount|commas}}
+                        <icon test :class="{'count':true,'zero':data.TestCount<=0}">{{data.TestCount|commas}}
                         </icon>
                     </span>
                     <span class="column_use">

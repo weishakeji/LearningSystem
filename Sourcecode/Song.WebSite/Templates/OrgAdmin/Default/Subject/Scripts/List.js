@@ -36,7 +36,7 @@ $ready(function () {
                     th.form.orgid = th.organ.Org_ID;
                     //机构配置信息
                     th.config = $api.organ(th.organ).config;
-                    th.getTreeData();                   
+                    th.getTreeData();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -59,12 +59,7 @@ $ready(function () {
                 this.loading = true;
                 $api.get('Subject/Tree', th.form).then(function (req) {
                     if (req.data.success) {
-                        let datas = req.data.result;
-                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_CourseCount'));
-                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_QuesCount'));
-                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_TestCount'));                       
-                        th.datas = datas;
-                        th.calcSerial(null, '');
+                        th.datas = th.clacCount(req.data.result);
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -76,30 +71,41 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
+            //计算课程数，ques数，test数
+            clacCount: function (datas) {
+                this.calcSerial(datas, '');
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_CourseCount', 'CourseCount'));
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_QuesCount', 'QuesCount'));
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_TestCount', 'TestCount'));
+                return datas;
+            },
             //遍历计算各个专业的课程数，包括当前专业的子专业
-            ergodic_clacCount: function (sbj, key) {
-                let count = sbj[key];
+            //field:要计算的字段
+            //result:计算结果的字段名，主要为了保留field原始值，方便恢复
+            ergodic_clacCount: function (sbj, field, result) {
+                let count = sbj[field];
                 if (sbj.children && sbj.children.length > 0) {
                     let datas = sbj.children;
                     for (let i = 0; i < datas.length; i++)
-                        count += this.ergodic_clacCount(datas[i], key);
+                        count += this.ergodic_clacCount(datas[i], field,result);
                 }
-                sbj[key] = count;
+                sbj[result] = count;
                 return count;
             },
-             //计算序号，并将时间值从字符串转为时间对象
-             calcSerial: function (item, lvl) {
-                var childarr = item == null ? this.datas : (item.children ? item.children : null);
+            //计算序号
+            calcSerial: function (item, lvl) {
+                var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
-                    // = new Date(childarr[i].Ol_ModifyTime);
-                    //childarr[i].Ol_LiveTime = new Date(childarr[i].Ol_LiveTime);
                     childarr[i].serial = lvl + (i + 1) + '.';
+                    childarr[i]['CourseCount'] = 0;
+                    childarr[i]['QuesCount'] = 0;
+                    childarr[i]['TestCount'] = 0;
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
             },
-           
+
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
                 //console.log('tree drag end: ', dropNode && dropNode, dropType);
                 var th = this;
@@ -115,7 +121,8 @@ $ready(function () {
                             center: true
                         });
                         th.fresh_cache();
-                        th.getTreeData();
+                        th.clacCount(th.datas);
+                        //th.getTreeData();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -141,7 +148,6 @@ $ready(function () {
             filterNode: function (value, data) {
                 if (!value) return true;
                 var txt = $api.trim(value.toLowerCase());
-                //console.log(txt.length);
                 if (txt == '') return true;
                 return data.Sbj_Name.toLowerCase().indexOf(txt) !== -1;
             },
