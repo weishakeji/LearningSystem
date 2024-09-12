@@ -6,7 +6,7 @@ $ready(function () {
             form:
             {
                 'orgid': '',
-                'sbjids': '', 'thid': '',
+                'sbjids': '', 'thid': '','use': '', 'live': '','free':'',
                 'search': '',
                 'order': 'new',
                 'size': 20, 'index': 1

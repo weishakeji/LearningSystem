@@ -529,17 +529,20 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <param name="sbjids">章节id，可以为多个，以逗号分隔</param>
         /// <param name="thid">教师id</param>
+        /// <param name="use">是否启用</param>
+        /// <param name="live">是否为直播课</param>
+        /// <param name="free">是否免费</param>
         /// <param name="search">检索字符，按课程名称</param>
         /// <param name="order">排序方式,排序方式，def:默认，先推荐，然后按访问量倒序;flux：按访问量倒序;tax：按自定义排序要求;new:按创建时间，最新发布在前面;rec:按推荐，先推荐，然后按tax排序</param>
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, string sbjids, int thid, string search, string order,int size, int index)
+        public ListResult Pager(int orgid, string sbjids, int thid, bool? use, bool? live, bool? free,string search, string order,int size, int index)
         {
             size = size <= 0 ? int.MaxValue : size;
             int count = 0;
             List<Song.Entities.Course> eas = null;
-            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids,thid, null, search, order, size, index, out count);
+            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids, thid, use, live, free, search, order, size, index, out count);
             for (int i = 0; i < eas.Count; i++)          
                 eas[i] = _tran(eas[i]);
             //ListResult result = new ListResult(eas.ToArray<Song.Entities.Course>());

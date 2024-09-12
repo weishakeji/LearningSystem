@@ -46,7 +46,7 @@ Vue.component('general', {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
                     this.couid = nv.Cou_ID;
-                    let sbjid = nv.Sbj_ID;                  
+                    let sbjid = nv.Sbj_ID;
                     var th = this;
                     var arr = [];
                     arr.push(sbjid);
@@ -148,18 +148,20 @@ Vue.component('general', {
             var sbjid = 0;
             if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
             th.courses = [];
-            $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
-                if (req.data.success) {
-                    th.courses = req.data.result;
-                    th.getOultines();
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            }) .finally(()=>{});
+            $api.cache('Course/Pager',
+                { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '', 'free': '', 'search': '', 'order': '', 'size': -1, 'index': 1 })
+                .then(function (req) {
+                    if (req.data.success) {
+                        th.courses = req.data.result;
+                        th.getOultines();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => { });
         },
         //当试题的课程更改时
         changeCourse: function (val) {

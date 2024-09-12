@@ -5,10 +5,8 @@
         data: {
             form:
             {
-                'orgid': '',
-                'sbjids': '', 'thid': '',
-                'search': '',
-                'order': 'new',
+                'orgid': '', 'sbjids': '', 'thid': '', 'use': '', 'live': '','free':'',
+                'search': '', 'order': '',
                 'size': 1, 'index': 1
             },
             checkRec: false,     //是否推荐的选项
@@ -62,8 +60,7 @@
             //是否查询推荐的课程
             'checkRec': function (nv, ov) {
                 if (nv) this.form.order = 'rec';
-                else
-                    this.form.order = '';
+                else this.form.order = '';
             },
             //当前要展示综述的课程
             'curr': {
@@ -71,13 +68,10 @@
                     //console.log(nv)
                 }, deep: true,
             },
-            'tableKey':function(nv,ov){
-                console.error(nv);
-            }
         },
         methods: {
             //加载数据页
-            handleCurrentChange: function (index) {               
+            handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算

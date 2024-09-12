@@ -417,7 +417,7 @@ Vue.component('exam_item_modify', {
             if (val.length > 0) currid = val[val.length - 1];
             var th = this;
             var orgid = th.organ.Org_ID;
-            $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': currid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+            $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': currid, 'thid': '', 'use': '', 'live': '','free':'','search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                 if (req.data.success) {
                     th.courses = req.data.result;
                     if (th.courses.length > 0) {

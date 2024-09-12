@@ -18,12 +18,9 @@
                         @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
                 </el-form-item>
                 <el-form-item label="课程">
-                    <el-input v-model="form.search" placeholder="课程名称" clearable style="width:160px"></el-input>
+                    <el-input v-model="form.search" placeholder="课程名称" clearable style="width:200px"></el-input>
                 </el-form-item>
                 <template v-slot:more>
-                    <el-form-item label="">
-                        <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
-                    </el-form-item>
                     <el-form-item label="教师">
                         <el-select v-model="form.thid" clearable filterable remote reserve-keyword placeholder="教师名称"
                             :remote-method="teacher_query" :loading="loading_teach" style="width:160px">
@@ -35,6 +32,31 @@
                         </el-select>
                         <help>可输入名称检索</help>
                     </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-radio-group v-model="form.use">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">启用</el-radio-button>
+                            <el-radio-button label="false">禁用</el-radio-button>                         
+                          </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="直播课">
+                        <el-radio-group v-model="form.live">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">直播课</el-radio-button>
+                            <el-radio-button label="false">普通课程</el-radio-button>                         
+                          </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="免费">
+                        <el-radio-group v-model="form.free">
+                            <el-radio-button label="">全部</el-radio-button>
+                            <el-radio-button label="true">免费课程</el-radio-button>
+                            <el-radio-button label="false">收费课程</el-radio-button>                         
+                          </el-radio-group>
+                    </el-form-item>
+                    
                 </template>
             </query_panel>
         </div>

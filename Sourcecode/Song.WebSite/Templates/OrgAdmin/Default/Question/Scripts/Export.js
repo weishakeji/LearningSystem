@@ -256,7 +256,7 @@ $ready(function () {
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
                 th.courses = [];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '','use': '', 'live': '', 'free':'','search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                         th.getOultines();

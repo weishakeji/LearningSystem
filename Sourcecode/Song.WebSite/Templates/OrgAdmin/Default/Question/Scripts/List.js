@@ -135,7 +135,7 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid <= 0 ? '' : sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 })
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid <= 0 ? '' : sbjid, 'thid': '', 'use': '', 'live': '','free':'','search': '', 'order': '', 'size': -1, 'index': 1 })
                     .then(function (req) {
                         if (req.data.success) {
                             th.courses_all = req.data.result;

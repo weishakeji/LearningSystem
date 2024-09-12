@@ -744,7 +744,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Course> CoursePager(int orgid, string sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
         {
-            return this.CoursePager(orgid, sbjid, thid, isUse, null, searTxt, order, size, index, out countSum);
+            return this.CoursePager(orgid, sbjid, thid, isUse, null, null, searTxt, order, size, index, out countSum);
         }
 
         /// <summary>
@@ -761,7 +761,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Course> CoursePager(int orgid, string sbjid, int thid, bool? isUse, bool? isLive, string searTxt, string order, int size, int index, out int countSum)
+        public List<Course> CoursePager(int orgid, string sbjid, int thid, bool? isUse, bool? isLive, bool? isFree, string searTxt, string order, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
@@ -784,6 +784,7 @@ namespace Song.ServiceImpls
                 wc.And(wcSbjid);
             }
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (isFree != null) wc.And(Course._.Cou_IsFree == (bool)isFree);
             if (order == "live") isLive = true;
             if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
             if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains("%" + searTxt.Trim()));
@@ -794,6 +795,7 @@ namespace Song.ServiceImpls
             if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
+            if (order == "last") wcOrder = Course._.Cou_CrtTime.Asc;    //最后发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {
