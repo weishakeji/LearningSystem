@@ -28,6 +28,8 @@ namespace Song.Entities {
     		
     		protected String _Org_Config;
     		
+    		protected Int32 _Org_CourseCount;
+    		
     		protected String _Org_Description;
     		
     		protected String _Org_District;
@@ -201,6 +203,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Org_Config, _Org_Config, value);
     				this._Org_Config = value;
+    			}
+    		}
+    		
+    		public Int32 Org_CourseCount {
+    			get {
+    				return this._Org_CourseCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_CourseCount, _Org_CourseCount, value);
+    				this._Org_CourseCount = value;
     			}
     		}
     		
@@ -621,6 +633,7 @@ namespace Song.Entities {
     					_.Org_City,
     					_.Org_CoBank,
     					_.Org_Config,
+    					_.Org_CourseCount,
     					_.Org_Description,
     					_.Org_District,
     					_.Org_Email,
@@ -676,6 +689,7 @@ namespace Song.Entities {
     					this._Org_City,
     					this._Org_CoBank,
     					this._Org_Config,
+    					this._Org_CourseCount,
     					this._Org_Description,
     					this._Org_District,
     					this._Org_Email,
@@ -749,6 +763,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Config))) {
     				this._Org_Config = reader.GetString(_.Org_Config);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_CourseCount))) {
+    				this._Org_CourseCount = reader.GetInt32(_.Org_CourseCount);
     			}
     			if ((false == reader.IsDBNull(_.Org_Description))) {
     				this._Org_Description = reader.GetString(_.Org_Description);
@@ -939,6 +956,11 @@ namespace Song.Entities {
     			/// 字段名：Org_Config - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Config = new WeiSha.Data.Field<Organization>("Org_Config");
+    			
+    			/// <summary>
+    			/// 字段名：Org_CourseCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Org_CourseCount = new WeiSha.Data.Field<Organization>("Org_CourseCount");
     			
     			/// <summary>
     			/// 字段名：Org_Description - 数据类型：String
@@ -1132,4 +1154,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

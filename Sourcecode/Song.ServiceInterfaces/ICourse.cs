@@ -156,7 +156,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Course> CourseCount(int orgid, long  sbjid, string sear, bool? isUse, string order, int count);
         /// <summary>
-        /// 课程数量
+        /// 课程数量,如果计算专业下的课程数，会计算专业所有子级专业的课程数
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
@@ -171,6 +171,11 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid"></param>
         /// <returns></returns>
         int CourseOfCount(long  sbjid);
+        /// <summary>
+        /// 课程的统计数据更新
+        /// </summary>
+        /// <returns></returns>
+        void CourseCountUpdate(int orgid,long sbjid);
         /// <summary>
         /// 当前课程下是否有子级
         /// </summary>

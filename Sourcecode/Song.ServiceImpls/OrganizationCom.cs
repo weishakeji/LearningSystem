@@ -795,7 +795,7 @@ namespace Song.ServiceImpls
         {
             int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
             int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
-            int course_count = Business.Do<ICourse>().CourseOfCount(-1, subject.Sbj_ID, -1, null, null);
+            int course_count = Business.Do<ICourse>().CourseOfCount(subject.Sbj_ID);
             Business.Do<ISubject>().SubjectUpdate(subject.Sbj_ID,
                 new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
                 new object[] { ques_count, paper_count, course_count });

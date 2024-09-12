@@ -53,6 +53,8 @@ namespace Song.ServiceImpls
             entity.Cou_Level = _calcLevel(entity);
             entity.Cou_XPath = _calcXPath(entity);
             Gateway.Default.Save<Course>(entity);
+
+            this.CourseCountUpdate(entity.Org_ID, entity.Sbj_ID);
         }
         /// <summary>
         /// 批量添加课程，可用于导入时
@@ -99,6 +101,8 @@ namespace Song.ServiceImpls
                 last = current;
                 pid = current.Cou_ID;
             }
+            //更新统计数据
+            Task.Run(() => this.CourseCountUpdate(orgid, sbjid));
             return last;
         }       
         /// <summary>
@@ -152,6 +156,11 @@ namespace Song.ServiceImpls
                                     new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
                                     new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
                                     TestPaper._.Cou_ID == entity.Cou_ID);
+                        Task.Run(() =>
+                        {
+                            this.CourseCountUpdate(-1, entity.Sbj_ID);
+                            this.CourseCountUpdate(-1, old.Sbj_ID);
+                        });
                     }
                     tran.Save<Course>(entity);
                     tran.Commit();
@@ -246,10 +255,12 @@ namespace Song.ServiceImpls
                     WeiSha.Core.Upload.Get["Course"].DeleteDirectory(entity.Cou_ID.ToString());
                     tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
                     tran.Commit();
-                    new Task(() =>
+                    Task.Run(() =>
                     {
                         this.CourseClear(entity, true);
-                    }).Start();
+                    });
+                    //更新统计数据
+                    this.CourseCountUpdate(entity.Org_ID, entity.Sbj_ID);
                 }
                 catch (Exception ex)
                 {
@@ -502,7 +513,7 @@ namespace Song.ServiceImpls
             this.CourseClear(course, isfreshData);
         }
         /// <summary>
-        /// 课程数量
+        /// 课程数量,如果计算专业下的课程数，会计算专业所有子级专业的课程数
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
@@ -514,6 +525,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            //if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
@@ -534,12 +546,24 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int CourseOfCount(long sbjid)
         {
-            int count = this.CourseOfCount(-1, sbjid, -1, null, null);
-            new System.Threading.Tasks.Task(() =>
+            return Gateway.Default.Count<Course>(Course._.Sbj_ID == sbjid);          
+        }
+        /// <summary>
+        /// 课程的统计数据更新
+        /// </summary>
+        /// <returns></returns>
+        public void CourseCountUpdate(int orgid, long sbjid)
+        {
+            if (sbjid > 0)
             {
-                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CourseCount }, new object[] { count }, Subject._.Sbj_ID == sbjid);
-            }).Start();           
-            return count;
+                int sbjcount = Gateway.Default.Count<Course>(Course._.Sbj_ID == sbjid);
+                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CourseCount }, new object[] { sbjcount }, Subject._.Sbj_ID == sbjid);
+            }
+            if (orgid > 0)
+            {
+                int orgcount = Gateway.Default.Count<Course>(Course._.Org_ID == orgid);
+                Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_CourseCount }, new object[] { orgcount }, Organization._.Org_ID == orgcount);
+            }
         }
         /// <summary>
         /// 获取指定个数的课程列表
