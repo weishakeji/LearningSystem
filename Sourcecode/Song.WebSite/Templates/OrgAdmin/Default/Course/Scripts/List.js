@@ -5,11 +5,23 @@
         data: {
             form:
             {
-                'orgid': '', 'sbjids': '', 'thid': '', 'use': '', 'live': '','free':'',
-                'search': '', 'order': '',
+                'orgid': '', 'sbjids': '', 'thid': '', 'use': '', 'live': '', 'free': '',
+                'search': '', 'order': 'def',
                 'size': 1, 'index': 1
             },
-            checkRec: false,     //是否推荐的选项
+            //排序方式
+            orderItem: [
+                { text: '默认排序', value: 'def', icon:'&#xb006',div:false },
+                { text: '按推荐排序', value: 'rec' , icon:'&#xe826',div:true },
+                { text: '按访问量排序', value: 'flux', icon:'&#xa03a',div:false  },
+                { text: '按最新创建排序', value: 'new', icon:'&#xe81a',div:true },
+                { text: '按最新创建倒序', value: 'last', icon:'&#xe737',div:false  },
+                { text: '试题量最大', value: 'quesDesc', icon:'&#xe755',div:true  },
+                { text: '试题量最小', value: 'quesAsc', icon:'&#xa02e',div:false  },
+                { text: '视频资源最多', value: 'videoDesc', icon:'&#xe761',div:false  },
+                { text: '视频资源最少', value: 'videoAsc', icon:'&#xe6bf',div:false  }
+            ],
+
 
             organ: {},
             config: {},      //当前机构配置项      
@@ -57,11 +69,6 @@
 
         },
         watch: {
-            //是否查询推荐的课程
-            'checkRec': function (nv, ov) {
-                if (nv) this.form.order = 'rec';
-                else this.form.order = '';
-            },
             //当前要展示综述的课程
             'curr': {
                 handler: function (nv, ov) {
@@ -90,6 +97,11 @@
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            orderState: function (val) {
+                console.error(val);
+                this.form.order=val;
+                this.handleCurrentChange();
             },
             //获取教师列表
             teacher_query: function (search) {

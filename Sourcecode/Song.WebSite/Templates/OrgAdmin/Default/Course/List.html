@@ -32,31 +32,28 @@
                         </el-select>
                         <help>可输入名称检索</help>
                     </el-form-item>
-                    <el-form-item label="">
-                        <el-checkbox v-model="checkRec">推荐的课程</el-checkbox>
-                    </el-form-item>
                     <el-form-item label="状态">
                         <el-radio-group v-model="form.use">
                             <el-radio-button label="">全部</el-radio-button>
                             <el-radio-button label="true">启用</el-radio-button>
-                            <el-radio-button label="false">禁用</el-radio-button>                         
-                          </el-radio-group>
+                            <el-radio-button label="false">禁用</el-radio-button>
+                        </el-radio-group>
                     </el-form-item>
                     <el-form-item label="直播课">
                         <el-radio-group v-model="form.live">
                             <el-radio-button label="">全部</el-radio-button>
                             <el-radio-button label="true">直播课</el-radio-button>
-                            <el-radio-button label="false">普通课程</el-radio-button>                         
-                          </el-radio-group>
+                            <el-radio-button label="false">普通课程</el-radio-button>
+                        </el-radio-group>
                     </el-form-item>
                     <el-form-item label="免费">
                         <el-radio-group v-model="form.free">
                             <el-radio-button label="">全部</el-radio-button>
                             <el-radio-button label="true">免费课程</el-radio-button>
-                            <el-radio-button label="false">收费课程</el-radio-button>                         
-                          </el-radio-group>
+                            <el-radio-button label="false">收费课程</el-radio-button>
+                        </el-radio-group>
                     </el-form-item>
-                    
+
                 </template>
             </query_panel>
         </div>
@@ -73,6 +70,33 @@
             </el-table-column>
 
             <el-table-column label="课程" min-width="200px">
+                <template slot="header" slot-scope="scope">
+                    <el-dropdown @command="orderState">
+                        <span class="el-dropdown-link">
+                            课程
+                            <template v-if="form.order!='def' && form.order!=''">
+                                <template v-for="(item,i) in orderItem">
+                                    <span v-if="item.value==form.order" style="color: #67c23a;">
+                                       （ {{item.text}}）
+                                    </span>
+                                </template>
+                            </template>
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <template v-for="(item,i) in orderItem">
+                                <el-dropdown-item :command="item.value" :divided="item.div">
+                                    <span v-if="item.value==form.order" style="color: #67c23a;">
+                                        <icon>&#xa048</icon>{{item.text}}
+                                    </span>
+                                    <template v-else>
+                                        <icon v-html="item.icon"></icon>{{item.text}}
+                                    </template>
+                                </el-dropdown-item>
+                            </template>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
                 <div slot-scope="scope" :class="{'title_box':true,'disabled': !scope.row.Cou_IsUse}"
                     :title="scope.row.Cou_Name">
                     <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
@@ -101,7 +125,7 @@
                     {{scope.row.Cou_Tax}}
                 </template>
             </el-table-column>
-            <el-table-column label="价格" width="160" >
+            <el-table-column label="价格" width="160">
                 <template slot-scope="scope">
                     <keep-alive>
                         <course_prices :course="scope.row" :ref="'prices'+scope.$index" :uid="scope.row.Cou_UID"

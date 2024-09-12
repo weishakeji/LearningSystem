@@ -792,10 +792,17 @@ namespace Song.ServiceImpls
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
             if (order == "hot") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc;
+            if (order == "def") wcOrder = Course._.Cou_CrtTime.Desc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "last") wcOrder = Course._.Cou_CrtTime.Asc;    //最后发布
+            //按试题数量的正序，倒序
+            if ("quesAsc".Equals(order,StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_QuesCount.Asc;
+            if ("quesDesc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_QuesCount.Desc;
+            //按视频数量的排序
+            if ("videoAsc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Asc;
+            if ("videoDesc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Desc;
+            //
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {
