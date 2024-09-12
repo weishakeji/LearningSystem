@@ -56,13 +56,27 @@ Vue.component('sbj_cascader', {
             var form = { orgid: th.orgid, search: '', isuse: true };
             $api.get('Subject/Tree', form).then(function (req) {
                 if (req.data.success) {
-                    th.subjects = req.data.result;
+                    let datas = req.data.result;
+                    for (let i = 0; i < datas.length; i++) 
+                        th.ergodic_clacCourse(datas[i]);               
+                    th.subjects = datas;   
                 } else {
                     throw req.data.message;
                 }
             }).catch(function (err) {
                 console.error(err);
             });
+        },
+        //遍历计算各个专业的课程数，包括当前专业的子专业
+        ergodic_clacCourse: function (sbj) {
+            let count = sbj.Sbj_CourseCount;
+            if (sbj.children && sbj.children.length > 0) {
+                let datas = sbj.children;
+                for (let i = 0; i < datas.length; i++) 
+                    count += this.ergodic_clacCourse(datas[i]);
+            }
+            sbj.Sbj_CourseCount = count;
+            return count;
         },
         //计算当前选中项
         clac_sbjids: function (sbjid) {

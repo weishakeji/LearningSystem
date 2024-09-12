@@ -36,8 +36,7 @@ $ready(function () {
                     th.form.orgid = th.organ.Org_ID;
                     //机构配置信息
                     th.config = $api.organ(th.organ).config;
-                    th.getTreeData();
-                    th.getTotal();
+                    th.getTreeData();                   
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -60,7 +59,12 @@ $ready(function () {
                 this.loading = true;
                 $api.get('Subject/Tree', th.form).then(function (req) {
                     if (req.data.success) {
-                        th.datas = req.data.result;
+                        let datas = req.data.result;
+                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_CourseCount'));
+                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_QuesCount'));
+                        datas.forEach(d => th.ergodic_clacCount(d,'Sbj_TestCount'));                       
+                        th.datas = datas;
+                        th.calcSerial(null, '');
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -72,33 +76,30 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
-            //获取专业总数
-            getTotal: function () {
-                var th = this;
-                $api.get('Subject/CountOfChildren',
-                    { 'orgid': th.organ.Org_ID, 'sbjid': 0, 'use': null })
-                    .then(function (req) {
-                        if (req.data.success) {
-                            th.total = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    }).catch(err => console.error(err))
-                    .finally(() => { });
+            //遍历计算各个专业的课程数，包括当前专业的子专业
+            ergodic_clacCount: function (sbj, key) {
+                let count = sbj[key];
+                if (sbj.children && sbj.children.length > 0) {
+                    let datas = sbj.children;
+                    for (let i = 0; i < datas.length; i++)
+                        count += this.ergodic_clacCount(datas[i], key);
+                }
+                sbj[key] = count;
+                return count;
             },
-            handleDragStart(node, ev) {
-                //console.log('drag start', node);
+             //计算序号，并将时间值从字符串转为时间对象
+             calcSerial: function (item, lvl) {
+                var childarr = item == null ? this.datas : (item.children ? item.children : null);
+                if (childarr == null) return;
+                for (let i = 0; i < childarr.length; i++) {
+                    // = new Date(childarr[i].Ol_ModifyTime);
+                    //childarr[i].Ol_LiveTime = new Date(childarr[i].Ol_LiveTime);
+                    childarr[i].serial = lvl + (i + 1) + '.';
+                    this.total++;
+                    this.calcSerial(childarr[i], childarr[i].serial);
+                }
             },
-            handleDragEnter(draggingNode, dropNode, ev) {
-                //console.log('tree drag enter: ', dropNode.label);
-            },
-            handleDragLeave(draggingNode, dropNode, ev) {
-                //console.log('tree drag leave: ', dropNode.label);
-            },
-            handleDragOver(draggingNode, dropNode, ev) {
-                //console.log('tree drag over: ', dropNode.label);
-            },
+           
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
                 //console.log('tree drag end: ', dropNode && dropNode, dropType);
                 var th = this;
@@ -122,15 +123,7 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading_sumbit = false);
             },
-            handleDrop(draggingNode, dropNode, dropType, ev) {
-                //console.log('tree drop: ', dropNode.label, dropType);
-            },
-            allowDrop(draggingNode, dropNode, type) {
-                return true;
-            },
-            allowDrag(draggingNode) {
-                return true;
-            },
+
             //节点展开事件
             nodeexpand: function (data, node, tree) {
                 this.expanded.push(data.Sbj_ID);
@@ -269,47 +262,13 @@ $ready(function () {
             fresh_cache: function () {
                 $api.cache('Subject/TreeFront:update', { 'orgid': this.organ.Org_ID });
             }
+        },
+        filters: {
+            //数字转三位带逗号
+            'commas': function (number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         }
-    });
-
-    //专业所的课程数，包括子级专业
-    Vue.component('course_count', {
-        props: ["sbjid", "subject"],
-        data: function () {
-            return {
-                count: 0,
-                loading: true
-            }
-        },
-        watch: {
-            'sbjid': {
-                handler: function (nv, ov) {
-                    this.getcount();
-                }, immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            getcount: function () {
-                var th = this;
-                th.loading = true;
-                $api.get('Subject/CountOfCourse', { 'sbjid': th.sbjid, 'use': null }).then(function (req) {
-                    if (req.data.success) {
-                        th.count = req.data.result;
-                        th.subject.courseCount = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
-            }
-        },
-        template: `<span title="课程数">
-            <span class="el-icon-loading" v-if="loading"></span>
-            <icon course :class="{'count':true,'zero':count<=0}">{{count}}</icon>
-        </span> `
     });
 
     //专业下的所有子专业数

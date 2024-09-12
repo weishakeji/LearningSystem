@@ -1,12 +1,4 @@
 ﻿@charset "utf-8";
-html, body, #vapp {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
-    position: relative;
-}
 
 .tree-box {
     margin: 15px 5px 15px 15px;
@@ -76,13 +68,13 @@ div[role=treeitem] {
     text-align: center;
 }
 
-.column_count {
+.course_count {
     display: inline-block;
-    width: 100px;
+    width: 120px;
     text-align: left;
 }
 
-.column_count .zero {
+.course_count .zero {
     color: #ccc;
 }
 

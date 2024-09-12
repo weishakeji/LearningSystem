@@ -50,13 +50,27 @@ Vue.component('sbj_cascader', {
             var form = { orgid: th.orgid, search: '', isuse: true };
             $api.get('Subject/Tree', form).then(function (req) {
                 if (req.data.success) {
-                    th.subjects = req.data.result;
+                    let datas = req.data.result;
+                    for (let i = 0; i < datas.length; i++)
+                        th.ergodic_clacCourse(datas[i], 'Sbj_CourseCount');
+                    th.subjects = datas;
                 } else {
                     throw req.data.message;
                 }
             }).catch(function (err) {
                 console.error(err);
             });
+        },
+        //遍历计算各个专业的课程数，包括当前专业的子专业
+        ergodic_clacCourse: function (sbj, key) {
+            let count = sbj[key];
+            if (sbj.children && sbj.children.length > 0) {
+                let datas = sbj.children;
+                for (let i = 0; i < datas.length; i++)
+                    count += this.ergodic_clacCourse(datas[i], key);
+            }
+            sbj[key] = count;
+            return count;
         },
         //计算当前选中项
         clac_sbjids: function () {
@@ -104,6 +118,8 @@ Vue.component('sbj_cascader', {
             this.$emit('change', currid, val);
         },
         //专业的路径，从子级上溯
+        //sbjid:专业id
+        //course:课程对象
         subjectPath: function (sbjid, course) {
             if (sbjid == null) return course ? course.Sbj_Name : '';
             if (!this.subjects && this.subjects.length < 1) return course ? course.Sbj_Name : '';

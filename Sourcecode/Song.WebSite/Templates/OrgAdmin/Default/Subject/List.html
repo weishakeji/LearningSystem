@@ -27,22 +27,30 @@
 
         <div class="tree-box">
             <el-tree :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
-                :filter-node-method="filterNode" @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter"
-                @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd"
-                @node-drop="handleDrop" :expand-on-click-node="false" draggable :allow-drop="allowDrop"
+                :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
                 @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
-                :allow-drag="allowDrag" v-loading="loading || loading_sumbit">
+                v-loading="loading || loading_sumbit">
                 <span class="custom-tree-node" slot-scope="{ node, data }">
 
                     <span class="tree-node draghandle">
+                        <span>{{data.serial}}</span> &nbsp;
                         <icon v-if="data.Sbj_LogoSmall!=''" style="font-size: 18px;" @mouseover="hoverlogo(data)"
                             @mouseout="mouseleave">&#xe672</icon>
                         <img :src="data.Sbj_LogoSmall" v-show="false" class="logoSmall" :id="'logo_'+data.Sbj_ID" />
                         <span class="large">{{data.Sbj_Name }}</span>
                         <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>
                     </span>
-                    <span class="column_count">
-                        <course_count :sbjid="data.Sbj_ID" :subject="data"></course_count>
+                    <span class="course_count" title="课程数">
+                        <icon course :class="{'count':true,'zero':data.Sbj_CourseCount<=0}">{{data.Sbj_CourseCount|commas}}
+                        </icon>
+                    </span>
+                    <span class="course_count" title="试题数">
+                        <icon question :class="{'count':true,'zero':data.Sbj_QuesCount<=0}">{{data.Sbj_QuesCount|commas}}
+                        </icon>
+                    </span>
+                    <span class="course_count" title="试卷数">
+                        <icon test :class="{'count':true,'zero':data.Sbj_TestCount<=0}">{{data.Sbj_TestCount|commas}}
+                        </icon>
                     </span>
                     <span class="column_use">
                         <b class="el-icon-loading" v-if="loadingid==data.Sbj_ID"></b>

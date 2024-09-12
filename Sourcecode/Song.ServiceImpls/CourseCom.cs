@@ -162,6 +162,10 @@ namespace Song.ServiceImpls
                             this.CourseCountUpdate(-1, old.Sbj_ID);
                         });
                     }
+                    else
+                    {
+                        Task.Run(() => this.CourseCountUpdate(-1, entity.Sbj_ID));
+                    }
                     tran.Save<Course>(entity);
                     tran.Commit();
                 }

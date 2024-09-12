@@ -218,10 +218,8 @@ namespace Song.ViewData.Methods
         public JArray Tree(int orgid, string search, bool? isuse)
         {
             List<Song.Entities.Subject> sbjs = Business.Do<ISubject>().SubjectCount(orgid, search, isuse, -1, -1);
-            for (int i = 0; i < sbjs.Count; i++)
-            {
-                sbjs[i] = _tran(sbjs[i]);
-            }
+            for (int i = 0; i < sbjs.Count; i++)            
+                sbjs[i] = _tran(sbjs[i]);            
             return sbjs.Count > 0 ? _SubjectNode(null, sbjs) : null;
         }
         /// <summary>
