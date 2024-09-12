@@ -139,6 +139,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int SubjectOfCount(int orgid, long pid, bool? isUse,bool children);
         /// <summary>
+        /// 更新专业的统计数据
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        bool UpdateStatisticalData(int orgid, long sbjid);
+        /// <summary>
         /// 当前学科下的所有试题
         /// </summary>
         /// <param name="orgid">当前机构</param>
@@ -147,7 +154,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count);
+        List<Questions> QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count);
         /// <summary>
         /// 获取专业的下的试题数量
         /// </summary>
@@ -168,7 +175,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Subject[] SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum);
+        List<Subject> SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 更改专业的排序
         /// </summary>

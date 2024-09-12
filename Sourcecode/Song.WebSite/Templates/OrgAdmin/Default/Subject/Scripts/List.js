@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            organ: {},
+            org: {},
             config: {},      //当前机构配置项        
             datas: [],
             form: {
@@ -26,16 +26,20 @@ $ready(function () {
             loading_init: true
         },
         mounted: function () {
-
+            this.$refs.btngroup.addbtn({
+                text: '更新数据', tips: '更新课程数、试题数、试卷数的统计数据',
+                id: 'update_data', type: 'warning',
+                icon: 'e651'
+            });
         },
         created: function () {
             var th = this;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
-                    th.organ = req.data.result;
-                    th.form.orgid = th.organ.Org_ID;
+                    th.org = req.data.result;
+                    th.form.orgid = th.org.Org_ID;
                     //机构配置信息
-                    th.config = $api.organ(th.organ).config;
+                    th.config = $api.organ(th.org).config;
                     th.getTreeData();
                 } else {
                     console.error(req.data.exception);
@@ -87,7 +91,7 @@ $ready(function () {
                 if (sbj.children && sbj.children.length > 0) {
                     let datas = sbj.children;
                     for (let i = 0; i < datas.length; i++)
-                        count += this.ergodic_clacCount(datas[i], field,result);
+                        count += this.ergodic_clacCount(datas[i], field, result);
                 }
                 sbj[result] = count;
                 return count;
@@ -105,7 +109,7 @@ $ready(function () {
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
             },
-
+            //拖动改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
                 //console.log('tree drag end: ', dropNode && dropNode, dropType);
                 var th = this;
@@ -193,13 +197,13 @@ $ready(function () {
                             'Sbj_Level': level
                         }
                         list.push(obj);
-                        if (d.children && d.children.length > 0) {
+                        if (d.children && d.children.length > 0)
                             list = toarray(d.children, d.Sbj_ID, ++level, list);
-                        }
                     }
                     return list;
                 }
             },
+            //删除节点
             remove: function (node, data) {
                 console.log(node);
                 console.log(data);
@@ -254,20 +258,36 @@ $ready(function () {
                 img.css("top", icon.top - offset.top + 22 + 'px');
                 img.css("left", icon.left - offset.left + 8 + 'px');
             },
-            //鼠标滑离图片，隐藏预览
-            mouseleave: function () {
-                var img = $dom(".logoSmall");
-                img.hide();
-            },
-            //操作成功的刷新
-            fresh_operateSuccess: function () {
-                this.fresh_cache();
-                this.getTreeData();
-            },
             //当专业数据更改时，刷新缓存数据
             fresh_cache: function () {
-                $api.cache('Subject/TreeFront:update', { 'orgid': this.organ.Org_ID });
+                $api.cache('Subject/TreeFront:update', { 'orgid': this.org.Org_ID });
+            },
+            //更新统计数据，包括课程数、试题数、试卷数
+            update_statdata: function () {
+                this.$confirm('此操作将重新计算专业的课程数、试题数、试卷数，, 是否继续?', '更新数据', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var th=this;
+                    var loading = this.$fulloading();
+                    $api.get('Subject/updatestatisticaldata', { 'orgid': th.org.Org_ID, 'sbjid': '' }).then(req => {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.getTreeData();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { 
+                            th.$nextTick(function () {
+                                loading.close();
+                            });
+                        });
+                }).catch(() => { });
             }
+
         },
         filters: {
             //数字转三位带逗号

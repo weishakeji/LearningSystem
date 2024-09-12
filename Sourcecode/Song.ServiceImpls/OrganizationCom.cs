@@ -793,6 +793,7 @@ namespace Song.ServiceImpls
         /// <param name="subject">专业</param>
         private static void _update_Subject_StatisticalData_task(Subject subject)
         {
+            //试题数，试卷数，课程数
             int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
             int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
             int course_count = Business.Do<ICourse>().CourseOfCount(subject.Sbj_ID);

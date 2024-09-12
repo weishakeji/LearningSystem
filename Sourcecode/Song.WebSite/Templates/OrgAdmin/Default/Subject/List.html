@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增" ref='btngroup' path="Modify" width="600" idkey='Sbj_ID' height="500"></btngroup>
+            <btngroup show="新增,更新数据" ref='btngroup' path="Modify" @update_data="update_statdata" width="600" idkey='Sbj_ID' height="500"></btngroup>
             <query_panel :model="form" :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">
@@ -34,7 +34,7 @@
                     <span class="tree-node draghandle">
                         <span>{{data.serial}}</span> &nbsp;
                         <icon v-if="data.Sbj_LogoSmall!=''" style="font-size: 18px;" @mouseover="hoverlogo(data)"
-                            @mouseout="mouseleave">&#xe672</icon>
+                            @mouseout="$dom('.logoSmall').hide()">&#xe672</icon>
                         <img :src="data.Sbj_LogoSmall" v-show="false" class="logoSmall" :id="'logo_'+data.Sbj_ID" />
                         <span class="large" v-html="showsearch(data.Sbj_Name,filterText)"></span>
                         <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>

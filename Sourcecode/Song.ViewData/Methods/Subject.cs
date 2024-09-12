@@ -285,11 +285,9 @@ namespace Song.ViewData.Methods
         public ListResult PagerFront(int orgid,long pid,int index, int size)
         {
             int sum = 0;
-            Song.Entities.Subject[] list = Business.Do<ISubject>().SubjectPager(orgid, pid, true, string.Empty, size, index, out sum);
-            for (int i = 0; i < list.Length; i++)
-            {
+            List<Song.Entities.Subject> list = Business.Do<ISubject>().SubjectPager(orgid, pid, true, string.Empty, size, index, out sum);
+            for (int i = 0; i < list.Count; i++)
                 list[i] = _tran(list[i]);
-            }
             Song.ViewData.ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;
@@ -306,6 +304,16 @@ namespace Song.ViewData.Methods
         public int CountOfCourse(long sbjid, bool? use)
         {           
             return Business.Do<ICourse>().CourseOfCount(-1, sbjid, -1, use, null);
+        }
+        /// <summary>
+        /// 更新专业的统计数据
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public bool UpdateStatisticalData(int orgid,long sbjid)
+        {
+            return Business.Do<ISubject>().UpdateStatisticalData(orgid, sbjid);
         }
         /// <summary>
         /// 当前专业所包含的所有下级专业数量（不包括自身）

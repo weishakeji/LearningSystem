@@ -369,7 +369,36 @@ namespace Song.ServiceImpls
                 return list.Count;
             }
         }
-        public Subject[] SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum)
+        /// <summary>
+        /// 更新专业的统计数据
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public bool UpdateStatisticalData(int orgid, long sbjid)
+        {
+            if (orgid > 0)
+            {
+                List<Subject> subjects = this.SubjectCount(orgid, null, null, -1, 0);
+                if (subjects != null && subjects.Count > 0)
+                {
+                    foreach (Subject sbj in subjects)
+                        this.UpdateStatisticalData(-1, sbj.Sbj_ID);
+                }
+            }
+            else if (sbjid > 0)
+            {
+                //试题数，试卷数，课程数
+                int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, sbjid, -1, -1, 0, -1, null);
+                int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, sbjid, -1, -1, null);
+                int course_count = Business.Do<ICourse>().CourseOfCount(sbjid);
+                Business.Do<ISubject>().SubjectUpdate(sbjid,
+                    new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
+                    new object[] { ques_count, paper_count, course_count });
+            }
+            return true;
+        }
+        public List<Subject> SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
@@ -377,10 +406,10 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
             if (string.IsNullOrWhiteSpace(searTxt)) wc.And(Subject._.Sbj_Name.Contains(searTxt));
             countSum = Gateway.Default.Count<Subject>(wc);
-            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToArray<Subject>(size, (index - 1) * size);
+            return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc && Subject._.Sbj_ID.Asc).ToList<Subject>(size, (index - 1) * size);
         }
 
-        public Questions[] QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count)
+        public List<Questions> QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
@@ -388,7 +417,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             count = count < 0 ? int.MaxValue : count;
-            return Gateway.Default.From<Questions>().Where(wc).ToArray<Questions>(count);
+            return Gateway.Default.From<Questions>().Where(wc).ToList<Questions>(count);
         }
         public int QusCountForSubject(int orgid, long identify, int qusType, bool? isUse)
         {
