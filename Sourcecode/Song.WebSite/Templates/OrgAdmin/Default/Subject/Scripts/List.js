@@ -43,7 +43,7 @@ $ready(function () {
                 }
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
-            $api.storage(this.expanded_storage, null);
+            //$api.storage(this.expanded_storage, null);
         },
         computed: {
         },

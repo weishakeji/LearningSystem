@@ -35,7 +35,7 @@ div[role=treeitem] {
 
 .tree-node {
     display: inline-block;
-    width: calc(100% - 210px);
+    width: calc(100% - 500px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -52,36 +52,32 @@ div[role=treeitem] {
     box-shadow: 1px 1px 2px #ccc, -1px -1px 2px #ccc;
 }
 
-/*是否启用的列*/
-
-.column_use {
-    display: inline-block;
-    width: 60px;
-    text-align: center;
-}
-
-/*是否推荐的列*/
-
-.column_rec {
-    display: inline-block;
-    width: 60px;
-    text-align: center;
-}
-
-.course_count {
-    display: inline-block;
-    width: 120px;
+/*专业统计数据的列*/
+.column_count {
+    width: 300px;
     text-align: left;
-}
+    display: flex;
 
-.course_count .zero {
+}
+.column_count>icon{
+   width: 100px;
+}
+.column_count>icon[zero] {
     color: #ccc;
 }
 
+/*是否启用与推荐的列*/
 
+.column_state {  
+    width: 100px;
+    text-align: center;
+}
+
+/*按钮的列*/
 .column_btn {
-    width: 120px;
+    width: 100px;
     text-align: right;
+    margin-left: 0px;
 }
 
 /*子专业数量*/

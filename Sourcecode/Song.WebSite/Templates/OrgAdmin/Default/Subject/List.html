@@ -30,39 +30,31 @@
                 :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
                 @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
                 v-loading="loading || loading_sumbit">
-                <span class="custom-tree-node" slot-scope="{ node, data }">
-
+                <div class="custom-tree-node" slot-scope="{ node, data }">
                     <span class="tree-node draghandle">
                         <span>{{data.serial}}</span> &nbsp;
                         <icon v-if="data.Sbj_LogoSmall!=''" style="font-size: 18px;" @mouseover="hoverlogo(data)"
                             @mouseout="mouseleave">&#xe672</icon>
                         <img :src="data.Sbj_LogoSmall" v-show="false" class="logoSmall" :id="'logo_'+data.Sbj_ID" />
-                        <span class="large">{{data.Sbj_Name }}</span>
+                        <span class="large" v-html="showsearch(data.Sbj_Name,filterText)"></span>
                         <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>
                     </span>
-                    <span class="course_count" title="课程数">
-                        <icon course :class="{'count':true,'zero':data.CourseCount<=0}">{{data.CourseCount|commas}}
-                        </icon>
-                    </span>
-                    <span class="course_count" title="试题数">
-                        <icon question :class="{'count':true,'zero':data.QuesCount<=0}">{{data.QuesCount|commas}}
-                        </icon>
-                    </span>
-                    <span class="course_count" title="试卷数">
-                        <icon test :class="{'count':true,'zero':data.TestCount<=0}">{{data.TestCount|commas}}
-                        </icon>
-                    </span>
-                    <span class="column_use">
+                    <div class="column_count">
+                        <icon title="课程数" course :zero="data.CourseCount<=0">{{data.CourseCount|commas}}</icon>
+                        <icon title="试题数" question :zero="data.QuesCount<=0">{{data.QuesCount|commas}} </icon>
+                        <icon title="试卷数" test :zero="data.TestCount<=0">{{data.TestCount|commas}} </icon>
+                    </div>
+                    <div class="column_state">
                         <b class="el-icon-loading" v-if="loadingid==data.Sbj_ID"></b>
-                        <el-tag v-else :type="data.Sbj_IsUse ? 'success' : 'info'"
-                            @click="changeState(data,'Sbj_IsUse')">
-                            {{data.Sbj_IsUse ? '启用' : '禁用'}}</el-tag>
-                    </span>
-                    <span class="column_rec">
-                        <el-tag :type="data.Sbj_IsRec ? '' : 'info'" @click="changeState(data,'Sbj_IsRec')">
-                            {{data.Sbj_IsRec ? '推荐' : '默认'}}</el-tag>
-                    </span>
-                    <span class="column_btn">
+                        <template v-else>
+                            <el-tag :type="data.Sbj_IsUse ? 'success' : 'info'" @click="changeState(data,'Sbj_IsUse')">
+                                {{data.Sbj_IsUse ? '启用' : '禁用'}}</el-tag>
+                            <el-tag :type="data.Sbj_IsRec ? '' : 'info'" @click="changeState(data,'Sbj_IsRec')">
+                                {{data.Sbj_IsRec ? '推荐' : '默认'}}</el-tag>
+                        </template>
+                    </div>
+
+                    <div class="column_btn">
                         <el-link type="primary" size="mini" icon="el-icon-edit" @click="modify(data)">
                             编辑
                         </el-link>
@@ -71,9 +63,9 @@
                                 删除
                             </el-link>
                         </el-popconfirm>
-                    </span>
-                </span>
-                </span>
+                    </div>
+                </div>
+
             </el-tree>
         </div>
 
