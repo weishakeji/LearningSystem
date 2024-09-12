@@ -19,6 +19,8 @@ $ready(function () {
             expanded_storage: 'subject_for_admin_tree',  //用于记录展开节点的storage名称
             filterText: '',      //查询过虑树形的字符
             total: 0,     //当前机构下的专业总数
+            //是否折叠
+            fold: true,
 
             loading: false,
             loadingid: -1,
@@ -30,6 +32,11 @@ $ready(function () {
                 text: '更新数据', tips: '更新课程数、试题数、试卷数的统计数据',
                 id: 'update_data', type: 'warning',
                 icon: 'e651'
+            });
+            this.$refs.btngroup.addbtn({
+                text: '展开/折叠', tips: '展开树形或折叠树形',
+                id: 'fold_open', type: 'primary',
+                icon: 'e6ea'
             });
         },
         created: function () {
@@ -52,8 +59,14 @@ $ready(function () {
         computed: {
         },
         watch: {
+            //过滤树形数据
             filterText: function (val) {
                 this.$refs.tree.filter(val);
+            },
+            //树形是否折叠
+            fold: function (nv, ov) {
+                if (nv) this.unFoldAll2(this.datas);
+                else this.collapseAll2(this.datas);
             }
         },
         methods: {
@@ -147,6 +160,22 @@ $ready(function () {
                     this.expanded.splice(index, 1);
                     $api.storage(this.expanded_storage, this.expanded);
                 }
+            },
+            // 全部展开
+            unFoldAll2: function (data) {
+                let self = this;
+                data.forEach((el) => {
+                    self.$refs.tree.store.nodesMap[el.Sbj_ID].expanded = true;
+                    el.children && el.children.length > 0 ? self.unFoldAll2(el.children) : ""; // 子级递归
+                });
+            },
+            // 全部折叠
+            collapseAll2: function (data) {
+                let self = this;
+                data.forEach((el) => {
+                    self.$refs.tree.store.nodesMap[el.Sbj_ID].expanded = false;
+                    el.children && el.children.length > 0 ? self.collapseAll2(el.children) : ""; // 子级递归
+                });
             },
             //过滤树形
             filterNode: function (value, data) {
@@ -269,7 +298,7 @@ $ready(function () {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    var th=this;
+                    var th = this;
                     var loading = this.$fulloading();
                     $api.get('Subject/updatestatisticaldata', { 'orgid': th.org.Org_ID, 'sbjid': '' }).then(req => {
                         if (req.data.success) {
@@ -280,7 +309,7 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
-                        .finally(() => { 
+                        .finally(() => {
                             th.$nextTick(function () {
                                 loading.close();
                             });

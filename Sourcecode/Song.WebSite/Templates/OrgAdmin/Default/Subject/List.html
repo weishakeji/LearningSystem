@@ -10,7 +10,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,更新数据" ref='btngroup' path="Modify" @update_data="update_statdata" width="600" idkey='Sbj_ID' height="500"></btngroup>
+            <btngroup show="新增,更新数据,展开/折叠" ref='btngroup' path="Modify" @update_data="update_statdata"
+                @fold_open="fold=!fold" width="600" idkey='Sbj_ID' height="500"></btngroup>
             <query_panel :model="form" :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">
@@ -26,7 +27,7 @@
         </div>
 
         <div class="tree-box">
-            <el-tree :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
+            <el-tree ref="tree"  :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
                 :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
                 @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
                 v-loading="loading || loading_sumbit">
