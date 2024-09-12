@@ -48,6 +48,8 @@ namespace Song.WebSite
             }
             //更新统计数据
             WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
+            //创建定时任务
+            WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_CronJob();
         }
     }
 }
