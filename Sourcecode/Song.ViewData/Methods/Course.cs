@@ -14,7 +14,7 @@ using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Core;
-
+using WeiSha.Data;
 
 namespace Song.ViewData.Methods
 {
@@ -347,29 +347,34 @@ namespace Song.ViewData.Methods
             if (outline <= 0)
             {
                 outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
-                Business.Do<ICourse>().CourseUpdate(couid, Song.Entities.Course._.Cou_OutlineCount, outline);
+                if (outline > 0) Business.Do<ICourse>().CourseUpdate(couid, Song.Entities.Course._.Cou_OutlineCount, outline);
             }
             //试题数
             int qus = course.Cou_QuesCount;
             if (qus <= 0)
             {
                 qus = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, 0, -1, null);
-                Business.Do<ICourse>().CourseUpdate(couid, Song.Entities.Course._.Cou_QuesCount, qus);
+                if (qus > 0) Business.Do<ICourse>().CourseUpdate(couid, Song.Entities.Course._.Cou_QuesCount, qus);
         }
             //知识点
             int knl = Business.Do<IKnowledge>().KnowledgeOfCount(-1, couid, -1, true);
-            ////课程通知
-            //int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
+            //课程通知
+            int guide = Business.Do<IGuide>().GuideOfCount(-1, couid, null, null, true);
             //视频数
-            //int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
-            ////学习人数
-            //int student = Business.Do<ICourse>().CourseStudentSum(couid, true);
+            int video = course.Cou_VideoCount;
+            if (video <= 0)
+            {
+                video = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, true, null, null);
+                if (video > 0) Business.Do<ICourse>().CourseUpdate(course.Cou_ID, Song.Entities.Course._.Cou_VideoCount, video);
+            }
+            //学习人数
+            int student = Business.Do<ICourse>().CourseStudentSum(couid, true);
             //试卷数
             int testpaper = course.Cou_TestCount;
             if (testpaper <= 0)
             {
                 testpaper = Business.Do<ITestPaper>().PaperOfCount(-1, -1, couid, -1, true);
-                Business.Do<ICourse>().CourseUpdate(couid, Entities.Course._.Cou_TestCount, testpaper);
+                if (testpaper > 0) Business.Do<ICourse>().CourseUpdate(couid, Entities.Course._.Cou_TestCount, testpaper);
             }
             //结课考试
             Song.Entities.TestPaper final = Business.Do<ITestPaper>().FinalPaper(couid, null);
@@ -379,11 +384,11 @@ namespace Song.ViewData.Methods
             jo.Add("outline", outline);
             jo.Add("question", qus);
             jo.Add("knowledge", knl);
-            //jo.Add("guide", guide);
+            jo.Add("guide", guide);
             jo.Add("testpaper", testpaper);
             jo.Add("testfinal", final != null && final.Tp_IsUse ? 1 : 0);
-            jo.Add("video", 0);
-            jo.Add("student", 0);
+            jo.Add("video", video);
+            jo.Add("student", student);
             jo.Add("view", course.Cou_ViewNum);     //课程浏览数
             jo.Add("live", course.Cou_ExistLive);       //是否为直播课
             return jo;           

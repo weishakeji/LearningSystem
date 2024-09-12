@@ -786,7 +786,7 @@ namespace Song.ServiceImpls
             //更新课程的试卷数，章节数，视频数
             int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, course.Cou_ID, -1, null);
             int outline_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null);
-            int video_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, null, null, null);
+            int video_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, true, null, null);
             Business.Do<ICourse>().CourseUpdate(course.Cou_ID,
                 new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
                 new object[] { paper_count, outline_count, video_count });

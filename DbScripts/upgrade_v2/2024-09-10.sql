@@ -43,7 +43,8 @@ alter table "Organization" ALTER COLUMN "Org_QuesCount" set NOT NULL;
 alter table "Subject" add "Sbj_TestCount" int NULL;
 update "Subject" set "Sbj_TestCount"=0;
 alter table "Subject" ALTER COLUMN "Sbj_TestCount" set NOT NULL;
-
+--
+ALTER TABLE "Subject" RENAME COLUMN "Sbj_CouNumber" TO "Sbj_CourseCount";
 
 /* SQLserver  Éý¼¶½Å±¾*/
 alter table "LearningCardSet" ALTER COLUMN Lcs_Theme [nvarchar](200) NULL
@@ -108,4 +109,7 @@ go
 update "Subject" set "Sbj_TestCount"=0 where "Sbj_TestCount" is null
 go
 alter table "Subject" ALTER COLUMN "Sbj_TestCount" int NOT NULL
+go
+
+sp_rename  'Subject.Sbj_CouNumber','Sbj_CourseCount','column'
 go
