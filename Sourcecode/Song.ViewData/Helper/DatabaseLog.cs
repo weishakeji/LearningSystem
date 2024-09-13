@@ -32,7 +32,7 @@ namespace Song.ViewData.Helper
         {
             if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
             //1秒内的不统计
-            //if (elapsedTime < 1000) return;
+            if (elapsedTime < 1000) return;
 
             string sql = command.CommandText;
             for (int i = 0; i < command.Parameters.Count; i++)
@@ -97,7 +97,7 @@ namespace Song.ViewData.Helper
 
 
             long elapsedNumber = elapsedTime / 1000 * 1000;
-            //if (elapsedNumber <= 0) return;
+            if (elapsedNumber <= 0) return;
             //如果日志目录不存在就创建
             string rootPath = AppDomain.CurrentDomain.BaseDirectory;
             //string apiName=path.i

@@ -11,15 +11,15 @@
             },
             //排序方式
             orderItem: [
-                { text: '默认排序', value: 'def', icon:'&#xb006',div:false },
-                { text: '推荐优先', value: 'rec' , icon:'&#xe826',div:true },
-                { text: '访问量最大', value: 'flux', icon:'&#xa03a',div:false  },
-                { text: '最新创建', value: 'new', icon:'&#xe81a',div:true },
-                { text: '最后创建', value: 'last', icon:'&#xe671',div:false  },
-                { text: '试题量最大', value: 'quesDesc', icon:'&#xe755',div:true  },
-                { text: '试题量最小', value: 'quesAsc', icon:'&#xa02e',div:false  },
-                { text: '视频资源最多', value: 'videoDesc', icon:'&#xe761',div:false  },
-                { text: '视频资源最少', value: 'videoAsc', icon:'&#xe6bf',div:false  }
+                { text: '默认排序', value: 'def', icon: '&#xb006', div: false },
+                { text: '推荐优先', value: 'rec', icon: '&#xe826', div: true },
+                { text: '访问量最大', value: 'flux', icon: '&#xa03a', div: false },
+                { text: '最新创建', value: 'new', icon: '&#xe81a', div: true },
+                { text: '最后创建', value: 'last', icon: '&#xe671', div: false },
+                { text: '试题量最大', value: 'quesDesc', icon: '&#xe755', div: true },
+                { text: '试题量最小', value: 'quesAsc', icon: '&#xa02e', div: false },
+                { text: '视频资源最多', value: 'videoDesc', icon: '&#xe761', div: false },
+                { text: '视频资源最少', value: 'videoAsc', icon: '&#xe6bf', div: false }
             ],
 
 
@@ -36,7 +36,7 @@
             drawer: false,   //显示滑出的课程详情
             curr: {},        //当前要展示的项       
 
-            loading: true,
+            loading: false,
             loadingid: 0,
             loading_init: true,
             loading_teach: false //加载教师信息时的预载
@@ -50,6 +50,7 @@
         },
         created: function () {
             var th = this;
+            th.loading_init = true;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     th.organ = req.data.result;
@@ -100,7 +101,7 @@
             },
             orderState: function (val) {
                 console.error(val);
-                this.form.order=val;
+                this.form.order = val;
                 this.handleCurrentChange();
             },
             //获取教师列表

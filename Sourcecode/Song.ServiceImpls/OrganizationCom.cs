@@ -722,14 +722,16 @@ namespace Song.ServiceImpls
         #endregion
 
         #region 定时统计数据
-
+        //调度器
+        private static IScheduler scheduler = null;
         /// <summary>
         /// 创建统计数据的定时任务
         /// </summary>
         public void UpdateStatisticalData_CronJob()
         {
+            if (scheduler != null) return;
             // 创建调度器  
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
+            scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
             // 启动调度器  
             scheduler.Start().Wait();
 
@@ -748,8 +750,8 @@ namespace Song.ServiceImpls
             // 将任务和触发器添加到调度器  
             scheduler.ScheduleJob(job, trigger).Wait();
 
-            // 关闭调度器  
-            scheduler.Shutdown().Wait();
+            //// 关闭调度器  
+            //scheduler.Shutdown().Wait();
         }
         /// <summary>
         /// 更新机构的统计数据
@@ -766,27 +768,40 @@ namespace Song.ServiceImpls
                 int org_count = Business.Do<IQuestions>().QuesOfCount(org.Org_ID, -1, -1, -1, 0, -1, null);
                 Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == org.Org_ID);
             }
-            _update_Subject_StatisticalData();
-            _update_Course_StatisticalData();
+
+            //
+            //异步任务
+            List<Task> tasks = new List<Task>();
+            //计算专业
+            List<Subject> subjects = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
+            foreach (Subject item in subjects)           
+                tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
+            //计算课程
+            List<Course> courses = Business.Do<ICourse>().CourseCount(-1, -1, -1, -1, null, null, 0);
+            foreach (Course item in courses)           
+                tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
+            // 逐个等待任务完成
+            foreach (Task task in tasks) task.Wait();
+           
         }
         #region 专业的统计数据
-        /// <summary>
-        /// 更新专业的数据，包括试题数，试卷数，课程数
-        /// </summary>
-        private static void _update_Subject_StatisticalData()
-        {
-            List<Subject> list = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
-            List<Task> tasks = new List<Task>();
-            foreach (Subject item in list)
-            {
-                tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
-            }
-            // 逐个等待任务完成
-            foreach (Task task in tasks)
-            {
-                task.Wait();
-            }
-        }
+        ///// <summary>
+        ///// 更新专业的数据，包括试题数，试卷数，课程数
+        ///// </summary>
+        //private static void _update_Subject_StatisticalData()
+        //{
+        //    List<Subject> list = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
+        //    List<Task> tasks = new List<Task>();
+        //    foreach (Subject item in list)
+        //    {
+        //        tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
+        //    }
+        //    // 逐个等待任务完成
+        //    foreach (Task task in tasks)
+        //    {
+        //        task.Wait();
+        //    }
+        //}
         /// <summary>
         /// 更新专业的数据，包括试题数，试卷数，课程数
         /// </summary>
@@ -804,20 +819,20 @@ namespace Song.ServiceImpls
         #endregion
 
         #region 课程的统计数据
-        private static void _update_Course_StatisticalData()
-        {
-            List<Course> list = Business.Do<ICourse>().CourseCount(-1, -1, -1, -1, null, null, 0);
-            List<Task> tasks = new List<Task>();
-            foreach (Course item in list)
-            {
-                tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
-            }
-            // 逐个等待任务完成
-            foreach (Task task in tasks)
-            {
-                task.Wait();
-            }
-        }
+        //private static void _update_Course_StatisticalData()
+        //{
+        //    List<Course> list = Business.Do<ICourse>().CourseCount(-1, -1, -1, -1, null, null, 0);
+        //    List<Task> tasks = new List<Task>();
+        //    foreach (Course item in list)
+        //    {
+        //        tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
+        //    }
+        //    // 逐个等待任务完成
+        //    foreach (Task task in tasks)
+        //    {
+        //        task.Wait();
+        //    }
+        //}
         private static void _update_Course_StatisticalData_task(Course course)
         {
             //更新课程的试卷数，章节数，视频数
@@ -839,7 +854,7 @@ namespace Song.ServiceImpls
     {
         Task IJob.Execute(IJobExecutionContext context)
         {
-            WeiSha.Core.Log.Info("定时任务", "更新机构的统计数据");
+            WeiSha.Core.Log.Info("定时任务", "更新机构的所有统计数据");
             Task task = new Task(() =>
             {
                 //更新统计数据
