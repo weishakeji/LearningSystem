@@ -132,8 +132,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                }).catch(err => {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => th.loading = false);
             },
             //过滤树形
             filterNode: function (value, data) {

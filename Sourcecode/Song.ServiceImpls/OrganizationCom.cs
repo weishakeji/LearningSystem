@@ -722,67 +722,76 @@ namespace Song.ServiceImpls
         #endregion
 
         #region 定时统计数据
-        //调度器
-        private static IScheduler scheduler = null;
+        ////调度器
+        //private static IScheduler scheduler = null;
+
+        private static System.Timers.Timer _cronTimer;
         /// <summary>
         /// 创建统计数据的定时任务
         /// </summary>
         public void UpdateStatisticalData_CronJob()
         {
-            if (scheduler != null) return;
-            WeiSha.Core.Log.Info("创建定时任务", "更新机构的所有统计数据");
-            // 创建调度器  
-            scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
-            // 启动调度器  
-            scheduler.Start().Wait();
+            DateTime now = DateTime.Now;
+            DateTime nextRunTime = new DateTime(now.Year, now.Month, now.Day, 2, 0, 0); // Next run time at 2 AM today  
 
-            // 定义任务  
-            IJobDetail job = JobBuilder.Create<MyJob>()
-                .WithIdentity("myJob", "group1").Build();
+            // If it's already past 2 AM today, schedule for tomorrow  
+            if (now > nextRunTime)                         
+                nextRunTime = nextRunTime.AddDays(1);
+            // Calculate the interval in milliseconds  
+            double interval = (nextRunTime - now).TotalMilliseconds; 
 
-            // 定义触发器，设置为每天中午12:30执行  
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("UpdateStatisticalData_CronJob", "group1")
-                .StartNow()
-                .WithCronSchedule("0 30 12 * * ?") // 每天中午12:30  
-                .Build();
+            _cronTimer = new System.Timers.Timer(interval);
+            _cronTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) =>
+            {
+                WeiSha.Core.Log.Info("开始定时任务", "每天凌晨两点执行");
+                WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_CronJob();
+                //更新统计数据
+                WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
+            }; 
+            _cronTimer.AutoReset = false; // Set to false to prevent repeated execution  
+            _cronTimer.Enabled = true; // Start the timer  
 
-            // 将任务和触发器添加到调度器  
-            scheduler.ScheduleJob(job, trigger).Wait();
+            //if (scheduler != null) return;
+            //WeiSha.Core.Log.Info("创建定时任务", "更新机构的所有统计数据");
+            //// 创建调度器  
+            //scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
+            //// 启动调度器  
+            //scheduler.Start();
 
-            //// 关闭调度器  
-            //scheduler.Shutdown().Wait();
+            //// 定义任务  
+            //IJobDetail job = JobBuilder.Create<MyJob>()
+            //    .WithIdentity("myJob", "group1").Build();
+
+            //// 定义触发器，设置为每天中午12:30执行  
+            //ITrigger trigger = TriggerBuilder.Create()
+            //    .WithIdentity("UpdateStatisticalData_CronJob", "group1")
+            //    .StartNow()
+            //    .WithCronSchedule("0 30 14 * * ?") // 每天中午12:30  
+            //    .Build();
+
+            //// 将任务和触发器添加到调度器  
+            //scheduler.ScheduleJob(job, trigger);
+
+            ////// 关闭调度器  
+            ////scheduler.Shutdown().Wait();
         }
-       /// <summary>
-       /// 统计数据延迟执行
-       /// </summary>
-       /// <param name="minute">延迟的分钟数</param>
-        public void UpdateStatisticalData_Delay(int minute )
+        private static System.Timers.Timer _delayTimer;
+        /// <summary>
+        /// 统计数据延迟执行
+        /// </summary>
+        /// <param name="minute">延迟的分钟数</param>
+        public void UpdateStatisticalData_Delay(int minute)
         {
             WeiSha.Core.Log.Info("创建延迟任务", "更新机构的所有统计数据");
-            // 创建调度器  
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
-            // 启动调度器  
-            scheduler.Start().Wait();
-
-            // 定义任务  
-            IJobDetail job = JobBuilder.Create<MyJob>()
-                .WithIdentity("myJob", "group2").Build();
-
-            // 设置任务延迟三分钟  
-            DateTimeOffset startTime = DateTimeOffset.Now.AddMinutes(minute);
-
-            // 创建一个触发器，设置为三分钟后执行  
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("pdateStatisticalData_Delay", "group2")
-                .StartAt(startTime) // 设置开始时间为当前时间加若干分钟  
-                .Build();
-
-            // 将任务和触发器添加到调度器  
-            scheduler.ScheduleJob(job, trigger).Wait();
-
-            //// 关闭调度器  
-            //scheduler.Shutdown().Wait();
+            // 创建一个定时器，单位毫秒
+            _delayTimer = new System.Timers.Timer(minute * 60 * 1000);
+            _delayTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) =>
+            {
+                //更新统计数据
+                WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
+            };
+            _delayTimer.AutoReset = false; // 设置为 false 以确保只执行一次  
+            _delayTimer.Enabled = true; // 启动定时器  
         }
         /// <summary>
         /// 更新机构的统计数据
