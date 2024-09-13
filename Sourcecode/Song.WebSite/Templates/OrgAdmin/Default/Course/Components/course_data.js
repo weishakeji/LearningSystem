@@ -4,7 +4,7 @@ Vue.component('course_data', {
     data: function () {
         return {
             data: {},
-            init:false,     //是否初始化
+            init: false,     //是否初始化
             loading: false
         }
     },
@@ -22,8 +22,8 @@ Vue.component('course_data', {
         $dom.load.css([$dom.path() + 'Course/Components/Styles/course_data.css']);
     },
     methods: {
-         //初始加载
-         startInit: function () {
+        //初始加载
+        startInit: function () {
             this.init = true;
             //加载完成，则加载后一个组件，实现逐个加载的效果
             this.getcount().finally(() => {
@@ -34,12 +34,13 @@ Vue.component('course_data', {
         },
         //获取课程的数据信息
         getcount: function () {
-            var th = this;        
+            var th = this;
             return new Promise(function (res, rej) {
+                th.setcount(th.course);
                 th.loading = true;
-                $api.put('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {                 
+                $api.put('Course/StudentSum', { 'couid': th.course.Cou_ID }).then(function (req) {
                     if (req.data.success) {
-                        th.data = req.data.result;
+                        th.data['student'] = req.data.result;
                         th.course.data = req.data.result;
                         return res();
                     } else {
@@ -49,12 +50,20 @@ Vue.component('course_data', {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }) .finally(() => {
+                }).finally(() => {
                     th.loading = false;
                     return res();
                 });
             });
-           
+        },
+        //设置已知的数据
+        setcount: function (cou) {
+            var th = this;
+            th.data['outline'] = cou.Cou_OutlineCount;
+            th.data['question'] = cou.Cou_QuesCount;
+            th.data['testpaper'] = cou.Cou_TestCount;
+            th.data['video'] = cou.Cou_VideoCount;
+            th.data['view'] = cou.Cou_ViewNum;
         },
         //显示数值，过大的以千为单位显示,例如 10k
         shownum: function (num) {
