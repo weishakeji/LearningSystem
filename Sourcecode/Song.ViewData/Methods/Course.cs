@@ -405,7 +405,11 @@ namespace Song.ViewData.Methods
         {
             if (asyn)
             {
-                Task.Run(()=> Business.Do<ICourse>().UpdateStatisticalData(orgid, couid));
+                new Task(() =>
+                {
+                    Business.Do<ICourse>().UpdateStatisticalData(orgid, couid);
+                }).Start();
+               
                 return true;
             }
             return Business.Do<ICourse>().UpdateStatisticalData(orgid, couid);

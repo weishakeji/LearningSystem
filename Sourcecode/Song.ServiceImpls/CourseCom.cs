@@ -656,12 +656,13 @@ namespace Song.ServiceImpls
             }
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
+            if (order == "def") wcOrder = Course._.Cou_CrtTime.Desc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            wcOrder = wcOrder & Course._.Cou_ID.Desc;
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(wcOrder).ToList<Course>(count);
         }
@@ -693,7 +694,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             return Gateway.Default.From<Course>().Where(wc)
-               .OrderBy(Course._.Cou_Tax.Desc).ToList<Course>(count);
+               .OrderBy(Course._.Cou_ID.Desc).ToList<Course>(count);
         }
         /// <summary>
         /// 获取指定个数的课程列表
@@ -721,10 +722,11 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
+            if (order == "def") wcOrder = Course._.Cou_CrtTime.Desc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
+            wcOrder = wcOrder & Course._.Cou_ID.Desc;
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(wcOrder).ToList<Course>(count);
         }
@@ -754,10 +756,11 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_ViewNum.Asc;
+            if (order == "def") wcOrder = Course._.Cou_CrtTime.Desc;
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
+            wcOrder = wcOrder & Course._.Cou_ID.Desc;
             return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
         }
         /// <summary>
