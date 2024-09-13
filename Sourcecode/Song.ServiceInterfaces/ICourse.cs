@@ -172,10 +172,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int CourseOfCount(long  sbjid);
         /// <summary>
-        /// 课程的统计数据更新
+        /// 统计机构或专业下的课程数，并保存到机构或专业表
         /// </summary>
         /// <returns></returns>
         void CourseCountUpdate(int orgid,long sbjid);
+        /// <summary>
+        /// 更新课程的统计数据，包括课程的章节数、试题数等
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        bool UpdateStatisticalData(int orgid, long couid);
         /// <summary>
         /// 当前课程下是否有子级
         /// </summary>

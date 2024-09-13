@@ -737,14 +737,43 @@ namespace Song.ServiceImpls
 
             // 定义任务  
             IJobDetail job = JobBuilder.Create<MyJob>()
-                .WithIdentity("myJob", "group1")
-                .Build();
+                .WithIdentity("myJob", "group1").Build();
 
             // 定义触发器，设置为每天中午12:30执行  
             ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("myTrigger", "group1")
+                .WithIdentity("UpdateStatisticalData_CronJob", "group1")
                 .StartNow()
                 .WithCronSchedule("0 30 12 * * ?") // 每天中午12:30  
+                .Build();
+
+            // 将任务和触发器添加到调度器  
+            scheduler.ScheduleJob(job, trigger).Wait();
+
+            //// 关闭调度器  
+            //scheduler.Shutdown().Wait();
+        }
+       /// <summary>
+       /// 统计数据延迟执行
+       /// </summary>
+       /// <param name="minute">延迟的分钟数</param>
+        public void UpdateStatisticalData_Delay(int minute )
+        {
+            // 创建调度器  
+            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
+            // 启动调度器  
+            scheduler.Start().Wait();
+
+            // 定义任务  
+            IJobDetail job = JobBuilder.Create<MyJob>()
+                .WithIdentity("myJob", "group2").Build();
+
+            // 设置任务延迟三分钟  
+            DateTimeOffset startTime = DateTimeOffset.Now.AddMinutes(minute);
+
+            // 创建一个触发器，设置为三分钟后执行  
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("pdateStatisticalData_Delay", "group2")
+                .StartAt(startTime) // 设置开始时间为当前时间加若干分钟  
                 .Build();
 
             // 将任务和触发器添加到调度器  
@@ -781,27 +810,9 @@ namespace Song.ServiceImpls
             foreach (Course item in courses)           
                 tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
             // 逐个等待任务完成
-            foreach (Task task in tasks) task.Wait();
-           
+            foreach (Task task in tasks) task.Wait();           
         }
-        #region 专业的统计数据
-        ///// <summary>
-        ///// 更新专业的数据，包括试题数，试卷数，课程数
-        ///// </summary>
-        //private static void _update_Subject_StatisticalData()
-        //{
-        //    List<Subject> list = Business.Do<ISubject>().SubjectCount(-1, null, null, 0, 0);
-        //    List<Task> tasks = new List<Task>();
-        //    foreach (Subject item in list)
-        //    {
-        //        tasks.Add(Task.Run(() => _update_Subject_StatisticalData_task(item)));
-        //    }
-        //    // 逐个等待任务完成
-        //    foreach (Task task in tasks)
-        //    {
-        //        task.Wait();
-        //    }
-        //}
+
         /// <summary>
         /// 更新专业的数据，包括试题数，试卷数，课程数
         /// </summary>
@@ -816,23 +827,11 @@ namespace Song.ServiceImpls
                 new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
                 new object[] { ques_count, paper_count, course_count });
         }
-        #endregion
-
-        #region 课程的统计数据
-        //private static void _update_Course_StatisticalData()
-        //{
-        //    List<Course> list = Business.Do<ICourse>().CourseCount(-1, -1, -1, -1, null, null, 0);
-        //    List<Task> tasks = new List<Task>();
-        //    foreach (Course item in list)
-        //    {
-        //        tasks.Add(Task.Run(() => _update_Course_StatisticalData_task(item)));
-        //    }
-        //    // 逐个等待任务完成
-        //    foreach (Task task in tasks)
-        //    {
-        //        task.Wait();
-        //    }
-        //}
+      
+        /// <summary>
+        /// 统计课程的相关数据，包括课程的试题数、章节数等
+        /// </summary>
+        /// <param name="course"></param>
         private static void _update_Course_StatisticalData_task(Course course)
         {
             //更新课程的试卷数，章节数，视频数
@@ -845,7 +844,7 @@ namespace Song.ServiceImpls
             //更新课程与章节下的试题数量
             Business.Do<IQuestions>().QuesCountUpdate(-1, -1, course.Cou_ID, -1);
         }
-        #endregion
+
         #endregion
 
     }

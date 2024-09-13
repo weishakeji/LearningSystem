@@ -529,38 +529,6 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Outline>().Where(wc).ToList<Outline>();
         }
 
-        ///// <summary>
-        ///// 构建缓存，章节缓存以课程为单位存储
-        ///// </summary>
-        //public List<Outline> BuildCache(long couid)
-        //{
-        //    Cache.EntitiesCache.Clear<Outline>(couid);
-        //    List<Outline> list = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid)
-        //        .OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>();
-        //    foreach(Outline o in list)
-        //    {
-        //        if (!o.Ol_IsAccessory)
-        //        {
-        //            //如果有视频，设置视频节点
-        //            int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid == o.Ol_UID);
-        //            o.Ol_IsVideo = videoCount > 0;
-        //            //如果有附件
-        //            int accCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "Course" && Accessory._.As_Uid == o.Ol_UID);
-        //            o.Ol_IsAccessory = accCount > 0;
-        //            if (videoCount > 0 || accCount > 0)
-        //            {
-        //                new Task(() =>
-        //                {
-        //                    Gateway.Default.Save<Outline>(o);                         
-        //                }).Start();
-        //            }
-
-        //        }
-        //    }           
-           
-        //    Cache.EntitiesCache.Save<Outline>(list, couid);
-        //    return Cache.EntitiesCache.GetList<Outline>(couid);
-        //}
         #region 生成树形结构的章节列表
         /// <summary>
         /// 生成树形结构的章节列表
@@ -810,31 +778,6 @@ namespace Song.ServiceImpls
                 return list.Count;
             }
             return Gateway.Default.Count<Outline>(wc);
-
-            //从缓存中读取
-            //List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
-            //if (list == null || list.Count < 1) list = this.BuildCache(couid);
-            ////自定义查询条件
-            //Func<Outline, bool> exp = x =>
-            //{
-            //    var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
-            //    var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
-
-            //    var video_exp = isVideo != null ? x.Ol_IsVideo == (bool)isVideo : true;
-            //    var finish_exp = isFinish != null ? x.Ol_IsFinish == (bool)isFinish : true;
-            //    var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true;
-
-            //    return cou_exp && pid_exp && video_exp && finish_exp && use_exp;
-            //};
-            //List<Outline> result = list.Where(exp).ToList<Outline>();
-
-            //if (children != null && !(bool)children)
-            //{
-            //    List<long> count_list = new List<long>();
-            //    count_list = _treeid(pid, result);
-            //    return count_list.Count;
-            //}
-            //return result.Count;
         }
         /// <summary>
         /// 是否有子级章节
@@ -954,7 +897,6 @@ namespace Song.ServiceImpls
                             Outline._.Ol_ID == sbj.Ol_ID);
                     }
                     tran.Commit();
-                    //this.BuildCache(couid);
                     return true;
                 }
                 catch(Exception ex)

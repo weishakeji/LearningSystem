@@ -217,6 +217,11 @@ namespace Song.ServiceInterfaces
         /// </summary>
         void UpdateStatisticalData_CronJob();
         /// <summary>
+        /// 统计数据延迟执行
+        /// </summary>
+        /// <param name="minute">延迟的分钟数</param>
+        void UpdateStatisticalData_Delay(int minute);
+        /// <summary>
         /// 更新机构的统计数据
         /// </summary>
         void UpdateStatisticalData();

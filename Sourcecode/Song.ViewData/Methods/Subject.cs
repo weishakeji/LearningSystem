@@ -311,6 +311,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
         /// <param name="sbjid">专业id</param>
         /// <returns></returns>
+        [HttpPost]
         public bool UpdateStatisticalData(int orgid,long sbjid)
         {
             return Business.Do<ISubject>().UpdateStatisticalData(orgid, sbjid);

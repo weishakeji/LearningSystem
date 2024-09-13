@@ -47,6 +47,11 @@
                 id: 'log', type: 'success',
                 class: 'el-icon-magic-stick'
             });
+            this.$refs.btngroup.addbtn({
+                text: '更新数据', tips: '更新课程数、试题数、试卷数的统计数据',
+                id: 'update_dataall', type: 'warning',
+                icon: 'e651'
+            });
         },
         created: function () {
             var th = this;
@@ -268,6 +273,66 @@
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
+            },
+            //更新某个课程的统计数据
+            updateDatainfo: function (row) {
+                var name = row.Cou_Name
+                this.$confirm('重新课程《' + name + '》的课程数、试题数、试卷数等统统计数据, 是否继续?', '更新数据', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var th = this;
+                    th.loadingid = row.Cou_ID;
+                    $api.post('Course/updatestatisticaldata', { 'orgid': 0, 'couid': row.Cou_ID, 'asyn': false }).then(req => {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.freshrow(row.Cou_ID);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => th.loadingid = 0);
+                }).catch(() => { });
+            },
+            //更新所有课程的统计数据
+            update_dataall: function () {
+                var text = '此操作将重新计算所有课程的课程数、试题数、试卷数;';
+                var asyn = false;
+                if (this.total > 30) {
+                    text += '<br/>耗时较长，将采用后台计算。<br/>';
+                    asyn = true;
+                } else {
+                    text += '<br/>耗时较长，';
+                    asyn = false;
+                }
+                this.$confirm(text + '是否继续?', '更新数据', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => {
+                    var th = this;
+                    var loading = this.$fulloading();
+                    $api.post('Course/updatestatisticaldata', { 'orgid': th.organ.Org_ID, 'couid': '', 'asyn': asyn }).then(req => {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            if (!asyn) th.handleCurrentChange();
+                            else {
+                                th.$alert('已经开始后台计算，请稍后查看结果。', '提示', {
+                                    confirmButtonText: '确定'
+                                });
+                            }
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => {
+                            th.$nextTick(function () {
+                                loading.close();
+                            });
+                        });
+                }).catch(() => { });
             },
             //打开学习记录的面板
             openlog: function (btn) {

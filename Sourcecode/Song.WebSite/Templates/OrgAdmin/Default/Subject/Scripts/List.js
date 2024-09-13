@@ -310,7 +310,7 @@ $ready(function () {
                 }).then(() => {
                     var th = this;
                     var loading = this.$fulloading();
-                    $api.get('Subject/updatestatisticaldata', { 'orgid': th.org.Org_ID, 'sbjid': '' }).then(req => {
+                    $api.post('Subject/updatestatisticaldata', { 'orgid': th.org.Org_ID, 'sbjid': '' }).then(req => {
                         if (req.data.success) {
                             var result = req.data.result;
                             th.getTreeData();

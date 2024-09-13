@@ -46,8 +46,8 @@ namespace Song.WebSite
             {
                 Log.Error(this.GetType().ToString(), ex);
             }
-            //更新统计数据
-            WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
+            //更新统计数据,延迟执行
+            WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_Delay(10);
             //创建定时任务
             WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_CronJob();
         }

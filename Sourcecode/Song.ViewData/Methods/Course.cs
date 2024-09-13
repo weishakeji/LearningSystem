@@ -392,7 +392,24 @@ namespace Song.ViewData.Methods
             jo.Add("view", course.Cou_ViewNum);     //课程浏览数
             jo.Add("live", course.Cou_ExistLive);       //是否为直播课
             return jo;           
-        }       
+        }
+        /// <summary>
+        /// 更新课程的统计数据，包括课程的章节数、试题数等
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="asyn">是否采用异步处理</param>
+        /// <returns></returns>
+        [HttpPost]
+        public bool UpdateStatisticalData(int orgid, long couid, bool asyn)
+        {
+            if (asyn)
+            {
+                Task.Run(()=> Business.Do<ICourse>().UpdateStatisticalData(orgid, couid));
+                return true;
+            }
+            return Business.Do<ICourse>().UpdateStatisticalData(orgid, couid);
+        }
         #endregion
 
         #region 课程价格   

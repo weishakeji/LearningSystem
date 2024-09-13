@@ -553,7 +553,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Course>(Course._.Sbj_ID == sbjid);          
         }
         /// <summary>
-        /// 课程的统计数据更新
+        /// 统计机构或专业下的课程数，并保存到机构或专业表
         /// </summary>
         /// <returns></returns>
         public void CourseCountUpdate(int orgid, long sbjid)
@@ -568,6 +568,37 @@ namespace Song.ServiceImpls
                 int orgcount = Gateway.Default.Count<Course>(Course._.Org_ID == orgid);
                 Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_CourseCount }, new object[] { orgcount }, Organization._.Org_ID == orgcount);
             }
+        }
+        /// <summary>
+        /// 更新课程的统计数据，包括课程的章节数、试题数等
+        /// </summary>
+        /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public bool UpdateStatisticalData(int orgid, long couid)
+        {
+            if (orgid > 0)
+            {
+                List<Course> courses = this.CourseCount(orgid, -1, string.Empty, string.Empty, null, 0);
+                if (courses != null && courses.Count > 0)
+                {
+                    foreach (Course cou in courses)
+                        this.UpdateStatisticalData(-1, cou.Cou_ID);
+                }
+            }
+            else if (couid > 0)
+            {
+                //更新课程的试卷数，章节数，视频数
+                int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, couid, -1, null);
+                int outline_count = Business.Do<IOutline>().OutlineOfCount(couid, -1, null);
+                int video_count = Business.Do<IOutline>().OutlineOfCount(couid, -1, null, true, null, null);
+                Business.Do<ICourse>().CourseUpdate(couid,
+                    new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
+                    new object[] { paper_count, outline_count, video_count });
+                //更新课程与章节下的试题数量
+                Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
+            }
+            return true;
         }
         /// <summary>
         /// 获取指定个数的课程列表
