@@ -730,6 +730,7 @@ namespace Song.ServiceImpls
         public void UpdateStatisticalData_CronJob()
         {
             if (scheduler != null) return;
+            WeiSha.Core.Log.Info("创建定时任务", "更新机构的所有统计数据");
             // 创建调度器  
             scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
             // 启动调度器  
@@ -758,6 +759,7 @@ namespace Song.ServiceImpls
        /// <param name="minute">延迟的分钟数</param>
         public void UpdateStatisticalData_Delay(int minute )
         {
+            WeiSha.Core.Log.Info("创建延迟任务", "更新机构的所有统计数据");
             // 创建调度器  
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
             // 启动调度器  
@@ -788,7 +790,7 @@ namespace Song.ServiceImpls
         public void UpdateStatisticalData()
         {
             if (!Gateway.Default.IsCorrect) return;
-            WeiSha.Core.Log.Info(this.GetType().FullName, "更新机构的统计数据");
+            WeiSha.Core.Log.Info("开始统计数据", "更新机构的统计数据");
 
             List<Organization> orgs = this.OrganCount(null, null, -1, 0);
             foreach (Organization org in orgs)
