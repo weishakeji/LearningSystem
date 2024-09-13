@@ -246,16 +246,41 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TestResults[] ResultsCount(int stid, long tpid);
         /// <summary>
+        /// 试卷的成绩数，即参加考试的人次
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        int ResultsOfCount(long tpid);
+        /// <summary>
         /// 分页获取测试成绩
         /// </summary>
-        /// <param name="stid"></param>
-        /// <param name="sbjid"></param>
-        /// <param name="couid"></param>
+        /// <param name="stid">学员账号id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, long sbjid, long couid, int size, int index, out int countSum);
+        /// <summary>
+        /// 分页获取测试成绩
+        /// </summary>
+        /// <param name="stid">学员账号id</param>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="tpname">试卷名称</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="acc">学员账号</param>
+        /// <param name="cardid">身份证号</param>
+        /// <param name="score_min">成绩查询范围，最小值</param>
+        /// <param name="score_max">成绩查询范围，最大值</param>
+        /// <param name="time_min">考试时间的查询范围，最小值</param>
+        /// <param name="time_max">考试时间的查询范围，最大值</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
         TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, long sbjid, int orgid,
             string acc, string cardid, float score_min, float score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum);

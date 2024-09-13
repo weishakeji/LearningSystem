@@ -173,5 +173,60 @@
             }
         }
     });
+    //参加考试的人次
+    Vue.component('result_count', {
+        props: ["tpid", "index"],
+        data: function () {
+            return {
+                count:0,
+                loading: false
+            }
+        },
+        watch: {
+            'tpid': {
+                handler: function (nv, ov) {
+                    if (!$api.isnull(nv)) {
+                        if (this.index == 0) this.getData();
+                    }
+                }, immediate: true
+            }
+        },
+        computed: {},
+        mounted: function () {            
+        },
+        methods: {
+            //初始加载
+            startInit: function () {
+                //加载完成，则加载后一个组件，实现逐个加载的效果
+                this.getPrices().finally(() => {
+                    var vapp = window.vapp;
+                    var ctr = vapp.$refs['result_count_' + (this.index + 1)];
+                    if (ctr != null) ctr.startInit();
+                });
+            },
+            //加载
+            getData: function () {
+                var th = this;
+                return new Promise(function (res, rej) {                   
+                    th.loading = true;
+                    $api.get('TestPaper/ResultsOfCount', { 'tpid': th.tpid }).then(function (req) {
+                        if (req.data.success) {
+                            th.count = req.data.result;                           
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => {
+                            th.loading = false;
+                            return res();
+                        });
+                });
 
+            },          
+        },
+        template: `<span class="result_count" v-if="count>0">
+                ({{count}})
+    </span> `
+    });
 });

@@ -615,7 +615,15 @@ namespace Song.ViewData.Methods
             Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);
             return trs;
         }
-
+        /// <summary>
+        /// 试卷的成绩数，即参加考试的人次
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public int ResultsOfCount(long tpid)
+        {
+            return Business.Do<ITestPaper>().ResultsOfCount(tpid);
+        }
         /// <summary>
         /// 获取某个试卷的学员最高分
         /// </summary>

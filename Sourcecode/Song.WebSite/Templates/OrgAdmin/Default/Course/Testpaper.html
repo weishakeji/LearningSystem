@@ -21,7 +21,7 @@
             </query_panel>
         </div>
         <!-- 数据列表-->
-        <el-table ref="datatables" border resizable  :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Tp_Id">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>
@@ -96,6 +96,8 @@
                     <div>
                         <el-link type="primary" plain @click="viewResults(scope.row)">
                             <icon>&#xe696</icon>成绩
+                            <result_count :ref="'result_count_'+scope.$index" :tpid="scope.row.Tp_Id"
+                                :index="scope.$index"></result_count>
                         </el-link>
                     </div>
                     <el-dropdown>

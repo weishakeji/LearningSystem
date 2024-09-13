@@ -766,6 +766,15 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>();
         }
         /// <summary>
+        /// 试卷的成绩数，即参加考试的人次
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public int ResultsOfCount(long tpid)
+        {
+            return Gateway.Default.Count<TestResults>(TestResults._.Tp_Id == tpid);
+        }
+        /// <summary>
         /// 分页获取测试成绩
         /// </summary>
         /// <param name="stid"></param>
