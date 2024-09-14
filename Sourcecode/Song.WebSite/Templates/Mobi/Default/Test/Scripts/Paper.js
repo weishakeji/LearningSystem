@@ -130,7 +130,7 @@ $ready(function () {
                     title: '清空成绩',
                     message: '您是否确定清空所有历史成绩？',
                 }).then(() => {
-                    $api.delete('TestPaper/ResultClear', { 'acid': th.account.Ac_ID, 'tpid': th.paper.Tp_Id })
+                    $api.delete('TestPaper/ResultClearForStuednt', { 'acid': th.account.Ac_ID, 'tpid': th.paper.Tp_Id })
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;

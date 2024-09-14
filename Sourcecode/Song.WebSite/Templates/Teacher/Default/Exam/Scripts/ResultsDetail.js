@@ -127,8 +127,8 @@ $ready(function () {
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
-                console.log('最小值' + th.form.min);
-                console.log('最大值' + th.form.max);
+                //console.log('最小值' + th.form.min);
+                //console.log('最大值' + th.form.max);
                 th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
@@ -155,8 +155,8 @@ $ready(function () {
                 let minute = Math.round((d2.getTime() - d1.getTime()) / 1000 / 60);      //考试用时（分钟）                        
                 return (minute <= 0 ? "<1" : minute) + ' 分钟';
             },
-             //计算所有成绩
-             allcalcResultScore: function () {
+            //计算所有成绩
+            allcalcResultScore: function () {
                 this.$confirm('重新计算所有成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
                     confirmButtonText: '确定', cancelButtonText: '取消',
                     type: 'warning', dangerouslyUseHTMLString: true
@@ -178,8 +178,8 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.$nextTick(() => loading.close()));
             },
-             //批量计算成绩
-             batcalcResultScore: function () {
+            //批量计算成绩
+            batcalcResultScore: function () {
                 this.$confirm('重新计算当前页面的 ' + this.datas.length + ' 条成绩, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -267,13 +267,13 @@ $ready(function () {
                                     type: 'success',
                                     message: '删除成功!'
                                 });
-                                loading.close();
                                 th.handleCurrentChange();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
                             }
-                        }).catch(err => console.error(err));
+                        }).catch(err => console.error(err))
+                            .finally(() => loading.close());
 
                     }).catch(() => { });
                 }).catch(() => { });
@@ -313,7 +313,7 @@ $ready(function () {
             getFiles: function () {
                 var th = this;
                 th.fileloading = true;
-                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {                   
+                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -321,7 +321,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                .finally(() => th.fileloading = false);
+                    .finally(() => th.fileloading = false);
             },
             //生成导出文件
             toexcel: function () {

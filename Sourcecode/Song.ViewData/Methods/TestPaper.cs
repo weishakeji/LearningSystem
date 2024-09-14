@@ -5,6 +5,7 @@ using Song.ViewData.Attri;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Xml;
@@ -701,7 +702,7 @@ namespace Song.ViewData.Methods
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
         [HttpDelete, Admin, Teacher, Student]
-        public int ResultClear(int acid, long tpid)
+        public int ResultClearForStuednt(int acid, long tpid)
         {
             Song.Entities.Accounts account = this.User;
             if (account != null && account.Ac_ID == acid)
@@ -709,6 +710,16 @@ namespace Song.ViewData.Methods
                 return Business.Do<ITestPaper>().ResultsClear(acid, tpid);
             }
             return -1;
+        }
+        /// <summary>
+        /// 清空学员的某个测试的所有历史成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        [HttpDelete, Admin, Teacher]
+        public int ResultClear(long tpid)
+        {
+            return Business.Do<ITestPaper>().ResultsClear(tpid);
         }
 
         /// <summary>
@@ -757,6 +768,69 @@ namespace Song.ViewData.Methods
             return score;
         }
 
-        #endregion 成绩
+        #endregion
+
+        #region 成绩导出
+        private static string outputPath = "TestResultToExcel";
+        /// <summary>
+        /// 已经生成的Excel文件
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray ResultFiles(long tpid)
+        {
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + tpid + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
+            {
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, tpid, f.Name));
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 试卷（模块考试）的考试成绩导出
+        /// </summary>
+        /// <param name="tpid">试卷id</param>    
+        /// <returns></returns>
+        [HttpPost]
+        public JObject ResultsOutput(long tpid)
+        {  
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + tpid + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            //
+            Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
+            DateTime date = DateTime.Now;
+            string filename = string.Format("《{0}》的成绩_({1}).xls", paper.Tp_Name, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<ITestPaper>().ResultsOutput(filePath, tpid);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, tpid, filename));
+            jo.Add("date", date);            
+            return jo;
+        }
+        /// <summary>
+        /// 删除成绩导出的Excel文件
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ResultExcelDelete(long tpid, string filename)
+        {
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, outputPath + "\\" + tpid, "Temp");
+        }
+        #endregion
     }
 }

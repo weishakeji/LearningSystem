@@ -123,7 +123,8 @@ $ready(function () {
                 //实际拥有的卡券数
                 let mycoupon = this.account.Ac_Coupon;
                 let price = item.CP_Price;      //价格
-                let coupon = item.CP_Coupon > mycoupon ? mycoupon : item.CP_Coupon;   //卡券
+                let coupon = item.CP_Coupon ? item.CP_Coupon : 0;
+                coupon = coupon > mycoupon ? mycoupon :coupon;   //卡券
                 return (price - coupon) <= 0 ? 0 : price - coupon;
             },
             //选中价格

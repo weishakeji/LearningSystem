@@ -161,6 +161,8 @@ $ready(function () {
                 var span = item.CP_Span;    //时间数
                 var unit = item.CP_Unit;    //时间单位
                 var price = item.CP_Price;      //价格
+
+                console.error(33);
                 //平均每天多少钱
                 var average = this.actualpay(item) / getday(span, unit);
                 //var average = price / getday(span, unit);
@@ -184,7 +186,8 @@ $ready(function () {
                 //实际拥有的卡券数
                 let mycoupon = this.account.Ac_Coupon;
                 let price = item.CP_Price;      //价格
-                let coupon = item.CP_Coupon > mycoupon ? mycoupon : item.CP_Coupon;   //卡券
+                let coupon = item.CP_Coupon ? item.CP_Coupon : 0;
+                coupon = coupon > mycoupon ? mycoupon :coupon;   //卡券
                 return (price - coupon) <= 0 ? 0 : price - coupon;
             },
             //选中价格

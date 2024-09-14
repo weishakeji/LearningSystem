@@ -224,6 +224,11 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid">试卷id</param>
         int ResultsClear(int acid, long tpid);
         /// <summary>
+        /// 清空某个试卷的所有测试成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        int ResultsClear(long tpid);
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -294,6 +299,14 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, long tpid, int size, int index, out int countSum);
+
+        /// <summary>
+        /// 成绩导出
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        string ResultsOutput(string filePath, long tpid);
         #endregion
     }
 }

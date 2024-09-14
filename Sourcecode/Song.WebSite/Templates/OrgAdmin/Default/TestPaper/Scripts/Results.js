@@ -20,6 +20,10 @@
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
 
+            exportVisible: false,    //导出面板是否显示
+            files: [],               //导出的文件列表
+            fileloading: false,      //导出时的加载状态
+
             loading: false,
             loadingid: 0,
             loading_init: true
@@ -29,6 +33,11 @@
                 text: '重新计算', tips: '重新计算成绩',
                 id: 'batcalc', type: 'primary',
                 icon: 'a067'
+            });
+            this.$refs['btngroup'].addbtn({
+                text: '清空', tips: '清空当前考试下的所有成绩',
+                id: 'clear', type: 'warning',
+                icon: 'e839'
             });
             var th = this;
             $api.bat(
@@ -42,6 +51,7 @@
                 th.form.orgid = th.org.Org_ID;
                 th.testpaper = paper.data.result;
                 th.handleCurrentChange(1);
+                th. getFiles();
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -103,7 +113,7 @@
                 var form = $api.clone(this.form);
                 if (form.score_min === '') form.score_min = -1;
                 if (form.score_max === '') form.score_max = -1;
-                form.tpid = this.tpid;
+                form.tpid = th.tpid;
                 $api.get("TestPaper/ResultsQueryPager", form).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;
@@ -149,6 +159,37 @@
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
+            },
+            //清空
+            clear: function () {
+                this.$confirm('删除所有成绩，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$confirm('此操作将永久删除所有成绩，且无法恢复, 是否继续？', '再次提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'error'
+                    }).then(() => {
+                        var th = this;
+                        var loading = this.$fulloading();
+                        $api.delete('TestPaper/resultclear', { 'tpid': th.tpid }).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                                th.handleCurrentChange();
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => loading.close());
+
+                    }).catch(() => { });
+                }).catch(() => { });
             },
             //计算所有成绩
             allcalcResultScore: function () {
@@ -230,6 +271,57 @@
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loadingid = -1);
+            },
+            //已经导出的文件列表
+            getFiles: function () {
+                var th = this;
+                th.fileloading = true;
+                $api.get('TestPaper/ResultFiles', { 'tpid': th.tpid }).then(function (req) {
+                    if (req.data.success) {
+                        th.files = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.fileloading = false);
+            },
+            //生成导出文件
+            toexcel: function () {
+                var th = this;
+                //导出所有参考学员
+                th.fileloading = true;
+                $api.post('TestPaper/ResultsOutput', { 'tpid': th.tpid}).then(function (req) {
+                    if (req.data.success) {
+                        th.getFiles();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
+            },
+            //删除文件
+            deleteFile: function (file) {
+                var th = this;
+                this.fileloading = true;
+                $api.get('TestPaper/ResultExcelDelete', { 'tpid': th.tpid, 'filename': file }).then(function (req) {
+                    th.fileloading = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getFiles();
+                        th.$notify({
+                            message: '文件删除成功！',
+                            type: 'success',
+                            position: 'bottom-right',
+                            duration: 2000
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //成绩回顾
             viewresult: function (data) {

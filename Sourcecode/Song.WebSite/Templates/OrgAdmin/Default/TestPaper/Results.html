@@ -5,14 +5,15 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
-    <title>试卷管理</title>
+    <title>试卷成绩管理</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除,重新计算" ref='btngroup' @batcalc="allcalcResultScore" @delete="deleteData" width="800"
-                height="600" :selects='selects' idkey='Tr_ID' table="datatables" :modal="true"></btngroup>
+            <btngroup show="删除,导出,清空,重新计算" ref='btngroup' @clear="clear" @output="exportVisible = true"
+                @batcalc="allcalcResultScore" @delete="deleteData" width="800" height="600" :selects='selects'
+                idkey='Tr_ID' table="datatables" :modal="true"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="姓名">
                     <el-input v-model.trim="form.stname" style="width: 100px;" placeholder="学员姓名" clearable>
@@ -137,13 +138,32 @@
                 </template>
             </el-table-column>
         </el-table>
-
-
+        <!--底部分页按钮-->
         <div id="pager-box">
             <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
+        <!--成绩导出-->
+        <el-dialog title="成绩导出" class="exportquery" width="80%" :visible.sync="exportVisible" :show-close="false"
+            :before-close="()=>{}">
+            <dl v-if="files.length>0" class="files">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span> {{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+            <div v-else>没有供下载的文件</div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="exportVisible = false" :disabled="fileloading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="fileloading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
     </div>
 </body>
 

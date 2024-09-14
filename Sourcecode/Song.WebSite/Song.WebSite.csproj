@@ -1558,6 +1558,7 @@
     <Content Include="Utilities\DataTemplate\Config\学习卡的学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\学员的学习成果.xml" />
     <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />
+    <Content Include="Utilities\DataTemplate\Config\测试成绩.xml" />
     <Content Include="Utilities\DataTemplate\Config\课程的学习成果.xml" />
     <Content Include="Utilities\driver\driver.css" />
     <Content Include="Utilities\driver\driver.js.iife.js" />

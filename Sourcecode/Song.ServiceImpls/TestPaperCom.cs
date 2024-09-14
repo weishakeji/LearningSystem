@@ -12,6 +12,9 @@ using Song.ServiceInterfaces;
 using System.Data.Common;
 using System.Xml;
 using System.Threading.Tasks;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using System.IO;
 
 namespace Song.ServiceImpls
 {
@@ -725,7 +728,18 @@ namespace Song.ServiceImpls
         /// <param name="tpid">试卷id</param>
         public int ResultsClear(int acid, long tpid)
         {
-            return Gateway.Default.Delete<TestResults>(TestResults._.Ac_ID == acid && TestResults._.Tp_Id == tpid);
+            if (tpid <= 0) return 0;
+            WhereClip wc = TestResults._.Tp_Id == tpid;
+            if (acid > 0) wc.And(TestResults._.Ac_ID == acid);  
+            return Gateway.Default.Delete<TestResults>(wc);
+        }
+        /// <summary>
+        /// 清空某个试卷的所有测试成绩
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        public int ResultsClear(long tpid)
+        {
+            return this.ResultsClear(-1, tpid);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -836,6 +850,129 @@ namespace Song.ServiceImpls
             TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
             return exr;
         }
+
+        /// <summary>
+        /// 成绩导出
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public string ResultsOutput(string filePath, long tpid)
+        {
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "测试成绩.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //创建工作簿对象
+            TestPaper paper = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == tpid).ToFirst<TestPaper>();
+            ISheet sheet = hssfworkbook.CreateSheet(paper.Tp_Name);
+
+            WhereClip wc = new WhereClip();
+            wc.And(TestResults._.Tp_Id == tpid);
+            TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc)
+                .OrderBy(TestResults._.Ac_ID.Desc && TestResults._.Tr_Score.Desc).ToArray<TestResults>();
+
+            setSheet(exr, sheet, nodes);
+
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return filePath;
+        }
+        #region 导出成绩所用的私有方法
+        /// <summary>
+        /// 生成考试成绩的工作表
+        /// </summary>
+        /// <param name="exr"></param>
+        /// <param name="sheet"></param>
+        /// <param name="nodes"></param>
+        private void setSheet(TestResults[] exr, ISheet sheet, XmlNodeList nodes)
+        {
+            //创建数据行对象
+            IRow rowHead = sheet.CreateRow(0);
+            for (int i = 0; i < nodes.Count; i++)
+                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+            for (int i = 0; i < exr.Length; i++)
+            {
+                IRow row = sheet.CreateRow(i + 1);
+                Type exrRef = exr[i].GetType();           //对象的反射对象
+                //当前学员对象
+                Accounts account = Business.Do<IAccounts>().AccountsSingle(exr[i].Ac_ID);
+                Type accRef = account == null ? null : account.GetType();        //学员对象的反射对象
+                for (int j = 0; j < nodes.Count; j++)
+                {
+                    object obj = null;
+                    //获取考试成绩表ExamResults的字段属性
+                    System.Reflection.PropertyInfo propertyInfo = exrRef.GetProperty(nodes[j].Attributes["Field"].Value);
+                    try
+                    {
+                        obj = propertyInfo.GetValue(exr[i], null);
+                    }
+                    catch
+                    {
+                        //取学员表Accounts的字段的属性值
+                        if (accRef != null)
+                        {
+                            System.Reflection.PropertyInfo accproper = accRef.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
+                            obj = accproper.GetValue(account, null);
+                        }
+                    }
+                    if (obj == null) continue;
+                    this.setCellValue(obj, nodes[j], row.CreateCell(j));
+                }
+            }
+            for (int i = 0; i < nodes.Count; i++)
+                sheet.AutoSizeColumn(i);
+        }
+        /// <summary>
+        /// 设置考试成绩的导出的单元格数据
+        /// </summary>
+        /// <param name="obj">单元格的值</param>
+        /// <param name="node">节点类型</param>
+        /// <param name="cell">单元格</param>
+        private void setCellValue(object obj, XmlNode node, ICell cell)
+        {
+            string format = node.Attributes["Format"] != null ? node.Attributes["Format"].Value : "";
+            string datatype = node.Attributes["DataType"] != null ? node.Attributes["DataType"].Value : "";
+            string defvalue = node.Attributes["DefautValue"] != null ? node.Attributes["DefautValue"].Value : "";
+            string value = "";
+            switch (datatype)
+            {
+                case "date":
+                    DateTime tm = Convert.ToDateTime(obj);
+                    value = tm > DateTime.Now.AddYears(-30) ? tm.ToString(format) : "";
+                    cell.SetCellValue(value);
+                    break;
+                case "float":
+                    float f = 0;
+                    float.TryParse(obj.ToString(), out f);
+                    cell.SetCellValue(f);
+                    break;
+                case "int":
+                    int integer = 0;
+                    int.TryParse(obj.ToString(), out integer);
+                    cell.SetCellValue(integer);
+                    break;
+                default:
+                    value = obj.ToString();
+                    cell.SetCellValue(value);
+                    break;
+            }
+            //如果有默认值的特殊指定
+            if (!string.IsNullOrWhiteSpace(defvalue))
+            {
+                foreach (string s in defvalue.Split('|'))
+                {
+                    string h = s.Substring(0, s.IndexOf("="));
+                    string f = s.Substring(s.LastIndexOf("=") + 1);
+                    if (value.ToLower() == h.ToLower()) value = f;
+                }
+                cell.SetCellValue(value);
+            }
+        }
+        #endregion
         #endregion
     }
 }
