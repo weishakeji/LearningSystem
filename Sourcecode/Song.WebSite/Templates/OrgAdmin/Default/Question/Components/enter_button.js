@@ -188,7 +188,10 @@ Vue.component('enter_button', {
             let couid = $api.querystring('couid', 0);
             if (couid != 0 && !$api.isnull(couid))
                 href = $api.url.set(href, { 'couid': couid });
-            window.location.href = href;
+            //跳转
+            let box = window.top.$pagebox.get(window.name);
+            box.url = href;
+            window.location.href
         },
     },
     template: `<div class="footer" v-if="!quesnull">
