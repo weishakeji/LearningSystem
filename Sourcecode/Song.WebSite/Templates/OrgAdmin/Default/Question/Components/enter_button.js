@@ -191,7 +191,6 @@ Vue.component('enter_button', {
             //跳转
             let box = window.top.$pagebox.get(window.name);
             box.url = href;
-            window.location.href
         },
     },
     template: `<div class="footer" v-if="!quesnull">
