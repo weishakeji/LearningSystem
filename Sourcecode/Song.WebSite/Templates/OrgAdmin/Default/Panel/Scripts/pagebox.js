@@ -652,9 +652,9 @@
         if (!this.showmask)
             box.mask.hide();
     };
-    /*** 
+    /* 
     以下是静态方法或属性
-    *****/
+    */
     //当前所有窗体的总数
     box.total = function (num) {
         let total = !window.pagebox_total ? 0 : window.pagebox_total;
@@ -761,6 +761,8 @@
                     childs[i].level = childs[i].level - ctrl.obj.initLvl + ctrl.obj.level;
                 }
             }
+            //如果当前窗体是模态窗体，显示遮罩
+            if (ctrl.obj.showmask) box.mask.show(ctrl.obj);
             //激活当前窗体的焦点事件
             ctrl.obj.trigger('focus');
         }
@@ -777,7 +779,7 @@
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
         ctrl.obj.domin.css('opacity', 0);
-        box.mask.hide();
+        box.mask.hide();    //关闭遮罩
         setTimeout(function () {
             ctrl.remove();
             ctrl.obj.domin.remove();
@@ -1132,7 +1134,7 @@
         },
         hide: function () {
             let mask = $dom('pagebox_bg_mask');
-            if (mask.length < 1) return;
+            if (mask.length < 1) return;            
             mask.hide();
             $dom('body').removeClass('pagebox_overflow');
         },
