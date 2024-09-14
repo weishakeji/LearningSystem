@@ -174,14 +174,14 @@ namespace Song.ServiceInterfaces
         /// 获取随机试题
         /// </summary>
         /// <param name="type">试题类型</param>
-        /// <param name="sbjId">所属学科</param>
+        /// <param name="sbjid">所属学科的id</param>
         /// <param name="couid"></param>
         /// <param name="diff1">难度等级区间的最小等级</param>
         /// <param name="diff2">难度等级的最大等级</param>
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QuesRandom(int type, long  sbjid, long couid, int diff1, int diff2, bool? isUse, int count);
+        Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 分页获取所有的试题；
         /// </summary>
@@ -214,6 +214,28 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions[] QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
+        /// 当前试题的下一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        Questions QuesNext(long id, long olid, long couid, long sbjid);
+        /// <summary>
+        /// 当试题的上一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        Questions QuesPrev(long id, long olid, long couid, long sbjid);
+
+        #endregion
+
+        #region 试题导出
+        /// <summary>
         /// 导出试题
         /// </summary>
         /// <param name="orgid">所属机构</param>
@@ -233,7 +255,6 @@ namespace Song.ServiceInterfaces
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
-        /// <param name="sbjId"></param>
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <param name="diff"></param>

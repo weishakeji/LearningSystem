@@ -1,4 +1,5 @@
 ﻿//试题编辑中的确定按钮
+$dom.load.css([$dom.path() + 'Question/Components/Styles/enter_button.css']);
 Vue.component('enter_button', {
     //question：当前试题
     //verify:验证试题是否满足编辑条件的方法
@@ -7,18 +8,30 @@ Vue.component('enter_button', {
         return {
             loading: false,
             id: $api.dot(),          //来自地址栏的试题id
-            disabled: false      //按钮是否禁用
+            disabled: false,      //按钮是否禁用
+            //
+            ischanged: false,         //试题内容是否变更
+            quesNext: null,      //下一道试题
+            quesPrev: null       //上一道试题
         }
     },
     mounted: function () {
-        $dom.load.css([$dom.path() + 'Question/Components/Styles/enter_button.css']);
-        console.log(this.id);
+        this.getRelatedQues("Question/next").then(res => this.quesNext = res);
+        this.getRelatedQues("Question/prev").then(res => this.quesPrev = res);
+    },
+    watch: {
+        'question': {
+            handler: function (nv, ov) {
+                if ($api.isnull(ov) || !ov.Qus_ID || ov.Qus_ID == 0) return;
+                if ($api.isnull(nv)) return;
+                this.ischanged = true;
+            }, deep: true
+        },
     },
     computed: {
         //试题是否为空
         'quesnull': function () {
-            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
-            return !ques || this.question.Qus_ID == 0;
+            return $api.isnull(this.question) || this.question.Qus_ID == 0;
         },
         //是否是新增试题
         'isadd': t => t.id == '',
@@ -27,21 +40,16 @@ Vue.component('enter_button', {
         //常规验证，主要验证试题所属专业、课程等
         general_verify: function () {
             if (!this.question) return false;
-            var th = this;
             let qus = this.question;
             //题干不得为空
-            if (!qus.Qus_Title || qus.Qus_Title == '') {
-                return this.alert('试题题干不得为空！', 0);
-            }
+            if (!qus.Qus_Title || qus.Qus_Title == '')
+                return this.prompt('试题题干不得为空！', 0);
             //是否设置课程
-            if (!qus.Cou_ID || qus.Cou_ID <= 0) {
-                return this.alert('试题必须设置所属课程', 1);
-            }
+            if (!qus.Cou_ID || qus.Cou_ID <= 0)
+                return this.prompt('试题必须设置所属课程', 1);
             //是否设置专业
-            if (!qus.Sbj_ID || qus.Sbj_ID <= 0) {
-                return this.alert('试题必须设置所属专业', 1);
-            }
-
+            if (!qus.Sbj_ID || qus.Sbj_ID <= 0)
+                return this.prompt('试题必须设置所属专业', 1);
             return true;
         },
         //提交
@@ -50,10 +58,9 @@ Vue.component('enter_button', {
             if (!this.general_verify()) return;
             //自定义验证
             if (this.verify) {
-                if (!this.verify(this.question, this.alert)) return;
+                if (!this.verify(this.question, this.prompt)) return;
             }
             var th = this;
-
             if (th.loading) return;
             th.loading = true;
             if (th.isadd) th.question.Org_ID = th.organ.Org_ID;
@@ -65,6 +72,7 @@ Vue.component('enter_button', {
                         type: 'success', center: true,
                         message: '操作成功!'
                     });
+                    th.ischanged = false;
                     window.setTimeout(function () {
                         th.operateSuccess(isclose);
                     }, 300);
@@ -75,7 +83,7 @@ Vue.component('enter_button', {
                 .finally(() => th.loading = false);
         },
         //提示信息
-        alert: function (msg, tabindex) {
+        prompt: function (msg, tabindex) {
             var th = this;
             this.$alert(msg, '提示', {
                 confirmButtonText: '确定',
@@ -94,6 +102,18 @@ Vue.component('enter_button', {
         },
         //操作成功
         operateSuccess: function (isclose) {
+            if (isclose && !this.isadd) {
+                this.$confirm('当前试题保存成功, 是否继续转下一题?<br/>点击“取消”，关闭窗口。', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning', dangerouslyUseHTMLString: true
+                }).then(() => {
+                    this.operateSuccessHandler(false);
+                    window.setTimeout(() => this.goRelatedQues('下一题'), 300);                   
+                }).catch(() => this.operateSuccessHandler(isclose));
+            } else this.operateSuccessHandler(isclose);
+        },
+        //操作成功后的处理
+        operateSuccessHandler: function (isclose) {
             let pagebox = window.top.$pagebox;
             if (!(pagebox && pagebox.source.box)) return;
 
@@ -112,15 +132,63 @@ Vue.component('enter_button', {
                 else
                     pagebox.source.tab(window.name, 'vapp.freshrow("' + this.id + '")', isclose);
             }
-        }
+        },
+        //获取关联的试题，即上一题与下一题
+        getRelatedQues: function (apipath) {
+            var th = this;
+            var couid = $api.querystring('couid');
+            return new Promise(function (resolve, reject) {
+                $api.get(apipath, { 'id': th.id, 'olid': '', 'couid': couid, 'sbjid': '' }).then(req => {
+                    if (req.data.success) {
+                        return resolve(req.data.result);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err));
+            });
+        },
+        //跳转到关联的试题之前的提示与判断
+        btnRelatedClick: function (direction) {
+            if (this.ischanged) {
+                this.$confirm('当前试题未保存, 是否继续跳转' + direction + '?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.goRelatedQues(direction);
+                }).catch(() => { });
+            } else this.goRelatedQues(direction);
+        },
+        //跳转到关联的试题，即上一题与下一题
+        goRelatedQues: function (direction) {
+            let href = window.location.href;
+            //设置试题id
+            let quesid = direction == '上一题' ? this.quesPrev.Qus_ID : this.quesNext.Qus_ID;
+            href = $api.url.dot(quesid, href);
+            href = $api.url.set(href, { 'id': quesid });
+            //设置试题的课程id
+            let couid = $api.querystring('couid', 0);
+            if (couid != 0 && !$api.isnull(couid))
+                href = $api.url.set(href, { 'couid': couid });
+            window.location.href = href;
+        },
     },
     template: `<div class="footer" v-if="!quesnull">
-        <el-button type="primary" define="enter" native-type="submit" :disabled="loading || disabled" 
-        :loading="loading" plain @click="btnEnter(true)">保存</el-button>
-        <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain v-if="id != ''"
-            @click="btnEnter(false)">应用</el-button>
-        <el-button type='close' :disabled="loading" >
-            取消
-        </el-button>
+        <div class="movebtn">
+            <template v-if="id != ''">
+                <el-link :underline="false" @click="btnRelatedClick('上一题')" :disabled="$api.isnull(quesPrev)"><icon>&#xe803</icon>上一题</el-link>
+                <el-link :underline="false" @click="btnRelatedClick('下一题')" :disabled="$api.isnull(quesNext)">下一题<icon>&#xe802</icon></el-link>  
+            </template>   
+        </div>
+        <div>
+            <el-button type="primary" define="enter" native-type="submit" :disabled="loading || disabled" 
+            :loading="loading" plain @click="btnEnter(true)">保存</el-button>
+            <el-button type="primary" define="apply" native-type="submit" :loading="loading" plain v-if="id != ''"
+                @click="btnEnter(false)">应用</el-button>
+            <el-button type='close' :disabled="loading" >
+                取消
+            </el-button>
+        </div>
     </div>`
 });

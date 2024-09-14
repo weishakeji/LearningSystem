@@ -349,6 +349,30 @@ namespace Song.ViewData.Methods
             return _tran(ques);
         }
         /// <summary>
+        /// 当前试题的下一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public Song.Entities.Questions Next(long id, long olid, long couid, long sbjid)
+        {
+            return Business.Do<IQuestions>().QuesNext(id, olid, couid, sbjid);
+        }
+        /// <summary>
+        /// 当试题的上一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public Song.Entities.Questions Prev(long id, long olid, long couid, long sbjid)
+        {
+            return Business.Do<IQuestions>().QuesPrev(id, olid, couid, sbjid);
+        }
+        /// <summary>
         /// 分页获取试题
         /// </summary>
         /// <param name="orgid">机构id</param>
@@ -433,7 +457,7 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 处理试题内容
-        public static Song.Entities.Questions _tran(Song.Entities.Questions ques)
+        private static Song.Entities.Questions _tran(Song.Entities.Questions ques)
         {
             return ques;
 

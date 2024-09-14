@@ -288,12 +288,6 @@ table.el-table__body tr.disabled td img, .disabled * {
 	top: 10px;
 }
 
-/*禁用（不可以选择的）专业项*/
-
-.is-disabled+* {
-	color: #ccc !important;
-}
-
 /*文件下载链接*/
 a[download] {
 	display: inline-block;

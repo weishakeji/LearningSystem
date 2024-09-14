@@ -568,6 +568,41 @@ namespace Song.ServiceImpls
                 .OrderBy(Questions._.Qus_ID.Desc)
                 .ToArray<Questions>(size, (index - 1) * size);
         }
+        /// <summary>
+        /// 当前试题的下一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public Questions QuesNext(long id, long olid, long couid, long sbjid)
+        {
+            WhereClip wc = new WhereClip();
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            return Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_ID < id)
+                 .OrderBy(Questions._.Qus_ID.Desc).ToFirst<Questions>();
+        }
+        /// <summary>
+        /// 当试题的上一个试题，在指定范围内取，例如课程内的试题
+        /// </summary>
+        /// <param name="id">试题id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <returns></returns>
+        public Questions QuesPrev(long id, long olid, long couid, long sbjid)
+        {
+            WhereClip wc = new WhereClip();
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            return Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_ID > id)
+                 .OrderBy(Questions._.Qus_ID.Asc).ToFirst<Questions>();
+        }
+
         #endregion
 
         #region 试题导出

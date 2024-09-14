@@ -1,5 +1,20 @@
 ﻿.footer{
-    width: 200px;
-    left: auto;
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
     right: 0px;
+}
+.footer .movebtn a span{
+    font-size: 16px;
+    line-height: 20px;
+}
+.footer .movebtn a:first-child{
+    margin-right: 20px;
+}
+.footer .movebtn icon{
+    font-size: 22px;
+    line-height: 40px;
+}
+.footer .movebtn icon:last-child{
+    margin-left: 10px;
 }
