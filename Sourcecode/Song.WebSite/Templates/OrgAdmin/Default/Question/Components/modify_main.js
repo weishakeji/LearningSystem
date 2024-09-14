@@ -66,6 +66,8 @@ Vue.component('modify_main', {
         'quesnull': function () {
             return $api.isnull(this.question) || this.question.Qus_ID == 0;
         },
+        //是否是新增试题
+        'isadd': t => t.id == '' || t.id == '0' || t.id == 0,
         //试题类型
         'quesType': function () {
             if (!$api.isnull(this.question) && this.question.Qus_Type > 0) return this.question.Qus_Type;
@@ -96,7 +98,7 @@ Vue.component('modify_main', {
             var th = this;
             th.loading = true;
             var promise = new Promise((resolve, reject) => {
-                if (th.id == '') {
+                if (th.isadd) {
                     $api.get('Snowflake/Generate').then(function (req) {
                         if (req.data.success) {
                             th.question.Qus_ID = req.data.result;

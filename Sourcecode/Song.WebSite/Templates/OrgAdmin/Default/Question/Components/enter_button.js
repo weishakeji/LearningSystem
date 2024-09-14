@@ -34,7 +34,7 @@ Vue.component('enter_button', {
             return $api.isnull(this.question) || this.question.Qus_ID == 0;
         },
         //是否是新增试题
-        'isadd': t => t.id == '',
+        'isadd': t => t.id == '' || t.id == '0' || t.id == 0,
     },
     methods: {
         //常规验证，主要验证试题所属专业、课程等
@@ -101,15 +101,28 @@ Vue.component('enter_button', {
             return false;
         },
         //操作成功
+        //isclose:是否关闭当前窗体，一般为true时，是保存按钮的操作；为false是，是应用按钮的操作
         operateSuccess: function (isclose) {
-            if (isclose && !this.isadd) {
-                this.$confirm('当前试题保存成功, 是否继续转下一题?<br/>点击“取消”，关闭窗口。', '提示', {
-                    confirmButtonText: '确定', cancelButtonText: '取消',
-                    type: 'warning', dangerouslyUseHTMLString: true
-                }).then(() => {
-                    this.operateSuccessHandler(false);
-                    window.setTimeout(() => this.goRelatedQues('下一题'), 300);                   
-                }).catch(() => this.operateSuccessHandler(isclose));
+            if (isclose) {
+                //编辑状态
+                if (!this.isadd) {
+                    this.$confirm('当前试题保存成功, 是否继续转下一题?<br/>点击“取消”，关闭窗口。', '提示', {
+                        confirmButtonText: '确定', cancelButtonText: '取消',
+                        type: 'info', dangerouslyUseHTMLString: true
+                    }).then(() => {
+                        this.operateSuccessHandler(false);
+                        window.setTimeout(() => this.goRelatedQues('下一题'), 300);
+                    }).catch(() => this.operateSuccessHandler(isclose));
+                } else {
+                    //新增状态
+                    this.$confirm('当前试题新建成功, 是否再次创建?<br/>点击“取消”，关闭窗口。', '提示', {
+                        confirmButtonText: '确定', cancelButtonText: '取消',
+                        type: 'info', dangerouslyUseHTMLString: true
+                    }).then(() => {
+                        this.operateSuccessHandler(false);
+                        window.setTimeout(() => this.goRelatedQues(), 300);
+                    }).catch(() => this.operateSuccessHandler(isclose));
+                }
             } else this.operateSuccessHandler(isclose);
         },
         //操作成功后的处理
@@ -164,9 +177,13 @@ Vue.component('enter_button', {
         goRelatedQues: function (direction) {
             let href = window.location.href;
             //设置试题id
-            let quesid = direction == '上一题' ? this.quesPrev.Qus_ID : this.quesNext.Qus_ID;
-            href = $api.url.dot(quesid, href);
-            href = $api.url.set(href, { 'id': quesid });
+            let quesid = 0;
+            if (direction == '上一题') quesid = this.quesPrev.Qus_ID;
+            if (direction == '下一题') quesid = this.quesNext.Qus_ID;
+            if (quesid != 0) {
+                href = $api.url.dot(quesid, href);
+                href = $api.url.set(href, { 'id': quesid });
+            }
             //设置试题的课程id
             let couid = $api.querystring('couid', 0);
             if (couid != 0 && !$api.isnull(couid))
