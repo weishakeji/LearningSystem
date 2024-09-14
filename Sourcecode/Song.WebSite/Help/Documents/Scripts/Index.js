@@ -12,6 +12,8 @@
             islocal: $api.islocal(),
             admin: null,    //管理员信息
 
+            iframshow: false,   //是否显示iframe
+
             edit: false,      //是否为编辑模式
             context: '',     //帮助文件的内容
             loading: false,
@@ -39,7 +41,7 @@
                     name = name.replace(/\//g, "_");
                     this.file['name'] = name.toLowerCase();
                     this.file['url'] = ("/help/Documents/Files/" + name + ".html").toLowerCase();
-                   
+
                     this.fileExist(this.file['url']);
 
                 }, immediate: true
@@ -47,7 +49,10 @@
             //是否为编辑状态
             'edit': {
                 handler: function (nv, ov) {
-                    if (nv) this.getcontext(this.file.url);
+                    if (nv) {
+                        this.iframshow = false;
+                        this.getcontext(this.file.url);
+                    }
                     else {
                         this.$nextTick(function () {
                             this.iframecss();
@@ -62,19 +67,19 @@
             iframecss: function () {
                 const iframe = document.getElementById(this.file.name);
                 if (iframe) {
+                    var th = this;
                     iframe.onload = function () {
-                        let styles=['../Styles/iframe.css','/Utilities/Fonts/icon.css']
+                        let styles = ['../Styles/iframe.css', '/Utilities/Fonts/icon.css']
                         for (let i = 0; i < styles.length; i++) {
                             let style = document.createElement('link');
                             style.rel = 'stylesheet';
                             style.href = styles[i];
                             iframe.contentWindow.document.head.appendChild(style);
-                        }                       
+                        }
+                        window.setTimeout(() => th.iframshow = true, 200);
                     };
                 } else {
-                    window.setTimeout(function () {
-                        this.vapp.iframecss();
-                    }, 100);
+                    window.setTimeout(() => this.iframecss(), 10);
                 }
             },
             //文件是否存在

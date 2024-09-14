@@ -81,8 +81,10 @@
                 <p>帮助文件“{{file.url}}”不存在</p>
             </div>
         </div>
-        <iframe class="context" v-else :name="file.name" :id="file.name" frameborder="0" marginwidth="0"
-            marginheight="0" :src="file.url+'?t='+new Date().getTime()"></iframe>
+        <div class="context" v-show="!loading && !edit && file.exist" >
+            <iframe :name="file.name" :id="file.name" :show="iframshow"
+                frameborder="0" marginwidth="0" marginheight="0" :src="file.url+'?t='+new Date().getTime()"></iframe>
+        </div>
         <!--底部按钮栏-->
         <div class="footer">
             <div>
