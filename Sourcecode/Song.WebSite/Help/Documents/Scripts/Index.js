@@ -116,7 +116,7 @@
                 th.loading = true;
                 $api.get('HelpDocument/FileSave', { 'file': th.file.url, 'context': th.context }).then(req => {
                     if (req.data.success) {
-
+                        th.$message({ message: '保存成功！', type: 'success' });
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -127,6 +127,16 @@
                         this.edit = false;
                     });
             },
+            //退出编辑状态
+            btnCancel: function () {
+                this.$confirm('是否要退出编辑, 请确认退出前已经保存?', '提示', {
+                    confirmButtonText: '确定', cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.edit = false;
+                }).catch(() => { });
+
+            }
         }
     });
 
