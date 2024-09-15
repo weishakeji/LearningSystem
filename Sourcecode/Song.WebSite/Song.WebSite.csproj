@@ -408,6 +408,8 @@
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\Public.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\StartBox.js" />
+    <Content Include="Templates\OrgAdmin\Default\StartBox.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\AccountMoney.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Components\monthlychart.js" />
     <Content Include="Templates\OrgAdmin\Default\Capital\Components\Styles\monthlychart.css" />
@@ -632,6 +634,7 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\QuestionProgress.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\StartBox.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
@@ -2092,13 +2095,10 @@
     <Content Include="Templates\OrgAdmin\Default\Help\Scripts\Startpage.js" />
     <Content Include="Templates\OrgAdmin\Default\Help\Startpage.html" />
     <Content Include="Templates\OrgAdmin\Default\Help\Styles\Startpage.css" />
-    <Content Include="Templates\OrgAdmin\Default\index_.html" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\Admin.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\hanzi2pinyin.js" />
-    <Content Include="Templates\OrgAdmin\Default\Scripts\Index_.js" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\Public.js" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Admin.css" />
-    <Content Include="Templates\OrgAdmin\Default\Styles\Index_.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Login.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Startpage.css" />
     <Content Include="Templates\OrgAdmin\Default\Template\Scripts\Select.js" />

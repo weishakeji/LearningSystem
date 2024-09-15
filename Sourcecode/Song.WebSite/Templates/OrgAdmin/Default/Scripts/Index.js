@@ -401,14 +401,17 @@ window.createVapp = function () {
             //节点转换
             nodeconvert: function (obj) {
                 var result = '';
-                if (typeof (obj) != 'string')
-                    result = JSON.stringify(obj);
-                //result = result.replace(/MM_WinID/g, "id");
-                result = result.replace(/Nav_Name/g, "title");
-                result = result.replace(/Nav_Name/g, "tit");
-                result = result.replace(/Nav_Icon/g, "ico");
-                result = result.replace(/children/g, "childs");
-                result = result.replace(/Nav_Url/g, "url");
+                if (typeof (obj) != 'string') result = JSON.stringify(obj);
+                var matchs = {  
+                    'title': 'Nav_Name',  
+                    'tit': 'Nav_Title', 
+                    'ico': 'Nav_Icon',  
+                    'childs': 'children',  
+                    'url': 'Nav_Url'  
+                };                
+                Object.entries(matchs).forEach(([newKey, oldKey]) => {
+                    result = result.replace(new RegExp(oldKey, 'g'), newKey);
+                });
                 return JSON.parse(result);
             }
         }
