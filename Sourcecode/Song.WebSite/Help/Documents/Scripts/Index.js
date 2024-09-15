@@ -52,6 +52,9 @@
                     if (nv) {
                         this.iframshow = false;
                         this.getcontext(this.file.url);
+                        this.$nextTick(function () {
+                            this.tinymcecss();
+                        });
                     }
                     else {
                         this.$nextTick(function () {
@@ -69,17 +72,32 @@
                 if (iframe) {
                     var th = this;
                     iframe.onload = function () {
-                        let styles = ['../Styles/iframe.css', '/Utilities/Fonts/icon.css']
-                        for (let i = 0; i < styles.length; i++) {
-                            let style = document.createElement('link');
-                            style.rel = 'stylesheet';
-                            style.href = styles[i];
-                            iframe.contentWindow.document.head.appendChild(style);
-                        }
-                        window.setTimeout(() => th.iframshow = true, 200);
+                        th.iframeAttachCss(iframe);
+                        window.setTimeout(() => th.iframshow = true, 100);
                     };
-                } else {
-                    window.setTimeout(() => this.iframecss(), 10);
+                } else window.setTimeout(() => this.iframecss(), 10);
+            },
+            //编辑器的css加载
+            tinymcecss: function () {
+                const iframes = document.getElementsByTagName('iframe');
+                var iframe = null;
+                for (let i = 0; i < iframes.length; i++) {
+                    const item = iframes[i];
+                    if (item.id && item.id != '' && item.id.indexOf('tinymce_editor') > -1)
+                        iframe = item;
+                }
+                if (iframe == null) {
+                    window.setTimeout(() => this.tinymcecss(), 300);
+                } else this.iframeAttachCss(iframe);
+            },
+            //给iframe附加css样式
+            iframeAttachCss: function (iframe) {
+                let styles = ['/Help/Documents/Styles/iframe.css', '/Utilities/Fonts/icon.css']
+                for (let i = 0; i < styles.length; i++) {
+                    let style = document.createElement('link');
+                    style.rel = 'stylesheet';
+                    style.href = styles[i];
+                    iframe.contentWindow.document.head.appendChild(style);
                 }
             },
             //文件是否存在

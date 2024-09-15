@@ -19,7 +19,7 @@ div.context iframe{
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     padding: 20px;
-    opacity: 0.1;    
+    opacity: 0;    
     transition: opacity 1s;
 }
 div.context iframe[show]{
