@@ -160,10 +160,11 @@ function ready(result) {
     tabs.onshut(tabsShut).onchange(tabsChange).onfull(function (s, e) {
         //alert(s);
     });
-    tabs.onhelp(function (s, e) {        
+    tabs.onhelp(function (s, e) {
         let url = e.data.help && e.data.help != '' ? e.data.help : '/help/Documents/index.html?page=' + encodeURIComponent(e.data.url);
+        //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
         $pagebox.create({
-            pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
+            pid: e.data.id, id: $api.md5(e.data.url),
             width: '800', height: '80%', ico: 'a026',
             url: url, title: e.data.title + ' - 帮助说明'
         }).open();
@@ -186,27 +187,32 @@ function ready(result) {
     });
 };
 /*
-    节点处理方法
+    节点处理方法，后端数据库中存储的菜单数据，转为前端的树形菜单数据
 */
 function nodeconvert(obj) {
     var result = JSON.stringify(obj);
-    result = result.replace(/MM_Id/g, "menuid");
-    result = result.replace(/MM_Name/g, "title");
-    result = result.replace(/MM_AbbrName/g, "tit");
-    result = result.replace(/children/g, "childs");
-    result = result.replace(/MM_Intro/g, "intro");
-    result = result.replace(/MM_Type/g, "type");
-    result = result.replace(/MM_Link/g, "url");
-    result = result.replace(/MM_Help/g, "help");
-    result = result.replace(/MM_IsUse/g, "use");
-    result = result.replace(/MM_WinWidth/g, "width");   //弹窗相关
-    result = result.replace(/MM_WinHeight/g, "height");
-    result = result.replace(/MM_WinID/g, "winid");
-    result = result.replace(/MM_WinMin/g, "min");
-    result = result.replace(/MM_WinMax/g, "max");
-    result = result.replace(/MM_WinMove/g, "move");
-    result = result.replace(/MM_WinResize/g, "resize");
-    result = result.replace(/MM_Complete/g, "complete");
+    var matchs = {
+        'menuid': 'MM_Id',
+        'title': 'MM_Name',
+        'tit': 'MM_AbbrName',
+        'childs': 'children',
+        'intro': 'MM_Intro',
+        'type': 'MM_Type',
+        'url': 'MM_Link',
+        'help': 'MM_Help',
+        'use': 'MM_IsUse',
+        'width': 'MM_WinWidth',   // 弹窗相关  
+        'height': 'MM_WinHeight',
+        'winid': 'MM_WinID',
+        'min': 'MM_WinMin',
+        'max': 'MM_WinMax',
+        'move': 'MM_WinMove',
+        'resize': 'MM_WinResize',
+        'complete': 'MM_Complete'
+    };
+    Object.entries(matchs).forEach(([newKey, oldKey]) => {
+        result = result.replace(new RegExp(oldKey, 'g'), newKey);
+    });
     return JSON.parse(result);
 }
 /*
