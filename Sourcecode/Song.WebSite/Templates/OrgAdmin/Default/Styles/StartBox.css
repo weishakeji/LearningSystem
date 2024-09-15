@@ -1,0 +1,15 @@
+﻿@charset "utf-8";
+.footer{
+	display: flex;
+	justify-content: space-between;
+}
+.footer-left{
+	display: flex;
+	flex-direction: column; /* 垂直排列子元素 */  
+}
+.footer-left>*{
+	flex: 1; 
+	margin-top: 15px;
+}
+
+	

@@ -103,7 +103,7 @@ $ctrljs(function () {
     $dom.get($dom.path() + '../_public/datas/usermenu.json', req => usermenu.add(req));
     window.createVapp();
 });
-
+//登录成功后续执行
 function ready(result) {
     window.setTimeout(function () {
         window.login.loading = false;
@@ -118,7 +118,20 @@ function ready(result) {
         window.usermenu.datas[0].title = result.Acc_Name;
         if (result.Acc_Photo != '')
             window.usermenu.datas[0].img = result.Acc_Photo;
+        //打开起始引导的窗体
+        window.openStartBox();
     }, 1000);
+    //打开起始引导的窗体
+    window.openStartBox = function () {
+        //该值的设置，在SatarBox.js中设置
+        var show = $api.storage('not_show');
+        show=show == null ? false : JSON.parse(show);
+        if (show===true) return;
+        $pagebox.create({
+            width: '800', height: '80%', ico: 'e713', showmask: true,
+            url: 'StartBox.html', title: '起始引导'
+        }).open();
+    }
     //树形菜单
     window.tree = $treemenu.create({
         target: '#treemenu-area',
@@ -402,18 +415,18 @@ window.createVapp = function () {
             nodeconvert: function (obj) {
                 var result = '';
                 if (typeof (obj) != 'string') result = JSON.stringify(obj);
-                var matchs = {  
-                    'title': 'Nav_Name',  
-                    'tit': 'Nav_Title', 
-                    'ico': 'Nav_Icon',  
-                    'childs': 'children',  
-                    'url': 'Nav_Url'  
-                };                
+                var matchs = {
+                    'title': 'Nav_Name',
+                    'tit': 'Nav_Title',
+                    'ico': 'Nav_Icon',
+                    'childs': 'children',
+                    'url': 'Nav_Url'
+                };
                 Object.entries(matchs).forEach(([newKey, oldKey]) => {
                     result = result.replace(new RegExp(oldKey, 'g'), newKey);
                 });
                 return JSON.parse(result);
-            }
+            },
         }
     });
 
