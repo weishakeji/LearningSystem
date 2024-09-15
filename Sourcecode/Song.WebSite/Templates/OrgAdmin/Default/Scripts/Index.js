@@ -128,7 +128,7 @@ function ready(result) {
         show=show == null ? false : JSON.parse(show);
         if (show===true) return;
         $pagebox.create({
-            width: '800', height: '80%', ico: 'e713', showmask: true,
+            width: '800', height: '80%', ico: 'e820', showmask: true,
             url: 'StartBox.html', title: '起始引导'
         }).open();
     }

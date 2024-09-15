@@ -46,6 +46,7 @@ p {
     font-size: 16px;
     line-height: 1.5;
     text-indent: 2rem;
+    color: #777;
 }
 
 h1::before, h2::before, h3::before, h4::before {

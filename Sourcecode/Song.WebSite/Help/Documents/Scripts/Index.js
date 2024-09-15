@@ -135,15 +135,13 @@
                 $api.get('HelpDocument/FileSave', { 'file': th.file.url, 'context': th.context }).then(req => {
                     if (req.data.success) {
                         th.$message({ message: '保存成功！', type: 'success' });
+                        this.edit = false;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => {
-                        th.loading = false;
-                        this.edit = false;
-                    });
+                    .finally(() => th.loading = false);
             },
             //退出编辑状态
             btnCancel: function () {
