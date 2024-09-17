@@ -125,11 +125,11 @@ function ready(result) {
     window.openStartBox = function () {
         //该值的设置，在SatarBox.js中设置
         var show = $api.storage('not_show');
-        show=show == null ? false : JSON.parse(show);
-        if (show===true) return;
+        show = show == null ? false : JSON.parse(show);
+        if (show === true) return;
         $pagebox.create({
-            width: '800', height: '80%', ico: 'e820', showmask: true,
-            url: 'StartBox.html', title: '起始引导'
+            width: '800', height: '80%', ico: 'e820', showmask: true, min: false, max: false,
+            url: 'StartBox.html', title: '欢迎使用'
         }).open();
     }
     //树形菜单
