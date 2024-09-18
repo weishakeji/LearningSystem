@@ -10,8 +10,9 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除,更新数据,学习记录" ref='btngroup' @delete="deleteData" @add="btnadd" @log="openlog" @update_dataall="update_dataall"
-                path="Modify" width="1000" height="80%" :selects='selects' idkey='Cou_ID' table="datatables"></btngroup>
+            <btngroup show="新增,修改,删除,更新数据,学习记录" ref='btngroup' @delete="deleteData" @add="btnadd" @log="openlog"
+                @update_dataall="update_dataall" path="Modify" width="1000" height="80%" :selects='selects'
+                idkey='Cou_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="专业">
                     <sbj_cascader ref="subject" :orgid="form.orgid"
@@ -77,7 +78,7 @@
                             <template v-if="form.order!='def' && form.order!=''">
                                 <template v-for="(item,i) in orderItem">
                                     <span v-if="item.value==form.order" style="color: #67c23a;">
-                                       （ {{item.text}}）
+                                        （ {{item.text}}）
                                     </span>
                                 </template>
                             </template>
@@ -206,8 +207,8 @@
                     </el-dropdown>
                 </template>
                 <template slot-scope="scope">
-                    <el-switch v-model="scope.row.Cou_IsUse" @change="changeState(scope.row)" active-color="#13ce66"  :disabled="loadingid==scope.row.Cou_ID"
-                        inactive-color="#ff4949">
+                    <el-switch v-model="scope.row.Cou_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                        :disabled="loadingid==scope.row.Cou_ID" inactive-color="#ff4949">
                     </el-switch>
                 </template>
             </el-table-column>
@@ -226,7 +227,8 @@
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>
-                                <el-link :type="!scope.row.Cou_IsRec ? 'primary' :'info'" plain  :disabled="loadingid==scope.row.Cou_ID"
+                                <el-link :type="!scope.row.Cou_IsRec ? 'primary' :'info'" plain
+                                    :disabled="loadingid==scope.row.Cou_ID"
                                     @click='()=>{scope.row.Cou_IsRec=!scope.row.Cou_IsRec;changeState(scope.row);}'>
                                     <icon>&#xe81b</icon>
                                     <span v-if="scope.row.Cou_IsRec">取消推荐</span>
@@ -234,26 +236,27 @@
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item>
-                                <el-link type="success" plain
-                                    @click="$refs['course_data'].onstudent(scope.row.data.student,scope.row)">
+                                <el-link type="success" plain @click="onstudent(scope.row,scope.$index)">
                                     <icon>&#xa043</icon> 学员信息
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item divided>
-                                 <el-link type="warning" plain :disabled="loadingid==scope.row.Cou_ID"
+                                <el-link type="warning" plain :disabled="loadingid==scope.row.Cou_ID"
                                     @click="updateDatainfo(scope.row)">
                                     <icon>&#xe651</icon> 更新统计数据
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item divided>
-                                <el-link type="primary" :disabled="loadingid==scope.row.Cou_ID" plain icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
+                                <el-link type="primary" :disabled="loadingid==scope.row.Cou_ID" plain
+                                    icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
                                     修改
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item>
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                     icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Cou_ID)">
-                                    <el-link type="danger"  :disabled="loadingid==scope.row.Cou_ID" plain icon="el-icon-delete" slot="reference">删除
+                                    <el-link type="danger" :disabled="loadingid==scope.row.Cou_ID" plain
+                                        icon="el-icon-delete" slot="reference">删除
                                     </el-link>
                                 </el-popconfirm>
                             </el-dropdown-item>

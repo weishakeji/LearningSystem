@@ -387,8 +387,29 @@ namespace Song.ServiceImpls
             QuerySection<Student_Course> query = Gateway.Default.From<Student_Course>().LeftJoin<Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
                 .LeftJoin<Accounts>(Student_Course._.Ac_ID == Accounts._.Ac_ID).Where(wc).OrderBy(Student_Course._.Stc_CrtTime.Desc);
             countSum = query.Count();
-            DataSet ds = query.ToDataSet((index - 1) * size+1, index * size);
-            return ds.Tables[0];
+            DataSet ds = query.ToDataSet((index - 1) * size + 1, index * size);
+            DataTable dt = ds.Tables[0];
+            //清除指定列
+            bool columnExists = dt.Columns.Contains("Ac_Pw");
+            if (columnExists) dt.Columns.Remove("Ac_Pw");
+            // 删除重复的列，sql返回自动带了括号
+            var cols = from column in dt.Columns.Cast<DataColumn>()
+                       where column.DataType == typeof(string) && column.ColumnName.Contains("(")
+                       select column;
+            // 删除包含指定字符的列
+            foreach (DataColumn column in cols)
+                dt.Columns.Remove(column);
+            //将成绩得分截为最大小数点后2位
+            string[] scores = new string[] { "Stc_StudyScore", "Stc_QuesScore", "Stc_ExamScore", "Stc_ResultScore" };
+            foreach (DataRow row in dt.Rows)
+            {
+                foreach (string col in scores)
+                {
+                    double score = Convert.ToDouble(row[col].ToString());
+                    row[col] = Math.Round(score, 2);
+                }
+            }
+            return dt; 
         }
         /// <summary>
         /// 学员选修的课程的专业信息
@@ -530,6 +551,16 @@ namespace Song.ServiceImpls
             // 删除包含指定字符的列
             foreach (DataColumn column in cols)
                 dt.Columns.Remove(column);
+            //将成绩得分截为最大小数点后2位
+            string[] scores = new string[] { "Stc_StudyScore", "Stc_QuesScore", "Stc_ExamScore", "Stc_ResultScore" };
+            foreach (DataRow row in dt.Rows)
+            {
+                foreach(string col in scores)
+                {
+                    double score = Convert.ToDouble(row[col].ToString());
+                    row[col] = Math.Round(score, 2);
+                }
+            }
             return dt;
         }
         /// <summary>

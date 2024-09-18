@@ -1924,6 +1924,16 @@ namespace Song.ServiceImpls
                 start,end,size, index, 0 };
             DataTable dt = DataQuery.DbQuery.Call<DataTable>(parameters);
             countSum = (int)parameters[parameters.Length - 1];
+            //将成绩得分截为最大小数点后2位
+            string[] scores = new string[] { "Stc_StudyScore", "Stc_QuesScore", "Stc_ExamScore", "Stc_ResultScore" };
+            foreach (DataRow row in dt.Rows)
+            {
+                foreach (string col in scores)
+                {
+                    double score = Convert.ToDouble(row[col].ToString());
+                    row[col] = Math.Round(score, 2);
+                }
+            }
             return dt;
         }
         /// <summary>

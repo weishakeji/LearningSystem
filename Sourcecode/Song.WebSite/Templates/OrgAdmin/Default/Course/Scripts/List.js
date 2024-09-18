@@ -339,6 +339,14 @@
                 this.$refs.btngroup.pagebox('StudyLogExport?orgid=' + this.organ.Org_ID,
                     '学习记录导出', window.name + '[studylog]', 800, 500);
             },
+            //打开课程的学员管理
+            onstudent: function (course, index) {
+                // @click="$refs['course_data'].onstudent(scope.row.data.student,scope.row)">
+                let ctrl = this.$refs['course_data_' + index];
+                if (ctrl != null) {
+                    ctrl.onstudent(course.data.student, course);
+                }
+            },
             //打开编辑界面
             btnmodify: function (id, title, param) {
                 this.$refs.btngroup.modify(id, title, param);

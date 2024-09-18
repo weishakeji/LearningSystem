@@ -23,7 +23,7 @@
         </div>
         <!-- 数据列表-->
         <template>
-            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark"
+            <el-table ref="datatables" border resizable :data="datas" :stripe="true" tooltip-effect="dark" v-loading="loading"
                 style="width: 100%" @selection-change="val=>selects=val" :height="tableHeight">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -59,7 +59,7 @@
                             <icon question>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
                         </el-tooltip>
                         <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
-                            <icon exam>{{scope.row.Stc_ExamScore}} 分</icon> 
+                            <icon exam>{{showcomplete(scope.row.Stc_ExamScore)}} 分</icon> 
                         </el-tooltip>
                     </div>
                 </el-table-column>
@@ -80,7 +80,7 @@
                         <loading v-if="loadingid==scope.row.Stc_ID" asterisk>...</loading>
                         <el-dropdown v-else>
                             <span class="el-dropdown-link">
-                                {{scope.row.Stc_ResultScore}} 分
+                                {{showcomplete(scope.row.Stc_ResultScore)}} 分
                                 <i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
