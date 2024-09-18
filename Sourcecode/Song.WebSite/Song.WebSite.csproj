@@ -408,6 +408,9 @@
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\Public.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
+    <Content Include="Templates\OrgAdmin\Default\Images\学员中心-mobi.png" />
+    <Content Include="Templates\OrgAdmin\Default\Images\学员中心-web.png" />
+    <Content Include="Templates\OrgAdmin\Default\Images\试题练习%28mobi%29.png" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\StartBox.js" />
     <Content Include="Templates\OrgAdmin\Default\StartBox.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\AccountMoney.html" />
