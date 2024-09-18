@@ -9,6 +9,7 @@
             <page value="/orgadmin/account/mypassword"/>
             <page value="/orgadmin/account/safeanswer"/>
             <page value="/orgadmin/account/logout"/>
+          <page value="/orgadmin/startbox"/>
         </orgadmin>
         <manage>
             <page value="/manage"/>
@@ -27,5 +28,6 @@
     <allow remark="满足下述条件的页面可以访问,支持正则表达式">
         <item value="/utilities/.*"/>
         <item value="/help/.*"/>
+      <item value="/Copyright/info"/>
     </allow>
 </config>

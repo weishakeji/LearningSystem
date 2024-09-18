@@ -61,7 +61,7 @@ Vue.component('ques_progress', {
             var url = '/orgadmin/Student/QuestionProgress';
             url = $api.url.set(url, { 'couid': item.Cou_ID, 'stid': this.stid });
             var obj = {
-                'url': url,
+                'url': url,pid:window.name,
                 'ico': 'e731', 'min': false, 'showmask': true,
                 'title': '试题练习 - ' + item.Cou_Name,
                 'width': '414',

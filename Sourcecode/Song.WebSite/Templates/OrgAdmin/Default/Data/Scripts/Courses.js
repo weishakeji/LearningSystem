@@ -101,14 +101,14 @@
                 });
             },
             //查看结课成绩的详情
-            viewScore: function (item,purchase) {
+            viewScore: function (item, purchase) {
                 //if (!window.top || !window.top.vapp) return;
                 var url = "/Student/Course/ScoreDetails";
                 url = $api.url.dot(item.Cou_ID, url);
                 url = $api.url.set(url, { 'stid': this.account.Ac_ID, 'stcid': purchase.Stc_ID });
                 var obj = {
                     'url': url,
-                    'ico': 'e6ef', 'min': false,
+                    'ico': 'e6ef', 'min': false, pid: window.name,
                     'title': '成绩详情 - ' + item.Cou_Name,
                     'width': '800px',
                     'height': '400px'
