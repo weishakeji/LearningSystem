@@ -129,7 +129,7 @@ function ready(result) {
         if (show === true) return;
         $pagebox.create({
             width: '800', height: '80%', ico: 'e820', showmask: true, min: false, max: false,
-            url: 'StartBox', title: '欢迎使用'
+            url: '/orgadmin/StartBox', title: '欢迎使用'
         }).open();
     }
     //树形菜单

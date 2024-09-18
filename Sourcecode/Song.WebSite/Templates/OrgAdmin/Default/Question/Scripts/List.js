@@ -376,6 +376,7 @@ $ready(function () {
                         if (req.data.success) {
                             th.course = req.data.result;
                         } else {
+                            th.loading = false;
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
@@ -389,7 +390,7 @@ $ready(function () {
         },
         template: `<span>
             <i class="el-icon-loading" v-if="loading"></i>
-            <template v-else>{{course.Cou_Name}}</template>
+            <template v-else-if="course">{{course.Cou_Name}}</template>
         </span>`
     });
 }, ['Components/ques_type.js']);
