@@ -176,6 +176,13 @@ Vue.component('enter_button', {
         //跳转到关联的试题，即上一题与下一题
         goRelatedQues: function (direction) {
             let href = window.location.href;
+            //设置文件名
+            let filename = 'modify_type';
+            if (direction == '上一题' && this.quesPrev) filename+= this.quesPrev.Qus_Type;
+            if (direction == '下一题' && this.quesNext) filename+=  this.quesNext.Qus_Type;
+            href = href.replace(/modify_type\d{1}/, filename);  
+            //console.error(href);
+            //return;
             //设置试题id
             let quesid = 0;
             if (direction == '上一题') quesid = this.quesPrev.Qus_ID;
@@ -189,8 +196,12 @@ Vue.component('enter_button', {
             if (couid != 0 && !$api.isnull(couid))
                 href = $api.url.set(href, { 'couid': couid });
             //跳转
-            let box = window.top.$pagebox.get(window.name);
-            box.url = href;
+            if (window.top.$pagebox) {
+                let box = window.top.$pagebox.get(window.name);
+                box.url = href;
+            } else window.location.href = href;
+            console.error(href);
+            
         },
     },
     template: `<div class="footer" v-if="!quesnull">
