@@ -5,7 +5,7 @@
 
 	数据库类型：PostgreSQL 16
 	
-	生成时间：2024-08-26 19:07:36
+	生成时间：2024-09-18 21:03:51
 
 	提示：
 	        您需要手工创建数据库，然后执行下述代码
@@ -126,9 +126,12 @@ CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_IDCardNumber" ON public."Accounts" US
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Login" ON public."Accounts" USING btree ("Ac_IsUse" DESC, "Ac_IsPass" DESC, "Ac_AccName" DESC, "Ac_Pw" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_LastTime" ON public."Accounts" USING btree ("Ac_LastTime" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_MobiTel1" ON public."Accounts" USING btree ("Ac_MobiTel1" DESC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Money" ON public."Accounts" USING btree ("Ac_Money" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Name" ON public."Accounts" USING btree ("Ac_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Sex" ON public."Accounts" USING btree ("Ac_Sex" DESC);
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Org_ID" ON public."Accounts" USING btree ("Org_ID");
 CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_ID" ON public."Accounts" USING btree ("Sts_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_Name" ON public."Accounts" USING btree ("Sts_Name" DESC);
 
 -- 创建表 Article --
 CREATE TABLE IF NOT EXISTS public."Article"
@@ -180,6 +183,17 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	 CONSTRAINT key_article PRIMARY KEY ("Art_ID")
 );
 
+-- 表 Article 的索引 --
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsHot" ON public."Article" USING btree ("Art_IsHot" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsImg" ON public."Article" USING btree ("Art_IsImg" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsRec" ON public."Article" USING btree ("Art_IsRec" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsTop" ON public."Article" USING btree ("Art_IsTop" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsUse" ON public."Article" USING btree ("Art_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsVerify" ON public."Article" USING btree ("Art_IsVerify" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Number" ON public."Article" USING btree ("Art_Number" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Title" ON public."Article" USING btree ("Art_Title" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Col_UID" ON public."Article" USING btree ("Col_UID" DESC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Org_ID" ON public."Article" USING btree ("Org_ID" DESC);
 
 -- 创建表 Columns --
 CREATE TABLE IF NOT EXISTS public."Columns"
@@ -211,6 +225,11 @@ ALTER TABLE "Columns" ALTER COLUMN "Col_ID" SET DEFAULT NEXTVAL('"Columns_Col_ID
 
 -- 表 Columns 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "Columns_aaaaaColumns_PK" ON public."Columns" USING btree ("Col_ID");
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_IsUse" ON public."Columns" USING btree ("Col_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_PID" ON public."Columns" USING btree ("Col_PID" DESC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Tax" ON public."Columns" USING btree ("Col_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Type" ON public."Columns" USING btree ("Col_Type" DESC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Org_ID" ON public."Columns" USING btree ("Org_ID" DESC);
 
 -- 创建表 CouponAccount --
 CREATE TABLE IF NOT EXISTS public."CouponAccount"
@@ -237,6 +256,11 @@ ALTER SEQUENCE IF EXISTS public."CouponAccount_Ca_ID_seq" OWNED BY public."Coupo
 ALTER TABLE "CouponAccount" ALTER COLUMN "Ca_ID" SET DEFAULT NEXTVAL('"CouponAccount_Ca_ID_seq"'::regclass);
 
 
+-- 表 CouponAccount 的索引 --
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ac_ID" ON public."CouponAccount" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_CrtTime" ON public."CouponAccount" USING btree ("Ca_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_Type" ON public."CouponAccount" USING btree ("Ca_Type" DESC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Org_ID" ON public."CouponAccount" USING btree ("Org_ID" DESC);
 
 -- 创建表 Course --
 CREATE TABLE IF NOT EXISTS public."Course"
@@ -247,7 +271,6 @@ CREATE TABLE IF NOT EXISTS public."Course"
 	"Cou_CrtTime" timestamp without time zone NOT NULL,
 	"Cou_ExistExam" boolean NOT NULL,
 	"Cou_ExistLive" boolean NOT NULL,
-	"Cou_ExistQues" boolean NOT NULL,
 	"Cou_FreeEnd" timestamp without time zone NOT NULL,
 	"Cou_FreeStart" timestamp without time zone NOT NULL,
 	"Cou_Intro" text,
@@ -257,21 +280,27 @@ CREATE TABLE IF NOT EXISTS public."Course"
 	"Cou_IsStudy" boolean NOT NULL,
 	"Cou_IsTry" boolean NOT NULL,
 	"Cou_IsUse" boolean NOT NULL,
+	"Cou_KnlCount" integer NOT NULL,
 	"Cou_Level" integer NOT NULL,
 	"Cou_Logo" character varying(100) COLLATE pg_catalog."default",
 	"Cou_LogoSmall" character varying(100) COLLATE pg_catalog."default",
 	"Cou_Name" character varying(100) COLLATE pg_catalog."default",
+	"Cou_OutlineCount" integer NOT NULL,
 	"Cou_PID" bigint NOT NULL,
 	"Cou_Price" integer NOT NULL,
 	"Cou_PriceSpan" integer NOT NULL,
 	"Cou_PriceUnit" character varying(100) COLLATE pg_catalog."default",
+	"Cou_Prices" text,
+	"Cou_QuesCount" integer NOT NULL,
 	"Cou_Score" integer NOT NULL,
 	"Cou_StudentSum" integer NOT NULL,
 	"Cou_Target" character varying(1000) COLLATE pg_catalog."default",
 	"Cou_Tax" integer NOT NULL,
+	"Cou_TestCount" integer NOT NULL,
 	"Cou_TryNum" integer NOT NULL,
 	"Cou_Type" integer NOT NULL,
 	"Cou_UID" character varying(100) COLLATE pg_catalog."default",
+	"Cou_VideoCount" integer NOT NULL,
 	"Cou_ViewNum" integer NOT NULL,
 	"Cou_XPath" character varying(255) COLLATE pg_catalog."default",
 	"Dep_CnName" character varying(100) COLLATE pg_catalog."default",
@@ -286,8 +315,18 @@ CREATE TABLE IF NOT EXISTS public."Course"
 );
 
 -- 表 Course 的索引 --
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_CrtTime" ON public."Course" USING btree ("Cou_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ExistLive" ON public."Course" USING btree ("Cou_ExistLive" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsFree" ON public."Course" USING btree ("Cou_IsFree" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsRec" ON public."Course" USING btree ("Cou_IsRec" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsUse" ON public."Course" USING btree ("Cou_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Name" ON public."Course" USING btree ("Cou_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Tax" ON public."Course" USING btree ("Cou_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_UID" ON public."Course" USING btree ("Cou_UID" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ViewNum" ON public."Course" USING btree ("Cou_ViewNum" DESC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Org_ID" ON public."Course" USING btree ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Sbj_ID" ON public."Course" USING btree ("Sbj_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Th_ID" ON public."Course" USING btree ("Th_ID" DESC);
 
 -- 创建表 CoursePrice --
 CREATE TABLE IF NOT EXISTS public."CoursePrice"
@@ -311,6 +350,11 @@ ALTER SEQUENCE IF EXISTS public."CoursePrice_CP_ID_seq" OWNED BY public."CourseP
 ALTER TABLE "CoursePrice" ALTER COLUMN "CP_ID" SET DEFAULT NEXTVAL('"CoursePrice_CP_ID_seq"'::regclass);
 
 
+-- 表 CoursePrice 的索引 --
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_ID" ON public."CoursePrice" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_UID" ON public."CoursePrice" USING btree ("Cou_UID" DESC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_IsUse" ON public."CoursePrice" USING btree ("CP_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_Tax" ON public."CoursePrice" USING btree ("CP_Tax" DESC);
 
 -- 创建表 Depart --
 CREATE TABLE IF NOT EXISTS public."Depart"
@@ -414,9 +458,14 @@ CREATE SEQUENCE IF NOT EXISTS public."EmpAccount_Acc_Id_seq";
 ALTER SEQUENCE IF EXISTS public."EmpAccount_Acc_Id_seq" OWNED BY public."EmpAccount"."Acc_Id";
 ALTER TABLE "EmpAccount" ALTER COLUMN "Acc_Id" SET DEFAULT NEXTVAL('"EmpAccount_Acc_Id_seq"'::regclass);
 
-INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','f4c257d95d03531475a33d2e7fbb8b0f','','','',False,False,False,False,True,False,'2020-11-11 22:32:13','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1753-01-01 00:00:00','1df117cdba1dfd53596ab3a154e06014','5','A01','',False,True,True,False,True,False,'2024-08-26 19:06:32','4006015615','超管','CG2','1753-01-01 00:00:00','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');
+INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1753-01-01 00:00:00','1df117cdba1dfd53596ab3a154e06014','5','A01','',False,True,True,False,True,False,'2024-08-26 19:06:32','4006015615','超管','CG2','1753-01-01 00:00:00','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','9ae7a82c34eb5ec97ddaaa1ad066c45e','','','',False,False,False,False,True,False,'2024-08-26 22:21:15','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');
 -- 表 EmpAccount 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpAccount_aaaaaEmpAccount_PK" ON public."EmpAccount" USING btree ("Acc_Id");
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_IsUse" ON public."EmpAccount" USING btree ("Acc_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_Name" ON public."EmpAccount" USING btree ("Acc_Name" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_RegTime" ON public."EmpAccount" USING btree ("Acc_RegTime" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Org_ID" ON public."EmpAccount" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Posi_Id" ON public."EmpAccount" USING btree ("Posi_Id" DESC);
 
 -- 创建表 EmpGroup --
 CREATE TABLE IF NOT EXISTS public."EmpGroup"
@@ -459,7 +508,11 @@ ALTER TABLE "EmpTitle" ALTER COLUMN "Title_Id" SET DEFAULT NEXTVAL('"EmpTitle_Ti
 
 INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (1,2,'','',True,'大区经理',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (2,2,'','',True,'测试工程师',4);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (3,2,'','',True,'系统架构师',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (4,2,'','',True,'招商经理',3);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (9,4,'郑州微厦计算机科技有限公司','',True,'院长',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (10,4,'郑州微厦计算机科技有限公司','',True,'主任',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (11,4,'郑州微厦计算机科技有限公司','',True,'科长',5);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (12,4,'郑州微厦计算机科技有限公司','',True,'处长',6);
 -- 表 EmpTitle 的索引 --
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Org_ID" ON public."EmpTitle" USING btree ("Org_ID" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "EmpTitle_aaaaaEmpTitle_PK" ON public."EmpTitle" USING btree ("Title_Id");
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_IsUse" ON public."EmpTitle" USING btree ("Title_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Name" ON public."EmpTitle" USING btree ("Title_Name" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Tax" ON public."EmpTitle" USING btree ("Title_Tax" DESC);
 
 -- 创建表 ExamGroup --
 CREATE TABLE IF NOT EXISTS public."ExamGroup"
@@ -525,12 +578,15 @@ ALTER TABLE "ExamResults" ALTER COLUMN "Exr_ID" SET DEFAULT NEXTVAL('"ExamResult
 
 -- 表 ExamResults 的索引 --
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_ID" ON public."ExamResults" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_IDCardNumber" ON public."ExamResults" USING btree ("Ac_IDCardNumber" DESC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_Name" ON public."ExamResults" USING btree ("Ac_Name" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exam_ID" ON public."ExamResults" USING btree ("Exam_ID" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_CrtTime" ON public."ExamResults" USING btree ("Exr_CrtTime");
 CREATE UNIQUE INDEX IF NOT EXISTS "ExamResults_aaaaaExamResults_PK" ON public."ExamResults" USING btree ("Exr_ID");
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_IsSubmit" ON public."ExamResults" USING btree ("Exr_IsSubmit" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_OverTime" ON public."ExamResults" USING btree ("Exr_OverTime" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Score" ON public."ExamResults" USING btree ("Exr_ScoreFinal" DESC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_ScoreFinal" ON public."ExamResults" USING btree ("Exr_ScoreFinal" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Org_ID" ON public."ExamResults" USING btree ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Sts_ID" ON public."ExamResults" USING btree ("Sts_ID" DESC);
 CREATE INDEX IF NOT EXISTS "ExamResults_IX_Tp_Id" ON public."ExamResults" USING btree ("Tp_Id" DESC);
@@ -574,7 +630,13 @@ ALTER TABLE "Examination" ALTER COLUMN "Exam_ID" SET DEFAULT NEXTVAL('"Examinati
 
 
 -- 表 Examination 的索引 --
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Date" ON public."Examination" USING btree ("Exam_Date" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "Examination_aaaaaExamination_PK" ON public."Examination" USING btree ("Exam_ID");
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsTheme" ON public."Examination" USING btree ("Exam_IsTheme" DESC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsUse" ON public."Examination" USING btree ("Exam_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Title" ON public."Examination" USING btree ("Exam_Title" DESC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_UID" ON public."Examination" USING btree ("Exam_UID" DESC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Org_ID" ON public."Examination" USING btree ("Org_ID" DESC);
 
 -- 创建表 FuncPoint --
 CREATE TABLE IF NOT EXISTS public."FuncPoint"
@@ -650,8 +712,14 @@ CREATE TABLE IF NOT EXISTS public."Guide"
 
 -- 表 Guide 的索引 --
 CREATE INDEX IF NOT EXISTS "Guide_IX_Cou_ID" ON public."Guide" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gc_UID" ON public."Guide" USING btree ("Gc_UID" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsShow" ON public."Guide" USING btree ("Gu_IsShow" DESC);
 CREATE INDEX IF NOT EXISTS "Guide_IX_IsShow" ON public."Guide" USING btree ("Gu_IsShow" DESC);
 CREATE INDEX IF NOT EXISTS "Guide_IX_IsUse" ON public."Guide" USING btree ("Gu_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsUse" ON public."Guide" USING btree ("Gu_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_PushTime" ON public."Guide" USING btree ("Gu_PushTime" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_Title" ON public."Guide" USING btree ("Gu_Title" DESC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Org_ID" ON public."Guide" USING btree ("Org_ID" DESC);
 
 -- 创建表 GuideColumns --
 CREATE TABLE IF NOT EXISTS public."GuideColumns"
@@ -681,7 +749,12 @@ ALTER TABLE "GuideColumns" ALTER COLUMN "Gc_ID" SET DEFAULT NEXTVAL('"GuideColum
 
 
 -- 表 GuideColumns 的索引 --
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Cou_ID" ON public."GuideColumns" USING btree ("Cou_ID" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "GuideColumns_aaaaaGuideColumns_PK" ON public."GuideColumns" USING btree ("Gc_ID");
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_IsUse" ON public."GuideColumns" USING btree ("Gc_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_PID" ON public."GuideColumns" USING btree ("Gc_PID" DESC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Tax" ON public."GuideColumns" USING btree ("Gc_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Title" ON public."GuideColumns" USING btree ("Gc_Title" DESC);
 
 -- 创建表 InternalLink --
 CREATE TABLE IF NOT EXISTS public."InternalLink"
@@ -742,6 +815,12 @@ CREATE TABLE IF NOT EXISTS public."Knowledge"
 	 CONSTRAINT key_knowledge PRIMARY KEY ("Kn_ID")
 );
 
+-- 表 Knowledge 的索引 --
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Cou_ID" ON public."Knowledge" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_CrtTime" ON public."Knowledge" USING btree ("Kn_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_IsUse" ON public."Knowledge" USING btree ("Kn_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_Title" ON public."Knowledge" USING btree ("Kn_Title" DESC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kns_ID" ON public."Knowledge" USING btree ("Kns_ID" DESC);
 
 -- 创建表 KnowledgeSort --
 CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
@@ -761,6 +840,12 @@ CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
 	 CONSTRAINT key_knowledgesort PRIMARY KEY ("Kns_ID")
 );
 
+-- 表 KnowledgeSort 的索引 --
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Cou_ID" ON public."KnowledgeSort" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_IsUse" ON public."KnowledgeSort" USING btree ("Kns_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_PID" ON public."KnowledgeSort" USING btree ("Kns_PID" DESC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_Tax" ON public."KnowledgeSort" USING btree ("Kns_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Org_ID" ON public."KnowledgeSort" USING btree ("Org_ID" DESC);
 
 -- 创建表 LearningCard --
 CREATE TABLE IF NOT EXISTS public."LearningCard"
@@ -793,12 +878,14 @@ ALTER TABLE "LearningCard" ALTER COLUMN "Lc_ID" SET DEFAULT NEXTVAL('"LearningCa
 
 
 -- 表 LearningCard 的索引 --
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_AccName" ON public."LearningCard" USING btree ("Ac_AccName" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_ID" ON public."LearningCard" USING btree ("Ac_ID" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Code" ON public."LearningCard" USING btree ("Lc_Code" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_IsUsed" ON public."LearningCard" USING btree ("Lc_IsUsed" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Pw" ON public."LearningCard" USING btree ("Lc_Pw" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_State" ON public."LearningCard" USING btree ("Lc_State" DESC);
 CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lcs_ID" ON public."LearningCard" USING btree ("Lcs_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Org_ID" ON public."LearningCard" USING btree ("Org_ID" DESC);
 
 -- 创建表 LearningCardSet --
 CREATE TABLE IF NOT EXISTS public."LearningCardSet"
@@ -833,6 +920,15 @@ ALTER SEQUENCE IF EXISTS public."LearningCardSet_Lcs_ID_seq" OWNED BY public."Le
 ALTER TABLE "LearningCardSet" ALTER COLUMN "Lcs_ID" SET DEFAULT NEXTVAL('"LearningCardSet_Lcs_ID_seq"'::regclass);
 
 
+-- 表 LearningCardSet 的索引 --
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Count" ON public."LearningCardSet" USING btree ("Lcs_Count" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CoursesCount" ON public."LearningCardSet" USING btree ("Lcs_CoursesCount" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CrtTime" ON public."LearningCardSet" USING btree ("Lcs_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_IsEnable" ON public."LearningCardSet" USING btree ("Lcs_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Price" ON public."LearningCardSet" USING btree ("Lcs_Price" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Theme" ON public."LearningCardSet" USING btree ("Lcs_Theme" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lsc_UsedCount" ON public."LearningCardSet" USING btree ("Lsc_UsedCount" DESC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Org_ID" ON public."LearningCardSet" USING btree ("Org_ID" DESC);
 
 -- 创建表 LimitDomain --
 CREATE TABLE IF NOT EXISTS public."LimitDomain"
@@ -849,6 +945,9 @@ ALTER SEQUENCE IF EXISTS public."LimitDomain_LD_ID_seq" OWNED BY public."LimitDo
 ALTER TABLE "LimitDomain" ALTER COLUMN "LD_ID" SET DEFAULT NEXTVAL('"LimitDomain_LD_ID_seq"'::regclass);
 
 INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (1,'邮件服务器2',True,'email');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (2,'',True,'bbs');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (3,'',True,'student');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (4,'',True,'admin');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (5,'',True,'teacher');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (6,'',False,'course');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (7,'',True,'classone');
+-- 表 LimitDomain 的索引 --
+CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_IsUse" ON public."LimitDomain" USING btree ("LD_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_Name" ON public."LimitDomain" USING btree ("LD_Name" DESC);
 
 -- 创建表 Links --
 CREATE TABLE IF NOT EXISTS public."Links"
@@ -883,6 +982,13 @@ ALTER TABLE "Links" ALTER COLUMN "Lk_Id" SET DEFAULT NEXTVAL('"Links_Lk_Id_seq"'
 INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (114,'','郑州双庆数字科技有限公司于2016年，公司专注于企业数字化和智能化建设，一直以来，我们推崇以"一体化、多元化、数字化、智能化"的理念来指导大中型企业进行信息化升级和改造。公司拥有一批经验丰富的专家，自成立以来参与过国内多家国企和上市企业的信息化系统建设。',False,True,True,True,'','','13673362803','双庆ERP（企业资源计划）','','李经理',2,'郑州双庆数字科技有限公司','',22,'友商推荐',4,'郑州微厦计算机科技有限公司');INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (115,'','满足中小型医院信息化需求，成本低、功能强，性能稳定、操作方便，已经成功应用多家医院，安全运行十几年。',False,True,True,True,'','','13526666703','博尔卓医院信息管理系统','10839036','于经理',1,'郑州博尔卓信息科技有限公司','http://www.boerzhuo.com',22,'友商推荐',4,'郑州微厦计算机科技有限公司');
 -- 表 Links 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "Links_aaaaaLinks_PK" ON public."Links" USING btree ("Lk_Id");
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsShow" ON public."Links" USING btree ("Lk_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsUse" ON public."Links" USING btree ("Lk_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Name" ON public."Links" USING btree ("Lk_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Tax" ON public."Links" USING btree ("Lk_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Url" ON public."Links" USING btree ("Lk_Url" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Ls_Id" ON public."Links" USING btree ("Ls_Id" DESC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Org_ID" ON public."Links" USING btree ("Org_ID" DESC);
 
 -- 创建表 LinksSort --
 CREATE TABLE IF NOT EXISTS public."LinksSort"
@@ -909,6 +1015,11 @@ ALTER TABLE "LinksSort" ALTER COLUMN "Ls_Id" SET DEFAULT NEXTVAL('"LinksSort_Ls_
 INSERT INTO "LinksSort"("Ls_Id","Ls_IsImg","Ls_IsShow","Ls_IsText","Ls_IsUse","Ls_Logo","Ls_Name","Ls_PatId","Ls_Tax","Ls_Tootip","Org_ID","Org_Name") VALUES (22,False,True,True,True,'','友商推荐',0,1,'朋友开发的软件产品',4,'郑州微厦计算机科技有限公司');
 -- 表 LinksSort 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "LinksSort_aaaaaLinksSort_PK" ON public."LinksSort" USING btree ("Ls_Id");
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsShow" ON public."LinksSort" USING btree ("Ls_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsUse" ON public."LinksSort" USING btree ("Ls_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Name" ON public."LinksSort" USING btree ("Ls_Name" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Tax" ON public."LinksSort" USING btree ("Ls_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Org_ID" ON public."LinksSort" USING btree ("Org_ID" DESC);
 
 -- 创建表 LogForStudentExercise --
 CREATE TABLE IF NOT EXISTS public."LogForStudentExercise"
@@ -1010,6 +1121,12 @@ ALTER SEQUENCE IF EXISTS public."LogForStudentQuestions_Lsq_ID_seq" OWNED BY pub
 ALTER TABLE "LogForStudentQuestions" ALTER COLUMN "Lsq_ID" SET DEFAULT NEXTVAL('"LogForStudentQuestions_Lsq_ID_seq"'::regclass);
 
 
+-- 表 LogForStudentQuestions 的索引 --
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ac_ID" ON public."LogForStudentQuestions" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Cou_ID" ON public."LogForStudentQuestions" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ol_ID" ON public."LogForStudentQuestions" USING btree ("Ol_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Org_ID" ON public."LogForStudentQuestions" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Qus_ID" ON public."LogForStudentQuestions" USING btree ("Qus_ID" DESC);
 
 -- 创建表 LogForStudentStudy --
 CREATE TABLE IF NOT EXISTS public."LogForStudentStudy"
@@ -1183,7 +1300,12 @@ ALTER TABLE "Message" ALTER COLUMN "Msg_Id" SET DEFAULT NEXTVAL('"Message_Msg_Id
 
 
 -- 表 Message 的索引 --
+CREATE INDEX IF NOT EXISTS "Message_IX_Ac_ID" ON public."Message" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Cou_ID" ON public."Message" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Msg_CrtTime" ON public."Message" USING btree ("Msg_CrtTime" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "Message_aaaaaMessage_PK" ON public."Message" USING btree ("Msg_Id");
+CREATE INDEX IF NOT EXISTS "Message_IX_Ol_ID" ON public."Message" USING btree ("Ol_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Org_Id" ON public."Message" USING btree ("Org_Id" DESC);
 
 -- 创建表 MessageBoard --
 CREATE TABLE IF NOT EXISTS public."MessageBoard"
@@ -1223,7 +1345,11 @@ ALTER TABLE "MessageBoard" ALTER COLUMN "Mb_Id" SET DEFAULT NEXTVAL('"MessageBoa
 
 
 -- 表 MessageBoard 的索引 --
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Cou_ID" ON public."MessageBoard" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_CrtTime" ON public."MessageBoard" USING btree ("Mb_CrtTime" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "MessageBoard_aaaaaMessageBoard_PK" ON public."MessageBoard" USING btree ("Mb_Id");
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_IsTheme" ON public."MessageBoard" USING btree ("Mb_IsTheme" DESC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Org_Id" ON public."MessageBoard" USING btree ("Org_ID" DESC);
 
 -- 创建表 MoneyAccount --
 CREATE TABLE IF NOT EXISTS public."MoneyAccount"
@@ -1257,10 +1383,16 @@ ALTER TABLE "MoneyAccount" ALTER COLUMN "Ma_ID" SET DEFAULT NEXTVAL('"MoneyAccou
 
 
 -- 表 MoneyAccount 的索引 --
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_AccName" ON public."MoneyAccount" USING btree ("Ac_AccName" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_ID" ON public."MoneyAccount" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_Name" ON public."MoneyAccount" USING btree ("Ac_Name" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_CrtTime" ON public."MoneyAccount" USING btree ("Ma_CrtTime" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_From" ON public."MoneyAccount" USING btree ("Ma_From" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_IsSuccess" ON public."MoneyAccount" USING btree ("Ma_IsSuccess" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Money" ON public."MoneyAccount" USING btree ("Ma_Money" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Serial" ON public."MoneyAccount" USING btree ("Ma_Serial" DESC);
 CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Type" ON public."MoneyAccount" USING btree ("Ma_Type" DESC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Org_ID" ON public."MoneyAccount" USING btree ("Org_ID" DESC);
 
 -- 创建表 Navigation --
 CREATE TABLE IF NOT EXISTS public."Navigation"
@@ -1299,6 +1431,12 @@ ALTER TABLE "Navigation" ALTER COLUMN "Nav_ID" SET DEFAULT NEXTVAL('"Navigation_
 INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (2,0,'','2014-05-31 11:12:22','','','','','','',False,True,'201608240908032030.jpg','首页','','web','',1,'','main','2','/default.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (6,0,'','2014-05-31 14:05:13','','','','','','',False,True,'','课程中心','','web','',18,'课程中心','main','6','/Courses.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (11,0,'','2014-06-01 16:44:56','','','','','','',False,True,'','通知公告','','web','',5,'','foot','11','/notices.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (12,0,'','2014-06-01 16:45:22','','','','','','',False,True,'','新闻资讯','','web','',6,'','foot','12','/news.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (13,0,'#003562','2014-06-01 16:45:44','','','','','','',True,True,'','机构管理','','web','_blank',7,'','foot','13','/admin/index.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (14,0,'','2014-06-01 16:46:07','','','','','','',False,True,'','友情链接','','web','',8,'','foot','14','/links.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (15,0,'','2014-06-01 16:46:30','','','','','','',False,True,'','关于我们','','web','',9,'','foot','15','/about.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (16,0,'','2014-06-01 16:46:55','','','','','','',False,True,'','联系我们','','web','',12,'','foot','16','/Contactus.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (21,0,'','2014-06-01 17:23:39','','','','','','',False,False,'','教师','','web','',19,'','main','21','/teacher/List.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (22,0,'','2014-06-01 17:24:39','','','','','','',False,True,'','在线练习','','web','',20,'','main','22','/Training.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (26,0,'','2014-06-01 17:30:11','','','','','','',False,False,'','测试','','web','',22,'','main','26','/test.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (27,0,'','2014-06-01 17:30:23','','','','','','',False,True,'','在线考试','','web','',21,'','main','27','/exam.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (47,0,'','2016-09-11 10:48:07','','','','','','',False,True,'','工作动态','','web','',17,'','main','47','/newslist.ashx?colid=5',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (48,0,'','2016-09-11 10:48:19','','','','','','',False,True,'','新闻中心','','web','',4,'','main','48','/news.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (49,0,'','2016-09-11 10:48:32','','','','','','',False,False,'','在线帮助','','web','',23,'','main','49','/newslist.ashx?colid=11',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (50,0,'','2016-09-11 10:48:40','','','','','','',False,True,'','关于我们','','web','',24,'','main','50','/about.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (51,0,'','2016-09-11 10:51:12','','','','','','',False,True,'','政策法规','','web','',15,'','main','51','/newslist.ashx?colid=6',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (52,0,'','2016-09-26 20:54:24','','','','','','',False,True,'','国内新闻','48','web','',0,'','main','52','/newslist.ashx?colid=8',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (53,0,'','2016-09-26 20:59:29','','','','','','',False,True,'','省内新闻','48','web','',1,'','main','53','/newslist.ashx?colid=9',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (54,0,'','2016-09-26 20:59:49','','','','','','',False,True,'','工作动态','48','web','',2,'','main','54','/newslist.ashx?colid=5',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (57,0,'','2016-09-28 23:10:09','','','','','','',False,True,'','十八届五中全会精神','6','web','',0,'','main','57','/Courses.ashx?sbjid=94',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (58,0,'','2016-09-28 23:10:51','','','','','','',False,True,'','两学一做','6','web','',1,'','main','58','/Courses.ashx?sbjid=92',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (59,0,'','2016-09-28 23:12:08','','','','','','',False,True,'','通知公告','','web','',14,'','main','59','/notices.ashx',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (60,0,'','2016-09-29 15:41:41','','','','','','',False,False,'','司法资讯','52','web','',0,'','main','60','',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (61,0,'','2016-11-27 11:21:15','','','','','','',False,False,'','首页','','web','',0,'','main','61','/default.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (62,0,'','2016-11-27 11:22:11','','','','','','',False,True,'','课程','','web','',1,'课程中心','main','62','/Courses.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (63,0,'','2016-11-27 11:25:23','','','','','','',False,True,'','新闻','','web','',2,'','main','63','/news.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (646,0,'','1753-01-01 00:00:00','','','','e697','','',False,True,'','通知公告','','web','',0,'','foot','80','/web/notice',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (647,0,'','1753-01-01 00:00:00','','','','e75c','','',False,True,'','新闻资讯','','web','',1,'','foot','81','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (91,0,'','2017-02-25 16:57:27','','','','','','',False,True,'201702250523350090.jpg','自定义菜单2','','mobi','',1,'','main','91','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (92,0,'','2017-02-25 16:57:47','','','','','','',False,True,'','自定义菜单1','','mobi','',0,'','main','92','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (93,0,'','2017-02-25 17:10:00','','','','','','',False,True,'201702250524198570.jpg','自定义菜单3','','mobi','',2,'','main','93','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (64,0,'','2016-11-27 11:25:49','','','','','','',False,False,'','教师','','web','',3,'','main','64','/teacher/List.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (65,0,'','2016-11-27 11:26:09','','','','','','',False,False,'','练习','','web','',4,'','main','65','/Training.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (66,0,'','2016-11-27 11:26:31','','','','','','',False,True,'','测试','','web','',5,'','main','66','/test.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (67,0,'','2016-11-27 11:27:09','','','','','','',False,True,'','考试','','web','',6,'','main','67','/exam.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (648,0,'','1753-01-01 00:00:00','','','','a038','','',False,True,'','机构管理','','web','',2,'','foot','82','/orgadmin',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (649,0,'','1753-01-01 00:00:00','','','','e67d','','',False,True,'','关于我们','','web','',3,'','foot','83','/web/about',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (650,1,'','1753-01-01 00:00:00','','','','e751','','',False,False,'','联系我们','','web','',4,'','foot','84','/web/conn',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (850,0,'','1753-01-01 00:00:00','','','','a020','','',False,True,'','首页','','web','',0,'','main','8b6a174de0e1ecceede7106127e7d83a','/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (851,1,'','1753-01-01 00:00:00','','','','e813','','',False,True,'','课程中心','','web','',1,'','main','68','/web/Course',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (852,0,'','1753-01-01 00:00:00','','','','e810','','',False,True,'','考务中心','','web','',2,'','main','72','/web/exam',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (853,1,'','1753-01-01 00:00:00','','','','e75c','','',False,True,'','新闻资讯','','web','',3,'','main','73','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (854,0,'','1753-01-01 00:00:00','','','','e697','','',False,True,'','通知公告','','web','',4,'','main','8106f4b832995ffcd174b5274c85a40e','/web/notice',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (855,1,'','1753-01-01 00:00:00','','','','a026','','',False,True,'','帮助','','web','',5,'','main','3d094a35a075a331545bc407e9aa57f6','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (856,0,'','1753-01-01 00:00:00','','','','a026','','',False,True,'','帮助中心','3d094a35a075a331545bc407e9aa57f6','web','_blank',0,'','main','74daa309accbe357765af9be24ff3c3a','/help',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (857,0,'','1753-01-01 00:00:00','','','','a03d','','',False,True,'','在线帮助','3d094a35a075a331545bc407e9aa57f6','web','_blank',1,'','main','7c28d33b967c57712d32edc585e25f8a','http://www.weisha100.net/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (858,1,'','1753-01-01 00:00:00','','','','a034','','',False,True,'','开源代码','3d094a35a075a331545bc407e9aa57f6','web','',2,'','main','c4708328e12561efd42f000a13f3e28c','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (859,0,'','1753-01-01 00:00:00','','','','e686','','',False,True,'','Gitee源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',0,'','main','777c15c95d66c4fd146c4460ced427b1','https://gitee.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (860,0,'','1753-01-01 00:00:00','','','','e691','','',False,True,'','Github源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',1,'','main','4ffaf75cc966646a4694cf5d3ad78b3d','https://github.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (861,0,'','1753-01-01 00:00:00','','','','e67d','','',False,True,'','关于我们','3d094a35a075a331545bc407e9aa57f6','web','',3,'','main','f883521693b859158123f9bd9e835d99','/web/about',4,'');
 -- 表 Navigation 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "Navigation_aaaaaNavigation_PK" ON public."Navigation" USING btree ("Nav_ID");
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_IsShow" ON public."Navigation" USING btree ("Nav_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_PID" ON public."Navigation" USING btree ("Nav_PID" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Site" ON public."Navigation" USING btree ("Nav_Site" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_Tax" ON public."Navigation" USING btree ("Nav_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Type" ON public."Navigation" USING btree ("Nav_Type" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Org_ID" ON public."Navigation" USING btree ("Org_ID" DESC);
 
 -- 创建表 NewsNote --
 CREATE TABLE IF NOT EXISTS public."NewsNote"
@@ -1371,6 +1509,15 @@ INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_C
 <li style="list-style-type: initial;">Gitee ：<a href="https://gitee.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://gitee.com/weishakeji/LearningSystem</a></li>
 <li style="list-style-type: initial;">GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://github.com/weishakeji/LearningSystem</a></li>
 </ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',True,False,'',0,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
+-- 表 Notice 的索引 --
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_EndTime" ON public."Notice" USING btree ("No_EndTime" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsShow" ON public."Notice" USING btree ("No_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsTop" ON public."Notice" USING btree ("No_IsTop" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Page" ON public."Notice" USING btree ("No_Page" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_StartTime" ON public."Notice" USING btree ("No_StartTime" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Ttl" ON public."Notice" USING btree ("No_Ttl" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Type" ON public."Notice" USING btree ("No_Type" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_Org_ID" ON public."Notice" USING btree ("Org_ID" DESC);
 
 -- 创建表 OrganLevel --
 CREATE TABLE IF NOT EXISTS public."OrganLevel"
@@ -1392,6 +1539,9 @@ ALTER SEQUENCE IF EXISTS public."OrganLevel_Olv_ID_seq" OWNED BY public."OrganLe
 ALTER TABLE "OrganLevel" ALTER COLUMN "Olv_ID" SET DEFAULT NEXTVAL('"OrganLevel_Olv_ID_seq"'::regclass);
 
 INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (1,'',False,True,1,'VIP','vip0',2,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (2,'',False,True,0,'钻石级','vip1',1,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (5,'',True,True,0,'默认机构','default',0,14);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (6,'仅提供在线考试功能。',False,True,0,'在线考试','exam',3,0);
+-- 表 OrganLevel 的索引 --
+CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_IsUse" ON public."OrganLevel" USING btree ("Olv_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_Tax" ON public."OrganLevel" USING btree ("Olv_Tax" DESC);
 
 -- 创建表 Organization --
 CREATE TABLE IF NOT EXISTS public."Organization"
@@ -1406,6 +1556,7 @@ CREATE TABLE IF NOT EXISTS public."Organization"
 	"Org_City" character varying(255) COLLATE pg_catalog."default",
 	"Org_CoBank" character varying(255) COLLATE pg_catalog."default",
 	"Org_Config" text,
+	"Org_CourseCount" integer NOT NULL,
 	"Org_Description" character varying(1000) COLLATE pg_catalog."default",
 	"Org_District" character varying(255) COLLATE pg_catalog."default",
 	"Org_Email" character varying(255) COLLATE pg_catalog."default",
@@ -1434,6 +1585,7 @@ CREATE TABLE IF NOT EXISTS public."Organization"
 	"Org_Phone" character varying(255) COLLATE pg_catalog."default",
 	"Org_PlatformName" character varying(255) COLLATE pg_catalog."default",
 	"Org_Province" character varying(255) COLLATE pg_catalog."default",
+	"Org_QuesCount" integer NOT NULL,
 	"Org_RegTime" timestamp without time zone NOT NULL,
 	"Org_Street" character varying(255) COLLATE pg_catalog."default",
 	"Org_Template" character varying(255) COLLATE pg_catalog."default",
@@ -1450,12 +1602,21 @@ CREATE SEQUENCE IF NOT EXISTS public."Organization_Org_ID_seq";
 ALTER SEQUENCE IF EXISTS public."Organization_Org_ID_seq" OWNED BY public."Organization"."Org_ID";
 ALTER TABLE "Organization" ALTER COLUMN "Org_ID" SET DEFAULT NEXTVAL('"Organization_Org_ID_seq"'::regclass);
 
-INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (2,2,'钻石级','WeiSha','微厦科技','郑州市农科路鑫苑世家二号楼606室','','郑州市','','','','金水区','','WeiShaKeji','','','','','','<div class="TRS_Editor" style="font-size: 16px; color: rgb(0, 0, 0); line-height: 28px; overflow: hidden; font-family: 瀹嬩綋;"><div class="Custom_UnionStyle" style="color: rgb(67, 67, 67); line-height: 28px; overflow: hidden;"><p align="justify" style="line-height: 28px; color: black;">经济日报-中国经济网北京3月21日讯（记者吴佳佳）国务院联防联控机制今天召开新闻发布会介绍，当前国内疫情防控总体保持良好态势，我国重点人群新冠疫苗接种工作顺利推进，截至3月20日24时，全国累计报告接种7495.6万剂次，下一步全国将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　国家卫健委宣传司副司长、新闻发言人米锋指出，各地正在全面抓好常态化疫情防控，保障群众安全、顺畅出行。当前，国内低风险地区持健康通行“绿码”，在测温正常且做好个人防护的前提下可有序出行，各地不得擅自加码。对新增散发病例，要发现一起、扑灭一起，确保不出现规模性反弹。</p><p align="justify" style="line-height: 28px; color: black;">　　关于60岁以上人群新冠疫苗接种的情况，国家卫生健康委员会疾控局一级巡视员贺青华在会上表示，部分地区在充分评估健康状况的情况下和被感染风险的前提下，已经开始为60岁以上身体条件比较好的老人接种新冠疫苗。同时，疫苗研发单位也在加快推进研发，在临床试验取得足够安全性、有效性数据以后，将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　既然疫苗需要大规模接种，那么产量如何保证？工业和信息化部消费品工业司副司长毛俊锋表示，目前疫苗产量与2月初相比已经有了大幅度提高，下一步还会进一步提升。全年疫苗产量完全可以满足全国人民的接种需求。目前，我国已有5款疫苗获批了附条件上市或者是获准了紧急使用，其他技术路线的疫苗也会陆续上市，一旦产品获批，就会启动生产、上市供应。</p><p align="justify" style="line-height: 28px; color: black;">　　“疫苗生产周期长，涉及环节多，技术含量更高，特别是对它的监管要求也更为严格，尤其是新冠病毒疫苗，现在疫苗生产总量、扩产增产速度在我国都是前所未有的，企业在增产扩能过程中要始终把质量安全放在第一位。”毛俊锋说，企业要切实履行疫苗质量安全的主体责任，严格落实质量管理体系。</p><p align="justify" style="line-height: 28px; color: black;">　　针对国产疫苗不良反应情况，中国疾控中心免疫规划首席专家王华庆介绍，现在监测的不良反应主要包括局部反应和全身反应。局部的不良反应包括如疼痛、红肿、硬结的情况，这些无须处理，会自行痊愈；全身的不良反应包括如头痛、乏力、低热的情况。他介绍，当前接到的不良反应报告为疑似不良反应，也就是说，属于怀疑和疫苗有关的反应。后续将继续开展较为严重的不良反应调查，通过补充调查、了解接种史、疾病情况等，再由专家组做出诊断。</p><p align="justify" style="line-height: 28px; color: black;">　　不少人关心，接种疫苗后可以摘下口罩吗？对此，中国疾控中心副主任冯子健说，由于当前全球新冠疫情仍在持续流行，国内疫苗接种率较低，来自高流行地区的人员或物品入境，仍有导致在境内传播的风险。因此，我国在人群疫苗接种达到较高免疫水平之前，无论是否接种疫苗，在人群聚集的室内或封闭场所，仍然需要继续佩戴口罩，并严格遵循当地具体的防控措施要求。</p></div></div><p style="font-size: 16px; line-height: 28px; color: rgb(0, 0, 0); font-family: 瀹嬩綋; float: right;">（责任编辑：符仲明）</p>',False,True,True,True,True,'','','34.7969676989','','','','201809030230274008.jpg','113.681890337','郑州微厦计算机科技有限公司','','王','微厦在线学习平台','河南省','1753-01-01 00:00:00','农科路','School','','root','','','','');INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (4,5,'默认机构','icloud','网校平台','郑州市','','','','<?xml version="1.0" encoding="UTF-8"?><items><item key="IsLoginForPw" value="True" /><item key="IsLoginForSms" value="True" /><item key="IsSwitchPlay" value="False" /><item key="VideoTolerance" value="6" /><item key="Stamp" value="a9fd754c1b5a257130d2c50c615a1af1.png" /><item key="StampPosition" value="right-top" /><item key="IsVerifyStudent" value="False" /><item key="IsRegStudent" value="True" /><item key="IsDisableChat" value="True" /><item key="finaltest_condition_video" value="1" /><item key="finaltest_weight_video" value="40" /><item key="finaltest_weight_ques" value="0" /><item key="finaltest_weight_exam" value="60" /><item key="finaltest_score_pass" value="60" /><item key="finaltest_condition_ques" value="0" /><item key="finaltest_count" value="5" /></items>','','','','icloud','','','','','','<div>该信息由管理员后台编辑；</div>
+INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (2,2,'钻石级','WeiSha','微厦科技','郑州市农科路鑫苑世家二号楼606室','','郑州市','','',0,'','金水区','','WeiShaKeji','','','','','','<div class="TRS_Editor" style="font-size: 16px; color: rgb(0, 0, 0); line-height: 28px; overflow: hidden; font-family: 瀹嬩綋;"><div class="Custom_UnionStyle" style="color: rgb(67, 67, 67); line-height: 28px; overflow: hidden;"><p align="justify" style="line-height: 28px; color: black;">经济日报-中国经济网北京3月21日讯（记者吴佳佳）国务院联防联控机制今天召开新闻发布会介绍，当前国内疫情防控总体保持良好态势，我国重点人群新冠疫苗接种工作顺利推进，截至3月20日24时，全国累计报告接种7495.6万剂次，下一步全国将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　国家卫健委宣传司副司长、新闻发言人米锋指出，各地正在全面抓好常态化疫情防控，保障群众安全、顺畅出行。当前，国内低风险地区持健康通行“绿码”，在测温正常且做好个人防护的前提下可有序出行，各地不得擅自加码。对新增散发病例，要发现一起、扑灭一起，确保不出现规模性反弹。</p><p align="justify" style="line-height: 28px; color: black;">　　关于60岁以上人群新冠疫苗接种的情况，国家卫生健康委员会疾控局一级巡视员贺青华在会上表示，部分地区在充分评估健康状况的情况下和被感染风险的前提下，已经开始为60岁以上身体条件比较好的老人接种新冠疫苗。同时，疫苗研发单位也在加快推进研发，在临床试验取得足够安全性、有效性数据以后，将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　既然疫苗需要大规模接种，那么产量如何保证？工业和信息化部消费品工业司副司长毛俊锋表示，目前疫苗产量与2月初相比已经有了大幅度提高，下一步还会进一步提升。全年疫苗产量完全可以满足全国人民的接种需求。目前，我国已有5款疫苗获批了附条件上市或者是获准了紧急使用，其他技术路线的疫苗也会陆续上市，一旦产品获批，就会启动生产、上市供应。</p><p align="justify" style="line-height: 28px; color: black;">　　“疫苗生产周期长，涉及环节多，技术含量更高，特别是对它的监管要求也更为严格，尤其是新冠病毒疫苗，现在疫苗生产总量、扩产增产速度在我国都是前所未有的，企业在增产扩能过程中要始终把质量安全放在第一位。”毛俊锋说，企业要切实履行疫苗质量安全的主体责任，严格落实质量管理体系。</p><p align="justify" style="line-height: 28px; color: black;">　　针对国产疫苗不良反应情况，中国疾控中心免疫规划首席专家王华庆介绍，现在监测的不良反应主要包括局部反应和全身反应。局部的不良反应包括如疼痛、红肿、硬结的情况，这些无须处理，会自行痊愈；全身的不良反应包括如头痛、乏力、低热的情况。他介绍，当前接到的不良反应报告为疑似不良反应，也就是说，属于怀疑和疫苗有关的反应。后续将继续开展较为严重的不良反应调查，通过补充调查、了解接种史、疾病情况等，再由专家组做出诊断。</p><p align="justify" style="line-height: 28px; color: black;">　　不少人关心，接种疫苗后可以摘下口罩吗？对此，中国疾控中心副主任冯子健说，由于当前全球新冠疫情仍在持续流行，国内疫苗接种率较低，来自高流行地区的人员或物品入境，仍有导致在境内传播的风险。因此，我国在人群疫苗接种达到较高免疫水平之前，无论是否接种疫苗，在人群聚集的室内或封闭场所，仍然需要继续佩戴口罩，并严格遵循当地具体的防控措施要求。</p></div></div><p style="font-size: 16px; line-height: 28px; color: rgb(0, 0, 0); font-family: 瀹嬩綋; float: right;">（责任编辑：符仲明）</p>',False,True,True,True,True,'','','34.7969676989','','','','201809030230274008.jpg','113.681890337','郑州微厦计算机科技有限公司','','王','微厦在线学习平台','河南省',0,'1753-01-01 00:00:00','农科路','School','','root','','','','');INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (4,5,'默认机构','icloud','网校平台','郑州市','','','','<?xml version="1.0" encoding="UTF-8"?><items><item key="IsLoginForPw" value="True" /><item key="IsLoginForSms" value="True" /><item key="IsSwitchPlay" value="False" /><item key="VideoTolerance" value="6" /><item key="Stamp" value="a9fd754c1b5a257130d2c50c615a1af1.png" /><item key="StampPosition" value="right-top" /><item key="IsVerifyStudent" value="False" /><item key="IsRegStudent" value="True" /><item key="IsDisableChat" value="True" /><item key="finaltest_condition_video" value="1" /><item key="finaltest_weight_video" value="40" /><item key="finaltest_weight_ques" value="0" /><item key="finaltest_weight_exam" value="60" /><item key="finaltest_score_pass" value="60" /><item key="finaltest_condition_ques" value="0" /><item key="finaltest_count" value="5" /></items>',0,'','','','icloud','','','','','','<div>该信息由管理员后台编辑；</div>
 <div>&nbsp;</div>
 <div>菜单路径：管理中心（管理员）=&gt;&nbsp; 平台管理=&gt;&nbsp; 关于我们</div>
-<div>&nbsp;</div>',True,True,False,True,True,'','','34.819187','','','','dc282e74901b2e88fd47a2306bb65f43.jpg','113.757022','郑州微厦计算机科技有限公司','','400-6015615','云课堂网校平台','','2016-12-28 16:45:12','','Default','Default','exam','','','','');
+<div>&nbsp;</div>',True,True,False,True,True,'','','34.819187','','','','dc282e74901b2e88fd47a2306bb65f43.jpg','113.757022','郑州微厦计算机科技有限公司','','400-6015615','云课堂网校平台','',0,'2016-12-28 16:45:12','','Default','Default','exam','','','','');
 -- 表 Organization 的索引 --
+CREATE INDEX IF NOT EXISTS "Organization_IX_Olv_ID" ON public."Organization" USING btree ("Olv_ID" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "Organization_aaaaaOrganization_PK" ON public."Organization" USING btree ("Org_ID");
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsDefault" ON public."Organization" USING btree ("Org_IsDefault" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsPass" ON public."Organization" USING btree ("Org_IsPass" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsRoot" ON public."Organization" USING btree ("Org_IsRoot" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsShow" ON public."Organization" USING btree ("Org_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsUse" ON public."Organization" USING btree ("Org_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_Name" ON public."Organization" USING btree ("Org_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_PlatformName" ON public."Organization" USING btree ("Org_PlatformName" DESC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_TwoDomain" ON public."Organization" USING btree ("Org_TwoDomain" DESC);
 
 -- 创建表 Outline --
 CREATE TABLE IF NOT EXISTS public."Outline"
@@ -1482,7 +1643,6 @@ CREATE TABLE IF NOT EXISTS public."Outline"
 	"Ol_Name" character varying(500) COLLATE pg_catalog."default",
 	"Ol_PID" bigint NOT NULL,
 	"Ol_QuesCount" integer NOT NULL,
-	"Ol_QusNumber" integer NOT NULL,
 	"Ol_Tax" integer NOT NULL,
 	"Ol_UID" character varying(200) NOT NULL COLLATE pg_catalog."default",
 	"Ol_Video" text,
@@ -1493,7 +1653,16 @@ CREATE TABLE IF NOT EXISTS public."Outline"
 );
 
 -- 表 Outline 的索引 --
+CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID2" ON public."Outline" USING btree ("Cou_ID");
 CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID" ON public."Outline" USING btree ("Cou_ID", "Ol_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsFinish" ON public."Outline" USING btree ("Ol_IsFinish");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsUse" ON public."Outline" USING btree ("Ol_IsUse");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsVideo" ON public."Outline" USING btree ("Ol_IsVideo");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Name" ON public."Outline" USING btree ("Ol_Name");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_PID" ON public."Outline" USING btree ("Ol_PID");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Tax" ON public."Outline" USING btree ("Ol_Tax");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Org_ID" ON public."Outline" USING btree ("Org_ID");
+CREATE INDEX IF NOT EXISTS "Outline_IX_Sbj_ID" ON public."Outline" USING btree ("Sbj_ID");
 
 -- 创建表 OutlineEvent --
 CREATE TABLE IF NOT EXISTS public."OutlineEvent"
@@ -1550,6 +1719,13 @@ ALTER SEQUENCE IF EXISTS public."PayInterface_Pai_ID_seq" OWNED BY public."PayIn
 ALTER TABLE "PayInterface" ALTER COLUMN "Pai_ID" SET DEFAULT NEXTVAL('"PayInterface_Pai_ID_seq"'::regclass);
 
 
+-- 表 PayInterface 的索引 --
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Org_ID" ON public."PayInterface" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_InterfaceType" ON public."PayInterface" USING btree ("Pai_InterfaceType" DESC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_IsEnable" ON public."PayInterface" USING btree ("Pai_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Name" ON public."PayInterface" USING btree ("Pai_Name" DESC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Platform" ON public."PayInterface" USING btree ("Pai_Platform" DESC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Tax" ON public."PayInterface" USING btree ("Pai_Tax" DESC);
 
 -- 创建表 PointAccount --
 CREATE TABLE IF NOT EXISTS public."PointAccount"
@@ -1575,6 +1751,12 @@ ALTER SEQUENCE IF EXISTS public."PointAccount_Pa_ID_seq" OWNED BY public."PointA
 ALTER TABLE "PointAccount" ALTER COLUMN "Pa_ID" SET DEFAULT NEXTVAL('"PointAccount_Pa_ID_seq"'::regclass);
 
 INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1770,2,4,'2023-12-05 04:26:46',1,'账号密码登录','','0004202312050426465585EXAM19','电脑网页',2424,9348,2,10);INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1771,2,4,'2024-01-22 17:58:18',1,'账号密码登录','','0004202401220558185804EXAM14','电脑网页',2434,9358,2,10);
+-- 表 PointAccount 的索引 --
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Ac_ID" ON public."PointAccount" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Org_ID" ON public."PointAccount" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_CrtTime" ON public."PointAccount" USING btree ("Pa_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Info" ON public."PointAccount" USING btree ("Pa_Info" DESC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Type" ON public."PointAccount" USING btree ("Pa_Type" DESC);
 
 -- 创建表 Position --
 CREATE TABLE IF NOT EXISTS public."Position"
@@ -1596,7 +1778,10 @@ ALTER TABLE "Position" ALTER COLUMN "Posi_Id" SET DEFAULT NEXTVAL('"Position_Pos
 
 INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (2,2,'','',False,True,'财务',3);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (3,2,'','jjj',True,True,'管理员',5);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (4,2,'','',False,True,'总经理',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (5,2,'','',False,True,'员工',4);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (6,2,'','',False,True,'部门经理',2);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (7,2,'','',False,True,'副总',1);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (10,4,'中国珠宝网','',True,True,'管理员',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (19,4,'','',False,True,'测试一下，又一个管理',1);
 -- 表 Position 的索引 --
+CREATE INDEX IF NOT EXISTS "Position_IX_Org_ID" ON public."Position" USING btree ("Org_ID" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON public."Position" USING btree ("Posi_Id");
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_IsUse" ON public."Position" USING btree ("Posi_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_Tax" ON public."Position" USING btree ("Posi_Tax" DESC);
 
 -- 创建表 ProfitSharing --
 CREATE TABLE IF NOT EXISTS public."ProfitSharing"
@@ -1718,6 +1903,9 @@ CREATE INDEX IF NOT EXISTS "Questions_IX_Ol_ID" ON public."Questions" USING btre
 CREATE INDEX IF NOT EXISTS "Questions_IX_Org_ID" ON public."Questions" USING btree ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Diff" ON public."Questions" USING btree ("Qus_Diff" DESC);
 CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_ID" ON public."Questions" USING btree ("Qus_ID");
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsError" ON public."Questions" USING btree ("Qus_IsError");
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsUse" ON public."Questions" USING btree ("Qus_IsUse");
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsWrong" ON public."Questions" USING btree ("Qus_IsWrong");
 CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Type" ON public."Questions" USING btree ("Qus_Type" DESC);
 CREATE INDEX IF NOT EXISTS "Questions_IX_Sbj_ID" ON public."Questions" USING btree ("Sbj_ID" DESC);
 
@@ -1748,6 +1936,16 @@ ALTER SEQUENCE IF EXISTS public."RechargeCode_Rc_ID_seq" OWNED BY public."Rechar
 ALTER TABLE "RechargeCode" ALTER COLUMN "Rc_ID" SET DEFAULT NEXTVAL('"RechargeCode_Rc_ID_seq"'::regclass);
 
 
+-- 表 RechargeCode 的索引 --
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Ac_AccName" ON public."RechargeCode" USING btree ("Ac_AccName" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Org_ID" ON public."RechargeCode" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Code" ON public."RechargeCode" USING btree ("Rc_Code" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_CrtTime" ON public."RechargeCode" USING btree ("Rc_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsEnable" ON public."RechargeCode" USING btree ("Rc_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsUsed" ON public."RechargeCode" USING btree ("Rc_IsUsed" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Pw" ON public."RechargeCode" USING btree ("Rc_Pw" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_UsedTime" ON public."RechargeCode" USING btree ("Rc_UsedTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rs_ID" ON public."RechargeCode" USING btree ("Rs_ID" DESC);
 
 -- 创建表 RechargeSet --
 CREATE TABLE IF NOT EXISTS public."RechargeSet"
@@ -1774,6 +1972,15 @@ ALTER SEQUENCE IF EXISTS public."RechargeSet_Rs_ID_seq" OWNED BY public."Recharg
 ALTER TABLE "RechargeSet" ALTER COLUMN "Rs_ID" SET DEFAULT NEXTVAL('"RechargeSet_Rs_ID_seq"'::regclass);
 
 
+-- 表 RechargeSet 的索引 --
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Org_ID" ON public."RechargeSet" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Count" ON public."RechargeSet" USING btree ("Rs_Count" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_CrtTime" ON public."RechargeSet" USING btree ("Rs_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Intro" ON public."RechargeSet" USING btree ("Rs_Intro" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_IsEnable" ON public."RechargeSet" USING btree ("Rs_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Price" ON public."RechargeSet" USING btree ("Rs_Price" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Theme" ON public."RechargeSet" USING btree ("Rs_Theme" DESC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_UsedCount" ON public."RechargeSet" USING btree ("Rs_UsedCount" DESC);
 
 -- 创建表 ShowPicture --
 CREATE TABLE IF NOT EXISTS public."ShowPicture"
@@ -1796,6 +2003,11 @@ ALTER SEQUENCE IF EXISTS public."ShowPicture_Shp_ID_seq" OWNED BY public."ShowPi
 ALTER TABLE "ShowPicture" ALTER COLUMN "Shp_ID" SET DEFAULT NEXTVAL('"ShowPicture_Shp_ID_seq"'::regclass);
 
 
+-- 表 ShowPicture 的索引 --
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Org_ID" ON public."ShowPicture" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_IsShow" ON public."ShowPicture" USING btree ("Shp_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Site" ON public."ShowPicture" USING btree ("Shp_Site" DESC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Tax" ON public."ShowPicture" USING btree ("Shp_Tax" DESC);
 
 -- 创建表 SingleSignOn --
 CREATE TABLE IF NOT EXISTS public."SingleSignOn"
@@ -1944,6 +2156,11 @@ CREATE TABLE IF NOT EXISTS public."StudentSort"
 	 CONSTRAINT key_studentsort PRIMARY KEY ("Sts_ID")
 );
 INSERT INTO "StudentSort"("Sts_ID","Dep_CnName","Dep_Id","Org_ID","Org_Name","Sts_Count","Sts_Intro","Sts_IsDefault","Sts_IsUse","Sts_Name","Sts_SwitchPlay","Sts_Tax") VALUES (15012714616000001,'',0,4,'郑州微厦计算机科技有限公司',2,'',True,True,'默认组d',False,2);
+-- 表 StudentSort 的索引 --
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Org_ID" ON public."StudentSort" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_IsUse" ON public."StudentSort" USING btree ("Sts_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Name" ON public."StudentSort" USING btree ("Sts_Name" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Tax" ON public."StudentSort" USING btree ("Sts_Tax" DESC);
 
 -- 创建表 StudentSort_Course --
 CREATE TABLE IF NOT EXISTS public."StudentSort_Course"
@@ -1962,6 +2179,10 @@ ALTER SEQUENCE IF EXISTS public."StudentSort_Course_Ssc_ID_seq" OWNED BY public.
 ALTER TABLE "StudentSort_Course" ALTER COLUMN "Ssc_ID" SET DEFAULT NEXTVAL('"StudentSort_Course_Ssc_ID_seq"'::regclass);
 
 
+-- 表 StudentSort_Course 的索引 --
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Cou_ID" ON public."StudentSort_Course" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Ssc_IsEnable" ON public."StudentSort_Course" USING btree ("Ssc_IsEnable" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Sts_ID" ON public."StudentSort_Course" USING btree ("Sts_ID" DESC);
 
 -- 创建表 Student_Collect --
 CREATE TABLE IF NOT EXISTS public."Student_Collect"
@@ -2025,8 +2246,10 @@ ALTER TABLE "Student_Course" ALTER COLUMN "Stc_ID" SET DEFAULT NEXTVAL('"Student
 -- 表 Student_Course 的索引 --
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Ac_ID" ON public."Student_Course" USING btree ("Ac_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Cou_ID" ON public."Student_Course" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Lc_Code" ON public."Student_Course" USING btree ("Lc_Code" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Org_ID" ON public."Student_Course" USING btree ("Org_ID" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_EndTime" ON public."Student_Course" USING btree ("Stc_EndTime" DESC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_ResultScore" ON public."Student_Course" USING btree ("Stc_ResultScore" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_StartTime" ON public."Student_Course" USING btree ("Stc_StartTime" DESC);
 CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_Type" ON public."Student_Course" USING btree ("Stc_Type" DESC);
 
@@ -2094,7 +2317,7 @@ CREATE TABLE IF NOT EXISTS public."Subject"
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sbj_ByName" character varying(255) COLLATE pg_catalog."default",
-	"Sbj_CouNumber" integer NOT NULL,
+	"Sbj_CourseCount" integer NOT NULL,
 	"Sbj_CrtTime" timestamp without time zone NOT NULL,
 	"Sbj_Details" text,
 	"Sbj_Intro" text,
@@ -2106,11 +2329,20 @@ CREATE TABLE IF NOT EXISTS public."Subject"
 	"Sbj_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sbj_PID" bigint NOT NULL,
 	"Sbj_PassScore" integer NOT NULL,
+	"Sbj_QuesCount" integer NOT NULL,
 	"Sbj_Tax" integer NOT NULL,
+	"Sbj_TestCount" integer NOT NULL,
 	"Sbj_XPath" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_subject PRIMARY KEY ("Sbj_ID")
 );
 
+-- 表 Subject 的索引 --
+CREATE INDEX IF NOT EXISTS "Subject_IX_Org_ID" ON public."Subject" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsRec" ON public."Subject" USING btree ("Sbj_IsRec" DESC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsUse" ON public."Subject" USING btree ("Sbj_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Name" ON public."Subject" USING btree ("Sbj_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_PID" ON public."Subject" USING btree ("Sbj_PID" DESC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Tax" ON public."Subject" USING btree ("Sbj_Tax" DESC);
 
 -- 创建表 SystemPara --
 CREATE TABLE IF NOT EXISTS public."SystemPara"
@@ -2671,6 +2903,7 @@ INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","S
 <br />');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (5,0,'','','NewsSourceItem','','','','新浪,网易,腾讯');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (7,0,'','','SysIsLoginLogs','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (8,0,'','','SysIsWorkLogs','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (9,0,'','','SystemName','','','','微厦在线学习云平台');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (10,0,'','','SysLoginTimeSpan','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (12,0,'','','IsWebsiteSatatic','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (206,0,'','','LoginPoint','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (30,0,'','','IsAllowMobile','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (31,0,'','','IsAllowMobileVerifyCode','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (207,0,'','','LoginPointMax','','','','30');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (208,0,'','','SharePoint','','','','3');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (197,0,'','','SmsCurrent','','','','河南腾信');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (209,0,'','','SharePointMax','','','','12');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (254,0,'','','111','','','','22');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (217,0,'','','RegFirst','','','','2000');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (228,0,'','','QQLoginIsUse','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (193,0,'','','flowNumber','','','','222');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (194,0,'','','SubjectForAccout_1','','','','8,');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (196,0,'','','SysWorkTimeSpan','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (210,0,'','','RegPoint','','','','100');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (211,0,'','','RegPointMax','','','','500');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (212,0,'','','PointConvert','','','','1000');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (229,0,'','','WeixinLoginIsUse','','','','True');
 -- 表 SystemPara 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "SystemPara_aaaaaSystemPara_PK" ON public."SystemPara" USING btree ("Sys_Id");
+CREATE INDEX IF NOT EXISTS "SystemPara_IX_Sys_Key" ON public."SystemPara" USING btree ("Sys_Key" DESC);
 
 -- 创建表 Teacher --
 CREATE TABLE IF NOT EXISTS public."Teacher"
@@ -2732,6 +2965,18 @@ ALTER SEQUENCE IF EXISTS public."Teacher_Th_ID_seq" OWNED BY public."Teacher"."T
 ALTER TABLE "Teacher" ALTER COLUMN "Th_ID" SET DEFAULT NEXTVAL('"Teacher_Th_ID_seq"'::regclass);
 
 INSERT INTO "Teacher"("Th_ID","Ac_ID","Ac_UID","Dep_Id","Org_ID","Org_Name","Th_AccName","Th_AddrContact","Th_Address","Th_Age","Th_Anwser","Th_Birthday","Th_CodeNumber","Th_CrtTime","Th_Education","Th_Email","Th_IDCardNumber","Th_Intro","Th_IsOpenMobi","Th_IsOpenPhone","Th_IsPass","Th_IsShow","Th_IsUse","Th_Job","Th_LastTime","Th_LinkMan","Th_LinkManPhone","Th_Major","Th_Name","Th_Nation","Th_Native","Th_Phone","Th_PhoneMobi","Th_Photo","Th_Pinyin","Th_Pw","Th_Qq","Th_Qus","Th_RegTime","Th_Score","Th_Sex","Th_Signature","Th_Tax","Th_Title","Th_ViewNum","Th_Weixin","Th_Zip","Ths_ID","Ths_Name") VALUES (28,2,'0f6305210623cffd6f966db6a3606a1c',0,4,'郑州微厦计算机科技有限公司','tester','','',1995,'','1995-03-07 00:00:00','','2016-11-26 17:40:41','31','','410105199503071228','',True,False,True,False,True,'','2024-01-22 17:58:18','','','','韩晓梅','','河南省,郑州市,金水区','','400 6015615','','HXM','e10adc3949ba59abbe56e057f20f883e','','','1753-01-01 00:00:00',0,2,'',0,'',6,'','',1,'讲师');
+-- 表 Teacher 的索引 --
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Org_ID" ON public."Teacher" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_AccName" ON public."Teacher" USING btree ("Th_AccName" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IDCardNumber" ON public."Teacher" USING btree ("Th_IDCardNumber" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsShow" ON public."Teacher" USING btree ("Th_IsShow" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsUse" ON public."Teacher" USING btree ("Th_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Name" ON public."Teacher" USING btree ("Th_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Phone" ON public."Teacher" USING btree ("Th_Phone" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_PhoneMobi" ON public."Teacher" USING btree ("Th_PhoneMobi" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Pinyin" ON public."Teacher" USING btree ("Th_Pinyin" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Sex" ON public."Teacher" USING btree ("Th_Sex" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Ths_ID" ON public."Teacher" USING btree ("Ths_ID" DESC);
 
 -- 创建表 TeacherComment --
 CREATE TABLE IF NOT EXISTS public."TeacherComment"
@@ -2805,6 +3050,11 @@ ALTER SEQUENCE IF EXISTS public."TeacherSort_Ths_ID_seq" OWNED BY public."Teache
 ALTER TABLE "TeacherSort" ALTER COLUMN "Ths_ID" SET DEFAULT NEXTVAL('"TeacherSort_Ths_ID_seq"'::regclass);
 
 INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (1,4,'郑州微厦计算机科技有限公司','中级（讲师、中学一级教师、小学高级教师、实验师）',True,True,'讲师',2);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (4,4,'郑州微厦计算机科技有限公司','初级（助教、助理讲师、教员、中学二级教师、中学三级教师、小学一级教师、小学二级教师、助理实验师、实验员）',False,True,'助教',1);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (5,4,'郑州微厦计算机科技有限公司','副高（副教授、中学高级教师、高级讲师、高级实验师）',False,True,'副教授',3);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (6,4,'郑州微厦计算机科技有限公司','正高级（教授、中学研究员级教师）',False,True,'正教授',4);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (7,4,'郑州微厦计算机科技有限公司','',False,False,'金牌大师',5);
+-- 表 TeacherSort 的索引 --
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Org_ID" ON public."TeacherSort" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_IsUse" ON public."TeacherSort" USING btree ("Ths_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Name" ON public."TeacherSort" USING btree ("Ths_Name" DESC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Tax" ON public."TeacherSort" USING btree ("Ths_Tax" DESC);
 
 -- 创建表 Teacher_Course --
 CREATE TABLE IF NOT EXISTS public."Teacher_Course"
@@ -2860,6 +3110,12 @@ CREATE TABLE IF NOT EXISTS public."TestPaper"
 
 -- 表 TestPaper 的索引 --
 CREATE INDEX IF NOT EXISTS "TestPaper_IX_Cou_ID" ON public."TestPaper" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Org_ID" ON public."TestPaper" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Sbj_ID" ON public."TestPaper" USING btree ("Sbj_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_CrtTime" ON public."TestPaper" USING btree ("Tp_CrtTime" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Diff" ON public."TestPaper" USING btree ("Tp_Diff" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_IsUse" ON public."TestPaper" USING btree ("Tp_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Name" ON public."TestPaper" USING btree ("Tp_Name" DESC);
 
 -- 创建表 TestPaperItem --
 CREATE TABLE IF NOT EXISTS public."TestPaperItem"
@@ -2944,9 +3200,16 @@ ALTER TABLE "TestResults" ALTER COLUMN "Tr_ID" SET DEFAULT NEXTVAL('"TestResults
 
 -- 表 TestResults 的索引 --
 CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_ID" ON public."TestResults" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_Name" ON public."TestResults" USING btree ("Ac_Name" DESC);
 CREATE INDEX IF NOT EXISTS "TestResults_IX_Cou_ID" ON public."TestResults" USING btree ("Cou_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Org_ID" ON public."TestResults" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Sbj_ID" ON public."TestResults" USING btree ("Sbj_ID" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_St_IDCardNumber" ON public."TestResults" USING btree ("St_IDCardNumber" DESC);
 CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Id" ON public."TestResults" USING btree ("Tp_Id" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Name" ON public."TestResults" USING btree ("Tp_Name" DESC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_CrtTime" ON public."TestResults" USING btree ("Tr_CrtTime" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "TestResults_aaaaaTestResults_PK" ON public."TestResults" USING btree ("Tr_ID");
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_Score" ON public."TestResults" USING btree ("Tr_Score" DESC);
 
 -- 创建表 ThirdpartyAccounts --
 CREATE TABLE IF NOT EXISTS public."ThirdpartyAccounts"
@@ -2967,8 +3230,10 @@ ALTER TABLE "ThirdpartyAccounts" ALTER COLUMN "Ta_ID" SET DEFAULT NEXTVAL('"Thir
 
 -- 表 ThirdpartyAccounts 的索引 --
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON public."ThirdpartyAccounts" USING btree ("Ac_ID" DESC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_ACID_Tag" ON public."ThirdpartyAccounts" USING btree ("Ac_ID" DESC, "Ta_Tag" DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS "ThirdpartyAccounts_aaaaaThirdpartyAccounts_PK" ON public."ThirdpartyAccounts" USING btree ("Ta_ID");
 CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON public."ThirdpartyAccounts" USING btree ("Ta_Openid" DESC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Tag" ON public."ThirdpartyAccounts" USING btree ("Ta_Tag" DESC);
 
 -- 创建表 ThirdpartyLogin --
 CREATE TABLE IF NOT EXISTS public."ThirdpartyLogin"
@@ -2995,6 +3260,8 @@ ALTER TABLE "ThirdpartyLogin" ALTER COLUMN "Tl_ID" SET DEFAULT NEXTVAL('"Thirdpa
 INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (1,'','','','',True,True,'QQ','','','QqOpenID',1);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (2,'','','','',True,True,'微信','','','WeixinOpenID',2);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (3,'','','','',True,True,'金蝶','','','Jindie',3);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (4,'','','','',True,False,'郑州工商','','','ZzGongshang',4);
 -- 表 ThirdpartyLogin 的索引 --
 CREATE UNIQUE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON public."ThirdpartyLogin" USING btree ("Tl_ID");
+CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_IsUse" ON public."ThirdpartyLogin" USING btree ("Tl_IsUse" DESC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_Tag" ON public."ThirdpartyLogin" USING btree ("Tl_Tag" DESC);
 
 
 /*
