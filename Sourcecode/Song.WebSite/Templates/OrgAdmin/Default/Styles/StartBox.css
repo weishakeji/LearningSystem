@@ -1,21 +1,78 @@
 ﻿@charset "utf-8";
-#vapp{
+
+#vapp {
 	width: 100%;
 	height: calc(100% - 60px);
 	box-sizing: border-box;
-	padding: 20px;
+	display: flex;
+	flex-direction: column;
 }
-.footer{
+
+header {
+	height: 100px;
+	background-color: #e1f3ff;
+	padding: 20px;
+	position: relative;
+}
+header>div:first-child{
+	display: flex;
+}
+header img:first-child{
+	width: 75px;
+	height: 45px;
+	margin-right: 20px;
+}
+header p[copyright='product'] {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    line-height: 40px;
+    --shadow-color: #5d9fb1;
+    text-shadow: 2px 2px 2px var(--shadow-color), -1px -1px 1px var(--shadow-color), 1px -1px 1px var(--shadow-color), -1px 1px 1px var(--shadow-color);
+}
+
+header p[copyright='product']{
+    font-size: 30px;
+    letter-spacing: 12px;
+	margin: 0px;
+}
+header p[copyright='title']{
+	color: #999;
+	position: absolute;
+	bottom: 0px;
+}
+.el-carousel {
+	flex: 1;
+	margin: 40px 20px 20px 20px;
+}
+.el-carousel>*{
+	height: 100%;
+}
+.el-carousel__item{
+	display: flex;
+	padding: auto 40px;
+	
+}
+.el-carousel__item p{
+	font-size: 22px;
+	line-height: 40px;
+	color: #666;
+}
+.el-carousel__item>img{
+	margin-right: 50px;
+}
+/*底部按钮栏*/
+.footer {
 	display: flex;
 	justify-content: space-between;
 }
-.footer-left{
+
+.footer-left {
 	display: flex;
-	flex-direction: column; /* 垂直排列子元素 */  
-}
-.footer-left>*{
-	flex: 1; 
-	margin-top: 15px;
+	flex-direction: column;
+	/* 垂直排列子元素 */
 }
 
-	
+.footer-left>* {
+	flex: 1;
+	margin-top: 15px;
+}

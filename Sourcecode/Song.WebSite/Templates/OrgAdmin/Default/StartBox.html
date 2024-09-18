@@ -10,19 +10,31 @@
 <body>
 
     <div id="vapp" v-cloak>
-        <div>
-            <p copyright="product"></p>
-           
-            <el-carousel height="150px">
-                <el-carousel-item>
-                  <img copyright="logo" />
-                </el-carousel-item>
-                <el-carousel-item>
-                    <p copyright="intro"></p>
-                  </el-carousel-item>
-              </el-carousel>
+        <header>
+            <div><img copyright="logo" />
+                <p copyright="product"></p>
 
-        </div>
+            </div>
+            <p copyright="title"></p>
+        </header>
+
+        <el-carousel>
+            <el-carousel-item>
+                <img src="Images/学员中心-mobi.png" />
+                <div>
+                    <p copyright="intro"></p>                   
+                </div>
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="Images/试题练习(mobi).png" />
+                <p copyright="detail"></p>
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="Images/学员中心-web.png" />
+            </el-carousel-item>
+        </el-carousel>
+
+
 
         <div class="footer">
             <div class="footer-left">
