@@ -50,8 +50,9 @@ $ready(function () {
                     if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
                     if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/';
                     $api.storage('singin_referrer', null);      //去除本地记录的来源页信息
-                    window.navigateTo(decodeURIComponent(referrer));
-                }, 200);
+                    if (referrer != '')
+                        window.navigateTo(decodeURIComponent(referrer));
+                }, 1000 * 2);
             },
             //退出登录
             logout: function () {
