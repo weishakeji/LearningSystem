@@ -41,7 +41,7 @@ Vue.component('course_data', {
                 $api.put('Course/StudentSum', { 'couid': th.course.Cou_ID }).then(function (req) {
                     if (req.data.success) {
                         th.data['student'] = req.data.result;
-                        th.course.data = req.data.result;
+                        th.course.data =th.data;
                         return res();
                     } else {
                         console.error(req.data.exception);
@@ -59,11 +59,13 @@ Vue.component('course_data', {
         //设置已知的数据
         setcount: function (cou) {
             var th = this;
+            th.data = {};
             th.data['outline'] = cou.Cou_OutlineCount;
             th.data['question'] = cou.Cou_QuesCount;
             th.data['testpaper'] = cou.Cou_TestCount;
             th.data['video'] = cou.Cou_VideoCount;
             th.data['view'] = cou.Cou_ViewNum;
+            return th.data;
         },
         //显示数值，过大的以千为单位显示,例如 10k
         shownum: function (num) {

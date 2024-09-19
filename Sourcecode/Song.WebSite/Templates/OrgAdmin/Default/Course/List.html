@@ -236,7 +236,7 @@
                                 </el-link>
                             </el-dropdown-item>
                             <el-dropdown-item>
-                                <el-link type="success" plain @click="onstudent(scope.row,scope.$index)">
+                                <el-link type="success" plain @click="onstudent(scope.row)">
                                     <icon>&#xa043</icon> 学员信息
                                 </el-link>
                             </el-dropdown-item>
@@ -328,7 +328,7 @@
                     </div>
                     <div class="showitems">
                         <div class="student" icon="&#xa043">
-                            <a @click="$refs['course_data'].onstudent(curr.data.student,curr)" href="#">
+                            <a @click="onstudent(curr)" href="#">
                                 学员数：{{curr.data.student}}</a>
                         </div>
                         <div icon="&#xa03a">

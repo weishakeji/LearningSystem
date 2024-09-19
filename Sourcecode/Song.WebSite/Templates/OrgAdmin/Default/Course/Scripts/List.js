@@ -94,7 +94,7 @@
                 $api.get("Course/Pager", th.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
-                        console.log(th.datas);
+                        //console.log(th.datas);
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
@@ -341,11 +341,10 @@
             },
             //打开课程的学员管理
             onstudent: function (course, index) {
-                // @click="$refs['course_data'].onstudent(scope.row.data.student,scope.row)">
+                if (index == null || index < 0) index = this.datas.findIndex(i => i.Cou_ID == course.Cou_ID);
                 let ctrl = this.$refs['course_data_' + index];
-                if (ctrl != null) {
-                    ctrl.onstudent(course.data.student, course);
-                }
+                if (ctrl != null) ctrl.onstudent(course.data.student, course);
+
             },
             //打开编辑界面
             btnmodify: function (id, title, param) {
