@@ -241,7 +241,7 @@ namespace Song.ViewData.Helper
 
             //判断是否拥有权限
             bool ispass = this.CheckPageAccess(purview, controller, letter);
-            string msg = string.Format("当前页面 {0} 没有操作权限", self);
+            string msg = string.Format("当前页面 {0} 没有操作权限，请确认是否登录或登录失效！", self);
             if (!ispass) throw VExcept.Verify(msg, 100);
             return true;
         }
