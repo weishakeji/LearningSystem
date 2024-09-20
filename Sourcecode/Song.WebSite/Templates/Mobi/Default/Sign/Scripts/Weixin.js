@@ -96,6 +96,7 @@ $ready(function () {
                 var user = this.outeruser;
                 var obj = {};
                 obj.Ac_WeixinOpenID = user.unionid;
+                obj.Ac_AccName = user.unionid;
                 obj.Ac_Name = user.nickname;             //昵称
                 obj.Ac_Photo = user.headimgurl;      //用户头像
                 obj.Ac_Sex = user.sex == 0 ? 1 : 2;  //性别，1为男，2为女
@@ -119,8 +120,9 @@ $ready(function () {
                 window.setTimeout(function () {
                     let referrer = $api.querystring('referrer');
                     if ($api.isnull(referrer)) referrer = $api.storage('singin_referrer');
-                    if ($api.isnull(referrer) || referrer == 'undefined') referrer = '/mobi';
-                    window.navigateTo(decodeURIComponent(referrer));
+                    if ($api.isnull(referrer) || referrer == 'undefined' || referrer == '') referrer = '/mobi';
+                    $api.storage('singin_referrer', null);      //去除本地记录的来源页信息
+                    if (referrer != '') window.navigateTo(decodeURIComponent(referrer));
                 }, 300);
             }
         }

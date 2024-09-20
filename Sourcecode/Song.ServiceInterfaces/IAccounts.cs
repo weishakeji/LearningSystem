@@ -327,7 +327,7 @@ namespace Song.ServiceInterfaces
         /// 获取第三方平台账号
         /// </summary>
         /// <param name="acid">账号id</param>
-        /// <param name="tag"></param>
+        /// <param name="tag">第三平台的名称标识</param>
         /// <returns></returns>
         ThirdpartyAccounts ThirdpartyAccount(int acid, string tag);
         #endregion
