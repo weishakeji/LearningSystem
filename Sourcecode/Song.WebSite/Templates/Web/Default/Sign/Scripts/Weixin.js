@@ -106,6 +106,7 @@ $ready(function () {
             },
             //创建用户
             createuser: function () {
+                if (this.loading_crt) return;
                 var user = this.outeruser;
                 var obj = {};
                 obj.Ac_WeixinOpenID = user.unionid;
@@ -125,9 +126,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(function () {
-                    th.loading_crt = false;
-                });
+                }).finally(() => th.loading_crt = false);
             },
             close: function () {
                 if (window.top.$pagebox)

@@ -118,3 +118,9 @@ header{
     background-color: #409eff;
     border-color: #409eff;
 }
+.btns>div[disabled]{
+    border-color: #c8c9cc !important;
+    background-color: #c8c9cc !important;
+    border-color: #fff !important;
+    cursor: not-allowed;
+}
