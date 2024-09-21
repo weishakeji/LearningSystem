@@ -9,7 +9,7 @@ $ready(function () {
             loading: false,
         },
         mounted: function () {
-            var show = $api.storage('not_show');
+            var show = $api.storage('StartBox_not_show');
             show = show == null ? false : JSON.parse(show);
             this.not_show = show;
         },

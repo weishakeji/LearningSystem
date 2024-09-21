@@ -131,9 +131,11 @@ dl dd * {
 *.tip p{
     text-indent: 0px;
 }
-alert,help{
+help, alert, help *, alert *, warning, warning * {
     font-size: 16px !important;
+    cursor: default;
 }
+
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
     dl,dl dt,dl dd{
