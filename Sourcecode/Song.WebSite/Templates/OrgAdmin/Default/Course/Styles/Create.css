@@ -107,6 +107,19 @@
 }
 
 /*专业*/
+.custom-tree-node{
+	flex: 1;
+	position: relative;
+}
+icon[course]{
+	float: right;
+	color: #999;
+	font-size: 14px;
+}
+.serial{
+	color: #999;
+	margin-right: 10px;
+}
 .sbj, .sbj *{
 	font-size: 16px;
 }
@@ -138,11 +151,13 @@
 .sbj_tit {
 	height: 40px;
 	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
 
 .sbj_tit .back {
 	float: right;
-	margin: 5px;
+	margin: 5px 0px 5px 5px;
 }
 
 .sbj_tit .el-input {

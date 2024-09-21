@@ -83,7 +83,10 @@
                 }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        th.subjects = req.data.result;
+                        var datas = req.data.result;                      
+                        th.calcSerial(datas, '');
+                        datas = th.clacCount(datas);
+                        th.subjects = datas;
                     } else {
                         throw req.data.message;
                     }
@@ -99,6 +102,39 @@
                     });
                     console.error(err);
                 });
+            },
+            //计算课程数，ques数，test数
+            clacCount: function (datas) {
+                this.calcSerial(datas, '');
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_CourseCount', 'CourseCount'));
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_QuesCount', 'QuesCount'));
+                datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_TestCount', 'TestCount'));
+                return datas;
+            },
+            //遍历计算各个专业的课程数，包括当前专业的子专业
+            //field:要计算的字段
+            //result:计算结果的字段名，主要为了保留field原始值，方便恢复
+            ergodic_clacCount: function (sbj, field, result) {
+                let count = sbj[field];
+                if (sbj.children && sbj.children.length > 0) {
+                    let datas = sbj.children;
+                    for (let i = 0; i < datas.length; i++)
+                        count += this.ergodic_clacCount(datas[i], field, result);
+                }
+                sbj[result] = count;
+                return count;
+            },
+            //计算序号
+            calcSerial: function (item, lvl) {
+                var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
+                if (childarr == null) return;
+                for (let i = 0; i < childarr.length; i++) {
+                    childarr[i].serial = lvl + (i + 1) + '.';
+                    childarr[i]['CourseCount'] = 0;
+                    childarr[i]['QuesCount'] = 0;
+                    childarr[i]['TestCount'] = 0;                  
+                    this.calcSerial(childarr[i], childarr[i].serial);
+                }
             },
             //选中专业
             select_sbj(data, node, tree) {

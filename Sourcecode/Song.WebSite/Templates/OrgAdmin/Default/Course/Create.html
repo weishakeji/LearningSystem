@@ -68,9 +68,8 @@
         <!-- 专业选择的面板 -->
         <div class="sbj_panel" v-show="sbj_panel">
             <div class="sbj_tit">
-                <el-input v-model="filterText" clearable style="width:200px" placeholder="搜索课程专业"
-                    suffix-icon="el-icon-search"></el-input>
-                <el-button size="mini" type="primary" class="back" @click="sbj_panel=false">
+                <el-input v-model="filterText" clearable placeholder="搜索课程专业" suffix-icon="el-icon-search"></el-input>
+                <el-button size="mini" type="info" class="back" @click="sbj_panel=false">
                     <icon>&#xe748</icon>返回
                 </el-button>
             </div>
@@ -78,9 +77,11 @@
                 <el-tree :data="subjects" node-key="Sbj_ID" ref="tree"
                     :props="{ children: 'children', label: 'Sbj_Name'}" @node-click="select_sbj"
                     :filter-node-method="filterNode" v-loading="loading">
-                    <span class="custom-tree-node" slot-scope="{ node, data }">
-                        {{ data.Sbj_Name }}
-                    </span>
+                    <div class="custom-tree-node" slot-scope="{ node, data }">
+                        <span class="serial">{{data.serial}}</span>
+                        <span> {{ data.Sbj_Name }}</span>
+                        <icon course>{{data.CourseCount}}</icon>
+                    </div>
                 </el-tree>
             </div>
         </div>

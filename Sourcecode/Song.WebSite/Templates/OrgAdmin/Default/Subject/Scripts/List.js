@@ -22,7 +22,7 @@ $ready(function () {
             //是否折叠
             fold: true,
 
-            loading: false,
+            loading: true,
             loadingid: -1,
             loading_sumbit: false,   //提交时的预载           
             loading_init: true
