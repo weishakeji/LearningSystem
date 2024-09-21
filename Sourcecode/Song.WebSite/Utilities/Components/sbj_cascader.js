@@ -1,8 +1,10 @@
 //专业的级联选择器
 $dom.load.css(['/Utilities/Components/Styles/sbj_cascader.css']);
 Vue.component('sbj_cascader', {
-    //sbjid:专业id
-    props: ['sbjid', 'orgid', 'disabled'],
+    //sbjid:当前专业id
+    //disabled:是否禁用
+    //showitem: 是否显示course课程数，ques试题数，test试卷数,child子级专业数
+    props: ['sbjid', 'orgid', 'disabled','showitem'],
     data: function () {
         return {
             //专业树形下拉选择器的配置项
@@ -44,16 +46,19 @@ Vue.component('sbj_cascader', {
         }, 100);
     },
     methods: {
+         //设置当前专业
+         setsbj: function (sbjid) {
+            var th = this;
+            th.sbjid = sbjid;
+            th.sbjids = th.clac_sbjids(sbjid);
+        },
         //获取课程专业的数据
         getSubjects: function () {
             var th = this;
             var form = { orgid: th.orgid, search: '', isuse: true };
             $api.get('Subject/Tree', form).then(function (req) {
                 if (req.data.success) {
-                    let datas = req.data.result;
-                    for (let i = 0; i < datas.length; i++)
-                        th.ergodic_clacCourse(datas[i], 'Sbj_CourseCount');
-                    th.subjects = datas;
+                    th.subjects = th.clacCount(req.data.result); 
                 } else {
                     throw req.data.message;
                 }
@@ -61,17 +66,49 @@ Vue.component('sbj_cascader', {
                 console.error(err);
             });
         },
+        //计算课程数，ques数，test数
+        clacCount: function (datas) {
+            this.calcSerial(datas);
+            datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_CourseCount', 'CourseCount'));
+            datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_QuesCount', 'QuesCount'));
+            datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_TestCount', 'TestCount'));
+            return datas;
+        },
         //遍历计算各个专业的课程数，包括当前专业的子专业
-        ergodic_clacCourse: function (sbj, key) {
-            let count = sbj[key];
+        //field:要计算的字段
+        //result:计算结果的字段名，主要为了保留field原始值，方便恢复
+        ergodic_clacCount: function (sbj, field, result) {
+            let count = sbj[field];
             if (sbj.children && sbj.children.length > 0) {
                 let datas = sbj.children;
                 for (let i = 0; i < datas.length; i++)
-                    count += this.ergodic_clacCourse(datas[i], key);
+                    count += this.ergodic_clacCount(datas[i], field, result);
             }
-            sbj[key] = count;
+            sbj[result] = count;
             return count;
         },
+         //计算序号
+         calcSerial: function (item, lvl) {
+            var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
+            if (childarr == null) return;
+            for (let i = 0; i < childarr.length; i++) {
+                childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
+                childarr[i]['CourseCount'] = 0;
+                childarr[i]['QuesCount'] = 0;
+                childarr[i]['TestCount'] = 0;
+                childarr[i]['calcChild'] = this.calcChild(childarr[i]);
+                this.calcSerial(childarr[i], childarr[i].serial);
+            }
+        },
+        calcChild: function (sbj) {
+            if (!sbj.children) return 0;
+            var count = sbj.children.length;
+            for (var i = 0; i < sbj.children.length; i++) {
+                count += this.calcChild(sbj.children[i]);
+            }
+            return count;
+        },
+
         //计算当前选中项
         clac_sbjids: function () {
             var th = this;
@@ -159,11 +196,12 @@ Vue.component('sbj_cascader', {
     template: `<div>
         <el-cascader class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
             :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
-            <template slot-scope="{ node, data }">
-                <span>{{ data.Sbj_Name }}</span>
-                <span class="sbj_course" v-if="data.Sbj_CourseCount>0" title="课程数">
-                    <icon>&#xe813</icon>{{ data.Sbj_CourseCount }}
-                </span>
+            <template slot-scope="{ node, data }">             
+                <span>{{data.serial}} {{ data.Sbj_Name }}</span>
+                <icon course v-if="showitem=='course' && data.CourseCount>0" title="课程数">{{ data.CourseCount }}</icon> 
+                <icon question v-if="showitem=='ques' && data.QuesCount>0" title="试题数">{{ data.QuesCount }}</icon>
+                <icon test v-if="showitem=='test' && data.TestCount>0" title="试卷数">{{ data.TestCount }}</icon>
+                <icon subject v-if="showitem=='child' && data.calcChild>0" title="子专业数">{{ data.calcChild }}</icon>
             </template>
         </el-cascader>      
         </div>`

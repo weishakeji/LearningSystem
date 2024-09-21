@@ -15,7 +15,7 @@
                 idkey='Cou_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="专业">
-                    <sbj_cascader ref="subject" :orgid="form.orgid"
+                    <sbj_cascader ref="subject" :orgid="form.orgid" showitem="course"
                         @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
                 </el-form-item>
                 <el-form-item label="课程">

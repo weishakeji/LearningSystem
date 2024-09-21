@@ -84,7 +84,7 @@
 
                     </el-form-item>
                     <el-form-item label="专业" prop="Tp_SubName">
-                        <sbj_cascader :sbjid="entity.Sbj_ID" :orgid="orgid" @change="sbjChange"
+                        <sbj_cascader :sbjid="entity.Sbj_ID" :orgid="orgid" @change="sbjChange"  showitem="course"
                             :disabled="edit || couid!=''">
                         </sbj_cascader>
                     </el-form-item>

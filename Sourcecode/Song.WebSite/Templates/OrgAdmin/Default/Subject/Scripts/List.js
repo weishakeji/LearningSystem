@@ -67,7 +67,7 @@ $ready(function () {
             //树形是否折叠
             fold: function (nv, ov) {
                 if (nv) this.unFoldAll2(this.datas);
-                else this.collapseAll2(this.datas);               
+                else this.collapseAll2(this.datas);
             }
         },
         methods: {
@@ -75,6 +75,7 @@ $ready(function () {
             getTreeData: function () {
                 var th = this;
                 this.loading = true;
+                th.total = 0;
                 $api.get('Subject/Tree', th.form).then(function (req) {
                     if (req.data.success) {
                         th.datas = th.clacCount(req.data.result);
@@ -177,7 +178,7 @@ $ready(function () {
                 data.forEach((el) => {
                     self.$refs.tree.store.nodesMap[el.Sbj_ID].expanded = true;
                     el.children && el.children.length > 0 ? self.unFoldAll2(el.children) : ""; // 子级递归
-                });                
+                });
             },
             // 全部折叠
             collapseAll2: function (data) {
@@ -185,7 +186,7 @@ $ready(function () {
                 data.forEach((el) => {
                     self.$refs.tree.store.nodesMap[el.Sbj_ID].expanded = false;
                     el.children && el.children.length > 0 ? self.collapseAll2(el.children) : ""; // 子级递归
-                });                
+                });
             },
             //过滤树形
             filterNode: function (value, data) {
