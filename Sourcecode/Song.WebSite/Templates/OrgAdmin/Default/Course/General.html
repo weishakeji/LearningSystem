@@ -29,6 +29,10 @@
                         <el-form-item label="专业/学科" prop="Sbj_ID">
                             <el-cascader style="width: 100%;" ref="subjects" v-model="sbjSelects" :options="subjects"
                                 separator="／" :props="defaultProps" filterable>
+                                <template slot-scope="{ node, data }">
+                                    <span class="serial">{{data.serial}}</span>
+                                    <span>{{ data.Sbj_Name }}</span>                                  
+                                  </template>
                             </el-cascader>
                         </el-form-item>
                         <el-form-item label="状态" prop="Cou_IsUse" v-if="!teachpage">

@@ -86,7 +86,9 @@
                 };
                 $api.get('Subject/Tree', form).then(function (req) {
                     if (req.data.success) {
-                        th.subjects = req.data.result;
+                        let datas = req.data.result;
+                        th.calcSerial(datas);
+                        th.subjects = datas;
                         th.getEntity();
                     } else {
                         throw req.data.message;
@@ -123,6 +125,15 @@
                     alert(err);
                     console.error(err);
                 });
+            },
+            //计算序号
+            calcSerial: function (item, lvl) {
+                var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
+                if (childarr == null) return;
+                for (let i = 0; i < childarr.length; i++) {
+                    childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
+                    this.calcSerial(childarr[i], childarr[i].serial);
+                }
             },
             //获取当前专业的上级路径
             getParentPath: function (entity, datas, arr) {

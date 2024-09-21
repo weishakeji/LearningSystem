@@ -91,7 +91,7 @@ $ready(function () {
             },
             //计算课程数，ques数，test数
             clacCount: function (datas) {
-                this.calcSerial(datas, '');
+                this.calcSerial(datas);
                 datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_CourseCount', 'CourseCount'));
                 datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_QuesCount', 'QuesCount'));
                 datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_TestCount', 'TestCount'));
@@ -115,7 +115,7 @@ $ready(function () {
                 var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = lvl + (i + 1) + '.';
+                    childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
                     childarr[i]['CourseCount'] = 0;
                     childarr[i]['QuesCount'] = 0;
                     childarr[i]['TestCount'] = 0;

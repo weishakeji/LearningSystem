@@ -38,6 +38,10 @@
                     <el-form-item label="上级专业">
                         <el-cascader style="width: 100%;" v-model="sbjSelects" :options="subjects" separator="／"
                             :props="defaultProps" filterable>
+                            <template slot-scope="{ node, data }">
+                                <span class="serial">{{data.serial}}</span>
+                                <span>{{ data.Sbj_Name }}</span>                                  
+                              </template>
                         </el-cascader>
 
                     </el-form-item>

@@ -84,7 +84,7 @@
                     th.loading = false;
                     if (req.data.success) {
                         var datas = req.data.result;                      
-                        th.calcSerial(datas, '');
+                        th.calcSerial(datas);
                         datas = th.clacCount(datas);
                         th.subjects = datas;
                     } else {
@@ -129,7 +129,7 @@
                 var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = lvl + (i + 1) + '.';
+                    childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
                     childarr[i]['CourseCount'] = 0;
                     childarr[i]['QuesCount'] = 0;
                     childarr[i]['TestCount'] = 0;                  

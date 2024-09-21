@@ -74,7 +74,9 @@ $ready(function () {
                 $api.get('Subject/Tree', { orgid: orgid, search: '', isuse: null })
                     .then(function (req) {
                         if (req.data.success) {
-                            th.subjects = req.data.result;
+                            let datas = req.data.result;
+                            th.calcSerial(datas);
+                            th.subjects = datas;
                         } else {
                             throw req.data.message;
                         }
@@ -84,6 +86,15 @@ $ready(function () {
                         th.loading = false;
                         th.getEntity();
                     });
+            },
+            //计算序号
+            calcSerial: function (item, lvl) {
+                var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
+                if (childarr == null) return;
+                for (let i = 0; i < childarr.length; i++) {
+                    childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
+                    this.calcSerial(childarr[i], childarr[i].serial);
+                }
             },
             //获取当前实体
             getEntity: function () {
@@ -138,7 +149,7 @@ $ready(function () {
                                 var result = req.data.result;
                                 th.$notify({
                                     type: 'success', position: 'bottom-left',
-                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'    
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
                                 window.setTimeout(function () {
                                     th.operateSuccess(isclose);
