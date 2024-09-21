@@ -108,6 +108,10 @@ $ready(function () {
             createuser: function () {
                 if (this.loading_crt) return;
                 var user = this.outeruser;
+                if (!user.unionid || $api.isnull(user.unionid)) {
+                    alert('未能获取到微信账号的unionid，请联系管理员！');
+                    return;
+                }
                 var obj = {};
                 obj.Ac_WeixinOpenID = user.unionid;
                 obj.Ac_AccName = user.unionid;

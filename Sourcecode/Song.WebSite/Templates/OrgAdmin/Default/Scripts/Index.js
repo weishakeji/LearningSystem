@@ -124,7 +124,7 @@ function ready(result) {
     //打开起始引导的窗体
     window.openStartBox = function () {
         //该值的设置，在SatarBox.js中设置
-        var show = $api.storage('not_show');
+        var show = $api.storage('StartBox_not_show');
         show = show == null ? false : JSON.parse(show);
         if (show === true) return;
         $pagebox.create({

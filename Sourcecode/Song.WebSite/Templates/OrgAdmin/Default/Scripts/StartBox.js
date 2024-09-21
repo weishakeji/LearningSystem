@@ -23,7 +23,7 @@ $ready(function () {
         watch: {
             'not_show': {
                 handler: function (newVal, oldVal) {
-                    $api.storage('not_show', newVal);
+                    $api.storage('StartBox_not_show', newVal);
                 }//, immediate: true,
             }
         },
