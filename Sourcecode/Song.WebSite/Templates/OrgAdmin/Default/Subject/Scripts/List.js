@@ -74,8 +74,7 @@ $ready(function () {
             //所取专业的数据，为树形数据
             getTreeData: function () {
                 var th = this;
-                this.loading = true;
-                th.total = 0;
+                th.loading = true;
                 $api.get('Subject/Tree', th.form).then(function (req) {
                     if (req.data.success) {
                         th.datas = th.clacCount(req.data.result);
@@ -92,6 +91,7 @@ $ready(function () {
             },
             //计算课程数，ques数，test数
             clacCount: function (datas) {
+                this.total = 0;
                 this.calcSerial(datas);
                 datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_CourseCount', 'CourseCount'));
                 datas.forEach(d => this.ergodic_clacCount(d, 'Sbj_QuesCount', 'QuesCount'));

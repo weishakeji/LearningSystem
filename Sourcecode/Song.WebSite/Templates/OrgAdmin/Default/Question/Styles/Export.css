@@ -23,3 +23,6 @@
     padding-bottom: 10px !important;
 }
 
+.el-select-dropdown__item icon[question]{
+    float: right;
+}

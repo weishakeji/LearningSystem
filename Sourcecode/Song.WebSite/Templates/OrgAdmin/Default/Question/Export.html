@@ -9,26 +9,19 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px" :disabled="loading_export || loading">
+        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px"
+            :disabled="loading_export || loading">
             <el-form-item label="题型" prop="types">
                 <el-checkbox-group v-model="form.types">
-                    <el-checkbox-button v-for="(t,i) in types" :label="i+1" checked>
-                        <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
-                    </el-checkbox-button>
+                    <el-checkbox v-for="(t,i) in types" :label="i+1" checked>
+                        <ques_type :type="i+1" :types="types" :showname="true" :showicon="false"></ques_type>
+                    </el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="专业" prop="Sbj_ID">
-                <el-cascader ref="subjects" style="width: 50%;" clearable v-model="sbjids" placeholder="请选择课程专业"
-                    :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="changeSbj"
-                    :disabled="disable_select">
-                    <template slot-scope="{ node, data }">
-                        <span>{{ data.Sbj_Name }}</span>
-                        <span class="sbj_course" v-if="data.Sbj_CourseCount>0">
-                            <icon>&#xe813</icon>{{ data.Sbj_CourseCount }}
-                        </span>
-                    </template>
-                </el-cascader>
-                <help v-if="!disable_select">可以检索查询</help>
+                <sbj_cascader ref="subject" :orgid="organ.Org_ID" :disabled="disable_select" showitem="ques"
+                    @change="id=>changeSbj(id)">
+                </sbj_cascader>
             </el-form-item>
             <el-form-item label="课程" prop="Cou_ID">
                 <el-select v-model="form.couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;"
@@ -37,6 +30,7 @@
                         :value="item.Cou_ID">
                         <span>{{i+1}} . </span>
                         <span>{{item.Cou_Name}}</span>
+                        <icon question v-if="item.Cou_QuesCount>0">{{item.Cou_QuesCount}}</icon>
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -66,8 +60,9 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" @click="enter" :loading="loading_export"  :disabled="loading_export || loading">                  
-                        导出试题excel文件
+                <el-button type="primary" @click="exportFile" :loading="loading_export"
+                    :disabled="loading_export || loading">
+                    导出试题excel文件
                 </el-button>
             </el-form-item>
         </el-form>
@@ -76,13 +71,13 @@
             <dl class="files">
                 <dd v-for="(f,i) in files">
                     <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                            {{f.name}}</a>
-                        <span>{{f.size|size}}</span>
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                   
+                        {{f.name}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+
                 </dd>
             </dl>
         </div>
@@ -91,9 +86,10 @@
                 <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"
                     suffix-icon="el-icon-search"></el-input>
             </span>
-            <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="defaultOutlinesProps" expand-on-click-node
-                empty-text="没有供选择的章节" :filter-node-method="filterNode" :expand-on-click-node="false"
-                @node-click="outlineClick" default-expand-all>
+            <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="{children: 'children',label: 'Ol_Name'}"
+                expand-on-click-node empty-text="没有供选择的章节" :filter-node-method="filterNode"
+                :expand-on-click-node="false" @node-click="d=>{form.olid = d.Ol_ID;outline_panel = false;}"
+                default-expand-all>
                 <span slot-scope="{ node, data }">
                     <span>{{data.serial}}</span> {{ data.Ol_Name }}
                 </span>

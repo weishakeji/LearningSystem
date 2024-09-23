@@ -60,6 +60,9 @@ $ready(function () {
             }
         },
         watch: {
+            'form.sbjids':function(nv,ov){
+                this.sbjChange(nv);
+            }
         },
         methods: {
             //获取当前课程
@@ -84,19 +87,25 @@ $ready(function () {
             //专业选择变更时，返回两个参数，一个是当前专业id，一个是当前专业的id路径（数组）
             sbjChange: function (sbjid, sbjs) {
                 var th = this;
+                th.form.sbjids = sbjid;
                 var orgid = th.organ.Org_ID;
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '', 'free': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
-                    if (req.data.success) {
-                        th.courses = req.data.result;
-                        if (th.within) th.getCourse();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                }).finally(() => { });
+                $api.cache('Course/Pager',
+                    {
+                        'orgid': orgid, 'sbjids': sbjid, 'thid': '',
+                        'use': '', 'live': '', 'free': '', 'search': '', 'order': '',
+                        'size': -1, 'index': 1
+                    }).then(function (req) {
+                        if (req.data.success) {
+                            th.courses = req.data.result;
+                            if (th.within) th.getCourse();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    }).finally(() => { });
             },
             //课程选择变更
             courseChange: function (couid) {

@@ -190,7 +190,7 @@ $ready(function () {
             //操作成功
             operateSuccess: function (isclose) {
                 $api.cache('Subject/ForID:clear', { 'id': this.id });
-                window.top.$pagebox.source.tab(window.name, 'vapp.fresh_operateSuccess', isclose);
+                window.top.$pagebox.source.tab(window.name, 'vapp.getTreeData', isclose);
             },
             //获取当前专业的上级路径
             getParentPath: function (entity, datas, arr) {

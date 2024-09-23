@@ -2,7 +2,8 @@
 $dom.load.css([$dom.path() + 'Question/Components/Styles/ques_type.css']);
 Vue.component('ques_type', {
     //showname：是否显示题型名称
-    props: ["type", "types", "showname"],
+    //showicon：是否显示图标
+    props: ["type", "types", "showname","showicon"],
     data: function () {
         return {
             //单选，多选，判断，简答，填空
@@ -37,6 +38,9 @@ Vue.component('ques_type', {
     },
     template: `<span>
         <loading star v-if="isnull || typeindex==0"></loading>
-        <icon ques_type v-else v-html="seticon(typeindex)" :title="settitle(typeindex)" :showname="showname"></icon> 
+        <template v-else>
+            <icon v-if="showicon" ques_type v-html="seticon(typeindex)" :title="settitle(typeindex)" :showname="showname"></icon> 
+            <span v-else :title="settitle(typeindex)" :showname="showname">{{settitle(typeindex)}}</span>
+        </template>
     </span>`
 });

@@ -4,7 +4,7 @@ Vue.component('sbj_cascader', {
     //sbjid:当前专业id
     //disabled:是否禁用
     //showitem: 是否显示course课程数，ques试题数，test试卷数,child子级专业数
-    props: ['sbjid', 'orgid', 'disabled','showitem'],
+    props: ['sbjid', 'orgid', 'disabled', 'showitem'],
     data: function () {
         return {
             //专业树形下拉选择器的配置项
@@ -18,6 +18,12 @@ Vue.component('sbj_cascader', {
             subjects: [],
             sbjids: [],
             loading: false       //预载
+        }
+    },
+    computed: {
+        //专业数据是否为空
+        isnull: function () {
+            return $api.isnull(this.subjects) || this.subjects.length == 0;
         }
     },
     watch: {
@@ -36,7 +42,7 @@ Vue.component('sbj_cascader', {
     created: function () {
         var th = this;
         window.clac_sbjids_setInterval = window.setInterval(function () {
-            if (th.sbjid != null && th.sbjid != 0 && th.subjects.length > 0) {
+            if (th.sbjid != null && th.sbjid != 0 && !th.isnull) {
                 th.sbjids = th.clac_sbjids();
                 th.$nextTick(function () {
                     th.evetChange(th.sbjids);
@@ -46,11 +52,17 @@ Vue.component('sbj_cascader', {
         }, 100);
     },
     methods: {
-         //设置当前专业
-         setsbj: function (sbjid) {
+        //设置当前专业
+        setsbj: function (sbjid) {
             var th = this;
             th.sbjid = sbjid;
-            th.sbjids = th.clac_sbjids(sbjid);
+            if (!th.isnull) {
+                th.sbjids = th.clac_sbjids(sbjid);
+            } else {
+                window.setTimeout(function () {
+                    th.setsbj(sbjid);
+                }, 200);
+            }
         },
         //获取课程专业的数据
         getSubjects: function () {
@@ -58,7 +70,7 @@ Vue.component('sbj_cascader', {
             var form = { orgid: th.orgid, search: '', isuse: true };
             $api.get('Subject/Tree', form).then(function (req) {
                 if (req.data.success) {
-                    th.subjects = th.clacCount(req.data.result); 
+                    th.subjects = th.clacCount(req.data.result);
                 } else {
                     throw req.data.message;
                 }
@@ -87,8 +99,8 @@ Vue.component('sbj_cascader', {
             sbj[result] = count;
             return count;
         },
-         //计算序号
-         calcSerial: function (item, lvl) {
+        //计算序号
+        calcSerial: function (item, lvl) {
             var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
             if (childarr == null) return;
             for (let i = 0; i < childarr.length; i++) {
@@ -159,7 +171,7 @@ Vue.component('sbj_cascader', {
         //course:课程对象
         subjectPath: function (sbjid, course) {
             if (sbjid == null) return course ? course.Sbj_Name : '';
-            if (!this.subjects && this.subjects.length < 1) return course ? course.Sbj_Name : '';
+            if (!th.isnull) return course ? course.Sbj_Name : '';
             //获取专业的路径，从顶级到子级
             var arr = [];
             var sbj = null;
