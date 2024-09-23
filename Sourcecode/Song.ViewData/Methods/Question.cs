@@ -244,7 +244,17 @@ namespace Song.ViewData.Methods
             jo.Add("datas", jarr);
             return jo;
         }
-
+        /// <summary>
+        /// 导出试题
+        /// </summary>
+        /// <param name="types">题型</param>
+        /// <param name="diffs">难度</param>
+        /// <param name="part">导出方式，1导出所有，2导出正常的试题，没有错误，没有用户反馈说错误的，3导出状态为错误的试题，导出用户反馈说错误的试题</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <returns></returns>
         public JObject ExcelExport(string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
             //导出
