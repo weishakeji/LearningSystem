@@ -483,7 +483,7 @@ namespace Song.ServiceImpls
             {
                 if (o.Ol_PID != id) continue;
                 List<long> tm = _treeid(o.Ol_ID, ols, level++);
-                if (tm != null) list.AddRange(tm);              
+                if (tm != null) list.AddRange(tm);
             }
             return list;
         }

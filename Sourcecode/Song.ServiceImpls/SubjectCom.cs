@@ -228,24 +228,12 @@ namespace Song.ServiceImpls
         private List<long> _treeid(long id, List<Subject> sbjs)
         {
             List<long> list = new List<long>();
-            if (id <= 0) return list;
-
-            //将自身id加入队列，并在原队列中删除
-            list.Add(id);
-            for (int i = 0; i < sbjs.Count; i++)
+            if (id > 0) list.Add(id);
+            foreach (Subject o in sbjs)
             {
-                if (id == sbjs[i].Sbj_ID)
-                {
-                    sbjs.RemoveAt(i);
-                    break;
-                }
-            }
-            //遍历下级子专业
-            for (int i = 0; i < sbjs.Count; i++)
-            {
-                if (sbjs[i].Sbj_PID != id) continue;
-                List<long> tm = _treeid(sbjs[i].Sbj_ID, sbjs);
-                foreach (long t in tm) list.Add(t);
+                if (o.Sbj_PID != id) continue;
+                List<long> tm = _treeid(o.Sbj_ID, sbjs);
+                if (tm != null) list.AddRange(tm);
             }
             return list;
         }

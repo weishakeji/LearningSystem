@@ -231,7 +231,6 @@ namespace Song.ViewData.Methods
         private JArray _SubjectNode(Song.Entities.Subject item, List<Song.Entities.Subject> items)
         {
             JArray jarr = new JArray();
-
             foreach (Song.Entities.Subject m in items)
             {
                 if (item == null)
