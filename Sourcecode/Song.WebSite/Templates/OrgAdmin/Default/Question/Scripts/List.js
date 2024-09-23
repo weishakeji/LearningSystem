@@ -1,4 +1,7 @@
-$ready(function () {
+$ready([
+    'Components/ques_type.js',
+    '/Utilities/Components/sbj_cascader.js'
+], function () {
 
     window.vapp = new Vue({
         el: '#vapp',
@@ -6,22 +9,13 @@ $ready(function () {
             organ: {},
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
-            //专业树形下拉选择器的配置项
-            defaultSubjectProps: {
-                children: 'children',
-                label: 'Sbj_Name',
-                value: 'Sbj_ID',
-                expandTrigger: 'hover',
-                checkStrictly: true
-            },
-            subjects: [],
-            sbjids: [],
+
             //所有课程
             courses_all: [],
             couid: '',
             //试题的查询条件
             form: {
-                'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
+                'orgid': -1, 'sbjid': '', 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 1, 'index': 1
             },
 
@@ -49,7 +43,6 @@ $ready(function () {
                 th.form.orgid = th.organ.Org_ID;
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
-                th.getSubjects();
                 th.getCourses();
                 th.handleCurrentChange(1);
             }).catch(function (err) {
@@ -63,12 +56,11 @@ $ready(function () {
         computed: {
             //当前选择的课程
             'courses': function () {
-                var sbjids = this.sbjids;
-                if ($api.getType(sbjids) != "Array" || sbjids.length < 1) return this.courses_all;
+                if (this.form.sbjid == '') return this.courses_all;
                 //获取选中的所有专业id
-                var sbjid = sbjids.length > 0 ? sbjids[sbjids.length - 1] : '';
-                var sbjlist = [];
-                getsbjid(sbjid, this.subjects);
+                var sbjid = this.form.sbjid;
+                var sbjlist = this.$refs['subject'].subjects;
+                getsbjid(sbjid, sbjlist);
                 function getsbjid(sbjid, sbjs) {
                     for (let i = 0; i < sbjs.length; i++) {
                         if (sbjid == 0) {
@@ -103,40 +95,16 @@ $ready(function () {
             }
         },
         watch: {
-            'sbjids': {
-                handler: function (nv, ov) {
-                    if ($api.getType(nv) == "Array") {
-                        this.form.sbjid = nv.length > 0 ? nv[nv.length - 1] : '';
-                    } else {
-                        this.form.sbjid = '';
-                    }
-                }, deep: true,
-            },
+
         },
         methods: {
-            //获取课程专业的数据
-            getSubjects: function () {
-                var th = this;
-                //th.loading = true;
-                var form = { orgid: th.organ.Org_ID, search: '', isuse: null };
-                $api.get('Subject/Tree', form).then(function (req) {
-                    if (req.data.success) {
-                        th.subjects = req.data.result;
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(function () { });
-            },
             //获取课程
             getCourses: function (val) {
                 var th = this;
                 th.loading = true;
                 var orgid = th.organ.Org_ID;
-                var sbjid = 0;
-                if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
                 $api.cache('Course/Pager', {
-                    'orgid': orgid, 'sbjids': sbjid <= 0 ? '' : sbjid, 'thid': '', 'use': '', 'live': '', 'free': '',
+                    'orgid': orgid, 'sbjids': 0, 'thid': '', 'use': '', 'live': '', 'free': '',
                     'search': '', 'order': '', 'size': -1, 'index': 1
                 }).then(function (req) {
                     if (req.data.success) {
@@ -161,9 +129,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 var loading = this.$fulloading();
-                var sbjid = 0;
-                if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                th.form.sbjid = sbjid;
                 $api.get("Question/Pager", th.form).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;
@@ -216,11 +181,7 @@ $ready(function () {
                 var form = { 'qusid': quesid };
                 //要删除的试题,当删除后要重新统计章节、课程、专业下的试题数，所以需要提交更多id
                 var ques = th.getques_selected(quesid);
-                form['olid'] = th.getques_keys(ques, 'Ol_ID'); //章节id
-                //form['couid'] =th.getques_keys(ques, 'Cou_ID'); //课程id
-                //form['sbjid'] =th.getques_keys(ques, 'Sbj_ID'); //专业id   
-                //console.log(form['couid'] );
-                //return;        
+                form['olid'] = th.getques_keys(ques, 'Ol_ID'); //章节id              
                 $api.delete('Question/Delete', form).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -358,8 +319,7 @@ $ready(function () {
                     var vapp = window.vapp;
                     var ctr = vapp.$refs['couname_' + (this.index + 1)];
                     if (ctr != null) {
-                        window.setTimeout(
-                            ctr.startInit, 50);
+                        window.setTimeout(ctr.startInit, 50);
                     }
                 });
             },
@@ -393,4 +353,4 @@ $ready(function () {
             <template v-else-if="course">{{course.Cou_Name}}</template>
         </span>`
     });
-}, ['Components/ques_type.js']);
+});

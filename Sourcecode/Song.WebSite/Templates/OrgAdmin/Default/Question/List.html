@@ -10,9 +10,10 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-           
-            <btngroup  show="新增,修改,删除,导入,导出" ref='btngroup' :disabled="!loading || loading_init" @output="output" @input="input" @delete="deleteData"
-                path="Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
+
+            <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' :disabled="!loading || loading_init" @output="output"
+                @input="input" @delete="deleteData" path="Modify" width="900" height="80%" :selects='selects'
+                idkey='Qus_ID' table="datatables"></btngroup>
 
             <query_panel :model="form" :width="45" :loading="!loading" @search="handleCurrentChange(1)">
                 <template>
@@ -22,16 +23,8 @@
                 </template>
                 <template slot="more">
                     <el-form-item label="专业">
-                        <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids"
-                            placeholder="请选择课程专业" :options="subjects" separator="／" :props="defaultSubjectProps"
-                            filterable @change="()=>$refs['subjects'].dropDownVisible = false">
-                            <template slot-scope="{ node, data }">
-                                <span>{{ data.Sbj_Name }}</span>
-                                <span class="sbj_course" v-if="data.Sbj_CourseCount>0">
-                                    <icon>&#xe813</icon>{{ data.Sbj_CourseCount }}
-                                </span>
-                            </template>
-                        </el-cascader>
+                        <sbj_cascader ref="subject" :orgid="organ.Org_ID" :sbjid="form.sbjid" showitem="ques" @change="id=>form.sbjid=id">
+                        </sbj_cascader>                         
                     </el-form-item>
                     <el-form-item label="" v-if="courses">
                         <el-select v-model="form.couid" style="width: 100%;" filterable clearable
@@ -40,6 +33,7 @@
                                 :value="item.Cou_ID">
                                 <span>{{i+1}} . </span>
                                 <span>{{item.Cou_Name}}</span>
+                                <icon question v-if="item.Cou_QuesCount>0" class="ques">{{ item.Cou_QuesCount }}</icon>
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -96,9 +90,9 @@
         </div>
 
         <!-- 数据列表-->
-        <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe 
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
-            row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}" >
+            row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>
             </div>
@@ -125,7 +119,8 @@
             </el-table-column>
             <el-table-column label="课程">
                 <template slot-scope="scope">
-                    <course_name :couid="scope.row.Cou_ID"  :ref="'couname_'+scope.$index"  :courses="courses_all" :index="scope.$index"></course_name>
+                    <course_name :couid="scope.row.Cou_ID" :ref="'couname_'+scope.$index" :courses="courses_all"
+                        :index="scope.$index"></course_name>
                 </template>
             </el-table-column>
             <el-table-column label="使用" width="70">

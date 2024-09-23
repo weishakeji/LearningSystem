@@ -220,21 +220,32 @@ namespace Song.ServiceImpls
                 if (sbj == null) return list;
                 orgid = sbj.Org_ID;
             }
-            //取同一个机构下的所有章节
-            Subject[] sbjs = Gateway.Default.From<Subject>().Where(Subject._.Org_ID == orgid).ToArray<Subject>();
+            //取同一个机构下的所有专业
+            List<Subject> sbjs = Gateway.Default.From<Subject>().Where(Subject._.Org_ID == orgid).ToList<Subject>();
             list = _treeid(sbjid, sbjs);
             return list;
         }
-        private List<long> _treeid(long id, Subject[] sbjs)
+        private List<long> _treeid(long id, List<Subject> sbjs)
         {
             List<long> list = new List<long>();
-            if (id > 0) list.Add(id);
-            foreach (Subject o in sbjs)
+            if (id <= 0) return list;
+
+            //将自身id加入队列，并在原队列中删除
+            list.Add(id);
+            for (int i = 0; i < sbjs.Count; i++)
             {
-                if (o.Sbj_PID != id) continue;
-                List<long> tm = _treeid(o.Sbj_ID, sbjs);
-                foreach (long t in tm)
-                    list.Add(t);
+                if (id == sbjs[i].Sbj_ID)
+                {
+                    sbjs.RemoveAt(i);
+                    break;
+                }
+            }
+            //遍历下级子专业
+            for (int i = 0; i < sbjs.Count; i++)
+            {
+                if (sbjs[i].Sbj_PID != id) continue;
+                List<long> tm = _treeid(sbjs[i].Sbj_ID, sbjs);
+                foreach (long t in tm) list.Add(t);
             }
             return list;
         }
@@ -364,7 +375,7 @@ namespace Song.ServiceImpls
                 WhereClip wc = new WhereClip();
                 if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
                 if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
-                Subject[] sbjs = Gateway.Default.From<Subject>().Where(wc).ToArray<Subject>();
+                List<Subject> sbjs = Gateway.Default.From<Subject>().Where(wc).ToList<Subject>();
                 list = _treeid(pid, sbjs);
                 return list.Count;
             }

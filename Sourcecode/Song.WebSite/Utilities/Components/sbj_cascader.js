@@ -35,7 +35,7 @@ Vue.component('sbj_cascader', {
         },
         'sbjid': {
             handler: function (nv, ov) {
-
+                //this.sbjids = this.clac_sbjids(nv);
             }, immediate: true
         },
     },
