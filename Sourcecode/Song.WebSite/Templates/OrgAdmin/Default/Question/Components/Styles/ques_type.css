@@ -12,3 +12,10 @@ icon[ques_type][showname=true]::after {
 .el-tabs__header icon[ques_type][showname=true]::after  {
 	font-size: 15px;
 }
+icon[ques_type][title="填空题"]{	
+	margin-right: 0px;
+}
+
+icon[ques_type][title="填空题"]::after {	
+	margin-left: 0px;	
+}

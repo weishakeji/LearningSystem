@@ -32,7 +32,7 @@
                 <el-form-item label="题型" prop="Qus_Type">
                     <div class="btn_list">
                         <el-button type="primary" plain v-for="(type,i) in types" @click="selectType(i+1)">
-                            <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
+                            <ques_type :type="i+1" :types="types" :showname="true" :showicon="true"></ques_type>
                         </el-button>
                     </div>
                 </el-form-item>
