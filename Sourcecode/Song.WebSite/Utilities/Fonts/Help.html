@@ -14,59 +14,86 @@
     </p>
     <h2>一般引用</h2>
     <dl>
-        <dt>1、用icon标签</dt>
-        <dd>
-            <icon>&#xa003</icon>
+        <dt class="tit">1、用icon标签</dt>
+        <dd class="example">
+            <icon>&#xa006</icon>
             <icon>&#xa059</icon>
             <icon>&#xa032</icon>
             <icon>&#xa034</icon>
             <icon>&#xe650</icon>
         </dd>
         <dd>
-            <textarea style="height: 60px;"><icon>&amp;#xa003</icon> <icon>&amp;#xa059</icon>
-<icon>&amp;#xa032</icon> <icon>&amp;#xa034</icon> <icon>&amp;#xe650</icon></textarea>
+            <textarea style="height: 60px;"><icon>&amp;#xa006</icon> <icon>&amp;#xa059</icon>
+<icon>&amp;#xa032</icon> <icon>&amp;#xa034</icon> 
+<icon>&amp;#xe650</icon></textarea>
+        </dd>
+        <dd class="tit">图标大小设置</dd>
+        <dd>在icon标签中增加属性：huge、large、medium、small、mini</dd>
+        <dd class="example">
+            <icon huge>&#xa006</icon>
+            <icon large>&#xa059</icon>
+            <icon medium>&#xa032</icon>
+            <icon small>&#xa034</icon>
+            <icon mini>&#xe650</icon>
+        </dd>
+        <dd>
+            <textarea style="height: 60px;"><icon huge>&amp;#xa006</icon> <icon large>&amp;#xa059</icon>
+<icon medium>&amp;#xa032</icon> <icon small>&amp;#xa034</icon> 
+<icon mini>&amp;#xe650</icon></textarea>
         </dd>
     </dl>
     <dl>
-        <dt>2、用icon属性</dt>
-        <dd>
+        <dt class="tit">2、用icon属性，支持所有html标签</dt>
+        <dd class="example">
             <span icon="&#xa00d">人脸识别</span>
             <span icon="&#xe639">优秀学员</span>
+            <div icon="&#xa030">功能设置</div>
         </dd>
         <dd>
             <textarea><span icon="&amp;#xa00d">人脸识别</span>
-<span icon="&amp;#xe639">优秀学员</span></textarea>
+<span icon="&amp;#xe639">优秀学员</span> <div icon="&amp;#xa030">功能设置</div></textarea>
+        </dd>
+        <dd class="tit">图标大小设置</dd>
+        <dd>在html标签中增加属性：huge、large、medium、small、mini</dd>
+        <dd class="example">
+            <span icon="&#xa00d" huge>人脸识别</span>
+            <span icon="&#xe639" medium>优秀学员</span>
+            <div icon="&#xa030" mini>功能设置</div>
+        </dd>
+        <dd>
+            <textarea><span icon="&amp;#xa00d" huge>人脸识别</span>
+<span icon="&amp;#xe639" medium>优秀学员</span> <div icon="&amp;#xa030" mini>功能设置</div></textarea>
         </dd>
     </dl>
     <h2>特定图标的引用</h2>
-    <p>
-        <icon student>学员</icon>
-        <icon teacher>教师</icon>
-        <icon course>课程</icon>
-        <icon subject>专业</icon>
-        <icon outline>章节</icon>
-        <icon question>试题</icon>
-        <icon test>试卷</icon>
-        <icon video>视频</icon>
-        <icon view></icon>
-        <icon exam>考试</icon>
-        <icon setup></icon>
-        <icon money></icon>
-        <icon coupon></icon>
-        <icon point></icon>
-        <icon idcard></icon>
-        <icon phone></icon>
-        <icon mobile></icon>
-        <icon close></icon>
-        <icon man></icon>
-        <icon woman></icon>
-        <icon copy></icon>
-        <icon help></icon>
-        <icon paste></icon>
-        <icon delete></icon>
-      
-    </p>
-    <textarea style="height: 260px;"><icon student>学员</icon> <icon teacher>教师</icon>
+    <div>
+        <p class="example">
+            <icon student>学员</icon>
+            <icon teacher>教师</icon>
+            <icon course>课程</icon>
+            <icon subject>专业</icon>
+            <icon outline>章节</icon>
+            <icon question>试题</icon>
+            <icon test>试卷</icon>
+            <icon video>视频</icon>
+            <icon view></icon>
+            <icon exam>考试</icon>
+            <icon setup></icon>
+            <icon money></icon>
+            <icon coupon></icon>
+            <icon point></icon>
+            <icon idcard></icon>
+            <icon phone></icon>
+            <icon mobile></icon>
+            <icon close></icon>
+            <icon man></icon>
+            <icon woman></icon>
+            <icon copy></icon>
+            <icon help></icon>
+            <icon paste></icon>
+            <icon delete></icon>
+        </p>
+        <textarea style="height: 260px;"><icon student>学员</icon> <icon teacher>教师</icon>
 <icon course>课程</icon> <icon subject>专业</icon>
 <icon outline>章节</icon> <icon question>试题</icon>
 <icon test>试卷</icon> <icon video>视频</icon>
@@ -78,16 +105,31 @@
 <icon man></icon> <icon woman></icon>
 <icon copy></icon> <icon help></icon>
 <icon paste></icon> <icon delete></icon></textarea>
+<dd>图标大小设置</dd>
+<dd>与前两种方式不同，需要在html标签中增加size属性，设置的值为：huge、large、medium、small、mini</dd>
+
+    <div class="example">
+        <icon student size="huge">学员</icon>
+        <icon teacher size="large">教师</icon>
+        <icon course size="medium">课程</icon>
+        <icon subject size="small">专业</icon>
+        <icon outline size="mini">章节</icon>
+        <icon question>试题</icon>
+        <icon test>试卷</icon> 
+    </div>
+    <textarea style="height: 80px;"><icon student size="huge">学员</icon> <icon teacher size="large">教师</icon>
+<icon course size="medium">课程</icon> <icon subject size="small">专业</icon>
+<icon outline size="mini">章节</icon> <icon question>试题</icon></textarea>
 
     <h2>提示文本的图标</h2>
-    <p>主要有两个，help、alert</p>
+    <p>主要有三个，help、alert、warning</p>
     <p>
         <help>可以写一些说明信息</help>
-        <help multi>用于多行的说明信息<br/>
+        <help multi>用于多行的说明信息<br />
             这里可以换行，用&lt;br/&gt;实现多行的说明信息
         </help>
         <alert>一些提示信息，同样支持multi属性</alert>
-       
+
     </p>
     <textarea style="height: 160px;"><help>可以写一些说明信息</help>
 <help multi>用于多行的说明信息<br/>

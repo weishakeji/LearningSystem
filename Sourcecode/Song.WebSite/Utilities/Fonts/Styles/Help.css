@@ -29,7 +29,6 @@ textarea {
     resize: none;
     overflow: hidden;
     overflow-y: auto;
-    margin-bottom: 20px;
 }
 
 *[loading] {
@@ -70,12 +69,14 @@ dl, dt, dd {
     padding: 0px;
     line-height: 30px;
 }
-
+dl{
+    margin-bottom: 15px;
+}
 dd {
-    line-height: 25px;
+    line-height: 30px;
 }
 
-icon, span[icon] {
+icon, *[icon] {
     font-size: 14px;
     color: #666;
   
@@ -83,4 +84,11 @@ icon, span[icon] {
 
 icon::before, span[icon]::before {
     font-size: 16px;
+}
+/*图标的示例区域*/
+.example{
+margin: 10px;
+}
+.tit{
+    margin-left: 20px;
 }

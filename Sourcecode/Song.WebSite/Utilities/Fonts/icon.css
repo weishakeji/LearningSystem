@@ -5,8 +5,36 @@
     font-style: normal;
 }
 
-
-/*  图标引用方式一，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
+/*  图标引用方式一，采用单独icon作为html标签，在Vue中输出不受影响，推荐使用
+	icon标签， 例如：<icon>&#xa038</icon>
+*/
+icon {
+    font-family: "webdesk_icon";
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+icon:not([icon]) {
+    margin-right: 5px;
+}
+icon[huge]:not(:empty,[size]) {
+    font-size: 25px;
+}
+icon[large]:not(:empty) {
+    font-size: 20px;
+}
+icon[medium]:not(:empty) {
+    font-size: 18px;
+}
+icon[small]:not(:empty) {
+    font-size: 16px;
+}
+icon[mini]:not(:empty) {
+    font-size: 14px;
+}
+/*  图标引用方式二，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
 	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
 */
 *[icon]:not(icon)::before {
@@ -14,23 +42,22 @@
     font-family: "webdesk_icon" !important;
     margin-right: 5px;
 }
-
-/*  图标引用方式二，采用单独icon作为html标签，在Vue中输出不受影响，推荐使用
-	icon标签， 例如：<icon>&#xa038</icon>
-*/
-icon {
-    font-family: "webdesk_icon";
-
-    display: inline-block;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
+*[icon][huge]:not(:empty)::before{
+    font-size: 25px;
+}
+*[icon][large]:not(:empty)::before{
+    font-size: 20px;
+}
+*[icon][medium]:not(:empty)::before{
+    font-size: 18px;
+}
+*[icon][small]:not(:empty)::before{
+    font-size: 16px;
+}
+*[icon][mini]:not(:empty)::before{
+    font-size: 14px;
 }
 
-icon:not([icon]) {
-    margin-right: 5px;
-}
 
 /*  图标引用方式三，指定特定图标，用于统一的图标设定
 	课程图标 示例：<icon course></icon>
@@ -40,6 +67,21 @@ icon::before {
     margin-right: 5px;
 }
 
+icon[size='huge']::before {
+    font-size: 25px;
+}
+icon[size='large']::before  {
+    font-size: 20px;
+}
+icon[size='medium']::before  {
+    font-size: 18px;
+}
+icon[size='small']::before  {
+    font-size: 16px;
+}
+icon[size='mini']::before  {
+    font-size: 14px;
+}
 /*学员*/
 icon[student]::before {
     content: '\e804';
