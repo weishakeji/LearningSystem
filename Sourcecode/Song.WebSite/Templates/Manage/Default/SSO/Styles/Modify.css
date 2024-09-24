@@ -19,10 +19,13 @@ icon.copy {
 .info>div {
     margin-top: 5px;
     position: relative;
+    font-size: 15px;
+    line-height: 22px;
    
 }
 .info>div[title]{
-    padding-left: 60px;
+    padding-left: 70px;
+    font-size: 15px;
 }
 .info>div[title]::before {
     content: attr(title) '：';
@@ -42,4 +45,5 @@ icon.copy {
 .panel>div:not(:first-child) {
     border: none;
     border-top: none;
+
 }

@@ -277,6 +277,13 @@ help[large], alert[large],warning[large], help[large] *, alert[large] *, warning
 help[large]::before, alert[large]::before,warning[large]::before {
     font-size: 25px;
 }
+help[medium], alert[medium],warning[medium], help[medium] *, alert[medium] *, warning[medium] * {
+    font-size: 16px;
+    line-height: 25px;
+}
+help[medium]::before, alert[medium]::before,warning[medium]::before {
+    font-size: 20px;
+}
 
 
 help::before {

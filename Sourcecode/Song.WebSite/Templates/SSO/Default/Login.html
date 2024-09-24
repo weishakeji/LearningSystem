@@ -8,16 +8,15 @@
 
 <body>
   <div id="vapp" v-cloak>
+    <login ref="login" @success="successful" v-show="false"></login>
     <!-- 错误提示框 -->
     <div v-if="!checked" class="box noexist">
       <div>
-        <icon>&#xe70e</icon>登录操作存在错误
+        <warning large>登录操作存在错误</warning>
       </div>
       <div class="context">
         可能的原因：<br />
-        1、请求来源不明晰，或来源未被授权<br />
-        2、登录接口不存在，或被禁用<br />
-        3、参数校验失改<br />
+        <alert medium>{{error}}</alert>
       </div>
       <div>
         <el-button type="primary" plain @click="window.location.href='/'">
@@ -34,7 +33,11 @@
         <icon>&#xa035</icon>来自 “{{getreferrer()}}” 的登录
       </div>
       <div class="context">
-        <div loading="p4" v-if="loading"></div>
+        <template v-if="loading_income">
+          <div loading="p4"></div>
+          <br/><br/>
+          <loading>正在处理...</loading>
+        </template>
         <div v-else-if="error!=''">
           <icon>&#xe774</icon>{{error}}
         </div>

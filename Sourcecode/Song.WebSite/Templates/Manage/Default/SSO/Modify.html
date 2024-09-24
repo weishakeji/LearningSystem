@@ -31,7 +31,9 @@
                             <icon @click="copytext(entity.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
                         </el-form-item>
                         <el-form-item label="名称" prop="SSO_Name">
-                            <el-input v-model.trim="entity.SSO_Name"></el-input>
+                            <el-input v-model.trim="entity.SSO_Name" clearable>
+                                <icon slot="prefix">&#xa006</icon>
+                            </el-input>
                         </el-form-item>
 
                         <el-form-item label="状态">
@@ -40,7 +42,11 @@
                             </el-switch>
                         </el-form-item>
                         <el-form-item label="请求域" prop="SSO_Domain">
-                            <el-input v-model.trim="entity.SSO_Domain"></el-input>
+                            <el-input v-model.trim="entity.SSO_Domain" clearable>
+                                <icon slot="prefix">&#xa03d</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="">
                             <help multi>即对方平台的域名信息<br />
                                 请勿填写http://或https://的前缀<br />
                                 不要带参数或二级路径，仅填写域名

@@ -33,20 +33,25 @@ $ready(function () {
                     {
                         validator: function (rule, value, callback) {
                             if (value == undefined || value == '') return callback();
-                            if (value == 'localhost') return callback();
+                            if (value.length >= 'http://'.length && value.substring(0, 7).toLowerCase() == 'http://')
+                                return callback(new Error('不要带 “http://” 前缀'));
+                            if (value.length >= 'https://'.length && value.substring(0, 8).toLowerCase() == 'https://')
+                                return callback(new Error('不要带 “https://” 前缀'));
+                            if (value.indexOf('/') > -1) return callback(new Error('仅限域名，不要带路径'));
+                            if (value.indexOf('?') > -1 || value.indexOf('#') > -1 || value.indexOf('&') > -1)
+                                return callback(new Error('仅限域名，不要带参数或锚点'));
+                            //校验域与端口
+                            let domain = value, port = 80;
+                            if (value.indexOf(':') > -1) {
+                                domain = value.substring(0, value.lastIndexOf(':'));
+                                port = value.substring(value.lastIndexOf(':') + 1);
+                            }
+                            if (isNaN(Number(port))) return callback(new Error('端口号必须为数字'));
+                            if (domain == 'localhost') return callback();
+                            //校验域名
                             var pattern = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
-                            if (!pattern.test(value)) callback(new Error('请输入合法域名'));
-                            else if (value.indexOf('?') > -1 || value.indexOf('#') > -1 || value.indexOf('&') > -1) {
-                                return callback(new Error('仅限域名，勿带参数'));
-                            } else if (value.length >= 'http://'.length && value.substring(0, 7).toLowerCase() == 'http://') {
-                                return callback(new Error('勿带 “http://” 前缀'));
-                            } else if (value.length >= 'https://'.length && value.substring(0, 8).toLowerCase() == 'https://') {
-                                return callback(new Error('勿带 “https://” 前缀'));
-                            } else if (value.indexOf('/') > -1) {
-                                var tmp = value.indexOf('http://') > -1 ? value.replace('http://', '') : value;
-                                tmp = tmp.indexOf('https://') > -1 ? tmp.replace('https://', '') : tmp;
-                                if (tmp.indexOf('/') > -1) return callback(new Error('仅限域名，勿带路径'));
-                            } else callback();
+                            if (!pattern.test(domain)) callback(new Error('请输入合法域名'));
+                            callback();
                         }, trigger: 'blur'
                     }],
                 SSO_Phone: [{
@@ -136,7 +141,7 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName,isclose) {
+            btnEnter: function (formName, isclose) {
                 if (this.loading) return;
                 var th = this;
                 this.$refs[formName].validate((valid) => {
