@@ -88,7 +88,7 @@ $ready(['/Utilities/Components/Sign/Login.js'],
                                 var result = req.data.result;
                                 th.loading_income=true;
                                 //return;
-                                th.$refs['login'].success(result, 'web端', '第三方登录', th.getreferrer());
+                                th.$refs['login'].success(result, 'web端', th.getreferrer(), '');
                                 console.error(result); 
                             } else {
                                 console.error(req.data.exception);
