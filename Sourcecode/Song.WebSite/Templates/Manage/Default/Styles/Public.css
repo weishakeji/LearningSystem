@@ -295,7 +295,7 @@ tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
     border-top: none;
 }
 
-.panel .el-form {
+.panel>.el-form {
     height: calc(100% - 40px);
     width: 100%;
     margin: 0px;
@@ -305,7 +305,7 @@ tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
     box-sizing: border-box;
 }
 
-.panel .el-form>div {
+.panel>.el-form>div {
     box-sizing: border-box;
     padding: 15px;
 }

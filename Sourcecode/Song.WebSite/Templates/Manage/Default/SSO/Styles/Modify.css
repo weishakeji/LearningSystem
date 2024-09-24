@@ -1,16 +1,5 @@
 ﻿@charset "utf-8";
 
-.footer {
-    justify-content: space-between;
-}
-
-.footer>div {
-    display: flex;
-}
-
-.footer span.btnlink a {
-    margin-right: 15px;
-}
 
 .el-dialog__body {
     padding-top: 0px !important;
@@ -30,19 +19,27 @@ icon.copy {
 .info>div {
     margin-top: 5px;
     position: relative;
+   
+}
+.info>div[title]{
     padding-left: 60px;
 }
-
-.info>div::before {
-    content: attr(title);
+.info>div[title]::before {
+    content: attr(title) '：';
     display: inline-block;
     width: 60px;
     text-align: right;
     position: absolute;
     left: 0px;
+    color: #666;
 }
 
 .demourl {
     word-break: break-all;
     line-height: 18px;
+}
+
+.panel>div:not(:first-child) {
+    border: none;
+    border-top: none;
 }

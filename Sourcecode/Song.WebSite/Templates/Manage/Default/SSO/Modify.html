@@ -3,119 +3,144 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>修改信息</title>
+    <title>单点登录管理</title>
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="general">
+                    <span slot="label" icon="&#xa038">基本信息</span>
+                </el-tab-pane>
+                <el-tab-pane name="detail">
+                    <span slot="label" icon="&#xe667" small>相关信息</span>
+                </el-tab-pane>
+                <el-tab-pane name="help">
+                    <span slot="label" icon="&#xa030" small>开发说明</span>
+                </el-tab-pane>
+                <el-tab-pane name="example">
+                    <span slot="label" icon="&#xe63d" medium>生成示例</span>
+                </el-tab-pane>
+            </el-tabs>
+            <template v-if="activeName!='example'">
+                <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+                    <div v-show="activeName=='general'" remark="基本信息" tab="general">
+                        <el-form-item label="APPID" prop="SSO_APPID">
+                            <span v-html="entity.SSO_APPID"></span>
+                            <icon @click="copytext(entity.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
+                        </el-form-item>
+                        <el-form-item label="名称" prop="SSO_Name">
+                            <el-input v-model.trim="entity.SSO_Name"></el-input>
+                        </el-form-item>
 
-            <el-form-item label="名称" prop="SSO_Name">
-                <el-input v-model.trim="entity.SSO_Name"></el-input>
-            </el-form-item>
-            <el-form-item label="APPID" prop="SSO_APPID">
-                <span v-html="entity.SSO_APPID"></span>
-                <icon @click="copytext(entity.SSO_APPID)" class="copy" title="复制">&#xa060</icon>
-            </el-form-item>
-            <el-form-item label="状态">
-                <el-switch v-model="entity.SSO_IsUse" :active-text="entity.SSO_IsUse ? '启用' : '禁用'" inactive-text="">
-                </el-switch>
-            </el-form-item>
-            <el-form-item label="请求域" prop="SSO_Domain">
-                <el-input v-model.trim="entity.SSO_Domain"></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话" prop="SSO_Phone">
-                <el-input v-model.trim="entity.SSO_Phone"></el-input>
-            </el-form-item>
-            <el-form-item label="电子邮箱" prop="SSO_Email">
-                <el-input v-model.trim="entity.SSO_Email"></el-input>
-            </el-form-item>
-            <el-form-item label="备注" prop="SSO_Info">
-                <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="entity.SSO_Info"></el-input>
-            </el-form-item>
-            <el-form-item label="权限">
-                <el-switch v-model="entity.SSO_IsAdd" :active-text="entity.SSO_IsAdd ? '允许创建账号' : '不可以创建账号'"
-                    inactive-text="">
-                </el-switch>
-                <br />
-                <help>登录的账号不存在时，是否允许创建新账号</help><br />
-                <template v-if="entity.SSO_IsAdd">
-                    <el-switch v-model="entity.SSO_IsAddSort"
-                        :active-text="entity.SSO_IsAddSort ? '允许创建学员组' : '可以创建学员组'" inactive-text="">
-                    </el-switch>
-                    <br />
-                    <help>如登录账号所属的学员组不存在时，是否允许创建学员组</help>
-                </template>
-            </el-form-item>
-        </el-form>
-        <div class="footer">
-            <span class="btnlink">
-                <el-link type="primary" @click="visibleHelp=true">
-                    <icon help></icon>开发说明
-                </el-link>
-                <el-link type="primary" @click="visibleDemo=true">
-                    <icon>&#xa015</icon>生成示例
-                </el-link>
-            </span>
-            <div>
-                <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
-                    @click="btnEnter('entity')">保存
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </div>
-        </div>
-        <!-- 说明-->
-        <el-dialog :visible.sync="visibleHelp" width="80%">
-            <template slot="title">
-                <icon help></icon>开发说明
-            </template>
-            <div class="info">
-                <b> 1、示例：</b>
-                <div title="登录：">
-                    http://当前系统的域名/sso/login?appid=xx&user=xx&name=xx&sort=&goto=(url)</div>
-                <div title="注销：">
-                    http://当前系统的域名/sso/logout?appid=xx&user=xx&goto=(url)</div>
-            </div>
-            <div class="info">
-                <b> 2、参数说明：</b>
-                <div title="appid：">应用ID</div>
-                <div title="user：">用户账号名</div>
-                <div title="name：">用户名称（当action为add时才有用）,需Url编码</div>
-                <div title="sort：">学员组的名称</div>
-                <div title="goto：">成功后的转向地址（默认为空,转到首页）,使用encodeURIComponent编码</div>
-                <div title="code：">校验码，appid+user+name+sort的md5密文，注意必须与参数顺序一致</div>
-            </div>
-        </el-dialog>
-        <!-- 示例-->
-        <el-dialog :visible.sync="visibleDemo" width="80%">
-            <template slot="title">
-                <icon>&#xa015</icon>生成示例
-            </template>
-            <el-form ref="demo" :model="demo" :rules="rules_demo" @submit.native.prevent label-width="80px">
-                <el-form-item label="账号" prop="user">
-                    <el-input v-model.trim="demo.user"></el-input>
-                </el-form-item>
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model.trim="demo.name"></el-input>
-                </el-form-item>
-                <el-form-item label="学员组" prop="sort">
-                    <el-input v-model.trim="demo.sort"></el-input>
-                </el-form-item>
-                <el-form-item label="返回地址" prop="goto">
-                    <el-input v-model.trim="demo.goto"></el-input>
-                </el-form-item>
-                <el-form-item label="">
-                    <span slot="label" style="color: #67C23A">
-                        <icon>&#xa015</icon>示例
-                    </span>
-                    <div class="demourl">{{demourl}}
-                        <el-link type="primary" @click="copydemo('demo',demourl)" title="复制">
-                            <icon class="copy">&#xa060</icon>复制
-                        </el-link>
+                        <el-form-item label="状态">
+                            <el-switch v-model="entity.SSO_IsUse" :active-text="entity.SSO_IsUse ? '启用' : '禁用'"
+                                inactive-text="">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="请求域" prop="SSO_Domain">
+                            <el-input v-model.trim="entity.SSO_Domain"></el-input>
+                            <help multi>即对方平台的域名信息<br />
+                                请勿填写http://或https://的前缀<br />
+                                不要带参数或二级路径，仅填写域名
+                            </help>
+                        </el-form-item>
+                        <el-form-item label="权限">
+                            <el-switch v-model="entity.SSO_IsAdd" :active-text="entity.SSO_IsAdd ? '允许创建账号' : '不可以创建账号'"
+                                inactive-text="">
+                            </el-switch>
+                            <br />
+                            <help>登录的账号不存在时，是否允许创建新账号</help><br />
+                            <template v-if="entity.SSO_IsAdd">
+                                <el-switch v-model="entity.SSO_IsAddSort"
+                                    :active-text="entity.SSO_IsAddSort ? '允许创建学员组' : '可以创建学员组'" inactive-text="">
+                                </el-switch>
+                                <br />
+                                <help>如登录账号所属的学员组不存在时，是否允许创建学员组</help>
+                            </template>
+                        </el-form-item>
                     </div>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
+                    <div v-show="activeName=='detail'" remark="相关信息" tab="detail">
+                        <el-form-item label="联系电话" prop="SSO_Phone">
+                            <el-input v-model.trim="entity.SSO_Phone">
+                                <icon slot="prefix">&#xe677</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="电子邮箱" prop="SSO_Email">
+                            <el-input v-model.trim="entity.SSO_Email">
+                                <icon slot="prefix">&#xe76e</icon>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="备注" prop="SSO_Info">
+                            <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="entity.SSO_Info">
+                            </el-input>
+                        </el-form-item>
+                    </div>
+                    <div v-show="activeName=='help'" remark="开发说明" tab="help">
+                        <div class="info">
+                            <b> 1、示例</b>
+                            <div title="登录">
+                                http://当前系统的域名/sso/login?appid=xx&user=xx&name=xx&sort=&goto=(url)</div>
+                            <div title="注销">
+                                http://当前系统的域名/sso/logout?appid=xx&user=xx&goto=(url)</div>
+                        </div>
+                        <div class="info">
+                            <b> 2、参数说明</b>
+                            <div title="appid">应用ID</div>
+                            <div title="user">用户账号名</div>
+                            <div title="name">用户名称（当action为add时才有用）,需Url编码</div>
+                            <div title="sort">学员组的名称</div>
+                            <div title="goto">成功后的转向地址（默认为空,转到首页）,使用encodeURIComponent编码</div>
+                            <div title="code">校验码，appid+user+name+sort的md5密文，注意必须与参数顺序一致</div>
+                        </div>
+                        <div class="info">
+                            <b> 3、链接调用</b>
+                            <div>生成的url不可以直接在网址打开，必须在对方平台的网页中点击跳转，因为加了一个来源网址的判断，算是多一种安全校验。</div>
+                        </div>
+                    </div>
+                </el-form>
+            </template>
+            <div v-show="activeName=='example'" remark="生成示例" tab="example">
+                <el-form ref="demo" :model="demo" :rules="rules_demo" @submit.native.prevent label-width="80px">
+                    <el-form-item label="账号" prop="user">
+                        <el-input v-model.trim="demo.user"></el-input>
+                    </el-form-item>
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model.trim="demo.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学员组" prop="sort">
+                        <el-input v-model.trim="demo.sort"></el-input>
+                    </el-form-item>
+                    <el-form-item label="返回地址" prop="goto">
+                        <el-input v-model.trim="demo.goto"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <span slot="label" style="color: #67C23A">
+                            <icon>&#xa015</icon>示例
+                        </span>
+                        <div class="demourl">{{demourl}}
+                            <el-link type="primary" @click="copydemo('demo',demourl)" title="复制">
+                                <icon class="copy">&#xa060</icon>复制
+                            </el-link>
+                        </div>
+                    </el-form-item>
+                </el-form>
+            </div>
+
+        </div>
+        <div class="footer">
+
+            <el-button type="primary" define="enter" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',true)">保存
+            </el-button>
+            <el-button v-if="!isadd" type="primary" define="apply" native-type="submit" :loading="loading" plain
+                @click="btnEnter('entity',false)">应用
+            </el-button>
+            <el-button type='close'>取消</el-button>
+
+        </div>
+
     </div>
 
 

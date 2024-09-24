@@ -2,12 +2,11 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
+            activeName: 'general',      //选项卡
             loading: false,  //
             id: $api.querystring('id'),
-            visibleHelp: false,    //帮助面板的显示
-            visibleDemo: false,    //示例面板的显示
 
             //当前数据对象
             entity: {
@@ -73,6 +72,10 @@ $ready(function () {
             },
             loading: false
         },
+        computed: {
+            //是否新增账号
+            isadd: t => t.id == null || t.id == '' || this.id == 0,
+        },
         watch: {
             'demo': {
                 handler: function (val, old) {
@@ -133,7 +136,7 @@ $ready(function () {
                     });
                 });
             },
-            btnEnter: function (formName) {
+            btnEnter: function (formName,isclose) {
                 if (this.loading) return;
                 var th = this;
                 this.$refs[formName].validate((valid) => {
@@ -147,7 +150,7 @@ $ready(function () {
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.operateSuccess();
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }
@@ -194,8 +197,8 @@ $ready(function () {
             },
 
             //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', true);
+            operateSuccess: function (isclose) {
+                window.top.$pagebox.source.tab(window.name, 'vapp.loadDatas', isclose);
             }
         },
     });
