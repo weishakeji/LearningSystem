@@ -1774,6 +1774,7 @@ namespace Song.ServiceImpls
                     jo.Add("CP_Span", p.CP_Span);
                     jo.Add("CP_Unit", p.CP_Unit);
                     jo.Add("CP_Coupon", p.CP_Coupon);
+                    jo.Add("CP_ID", p.CP_ID);
                     jarr.Add(jo);
                 }
                 course.Cou_Prices = jarr.ToString();

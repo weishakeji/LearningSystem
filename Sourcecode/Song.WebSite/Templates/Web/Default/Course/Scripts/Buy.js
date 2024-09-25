@@ -137,13 +137,7 @@ $ready(function () {
             //获取价格信息
             getPrices: function (cou) {
                 var th = this;
-                if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
-                if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
-                    th.prices = $api.parseJson(cou.Cou_Prices);
-                    if (th.prices.length > 0)
-                        th.select(th.prices[0]);
-                    return;
-                }
+                if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;                
                 $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
