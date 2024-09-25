@@ -189,34 +189,44 @@ window.alert = function (txt, title) {
         }
     } catch (e) { }
     //手机端
-    if ($dom.ismobi()) {
-        vant.Dialog ? vant.Dialog.alert({ message: message, title: title }) : window.alert_base(txt);
-    } else {
-        Vue.prototype.$alert ? Vue.prototype.$alert(message, title) : window.alert_base(txt);
+    try {
+        if ($dom.ismobi()) {
+            if (vant && vant.Dialog) vant.Dialog.alert({ message: message, title: title });
+            else window.alert_base((title ? title + ' ' : '') + txt);
+        } else {
+            if (Vue && Vue.prototype.$confirm) Vue.prototype.$alert(message, title);
+            else window.alert_base((title ? title + ' ' : '') + txt);
+        }
+    } catch (e) {
+        window.alert_base((title ? title + ' ' : '') + txt);
     }
 };
 //重构确认
 window.confirm_base = window.confirm;
 window.confirm = function (title, msg, evtConfirm, evtCancel) {
-    //手机端
-    if ($dom.ismobi()) {
-        if (vant.Dialog) {
-            vant.Dialog.confirm({ title: title, message: msg, })
-                .then(evtConfirm != null ? evtConfirm : () => { })
-                .catch(evtCancel != null ? evtCancel : () => { });
-        }else{
-            return window.confirm_base(title);
+    try {
+        //手机端
+        if ($dom.ismobi()) {
+            if (vant && vant.Dialog) {
+                vant.Dialog.confirm({ title: title, message: msg, })
+                    .then(evtConfirm != null ? evtConfirm : () => { })
+                    .catch(evtCancel != null ? evtCancel : () => { });
+            } else {
+                return window.confirm_base(title);
+            }
+        } else {
+            if (Vue && Vue.prototype.$confirm) {
+                Vue.prototype.$confirm(msg, title, {
+                    dangerouslyUseHTMLString: true, type: 'warning',
+                    confirmButtonText: '确定', cancelButtonText: '取消'
+                }).then(evtConfirm != null ? evtConfirm : () => { })
+                    .catch(evtCancel != null ? evtCancel : () => { });
+            } else {
+                return window.confirm_base(title);
+            }
         }
-    } else {
-        if (Vue.prototype.$confirm) {
-            Vue.prototype.$confirm(msg, title, {
-                dangerouslyUseHTMLString: true, type: 'warning',
-                confirmButtonText: '确定', cancelButtonText: '取消'
-            }).then(evtConfirm != null ? evtConfirm : () => { })
-                .catch(evtCancel != null ? evtCancel : () => { });
-        }else{
-            return window.confirm_base(title);
-        }
+    } catch (e) {
+        window.confirm_base((title ? title + ' ' : '') + msg);
     }
 };
 

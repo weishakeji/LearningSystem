@@ -108,9 +108,16 @@ $ready(function () {
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
+                            //存在错误
+                            if (result['errcode'] && (result['errcode'] != 0 || result['errcode'] != '')) {
+                                let errcode = result['errcode'];
+                                let errmsg = result['errmsg'];
+                                alert(errmsg, '错误代码：' + errcode);
+                                return;
+                            }
                             th.token = result['access_token'];
                             th.openid = result['openid'];
-                            //document.writeln(JSON.stringify(result));     
+                            document.writeln(JSON.stringify(result));
                             //生成订单 
                             $api.get('Pay/WxJsApiPay', {
                                 'tracetype': 'JSAPI',

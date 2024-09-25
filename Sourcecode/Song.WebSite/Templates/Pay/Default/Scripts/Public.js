@@ -1,6 +1,7 @@
 ﻿
 (function () {
     $dom.load.css([
+        '/Utilities/Vant/Vant.css',
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         $dom.path() + 'styles/public.css',
@@ -8,7 +9,11 @@
     ], $dom.selfresource);
     //加载相关组件
     window.$components = function (f) {
-        $dom.load.js([], f);
+        var arr = [];
+        //加载Vant
+        arr.push('/Utilities/Vant/vant.min.js');
+        arr.push('/Utilities/ElementUi/index.js');
+        $dom.load.js(arr, f);
     };
     //加载必要的资源完成
     //f:加载完成要执行的方法
