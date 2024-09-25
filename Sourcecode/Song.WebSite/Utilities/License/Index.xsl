@@ -61,24 +61,25 @@
           <!--中间内容-->
           <div class="context">           
             <div class="card lic" remark="授权信息">
+              <xsl:variable name="level" select="License/EdtionLevel"/>
               <div class="tit">
                     <!--社区版-->
-                    <xsl:if test="License/EdtionLevel = '0'">社区版 
+                    <xsl:if test="$level = 0">社区版 
                       <span class="stage">
                           - <xsl:value-of select="AppDetails/item[@remark='发布状态']"/>
                       </span>
                     </xsl:if>
                      <!--商业版-->
-                    <xsl:if test="License/EdtionLevel != '0'">
+                    <xsl:if test="$level > 0">
                         <xsl:value-of select="License/Edition"/>
                     </xsl:if>
-                    <xsl:if test="License/Label != ''">
+                     <xsl:if test="License/Label != '' and $level &lt; 6">
                         <span class="label">（ <xsl:value-of select="License/Label"/> Edition ）</span>
                     </xsl:if>  
               </div>
               <div class="cont">
                   <!--社区版-->
-                  <xsl:if test="License/EdtionLevel = '0'">  
+                  <xsl:if test="$level = 0">  
                     <xsl:if test="DataDetails/@dbType != 'SQLite'">
                         <alert large="true">
                           社区版仅限使用SQLite数据库，实际数据库 
@@ -96,7 +97,7 @@
                       </xsl:if>
                   </xsl:if>
                    <!--商业版-->
-                  <xsl:if test="License/EdtionLevel != '0'">
+                  <xsl:if test="$level > 0">
                       <!--授权主题与时限-->                     
                       <p>
                           <xsl:variable name="lictype" select="License/Type"/>
@@ -114,13 +115,13 @@
                       <!--账户数量超出允许的数量时的提示-->
                       <xsl:variable name="accCount" select="number(DataDetails/Accounts)"/>
                       <xsl:variable name="entCount" select="number(License/LimitItems/item[@entity])"/>
-                      <xsl:if test="$accCount > $entCount">                
-                        <alert large="true">当前版本限制 <xsl:value-of select="License/LimitItems/item[@entity]" /> 个账号，
-                        已经存在账号数 <xsl:value-of select="DataDetails/Accounts" /> 个，
-                        超出 <xsl:value-of select=" DataDetails/Accounts -License/LimitItems/item[@entity]" /> 个账号，
+                      <xsl:if test="$entCount > 0 and $accCount > $entCount">   
+                        <alert large="true">当前版本限制 <xsl:value-of select="$entCount" /> 个账号，
+                        已经存在账号数 <xsl:value-of select="$accCount" /> 个，
+                        超出 <xsl:value-of select="$accCount - $entCount" /> 个账号，
                         请删除多余的账号，或联系客服增加账号数量。
                         </alert>
-                      </xsl:if>
+                      </xsl:if>   
                   </xsl:if>    
                   <!--公共内容-当前版本的限制数量-->
                   <p>当前版本所能承载的最大数据量，如下：</p>
