@@ -7,7 +7,7 @@
 	padding: 100px;
 	text-align: center;
 }
-context icon{
+context>icon:first-child{
 	display: block;
 	font-size: 160px;
 	margin: 60px;
@@ -16,4 +16,8 @@ context icon{
 context>div{
 	font-size: 18px;
 	line-height: 40px;
+}
+a{
+	color: #409EFF;	
+	margin: auto 10px;
 }

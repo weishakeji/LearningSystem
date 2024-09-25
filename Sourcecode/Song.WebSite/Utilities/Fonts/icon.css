@@ -82,6 +82,14 @@ icon[size='small']::before  {
 icon[size='mini']::before  {
     font-size: 14px;
 }
+/*首页*/
+icon[home]::before {
+    content: '\a020';
+}
+/*返回*/
+icon[back]::before {
+    content: '\e748';
+}
 /*学员*/
 icon[student]::before {
     content: '\e804';
@@ -209,7 +217,7 @@ icon[copy]::before {
 icon[paste]::before {
     content: '\a061';
 }
-
+/*删除*/
 icon[delete]::before {
     content: '\e800';
 }
@@ -217,9 +225,13 @@ icon[delete]::before {
 icon[delete] {
     cursor: pointer;
 }
-
+/*QQ*/
 icon[qq]::before {
     content: '\e82a';
+}
+/*微信*/
+icon[weixin]::before {
+    content: '\e730';
 }
 
 /*帮助、提示*/
@@ -247,8 +259,6 @@ help::before, alert::before, warning::before {
     font-size: 16px;
 }
 
-
-
 /*多行帮助信息*/
 help[multi], alert[multi],warning[multi] {
     position: relative;
@@ -265,11 +275,11 @@ help[multi]::before, alert[multi]::before, warning[multi]::before {
     top: 3px;
 }
 
-/*样式*/
-alert[margin] {
+/*边距*/
+help[margin],alert[margin],warning[margin] {
     margin: 15px;
 }
-
+/*大小*/
 help[large], alert[large],warning[large], help[large] *, alert[large] *, warning[large] * {
     font-size: 18px;
     line-height: 30px;

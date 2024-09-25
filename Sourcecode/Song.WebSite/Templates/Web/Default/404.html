@@ -10,13 +10,12 @@
             loading
             ...
         </page_header>
-        <context>
-          
+        <context>          
             <icon>&#xe849</icon>
             <div>您当前访问的
                 <b v-html="geturl()" v-if="false"></b> 页面不存在！
             </div>
-            <div>请点<a href="javascript:history.go(-1)">此处返回</a>，或转到<a href="/">主页</a></div>
+            <div>请点此处<a href="javascript:history.go(-1)"><icon back>返回</icon></a>，或转到<a href="/"><icon home>主页</icon></a></div>
         </context>
         <page_footer :organ="org">loading ...</page_footer>
     </div>

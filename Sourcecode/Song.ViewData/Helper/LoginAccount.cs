@@ -189,6 +189,8 @@ namespace Song.ViewData
         {
             if (acc == null) return string.Empty;
             LoginAccount.CacheAdd(acc);
+            //异步存储
+            Task.Run(() => Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID));          
             return Generate_checkcode(acc);
         }
         /// <summary>

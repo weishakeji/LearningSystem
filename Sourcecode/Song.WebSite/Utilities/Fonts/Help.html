@@ -68,6 +68,7 @@
     <h2>特定图标的引用</h2>
     <div>
         <p class="example">
+           
             <icon student>学员</icon>
             <icon teacher>教师</icon>
             <icon course>课程</icon>
@@ -92,8 +93,12 @@
             <icon help></icon>
             <icon paste></icon>
             <icon delete></icon>
+            <icon qq></icon>
+            <icon weixin></icon>
+            <icon home>主页</icon>
+            <icon back>返回</icon>
         </p>
-        <textarea style="height: 260px;"><icon student>学员</icon> <icon teacher>教师</icon>
+        <textarea style="height: 350px;"><icon student>学员</icon> <icon teacher>教师</icon>
 <icon course>课程</icon> <icon subject>专业</icon>
 <icon outline>章节</icon> <icon question>试题</icon>
 <icon test>试卷</icon> <icon video>视频</icon>
@@ -104,7 +109,11 @@
 <icon mobile></icon> <icon close></icon>
 <icon man></icon> <icon woman></icon>
 <icon copy></icon> <icon help></icon>
-<icon paste></icon> <icon delete></icon></textarea>
+<icon paste></icon> <icon delete></icon>
+<icon qq></icon>
+<icon weixin></icon>
+<icon home>主页</icon>
+<icon back>返回</icon></textarea>
 <dd>图标大小设置</dd>
 <dd>与前两种方式不同，需要在html标签中增加size属性，设置的值为：huge、large、medium、small、mini</dd>
 
@@ -129,14 +138,17 @@
             这里可以换行，用&lt;br/&gt;实现多行的说明信息
         </help>
         <alert>一些提示信息，同样支持multi属性</alert>
-
+        <br/>
+        <alert margin>边距15像素</alert>
+        <br/>
+        <alert large>大字体显示</alert>
     </p>
     <textarea style="height: 160px;"><help>可以写一些说明信息</help>
 <help multi>用于多行的说明信息<br/>
     这里可以换行，用&lt;br/&gt;实现多行的说明信息
 </help>
-<alert>一些提示信息，同样支持multi属性</alert>
-<alert margin>边距15像素</alert>
+<alert>一些提示信息，同样支持multi属性</alert> <br/>
+<alert margin>边距15像素</alert> <br/>
 <alert large>大字体显示</alert>
 </textarea>
 </body>
