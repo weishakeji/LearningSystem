@@ -117,7 +117,7 @@ $ready(function () {
                             }
                             th.token = result['access_token'];
                             th.openid = result['openid'];
-                            document.writeln(JSON.stringify(result));
+                            //document.writeln(JSON.stringify(result));
                             //生成订单 
                             $api.get('Pay/WxJsApiPay', {
                                 'tracetype': 'JSAPI',
