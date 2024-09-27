@@ -17,16 +17,16 @@ namespace Song.ViewData
     {
         private static readonly LoginAdmin _singleton = new LoginAdmin();
         //资源的虚拟路径和物理路径
-        private string virPath = WeiSha.Core.Upload.Get["Admin"].Virtual;
-        private string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
+        private string virPath = WeiSha.Core.Upload.Get["Employee"].Virtual;
+        private string phyPath = WeiSha.Core.Upload.Get["Employee"].Physics;
         //token的管理
         private static LoginToken token = new LoginToken(LoginTokenType.Admin);
-        //清理过期数据
-        private Timer timer;
+        //登录的缓存
+        public static readonly LoginCache Cache = LoginCache.Get<EmpAccount>(LoginTokenType.Admin);
+
         private LoginAdmin()
         {
-            // 每隔60分钟触发一次事件
-            timer = new Timer(state => LoginAdmin.CacheClearExpired(), null, TimeSpan.Zero, TimeSpan.FromMinutes(60));
+           
         }
 
         /// <summary>
@@ -46,7 +46,17 @@ namespace Song.ViewData
                 if (t == null) return null;
                 int accid = (int)t.RoleID;
                 if (accid <= 0) return null;
-                Song.Entities.EmpAccount acc = LoginAdmin.CacheGet(accid);
+                //从内存中获取
+                Song.Entities.EmpAccount acc = LoginAdmin.Cache.Get<EmpAccount>(accid);
+                if (acc != null && !acc.Acc_IsUse) acc = null;
+                //从数据库获取
+                if (acc == null)
+                {
+                    acc = Business.Do<IEmployee>().GetSingle(accid);
+                    if (acc != null) LoginAccount.Cache.Add<EmpAccount>(acc, accid);
+                }
+                if (acc != null && !acc.Acc_IsUse) acc = null;
+                //校验checkUID
                 if (acc == null || string.IsNullOrWhiteSpace(acc.Acc_CheckUID) || !acc.Acc_CheckUID.Equals(t.UniqueID)) return null;
                 acc = acc.DeepClone<Song.Entities.EmpAccount>();
                 if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
@@ -95,7 +105,7 @@ namespace Song.ViewData
         {                     
             //识别码，记录到数据库
             acc.Acc_CheckUID = WeiSha.Core.Request.UniqueID();
-            LoginAdmin.CacheAdd(acc);
+            LoginAdmin.Cache.Add<EmpAccount>(acc, acc.Acc_Id);
             //异步存储
             new System.Threading.Tasks.Task(() =>
             {
@@ -173,96 +183,9 @@ namespace Song.ViewData
         public string Fresh(Song.Entities.EmpAccount acc)
         {
             if (acc == null) return string.Empty;
-            LoginAdmin.CacheAdd(acc);
+            LoginAdmin.Cache.Add<EmpAccount>(acc, acc.Acc_Id);
+            //重新生成token,过期时间被刷新
             return token.Generate(acc.Acc_CheckUID, acc.Acc_Id);
         }
-
-        #region 内存数据管理
-        private static object _lock_list = new object();        
-        private static readonly string _cachaName= "LoginAdmin_EmpAccount_List";
-        /// <summary>
-        /// 缓存中的列表数据
-        /// </summary>
-        /// <returns></returns>
-        private static List<EmpAccount> CacheList()
-        {
-            MemoryCache cache = MemoryCache.Default;
-            List<EmpAccount> list = cache.Get(_cachaName) as List<EmpAccount>;
-            if (list == null) list = new List<EmpAccount>();
-            return list;
-        }
-        private static List<EmpAccount> CacheUpdate(List<EmpAccount> list)
-        {
-            MemoryCache cache = MemoryCache.Default;
-            if (cache.Contains(_cachaName)) cache.Remove(_cachaName);
-            cache.Add(_cachaName, list, DateTimeOffset.UtcNow.AddYears(2));        
-            return list;
-        }
-        /// <summary>
-        /// 添加在线账号
-        /// </summary>
-        /// <param name="acc"></param>
-        public static void CacheAdd(EmpAccount acc)
-        {
-           
-            if (acc == null) return;
-            acc.Acc_LastTime = DateTime.Now;
-            lock (_lock_list)
-            {
-                List<EmpAccount> list = CacheList();
-                int idx = list.FindIndex(x => x.Acc_Id == acc.Acc_Id);
-                if (idx >= 0) list[idx] = acc;
-                else list.Add(acc);
-                CacheUpdate(list);
-            }
-        }
-        /// <summary>
-        /// 清除掉某个登录账号
-        /// </summary>
-        /// <param name="id"></param>
-        public static void CacheRemove(int id)
-        {
-            List<EmpAccount> list = CacheList();
-            int idx = list.FindIndex(x => x.Acc_Id == id);
-            if (idx >= 0) list.RemoveAt(idx);
-            CacheUpdate(list);
-        }
-        /// <summary>
-        /// 获取内存中的当前登录账号
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static Song.Entities.EmpAccount CacheGet(int id)
-        {
-            List<EmpAccount> list = CacheList();
-            EmpAccount acc = list.Find(x => x.Acc_Id == id);
-            if (acc == null)
-            {
-                acc = Business.Do<IEmployee>().GetSingle(id);
-                CacheAdd(acc);
-            }
-            if (acc == null) return null;
-            return acc.Acc_IsUse ? acc : null;
-        }
-        /// <summary>
-        /// 清理过期
-        /// </summary>
-        public static void CacheClearExpired()
-        {
-            lock (_lock_list)
-            {
-                List<EmpAccount> list = CacheList();
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i].Acc_LastTime > DateTime.Now.AddMinutes(-60))
-                    {
-                        list.RemoveAt(i);
-                        i--;
-                    }
-                }
-                CacheUpdate(list);
-            }
-        }
-        #endregion
     }
 }

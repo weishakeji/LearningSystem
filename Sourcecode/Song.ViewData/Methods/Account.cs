@@ -165,13 +165,13 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
             if (account == null) throw VExcept.Verify("验证码不正确", 105);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            LoginAccount.CacheAdd(account);         
+            LoginAccount.Cache.Add<Accounts>(account, account.Ac_ID);         
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
-            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account);
+            user.Ac_Pw = LoginAccount.Status.Generate_Checkcode(account);
             return user;
         }
         /// <summary>
@@ -225,14 +225,14 @@ namespace Song.ViewData.Methods
             tmp.Ac_IsPass = !(bool)(config["IsVerifyStudent"].Value.Boolean ?? false);
             tmp.Ac_IsUse = tmp.Ac_IsPass;
             //生成登录校验码
-            tmp.Ac_CheckUID = LoginAccount.Status.Generate_checkcode(tmp);
+            tmp.Ac_CheckUID = LoginAccount.Status.Generate_Checkcode(tmp);
             tmp.Ac_ID = Business.Do<IAccounts>().AccountsAdd(tmp);
             _tran(tmp);
             if (tmp.Ac_IsPass)
             {
                 tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
-                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp);
-                LoginAccount.CacheAdd(tmp);
+                tmp.Ac_Pw = LoginAccount.Status.Generate_Checkcode(tmp);
+                LoginAccount.Cache.Add<Accounts>(tmp, tmp.Ac_ID);
             }
             return tmp;
         }
@@ -934,6 +934,7 @@ namespace Song.ViewData.Methods
         public int Delete(int id)
         {
             Business.Do<IAccounts>().AccountsDelete(id);
+            LoginAdmin.Cache.Remove<Accounts>(id); //清理登录状态
             return id;
         }
         #endregion
@@ -1685,7 +1686,7 @@ namespace Song.ViewData.Methods
             if (acc != null)
             {
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);               
-                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc);
+                acc.Ac_Pw = LoginAccount.Status.Generate_Checkcode(acc);
             }
             LoginAccount.Status.Fresh(acc);
             return acc;
@@ -1762,7 +1763,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
             _tran(nacc);
             nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
-            nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc);
+            nacc.Ac_Pw = LoginAccount.Status.Generate_Checkcode(nacc);
             LoginAccount.Status.Fresh(nacc);
             return nacc;
         }

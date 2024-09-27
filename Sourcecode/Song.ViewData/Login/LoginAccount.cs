@@ -21,12 +21,11 @@ namespace Song.ViewData
         private static string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
         //token的管理
         private static LoginToken token = new LoginToken(LoginTokenType.Account);
-        //定时任务
-        private Timer timer;
+        //登录的缓存
+        public static readonly LoginCache Cache = LoginCache.Get<Accounts>(LoginTokenType.Account);
+
         private LoginAccount()
         {
-            // 每隔60分钟触发一次事件
-            timer = new Timer(state => LoginAccount.CacheClearExpired(), null, TimeSpan.Zero, TimeSpan.FromMinutes(60));
         }
         /// <summary>
         /// 当前单件对象
@@ -55,10 +54,16 @@ namespace Song.ViewData
                 int accid = (int)t.RoleID;
                 if (accid <= 0) return null;
                 //从内存中获取
-                Song.Entities.Accounts acc = LoginAccount.CacheGet(accid);
+                Song.Entities.Accounts acc = LoginAccount.Cache.Get<Accounts>(accid);
+                if (acc != null && (!acc.Ac_IsUse || !acc.Ac_IsPass)) acc = null;
                 //从数据库获取
-                //Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
-                if (acc == null) acc = LoginAccount.CacheGet(accid);
+                if (acc == null)
+                {
+                    acc = Business.Do<IAccounts>().AccountsSingle(accid);
+                    if (acc != null) LoginAccount.Cache.Add<Accounts>(acc, accid);
+                }
+                if (acc != null && (!acc.Ac_IsUse || !acc.Ac_IsPass)) acc = null;
+                //校验checkUID
                 if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(t.UniqueID)) return null;
                 acc = acc.DeepClone<Song.Entities.Accounts>();
                 if (!string.IsNullOrWhiteSpace(acc.Ac_Photo) && !acc.Ac_Photo.StartsWith("/"))
@@ -74,7 +79,7 @@ namespace Song.ViewData
         /// <returns></returns>
         public string Login(Accounts acc)
         {
-            LoginAccount.CacheAdd(acc);
+            LoginAccount.Cache.Add<Accounts>(acc, acc.Ac_ID);
             //异步存储
             new System.Threading.Tasks.Task(() =>
             {
@@ -82,7 +87,7 @@ namespace Song.ViewData
             }).Start();
 
             //返回加密状态码
-            return Generate_checkcode(acc);
+            return Generate_Checkcode(acc);
         }
         /// <summary>
         /// 是否登录
@@ -167,10 +172,10 @@ namespace Song.ViewData
         public string Fresh(Song.Entities.Accounts acc)
         {
             if (acc == null) return string.Empty;
-            LoginAccount.CacheAdd(acc);
+            LoginAccount.Cache.Add<Accounts>(acc, acc.Ac_ID);
             //异步存储
             Task.Run(() => Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID));          
-            return Generate_checkcode(acc);
+            return Generate_Checkcode(acc);
         }
         /// <summary>
         /// 刷新登录状态
@@ -185,7 +190,7 @@ namespace Song.ViewData
             //添加登录记录
             Business.Do<IStudent>().LogForLoginFresh(acc, span, string.Empty);
             //生成新的token
-            string code = Generate_checkcode(acc);
+            string code = Generate_Checkcode(acc);
             //暂时注释掉，不知道是否有影响，按道理Ac_CheckUID不应该改变
             //acc.Ac_CheckUID = code;
             //bool isexist = LoginAccount.Status.Fresh(acc);
@@ -196,97 +201,9 @@ namespace Song.ViewData
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public string Generate_checkcode(Song.Entities.Accounts acc)
+        public string Generate_Checkcode(Song.Entities.Accounts acc)
         {
             return token.Generate(acc.Ac_CheckUID, acc.Ac_ID);           
-        }       
-
-        #region 内存数据管理
-        private static object _lock_list = new object();
-        private static readonly string _cachaName = "LoginAccount_Accounts_List";
-        /// <summary>
-        /// 缓存中的列表数据
-        /// </summary>
-        /// <returns></returns>
-        public static List<Accounts> CacheList()
-        {
-            MemoryCache cache = MemoryCache.Default;
-            List<Accounts> list = cache.Get(_cachaName) as List<Accounts>;
-            if (list == null) list = new List<Accounts>();
-            return list;
         }
-        private static List<Accounts> CacheUpdate(List<Accounts> list)
-        {
-            MemoryCache cache = MemoryCache.Default;
-            if (cache.Contains(_cachaName)) cache.Remove(_cachaName);
-            cache.Add(_cachaName, list, DateTimeOffset.UtcNow.AddYears(2));
-            return list;
-        }
-        /// <summary>
-        /// 添加在线账号
-        /// </summary>
-        /// <param name="acc"></param>
-        public static void CacheAdd(Accounts acc)
-        {
-
-            if (acc == null) return;
-            acc.Ac_LastTime = DateTime.Now;
-            lock (_lock_list)
-            {
-                List<Accounts> list = CacheList();
-                int idx = list.FindIndex(x => x.Ac_ID == acc.Ac_ID);
-                if (idx >= 0) list[idx] = acc;
-                else list.Add(acc);
-                CacheUpdate(list);
-            }
-        }
-        /// <summary>
-        /// 清除掉某个登录账号
-        /// </summary>
-        /// <param name="id"></param>
-        public static void CacheRemove(int id)
-        {
-            List<Accounts> list = CacheList();
-            int idx = list.FindIndex(x => x.Ac_ID == id);
-            if (idx >= 0) list.RemoveAt(idx);
-            CacheUpdate(list);
-        }
-        /// <summary>
-        /// 获取内存中的当前登录账号
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static Song.Entities.Accounts CacheGet(int id)
-        {
-            List<Accounts> list = CacheList();
-            Accounts acc = list.Find(x => x.Ac_ID == id);
-            if (acc == null)
-            {
-                acc = Business.Do<IAccounts>().AccountsSingle(id);
-                CacheAdd(acc);
-            }
-            if (acc == null) return null;
-            return acc.Ac_IsUse && acc.Ac_IsPass ? acc : null;
-        }
-        /// <summary>
-        /// 清理过期
-        /// </summary>
-        public static void CacheClearExpired()
-        {
-            lock (_lock_list)
-            {
-                List<Accounts> list = CacheList();
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i].Ac_LastTime > DateTime.Now.AddMinutes(-60))
-                    {
-                        list.RemoveAt(i);
-                        i--;
-                    }
-                }
-                CacheUpdate(list);
-            }
-        }
-        #endregion
     }
 }

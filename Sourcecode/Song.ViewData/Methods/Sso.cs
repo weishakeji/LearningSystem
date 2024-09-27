@@ -149,7 +149,7 @@ namespace Song.ViewData.Methods
             {
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);
                 acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
-                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc);
+                acc.Ac_Pw = LoginAccount.Status.Generate_Checkcode(acc);
                 LoginAccount.Status.Fresh(acc);
                 return acc;
             } else if (sso.SSO_IsAdd)   //登录接口，允许添加学员
@@ -185,7 +185,7 @@ namespace Song.ViewData.Methods
 
                 //acc = Business.Do<IAccounts>().AccountsSingle(user, -1);
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);
-                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc);
+                acc.Ac_Pw = LoginAccount.Status.Generate_Checkcode(acc);
                 LoginAccount.Status.Fresh(acc);
                 return acc;
             }

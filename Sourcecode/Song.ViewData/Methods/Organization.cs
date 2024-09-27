@@ -44,7 +44,7 @@ namespace Song.ViewData.Methods
             jacc.Add("usecount", Business.Do<IAccounts>().AccountsOfCount(orgid, true, -1));     //启用的学员数
             jacc.Add("man", Business.Do<IAccounts>().AccountsOfCount(orgid, true, 1));            //男性人数    
             jacc.Add("woman", Business.Do<IAccounts>().AccountsOfCount(orgid, true, 2));            //女性人数
-            jacc.Add("online", Song.ViewData.LoginAccount.CacheList().Count);                       //在线人数           
+            jacc.Add("online", Song.ViewData.LoginAccount.Cache.List<Accounts>().Count);                       //在线人数           
             jacc.Add("recharge", Business.Do<IAccounts>().MoneyForAccount(orgid, 2, 3));         //付费学员数，即充过值的人数            
             jacc.Add("pay", Business.Do<IAccounts>().MoneyForAccount(orgid, 1, 4));         //消费学员数，即购买过课程的人数
             jacc.Add("course", Business.Do<IStudent>().ForCourseCount(orgid, false));             //正在学习的人数,即选修过课程的人数

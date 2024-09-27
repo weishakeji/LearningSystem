@@ -293,7 +293,7 @@ namespace Song.ViewData.Methods
                         if (posi.Posi_IsAdmin == true && !issuper) throw new Exception("管理员不可以删除！");
                     }
                     Business.Do<IEmployee>().Delete(emp);
-                    LoginAdmin.CacheRemove(emp.Acc_Id); //清理登录状态
+                    LoginAdmin.Cache.Remove<EmpAccount>(emp.Acc_Id); //清理登录状态
                     i++;
                 }
                 catch (Exception ex)
