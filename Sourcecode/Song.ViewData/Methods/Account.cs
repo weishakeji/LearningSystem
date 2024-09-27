@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
             user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
-            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
+            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account);
             return user;
         }
         /// <summary>
@@ -225,13 +225,13 @@ namespace Song.ViewData.Methods
             tmp.Ac_IsPass = !(bool)(config["IsVerifyStudent"].Value.Boolean ?? false);
             tmp.Ac_IsUse = tmp.Ac_IsPass;
             //生成登录校验码
-            tmp.Ac_CheckUID = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
+            tmp.Ac_CheckUID = LoginAccount.Status.Generate_checkcode(tmp);
             tmp.Ac_ID = Business.Do<IAccounts>().AccountsAdd(tmp);
             _tran(tmp);
             if (tmp.Ac_IsPass)
             {
                 tmp = Business.Do<IAccounts>().AccountsLogin(tmp);
-                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
+                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp);
                 LoginAccount.CacheAdd(tmp);
             }
             return tmp;
@@ -1685,7 +1685,7 @@ namespace Song.ViewData.Methods
             if (acc != null)
             {
                 acc = Business.Do<IAccounts>().AccountsLogin(acc);               
-                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc, this.Letter);
+                acc.Ac_Pw = LoginAccount.Status.Generate_checkcode(acc);
             }
             LoginAccount.Status.Fresh(acc);
             return acc;
@@ -1762,7 +1762,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
             _tran(nacc);
             nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
-            nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc, this.Letter);
+            nacc.Ac_Pw = LoginAccount.Status.Generate_checkcode(nacc);
             LoginAccount.Status.Fresh(nacc);
             return nacc;
         }

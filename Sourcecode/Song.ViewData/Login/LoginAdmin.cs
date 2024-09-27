@@ -19,11 +19,9 @@ namespace Song.ViewData
         //资源的虚拟路径和物理路径
         private string virPath = WeiSha.Core.Upload.Get["Admin"].Virtual;
         private string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
-        //登录相关参数, 密钥，键，过期时间（分钟）
-        private string secretkey = WeiSha.Core.Login.Get["Admin"].Secretkey.String;
-        private string keyname = WeiSha.Core.Login.Get["Admin"].KeyName.String;
-        private int expires = WeiSha.Core.Login.Get["Admin"].Expires.Int32 ?? 0;
-
+        //token的管理
+        private static LoginToken token = new LoginToken(LoginTokenType.Admin);
+        //清理过期数据
         private Timer timer;
         private LoginAdmin()
         {
@@ -43,36 +41,22 @@ namespace Song.ViewData
         public Song.Entities.EmpAccount User(Letter letter)
         {
             if (letter.LoginStatus == null || letter.LoginStatus.Length < 1) return null;
-            //解析状态码
-            string[] status = null;
-            foreach (string s in letter.LoginStatus)
+            using (LoginToken t = token.Analysis(letter.LoginStatus))
             {
-                string str = WeiSha.Core.DataConvert.DecryptForDES(s, secretkey);
-                if (string.IsNullOrWhiteSpace(str)) continue;
-                //解析后信息,依次为：标识,id,角色,时效,识别码
-                string[] arr = str.Split(',');
-                if (arr[0].Equals(keyname, StringComparison.CurrentCultureIgnoreCase))
+                if (t == null) return null;
+                int accid = (int)t.RoleID;
+                if (accid <= 0) return null;
+                Song.Entities.EmpAccount acc = LoginAdmin.CacheGet(accid);
+                if (acc == null || string.IsNullOrWhiteSpace(acc.Acc_CheckUID) || !acc.Acc_CheckUID.Equals(t.UniqueID)) return null;
+                acc = acc.DeepClone<Song.Entities.EmpAccount>();
+                if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
                 {
-                    status = arr;
-                    break;
+                    acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : WeiSha.Core.Upload.Get["Employee"].Virtual + acc.Acc_Photo;
+                    if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(acc.Acc_Photo))) acc.Acc_Photo = "";
                 }
+                acc.Acc_Pw = string.Empty;
+                return acc;
             }
-            //判断时效
-            if (status == null || status.Length < 3) return null;
-            DateTime time = Convert.ToDateTime(status[3]);
-            if (time < DateTime.Now) return null;
-            //判断登录码
-            int accid = Convert.ToInt32(status[1]);
-            Song.Entities.EmpAccount acc = LoginAdmin.CacheGet(accid);
-            if (acc == null || string.IsNullOrWhiteSpace(acc.Acc_CheckUID) || !acc.Acc_CheckUID.Equals(status[4])) return null;
-            acc = acc.DeepClone<Song.Entities.EmpAccount>();
-            if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
-            {
-                acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : WeiSha.Core.Upload.Get["Employee"].Virtual + acc.Acc_Photo;
-                if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(acc.Acc_Photo))) acc.Acc_Photo = "";
-            }
-            acc.Acc_Pw = string.Empty;
-            return acc;
         }
         /// <summary>
         /// 当前登录的管理员账号
@@ -90,8 +74,7 @@ namespace Song.ViewData
         /// <returns></returns>
         public bool IsLogin(Letter letter)
         {
-            Song.Entities.EmpAccount acc = this.User(letter);
-            return acc != null;
+            return this.User(letter) != null;
         }
         /// <summary>
         /// 是否登录
@@ -111,17 +94,16 @@ namespace Song.ViewData
         public string Login(Song.Entities.EmpAccount acc)
         {                     
             //识别码，记录到数据库
-            string uid = WeiSha.Core.Request.UniqueID();
-            acc.Acc_CheckUID = uid;
+            acc.Acc_CheckUID = WeiSha.Core.Request.UniqueID();
             LoginAdmin.CacheAdd(acc);
             //异步存储
             new System.Threading.Tasks.Task(() =>
             {
-                Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, uid);
+                Business.Do<IEmployee>().RecordLoginCode(acc.Acc_Id, acc.Acc_CheckUID);
             }).Start();
 
             //返回加密状态码
-            return _generate_checkcode(acc.Acc_Id, uid);
+            return token.Generate(acc.Acc_CheckUID, acc.Acc_Id); 
         }
         /// <summary>
         /// 是否为超级管理员
@@ -192,25 +174,7 @@ namespace Song.ViewData
         {
             if (acc == null) return string.Empty;
             LoginAdmin.CacheAdd(acc);
-            return _generate_checkcode(acc.Acc_Id, acc.Acc_CheckUID);           
-        }
-        /// <summary>
-        /// 生成登录校验码
-        /// </summary>
-        /// <param name="accid"></param>
-        /// <param name="uid">登录校验码</param>
-        /// <returns></returns>
-        private string _generate_checkcode(int accid,string uid)
-        {
-            //校验码,依次为：标识,id,角色,时效,识别码
-            string checkcode = "{0},{1},{2},{3},{4}";
-            string role = "admin";      //角色
-            //时效
-            DateTime exp = DateTime.Now.AddMinutes(expires > 0 ? expires : 10);
-            checkcode = string.Format(checkcode, keyname, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid);
-            //加密         
-            checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
-            return checkcode;
+            return token.Generate(acc.Acc_CheckUID, acc.Acc_Id);
         }
 
         #region 内存数据管理

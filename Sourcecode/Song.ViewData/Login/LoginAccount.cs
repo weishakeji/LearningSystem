@@ -19,10 +19,9 @@ namespace Song.ViewData
         //资源的虚拟路径和物理路径
         private static string virPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
         private static string phyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
-        //登录相关参数, 密钥，键，过期时间（分钟）
-        private static string secretkey = WeiSha.Core.Login.Get["Accounts"].Secretkey.String;
-        private static string keyname = WeiSha.Core.Login.Get["Accounts"].KeyName.String;
-        private static int expires = WeiSha.Core.Login.Get["Accounts"].Expires.Int32 ?? 0;
+        //token的管理
+        private static LoginToken token = new LoginToken(LoginTokenType.Account);
+        //定时任务
         private Timer timer;
         private LoginAccount()
         {
@@ -50,39 +49,23 @@ namespace Song.ViewData
         public Song.Entities.Accounts User(Letter letter)
         {
             if (letter.LoginStatus == null || letter.LoginStatus.Length < 1) return null;
-            //解析状态码
-            //string key = WeiSha.Core.Login.Get["Accounts"].KeyName.String;   //标识,来自web.config配置
-            string[] status = null;
-            foreach (string s in letter.LoginStatus)
+            using(LoginToken t = token.Analysis(letter.LoginStatus))
             {
-                if (!s.StartsWith(keyname)) continue;
-                string str = WeiSha.Core.DataConvert.DecryptForDES(s.Substring(keyname.Length), secretkey);
-                if (string.IsNullOrWhiteSpace(str)) continue;
-                //解析后信息,依次为：id,角色,时效,识别码,useragent
-                status = str.Split(',');
-            }
-            //判断时效
-            if (status == null || status.Length < 2) return null;
-            DateTime exp = Convert.ToDateTime(status[2]);
-            if (exp < DateTime.Now) return null;
-            //判断浏览器userAgent
-            string ua = letter.HTTP_HOST;
-            if (status == null || status.Length < 4) return null;
-            if (!ua.Equals(status[4])) return null;
-
-            //判断登录id
-            int accid = Convert.ToInt32(status[0]);
-            //从内存中获取
-            Song.Entities.Accounts acc = LoginAccount.CacheGet(accid);
-            //从数据库获取
-            //Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
-            if (acc == null) acc = LoginAccount.CacheGet(accid);
-            if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(status[3])) return null;
-            acc = acc.DeepClone<Song.Entities.Accounts>();
-            if(!string.IsNullOrWhiteSpace(acc.Ac_Photo) && !acc.Ac_Photo.StartsWith("/"))
-                acc.Ac_Photo = System.IO.File.Exists(phyPath + acc.Ac_Photo) ? virPath + acc.Ac_Photo : "";
-            acc.Ac_Pw = string.Empty;
-            return acc;
+                if (t == null) return null;
+                int accid = (int)t.RoleID;
+                if (accid <= 0) return null;
+                //从内存中获取
+                Song.Entities.Accounts acc = LoginAccount.CacheGet(accid);
+                //从数据库获取
+                //Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
+                if (acc == null) acc = LoginAccount.CacheGet(accid);
+                if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(t.UniqueID)) return null;
+                acc = acc.DeepClone<Song.Entities.Accounts>();
+                if (!string.IsNullOrWhiteSpace(acc.Ac_Photo) && !acc.Ac_Photo.StartsWith("/"))
+                    acc.Ac_Photo = System.IO.File.Exists(phyPath + acc.Ac_Photo) ? virPath + acc.Ac_Photo : "";
+                acc.Ac_Pw = string.Empty;
+                return acc;
+            }           
         }
         /// <summary>
         /// 登录
@@ -91,9 +74,6 @@ namespace Song.ViewData
         /// <returns></returns>
         public string Login(Accounts acc)
         {
-            //识别码，记录到数据库
-            //string uid = WeiSha.Core.Request.UniqueID();
-            //acc.Ac_CheckUID = uid;
             LoginAccount.CacheAdd(acc);
             //异步存储
             new System.Threading.Tasks.Task(() =>
@@ -110,8 +90,7 @@ namespace Song.ViewData
         /// <returns></returns>
         public bool IsLogin(Letter letter)
         {
-            Song.Entities.Accounts acc = this.User(letter);
-            return acc != null;
+            return this.User(letter) != null;           
         }
         /// <summary>
         /// 是否登录
@@ -206,7 +185,7 @@ namespace Song.ViewData
             //添加登录记录
             Business.Do<IStudent>().LogForLoginFresh(acc, span, string.Empty);
             //生成新的token
-            string code = Generate_checkcode(acc, letter);
+            string code = Generate_checkcode(acc);
             //暂时注释掉，不知道是否有影响，按道理Ac_CheckUID不应该改变
             //acc.Ac_CheckUID = code;
             //bool isexist = LoginAccount.Status.Fresh(acc);
@@ -219,32 +198,8 @@ namespace Song.ViewData
         /// <returns></returns>
         public string Generate_checkcode(Song.Entities.Accounts acc)
         {
-            System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            Letter letter = Letter.Constructor(_context);
-            return Generate_checkcode(acc, letter);
-        }
-        /// <summary>
-        /// 生成登录校验码
-        /// </summary>
-        /// <param name="acc"></param>
-        /// <param name="letter"></param>
-        /// <returns></returns>
-        public string Generate_checkcode(Song.Entities.Accounts acc, Letter letter)
-        {
-            int accid = acc.Ac_ID;
-            string uid = acc.Ac_CheckUID;
-            //校验码,依次为：id,角色,时效,识别码
-            string checkcode = "{0},{1},{2},{3},{4}";
-            string role = "student";      //角色
-            //时效
-            DateTime exp = DateTime.Now.AddMinutes(expires > 0 ? expires : 10);
-            //userAgent
-            string ua = letter.HTTP_HOST;    
-            checkcode = string.Format(checkcode, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid, ua);
-            //加密         
-            checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
-            return keyname + checkcode;
-        }
+            return token.Generate(acc.Ac_CheckUID, acc.Ac_ID);           
+        }       
 
         #region 内存数据管理
         private static object _lock_list = new object();
