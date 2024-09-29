@@ -114,28 +114,26 @@ namespace Song.ViewData
             {
                 Dictionary<long, T> dic = List<T>();
                 List<long> keys = new List<long>(dic.Keys);
-                //管理员的清理
-                if (this.TokenType == LoginTokenType.Admin)
+                for (int i = 0; i < keys.Count; i++)
                 {
-                    for (int i = 0; i < keys.Count; i++)
+                    long id = keys[i];
+                    if (!dic.ContainsKey(id)) continue;
+                    T acc = dic[id];
+                    //学员账号的清理
+                    if (this.TokenType == LoginTokenType.Account && acc is Song.Entities.Accounts)
                     {
-                        long id= keys[i];
-                        Song.Entities.EmpAccount acc = dic[id] as Song.Entities.EmpAccount;
-                        if (acc.Acc_LastTime > DateTime.Now.AddMinutes(-60))
+                        Song.Entities.Accounts accs = acc as Song.Entities.Accounts;
+                        if (accs.Ac_LastTime > DateTime.Now.AddMinutes(-60))
                         {
                             dic.Remove(id);
                             i--;
                         }
                     }
-                }
-                //学员账号的清理
-                if (this.TokenType == LoginTokenType.Account)
-                {
-                    for (int i = 0; i < keys.Count; i++)
+                    //管理员账号的清理
+                    if (this.TokenType == LoginTokenType.Admin && acc is Song.Entities.EmpAccount)
                     {
-                        long id = keys[i];
-                        Song.Entities.Accounts acc = dic[id] as Song.Entities.Accounts;
-                        if (acc.Ac_LastTime > DateTime.Now.AddMinutes(-60))
+                        Song.Entities.EmpAccount emp = acc as Song.Entities.EmpAccount;
+                        if (emp.Acc_LastTime > DateTime.Now.AddMinutes(-60))
                         {
                             dic.Remove(id);
                             i--;

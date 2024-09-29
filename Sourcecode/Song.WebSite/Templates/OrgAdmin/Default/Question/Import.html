@@ -52,7 +52,7 @@
                 </el-tag>
             </div>
             <upload-excel ref="upload" :template="tname+'题.xls'" :config="tname+'题.xml'" :title="tname+'题'"
-                apiurl="Question/ExcelImport" @finish="finish" @step="s=>step=s" :params="{'type':qtype,'couid':couid}">
+                apiurl="Question/ExcelImport" @finish="finish" @step="s=>step=s" :params="{'type':qtype,'couid':form.Cou_ID}">
             </upload-excel>
         </template>
     </div>

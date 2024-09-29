@@ -13,8 +13,7 @@ using System.Collections;
 using System.Web;
 using System.Threading.Tasks;
 using System.Threading;
-using Quartz;
-using Quartz.Impl;
+
 
 namespace Song.ServiceImpls
 {
@@ -750,30 +749,6 @@ namespace Song.ServiceImpls
             }; 
             _cronTimer.AutoReset = false; // Set to false to prevent repeated execution  
             _cronTimer.Enabled = true; // Start the timer  
-
-            //if (scheduler != null) return;
-            //WeiSha.Core.Log.Info("创建定时任务", "更新机构的所有统计数据");
-            //// 创建调度器  
-            //scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
-            //// 启动调度器  
-            //scheduler.Start();
-
-            //// 定义任务  
-            //IJobDetail job = JobBuilder.Create<MyJob>()
-            //    .WithIdentity("myJob", "group1").Build();
-
-            //// 定义触发器，设置为每天中午12:30执行  
-            //ITrigger trigger = TriggerBuilder.Create()
-            //    .WithIdentity("UpdateStatisticalData_CronJob", "group1")
-            //    .StartNow()
-            //    .WithCronSchedule("0 30 14 * * ?") // 每天中午12:30  
-            //    .Build();
-
-            //// 将任务和触发器添加到调度器  
-            //scheduler.ScheduleJob(job, trigger);
-
-            ////// 关闭调度器  
-            ////scheduler.Shutdown().Wait();
         }
         private static System.Timers.Timer _delayTimer;
         /// <summary>
@@ -830,13 +805,17 @@ namespace Song.ServiceImpls
         /// <param name="subject">专业</param>
         private static void _update_Subject_StatisticalData_task(Subject subject)
         {
-            //试题数，试卷数，课程数
-            int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
-            int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
-            int course_count = Business.Do<ICourse>().CourseOfCount(subject.Sbj_ID);
-            Business.Do<ISubject>().SubjectUpdate(subject.Sbj_ID,
-                new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
-                new object[] { ques_count, paper_count, course_count });
+            try
+            {
+                //试题数，试卷数，课程数
+                int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
+                int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
+                int course_count = Business.Do<ICourse>().CourseOfCount(subject.Sbj_ID);
+                Business.Do<ISubject>().SubjectUpdate(subject.Sbj_ID,
+                    new Field[] { Subject._.Sbj_QuesCount, Subject._.Sbj_TestCount, Subject._.Sbj_CourseCount },
+                    new object[] { ques_count, paper_count, course_count });
+            }
+            catch { }
         }
       
         /// <summary>
@@ -845,32 +824,22 @@ namespace Song.ServiceImpls
         /// <param name="course"></param>
         private static void _update_Course_StatisticalData_task(Course course)
         {
-            //更新课程的试卷数，章节数，视频数
-            int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, course.Cou_ID, -1, null);
-            int outline_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null);
-            int video_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, true, null, null);
-            Business.Do<ICourse>().CourseUpdate(course.Cou_ID,
-                new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
-                new object[] { paper_count, outline_count, video_count });
-            //更新课程与章节下的试题数量
-            Business.Do<IQuestions>().QuesCountUpdate(-1, -1, course.Cou_ID, -1);
+            try
+            {
+                //更新课程的试卷数，章节数，视频数
+                int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, course.Cou_ID, -1, null);
+                int outline_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null);
+                int video_count = Business.Do<IOutline>().OutlineOfCount(course.Cou_ID, -1, null, true, null, null);
+                Business.Do<ICourse>().CourseUpdate(course.Cou_ID,
+                    new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
+                    new object[] { paper_count, outline_count, video_count });
+                //更新课程与章节下的试题数量
+                Business.Do<IQuestions>().QuesCountUpdate(-1, -1, course.Cou_ID, -1);
+            }
+            catch { }
         }
 
         #endregion
 
-    }
-    // 定义任务类  
-    public class MyJob : IJob
-    {
-        Task IJob.Execute(IJobExecutionContext context)
-        {
-            WeiSha.Core.Log.Info("定时任务", "更新机构的所有统计数据");
-            Task task = new Task(() =>
-            {
-                //更新统计数据
-                WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData();
-            });
-            return task;
-        }
     }
 }

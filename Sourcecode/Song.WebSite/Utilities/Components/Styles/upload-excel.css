@@ -129,6 +129,14 @@
    width: 100%;
    height: calc(100% - 150px);
    overflow: auto;
+   flex-flow: column;
+   
+}
+*::-webkit-scrollbar {
+   /*滚动条整体样式*/
+   width: 10px;
+   /*高宽分别对应横竖滚动条的尺寸*/
+   height: 10px;
 }
 
 .error_data table {

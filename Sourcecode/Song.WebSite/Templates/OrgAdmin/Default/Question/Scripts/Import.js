@@ -60,7 +60,7 @@ $ready(function () {
             }
         },
         watch: {
-            'form.sbjids':function(nv,ov){
+            'form.sbjids': function (nv, ov) {
                 this.sbjChange(nv);
             }
         },
@@ -110,11 +110,13 @@ $ready(function () {
             //课程选择变更
             courseChange: function (couid) {
                 this.form.Cou_ID = couid;
+                
                 var cou = this.courses.find(x => x.Cou_ID == couid);
                 if (cou != null) {
                     this.$refs['subject'].setsbj(cou.Sbj_ID);
                     this.course = cou;
                 }
+                //this.couid = couid;
                 //console.log(cou);
             },
             //选择试题类型
