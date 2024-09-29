@@ -27,7 +27,7 @@ Vue.component('ques_type', {
         },
         //标题试题类型的名称
         settitle: function (index) {
-            if (index == undefined || index == null || index < 0 || (
+            if (!this.types || index == undefined || index == null || index < 0 || (
                 this.types && index > this.types.length
             )) return '...';
             else return this.types[index - 1] + '题';

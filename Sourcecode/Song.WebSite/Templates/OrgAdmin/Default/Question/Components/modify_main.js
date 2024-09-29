@@ -161,7 +161,7 @@ Vue.component('modify_main', {
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <template slot="label">
-                    <span v-if="loading_init" v-html="typename"></span>
+                    <span v-if="loading_init && typename" v-html="typename"></span>
                     <ques_type v-else :type="quesType" :types="types" :showname="true"></ques_type>
                 </template>
             </el-tab-pane>   
