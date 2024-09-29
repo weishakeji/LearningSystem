@@ -87,6 +87,8 @@ $ready(function () {
             islogin: t => !$api.isnull(t.account),      //学员是否登录
             isexam: t => !$api.isnull(t.exam),          //是否存在考试
             isgenerate: t => t.paperQues.length > 0,     //是否已经出卷
+            //屏幕宽度
+            screenWidth: t => $dom(t.$el).width(),
             //试题总数
             questotal: function () {
                 let total = 0;
@@ -437,7 +439,7 @@ $ready(function () {
             swipe: function (e) {
                 if ($api.getType(e) == 'Number') {
                     this.swipeIndex = e;
-                    $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
+                    $dom("section").css('left', -(this.screenWidth * this.swipeIndex) + 'px');
                     this.showCard = false;
                 }
                 if (e && $api.getType(e) == 'Object') {

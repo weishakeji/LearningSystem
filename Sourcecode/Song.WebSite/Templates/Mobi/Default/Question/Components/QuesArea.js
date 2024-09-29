@@ -47,9 +47,10 @@ Vue.component('quesarea', {
                     this.state.last(this.list[nv], nv);
                 //更新答题状态（不推送到服务器）
                 this.state.update(false);
+                var th = this;
                 this.$nextTick(function () {
                     window.setTimeout(function () {
-                        $dom("dl.quesArea").css('left', -100 * nv + 'vw');
+                        $dom("dl.quesArea").css('left', -th.screenWidth * nv + 'px');
                     }, 50);
                 });
                 //计算当前试题的前后试题
@@ -57,7 +58,13 @@ Vue.component('quesarea', {
             }, immediate: true
         }
     },
-    computed: {},
+    computed: {
+        //屏幕宽度
+        screenWidth: function () {
+            let el = this.$parent.$el;
+            return $dom(el).width();
+        }
+    },
     mounted: function () { },
     methods: {
         //设置当前试题的id与索引
@@ -150,7 +157,7 @@ Vue.component('quesarea', {
                 if (idx >= 0) arr.splice(idx, 1);
             }
             this.$parent.state.del(qid);
-            this.setindex(qid,index);
+            this.setindex(qid, index);
             return;
             var th = this;
             this.$nextTick(function () {
@@ -160,7 +167,8 @@ Vue.component('quesarea', {
             console.log(index);
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'vw'" v-swipe="swipe">
+    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'" v-swipe="swipe">
+    {{screenWidth}}
            <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
            <question v-else v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
             :total="list.length" :types="types" :account="account" :fontsize="fontsize"

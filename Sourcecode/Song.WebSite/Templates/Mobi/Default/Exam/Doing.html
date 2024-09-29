@@ -126,8 +126,8 @@
           
             
             <div loading="p4" v-if="!examstate.record && questotal<=0"></div>
-            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
-                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'" v-show="!loading.ques">
+            <section :style="'width:'+questotal*screenWidth+'px'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
+                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*screenWidth+'px'" v-show="!loading.ques">
                     <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"
                         :total="questotal" :types="types" :exam="exam">
                     </question>

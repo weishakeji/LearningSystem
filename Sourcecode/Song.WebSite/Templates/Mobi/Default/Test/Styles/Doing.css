@@ -173,7 +173,6 @@ attended {
 
 section {
 	height: calc(100% - 88px);
-	background-color: #f2f2f2;
 	font-size: 14px;
 	position: fixed;
 	width: 100%;

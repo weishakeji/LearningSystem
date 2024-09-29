@@ -61,6 +61,8 @@
         computed: {
             //学员是否登录
             islogin: t => !$api.isnull(t.account),
+            //屏幕宽度
+            screenWidth: t => $dom(t.$el).width(),
             //试题总数
             questotal: function () {
                 var total = 0;
@@ -177,7 +179,7 @@
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     th.submitState.loading = false;
-                    if (req.data.success) {                      
+                    if (req.data.success) {
                         th.submitState.result = req.data.result;
                         th.submitState.success = true;
                         //console.log('成绩递交成功');
@@ -241,7 +243,7 @@
             //滑动试题，滑动到指定试题索引
             swipe: function (index) {
                 this.swipeIndex = index;
-                $dom("section").css('left', -($dom("#vapp").width() * this.swipeIndex) + 'px');
+                $dom("section").css('left', -(this.screenWidth * this.swipeIndex) + 'px');
                 this.showCard = false;
             },
             //生成答题信息
@@ -357,8 +359,8 @@
                 //console.log(results);
                 return results
             },
-             //跳转到试卷页
-             goback: function () {
+            //跳转到试卷页
+            goback: function () {
                 if (!this.submitState.success && this.surplustime > 0) {
                     this.submitState.show = false;
                     return;

@@ -205,7 +205,7 @@ Vue.component('question', {
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
             <span>（{{ques.Qus_Number}} 分）</span>       
         </info>
-        <card :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
+        <card  shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
             <card-title v-html="ques.Qus_Title"></card-title>          
             <card-context>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">               

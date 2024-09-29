@@ -26,10 +26,10 @@
             </footer>
 
 
-            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swiperight" v-swipeleft="swipeleft"
-                remark="试题区域">
+            <section :style="'width:'+questotal*screenWidth+'px'" v-swiperight="swiperight"
+                v-swipeleft="swipeleft" remark="试题区域">
                 <template v-if="!loading.paper">
-                    <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'">
+                    <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*screenWidth+'px'">
                         <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"
                             :swipeindex="swipeIndex" :total="questotal" :groups="paperQues">
                         </question>
@@ -49,7 +49,7 @@
                 <div v-else-if="!submitState.success" class="submitSuccess">
                     <div>成绩提交失败！</div>
                     <alert>{{submitState.message}}</alert>
-                    <van-button type="primary"  @click="goback"> 关闭测试</van-button>
+                    <van-button type="primary" @click="goback"> 关闭测试</van-button>
                 </div>
                 <div v-else class="submitSuccess">
                     <div>成绩提交成功！</div>

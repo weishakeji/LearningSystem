@@ -39,11 +39,13 @@
 .query_panel .el-form--inline .el-range-editor {
    height: 28px !important;
    padding-top: 0px;
-  
+
 }
-.query_panel .el-form--inline .el-range-input{ 
+
+.query_panel .el-form--inline .el-range-input {
    margin-top: 1px;
 }
+
 /*录入错误的提示*/
 .query_panel .el-form--inline .el-form-item__error {
    bottom: -5px !important;
@@ -81,4 +83,8 @@
    overflow: auto;
    box-sizing: border-box;
    border-left: 1px solid #DCDFE6;
+}
+
+.query_panel_expand .el-input {
+   width: 100% !important;
 }

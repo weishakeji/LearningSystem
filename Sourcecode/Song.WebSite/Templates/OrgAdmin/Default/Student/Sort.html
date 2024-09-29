@@ -14,7 +14,7 @@
                 :selects='selects' idkey='Sts_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
-                    <el-input v-model.trim="form.search" style="width:200px" clearable @clear="handleCurrentChange(1)">
+                    <el-input v-model.trim="form.search" placeholder="组名称"  style="width:200px" clearable @clear="handleCurrentChange(1)">
                         <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
                     </el-input>
                 </el-form-item>
