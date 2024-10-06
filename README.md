@@ -34,11 +34,6 @@
  * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
  * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
-
-## 源码库说明
- * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
- * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
- * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
  * 更多说明，在部署后可以查看<a href="http://www.weisha100.cn/help/" target="_blank" size=12> /help </a>
 
 ![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
