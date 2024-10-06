@@ -13,7 +13,7 @@
  * 机构管理员： [/orgadmin]( http://www.weisha100.cn/orgadmin) 账号admin 密码1 【教学教务管理，专业设置，课程题库，用户管理，考试管理，学员开课，通知公告……等】
  * 超级管理员： [ /manage]( http://www.weisha100.cn/manage)  账号super 密码1 【支付接口，直播接口，短信接口，第三方登录，权限管理，分支机构管理……等】
  
-## 更多演示信息
+![](https://img.shields.io/badge/demo-%E6%9B%B4%E5%A4%9A%E6%BC%94%E7%A4%BA-red)
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
   <br/>手机端下载 [ 安卓APP](http://fir.weishakeji.net/u42b )   [ 苹果APP](http://gxmk.weisha100.net/app.html) 
   <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
