@@ -35,7 +35,7 @@
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
  * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
 
-![](https://img.shields.io/badge/vue-C#-red)
+![](https://img.shields.io/badge/language-C%23%2Bvue-red)
 
 
 
