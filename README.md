@@ -7,6 +7,23 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
+## 开发语言
+![](https://img.shields.io/badge/language-C%23%2Bvue-red)
+ * C#、Postgresql/Sqlite、Vue
+ * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
+ * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
+ * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
+
+## 商务合作 - 代理销售，定制开发
+##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
+
+>  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
+
+> “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
+
+> “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
+
+
 ## 演示信息
  * 微厦一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1 【教师同号-登录后点击右上角“进入教学管理”】
@@ -19,24 +36,6 @@
   <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
  * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
  * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
-
-## 商务合作 - 代理销售，定制开发
-##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
-
->  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
-
-> “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
-
-> “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
-
-## 开发语言
-![](https://img.shields.io/badge/language-C%23%2Bvue-red)
- * C#、Postgresql/Sqlite、Vue
- * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
- * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
- * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
-
-
 
 
 ### 手机端
