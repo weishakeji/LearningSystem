@@ -34,12 +34,8 @@
  * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
  * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
- * 更多说明，在部署后可以查看<a href="http://www.weisha100.cn/help/" target="_blank" size=12> /help </a>
 
-![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
-
->产品v2.0版本已经推出发行版，原version 1.*版本不再维护，请积极升级到新版本。
-<br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
+![](https://img.shields.io/badge/C#-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
 
 
 
