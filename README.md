@@ -30,12 +30,12 @@
 > “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
 
 ## 开发语言
+![](https://img.shields.io/badge/language-C%23%2Bvue-red)
  * C#、Postgresql/Sqlite、Vue
  * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
  * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
 
-![](https://img.shields.io/badge/language-C%23%2Bvue-red)
 
 
 
