@@ -7,8 +7,8 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
-## 开发语言
-![](https://img.shields.io/badge/language-C%23%2Bvue-red)
+
+![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80-C%23%2Bvue-red)
  * C#、Postgresql/Sqlite、Vue
  * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
