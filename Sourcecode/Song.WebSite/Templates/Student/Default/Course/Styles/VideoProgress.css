@@ -40,8 +40,8 @@
 	display: flex;
 	justify-content: space-between;
 }
-
-.outline_progress .el-tag {
+/*右侧的链接*/
+.outline_progress .el-tag, .outline_progress .novideo_link{
 	width: 60px !important;
 	text-align: right;
 	margin-top: 1px;
@@ -49,7 +49,10 @@
 	right: 0px;
 	top: 1px;
 }
-
+a.novideo_link{
+	color: #999;
+	font-size: 13px;
+}
 .studyTime {
 	width: 80px;
 	text-align: center;

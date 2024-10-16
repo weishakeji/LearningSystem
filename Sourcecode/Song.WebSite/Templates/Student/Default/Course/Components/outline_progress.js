@@ -101,9 +101,8 @@ Vue.component('outline_progress', {
     },
     template: `<div class="outline_progress" :style="'padding-left:'+(outline.Ol_Level*20)+'px'">
             <span>
-                <span class="order">{{outline.Ol_XPath}}</span>
-                <template v-if="percentage==100 || !outline.Ol_IsVideo">{{outline.Ol_Name}}</template>
-                <a :href="gourl()" target="_blank" v-else>{{outline.Ol_Name}}</a>
+                <span class="order">{{outline.Ol_XPath}}</span>                
+                <a :href="gourl()" target="_blank">{{outline.Ol_Name}}</a>
                 <icon v-if="outline.Ol_IsVideo">&#xe83a</icon>
             </span>
         <div v-if="data!=null && outline.Ol_IsVideo" class="time_info">
@@ -122,5 +121,8 @@ Vue.component('outline_progress', {
             </el-tag>
             <el-tag type="info" v-else><loading bubble></loading></el-tag>
         </template>
+       
+            <a :href="gourl()" target="_blank"  v-else class="novideo_link">无视频</a>
+        
     </div> `
 });

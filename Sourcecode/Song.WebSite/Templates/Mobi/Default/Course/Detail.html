@@ -101,6 +101,7 @@
                                         @click="$refs.menus.btnEvt(null,o)">
                                         <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo">
                                         </progress_video>
+                                        <van-tag type="success" plain v-else>学习</van-tag>
                                     </span>
                                     <template v-else>
                                         <van-tag type="primary" plain @click="$refs.menus.btnEvt(null,null)">购买

@@ -74,7 +74,7 @@
                 $api.cache('Outline/TreeList:clear', { 'couid': th.id });
             },
             //拖动节点改变顺序
-            handleDragEnd(draggingNode, dropNode, dropType, ev) {
+            handleDragEnd:function(draggingNode, dropNode, dropType, ev) {
                 var th = this;
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.datas);
