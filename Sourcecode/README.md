@@ -5,6 +5,12 @@
 * C#（dotNet 4.6.2 ), 开发工具 Microsoft Visual Studio Community 2019
 * 数据库 PostgreSQL 或Sqlite
 
+## 源码库说明
+ * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
+ * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
+ * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
+ * 更多说明，在部署后可以查看<a href="http://www.weisha100.cn/help/" target="_blank" size=12> /help </a>
+
 ## 初始信息
  * 测试账号： tester 密码1 
  * 教师账号： （与测试账号共用，教师只一个角色身份）

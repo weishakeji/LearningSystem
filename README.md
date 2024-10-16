@@ -7,18 +7,12 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
-## 演示信息
- * 微厦一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
- * 学员账号： tester 密码1 【教师同号-登录后点击右上角“进入教学管理”】
- * 机构管理员： [/orgadmin]( http://www.weisha100.cn/orgadmin) 账号admin 密码1 【教学教务管理，专业设置，课程题库，用户管理，考试管理，学员开课，通知公告……等】
- * 超级管理员： [ /manage]( http://www.weisha100.cn/manage)  账号super 密码1 【支付接口，直播接口，短信接口，第三方登录，权限管理，分支机构管理……等】
- 
-## 更多演示信息
- * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
-  <br/>手机端下载 [ 安卓APP](http://fir.weishakeji.net/u42b )   [ 苹果APP](http://gxmk.weisha100.net/app.html) 
-  <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
- * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
- * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
+
+![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80-C%23%2Bvue-red)
+ * C#、Postgresql/Sqlite、Vue
+ * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
+ * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
+ * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
 
 ## 商务合作 - 代理销售，定制开发
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
@@ -29,26 +23,19 @@
 
 > “安装文件”可以从<a href="http://pan.baidu.com/s/1bppzM15" target="_blank" size=12> [ 百度云盘 ] </a>下载。云盘中是编译之后的程序，可以直接部署。
 
-## 技术特点
- * 前后端分离（自研架构），C#、Postgresql/Sqlite、Vue
- * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
-## 开发环境
-* 采用C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>
-* 数据库采用Postgresql 或 Sqlite
-* 开发工具 Microsoft Visual Studio Community 2019
-
-## 源码库说明
- * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
- * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
- * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
- * 更多说明，在部署后可以查看<a href="http://www.weisha100.cn/help/" target="_blank" size=12> /help </a>
-
-![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
-
->产品v2.0版本已经推出发行版，原version 1.*版本不再维护，请积极升级到新版本。
-<br/>注意：v2.0版本并不是v1.0的升级，而是重构，v1升级到v2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
-
+## 演示信息
+ * 微厦一百：[ www.weisha100.cn]( http://www.weisha100.cn) 
+ * 学员账号： tester 密码1 【教师同号-登录后点击右上角“进入教学管理”】
+ * 机构管理员： [/orgadmin]( http://www.weisha100.cn/orgadmin) 账号admin 密码1 【教学教务管理，专业设置，课程题库，用户管理，考试管理，学员开课，通知公告……等】
+ * 超级管理员： [ /manage]( http://www.weisha100.cn/manage)  账号super 密码1 【支付接口，直播接口，短信接口，第三方登录，权限管理，分支机构管理……等】
+ 
+![](https://img.shields.io/badge/demo-%E6%9B%B4%E5%A4%9A%E6%BC%94%E7%A4%BA-red)
+ * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
+  <br/>手机端下载 [ 安卓APP](http://fir.weishakeji.net/u42b )   [ 苹果APP](http://gxmk.weisha100.net/app.html) 
+  <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
+ * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
+ * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
 
 
 ### 手机端
