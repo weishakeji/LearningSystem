@@ -27,7 +27,7 @@
                 </div>
             </el-form-item>
             <el-form-item label="学习时限" prop="limittime">
-                <date_range @change="selectDate"></date_range>            
+                <date_range @change="selectDate"  :forward="true"></date_range>            
                 <help>课程可以学习的时间区间</help>
             </el-form-item>
             <el-form-item label="选择课程" prop="courses">
