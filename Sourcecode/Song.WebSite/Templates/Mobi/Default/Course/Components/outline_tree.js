@@ -55,7 +55,7 @@ Vue.component('outline_tree', {
     methods: {
         //初始化的一些计算
         init: function () {
-            //当前章节
+            //当前章节，如果没有传入章节id，默认取第一个视频章节
             this.olid = $api.querystring("olid", '');
             var current = this.current;
             if (this.outlines && this.outlines.length > 0) {
@@ -76,6 +76,9 @@ Vue.component('outline_tree', {
                     }
                 }
             }
+            //如果没有取到视频章节，则取第一个
+            if ($api.isnull(current) && this.outlines && this.outlines.length > 0)
+                current = this.outlines[0];
             this.outlineClick(current);
         },
         //计算缩进
@@ -111,11 +114,12 @@ Vue.component('outline_tree', {
         nextOutline: function (outline, state) {
             var videoarr = rebuild(this.outlines, []);
             let next = getnext(outline, videoarr);
-            if (next != null) return this.outlineClick(next);
+            if (next != null) return this.outlineClick(next);  
+            /*          
             this.$alert('没有视频章节了！请学习其它章节。', '提示', {
                 confirmButtonText: '确定',
                 callback: action => { }
-            });
+            });*/
             //获取所有的视频章节，生成一维队列，而不是树形数据了
             function rebuild(list, arr) {
                 for (let i = 0; i < list.length; i++) {

@@ -193,10 +193,11 @@ Vue.component('study_outline', {
             var videoarr = rebuild(this.outlines, []);
             let next = getnext(outline, videoarr);
             if (next != null) return this.outlineClick(next);
-            this.$alert('没有视频章节了！请学习其它章节。', '提示', {
-                confirmButtonText: '确定',
-                callback: action => { }
-            });
+            /*//
+             this.$alert('没有视频章节了！请学习其它章节。', '提示', {
+                 confirmButtonText: '确定',
+                 callback: action => { }
+             });*/
             //获取所有的视频章节，生成一维队列，而不是树形数据了
             function rebuild(list, arr) {
                 for (let i = 0; i < list.length; i++) {
