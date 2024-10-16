@@ -526,7 +526,7 @@ namespace Song.ServiceImpls
             if (use != null) wc.And(Outline._.Ol_IsUse == use);
             if (finish != null) wc.And(Outline._.Ol_IsFinish == finish);
             if (video != null) wc.And(Outline._.Ol_IsVideo == video);
-            return Gateway.Default.From<Outline>().Where(wc).ToList<Outline>();
+            return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>();
         }
 
         #region 生成树形结构的章节列表
