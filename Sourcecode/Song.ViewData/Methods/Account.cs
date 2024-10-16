@@ -312,7 +312,7 @@ namespace Song.ViewData.Methods
         [HttpGet,Admin,SuperAdmin]
         public string DefaultPw()
         {
-            return WeiSha.Core.Login.Get["Accounts"].DefaultPw.Value;
+            return WeiSha.Core.Login.Get["Account"].DefaultPw.Value;
         }
         #endregion
 

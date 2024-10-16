@@ -98,7 +98,7 @@ namespace Song.ServiceImpls
             }
             //如果密码为空
             if (string.IsNullOrWhiteSpace(entity.Ac_Pw))
-                entity.Ac_Pw = WeiSha.Core.Login.Get["Accounts"].DefaultPw.MD5;
+                entity.Ac_Pw = WeiSha.Core.Login.Get["Account"].DefaultPw.MD5;
             Gateway.Default.Save<Accounts>(entity); 
             //初次注册时的积分
             int regPoint = Business.Do<ISystemPara>()["RegFirst"].Int32 ?? 0;                       
