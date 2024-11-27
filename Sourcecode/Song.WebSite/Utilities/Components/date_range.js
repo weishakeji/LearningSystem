@@ -149,9 +149,12 @@ Vue.component('date_range', {
         evt_change: function () {
             //起始时间只保留日期部分，例如 2023-10-01 00:00:00
             let start = this.selectDate != null ? this.todate(this.selectDate[0]) : '';
-            //结束时间由当前日期加一，即查询条件中包含结束那一天的当天
+            //结束时间由当前日期加一,再减一毫秒，即查询条件中包含结束那一天的当天
             let end = this.selectDate != null ? this.todate(this.selectDate[1]) : '';
-            if (end != null && end != '') end.setDate(end.getDate());
+            if (end != null && end != '') {
+                end.setDate(end.getDate() + 1);
+                end = new Date(end.getTime() - 1);
+            }
             this.$emit('change', start, end);
             //如果为空，则触发clear事件
             if (start == '' && end == '') this.evt_clear();
