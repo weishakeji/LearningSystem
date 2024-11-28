@@ -228,6 +228,8 @@ namespace Song.ViewData
             if (obj == null) return level <= 1 ? "null" : "\"\"";
 
             if (type == null) type = obj.GetType();
+            //如果是枚举类型，则转换为数字
+            if (type.IsEnum) return Convert.ToInt32(obj).ToString();
             //类型名（包括泛型名称）
             string typename = type.SimpleName();
             if (typename == "DBNull") return "\"\"";          

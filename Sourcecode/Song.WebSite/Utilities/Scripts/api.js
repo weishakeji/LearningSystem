@@ -649,6 +649,8 @@
                     throw req.data.message;
             }).catch(err => {
                 if (errfunc != null) errfunc(apiurl + ' : ' + err);
+            }).finally(() => {
+                if (succfunc != null) succfunc(target);
             });
         },
         //当前登录对象,target:身份,succfunc:成功后的回调函数,errfunc:错误后的回调
