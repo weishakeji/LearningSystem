@@ -132,11 +132,13 @@ Vue.component('date_range', {
     watch: {
         'start': {
             handler: function (nv, ov) {
+                if (this.selectDate == null) this.selectDate = [];
                 this.$set(this.selectDate, 0, nv);
             }, immediate: true
         },
         'end': {
             handler: function (nv, ov) {
+                if (this.selectDate == null) this.selectDate = [];
                 this.$set(this.selectDate, 1, nv);
             }, immediate: true
         }
