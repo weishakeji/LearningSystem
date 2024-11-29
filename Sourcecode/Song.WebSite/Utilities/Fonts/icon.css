@@ -21,15 +21,19 @@ icon:not([icon]) {
 }
 icon[huge]:not(:empty,[size]) {
     font-size: 25px;
+    line-height: 23px;
 }
 icon[large]:not(:empty) {
     font-size: 20px;
+    line-height: 20px;
 }
 icon[medium]:not(:empty) {
     font-size: 18px;
+    line-height: 18px;
 }
 icon[small]:not(:empty) {
     font-size: 16px;
+    line-height: 16px;
 }
 icon[mini]:not(:empty) {
     font-size: 14px;
