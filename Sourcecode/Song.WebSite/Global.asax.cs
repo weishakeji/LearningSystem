@@ -50,6 +50,7 @@ namespace Song.WebSite
             WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_Delay(10);
             //创建定时任务
             WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_CronJob();
+            
         }
     }
 }

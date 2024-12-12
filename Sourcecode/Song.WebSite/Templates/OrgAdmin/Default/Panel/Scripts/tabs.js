@@ -623,7 +623,7 @@
     };
     /*** 
     以下是静态方法
-    *****/
+    */
     tabs.create = function (param) {
         if (param == null) param = {};
         let tobj = new tabs(param);

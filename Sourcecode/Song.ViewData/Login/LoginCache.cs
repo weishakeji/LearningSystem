@@ -140,7 +140,8 @@ namespace Song.ViewData
                         }
                     }
                 }
-                Task.Run(() => Update<T>(dic));
+                //Task.Run(() => Update<T>(dic));
+                Update<T>(dic);
             }
         }        
     }

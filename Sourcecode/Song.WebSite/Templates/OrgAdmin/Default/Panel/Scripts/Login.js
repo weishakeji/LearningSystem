@@ -491,7 +491,7 @@
     };
     /*** 
     以下是静态方法
-    *****/
+    */
     login.create = function (param) {
         if (param == null) param = {};
         var obj = new login(param);
