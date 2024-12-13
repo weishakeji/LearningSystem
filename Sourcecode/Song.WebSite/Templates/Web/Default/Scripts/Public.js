@@ -17,7 +17,7 @@
         arr2.push('/Utilities/ElementUi/index.js');
         arr2.push('/Utilities/Components/btngroup.js');
         arr2.push(webpath + 'scripts/dropmenu.js');
-        arr2.push('/Utilities/TinyMCE/tinymce.js');
+        //arr2.push('/Utilities/TinyMCE/tinymce.js');
         //页面的头部和底部
         arr2.push(webpath + 'Components/page_header.js');
         arr2.push(webpath + 'Components/page_footer.js');
