@@ -53,6 +53,9 @@ Vue.component('question', {
         //是否存在知识点
         existknl: t => !$api.isnull(t.knowledge),
     },
+    updated: function () {
+        //this.$mathjax();
+    },
     mounted: function () { },
     methods: {
         //始始化的方法
@@ -66,9 +69,10 @@ Vue.component('question', {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);
                     th.ques = th.parseAnswer(th.ques);
-
+                    console.error(th.ques)
                     th.$nextTick(function () {
                         var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
+                        let title = dom.find('card-title');
                         //清理空元素                
                         window.ques.clearempty(dom.find('card-title'));
                         window.ques.clearempty(dom.find('.ans_area'));
@@ -76,7 +80,8 @@ Vue.component('question', {
                         th.$mathjax([dom[0]]);
                         window.setTimeout(function () {
                             th.setfontsize(th.fontsize);
-                        }, 20);
+                            th.$mathjax([dom[0]]);
+                        }, 200);
 
                     });
                 } else {
@@ -95,6 +100,10 @@ Vue.component('question', {
             var size = 16, min_size = 12, max_size = 30;
             ergodic($dom("dl.quesArea dd[qid='" + this.qid + "']"), num);
             function ergodic(dom, num) {
+                //如果是公式，则不处理
+                let domname = dom[0].tagName.toLowerCase();
+                if (domname.toLowerCase() == 'mjx-container') return;
+                //
                 var fontsize = parseInt(dom.css("font-size"));
                 fontsize = isNaN(fontsize) ? size : fontsize;
                 if (num < 0 && fontsize + num > min_size) fontsize += num;
@@ -299,16 +308,16 @@ Vue.component('question', {
                 let answer = ques.Qus_Items[i].answer;            //答题信息
                 ansstr.push(answer);
                 let items = ques.Qus_Items[i].Ans_Context.split(","); //正确答案
-                if(!items.includes(answer)){
+                if (!items.includes(answer)) {
                     correct = false;
                     break;
                 }
             }
             ques.Qus_Answer = ansstr.join(',');
             this.state['ans'] = ansstr.join(',');
-            this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null"; 
+            this.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
             if (correct) this.$parent.swipe({ 'direction': 2 });
-            return correct;           
+            return correct;
         }
     },
     template: `<dd :qid="qid" :current="current" :render="init">

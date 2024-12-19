@@ -79,6 +79,7 @@ Vue.component('setupmenu', {
       init = isNaN(init) ? 0 : init;
       let val = num == null ? init : (num == 0 ? num : init + num);
       if (val < min || val > max) return;
+      //设置父级应用中的字体大小
       this.$parent.fontsize = val;
       $api.storage(this.fontsizekey, val);
     },
