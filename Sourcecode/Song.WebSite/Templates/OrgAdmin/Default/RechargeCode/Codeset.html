@@ -43,9 +43,9 @@
                         </el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="数量"  width="150"  class-name="countscope">
+                <el-table-column label="数量" width="150" class-name="countscope">
                     <template slot-scope="scope">
-                        <span title="已经使用">{{scope.row.Rs_UsedCount}}</span> 
+                        <span title="已经使用">{{scope.row.Rs_UsedCount}}</span>
                         <span> / </span>
                         <span title="总数">{{scope.row.Rs_Count}}</span>
                     </template>
@@ -56,7 +56,7 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="有效期" width="250"  align="center">
+                <el-table-column label="有效期" width="250" align="center">
                     <template slot-scope="scope">
                         <span class="limit">{{scope.row.Rs_LimitStart|date('yyyy-MM-dd')}}</span>
                         至
@@ -84,9 +84,11 @@
                                         查看充值码
                                     </span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-position" @click.native="outputExcel(scope.row)">导出Excel
+                                <el-dropdown-item @click.native="outputExcel(scope.row)">
+                                    <span icon="&#xe85e">导出Excel</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-position" @click.native="outputQrCode(scope.row)">导出二维码
+                                <el-dropdown-item  @click.native="outputQrCode(scope.row)">
+                                    <span icon="&#xa053">导出二维码</span>
                                 </el-dropdown-item>
 
 

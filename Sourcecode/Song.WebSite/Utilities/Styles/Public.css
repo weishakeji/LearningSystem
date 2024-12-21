@@ -260,28 +260,27 @@ dl.files {
     counter-reset: dd;
     list-style-type: none;
     margin: 8px 0px;
+    padding: 0px;
 }
 
-dl.files, dl.files dd, dl.files dt {
+dl.files dd, dl.files dt {
     padding: 0px;
     margin: 0px;
 }
 
 dl.files dt {
     padding: 8px;
-
 }
 
 dl.files dd::before {
     counter-increment: dd;
     content: ""counter(dd) " . ";
-
 }
 
 dl.files dd {
     display: flex;
     justify-content: space-between;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 15px;
     box-sizing: content-box;
 }
 

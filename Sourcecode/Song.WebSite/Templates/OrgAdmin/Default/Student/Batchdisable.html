@@ -9,9 +9,19 @@
 
 <body>
     <div id="vapp" v-cloak>
-
-        <el-tabs v-model="activeName" type="border-card">
-            <el-tab-pane label="信息录入" name="first">
+        <div class="panel">
+            <el-tabs v-model="activeName" type="border-card">
+                <el-tab-pane label="信息录入" name="first">
+                </el-tab-pane>
+                <el-tab-pane label="录入数据解析" name="second">
+                </el-tab-pane>
+                <el-tab-pane label="帮助" name="help">
+                    <span slot="label">
+                        <icon>&#xa026</icon> 操作说明
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+            <div v-show="activeName=='first'" remark="信息录入" tab="first">
                 <div class="first_intro">
                     请在下面输入框录入学员信息，换行分隔<br />并明确录入的是：
                     <el-radio-group v-model="search_type">
@@ -22,8 +32,8 @@
                 </div>
                 <el-input type="textarea" class="inputText" :rows="2" placeholder="请输入内容" v-model="inputText">
                 </el-input>
-            </el-tab-pane>
-            <el-tab-pane label="录入数据解析" name="second">
+            </div>
+            <div v-show="activeName=='second'" remark="录入数据解析" tab="second">
                 <el-table ref="datatables" border resizable :stripe="true" :data="datas" tooltip-effect="dark"
                     style="width: 100%">
                     <el-table-column type="index" label="#" align="center">
@@ -51,11 +61,8 @@
                         </template>
                     </el-table-column>
                 </el-table>
-            </el-tab-pane>
-            <el-tab-pane label="帮助" name="help">
-                <span slot="label">
-                    <icon>&#xa026</icon> 操作说明
-                </span>
+            </div>
+            <div v-show="activeName=='help'" remark="基本信息" tab="help">
                 <div class="help_title">
                     第一步：
                 </div>
@@ -74,8 +81,8 @@
                 <div class="help_intro">
                     点击按钮“批量禁用学员”，等待完成即可。
                 </div>
-            </el-tab-pane>
-        </el-tabs>
+            </div>
+        </div>
         <div class="footer">
             <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnBatch()">
                 <icon v-if="!loading">&#xa048</icon>批量禁用学员

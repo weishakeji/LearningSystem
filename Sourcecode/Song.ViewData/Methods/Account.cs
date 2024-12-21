@@ -1739,33 +1739,38 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts UserCreate(Song.Entities.Accounts acc, string openid,string field)
         {
-            //账号为空，则自动创建；如果不为空，则判断是否重复
-            bool accexist = false;
-            if (string.IsNullOrWhiteSpace(acc.Ac_AccName))
-                acc.Ac_AccName = WeiSha.Core.Request.SnowID().ToString();
-            else
-                accexist = Business.Do<IAccounts>().IsAccountExist(acc.Ac_AccName, -1);
-            if (accexist) acc.Ac_AccName += "_" + WeiSha.Core.Request.SnowID().ToString();
-
-            acc.Ac_IsPass = acc.Ac_IsUse = true;
-            acc.Ac_Pw = WeiSha.Core.Request.UniqueID();
-            //头像图片
-            string headurl = acc.Ac_Photo;
-            if (!string.IsNullOrWhiteSpace(headurl))
+            if (string.IsNullOrWhiteSpace(acc.Ac_AccName)) acc.Ac_AccName = WeiSha.Core.Request.SnowID().ToString();
+            //判断账号是否已经存在
+            Accounts accorig = Business.Do<IAccounts>().IsAccountsExist(acc.Ac_AccName);
+            //如果不存在，则新增
+            if (accorig == null)
             {
-                string photoPath = _phyPath + openid + ".jpg";
-                WeiSha.Core.Request.LoadFile(headurl, photoPath);
-                acc.Ac_Photo = openid + ".jpg";
+                //默认账号为审核通过和启用
+                acc.Ac_IsPass = acc.Ac_IsUse = true;
+                acc.Ac_Pw = WeiSha.Core.Request.UniqueID();
+                //头像图片
+                string headurl = acc.Ac_Photo;
+                if (!string.IsNullOrWhiteSpace(headurl))
+                {
+                    string photoPath = _phyPath + openid + ".jpg";
+                    WeiSha.Core.Request.LoadFile(headurl, photoPath);
+                    acc.Ac_Photo = openid + ".jpg";
+                }
+                Business.Do<IAccounts>().AccountsAdd(acc);
+                Business.Do<IAccounts>().BindThirdparty(acc, openid, acc.Ac_Name, headurl, field);
+                accorig = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
             }
-            int acid = Business.Do<IAccounts>().AccountsAdd(acc);
-            //生成绑定记录
-            acc = Business.Do<IAccounts>().BindThirdparty(acc, openid, acc.Ac_Name, headurl, field);           
-            Song.Entities.Accounts nacc = Business.Do<IAccounts>().AccountsSingle(acid);
-            _tran(nacc);
-            nacc = Business.Do<IAccounts>().AccountsLogin(nacc);
-            nacc.Ac_Pw = LoginAccount.Status.Generate_Checkcode(nacc);
-            LoginAccount.Status.Fresh(nacc);
-            return nacc;
+            else
+            {
+                //生成绑定记录
+                Business.Do<IAccounts>().BindThirdparty(accorig, openid, acc.Ac_Name, acc.Ac_Photo, field);
+            }
+
+            _tran(accorig);
+            accorig = Business.Do<IAccounts>().AccountsLogin(accorig);
+            accorig.Ac_Pw = LoginAccount.Status.Generate_Checkcode(accorig);
+            LoginAccount.Status.Fresh(accorig);
+            return accorig;
         }
         /// <summary>
         /// 获取学员账号绑定的第三方平台的信息

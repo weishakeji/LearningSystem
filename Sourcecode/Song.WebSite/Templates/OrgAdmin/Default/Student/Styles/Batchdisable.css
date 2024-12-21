@@ -1,26 +1,37 @@
 ﻿@charset "utf-8";
 
-#vapp {
-    padding: 10px;
+.panel {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
     box-sizing: border-box;
 }
 
-.el-tabs {
-    height: calc(100% - 40px);
+.panel>div:not(:first-child) {
+    border-top: none;
+}
+.panel>div[tab]{
+    box-sizing: border-box;
+    height: calc(100% - 50px);
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+.panel>div[tab='second']{
+    padding: 0px;
+}
+.el-tabs__content {
+    display: none;
+}
+.el-tabs--border-card {
+    box-shadow: none;
+    border: none;
 }
 
 .first_intro {
     margin: 10px 0px 10px 0px;
     line-height: 30px;
-}
-
-div.el-tabs__content {
-    height: calc(100% - 70px);
-    overflow-y: auto;
-}
-
-div.el-tabs__content>div {
-    height: calc(100% - 10px);
 }
 
 .inputText {

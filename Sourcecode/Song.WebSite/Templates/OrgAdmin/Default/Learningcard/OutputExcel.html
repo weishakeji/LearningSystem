@@ -31,7 +31,7 @@
 
         <el-card shadow="never" class="files">
             <div slot="header" class="clearfix">
-                <span icon="&#xe6a7"> 文件列表
+                <span icon="&#xe6a7"> 导出文件的下载列表
                     <span v-if="files.length>0">({{files.length}})</span>
                 </span>
                 <el-popconfirm title="确定删除所有文件吗？" @confirm="deleteFileAll()"  v-if="files.length>0">
