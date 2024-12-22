@@ -39,8 +39,8 @@ $ready(function () {
         mounted: function () {
             this.$refs.btngroup.addbtn({
                 text: '批量禁用', tips: '批量处理',
-                id: 'batch', type: 'success',
-                class: 'el-icon-magic-stick'
+                id: 'batch', type: 'warning',
+                icon: 'e7ad'
             });
         },
         created: function () {
