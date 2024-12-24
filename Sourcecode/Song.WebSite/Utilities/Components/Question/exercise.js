@@ -69,7 +69,7 @@ Vue.component('question', {
                     th.ques = req.data.result;
                     th.getKnowledge(th.ques);
                     th.ques = th.parseAnswer(th.ques);
-                    console.error(th.ques)
+                    //console.error(th.ques)
                     th.$nextTick(function () {
                         var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
                         let title = dom.find('card-title');

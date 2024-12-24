@@ -167,8 +167,7 @@ Vue.component('quesarea', {
             console.log(index);
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'" v-swipe="swipe">
-    {{screenWidth}}
+    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'" v-swipe="swipe">   
            <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
            <question v-else v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i"
             :total="list.length" :types="types" :account="account" :fontsize="fontsize"
