@@ -23,7 +23,7 @@ namespace Song.DataQuery.PostgreSQL
         public Questions[] QuesOftenwrong(long couid, int type, int count)
         {
             string sql = @"
-                    select {top} sq.count as Qus_Errornum,c.* 
+                    select sq.count as Qus_Errornum,c.* 
                     from ""Questions"" as c 
                     inner join
                     (

@@ -1714,7 +1714,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Questions[] QuesOftenwrong(long couid, int type, int count)
         {
-            return DataQuery.DbQuery.Call<Questions[]>(new object[] { count, type, count });
+            return DataQuery.DbQuery.Call<Questions[]>(new object[] { couid, type, count });
         }
         /// <summary>
         /// 分页获取学员的错误试题
