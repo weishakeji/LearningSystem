@@ -1,10 +1,17 @@
 /*试题区*/
-
+section{
+	display: flex;
+ }
+ section dl{
+	display: flex;
+ }
+ section dl dd{
+	flex: 1;
+ }
 section dl, section dd {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
-	float: left;
 }
 
 section dd {
@@ -209,8 +216,7 @@ section textarea {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	section dd {
-		width: 100vw;
+	section dd {		
 		height: calc(100% + 50px);
 		padding-bottom: 50px;
 		box-sizing: border-box;

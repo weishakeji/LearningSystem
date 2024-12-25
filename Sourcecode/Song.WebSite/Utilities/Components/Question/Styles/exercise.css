@@ -1,8 +1,10 @@
+dl.quesArea{
+	display: flex;
+}
 dl.quesArea dd {
-	width: 100vw;
 	height: 100%;
 	line-height: 150%;
-	float: left;
+	flex: 1;
 	position: relative;
 	text-align: left;
 }
@@ -256,8 +258,7 @@ dl.quesArea textarea {
 		overflow: hidden;
 	}
 
-	dl.quesArea dd {
-		width: 100vw;
+	dl.quesArea dd {		
 		height: 100%;
 	}
 

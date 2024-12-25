@@ -5,16 +5,22 @@
 	/*高宽分别对应横竖滚动条的尺寸*/
 	height: 0px;
  }
- 
+ section{
+	display: flex;
+ }
+ section dl{
+	display: flex;
+ }
+ section dl dd{
+	flex: 1;
+ }
 section dl, section dd {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
-	float: left;
 }
 
 section dd {
-	width: 100vw;
 	overflow-y: auto;
 	line-height:2em !important;
 	font-size: 20px;
@@ -173,9 +179,8 @@ card[qid] .type3>div[selected] i::before {
 		overflow: hidden;
 	}
 
-	section dd {
-		width: 100vw;
-		height: 100%;
+	section dl dd {		
+		flex: 1;
 		overflow: auto;
 	}
 	table{

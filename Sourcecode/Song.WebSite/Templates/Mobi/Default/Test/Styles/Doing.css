@@ -174,7 +174,6 @@ attended {
 section {
 	height: calc(100% - 88px);
 	font-size: 14px;
-	position: fixed;
 	width: 100%;
 	top: 44px;
 	left: 0px;
