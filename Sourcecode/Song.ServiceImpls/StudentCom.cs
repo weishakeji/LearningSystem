@@ -1712,9 +1712,14 @@ namespace Song.ServiceImpls
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesOftenwrong(long couid, int type, int count)
+        public List<Questions> QuesOftenwrong(long couid, int type, int count)
         {
-            return DataQuery.DbQuery.Call<Questions[]>(new object[] { couid, type, count });
+            //WhereClip wc = new WhereClip();
+            //if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
+            //if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+
+            
+            return DataQuery.DbQuery.Call<List<Questions>>(new object[] { couid, type, count });
         }
         /// <summary>
         /// 分页获取学员的错误试题

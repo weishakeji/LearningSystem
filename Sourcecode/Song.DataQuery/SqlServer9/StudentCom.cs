@@ -20,7 +20,7 @@ namespace Song.DataQuery.SqlServer9
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesOftenwrong(long couid, int type, int count)
+        public List<Questions> QuesOftenwrong(long couid, int type, int count)
         {
             string sql = @"
                     select {top} sq.count as Qus_Errornum,c.* 
@@ -35,7 +35,7 @@ namespace Song.DataQuery.SqlServer9
             sql = sql.Replace("{couid}", couid > 0 ? @"""Cou_ID""=" + couid : "1=1");
             sql = sql.Replace("{type}", type > 0 ? @"""Qus_Type""=" + type : "1=1");
             sql = sql.Replace("{top}", count > 0 ? "top " + count : "");          
-            return Gateway.Default.FromSql(sql).ToArray<Questions>();
+            return Gateway.Default.FromSql(sql).ToList<Questions>();
         }
         /// <summary>
         /// 登录日志的统计信息

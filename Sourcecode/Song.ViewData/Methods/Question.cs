@@ -886,7 +886,7 @@ namespace Song.ViewData.Methods
         [Cache(Expires = 120)]
         public Dictionary<string, List<string>> ErrorOftenQues(long couid, int type, int count)
         {
-            Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesOftenwrong(couid, type, count);
+            List<Song.Entities.Questions> ques = Business.Do<IStudent>().QuesOftenwrong(couid, type, count);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
             for (int i = 1; i <= Question.types.Length; i++)
             {

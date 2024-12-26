@@ -29,11 +29,7 @@ namespace Song.ViewData.Helper
         /// <param name="retValue">返回值</param>
         /// <param name="elapsedTime">实例测量得出的总运行时间（以毫秒为单位</param>
         public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
-        {
-            if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
-            //1秒内的不统计
-            if (elapsedTime < 1000) return;
-
+        {   
             string sql = command.CommandText;
             for (int i = 0; i < command.Parameters.Count; i++)
             {
@@ -55,9 +51,13 @@ namespace Song.ViewData.Helper
                 if (tp == "DateTime")
                     sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
             }
-
+            //是否记录日志
+            if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
+            //1秒内的不统计
+            if (elapsedTime < 1000) return;
             try
             {
+              
                 System.Web.HttpContext _context = System.Web.HttpContext.Current;
                 if (_context == null || _context.Request == null) return;
                 string path = _context.Request.Url.AbsolutePath;
