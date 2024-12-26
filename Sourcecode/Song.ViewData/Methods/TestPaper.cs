@@ -473,8 +473,9 @@ namespace Song.ViewData.Methods
             exr.Org_Name = org.Org_Name;
             //得分
             score = Business.Do<ITestPaper>().ResultsAdd(exr, false);
+            //如果为结课考试，则更新成绩
             if (paper.Tp_IsFinal)
-            {
+            {               
                 Thread t1 = new Thread(() =>
                 {
                     try

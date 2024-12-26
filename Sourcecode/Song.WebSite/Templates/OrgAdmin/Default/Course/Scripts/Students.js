@@ -134,7 +134,7 @@
             },
             //计算所有成绩
             allcalcResultScore: function () {
-                this.$confirm('重新当前课程的所有综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
+                this.$confirm('重新计算当前课程的所有综合成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
                     confirmButtonText: '确定', cancelButtonText: '取消',
                     type: 'warning', dangerouslyUseHTMLString: true
                 }).then(() => this.allcalcResultScore_func())
