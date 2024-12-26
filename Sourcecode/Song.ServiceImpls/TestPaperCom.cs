@@ -719,7 +719,41 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         public void ResultsDelete(int identify)
         {
-            Gateway.Default.Delete<TestResults>(TestResults._.Tr_ID == identify);
+            TestResults tr = Gateway.Default.From<TestResults>().Where(TestResults._.Tr_ID == identify).ToFirst<TestResults>();
+            if (tr == null) return;
+
+            //获取试卷，判断是不是结课考试用的
+            TestPaper tp = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == tr.Tp_Id).ToFirst<TestPaper>();
+            if (tp != null && tp.Tp_IsFinal)
+            {
+                //当前成绩之外的结课考试的最高分
+                float highest = 0;
+                WhereClip wc = TestResults._.Tr_ID != tr.Tr_ID;
+                wc.And(TestResults._.Ac_ID == tr.Ac_ID);
+                wc.And(TestResults._.Tp_Id == tp.Tp_Id);
+                object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
+                highest = score == null ? 0 : (float)score;
+                //学员的学习记录
+                Student_Course purchase = Business.Do<ICourse>().StudentCourse(tr.Ac_ID, tp.Cou_ID, true);
+                using (DbTrans tran = Gateway.Default.BeginTrans())
+                {
+                    try
+                    {
+                        //删除当前成绩，并将当前成绩之外的结课考试的最高分，赋值到学员学习记录，计算综合成绩
+                        tran.Delete<TestResults>(TestResults._.Tr_ID == identify);
+                        purchase.Stc_ExamScore = highest;
+                        Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+            else
+                Gateway.Default.Delete<TestResults>(TestResults._.Tr_ID == identify);
         }
         /// <summary>
         /// 清空某个试卷的某个学员的所有测试成绩
