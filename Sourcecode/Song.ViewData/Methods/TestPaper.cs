@@ -481,7 +481,7 @@ namespace Song.ViewData.Methods
                 //    try
                 //    {
                         float highest = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid);
-                        purchase.Stc_ExamScore = highest;
+                        purchase.Stc_ExamScore = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid); 
                         Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
                 //    }
                 //    catch (Exception ex)
