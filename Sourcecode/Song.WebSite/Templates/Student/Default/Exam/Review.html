@@ -24,9 +24,11 @@
                     </div>
                     <div class="exam_info">，于<span>
                             {{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span> 考试
-                        <el-link type="primary" @click="window.print()" class="noprint">
-                            <icon>&#xa046</icon>打印
-                        </el-link>
+
+                            <el-button type="primary" size="mini" class="noprint" @click="window.print()" :loading="!init">
+                                <icon v-if="init">&#xa046</icon>打印
+                            </el-button>
+                     
                     </div>
 
                     <score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
