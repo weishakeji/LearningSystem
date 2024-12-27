@@ -8,6 +8,7 @@ Vue.component('question', {
     props: ['exam', 'stid', 'qans', 'index', 'state', 'groupindex', 'questions', 'org'],
     data: function () {
         return {
+            init: false,
             ques: {},       //试题        
             ismobi: $api.ismobi(),       //是否是手机端    
 
@@ -52,21 +53,20 @@ Vue.component('question', {
         var th = this;
         th.loading = true;
         $api.cache('Question/ForID:60', { 'id': this.qans.id }).then(function (req) {
-            th.loading = false;
             if (req.data.success) {
                 let ques = req.data.result;
                 if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5)
                     th.ques = th.parseAnswer(ques);
                 else
                     th.ques = ques;
+                th.init = true;
             } else {
                 console.error(req.data.exception);
                 throw req.data.message;
             }
         }).catch(function (err) {
-            th.loading = false;
             console.error(err);
-        });
+        }).finally(() => th.loading = false);
     },
     methods: {
         //是否显示试题，根据选项卡状态
@@ -93,14 +93,12 @@ Vue.component('question', {
             return initIndex + index;
         },
         //选项的序号转字母
-        toletter: function (index) {
-            return String.fromCharCode(65 + index);
-        },
+        toletter: index => String.fromCharCode(65 + index),
         //将试题的选项解析为json，并设置答题项
         parseAnswer: function (ques) {
             let q = ques;
             if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5)
-                    q = window.ques.parseAnswer(ques);               
+                q = window.ques.parseAnswer(ques);
             if (q.Qus_Type == 1 || q.Qus_Type == 2) {
                 var answer = this.qans.ans.split(',');
                 for (let j = 0; j < q.Qus_Items.length; j++) {
@@ -111,7 +109,7 @@ Vue.component('question', {
                         }
                     }
                 }
-            } 
+            }
             return q;
         },
         //正确答案
@@ -241,55 +239,60 @@ Vue.component('question', {
             return false;
         }
     },
-    template: `<card :qid="qans.id" v-if="showQues()"  shadow="hover">
+    template: `<card :qid="qans.id" v-if="showQues()"  shadow="hover"  :render="init">
         <card-title :index="calcIndex(index+1)" v-if="loading">
             <loading type="spinner" size="24px" > 加载中...</loading>
         </card-title>        
-        <card-title :index="calcIndex(index+1)" :num="qans.num" v-else-if="ques.Qus_Title" v-html="ques.Qus_Title">           
+        <card-title :index="calcIndex(index+1)" :num="qans.num" v-else-if="existques && ques.Qus_Title" v-html="ques.Qus_Title">           
         </card-title>
         <card-title :index="calcIndex(index+1)" :num="qans.num"  v-else><span class="null">(试题不存在)</span></card-title>
         <card-context>
-        <div class="ans_area type1" v-if="ques.Qus_Type==1">
-            <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
-                <i>{{toletter(i)}} .</i>            
-                <span v-html="ans.Ans_Context"></span>
-             </div>
-        </div>
-        <div  class="ans_area type2" v-if="ques.Qus_Type==2">
-            <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
-                <i>{{toletter(i)}} .</i>
-                <span v-html="ans.Ans_Context"></span>
+            <div class="ans_area type1" v-if="ques.Qus_Type==1">
+                <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
+                    <i>{{toletter(i)}} .</i>            
+                    <span v-html="ans.Ans_Context"></span>
+                </div>
             </div>
-        </div>
-        <div  class="ans_area type3" v-if="ques.Qus_Type==3">
-            <div :correct="ques.Qus_IsCorrect" :selected="qans.ans=='0'">
-                <i>正确</i> 
+            <div  class="ans_area type2" v-if="ques.Qus_Type==2">
+                <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
+                    <i>{{toletter(i)}} .</i>
+                    <span v-html="ans.Ans_Context"></span>
+                </div>
             </div>
-            <div :correct="!ques.Qus_IsCorrect" :selected="qans.ans=='1'">
-                <i>错误</i>
+            <div class="ans_area type3" v-if="ques.Qus_Type==3">
+                <div :correct="ques.Qus_IsCorrect" :selected="qans.ans=='0'">
+                    <i>正确</i> 
+                </div>
+                <div :correct="!ques.Qus_IsCorrect" :selected="qans.ans=='1'">
+                    <i>错误</i>
+                </div>
             </div>
-        </div>
-        <div v-if="ques.Qus_Type==4">
-        
-        </div>
-        <div v-if="ques.Qus_Type==5">
-        
-        </div>
-        <div class="resultBox" :qtype="ques.Qus_Type">
-            <div :mobi="ismobi">
-                <div>正确答案：<span v-html="sucessAnswer()"></span></div>
-                <div>实际答题：<span v-html="actualAnswer()"></span></div>               
-                <div v-if="accessory.state" class="accessory">
-                    附件: <a @click="accessoryview(accessory.url)">{{accessory.name}}</a>                 
-                    <a :href="accessory.url" :download="accessory.name"><icon>&#xa029</icon>下载</a>
-                </div>               
-                <div class="result_score" :success="qans.success">得分：{{qans.score}} 分</div>
+            <div v-if="ques.Qus_Type==4">
+            
             </div>
-            <div v-if="ques.Qus_Explain!=''">试题解析：<span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                <span v-else>无</span>
+            <div v-if="ques.Qus_Type==5">
+            
             </div>
-        </div>
-         <slot :ques="ques" :qans="qans"></slot>
+            <div class="resultBox" :qtype="ques.Qus_Type" v-if="existques">
+                <div :mobi="ismobi">
+                    <div>正确答案：<span v-html="sucessAnswer()"></span></div>
+                    <div>实际答题：<span v-html="actualAnswer()"></span></div>               
+                    <div v-if="accessory.state" class="accessory">
+                        附件: <a @click="accessoryview(accessory.url)">{{accessory.name}}</a>                 
+                        <a :href="accessory.url" :download="accessory.name"><icon>&#xa029</icon>下载</a>
+                    </div>               
+                    <div class="result_score" :success="qans.success">得分：{{qans.score}} 分</div>
+                </div>
+                <div v-if="ques.Qus_Explain!=''">试题解析：<span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
+                    <span v-else>无</span>
+                </div>
+            </div>
+            <div v-else class="resultBox">
+                <div :mobi="ismobi">
+                    <div class="result_score" :success="qans.success">得分：{{qans.score}} 分</div>
+                </div>
+            </div>
+            <slot :ques="ques" :qans="qans"></slot>
         </card-context>
        
         <div class="orgname noview" v-if="org">{{org.Org_Name}}</div>

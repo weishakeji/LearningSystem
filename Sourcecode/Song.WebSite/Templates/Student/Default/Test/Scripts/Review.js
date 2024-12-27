@@ -29,7 +29,9 @@ $ready(function () {
 
             tabactive: '',      //选项卡的状态
             error: '',           //错误提示信息，例如不能查看考虑成绩时
-            loading: false
+
+            init: false,        //是否初始化完成
+            loading: false,
         },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
@@ -59,13 +61,19 @@ $ready(function () {
             }).finally(() => th.loading = false);
         },
         created: function () {
-
+            var th = this;
+            window.interval_number = window.setInterval(function () {
+                let ques = $dom('card[qid]');   //试题数
+                let render = $dom('card[render=true]');    //已渲染的试题数
+                if (ques.length == render.length) {
+                    th.init = true;
+                    window.clearInterval(window.interval_number);
+                }
+            }, 200);
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
-            },
+            islogin: t => !$api.isnull(t.account),
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
             questions: function () {

@@ -16,9 +16,10 @@
                 <span class="tag noprint">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
                 <span class="tag noview">({{paper.Tp_PassScore}}及格/满分{{paper.Tp_Total}})</span>
                 <span class="noprint">时间：</span> {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
-                <el-link type="primary" @click="window.print()" class="noprint">
-                    <icon>&#xa046</icon>打印
-                </el-link>
+
+                <el-button type="primary" size="mini" class="noprint" @click="window.print()" :loading="!init">
+                    <icon v-if="init">&#xa046</icon>打印
+                </el-button>
             </span>
 
             <div class="header_info" v-if="!islogin" remark="未登录">

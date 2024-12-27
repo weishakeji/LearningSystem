@@ -143,13 +143,11 @@ card[qid] card-title .null {
 
 /*试题的题型*/
 
-card[qid] .type_title {
+.type_title {
 	padding: 10px;
 }
 
-
-
-card[qid] .type_info {
+.type_info {
 	float: right;
 }
 
