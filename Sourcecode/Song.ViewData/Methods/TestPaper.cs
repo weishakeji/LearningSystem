@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 using WeiSha.Core;
@@ -475,21 +476,19 @@ namespace Song.ViewData.Methods
             score = Business.Do<ITestPaper>().ResultsAdd(exr, false);
             //如果为结课考试，则更新成绩
             if (paper.Tp_IsFinal)
-            {               
-                //Thread t1 = new Thread(() =>
-                //{
-                //    try
-                //    {
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
                         float highest = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid);
-                        purchase.Stc_ExamScore = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid); 
                         Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        WeiSha.Core.Log.Error(this.GetType().FullName, ex);
-                //    }
-                //});
-                //t1.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+                    }
+                });
             }
             //返回得分与成绩id
             jo.Add("score", score);

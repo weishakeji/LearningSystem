@@ -740,8 +740,7 @@ namespace Song.ServiceImpls
                     try
                     {
                         //删除当前成绩，并将当前成绩之外的结课考试的最高分，赋值到学员学习记录，计算综合成绩
-                        tran.Delete<TestResults>(TestResults._.Tr_ID == identify);
-                        purchase.Stc_ExamScore = highest;
+                        tran.Delete<TestResults>(TestResults._.Tr_ID == identify);    
                         Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
                         tran.Commit();
                     }

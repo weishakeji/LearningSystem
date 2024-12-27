@@ -1184,21 +1184,30 @@ namespace Song.ServiceImpls
         /// <param name="ques">试题练习记录，通过率</param>
         /// <param name="exam">结课考试的成绩</param>
         public void StudentScoreSave(Student_Course sc, float study, float ques, float exam)
-        {           
+        {
             if (sc == null) return;
-            if (study >= 0)
-                sc.Stc_StudyScore = sc.Stc_StudyScore != study ? study : sc.Stc_StudyScore;
-            if (ques >= 0)
-                sc.Stc_QuesScore = sc.Stc_QuesScore != ques ? ques : sc.Stc_QuesScore;
-            if (exam >= 0)
-                sc.Stc_ExamScore = sc.Stc_ExamScore != exam ? exam : sc.Stc_ExamScore;
+            bool ischange = false;
+            if (study >= 0 && sc.Stc_StudyScore != study)
+            {
+                sc.Stc_StudyScore = study;
+                ischange = true;
+            }
+            if (ques >= 0 && sc.Stc_QuesScore != ques) {
+                sc.Stc_QuesScore = ques;
+                ischange = true;
+            }              
+            if (exam >= 0 && sc.Stc_ExamScore != exam) {
+                sc.Stc_ExamScore = exam;
+                ischange = true;
+            }
+            if (!ischange) return;
             //此处要计算综合成绩
             sc = this.ResultScoreCalc(sc);
             //保存更新
             Gateway.Default.Update<Student_Course>(
                 new Field[] { Student_Course._.Stc_StudyScore, Student_Course._.Stc_QuesScore, Student_Course._.Stc_ExamScore },
                 new object[] { sc.Stc_StudyScore, sc.Stc_QuesScore, sc.Stc_ExamScore },
-                Student_Course._.Stc_ID == sc.Stc_ID); 
+                Student_Course._.Stc_ID == sc.Stc_ID);
         }
         
         /// <summary>
