@@ -23,7 +23,7 @@
                         {{o.Ol_Name}}<icon v-if="o.Ol_IsVideo">&#xe83a</icon>
                     </span>
 
-                    <outline_progress :outline="o" :videolog="logdatas" :stid="stid" :loading="loading"
+                    <outline_progress ref="outline" :outline="o" :videolog="logdatas" :stid="stid" :loading="loading"
                         @update="getlogs(false)"></outline_progress>
 
                 </div>

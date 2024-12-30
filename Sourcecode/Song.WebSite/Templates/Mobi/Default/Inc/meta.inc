@@ -7,34 +7,45 @@
 <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
 <script type="text/javascript" src="../Scripts/Public.js"></script>
 <style type="text/css">
-    *[v-cloak]{
-            text-align:left !important;
-            color:#999;   
-        }
-        *[v-cloak]>* {
-             display: none !important;
-        }
-        *[v-cloak]::before {
-            content: "/";
-            display: block;
-            width:24px;
-            height:24px;
-            text-align: center;
-            float:left;
-            font-size: 16px;           
-            animation: rotate_360 0.5s infinite linear;
-            transform-origin: center center;
-        }
-        *[v-cloak]::after {
-            content: "loading ... ";
-            display: block;     
-            font-size: 13px;
-            margin-left:10px;
-            line-height:20px;               
-            position: absolute;
-            top:8px;
-            left: 20px;
-        }
+    *[v-cloak] {
+        text-align: left !important;
+        color: #999;
+        width: 300px !important;
+        height: 150px !important;
+        margin: 50px auto !important;
+        padding: 50px 80px !important;
+        overflow: hidden !important;
+        display: flex;
+        box-sizing: border-box;
+
+        border-width: 0px 0px 20px 0px;
+        border-style: solid;
+        animation: gradient_animation .3s infinite linear;
+    }
+
+    *[v-cloak]>* {
+        display: none !important;
+    }
+
+    *[v-cloak]::before {
+        content: "/";
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 28px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 26px;
+        animation: rotate_360 0.15s infinite linear;
+        transform-origin: center center;
+    }
+
+    *[v-cloak]::after {
+        content: "loading ... ";
+        font-size: 18px;
+        margin: 5px 0px 0px 10px;
+    }
+
     @keyframes rotate_360 {
         0% {
             transform: rotate(0deg);
@@ -57,4 +68,30 @@
         }
     }
 
+    @keyframes gradient_animation {
+        0% {
+            border-image: linear-gradient(to right, rgb(140, 197, 255) 0%, #eee 10%, #eee 100%) 1;
+
+        }
+
+        25% {
+            border-image: linear-gradient(to right, rgb(140, 197, 255) 10%, #eee 20%, #eee 100%) 1;
+
+        }
+
+        50% {
+            border-image: linear-gradient(to right, rgb(140, 197, 255) 50%, #eee 50%, #eee 100%) 1;
+
+        }
+
+        75% {
+            border-image: linear-gradient(to right, rgb(140, 197, 255) 80%, #eee 80%, #eee 100%) 1;
+
+        }
+
+        100% {
+            border-image: linear-gradient(to right, rgb(140, 197, 255) 90%, #eee 100%) 1;
+
+        }
+    }
 </style>

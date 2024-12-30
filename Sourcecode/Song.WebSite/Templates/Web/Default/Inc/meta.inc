@@ -21,7 +21,6 @@
 
         border-width: 0px 0px 20px 0px;
         border-style: solid;
-        background-color: white;
         animation: gradient_animation .3s infinite linear;
     }
 

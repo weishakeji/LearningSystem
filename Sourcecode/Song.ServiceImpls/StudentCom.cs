@@ -1560,7 +1560,10 @@ namespace Song.ServiceImpls
                 {
                     throw new Exception("未查询到当前学员(" + student.Ac_Name + ":" + student.Ac_AccName + ")选修了该课程");
                 }
-                TimeSpan span = sc.Stc_EndTime - sc.Stc_StartTime;
+                //生成学习完成进度与时间，在有效期内学完，如果是学员组关联课程或免费课程，则在4个月内学完
+                DateTime endtime = sc.Stc_EndTime, startTime = sc.Stc_StartTime;
+                endtime = endtime > startTime.AddMonths(4) ? startTime.AddMonths(4) : endtime;
+                TimeSpan span = endtime - startTime;
                 int totalSeconds = (int)span.TotalSeconds;
                 int seconds = totalSeconds > 0 ? new Random().Next(0, totalSeconds) : 0;
                 log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(seconds);
