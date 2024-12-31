@@ -959,7 +959,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns>课程信息，额外增加属性："lastTime"最后记录时间,"studyTime"累计学习时长,"complete"课程完成度
         /// </returns>
-        [Cache(Expires = 10)]
+        //[Cache(Expires = 10)]
         public DataTable LogForVideo(long couid, int stid)
         {
             return Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
@@ -989,7 +989,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="rate">进度百分比</param>
         /// <returns></returns>
-        [Student,Admin]
+        [Student, Admin]
         [HttpPost]
         public float LogForVideoRecord(int acid, long couid, float rate)
         {
@@ -1000,12 +1000,7 @@ namespace Song.ViewData.Methods
             //将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return rate;
-            if (sc.Stc_StudyScore != rate)
-            {
-                sc.Stc_StudyScore = (float)rate;
-                Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
-                return rate;
-            }
+            Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
             return rate;
         }
         /// <summary>

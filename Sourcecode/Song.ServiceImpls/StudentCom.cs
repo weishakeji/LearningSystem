@@ -1378,8 +1378,25 @@ namespace Song.ServiceImpls
             dt.Columns.Add("studyTime", typeof(int));
             dt.Columns.Add("complete", typeof(double));
             if (dt.Rows.Count < 1) return dt;
-
-            Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //计算最后学习时间，学习时长，完成度
+            var (lasttime, totalStudy, totalComplete) = this.VideoCompletion(acid, couid);
+            //合并数据
+            dt.Rows[0]["lastTime"] = lasttime;
+            dt.Rows[0]["studyTime"] = (int)totalStudy;
+            dt.Rows[0]["complete"] = totalComplete;
+            return dt;
+        }
+        /// <summary>
+        /// 课程的视频完成度
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns>最后学习时间，积计时长，完成度</returns>
+        public (DateTime,int, double) VideoCompletion(int acid, long couid)
+        {
+            Course cour= Business.Do<ICourse>().CourseSingle(couid);
+            if (cour == null) throw new Exception("课程不存在！");
+            Organization org = Business.Do<IOrganization>().OrganSingle(cour.Org_ID);
             if (org == null) throw new Exception("学员所在的机构不存在！");
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //容差，例如完成度小于5%，则默认100%
@@ -1387,10 +1404,10 @@ namespace Song.ServiceImpls
 
             //当前课程的所有视频章节
             List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, true);
-            //最后学习时间
-            DateTime lasttime = new System.DateTime(1970, 1, 1);
             //累计学习时间，累计完成度
             double totalStudy = 0, totalComplete = 0;
+            //最后学习时间
+            DateTime lasttime = new System.DateTime(1970, 1, 1);
             int count = 0;
             //获取学习记录
             WhereClip wc = new WhereClip();
@@ -1421,16 +1438,13 @@ namespace Song.ServiceImpls
                 reader.Dispose();
             }
             totalComplete = totalComplete / outlines.Count;
-            if (double.IsNaN(totalComplete))           
+            if (double.IsNaN(totalComplete))
                 totalComplete = 0;
-          
+
             totalComplete = totalComplete > 100 ? 100 : totalComplete;
             totalComplete = Math.Round(totalComplete * 100) / 100;
-            //合并数据
-            dt.Rows[0]["lastTime"] = lasttime;
-            dt.Rows[0]["studyTime"] = (int)totalStudy;
-            dt.Rows[0]["complete"] = totalComplete;
-            return dt;
+
+            return (lasttime, (int)totalStudy, totalComplete);
         }
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
@@ -1538,13 +1552,10 @@ namespace Song.ServiceImpls
                 }
                 //视频信息
                 if (acc.As_IsOther && acc.As_IsOuter)
-                {
                     throw new Exception("视频链接为外部视频，无法统计学习进度");
-                }
                 if (acc.As_Duration <= 0)
-                {
                     throw new Exception("视频时间小于等于零，请在课程管理中设置该章节视频的时长");
-                }
+
                 log.Lss_Duration = acc.As_Duration * 1000;
                 //学习时间
                 log.Lss_StudyTime = acc.As_Duration;
@@ -1569,7 +1580,11 @@ namespace Song.ServiceImpls
                 log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(seconds);
                 log.Lss_Complete = (float)Math.Floor((float)log.Lss_StudyTime * 1000 / (float)log.Lss_Duration * 10000) / 100;
                 log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
-                Gateway.Default.Save<LogForStudentStudy>(log);               
+                Gateway.Default.Save<LogForStudentStudy>(log);
+
+                //计算最后学习时间，学习时长，完成度
+                var (lasttime, totalStudy, totalComplete) = this.VideoCompletion(stid, ol.Cou_ID);
+                Business.Do<ICourse>().StudentScoreSave(sc, (float)totalComplete, -1, -1);  //保存到课程学习记录
             }
         }
         #endregion

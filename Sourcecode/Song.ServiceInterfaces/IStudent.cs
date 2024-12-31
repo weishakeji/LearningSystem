@@ -436,6 +436,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable StudentStudyCourseLog(int stid, long couid);
         /// <summary>
+        /// 课程的视频完成度
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns>最后学习时间，积计时长，完成度</returns>
+        (DateTime, int, double) VideoCompletion(int acid, long couid);
+        /// <summary>
         /// 学员学习某一课程下所有章节的记录
         /// </summary>
         /// <param name="couid">课程id</param>
