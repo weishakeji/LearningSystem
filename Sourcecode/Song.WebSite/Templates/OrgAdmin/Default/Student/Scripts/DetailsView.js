@@ -51,7 +51,7 @@ $ready(function () {
                 th.loading = true;
                 var acid = th.account.Ac_ID;
                 let active = iscache ? 10 : 'update';
-                $api.cache('Course/LogForOutlineVideo:' + active, { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                $api.get('Course/LogForOutlineVideo:' + active, { 'stid': acid, 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
                         th.logdatas = req.data.result;
                         //console.log(th.logdatas);
@@ -95,7 +95,8 @@ $ready(function () {
                     if (data == null) continue;
                     let percentage = outlines[i].percentage;
                     if (percentage < 100) {
-                        outlines[i].updatePercent();
+                        outlines[i].updatePercent(this.updatePercent);
+                        break;
                     }
                     //console.log(percentage);
                 }

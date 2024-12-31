@@ -4,9 +4,10 @@ Vue.component('outline_progress', {
     //videolog:章节学习记录
     //outline:当前章节
     //loading: 加载状态
-    props: ["videolog", "outline", "stid", "loading"],
+    props: ["videolog", "outline", "stid"],
     data: function () {
         return {
+            loading: false,
             data: null,      //当前章节的学习记录的数据
             show: false
         }
@@ -92,7 +93,7 @@ Vue.component('outline_progress', {
         },
         //修改学习进度
         updatePercentConfirm: function () {
-            if (this.percentage >= 100) return;
+            if (this.percentage >= 100 || this.loading) return;
             this.$confirm('是否将当前章节的学习进度设置为完成?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -102,15 +103,21 @@ Vue.component('outline_progress', {
             }).catch(() => { });
         },
         //修改学习进度的具体方法
-        updatePercent: function () {
+        //func:回调方法
+        updatePercent: function (func) {
             var th = this;
+            th.loading = true;
             $api.get('Course/LogUpdateOutlineVideo', { 'stid': th.stid, 'olid': th.outline.Ol_ID }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    th.$message({
-                        message: '修改进度成功',
-                        type: 'success'
-                    });
+                    if (func != null) {
+                        func();
+                    } else {
+                        th.$message({
+                            message: '修改进度成功',
+                            type: 'success'
+                        });
+                    }
                     th.$emit('update');
                 } else {
                     console.error(req.data.exception);
@@ -119,7 +126,7 @@ Vue.component('outline_progress', {
             }).catch(function (err) {
                 alert(err);
                 console.error(err);
-            }).finally(() => { });
+            }).finally(() => th.loading = false);
         }
     },
     template: `<div class="outline_progress" v-if="outline.Ol_IsVideo">
@@ -135,6 +142,6 @@ Vue.component('outline_progress', {
         <el-tag type="primary" :type="state(percentage)" plain v-if="!loading" @dblclick.native="updatePercentConfirm">
             {{percentage}} %
         </el-tag>
-        <el-tag type="info" v-else><loading></loading></el-tag>
+        <el-tag type="info" v-else><loading asterisk></loading></el-tag>
     </div> `
 });
