@@ -1213,22 +1213,9 @@ namespace Song.ServiceImpls
                     tran.Commit();
 
                     //更新学习记录到学员与课程关联表
-                    DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(st.Ac_ID, couid);
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        float rate = 0;
-                        float.TryParse(dt.Rows[0]["complete"].ToString(), out rate);
-                        //记录到学员与课程的关联表
-                        Student_Course sc = Business.Do<ICourse>().StudentCourse(st.Ac_ID, couid);
-                        if (sc != null)
-                        {
-                            if (sc.Stc_StudyScore != rate)
-                            {
-                                sc.Stc_StudyScore = rate;
-                                Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
-                            }
-                        }
-                    }
+                    var (lasttime, totalStudy, totalComplete) = this.VideoCompletion(st.Ac_ID, couid);
+                    Student_Course sc = Business.Do<ICourse>().StudentCourse(st.Ac_ID, couid);
+                    if (sc != null) Business.Do<ICourse>().StudentScoreSave(sc, (float)totalComplete, -1, -1);
                 }
                 catch (Exception ex)
                 {

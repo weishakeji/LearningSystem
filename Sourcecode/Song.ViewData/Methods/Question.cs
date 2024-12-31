@@ -1002,7 +1002,8 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="rate">试题练习的通过率</param>
         /// <returns></returns>
-        [Student][HttpPost]
+        [Student]
+        [HttpPost]
         public bool ExerciseLogRecord(int acid, long couid, float rate)
         {
             Song.Entities.Accounts acc = this.User;
@@ -1012,13 +1013,8 @@ namespace Song.ViewData.Methods
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return false;
 
-            if (sc.Stc_QuesScore != rate)
-            {
-                sc.Stc_QuesScore = rate;
-                Business.Do<ICourse>().StudentScoreSave(sc, -1, rate, -1);
-                return true;
-            }
-            return false;
+            Business.Do<ICourse>().StudentScoreSave(sc, -1, rate, -1);
+            return true;
         }
         /// <summary>
         /// 删除试题练习记录
