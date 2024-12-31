@@ -175,7 +175,7 @@ namespace Song.DataQuery.SQLite
                        (
                         select * from
                             (select ""Ac_ID"", count(""Ac_ID"") as count from
-                                (select * from ""Student_Course"" {{where4acc}} and({{start}} and {{end}})) as ss   group by ""Ac_ID""
+                                 (select * from ""Student_Course"" where {{start}} and {{end}}) as ss   group by ""Ac_ID""
                             )  order by count desc
                         ) as sc
 

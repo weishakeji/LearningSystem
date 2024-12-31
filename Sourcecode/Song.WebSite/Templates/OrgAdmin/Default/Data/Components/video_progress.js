@@ -88,7 +88,7 @@ Vue.component('video_progress', {
                             th.data = result[0];
                             th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            console.error(th.data);
+                            //console.error(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;
