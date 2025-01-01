@@ -16,9 +16,9 @@ namespace Song.ViewData.Attri
     public class UploadAttribute : WeishaAttr
     {
         /// <summary>
-        /// 允许的最大文件大小，单位kb，默认2048
+        /// 允许的最大文件大小，单位kb，
         /// </summary>
-        public int MaxSize { get; set; } = 2048;
+        public int MaxSize { get; set; }
         /// <summary>
         /// 限定的扩展名，例如"jpg,gif,png"，用逗号分隔，不带.
         /// </summary>
