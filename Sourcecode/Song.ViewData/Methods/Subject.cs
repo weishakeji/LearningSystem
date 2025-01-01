@@ -43,7 +43,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "SubjectLogo")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Subject Add(Song.Entities.Subject entity)
         {          
@@ -68,7 +68,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "SubjectLogo")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Subject Modify(Song.Entities.Subject entity)
         {

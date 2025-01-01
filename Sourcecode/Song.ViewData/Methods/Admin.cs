@@ -309,7 +309,7 @@ namespace Song.ViewData.Methods
         /// <param name="acc"></param>
         /// <returns></returns>
         [HttpPost, Admin]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "AdminPhoto")]
         public bool Add(Song.Entities.EmpAccount acc)
         {
             try
@@ -332,7 +332,7 @@ namespace Song.ViewData.Methods
         /// <param name="acc">员工账号的实体</param>
         /// <returns></returns>
         [HttpPost, Admin]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "AdminPhoto")]
         public bool Modify(EmpAccount acc)
         {
             Song.Entities.EmpAccount old = Business.Do<IEmployee>().GetSingle(acc.Acc_Id);
@@ -389,7 +389,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="accid"></param>
         /// <returns></returns>
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "AdminPhoto", Required = true)]
         public string UpPhoto(int accid)
         {
             Song.Entities.EmpAccount acc = Business.Do<IEmployee>().GetSingle(accid);

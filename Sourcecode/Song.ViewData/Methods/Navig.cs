@@ -235,7 +235,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = true)]
+        [Upload(Config = "NavigPhoto")]
         public Navigation ModifyLogo(Navigation entity)
         {
             string filename = string.Empty;

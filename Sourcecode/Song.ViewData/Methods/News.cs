@@ -316,7 +316,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "NewsPicture")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Article Add(Song.Entities.Article entity)
         {
@@ -358,7 +358,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "NewsPicture")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.Article Modify(Song.Entities.Article entity)
         {

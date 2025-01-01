@@ -128,7 +128,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin,Student, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = true)]
+        [Upload]
         public JObject ImageSave(string pathkey, string dataid, bool small,int swidth,int sheight)
         {
             if (base.Files.Count < 1) return null;
@@ -254,7 +254,7 @@ namespace Song.ViewData.Methods
         /// <param name="uid">唯一值，用于分片的标识</param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(CannotEmpty = true, MaxSize = int.MaxValue)]
+        [Upload(Required = true)]
         [Admin, Teacher]
         public JObject Chunked(string pathkey, string filename, int total, int index, string uid)
         {

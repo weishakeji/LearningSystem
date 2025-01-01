@@ -595,19 +595,22 @@ namespace Song.ViewData.Methods
         /// <returns>qid:试题id;state:是否成功;name:文件名; url:文件完整路径</returns>
         [HttpPost]
         [Student]
-        [Upload(Extension = "", MaxSize = 5120, CannotEmpty = true)]
+        [Upload]
         public JObject FileUp(int stid, int examid, long qid)
         {
+            if (stid <= 0 || examid <= 0 || qid <= 0) throw new Exception("参数错误！");
+            Song.Entities.Accounts st = this.User;
+            if (st==null || st.Ac_ID != stid) throw new Exception("学员未登录！");
+
             JObject jo = new JObject();
             jo.Add("qid", qid.ToString());
 
             string filepath = PhyPath + examid + "\\" + stid + "\\";
-            //只保存第一张图片
+            //只保存第一个文件
             foreach (string key in this.Files)
             {
                 HttpPostedFileBase file = this.Files[key];
-                if (!System.IO.Directory.Exists(filepath))
-                    System.IO.Directory.CreateDirectory(filepath);
+                if (!System.IO.Directory.Exists(filepath)) System.IO.Directory.CreateDirectory(filepath);
                 //删除原来的文件
                 foreach (FileInfo f in new DirectoryInfo(filepath).GetFiles())
                 {

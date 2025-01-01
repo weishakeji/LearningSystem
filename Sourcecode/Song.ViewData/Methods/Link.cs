@@ -208,7 +208,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "LinkPhoto")]
         public Song.Entities.Links Add(Song.Entities.Links entity)
         {
             string filename = string.Empty, smallfile = string.Empty;
@@ -244,7 +244,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "LinkPhoto")]
         public Song.Entities.Links Modify(Song.Entities.Links entity)
         {
             string filename = string.Empty, smallfile = string.Empty;

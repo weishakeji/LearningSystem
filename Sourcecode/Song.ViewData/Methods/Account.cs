@@ -271,7 +271,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>    
         [HttpPost]
         [HtmlClear(Not = "acc")]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
+        [Upload(Config = "AccountPhoto")]
         public bool RegisterModify(Accounts acc, int acid,string uid)
         {
             Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acid);
@@ -636,7 +636,7 @@ namespace Song.ViewData.Methods
         /// <param name="acc"></param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
+        [Upload(Config = "AccountPhoto")]
         [Admin, SuperAdmin]
         [HtmlClear(Not = "acc")]
         public Accounts Add(Accounts acc)
@@ -656,7 +656,7 @@ namespace Song.ViewData.Methods
         [Admin]
         [Student]
         [HttpPost][HtmlClear(Not = "acc")]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
+        [Upload(Config = "AccountPhoto")]
         public bool Modify(Accounts acc)
         {
             Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
@@ -756,7 +756,7 @@ namespace Song.ViewData.Methods
         /// <param name="account"></param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = true)]
+        [Upload(Config = "AccountPhoto", Required = true)]
         [Admin, Student]
         public Accounts ModifyPhoto(Accounts account)
         {

@@ -201,7 +201,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost, Admin]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "TeacherPhoto")]
         [HtmlClear(Not = "entity")]
         public bool Add(Song.Entities.Teacher entity)
         {
@@ -261,7 +261,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity">教师实体</param>
         /// <returns></returns>
         [HttpPost, Admin,Teacher]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "TeacherPhoto")]
         [HtmlClear(Not = "entity")]
         public bool Modify(Song.Entities.Teacher entity)
         {
@@ -368,7 +368,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = true)]
+        [Upload(Config = "TeacherPhoto", Required = true)]
         [Admin, Teacher]
         public Entities.Teacher ModifyPhoto(Entities.Teacher entity)
         {

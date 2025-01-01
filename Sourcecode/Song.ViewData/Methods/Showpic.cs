@@ -136,7 +136,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png", MaxSize = 2048, CannotEmpty = true)]
+        [Upload(Config = "ShowpicPicture")]
         public bool AddPicture(int orgid, string site)
         {
             string filename = string.Empty; 
@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
-        [Upload(Extension = "jpg,png", MaxSize = 2048, CannotEmpty = true)]
+        [Upload(Config = "ShowpicPicture")]
         public ShowPicture ModifyPicture(ShowPicture entity)
         {
             string filename = string.Empty;

@@ -249,7 +249,7 @@ namespace Song.ViewData.Methods
         [HttpGet(Ignore = true)]
         [Admin]
         [HtmlClear(Not = "entity")]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "OrginLogo")]
         public bool Modify(Ett.Organization entity, string exclude)
         {
             Ett.Organization old = Business.Do<IOrganization>().OrganSingle(entity.Org_ID);
@@ -353,7 +353,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <returns></returns>
         [HttpPost, Admin]
-        [Upload(Extension = "png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload]
         public bool StampUpdate(JObject stamp,int orgid)
         {
             Ett.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);

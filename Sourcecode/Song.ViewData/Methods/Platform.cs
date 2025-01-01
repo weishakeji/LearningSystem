@@ -495,7 +495,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>工作簿列表、文件名（服务器端）</returns>
         [HttpPost]
-        [Upload(Extension = "xls,xlsx", MaxSize = int.MaxValue, CannotEmpty = true)]
+        [Upload]
         [Admin, Teacher]
         public JObject ExcelUpload()
         {

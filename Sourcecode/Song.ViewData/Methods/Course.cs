@@ -86,7 +86,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "CourseLogo")]
         public Song.Entities.Course Add(string name, int orgid, long sbjid, int thid)
         {
             Song.Entities.Course entity = new Entities.Course();
@@ -126,7 +126,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "CourseLogo")]
         [HtmlClear(Not = "course")]
         public Song.Entities.Course Modify(JObject course)
         {
@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin,Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "CourseLogo")]
         [HtmlClear(Not = "course")]
         public Song.Entities.Course ModifyJson(JObject course)
         {

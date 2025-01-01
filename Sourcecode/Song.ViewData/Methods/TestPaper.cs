@@ -48,7 +48,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "TestPaperLogo")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.TestPaper Add(Song.Entities.TestPaper entity)
         {
@@ -88,7 +88,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [Upload(Config = "TestPaperLogo")]
         [HtmlClear(Not = "entity")]
         public Song.Entities.TestPaper Modify(Song.Entities.TestPaper entity)
         {
