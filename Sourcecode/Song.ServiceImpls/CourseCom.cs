@@ -660,7 +660,7 @@ namespace Song.ServiceImpls
             if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains(sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             wcOrder = wcOrder & Course._.Cou_ID.Desc;
             return Gateway.Default.From<Course>().Where(wc)
@@ -691,7 +691,7 @@ namespace Song.ServiceImpls
             }
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (islive != null) wc.And(Course._.Cou_ExistLive == (bool)islive);
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains(sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(Course._.Cou_ID.Desc).ToList<Course>(count);
@@ -718,7 +718,7 @@ namespace Song.ServiceImpls
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains(sear));
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -752,7 +752,7 @@ namespace Song.ServiceImpls
             }
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains("%" + searTxt));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains(searTxt));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -821,7 +821,7 @@ namespace Song.ServiceImpls
             if (isFree != null) wc.And(Course._.Cou_IsFree == (bool)isFree);
             if (order == "live") isLive = true;
             if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains("%" + searTxt.Trim()));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Contains(searTxt.Trim()));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
@@ -1552,12 +1552,12 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = Student_Course._.Cou_ID == couid;
 
-            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Contains("%" + stname));
+            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Contains(stname));
             if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "")
             {
                 WhereClip wcOr = new WhereClip();              
-                wcOr.Or(Accounts._.Ac_MobiTel1.Contains("%" + stmobi));
-                wcOr.Or(Accounts._.Ac_MobiTel2.Contains("%" + stmobi));
+                wcOr.Or(Accounts._.Ac_MobiTel1.Contains(stmobi));
+                wcOr.Or(Accounts._.Ac_MobiTel2.Contains(stmobi));
                 wc.And(wcOr);
             }            
             countSum = Gateway.Default.From<Accounts>().InnerJoin<Student_Course>(Student_Course._.Ac_ID == Accounts._.Ac_ID)

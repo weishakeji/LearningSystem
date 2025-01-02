@@ -530,7 +530,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (diff > 0 && diff <= 5) wc.And(Questions._.Qus_Diff == diff);
             if (searTxt != string.Empty && searTxt.ToLower() != "")
-                wc.And(Questions._.Qus_Title.Contains("%" + searTxt.Trim()));
+                wc.And(Questions._.Qus_Title.Contains(searTxt.Trim()));
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>()
                 .Where(wc).OrderBy(Questions._.Qus_ID.Desc)
@@ -564,9 +564,9 @@ namespace Song.ServiceImpls
             if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
             if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
             if (diff > 0 && diff <= 5) wc.And(Questions._.Qus_Diff == diff);
-            if (!string.IsNullOrWhiteSpace(searTxt) && searTxt.ToLower() != "")
+            if (!string.IsNullOrWhiteSpace(searTxt) && searTxt.Trim() != "")
             {
-                wc.And(Questions._.Qus_Title.Contains("%" + searTxt.Trim()));
+                wc.And(Questions._.Qus_Title.Contains(searTxt.Trim()));
             }
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)
