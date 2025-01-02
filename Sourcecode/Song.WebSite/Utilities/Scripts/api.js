@@ -560,7 +560,7 @@
                     box = pagebox.get(box.pid);
                 }
                 if (boxs.length > 0) {
-                    let iframe = window.top.$dom('iframe[name=\'' + boxs[boxs.length-1].pid + '\']');
+                    let iframe = window.top.$dom('iframe[name=\'' + boxs[boxs.length - 1].pid + '\']');
                     if (iframe.length > 0) {
                         let win = iframe[0].contentWindow;
                         list.push(win.location.pathname);
@@ -725,10 +725,10 @@
             let values = new Array();
             let paras = url.substring(url.lastIndexOf("?") + 1).split('&');
             for (let q in paras) {
-                let arr = paras[q].split('=');
-                if (arr.length < 2) continue;
-                if (arr[1].indexOf("#") > -1) arr[1] = arr[1].substring(0, arr[1].indexOf("#"));
-                values.push({ key: arr[0], val: arr[1] });
+                if (paras[q].indexOf('=') < 0) continue;
+                let key= paras[q].substring(0, paras[q].indexOf('='));
+                let val= paras[q].substring(paras[q].indexOf('=') + 1);
+                values.push({ 'key': key, 'val': val });
             }
             return values;
         },

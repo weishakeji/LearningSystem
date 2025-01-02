@@ -42,7 +42,7 @@
         },
         mounted: function () { },
         created: function () {
-            var th = this;
+             var th = this;
             $api.bat(
                 $api.get('Account/ForID', { 'id': th.acid }),
                 $api.cache('Platform/PlatInfo'),
@@ -102,6 +102,7 @@
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        //return;
                         th.loading = true;
                         var apipath = 'Account/RegisterModify';
                         $api.post(apipath, { 'acc': th.account, 'acid': th.acid, 'uid': th.uid }).then(function (req) {

@@ -277,6 +277,8 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acid);
             if (old == null) throw new Exception("Not found entity for Accounts！");
             //校验值是否正确
+            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(old.Org_ID);
+
             if(!uid.Equals(old.Ac_CheckUID,StringComparison.OrdinalIgnoreCase)) throw new Exception("校验值不合法！");
             //注册后一个小时内可以修改
             if (old.Ac_RegTime.AddHours(-1) > DateTime.Now) throw new Exception("编辑超时！");
