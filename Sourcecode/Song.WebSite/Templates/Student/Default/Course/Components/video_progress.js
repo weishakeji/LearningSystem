@@ -95,8 +95,8 @@ Vue.component('video_progress', {
                             if (th.data.lastTime != '')
                                 th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            console.log('th.data:' + th.data.Cou_Name);
-                            console.log(th.data);
+                            //console.log('th.data:' + th.data.Cou_Name);
+                            //console.log(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;

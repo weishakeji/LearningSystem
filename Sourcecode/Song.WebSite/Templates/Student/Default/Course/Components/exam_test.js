@@ -20,13 +20,9 @@ Vue.component('exam_test', {
     },
     computed: {
         //是否存在结课考试
-        final: function () {
-            return JSON.stringify(this.finaltest) != '{}' && this.finaltest != null;
-        },
+        final: t => !$api.isnull(t.finaltest),
         //是否有购买记录
-        ispurchase: function () {
-            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
-        }
+        ispurchase: t => !$api.isnull(t.purchase),
     },
     mounted: function () { },
     methods: {
@@ -34,6 +30,7 @@ Vue.component('exam_test', {
             var th = this;
             var couid = this.course.Cou_ID;
             th.loading = true;
+            th.finaltest = null;
             $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 })
                 .then(function (req) {
                     if (req.data.success) {
@@ -67,11 +64,10 @@ Vue.component('exam_test', {
         //获取结课考试的最高成绩
         getfinal_highest: function (stid, tpid) {
             var th = this;
-            if (stid <= 0 || tpid <= 0) return;
+            if (stid <= 0 || tpid == '') return;
             th.loading = true;
             th.highest = -1;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     var results = req.data.result;
                     var highest = -1;

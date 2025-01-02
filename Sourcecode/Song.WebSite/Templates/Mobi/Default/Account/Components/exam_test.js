@@ -30,6 +30,7 @@ Vue.component('exam_test', {
             var th = this;
             var couid = this.course.Cou_ID;
             th.loading = true;
+            th.finaltest = null;
             $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 })
                 .then(function (req) {
                     if (req.data.success) {
