@@ -1683,7 +1683,7 @@ namespace Song.ViewData.Methods
                 course.Cou_ID,
                 WeiSha.Core.Upload.NameFilter(course.Cou_Name),
                 date.ToString("yyyy-MM-dd hh-mm-ss"));
-
+            if (!System.IO.Directory.Exists(rootpath)) Directory.CreateDirectory(rootpath);
             return Business.Do<ICourse>().StudentLogToExcel(rootpath + filename, course, start, end);
         }
         /// <summary>
