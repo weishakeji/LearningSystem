@@ -121,7 +121,8 @@ namespace Song.ViewData.Helper
                     }
                     else//其他数字类型
                     {
-                        val = cell.NumericCellValue.ToString();
+                        //val = cell.NumericCellValue.ToString();
+                        val = cell.ToString();
                     }
                     break;
                 case CellType.Blank:
