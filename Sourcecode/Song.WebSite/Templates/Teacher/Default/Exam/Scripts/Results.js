@@ -158,7 +158,7 @@
                 var file = 'ResultsSummarize?id=' + theme.Exam_ID;
                 var boxid = "ResultsSummarize_" + theme.Exam_ID + "_" + file;
                 var title = ' 综述 - “' + theme.Exam_Title + "”";
-                this.openbox(file, boxid, title, 900, '80%', { resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
+                this.openbox(file, boxid, title, 1200, '80%', { resize: true, 'showmask': false, 'min': true, 'ico': 'e6ef' });
             },
             //打开弹窗
             openbox: function (file, boxid, title, width, height, params) {
@@ -260,7 +260,7 @@
                         var file = 'ResultsDetail?id=' + row.Exam_ID;
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
-                        window.vue.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
+                        window.vue.openbox(file, boxid, title, 1200, '80%', { 'ico': 'e696' });
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {

@@ -70,7 +70,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名" width="120">
+                <el-table-column label="姓名" width="150">
                     <template slot-scope="scope">
                         <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
                             v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large"
@@ -82,6 +82,11 @@
                     <template slot-scope="scope">
                         <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link"
                             @click="getaccount(scope.row)"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="学员组">
+                    <template slot-scope="scope">
+                        <stsname :stsid="scope.row.Sts_ID"></stsname>                       
                     </template>
                 </el-table-column>
                 <el-table-column label="考试时间" align="center">

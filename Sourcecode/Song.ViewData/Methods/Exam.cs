@@ -1163,7 +1163,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Result4Exam(int examid, string name, string idcard, int stsid, float min, float max, bool? manual, int size, int index)
+        public ListResult Result4Exam(int examid, string name, string idcard, long stsid, float min, float max, bool? manual, int size, int index)
         {
             int count = 0;
             Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, stsid, min, max, manual, size, index, out count);

@@ -442,6 +442,38 @@ $ready(function () {
                     <span class="dot" v-html="dot"></span>
                     <span class="after">{{after}}</span>
                 </div>`
+            },
+            //显示学员组名称
+            'stsname': {
+                props: ['stsid'],
+                data: function () {
+                    return {
+                        loading: false,
+                        sort: {}
+                    }
+                },
+                created: function () {
+                    this.init();
+                },
+                methods: {
+                    init: function () {
+                        var th = this;
+                        th.loading = true;
+                        $api.get('Account/SortForID', { 'id': th.stsid }).then(req => {
+                            if (req.data.success) {
+                                th.sort = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                },
+                template: `<div class="stsname">
+                    <loading v-if="loading"></loading>
+                    <template v-else-if="!$api.isnull(sort)">{{sort.Sts_Name}}</template>
+                </div>`
             }
         }
     });
