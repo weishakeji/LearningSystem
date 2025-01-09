@@ -85,7 +85,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 //var query = $api.get('Question/ErrorQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
-                let form = { 'couid': th.couid, 'type': '', 'count': 1000 };
+                let form = { 'couid': th.couid, 'type': '', 'count': 100 };
                 let apiurl = 'Question/ErrorOftenQues:' + (query = update === false ? (60 * 24 * 30) : 'update');
                 $api.get(apiurl, form).then(function (req) {
                     if (req.data.success) {
