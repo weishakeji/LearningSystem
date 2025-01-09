@@ -28,9 +28,7 @@ $ready(function () {
         },
         computed: {
             //是否是手机端
-            ismobi: function () {
-                return $api.ismobi();
-            },
+            ismobi: () => $api.ismobi(),
             //是否正常获取到第三方平台的账号
             'existouter': function () {
                 return !$api.isnull(this.outeruser);
@@ -46,9 +44,7 @@ $ready(function () {
                 return this.binduser.Ac_WeixinOpenID != this.onlineuser.Ac_WeixinOpenID;
             },
             //是否为登录状态
-            'islogin': function () {
-                return !$api.isnull(this.onlineuser);
-            },
+            'islogin': t => !$api.isnull(t.onlineuser),
             //本地用户，也许是当前登录，也许是被绑定的用户
             'localuser': function () {
                 //如果已经绑定，或没有绑定到当前绑定,返回当前登录账号
@@ -79,7 +75,18 @@ $ready(function () {
             console.log(obj);
         },
         created: function () {
-
+            /* 测试，可以删除
+             //获取登录账号
+            var th = this;
+            $api.get('Account/Current').then(req => {
+                if (req.data.success) {
+                    th.onlineuser = req.data.result;                   
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => { });*/
         },
         methods: {
             //获取登录账号与已经绑定的账号
@@ -119,9 +126,10 @@ $ready(function () {
                 if ($api.ismobi()) {
                     window.setTimeout(function () {
                         var singin_referrer = $api.storage('singin_referrer');
-                        if (singin_referrer != '') window.location.href = singin_referrer;
-                        else
+                        if ($api.isnull(singin_referrer) || singin_referrer == 'undefined')
                             window.location.href = '/mobi/';
+                        else
+                            window.location.href = singin_referrer;
                     }, 300);
                 } else {
                     if (!!window.top.vapp.shut) {

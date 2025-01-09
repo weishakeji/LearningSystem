@@ -122,7 +122,7 @@ namespace Song.ViewData
             //----验证是否需要登录
             LoginAttribute loginattr = LoginAttribute.Verify(method, letter);
             //----验证API请求的所在页面，是否拥有操作权限,(本机访问时不验证)
-            if (!WeiSha.Core.IP.IsLocalIP(letter.IP) && apicheck.PageCheck) Helper.PageCheck.Instance.CheckPageAccess(letter);
+            if (/*!WeiSha.Core.IP.IsLocalIP(letter.IP) && */apicheck.PageCheck) Helper.PageCheck.Instance.CheckPageAccess(letter);
             //----验证是否购买课程,是否可以学习课程内容
             Attri.PurchasedAttribute.Verify(method, letter);
             Attri.StudyAttribute.Verify(method, letter);

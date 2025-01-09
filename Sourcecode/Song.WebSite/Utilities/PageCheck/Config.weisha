@@ -1,33 +1,34 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <config>
     <device remark="路由配置">
         <orgadmin>
-            <page value="/orgadmin"/>
-            <page value="/orgadmin/start"/>
-            <page value="/orgadmin/account/selfinfo"/>
-            <page value="/orgadmin/account/Modify"/>
-            <page value="/orgadmin/account/mypassword"/>
-            <page value="/orgadmin/account/safeanswer"/>
-            <page value="/orgadmin/account/logout"/>
-          <page value="/orgadmin/startbox"/>
+            <page value="/orgadmin" />
+            <page value="/orgadmin/start" />
+            <page value="/orgadmin/account/selfinfo" />
+            <page value="/orgadmin/account/Modify" />
+            <page value="/orgadmin/account/mypassword" />
+            <page value="/orgadmin/account/safeanswer" />
+            <page value="/orgadmin/account/logout" />
+            <page value="/orgadmin/startbox" />
         </orgadmin>
         <manage>
-            <page value="/manage"/>
-            <page value="/web/viewport/index"/>
-            <page value="/manage/self/selfinfo"/>
-            <page value="/manage/self/Modify"/>
-            <page value="/manage/self/mypassword"/>
-            <page value="/manage/self/logout"/>
+            <page value="/manage" />
+            <page value="/web/viewport/index" />
+            <page value="/manage/self/selfinfo" />
+            <page value="/manage/self/Modify" />
+            <page value="/manage/self/mypassword" />
+            <page value="/manage/self/logout" />
         </manage>
         <student>
-            <page value="/student/exam/Review"/>
+            <page value="/student/exam/Review" />
         </student>
         <teacher>
         </teacher>
     </device>
     <allow remark="满足下述条件的页面可以访问,支持正则表达式">
-        <item value="/utilities/.*"/>
-        <item value="/help/.*"/>
-      <item value="/Copyright/info"/>
+        <item value="/student/OtherLogin/.*" />
+        <item value="/utilities/.*" />
+        <item value="/help/.*" />
+        <item value="/Copyright/info" />
     </allow>
 </config>

@@ -126,9 +126,10 @@ $ready(function () {
                 if ($api.ismobi()) {
                     window.setTimeout(function () {
                         var singin_referrer = $api.storage('singin_referrer');
-                        if (singin_referrer != '') window.location.href = singin_referrer;
-                        else
+                        if ($api.isnull(singin_referrer) || singin_referrer == 'undefined')
                             window.location.href = '/mobi/';
+                        else
+                            window.location.href = singin_referrer;
                     }, 300);
                 } else {
                     if (!!window.top.vapp.shut) {

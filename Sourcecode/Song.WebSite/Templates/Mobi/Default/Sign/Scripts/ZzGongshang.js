@@ -40,9 +40,7 @@ $ready(function () {
         },
         computed: {
             //是否是手机端
-            ismobi: function () {
-                return $api.ismobi();
-            },
+            ismobi: () => $api.ismobi(),
             //是否正常获取到第三方平台的账号
             'existouter': function () {
                 return JSON.stringify(this.outeruser) != '{}' && this.outeruser != null;

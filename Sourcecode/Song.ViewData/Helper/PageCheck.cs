@@ -114,8 +114,9 @@ namespace Song.ViewData.Helper
                 XmlDocument xmldoc = new XmlDocument();
                 if (!File.Exists(configPath + configFile)) return list;
                 xmldoc.Load(configPath + configFile);
-                //需要权限管控的路由，即根节点配置项
-                XmlNodeList nodes = xmldoc.LastChild.SelectNodes("allow/item");
+                //不需要权限管控的路由，支持正则表达式
+                XmlNode allows= xmldoc.SelectSingleNode("config/allow");
+                XmlNodeList nodes = allows.ChildNodes;
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     XmlNode node = nodes[i];
@@ -259,7 +260,7 @@ namespace Song.ViewData.Helper
             if (list == null || list.Contains(page)) return true;
             //模板库之外的不限制页面，正则表达式匹配
             foreach (string s in this.Allows)
-                if (Regex.IsMatch(page, s)) return true;
+                if (Regex.IsMatch(page, s,RegexOptions.IgnoreCase)) return true;
             //
             HashSet<string> menus = null;          
             Song.Entities.Organization org = null;
