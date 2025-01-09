@@ -56,7 +56,7 @@ $ready(function () {
         },
         computed: {
             //禁止选择专业与课程，（例如在课程管理中的试题编辑）
-            'disable_select': function () {               
+            'disable_select': function () {
                 var couid = $api.querystring('couid', '0');
                 return couid != '0' && couid != '';
             },
@@ -92,7 +92,11 @@ $ready(function () {
                         th.course = req.data.result;
                         th.form.sbjid = th.course.Sbj_ID;
                         th.form.couid = th.course.Cou_ID;
-                        th.changeCourse(th.course);
+                        //获取课程下的章节
+                        th.getOultines();
+                        //设置当前专业
+                        th.$refs['subject'].setsbj(th.course.Sbj_ID);
+
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -125,13 +129,17 @@ $ready(function () {
                 }).finally(() => { });
             },
             //当试题的课程更改时
-            changeCourse: function (cou) {
+            changeCourse: function (couid) {
                 var th = this;
-                this.form['couid'] = cou.Cou_ID;
+                this.form['couid'] = couid;
                 this.getOultines();
+                //当前课程的对象
+                var course = this.courses.find(function (item) {
+                    return item.Cou_ID == couid;
+                });
                 //如果没有选择专业
-                var sbj = this.form['sbjid'];             
-                if (cou) sbj = cou.Sbj_ID;
+                var sbj = this.form['sbjid'];
+                if (course) sbj = course.Sbj_ID;
                 this.$refs['subject'].setsbj(sbj);
                 this.getCourses(sbj);
 
