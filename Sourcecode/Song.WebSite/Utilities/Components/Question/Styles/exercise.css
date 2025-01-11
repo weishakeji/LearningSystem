@@ -64,7 +64,7 @@ dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-ti
 }
 
 dl.quesArea dd card-title {
-	word-break: break-all;
+	word-break:normal;
 }
 
 .explain, .explain p, .explain span, .explain font,
