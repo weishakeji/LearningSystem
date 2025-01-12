@@ -13,7 +13,7 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="question" upload="ques"
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="question" upload="ques" 
                         :dataid="entity.Qus_ID" style="height: 300px;" @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>
                 <el-form-item label="选项" prop="Qus_Items">

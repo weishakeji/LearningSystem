@@ -97,9 +97,9 @@ Vue.component('editor', {
                 //试题编辑
                 case 'question':
                     arr = [` undo redo cut copy formatpainter | fontsizeselect forecolor backcolor bold italic underline strikethrough | superscript subscript 
-                    indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify
+                    indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify   
                     letterspacing bullist numlist  | hr table  insertdatetime removeformat  link importword 
-                    image-weisha charmap  kityformula-editor  | fullscreen searchreplace preview`]
+                    image-weisha charmap  kityformula-editor  media | fullscreen searchreplace preview`]
                     break;
                 //试题的简单编辑
                 case 'ques':

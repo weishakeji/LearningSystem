@@ -35,7 +35,7 @@ Vue.component('purchase_data', {
                 //获取结果
                 th.data = purchase.data.result;
                 th.existtosort = exist.data.result;
-                console.log(th.existtosort);
+                //console.log(th.existtosort);
             }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         }
