@@ -117,8 +117,8 @@ $ready(function () {
         methods: {
             //选择时间区间
             selectDate: function (start, end) {
-                this.entity.Lcs_LimitStart = start;
-                this.entity.Lcs_LimitEnd = end;
+                this.entity.Rs_LimitStart = start;
+                this.entity.Rs_LimitEnd = end;
             },
             //判断是否已经存在
             isExist: function (val) {
