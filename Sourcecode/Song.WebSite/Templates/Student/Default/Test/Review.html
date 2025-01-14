@@ -46,9 +46,11 @@
             </card>
         </div>
         <context>
+            <div class="course">课程：{{course.Cou_Name}}</div>
             <div v-if="!loading" class="tp_name">
                 《<span v-html="paper.Tp_Name"></span>》
             </div>
+            
             <template v-if="error==''">
                 <div class="sticky">
                     <el-tabs v-model="tabactive">

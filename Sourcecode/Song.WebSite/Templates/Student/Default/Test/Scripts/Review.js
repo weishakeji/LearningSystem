@@ -22,7 +22,8 @@ $ready(function () {
 
             result: {},         //考试成绩的籹据实体对象
             exrxml: {},          //答题信息，xml
-            paper: {},           //试卷信息        
+            paper: {},           //试卷信息    
+            course: {},           //课程信息    
             types: {},          //题型
 
             scoreFinal: 0,       //考试得分
@@ -54,7 +55,7 @@ $ready(function () {
                 th.paper = paper.data.result;
                 th.result = result.data.result;
                 th.exrxml = $api.loadxml(th.result.Tr_Results);
-
+                th.getcourse(th.paper.Cou_ID);
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
@@ -168,6 +169,19 @@ $ready(function () {
                 if (score < total * 0.8) return "general";
                 if (score >= total * 0.8) return "fine";
                 return "";
+            },
+            //获取课程信息
+            getcourse: function (couid) {
+                var th = this;
+                $api.get('Course/ForID', { 'id': couid }).then(req => {
+                    if (req.data.success) {
+                        th.course = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             }
         }
     });
