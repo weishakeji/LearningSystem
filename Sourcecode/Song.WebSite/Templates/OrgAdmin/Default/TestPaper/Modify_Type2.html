@@ -27,6 +27,22 @@
                     <el-form-item label="副标题" prop="Tp_SubName">
                         <el-input v-model="entity.Tp_SubName"></el-input>
                     </el-form-item>
+                    <el-form-item label="专业" prop="Tp_SubName">
+                        <sbj_cascader :sbjid="entity.Sbj_ID" :orgid="orgid" @change="sbjChange" showitem="course"
+                            :disabled="edit || couid!=''">
+                        </sbj_cascader>
+                    </el-form-item>
+                    <el-form-item label="课程" prop="Cou_ID">
+                        <el-select v-model="entity.Cou_ID" style="width: 100%;" filterable clearable
+                            :disabled="edit || couid!=''" placeholder="-- 课程 --">
+                            <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                                :value="item.Cou_ID">
+                                <span>{{i+1}} . </span>
+                                <span>{{item.Cou_Name}}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
                     <el-form-item label="">
                         <el-switch v-model="entity.Tp_IsFinal" active-color="#13ce66" active-text="设置为结课考试">
                         </el-switch>
@@ -38,37 +54,6 @@
                         <el-switch v-model="entity.Tp_IsRec" active-color="#13ce66" active-text="推荐">
                         </el-switch>
                     </el-form-item>
-                    <el-row :gutter="10">
-                        <el-col :span="14">
-                            <el-form-item label="" prop="Tp_Span">
-                                <el-input placeholder="请输入内容" v-model="entity.Tp_Span" type="number">
-                                    <template slot="prepend">限时</template>
-                                    <template slot="append">分钟</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="10">
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="10">
-                        <el-col :span="14">
-                            <el-form-item label="" prop="Tp_Total">
-                                <el-input v-model="entity.Tp_Total" type="number" :min="1">
-                                    <template slot="prepend">满分</template>
-                                    <template slot="append">分</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="9">
-                            <el-form-item label="" prop="Tp_PassScore" label-width="0">
-                                <el-input v-model="entity.Tp_PassScore" type="number" :min="0">
-                                    <template slot="prepend">及格分</template>
-                                    <template slot="append">分</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-
                     <el-form-item label="难度范围" prop="Tp_Diff">
                         <el-row>
                             <el-col :span="1">&nbsp;</el-col>
@@ -83,24 +68,31 @@
                         </el-row>
 
                     </el-form-item>
-                    <el-form-item label="专业" prop="Tp_SubName">
-                        <sbj_cascader :sbjid="entity.Sbj_ID" :orgid="orgid" @change="sbjChange"  showitem="course"
-                            :disabled="edit || couid!=''">
-                        </sbj_cascader>
+
+                    <el-form-item label="时长" prop="Tp_Span">
+                        <el-input placeholder="请输入内容" v-model="entity.Tp_Span" type="number" style="width: 300px;">
+                            <template slot="prepend">限时</template>
+                            <template slot="append">分钟</template>
+                        </el-input>
                     </el-form-item>
-                    <el-form-item label="课程" prop="Cou_ID">
-                        <el-select v-model="entity.Cou_ID" style="width: 100%;" filterable clearable
-                            :disabled="edit || couid!=''" placeholder="-- 课程 --">
-                            <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
-                                :value="item.Cou_ID">
-                                <span>{{i+1}} . </span>
-                                <span>{{item.Cou_Name}}</span>
-                            </el-option>
-                        </el-select>
+
+
+                    <el-form-item label="分数" prop="Tp_Total">
+                        <el-input v-model="entity.Tp_Total" type="number" :min="1" style="width: 300px;">
+                            <template slot="prepend">满分</template>
+                            <template slot="append">分</template>
+                        </el-input>
                     </el-form-item>
-                    <el-form-item label="出卷人">
-                        <el-input v-model="entity.Tp_Author" style="width: 180px;"></el-input>
+
+                    <el-form-item label="" prop="Tp_PassScore" >
+                        <el-input v-model="entity.Tp_PassScore" type="number" :min="0" style="width: 300px;">
+                            <template slot="prepend">及格分</template>
+                            <template slot="append">分</template>
+                        </el-input>
                     </el-form-item>
+
+
+
                 </div>
                 <div v-show="activeName=='range'" remark="出题范围" tab="range">
                     <el-row :gutter="10">
@@ -142,6 +134,9 @@
                         :dataid="entity.Tp_Id" @change="text=>entity.Tp_Remind=text"></editor>
                 </div>
                 <div v-show="activeName=='other'" remark="其它" tab="other">
+                    <el-form-item label="出卷人">
+                        <el-input v-model="entity.Tp_Author" style="width: 180px;"></el-input>
+                    </el-form-item>
                     <el-form-item label="试卷Logo">
                         <div class="img_tools">
                             <upload-img @change="f=>upfile=f" :data="entity" size="1024" height="30" ext="jpg,png,gif">

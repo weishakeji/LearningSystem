@@ -26,10 +26,12 @@ $ready(function () {
             entity: {
                 Tp_Id: 0,        //主键
                 Tp_IsUse: true,
+                Tp_Span: 120,    //默认限时 120分钟
                 Tp_Type: 2,
                 Tp_Total: 100,
                 Tp_Diff: 1,
                 Tp_Diff2: 5,
+                Tp_FromConfig: '',
                 Tp_FromType: 0,
                 Sbj_ID: 0,
                 Cou_ID: 0           //所属课程的id
@@ -170,7 +172,7 @@ $ready(function () {
             sbjChange: function (sbjid, sbjs) {
                 var th = this;
                 var orgid = th.organ.Org_ID;
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '','free':'','search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '', 'free': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                     } else {
@@ -188,7 +190,7 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '','free':'','search': '', 'order': '', 'size': -1, 'index': 1 })
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'use': '', 'live': '', 'free': '', 'search': '', 'order': '', 'size': -1, 'index': 1 })
                     .then(function (req) {
                         if (req.data.success) {
                             th.courses = req.data.result;

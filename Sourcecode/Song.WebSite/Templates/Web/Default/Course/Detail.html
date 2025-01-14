@@ -145,25 +145,28 @@
                         <alert v-if="testpapers.length<1">
                             没有测试或考试所用的试卷
                         </alert>
-                        <div v-else v-for="(item,i) in testpapers" class="testpapers">
+                        <div v-else v-for="(item,i) in testpapers" class="testpapers" :finaltest="item.Tp_IsFinal">
                             <div>
                                 <span class="order">{{i+1}}.</span>
                                 <a :href="'../test/paper.'+item.Tp_Id" target="_blank">{{item.Tp_Name}}</a>
+                                 <el-tag type="primary" v-if="item.Tp_IsFinal"> <icon>&#xe816</icon>结课考试
+                                 </el-tag>
                             </div>
-
                             <div>
-                                <el-tag type="info" title="题量"> {{item.Tp_Count}} 道题</el-tag>
+                               
+                                   
+                                <el-tag type="success" title="题量"> {{item.Tp_Count}} 道题</el-tag>
                                 <template v-if="item.Tp_Type==1">
-                                    <el-tag type="success">
+                                    <el-tag type="info">
                                         <icon>&#xe6b0</icon>固定试题
                                     </el-tag>
                                 </template>
                                 <template v-if="item.Tp_Type==2" remark="随机试题">
-                                    <el-tag type="success">
+                                    <el-tag type="info">
                                         <icon>&#xe6cc</icon>随机试题
                                     </el-tag>
                                 </template>
-                                <el-tag type="primary" title="限时">
+                                <el-tag type="warning" title="限时">
                                     <icon>&#xe81a</icon> 限时{{item.Tp_Span}} 分钟
                                 </el-tag>
                                 <el-tag type="info" title="限时">
