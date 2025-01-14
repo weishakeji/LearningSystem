@@ -105,7 +105,7 @@ Vue.component('largebutton', {
         <loading v-if="loading && islogin"></loading>
         <template v-else>
             <button v-if="!islogin" @click="url('login')">登录学习</button> 
-            <template v-else-if="canstudy || forever">
+            <template v-else-if="canstudy || forever || course.Cou_IsFree">
                 <button @click="url('learn')">开始学习</button>
                 <button @click="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</button>
             </template>      

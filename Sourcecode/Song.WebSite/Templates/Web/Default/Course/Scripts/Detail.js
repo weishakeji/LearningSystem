@@ -147,7 +147,7 @@ $ready(function () {
                         for (let i = 0; i < papers.length; i++) {
                             if (papers[i].Tp_IsFinal) {
                                 th.finaltest = papers[i];
-                                papers.splice(i, 1);
+                                //papers.splice(i, 1);
                             };
                         }
                         th.testpapers = papers;

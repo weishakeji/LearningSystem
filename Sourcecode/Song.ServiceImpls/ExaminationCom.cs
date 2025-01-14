@@ -890,7 +890,7 @@ namespace Song.ServiceImpls
             }
             #endregion
             outXml = resXml.InnerXml;
-            return (double)score;
+            return score;
         }
         #endregion
         /// <summary>

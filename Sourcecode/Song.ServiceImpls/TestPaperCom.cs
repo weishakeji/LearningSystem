@@ -265,7 +265,7 @@ namespace Song.ServiceImpls
             if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
             if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
             if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);
-            if (sear != null && sear.Trim() != "") wc.And(TestPaper._.Tp_Name.Contains(sear));
+            if (string.IsNullOrWhiteSpace(sear) && sear.Trim() != "") wc.And(TestPaper._.Tp_Name.Contains(sear));
             countSum = Gateway.Default.Count<TestPaper>(wc);
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(size, (index - 1) * size);
         }
@@ -597,7 +597,7 @@ namespace Song.ServiceImpls
                 {
                     if (xn.Attributes["score"] != null)
                     {
-                        score = (float)Convert.ToDouble(xn.Attributes["score"].Value);
+                       float.TryParse(xn.Attributes["score"].Value, out score);                        
                     }
                 }
                 else
@@ -605,7 +605,7 @@ namespace Song.ServiceImpls
                     //如果没有计算过，则在服务器端计算
                     entity.Tr_Score = (float)ExaminationCom._ClacScore(resultXML, out resultXML);
                     entity.Tr_Results = resultXML;
-                    score = (float)entity.Tr_Score;
+                    score = entity.Tr_Score;
                 }
             }
             if (entity.Cou_ID <= 0)
@@ -702,7 +702,10 @@ namespace Song.ServiceImpls
             wc.And(TestResults._.Ac_ID == stid);
             wc.And(TestResults._.Tp_Id == tpid);
             object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
-            return score == null ? 0 : (float)score;         
+            if (score == null) return 0;
+            float trscore = 0;
+            float.TryParse(score.ToString(), out trscore);
+            return trscore;         
         }
         /// <summary>
         /// 计算该试卷的所有测试的最低分
@@ -732,7 +735,8 @@ namespace Song.ServiceImpls
                 wc.And(TestResults._.Ac_ID == tr.Ac_ID);
                 wc.And(TestResults._.Tp_Id == tp.Tp_Id);
                 object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
-                highest = score == null ? 0 : (float)score;
+                if (score != null) float.TryParse(score.ToString(), out highest);
+
                 //学员的学习记录
                 Student_Course purchase = Business.Do<ICourse>().StudentCourse(tr.Ac_ID, tp.Cou_ID, true);
                 using (DbTrans tran = Gateway.Default.BeginTrans())
