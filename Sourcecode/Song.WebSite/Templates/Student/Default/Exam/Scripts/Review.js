@@ -77,7 +77,7 @@ $ready(function () {
             window.interval_number = window.setInterval(function () {
                 let ques = $dom('card[qid]');   //试题数
                 let render = $dom('card[render=true]');    //已渲染的试题数
-                if (ques.length == render.length) {
+                if (ques.length > 0 && ques.length == render.length) {
                     th.init = true;
                     window.clearInterval(window.interval_number);
                 }

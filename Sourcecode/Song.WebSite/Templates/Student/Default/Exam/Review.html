@@ -25,8 +25,9 @@
                     <div class="exam_info">，于<span>
                             {{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span> 考试
 
-                            <el-button type="primary" size="mini" class="noprint" @click="window.print()" :loading="!init">
-                                <icon v-if="init">&#xa046</icon>打印
+                            <el-button :type="init ? 'primary' : 'info'"  size="mini" class="noprint" @click="window.print()" :loading="!init">
+                                <span v-if="!init">加载中...</span>
+                                <span v-else icon="&#xa046">打印</icon>
                             </el-button>
                      
                     </div>

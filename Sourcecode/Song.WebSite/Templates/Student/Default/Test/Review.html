@@ -17,8 +17,9 @@
                 <span class="tag noview">({{paper.Tp_PassScore}}及格/满分{{paper.Tp_Total}})</span>
                 <span class="noprint">时间：</span> {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
 
-                <el-button type="primary" size="mini" class="noprint" @click="window.print()" :loading="!init">
-                    <icon v-if="init">&#xa046</icon>打印
+                <el-button :type="init ? 'primary' : 'info'" size="mini" class="noprint" @click="window.print()" :loading="!init">
+                    <span v-if="!init">加载中...</span>
+                    <span v-else icon="&#xa046">打印</icon>
                 </el-button>
             </span>
 
