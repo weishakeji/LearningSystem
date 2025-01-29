@@ -65,6 +65,7 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
+        [SuperAdmin]
         public int Delete(string id)
         {
             int i = 0;
@@ -93,6 +94,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
+        [SuperAdmin]
         public bool Add(SingleSignOn entity)
         {
             //域名全部转小写
@@ -107,6 +109,7 @@ namespace Song.ViewData.Methods
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
+        [SuperAdmin]
         public bool Modify(SingleSignOn entity)
         {
             Song.Entities.SingleSignOn old = Business.Do<ISSO>().GetSingle(entity.SSO_ID);

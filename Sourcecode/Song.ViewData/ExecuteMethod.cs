@@ -85,7 +85,7 @@ namespace Song.ViewData
                 throw VExcept.System("The request mark is incorrect", 102);
             //是否验证调用接口的js所在页面host，是否与地址栏一致
             WeiSha.Core.RESTfulAPI apicheck = WeiSha.Core.RESTfulAPI.Get;
-            if (apicheck.HostCheck)
+            if (apicheck.HostCheck && letter.Version.Equals("v2"))
             {
                 //如果不在白名单内，如果API与所在页面host相同也会通过
                 if (!(apicheck.EnableWhite && apicheck.WhitePassed(letter.HTTP_HOST)))

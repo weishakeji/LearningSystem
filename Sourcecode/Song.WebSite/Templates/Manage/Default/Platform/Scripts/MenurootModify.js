@@ -52,6 +52,7 @@ $ready(function () {
                 if (this.loading) return;
                 this.loading = true;
                 var th = this;
+                th.entity['MM_Type'] = 'item';
                 $api.post('ManageMenu/AddFuncRoot', { 'mm': th.entity }).then(function (req) {
                     if (req.data.success) {
                         th.$message({
