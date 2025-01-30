@@ -96,6 +96,7 @@ namespace Song.ViewData
             //获取cookies
             for (int i = 0; i < context.Request.Cookies.Count; i++)
             {
+                if (context.Request.Cookies[i].Value == null) continue;
                 string key = context.Request.Cookies.Keys[i].ToString();
                 string val = context.Request.Cookies[i].Value.ToString();
                 SetCookies(key, val);
@@ -200,6 +201,7 @@ namespace Song.ViewData
             //获取cookies
             for (int i = 0; i < context.Request.Cookies.Count; i++)
             {
+                if (context.Request.Cookies[i].Value == null) continue;
                 string key = context.Request.Cookies.Keys[i].ToString();
                 string val = context.Request.Cookies[i].Value.ToString();
                 SetCookies(key, val);
