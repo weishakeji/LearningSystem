@@ -3,7 +3,7 @@
 
 <head resource>
       <title>课程学习交流咨询</title>
-      <include file="inc/meta.inc" />
+      <include file="CourseChat/meta-CourseChat.inc" />
 </head>
 
 <body>
@@ -23,9 +23,10 @@
                         </dl>
                   </div>
                   <div class="chatbox">
-                        <loading v-if="loading_init || loading"></loading>
+                        <loading v-if="loading"></loading>
                         <div class="msgbox" v-else>
-                              <input type="text" id="messageinput" v-model="msg" name="messageinput" v-on:keyup.enter="msgSend" />
+                              <input type="text" id="messageinput" v-model="msg" name="messageinput"
+                                    v-on:keyup.enter="msgSend" />
                               <div id="btnMessage" v-on:click="msgSend">发送</div>
                         </div>
                   </div>
