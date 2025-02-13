@@ -25,7 +25,7 @@ namespace Song.ViewData
             //获取类名与方法名，可以考虑增加默认方法，例如index或default
             string[] arr = request.Url.Segments;
             for (int i = 0; i < arr.Length; i++) arr[i] = arr[i].Replace("/", "");
-            this.Version = arr[2];
+            this.Version = arr[2] ?? string.Empty;
             this.ClassName = arr[3];
             this.MethodName = arr[4];
 
