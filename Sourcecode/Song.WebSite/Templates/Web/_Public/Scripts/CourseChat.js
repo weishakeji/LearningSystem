@@ -9,7 +9,10 @@ $ready(function () {
             messages: [], //咨询留言
             //
             msg: '', //要提交的信息
-            loading: false, //加载中           
+            loading: false, //加载中    
+
+            test: 'test',
+            error: '444'
         },
         watch: {
 
@@ -17,23 +20,30 @@ $ready(function () {
         created: function () {
             this.olid = this.getpara("olid");
             this.acc = this.getpara("acc");
-            //document.write(this.olid);
             //定时刷新（加载）咨询留言
-            window.setInterval('vapp.msgGet()', 1000 * 6);
+            var th = this;
+            window.setInterval(function () {
+                th.msgGet(false);
+            }, 1000 * 6);
         },
         mounted: function () {
+
             this.msgGet(true);
         },
         methods: {
             //获取参数
             getpara: function (name) {
-                return $api.querystring(name);
-                /*
-                const url = window.location.href;
-                // 创建一个URL对象  
-                const urlObj = new URL(url);
-                const params = new URLSearchParams(urlObj.search);
-                return params.get(name);*/
+                var queryString = window.location.search;
+                var params = queryString.slice(1).split('&');
+                for (var param in params) {
+                    var arr = params[param].split('=');
+                    if (arr.length > 1) {
+                        {
+                            if (arr[0] == name) return arr[1];
+                        }
+                    }                   
+                }
+                return '';
             },
             //发送消息
             msgSend: function () {
@@ -63,12 +73,17 @@ $ready(function () {
             },
             //获取消息，init：是否为初始加载，初始加载显示loading图标
             msgGet: function (init) {
-                if (!this.olid || this.olid == '') return;
+               
+                if (this.olid == null || this.olid == '') return;
                 var th = this;
                 if (init) th.loading = true;
+                th.error = 'aa333';
+                this.test = 'test_init  ' + String(init) + '  ' + String(this.olid);
                 $api.post("message/All", { olid: th.olid, order: 'asc' }).then(function (req) {
+                    //th.test = req;
                     if (req.data.success) {
                         th.messages = req.data.result;
+                        //th.test = req.data.result;
                         window.setTimeout(function () {
                             var dl = document.getElementById("chatlistdl");
                             document.getElementById("chatlist").scrollTop = dl.offsetHeight;
@@ -77,7 +92,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert("信息加载异常！详情：\r" + err);
+                    th.error = "信息加载异常！详情：\r" + err;
                 }).finally(function () { th.loading = false; });
             }
         }
