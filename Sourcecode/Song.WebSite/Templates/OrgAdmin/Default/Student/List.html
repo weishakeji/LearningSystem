@@ -43,6 +43,9 @@
                     <el-form-item label="身份证">
                         <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:250px"></el-input>
                     </el-form-item>
+                    <el-form-item label="年龄段">
+                       
+                    </el-form-item>
                     <el-form-item label="性别">
                         <el-radio-group v-model="form.gender">
                             <el-radio-button :label="-1">所有</el-radio-button>
@@ -107,11 +110,9 @@
                     <template slot-scope="scope">
                         <template
                             v-if="(!timeisnull(scope.row.Ac_Birthday) || scope.row.Ac_Age>0 ) && scope.row.Ac_Birthday<new Date() ">
-                            <div title="年龄" v-if="scope.row.Ac_Age>0">
-                                <icon>&#xe84d</icon>
-                                <template v-if="scope.row.Ac_Age>0">
-                                    {{scope.row.Ac_Age}} 岁
-                                </template>
+                            <div title="年龄" v-if="scope.row.Ac_Age>=0">
+                                <icon>&#xe84d</icon>                               
+                                 {{scope.row.Ac_Age}} 岁                                
                             </div>
                             <div title="生日" v-if="!timeisnull(scope.row.Ac_Birthday)">
                                 <icon>&#xe82c</icon>
@@ -188,7 +189,7 @@
                     <template slot-scope="scope">
                         <div>
                             <el-link type="primary" plain
-                                @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">                                
+                                @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">
                                 <course_count :acid="scope.row.Ac_ID"></course_count>
                             </el-link>
                         </div>

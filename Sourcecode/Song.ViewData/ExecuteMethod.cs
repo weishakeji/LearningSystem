@@ -444,7 +444,8 @@ namespace Song.ViewData
                                     DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
                                     if (val.IndexOf(".") > -1) val = val.Substring(0, val.IndexOf("."));
                                     long lTime = long.Parse(val + "0000");
-                                    piValue = lTime > 0 ? dt.Add(new TimeSpan(lTime)) : dt;
+                                    //piValue = lTime > 0 ? dt.Add(new TimeSpan(lTime)) : dt;
+                                    piValue = dt.Add(new TimeSpan(lTime));
                                     break;
                                 default:
                                     piValue = string.IsNullOrEmpty(val) ? null : WeiSha.Core.DataConvert.ChangeType(val.Trim(), opi.PropertyType);

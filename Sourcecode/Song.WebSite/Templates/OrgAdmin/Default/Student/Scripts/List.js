@@ -89,7 +89,7 @@ $ready(function () {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //console.log(th.accounts);
+                       console.error(th.accounts);
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
@@ -159,7 +159,7 @@ $ready(function () {
             timeisnull: function (time) {
                 if (!(Object.prototype.toString.call(time) === '[object Date]'))
                     return true;
-                if (time.getTime() == 0) return true;
+                //if (time.getTime() == 0) return true;
                 //if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
                 return false;
             },
