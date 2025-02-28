@@ -151,7 +151,7 @@
                       没有功能限制，没有学员注册数量限制，没有并发数限制。
                     </dd>
                     <dd>社区版使用SQLite数据库，安装部署简单。</dd>
-                    <dd><warning>SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供交流学习，不建议用于生产环境。</warning></dd>
+                    <dd><warning>SQLite作为文件型数据库，在高并发、大数据场景下表现不佳，仅供开源社区交流学习。</warning></dd>
                   </dl>
                   <dl>
                     <dt class="business">商业版</dt>
