@@ -28,7 +28,7 @@ namespace Song.ViewData
             return _instance;
         }
         #endregion
-       
+
 
         #region 创建并缓存实例对象
         //存储对象的键值对，key为对象的类名称（全名），value为对象自身
@@ -78,7 +78,7 @@ namespace Song.ViewData
         /// <param name="letter">客户端递交的参数信息</param>
         /// <param name="success">是否执行成功，</param>
         /// <returns></returns>
-        public static object Exec(Letter letter,out bool success)
+        public static object Exec(Letter letter, out bool success)
         {
             //基础校验
             if (!"weishakeji".Equals(letter.HTTP_Mark, StringComparison.OrdinalIgnoreCase))
@@ -182,7 +182,7 @@ namespace Song.ViewData
             {
                 bool success = false;
                 //执行方法
-                object res = Exec(letter, out success);              
+                object res = Exec(letter, out success);
                 //计算耗时                
                 double span = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
                 //
@@ -343,6 +343,12 @@ namespace Song.ViewData
                 }
                 //实参的值，即接口方法的参数所对应的客户端传来的值
                 string val = letter[pi.Name].String;
+                //如果形参为字符串类型，则直接赋值
+                if (pi.ParameterType.FullName.Equals("System.String"))
+                {
+                    objs[i] = val;
+                    continue;
+                }
                 //是否是可以为空的参数，例如DateTime? int?
                 Type nullableType = Nullable.GetUnderlyingType(pi.ParameterType);
                 if (nullableType != null)
@@ -359,8 +365,8 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(val) && !pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                     {
                         if (pi.ParameterType.Name.Equals("Boolean", StringComparison.CurrentCultureIgnoreCase) ||
-                            //pi.ParameterType.Name.Equals("Int32", StringComparison.CurrentCultureIgnoreCase) ||
-                            //pi.ParameterType.Name.Equals("Int64", StringComparison.CurrentCultureIgnoreCase) ||
+                      //pi.ParameterType.Name.Equals("Int32", StringComparison.CurrentCultureIgnoreCase) ||
+                      //pi.ParameterType.Name.Equals("Int64", StringComparison.CurrentCultureIgnoreCase) ||
                       pi.ParameterType.Name.Equals("DateTime", StringComparison.CurrentCultureIgnoreCase))
                         {
                             string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，实际传参的值为空";
@@ -392,7 +398,7 @@ namespace Song.ViewData
                     objs[i] = JObject.Parse(val);
                     continue;
                 }
-                
+
                 try
                 {
                     if (pi.ParameterType.IsValueType)
@@ -400,11 +406,11 @@ namespace Song.ViewData
                     else
                         objs[i] = ValueToObject(pi.ParameterType, val);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，数据格式不正确; 实际传参：{4}";
                     if (val.Length > 100) val = val.Substring(0, 100) + "...";
-                    Exception excep= new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
+                    Exception excep = new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
                         pi.Name, pi.ParameterType.Name.ToLower(), val));
                     excep.Data.Add("Exception", ex);
                     excep.Data.Add("Method", method);
@@ -424,7 +430,7 @@ namespace Song.ViewData
         public static T ValueToEntity<T>(Type paramType, string actual) where T : WeiSha.Data.Entity
         {
             if (paramType == null) paramType = typeof(T);
-            return (T)ValueToObject(paramType, actual);            
+            return (T)ValueToObject(paramType, actual);
         }
         /// <summary>
         /// 将字符串转换为实体
