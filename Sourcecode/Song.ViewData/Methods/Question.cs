@@ -116,7 +116,7 @@ namespace Song.ViewData.Methods
                     JToken jt = jaryy[i];
                     try
                     {
-                        Song.Entities.QuesAnswer obj = ExecuteMethod.GetValueToEntity<Song.Entities.QuesAnswer>(null, jt.ToString());
+                        Song.Entities.QuesAnswer obj = ExecuteMethod.ValueToEntity<Song.Entities.QuesAnswer>(null, jt.ToString());
                         if (string.IsNullOrWhiteSpace(obj.Ans_Context)) continue;                     
                         //生成答案项的id
                         if (obj.Ans_ID <= 0)                       

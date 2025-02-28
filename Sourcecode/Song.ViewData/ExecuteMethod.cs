@@ -372,7 +372,7 @@ namespace Song.ViewData
                 //如果形参是数据实体
                 if (pi.ParameterType.BaseType != null && pi.ParameterType.BaseType.FullName == "WeiSha.Data.Entity")
                 {
-                    objs[i] = GetValueToEntity<WeiSha.Data.Entity>(pi.ParameterType, val);
+                    objs[i] = ValueToEntity<WeiSha.Data.Entity>(pi.ParameterType, val);
                     continue;
                 }
                 //如果形参是数组
@@ -392,16 +392,23 @@ namespace Song.ViewData
                     objs[i] = JObject.Parse(val);
                     continue;
                 }
+                
                 try
                 {
-                    objs[i] = WeiSha.Core.DataConvert.ToObject(pi.ParameterType, val);
+                    if (pi.ParameterType.IsValueType)
+                        objs[i] = WeiSha.Core.DataConvert.ToObject(pi.ParameterType, val);
+                    else
+                        objs[i] = ValueToObject(pi.ParameterType, val);
                 }
-                catch
+                catch(Exception ex)
                 {
                     string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，数据格式不正确; 实际传参：{4}";
                     if (val.Length > 100) val = val.Substring(0, 100) + "...";
-                    throw new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
+                    Exception excep= new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
                         pi.Name, pi.ParameterType.Name.ToLower(), val));
+                    excep.Data.Add("Exception", ex);
+                    excep.Data.Add("Method", method);
+                    throw excep;
                 }
 
             }
@@ -414,9 +421,19 @@ namespace Song.ViewData
         /// <param name="paramType">形参的类型</param>
         /// <param name="actual">实参的值</param>
         /// <returns></returns>
-        public static T GetValueToEntity<T>(Type paramType, string actual) where T : WeiSha.Data.Entity
+        public static T ValueToEntity<T>(Type paramType, string actual) where T : WeiSha.Data.Entity
         {
             if (paramType == null) paramType = typeof(T);
+            return (T)ValueToObject(paramType, actual);            
+        }
+        /// <summary>
+        /// 将字符串转换为实体
+        /// </summary>
+        /// <param name="paramType"></param>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        public static object ValueToObject(Type paramType, string actual)
+        {
             //创建实体
             object entity = paramType.Assembly.CreateInstance(paramType.FullName);
             Dictionary<string, object> dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(actual);
@@ -428,7 +445,7 @@ namespace Song.ViewData
                 {
                     if (kv.Key.Equals(opi.Name, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        string val = kv.Value==null ? string.Empty : kv.Value.ToString();
+                        string val = kv.Value == null ? string.Empty : kv.Value.ToString();
                         //实体属性的值
                         try
                         {
@@ -482,7 +499,7 @@ namespace Song.ViewData
                 if (ptype.Name == "Int32") props[n].SetValue(entity, 0, null);
                 if (ptype.Name == "Int64") props[n].SetValue(entity, 0, null);
             }
-            return (T)entity;
+            return entity;
         }
         /// <summary>
         /// 实参转换为数组
@@ -503,7 +520,7 @@ namespace Song.ViewData
             if (elType.BaseType != null && elType.BaseType.FullName == "WeiSha.Data.Entity")
             {
                 for (int i = 0; i < jarray.Count; i++)
-                    array.SetValue(GetValueToEntity<WeiSha.Data.Entity>(elType, jarray[i].ToString()), i);
+                    array.SetValue(ValueToEntity<WeiSha.Data.Entity>(elType, jarray[i].ToString()), i);
                 return array;
             }
             for (int i = 0; i < jarray.Count; i++)
