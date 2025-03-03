@@ -159,7 +159,7 @@
         <van-popup v-model="showcard" closeable class="showcard">
             <carddetail :card="currentcard"></carddetail>
         </van-popup>
-        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
         <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 

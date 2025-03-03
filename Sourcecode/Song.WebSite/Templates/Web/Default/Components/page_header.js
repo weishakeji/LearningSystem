@@ -217,7 +217,10 @@ Vue.component('page_header', {
             <userbar>
                 <loading v-if="loading_login">... </loading>
                 <template v-else-if="!islogin">
-                    <a :href="gourl('/web/sign/in')">登录</a> | <a :href="gourl('/web/sign/up')">注册</a>
+                    <a :href="gourl('/web/sign/in')">登录</a> 
+                    <template v-if="!config.IsRegStudent">
+                    | <a :href="gourl('/web/sign/up')">注册</a>
+                    </template>
                 </template>
                 <el-dropdown v-else  @command="handleCommand" @visible-change="show=>visible_userdrop=show" show-timeout="10" remark="登录后的状态">
                     <span :class="{'el-dropdown-link':true,'user-dropdown-show':visible_userdrop}">

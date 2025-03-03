@@ -1,7 +1,7 @@
 ﻿
 // 侧滑菜单
 Vue.component('aside_menu', {
-    props: ['account'],
+    props: ['account', 'config'],
     data: function () {
         return {
             show: false,
@@ -36,6 +36,25 @@ Vue.component('aside_menu', {
     computed: {
         //是否登录
         islogin: (t) => { return !$api.isnull(t.account); },
+        //是否禁止注册学员，默认是允许
+        isRegStudent: (t) => {
+            if ($api.isnull(t.config)) return false;
+            return t.config.IsRegStudent;
+        },
+        //菜单项
+        menulist: function () {
+            let menus = [];
+            for (let i = 0; i < this.menus.length; i++) {
+                let m = this.menus[i];
+                //是否禁用学员注册
+                if (m.name == '注册' && this.isRegStudent) continue;
+                if (m.name == 'hr') menus.push(m);
+                //登录状态
+                if ((this.islogin && m.login == 0) || (!this.islogin && m.login == 1) || m.login < 0)
+                    menus.push(m);
+            }
+            return menus;
+        }
     },
     mounted: function () { },
     methods: {
@@ -97,16 +116,15 @@ Vue.component('aside_menu', {
                     </div>                                  
                  </div>
                 </div>
-               <div class="aside_list">
-                    <template v-for="(item,index) in menus">
+                <div class="aside_list">
+                    <template v-for="(item,index) in menulist">
                         <p v-if="item.name=='hr'">&nbsp;</p>
-                        <a v-else-if="(islogin && item.login==0 ) || (!islogin && item.login==1 ) || item.login<0" 
-                        @click="!!item.evt ? item.evt(item) : evtDefault(item)">
-                        <b v-html="item.icon" :style="'font-size: '+item.size+'px'"></b>
+                        <a v-else @click="!!item.evt ? item.evt(item) : evtDefault(item)">
+                            <b v-html="item.icon" :style="'font-size: '+item.size+'px'"></b>
                             {{item.name}}
                         </a>                      
                     </template>
-               </div>
+                </div>
                <div class="aside_foot">
                 <a v-for="(item,index) in foot"  @click="!!item.evt ? item.evt(item) : evtDefault(item)">            
                 <b v-html="item.icon" :style="'font-size: '+item.size+'px'"></b>
