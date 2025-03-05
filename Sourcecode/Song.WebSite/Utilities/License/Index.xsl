@@ -144,7 +144,9 @@
             <div class="card protocol">
                 <div class="tit">开源协议</div>
                 <div class="cont">
-                  <p>《<span copyright="product"></span>》采用双协议，社区版采用<span copyright="openlicense"></span>开源协议，商业版需要购买商业授权。</p>
+                  <p>《<span copyright="product"></span>》采用双协议，社区版采用<a copyright="wplurl" target="_blank">
+                    <span copyright="openlicense"></span>
+                  </a>开源协议，商业版需要购买商业授权。</p>
                   <dl>
                     <dt class="free">社区版</dt>
                     <dd>
