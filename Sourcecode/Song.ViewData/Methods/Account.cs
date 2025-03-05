@@ -424,7 +424,9 @@ namespace Song.ViewData.Methods
             //例如当某个行政单位没有访问记录时，在dt中是没有这一项的，将从area中补全该行政单位
             foreach (KeyValuePair<int, string> pair in area)
             {
-                DataRow row = dt.AsEnumerable().FirstOrDefault(dr => pair.Value.Equals(dr.IsNull("area") ? "" : dr["area"].ToString()));
+                DataRow row = dt != null ?
+                    dt.AsEnumerable().FirstOrDefault(dr => pair.Value.Equals(dr.IsNull("area") ? "" : dr["area"].ToString()))
+                    : null;
                 jarr.Add(new JObject(
                             new JProperty("area", pair.Value),
                             new JProperty("code", pair.Key),
@@ -435,9 +437,11 @@ namespace Song.ViewData.Methods
             //其它区域，没有在行政区划内的数值，可能是没有采集到地理信息
             //int sum = dt.AsEnumerable().Sum(row => row.Field<int>("count"));
             int sum = 0;
-            foreach(DataRow dr in dt.Rows)
-                sum += dr.IsNull("count") ? 0 : Convert.ToInt32(dr["count"].ToString());
-           
+            if (dt != null)
+            {
+                foreach (DataRow dr in dt.Rows)
+                    sum += dr.IsNull("count") ? 0 : Convert.ToInt32(dr["count"].ToString());
+            }
             if (sum > 0)
             {
                 jarr.Add(new JObject(
