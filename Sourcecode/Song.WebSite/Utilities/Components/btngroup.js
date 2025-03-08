@@ -121,7 +121,11 @@ Vue.component('btngroup', {
     methods: {
         //添加按钮
         addbtn: function (btn) {
-            this.buttonArray.push(btn);
+            if (btn == null) return;
+            if (Array.isArray(btn)) {
+                for (let i = 0; i < btn.length; i++)
+                    this.buttonArray.push(btn[i]);
+            } else this.buttonArray.push(btn);
         },
         //按钮的事件
         //btn:当前按钮
