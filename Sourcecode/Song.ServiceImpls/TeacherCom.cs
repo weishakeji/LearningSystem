@@ -109,9 +109,9 @@ namespace Song.ServiceImpls
                 {
                     IDCardNumber card = IDCardNumber.Get(entity.Th_IDCardNumber);
                     entity.Th_Age = card.Birthday.Year;
-                    entity.Th_Sex = card.Sex;
+                    entity.Th_Sex = card.Gender;
                     entity.Th_Birthday = card.Birthday;
-                    entity.Th_Native = card.Province + "," + card.Area + "," + card.City;
+                    entity.Th_Native = card.Province + "," + card.City + "," + card.District;
                     entity.Th_IDCardNumber = card.CardNumber;
                 }
                 catch (Exception ex)

@@ -78,9 +78,9 @@ namespace Song.ServiceImpls
                 {
                     IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
                     entity.Ac_Age = card.Birthday.Year;
-                    entity.Ac_Sex = card.Sex;
+                    entity.Ac_Sex = card.Gender;
                     entity.Ac_Birthday = card.Birthday;
-                    entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                    entity.Ac_Native = card.Province + "," + card.City + "," + card.District;
                     entity.Ac_IDCardNumber = card.CardNumber;
                 }
                 catch(Exception ex)
@@ -142,9 +142,9 @@ namespace Song.ServiceImpls
                 {
                     IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
                     entity.Ac_Age = card.Birthday.Year;
-                    entity.Ac_Sex = card.Sex;
+                    entity.Ac_Sex = card.Gender;
                     entity.Ac_Birthday = card.Birthday;
-                    entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                    entity.Ac_Native = card.Province + "," + card.City + "," + card.District;
                     entity.Ac_IDCardNumber = card.CardNumber;
                 }
                 catch (Exception ex)

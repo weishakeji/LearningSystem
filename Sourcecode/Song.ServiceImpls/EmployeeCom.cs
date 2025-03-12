@@ -39,7 +39,7 @@ namespace Song.ServiceImpls
             {
                 IDCardNumber card = IDCardNumber.Get(entity.Acc_IDCardNumber);
                 entity.Acc_Age = card.Birthday.Year;
-                entity.Acc_Sex = card.Sex;
+                entity.Acc_Sex = card.Gender;
                 entity.Acc_Birthday = card.Birthday;
             }
             catch { }
@@ -73,7 +73,7 @@ namespace Song.ServiceImpls
                 //解析身份证信息，取年龄、性别等
                 IDCardNumber card = IDCardNumber.Get(entity.Acc_IDCardNumber);
                 entity.Acc_Age = card.Birthday.Year;
-                entity.Acc_Sex = card.Sex;
+                entity.Acc_Sex = card.Gender;
                 entity.Acc_Birthday = card.Birthday;
             }
             catch { }         
