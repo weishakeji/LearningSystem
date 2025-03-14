@@ -1,41 +1,7 @@
 ﻿@charset "utf-8";
-#app{
-    width: 100%;
-    height: 100%;
-}
-.icon {
-    font-family: "webdesk_icon" !important;
-    font-size: 18px;
-    margin-right: 10px;
-}
-/*菜单图标选择*/
 
-#dialog_icons .el-dialog__body span {
-    font-family: "webdesk_icon" !important;
-    font-size: 30px !important;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    text-align: center;
-    transition: all .5s ease-out;
-}
-
-#dialog_icons .el-dialog__body span:hover {
-    transform: scale(1.3);
-    color: brown;
-}
-
-#dialog_icons .el-dialog__body span[selected] {
-    color: brown;
-}
-.el-dialog{
-    width: 80% !important;
-    height: 70% !important;
-}
-.el-dialog__body{   
-    width: calc(100% - 50px) !important;
-    height:calc(100% - 100px) !important;
-    padding: 10px 10px 10px 20px !important;
+#vapp{
+    height: calc(100% - 60px);
     overflow-y: auto;
+    overflow-x: hidden;
 }

@@ -3,19 +3,19 @@
 
 <head resource>
     <include file="../inc/meta.inc" />
-    <title>管理菜单的根节点编辑</title>
+    <title>系统参数编辑</title>
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="vapp" v-cloak>        
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="120px">
-
             <el-form-item label="参数名（key）" prop="Sys_Key">
                 <el-input v-model="entity.Sys_Key" clearable></el-input>
             </el-form-item>
 
             <el-form-item label="参数值（value）" prop="Sys_Value">
-                <el-input v-model="entity.Sys_Value" clearable></el-input>
+                <el-input v-model="entity.Sys_Value"  type="textarea"
+                :rows="10" clearable></el-input>
             </el-form-item>
 
 
