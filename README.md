@@ -26,7 +26,7 @@
 ## 商务合作 - 代理销售，定制开发
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
 
->  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
+>  **所有的商务信息都可以修改** ，程序中涉及商务的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。修改这些信息可以方便合作方开展商务工作，并不能改变著作权归属。
 
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
