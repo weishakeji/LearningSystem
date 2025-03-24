@@ -117,11 +117,11 @@ namespace Song.ViewData.Methods
             return i;
         }
         /// <summary>
-        /// 
+        /// 新增考试
         /// </summary>
-        /// <param name="theme"></param>
-        /// <param name="items"></param>
-        /// <param name="groups"></param>
+        /// <param name="theme">考试主题的对象</param>
+        /// <param name="items">考试场次的对象数组</param>
+        /// <param name="groups">关联的学员组，即可以参加考试的学员组</param>
         [HttpPost]
         [Admin, Teacher]
         public bool Add(Examination theme, Examination[] items, ExamGroup[] groups)
@@ -131,11 +131,11 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
-        /// 
+        /// 修改考试
         /// </summary>
-        /// <param name="theme"></param>
-        /// <param name="items"></param>
-        /// <param name="groups"></param>
+        /// <param name="theme">考试主题的对象</param>
+        /// <param name="items">考试场次的对象数组</param>
+        /// <param name="groups">关联的学员组，即可以参加考试的学员组</param>
         [HttpPost]
         [Admin, Teacher]
         public bool Modify(Examination theme, Examination[] items, ExamGroup[] groups)
@@ -253,7 +253,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 根据考试答题记录的ID，获取详细的答题信息
         /// </summary>
-        /// <param name="exrid"></param>
+        /// <param name="exrid">考试成绩记录的ID</param>
         /// <returns></returns>
         public JObject ResultJson(int exrid)
         {
@@ -587,7 +587,7 @@ namespace Song.ViewData.Methods
 
         #region 文件上传管理
         /// <summary>
-        /// 考试中上传附件
+        /// 考试中上传附件，用于简答题的答题信息中的附件文件
         /// </summary>
         /// <param name="stid">学员id</param>
         /// <param name="examid">考试id</param>
@@ -649,7 +649,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 考试中的简答题附件
+        /// 加载考试中的简答题的答题信息的附件，按试题加载
         /// </summary>
         /// <param name="stid">学员id</param>
         /// <param name="examid">考试id</param>
@@ -686,7 +686,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 删除考试中的附件
+        /// 删除考试简称题的答题信息的附件
         /// </summary>
         /// <param name="stid">学员id</param>
         /// <param name="examid">考试id</param>
@@ -875,7 +875,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 参加考试主题的所学员
+        /// 参加考试的所有学员，
         /// </summary>
         /// <param name="id">考试主题的id</param>
         /// <param name="name">学员姓名</param>
@@ -1151,10 +1151,10 @@ namespace Song.ViewData.Methods
         }
 
         /// <summary>
-        /// 某场考试的成绩
+        /// 获取考试成绩,某场考试的成绩
         /// </summary>
         /// <param name="examid">考试id</param>
-        /// <param name="name">学员姓名<</param>
+        /// <param name="name">学员姓名</param>
         /// <param name="idcard">学员身份证号</param>
         /// <param name="stsid">学员组的id</param>
         /// <param name="min">按分数区间获取记录，此处是最低分</param>

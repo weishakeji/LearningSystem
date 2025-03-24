@@ -216,8 +216,10 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 生成excel
         /// </summary>
+        /// <param name="path"></param>
+        /// <param name="orgid"></param>
         /// <param name="type">类型，1支出，2充值</param>
-        /// <param name="from">来源，1管理员操作，3在线支付，4购买课程<</param>
+        /// <param name="from">来源，1管理员操作，3在线支付，4购买课程</param>
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
@@ -246,7 +248,7 @@ namespace Song.ViewData.Methods
         /// 生成excel
         /// </summary>
         /// <param name="type">类型，1支出，2充值</param>
-        /// <param name="from">来源，1管理员操作，3在线支付，4购买课程<</param>
+        /// <param name="from">来源，1管理员操作，3在线支付，4购买课程</param>
         /// <param name="start">开始时间</param>
         /// <param name="end">结束时间</param>
         /// <returns></returns>
