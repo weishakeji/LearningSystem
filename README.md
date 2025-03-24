@@ -7,6 +7,19 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
+###  一些感怀
+>  **江城子** - 加班写代码 - 2025年3月<br/>
+(我以为，我可以很快的写一款软件，大卖，早早的财务自由。
+一转眼都写了十年，还有太多需要优化的地方)<br/>
+如梦如醒数许年，浮生半，难得闲；白云苍狗，白发鬓霜寒；<br/>
+镜花石火如云烟，尘满面，愧难掩。<br/>
+凌云渡上奈何天，风也缓，云也慢；仗剑轻舟，仗胆孤帆悬；<br/>
+一任风雨寒铁肩，又十年，再十年。<br/>
+
+>  **卜算子** - 通宵写代码2 - 2024年秋，11月 <br/>
+恍然半世悠，碌碌风雨舟，孤灯冷月照清秋，星河又北斗；<br/>
+越过了山丘，哀愁了白头，十万里宏志难酬，尘霜又春秋。<br/>
+
 
 ![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80-C%23%2Bvue-red)
  * C#、Postgresql/Sqlite、Vue
@@ -17,7 +30,7 @@
 ## 商务合作 - 代理销售，定制开发
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
 
->  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
+>  **所有的商务信息都可以修改** ，程序中涉及商务的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。修改这些信息可以方便合作方开展商务工作，并不能改变著作权归属。
 
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
