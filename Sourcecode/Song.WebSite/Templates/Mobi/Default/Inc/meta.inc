@@ -17,10 +17,16 @@
         overflow: hidden !important;
         display: flex;
         box-sizing: border-box;
-
-        border-width: 0px 0px 20px 0px;
+        /*下边线的动画，用于显示预载条*/
+        --vcloak-loading-color: rgb(224, 224, 224);
+        --vcloak-loading-bg: rgb(255, 255, 255);
+        border-width: 0px 0px 3px 0px;
         border-style: solid;
         animation: gradient_animation .3s infinite linear;
+        border-image-slice: 1;
+        border-image-width: 1;
+        border-image-outset: 0;
+        border-image-repeat: stretch;
     }
 
     *[v-cloak]>* {
@@ -34,7 +40,6 @@
         height: 30px;
         line-height: 28px;
         text-align: center;
-        font-weight: bold;
         font-size: 26px;
         animation: rotate_360 0.15s infinite linear;
         transform-origin: center center;
@@ -47,7 +52,7 @@
     }
 
     @keyframes rotate_360 {
-        0% {
+        0%, 100% {
             transform: rotate(0deg);
         }
 
@@ -62,36 +67,27 @@
         75% {
             transform: rotate(270deg);
         }
-
-        100% {
-            transform: rotate(360deg);
-        }
     }
 
     @keyframes gradient_animation {
         0% {
-            border-image: linear-gradient(to right, rgb(140, 197, 255) 0%, #eee 10%, #eee 100%) 1;
-
+            border-image-source: linear-gradient(to right, var(--vcloak-loading-color) 0%, var(--vcloak-loading-bg) 10%, var(--vcloak-loading-bg) 100%);
         }
 
         25% {
-            border-image: linear-gradient(to right, rgb(140, 197, 255) 10%, #eee 20%, #eee 100%) 1;
-
+            border-image-source: linear-gradient(to right, var(--vcloak-loading-color) 10%, var(--vcloak-loading-bg) 20%, var(--vcloak-loading-bg) 100%);
         }
 
         50% {
-            border-image: linear-gradient(to right, rgb(140, 197, 255) 50%, #eee 50%, #eee 100%) 1;
-
+            border-image-source: linear-gradient(to right, var(--vcloak-loading-color) 50%, var(--vcloak-loading-bg) 50%, var(--vcloak-loading-bg) 100%);
         }
 
         75% {
-            border-image: linear-gradient(to right, rgb(140, 197, 255) 80%, #eee 80%, #eee 100%) 1;
-
+            border-image-source: linear-gradient(to right, var(--vcloak-loading-color) 80%, var(--vcloak-loading-bg) 80%, var(--vcloak-loading-bg) 100%);
         }
 
         100% {
-            border-image: linear-gradient(to right, rgb(140, 197, 255) 90%, #eee 100%) 1;
-
+            border-image-source: linear-gradient(to right, var(--vcloak-loading-color) 90%, var(--vcloak-loading-bg) 100%);
         }
     }
 </style>
