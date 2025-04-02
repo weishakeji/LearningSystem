@@ -513,11 +513,13 @@ loading[fish]::before {
 }
 
 *[loading=p6] {
-
-    height: 22px;
-    border-radius: 20px;
-    color: #d8d8d8;
-    border: 2px solid;
+    height: 25px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 25px;
+    border-radius: 20px;   
+    color: #333;
+    border: 2px solid #aaa;
     position: relative;
     background: #67C23A;
     background: rgb(148 221 125 / 20%);

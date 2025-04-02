@@ -33,7 +33,7 @@ namespace Song.ViewData.Attri
         public static HtmlClearAttribute Clear(MemberInfo method, Letter letter)
         {
             HtmlClearAttribute attr = null;
-            attr = LoginAttribute.GetAttr<HtmlClearAttribute>(method);
+            attr = WeishaAttr.GetAttr<HtmlClearAttribute>(method);
             if (attr != null)
             {
                 letter.Params = letter.Params.ToDictionary(x => x.Key, (x) => {
