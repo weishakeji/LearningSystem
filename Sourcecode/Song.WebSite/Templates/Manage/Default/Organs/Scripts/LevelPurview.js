@@ -19,7 +19,7 @@ $ready(function () {
             $api.get('ManageMenu/OrganPurviewSelect').then(function (req) {
                 if (req.data.success) {
                     th.datas = req.data.result;
-                    console.log(th.datas);
+                    console.error(th.datas);
                     //获取已经选择的菜单项
                     $api.get('ManageMenu/OrganPurviewUID', { 'lvid': th.id }).then(function (req) {
                         if (req.data.success) {

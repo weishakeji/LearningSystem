@@ -41,7 +41,7 @@ $ready(function () {
                 $api.get('ManageMenu/FuncMenu', { 'uid': this.uid }),
                 $api.get("ManageMenu/Root")     //所有根节点
             ).then(([menu, menus, root]) => {
-                th.rootMenu = menu.data.result; //当前菜单项
+                th.rootMenu = menu.data.result; //当前菜单项                
                 if (menus.data.result != null)
                     th.data = menus.data.result; //当前菜单树             
                 th.rootdata = root.data.result;
@@ -62,11 +62,12 @@ $ready(function () {
             },
             //克隆一个新节点
             clone: function (data) {
+                let isshow = this.rootMenu.MM_IsShow;
                 let temp = {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoCode": "",
-                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": true, "MM_Intro": "",
+                    "MM_IcoSize": "", "MM_IsUse": true, "MM_IsShow": isshow, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
                     "MM_IcoX": 0, "MM_IcoY": 0, "MM_IcoColor": "", "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",
@@ -166,9 +167,13 @@ $ready(function () {
                     th.updateSave();
                 }).catch(() => { });
             },
+            //保存修改
             updateSave: function () {
                 var th = this;
                 th.loading = true;
+                th.setIsShow(null);
+                console.error(th.data);
+                //return;
                 $api.post('ManageMenu/FuncMenuUpdate', { 'uid': th.uid, 'tree': th.data }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -187,6 +192,16 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 }).finally(() => th.loading = false);
+            },
+            //设置所有菜单项的isShow，与根菜单项的isShow保持一致，即this.rootMenu.MM_IsShow;
+            setIsShow: function (list) {
+                let isshow = this.rootMenu.MM_IsShow;
+                if (list == null) list = this.data;
+                for (var i = 0; i < list.length; i++) {
+                    list[i].MM_IsShow = isshow;
+                    if (list[i].children != null && list[i].children.length > 0)
+                        this.setIsShow(list[i].children);
+                }
             },
             //更改完成状态
             changeComplete: function (val) {
