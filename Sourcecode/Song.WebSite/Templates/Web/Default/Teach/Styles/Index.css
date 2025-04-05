@@ -222,7 +222,7 @@ weisha_menu_node icon {
     font-size: 16px;
 }
 
-weisha_menu_node span {
+weisha_menu_node span, weisha_menu_node a {
 
     flex: 1;
 }

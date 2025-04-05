@@ -223,7 +223,7 @@ weisha_menu_node icon {
     margin-right: 6px;
 }
 
-weisha_menu_node span {
+weisha_menu_node span, weisha_menu_node a {
 
     flex: 1;
 }

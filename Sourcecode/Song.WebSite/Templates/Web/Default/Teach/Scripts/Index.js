@@ -267,6 +267,12 @@ $ready(function () {
                     'font-weight': this.menu.MM_IsBold ? 'bold' : 'normal',
                     'font-style': this.menu.MM_IsItalic ? 'italic' : 'normal',
                     'color': this.menu.MM_Color != '' ? this.menu.MM_Color : ''
+                },
+                //链接样式
+                styleLink: {
+                    'font-weight': this.menu.MM_IsBold ? 'bold' : 'normal',
+                    'font-style': this.menu.MM_IsItalic ? 'italic' : 'normal',
+                    'color': this.menu.MM_Color != '' ? this.menu.MM_Color : ''
                 }
             }
         },
@@ -350,7 +356,7 @@ $ready(function () {
             :class="{'children':menu.MM_Type!='node' && menu.children.length>0}">
                 <icon v-if="menu.MM_IcoCode==''" :style="iconstyle(menu)">&#xa038</icon>
                 <icon v-html="'&#x'+menu.MM_IcoCode" v-else :style="iconstyle(menu)"></icon>
-                <a v-if="menu.MM_Type=='link'" :href="menu.MM_Link" target="_blank">{{menu.MM_Name}}</a>       
+                <a v-if="menu.MM_Type=='link'" :href="menu.MM_Link" target="_blank" :style="styleLink">{{menu.MM_Name}}</a>       
                 <span v-else>{{menu.MM_Name}}</span>
             </weisha_menu_node>
             <div v-else :style="styleObject" class="hr"></div>
