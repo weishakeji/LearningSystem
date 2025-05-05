@@ -38,7 +38,7 @@ namespace Song.DataQuery.SqlServer9
                 WhereClip wc = Student_Course._.Ac_ID == stid;
                 if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
                 wc.And(Student_Course._.Stc_IsTry == (bool)istry);
-                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains(sear));
                 countSum = Gateway.Default.From<Course>()
                         .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
                         .Where(wc).Count();
@@ -152,7 +152,7 @@ namespace Song.DataQuery.SqlServer9
                 WhereClip wc = Student_Course._.Ac_ID == stid;
                 if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
                 wc.And(Student_Course._.Stc_IsTry == (bool)istry);
-                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains("%" + sear));
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Contains(sear));
 
                 return Gateway.Default.From<Course>()
                         .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)

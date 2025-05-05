@@ -759,13 +759,14 @@ namespace Song.ViewData.Methods
         /// <param name="acid"></param>
         /// <param name="search"></param>
         /// <param name="enable">是否使用中的记录,null取所有</param>
+        /// <param name="istry">是否包括试学的课程</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ForStudent(int acid, string search, bool? enable, int size, int index)
+        public ListResult ForStudent(int acid, string search, bool? enable, bool? istry, int size, int index)
         {
             int count = 0;
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 0, enable, false, size, index, out count);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 0, enable, istry, size, index, out count);
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = _tran(courses[i]);
