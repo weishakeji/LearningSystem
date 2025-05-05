@@ -196,7 +196,7 @@ $ready(function () {
             </span>
           </div>
           <div class="item" v-if="paper">限时：{{exam.Exam_Span}}分钟 &nbsp; 题量：{{paper.Tp_Count}}道</div>
-          <div class="item">总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</div>        
+          <div class="item">总分：{{exam.Exam_Total}}分（{{paper.Exam_PassScore}}分及格）</div>        
           <div class="item">专业：{{subject.Sbj_Name}} </div>
           <div class="item">课程：{{paper.Cou_Name}}</div>        
         </card-context>
