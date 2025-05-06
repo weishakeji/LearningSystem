@@ -60,7 +60,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" @click="exportFile" :loading="loading_export"
+                <el-button type="primary" @click="exportFile" :loading="loading_export || loading"
                     :disabled="loading_export || loading">
                     导出试题excel文件
                 </el-button>

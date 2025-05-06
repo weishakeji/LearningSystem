@@ -20,9 +20,9 @@ $ready(function () {
 
             form: { 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '', 'couid': '', 'olid': '' },
 
-            loading: false,
-
+            loading: true,
             loading_export: false,       //生成的预载
+
             files: [],
             filepanel: false      //显示文件列表的面板
         },
@@ -191,7 +191,10 @@ $ready(function () {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
-                }).catch(err => console.error(err)).finally(() => th.loading_export = false);
+                }).catch(err => {
+                    console.error(err);
+                    alert(err);
+                }).finally(() => th.loading_export = false);
             },
             //获取文件列表
             getFiles: function () {

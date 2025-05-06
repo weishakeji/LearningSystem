@@ -67,6 +67,7 @@ Vue.component('sbj_cascader', {
         //获取课程专业的数据
         getSubjects: function () {
             var th = this;
+            th.loading = true;
             var form = { orgid: th.orgid, search: '', isuse: true };
             $api.get('Subject/Tree', form).then(function (req) {
                 if (req.data.success) {
@@ -76,7 +77,7 @@ Vue.component('sbj_cascader', {
                 }
             }).catch(function (err) {
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //计算课程数，ques数，test数
         clacCount: function (datas) {
@@ -206,7 +207,8 @@ Vue.component('sbj_cascader', {
         },
     },
     template: `<div>
-        <el-cascader class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
+        <loading v-if="loading">加载中...</loading>
+        <el-cascader v-else class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
             :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">             
                 <span>{{data.serial}} {{ data.Sbj_Name }}</span>
@@ -216,5 +218,5 @@ Vue.component('sbj_cascader', {
                 <icon subject v-if="showitem=='child' && data.calcChild>0" title="子专业数">{{ data.calcChild }}</icon>
             </template>
         </el-cascader>      
-        </div>`
+    </div>`
 });
