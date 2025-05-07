@@ -70,14 +70,13 @@
             <el-divider content-position="left">已经生成的导出文件</el-divider>
             <dl class="files">
                 <dd v-for="(f,i) in files">
-                    <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
                         {{f.name}}</a>
                     <span>{{f.size|size}}</span>
                     <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
                         <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
                         </el-link>
                     </el-popconfirm>
-
                 </dd>
             </dl>
         </div>

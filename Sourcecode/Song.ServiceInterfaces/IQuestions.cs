@@ -5,6 +5,7 @@ using Song.Entities;
 using System.Data;
 using NPOI.HSSF.UserModel;
 using WeiSha.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceInterfaces
 {
@@ -247,11 +248,11 @@ namespace Song.ServiceInterfaces
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        HSSFWorkbook QuestionsExport(int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
-        /// <param name="path">导出文件的路径（服务器端）</param>
+        /// <param name="outputPath">导出文件的路径（服务器端）</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
@@ -261,7 +262,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        string QuestionsExport4Excel(string path, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        JObject QuestionsExportExcel(string outputPath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）

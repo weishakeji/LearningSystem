@@ -186,6 +186,8 @@ $ready(function () {
                 th.loading_export = true;
                 $api.get('Question/ExcelExport', form).then(function (req) {
                     if (req.data.success) {
+                        let result = req.data.result;
+                        console.error(result);
                         th.getFiles();
                     } else {
                         console.error(req.data.exception);

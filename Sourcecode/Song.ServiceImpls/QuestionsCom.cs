@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -623,7 +624,7 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        public HSSFWorkbook QuestionsExport(int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             WhereClip wc = new WhereClip();
@@ -651,35 +652,119 @@ namespace Song.ServiceImpls
             string sbjname = string.Empty, couname = string.Empty;
             if (sbjid > 0) sbjname = Business.Do<ISubject>().SubjectName(sbjid);
             if (couid > 0) couname = Business.Do<ICourse>().CourseName(couid);
+            //每页最多能放多少道题
+            int pagesize = 30000;
             //试题类型，通过不同的试题类型返回工作表
             foreach (string t in type.Split(','))
             {
-                if (string.IsNullOrWhiteSpace(t)) continue;
-                int ty = 0;
-                int.TryParse(t, out ty);
+                int.TryParse(t, out int ty);
                 if (ty == 0) continue;
-                if (ty == 1) _buildExcelSql_1(hssfworkbook, wc, sbjname, couname);
-                if (ty == 2) _buildExcelSql_2(hssfworkbook, wc, sbjname, couname);
-                if (ty == 3) _buildExcelSql_3(hssfworkbook, wc, sbjname, couname);
-                if (ty == 4) _buildExcelSql_4(hssfworkbook, wc, sbjname, couname);
-                if (ty == 5) _buildExcelSql_5(hssfworkbook, wc, sbjname, couname);
+                //计算有多少道题
+                WhereClip where = (Questions._.Qus_Type == ty).And(wc);
+                int total = Gateway.Default.Count<Questions>(where);       //当前题型的记录数
+                int totalPages = (total + pagesize - 1) / pagesize;     //页数
+
+                for (int idx = 1; idx <= totalPages; idx++)
+                {
+                    if (ty == 1) _buildExcelSql_1(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 2) _buildExcelSql_2(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 3) _buildExcelSql_3(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 4) _buildExcelSql_4(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 5) _buildExcelSql_5(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                }
             }
             return hssfworkbook;
         }
-        public string QuestionsExport4Excel(string path, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        /// <summary>
+        /// 导出试题,生成文件
+        /// </summary>
+        /// <param name="outputPath">导出文件的路径</param>
+        /// <param name="orgid"></param>
+        /// <param name="type"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="diff"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>       
+        /// <returns></returns>
+        public JObject QuestionsExportExcel(string outputPath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
-            HSSFWorkbook hssfworkbook = this.QuestionsExport(orgid, type, sbjid, couid, olid, diff, isError, isWrong);
-            FileStream file = new FileStream(path, FileMode.Create);
+            long snowid = WeiSha.Core.Request.SnowID();
+            DateTime date = DateTime.Now;
+            //导出文件的位置
+            string path = Path.Combine(Upload.Get["Temp"].Physics, outputPath, snowid.ToString());
+            string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
+
+            //导出Excel
+            HSSFWorkbook hssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong);
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            FileStream file = new FileStream(Path.Combine(path, filename), FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();
-            return path;
+
+            //生成最终的导出文件，如果没有txt文件（即试题内容没有超出Excel单元格最大文本长度），则输出Excel
+            //如果有txt文件，则打包输出
+            string[] files = Directory.GetFiles(path, "*.txt");          
+            string parentFolder = Directory.GetParent(path).FullName;     // 获取上级文件夹路径
+            if (files.Length < 1)
+            {               
+                string parentFile = Path.Combine(parentFolder, filename);
+                // 如果目标文件存在，可以先删除或改名
+                if (File.Exists(parentFile)) File.Delete(parentFile);
+                File.Move(Path.Combine(path, filename), parentFile);
+            }
+            else
+            {
+                string zipfile = Path.Combine(parentFolder, Path.ChangeExtension(filename, ".zip"));
+                WeiSha.Core.Compress.ZipFiles(path, zipfile);
+            }
+            Directory.Delete(path, true);
+            //
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+           
         }
-        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname)
+        #region 导出试的私有方法
+        //Excel单元格的最长文本长度
+        private static int _excel_field_max_length = 32767;
+        /// <summary>
+        /// 将过长的内容存储到文件
+        /// </summary>
+        /// <param name="qid"></param>
+        /// <param name="idx"></param>
+        /// <param name="field">字段名称</param>
+        /// <param name="folder">导出内容的文件夹，为物理路径</param>
+        /// <param name="content">要保存的内容</param>
+        /// <returns>文件名</returns>
+        private string _build_text(long qid, int idx, string field, string folder, string content)
         {
-            WhereClip wc = (Questions._.Qus_Type == 1).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            string name = $"{qid}.{idx}.{field}.txt";
+            string fullname = folder + "\\" + name;
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            File.WriteAllText(fullname, content);
+            return name;
+        }
+        /// <summary>
+        /// 生成单选题导出Excel的SQL语句
+        /// </summary>
+        /// <param name="hssfworkbook"></param>
+        /// <param name="where">查询条件</param>
+        /// <param name="sbjname"></param>
+        /// <param name="couname"></param>
+        /// <param name="folder"></param>
+        /// <param name="total"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname,string folder, int total, int size, int index)
+        {
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
-            ISheet sheet = hssfworkbook.CreateSheet("单选题");
+            string sheetname = "单选题";
+            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
@@ -693,40 +778,47 @@ namespace Song.ServiceImpls
             foreach (Song.Entities.Questions q in ques)
             {
                 IRow row = sheet.CreateRow(i + 1);
-                string tmpVal = "";
-                QuesAnswer[] qas = Business.Do<IQuestions>().QuestionsAnswer(q, null);
+                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
                 int ansIndex = 0;
+
                 for (int j = 0; j < qas.Length; j++)
                 {
                     QuesAnswer c = qas[j];
-                    tmpVal = c.Ans_Context;
-                    row.CreateCell(6 + j).SetCellValue(tmpVal);
-                    if (c.Ans_IsCorrect)
-                        ansIndex = j + 1;
+                    if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
+                        row.CreateCell(6 + j).SetCellValue(c.Ans_Context);
+                    else row.CreateCell(6 + j).SetCellValue(_build_text(q.Qus_ID, j, "Ans_Context", folder, c.Ans_Context));
+                    if (c.Ans_IsCorrect) ansIndex = j + 1;
                 }
+
                 row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
-                row.CreateCell(1).SetCellValue(q.Qus_Title);
+                //题干
+                if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
+                    row.CreateCell(1).SetCellValue(q.Qus_Title);
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID,0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
-                if (string.IsNullOrWhiteSpace(sbjname))
-                    sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
+                if (string.IsNullOrWhiteSpace(sbjname)) sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
                 row.CreateCell(2).SetCellValue(sbjname);
-                if (string.IsNullOrWhiteSpace(couname))
-                    couname = Business.Do<ICourse>().CourseName(q.Cou_ID);
+                if (string.IsNullOrWhiteSpace(couname)) couname = Business.Do<ICourse>().CourseName(q.Cou_ID);
                 row.CreateCell(3).SetCellValue(couname);
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
                 row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
                 row.CreateCell(12).SetCellValue(ansIndex.ToString());
-                row.CreateCell(13).SetCellValue(q.Qus_Explain);
+                //解析
+                if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
+                    row.CreateCell(13).SetCellValue(q.Qus_Explain);
+                else row.CreateCell(13).SetCellValue(_build_text(q.Qus_ID,0, "Qus_Explain", folder, q.Qus_Explain));
+
                 i++;
             }
         }
+        
         //多选题导出
-        private void _buildExcelSql_2(HSSFWorkbook hssfworkbook,WhereClip where, string sbjname, string couname)
+        private void _buildExcelSql_2(HSSFWorkbook hssfworkbook,WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
-            WhereClip wc = (Questions._.Qus_Type == 2).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
-            ISheet sheet = hssfworkbook.CreateSheet("多选题");
+            string sheetname = "多选题";
+            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));  
             //sheet.DefaultColumnWidth = 30;
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
@@ -740,17 +832,15 @@ namespace Song.ServiceImpls
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
             {
-                IRow row = sheet.CreateRow(i + 1);
-                string tmpVal = "";
-                QuesAnswer[] qas = Business.Do<IQuestions>().QuestionsAnswer(q, null);
+                IRow row = sheet.CreateRow(i + 1);               
+                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
                 string ansIndex = "";
                 for (int j = 0; j < qas.Length; j++)
                 {
                     QuesAnswer c = qas[j];
-                    tmpVal = c.Ans_Context;
-                    row.CreateCell(6 + j).SetCellValue(tmpVal);
-                    if (c.Ans_IsCorrect)
-                        ansIndex += Convert.ToString(j + 1) + ",";
+                    if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
+                        row.CreateCell(6 + j).SetCellValue(c.Ans_Context);
+                    if (c.Ans_IsCorrect) ansIndex += Convert.ToString(j + 1) + ",";
                 }
                 if (ansIndex.Length > 0)
                 {
@@ -759,7 +849,10 @@ namespace Song.ServiceImpls
                 }
 
                 row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
-                row.CreateCell(1).SetCellValue(q.Qus_Title);
+                //题干
+                if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
+                    row.CreateCell(1).SetCellValue(q.Qus_Title);
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
                 if (string.IsNullOrWhiteSpace(sbjname))
                     sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
@@ -770,17 +863,21 @@ namespace Song.ServiceImpls
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
                 row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
                 row.CreateCell(12).SetCellValue(ansIndex.ToString());
-                row.CreateCell(13).SetCellValue(q.Qus_Explain);
+                //解析
+                if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
+                    row.CreateCell(13).SetCellValue(q.Qus_Explain);
+                else row.CreateCell(13).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Explain", folder, q.Qus_Explain));
+
                 i++;
             }
         }
         //判断题导出
-        private void _buildExcelSql_3(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname)
+        private void _buildExcelSql_3(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
-            WhereClip wc = (Questions._.Qus_Type == 3).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
-             //创建工作簿对象
-            ISheet sheet = hssfworkbook.CreateSheet("判断题");
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
+            //创建工作簿对象
+            string sheetname = "判断题";
+            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //sheet.DefaultColumnWidth = 30;
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
@@ -798,7 +895,10 @@ namespace Song.ServiceImpls
                 if (Convert.ToString(q.Qus_IsCorrect) == "False") { ans = "错误"; } else { ans = "正确"; }
                 IRow row = sheet.CreateRow(i + 1);
                 row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
-                row.CreateCell(1).SetCellValue(q.Qus_Title);
+                //题干
+                if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
+                    row.CreateCell(1).SetCellValue(q.Qus_Title);
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
                 if (string.IsNullOrWhiteSpace(sbjname))
                     sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
@@ -809,17 +909,20 @@ namespace Song.ServiceImpls
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
                 row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
                 row.CreateCell(6).SetCellValue(ans);
-                row.CreateCell(7).SetCellValue(q.Qus_Explain);
+                //解析
+                if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
+                    row.CreateCell(7).SetCellValue(q.Qus_Explain);
+                else row.CreateCell(7).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Explain", folder, q.Qus_Explain));
                 i++;
             }
         }
         //简答题导出
-        private void _buildExcelSql_4(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname)
+        private void _buildExcelSql_4(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
-            WhereClip wc = (Questions._.Qus_Type == 4).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
-            ISheet sheet = hssfworkbook.CreateSheet("简答题");
+            string sheetname = "简答题";
+            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
@@ -834,7 +937,10 @@ namespace Song.ServiceImpls
             {
                 IRow row = sheet.CreateRow(i + 1);
                 row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
-                row.CreateCell(1).SetCellValue(q.Qus_Title);
+                //题干
+                if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
+                    row.CreateCell(1).SetCellValue(q.Qus_Title);
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
                 if (string.IsNullOrWhiteSpace(sbjname))
                     sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
@@ -843,19 +949,25 @@ namespace Song.ServiceImpls
                     couname = Business.Do<ICourse>().CourseName(q.Cou_ID);
                 row.CreateCell(3).SetCellValue(couname);
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
-                row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
-                row.CreateCell(6).SetCellValue(q.Qus_Answer);
-                row.CreateCell(7).SetCellValue(q.Qus_Explain);
+                row.CreateCell(5).SetCellValue((int)q.Qus_Diff);               
+                //正常答案
+                if (string.IsNullOrWhiteSpace(q.Qus_Answer) || q.Qus_Answer.Length <= _excel_field_max_length)
+                    row.CreateCell(6).SetCellValue(q.Qus_Answer);
+                else row.CreateCell(6).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Answer", folder, q.Qus_Answer));
+                //解析
+                if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
+                    row.CreateCell(7).SetCellValue(q.Qus_Explain);
+                else row.CreateCell(7).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Explain", folder, q.Qus_Explain));
                 i++;
             }
         }
         //填空题导出
-        private void _buildExcelSql_5(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname)
+        private void _buildExcelSql_5(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
-            WhereClip wc = (Questions._.Qus_Type == 5).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
              //创建工作簿对象
-            ISheet sheet = hssfworkbook.CreateSheet("填空题");
+            string sheetname = "填空题";
+            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
@@ -869,18 +981,21 @@ namespace Song.ServiceImpls
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
             {
-                IRow row = sheet.CreateRow(i + 1);
-                string tmpVal = "";
-                QuesAnswer[] qas = Business.Do<IQuestions>().QuestionsAnswer(q, null);
+                IRow row = sheet.CreateRow(i + 1);               
+                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
                 for (int j = 0; j < qas.Length; j++)
                 {
                     QuesAnswer c = qas[j];
-                    tmpVal = c.Ans_Context;
-                    row.CreateCell(6 + j).SetCellValue(tmpVal);
+                    if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
+                        row.CreateCell(6 + j).SetCellValue(c.Ans_Context);
+                    else row.CreateCell(6 + j).SetCellValue(_build_text(q.Qus_ID, j, "Ans_Context", folder, c.Ans_Context));
                 }
 
                 row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
-                row.CreateCell(1).SetCellValue(q.Qus_Title);
+                //题干
+                if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
+                    row.CreateCell(1).SetCellValue(q.Qus_Title);
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
                 if (string.IsNullOrWhiteSpace(sbjname))
                     sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
@@ -890,12 +1005,16 @@ namespace Song.ServiceImpls
                 row.CreateCell(3).SetCellValue(couname);
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
                 row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
-                row.CreateCell(12).SetCellValue(q.Qus_Explain);
+                //解析
+                if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
+                    row.CreateCell(12).SetCellValue(q.Qus_Explain);
+                else row.CreateCell(12).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Explain", folder, q.Qus_Explain));
                 i++;
             }
         }
         #endregion
-        
+        #endregion
+
 
         #region 试题分类管理
         /// <summary>

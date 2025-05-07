@@ -257,34 +257,46 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public JObject ExcelExport(string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
-            //导出
-            HSSFWorkbook hssfworkbook = null;
-            //导出所有
-            if (part == 1) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, null, null);
-            //导出正常的试题，没有错误，没有用户反馈说错误的
-            if (part == 2) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, false, false);
-            //导出状态为错误的试题
-            if (part == 3) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, true, null);
-            //导出用户反馈说错误的试题
-            if (part == 4) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, null, true);
-
             string outputPath = "QuestionToExcel";
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-            DateTime date = DateTime.Now;
-            string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
-            string filePath = rootpath + filename;
-            FileStream file = new FileStream(filePath, FileMode.Create);
-            if (hssfworkbook != null)
-                hssfworkbook.Write(file);
-            file.Close();
+            //long snowid = WeiSha.Core.Request.SnowID();
+            //DateTime date = DateTime.Now;
+            ////导出文件的位置
+            //string path = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, outputPath, snowid.ToString());
+            //if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+            //string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
+            ////导出
+            //HSSFWorkbook hssfworkbook = null;
+            ////导出所有
+            //if (part == 1) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, null, null);
+            ////导出正常的试题，没有错误，没有用户反馈说错误的
+            //if (part == 2) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, false, false);
+            ////导出状态为错误的试题
+            //if (part == 3) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, true, null);
+            ////导出用户反馈说错误的试题
+            //if (part == 4) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, null, true);
 
-            JObject jo = new JObject();
-            jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
-            jo.Add("date", date);
+
+            ////导出文件的位置            
+            //string filePath = Path.Combine(path, filename);
+            //FileStream file = new FileStream(filePath, FileMode.Create);
+            //if (hssfworkbook != null)
+            //    hssfworkbook.Write(file);
+            //file.Close();
+
+            //JObject jo = new JObject();
+            //jo.Add("file", filename);
+            //jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            //jo.Add("date", date);
+
+            JObject jo = null;
+            //导出所有
+            if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(outputPath, orgid, types, sbjid, couid, olid, diffs, null, null);
+            //导出正常的试题，没有错误，没有用户反馈说错误的
+            if (part == 2) jo = Business.Do<IQuestions>().QuestionsExportExcel(outputPath, orgid, types, sbjid, couid, olid, diffs, false, false);
+            //导出状态为错误的试题
+            if (part == 3) jo = Business.Do<IQuestions>().QuestionsExportExcel(outputPath, orgid, types, sbjid, couid, olid, diffs, true, null);
+            //导出用户反馈说错误的试题
+            if (part == 4) jo = Business.Do<IQuestions>().QuestionsExportExcel(outputPath, orgid, types, sbjid, couid, olid, diffs, null, true);
             return jo;
         }
         /// <summary>
@@ -310,17 +322,22 @@ namespace Song.ViewData.Methods
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(rootpath)) return jarr;           
             if (string.IsNullOrWhiteSpace(couid)) return jarr;
-            //string[] files = System.IO.Directory.GetFiles(rootpath, "*." + couid + ".xls");
+
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*." + couid + ".xls").OrderByDescending(f => f.CreationTime).ToArray();
+            if (couid == "0" || string.IsNullOrEmpty(couid)) couid = "*";
+            string[] patterns = new[] { $"*.{couid}.xls", $"*.{couid}.zip" };
+            List<FileInfo> files = new List<FileInfo>();
+            foreach (var pattern in patterns) files.AddRange(dir.GetFiles(pattern));
+            files = files.OrderByDescending(f => f.CreationTime).ToList<FileInfo>();
             foreach (FileInfo f in files)
             {
-                string name = f.Name.Replace("." + couid, "");
+                //string name = f.Name.Replace("." + couid, "");
                 JObject jo = new JObject();
-                jo.Add("name", name);
+                jo.Add("name", Path.GetFileNameWithoutExtension(f.Name));
                 jo.Add("file", f.Name);
                 jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
             }
