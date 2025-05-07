@@ -588,3 +588,60 @@ loading[fish]::before {
         background-position: 0% 100%, 100% 100%, 200% 100%
     }
 }
+
+/*文件类型的样式*/
+*[filetype]::before { 
+    font-family: "webdesk_icon";
+    display: inline-block;
+    font-size: 25px;
+    content: '\a022';  
+}
+*[filetype=xls]::before {
+    content: '\e85e';  
+}
+*[filetype=xlsx]::before {
+    content: '\e6a7';  
+}
+*[filetype=doc]::before {
+    content: '\e85d';  
+}
+*[filetype=docx]::before {
+    content: '\e6a3';  
+}
+*[filetype=ppt]::before  {
+    content: '\e6a9';  
+}
+*[filetype=pptx]::before  {
+    content: '\e754';  
+}
+*[filetype=zip]::before {
+    content: '\e6a5';  
+}
+*[filetype=rar]::before {
+    content: '\e78a';  
+}
+*[filetype=pdf]::before {
+    content: '\e848';  
+}
+*[filetype=mp4]::before {
+    content: '\e859';  
+}
+
+*[filetype=xls],*[filetype=xlsx]{
+    color: rgb(0 114 57) !important;
+}
+*[filetype=doc],*[filetype=docx]{
+    color: #1c56a9 !important;
+}
+*[filetype=ppt],*[filetype=pptx]{
+    color: #ba3e1f !important;
+}
+*[filetype=zip],*[filetype=rar]{
+    color: #04354c !important;
+}
+*[filetype=pdf]{
+    color: #b60b00!important;
+}
+*[filetype=mp4]{
+    color: #700391!important;
+}
