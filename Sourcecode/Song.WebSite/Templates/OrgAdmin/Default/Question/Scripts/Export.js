@@ -199,6 +199,7 @@ $ready(function () {
             //获取文件列表
             getFiles: function () {
                 var th = this;
+                th.loading = true;
                 $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel', 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;

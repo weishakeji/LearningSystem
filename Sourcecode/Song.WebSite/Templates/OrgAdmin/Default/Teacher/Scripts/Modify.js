@@ -68,7 +68,8 @@ $ready(function () {
                             var result = req.data.result;
                             th.entity = result;
                             if (th.entity.Ths_ID <= 0) th.entity.Ths_ID = '';
-                            if(th.entity.Th_Birthday.getTime() == 0) th.entity.Th_Birthday = '';
+                            if ($api.isnull(th.entity.Th_Birthday) || $api.getType(th.entity.Th_Birthday) != 'Date')
+                                th.entity.Th_Birthday = '';
                             $api.get('Organization/ForID', { 'id': th.entity.Org_ID }).then(function (req) {
                                 if (req.data.success) {
                                     th.organ = req.data.result;

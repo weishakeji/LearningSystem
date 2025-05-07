@@ -56,8 +56,10 @@ $ready(function () {
             th.loading = true;
             th.getaccount().then(function (acc) {
                 th.account = acc;
-                if($api.isnull(th.account.Ac_Birthday) || th.account.Ac_Birthday.getTime() == 0) th.account.Ac_Birthday = '';
-                th.getorgan();      //获取机构信息
+                if ($api.isnull(th.account.Ac_Birthday) || $api.getType(th.account.Ac_Birthday) != 'Date')
+                    th.account.Ac_Birthday = '';
+                //获取机构信息
+                th.getorgan();
                 if (th.account.Sts_ID != '' && th.account.Sts_ID != '0') {
                     $api.get('Account/SortForID', { 'id': th.account.Sts_ID }).then(function (req) {
                         if (req.data.success) {
