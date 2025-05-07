@@ -64,6 +64,8 @@
                     :disabled="loading_export || loading">
                     导出试题excel文件
                 </el-button>
+                <loading v-if="loading_total" bubble></loading>
+                <el-tag v-else type="success">当前选择的试题共 ： {{questotal}} 道</el-tag>
             </el-form-item>
         </el-form>
         <div v-if="files.length>0" class="filepanel">

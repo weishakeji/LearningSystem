@@ -18,7 +18,13 @@ $ready(function () {
             //章节过滤的字符
             outlineFilterText: '',
 
-            form: { 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '', 'couid': '', 'olid': '' },
+            form: {
+                'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '',
+                'couid': $api.querystring('couid', ''), 'olid': ''
+            },
+            //试题总记录
+            questotal: 0,       //总记录数
+            loading_total: false,   //获取试题数的加载中
 
             loading: true,
             loading_export: false,       //生成的预载
@@ -52,6 +58,12 @@ $ready(function () {
             //章节查询的字符
             outlineFilterText: function (val) {
                 this.$refs.tree.filter(val);
+            },
+            //监听表单数据变化
+            'form': {
+                handler: function (val) {
+                    this.gettotal();
+                }, deep: true, immediate: false
             }
         },
         computed: {
@@ -84,6 +96,22 @@ $ready(function () {
             }
         },
         methods: {
+            //计算试题总数
+            gettotal: function () {
+                var th = this;
+                if(th.loading_total) return;
+                th.loading_total = true;
+                //console.error(th.form);
+                $api.get('Question/Total', th.form).then(req => {
+                    if (req.data.success) {
+                        th.questotal = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>  th.loading_total = false);
+            },
             //获取当前课程
             getCourse: function (couid) {
                 var th = this;

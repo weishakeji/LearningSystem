@@ -396,6 +396,59 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Questions>(wc);
         }
         /// <summary>
+        /// 统计试题数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="types"></param>
+        /// <param name="diff"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>
+        /// <returns></returns>
+        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
+            //专业
+            if (sbjid > 0 && couid <= 0 && olid <= 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            //当前章节，以及当前章节之下的所有试题
+            if (olid > 0)
+            {
+                WhereClip wcOlid = new WhereClip();
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
+                wc.And(wcOlid);
+            }
+            //试题类型
+            if (types.Length > 0)
+            {
+                WhereClip wctype = new WhereClip();
+                foreach (int ty in types) wctype |= Questions._.Qus_Type == ty;
+                wc.And(wctype);               
+            }
+            //试题难度
+            if (diff.Length > 0)
+            {
+                WhereClip wcdiff = new WhereClip();
+                foreach (int d in diff) wcdiff |= Questions._.Qus_Diff == d;
+                wc.And(wcdiff);
+            }
+            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
+            if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
+            if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
+            return Gateway.Default.Count<Questions>(wc);
+        }
+        /// <summary>
         /// 试题数量更新到机构、专业、课程、章节，方便展示
         /// </summary>
         /// <param name="orgid">机构id</param>

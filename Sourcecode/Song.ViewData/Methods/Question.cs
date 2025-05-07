@@ -258,36 +258,6 @@ namespace Song.ViewData.Methods
         public JObject ExcelExport(string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
             string outputPath = "QuestionToExcel";
-            //long snowid = WeiSha.Core.Request.SnowID();
-            //DateTime date = DateTime.Now;
-            ////导出文件的位置
-            //string path = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, outputPath, snowid.ToString());
-            //if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
-            //string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
-            ////导出
-            //HSSFWorkbook hssfworkbook = null;
-            ////导出所有
-            //if (part == 1) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, null, null);
-            ////导出正常的试题，没有错误，没有用户反馈说错误的
-            //if (part == 2) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, false, false);
-            ////导出状态为错误的试题
-            //if (part == 3) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, true, null);
-            ////导出用户反馈说错误的试题
-            //if (part == 4) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(path, orgid, types, sbjid, couid, olid, diffs, null, true);
-
-
-            ////导出文件的位置            
-            //string filePath = Path.Combine(path, filename);
-            //FileStream file = new FileStream(filePath, FileMode.Create);
-            //if (hssfworkbook != null)
-            //    hssfworkbook.Write(file);
-            //file.Close();
-
-            //JObject jo = new JObject();
-            //jo.Add("file", filename);
-            //jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
-            //jo.Add("date", date);
-
             JObject jo = null;
             //导出所有
             if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(outputPath, orgid, types, sbjid, couid, olid, diffs, null, null);
@@ -361,7 +331,36 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type,-1, use);
         }
+        /// <summary>
+        /// 计算有多少条试题
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="types"></param>
+        /// <param name="use"></param>
+        /// <param name="diffs"></param>
+        /// <param name="error"></param>
+        /// <param name="wrong"></param>
+        /// <returns></returns>
+        public int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diffs, int part)
+        {
+            //int[] typearr= types.Split(',').Select(x => int.Parse(x)).ToArray();
+            //int[] diffarr= diffs.Split(',').Select(x => int.Parse(x)).ToArray();
+            int[] typearr = types;
+            int[] diffarr = diffs;
+            //所有
+            if (part == 1) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
+            //正常的试题，没有错误，没有用户反馈说错误的
+            if (part == 2) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, false, false);
+            //状态为错误的试题
+            if (part == 3) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, true, null);
+            //用户反馈说错误的试题
+            if (part == 4) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, true);
 
+            return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
+        }
         /// <summary>
         /// 获取试题
         /// </summary>

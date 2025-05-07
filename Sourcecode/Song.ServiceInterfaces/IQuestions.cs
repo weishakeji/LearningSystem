@@ -150,6 +150,20 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse);
         /// <summary>
+        /// 统计试题数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="types"></param>
+        /// <param name="diff"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>
+        /// <returns></returns>
+        int QuesOfCount(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong);
+        /// <summary>
         /// 试题数量更新到机构、专业、课程、章节，方便展示
         /// </summary>
         /// <param name="orgid">机构id</param>
