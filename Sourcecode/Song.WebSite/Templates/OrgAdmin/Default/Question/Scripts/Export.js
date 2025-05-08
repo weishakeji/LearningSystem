@@ -99,7 +99,7 @@ $ready(function () {
             //计算试题总数
             gettotal: function () {
                 var th = this;
-                if(th.loading_total) return;
+                if (th.loading_total || th.form.orgid == 0) return;
                 th.loading_total = true;
                 //console.error(th.form);
                 $api.get('Question/Total', th.form).then(req => {
@@ -110,7 +110,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() =>  th.loading_total = false);
+                    .finally(() => th.loading_total = false);
             },
             //获取当前课程
             getCourse: function (couid) {
@@ -200,6 +200,22 @@ $ready(function () {
                 for (let i = 0; i < childarr.length; i++) {
                     childarr[i].serial = lvl + (i + 1) + '.';
                     this.calcSerial(childarr[i], childarr[i].serial);
+                }
+            },
+            //导出文件的按钮事件
+            btnExportEvent: function () {
+                if (this.questotal <= 1) {
+                    alert("当前选择的试题数量为 0，无法导出");
+                } else if (this.questotal <= 1000) {
+                    this.exportFile();
+                } else {
+                    this.$confirm('试题数量 '+this.questotal+' 道, 导出时间会比较长，请耐心等待。点击确定继续', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.exportFile();
+                    }).catch(() => { });
                 }
             },
             //生成导出文件

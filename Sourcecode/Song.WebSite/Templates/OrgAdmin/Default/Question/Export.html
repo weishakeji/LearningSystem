@@ -35,9 +35,9 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="章节" prop="Ol_ID">
-
+                
                 <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true"
-                    :disabled="loading_export">选择章节
+                    :disabled="loading_export || form.couid==0">选择章节
                     <span v-if="selected_outline==''">（默认为全部）</span>
                     <span v-else>
                         （当前选择： {{selected_outline}}）
@@ -60,7 +60,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" @click="exportFile" :loading="loading_export || loading"
+                <el-button type="primary" @click="btnExportEvent" :loading="loading_export || loading"
                     :disabled="loading_export || loading">
                     导出试题excel文件
                 </el-button>
