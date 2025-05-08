@@ -17,10 +17,18 @@ $ready(function () {
             outline_panel: false,        //显示章节选择的面板
             //章节过滤的字符
             outlineFilterText: '',
-
+            //查询条件
             form: {
                 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '',
                 'couid': $api.querystring('couid', ''), 'olid': ''
+            },
+            rules: {
+                types: [
+                    { required: true, message: '必须选择一个试题类型', trigger: 'change' }
+                ],
+                diffs: [
+                    { required: true, message: '必须选择一个难度', trigger: 'change' }
+                ]
             },
             //试题总记录
             questotal: 0,       //总记录数
@@ -100,17 +108,20 @@ $ready(function () {
             gettotal: function () {
                 var th = this;
                 if (th.loading_total || th.form.orgid == 0) return;
-                th.loading_total = true;
-                //console.error(th.form);
-                $api.get('Question/Total', th.form).then(req => {
-                    if (req.data.success) {
-                        th.questotal = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading_total = false);
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        th.loading_total = true;
+                        $api.get('Question/Total', th.form).then(req => {
+                            if (req.data.success) {
+                                th.questotal = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading_total = false);
+                    } else th.questotal = 0;
+                });
             },
             //获取当前课程
             getCourse: function (couid) {
@@ -204,19 +215,23 @@ $ready(function () {
             },
             //导出文件的按钮事件
             btnExportEvent: function () {
-                if (this.questotal <= 1) {
-                    alert("当前选择的试题数量为 0，无法导出");
-                } else if (this.questotal <= 1000) {
-                    this.exportFile();
-                } else {
-                    this.$confirm('试题数量 '+this.questotal+' 道, 导出时间会比较长，请耐心等待。点击确定继续', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.exportFile();
-                    }).catch(() => { });
-                }
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        if (this.questotal <= 1) {
+                            alert("当前选择的试题数量为 0，无法导出");
+                        } else if (this.questotal <= 1000) {
+                            this.exportFile();
+                        } else {
+                            this.$confirm('试题数量 ' + this.questotal + ' 道, 导出时间会比较长，请耐心等待。点击确定继续', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                this.exportFile();
+                            }).catch(() => { });
+                        }
+                    }
+                });
             },
             //生成导出文件
             exportFile: function () {

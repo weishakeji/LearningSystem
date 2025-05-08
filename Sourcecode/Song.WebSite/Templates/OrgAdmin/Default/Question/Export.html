@@ -9,7 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px"
+        <el-form ref="form" :model="form" :rules="rules"  @submit.native.prevent label-width="100px"
             :disabled="loading_export || loading">
             <el-form-item label="题型" prop="types">
                 <el-checkbox-group v-model="form.types">
@@ -46,7 +46,7 @@
                 <el-link icon="el-icon-close" type="warning" @click="form.olid=0" v-if="selected_outline!=''">取消选择
                 </el-link>
             </el-form-item>
-            <el-form-item label="难度">
+            <el-form-item label="难度" prop="diffs">
                 <el-checkbox-group v-model="form.diffs">
                     <el-checkbox v-for="l in 5" :label="l" checked>{{l}}</el-checkbox>
                 </el-checkbox-group>
@@ -64,8 +64,11 @@
                     :disabled="loading_export || loading">
                     导出试题excel文件
                 </el-button>
-                <loading v-if="loading_total" bubble></loading>
-                <el-tag v-else type="success">当前选择的试题共 ： {{questotal}} 道</el-tag>
+              
+                <el-tag type="info" class="questotal">
+                    <loading v-if="loading_total" bubble> 正在计算 ...</loading>
+                    <span v-else >当前选择的试题共 ： {{questotal}} 道</span>
+                </el-tag>
             </el-form-item>
         </el-form>
         <div v-if="files.length>0" class="filepanel">

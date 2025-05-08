@@ -26,3 +26,8 @@
 .el-select-dropdown__item icon[question]{
     float: right;
 }
+.questotal{
+    height: 32px;
+    font-size: 14px;
+    line-height: 30px;
+}
