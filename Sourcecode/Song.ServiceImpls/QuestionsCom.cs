@@ -731,7 +731,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
-        /// <param name="outputPath">导出文件的路径</param>
+        /// <param name="subpath">导出文件的路径</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
@@ -741,12 +741,12 @@ namespace Song.ServiceImpls
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        public JObject QuestionsExportExcel(string outputPath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public JObject QuestionsExportExcel(string subpath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             long snowid = WeiSha.Core.Request.SnowID();
             DateTime date = DateTime.Now;
             //导出文件的位置
-            string path = Path.Combine(Upload.Get["Temp"].Physics, outputPath, snowid.ToString());
+            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, snowid.ToString());
             string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
 
             //导出Excel
@@ -776,7 +776,7 @@ namespace Song.ServiceImpls
             //
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + filename);
             jo.Add("date", date);
             return jo;
            

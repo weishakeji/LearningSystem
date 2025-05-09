@@ -266,7 +266,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
-        /// <param name="outputPath">导出文件的路径（服务器端）</param>
+        /// <param name="subpath">导出文件的路径（服务器端），相对临时路径的子路径</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
@@ -276,7 +276,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        JObject QuestionsExportExcel(string outputPath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        JObject QuestionsExportExcel(string subpath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）

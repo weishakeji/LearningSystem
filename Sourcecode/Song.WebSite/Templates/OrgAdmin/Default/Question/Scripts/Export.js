@@ -19,6 +19,7 @@ $ready(function () {
             outlineFilterText: '',
             //查询条件
             form: {
+                'subpath': 'QuestionToExcel',   //导出文件的路径，相对临时路径的子路径
                 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '',
                 'couid': $api.querystring('couid', ''), 'olid': ''
             },
@@ -111,7 +112,9 @@ $ready(function () {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         th.loading_total = true;
-                        $api.get('Question/Total', th.form).then(req => {
+                        let query=$api.clone(th.form);
+                        Reflect.deleteProperty(query, 'subpath');
+                        $api.get('Question/Total', query).then(req => {
                             if (req.data.success) {
                                 th.questotal = req.data.result;
                             } else {
@@ -261,7 +264,7 @@ $ready(function () {
             getFiles: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel', 'couid': th.couid }).then(function (req) {
+                $api.get('Question/ExcelFiles', { 'subpath': th.form.subpath, 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -274,7 +277,7 @@ $ready(function () {
             deleteFile: function (file) {
                 var th = this;
                 th.loading = true;
-                $api.delete('Question/ExcelDelete', { 'filename': file, 'path': 'QuestionToExcel' }).then(function (req) {
+                $api.delete('Question/ExcelDelete', { 'filename': file, 'subpath':  th.form.subpath }).then(function (req) {
                     if (req.data.success) {
                         th.getFiles();
                         th.$notify({
