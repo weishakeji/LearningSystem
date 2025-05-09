@@ -258,7 +258,6 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public JObject ExcelExport(string subpath, string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
-            //string outputPath = "QuestionToExcel";
             JObject jo = null;
             //导出所有
             if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, orgid, types, sbjid, couid, olid, diffs, null, null);
@@ -273,13 +272,25 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 删除Excel文件
         /// </summary>
+        /// <param name="couid">试题所在的课程</param>
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <param name="subpath">导出文件的路径，相对临时路径的子路径</param>
         /// <returns></returns>
         [HttpDelete]
-        public bool ExcelDelete(string filename, string subpath)
+        public bool ExcelDelete(long couid, string filename, string subpath)
         {
-            return Song.ViewData.Helper.Excel.DeleteFile(filename, subpath, "Temp");          
+            return Song.ViewData.Helper.Excel.DeleteFile(filename, subpath + "/" + couid.ToString(), "Temp");          
+        }
+        /// <summary>
+        /// 删除所有
+        /// </summary>
+        /// <param name="couid">试题所在的课程</param>
+        /// <param name="subpath">导出文件的路径，相对临时路径的子路径</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ExcelDeleteAll(long couid, string subpath)
+        {
+            return Song.ViewData.Helper.Excel.DeleteDirectory(subpath + "/" + couid.ToString(), "Temp");
         }
         /// <summary>
         /// 已经生成的Excel文件
@@ -289,24 +300,23 @@ namespace Song.ViewData.Methods
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         public JArray ExcelFiles(string subpath, string couid)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + subpath + "\\";
+            string rootpath = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, subpath, couid.ToString());
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(rootpath)) return jarr;           
             if (string.IsNullOrWhiteSpace(couid)) return jarr;
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            if (couid == "0" || string.IsNullOrEmpty(couid)) couid = "*";
+            //if (couid == "0" || string.IsNullOrEmpty(couid)) couid = "*";
             string[] patterns = new[] { $"*.{couid}.xls", $"*.{couid}.zip" };
             List<FileInfo> files = new List<FileInfo>();
             foreach (var pattern in patterns) files.AddRange(dir.GetFiles(pattern));
             files = files.OrderByDescending(f => f.CreationTime).ToList<FileInfo>();
             foreach (FileInfo f in files)
             {
-                //string name = f.Name.Replace("." + couid, "");
                 JObject jo = new JObject();
-                jo.Add("name", Path.GetFileNameWithoutExtension(f.Name));
+                jo.Add("name", Path.GetFileNameWithoutExtension(f.Name).Replace("." + couid, ""));
                 jo.Add("file", f.Name);
-                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + f.Name);
+                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + couid.ToString() + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);

@@ -746,7 +746,7 @@ namespace Song.ServiceImpls
             long snowid = WeiSha.Core.Request.SnowID();
             DateTime date = DateTime.Now;
             //导出文件的位置
-            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, snowid.ToString());
+            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, couid.ToString(), snowid.ToString());
             string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
 
             //导出Excel
@@ -808,7 +808,7 @@ namespace Song.ServiceImpls
         /// <param name="where">查询条件</param>
         /// <param name="sbjname"></param>
         /// <param name="couname"></param>
-        /// <param name="folder"></param>
+        /// <param name="folder">导出文件所在的文件</param>
         /// <param name="total"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>

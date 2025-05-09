@@ -363,5 +363,29 @@ namespace Song.ViewData.Helper
             return jarr;
         }
         #endregion
+
+        #region 删除文件夹
+        /// <summary>
+        /// 删除文件夹
+        /// </summary>
+        /// <param name="folder">文件夹</param>
+        /// <param name="uploadkey">上传文件所在的根文件夹，此处为配置项的Key值，配置项来自web.config的Upload节点</param>
+        /// <returns></returns>
+        public static bool DeleteDirectory(string folder, string uploadkey)
+        {
+            //上传的根文件夹
+            string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;     //物理路径
+            string path = Path.Combine(rootPhy, folder);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 }

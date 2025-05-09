@@ -9,7 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="form" :model="form" :rules="rules"  @submit.native.prevent label-width="100px"
+        <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="100px"
             :disabled="loading_export || loading">
             <el-form-item label="题型" prop="types">
                 <el-checkbox-group v-model="form.types">
@@ -35,7 +35,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="章节" prop="Ol_ID">
-                
+
                 <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true"
                     :disabled="loading_export || form.couid==0">选择章节
                     <span v-if="selected_outline==''">（默认为全部）</span>
@@ -59,20 +59,15 @@
                     <el-radio :label="4">仅用户反馈的试题</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="">
-                <el-button type="primary" @click="btnExportEvent" :loading="loading_export || loading"
-                    :disabled="loading_export || loading">
-                    导出试题excel文件
-                </el-button>
-              
-                <el-tag type="info" class="questotal">
-                    <loading v-if="loading_total" bubble> 正在计算 ...</loading>
-                    <span v-else >当前选择的试题共 ： {{questotal}} 道</span>
-                </el-tag>
-            </el-form-item>
         </el-form>
         <div v-if="files.length>0" class="filepanel">
-            <el-divider content-position="left">已经生成的导出文件</el-divider>
+            <el-divider content-position="left">已经生成的导出文件 - 
+                <el-popconfirm title="确定删除所有文件吗？" @confirm="deleteFileAll()" v-if="files.length>0">
+                    <el-link type="danger" v-loading="loading" slot="reference">
+                        <icon>&#xe6fe</icon>删除所有
+                    </el-link>
+                </el-popconfirm>
+            </el-divider>
             <dl class="files">
                 <dd v-for="(f,i) in files">
                     <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
@@ -85,6 +80,20 @@
                 </dd>
             </dl>
         </div>
+        <div class="footer">
+            <el-tag type="info" class="questotal">
+                <loading v-if="loading_total" bubble> 正在计算 ...</loading>
+                <span v-else>当前选择的试题共 ： {{questotal}} 道</span>
+            </el-tag>
+            <span>
+                <el-button type="primary" plain @click="btnExportEvent" :loading="loading_export || loading"
+                    :disabled="loading_export || loading">
+                    <icon>&#xe73e</icon>导出excel文件
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </span>
+        </div>
+        <!-- 章节选择框 -->
         <el-dialog title="提示" :visible.sync="outline_panel" class="outline_panel">
             <span slot="title">请选择章节
                 <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"
@@ -102,6 +111,7 @@
                 <el-button @click="outline_panel = false">取 消</el-button>
             </span>
         </el-dialog>
+
     </div>
 </body>
 

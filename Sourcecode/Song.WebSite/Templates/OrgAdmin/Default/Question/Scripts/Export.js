@@ -112,7 +112,7 @@ $ready(function () {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         th.loading_total = true;
-                        let query=$api.clone(th.form);
+                        let query = $api.clone(th.form);
                         Reflect.deleteProperty(query, 'subpath');
                         $api.get('Question/Total', query).then(req => {
                             if (req.data.success) {
@@ -249,7 +249,7 @@ $ready(function () {
                 $api.get('Question/ExcelExport', form).then(function (req) {
                     if (req.data.success) {
                         let result = req.data.result;
-                        console.error(result);
+                        console.log(result);
                         th.getFiles();
                     } else {
                         console.error(req.data.exception);
@@ -277,7 +277,24 @@ $ready(function () {
             deleteFile: function (file) {
                 var th = this;
                 th.loading = true;
-                $api.delete('Question/ExcelDelete', { 'filename': file, 'subpath':  th.form.subpath }).then(function (req) {
+                $api.delete('Question/ExcelDelete', { 'couid': th.couid, 'filename': file, 'subpath': th.form.subpath }).then(function (req) {
+                    if (req.data.success) {
+                        th.getFiles();
+                        th.$notify({
+                            message: '文件删除成功！',
+                            type: 'success', position: 'bottom-right', duration: 2000
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err)).finally(() => th.loading = false);
+            },
+             //删除所有文件
+             deleteFileAll: function () {
+                var th = this;
+                th.loading = true;
+                $api.delete('Question/ExcelDeleteAll', { 'couid': th.couid, 'subpath': th.form.subpath }).then(function (req) {
                     if (req.data.success) {
                         th.getFiles();
                         th.$notify({

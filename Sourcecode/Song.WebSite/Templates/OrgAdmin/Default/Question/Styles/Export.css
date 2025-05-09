@@ -26,6 +26,10 @@
 .el-select-dropdown__item icon[question]{
     float: right;
 }
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
 .questotal{
     height: 32px;
     font-size: 14px;
