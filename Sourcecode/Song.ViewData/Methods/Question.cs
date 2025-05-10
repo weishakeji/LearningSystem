@@ -182,8 +182,8 @@ namespace Song.ViewData.Methods
         public JObject ExcelImport(string xls, int sheet, string config, JArray matching, int type, long couid)
         {
             //获取Excel中的数据
-            string phyPath = WeiSha.Core.Upload.Get["Temp"].Physics;
-            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(phyPath + xls, sheet, config);
+            string excel = WeiSha.Core.Server.MapPath(xls);
+            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(excel, sheet, config);
 
             //当前机构和课程
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -204,7 +204,7 @@ namespace Song.ViewData.Methods
                 {
                     //throw new Exception();
                     //将数据逐行导入数据库
-                    object[] objs = new object[] { dt.Rows[i], type, course, org, matching };
+                    object[] objs = new object[] { excel, dt.Rows[i], type, course, org, matching };
                     impot.InvokeMember(func_name, System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public,
                         null, null, objs); 
 

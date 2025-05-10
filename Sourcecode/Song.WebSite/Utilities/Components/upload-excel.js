@@ -84,7 +84,7 @@ Vue.component('upload-excel', {
         handleSheet: function (sheet, index) {
             var th = this;
             th.loading = true;
-            $api.get('Platform/ExcelSheetColumn', { 'xlsFile': this.book.file, 'sheetIndex': index })
+            $api.get('Platform/ExcelSheetColumn', { 'xlsUrl': this.book.url, 'sheetIndex': index })
                 .then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -126,7 +126,7 @@ Vue.component('upload-excel', {
             var th = this;
             if (th.apiurl == null || th.apiurl == '') return;
             th.loading = true;
-            var params = { 'xls': th.book.file, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
+            var params = { 'xls': th.book.url, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
             if (th.params != null) {
                 for (var k in th.params)
                     params[k] = th.params[k];
@@ -161,8 +161,8 @@ Vue.component('upload-excel', {
             </div>
             <div label="上传数据">
                 <loading v-if="loading">正在上传中....</loading>
-                <upload-file v-else @change="upload" height="30" ext="xls,xlsx" :size="size">
-                    <el-tooltip content="允许的文件类型：xls,xlsx" placement="right" effect="light">
+                <upload-file v-else @change="upload" height="30" ext="xls,xlsx,zip" :size="size">
+                    <el-tooltip content="允许的文件类型：xls,xlsx,zip" placement="right" effect="light">
                         <el-button type="primary" plain class="file_btn">
                             <icon>&#xe6a7</icon>点击上传文件
                         </el-button>

@@ -646,8 +646,8 @@ namespace Song.ViewData.Methods
         public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
         {
             //获取Excel中的数据
-            string phyPath = WeiSha.Core.Upload.Get["Temp"].Physics;
-            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(phyPath + xls, sheet, config);
+            string excel = WeiSha.Core.Server.MapPath(xls);
+            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(excel, sheet, config);
 
             //当前机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();

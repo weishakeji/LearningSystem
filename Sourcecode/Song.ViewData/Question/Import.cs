@@ -9,6 +9,7 @@ using Song.ServiceInterfaces;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Song.ViewData.QuestionHandler
 {
@@ -25,7 +26,7 @@ namespace Song.ViewData.QuestionHandler
         /// <param name="course">当前课程</param>
         /// <param name="org">当前机构</param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
-        public static void Type1(DataRow dr,int type, Song.Entities.Course course,Song.Entities.Organization org, JArray mathing)
+        public static void Type1(string excel,DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -49,7 +50,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Title")
                 {
                     if (column == string.Empty || column.Trim() == "") return;
-                    obj.Qus_Title = column;
+                    obj.Qus_Title = longtext(excel, column);
                     obj.Qus_Title = tranTxt(obj.Qus_Title);
                 }
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
@@ -64,7 +65,7 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cou = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cou = Business.Do<ICourse>().CourseBatchAdd(null, org.Org_ID, obj.Sbj_ID, column);
                     if (cou != null) obj.Cou_ID = cou.Cou_ID;
                 }
                 if (field == "Ol_Name")
@@ -77,7 +78,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Ol_Name = outline.Ol_Name;
                     }
                 }
-                if (field == "Qus_Explain") obj.Qus_Explain = column;
+                if (field == "Qus_Explain") obj.Qus_Explain = longtext(excel, column);
                 //唯一值，正确答案，类型
                 obj.Qus_UID = WeiSha.Core.Request.UniqueID();
                 if (field == "Ans_IsCorrect")
@@ -100,7 +101,7 @@ namespace Song.ViewData.QuestionHandler
                     if (column == string.Empty || column.Trim() == "") continue;
                     int index = Convert.ToInt16(match.Groups[2].Value);
                     Song.Entities.QuesAnswer ans = new Song.Entities.QuesAnswer();
-                    ans.Ans_Context = column;
+                    ans.Ans_Context = longtext(excel, column);
                     ans.Ans_IsCorrect = index == correct;
                     ans.Qus_UID = obj.Qus_UID;
                     ansItem.Add(ans);
@@ -129,7 +130,7 @@ namespace Song.ViewData.QuestionHandler
         ///导入多选题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>    
-        public static void Type2(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type2(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -155,7 +156,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Title")
                 {
                     if (column == string.Empty || column.Trim() == "") return;
-                    obj.Qus_Title = tranTxt(column);
+                    obj.Qus_Title = tranTxt(longtext(excel, column));
                 }
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
@@ -182,7 +183,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Ol_Name = outline.Ol_Name;
                     }
                 }
-                if (field == "Qus_Explain") obj.Qus_Explain = column;
+                if (field == "Qus_Explain") obj.Qus_Explain = longtext(excel, column);
                 //唯一值，正确答案，类型
                 obj.Qus_UID = WeiSha.Core.Request.UniqueID();
                 if (field == "Ans_IsCorrect")
@@ -205,7 +206,7 @@ namespace Song.ViewData.QuestionHandler
                     if (column == string.Empty || column.Trim() == "") continue;
                     int index = Convert.ToInt16(match.Groups[2].Value);
                     Song.Entities.QuesAnswer ans = new Song.Entities.QuesAnswer();
-                    ans.Ans_Context = column;
+                    ans.Ans_Context = longtext(excel, column);
                     foreach (string s in correct)
                     {
                         if (s == string.Empty || s.Trim() == "") continue;
@@ -242,7 +243,7 @@ namespace Song.ViewData.QuestionHandler
         /// 导入判断题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>    
-        public static void Type3(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type3(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -264,7 +265,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Title")
                 {
                     if (column == string.Empty || column.Trim() == "") return;
-                    obj.Qus_Title = column;
+                    obj.Qus_Title = longtext(excel, column);
                 }
                 if (field == "Qus_Diff")
                 {
@@ -295,7 +296,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Ol_Name = outline.Ol_Name;
                     }
                 }
-                if (field == "Qus_Explain") obj.Qus_Explain = column;
+                if (field == "Qus_Explain") obj.Qus_Explain = longtext(excel, column);
                 //唯一值，正确答案，类型
                 obj.Qus_UID = WeiSha.Core.Request.UniqueID();
                 if (field == "Qus_IsCorrect")
@@ -320,7 +321,7 @@ namespace Song.ViewData.QuestionHandler
         /// 导入简答题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        public static void Type4(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type4(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
 
             Song.Entities.Questions obj = new Song.Entities.Questions();
@@ -343,7 +344,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Title")
                 {
                     if (column == string.Empty || column.Trim() == "") return;
-                    obj.Qus_Title = column;
+                    obj.Qus_Title = longtext(excel, column);
                 }
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
@@ -370,7 +371,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Ol_Name = outline.Ol_Name;
                     }
                 }
-                if (field == "Qus_Explain") obj.Qus_Explain = column;
+                if (field == "Qus_Explain") obj.Qus_Explain = longtext(excel, column);
                 //唯一值，正确答案，类型
                 obj.Qus_UID = WeiSha.Core.Request.UniqueID();
                 if (field == "Qus_Answer")
@@ -395,7 +396,7 @@ namespace Song.ViewData.QuestionHandler
         /// 导入填空题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        public static void Type5(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type5(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -417,7 +418,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Title")
                 {
                     if (string.IsNullOrEmpty(column) || column.Trim() == "") return;
-                    obj.Qus_Title = column;
+                    obj.Qus_Title = longtext(excel, column);
                 }
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
@@ -444,7 +445,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Ol_Name = outline.Ol_Name;
                     }
                 }
-                if (field == "Qus_Explain") obj.Qus_Explain = column;
+                if (field == "Qus_Explain") obj.Qus_Explain = longtext(excel, column);
                 //唯一值
                 obj.Qus_UID = WeiSha.Core.Request.UniqueID();
             }
@@ -462,7 +463,7 @@ namespace Song.ViewData.QuestionHandler
                     string column = dr[mathing[i]["column"].ToString()].ToString();
                     if (column == string.Empty || column.Trim() == "") continue;
                     Song.Entities.QuesAnswer ans = new Song.Entities.QuesAnswer();
-                    ans.Ans_Context = column;
+                    ans.Ans_Context = longtext(excel, column);
                     ans.Qus_UID = obj.Qus_UID;
                     ansNum++;
                     ansItem.Add(ans);
@@ -500,6 +501,22 @@ namespace Song.ViewData.QuestionHandler
             txt = txt.Replace(")", "）");
             txt = txt.Replace("（", "（ ");
             return txt;
+        }
+        /// <summary>
+        /// 长文本的获取，在导入的文本中，文本长度超过单元格最大长度时，是以文本文件存放的
+        /// </summary>
+        /// <param name="excel">excel所在的位置</param>
+        /// <param name="content">单元格的内容</param>
+        /// <returns></returns>
+        private static string longtext(string excel, string content)
+        {
+            Regex regex = new Regex(@"^\d+\.\d+\.[A-Za-z|_]+\.txt$", RegexOptions.IgnorePatternWhitespace);
+            if (regex.IsMatch(content))
+            {
+                string path = Path.GetDirectoryName(excel);
+                return System.IO.File.ReadAllText(path + "\\" + content);
+            }
+            return content;
         }
     }
 }

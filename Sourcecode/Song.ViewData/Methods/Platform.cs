@@ -502,41 +502,55 @@ namespace Song.ViewData.Methods
             //资源的虚拟路径和物理路径
             string pathKey = "Temp";
             string phyPath = WeiSha.Core.Upload.Get[pathKey].Physics;
-            //文件存放在服务器的名称，仅名称
-            string filename = string.Empty;
-            try
-            {
-                foreach (string key in this.Files)
-                {
-                    HttpPostedFileBase file = this.Files[key];
-                    filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                    file.SaveAs(phyPath + filename);
-                    break;
-                }
-                //工作簿
-                JArray table = ViewData.Helper.Excel.Sheets(phyPath + filename);
-                JObject jo = new JObject();
-                jo.Add("file", filename);
-                jo.Add("sheets", table);
-                return jo;
+            //文件存放在服务器的名称；Excel的文件名，Excel的路径
+            string filename = string.Empty, excelname = string.Empty, excelurl = string.Empty, excelpath = string.Empty;
 
-            }
-            catch (Exception ex)
+            foreach (string key in this.Files)
             {
-                throw ex;
+                HttpPostedFileBase file = this.Files[key];
+                //上传后保存的文件名
+                filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                file.SaveAs(phyPath + filename);
+                //如果是压缩包，则解压
+                if (".zip".Equals(Path.GetExtension(filename), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    //解压文件
+                    WeiSha.Core.Compress.UnZipFile(phyPath + filename, true);
+                    string undir = Path.Combine(phyPath, Path.GetFileNameWithoutExtension(filename));
+                    string[] files = Directory.GetFiles(undir, "*.xls");
+                    if (files.Length > 0) excelname = Path.GetFileName(files[0]);
+                    else throw new Exception("没有Excel文档");
+                    excelurl = WeiSha.Core.Upload.Get[pathKey].Virtual + Path.GetFileNameWithoutExtension(filename) + "/" + excelname;
+                    excelpath = Path.Combine(phyPath, Path.GetFileNameWithoutExtension(filename), excelname);
+                }
+                else
+                {
+                    excelname = filename;
+                    excelurl = WeiSha.Core.Upload.Get[pathKey].Virtual + filename;
+                    excelpath = Path.Combine(phyPath, excelname);
+                }
+                break;
             }
+            //工作簿
+            JArray table = ViewData.Helper.Excel.Sheets(excelpath);
+            JObject jo = new JObject();
+            jo.Add("path", excelpath);    //excel文件的物理路径
+            jo.Add("url", excelurl);     //excel文件的虚拟路径
+            jo.Add("file", excelname);  //excel文件名
+            jo.Add("sheets", table);    //工作簿列表
+            return jo;
         }
         /// <summary>
         /// 获取工作薄的列表，即第一行的标题
         /// </summary>
-        /// <param name="xlsFile"></param>
+        /// <param name="xlsUrl"></param>
         /// <param name="sheetIndex"></param>
         /// <returns>name:工作簿名称;index:工作簿索引;count:记录数;columns:列名 </returns>
         [HttpGet]
-        public JObject ExcelSheetColumn(string xlsFile, int sheetIndex)
+        public JObject ExcelSheetColumn(string xlsUrl, int sheetIndex)
         {
-            string phyPath = WeiSha.Core.Upload.Get["Temp"].Physics;
-            return ViewData.Helper.Excel.Columns(phyPath + xlsFile, sheetIndex);
+            string excel = WeiSha.Core.Server.MapPath(xlsUrl);
+            return ViewData.Helper.Excel.Columns(excel, sheetIndex);
         }
         /// <summary>
         /// 获取列名与字段名的对应关系的设置
