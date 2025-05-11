@@ -17,7 +17,7 @@
         //用于记录在storage中的名字
         s.keyname = (s.file + "_" + acid + "_" + couid + "_" + olid).toLowerCase();
         return s;
-    };
+    };    
     var fn = state.prototype;
     fn.loading = false;
     //答题后记录到服务器的相关参数，每隔一时间记录一次，当只剩一小部分时，实时记录
@@ -137,7 +137,7 @@
                     resolve(req.data.result);
                 } else {
                     console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;                    
+                    throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
                 reject(err);
@@ -222,7 +222,7 @@
             $api.get('Question/ExerciseLogGet', para).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    var json = $api.parseJson(result.Lse_JsonData);
+                    var json = $api.parseJson(result.Lse_JsonData);                    
                     var statedata = null;
                     if (localdata.current == null || localdata.current.time == null) {
                         statedata = json;
@@ -231,6 +231,7 @@
                     }
                     if (total > 0) statedata.count.num = total;
                     th.data = statedata;
+                    th.write(false);
                     resolve(statedata);
                 } else {
                     throw req.config.way + ' ' + req.data.message;

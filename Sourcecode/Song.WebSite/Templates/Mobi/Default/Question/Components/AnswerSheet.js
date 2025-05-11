@@ -97,7 +97,7 @@ Vue.component('answersheet', {
             <div class="sheet_area">
                 <dl v-for="(g,i) in groups" v-if="g.ques.length>0">
                     <dt><icon v-html="'&#x'+icons[Number(g.type)]">&#xe6bd</icon> [ {{g.typename}}题 ]</dt>
-                    <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :current="index(i,j)==currindex" :index="q.index"
+                    <dd v-for="(q,j) in g.ques" @click="clickEvent(q,index(i,j))" :qid="q" :current="index(i,j)==currindex" :index="q.index"
                     :correct="judge(q)" :small="index(i,j)>=1000">
                         {{index(i,j)}}
                     </dd>

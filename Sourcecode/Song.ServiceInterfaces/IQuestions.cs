@@ -136,7 +136,7 @@ namespace Song.ServiceInterfaces
         /// <param name="fields">要取值的字段</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
+        List<Questions> QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
         /// <summary>
         /// 统计题库数量
         /// </summary>
@@ -390,6 +390,19 @@ namespace Song.ServiceInterfaces
         /// <param name="olid"></param>
         /// <returns></returns>
         bool ExerciseLogDel(int acid, long couid, long olid);
+        /// <summary>
+        /// 计算某个学员的练习记录的通过率
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns>返回为百分比</returns>
+        double CalcPassRate(int acid, long couid);
+        /// <summary>
+        /// 某个课程的试题练习通过率
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns>返回为百分比</returns>
+        double CalcPassRate(long couid);
 
         #endregion
 

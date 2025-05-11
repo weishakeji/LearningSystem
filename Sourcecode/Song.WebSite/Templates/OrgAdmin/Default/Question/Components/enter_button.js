@@ -155,7 +155,7 @@ Vue.component('enter_button', {
                     if (req.data.success) {
                         return resolve(req.data.result);
                     } else {
-                        console.error(req.data.exception);
+                        //console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err));
@@ -200,8 +200,7 @@ Vue.component('enter_button', {
                 let box = window.top.$pagebox.get(window.name);
                 box.url = href;
             } else window.location.href = href;
-            console.error(href);
-            
+            //console.error(href);            
         },
     },
     template: `<div class="footer" v-if="!quesnull">

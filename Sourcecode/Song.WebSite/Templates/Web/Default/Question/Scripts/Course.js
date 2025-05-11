@@ -37,6 +37,7 @@ $ready(function () {
             },
             //当通过率变更时，即计算完成
             'rate': function (nv, ov) {
+                return;
                 if (nv <= 0) return;
                 var th = this;
                 $api.get('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })

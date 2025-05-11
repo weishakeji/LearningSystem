@@ -477,7 +477,7 @@ namespace Song.ViewData.Methods
                 Questions._.Qus_ID,
                 Questions._.Qus_Type
             };
-            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, -1, true, fields, count);
+            List<Song.Entities.Questions> ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, -1, true, fields, count);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
             for (int i = 1; i <= Question.types.Length; i++)
             {
@@ -984,7 +984,7 @@ namespace Song.ViewData.Methods
             //统计数据
             int total, answer, correct, wrong;
             double rate;
-            JToken countJo = json["count"];           
+            JToken countJo = json["count"];
             int.TryParse(countJo["num"].ToString(), out total);
             int.TryParse(countJo["answer"].ToString(), out answer);
             int.TryParse(countJo["correct"].ToString(), out correct);
@@ -1003,12 +1003,20 @@ namespace Song.ViewData.Methods
                     timeTricks = new DateTime(1970, 1, 1).Ticks + timeTricks * 10000;
                     DateTime last = new DateTime(timeTricks);
                 }
-            }
-            //new System.Threading.Tasks.Task(() =>
-            //{
+            }           
+            new System.Threading.Tasks.Task(() =>
+            {
                 Business.Do<IQuestions>().ExerciseLogSave(acc, -1, couid, olid, json.ToString(), total, answer, correct, wrong, rate);
-            //}).Start();
-           
+                //试题练习的通过率
+                double cou_passrate = Business.Do<IQuestions>().CalcPassRate(acid, couid);
+                Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+                if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
+                if (sc != null)
+                {
+                    Business.Do<ICourse>().StudentScoreSave(sc, -1, (float)Math.Round(cou_passrate * 100) / 100, -1);
+                }
+            }).Start();
+
             return true;
         }
         /// <summary>
@@ -1056,6 +1064,17 @@ namespace Song.ViewData.Methods
             if (acid <= 0 || couid <= 0 || olid <= 0) return false;
             Business.Do<IQuestions>().ExerciseLogDel(acid, couid, olid);
             return true;
+        }
+
+        /// <summary>
+        /// 计算某个学员的练习记录的通过率
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public double CalcPassRate(int acid, long couid)
+        {
+            return Business.Do<IQuestions>().CalcPassRate(acid, couid);
         }
         #endregion
 

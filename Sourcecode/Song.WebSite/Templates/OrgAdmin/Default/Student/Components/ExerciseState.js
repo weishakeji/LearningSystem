@@ -4,6 +4,10 @@
         //return new state.init();
     }
     //创建练习状态的对象
+    //acid: 学员id
+    //couid: 课程id
+    //olid: 章节id
+    //file: 页面名称，即例如试题练习页Exercise、高频错题Often
     state.create = function (acid, couid, olid, file) {
         var s = new state();
         s.acid = acid;
@@ -13,12 +17,12 @@
         //用于记录在storage中的名字
         s.keyname = (s.file + "_" + acid + "_" + couid + "_" + olid).toLowerCase();
         return s;
-    };
+    };    
     var fn = state.prototype;
     fn.loading = false;
     //答题后记录到服务器的相关参数，每隔一时间记录一次，当只剩一小部分时，实时记录
     fn.update_time = new Date();      //递交到服务器的时间
-    fn.update_interval = 5;      //更新到服务器的时间间隔，单位分钟
+    fn.update_interval = 1;      //更新到服务器的时间间隔，单位秒
     fn.update_residue = 10;      //当剩下指定数量的试题后，实时递交到服务器
     //试题集信息，作为存储在localstorage的数据
     fn.data = {
@@ -75,7 +79,6 @@
     fn.last = function (qid, index) {
         if (qid == null) return this.data.current;
         var item = this.getitem(qid, index);
-        item.time = new Date();
         item.index = index;
         this.data.current = item;
         this.update(false);
@@ -122,7 +125,7 @@
             //条件一，少于指定数量
             let residue = (th.data.count.num - th.data.count.answer) <= th.update_residue;
             //条件二，答题时间大于指定间隔
-            let span = (new Date()).getTime() - th.update_time.getTime() > th.update_interval * 60 * 1000;
+            let span = (new Date()).getTime() - th.update_time.getTime() > th.update_interval * 1000;
             if (!(residue || span)) return;
 
             //保存到服务器 
@@ -219,7 +222,7 @@
             $api.get('Question/ExerciseLogGet', para).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    var json = $api.parseJson(result.Lse_JsonData);
+                    var json = $api.parseJson(result.Lse_JsonData);                    
                     var statedata = null;
                     if (localdata.current == null || localdata.current.time == null) {
                         statedata = json;
@@ -228,6 +231,7 @@
                     }
                     if (total > 0) statedata.count.num = total;
                     th.data = statedata;
+                    th.write(false);
                     resolve(statedata);
                 } else {
                     throw req.config.way + ' ' + req.data.message;

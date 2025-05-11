@@ -351,7 +351,7 @@ namespace Song.ServiceImpls
         /// <param name="fields">要取值的字段</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count)
+        public List<Questions> QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -372,7 +372,7 @@ namespace Song.ServiceImpls
             if (fields == null) fields = new Field[] { };
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).Select(fields)
-                .ToArray<Questions>(count);
+                .ToList<Questions>(count);
         }
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
         {
@@ -1586,44 +1586,42 @@ namespace Song.ServiceImpls
         public bool ExerciseLogSave(Accounts acc, int orgid, long couid, long olid, string json, int sum, int answer, int correct, int wrong, double rate)
         {
             if (olid <= 0 || acc == null) return false;
-            //new Task(() =>
-            //{
-                if (orgid <= 0)
-                {
-                    Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-                    if (org != null) orgid = org.Org_ID;
-                }
-                LogForStudentExercise log = this.ExerciseLogGet(acc.Ac_ID, couid, olid);
-                if (log == null)
-                {
-                    log = new LogForStudentExercise();
-                    log.Lse_CrtTime = DateTime.Now;                    
-                }
-                if (acc != null)
-                {
-                    log.Ac_ID = acc.Ac_ID;
-                    log.Ac_Name = acc.Ac_Name;
-                    log.Ac_AccName = acc.Ac_AccName;
-                }
-                log.Cou_ID = couid;
-                log.Org_ID = orgid;
-                log.Ol_ID = olid;
-                log.Lse_LastTime = DateTime.Now;
-                //客户端信息
-                //log.Lse_IP = WeiSha.Core.Browser.IP;
-                //log.Lse_OS = WeiSha.Core.Browser.OS;
-                //log.Lse_Browser = WeiSha.Core.Browser.Name + " " + WeiSha.Core.Browser.Version;
-                //log.Lse_Platform = WeiSha.Core.Browser.IsMobile ? "Mobi" : "PC";
-                //统计信息
-                log.Lse_Answer = answer;
-                log.Lse_Correct = correct;
-                log.Lse_Rate = (Decimal)rate;
-                log.Lse_Sum = sum;
-                log.Lse_Wrong = wrong;
-                //答题信息的详情，以json方式存储
-                log.Lse_JsonData = json;
-                Gateway.Default.Save<LogForStudentExercise>(log);
-            //}).Start();
+
+            if (orgid <= 0)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                if (org != null) orgid = org.Org_ID;
+            }
+            LogForStudentExercise log = this.ExerciseLogGet(acc.Ac_ID, couid, olid);
+            if (log == null)
+            {
+                log = new LogForStudentExercise();
+                log.Lse_CrtTime = DateTime.Now;
+            }
+            if (acc != null)
+            {
+                log.Ac_ID = acc.Ac_ID;
+                log.Ac_Name = acc.Ac_Name;
+                log.Ac_AccName = acc.Ac_AccName;
+            }
+            log.Cou_ID = couid;
+            log.Org_ID = orgid;
+            log.Ol_ID = olid;
+            log.Lse_LastTime = DateTime.Now;
+            //客户端信息,如果采用异步线程，以下数据获取不到
+            //log.Lse_IP = WeiSha.Core.Browser.IP;
+            //log.Lse_OS = WeiSha.Core.Browser.OS;
+            //log.Lse_Browser = WeiSha.Core.Browser.Name + " " + WeiSha.Core.Browser.Version;
+            //log.Lse_Platform = WeiSha.Core.Browser.IsMobile ? "Mobi" : "PC";
+            //统计信息
+            log.Lse_Answer = answer;
+            log.Lse_Correct = correct;
+            log.Lse_Rate = (Decimal)rate;
+            log.Lse_Sum = sum;
+            log.Lse_Wrong = wrong;
+            //答题信息的详情，以json方式存储
+            log.Lse_JsonData = json;
+            Gateway.Default.Save<LogForStudentExercise>(log);
             return true;
         }
         /// <summary>
@@ -1664,7 +1662,53 @@ namespace Song.ServiceImpls
             }).Start();          
             return true;
         }
-
+        /// <summary>
+        /// 计算某个学员的练习记录的通过率
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns>返回为百分比</returns>
+        public double CalcPassRate(int acid, long couid)
+        {
+            if (acid <= 0 || couid <= 0) return 0;
+            //试题的ID列表
+            DataSet ds = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true).Select(Questions._.Qus_ID).ToDataSet();
+            if (ds == null || ds.Tables[0].Rows.Count <= 0) return 0;
+            Dictionary<long, bool> qusids = new Dictionary<long, bool>();
+            foreach (DataRow dr in ds.Tables[0].Rows) qusids.Add(Convert.ToInt64(dr["Qus_ID"]), false);
+           
+            //学员所练习课程试题的记录
+            List<LogForStudentExercise> logs = Gateway.Default.From<LogForStudentExercise>().Where(LogForStudentExercise._.Ac_ID == acid && LogForStudentExercise._.Cou_ID == couid).ToList<LogForStudentExercise>();
+            if (logs.Count <= 0) return 0;
+            //计算通过率
+            int correct = 0;
+            foreach (LogForStudentExercise log in logs)
+            {
+                if (string.IsNullOrWhiteSpace(log.Lse_JsonData)) continue;
+                JObject data = JObject.Parse(log.Lse_JsonData);
+                JToken items = data["items"];
+                //遍历items
+                foreach (JToken item in items.Children())
+                {
+                    long qid = Convert.ToInt64(item["qid"].Value<string>());
+                    if (qusids.ContainsKey(qid) && !qusids[qid])
+                    {
+                        qusids[qid] = item["correct"].Value<string>() == "succ";     
+                        if (qusids[qid]) correct++;
+                    }
+                }
+            }
+            return correct / (double)qusids.Count * 100;
+        }
+        /// <summary>
+        /// 某个课程的试题练习通过率
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public double CalcPassRate(long couid)
+        {
+            return 0;
+        }
         #endregion
 
         #region 统计信息

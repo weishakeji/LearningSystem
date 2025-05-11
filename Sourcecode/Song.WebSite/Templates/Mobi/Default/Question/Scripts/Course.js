@@ -48,6 +48,7 @@ $ready(function () {
             },
             //当通过率变更时，即计算完成
             'rate': function (nv, ov) {
+                return;
                 if (nv <= 0 || nv === Infinity || isNaN(nv)) return;
                 var th = this;
                 $api.post('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
@@ -101,7 +102,7 @@ $ready(function () {
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
-                    th.owned = owned.data.result;
+                    th.owned = owned.data.result;                   
                     //初始显示第几条试题
                     th.$nextTick(function () {
                         th.loading = false;
