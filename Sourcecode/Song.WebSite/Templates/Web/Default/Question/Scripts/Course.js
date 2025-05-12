@@ -87,12 +87,12 @@ $ready(function () {
                 th.course = course.data.result;
                 th.course.Cou_Intro = $api.trim(th.course.Cou_Intro);
                 document.title = th.course.Cou_Name;
-                //章节
-                th.outlines = outlines.data.result;
-                //购买记录
-                th.purchase = purchase.data.result;
-                th.calcSerial(null, '');
-                th.$nextTick(() => th.loading = false);
+                 //章节                   
+                 th.outlines = th.calcSerial(outlines.data.result, '');                 
+                 //购买记录
+                 th.purchase = purchase.data.result;
+                 //
+                 th.$nextTick(() => th.loading = false);
 
             }).catch(function (err) {
                 console.error(err);
@@ -119,44 +119,45 @@ $ready(function () {
             //将每个章节的状态都记录下来
             statepush: function (data) {
                 this.$set(this.state, this.state.length, data);
-                //将记录数据中的items单独列出来
                 if (data.items && data.items.length > 0) {
-                    for (let i = 0; i < data.items.length; i++) {
-                        const d = data.items[i];
-                        var exist = false;
-                        for (let j = 0; j < this.state_ques.length; j++) {
-                            const q = this.state_ques[j];
-                            if (q.qid == d.qid) {
-                                exist = true;
-                                break;
-                            }
+                    const quesSet = new Set(this.state_ques.map(q => q.qid));
+                    data.items.forEach(d => {
+                        if (!quesSet.has(d.qid)) {
+                            this.state_ques.push(d);
+                            quesSet.add(d.qid); // 保持同步，避免后续重复添加
                         }
-                        if (!exist) this.state_ques.push(d);
-                    }
+                    });
                 }
             },
             //计算序号
-            calcSerial: function (outline, lvl) {
-                var childarr = outline == null ? this.outlines : (outline.children ? outline.children : null);
-                if (childarr == null) return;
-                for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = lvl + (i + 1) + '.';
+            calcSerial: function (list, lvl) {
+                for (let i = 0; i < list.length; i++) {
+                    let node = list[i];
+                    node.serial = lvl + (i + 1) + '.';
                     this.total++;
-                    this.calcSerial(childarr[i], childarr[i].serial);
+                    this.count.sum += node.Ol_QuesCount;
+                    node.Ol_QuesCount = this.calcQuescount(node);
+                    if (node.children && node.children.length > 0)
+                        node.children = this.calcSerial(node.children, node.serial);
                 }
+                return list;
+            },
+            //计算某个章节的试题总数
+            calcQuescount: function (outline) {
+                let total = outline.Ol_QuesCount;
+                var childarr = outline.children ? outline.children : null;
+                if (childarr == null) return total;
+                for (const node of childarr) {
+                    // 累加当前节点的试题数量
+                    if (node.Ol_QuesCount) total += parseInt(node.Ol_QuesCount);
+                    // 递归处理子节点
+                    if (node.children && node.children.length > 0)
+                        total += calcTotalQuestionCount(node.children);
+                }
+                return total;
             },
             //计算各项统计数，包括题量、练习数、通过率等
             calcCount: function () {
-                //计算总题量               
-                let sum = 0;
-                if (this.outlines != null && this.outlines.length > 0) {
-                    for (var i = 0; i < this.outlines.length; i++) {
-                        if (parseInt(this.outlines[i].Ol_PID) == 0) {
-                            sum += parseInt(this.outlines[i].Ol_QuesCount);
-                        }
-                    }
-                }
-                this.count.sum = sum;
                 //计算已经做过的试题数              
                 let exercise = 0, correct = 0;
                 for (var i = 0; i < this.state_ques.length; i++) {
@@ -169,10 +170,6 @@ $ready(function () {
                 }
                 this.count.exercise = exercise;
                 this.count.correct = correct;
-                //整体的通过率
-                let rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
-                this.rate = rate === Infinity || rate === -Infinity || isNaN(rate) ? 0 : rate;
-                return;
             },
             //最后练习的章节
             getlast: function () {

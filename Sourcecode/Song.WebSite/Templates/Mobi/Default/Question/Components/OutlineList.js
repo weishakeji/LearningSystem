@@ -38,7 +38,7 @@ Vue.component('outline_row', {
         if (this.state == null) {
           this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "exercise");
           this.getprogress();
-          this.getques_count();
+          this.getquestions(nv);
         }
       }
     },
@@ -67,26 +67,6 @@ Vue.component('outline_row', {
         th.state['olid'] = olid;
         parent.statepush(th.state);
       });
-    },
-    //获取章节的试题数量
-    getques_count: function () {
-      var th = this;
-      var couid = this.course.Cou_ID;
-      var olid = this.outline.Ol_ID;
-      $api.get('Question/Count', { 'orgid': -1, 'sbjid': -1, 'couid': couid, 'olid': olid, 'type': '', 'use': true })
-        .then(function (req) {
-          if (req.data.success) {
-            var result = req.data.result;
-            th.outline.Ol_QuesCount = result;
-            th.getquestions(th.outline);
-          } else {
-            console.error(req.data.exception);
-            throw req.config.way + ' ' + req.data.message;
-          }
-        }).catch(function (err) {
-          alert(err);
-          console.error(err);
-        });
     },
     //跳转
     goExercises: function () {
@@ -144,7 +124,7 @@ Vue.component('outline_row', {
     </div>
     <div class="tag">     
         <van-tag v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree || outline.Ol_IsFree" 
-        plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}} </van-tag>     
+        plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}}  </van-tag>     
         <van-tag v-else-if="course.Cou_IsTry && outline.Ol_IsFree" type="success">免费</van-tag>
         <van-tag v-else type="warning" plain>购买 </van-tag>
     </div>

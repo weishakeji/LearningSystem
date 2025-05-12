@@ -37,7 +37,7 @@ Vue.component('outline_row', {
           this.state = $state.create(this.acid, this.course.Cou_ID, nv.Ol_ID, "Exercise");
           //console.log(this.state);
           this.getprogress();
-          this.getques_count();
+          this.getquestions(nv);
         }
       }
     },
@@ -66,27 +66,7 @@ Vue.component('outline_row', {
         th.state['olid'] = olid;
         parent.statepush(th.state);
       });
-    },
-    //获取章节的试题数量
-    getques_count: function () {
-      var th = this;
-      var couid = this.course.Cou_ID;
-      var olid = this.outline.Ol_ID;
-      $api.get('Question/Count', { 'orgid': -1, 'sbjid': -1, 'couid': couid, 'olid': olid, 'type': '', 'use': true }).then(function (req) {
-        if (req.data.success) {
-          var result = req.data.result;
-          th.outline.Ol_QuesCount = result;
-          th.getquestions(th.outline);
-        } else {
-          console.error(req.data.exception);
-          throw req.config.way + ' ' + req.data.message;
-        }
-      }).catch(function (err) {
-        //alert(err);
-        Vue.prototype.$alert(err);
-        console.error(err);
-      });
-    },
+    },    
     //获取试题，用于练习之前的预载
     getquestions: function (outline) {
       if (outline.Ol_QuesCount < 1) return;
