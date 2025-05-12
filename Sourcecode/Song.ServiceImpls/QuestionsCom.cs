@@ -1581,7 +1581,7 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="couid"></param>
         /// <param name="olid"></param>
-        /// <param name="json"></param>
+        /// <param name="json">答题信息的详情，以json方式存储</param>
         /// <returns></returns>
         public bool ExerciseLogSave(Accounts acc, int orgid, long couid, long olid, string json, int sum, int answer, int correct, int wrong, double rate)
         {

@@ -1009,12 +1009,11 @@ namespace Song.ViewData.Methods
                 Business.Do<IQuestions>().ExerciseLogSave(acc, -1, couid, olid, json.ToString(), total, answer, correct, wrong, rate);
                 //试题练习的通过率
                 double cou_passrate = Business.Do<IQuestions>().CalcPassRate(acid, couid);
+                //保存到学员课程的购买记录，并计算综合成绩
                 Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
                 if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
-                if (sc != null)
-                {
-                    Business.Do<ICourse>().StudentScoreSave(sc, -1, (float)Math.Round(cou_passrate * 100) / 100, -1);
-                }
+                if (sc != null) Business.Do<ICourse>().StudentScoreSave(sc, -1, (float)Math.Round(cou_passrate * 100) / 100, -1);
+                
             }).Start();
 
             return true;

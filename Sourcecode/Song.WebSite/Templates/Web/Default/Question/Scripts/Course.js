@@ -10,6 +10,7 @@ $ready(function () {
             outlines: [],        //章节树
             course: {},         //当前课程对象  
             owned: false,       //是否购买或学员组关联课程
+            purchase: null,          //课程购买记录     
 
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
@@ -21,8 +22,7 @@ $ready(function () {
                 exercise: 0,        //已经练习的题数
                 correct: 0         //正确数          
             },
-            //通过率
-            rate: 0,
+
             showalloutline: false,   //显示所有章节
             loading: true       //加载状态
         },
@@ -35,29 +35,16 @@ $ready(function () {
                     this.calcCount();
                 }
             },
-            //当通过率变更时，即计算完成
-            'rate': function (nv, ov) {
-                return;
-                if (nv <= 0) return;
-                var th = this;
-                $api.get('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
-                    .then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            //th.$notify({ type: 'success', message: '保存通过率成功' });
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        console.error(err);
-                        alert(err);
-                    });
-            }
+
         },
         computed: {
             //是否登录
             islogin: t => !$api.isnull(t.account),
+            //试题练习的通过率
+            'rate': t => {
+                if (t.purchase == null) return 0;
+                return t.purchase.Stc_QuesScore;
+            },
             //可以计算最后一次练习，要满足多个条件
             canbelast: function () {
                 if (!this.islogin) return false;
@@ -91,8 +78,9 @@ $ready(function () {
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
-                $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true })
-            ).then(([organ, course, outlines]) => {
+                $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true }),
+                $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.stid }),
+            ).then(([organ, course, outlines, purchase]) => {
                 //机构和当前学员
                 th.organ = organ.data.result;
                 //课程
@@ -101,11 +89,10 @@ $ready(function () {
                 document.title = th.course.Cou_Name;
                 //章节
                 th.outlines = outlines.data.result;
+                //购买记录
+                th.purchase = purchase.data.result;
                 th.calcSerial(null, '');
-                //初始显示第几条试题
-                th.$nextTick(function () {
-                    th.loading = false;
-                });
+                th.$nextTick(() => th.loading = false);
 
             }).catch(function (err) {
                 console.error(err);

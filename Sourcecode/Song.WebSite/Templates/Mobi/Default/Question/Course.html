@@ -25,7 +25,10 @@
       <div class="chart-back">
         <div class="y"> </div>
       </div>
-      <div class="chart-txt"> <span>通过率</span> <span class="cou-rate" v-html="rate">-</span></div>
+      <div class="chart-txt"> <span>通过率</span> 
+        <span class="cou-rate" v-if="purchase" v-html="rate">-</span>
+        <loading v-else></loading>
+      </div>
       <dl class="quesnumbox">
         <dd>总题量：<span class="sum" v-html="count.sum"></span>道</dd>
         <dd>已练习：<span class="ansSum" v-html="count.exercise"></span>道</dd>

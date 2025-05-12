@@ -16,7 +16,9 @@
         <div class="chart-back">
           <div class="y"> </div>
         </div>
-        <div class="chart-txt"> <span>通过率</span> <span class="cou-rate" v-html="rate">-</span></div>
+        <div class="chart-txt"> <span>通过率</span> <span class="cou-rate" v-if="purchase" v-html="rate">-</span>
+          <loading v-else></loading>
+        </div>
 
       </div>
       <div class="top_right">
@@ -36,7 +38,7 @@
           <span icon="&#xe841">按章节练习</span>
 
           <div>
-            <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>          
+            <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>
             <el-tag type="primary" v-if="!showalloutline" class="continue" @click="showalloutline=!showalloutline">
               显示所有章节
             </el-tag>

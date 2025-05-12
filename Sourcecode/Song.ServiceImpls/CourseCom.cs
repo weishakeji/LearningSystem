@@ -1186,6 +1186,10 @@ namespace Song.ServiceImpls
         public void StudentScoreSave(Student_Course sc, float study, float ques, float exam)
         {
             if (sc == null) return;
+            if (study >= 100) study = 100;
+            if (ques >= 100) ques = 100;
+            if (exam >= 100) exam = 100;
+            //
             bool ischange = false;
             if (study >= 0 && sc.Stc_StudyScore != study)
             {

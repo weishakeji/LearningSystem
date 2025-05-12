@@ -10,6 +10,7 @@ $ready(function () {
             outlines: [],        //章节树
             course: {},         //当前课程对象  
             owned: false,       //是否购买或学员组关联课程
+            purchase: null,          //课程购买记录     
 
             total: 0,     //章节总数
             state: [],           //学习记录的状态数据
@@ -21,8 +22,7 @@ $ready(function () {
                 exercise: 0,        //已经练习的题数
                 correct: 0         //正确数          
             },
-            //通过率
-            rate: 0,
+
             showalloutline: false,   //显示所有章节
             loading: true       //加载状态
         },
@@ -46,31 +46,14 @@ $ready(function () {
                     }
                 }, immediate: true
             },
-            //当通过率变更时，即计算完成
-            'rate': function (nv, ov) {
-                return;
-                if (nv <= 0 || nv === Infinity || isNaN(nv)) return;
-                var th = this;
-                $api.post('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
-                    .then(function (req) {
-                        if (req.data.success) {
-                            var result = req.data.result;
-                            //th.$notify({ type: 'success', message: '保存通过率成功' });
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(function (err) {
-                        //alert(err);
-                        //Vue.prototype.$alert(err);
-                        console.error(err);
-                    });
-            }
         },
         computed: {
             //是否登录
-            islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
+            'islogin': t => JSON.stringify(t.account) != '{}' && t.account != null,
+            //试题练习的通过率
+            'rate': t => {
+                if (t.purchase == null) return 0;
+                return t.purchase.Stc_QuesScore;
             }
         },
         created: function () {
@@ -95,14 +78,17 @@ $ready(function () {
                 //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
                 $api.bat(
                     $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
-                    $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID })
-                ).then(([outlines, owned]) => {
+                    $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID }),
+                    $api.get('Course/Purchaselog', { 'couid': couid, 'stid': th.account.Ac_ID }),
+                ).then(([outlines, owned, purchase]) => {
                     //章节
                     var outlines = outlines.data.result;
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
                     th.owned = owned.data.result;
+                     //购买记录
+                    th.purchase = purchase.data.result;
                     //
                     th.$nextTick(() => th.loading = false);
                 }).catch(err => console.error(err));
