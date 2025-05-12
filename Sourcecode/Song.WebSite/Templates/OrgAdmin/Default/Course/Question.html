@@ -19,8 +19,11 @@
                     <el-cascader style="width: 200px;" ref="outlines" v-model="olSelects" :options="outlines"
                         separator="／" :props="defaultProps" clearable filterable placeholder=" -- 章节 -- ">
                         <template slot-scope="{node,data}">
+                            <span class="ques_count"> {{data.serial}}</span>
                             {{data.Ol_Name}}
-                            <outline_ques_count :outline="data"></outline_ques_count>
+                            <span class="ques_count" v-if="data.Ol_QuesCount>0">
+                                ({{data.Ol_QuesCount}})
+                            </span>
                         </template>
                     </el-cascader>
                 </el-form-item>
@@ -79,7 +82,7 @@
         </div>
 
         <!-- 数据列表-->
-        <el-table ref="datatables"  border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick='row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])'
             row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
             <div slot="empty">

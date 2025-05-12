@@ -75,13 +75,38 @@
                 th.loading = true;
                 $api.put('Outline/Tree', { 'couid': th.couid, 'isuse': true }).then(function (req) {
                     if (req.data.success) {
-                        th.outlines = req.data.result;
+                        th.outlines = th.calcSerial(req.data.result, '');
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //计算序号
+            calcSerial: function (list, lvl) {
+                for (let i = 0; i < list.length; i++) {
+                    let node = list[i];
+                    node.serial = lvl + (i + 1) + '.';
+                    node.Ol_QuesCount = this.calcQuescount(node);
+                    if (node.children && node.children.length > 0)
+                        node.children = this.calcSerial(node.children, node.serial);
+                }
+                return list;
+            },
+              //计算某个章节的试题总数
+              calcQuescount: function (outline) {
+                let total = outline.Ol_QuesCount;
+                var childarr = outline.children ? outline.children : null;
+                if (childarr == null) return total;
+                for (const node of childarr) {
+                    // 累加当前节点的试题数量
+                    if (node.Ol_QuesCount) total += parseInt(node.Ol_QuesCount);
+                    // 递归处理子节点
+                    if (node.children && node.children.length > 0)
+                        total += calcTotalQuestionCount(node.children);
+                }
+                return total;
             },
             //加载数据页
             handleCurrentChange: function (index) {
