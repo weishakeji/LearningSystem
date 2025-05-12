@@ -43,6 +43,7 @@
             wrong: 0,           //错误数
             rate: 0         //正确率
         },
+        version: 0,   //版本号，用于更新,每次提交加1
         //当前项，为items中的item项
         current: {}
     };

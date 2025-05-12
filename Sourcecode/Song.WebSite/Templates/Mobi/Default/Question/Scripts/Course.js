@@ -76,7 +76,7 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
-            //当前机构，当前登录学员
+            //当前机构，当前登录学员,当前课程
             $api.bat(
                 $api.get('Organization/Current'),
                 $api.get('Account/Current'),
@@ -102,12 +102,9 @@ $ready(function () {
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
-                    th.owned = owned.data.result;                   
-                    //初始显示第几条试题
-                    th.$nextTick(function () {
-                        th.loading = false;
-                    });
-
+                    th.owned = owned.data.result;
+                    //
+                    th.$nextTick(() => th.loading = false);
                 }).catch(err => console.error(err));
 
             }).catch(err => console.error(err));
