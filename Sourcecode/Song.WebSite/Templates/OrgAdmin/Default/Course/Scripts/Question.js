@@ -94,8 +94,8 @@
                 }
                 return list;
             },
-              //计算某个章节的试题总数
-              calcQuescount: function (outline) {
+            //计算某个章节的试题总数
+            calcQuescount: function (outline) {
                 let total = outline.Ol_QuesCount;
                 var childarr = outline.children ? outline.children : null;
                 if (childarr == null) return total;
@@ -311,47 +311,5 @@
         <loading v-if="loading"></loading>
         <template v-else>{{oultine.Ol_Name}}</template>
         </span>`
-    });
-    //章节下的试题数
-    Vue.component('outline_ques_count', {
-        props: ["outline"],
-        data: function () {
-            return {
-                count: 0,
-                loading: false
-            }
-        },
-        watch: {
-            'outline': {
-                handler: function (nv) {
-                    if (nv == null) return;
-                    var th = this;
-                    if (nv.Ol_QuesCount > 0) {
-                        th.count = nv.Ol_QuesCount;
-                        return;
-                    }
-                    th.loading = true;
-                    $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': nv.Ol_ID, 'type': '', 'use': '' })
-                        .then(function (req) {
-                            if (req.data.success) {
-                                th.count = req.data.result;
-                            } else {
-                                console.error(req.data.exception);
-                                throw req.config.way + ' ' + req.data.message;
-                            }
-                        }).catch(err => console.error(err))
-                        .finally(() => th.loading = false);
-                }, immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-
-        },
-        template: `<span class="ques_count">
-        <loading  bubble v-if="loading"></loading>
-        <template v-else-if="count>0">({{count}})</template>
-        </span>`
-    });
+    });    
 }, ['../Question/Components/ques_type.js']);

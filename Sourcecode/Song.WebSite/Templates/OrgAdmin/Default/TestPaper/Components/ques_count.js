@@ -1,4 +1,5 @@
 ﻿//试题数量
+$dom.load.css([$dom.path() + 'TestPaper/Components/Styles/ques_count.css']);
 Vue.component('ques_count', {
     //qtype:题型
     props: ['couid', 'qtype', 'olid'],
@@ -16,20 +17,14 @@ Vue.component('ques_count', {
             }, immediate: true
         }
     },
-    computed: {
-
-
-    },
+    computed: {},
     mounted: function () {
-        $dom.load.css([$dom.path() + 'TestPaper/Components/Styles/ques_count.css']);
-
     },
     methods: {
         getcount: function () {
             var th = this;
             th.loading = true;
             var query = { 'orgid': '-1', 'sbjid': '-1', 'couid': th.couid, 'olid': th.olid, 'type': th.qtype, 'use': true };
-            //console.log(query);
             $api.get('Question/Count', query).then(function (req) {
                 if (req.data.success) {
                     th.count = req.data.result;
