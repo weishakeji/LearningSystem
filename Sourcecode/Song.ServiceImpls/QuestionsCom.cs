@@ -355,7 +355,14 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            //专业
+            if (sbjid > 0 && couid <= 0 && olid <= 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
             //当前章节，以及当前章节之下的所有试题
             if (olid > 0)

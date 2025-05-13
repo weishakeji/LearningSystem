@@ -134,7 +134,7 @@ $ready(function () {
                 th.getPrices(th.course);//获取价格          
                 $api.bat(
                     $api.cache('Outline/TreeList', { 'couid': th.couid }),
-                    $api.get('TestPaper/ShowPager', { 'couid': th.couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 }),              
+                    $api.get('TestPaper/ShowPager', { 'couid': th.couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 }),
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
@@ -150,9 +150,10 @@ $ready(function () {
                                 papers.splice(i, 1);
                             };
                         }
-                        papers.unshift(th.finaltest);
+                        if (!$api.isnull(th.finaltest))
+                            papers.unshift(th.finaltest);
                         th.testpapers = papers;
-                    }                 
+                    }
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
