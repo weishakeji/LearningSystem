@@ -65,7 +65,7 @@ Vue.component('student_batch', {
             var arr = str.split("\n");
             //校验证手机号，简单校验
             if (this.search_type == "mobi") {
-                var regPos = / ^\d+$/; // 非负整数 
+                var regPos = /^\d+$/; // 非负整数 
                 for (var i = 0; i < arr.length; i++) {
                     const d = arr[i].replace(/\s*/g, "");
                     if (!regPos.test(d)) arr.splice(i, 1);
