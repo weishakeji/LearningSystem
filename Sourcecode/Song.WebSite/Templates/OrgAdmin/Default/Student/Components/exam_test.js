@@ -37,6 +37,7 @@ Vue.component('exam_test', {
         },
         'finaltest': {
             handler: function (nv, ov) {
+                if (!nv) return;
                 var tpid = Number(nv.Tp_Id);
                 tpid = isNaN(tpid) ? 0 : tpid;
                 this.result_query.tpid = tpid;
