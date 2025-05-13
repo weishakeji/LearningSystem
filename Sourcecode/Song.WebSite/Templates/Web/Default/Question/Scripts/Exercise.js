@@ -52,7 +52,7 @@ $ready(function () {
                 //如果登录状态，则加载试题
                 if (th.islogin && th.isoutline) {
                     //创建试题练习状态的记录的操作对象
-                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);                  
+                    th.state = $state.create(th.account.Ac_ID, th.couid, th.olid);
                     //加载试题的id列表
                     th.getQuesSimplify(false);
                 }
@@ -88,7 +88,7 @@ $ready(function () {
             getQuesSimplify: function (update) {
                 var th = this;
                 th.loading = true;
-                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
+                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'diff': -1, 'count': 0 };
                 let apiurl = 'Question/Simplify:' + (query = update === false ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {

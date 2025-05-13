@@ -11,7 +11,7 @@
 
   <!--主界面部分-->
   <div id="vapp" v-clock>
-    
+
     <div class="topbox">
       <div class="chart-area">
         <div class="chart-back">
@@ -25,7 +25,10 @@
       <div class="top_right">
         <dl class="quesnumbox">
           <dd>总题量：<span class="sum" v-html="count.sum"></span>道</dd>
-          <dd>已练习：<span class="ansSum" v-html="count.exercise"></span>道</dd>
+          <dd>
+            <el-tag>练习 <span class="ansSum" v-html="count.exercise"></span> 道</el-tag>
+            <el-tag type="success">正确 <span class="ansSum" v-html="count.correct"></span> 道</el-tag>
+          </dd>
         </dl>
         <!--按钮组-->
         <menus ref='menus' :couid="couid" :stid="stid"></menus>

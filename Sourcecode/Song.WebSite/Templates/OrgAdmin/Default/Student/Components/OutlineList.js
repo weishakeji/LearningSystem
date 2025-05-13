@@ -66,12 +66,12 @@ Vue.component('outline_row', {
         th.state['olid'] = olid;
         parent.statepush(th.state);
       });
-    },    
+    },
     //获取试题，用于练习之前的预载
     getquestions: function (outline) {
       if (outline.Ol_QuesCount < 1) return;
       var th = this;
-      let para = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
+      let para = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'diff': -1, 'count': 0 };
       $api.cache('Question/Simplify:' + (60 * 24 * 30), para).then(function (req) {
         if (req.data.success) {
           var result = req.data.result;

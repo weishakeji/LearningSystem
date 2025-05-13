@@ -25,13 +25,7 @@ Vue.component('quesarea', {
         'ques': {
             handler(nv, ov) {
                 if ($api.isnull(nv) || this.list.length > 0) return;
-                const list = [];
-                for (let k in nv) {
-                    for (let i = 0; i < nv[k].length; i++)
-                        list.push(nv[k][i]);
-                }
-                this.list = list;
-                //console.log(list);
+                this.list = Object.values(nv).flat();                
             },
             immediate: true
         },

@@ -465,19 +465,20 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 获取试题的简化信息，例如仅包含试题id与类型
         /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="type"></param>
-        /// <param name="count"></param>   
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">题型</param>
+        /// <param name="diff">难度</param>
+        /// <param name="count">取多少道</param>   
         /// <returns></returns>
-        public Dictionary<string, List<string>> Simplify(long couid, long olid, int type, int count)
+        public Dictionary<string, List<string>> Simplify(long couid, long olid, int type, int diff, int count)
         {
             //要返回的字段
             Field[] fields = new Field[] {
                 Questions._.Qus_ID,
                 Questions._.Qus_Type
             };
-            List<Song.Entities.Questions> ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, -1, true, fields, count);
+            List<Song.Entities.Questions> ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, diff, true, fields, count);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
             for (int i = 1; i <= Question.types.Length; i++)
             {
@@ -487,7 +488,7 @@ namespace Song.ViewData.Methods
                     if (q.Qus_Type != i) continue;
                     list.Add(q.Qus_ID.ToString());
                 }
-                if (list.Count > 0) dic.Add("type_"+i.ToString(), list);
+                if (list.Count > 0) dic.Add("type_" + i.ToString(), list);
             }
             return dic;
         }

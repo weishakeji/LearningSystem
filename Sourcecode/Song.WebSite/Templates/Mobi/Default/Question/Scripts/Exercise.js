@@ -88,7 +88,7 @@ $ready(function () {
             getQuesSimplify: function (update) {
                 var th = this;
                 th.loading = true;
-                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'count': 0 };
+                let form = { 'couid': th.couid, 'olid': th.olid, 'type': -1, 'diff': -1, 'count': 0 };
                 let apiurl = 'Question/Simplify:' + (query = update === false ? (60 * 24 * 30) : 'update');
                 $api.cache(apiurl, form).then(function (req) {
                     if (req.data.success) {

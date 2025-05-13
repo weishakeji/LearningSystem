@@ -71,7 +71,7 @@ Vue.component('outline_row', {
     getquestions: function (outline) {
       if (outline.Ol_QuesCount < 1) return;
       var th = this;
-      let para = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
+      let para = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'diff': -1, 'count': 0 };
       $api.cache('Question/Simplify:' + (60 * 24 * 30), para).then(function (req) {
         if (req.data.success) {
           var result = req.data.result;
@@ -117,7 +117,7 @@ Vue.component('outline_row', {
   template: `<div class="outline_row" v-show="showalloutline || outline.Ol_QuesCount>0">
     <div>
       <span v-html="outline.serial"></span>  
-      <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  
+      <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>
         <a class="olname" v-if="outline.Ol_QuesCount>0" :preload="preload" v-html="outline.Ol_Name" :href="gourl()" :target="target()"></a>
         <span v-else class="noques">{{outline.Ol_Name}}</span>
       <el-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</el-tag>
