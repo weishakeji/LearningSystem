@@ -120,19 +120,11 @@ dl.quesArea dd section {
 
 /*底部按钮*/
 
-footer {
-	height: 44px;
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	right: 0px;
-	z-index: 5;
+.asnwerdata {
 	display: flex;
-	background-color: #fff;
 }
 
-footer>div {
+.asnwerdata>div {
 	line-height: 44px;
 	text-align: center;
 	font-size: 14px;
@@ -140,35 +132,36 @@ footer>div {
 	white-space: nowrap;
 }
 
-footer>div:first-child {
+.asnwerdata>div:first-child {
 	flex: 1;
 	text-align: left;
 	color: #0099FF;
 	padding: 0px 0px 0px 20px;
 }
 
-footer>div:last-child {
+.asnwerdata>div:last-child {
 	padding: 0px 20px 0px 0px;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 
-footer .count_number {
+.asnwerdata .count_number {
 	display: flex;
 	justify-content: space-between;
 }
 
-footer .count_number span {
+.asnwerdata .count_number span {
 	padding: 0px 10px;
 }
 
-footer .count_number span::before {
+.asnwerdata .count_number span::before {
 	font-size: 17px;
 }
 
-footer .count_number span:first-child {
+.asnwerdata .count_number span:first-child {
 	color: #67C23A;
 }
 
-footer .count_number span:last-child {
+.asnwerdata .count_number span:last-child {
 	color: #E6A23C;
 }

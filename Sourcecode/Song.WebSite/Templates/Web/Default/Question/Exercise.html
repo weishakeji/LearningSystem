@@ -35,6 +35,18 @@
               <icon>&#xe802</icon>下一题
             </span>
           </div>
+          <!--答题统计数据 -->
+          <div class="asnwerdata">
+            <div>正确率：{{data.rate}} %</div>
+            <div class="count_number">
+              <span icon="&#xe67f">{{data.correct}}</span>
+              <span icon="&#xe61c">{{data.wrong}}</span>
+            </div>
+            <div @click="$refs['answersheet'].show()">
+              <icon>&#xe75e</icon>
+              <span>{{data.answer}}/{{data.num}}</span>
+            </div>
+          </div>
           <div>
             <learnmode @change="v=>learnmode=v"></learnmode>
             <icon @click="()=>{$refs['setupmenu'].show=true}">&#xa038</icon>
@@ -49,18 +61,7 @@
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
         @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
-      <!--底部按钮区 -->
-      <footer>
-        <div>正确率：{{data.rate}} %</div>
-        <div class="count_number">
-          <span icon="&#xe67f">{{data.correct}}</span>
-          <span icon="&#xe61c">{{data.wrong}}</span>
-        </div>
-        <div @click="$refs['answersheet'].show()">
-          <icon>&#xe75e</icon>
-          <span>{{data.answer}}/{{data.num}}</span>
-        </div>
-      </footer>
+
     </template>
   </div>
 </body>
