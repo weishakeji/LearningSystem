@@ -98,7 +98,7 @@ Vue.component('outline_row', {
       } else {
         var link = window.location.href;
         link = link.substring(link.indexOf(window.location.pathname));
-        return $api.url.set('/mobi/course/buy', {
+        return $api.url.set('/web/course/buy', {
           'couid': outline.Cou_ID,
           'olid': outline.Ol_ID,
           'link': encodeURIComponent(link)
@@ -118,10 +118,11 @@ Vue.component('outline_row', {
     <div>
       <span v-html="outline.serial"></span>  
       <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  
-      <a class="olname" :preload="preload" v-html="outline.Ol_Name" :href="gourl()" :target="target()"></a>
+        <a class="olname" v-if="outline.Ol_QuesCount>0" :preload="preload" v-html="outline.Ol_Name" :href="gourl()" :target="target()"></a>
+        <span v-else class="noques">{{outline.Ol_Name}}</span>
       <el-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</el-tag>
     </div>
-    <a class="tag" :href="gourl()" :target="target()">
+    <a class="tag" :href="gourl()" :target="target()"  v-if="outline.Ol_QuesCount>0" >
         <el-tag v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree || outline.Ol_IsFree" 
         plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}} </el-tag>     
         <el-tag v-else-if="course.Cou_IsTry && outline.Ol_IsFree" type="success">免费</el-tag>

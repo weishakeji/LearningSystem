@@ -65,8 +65,8 @@ Vue.component('ques_progress', {
                 'pid': window.name,
                 'ico': 'e731', 'min': false,
                 'title': '试题练习 - ' + item.Cou_Name,
-                'width': '600',
-                'height': '80%'
+                'width': 1200,
+                'height': 800
             }
             window.top.vapp.open(obj);
 

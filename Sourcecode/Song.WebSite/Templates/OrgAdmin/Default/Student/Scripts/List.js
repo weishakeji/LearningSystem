@@ -88,8 +88,7 @@ $ready(function () {
                     if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
-                        th.total = d.data.total;
-                       console.error(th.accounts);
+                        th.total = d.data.total;                       
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;

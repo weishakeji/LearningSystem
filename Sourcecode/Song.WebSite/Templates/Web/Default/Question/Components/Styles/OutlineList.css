@@ -1,6 +1,8 @@
 .outlinelist {
     background-color: #fff;
     text-align: left;
+    
+  
 }
 
 .outlinelist .outlinelist {
@@ -20,4 +22,7 @@
     position: absolute;
     right: 0px;
     top: 3px;
+}
+.noques{
+    color: #999;
 }

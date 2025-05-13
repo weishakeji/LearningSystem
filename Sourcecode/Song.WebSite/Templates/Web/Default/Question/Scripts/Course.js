@@ -87,12 +87,12 @@ $ready(function () {
                 th.course = course.data.result;
                 th.course.Cou_Intro = $api.trim(th.course.Cou_Intro);
                 document.title = th.course.Cou_Name;
-                 //章节                   
-                 th.outlines = th.calcSerial(outlines.data.result, '');                 
-                 //购买记录
-                 th.purchase = purchase.data.result;
-                 //
-                 th.$nextTick(() => th.loading = false);
+                //章节                   
+                th.outlines = th.calcSerial(outlines.data.result, '');
+                //购买记录
+                th.purchase = purchase.data.result;
+                //
+                th.$nextTick(() => th.loading = false);
 
             }).catch(function (err) {
                 console.error(err);
@@ -203,10 +203,10 @@ $ready(function () {
         data: function () {
             return {
                 menus: [
-                    { name: '错题回顾', url: 'Error', icon: '&#xe732', size: 30, show: true, evt: null },
-                    { name: '我的收藏', url: 'Collects', icon: '&#xe747', size: 29, show: true, evt: null },
-                    { name: '我的笔记', url: 'Notes', icon: '&#xa02e', size: 29, show: true, evt: null },
-                    { name: '高频错题', url: 'Often', icon: '&#xe75e', size: 30, show: true, evt: null }
+                    { name: '错题回顾', url: 'Error', icon: '&#xe732', size: 25, type: 'warning', show: true, evt: null },
+                    { name: '我的收藏', url: 'Collects', icon: '&#xe747', size: 29, type: 'success', show: true, evt: null },
+                    { name: '我的笔记', url: 'Notes', icon: '&#xa02e', size: 29, type: 'primary', show: true, evt: null },
+                    { name: '高频错题', url: 'Often', icon: '&#xe75e', size: 26, type: 'danger', show: true, evt: null }
                 ]
             }
         },
@@ -225,10 +225,10 @@ $ready(function () {
             }
         },
         template: `<div class="mainmenu">           
-                    <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
+                    <el-button :type="m.type" plain v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
                         <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
-                    </div> 
+                    </el-button> 
                 </div> `
     });
 }, ['Components/ExerciseState.js',

@@ -1,32 +1,44 @@
-﻿html{
+﻿html {
 	overflow-x: hidden;
 }
-.topbox{
-	width: 100%;
-	height: 180px;
+
+#vapp {
 	display: flex;
+	overflow: hidden;
 }
-.topbox>*:last-child{
+
+.topbox {
+	width: 300px;
+	margin: 10px 30px 10px 15px;
+	display: flex;
+	flex-direction: column;
+}
+
+.topbox>*:last-child {
 	flex: 1;
 }
-.topbox .top_right{
+
+.topbox .top_right {
 	box-sizing: border-box;
 	padding: 15px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 }
-/*图片区*/
+
+/*图表区*/
 .chart-area {
 	height: 180px;
 	width: 180px;
 	position: relative;
 	text-align: center;
 	padding-top: 10px;
+	margin: auto;
 
 }
+
 .chart-area .chart-back {
-	background: linear-gradient(to bottom right, #b4d0e5, #fff); /* 标准的语法 */
+	background: linear-gradient(to bottom right, #b4d0e5, #fff);
+	/* 标准的语法 */
 	height: 120px;
 	width: 120px;
 	top: 20px;
@@ -36,8 +48,10 @@
 	border: 20px solid #DFEFFF;
 	box-shadow: 0 10px 20px rgba(223, 239, 255, .3);
 }
+
 .chart-area .y {
-	background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.1) 80%); /* 标准的语法 */
+	background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.1) 80%);
+	/* 标准的语法 */
 	height: 100px;
 	width: 100px;
 	margin-top: 5px;
@@ -45,78 +59,79 @@
 	margin-right: auto;
 	margin-left: auto;
 }
+
 .chart-txt {
 	position: absolute;
 	text-align: center;
 	width: 100%;
 	top: 60px;
 }
+
 .chart-txt span {
 	display: block;
 	font-size: 14px;
-	color: #666;	
+	color: #666;
 }
+
 .chart-txt span.cou-rate {
 	font-size: 30px;
 	line-height: 40px;
 	color: #666;
 	font-weight: bold;
 }
-.chart-txt span.cou-rate::after{
+
+.chart-txt span.cou-rate::after {
 	content: '%';
 }
-.quesnumbox{
-	height:40px;
-	bottom:0px;
-	margin:0px;
-	padding:0px;
+
+.quesnumbox {
+	bottom: 0px;
+	margin: 0px 0px 20px 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+
 }
-.quesnumbox dd{
-	width:50%;
-	float:left;
-	margin:0px;
-	padding:0px;
-	line-height:40px;
-	text-align:center;
+
+.quesnumbox dd {
+	margin: 0px;
+	padding: 0px;
+	line-height: 40px;
 }
+
 /*主菜单*/
 
 .mainmenu {
-    width: calc(100% - 20px);
-    display: flex;
-    padding: 10px 10px 10px 10px;
-    flex-wrap: wrap;
-    flex-direction: row;
+	display: flex;
+	flex-direction: column;
 }
 
-.mainmenu>div {
-    flex: 1;
-    width: calc((100% - 20px)/5 - 20px);
-    flex-basis: auto;
-    font-size: 13px;
-    text-align: center;
-    padding: 10px 5px 0px 5px;
+.mainmenu>button {
 	cursor: pointer;
+	display: flex;
+	width: 100%;
+	margin: 0px 10px 15px 0px !important;
 }
-.mainmenu>div icon{
-	display: block;
-	text-align: center;
-	margin: 0px;
+
+.mainmenu>button icon {
+	margin-right: 15px;
 }
-.mainmenu span{  
-    display: block;
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 5px;
+
+.mainmenu name {
+
+	font-size: 20px;
+
 }
 
 /*上次练习的时候*/
 .log {
-	display:none;
+	display: none;
 }
+
 .right {
 	margin-right: 20px;
 }
+
 .curr-logo {
 	width: 30px;
 	height: 30px !important;
@@ -126,6 +141,7 @@
 	border: 2px solid #CCC !important;
 	display: block;
 }
+
 .curr-box {
 	overflow: hidden;
 	display: block;
@@ -133,37 +149,56 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .outline-tit .el-tag:first-child {
 	margin-left: 10px;
 }
+
 /*章节列表*/
-.outline{
-	padding: 10px;
-	width: calc(100% - 20px);
+.outline {
+	padding: 10px 0px 0px 10px;
+	flex: 1;
+	height: calc(100% - 20px);
+	overflow: hidden;
 }
-.outline>div:first-child{
-	width: 100%;
+
+.outline>div:first-child {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 10px;
+	margin-right: 15px;
 }
-.el-tag{
+
+.outline>.outlinelist {
+	padding-right: 15px;
+	height: calc(100% - 30px);
+	overflow-y: auto;
+}
+
+.el-tag {
 	cursor: pointer;
+	font-size: 16px;
 }
+
 .olname {
 	font-size: 16px;
 	color: #666;
 }
+
 .olname[preload] {
 	color: #333;
 }
+
 /*正确率的百分比*/
-.van-circle{
+.van-circle {
 	font-size: 12px;
 }
-.van-circle__text{
+
+.van-circle__text {
 	font-size: 12px;
 }
+
 /*继续练习*/
-.continue{
+.continue {
 	float: right;
 }

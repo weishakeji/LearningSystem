@@ -122,7 +122,7 @@ Vue.component('outline_row', {
       <span class="olname" v-html="outline.Ol_Name" :preload="preload"></span>
       <van-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</van-tag>
     </div>
-    <div class="tag">     
+    <div class="tag" v-if="outline.Ol_QuesCount>0">     
         <van-tag v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree || outline.Ol_IsFree" 
         plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}}  </van-tag>     
         <van-tag v-else-if="course.Cou_IsTry && outline.Ol_IsFree" type="success">免费</van-tag>
