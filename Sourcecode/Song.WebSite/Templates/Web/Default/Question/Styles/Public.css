@@ -67,25 +67,10 @@ card-title.error a {
 	line-height: 45px;
 	font-size: 18px;
 }
-
-.topBox>.move_btn {
-	display: flex;
-	width: 200px;
-	box-sizing: border-box;
-	padding: 0px 10px;
-	justify-content: space-between;
+.topBox .navbox{
+	margin-left: 15px;
 }
 
-.topBox>.move_btn>* {	
-	text-align: center;
-	line-height: 45px;	
-}
-.topBox>.move_btn>a{
-	width: 30px;
-}
-.topBox>.move_btn>*:not(a){
-	flex: 1;
-}
 .topBox>div:last-child {
 	display: flex;
 	width: 150px;
@@ -100,7 +85,30 @@ card-title.error a {
 *[noques]{
 	color: #ccc;
 }
+/*上一题，下一题*/
+.move_btn {
+	display: flex;
+    width: 200px;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    justify-content: space-between;
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    z-index: 20;
+    background-color: #f2f2f2;
+}
 
+.move_btn>* {	
+	text-align: center;
+	line-height: 30px;	
+}
+.move_btn>a{
+	width: 40px;
+}
+.move_btn>*:not(a){
+	flex: 1;
+}
 /*试题区*/
 
 dl.quesArea dd section {
@@ -115,8 +123,12 @@ dl.quesArea dd section {
 	
 	box-sizing: border-box;
 }
-
-
+dl.quesArea dd info{
+	justify-content:left !important;
+}
+dl.quesArea dd info buttons{
+	margin-left: 20px;
+}
 
 /*底部按钮*/
 

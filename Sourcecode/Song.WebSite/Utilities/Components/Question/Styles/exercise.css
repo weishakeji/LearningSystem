@@ -35,7 +35,6 @@ dl.quesArea dd info span i {
 
 dl.quesArea dd info buttons {
 	display: flex;
-	float: right;
 	max-width: 50%;
 	min-width: 160px;
 }

@@ -371,7 +371,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (fields == null) fields = new Field[] { };
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).Select(fields)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Desc).Select(fields)
                 .ToList<Questions>(count);
         }
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)

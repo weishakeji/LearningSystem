@@ -26,17 +26,9 @@
       <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>
       <template remark="顶部栏">
         <div class="topBox">
-          <div class="move_btn">
-            <a icon="&#xe748" @click="window.history.back();" v-if="back"></a>
-            <span @click="$refs['quesarea'].swipe({ 'direction': 4 })">
-              <icon>&#xe803</icon>上一题
-            </span>
-            <span @click="$refs['quesarea'].swipe({ 'direction': 2 })">
-              <icon>&#xe802</icon>下一题
-            </span>
-          </div>
-          <div :noques="!isques">
-            <span icon="&#xe800" @click="deleteQues"> 删除错题 </span>
+          <div class="navbox" v-if="back">
+            <a icon="&#xe748" @click="window.history.back();"></a>
+            <span icon="&#xe800" @click="deleteQues" :noques="!isques"> 删除错题 </span>
           </div>
           <!--答题统计数据 -->
           <div class="asnwerdata">
@@ -55,6 +47,14 @@
             <icon @click="()=>{$refs['setupmenu'].show=true}">&#xa038</icon>
           </div>
         </div>
+        <div class="move_btn" v-if="isques">
+          <span @click="$refs['quesarea'].swipe({ 'direction': 4 })">
+            <icon>&#xe803</icon>上一题
+          </span>
+          <span @click="$refs['quesarea'].swipe({ 'direction': 2 })">
+            <icon>&#xe802</icon>下一题
+          </span>
+        </div>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
       </template>
       <!-- 试题区域-->
@@ -63,7 +63,7 @@
         :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
-        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>      
+        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
     </template>
   </div>
 
