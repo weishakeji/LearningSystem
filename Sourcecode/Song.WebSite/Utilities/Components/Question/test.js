@@ -26,10 +26,7 @@ Vue.component('question', {
                         score: 0,            //得分
                         correct: "null"     //是否答题正确，状态为succ,error,null
                     }
-                }
-                if (nv.Qus_Type >= 4) {
-                    console.error(nv);
-                }
+                }                
             },
             immediate: true
         },

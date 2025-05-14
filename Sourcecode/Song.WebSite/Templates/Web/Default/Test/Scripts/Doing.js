@@ -297,8 +297,7 @@
                 //设置为交卷
                 th.paperAnswer.patter = patter;
                 th.paperAnswer.score = th.calcReslutScore();
-                var xml = th.generateAnswerXml(th.paperAnswer);
-                //return;
+                var xml = th.generateAnswerXml(th.paperAnswer);                
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     if (req.data.success) {

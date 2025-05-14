@@ -102,7 +102,7 @@
             'paperAnswer': {
                 handler(nv, ov) {
                     //生成xml，用于提交到数据库
-                    this.paperAnswerXml = this.generateAnswerXml(nv);
+                    //this.paperAnswerXml = this.generateAnswerXml(nv);
                     //console.log(this.paperAnswerXml);
                     //计算成绩
                     //this.calcReslutScore();
@@ -175,6 +175,7 @@
                 th.paperAnswer = th.generateAnswerJson(th.paperQues);
                 //设置为交卷
                 th.paperAnswer.patter = patter;
+                th.paperAnswer.score = th.calcReslutScore();
                 var xml = this.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
@@ -283,11 +284,15 @@
                         return ansstr;
                     }
                     if (ques.Qus_Type == 3) {
-                        if (ques.Qus_Answer == '') return '';
-                        return ques.Qus_Answer == "true" ? '0' : '1';
+                        if (ques.state) {
+                            if (ques.state.ans == '') return '';
+                            return ques.state.ans == "true" ? '0' : '1';
+                        } else return '';
                     }
-                    if (ques.Qus_Type == 4 || ques.Qus_Type == 5)
-                        return ques.Qus_Answer;
+                    if (ques.Qus_Type == 4 || ques.Qus_Type == 5) {
+                        if (ques.state) return ques.state.ans;
+                        else return '';
+                    }
                 };
                 //记录答题信息
                 for (let i = 0; i < paper.length; i++) {
