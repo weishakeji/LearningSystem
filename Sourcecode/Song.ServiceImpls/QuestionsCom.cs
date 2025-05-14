@@ -518,7 +518,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        public Questions[] QuesRandom(int orgid, long sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
+        public List<Questions> QuesRandom(int orgid, long sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
         {
             WhereClip wc = Questions._.Qus_IsError == false;
             //机构
@@ -548,7 +548,7 @@ namespace Song.ServiceImpls
                 order= new OrderByClip("RANDOM()");
             else
                 order = new OrderByClip("NEWID()");
-            return Gateway.Default.From<Questions>().Where(wc).OrderBy(order).ToArray<Questions>(count);
+            return Gateway.Default.From<Questions>().Where(wc).OrderBy(order).ToList<Questions>(count);
         }
         ///// <summary>
         ///// 为了获取章节下面的子章节中的试题，生成相关条件判断
@@ -567,7 +567,7 @@ namespace Song.ServiceImpls
         //    return sql;
         //}
 
-        public Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
+        public List<Questions> QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
         {
             return this.QuesRandom(-1, sbjid, couid, -1, type, diff1, diff2, isUse, count);           
         }
@@ -1284,12 +1284,12 @@ namespace Song.ServiceImpls
         /// <param name="ques">当前试题</param>
         /// <param name="isCorrect">是否返回正确的选项，null返回全部，true只返回正确的答案，false只返回错误</param>
         /// <returns></returns>
-        public Song.Entities.QuesAnswer[] ItemsToAnswer(Questions ques,bool? isCorrect)
+        public Song.Entities.QuesAnswer[] ItemsToAnswer(Questions ques, bool? isCorrect)
         {
             string xml = ques.Qus_Items;
             if (string.IsNullOrWhiteSpace(xml)) return new QuesAnswer[0];
             XmlDocument xmlDoc = new XmlDocument();
-            if (!string.IsNullOrWhiteSpace(xml)) xml = xml.Trim();          
+            if (!string.IsNullOrWhiteSpace(xml)) xml = xml.Trim();
             XmlNodeList list;
             try
             {
@@ -1302,7 +1302,7 @@ namespace Song.ServiceImpls
                 WeiSha.Core.Log.Error(this.GetType().FullName, ex);
                 throw ex;
             }
-            List<Song.Entities.QuesAnswer> anslist =new List<QuesAnswer>();
+            List<Song.Entities.QuesAnswer> anslist = new List<QuesAnswer>();
             for (int i = 0; i < list.Count; i++)
             {
                 QuesAnswer ans = new QuesAnswer();

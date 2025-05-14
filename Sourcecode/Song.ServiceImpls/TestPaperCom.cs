@@ -394,20 +394,21 @@ namespace Song.ServiceImpls
         /// 出卷，输出试卷内容
         /// </summary>
         /// <param name="tp">试卷对象</param>
+        /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
         /// <returns></returns>
-        public Dictionary<TestPaperItem, Questions[]> Putout(TestPaper tp)
+        public Dictionary<TestPaperItem, List<Questions>> Putout(TestPaper tp, bool isanswer)
         {
             if (tp.Tp_FromType == 1) 
-                return _putout_1(tp);
+                return _putout_1(tp, isanswer);
             else
-                return _putout_0(tp);
+                return _putout_0(tp, isanswer);
         }
         /// <summary>
         /// 按课程抽题组卷
         /// </summary>
         /// <param name="tp"></param>
         /// <returns></returns>
-        private Dictionary<TestPaperItem, Questions[]> _putout_0(TestPaper tp)
+        private Dictionary<TestPaperItem, List<Questions>> _putout_0(TestPaper tp, bool isanswer)
         {
             //获取试题项,例如单选题、多选题
             List<Song.Entities.TestPaperItem> tpi = this.GetItemForAll(tp);           
@@ -416,7 +417,7 @@ namespace Song.ServiceImpls
                 if (t.TPI_Count > 0) list.Add(t);           
             tpi = _getItemCoutomOrder(list);
             //开始出卷
-            Dictionary<TestPaperItem, Questions[]> dic = new Dictionary<TestPaperItem, Questions[]>();
+            Dictionary<TestPaperItem, List<Questions>> dic = new Dictionary<TestPaperItem, List<Questions>>();
             foreach (Song.Entities.TestPaperItem t in tpi)
             {
                 int type = (int)t.TPI_Type;
@@ -424,9 +425,9 @@ namespace Song.ServiceImpls
                 float num = (float)t.TPI_Number;    //当前题型占的分数
                 if (count < 1) continue;
                 //当前类型的试题
-                Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type,tp.Tp_Diff, tp.Tp_Diff2, true, count);
-                if (ques.Length < 1) continue;
-                ques = clacScore(ques, num);
+                List<Questions> ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type,tp.Tp_Diff, tp.Tp_Diff2, true, count);
+                if (ques.Count < 1) continue;
+                ques = _clacQuesScore(ques, num, isanswer);
                 dic.Add(t, ques);
             }
             return dic;
@@ -435,8 +436,9 @@ namespace Song.ServiceImpls
         /// 按章节抽题组卷
         /// </summary>
         /// <param name="tp"></param>
+        /// <param name="isanswer"></param>
         /// <returns></returns>
-        private Dictionary<TestPaperItem, Questions[]> _putout_1(TestPaper tp)
+        private Dictionary<TestPaperItem, List<Questions>> _putout_1(TestPaper tp, bool isanswer)
         {
             //获取试题项,例如单选题、多选题
             List<Song.Entities.TestPaperItem> tpi = this.GetItemForOlPercent(tp);
@@ -492,7 +494,7 @@ namespace Song.ServiceImpls
                 }
             }
             //****************  开始出卷
-            Dictionary<TestPaperItem, Questions[]> dic = new Dictionary<TestPaperItem, Questions[]>();
+            Dictionary<TestPaperItem, List<Questions>> dic = new Dictionary<TestPaperItem, List<Questions>>();
             foreach (Song.Entities.TestPaperItem t in tpi)
             {
                 float num = (float)t.TPI_Number;    //当前题型占的分数
@@ -501,7 +503,7 @@ namespace Song.ServiceImpls
                 foreach (Questions q in listQus)               
                     if (q.Qus_Type == t.TPI_Type) qusTm.Add(q);               
                 if (qusTm.Count < 1) continue;
-                Questions[] ques = clacScore(qusTm.ToArray(), num);
+                List<Questions> ques = _clacQuesScore(qusTm, num, isanswer);
                 dic.Add(t, ques);
             }
             return dic;
@@ -511,28 +513,32 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="ques">试题</param>
         /// <param name="total">试题的总分</param>
+        /// <param name="isanswer"></param>
         /// <returns></returns>
-        private Song.Entities.Questions[] clacScore(Song.Entities.Questions[] ques, float total)
+        private List<Questions> _clacQuesScore(List<Questions> ques, float total, bool isanswer)
         {
-            if (ques.Length < 1) return ques;
+            if (ques.Count < 1) return ques;
             //分配模式，1为按试题数分配总分; 2为按难度值分配总分
             int distribution_model = 1;
 
             //总分数（当前试题类型）
             decimal surplus = (decimal)total;
             //最难的题，用于放置多余分数，默认是最后一道
-            Song.Entities.Questions diffMax = ques[ques.Length - 1];
-            for (int i = ques.Length - 1; i >= 0; i--)
+            Song.Entities.Questions diffMax = ques[ques.Count - 1];
+            for (int i = ques.Count - 1; i >= 0; i--)
             {
-                ques[i].Qus_Explain = ques[i].Qus_Answer = ques[i].Qus_ErrorInfo = string.Empty;
+                //试题解析、错误信息，不向外输出
+                ques[i].Qus_Explain = ques[i].Qus_ErrorInfo = string.Empty;
+                if (!isanswer) ques[i] = _clearAnswer(ques[i]);
+               
                 if (ques[i].Qus_Diff > diffMax.Qus_Diff)
                     diffMax = ques[i];
             }
             //按题数分配分数
             if (distribution_model == 1)
             {
-                decimal quesAvg = Math.Floor(surplus / ques.Length * 100) / 100;
-                for (int j = 0; j < ques.Length; j++)
+                decimal quesAvg = Math.Floor(surplus / ques.Count * 100) / 100;
+                for (int j = 0; j < ques.Count; j++)
                 {
                     ques[j].Qus_Number = (float)quesAvg;
                     surplus = surplus - quesAvg;
@@ -544,12 +550,12 @@ namespace Song.ServiceImpls
             if (distribution_model == 2)
             {
                 decimal diffSum = 0, diffAvg = 0;
-                for (int i = ques.Length - 1; i >= 0; i--)              
+                for (int i = ques.Count - 1; i >= 0; i--)              
                     diffSum += ques[i].Qus_Diff;
                 //每一个难度点，占用多少分数
                 diffAvg = (decimal)total / diffSum;
                 //计算每一道题的分数，用难度值乘以diffAvg
-                for (int j = 0; j < ques.Length; j++)
+                for (int j = 0; j < ques.Count; j++)
                 {                 
                     decimal curr = ques[j].Qus_Diff * diffAvg;
                     curr = ((decimal)Math.Floor(curr * 100)) / 100;
@@ -560,6 +566,35 @@ namespace Song.ServiceImpls
                 if (surplus > 0) diffMax.Qus_Number += (float)surplus;
             }
             return ques;
+        }
+        /// <summary>
+        /// 清除答案
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
+        private Questions _clearAnswer(Questions q)
+        {
+            if (q.Qus_Type == 1 || q.Qus_Type == 2)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(q.Qus_Items);
+                foreach(XmlElement n in doc.SelectNodes("Items/item"))               
+                    n.SelectSingleNode("Ans_IsCorrect").InnerText = string.Empty;
+                q.Qus_Items = doc.OuterXml;
+            }
+            if (q.Qus_Type == 3) q.Qus_IsCorrect = false;
+            //简答题，答案清空
+            if (q.Qus_Type == 4) q.Qus_Answer = string.Empty;
+            //填空题
+            if (q.Qus_Type == 5)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(q.Qus_Items);
+                foreach (XmlElement n in doc.SelectNodes("Items/item"))
+                    n.SelectSingleNode("Ans_Context").InnerText = string.Empty;
+                q.Qus_Items = doc.OuterXml;
+            }
+            return q;
         }
         #endregion
 

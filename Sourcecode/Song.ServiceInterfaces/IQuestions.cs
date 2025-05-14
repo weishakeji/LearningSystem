@@ -184,7 +184,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        Questions[] QuesRandom(int orgid, long  sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count);
+        List<Questions> QuesRandom(int orgid, long  sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -196,7 +196,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count);
+        List<Questions> QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 分页获取所有的试题；
         /// </summary>

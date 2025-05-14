@@ -320,15 +320,15 @@ namespace Song.ViewData.Methods
             Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
             if (paper == null) return null;
             //生成试卷
-            Dictionary<TestPaperItem, Questions[]> dics = Business.Do<ITestPaper>().Putout(paper);
+            Dictionary<TestPaperItem, List<Questions>> dics = Business.Do<ITestPaper>().Putout(paper, true);
             JArray jarr = new JArray();
             foreach (var di in dics)
             {
                 //按题型输出
                 Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型
-                Song.Entities.Questions[] questions = (Song.Entities.Questions[])di.Value;   //当前类型的试题
+                List<Questions> questions = (List<Questions>)di.Value;   //当前类型的试题
                 int type = (int)pi.TPI_Type;    //试题类型
-                int count = questions.Length;  //试题数目
+                int count = questions.Count;  //试题数目
                 float num = (float)pi.TPI_Number;   //占用多少分
                 if (count < 1) continue;
                 JObject jo = new JObject();

@@ -27,6 +27,9 @@ Vue.component('question', {
                         correct: "null"     //是否答题正确，状态为succ,error,null
                     }
                 }
+                if (nv.Qus_Type >= 4) {
+                    console.error(nv);
+                }
             },
             immediate: true
         },
@@ -157,14 +160,13 @@ Vue.component('question', {
         },
         //判断题的选择,logic为true或false
         doing_type3: function (logic, ques) {
-            if (ques.Qus_Answer == String(logic)) {
-                ques.Qus_Answer = '';
-            } else {
-                ques.Qus_Answer = String(logic);
-            }
+            if (ques.state.ans == String(logic)) {
+                ques.state.ans = '';
+            } else ques.state.ans = String(logic);
+
             var correct = ques.Qus_IsCorrect == logic;
             ques.state['ans'] = String(logic);
-            ques.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
+            ques.state['correct'] = ques.state.ans != '' ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
             this.$parent.swipeleft();
             return ques.state['correct'] == 'succ';
@@ -181,21 +183,17 @@ Vue.component('question', {
         //填空题
         doing_type5: function (ans, ques) {
             let ansstr = [];
-            let correct = true;
+            let correct = true; //是否答题正确
             for (let i = 0; i < ques.Qus_Items.length; i++) {
                 let answer = ques.Qus_Items[i].answer;            //答题信息
                 ansstr.push(answer);
                 let items = ques.Qus_Items[i].Ans_Context.split(","); //正确答案
-                if(!items.includes(answer)){
-                    correct = false;
-                    break;
-                }
+                if (!items.includes(answer)) correct = false;
             }
-            ques.Qus_Answer = ansstr.join(',');
             ques.state['ans'] = ansstr.join(',');
             ques.state['correct'] = ansstr.length > 0 ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
-            return ques.state['correct'] == 'succ';           
+            return ques.state['correct'] == 'succ';
         }
     },
     template: `<dd :qid="ques.Qus_ID" :render="init">
@@ -222,20 +220,20 @@ Vue.component('question', {
                     </div>
                 </div>
                 <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div :selected="ques.Qus_Answer=='true'"  @click="ques_doing(true,ques)">
+                    <div :selected="ques.state.ans=='true'"  @click="ques_doing(true,ques)">
                         <i>正确</i> 
                     </div>
-                    <div :selected="ques.Qus_Answer=='false'"  @click="ques_doing(false,ques)">
+                    <div :selected="ques.state.ans=='false'"  @click="ques_doing(false,ques)">
                         <i>错误</i> 
                     </div>
                 </div>
                 <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>                
+                    <textarea rows="10" placeholder="这里输入文字" @blur="ques_doing(null,ques)" v-model.trim="ques.state.ans"></textarea>                
                 </div>
                 <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
                         <i>{{i+1}}.</i>
-                        <input type="text" v-model="ans.answer" @input="ques_doing(null,ques)"></input>                
+                        <input type="text" v-model.trim="ans.answer" @blur="ques_doing(null,ques)"></input>                
                     </div>                   
                 </div>    
             </card-context>

@@ -144,8 +144,9 @@ namespace Song.ServiceInterfaces
         /// 出卷，输出试卷内容
         /// </summary>
         /// <param name="tp">试卷对象</param>
+        /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
         /// <returns></returns>
-        Dictionary<TestPaperItem, Questions[]> Putout(TestPaper tp);
+        Dictionary<TestPaperItem, List<Questions>> Putout(TestPaper tp, bool isanswer);
         #endregion
 
         #region 试卷测试的答题
