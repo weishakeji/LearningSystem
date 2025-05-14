@@ -121,10 +121,10 @@
             'paperAnswer': {
                 handler(nv, ov) {
                     //生成xml，用于提交到数据库
-                    this.paperAnswerXml = this.generateAnswerXml(nv);
+                    //this.paperAnswerXml = this.generateAnswerXml(nv);
                     //console.log(this.paperAnswerXml);
                     //计算成绩
-                    this.calcReslutScore();
+                    //this.calcReslutScore();
                 },
                 deep: true
             },
@@ -296,8 +296,9 @@
                 th.paperAnswer = th.generateAnswerJson(th.paperQues);
                 //设置为交卷
                 th.paperAnswer.patter = patter;
-                //th.paperAnswer.score = th.calcReslutScore();
+                th.paperAnswer.score = th.calcReslutScore();
                 var xml = th.generateAnswerXml(th.paperAnswer);
+                //return;
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     if (req.data.success) {
@@ -343,7 +344,8 @@
                 for (var i = 0; i < answer.ques.length; i++) {
                     for (let j = 0; j < answer.ques[i].q.length; j++) {
                         const q = answer.ques[i].q[j];
-                        if (q.sucess) total += Number(q.score);
+                        if (q.sucess)
+                            total += Number(q.score);
                     }
                 }
                 return total;

@@ -90,21 +90,6 @@ Vue.component('question', {
             var correct = func(ans, ques);
             ques.state['sucess'] = correct;
             ques.state['score'] = correct ? Number(ques.Qus_Number) : 0;
-            if (!correct) {
-                /*
-                $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        //...
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-
-                    console.error(err);
-                });*/
-            }
         },
         //单选题的解答
         //ans:某个选项
