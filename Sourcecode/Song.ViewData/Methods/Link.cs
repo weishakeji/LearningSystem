@@ -29,6 +29,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">链接分类的id</param>
         /// <returns></returns>
+        [HttpPost, HttpGet]
         public Song.Entities.LinksSort SortForID(int id)
         {
             return Business.Do<ILinks>().SortSingle(id);

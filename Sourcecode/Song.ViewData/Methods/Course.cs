@@ -1764,6 +1764,7 @@ namespace Song.ViewData.Methods
         {
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + this.Path + "\\";
+            if (!System.IO.Directory.Exists(rootpath)) return;
             //删除冗余
             foreach (string f in System.IO.Directory.GetFiles(rootpath,"*.xls"))
             {

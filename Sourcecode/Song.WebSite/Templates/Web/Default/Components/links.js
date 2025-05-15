@@ -30,7 +30,7 @@ Vue.component('linksorts', {
             var th = this;
             th.loading = true;
             if (th.sort != null) {
-                $api.post('Link/SortForID', { 'id': th.sort }).then(function (req) {
+                $api.get('Link/SortForID', { 'id': th.sort }).then(function (req) {
                     if (req.data.success) {
                         th.$set(th.sorts, 0, req.data.result);
                     } else {
@@ -40,7 +40,7 @@ Vue.component('linksorts', {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             } else {
-                $api.post('Link/SortCount', { 'orgid': th.org.Org_ID, 'use': true, 'show': null, 'search': '', 'count': th.count })
+                $api.get('Link/SortCount', { 'orgid': th.org.Org_ID, 'use': true, 'show': null, 'search': '', 'count': th.count })
                     .then(function (req) {
                         if (req.data.success) {
                             th.sorts = req.data.result;

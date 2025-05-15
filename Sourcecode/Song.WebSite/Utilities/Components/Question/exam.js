@@ -9,7 +9,7 @@ Vue.component('question', {
     props: ['exam', 'account', 'ques', 'index', 'groupindex', 'types', 'total'],
     data: function () {
         return {
-            ext_limit: "png,jpg,gif,zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
+            ext_limit: "png,jpg,gif,heif,heic,zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
             accessory: {},           //试题附件
             loading_upload: false,        //上传的状态
         }
