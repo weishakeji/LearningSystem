@@ -2117,7 +2117,6 @@
     <Content Include="Templates\OrgAdmin\Default\Account\Styles\Mypassword.css" />
     <Content Include="Templates\OrgAdmin\Default\Account\Styles\SelfInfo.css" />
     <Content Include="Help\About.html" />
-    <Content Include="Templates\OrgAdmin\Default\Help\MIT.html" />
     <Content Include="Templates\OrgAdmin\Default\Help\Scripts\Startpage.js" />
     <Content Include="Templates\OrgAdmin\Default\Help\Startpage.html" />
     <Content Include="Templates\OrgAdmin\Default\Help\Styles\Startpage.css" />
