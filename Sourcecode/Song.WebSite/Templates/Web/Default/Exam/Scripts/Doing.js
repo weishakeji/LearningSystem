@@ -76,24 +76,10 @@ $ready(function () {
         },
         created: function () {
             //当窗体失去焦点
-            window.addEventListener('blur', function () {
-                var vapp = window.vapp;
-                if (vapp.exam == null || vapp.exam.Exam_IsToggle) return;
-                if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
-                if (vapp.examstate.issubmit) return;
-                var key = 'exam_blur_num_' + vapp.examid;
-                var blurnum = Number($api.storage(key));
-                if (isNaN(blurnum)) blurnum = vapp.blur_maxnum;
-                Number($api.storage(key, --blurnum));
-                //每切换一次减10分钟
-                vapp.time.over.setTime(vapp.time.over.getTime() - 10 * 60 * 1000);
-                if (blurnum <= 0 || vapp.time.over < new Date()) {
-                    vapp.submit(2);
-                    $api.storage(key, null);
-                    return;
-                }
-                alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
-                    '禁止切换考试界面');
+            //window.addEventListener('blur', () => window.vapp.lostFocus());
+            document.addEventListener('visibilitychange', function () {
+                if (document.visibilityState === 'hidden')
+                    window.vapp.lostFocus();
             });
         },
         computed: {
@@ -261,6 +247,26 @@ $ready(function () {
             }
         },
         methods: {
+             //当窗体失去焦点
+             lostFocus: function () {
+                var vapp = window.vapp;
+                if (vapp.exam == null || vapp.exam.Exam_IsToggle) return;
+                if (!(vapp.isexam && vapp.islogin && vapp.examstate.doing)) return;
+                if (vapp.examstate.issubmit) return;
+                var key = 'exam_blur_num_' + vapp.examid;
+                var blurnum = Number($api.storage(key));
+                if (isNaN(blurnum)) blurnum = vapp.blur_maxnum;
+                Number($api.storage(key, --blurnum));
+                //每切换一次减10分钟
+                vapp.time.over.setTime(vapp.time.over.getTime() - 10 * 60 * 1000);
+                if (blurnum <= 0 || vapp.time.over < new Date()) {
+                    vapp.submit(2);
+                    $api.storage(key, null);
+                    return;
+                }
+                alert('每切换一次，考试时间减10分钟，最多切换' + vapp.blur_maxnum + '次,还剩' + blurnum + '次',
+                    '禁止切换考试界面');
+            },
             //生成试卷内容
             generatePaper: function () {
                 if (this.loading.ques) return;      //如果正在加载中

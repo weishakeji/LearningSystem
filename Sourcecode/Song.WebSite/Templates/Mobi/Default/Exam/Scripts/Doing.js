@@ -76,11 +76,10 @@ $ready(function () {
         },
         created: function () {
             //当窗体失去焦点
-            window.addEventListener('blur', () => window.vapp.lostFocus());
+            //window.addEventListener('blur', () => window.vapp.lostFocus());
             document.addEventListener('visibilitychange', function () {
-                if (document.hidden) {
+                if (document.visibilityState === 'hidden')
                     window.vapp.lostFocus();
-                }
             });
         },
         computed: {
