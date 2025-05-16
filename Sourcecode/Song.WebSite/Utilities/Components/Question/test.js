@@ -17,7 +17,7 @@ Vue.component('question', {
                 this.ques = window.ques.parseAnswer(this.ques);
                 //记录答题状态
                 if (!this.ques.state) {
-                    this.ques['state'] = {
+                    this.$set(this.ques, 'state', {
                         qid: nv.Qus_ID,
                         time: new Date(),
                         index: this.index,
@@ -25,8 +25,8 @@ Vue.component('question', {
                         sucess: false,      //是否正确，只能是true或false
                         score: 0,            //得分
                         correct: "null"     //是否答题正确，状态为succ,error,null
-                    }
-                }                
+                    });
+                }
             },
             immediate: true
         },

@@ -105,6 +105,7 @@
     //重构一些方法
     //页面跳转
     window.navigateTo = function (url) {
+        if (url == null || url == '' || window.location.href == url) return;
         //如果处在微信小程序中
         if ($dom.isWeixinApp()) {
             //alert(wx);

@@ -38,7 +38,7 @@
             loading: {
                 init: true,             //初始化主要参数           
                 submit: false,           //成绩提交中
-                paper: false             //试卷生成中
+                paper: true             //试卷生成中
             },
             //成绩得分
             resultTotal: 0
@@ -149,18 +149,12 @@
                     console.error(err);
                 });
             },
-            //跳转到查看成绩
-            goreview: function () {
-                var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
-                window.navigateTo(url);
-            },
             //计算时间，参数：初始时间、考试时长
             calcTime: function () {
                 this.time.client = new Date();
-                this.time.span = vapp.paper.Tp_Span;
+                this.time.span = this.paper.Tp_Span;
                 this.time.begin = new Date();
                 this.time.over = new Date(this.time.begin.getTime() + this.time.span * 60 * 1000);
-
             },
             //交卷
             // patter:交卷方式，1为自动提交，2为交卷
@@ -204,14 +198,12 @@
                 } else {
                     msg = "当前考试" + this.questotal + "道题，您还有" + surplus + " 没有做！";
                 }
-                vapp.$dialog.confirm({
+                this.$dialog.confirm({
                     title: '交卷',
                     message: msg + '<br/>是否确认交卷？',
                 }).then(() => {
-                    vapp.submit(2);
-                }).catch(() => {
-                    // on cancel
-                });
+                    this.submit(2);
+                }).catch(() => {});
             },
             //计算成绩得分
             calcReslutScore: function () {
@@ -227,7 +219,6 @@
                     }
                 }
                 return total;
-                console.log(total);
             },
             //试题向右滑动 
             swiperight: function (e) {
@@ -372,7 +363,7 @@
                 }
                 var file = "/mobi/test/paper";
                 var url = $api.url.dot(this.tpid, file);
-                window.location.href = url;
+                window.navigateTo(url);
             },
             //进入回顾
             goreview: function () {

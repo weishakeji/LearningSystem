@@ -352,8 +352,12 @@ score.praise::before {
 /*预载*/
 
 .loading_paper {
-	padding: 20px;
-	width: 100vw;
+text-align: center;
+	display: block;
+    width: 100%;
+    position: absolute;
+	top: 200px;
+    z-index: 10;
 }
 
 /*成绩提交成功*/

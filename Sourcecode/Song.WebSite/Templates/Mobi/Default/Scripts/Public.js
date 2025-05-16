@@ -96,7 +96,7 @@
             if (txt == null || txt == '') return '';
             if (search == null || search == '') return txt;
             var regExp = new RegExp('(' + search + ')', 'ig');
-            return txt.replace(regExp, function(match, p1) {
+            return txt.replace(regExp, function (match, p1) {
                 return '<red>' + p1 + '</red>';
             });
         };
@@ -110,12 +110,13 @@
             return $api.url.set(urls[key], {
                 'referrer': encodeURIComponent(location.href)
             });
-        };      
+        };
 
     };
     //重构一些方法
     //页面跳转
     window.navigateTo = function (url) {
+        if (url == null || url == '' || window.location.href == url) return;
         //如果处在微信小程序中
         if ($dom.isWeixinApp()) {
             //alert(wx);

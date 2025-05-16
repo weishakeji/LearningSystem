@@ -44,7 +44,7 @@
             loading: {
                 init: true,             //初始化主要参数           
                 submit: false,           //成绩提交中
-                paper: false             //试卷生成中
+                paper: true             //试卷生成中
             },
             //成绩得分
             resultTotal: 0
@@ -278,7 +278,7 @@
             //计算时间，参数：初始时间、考试时长
             calcTime: function () {
                 this.time.client = new Date();
-                this.time.span = vapp.paper.Tp_Span;
+                this.time.span = this.paper.Tp_Span;
                 this.time.begin = new Date();
                 this.time.over = new Date(this.time.begin.getTime() + this.time.span * 60 * 1000);
 

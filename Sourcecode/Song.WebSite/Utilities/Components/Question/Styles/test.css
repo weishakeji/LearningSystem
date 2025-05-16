@@ -165,6 +165,7 @@ card[qid] .type3>div[selected] i::before {
 .type5 input[type='text'] {	
 	font-size: 16px;
 	padding: 5px 10px;
+	margin-top: 5px;
 }
 /*简答题*/
 .type4 textarea{
