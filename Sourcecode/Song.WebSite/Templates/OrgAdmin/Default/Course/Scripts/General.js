@@ -8,15 +8,7 @@
             admin: {},       //当前管理员
             teacher: {},     //当前教师
 
-            subjects: [],     //所有专业数据
-            defaultProps: {
-                children: 'children',
-                label: 'Sbj_Name',
-                value: 'Sbj_ID',
-                expandTrigger: 'hover',
-                checkStrictly: true
-            },
-            sbjSelects: [],      //选择中的专业项
+            subjects: [],     //所有专业数据           
             //图片文件
             upfile: null, //本地上传文件的对象   
 
@@ -39,7 +31,7 @@
                 th.organ = org.data.result;
                 th.admin = admin.data.result;
                 th.teacher = teach.data.result;
-                th.getTreeData();
+                th.getEntity();
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -69,96 +61,26 @@
 
         },
         watch: {
-            'sbjSelects': function (nv, ov) {
-                console.log(nv);
-                //关闭级联菜单的浮动层
-                this.$refs["subjects"].dropDownVisible = false;
-            }
+           
         },
-        methods: {
-            //获取课程专业的数据
-            getTreeData: function () {
-                var th = this;
-                this.loading = true;
-                var form = {
-                    orgid: th.organ.Org_ID,
-                    search: '', isuse: true
-                };
-                $api.get('Subject/Tree', form).then(function (req) {
-                    if (req.data.success) {
-                        let datas = req.data.result;
-                        th.calcSerial(datas);
-                        th.subjects = datas;
-                        th.getEntity();
-                    } else {
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
-            },
+        methods: {           
             //获取课程实体
             getEntity: function () {
                 var th = this;
                 if (th.id == '' || th.id == null) return;
                 $api.put('Course/ForID', { 'id': th.id }).then(function (req) {
                     th.loading_init = false;
-                    th.loading = false;
                     th.loading_obj.close();
                     if (req.data.success) {
                         th.entity = req.data.result;
-                        //console.log(th.entity);
-                        //将当前课程的专业，在控件中显示
-                        var arr = [];
-                        arr.push(th.entity.Sbj_ID);
-                        var sbj = th.traversalQuery(th.entity.Sbj_ID, th.subjects);
-                        if (sbj == null) {
-                            throw '课程的专业“' + th.entity.Sbj_Name + '”不存在，或该专业被禁用';
-                        }
-                        arr = th.getParentPath(sbj, th.subjects, arr);
-                        th.sbjSelects = arr;
+                        if (th.$refs['subject']) th.$refs['subject'].setsbj(th.entity.Sbj_ID);                       
                     } else {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });
-            },
-            //计算序号
-            calcSerial: function (item, lvl) {
-                var childarr = Array.isArray(item) ? item : (item.children ? item.children : null);
-                if (childarr == null) return;
-                for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
-                    this.calcSerial(childarr[i], childarr[i].serial);
-                }
-            },
-            //获取当前专业的上级路径
-            getParentPath: function (entity, datas, arr) {
-                if (entity == null) return null;
-                var obj = this.traversalQuery(entity.Sbj_PID, datas);
-                if (obj == null) return arr;
-                arr.splice(0, 0, obj.Sbj_ID);
-                arr = this.getParentPath(obj, datas, arr);
-                return arr;
-            },
-            //从树中遍历对象
-            traversalQuery: function (sbjid, datas) {
-                var obj = null;
-                for (let i = 0; i < datas.length; i++) {
-                    const d = datas[i];
-                    if (d.Sbj_ID == sbjid) {
-                        obj = d;
-                        break;
-                    }
-                    if (d.children && d.children.length > 0) {
-                        obj = this.traversalQuery(sbjid, d.children);
-                        if (obj != null) break;
-                    }
-                }
-                return obj;
+                }).finally(() => th.loading = false);
             },
             btnEnter: function (formName) {
                 var th = this;
@@ -169,7 +91,7 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            var obj = th.clone(th.entity);
+                            var obj = th.clone(th.entity);                          
                             //接口参数，如果有上传文件，则增加file
                             var para = { 'course': obj };
                             if (th.upfile != null) para['file'] = th.upfile;
@@ -213,10 +135,7 @@
                     const index = props.findIndex(item => item == k);
                     if (index >= 0) obj[k] = entity[k];
                 }
-                obj['Cou_ID'] = this.id;
-                //课程专业id
-                if (this.sbjSelects.length > 0)
-                    obj.Sbj_ID = this.sbjSelects[this.sbjSelects.length - 1];
+                obj['Cou_ID'] = this.id;               
                 return obj;
             },
             //调用父级方法

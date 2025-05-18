@@ -27,13 +27,8 @@
                             </help>
                         </el-form-item>
                         <el-form-item label="专业/学科" prop="Sbj_ID">
-                            <el-cascader style="width: 100%;" ref="subjects" v-model="sbjSelects" :options="subjects"
-                                separator="／" :props="defaultProps" filterable>
-                                <template slot-scope="{ node, data }">
-                                    <span class="serial">{{data.serial}}</span>
-                                    <span>{{ data.Sbj_Name }}</span>                                  
-                                  </template>
-                            </el-cascader>
+                            <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="course"
+                                @change="sbjd=>entity.Sbj_ID=sbjd"> </sbj_cascader>
                         </el-form-item>
                         <el-form-item label="状态" prop="Cou_IsUse" v-if="!teachpage">
 
@@ -68,39 +63,39 @@
                     </el-col>
                     <el-col :span="10">
                         <el-form-item label="" prop="Cou_Logo" label-width="0px">
-                        <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
-                            <template v-if="islogo">
-                                <img v-if="upfile!=null" :src="upfile.base64" />
-                                <img v-else :src="entity.Cou_Logo" />
+                            <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
+                                <template v-if="islogo">
+                                    <img v-if="upfile!=null" :src="upfile.base64" />
+                                    <img v-else :src="entity.Cou_Logo" />
 
-                                <el-link type="danger" class="remove" icon="el-icon-delete"
-                                    @click.stop="()=>{upfile=null;entity.Cou_Logo = entity.Cou_LogoSmall=''}">
-                                    清除图片</el-link>
-                            </template>
-                            <template v-else>
-                                <div class="nophoto">
-                                    <i class="el-icon-picture-outline"></i>
-                                    <span> 课程图片 </span>
-                                </div>
-                                <el-tooltip content="点击上传图片" placement="bottom" effect="light">
-                                    <div slot="content">
-                                        1、图片文件最大限1Mb<br />
-                                        2、图片格式限jpg、png、gif<br />
-                                        3、图形像素大小不限<br />
-                                        4、图片建议宽高比为16：9 <br />
+                                    <el-link type="danger" class="remove" icon="el-icon-delete"
+                                        @click.stop="()=>{upfile=null;entity.Cou_Logo = entity.Cou_LogoSmall=''}">
+                                        清除图片</el-link>
+                                </template>
+                                <template v-else>
+                                    <div class="nophoto">
+                                        <i class="el-icon-picture-outline"></i>
+                                        <span> 课程图片 </span>
                                     </div>
-                                    <icon class="photo_add">&#xe6ea</icon>
-                                </el-tooltip>
-                            </template>
-                            <help multi slot="help" v-if="!islogo">
-                                图像要求：<br />
-                                1、图片文件最大限1Mb<br />
-                                2、图片格式限jpg、png、gif<br />
-                                3、图形像素大小不限<br />
-                                4、图片建议宽高比为16：9 <br />
-                            </help>
-                        </upload-img>
-                    </el-form-item>
+                                    <el-tooltip content="点击上传图片" placement="bottom" effect="light">
+                                        <div slot="content">
+                                            1、图片文件最大限1Mb<br />
+                                            2、图片格式限jpg、png、gif<br />
+                                            3、图形像素大小不限<br />
+                                            4、图片建议宽高比为16：9 <br />
+                                        </div>
+                                        <icon class="photo_add">&#xe6ea</icon>
+                                    </el-tooltip>
+                                </template>
+                                <help multi slot="help" v-if="!islogo">
+                                    图像要求：<br />
+                                    1、图片文件最大限1Mb<br />
+                                    2、图片格式限jpg、png、gif<br />
+                                    3、图形像素大小不限<br />
+                                    4、图片建议宽高比为16：9 <br />
+                                </help>
+                            </upload-img>
+                        </el-form-item>
                     </el-col>
                 </el-row>
 
