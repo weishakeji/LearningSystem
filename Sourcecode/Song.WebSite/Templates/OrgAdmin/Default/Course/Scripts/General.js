@@ -31,7 +31,7 @@
                 th.organ = org.data.result;
                 th.admin = admin.data.result;
                 th.teacher = teach.data.result;
-                th.getEntity();
+                //th.getCourse();
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -65,7 +65,7 @@
         },
         methods: {           
             //获取课程实体
-            getEntity: function () {
+            getCourse: function () {
                 var th = this;
                 if (th.id == '' || th.id == null) return;
                 $api.put('Course/ForID', { 'id': th.id }).then(function (req) {

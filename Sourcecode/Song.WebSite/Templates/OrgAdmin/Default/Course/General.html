@@ -28,7 +28,7 @@
                         </el-form-item>
                         <el-form-item label="专业/学科" prop="Sbj_ID">
                             <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="course"
-                                @change="sbjd=>entity.Sbj_ID=sbjd"> </sbj_cascader>
+                                @change="sbjd=>entity.Sbj_ID=sbjd" @load="getCourse"> </sbj_cascader>
                         </el-form-item>
                         <el-form-item label="状态" prop="Cou_IsUse" v-if="!teachpage">
 

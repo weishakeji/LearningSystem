@@ -1,8 +1,8 @@
 //专业的级联选择器
 $dom.load.css(['/Utilities/Components/Styles/sbj_cascader.css']);
 //事件：
- //change:选项变量时,参数:当前专业id,当前专业id的路径数组
- //load:加载数据完成，参数:专业数据
+//change:选项变量时,参数:当前专业id,当前专业id的路径数组
+//load:加载数据完成，参数:专业数据
 Vue.component('sbj_cascader', {
     //sbjid:当前专业id
     //disabled:是否禁用
@@ -80,6 +80,7 @@ Vue.component('sbj_cascader', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
+                th.$emit('load', null);
                 console.error(err);
             }).finally(() => th.loading = false);
         },
