@@ -29,7 +29,7 @@ Vue.component('general', {
         },
         'organ': {
             handler: function (nv, ov) {
-                if (nv) this.getCourses();
+                //if (nv) this.getCourses();
             }, immediate: true
         },
         'course': {
@@ -173,7 +173,7 @@ Vue.component('general', {
             </el-form-item>
             <el-form-item label="专业" prop="Sbj_ID">
                 <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="course"  style="width: 50%;" 
-                    @change="changeSbj" :disabled="disable_select"> </sbj_cascader>              
+                    @change="changeSbj"  @load="getCourses()" :disabled="disable_select"> </sbj_cascader>              
             </el-form-item>
             <el-form-item label="课程" prop="Cou_ID">
                 <el-select v-model="couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;" 
