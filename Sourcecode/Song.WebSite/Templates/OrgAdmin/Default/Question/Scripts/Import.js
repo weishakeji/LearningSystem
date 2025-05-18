@@ -144,5 +144,4 @@ $ready(function () {
     });
 
 }, ["/Utilities/Components/upload-excel.js",
-    '/Utilities/Components/sbj_cascader.js',
     'Components/ques_type.js']);

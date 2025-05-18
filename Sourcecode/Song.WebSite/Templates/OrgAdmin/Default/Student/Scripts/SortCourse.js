@@ -1,5 +1,5 @@
 ﻿
-$ready(['/Utilities/Components/sbj_cascader.js'],
+$ready([],
     function () {
 
         window.vapp = new Vue({

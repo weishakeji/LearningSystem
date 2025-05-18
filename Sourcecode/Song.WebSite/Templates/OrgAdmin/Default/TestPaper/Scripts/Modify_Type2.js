@@ -280,8 +280,7 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/sbj_cascader.js',
-    'Components/ques_count.js',
+}, ['Components/ques_count.js',
     'Components/fromtype0.js',
     'Components/fromtype1.js',
     '../Question/Components/ques_type.js']);

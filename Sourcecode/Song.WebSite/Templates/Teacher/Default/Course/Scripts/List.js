@@ -6,7 +6,7 @@ $ready(function () {
             form:
             {
                 'orgid': '',
-                'sbjids': '', 'thid': '','use': '', 'live': '','free':'',
+                'sbjids': '', 'thid': '', 'use': '', 'live': '', 'free': '',
                 'search': '',
                 'order': 'new',
                 'size': 20, 'index': 1
@@ -287,6 +287,5 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/sbj_cascader.js',
-    'Components/course_data.js',
+}, ['Components/course_data.js',
     'Components/course_prices.js']);

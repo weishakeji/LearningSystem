@@ -1,6 +1,5 @@
 $ready([
     'Components/ques_type.js',
-    '/Utilities/Components/sbj_cascader.js'
 ], function () {
 
     window.vapp = new Vue({

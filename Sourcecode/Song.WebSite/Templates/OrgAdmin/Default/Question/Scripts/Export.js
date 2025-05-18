@@ -310,5 +310,4 @@ $ready(function () {
         },
     });
 
-}, ['Components/ques_type.js',
-    '/Utilities/Components/sbj_cascader.js']);
+}, ['Components/ques_type.js']);

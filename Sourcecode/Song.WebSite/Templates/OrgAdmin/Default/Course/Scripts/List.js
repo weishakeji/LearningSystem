@@ -371,7 +371,6 @@
         }
     });
 
-}, ['/Utilities/Components/sbj_cascader.js',
-    'Components/course_data.js',
+}, ['Components/course_data.js',
     'Components/course_income.js',
     'Components/course_prices.js']);
