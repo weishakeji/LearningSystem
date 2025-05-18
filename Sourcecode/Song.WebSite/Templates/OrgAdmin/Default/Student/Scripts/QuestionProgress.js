@@ -149,7 +149,7 @@ $ready(function () {
                     if (node.Ol_QuesCount) total += parseInt(node.Ol_QuesCount);
                     // 递归处理子节点
                     if (node.children && node.children.length > 0)
-                        total += calcTotalQuestionCount(node.children);
+                        total += this.calcQuescount(node.children);
                 }
                 return total;
             },
