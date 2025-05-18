@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -6,6 +7,12 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
+}
+
+a[disabled] {
+	pointer-events: none;
+	opacity: 0.6;
+	cursor: not-allowed;
 }
 
 /*不能考试的区域*/
@@ -73,7 +80,7 @@ html, body, #vapp {
 
 header {
 	height: 44px;
-	
+
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -117,7 +124,7 @@ header>div.title {
 
 footer {
 	height: 44px;
-	
+
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -169,6 +176,7 @@ attended {
 	position: relative;
 	transition: left 0.5s;
 }
+
 /*试题区*/
 
 section {
@@ -181,6 +189,7 @@ section {
 	position: relative;
 	transition: left 0.5s;
 }
+
 /*答题卡*/
 
 .quesCard {
@@ -189,7 +198,7 @@ section {
 
 .quesCard .cardTit {
 	height: 50px;
-	
+
 	font-size: 16px;
 	line-height: 50px;
 	box-sizing: border-box;
@@ -289,7 +298,7 @@ section {
 .submitState {
 	padding: 0px 20px 50px 20px;
 	width: 60%;
-	
+
 }
 
 .submitState .van-loading {
@@ -352,12 +361,12 @@ score.praise::before {
 /*预载*/
 
 .loading_paper {
-text-align: center;
+	text-align: center;
 	display: block;
-    width: 100%;
-    position: absolute;
+	width: 100%;
+	position: absolute;
 	top: 200px;
-    z-index: 10;
+	z-index: 10;
 }
 
 /*成绩提交成功*/
@@ -377,7 +386,8 @@ text-align: center;
 .submitSuccess>div.pager_total {
 	font-size: 14px;
 }
-.submitSuccess button{
+
+.submitSuccess button {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
