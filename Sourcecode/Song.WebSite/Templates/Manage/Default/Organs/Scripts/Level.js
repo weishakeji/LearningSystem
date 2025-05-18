@@ -18,6 +18,7 @@
                 th.loading = true;
                 $api.delete('Organization/LevelDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
+                        var result = req.data.result;
                         th.$notify({
                             type: 'success', center: true,
                             message: '成功删除' + result + '条数据'
