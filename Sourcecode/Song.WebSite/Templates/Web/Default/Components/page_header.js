@@ -127,7 +127,7 @@ Vue.component('page_header', {
             $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'main' }).then(function (req) {
                 if (req.data.success) {
                     th.menus = req.data.result;
-                    console.log(th.menus);
+                    //console.log(th.menus);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

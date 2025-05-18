@@ -108,15 +108,14 @@ Vue.component('largebutton', {
             <template v-else-if="canstudy || forever || course.Cou_IsFree">
                 <button @click="url('learn')">开始学习</button>
                 <button @click="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</button>
-            </template>      
-            <button v-else-if="course.Cou_IsFree" @click="url('learn')">开始学习</button>
+            </template>             
             <template v-else-if="course.Cou_IsLimitFree" remark="限时免费">
                 <button @click="url('learn')">开始学习</button>
                 <button @click="url('buy')" class="buy">选修该课程</button>
             </template>
             <template v-else-if="course.Cou_IsTry" remark="可以试学">
                 <button @click="url('learn')">试学</button>
-                <button @click="url('buy')"  class="buy">选修该课程</button>
+                <button @click="url('buy')" class="buy">选修该课程</button>
             </template>
             <button v-else @click="url('buy')" class="buy">选修该课程</button> 
         </template>
