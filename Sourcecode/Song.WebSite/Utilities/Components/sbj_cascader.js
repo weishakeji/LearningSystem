@@ -212,8 +212,9 @@ Vue.component('sbj_cascader', {
         },
     },
     template: `<div>
-        <loading v-if="loading">加载中...</loading>
-        <el-cascader v-else class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
+        <loading v-if="loading" bubble>加载中...</loading>
+        <el-cascader v-else class="sbj_cascader" ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" 
+            :disabled="disabled" popper-class="sbj_cascader-panel"
             :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">             
                 <span>{{data.serial}} {{ data.Sbj_Name }}</span>

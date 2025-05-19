@@ -1,13 +1,13 @@
-.el-cascader-node__label {
+.sbj_cascader-panel .el-cascader-node__label {
     display: flex;
     justify-content: space-between;
 }
 
-.el-cascader-node__label span {
+.sbj_cascader-panel .el-cascader-node__label * {
     color: #333;
 }
 /*专业后面的数字*/
-.el-cascader-node__label icon:last-child{
+.sbj_cascader-panel .el-cascader-node__label icon:last-child{
     margin: 3px 0px 0px 15px;
 }
 

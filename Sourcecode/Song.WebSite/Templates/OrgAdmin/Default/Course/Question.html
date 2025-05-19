@@ -19,8 +19,7 @@
                     <el-cascader style="width: 200px;" ref="outlines" v-model="olSelects" :options="outlines"
                         separator="／" :props="defaultProps" clearable filterable placeholder=" -- 章节 -- ">
                         <template slot-scope="{node,data}">
-                            <span class="ques_count"> {{data.serial}}</span>
-                            {{data.Ol_Name}}
+                            <span class="ques_count"> {{data.serial}} {{data.Ol_Name}}</span>                          
                             <span class="ques_count" v-if="data.Ol_QuesCount>0">
                                 ({{data.Ol_QuesCount}})
                             </span>
