@@ -108,7 +108,7 @@ $ready(function () {
             },
             //计算序号
             calcSerial: function (list, lvl) {
-                if  (!list) return list;
+                if (!list) return list;
                 for (let i = 0; i < list.length; i++) {
                     let node = list[i];
                     node.serial = lvl + (i + 1) + '.';
@@ -180,10 +180,10 @@ $ready(function () {
         data: function () {
             return {
                 menus: [
-                    { name: '错题回顾', url: 'Error', icon: '&#xe732', size: 30, show: true, evt: null },
-                    { name: '我的收藏', url: 'Collects', icon: '&#xe747', size: 29, show: true, evt: null },
-                    { name: '我的笔记', url: 'Notes', icon: '&#xa02e', size: 29, show: true, evt: null },
-                    { name: '高频错题', url: 'Often', icon: '&#xe75e', size: 30, show: true, evt: null }
+                    { name: '错题回顾', url: 'Error', icon: '&#xe732', color: '#E6A23C', size: 30, show: true, evt: null },
+                    { name: '我的收藏', url: 'Collects', icon: '&#xe747', color: '#67C23A', size: 29, show: true, evt: null },
+                    { name: '我的笔记', url: 'Notes', icon: '&#xa02e', color: '#409EFF', size: 29, show: true, evt: null },
+                    { name: '高频错题', url: 'Often', icon: '&#xe75e', color: '#F56C6C', size: 30, show: true, evt: null }
                 ]
             }
         },
@@ -197,7 +197,7 @@ $ready(function () {
             }
         },
         template: `<div class="mainmenu">           
-                    <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
+                    <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)" :style="{color: m.color}">
                         <icon v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
                     </div> 
