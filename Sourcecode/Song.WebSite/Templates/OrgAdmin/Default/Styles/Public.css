@@ -314,5 +314,5 @@ a[download]:hover {
 }
 
 .el-input input[type='number'] {
-	padding: 5px 0px 5px 15px !important;
+	padding: 5px 0px 5px 15px;
 }
