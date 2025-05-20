@@ -13,34 +13,72 @@
     box-sizing: border-box;
 }
 
-/*第一排按钮*/
 card-context {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
-.first-row{
-    display: flex;
+
+/*第一排按钮*/
+card.first card-context {
+    display: block;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.first-row {
+    display: flex;
+    flex-direction: column;
+}
+
 .first-row>div {
     margin: 10px;
 }
-.last-row{
+
+.first-row>div {
+    display: flex;
+}
+
+.first-row>div>* {
+    flex: 1;
+}
+.recharge{
+    display: flex;
+}
+.recharge .van-tag {
+    padding: 5px 12px;
+}
+.recharge .van-tag:not(:last-child) {
+    margin-right: 10px; 
+} 
+.money{
+    color: #ee0a24;
+}
+icon[coupon]{
+    color: #07c160;
+}
+icon[point]{
+    color: #1989fa;
+}
+
+.last-row {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-.last-row>div{
+
+.last-row>div {
     margin: 0px 10px;
 }
-card-context>div{
+
+card-context>div {
     margin: 10px;
 }
-card-title icon{
+
+card-title icon {
     font-size: 26px;
 }
-.nolink{
+
+.nolink {
     color: #ccc;
 }

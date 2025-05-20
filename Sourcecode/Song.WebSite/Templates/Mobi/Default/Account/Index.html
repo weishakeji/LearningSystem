@@ -18,14 +18,23 @@
                 <card class="first" shadow="never">
                     <card-context>
                         <div class="first-row">
-                            <div @click="navigateTo('../Money/Details')">
-                                资金：<icon money>{{account.Ac_Money}} 元</icon>
+                            <div>
+                                <div class="money" @click="navigateTo('../Money/Details')">
+                                   <icon money>{{account.Ac_Money}} 元</icon>
+                                </div>
+                                <div class="recharge">
+                                    <van-tag type="warning" @click="navigateTo('../Money/Details')">资金详情</van-tag>       
+                                    <van-tag type="success" @click="navigateTo('../Recharge/index')">
+                                        <icon money>充值 </icon>
+                                    </van-tag>                                                              
+                                </div>
                             </div>
-                            <div @click="navigateTo('../Point/index')">
-                                积分<icon point>{{account.Ac_Point}} 个</icon>
-                            </div>                            
+                            <div> 
+                                <icon coupon @click="navigateTo('../Coupon/index')"> 券 {{account.Ac_Coupon}} 个</icon>
+                                <icon point @click="navigateTo('../Point/index')"> 积分 {{account.Ac_Point}} 个</icon>
+                            </div>
                         </div>
-                     
+
                     </card-context>
                 </card>
                 <card shadow="never" v-for="(item,index) in items">
