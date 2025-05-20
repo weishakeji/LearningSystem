@@ -86,12 +86,6 @@ $ready(function () {
             }
         },
         methods: {
-            login: function () {
-                window.navigateTo(this.commonaddr('signin'));
-            },
-            myself: function () {
-                window.navigateTo("/mobi/account/myself");
-            },
             //初始化学习卡号，当扫码时，会带参数跳转到这里
             init_code: function () {
                 var code = $api.querystring('code');

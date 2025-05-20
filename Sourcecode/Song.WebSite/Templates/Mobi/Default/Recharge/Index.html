@@ -31,7 +31,7 @@
                             <div class="acc_photo man" v-else></div>
                         </template>
                         <div class="accInfo">
-                            <div class="acc-name" @click="gourl('/mobi/account/myself')"><span
+                            <div class="acc-name" @click="navigateTo(commonaddr('myself'))"><span
                                     v-html="account.Ac_Name"></span>
                                 <span class="acc-acname" v-html="account.Ac_AccName"></span>
                             </div>

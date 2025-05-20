@@ -41,12 +41,6 @@ $ready(function () {
             },
         },
         methods: {
-            login: function () {
-                window.navigateTo(this.commonaddr('signin'));
-            },
-            myself: function () {
-                window.navigateTo("/mobi/account/myself");
-            },
             //选项卡切换,index没有用，title为选项卡标识，作为排序类型用
             tabChange: function (index, title) {
                 this.query.index = 0;

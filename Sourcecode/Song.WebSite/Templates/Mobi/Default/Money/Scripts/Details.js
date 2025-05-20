@@ -79,12 +79,6 @@ $ready(function () {
             },
         },
         methods: {
-            login: function () {
-                window.navigateTo(this.commonaddr('signin'));
-            },
-            myself: function () {
-                window.navigateTo("/mobi/account/myself");
-            },
             toRecharge: function () {
                 var url = "/mobi/Recharge/index";
                 window.navigateTo(url);

@@ -1,0 +1,59 @@
+﻿.ws_avatar {
+    margin-right: 20px;
+    float: left;
+    background-size: cover;
+    box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+    transition: all 0.2s;
+}
+
+.header_info {
+    box-sizing: border-box;
+    padding: 20px;
+    height: 90px;
+    display: flex;
+    justify-content: left
+}
+
+.accInfo {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.accInfo icon {
+    font-size: 20px;
+}
+
+.accInfo icon::before {
+    font-size: 22px;
+}
+
+.accInfo .acc-acname {
+    line-height: 40px;
+    font-size: 14px;
+    color: #999;
+}
+
+.header_info>*:last-child {
+    flex: 1;
+}
+
+.header_info .navi {
+    text-align: right;
+    position: relative;
+}
+.header_info .navi icon{
+    font-size: 30px;
+    color: #999;
+    position: absolute;
+    right: -10px;
+    bottom: 0px;
+    margin: 0px;
+}
+.header_info .navi icon.back{
+    right: 0px;
+    font-size: 30px;
+}
+button{
+    min-width: 80px;
+}

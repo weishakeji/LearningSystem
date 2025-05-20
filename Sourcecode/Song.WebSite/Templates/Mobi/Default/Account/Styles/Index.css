@@ -1,0 +1,46 @@
+﻿@charset "utf-8";
+
+.context {
+    height: calc(100% - 70px);
+    position: relative;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.context>.van-button {
+    margin: 0px 15px 15px 15px;
+    width: calc(100% - 30px);
+    box-sizing: border-box;
+}
+
+/*第一排按钮*/
+card-context {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.first-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.first-row>div {
+    margin: 10px;
+}
+.last-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.last-row>div{
+    margin: 0px 10px;
+}
+card-context>div{
+    margin: 10px;
+}
+card-title icon{
+    font-size: 26px;
+}
+.nolink{
+    color: #ccc;
+}

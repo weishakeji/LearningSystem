@@ -14,6 +14,8 @@
         //加载vue组件
         arr.push($dom.path() + 'Components/footer_menu.js');
         arr.push($dom.path() + 'Components/aside_menu.js');
+          //头像组件
+          arr.push('/Utilities/Components/avatar.js');
         //通用组件，用于获取学员登录，机构信息等
         arr.push($dom.path() + 'Components/generic.js');
         //增加试题相关组件
@@ -104,7 +106,7 @@
         Vue.prototype.commonaddr = function (key) {
             var urls = {
                 'signin': '/mobi/sign/in',      //登录地址
-                'myself': '/mobi/account/myself'        //个人中心
+                'myself': '/mobi/account/index'        //个人中心
             };
             if (urls[key] == undefined) return '';
             return $api.url.set(urls[key], {

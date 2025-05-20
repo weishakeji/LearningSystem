@@ -65,15 +65,7 @@ $ready(function () {
                 this.checked = true;
             }
         },
-        methods: {
-            login: function () {
-                var url = $api.url.set(this.commonaddr('signin'), {});
-                window.navigateTo(url);
-            },
-            myself: function () {
-                var url = $api.url.set("/mobi/account/myself", {});
-                window.navigateTo(url);
-            },
+        methods: {      
             godetails: function () {
                 var url = $api.url.set("details", {});
                 window.navigateTo(url);

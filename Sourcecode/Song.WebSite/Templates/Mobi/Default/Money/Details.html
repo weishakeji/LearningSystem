@@ -15,7 +15,7 @@
         </van-sticky>
         <div class="header">
             <van-row>
-                <div class="header_info" v-if="!islogin" remark="未登录" @click="login">
+                <div class="header_info" v-if="!islogin" remark="未登录"  @click="navigateTo(commonaddr('signin'))">
                     <div class="acc_photo nophoto"></div>
                     <div class="accInfo">
                         <div class="acc-name">未登录
@@ -23,7 +23,7 @@
                         <span class="acc-money"> ... </span>
                     </div>
                 </div>
-                <div class="header_info" v-if="islogin" remark="已经登录" @click="myself">
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="navigateTo(commonaddr('myself'))">
                     <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
                         :style="'background-image: url('+account.Ac_Photo+');'"></div>
                     <template v-else>

@@ -89,10 +89,9 @@ Vue.component('aside_menu', {
         },
         //编辑个人信息
         goself: function () {
-            window.navigateTo('/mobi/account/myself');
+            window.navigateTo(this.commonaddr('myself'));        
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: `<van-popup v-model="show" position="right" :style="{ height: '100%' }" id="aside_menu">
             <div class="aside_menu">
                 <div class="account_info" v-if="!islogin" remark="未登录">

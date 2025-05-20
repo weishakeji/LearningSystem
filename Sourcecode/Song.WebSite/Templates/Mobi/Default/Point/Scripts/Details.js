@@ -60,14 +60,6 @@ $ready(function () {
         watch: {
         },
         methods: {
-            login: function () {
-                var url = this.commonaddr('signin');
-                window.navigateTo(url);
-            },
-            myself: function () {
-                var url = $api.url.set("/mobi/account/myself", {});
-                window.navigateTo(url);
-            },
             onload: function () {
                 var th = this;
                 if (!th.islogin) {

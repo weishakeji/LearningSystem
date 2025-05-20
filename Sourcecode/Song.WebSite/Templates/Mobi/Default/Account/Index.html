@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>个人中心</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+
+                <card class="first" shadow="never">
+                    <card-context>
+                        <div class="first-row">
+                            <div @click="navigateTo('../Money/Details')">
+                                资金：<icon money>{{account.Ac_Money}} 元</icon>
+                            </div>
+                            <div @click="navigateTo('../Point/index')">
+                                积分<icon point>{{account.Ac_Point}} 个</icon>
+                            </div>                            
+                        </div>
+                     
+                    </card-context>
+                </card>
+                <card shadow="never" v-for="(item,index) in items">
+                    <card-title>
+                        <icon v-html="'&#x'+item.icon">&x{{item.icon}}</icon>
+                        <span>{{item.name}}</span>
+                    </card-title>
+                    <card-context>
+                        <div v-for="(m,idx) in item.items" @click="navigateTo(m.url)" :class="{'nolink':m.url==''}">
+                            <icon v-html="'&#x'+m.icon">&x{{m.icon}}</icon>
+                            {{m.name}}
+                        </div>
+                    </card-context>
+                </card>
+                <van-button type="default" @click="logout">退出登录</van-button>
+            </template>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+</body>
+
+</html>
