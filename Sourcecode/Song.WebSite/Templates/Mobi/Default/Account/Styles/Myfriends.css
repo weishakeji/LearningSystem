@@ -11,6 +11,11 @@ html, body, #vapp {
 #vapp {
 	overflow-y: auto;
 }
+.goback{
+	color: #fff;
+	margin: 5px 0px 0px 10px;
+	font-size: 22px;
+}
 
 .van-sticky {
 	display: none;
@@ -29,11 +34,10 @@ html, body, #vapp {
 }
 
 .header {
-	height: 150px;
+	height: 200px;
 	width: 100%;
 	background-color: #069;
 	position: relative;
-	padding-top: 50px;
 	background-image: url(../Images/MyFriends.jpg);
 	background-repeat: no-repeat;
 	background-size: 100%;

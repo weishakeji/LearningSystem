@@ -10,15 +10,15 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+       
         <van-sticky>
-
             <icon>&#xe635</icon>我的朋友
             <div class="btnHelp" @click="showHelp">
                 <icon>&#xa026</icon>说明
             </div>
-
         </van-sticky>
         <div class="header">
+            <a href="#" icon="&#xe727" class="goback" onclick="window.history.back(-1);"></a>
             <div class="btnHelp"  @click="showHelp">
                 <icon>&#xa026</icon>说明
             </div>

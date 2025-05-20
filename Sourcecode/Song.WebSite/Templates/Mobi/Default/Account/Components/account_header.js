@@ -18,11 +18,12 @@ Vue.component('account_header', {
     mounted: function () { },
     methods: {
         goback: function () {
+            let url = this.commonaddr('myself');
             this.$dialog.confirm({
                 title: '返回个人中心',
                 message: '是否继续？',
             }).then(function () {
-                window.navigateTo(this.commonaddr('myself'));               
+                window.navigateTo(url);
             }).catch(function () { });
         }
     },

@@ -12,33 +12,9 @@
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
         <div class="context" v-else>
-            <van-sticky>
-                <div class="header_info" v-if="!islogin" remark="未登录">
-                    <div class="acc_photo nophoto"></div>
-                    <div class="accInfo">
-                        <div class="acc-name"> <a :href="commonaddr('signin')">未登录 </a>
-                        </div>
-                        <span class="acc-money"> ... </span>
-                    </div>
-                </div>
-                <div class="header_info" v-if="islogin" remark="已经登录">
-                    <header>
-                        <a href="#" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
-                        <a href="/mobi/" icon="&#xa020"></a>
-                    </header>
-                    <avatar :account="account" circle="true" size="60"></avatar>
-                    <div class="accInfo">
-                        <div class="acc-name">
-                            <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
-                            <span v-else>（没有名字）</span>
-                        </div>
-                        <span class="acc-acname">{{account.Ac_AccName}}</span>
-
-                    </div>
-                </div>
-            </van-sticky>
+            <account_header :account="account"></account_header>
             <template v-if="islogin">
-                <card>
+                <card shadow>
                     <card-title>
                         <icon>&#xe66d</icon>手机号绑定
                     </card-title>
@@ -118,7 +94,7 @@
             </card>
 
         </div>
-        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
         <footer_menu ref='footer_menu' :organ="org"></footer_menu>
     </div>
 

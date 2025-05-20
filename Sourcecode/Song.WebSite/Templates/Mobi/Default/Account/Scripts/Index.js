@@ -26,10 +26,10 @@ $ready(function () {
                     ]
                 },
                 {
-                    name: '其它', icon: 'e808', url: '/Account/Wallet', items: [
+                    name: '其它', icon: 'e808', url: '', items: [
                         { name: '问题反馈', icon: 'e84e', url: '' },
                         { name: '登录日志', icon: 'a01d', url: 'Loginlog' },
-                        { name: '分享', icon: 'e690', url: '' },
+                        { name: '分享', icon: 'e690', url: '/mobi/Account/Myfriends' },
                     ]
                 }
             ],

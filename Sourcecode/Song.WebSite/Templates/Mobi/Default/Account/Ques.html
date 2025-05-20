@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>安全问题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe76a</icon>安全问题
+                    </card-title>
+                    <card-context>
+                        <van-collapse v-model="activeNames">
+                           
+                            <van-cell>
+                                <van-field v-model="account.Ac_Qus" label="问题" />
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Ans" label="答案" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <van-button size="small" type="primary" style="float: right;" @click="update">确 定
+                                </van-button>
+                            </van-cell>
+                        </van-collapse>
+                    </card-context>
+                </card>          
+            </template>          
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

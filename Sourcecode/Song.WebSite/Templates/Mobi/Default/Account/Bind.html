@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>第三方平台账号绑定</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow>
+                    <config ref="config" class="config"  :isuse="true" :disabled="false">
+                        <div slot="item" class="row" :disabled="!data.item.obj.Tl_IsUse" slot-scope="data">
+                            <img :src="data.img" />
+                            <div class="name" v-if="!isbind(data.item.tag)">
+                                <template v-if="data.item.obj.Tl_Name!=null">
+                                    {{data.item.obj.Tl_Name}}
+                                    <span class="tagname">({{data.item.name}})</span>
+                                </template>
+                                <template v-else>
+                                    {{data.item.name}}
+                                </template>
+                            </div>
+                            <div class="name" v-else>
+                                <span class="tagname"> {{data.item.obj.Tl_Name}}({{data.item.name}})</span>
+                                <thirdparty :account="account" :tag="data.item.tag"></thirdparty>
+                            </div>
+                            <loading v-if="loading_bind=='data.item.tag'"></loading>
+                            <div class="btns" v-else>
+
+                                <van-button type="warning" v-if="isbind(data.item.tag)"
+                                    @click="cancelbind(data.item.tag)">
+                                    <icon style="font-size:12px">&#xe6fe</icon>取消
+                                </van-button>
+
+                                <van-button v-else type="primary" @click="$refs['config'].eventClick(data.item,2)">
+                                    <icon style="font-size:12px">&#xa030</icon>绑定
+                                </van-button>
+                            </div>
+                        </div>
+                        <div slot="null" class="row null">( 没有可用的第三方平台 )</div>
+                    </config>
+                </card>
+
+
+            </template>
+            <card v-else>
+                <van-cell is-link>
+                    <template #title>
+                        <a icon="&#xe84d" :href="commonaddr('signin')">点击此处登录</a>
+                    </template>
+                </van-cell>
+
+            </card>
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

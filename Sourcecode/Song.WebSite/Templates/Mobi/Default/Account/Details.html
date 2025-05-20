@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>个人信息</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xa02e</icon> 个人签名
+                    </card-title>
+                    <card-context>
+                        <van-collapse v-model="activeNames">
+                            <van-field v-model="account.Ac_Signature" type="textarea" placeholder="" @change="update">
+                            </van-field>
+                        </van-collapse>
+                    </card-context>
+                </card>
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe66a</icon> 基本信息
+                    </card-title>
+                    <card-context>
+                        <van-collapse v-model="activeNames">
+                            <van-collapse-item name="1">
+                                <template #title>
+                                    <span icon="&#xe804">姓名 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_Name}}
+                                </template>
+                                <van-cell-group>
+                                    <van-field v-model="account.Ac_Name" label="" placeholder="请输入姓名" @change="update">
+                                    </van-field>
+                                </van-cell-group>
+                            </van-collapse-item>
+                            <van-collapse-item name="2">
+                                <template #title>
+                                    <span icon="&#xe685">身份证 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_IDCardNumber}}
+                                </template>
+                                <van-cell-group>
+                                    <van-field v-model="account.Ac_IDCardNumber" label="" placeholder=""
+                                        right-icon="question-o" @click-right-icon="$toast('请输入身份证号')" @change="update">
+                                    </van-field>
+                                </van-cell-group>
+                            </van-collapse-item>  
+                            <van-collapse-item name="3">
+                                <template #title>
+                                    <span icon="&#xe804">性别 </span>
+                                </template>
+                                <template #value>
+                                    <span v-if="account.Ac_Sex==1" class="icon_man">男</span>
+                                    <span v-if="account.Ac_Sex==2" class="icon_woman">女</span>
+                                </template>
+                                <van-radio-group v-model="account.Ac_Sex" @change="update">
+                                    <van-cell-group>
+                                        <van-cell title="男" clickable @click="account.Ac_Sex = '1'">
+                                            <template #right-icon>
+                                                <van-radio name="1" />
+                                            </template>
+                                        </van-cell>
+                                        <van-cell title="女" clickable @click="account.Ac_Sex = '2'">
+                                            <template #right-icon>
+                                                <van-radio name="2" />
+                                            </template>
+                                        </van-cell>
+                                    </van-cell-group>
+                                </van-radio-group>
+                            </van-collapse-item>
+                            <van-collapse-item name="4">
+                                <template #title>
+                                    <span icon="&#xe82c">年龄 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_Age}} 岁
+                                </template>
+                                <van-field v-model="account.Ac_Age" type="digit" label="年龄" placeholder=""
+                                    right-icon="question-o" @click-right-icon="$toast('如果填写身份证号后，年龄会随身份证')"
+                                    @change="update" />
+                            </van-collapse-item>
+                        </van-collapse>
+
+                    </card-context>
+                </card>
+               
+
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe71a</icon> 联系方式
+                    </card-title>
+                    <card-context>
+                        <van-collapse v-model="activeNames">
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Qq" type="digit" label="QQ" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Email" label="邮箱" @change="update" />
+
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Tel" label="电话" @change="update" />
+                                </template>
+                            </van-cell>
+                        </van-collapse>
+                    </card-context>
+                </card>
+            </template>
+
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

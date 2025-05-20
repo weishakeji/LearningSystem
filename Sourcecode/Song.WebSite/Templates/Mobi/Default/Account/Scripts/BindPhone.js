@@ -200,4 +200,4 @@ $ready(function () {
         },
     });
 
-}, ['/Utilities/Components/avatar.js']);
+}, ['Components/account_header.js']);

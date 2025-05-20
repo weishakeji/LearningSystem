@@ -72,7 +72,6 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/avatar.js',
-    '/Utilities/OtherLogin/config.js',      //第三方登录的配置项
+}, ['/Utilities/OtherLogin/config.js',      //第三方登录的配置项
     '/Utilities/Components/Sign/Login.js'
 ]);

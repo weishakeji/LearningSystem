@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>登录日志</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe76a</icon>登录日志
+                    </card-title>
+                    <card-context>
+
+
+
+                        <van-cell v-for="(item, index) in datas" :key="index">
+                            <div class="time">
+                                <span><icon>&#xe81a</icon>{{item.Lso_LoginTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+
+                                <span>{{timeclac(item.Lso_BrowseTime)}}</span>
+                            </div>
+                            <div>
+                                <icon v-if="item.Lso_Platform=='PC'">&#xe609;</icon>
+                                <icon v-if="item.Lso_Platform=='Mobi'">&#xe677;</icon>
+                                {{item.Lso_OS}} ({{item.Lso_Browser}})
+                            </div>
+
+                            <div>
+                                {{item.Lso_Info}}
+                                <template v-if="item.Lso_Source!=''">({{item.Lso_Source}})</template>
+                            </div>
+                            <div>
+                                {{address(item)}}
+                            </div>
+                        </van-cell>
+
+
+
+                    </card-context>
+                </card>
+            </template>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

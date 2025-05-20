@@ -1,0 +1,32 @@
+﻿.van-cell__title icon, .van-cell__title icon::before, .van-cell__title *[icon]:before {
+    font-size: 18px !important;
+}
+
+.van-loading {
+    text-align: center;
+    padding: 20px;
+}
+
+/*主体内容区*/
+
+.context {
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    left: 0px;
+    z-index: 1;
+}
+
+
+.van-cell {
+    font-size: 16px;
+}
+
+button {
+    min-width: 80px;
+}
+
+.van-cell__value {
+    white-space: nowrap;
+}

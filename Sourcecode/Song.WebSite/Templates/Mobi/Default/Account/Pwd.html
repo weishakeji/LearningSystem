@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>密码修改</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe613</icon> 密码修改
+                    </card-title>
+                    <card-context>
+                        <van-form @submit="changePw">
+                            <van-field v-model="password.oldpw" name="原密码" type="password" label="原密码" placeholder="原密码"
+                                :rules="[{ required: true, message: '请填写原密码' }]"></van-field>
+                            <van-field v-model="password.newpw" name="新密码" type="password" label="新密码" placeholder="新密码"
+                                :rules="[{ required: true, message: '请填写新密码' }]"></van-field>
+                            <van-field v-model="password.newpw2" name="新密码" type="password" label="密码确认"
+                                placeholder="新密码" :rules="[{ required: true, message: '请确认密码' },
+                                { validator: function(){
+                                    return password.newpw == password.newpw2;
+                                }, message: '请输入正确内容' }]">
+                            </van-field>
+                            <van-cell>
+                                <van-button size="small" type="primary" style="float: right;" native-type="submit">确 定
+                                </van-button>
+                            </van-cell>
+                        </van-form>
+                    </card-context>
+                </card>
+            </template>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

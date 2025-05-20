@@ -13,25 +13,7 @@ $ready(function () {
 
         },
         mounted: function () {
-            /*
-            var th = this;
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(([account, platinfo, organ])=> {
-                th.loading = false;
-                //获取结果
-                th.account = account.data.result;
-                if (th.account)
-                    th.account.Ac_Sex = String(th.account.Ac_Sex);
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-            }).catch(function (err) {
-                console.error(err);
-            });*/
+
         },
         created: function () {
 
@@ -125,4 +107,5 @@ $ready(function () {
             </template>
     </div>`
     });
-}, ['/Utilities/OtherLogin/config.js']);
+}, ['Components/account_header.js',
+    '/Utilities/OtherLogin/config.js']);
