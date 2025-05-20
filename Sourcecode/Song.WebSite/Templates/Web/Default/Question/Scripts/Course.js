@@ -131,6 +131,7 @@ $ready(function () {
             },
             //计算序号
             calcSerial: function (list, lvl) {
+                if  (!list) return list;
                 for (let i = 0; i < list.length; i++) {
                     let node = list[i];
                     node.serial = lvl + (i + 1) + '.';
