@@ -169,7 +169,7 @@ namespace Song.ViewData.Methods
         {
             try
             {
-                Business.Do<IAccounts>().CouponSingle(id);
+                Business.Do<IAccounts>().CouponDelete(id);
                 return true;
             }
             catch (Exception ex)

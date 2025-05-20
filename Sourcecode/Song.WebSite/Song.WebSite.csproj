@@ -383,6 +383,9 @@
     <Content Include="Templates\Mobi\Default\Account\Styles\Ques.css" />
     <Content Include="Templates\Mobi\Default\Components\generic.js" />
     <Content Include="Templates\Mobi\Default\Components\links.js" />
+    <Content Include="Templates\Mobi\Default\Coupon\Details.html" />
+    <Content Include="Templates\Mobi\Default\Coupon\Scripts\Details.js" />
+    <Content Include="Templates\Mobi\Default\Coupon\Styles\Details.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_float.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_footer.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_live.js" />

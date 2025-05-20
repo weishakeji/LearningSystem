@@ -4,14 +4,14 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />   
-    <title>积分明细</title>
+    <title>卡券详情</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
         <van-sticky>
-            <page_header title="积分明细" icon="&#xe88a" :fresh="true"></page_header>
+            <page_header title="卡券详情" icon="&#xe847" :fresh="true"></page_header>
         </van-sticky>
         <div class="header">
             <van-row>
@@ -24,12 +24,7 @@
                     </div>
                 </div>
                 <div class="header_info" v-if="islogin" remark="已经登录" @click="navigateTo(commonaddr('myself'))">
-                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
-                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
-                    <template v-else>
-                        <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
-                        <div class="acc_photo man" v-else></div>
-                    </template>
+                    <avatar :account="account" circle="true" size="58"></avatar>                   
                     <div class="acc-info">
                         <div class="acc-name"><span v-html="account.Ac_Name"></span>
                             <span class="acc-acname" v-html="account.Ac_AccName"></span>
@@ -61,16 +56,16 @@
                     <van-cell :border="false" class="row-box" @click="godetail(item)">
                         <template #title>
                             <div class="dates">
-                                <div>{{item.Pa_CrtTime|date('HH:mm')}}</div>
-                                <div>{{item.Pa_CrtTime|date('MM-dd')}}</div>
+                                <div>{{item.Ca_CrtTime|date('HH:mm')}}</div>
+                                <div>{{item.Ca_CrtTime|date('MM-dd')}}</div>
                             </div>
-                            <div :class="'ico type'+item.Pa_Type"></div>
+                            <div :class="'ico type'+item.Ca_Type"></div>
                             <div class="right_area">
 
                                 <money>
-                                    <span v-if="item.Pa_Type==1">-</span>
-                                    <span v-if="item.Pa_Type==2">+</span>
-                                    {{item.Pa_Value}}
+                                    <span v-if="item.Ca_Type==1">-</span>
+                                    <span v-if="item.Ca_Type==2">+</span>
+                                    {{item.Ca_Value}}
                                 </money>
                                 <div>{{remark(item)}}</div>
                             </div>
