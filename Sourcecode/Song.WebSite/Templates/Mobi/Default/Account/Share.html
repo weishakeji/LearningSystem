@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>我的朋友</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+       
+        <van-sticky>
+            <icon>&#xe635</icon>我的朋友
+            <div class="btnHelp" @click="showHelp">
+                <icon>&#xa026</icon>说明
+            </div>
+        </van-sticky>
+        <div class="header">
+            <a href="#" icon="&#xe727" class="goback" onclick="window.history.back(-1);"></a>
+            <div class="btnHelp"  @click="showHelp">
+                <icon>&#xa026</icon>说明
+            </div>
+            <div class="btnShare" @click="showShare">
+                <icon>&#xe690</icon>分享
+            </div>
+            <div class="btnFriend">好朋友<span v-html="friends">0</span>位，所有朋友<span v-html="friendsAll">0</span>位</div>
+        </div>
+        <div class="context-box">
+            <div class="context-tit">积分收益</div>
+            <div class="context-info">分享访问与分享注册的积分奖励</div>
+            <div class="context-number">
+                <icon>&#xe88a</icon>
+                <span v-html="earn.point"></span>
+            </div>
+        </div>
+        <div class="context-box">
+            <div class="context-tit">现金收益</div>
+            <div class="context-info">朋友以及朋友的朋友，在购买课程后给予的奖励</div>
+            <div class="context-number">
+                <icon>&#xe818</icon>
+                <span v-html="earn.money"></span>
+            </div>
+        </div>
+        <div class="context-box">
+            <div class="context-tit">卡券收益</div>
+            <div class="context-info">朋友以及朋友的朋友，在购买课程后给予的奖励</div>
+            <div class="context-number">
+                <icon>&#xe847</icon>
+                <span v-html="earn.coupon"></span>
+            </div>
+        </div>
+        <div class="share-box">
+            <div class="share-tit">
+                <icon>&#xe690</icon>分享二维码
+            </div>
+            <div class="share">
+                <div id="qrcode" class="qrcode"></div>
+
+                <div class="share-txt">
+                    您可以将二维码或当前页面的地址分享给您的朋友                 
+                </div>
+            </div>
+        </div>
+        <div class="help-box">
+            <div class="help-tit">
+                <icon>&#xa026</icon>说明
+            </div>
+            <div class="explain">
+                <dl>
+                    <dt>1、如何增加朋友？</dt>
+                    <dd>登录后分享链接或二维码，从分享链接中访问并注册的学员将作为您的朋友。</dd>
+                </dl>
+                <dl>
+                    <dt>2、如何分享？</dt>
+                    <dd>登录后分享任意链接，或从此界面获取分享二维码，分享到微信或其它任意平台。</dd>
+                </dl>
+                <dl>
+                    <dt>3、分享能赢取多少积分？</dt>
+                    <dd>转发分享，每访问一次<b v-html="param.SharePoint"></b>（每天最多<b v-html="param.SharePointMax"></b>）。</dd>
+                    <dd>从分享链接中每注册一名学员您会得到<b v-html="param.RegPoint"></b>（每天最多<b v-html="param.RegPointMax"></b>）。</dd>
+                </dl>
+                <dl>
+                    <dt>4、现金收益的计算</dt>
+                    <dd>
+                        <template v-if="profit==null"> 没有设置分润方案，您的任何朋友在购买课程时，都不对您给予现金奖励。
+                        </template>
+                        <template v-else>
+                            当您的朋友在购买课程时，他所消费的现金会有一部分给予您作为奖励，
+                            <span v-for="(p,i) in profit.items">
+                                <s>{{i+1}}级</s>关系的朋友奖励
+                                <s>{{p.Ps_Moneyratio}}%</s>现金；
+                            </span>
+                            该现金可以用来继续购买课程。
+                        </template>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>5、卡券收益的计算</dt>
+                    <dd>
+                        <template v-if="profit==null"> 没有设置分润方案，您的任何朋友在购买课程时，都不对您给予奖励。
+                        </template>
+                        <template v-else>
+                            当您的朋友在购买课程时，他所消费的卡券会有一部分给予您作为奖励，
+                            <span v-for="(p,i) in profit.items">
+                                <s>{{i+1}}级</s>关系的朋友奖励
+                                <s>{{p.Ps_Couponratio}}%</s>卡券；
+                            </span>
+                            该卡券可以用来继续购买课程。
+                        </template>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <van-popup v-model="show_help" class="show_box" id="show_help">          
+        </van-popup>
+        <van-popup v-model="show_share" class="show_box" id="show_share">          
+        </van-popup>
+        <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

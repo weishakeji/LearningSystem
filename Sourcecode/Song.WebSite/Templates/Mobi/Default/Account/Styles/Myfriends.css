@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -6,240 +7,131 @@ html, body, #vapp {
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
+	background-color: #fff;
 }
 
 #vapp {
 	overflow-y: auto;
 }
-.goback{
-	color: #fff;
-	margin: 5px 0px 0px 10px;
-	font-size: 22px;
-}
-
-.van-sticky {
-	display: none;
-}
-
-.van-sticky--fixed {
-	display: block;
-	width: calc(100% - 30px);
-	background-color: #333333;
-	color: #fff;
-	padding: 10px 15px;
-}
-
-.van-sticky--fixed .btnHelp {
-	float: right;
-}
 
 .header {
-	height: 200px;
+	height: 70px;
+	position: relative;
+	z-index: 1;
+	padding: 60px 20px 0px 20px;
+	overflow: hidden;
+}
+
+.header_info {
 	width: 100%;
-	background-color: #069;
+	height: 60px;
 	position: relative;
-	background-image: url(../Images/MyFriends.jpg);
-	background-repeat: no-repeat;
-	background-size: 100%;
 }
 
-.header>div {
-	color: #fff;
-	text-shadow: 0px 0px 5px #fff;
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
 }
 
-/*帮助说明按钮*/
-
-.header .btnHelp {
-	position: absolute;
-	right: 10px;
-	top: 5px;
-}
-
-/*分享按钮*/
-
-.header .btnShare {
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
-}
-
-/*我的朋友*/
-
-.header .btnFriend {
-	position: absolute;
-	left: 10px;
-	bottom: -1px;
-	background-color: #efeff4;
-	color: #333;
-	padding: 5px 30px 5px 15px;
-	background: linear-gradient(rgba(239, 239, 244, 0.3), rgba(239, 239, 244, 1));
-}
-
-.header .btnFriend span {
-	margin-left: 5px;
-	margin-right: 5px;
-	color: #060;
-}
-
-/*内容区*/
-
-.context-box {
-	margin: 12px 10px 0px 10px;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	background-color: #FFF;
-	padding: 10px;
+.header_info .accInfo {
+	width: calc(100% - 80px);
+	float: left;
+	line-height: 30px;
 	position: relative;
-	height: 80px;
-}
-
-.context-box .context-tit {
-	height: 30px;
-	margin-top: 2px;
-	font-size: 16px;
-}
-
-.context-box .context-info {
-	height: 20px;
-	font-size: 12px;
-	color: #999;
-}
-
-.context-box .context-number {
-	position: absolute;
-	right: 15px;
-	top: 15px;
-	font-size: 18px;
-}
-
-/*分享*/
-
-.share-box {
-	margin: 12px 10px 0px 10px;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	background-color: #FFF;
-	padding: 20px;
-	padding-top: 0px;
-	margin-bottom: 10px;
-	height: 180px;
-}
-
-.share-box .share-tit {
-	height: 40px;
-	line-height: 40px;
-	padding-top: 5px;
-	font-size: 16px;
-}
-
-.share-box .share-txt {
-	float: left;
-	margin-top: 20px;
-	max-width: 160px;
-	margin-left: 20px;
-}
-
-.share-box .qrcode {
-	float: left;
-	width: 120px;
-}
-
-.MsgBoxContext .share {
-	text-align: center;
-}
-
-.MsgBoxContext .qrcode {
-	float: none;
-	margin-left: auto;
-	margin-right: auto;
-	width: 120px;
-}
-
-.MsgBoxContext .share-txt {
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/*说明*/
-
-.help-box {
-	margin: 12px 10px 0px 10px;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	background-color: #FFF;
-	padding: 20px;
-	padding-top: 0px;
-	margin-bottom: 80px;
-}
-
-.explain {
-	margin-bottom: 20px;
-}
-
-.help-box .help-tit {
-	padding: 10px 0px;
-	font-size: 16px;
-}
-
-.explain * {
-	line-height: 25px;
 	color: #666;
 }
 
-.explain dl {
-	margin: 0px;
-	text-align: left;
+.acc-acname {
+	font-size: 14px;
+	margin: 0px 10px;
+}
+
+.acc-acname::before {
+	content: '(';
+}
+
+.acc-acname::after {
+	content: ')';
+}
+
+.header .van-row {
+	position: relative;
+}
+
+.header .van-row::after {
+	content: '\e72a';
+	font-family: webdesk_icon;
+	display: block;
+	width: 10px;
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	transform: rotate(180deg);
+	color: #fff;
+	z-index: -1;
+}
+
+.header .van-tag {
+	padding: 2px 8px;
+	margin-right: 10px;
+}
+
+.header .acc-money {
+	padding: 5px 0px;
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.header .acc-money span b {
+	font-size: 16px;
+	margin: 0px 10px;
+	font-weight: bold;
+	color: rgb(250, 46, 46);
+}
+
+.header .acc-money a {
+	line-height: 1;
+	display: inline-block;
+	padding: 3px 6px;
+	border-radius: 100px;
+	color: #fff;
+	height: 15px;
+	background-color: #007aff;
 	margin-top: 5px;
 }
-
-.explain dl dt {
-	margin: 0px;
-	text-align: left;
-	padding: 5px 0px;
+help{
+	box-sizing: border-box;
+	padding: 15px 10px 10px 40px;
+	display: block;
+}
+/*列表*/
+.van-cell__title {
+	display: flex;
+	box-sizing: border-box;
+	padding: 5px 0px 0px 20px;
 }
 
-.explain dl dd {
-	margin: 0px;
-	margin-left: 20px;
-	text-align: left;
-	line-height: 150%;
+.account {
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+	width: 160px;
 }
-
-.explain b, .explain s {
-	font-weight: normal;
-	color: #F60;
-	text-decoration: none;
+.account>*{
+	line-height: 25px !important;
 }
-
-.explain b:after {
-	content: "积分";
+.datainfo {
+	display: flex;	
+	flex-wrap: wrap;
+	width: 160px;
 }
-
-.show_box {
-	height: 65%;
-	width: 80%;
-}
-
-.show_box .help-box {
-	box-shadow: none;
-}
-.show_box .share-box {
-	box-shadow: none;	
-	
-}
-.show_box .qrcode{
-	text-align: center;
-	width: 100%;
-}
-.show_box .qrcode img{
-	margin: 0px auto;
-	width: 100%;
-}
-.show_box .share-box .share-txt {
-
-	margin: 20px;	
-	width: calc(100% - 40px);
-	max-width: calc(100% - 40px);
+.datainfo>*{
+	margin-left: 15px;
 }

@@ -19,7 +19,7 @@ html, body, #vapp {
 	position: relative;
 	z-index: 1;
 	padding: 60px 20px 0px 20px;
-	background: linear-gradient(rgba(147, 209, 255, 1), rgba(255, 255, 255, 1));
+	background: linear-gradient(rgb(255 216 147), rgba(255, 255, 255, 1));
 	overflow: hidden;
 }
 

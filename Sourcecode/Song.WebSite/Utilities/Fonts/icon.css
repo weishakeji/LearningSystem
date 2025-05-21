@@ -70,7 +70,10 @@ icon::before {
     font-family: "webdesk_icon" !important;
     margin-right: 5px;
 }
-
+/*带hide属性，则不显示图标*/
+icon[hide]::before {
+    display: none;
+}
 icon[size='huge']::before {
     font-size: 25px;
 }
