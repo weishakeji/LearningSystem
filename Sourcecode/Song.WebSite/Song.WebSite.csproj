@@ -349,6 +349,7 @@
     <Content Include="Templates\Mobi\Default\Account\Components\Styles\account_header.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\Styles\video_progress.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\video_progress.js" />
+    <Content Include="Templates\Mobi\Default\Account\Contact.html" />
     <Content Include="Templates\Mobi\Default\Account\Details.html" />
     <Content Include="Templates\Mobi\Default\Account\Images\MyFriends.jpg" />
     <Content Include="Templates\Mobi\Default\Account\Index.html" />
@@ -361,6 +362,7 @@
     <Content Include="Templates\Mobi\Default\Account\Ques.html" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Bind.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\BindPhone.js" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\Contact.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Details.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Loginlog.js" />
@@ -370,8 +372,11 @@
     <Content Include="Templates\Mobi\Default\Account\Scripts\OtherLogin.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Pwd.js" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Ques.js" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\Share.js" />
+    <Content Include="Templates\Mobi\Default\Account\Share.html" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Bind.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\BindPhone.css" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\Contact.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Details.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Loginlog.css" />
@@ -381,6 +386,7 @@
     <Content Include="Templates\Mobi\Default\Account\Styles\OtherLogin.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Pwd.css" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Ques.css" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\Share.css" />
     <Content Include="Templates\Mobi\Default\Components\generic.js" />
     <Content Include="Templates\Mobi\Default\Components\links.js" />
     <Content Include="Templates\Mobi\Default\Coupon\Details.html" />

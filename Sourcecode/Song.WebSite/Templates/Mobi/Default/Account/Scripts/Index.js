@@ -12,7 +12,7 @@ $ready(function () {
                 {
                     name: '基本信息', icon: 'e669', url: '', items: [
                         { name: '个人信息', icon: 'e66a', url: 'Details' },
-                        { name: '联系方式', icon: 'a047', url: 'Details' },
+                        { name: '联系方式', icon: 'a047', url: 'Contact' },
                         { name: '身份信息', icon: 'e68f', url: 'IDCardInfo' },
                         { name: '修改签名', icon: 'a02e', url: 'Details' },
                     ]

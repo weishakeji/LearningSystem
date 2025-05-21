@@ -45,6 +45,19 @@
                             </van-collapse-item>
                             <van-collapse-item name="2">
                                 <template #title>
+                                    <span icon="&#xe687">学员编号 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_CodeNumber}}
+                                </template>
+                                <van-cell-group>
+                                    <van-field v-model="account.Ac_CodeNumber" label="" placeholder=""
+                                        right-icon="question-o" @change="update">
+                                    </van-field>
+                                </van-cell-group>
+                            </van-collapse-item>  
+                            <van-collapse-item name="3">
+                                <template #title>
                                     <span icon="&#xe685">身份证 </span>
                                 </template>
                                 <template #value>
@@ -56,7 +69,7 @@
                                     </van-field>
                                 </van-cell-group>
                             </van-collapse-item>  
-                            <van-collapse-item name="3">
+                            <van-collapse-item name="4">
                                 <template #title>
                                     <span icon="&#xe804">性别 </span>
                                 </template>
@@ -79,7 +92,7 @@
                                     </van-cell-group>
                                 </van-radio-group>
                             </van-collapse-item>
-                            <van-collapse-item name="4">
+                            <van-collapse-item name="5">
                                 <template #title>
                                     <span icon="&#xe82c">年龄 </span>
                                 </template>
@@ -89,38 +102,36 @@
                                 <van-field v-model="account.Ac_Age" type="digit" label="年龄" placeholder=""
                                     right-icon="question-o" @click-right-icon="$toast('如果填写身份证号后，年龄会随身份证')"
                                     @change="update" />
+                            </van-collapse-item>             
+                            <van-collapse-item name="6">
+                                <template #title>
+                                    <span icon="&#xe61d">籍贯 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_Native}}
+                                </template>
+                                <van-cell-group>
+                                    <van-field v-model="account.Ac_Native" label=""  @change="update">
+                                    </van-field>
+                                </van-cell-group>
+                            </van-collapse-item>
+                            <van-collapse-item name="7">
+                                <template #title>
+                                    <span icon="&#xa04e">民族 </span>
+                                </template>
+                                <template #value>
+                                    {{account.Ac_Nation}}
+                                </template>
+                                <van-cell-group>
+                                    <van-field v-model="account.Ac_Nation" label=""  @change="update">
+                                    </van-field>
+                                </van-cell-group>
                             </van-collapse-item>
                         </van-collapse>
 
                     </card-context>
-                </card>
-               
+                </card>              
 
-                <card shadow="never">
-                    <card-title>
-                        <icon>&#xe71a</icon> 联系方式
-                    </card-title>
-                    <card-context>
-                        <van-collapse v-model="activeNames">
-                            <van-cell>
-                                <template>
-                                    <van-field v-model="account.Ac_Qq" type="digit" label="QQ" @change="update" />
-                                </template>
-                            </van-cell>
-                            <van-cell>
-                                <template>
-                                    <van-field v-model="account.Ac_Email" label="邮箱" @change="update" />
-
-                                </template>
-                            </van-cell>
-                            <van-cell>
-                                <template>
-                                    <van-field v-model="account.Ac_Tel" label="电话" @change="update" />
-                                </template>
-                            </van-cell>
-                        </van-collapse>
-                    </card-context>
-                </card>
             </template>
 
 
