@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>联系方式</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <account_header :account="account"></account_header>
+            <template v-if="islogin">              
+
+                <card shadow="never">
+                    <card-title>
+                        <icon>&#xe71a</icon> 联系方式
+                    </card-title>
+                    <card-context>
+                        <van-collapse v-model="activeNames">
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Qq" type="digit" label="QQ" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Weixin" label="微信" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Email" label="邮箱" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Tel" label="电话" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Address" label="住址" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_LinkMan" label="紧急联系人" @change="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_LinkManPhone" label="紧急电话" @change="update" />
+                                </template>
+                            </van-cell>
+                        </van-collapse>
+                    </card-context>
+                </card>
+            </template>
+
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="org"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>
