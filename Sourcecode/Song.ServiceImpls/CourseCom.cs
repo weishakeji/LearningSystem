@@ -529,15 +529,15 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
-            //if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
-            if (sbjid > 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                foreach (long l in list)
-                    wcSbjid.Or(Course._.Sbj_ID == l);
-                wc.And(wcSbjid);
-            }
+            if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
+            //if (sbjid > 0)
+            //{
+            //    WhereClip wcSbjid = new WhereClip();
+            //    List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+            //    foreach (long l in list)
+            //        wcSbjid.Or(Course._.Sbj_ID == l);
+            //    wc.And(wcSbjid);
+            //}
             if (thid > 0) wc.And(Course._.Th_ID == thid);
             if (isuse != null) wc.And(Course._.Cou_IsUse == (bool)isuse);
             if (isfree != null) wc.And(Course._.Cou_IsFree == (bool)isfree);
@@ -615,6 +615,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            //if (sbjid > 0) wc.And(Course._.Sbj_ID == sbjid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();

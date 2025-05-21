@@ -219,14 +219,6 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
             if (sbjid > 0) wc.And(TestPaper._.Sbj_ID == sbjid);
-            //if (sbjid > 0)
-            //{
-            //    WhereClip wcSbjid = new WhereClip();
-            //    List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-            //    foreach (long l in list)
-            //        wcSbjid.Or(TestPaper._.Sbj_ID == l);
-            //    wc.And(wcSbjid);
-            //}
             if (couid > 0) wc.And(TestPaper._.Cou_ID == couid);
             if (diff > 0) wc.And(TestPaper._.Tp_Diff == diff);
             if (isUse != null) wc.And(TestPaper._.Tp_IsUse == (bool)isUse);

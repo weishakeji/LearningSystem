@@ -381,29 +381,31 @@ namespace Song.ServiceImpls
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Desc).Select(fields)
                 .ToList<Questions>(count);
         }
+        /// <summary>
+        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <returns></returns>
         public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //if (olid > 0) wc.And(Questions._.Ol_ID == olid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list)
-                    wcSbjid.Or(Questions._.Ol_ID == l);
-                wc.And(wcSbjid);
-            }
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);           
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.Count<Questions>(wc);
         }
         /// <summary>
-        /// 统计试题数量
+        /// 统计试题数量，不包括专业或章节的下级试题数,只取当前层级
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid"></param>
@@ -419,23 +421,25 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            //专业
-            if (sbjid > 0 && couid <= 0 && olid <= 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
-                wc.And(wcSbjid);
-            }
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            ////专业
+            //if (sbjid > 0 && couid <= 0 && olid <= 0)
+            //{
+            //    WhereClip wcSbjid = new WhereClip();
+            //    List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+            //    foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+            //    wc.And(wcSbjid);
+            //}
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcOlid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
-                wc.And(wcOlid);
-            }
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            ////当前章节，以及当前章节之下的所有试题
+            //if (olid > 0)
+            //{
+            //    WhereClip wcOlid = new WhereClip();
+            //    List<long> list = Business.Do<IOutline>().TreeID(olid);
+            //    foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
+            //    wc.And(wcOlid);
+            //}
             //试题类型
             if (types.Length > 0)
             {
@@ -550,22 +554,6 @@ namespace Song.ServiceImpls
                 order = new OrderByClip("NEWID()");
             return Gateway.Default.From<Questions>().Where(wc).OrderBy(order).ToList<Questions>(count);
         }
-        ///// <summary>
-        ///// 为了获取章节下面的子章节中的试题，生成相关条件判断
-        ///// </summary>
-        ///// <param name="olid"></param>
-        ///// <returns></returns>
-        //private string _quesRandom_buildOlid(long olid)
-        //{
-        //    string sql = "";
-        //    Outline[] ols = Gateway.Default.From<Outline>().Where(Outline._.Ol_PID == olid).ToArray<Outline>();
-        //    foreach (Outline o in ols)
-        //    {
-        //        sql += " or Ol_ID=" + o.Ol_ID;
-        //        sql += _quesRandom_buildOlid(o.Ol_ID);
-        //    }
-        //    return sql;
-        //}
 
         public List<Questions> QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
         {

@@ -138,7 +138,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Questions> QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
         /// <summary>
-        /// 统计题库数量
+        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
@@ -150,7 +150,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse);
         /// <summary>
-        /// 统计试题数量
+        /// 统计试题数量，不包括专业或章节的下级试题数,只取当前层级
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid"></param>
