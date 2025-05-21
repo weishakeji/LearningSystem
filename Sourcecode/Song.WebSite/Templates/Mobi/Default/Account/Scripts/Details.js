@@ -34,17 +34,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     this.loading = false;
                     if ($api.isnull(nv)) return;
-                    this.account.Ac_Sex = String(nv.Ac_Sex);
-                    var th = this;
-                    $api.cache('Share/FriendAll:3', { 'acid': th.account.Ac_ID }).then(function (req) {
-                        if (req.data.success) {
-                            th.friendsAll = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    });
-                    
+                    this.account.Ac_Sex = String(nv.Ac_Sex); 
                 }, immediate: true
             },
         },

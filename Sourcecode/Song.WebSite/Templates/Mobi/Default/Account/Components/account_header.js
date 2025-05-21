@@ -39,7 +39,7 @@ Vue.component('account_header', {
        <template  v-else remark="已经登录">
             <avatar :account="account" circle="true" size="58"></avatar>
             <div class="accInfo">           
-                <icon :woman="account.Ac_Sex==2" :man="account.Ac_Sex==1">
+                <icon hide :woman="account.Ac_Sex==2" :man="account.Ac_Sex==1">
                     <span v-html='account.Ac_Name' v-if="account.Ac_Name!=''"></span>
                     <span v-else class="noname">(没有名字)</span>
                 </icon>
