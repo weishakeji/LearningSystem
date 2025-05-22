@@ -20,6 +20,7 @@ $ready(function () {
             //查询条件
             form: {
                 'subpath': 'QuestionToExcel',   //导出文件的路径，相对临时路径的子路径
+                'folder': $api.querystring('couid', '0'),
                 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '',
                 'couid': $api.querystring('couid', ''), 'olid': ''
             },
@@ -113,7 +114,9 @@ $ready(function () {
                     if (valid) {
                         th.loading_total = true;
                         let query = $api.clone(th.form);
+                        //去除不需要的参数
                         Reflect.deleteProperty(query, 'subpath');
+                        Reflect.deleteProperty(query, 'folder');
                         $api.get('Question/Total', query).then(req => {
                             if (req.data.success) {
                                 th.questotal = req.data.result;
@@ -282,7 +285,7 @@ $ready(function () {
                         th.getFiles();
                         th.$notify({
                             message: '文件删除成功！',
-                            type: 'success', position: 'bottom-right', duration: 2000
+                            type: 'success', position: 'bottom-left', duration: 2000
                         });
                     } else {
                         console.error(req.data.exception);
@@ -290,8 +293,8 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err)).finally(() => th.loading = false);
             },
-             //删除所有文件
-             deleteFileAll: function () {
+            //删除所有文件
+            deleteFileAll: function () {
                 var th = this;
                 th.loading = true;
                 $api.delete('Question/ExcelDeleteAll', { 'couid': th.couid, 'subpath': th.form.subpath }).then(function (req) {

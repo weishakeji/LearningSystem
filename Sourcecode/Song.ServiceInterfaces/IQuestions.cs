@@ -265,6 +265,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 导出试题
         /// </summary>
+        /// <param name="folder"></param>
         /// <param name="orgid">所属机构</param>
         /// <param name="type">试题类型，如单选，多选等,如1,2这样的字符串来表示</param>
         /// <param name="sbjid">专业id</param>
@@ -279,6 +280,7 @@ namespace Song.ServiceInterfaces
         /// 导出试题,生成文件
         /// </summary>
         /// <param name="subpath">导出文件的路径（服务器端），相对临时路径的子路径</param>
+        /// <param name="folder">导出的文件夹，相对于subpath，更深一级</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
@@ -288,7 +290,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        JObject QuestionsExportExcel(string subpath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）

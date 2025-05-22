@@ -248,6 +248,7 @@ namespace Song.ViewData.Methods
         /// 导出试题
         /// </summary>
         /// <param name="subpath">导出文件的路径，相对临时路径的子路径</param>
+        /// <param name="folder">导出的文件夹，相对于subpath，更深一级</param>
         /// <param name="types">题型</param>
         /// <param name="diffs">难度</param>
         /// <param name="part">导出方式，1导出所有，2导出正常的试题，没有错误，没有用户反馈说错误的，3导出状态为错误的试题，导出用户反馈说错误的试题</param>
@@ -256,17 +257,17 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public JObject ExcelExport(string subpath, string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
+        public JObject ExcelExport(string subpath,string folder, string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
             JObject jo = null;
             //导出所有
-            if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, orgid, types, sbjid, couid, olid, diffs, null, null);
+            if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, null);
             //导出正常的试题，没有错误，没有用户反馈说错误的
-            if (part == 2) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, orgid, types, sbjid, couid, olid, diffs, false, false);
+            if (part == 2) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, false, false);
             //导出状态为错误的试题
-            if (part == 3) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, orgid, types, sbjid, couid, olid, diffs, true, null);
+            if (part == 3) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, true, null);
             //导出用户反馈说错误的试题
-            if (part == 4) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, orgid, types, sbjid, couid, olid, diffs, null, true);
+            if (part == 4) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, true);
             return jo;
         }
         /// <summary>
@@ -307,7 +308,7 @@ namespace Song.ViewData.Methods
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             //if (couid == "0" || string.IsNullOrEmpty(couid)) couid = "*";
-            string[] patterns = new[] { $"*.{couid}.xls", $"*.{couid}.zip" };
+            string[] patterns = new[] { $"*.xls", $"*.zip" };
             List<FileInfo> files = new List<FileInfo>();
             foreach (var pattern in patterns) files.AddRange(dir.GetFiles(pattern));
             files = files.OrderByDescending(f => f.CreationTime).ToList<FileInfo>();

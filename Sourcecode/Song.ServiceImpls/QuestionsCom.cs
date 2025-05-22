@@ -684,6 +684,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 导出试题
         /// </summary>
+        /// <param name="folder"></param>
         /// <param name="orgid">所属机构</param>
         /// <param name="type">试题类型，如单选，多选等</param>
         /// <param name="sbjid">专业id</param>
@@ -747,7 +748,8 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
-        /// <param name="subpath">导出文件的路径</param>
+        /// <param name="subpath">导出文件的路径（服务器端），相对临时路径的子路径</param>
+        /// <param name="folder">导出的文件夹，相对于subpath，更深一级</param>
         /// <param name="orgid"></param>
         /// <param name="type"></param>
         /// <param name="sbjid"></param>
@@ -757,12 +759,13 @@ namespace Song.ServiceImpls
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        public JObject QuestionsExportExcel(string subpath, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             long snowid = WeiSha.Core.Request.SnowID();
             DateTime date = DateTime.Now;
+            if (string.IsNullOrWhiteSpace(folder)) folder = couid.ToString();
             //导出文件的位置
-            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, couid.ToString(), snowid.ToString());
+            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, folder,snowid.ToString());
             string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
 
             //导出Excel
@@ -787,12 +790,13 @@ namespace Song.ServiceImpls
             {
                 string zipfile = Path.Combine(parentFolder, Path.ChangeExtension(filename, ".zip"));
                 WeiSha.Core.Compress.ZipFiles(path, zipfile);
+                filename = zipfile;
             }
             Directory.Delete(path, true);
             //
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + folder + "/" + filename);
             jo.Add("date", date);
             return jo;
            
@@ -828,7 +832,7 @@ namespace Song.ServiceImpls
         /// <param name="total"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
-        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname,string folder, int total, int size, int index)
+        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
@@ -863,7 +867,7 @@ namespace Song.ServiceImpls
                 //题干
                 if (string.IsNullOrWhiteSpace(q.Qus_Title) || q.Qus_Title.Length <= _excel_field_max_length)
                     row.CreateCell(1).SetCellValue(q.Qus_Title);
-                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID,0, "Qus_Title", folder, q.Qus_Title));
+                else row.CreateCell(1).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Title", folder, q.Qus_Title));
                 //专业,课程,章节
                 if (string.IsNullOrWhiteSpace(sbjname)) sbjname = Business.Do<ISubject>().SubjectName(q.Sbj_ID);
                 row.CreateCell(2).SetCellValue(sbjname);
@@ -875,7 +879,7 @@ namespace Song.ServiceImpls
                 //解析
                 if (string.IsNullOrWhiteSpace(q.Qus_Explain) || q.Qus_Explain.Length <= _excel_field_max_length)
                     row.CreateCell(13).SetCellValue(q.Qus_Explain);
-                else row.CreateCell(13).SetCellValue(_build_text(q.Qus_ID,0, "Qus_Explain", folder, q.Qus_Explain));
+                else row.CreateCell(13).SetCellValue(_build_text(q.Qus_ID, 0, "Qus_Explain", folder, q.Qus_Explain));
 
                 i++;
             }
