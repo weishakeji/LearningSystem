@@ -1,6 +1,63 @@
-dl.quesArea{
+/*日间模式*/
+#vapp[view=day] {
+	/*前景、背景、卡片背景*/
+	--fg-color: #333;
+	--bg-color: #f2f2f2;
+	--card-bgcolor: rgb(255, 255, 255);
+	--card-border: rgb(227 227 227);
+	/*答对*/
+	--succ-border: rgb(194, 220, 247);
+	--succ-shadow: rgba(194, 220, 247, .8);
+	--succ-bgcolor: rgb(217, 236, 255);
+	/*答错*/
+	--error-border: #fcdcd5;
+	--error-shadow: rgb(241 205 205 / 80%);
+	--error-bgcolor: #FFECE8;
+}
+
+/*夜晚模式*/
+#vapp[view=night] {
+	/*前景、背景、卡片背景*/
+	--fg-color: #aaa;
+	--bg-color: #222;
+	--card-bgcolor: rgb(47 47 47);
+	--card-border: rgb(90 90 90);
+	/*答对*/
+	--succ-border: rgb(22 99 113);
+    --succ-shadow: rgb(39 108 111 / 80%);
+    --succ-bgcolor: rgb(5 61 65);
+	/*答错*/
+	--error-border: #814436;
+	--error-shadow: rgb(157 28 28 / 80%);
+	--error-bgcolor: #390f07;
+}
+
+/*护眼模式*/
+#vapp[view=cosy] {
+	/*前景、背景、卡片背景*/
+	--fg-color: #333;
+    --bg-color: #faf4e3;
+    --card-bgcolor: rgb(255 254 248);
+    --card-border: rgb(227 227 227);
+	/*答对*/
+	--succ-border: rgb(194, 220, 247);
+	--succ-shadow: rgba(194, 220, 247, .8);
+	--succ-bgcolor: rgb(217, 236, 255);
+	/*答错*/
+	--error-border: #fcdcd5;
+	--error-shadow: rgb(241 205 205 / 80%);
+	--error-bgcolor: #FFECE8;
+}
+
+*:not([noview], .el-drawer__open,.van-overlay) {
+	background-color: var(--bg-color) !important;
+	color: var(--fg-color)
+}
+
+dl.quesArea {
 	display: flex;
 }
+
 dl.quesArea dd {
 	height: 100%;
 	line-height: 150%;
@@ -63,7 +120,7 @@ dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-ti
 }
 
 dl.quesArea dd card-title {
-	word-break:normal;
+	word-break: normal;
 }
 
 .explain, .explain p, .explain span, .explain font,
@@ -72,27 +129,46 @@ dl.quesArea dd card-title {
 	font-size: 18px;
 }
 
+/*未答题的样式*/
+dl.quesArea dd card[correct="null"], card[correct="null"] * {
+	background-color: var(--card-bgcolor) !important;
+}
+dl.quesArea dd card[correct="null"] {
+	border: 1px solid var(--card-border) !important;	
+}
+dl.quesArea dd card card-title {
+	border-bottom: 1px solid var(--card-border) !important;	
+}
 /*答对的样式*/
-dl.quesArea dd card[correct="succ"] {
+dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+	color: var(--fg-color) !important;
+}
 
-	border: 1px solid rgb(194, 220, 247) !important;
-	box-shadow: 0 2px 12px 0 rgba(194, 220, 247, .8) !important;
+dl.quesArea dd card[correct="succ"] {
+	border: 1px solid var(--succ-border) !important;
+	box-shadow: 0 2px 12px 0 var(--succ-shadow) !important;
 }
 
 dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
-	background: rgb(217, 236, 255) !important;
-	
+	background: var(--succ-bgcolor) !important;
+}
+
+dl.quesArea dd card[correct="succ"] card-title {
+	border-bottom: solid 1px var(--succ-border) !important;
 }
 
 /*答错的样式*/
 dl.quesArea dd card[correct="error"] {
-	border: 1px solid #fcdcd5 !important;
-	box-shadow: 0 2px 12px 0 rgb(241 205 205 / 80%) !important;
+	border: 1px solid var(--error-border) !important;
+	box-shadow: 0 2px 12px 0 var(--error-shadow) !important;
 }
 
 dl.quesArea dd card[correct="error"], card[correct="error"] * {
-	background-color: #FFECE8 !important;
-	color: #333 !important;
+	background-color: var(--error-bgcolor) !important;
+}
+
+dl.quesArea dd card[correct="error"] card-title {
+	border-bottom: solid 1px var(--error-border) !important;
 }
 
 dl.quesArea dd img {
@@ -241,22 +317,6 @@ dl.quesArea textarea {
 	float: right;
 	margin-right: 8px;
 }
-/*夜晚模式*/
-#vapp[view='night'] *:not([noview]) {
-	background-color: #222222;
-	color: #cecece;
-}
-#vapp[view='night'] dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
-	color: #333 !important;
-}
-/*护眼模式*/
-#vapp[view='cosy'] *:not([noview]) {
-	background-color: #eaf8ec;
-	color: #459651;
-}
-#vapp[view='cosy'] card{
-	border: 1px solid #91dd9c;
-}
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
@@ -264,7 +324,7 @@ dl.quesArea textarea {
 		overflow: hidden;
 	}
 
-	dl.quesArea dd {		
+	dl.quesArea dd {
 		height: 100%;
 	}
 

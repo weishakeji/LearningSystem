@@ -145,7 +145,7 @@ Vue.component('setupmenu', {
       }).catch(function () { });
     },
   },
-  template: `<el-drawer :visible.sync="show" :size="260" class="setup_show"  direction="rtl" remark="右上角菜单项" noview append-to-body>
+  template: `<el-drawer :visible.sync="show" :size="260" class="setup_show"  direction="rtl" remark="右上角菜单项" noview>
           <span slot="title">
             <icon>&#xa038</icon>设置项
           </span>         
