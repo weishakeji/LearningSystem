@@ -58,7 +58,7 @@
                 $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     if (req.data.success) {
                         th.datas = req.data.result;
-                        console.log(th.datas);
+                        //console.log(th.datas);
                         //获取默认展开的节点
                         var arr = $api.storage(th.expanded_storage);
                         if ($api.getType(arr) == 'Array') {
@@ -74,7 +74,7 @@
                 $api.cache('Outline/TreeList:clear', { 'couid': th.id });
             },
             //拖动节点改变顺序
-            handleDragEnd:function(draggingNode, dropNode, dropType, ev) {
+            handleDragEnd: function (draggingNode, dropNode, dropType, ev) {
                 var th = this;
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.datas);
@@ -236,9 +236,8 @@
                 this.close_fresh('vapp.freshrow("' + this.id + '")');
                 $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
                 var th = this;
-               
-                    th.getTreeData(false);
-              
+                th.getTreeData(false);
+
             },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {

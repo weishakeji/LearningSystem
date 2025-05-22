@@ -328,7 +328,7 @@ namespace Song.ViewData.Methods
 
         #region 查询
         /// <summary>
-        /// 计算有多少条试题
+        /// 计算有多少条试题，如果涉及专业或章节，只计算当前层级，不包括下级
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid">专业id</param>
@@ -341,6 +341,20 @@ namespace Song.ViewData.Methods
         public int Count(int orgid, long sbjid, long couid, long olid, int type, bool? use)
         {
             return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type,-1, use);
+        }
+        /// <summary>
+        /// 计算有多少条试题，如果涉及专业或章节，将计算所有下级的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="use">启用中的试题，null取所有</param>
+        /// <returns></returns>       
+        public int Total(int orgid, long sbjid, long couid, long olid, int type, bool? use)
+        {
+            return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, type, -1, use);
         }
         /// <summary>
         /// 计算有多少条试题

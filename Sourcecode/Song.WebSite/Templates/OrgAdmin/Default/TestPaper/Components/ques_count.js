@@ -25,7 +25,7 @@ Vue.component('ques_count', {
             var th = this;
             th.loading = true;
             var query = { 'orgid': '-1', 'sbjid': '-1', 'couid': th.couid, 'olid': th.olid, 'type': th.qtype, 'use': true };
-            $api.get('Question/Count', query).then(function (req) {
+            $api.get('Question/Total', query).then(function (req) {
                 if (req.data.success) {
                     th.count = req.data.result;
                 } else {

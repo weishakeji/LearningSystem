@@ -81,6 +81,7 @@ dl.quesArea dd card[correct="succ"] {
 
 dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	background: rgb(217, 236, 255) !important;
+	
 }
 
 /*答错的样式*/
@@ -240,15 +241,21 @@ dl.quesArea textarea {
 	float: right;
 	margin-right: 8px;
 }
-
+/*夜晚模式*/
 #vapp[view='night'] *:not([noview]) {
 	background-color: #222222;
 	color: #cecece;
 }
-
+#vapp[view='night'] dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+	color: #333 !important;
+}
+/*护眼模式*/
 #vapp[view='cosy'] *:not([noview]) {
 	background-color: #eaf8ec;
 	color: #459651;
+}
+#vapp[view='cosy'] card{
+	border: 1px solid #91dd9c;
 }
 
 /*竖屏，手机端显示*/

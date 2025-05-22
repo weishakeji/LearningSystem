@@ -164,6 +164,18 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int QuesOfCount(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong);
         /// <summary>
+        /// 统计题库数量，包含下级的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <returns></returns>
+        int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse);
+        /// <summary>
         /// 试题数量更新到机构、专业、课程、章节，方便展示
         /// </summary>
         /// <param name="orgid">机构id</param>

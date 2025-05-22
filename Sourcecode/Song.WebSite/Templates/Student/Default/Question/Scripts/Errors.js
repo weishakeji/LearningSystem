@@ -96,7 +96,7 @@ $ready(function () {
                     'pid': window.name,
                     'ico': 'e75e', 'min': false, 'max': false, 'resize': false,
                     'title': '错题回顾 - ' + cour.Cou_Name,
-                    'width': 800,
+                    'width': 1000,
                     'height': '80%'
                 }
                 window.top.vapp.open(obj);
