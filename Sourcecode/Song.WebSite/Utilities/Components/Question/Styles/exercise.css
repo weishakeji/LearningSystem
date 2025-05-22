@@ -2,7 +2,7 @@
 #vapp[view=day] {
 	/*前景、背景、卡片背景*/
 	--fg-color: #333;
-	--bg-color: #f2f2f2;
+	--bg-color: #f4f4f4;
 	--card-bgcolor: rgb(255, 255, 255);
 	--card-border: rgb(227 227 227);
 	/*答对*/

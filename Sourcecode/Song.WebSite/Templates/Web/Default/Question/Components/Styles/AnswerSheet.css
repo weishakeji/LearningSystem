@@ -29,8 +29,7 @@
 
 .answerSheet .sheet_title>span:first-child {
 	padding: 0px 20px;
-	font-size: 18px;
-	color: #333;
+	font-size: 17px;
 }
 
 .answerSheet .sheet_title>span:first-child::before {

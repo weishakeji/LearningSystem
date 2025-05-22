@@ -36,7 +36,7 @@
 }
 
 [view="day"] .view_model *[current] {
-	background-color: rgb(188 227 255);
+	background-color: rgb(188 227 255) !important;
 	color: #1f3eb1;
 }
 [view="night"] .view_model *[current] {
