@@ -49,7 +49,7 @@
 	--error-bgcolor: #FFECE8;
 }
 
-*:not([noview], .el-drawer__open,.van-overlay) {
+*:not([noview],.el-drawer__open,.van-overlay,.answerSheet dd) {
 	background-color: var(--bg-color) !important;
 	color: var(--fg-color)
 }

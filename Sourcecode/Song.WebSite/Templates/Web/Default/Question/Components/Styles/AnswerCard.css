@@ -88,11 +88,11 @@
 }
 
 .quesCard dd[correct="succ"] {
-	background-color: #E8FFE8;
+	background-color: #E8FFE8 !important;
 	color: rgb(0, 0, 0);
 }
 
 .quesCard dd[correct="error"] {
-	background-color: #ebab9f;
+	background-color: #ebab9f !important;
 	color: rgb(0, 0, 0);
 }

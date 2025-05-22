@@ -164,13 +164,13 @@
 
 .answerSheet dd[ans] {
 	background-color: rgb(25, 137, 250);
-	color: #fff;
+	
 }
 
 .answerSheet dd[correct="succ"] {
 	border: solid 1px rgb(102, 177, 255);
-	background-color: rgb(102, 177, 255);
-	color: #fff;
+	background-color: rgb(102, 177, 255);	
+	color: #fff !important;
 }
 
 .answerSheet dd[correct="error"] {
