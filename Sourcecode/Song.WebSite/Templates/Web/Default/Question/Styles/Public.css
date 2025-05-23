@@ -103,6 +103,10 @@ card-title.error a {
 	text-align: center;
 	line-height: 30px;	
 }
+.move_btn>*[disabled],.move_btn>*[disabled] *{
+	color: #ccc;
+	cursor: not-allowed;
+}
 .move_btn>a{
 	width: 40px;
 }

@@ -48,10 +48,12 @@
           </div>
         </div>
         <div class="move_btn" v-if="isques">
-          <span @click="$refs['quesarea'].swipe({ 'direction': 4 })">
+          <span @click="$refs['quesarea'].swipe({ 'direction': 4 })"
+            :disabled="$refs['quesarea'] ? $refs['quesarea'].isfirst : true">
             <icon>&#xe803</icon>上一题
           </span>
-          <span @click="$refs['quesarea'].swipe({ 'direction': 2 })">
+          <span @click="$refs['quesarea'].swipe({ 'direction': 2 })"
+            :disabled="$refs['quesarea'] ? $refs['quesarea'].islast : true">
             <icon>&#xe802</icon>下一题
           </span>
         </div>

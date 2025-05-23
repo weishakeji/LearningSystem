@@ -25,9 +25,8 @@ Vue.component('quesarea', {
         'ques': {
             handler(nv, ov) {
                 if ($api.isnull(nv) || this.list.length > 0) return;
-                this.list = Object.values(nv).flat();                
-            },
-            immediate: true
+                this.list = Object.values(nv).flat();
+            }, immediate: true
         },
         'mode': function (nv, ov) {
             console.log(nv);
@@ -51,7 +50,12 @@ Vue.component('quesarea', {
             }, immediate: true
         }
     },
-    computed: {},
+    computed: {
+        //是否处于第一道题
+        isfirst: t => t.index == 0,
+        //是否处于最后一道题
+        islast: t => t.index == t.list.length - 1
+    },
     mounted: function () { },
     methods: {
         //设置当前试题的id与索引

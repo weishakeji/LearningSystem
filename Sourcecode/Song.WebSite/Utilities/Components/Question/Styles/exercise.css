@@ -49,10 +49,14 @@
 	--error-bgcolor: #FFECE8;
 }
 
-*:not([noview], .el-drawer__open, .van-overlay, .answerSheet dd, .van-toast) {
+*:not([noview], .el-drawer__open, .van-overlay, .answerSheet dd,
+	.van-toast, .van-dialog, .ws_prompt_panel,
+	.el-message-box) {
 	background-color: var(--bg-color) !important;
 	color: var(--fg-color)
 }
+
+
 
 dl.quesArea {
 	display: flex;
