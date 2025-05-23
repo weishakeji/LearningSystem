@@ -18,7 +18,7 @@
   <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[基于B/S架构，无须安装客户端，即学即用。将“在线视频学习、直播、试题练习、同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统。“点播/直播”、“刷题/测试”、“组卷/考试”，根据学习内容的不同权重汇总综合成绩，生成学习证明。支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。]]></detail>
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
   <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>
-  <gitcode remark="gitcode" type="link" fixed="false"><![CDATA[https://gitcode.net/songleiming/LearningSystem]]></gitcode>
+  <gitcode remark="gitcode" type="link" fixed="false"><![CDATA[https://gitcode.com/songleiming/LearningSystem]]></gitcode>
   <openlicense remark="开源协议" type="text" fixed="true"><![CDATA[ WPL - 2.0 （WEISHA PUBLIC LICENS） ]]></openlicense>
   <wplurl remark="开源协议的连接地址" type="text" fixed="true"><![CDATA[https://gitee.com/weishakeji/LearningSystem/blob/master/LICENSE]]></wplurl>
   <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>

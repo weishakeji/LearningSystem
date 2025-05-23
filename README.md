@@ -89,7 +89,7 @@
 ## 开源地址
 * Gitee ： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
 * GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank">https://github.com/weishakeji/LearningSystem</a> 
-* GitCode ：<a href="https://gitcode.net/songleiming/LearningSystem" target="_blank">https://gitcode.net/songleiming/LearningSystem</a> 
+* GitCode ：<a href="https://gitcode.com/songleiming/LearningSystem" target="_blank">https://gitcode.com/songleiming/LearningSystem</a> 
 
 
 
