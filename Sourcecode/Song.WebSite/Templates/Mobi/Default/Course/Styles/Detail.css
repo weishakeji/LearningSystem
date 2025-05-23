@@ -97,7 +97,7 @@ body {
 a.go-home:before {
     content: "\a020";
     font-family: "webdesk_icon";
-    font-size: 16px;
+    font-size: 18px;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -105,13 +105,13 @@ a.go-home:before {
     line-height: 30px;
     margin-left: 10px;
     width: 20px;
-    color: #999;
+    color: #333;
 }
 
 .info {
-    color: #999;
+    color: #333;
     margin-top: 2px;
-    font-size: 14px;
+    font-size: 16px;
     position: absolute;
     top: 0px;
     right: 0px;
