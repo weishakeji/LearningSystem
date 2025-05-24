@@ -250,7 +250,7 @@ context.body>section .el-tabs .el-tabs__content>div {
 
 .outlines>div {
     line-height: 35px;
-    height: 35px;
+    min-height: 35px;
     position: relative;
     padding-right: 100px;
     transition: all 0.5s;
