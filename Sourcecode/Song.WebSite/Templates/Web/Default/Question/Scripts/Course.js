@@ -150,10 +150,10 @@ $ready(function () {
                 if (childarr == null) return total;
                 for (const node of childarr) {
                     // 累加当前节点的试题数量
-                    if (node.Ol_QuesCount) total += parseInt(node.Ol_QuesCount);
+                    if (node.Ol_QuesCount !== undefined) total += parseInt(node.Ol_QuesCount);
                     // 递归处理子节点
                     if (node.children && node.children.length > 0)
-                        total += this.calcQuescount(node.children);
+                        total += this.calcQuescount(node);
                 }
                 return total;
             },
