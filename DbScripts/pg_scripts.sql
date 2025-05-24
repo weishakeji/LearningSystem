@@ -1,28 +1,14 @@
 ﻿
-/****** 
-
-	-- 创建数据库的表与初始数据 --
-
-	数据库类型：PostgreSQL 16
-	
-	生成时间：2024-09-18 21:03:51
-
-	提示：
-	        您需要手工创建数据库，然后执行下述代码
-	        下述代码是创建初始数据，请勿多次执行
-
-******/
-
-
 
 -- 创建表 Accessory --
+DROP TABLE IF EXISTS public."Accessory" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Accessory"
 (
 	"As_Id" integer NOT NULL,
-	"As_CrtTime" timestamp without time zone NOT NULL,
+	"As_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"As_Duration" integer NOT NULL,
 	"As_Extension" character varying(255) COLLATE pg_catalog."default",
-	"As_FileName" character varying(3000) COLLATE pg_catalog."default",
+	"As_FileName" text,
 	"As_Height" integer NOT NULL,
 	"As_IsOther" boolean NOT NULL,
 	"As_IsOuter" boolean NOT NULL,
@@ -35,20 +21,20 @@ CREATE TABLE IF NOT EXISTS public."Accessory"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_accessory PRIMARY KEY ("As_Id")
 );
--- 表 Accessory 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Accessory_As_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Accessory_As_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Accessory_As_Id_seq" OWNED BY public."Accessory"."As_Id";
 ALTER TABLE "Accessory" ALTER COLUMN "As_Id" SET DEFAULT NEXTVAL('"Accessory_As_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Accessory_aaaaaAccessory_PK" ON "Accessory" ("As_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaAccessory_PK" ON "Accessory" ("As_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Accessory_As_Type" ON "Accessory" ("As_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Accessory_IX_As_Uid" ON "Accessory" ("As_Uid" ASC);
+CREATE INDEX IF NOT EXISTS "Accessory_As_Uid_Type" ON "Accessory" ("As_Uid" ASC,"As_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Accessory_IX_Org_ID" ON "Accessory" ("Org_ID" ASC);
 
--- 表 Accessory 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Accessory_aaaaaAccessory_PK" ON public."Accessory" USING btree ("As_Id");
-CREATE INDEX IF NOT EXISTS "Accessory_As_Type" ON public."Accessory" USING btree ("As_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Accessory_IX_As_Uid" ON public."Accessory" USING btree ("As_Uid" DESC);
-CREATE INDEX IF NOT EXISTS "Accessory_As_Uid_Type" ON public."Accessory" USING btree ("As_Uid" DESC, "As_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Accessory_IX_Org_ID" ON public."Accessory" USING btree ("Org_ID");
 
 -- 创建表 Accounts --
+DROP TABLE IF EXISTS public."Accounts" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Accounts"
 (
 	"Ac_ID" integer NOT NULL,
@@ -57,7 +43,7 @@ CREATE TABLE IF NOT EXISTS public."Accounts"
 	"Ac_Address" character varying(255) COLLATE pg_catalog."default",
 	"Ac_Age" integer NOT NULL,
 	"Ac_Ans" character varying(255) COLLATE pg_catalog."default",
-	"Ac_Birthday" timestamp without time zone NOT NULL,
+	"Ac_Birthday" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ac_CheckUID" character varying(255) COLLATE pg_catalog."default",
 	"Ac_CodeNumber" character varying(50) COLLATE pg_catalog."default",
 	"Ac_Coupon" integer NOT NULL,
@@ -66,7 +52,7 @@ CREATE TABLE IF NOT EXISTS public."Accounts"
 	"Ac_Education" character varying(255) COLLATE pg_catalog."default",
 	"Ac_Email" character varying(50) COLLATE pg_catalog."default",
 	"Ac_IDCardNumber" character varying(50) COLLATE pg_catalog."default",
-	"Ac_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Ac_Intro" text,
 	"Ac_IsOpenMobile" boolean NOT NULL,
 	"Ac_IsOpenTel" boolean NOT NULL,
 	"Ac_IsPass" boolean NOT NULL,
@@ -74,17 +60,17 @@ CREATE TABLE IF NOT EXISTS public."Accounts"
 	"Ac_IsUse" boolean NOT NULL,
 	"Ac_Jindie" character varying(100) COLLATE pg_catalog."default",
 	"Ac_LastIP" character varying(255) COLLATE pg_catalog."default",
-	"Ac_LastTime" timestamp without time zone NOT NULL,
+	"Ac_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ac_LinkMan" character varying(50) COLLATE pg_catalog."default",
 	"Ac_LinkManPhone" character varying(50) COLLATE pg_catalog."default",
 	"Ac_Major" character varying(255) COLLATE pg_catalog."default",
 	"Ac_MobiTel1" character varying(50) COLLATE pg_catalog."default",
 	"Ac_MobiTel2" character varying(50) COLLATE pg_catalog."default",
-	"Ac_Money" numeric(18,4) NOT NULL,
+	"Ac_Money" DECIMAL(18,4) NOT NULL,
 	"Ac_Name" character varying(50) COLLATE pg_catalog."default",
 	"Ac_Nation" character varying(50) COLLATE pg_catalog."default",
 	"Ac_Native" character varying(255) COLLATE pg_catalog."default",
-	"Ac_OutTime" timestamp without time zone NOT NULL,
+	"Ac_OutTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ac_PID" integer NOT NULL,
 	"Ac_Photo" character varying(255) COLLATE pg_catalog."default",
 	"Ac_Pinyin" character varying(50) COLLATE pg_catalog."default",
@@ -95,7 +81,7 @@ CREATE TABLE IF NOT EXISTS public."Accounts"
 	"Ac_Qq" character varying(50) COLLATE pg_catalog."default",
 	"Ac_QqOpenID" character varying(100) COLLATE pg_catalog."default",
 	"Ac_Qus" character varying(255) COLLATE pg_catalog."default",
-	"Ac_RegTime" timestamp without time zone NOT NULL,
+	"Ac_RegTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ac_School" character varying(255) COLLATE pg_catalog."default",
 	"Ac_Sex" integer NOT NULL,
 	"Ac_Signature" character varying(255) COLLATE pg_catalog."default",
@@ -112,28 +98,26 @@ CREATE TABLE IF NOT EXISTS public."Accounts"
 	"Sts_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_accounts PRIMARY KEY ("Ac_ID")
 );
--- 表 Accounts 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Accounts_Ac_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Accounts_Ac_ID_seq" START WITH 45 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Accounts_Ac_ID_seq" OWNED BY public."Accounts"."Ac_ID";
 ALTER TABLE "Accounts" ALTER COLUMN "Ac_ID" SET DEFAULT NEXTVAL('"Accounts_Ac_ID_seq"'::regclass);
 
-INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (2,'tester','','',1978,'13','1995-03-07 00:00:00','e7d5ac9764e621c908e99265d2ae19df','',1002,84,'','31','666@qq.com','410105199503071228','3333ss',False,False,True,True,True,'','::1','2024-01-22 17:58:18','6','777','111','400 6015615','400 6015615',160.0000,'韩梅梅','','河南省,郑州市,金水区','1753-01-01 00:00:00',0,'523656bef604ea1b2519550ffd952802.jpg','HMM',2434,9358,'c4ca4238a0b923820dcc509a6f75849b','','111','','1在','1753-01-01 00:00:00','',2,'我的签名，测试一下下','400 6015615','0f6305210623cffd6f966db6a3606a1c','1','','','','',0,4,15012714616000001,'默认组d');INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (44,'lilei','','',2017,'','2017-09-13 00:00:00','0eddf0907fb4276e31f4e1cee2d9f77a','',0,0,'','81','','','',False,False,True,False,True,'','::1','2017-08-08 16:06:15','','','','18037155756','18037155756',0.0000,'李雷','','','1753-01-01 00:00:00',0,'','LL',1020,1020,'c4ca4238a0b923820dcc509a6f75849b','','55','','','2017-07-16 19:07:57','郑州大学',1,'','','','ss','','','','',0,4,15012714616000001,'默认组d');
--- 表 Accounts 的索引 --
-CREATE INDEX IF NOT EXISTS "Accounts_IX_AccName" ON public."Accounts" USING btree ("Ac_AccName" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Birthday" ON public."Accounts" USING btree ("Ac_Birthday" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Accounts_aaaaaAccounts_PK" ON public."Accounts" USING btree ("Ac_ID");
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_IDCardNumber" ON public."Accounts" USING btree ("Ac_IDCardNumber" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Login" ON public."Accounts" USING btree ("Ac_IsUse" DESC, "Ac_IsPass" DESC, "Ac_AccName" DESC, "Ac_Pw" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_LastTime" ON public."Accounts" USING btree ("Ac_LastTime" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_MobiTel1" ON public."Accounts" USING btree ("Ac_MobiTel1" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Money" ON public."Accounts" USING btree ("Ac_Money" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Name" ON public."Accounts" USING btree ("Ac_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Sex" ON public."Accounts" USING btree ("Ac_Sex" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Org_ID" ON public."Accounts" USING btree ("Org_ID");
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_ID" ON public."Accounts" USING btree ("Sts_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_Name" ON public."Accounts" USING btree ("Sts_Name" DESC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_AccName" ON "Accounts" ("Ac_AccName" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Birthday" ON "Accounts" ("Ac_Birthday" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_IDCardNumber" ON "Accounts" ("Ac_IDCardNumber" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Login" ON "Accounts" ("Ac_IsUse" ASC,"Ac_IsPass" ASC,"Ac_AccName" ASC,"Ac_Pw" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_LastTime" ON "Accounts" ("Ac_LastTime" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_MobiTel1" ON "Accounts" ("Ac_MobiTel1" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Money" ON "Accounts" ("Ac_Money" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Name" ON "Accounts" ("Ac_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Ac_Sex" ON "Accounts" ("Ac_Sex" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Org_ID" ON "Accounts" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_ID" ON "Accounts" ("Sts_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Accounts_IX_Sts_Name" ON "Accounts" ("Sts_Name" ASC);
+INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (2,'tester','','',1978,'13','1995-03-07 00:00:00','e7d5ac9764e621c908e99265d2ae19df','',1002,84,'','31','666@qq.com','410105199503071228','3333ss',false,false,true,true,true,'','::1','2024-01-22 17:58:18','6','777','111','400 6015615','400 6015615',160.0000,'韩梅梅','','河南省,郑州市,金水区','1752-12-31 23:54:17',0,'523656bef604ea1b2519550ffd952802.jpg','HMM',2434,9358,'c4ca4238a0b923820dcc509a6f75849b','','111','','1在','1752-12-31 23:54:17','',2,'我的签名，测试一下下','400 6015615','0f6305210623cffd6f966db6a3606a1c','1','','','','',0,4,15012714616000001,'默认组d');INSERT INTO "Accounts"("Ac_ID","Ac_AccName","Ac_AddrContact","Ac_Address","Ac_Age","Ac_Ans","Ac_Birthday","Ac_CheckUID","Ac_CodeNumber","Ac_Coupon","Ac_CurrCourse","Ac_Dingding","Ac_Education","Ac_Email","Ac_IDCardNumber","Ac_Intro","Ac_IsOpenMobile","Ac_IsOpenTel","Ac_IsPass","Ac_IsTeacher","Ac_IsUse","Ac_Jindie","Ac_LastIP","Ac_LastTime","Ac_LinkMan","Ac_LinkManPhone","Ac_Major","Ac_MobiTel1","Ac_MobiTel2","Ac_Money","Ac_Name","Ac_Nation","Ac_Native","Ac_OutTime","Ac_PID","Ac_Photo","Ac_Pinyin","Ac_Point","Ac_PointAmount","Ac_Pw","Ac_QiyeWeixin","Ac_Qq","Ac_QqOpenID","Ac_Qus","Ac_RegTime","Ac_School","Ac_Sex","Ac_Signature","Ac_Tel","Ac_UID","Ac_Weixin","Ac_WeixinOpenID","Ac_Zhifubao","Ac_Zip","Ac_ZzGongshang","Dep_Id","Org_ID","Sts_ID","Sts_Name") VALUES (44,'lilei','','',2017,'','2017-09-13 00:00:00','0eddf0907fb4276e31f4e1cee2d9f77a','',0,0,'','81','','','',false,false,true,false,true,'','::1','2017-08-08 16:06:15','','','','18037155756','18037155756',0.0000,'李雷','','','1752-12-31 23:54:17',0,'','LL',1020,1020,'c4ca4238a0b923820dcc509a6f75849b','','55','','','2017-07-16 19:07:57','郑州大学',1,'','','','ss','','','','',0,4,15012714616000001,'默认组d');
 
 -- 创建表 Article --
+DROP TABLE IF EXISTS public."Article" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Article"
 (
 	"Art_ID" bigint NOT NULL,
@@ -141,7 +125,7 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	"Acc_Name" character varying(255) COLLATE pg_catalog."default",
 	"Art_Author" character varying(50) COLLATE pg_catalog."default",
 	"Art_Color" character varying(50) COLLATE pg_catalog."default",
-	"Art_CrtTime" timestamp without time zone NOT NULL,
+	"Art_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Art_Descr" character varying(255) COLLATE pg_catalog."default",
 	"Art_Details" text,
 	"Art_Endnote" text,
@@ -162,11 +146,11 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	"Art_IsVerify" boolean NOT NULL,
 	"Art_Keywords" character varying(255) COLLATE pg_catalog."default",
 	"Art_Label" character varying(255) COLLATE pg_catalog."default",
-	"Art_LastTime" timestamp without time zone NOT NULL,
+	"Art_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Art_Logo" character varying(255) COLLATE pg_catalog."default",
 	"Art_Number" integer NOT NULL,
 	"Art_OutUrl" character varying(255) COLLATE pg_catalog."default",
-	"Art_PushTime" timestamp without time zone NOT NULL,
+	"Art_PushTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Art_Source" character varying(100) COLLATE pg_catalog."default",
 	"Art_Title" character varying(255) COLLATE pg_catalog."default",
 	"Art_TitleAbbr" character varying(50) COLLATE pg_catalog."default",
@@ -174,7 +158,7 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	"Art_TitleSub" character varying(255) COLLATE pg_catalog."default",
 	"Art_Uid" character varying(64) COLLATE pg_catalog."default",
 	"Art_VerifyMan" character varying(50) COLLATE pg_catalog."default",
-	"Art_VerifyTime" timestamp without time zone NOT NULL,
+	"Art_VerifyTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Col_Name" character varying(255) COLLATE pg_catalog."default",
 	"Col_UID" character varying(255) COLLATE pg_catalog."default",
 	"Org_ID" integer NOT NULL,
@@ -182,25 +166,25 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	"OtherData" text,
 	 CONSTRAINT key_article PRIMARY KEY ("Art_ID")
 );
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsHot" ON "Article" ("Art_IsHot" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsImg" ON "Article" ("Art_IsImg" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsRec" ON "Article" ("Art_IsRec" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsTop" ON "Article" ("Art_IsTop" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsUse" ON "Article" ("Art_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsVerify" ON "Article" ("Art_IsVerify" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Number" ON "Article" ("Art_Number" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Title" ON "Article" ("Art_Title" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Col_UID" ON "Article" ("Col_UID" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Org_ID" ON "Article" ("Org_ID" ASC);
 
--- 表 Article 的索引 --
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsHot" ON public."Article" USING btree ("Art_IsHot" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsImg" ON public."Article" USING btree ("Art_IsImg" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsRec" ON public."Article" USING btree ("Art_IsRec" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsTop" ON public."Article" USING btree ("Art_IsTop" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsUse" ON public."Article" USING btree ("Art_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsVerify" ON public."Article" USING btree ("Art_IsVerify" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_Number" ON public."Article" USING btree ("Art_Number" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Art_Title" ON public."Article" USING btree ("Art_Title" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Col_UID" ON public."Article" USING btree ("Col_UID" DESC);
-CREATE INDEX IF NOT EXISTS "Article_IX_Org_ID" ON public."Article" USING btree ("Org_ID" DESC);
 
 -- 创建表 Columns --
+DROP TABLE IF EXISTS public."Columns" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Columns"
 (
 	"Col_ID" integer NOT NULL,
 	"Col_ByName" character varying(255) COLLATE pg_catalog."default",
-	"Col_CrtTime" timestamp without time zone NOT NULL,
+	"Col_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Col_Descr" character varying(255) COLLATE pg_catalog."default",
 	"Col_Intro" text,
 	"Col_IsChildren" boolean NOT NULL,
@@ -217,26 +201,26 @@ CREATE TABLE IF NOT EXISTS public."Columns"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_columns PRIMARY KEY ("Col_ID")
 );
--- 表 Columns 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Columns_Col_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Columns_Col_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Columns_Col_ID_seq" OWNED BY public."Columns"."Col_ID";
 ALTER TABLE "Columns" ALTER COLUMN "Col_ID" SET DEFAULT NEXTVAL('"Columns_Col_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaColumns_PK" ON "Columns" ("Col_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_aaaaaColumns_PK" ON "Columns" ("Col_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_IsUse" ON "Columns" ("Col_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_PID" ON "Columns" ("Col_PID" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Tax" ON "Columns" ("Col_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Type" ON "Columns" ("Col_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Columns_IX_Org_ID" ON "Columns" ("Org_ID" ASC);
 
--- 表 Columns 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Columns_aaaaaColumns_PK" ON public."Columns" USING btree ("Col_ID");
-CREATE INDEX IF NOT EXISTS "Columns_IX_Col_IsUse" ON public."Columns" USING btree ("Col_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Columns_IX_Col_PID" ON public."Columns" USING btree ("Col_PID" DESC);
-CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Tax" ON public."Columns" USING btree ("Col_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "Columns_IX_Col_Type" ON public."Columns" USING btree ("Col_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Columns_IX_Org_ID" ON public."Columns" USING btree ("Org_ID" DESC);
 
 -- 创建表 CouponAccount --
+DROP TABLE IF EXISTS public."CouponAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."CouponAccount"
 (
 	"Ca_ID" integer NOT NULL,
 	"Ac_ID" integer NOT NULL,
-	"Ca_CrtTime" timestamp without time zone NOT NULL,
+	"Ca_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ca_From" integer NOT NULL,
 	"Ca_Info" character varying(500) COLLATE pg_catalog."default",
 	"Ca_Remark" character varying(1000) COLLATE pg_catalog."default",
@@ -250,29 +234,28 @@ CREATE TABLE IF NOT EXISTS public."CouponAccount"
 	"Rc_Code" character varying(100) COLLATE pg_catalog."default",
 	 CONSTRAINT key_couponaccount PRIMARY KEY ("Ca_ID")
 );
--- 表 CouponAccount 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."CouponAccount_Ca_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."CouponAccount_Ca_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."CouponAccount_Ca_ID_seq" OWNED BY public."CouponAccount"."Ca_ID";
 ALTER TABLE "CouponAccount" ALTER COLUMN "Ca_ID" SET DEFAULT NEXTVAL('"CouponAccount_Ca_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ac_ID" ON "CouponAccount" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_CrtTime" ON "CouponAccount" ("Ca_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_Type" ON "CouponAccount" ("Ca_Type" ASC);
+CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Org_ID" ON "CouponAccount" ("Org_ID" ASC);
 
--- 表 CouponAccount 的索引 --
-CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ac_ID" ON public."CouponAccount" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_CrtTime" ON public."CouponAccount" USING btree ("Ca_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Ca_Type" ON public."CouponAccount" USING btree ("Ca_Type" DESC);
-CREATE INDEX IF NOT EXISTS "CouponAccount_IX_Org_ID" ON public."CouponAccount" USING btree ("Org_ID" DESC);
 
 -- 创建表 Course --
+DROP TABLE IF EXISTS public."Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Course"
 (
 	"Cou_ID" bigint NOT NULL,
 	"Cou_Allowedit" boolean NOT NULL,
 	"Cou_Content" text,
-	"Cou_CrtTime" timestamp without time zone NOT NULL,
+	"Cou_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Cou_ExistExam" boolean NOT NULL,
 	"Cou_ExistLive" boolean NOT NULL,
-	"Cou_FreeEnd" timestamp without time zone NOT NULL,
-	"Cou_FreeStart" timestamp without time zone NOT NULL,
+	"Cou_FreeEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Cou_FreeStart" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Cou_Intro" text,
 	"Cou_IsFree" boolean NOT NULL,
 	"Cou_IsLimitFree" boolean NOT NULL,
@@ -306,29 +289,29 @@ CREATE TABLE IF NOT EXISTS public."Course"
 	"Dep_CnName" character varying(100) COLLATE pg_catalog."default",
 	"Dep_Id" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
-	"Org_Name" character varying(255) NOT NULL COLLATE pg_catalog."default",
+	"Org_Name" character varying(255) COLLATE pg_catalog."default" NOT NULL,
 	"Sbj_ID" bigint NOT NULL,
 	"Sbj_Name" character varying(255) COLLATE pg_catalog."default",
 	"Th_ID" integer NOT NULL,
 	"Th_Name" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_course PRIMARY KEY ("Cou_ID")
 );
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_CrtTime" ON "Course" ("Cou_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ExistLive" ON "Course" ("Cou_ExistLive" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsFree" ON "Course" ("Cou_IsFree" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsRec" ON "Course" ("Cou_IsRec" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsUse" ON "Course" ("Cou_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Name" ON "Course" ("Cou_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Tax" ON "Course" ("Cou_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_UID" ON "Course" ("Cou_UID" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ViewNum" ON "Course" ("Cou_ViewNum" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Org_ID" ON "Course" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Sbj_ID" ON "Course" ("Sbj_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Course_IX_Th_ID" ON "Course" ("Th_ID" ASC);
 
--- 表 Course 的索引 --
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_CrtTime" ON public."Course" USING btree ("Cou_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ExistLive" ON public."Course" USING btree ("Cou_ExistLive" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsFree" ON public."Course" USING btree ("Cou_IsFree" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsRec" ON public."Course" USING btree ("Cou_IsRec" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsUse" ON public."Course" USING btree ("Cou_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Name" ON public."Course" USING btree ("Cou_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_Tax" ON public."Course" USING btree ("Cou_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_UID" ON public."Course" USING btree ("Cou_UID" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ViewNum" ON public."Course" USING btree ("Cou_ViewNum" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Org_ID" ON public."Course" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Sbj_ID" ON public."Course" USING btree ("Sbj_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Course_IX_Th_ID" ON public."Course" USING btree ("Th_ID" DESC);
 
 -- 创建表 CoursePrice --
+DROP TABLE IF EXISTS public."CoursePrice" CASCADE;
 CREATE TABLE IF NOT EXISTS public."CoursePrice"
 (
 	"CP_ID" integer NOT NULL,
@@ -344,24 +327,23 @@ CREATE TABLE IF NOT EXISTS public."CoursePrice"
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_courseprice PRIMARY KEY ("CP_ID")
 );
--- 表 CoursePrice 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."CoursePrice_CP_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."CoursePrice_CP_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."CoursePrice_CP_ID_seq" OWNED BY public."CoursePrice"."CP_ID";
 ALTER TABLE "CoursePrice" ALTER COLUMN "CP_ID" SET DEFAULT NEXTVAL('"CoursePrice_CP_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_ID" ON "CoursePrice" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_UID" ON "CoursePrice" ("Cou_UID" ASC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_IsUse" ON "CoursePrice" ("CP_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_Tax" ON "CoursePrice" ("CP_Tax" ASC);
 
--- 表 CoursePrice 的索引 --
-CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_ID" ON public."CoursePrice" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "CoursePrice_IX_Cou_UID" ON public."CoursePrice" USING btree ("Cou_UID" DESC);
-CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_IsUse" ON public."CoursePrice" USING btree ("CP_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "CoursePrice_IX_CP_Tax" ON public."CoursePrice" USING btree ("CP_Tax" DESC);
 
 -- 创建表 Depart --
+DROP TABLE IF EXISTS public."Depart" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Depart"
 (
 	"Dep_Id" integer NOT NULL,
 	"Dep_CnAbbr" character varying(50) COLLATE pg_catalog."default",
-	"Dep_CnName" character varying(100) NOT NULL COLLATE pg_catalog."default",
+	"Dep_CnName" character varying(100) COLLATE pg_catalog."default" NOT NULL,
 	"Dep_Code" character varying(50) COLLATE pg_catalog."default",
 	"Dep_Count" integer NOT NULL,
 	"Dep_Email" character varying(255) COLLATE pg_catalog."default",
@@ -383,16 +365,16 @@ CREATE TABLE IF NOT EXISTS public."Depart"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_depart PRIMARY KEY ("Dep_Id")
 );
--- 表 Depart 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Depart_Dep_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Depart_Dep_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Depart_Dep_Id_seq" OWNED BY public."Depart"."Dep_Id";
 ALTER TABLE "Depart" ALTER COLUMN "Dep_Id" SET DEFAULT NEXTVAL('"Depart_Dep_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Depart_aaaaaDepart_PK" ON "Depart" ("Dep_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaDepart_PK" ON "Depart" ("Dep_Id" ASC);
 
--- 表 Depart 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Depart_aaaaaDepart_PK" ON public."Depart" USING btree ("Dep_Id");
 
 -- 创建表 EmpAcc_Group --
+DROP TABLE IF EXISTS public."EmpAcc_Group" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpAcc_Group"
 (
 	"Emgr_Id" integer NOT NULL,
@@ -401,23 +383,23 @@ CREATE TABLE IF NOT EXISTS public."EmpAcc_Group"
 	"Org_Id" integer NOT NULL,
 	 CONSTRAINT key_empacc_group PRIMARY KEY ("Emgr_Id")
 );
--- 表 EmpAcc_Group 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."EmpAcc_Group_Emgr_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."EmpAcc_Group_Emgr_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."EmpAcc_Group_Emgr_Id_seq" OWNED BY public."EmpAcc_Group"."Emgr_Id";
 ALTER TABLE "EmpAcc_Group" ALTER COLUMN "Emgr_Id" SET DEFAULT NEXTVAL('"EmpAcc_Group_Emgr_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "EmpAcc_Group_aaaaaEmpAcc_Group_PK" ON "EmpAcc_Group" ("Emgr_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaEmpAcc_Group_PK" ON "EmpAcc_Group" ("Emgr_Id" ASC);
 
--- 表 EmpAcc_Group 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "EmpAcc_Group_aaaaaEmpAcc_Group_PK" ON public."EmpAcc_Group" USING btree ("Emgr_Id");
 
 -- 创建表 EmpAccount --
+DROP TABLE IF EXISTS public."EmpAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpAccount"
 (
 	"Acc_Id" integer NOT NULL,
-	"Acc_AccName" character varying(255) NOT NULL COLLATE pg_catalog."default",
+	"Acc_AccName" character varying(255) COLLATE pg_catalog."default" NOT NULL,
 	"Acc_Age" integer NOT NULL,
 	"Acc_Ans" character varying(255) COLLATE pg_catalog."default",
-	"Acc_Birthday" timestamp without time zone NOT NULL,
+	"Acc_Birthday" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Acc_CheckUID" character varying(255) COLLATE pg_catalog."default",
 	"Acc_Email" character varying(100) COLLATE pg_catalog."default",
 	"Acc_EmpCode" character varying(255) COLLATE pg_catalog."default",
@@ -428,16 +410,16 @@ CREATE TABLE IF NOT EXISTS public."EmpAccount"
 	"Acc_IsPartTime" boolean NOT NULL,
 	"Acc_IsUse" boolean NOT NULL,
 	"Acc_IsUseCard" boolean NOT NULL,
-	"Acc_LastTime" timestamp without time zone NOT NULL,
+	"Acc_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Acc_MobileTel" character varying(50) COLLATE pg_catalog."default",
 	"Acc_Name" character varying(50) COLLATE pg_catalog."default",
 	"Acc_NamePinyin" character varying(255) COLLATE pg_catalog."default",
-	"Acc_OutTime" timestamp without time zone NOT NULL,
+	"Acc_OutTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Acc_Photo" character varying(255) COLLATE pg_catalog."default",
 	"Acc_Pw" character varying(255) COLLATE pg_catalog."default",
 	"Acc_QQ" character varying(50) COLLATE pg_catalog."default",
 	"Acc_Qus" character varying(255) COLLATE pg_catalog."default",
-	"Acc_RegTime" timestamp without time zone NOT NULL,
+	"Acc_RegTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Acc_Sex" integer NOT NULL,
 	"Acc_Signature" character varying(255) COLLATE pg_catalog."default",
 	"Acc_Tel" character varying(50) COLLATE pg_catalog."default",
@@ -453,21 +435,21 @@ CREATE TABLE IF NOT EXISTS public."EmpAccount"
 	"Title_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_empaccount PRIMARY KEY ("Acc_Id")
 );
--- 表 EmpAccount 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."EmpAccount_Acc_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."EmpAccount_Acc_Id_seq" START WITH 24 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."EmpAccount_Acc_Id_seq" OWNED BY public."EmpAccount"."Acc_Id";
 ALTER TABLE "EmpAccount" ALTER COLUMN "Acc_Id" SET DEFAULT NEXTVAL('"EmpAccount_Acc_Id_seq"'::regclass);
 
-INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1753-01-01 00:00:00','1df117cdba1dfd53596ab3a154e06014','5','A01','',False,True,True,False,True,False,'2024-08-26 19:06:32','4006015615','超管','CG2','1753-01-01 00:00:00','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','9ae7a82c34eb5ec97ddaaa1ad066c45e','','','',False,False,False,False,True,False,'2024-08-26 22:21:15','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');
--- 表 EmpAccount 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "EmpAccount_aaaaaEmpAccount_PK" ON public."EmpAccount" USING btree ("Acc_Id");
-CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_IsUse" ON public."EmpAccount" USING btree ("Acc_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_Name" ON public."EmpAccount" USING btree ("Acc_Name" DESC);
-CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_RegTime" ON public."EmpAccount" USING btree ("Acc_RegTime" DESC);
-CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Org_ID" ON public."EmpAccount" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Posi_Id" ON public."EmpAccount" USING btree ("Posi_Id" DESC);
+CREATE INDEX IF NOT EXISTS "aaaaaEmpAccount_PK" ON "EmpAccount" ("Acc_Id" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_aaaaaEmpAccount_PK" ON "EmpAccount" ("Acc_Id" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_IsUse" ON "EmpAccount" ("Acc_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_Name" ON "EmpAccount" ("Acc_Name" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_RegTime" ON "EmpAccount" ("Acc_RegTime" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Org_ID" ON "EmpAccount" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Posi_Id" ON "EmpAccount" ("Posi_Id" ASC);
+INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1752-12-31 23:54:17','58ff1ac366425f892b04728c55c00428','5','A01','',false,true,true,false,true,false,'2015-01-06 16:45:55','4006015615','超管','CG2','1752-12-31 23:54:17','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','9ab822df04529f9923e36271b750e326','','','',false,false,false,false,true,false,'2025-05-24 22:57:57','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');
 
 -- 创建表 EmpGroup --
+DROP TABLE IF EXISTS public."EmpGroup" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpGroup"
 (
 	"EGrp_Id" integer NOT NULL,
@@ -480,16 +462,16 @@ CREATE TABLE IF NOT EXISTS public."EmpGroup"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_empgroup PRIMARY KEY ("EGrp_Id")
 );
--- 表 EmpGroup 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."EmpGroup_EGrp_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."EmpGroup_EGrp_Id_seq" START WITH 3 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."EmpGroup_EGrp_Id_seq" OWNED BY public."EmpGroup"."EGrp_Id";
 ALTER TABLE "EmpGroup" ALTER COLUMN "EGrp_Id" SET DEFAULT NEXTVAL('"EmpGroup_EGrp_Id_seq"'::regclass);
 
-INSERT INTO "EmpGroup"("EGrp_Id","EGrp_Intro","EGrp_IsSystem","EGrp_IsUse","EGrp_Name","EGrp_Tax","Org_ID","Org_Name") VALUES (1,'d',False,True,'测试一',2,2,'');INSERT INTO "EmpGroup"("EGrp_Id","EGrp_Intro","EGrp_IsSystem","EGrp_IsUse","EGrp_Name","EGrp_Tax","Org_ID","Org_Name") VALUES (2,'',False,True,'测试二',1,2,'');
--- 表 EmpGroup 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "EmpGroup_aaaaaEmpGroup_PK" ON public."EmpGroup" USING btree ("EGrp_Id");
+CREATE INDEX IF NOT EXISTS "EmpGroup_aaaaaEmpGroup_PK" ON "EmpGroup" ("EGrp_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaEmpGroup_PK" ON "EmpGroup" ("EGrp_Id" ASC);
+INSERT INTO "EmpGroup"("EGrp_Id","EGrp_Intro","EGrp_IsSystem","EGrp_IsUse","EGrp_Name","EGrp_Tax","Org_ID","Org_Name") VALUES (1,'d',false,true,'测试一',2,2,'');INSERT INTO "EmpGroup"("EGrp_Id","EGrp_Intro","EGrp_IsSystem","EGrp_IsUse","EGrp_Name","EGrp_Tax","Org_ID","Org_Name") VALUES (2,'',false,true,'测试二',1,2,'');
 
 -- 创建表 EmpTitle --
+DROP TABLE IF EXISTS public."EmpTitle" CASCADE;
 CREATE TABLE IF NOT EXISTS public."EmpTitle"
 (
 	"Title_Id" integer NOT NULL,
@@ -501,20 +483,20 @@ CREATE TABLE IF NOT EXISTS public."EmpTitle"
 	"Title_Tax" integer NOT NULL,
 	 CONSTRAINT key_emptitle PRIMARY KEY ("Title_Id")
 );
--- 表 EmpTitle 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."EmpTitle_Title_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."EmpTitle_Title_Id_seq" START WITH 13 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."EmpTitle_Title_Id_seq" OWNED BY public."EmpTitle"."Title_Id";
 ALTER TABLE "EmpTitle" ALTER COLUMN "Title_Id" SET DEFAULT NEXTVAL('"EmpTitle_Title_Id_seq"'::regclass);
 
-INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (1,2,'','',True,'大区经理',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (2,2,'','',True,'测试工程师',4);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (3,2,'','',True,'系统架构师',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (4,2,'','',True,'招商经理',3);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (9,4,'郑州微厦计算机科技有限公司','',True,'院长',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (10,4,'郑州微厦计算机科技有限公司','',True,'主任',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (11,4,'郑州微厦计算机科技有限公司','',True,'科长',5);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (12,4,'郑州微厦计算机科技有限公司','',True,'处长',6);
--- 表 EmpTitle 的索引 --
-CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Org_ID" ON public."EmpTitle" USING btree ("Org_ID" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "EmpTitle_aaaaaEmpTitle_PK" ON public."EmpTitle" USING btree ("Title_Id");
-CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_IsUse" ON public."EmpTitle" USING btree ("Title_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Name" ON public."EmpTitle" USING btree ("Title_Name" DESC);
-CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Tax" ON public."EmpTitle" USING btree ("Title_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Org_ID" ON "EmpTitle" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_aaaaaEmpTitle_PK" ON "EmpTitle" ("Title_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaEmpTitle_PK" ON "EmpTitle" ("Title_Id" ASC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_IsUse" ON "EmpTitle" ("Title_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Name" ON "EmpTitle" ("Title_Name" ASC);
+CREATE INDEX IF NOT EXISTS "EmpTitle_IX_Title_Tax" ON "EmpTitle" ("Title_Tax" ASC);
+INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (1,2,'','',true,'大区经理',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (2,2,'','',true,'测试工程师',4);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (3,2,'','',true,'系统架构师',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (4,2,'','',true,'招商经理',3);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (9,4,'郑州微厦计算机科技有限公司','',true,'院长',2);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (10,4,'郑州微厦计算机科技有限公司','',true,'主任',1);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (11,4,'郑州微厦计算机科技有限公司','',true,'科长',5);INSERT INTO "EmpTitle"("Title_Id","Org_ID","Org_Name","Title_Intro","Title_IsUse","Title_Name","Title_Tax") VALUES (12,4,'郑州微厦计算机科技有限公司','',true,'处长',6);
 
 -- 创建表 ExamGroup --
+DROP TABLE IF EXISTS public."ExamGroup" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ExamGroup"
 (
 	"Eg_ID" integer NOT NULL,
@@ -525,16 +507,16 @@ CREATE TABLE IF NOT EXISTS public."ExamGroup"
 	"Sts_ID" bigint NOT NULL,
 	 CONSTRAINT key_examgroup PRIMARY KEY ("Eg_ID")
 );
--- 表 ExamGroup 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ExamGroup_Eg_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ExamGroup_Eg_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ExamGroup_Eg_ID_seq" OWNED BY public."ExamGroup"."Eg_ID";
 ALTER TABLE "ExamGroup" ALTER COLUMN "Eg_ID" SET DEFAULT NEXTVAL('"ExamGroup_Eg_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaExamGroup_PK" ON "ExamGroup" ("Eg_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamGroup_aaaaaExamGroup_PK" ON "ExamGroup" ("Eg_ID" ASC);
 
--- 表 ExamGroup 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "ExamGroup_aaaaaExamGroup_PK" ON public."ExamGroup" USING btree ("Eg_ID");
 
 -- 创建表 ExamResults --
+DROP TABLE IF EXISTS public."ExamResults" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ExamResults"
 (
 	"Exr_ID" integer NOT NULL,
@@ -547,21 +529,21 @@ CREATE TABLE IF NOT EXISTS public."ExamResults"
 	"Exam_Name" character varying(255) COLLATE pg_catalog."default",
 	"Exam_Title" character varying(255) COLLATE pg_catalog."default",
 	"Exam_UID" character varying(255) COLLATE pg_catalog."default",
-	"Exr_CalcTime" timestamp without time zone NOT NULL,
+	"Exr_CalcTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Exr_Colligate" real NOT NULL,
-	"Exr_CrtTime" timestamp without time zone NOT NULL,
+	"Exr_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Exr_Draw" real NOT NULL,
 	"Exr_IP" character varying(255) COLLATE pg_catalog."default",
 	"Exr_IsCalc" boolean NOT NULL,
 	"Exr_IsManual" boolean NOT NULL,
 	"Exr_IsSubmit" boolean NOT NULL,
-	"Exr_LastTime" timestamp without time zone NOT NULL,
+	"Exr_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Exr_Mac" character varying(255) COLLATE pg_catalog."default",
-	"Exr_OverTime" timestamp without time zone NOT NULL,
+	"Exr_OverTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Exr_Results" text,
 	"Exr_Score" real NOT NULL,
 	"Exr_ScoreFinal" real NOT NULL,
-	"Exr_SubmitTime" timestamp without time zone NOT NULL,
+	"Exr_SubmitTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sbj_ID" bigint NOT NULL,
@@ -570,34 +552,33 @@ CREATE TABLE IF NOT EXISTS public."ExamResults"
 	"Tp_Id" bigint NOT NULL,
 	 CONSTRAINT key_examresults PRIMARY KEY ("Exr_ID")
 );
--- 表 ExamResults 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ExamResults_Exr_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ExamResults_Exr_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ExamResults_Exr_ID_seq" OWNED BY public."ExamResults"."Exr_ID";
 ALTER TABLE "ExamResults" ALTER COLUMN "Exr_ID" SET DEFAULT NEXTVAL('"ExamResults_Exr_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_ID" ON "ExamResults" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_IDCardNumber" ON "ExamResults" ("Ac_IDCardNumber" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_Name" ON "ExamResults" ("Ac_Name" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exam_ID" ON "ExamResults" ("Exam_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_CrtTime" ON "ExamResults" ("Exr_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaExamResults_PK" ON "ExamResults" ("Exr_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_aaaaaExamResults_PK" ON "ExamResults" ("Exr_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_IsSubmit" ON "ExamResults" ("Exr_IsSubmit" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_OverTime" ON "ExamResults" ("Exr_OverTime" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_ScoreFinal" ON "ExamResults" ("Exr_ScoreFinal" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Org_ID" ON "ExamResults" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Sts_ID" ON "ExamResults" ("Sts_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ExamResults_IX_Tp_Id" ON "ExamResults" ("Tp_Id" ASC);
 
--- 表 ExamResults 的索引 --
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_ID" ON public."ExamResults" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_IDCardNumber" ON public."ExamResults" USING btree ("Ac_IDCardNumber" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Ac_Name" ON public."ExamResults" USING btree ("Ac_Name" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exam_ID" ON public."ExamResults" USING btree ("Exam_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_CrtTime" ON public."ExamResults" USING btree ("Exr_CrtTime");
-CREATE UNIQUE INDEX IF NOT EXISTS "ExamResults_aaaaaExamResults_PK" ON public."ExamResults" USING btree ("Exr_ID");
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_IsSubmit" ON public."ExamResults" USING btree ("Exr_IsSubmit" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_OverTime" ON public."ExamResults" USING btree ("Exr_OverTime" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Score" ON public."ExamResults" USING btree ("Exr_ScoreFinal" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Exr_ScoreFinal" ON public."ExamResults" USING btree ("Exr_ScoreFinal" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Org_ID" ON public."ExamResults" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Sts_ID" ON public."ExamResults" USING btree ("Sts_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ExamResults_IX_Tp_Id" ON public."ExamResults" USING btree ("Tp_Id" DESC);
 
 -- 创建表 Examination --
+DROP TABLE IF EXISTS public."Examination" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Examination"
 (
 	"Exam_ID" integer NOT NULL,
-	"Exam_CrtTime" timestamp without time zone NOT NULL,
-	"Exam_Date" timestamp without time zone NOT NULL,
-	"Exam_DateOver" timestamp without time zone NOT NULL,
+	"Exam_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Exam_Date" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Exam_DateOver" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Exam_DateType" integer NOT NULL,
 	"Exam_GroupType" integer NOT NULL,
 	"Exam_Intro" text,
@@ -623,42 +604,42 @@ CREATE TABLE IF NOT EXISTS public."Examination"
 	"Tp_Id" bigint NOT NULL,
 	 CONSTRAINT key_examination PRIMARY KEY ("Exam_ID")
 );
--- 表 Examination 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Examination_Exam_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Examination_Exam_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Examination_Exam_ID_seq" OWNED BY public."Examination"."Exam_ID";
 ALTER TABLE "Examination" ALTER COLUMN "Exam_ID" SET DEFAULT NEXTVAL('"Examination_Exam_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Date" ON "Examination" ("Exam_Date" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaExamination_PK" ON "Examination" ("Exam_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_aaaaaExamination_PK" ON "Examination" ("Exam_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsTheme" ON "Examination" ("Exam_IsTheme" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsUse" ON "Examination" ("Exam_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Title" ON "Examination" ("Exam_Title" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_UID" ON "Examination" ("Exam_UID" ASC);
+CREATE INDEX IF NOT EXISTS "Examination_IX_Org_ID" ON "Examination" ("Org_ID" ASC);
 
--- 表 Examination 的索引 --
-CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Date" ON public."Examination" USING btree ("Exam_Date" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Examination_aaaaaExamination_PK" ON public."Examination" USING btree ("Exam_ID");
-CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsTheme" ON public."Examination" USING btree ("Exam_IsTheme" DESC);
-CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_IsUse" ON public."Examination" USING btree ("Exam_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_Title" ON public."Examination" USING btree ("Exam_Title" DESC);
-CREATE INDEX IF NOT EXISTS "Examination_IX_Exam_UID" ON public."Examination" USING btree ("Exam_UID" DESC);
-CREATE INDEX IF NOT EXISTS "Examination_IX_Org_ID" ON public."Examination" USING btree ("Org_ID" DESC);
 
 -- 创建表 FuncPoint --
+DROP TABLE IF EXISTS public."FuncPoint" CASCADE;
 CREATE TABLE IF NOT EXISTS public."FuncPoint"
 (
 	"FPI_Id" integer NOT NULL,
 	"FPI_IsShow" boolean NOT NULL,
 	"FPI_IsUse" boolean NOT NULL,
-	"FPI_Name" character varying(50) NOT NULL COLLATE pg_catalog."default",
+	"FPI_Name" character varying(50) COLLATE pg_catalog."default" NOT NULL,
 	"Org_Id" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_funcpoint PRIMARY KEY ("FPI_Id")
 );
--- 表 FuncPoint 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."FuncPoint_FPI_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."FuncPoint_FPI_Id_seq" START WITH 6 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."FuncPoint_FPI_Id_seq" OWNED BY public."FuncPoint"."FPI_Id";
 ALTER TABLE "FuncPoint" ALTER COLUMN "FPI_Id" SET DEFAULT NEXTVAL('"FuncPoint_FPI_Id_seq"'::regclass);
 
-INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (2,True,True,'新增',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (3,True,True,'修改',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (4,True,True,'删除',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (5,True,True,'审核',0,'');
--- 表 FuncPoint 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "FuncPoint_aaaaaFuncPoint_PK" ON public."FuncPoint" USING btree ("FPI_Id");
+CREATE INDEX IF NOT EXISTS "aaaaaFuncPoint_PK" ON "FuncPoint" ("FPI_Id" ASC);
+CREATE INDEX IF NOT EXISTS "FuncPoint_aaaaaFuncPoint_PK" ON "FuncPoint" ("FPI_Id" ASC);
+INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (2,true,true,'新增',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (3,true,true,'修改',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (4,true,true,'删除',0,'');INSERT INTO "FuncPoint"("FPI_Id","FPI_IsShow","FPI_IsUse","FPI_Name","Org_Id","Org_Name") VALUES (5,true,true,'审核',0,'');
 
 -- 创建表 Guide --
+DROP TABLE IF EXISTS public."Guide" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Guide"
 (
 	"Gu_ID" bigint NOT NULL,
@@ -670,7 +651,7 @@ CREATE TABLE IF NOT EXISTS public."Guide"
 	"Gc_UID" character varying(255) COLLATE pg_catalog."default",
 	"Gu_Author" character varying(50) COLLATE pg_catalog."default",
 	"Gu_Color" character varying(50) COLLATE pg_catalog."default",
-	"Gu_CrtTime" timestamp without time zone,
+	"Gu_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Gu_Descr" character varying(255) COLLATE pg_catalog."default",
 	"Gu_Details" text,
 	"Gu_Endnote" text,
@@ -691,11 +672,11 @@ CREATE TABLE IF NOT EXISTS public."Guide"
 	"Gu_IsVerify" boolean NOT NULL,
 	"Gu_Keywords" character varying(255) COLLATE pg_catalog."default",
 	"Gu_Label" character varying(255) COLLATE pg_catalog."default",
-	"Gu_LastTime" timestamp without time zone,
+	"Gu_LastTime" TIMESTAMP WITH TIME ZONE,
 	"Gu_Logo" character varying(255) COLLATE pg_catalog."default",
 	"Gu_Number" integer NOT NULL,
 	"Gu_OutUrl" character varying(255) COLLATE pg_catalog."default",
-	"Gu_PushTime" timestamp without time zone,
+	"Gu_PushTime" TIMESTAMP WITH TIME ZONE,
 	"Gu_Source" character varying(100) COLLATE pg_catalog."default",
 	"Gu_Title" character varying(255) COLLATE pg_catalog."default",
 	"Gu_TitleAbbr" character varying(50) COLLATE pg_catalog."default",
@@ -703,32 +684,32 @@ CREATE TABLE IF NOT EXISTS public."Guide"
 	"Gu_TitleSub" character varying(255) COLLATE pg_catalog."default",
 	"Gu_Uid" character varying(64) COLLATE pg_catalog."default",
 	"Gu_VerifyMan" character varying(50) COLLATE pg_catalog."default",
-	"Gu_VerifyTime" timestamp without time zone,
+	"Gu_VerifyTime" TIMESTAMP WITH TIME ZONE,
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"OtherData" text,
 	 CONSTRAINT key_guide PRIMARY KEY ("Gu_ID")
 );
+CREATE INDEX IF NOT EXISTS "Guide_IX_Cou_ID" ON "Guide" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gc_UID" ON "Guide" ("Gc_UID" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_IsShow" ON "Guide" ("Gu_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsShow" ON "Guide" ("Gu_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsUse" ON "Guide" ("Gu_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_IsUse" ON "Guide" ("Gu_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_PushTime" ON "Guide" ("Gu_PushTime" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_Title" ON "Guide" ("Gu_Title" ASC);
+CREATE INDEX IF NOT EXISTS "Guide_IX_Org_ID" ON "Guide" ("Org_ID" ASC);
 
--- 表 Guide 的索引 --
-CREATE INDEX IF NOT EXISTS "Guide_IX_Cou_ID" ON public."Guide" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Gc_UID" ON public."Guide" USING btree ("Gc_UID" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsShow" ON public."Guide" USING btree ("Gu_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_IsShow" ON public."Guide" USING btree ("Gu_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_IsUse" ON public."Guide" USING btree ("Gu_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_IsUse" ON public."Guide" USING btree ("Gu_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_PushTime" ON public."Guide" USING btree ("Gu_PushTime" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Gu_Title" ON public."Guide" USING btree ("Gu_Title" DESC);
-CREATE INDEX IF NOT EXISTS "Guide_IX_Org_ID" ON public."Guide" USING btree ("Org_ID" DESC);
 
 -- 创建表 GuideColumns --
+DROP TABLE IF EXISTS public."GuideColumns" CASCADE;
 CREATE TABLE IF NOT EXISTS public."GuideColumns"
 (
 	"Gc_ID" integer NOT NULL,
 	"Cou_ID" bigint NOT NULL,
 	"Cou_Name" character varying(255) COLLATE pg_catalog."default",
 	"Gc_ByName" character varying(255) COLLATE pg_catalog."default",
-	"Gc_CrtTime" timestamp without time zone NOT NULL,
+	"Gc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Gc_Descr" character varying(255) COLLATE pg_catalog."default",
 	"Gc_Intro" text,
 	"Gc_IsNote" boolean NOT NULL,
@@ -742,25 +723,25 @@ CREATE TABLE IF NOT EXISTS public."GuideColumns"
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_guidecolumns PRIMARY KEY ("Gc_ID")
 );
--- 表 GuideColumns 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."GuideColumns_Gc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."GuideColumns_Gc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."GuideColumns_Gc_ID_seq" OWNED BY public."GuideColumns"."Gc_ID";
 ALTER TABLE "GuideColumns" ALTER COLUMN "Gc_ID" SET DEFAULT NEXTVAL('"GuideColumns_Gc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Cou_ID" ON "GuideColumns" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaGuideColumns_PK" ON "GuideColumns" ("Gc_ID" ASC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_aaaaaGuideColumns_PK" ON "GuideColumns" ("Gc_ID" ASC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_IsUse" ON "GuideColumns" ("Gc_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_PID" ON "GuideColumns" ("Gc_PID" ASC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Tax" ON "GuideColumns" ("Gc_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Title" ON "GuideColumns" ("Gc_Title" ASC);
 
--- 表 GuideColumns 的索引 --
-CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Cou_ID" ON public."GuideColumns" USING btree ("Cou_ID" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "GuideColumns_aaaaaGuideColumns_PK" ON public."GuideColumns" USING btree ("Gc_ID");
-CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_IsUse" ON public."GuideColumns" USING btree ("Gc_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_PID" ON public."GuideColumns" USING btree ("Gc_PID" DESC);
-CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Tax" ON public."GuideColumns" USING btree ("Gc_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "GuideColumns_IX_Gc_Title" ON public."GuideColumns" USING btree ("Gc_Title" DESC);
 
 -- 创建表 InternalLink --
+DROP TABLE IF EXISTS public."InternalLink" CASCADE;
 CREATE TABLE IF NOT EXISTS public."InternalLink"
 (
 	"IL_ID" integer NOT NULL,
-	"IL_CrtTime" timestamp without time zone,
+	"IL_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"IL_IsUse" boolean NOT NULL,
 	"IL_Name" character varying(255) COLLATE pg_catalog."default",
 	"IL_Target" character varying(255) COLLATE pg_catalog."default",
@@ -770,22 +751,22 @@ CREATE TABLE IF NOT EXISTS public."InternalLink"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_internallink PRIMARY KEY ("IL_ID")
 );
--- 表 InternalLink 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."InternalLink_IL_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."InternalLink_IL_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."InternalLink_IL_ID_seq" OWNED BY public."InternalLink"."IL_ID";
 ALTER TABLE "InternalLink" ALTER COLUMN "IL_ID" SET DEFAULT NEXTVAL('"InternalLink_IL_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaInternalLink_PK" ON "InternalLink" ("IL_ID" ASC);
+CREATE INDEX IF NOT EXISTS "InternalLink_aaaaaInternalLink_PK" ON "InternalLink" ("IL_ID" ASC);
 
--- 表 InternalLink 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "InternalLink_aaaaaInternalLink_PK" ON public."InternalLink" USING btree ("IL_ID");
 
 -- 创建表 Knowledge --
+DROP TABLE IF EXISTS public."Knowledge" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Knowledge"
 (
 	"Kn_ID" bigint NOT NULL,
 	"Cou_ID" bigint NOT NULL,
 	"Kn_Author" character varying(50) COLLATE pg_catalog."default",
-	"Kn_CrtTime" timestamp without time zone,
+	"Kn_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Kn_Descr" character varying(255) COLLATE pg_catalog."default",
 	"Kn_Details" text,
 	"Kn_Intro" text,
@@ -797,7 +778,7 @@ CREATE TABLE IF NOT EXISTS public."Knowledge"
 	"Kn_IsUse" boolean NOT NULL,
 	"Kn_Keywords" character varying(255) COLLATE pg_catalog."default",
 	"Kn_Label" character varying(255) COLLATE pg_catalog."default",
-	"Kn_LastTime" timestamp without time zone,
+	"Kn_LastTime" TIMESTAMP WITH TIME ZONE,
 	"Kn_Logo" character varying(255) COLLATE pg_catalog."default",
 	"Kn_Number" integer NOT NULL,
 	"Kn_Source" character varying(100) COLLATE pg_catalog."default",
@@ -814,21 +795,21 @@ CREATE TABLE IF NOT EXISTS public."Knowledge"
 	"Th_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_knowledge PRIMARY KEY ("Kn_ID")
 );
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Cou_ID" ON "Knowledge" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_CrtTime" ON "Knowledge" ("Kn_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_IsUse" ON "Knowledge" ("Kn_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_Title" ON "Knowledge" ("Kn_Title" ASC);
+CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kns_ID" ON "Knowledge" ("Kns_ID" ASC);
 
--- 表 Knowledge 的索引 --
-CREATE INDEX IF NOT EXISTS "Knowledge_IX_Cou_ID" ON public."Knowledge" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_CrtTime" ON public."Knowledge" USING btree ("Kn_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_IsUse" ON public."Knowledge" USING btree ("Kn_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kn_Title" ON public."Knowledge" USING btree ("Kn_Title" DESC);
-CREATE INDEX IF NOT EXISTS "Knowledge_IX_Kns_ID" ON public."Knowledge" USING btree ("Kns_ID" DESC);
 
 -- 创建表 KnowledgeSort --
+DROP TABLE IF EXISTS public."KnowledgeSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
 (
 	"Kns_ID" bigint NOT NULL,
 	"Cou_ID" bigint NOT NULL,
 	"Kns_ByName" character varying(255) COLLATE pg_catalog."default",
-	"Kns_CrtTime" timestamp without time zone,
+	"Kns_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Kns_Intro" character varying(255) COLLATE pg_catalog."default",
 	"Kns_IsUse" boolean NOT NULL,
 	"Kns_Name" character varying(50) COLLATE pg_catalog."default",
@@ -839,15 +820,15 @@ CREATE TABLE IF NOT EXISTS public."KnowledgeSort"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_knowledgesort PRIMARY KEY ("Kns_ID")
 );
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Cou_ID" ON "KnowledgeSort" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_IsUse" ON "KnowledgeSort" ("Kns_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_PID" ON "KnowledgeSort" ("Kns_PID" ASC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_Tax" ON "KnowledgeSort" ("Kns_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Org_ID" ON "KnowledgeSort" ("Org_ID" ASC);
 
--- 表 KnowledgeSort 的索引 --
-CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Cou_ID" ON public."KnowledgeSort" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_IsUse" ON public."KnowledgeSort" USING btree ("Kns_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_PID" ON public."KnowledgeSort" USING btree ("Kns_PID" DESC);
-CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Kns_Tax" ON public."KnowledgeSort" USING btree ("Kns_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "KnowledgeSort_IX_Org_ID" ON public."KnowledgeSort" USING btree ("Org_ID" DESC);
 
 -- 创建表 LearningCard --
+DROP TABLE IF EXISTS public."LearningCard" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LearningCard"
 (
 	"Lc_ID" integer NOT NULL,
@@ -855,39 +836,38 @@ CREATE TABLE IF NOT EXISTS public."LearningCard"
 	"Ac_ID" integer NOT NULL,
 	"Lc_Code" character varying(100) COLLATE pg_catalog."default",
 	"Lc_Coupon" integer NOT NULL,
-	"Lc_CrtTime" timestamp without time zone NOT NULL,
+	"Lc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lc_IsEnable" boolean NOT NULL,
 	"Lc_IsUsed" boolean NOT NULL,
-	"Lc_LimitEnd" timestamp without time zone NOT NULL,
-	"Lc_LimitStart" timestamp without time zone NOT NULL,
+	"Lc_LimitEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lc_LimitStart" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lc_Price" real NOT NULL,
 	"Lc_Pw" character varying(50) COLLATE pg_catalog."default",
 	"Lc_QrcodeBase64" text,
-	"Lc_ReceiveTime" timestamp without time zone NOT NULL,
+	"Lc_ReceiveTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lc_Span" integer NOT NULL,
 	"Lc_State" integer NOT NULL,
-	"Lc_UsedTime" timestamp without time zone NOT NULL,
+	"Lc_UsedTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lcs_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_learningcard PRIMARY KEY ("Lc_ID")
 );
--- 表 LearningCard 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LearningCard_Lc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LearningCard_Lc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LearningCard_Lc_ID_seq" OWNED BY public."LearningCard"."Lc_ID";
 ALTER TABLE "LearningCard" ALTER COLUMN "Lc_ID" SET DEFAULT NEXTVAL('"LearningCard_Lc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_AccName" ON "LearningCard" ("Ac_AccName" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_ID" ON "LearningCard" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Code" ON "LearningCard" ("Lc_Code" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_IsUsed" ON "LearningCard" ("Lc_IsUsed" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Pw" ON "LearningCard" ("Lc_Pw" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_State" ON "LearningCard" ("Lc_State" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lcs_ID" ON "LearningCard" ("Lcs_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCard_IX_Org_ID" ON "LearningCard" ("Org_ID" ASC);
 
--- 表 LearningCard 的索引 --
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_AccName" ON public."LearningCard" USING btree ("Ac_AccName" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Ac_ID" ON public."LearningCard" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Code" ON public."LearningCard" USING btree ("Lc_Code" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_IsUsed" ON public."LearningCard" USING btree ("Lc_IsUsed" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_Pw" ON public."LearningCard" USING btree ("Lc_Pw" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lc_State" ON public."LearningCard" USING btree ("Lc_State" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Lcs_ID" ON public."LearningCard" USING btree ("Lcs_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCard_IX_Org_ID" ON public."LearningCard" USING btree ("Org_ID" DESC);
 
 -- 创建表 LearningCardSet --
+DROP TABLE IF EXISTS public."LearningCardSet" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LearningCardSet"
 (
 	"Lcs_ID" integer NOT NULL,
@@ -896,41 +876,40 @@ CREATE TABLE IF NOT EXISTS public."LearningCardSet"
 	"Lcs_Count" integer NOT NULL,
 	"Lcs_Coupon" integer NOT NULL,
 	"Lcs_CoursesCount" integer NOT NULL,
-	"Lcs_CrtTime" timestamp without time zone NOT NULL,
+	"Lcs_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lcs_Intro" character varying(500) COLLATE pg_catalog."default",
 	"Lcs_IsEnable" boolean NOT NULL,
 	"Lcs_IsFixed" boolean NOT NULL,
-	"Lcs_LimitEnd" timestamp without time zone NOT NULL,
-	"Lcs_LimitStart" timestamp without time zone NOT NULL,
+	"Lcs_LimitEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lcs_LimitStart" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lcs_MaxCount" integer NOT NULL,
 	"Lcs_Price" real NOT NULL,
 	"Lcs_PwLength" integer NOT NULL,
 	"Lcs_RelatedCourses" text,
 	"Lcs_SecretKey" character varying(100) COLLATE pg_catalog."default",
 	"Lcs_Span" integer NOT NULL,
-	"Lcs_Theme" character varying(500) COLLATE pg_catalog."default",
+	"Lcs_Theme" character varying(200) COLLATE pg_catalog."default",
 	"Lcs_Unit" character varying(50) COLLATE pg_catalog."default",
 	"Lsc_UsedCount" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_learningcardset PRIMARY KEY ("Lcs_ID")
 );
--- 表 LearningCardSet 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LearningCardSet_Lcs_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LearningCardSet_Lcs_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LearningCardSet_Lcs_ID_seq" OWNED BY public."LearningCardSet"."Lcs_ID";
 ALTER TABLE "LearningCardSet" ALTER COLUMN "Lcs_ID" SET DEFAULT NEXTVAL('"LearningCardSet_Lcs_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Count" ON "LearningCardSet" ("Lcs_Count" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CoursesCount" ON "LearningCardSet" ("Lcs_CoursesCount" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CrtTime" ON "LearningCardSet" ("Lcs_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_IsEnable" ON "LearningCardSet" ("Lcs_IsEnable" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Price" ON "LearningCardSet" ("Lcs_Price" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Theme" ON "LearningCardSet" ("Lcs_Theme" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lsc_UsedCount" ON "LearningCardSet" ("Lsc_UsedCount" ASC);
+CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Org_ID" ON "LearningCardSet" ("Org_ID" ASC);
 
--- 表 LearningCardSet 的索引 --
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Count" ON public."LearningCardSet" USING btree ("Lcs_Count" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CoursesCount" ON public."LearningCardSet" USING btree ("Lcs_CoursesCount" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_CrtTime" ON public."LearningCardSet" USING btree ("Lcs_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_IsEnable" ON public."LearningCardSet" USING btree ("Lcs_IsEnable" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Price" ON public."LearningCardSet" USING btree ("Lcs_Price" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lcs_Theme" ON public."LearningCardSet" USING btree ("Lcs_Theme" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Lsc_UsedCount" ON public."LearningCardSet" USING btree ("Lsc_UsedCount" DESC);
-CREATE INDEX IF NOT EXISTS "LearningCardSet_IX_Org_ID" ON public."LearningCardSet" USING btree ("Org_ID" DESC);
 
 -- 创建表 LimitDomain --
+DROP TABLE IF EXISTS public."LimitDomain" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LimitDomain"
 (
 	"LD_ID" integer NOT NULL,
@@ -939,17 +918,16 @@ CREATE TABLE IF NOT EXISTS public."LimitDomain"
 	"LD_Name" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_limitdomain PRIMARY KEY ("LD_ID")
 );
--- 表 LimitDomain 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LimitDomain_LD_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LimitDomain_LD_ID_seq" START WITH 8 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LimitDomain_LD_ID_seq" OWNED BY public."LimitDomain"."LD_ID";
 ALTER TABLE "LimitDomain" ALTER COLUMN "LD_ID" SET DEFAULT NEXTVAL('"LimitDomain_LD_ID_seq"'::regclass);
 
-INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (1,'邮件服务器2',True,'email');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (2,'',True,'bbs');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (3,'',True,'student');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (4,'',True,'admin');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (5,'',True,'teacher');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (6,'',False,'course');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (7,'',True,'classone');
--- 表 LimitDomain 的索引 --
-CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_IsUse" ON public."LimitDomain" USING btree ("LD_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_Name" ON public."LimitDomain" USING btree ("LD_Name" DESC);
+CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_IsUse" ON "LimitDomain" ("LD_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "LimitDomain_IX_LD_Name" ON "LimitDomain" ("LD_Name" ASC);
+INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (1,'邮件服务器2',true,'email');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (2,'',true,'bbs');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (3,'',true,'student');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (4,'',true,'admin');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (5,'',true,'teacher');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (6,'',false,'course');INSERT INTO "LimitDomain"("LD_ID","LD_Intro","LD_IsUse","LD_Name") VALUES (7,'',true,'classone');
 
 -- 创建表 Links --
+DROP TABLE IF EXISTS public."Links" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Links"
 (
 	"Lk_Id" integer NOT NULL,
@@ -974,23 +952,23 @@ CREATE TABLE IF NOT EXISTS public."Links"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_links PRIMARY KEY ("Lk_Id")
 );
--- 表 Links 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Links_Lk_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Links_Lk_Id_seq" START WITH 116 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Links_Lk_Id_seq" OWNED BY public."Links"."Lk_Id";
 ALTER TABLE "Links" ALTER COLUMN "Lk_Id" SET DEFAULT NEXTVAL('"Links_Lk_Id_seq"'::regclass);
 
-INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (114,'','郑州双庆数字科技有限公司于2016年，公司专注于企业数字化和智能化建设，一直以来，我们推崇以"一体化、多元化、数字化、智能化"的理念来指导大中型企业进行信息化升级和改造。公司拥有一批经验丰富的专家，自成立以来参与过国内多家国企和上市企业的信息化系统建设。',False,True,True,True,'','','13673362803','双庆ERP（企业资源计划）','','李经理',2,'郑州双庆数字科技有限公司','',22,'友商推荐',4,'郑州微厦计算机科技有限公司');INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (115,'','满足中小型医院信息化需求，成本低、功能强，性能稳定、操作方便，已经成功应用多家医院，安全运行十几年。',False,True,True,True,'','','13526666703','博尔卓医院信息管理系统','10839036','于经理',1,'郑州博尔卓信息科技有限公司','http://www.boerzhuo.com',22,'友商推荐',4,'郑州微厦计算机科技有限公司');
--- 表 Links 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Links_aaaaaLinks_PK" ON public."Links" USING btree ("Lk_Id");
-CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsShow" ON public."Links" USING btree ("Lk_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsUse" ON public."Links" USING btree ("Lk_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Name" ON public."Links" USING btree ("Lk_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Tax" ON public."Links" USING btree ("Lk_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Url" ON public."Links" USING btree ("Lk_Url" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Ls_Id" ON public."Links" USING btree ("Ls_Id" DESC);
-CREATE INDEX IF NOT EXISTS "Links_IX_Org_ID" ON public."Links" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "aaaaaLinks_PK" ON "Links" ("Lk_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Links_aaaaaLinks_PK" ON "Links" ("Lk_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsShow" ON "Links" ("Lk_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_IsUse" ON "Links" ("Lk_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Name" ON "Links" ("Lk_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Tax" ON "Links" ("Lk_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Lk_Url" ON "Links" ("Lk_Url" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Ls_Id" ON "Links" ("Ls_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Links_IX_Org_ID" ON "Links" ("Org_ID" ASC);
+INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (114,'','郑州双庆数字科技有限公司于2016年，公司专注于企业数字化和智能化建设，一直以来，我们推崇以"一体化、多元化、数字化、智能化"的理念来指导大中型企业进行信息化升级和改造。公司拥有一批经验丰富的专家，自成立以来参与过国内多家国企和上市企业的信息化系统建设。',false,true,true,true,'','','13673362803','双庆ERP（企业资源计划）','','李经理',2,'郑州双庆数字科技有限公司','',22,'友商推荐',4,'郑州微厦计算机科技有限公司');INSERT INTO "Links"("Lk_Id","Lk_Email","Lk_Explain","Lk_IsApply","Lk_IsShow","Lk_IsUse","Lk_IsVerify","Lk_Logo","Lk_LogoSmall","Lk_Mobile","Lk_Name","Lk_QQ","Lk_SiteMaster","Lk_Tax","Lk_Tootip","Lk_Url","Ls_Id","Ls_Name","Org_ID","Org_Name") VALUES (115,'','满足中小型医院信息化需求，成本低、功能强，性能稳定、操作方便，已经成功应用多家医院，安全运行十几年。',false,true,true,true,'','','13526666703','博尔卓医院信息管理系统','10839036','于经理',1,'郑州博尔卓信息科技有限公司','http://www.boerzhuo.com',22,'友商推荐',4,'郑州微厦计算机科技有限公司');
 
 -- 创建表 LinksSort --
+DROP TABLE IF EXISTS public."LinksSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LinksSort"
 (
 	"Ls_Id" integer NOT NULL,
@@ -1007,21 +985,21 @@ CREATE TABLE IF NOT EXISTS public."LinksSort"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_linkssort PRIMARY KEY ("Ls_Id")
 );
--- 表 LinksSort 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LinksSort_Ls_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LinksSort_Ls_Id_seq" START WITH 23 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LinksSort_Ls_Id_seq" OWNED BY public."LinksSort"."Ls_Id";
 ALTER TABLE "LinksSort" ALTER COLUMN "Ls_Id" SET DEFAULT NEXTVAL('"LinksSort_Ls_Id_seq"'::regclass);
 
-INSERT INTO "LinksSort"("Ls_Id","Ls_IsImg","Ls_IsShow","Ls_IsText","Ls_IsUse","Ls_Logo","Ls_Name","Ls_PatId","Ls_Tax","Ls_Tootip","Org_ID","Org_Name") VALUES (22,False,True,True,True,'','友商推荐',0,1,'朋友开发的软件产品',4,'郑州微厦计算机科技有限公司');
--- 表 LinksSort 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "LinksSort_aaaaaLinksSort_PK" ON public."LinksSort" USING btree ("Ls_Id");
-CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsShow" ON public."LinksSort" USING btree ("Ls_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsUse" ON public."LinksSort" USING btree ("Ls_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Name" ON public."LinksSort" USING btree ("Ls_Name" DESC);
-CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Tax" ON public."LinksSort" USING btree ("Ls_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "LinksSort_IX_Org_ID" ON public."LinksSort" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "aaaaaLinksSort_PK" ON "LinksSort" ("Ls_Id" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_aaaaaLinksSort_PK" ON "LinksSort" ("Ls_Id" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsShow" ON "LinksSort" ("Ls_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_IsUse" ON "LinksSort" ("Ls_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Name" ON "LinksSort" ("Ls_Name" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Ls_Tax" ON "LinksSort" ("Ls_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "LinksSort_IX_Org_ID" ON "LinksSort" ("Org_ID" ASC);
+INSERT INTO "LinksSort"("Ls_Id","Ls_IsImg","Ls_IsShow","Ls_IsText","Ls_IsUse","Ls_Logo","Ls_Name","Ls_PatId","Ls_Tax","Ls_Tootip","Org_ID","Org_Name") VALUES (22,false,true,true,true,'','友商推荐',0,1,'朋友开发的软件产品',4,'郑州微厦计算机科技有限公司');
 
 -- 创建表 LogForStudentExercise --
+DROP TABLE IF EXISTS public."LogForStudentExercise" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentExercise"
 (
 	"Lse_ID" integer NOT NULL,
@@ -1032,33 +1010,32 @@ CREATE TABLE IF NOT EXISTS public."LogForStudentExercise"
 	"Lse_Answer" integer NOT NULL,
 	"Lse_Browser" character varying(255) COLLATE pg_catalog."default",
 	"Lse_Correct" integer NOT NULL,
-	"Lse_CrtTime" timestamp without time zone NOT NULL,
+	"Lse_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lse_GeogData" text,
 	"Lse_IP" character varying(50) COLLATE pg_catalog."default",
 	"Lse_JsonData" text,
-	"Lse_LastTime" timestamp without time zone NOT NULL,
+	"Lse_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lse_OS" character varying(255) COLLATE pg_catalog."default",
 	"Lse_Platform" character varying(255) COLLATE pg_catalog."default",
-	"Lse_Rate" numeric(18,12) NOT NULL,
+	"Lse_Rate" DECIMAL(18,12) NOT NULL,
 	"Lse_Sum" integer NOT NULL,
 	"Lse_Wrong" integer NOT NULL,
 	"Ol_ID" bigint NOT NULL,
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_logforstudentexercise PRIMARY KEY ("Lse_ID")
 );
--- 表 LogForStudentExercise 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LogForStudentExercise_Lse_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LogForStudentExercise_Lse_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LogForStudentExercise_Lse_ID_seq" OWNED BY public."LogForStudentExercise"."Lse_ID";
 ALTER TABLE "LogForStudentExercise" ALTER COLUMN "Lse_ID" SET DEFAULT NEXTVAL('"LogForStudentExercise_Lse_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Ac_ID" ON "LogForStudentExercise" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Cou_ID" ON "LogForStudentExercise" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Lse_LastTime" ON "LogForStudentExercise" ("Lse_LastTime" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Ol_ID" ON "LogForStudentExercise" ("Ol_ID" ASC);
 
--- 表 LogForStudentExercise 的索引 --
-CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Ac_ID" ON public."LogForStudentExercise" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Cou_ID" ON public."LogForStudentExercise" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Lse_LastTime" ON public."LogForStudentExercise" USING btree ("Lse_LastTime" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentExercise_IX_Ol_ID" ON public."LogForStudentExercise" USING btree ("Ol_ID" DESC);
 
 -- 创建表 LogForStudentOnline --
+DROP TABLE IF EXISTS public."LogForStudentOnline" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentOnline"
 (
 	"Lso_ID" integer NOT NULL,
@@ -1070,17 +1047,17 @@ CREATE TABLE IF NOT EXISTS public."LogForStudentOnline"
 	"Lso_Browser" character varying(255) COLLATE pg_catalog."default",
 	"Lso_City" character varying(255) COLLATE pg_catalog."default",
 	"Lso_Code" integer NOT NULL,
-	"Lso_CrtTime" timestamp without time zone NOT NULL,
+	"Lso_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lso_District" character varying(255) COLLATE pg_catalog."default",
 	"Lso_GeogType" integer NOT NULL,
 	"Lso_IP" character varying(50) COLLATE pg_catalog."default",
 	"Lso_Info" character varying(255) COLLATE pg_catalog."default",
-	"Lso_LastTime" timestamp without time zone NOT NULL,
-	"Lso_Latitude" numeric(20,15) NOT NULL,
-	"Lso_LoginDate" timestamp without time zone NOT NULL,
-	"Lso_LoginTime" timestamp without time zone NOT NULL,
-	"Lso_LogoutTime" timestamp without time zone NOT NULL,
-	"Lso_Longitude" numeric(20,15) NOT NULL,
+	"Lso_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lso_Latitude" DECIMAL(20,15) NOT NULL,
+	"Lso_LoginDate" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lso_LoginTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lso_LogoutTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Lso_Longitude" DECIMAL(20,15) NOT NULL,
 	"Lso_OS" character varying(255) COLLATE pg_catalog."default",
 	"Lso_OnlineTime" integer NOT NULL,
 	"Lso_Platform" character varying(255) COLLATE pg_catalog."default",
@@ -1090,45 +1067,43 @@ CREATE TABLE IF NOT EXISTS public."LogForStudentOnline"
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_logforstudentonline PRIMARY KEY ("Lso_ID")
 );
--- 表 LogForStudentOnline 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LogForStudentOnline_Lso_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LogForStudentOnline_Lso_ID_seq" START WITH 950 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LogForStudentOnline_Lso_ID_seq" OWNED BY public."LogForStudentOnline"."Lso_ID";
 ALTER TABLE "LogForStudentOnline" ALTER COLUMN "Lso_ID" SET DEFAULT NEXTVAL('"LogForStudentOnline_Lso_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LogForStudentOnline_IX_Ac_ID" ON "LogForStudentOnline" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentOnline_IX_CrtTime" ON "LogForStudentOnline" ("Lso_CrtTime" ASC);
 INSERT INTO "LogForStudentOnline"("Lso_ID","Ac_AccName","Ac_ID","Ac_Name","Lso_Address","Lso_BrowseTime","Lso_Browser","Lso_City","Lso_Code","Lso_CrtTime","Lso_District","Lso_GeogType","Lso_IP","Lso_Info","Lso_LastTime","Lso_Latitude","Lso_LoginDate","Lso_LoginTime","Lso_LogoutTime","Lso_Longitude","Lso_OS","Lso_OnlineTime","Lso_Platform","Lso_Province","Lso_Source","Lso_UID","Org_ID") VALUES (949,'tester',2,'韩梅梅','',0,'Chrome 94.0','',0,'2024-01-22 17:58:18','',0,'::1','账号密码登录','2024-01-22 17:58:18',0.000000000000000,'2024-01-22 00:00:00','2024-01-22 17:58:18','2024-01-22 17:59:18',0.000000000000000,'Windows 10',1,'PC','','电脑网页','e7d5ac9764e621c908e99265d2ae19df',4);
--- 表 LogForStudentOnline 的索引 --
-CREATE INDEX IF NOT EXISTS "LogForStudentOnline_IX_Ac_ID" ON public."LogForStudentOnline" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentOnline_IX_CrtTime" ON public."LogForStudentOnline" USING btree ("Lso_CrtTime" DESC);
 
 -- 创建表 LogForStudentQuestions --
+DROP TABLE IF EXISTS public."LogForStudentQuestions" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentQuestions"
 (
 	"Lsq_ID" integer NOT NULL,
 	"Ac_AccName" character varying(50) COLLATE pg_catalog."default",
 	"Ac_ID" integer NOT NULL,
 	"Cou_ID" bigint NOT NULL,
-	"Lsq_CrtTime" timestamp without time zone NOT NULL,
+	"Lsq_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lsq_Index" integer NOT NULL,
-	"Lsq_LastTime" timestamp without time zone NOT NULL,
+	"Lsq_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ol_ID" bigint NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Qus_ID" bigint NOT NULL,
 	 CONSTRAINT key_logforstudentquestions PRIMARY KEY ("Lsq_ID")
 );
--- 表 LogForStudentQuestions 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LogForStudentQuestions_Lsq_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LogForStudentQuestions_Lsq_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LogForStudentQuestions_Lsq_ID_seq" OWNED BY public."LogForStudentQuestions"."Lsq_ID";
 ALTER TABLE "LogForStudentQuestions" ALTER COLUMN "Lsq_ID" SET DEFAULT NEXTVAL('"LogForStudentQuestions_Lsq_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ac_ID" ON "LogForStudentQuestions" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Cou_ID" ON "LogForStudentQuestions" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ol_ID" ON "LogForStudentQuestions" ("Ol_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Org_ID" ON "LogForStudentQuestions" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Qus_ID" ON "LogForStudentQuestions" ("Qus_ID" ASC);
 
--- 表 LogForStudentQuestions 的索引 --
-CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ac_ID" ON public."LogForStudentQuestions" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Cou_ID" ON public."LogForStudentQuestions" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Ol_ID" ON public."LogForStudentQuestions" USING btree ("Ol_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Org_ID" ON public."LogForStudentQuestions" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentQuestions_IX_Qus_ID" ON public."LogForStudentQuestions" USING btree ("Qus_ID" DESC);
 
 -- 创建表 LogForStudentStudy --
+DROP TABLE IF EXISTS public."LogForStudentStudy" CASCADE;
 CREATE TABLE IF NOT EXISTS public."LogForStudentStudy"
 (
 	"Lss_ID" integer NOT NULL,
@@ -1138,12 +1113,12 @@ CREATE TABLE IF NOT EXISTS public."LogForStudentStudy"
 	"Cou_ID" bigint NOT NULL,
 	"Lss_Browser" character varying(255) COLLATE pg_catalog."default",
 	"Lss_Complete" real NOT NULL,
-	"Lss_CrtTime" timestamp without time zone NOT NULL,
+	"Lss_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lss_Details" text,
 	"Lss_Duration" integer NOT NULL,
 	"Lss_GeogData" text,
 	"Lss_IP" character varying(50) COLLATE pg_catalog."default",
-	"Lss_LastTime" timestamp without time zone NOT NULL,
+	"Lss_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Lss_OS" character varying(255) COLLATE pg_catalog."default",
 	"Lss_Platform" character varying(255) COLLATE pg_catalog."default",
 	"Lss_PlayTime" integer NOT NULL,
@@ -1153,20 +1128,19 @@ CREATE TABLE IF NOT EXISTS public."LogForStudentStudy"
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_logforstudentstudy PRIMARY KEY ("Lss_ID")
 );
--- 表 LogForStudentStudy 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."LogForStudentStudy_Lss_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."LogForStudentStudy_Lss_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."LogForStudentStudy_Lss_ID_seq" OWNED BY public."LogForStudentStudy"."Lss_ID";
 ALTER TABLE "LogForStudentStudy" ALTER COLUMN "Lss_ID" SET DEFAULT NEXTVAL('"LogForStudentStudy_Lss_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Ac_Ol_Cou" ON "LogForStudentStudy" ("Ac_ID" ASC,"Ol_ID" ASC,"Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Cou_ID" ON "LogForStudentStudy" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Lss_LastTime" ON "LogForStudentStudy" ("Lss_LastTime" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Ol_ID" ON "LogForStudentStudy" ("Ol_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Org_ID" ON "LogForStudentStudy" ("Org_ID" ASC);
 
--- 表 LogForStudentStudy 的索引 --
-CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Ac_Ol_Cou" ON public."LogForStudentStudy" USING btree ("Ac_ID", "Ol_ID", "Cou_ID");
-CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Cou_ID" ON public."LogForStudentStudy" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Lss_LastTime" ON public."LogForStudentStudy" USING btree ("Lss_LastTime" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Ol_ID" ON public."LogForStudentStudy" USING btree ("Ol_ID" DESC);
-CREATE INDEX IF NOT EXISTS "LogForStudentStudy_IX_Org_ID" ON public."LogForStudentStudy" USING btree ("Org_ID" DESC);
 
 -- 创建表 Logs --
+DROP TABLE IF EXISTS public."Logs" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Logs"
 (
 	"Log_Id" integer NOT NULL,
@@ -1178,22 +1152,22 @@ CREATE TABLE IF NOT EXISTS public."Logs"
 	"Log_MenuId" integer NOT NULL,
 	"Log_MenuName" character varying(50) COLLATE pg_catalog."default",
 	"Log_OS" character varying(50) COLLATE pg_catalog."default",
-	"Log_Time" timestamp without time zone,
+	"Log_Time" TIMESTAMP WITH TIME ZONE,
 	"Log_Type" character varying(50) COLLATE pg_catalog."default",
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_logs PRIMARY KEY ("Log_Id")
 );
--- 表 Logs 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Logs_Log_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Logs_Log_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Logs_Log_Id_seq" OWNED BY public."Logs"."Log_Id";
 ALTER TABLE "Logs" ALTER COLUMN "Log_Id" SET DEFAULT NEXTVAL('"Logs_Log_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaLogs_PK" ON "Logs" ("Log_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Logs_aaaaaLogs_PK" ON "Logs" ("Log_Id" ASC);
 
--- 表 Logs 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Logs_aaaaaLogs_PK" ON public."Logs" USING btree ("Log_Id");
 
 -- 创建表 ManageMenu --
+DROP TABLE IF EXISTS public."ManageMenu" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ManageMenu"
 (
 	"MM_Id" integer NOT NULL,
@@ -1217,7 +1191,7 @@ CREATE TABLE IF NOT EXISTS public."ManageMenu"
 	"MM_IsUse" boolean NOT NULL,
 	"MM_Link" character varying(255) COLLATE pg_catalog."default",
 	"MM_Marker" character varying(255) COLLATE pg_catalog."default",
-	"MM_Name" character varying(100) NOT NULL COLLATE pg_catalog."default",
+	"MM_Name" character varying(100) COLLATE pg_catalog."default" NOT NULL,
 	"MM_PatId" character varying(255) COLLATE pg_catalog."default",
 	"MM_Root" integer NOT NULL,
 	"MM_Tax" integer NOT NULL,
@@ -1232,22 +1206,22 @@ CREATE TABLE IF NOT EXISTS public."ManageMenu"
 	"MM_WinWidth" integer NOT NULL,
 	 CONSTRAINT key_managemenu PRIMARY KEY ("MM_Id")
 );
--- 表 ManageMenu 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ManageMenu_MM_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ManageMenu_MM_Id_seq" START WITH 25027 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ManageMenu_MM_Id_seq" OWNED BY public."ManageMenu"."MM_Id";
 ALTER TABLE "ManageMenu" ALTER COLUMN "MM_Id" SET DEFAULT NEXTVAL('"ManageMenu_MM_Id_seq"'::regclass);
 
-INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (6881,'','',100,'','func','','a030','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/Platinfo','','常规','651',88,0,'item','6362b3b6a38c5c7b976fa64e40219e46',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (88,'','',0,'','func','','a038','',0,0,0,'请不要轻易改动！',False,False,True,False,True,True,'','system','系统设置','0',88,3,'item','88',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22731,'','',100,'','func','','a022','',0,0,0,'',False,True,False,False,True,True,'/manage/Platform/Agreement','','注册协议','88',651,0,'item','69475b3d3dfff2e4470402686bbe9393',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22732,'','',100,'','func','','e7d4','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/limitdomain','','保留域名','88',88,1,'item','70c20a152062c09c598384f35d9cde36',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22733,'','',100,'','func','','a030','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/SystemPara','','系统参数','88',88,2,'item','b918a2008b0d5adb9e852b6bb113cf9c',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22734,'','',100,'','func','','a01c','',0,0,0,'',False,True,False,False,True,True,'','','接口管理','88',88,3,'item','742f03375a49149ef533668189ec0777',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22735,'','',100,'','func','','e824','',0,0,0,'',False,False,False,False,True,True,'/manage/pay/list','','支付接口','742f03375a49149ef533668189ec0777',88,0,'item','a19b1b08a06bac9d0adc044e0055a53b',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22736,'','',100,'','func','','e645','',0,0,0,'',False,False,False,False,True,True,'/manage/OtherLogin/setup','','第三方登录','742f03375a49149ef533668189ec0777',88,1,'item','6a47cb4dcaff0fe97b45c0347139f438',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22737,'','',100,'','func','','e76e','',0,0,0,'',False,False,False,False,True,True,'/manage/SMS/Setup','','短信接口','742f03375a49149ef533668189ec0777',88,2,'item','f4c77daf1be33a237f6e5ee64da40c63',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22738,'','',100,'','func','','e639','',0,0,0,'',False,False,False,False,True,True,'/manage/Sso/Setup','','单点登录','742f03375a49149ef533668189ec0777',88,3,'item','8b60275871e44251d0712030ec9a44e7',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22739,'','',100,'','func','','e661','',0,0,0,'',False,False,False,False,True,True,'/manage/live/qiniuyun','','七牛云直播','742f03375a49149ef533668189ec0777',88,4,'item','8d34c9389a5dd4ec6ab6c3bf50060b10',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (2318,'分校','',0,'','func','','a003','',0,0,0,'',False,False,True,False,True,True,'','organ','分支机构','0',2318,2,'','99171ec989452adea2c9d8d8b4a2c3a4',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22740,'','',100,'','func','','e64c','',0,0,0,'',False,False,False,False,True,True,'/manage/setup/BaiduLBS','','百度地图','742f03375a49149ef533668189ec0777',88,5,'item','1701333322013',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22741,'','',100,'','func','','a00c','',0,0,0,'',False,True,False,False,True,True,'','','菜单管理','88',88,4,'item','9e4d9f97f71fc3a076e9893449bea4be',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22742,'','',100,'','func','','a024','',0,0,0,'管理界面左侧的菜单',False,False,False,False,True,True,'/manage/Platform/menuroot','MenuTree','功能菜单','9e4d9f97f71fc3a076e9893449bea4be',88,0,'item','33f1cd7ad494a32c5a061babf4d62599',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22743,'','',100,'','func','','a005','',0,0,0,'位于管理界面左上方的下拉菜单',False,False,False,False,True,True,'/manage/Platform/sysmenu','','系统菜单','9e4d9f97f71fc3a076e9893449bea4be',88,1,'item','26c139b82c6c9455864a56a4c8ba0f6f',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22744,'','',100,'','func','','e88a','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/PointSetup','','积分设置','88',651,5,'item','2ad779650365a880c345016b15ed9401',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22745,'','',0,'','func','','a025','',0,0,0,'',False,True,False,False,True,False,'','','系统日志','88',88,6,'item','485d923c64b7a076861d2189d31bc52b',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22746,'','',0,'','func','','','',0,0,0,'',False,False,False,False,True,True,'','','数据清理','485d923c64b7a076861d2189d31bc52b',88,0,'item','ef5ed2135cec3915a022d5f8d6d91b45',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (522,'','',0,'','func','','a003','',0,0,0,'用于机构管理员操作',False,False,True,False,False,True,'','organAdmin','机构管理','0',522,4,'item','522',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (547,'','',0,'','func','','e804','',0,0,0,'学员登录后看到的菜单项',False,False,True,False,False,True,'','student','学员的管理','0',547,5,'item','547',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (569,'','',0,'','func','','e647','',0,0,0,'教师进入教学管理时看到的菜单项',False,False,True,False,False,True,'','teacher','教师的管理','0',569,6,'item','569',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22747,'','',0,'','func','','','',0,0,0,'',False,False,False,False,True,True,'','','登录日志','485d923c64b7a076861d2189d31bc52b',88,1,'item','da544360c2d541f501758b826d1ca510',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9247,'','',100,'','func','','e67d','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/Accounts','','账户','651',651,0,'item','552b799487f974e4e2705254180ab16e',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9248,'','',100,'','func','','e746','',0,0,0,'',False,False,False,False,True,True,'/manage/Capital/Records','','资金流水','651',651,1,'item','de1cfb2ccec3e0befab63d0957227213',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9249,'','',100,'','func','','e60f','',0,0,0,'',False,False,False,False,True,True,'/manage/Learningcard/cardset','','学习卡','651',0,2,'item','eab253f97e1b78feab00fc256047acd5',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9250,'','',100,'','func','','e62f','',0,0,0,'',False,True,False,False,True,True,'/manage/Rechargecode/Codeset','','充值码','651',651,3,'item','9eb880dcf1d228e4e75f07429e0fe17a',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9251,'','',100,'','func','','f008f','',0,0,0,'',False,True,False,False,True,False,'','','考试管理','651',0,4,'item','71fd444a28f50e71f664761603daf63e',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9252,'','',100,'','func','','e82e','',0,0,0,'',False,False,False,False,True,True,'/teacher/exam/results','','考试成绩','71fd444a28f50e71f664761603daf63e',0,0,'item','9773958521dd3c6f46bbc424d26b9770',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (651,'','',0,'','func','','e72f','',0,0,0,'',False,False,True,False,True,True,'','base','基础设置','0',651,0,'item','651',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10193,'','',100,'','func','','e770','',0,0,0,'',False,True,False,False,True,True,'','','分机构管理','99171ec989452adea2c9d8d8b4a2c3a4',651,0,'item','dbda24c276292d3229c7df766a890ca1',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10194,'','',100,'','func','','a02a','',0,0,0,'',False,False,False,False,True,True,'/manage/Organs/list','','机构列表','dbda24c276292d3229c7df766a890ca1',651,0,'item','a93acf4d1572ef78fa2d748a69b58738',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10195,'','',0,'','func','','a042','',0,0,0,'',False,False,False,False,True,False,'/manage/Organs/Verify','','机构审核','dbda24c276292d3229c7df766a890ca1',651,1,'item','ee61424a18a1b5544124b197dad6142e',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10196,'','',100,'','func','','e81b','',0,0,0,'',False,False,False,False,True,True,'/manage/Organs/Level','','机构等级','dbda24c276292d3229c7df766a890ca1',651,2,'item','3f9df262b89e46fa930b4369a5e239bd',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10197,'','',100,'','func','','e699','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/ProfitSharing','','分润设置','dbda24c276292d3229c7df766a890ca1',651,3,'item','9fba648f72cf773e0a560c421aae8420',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10198,'','',100,'','func','','a003','',0,0,0,'',False,True,False,False,True,True,'','','当前机构','99171ec989452adea2c9d8d8b4a2c3a4',88,1,'item','c251c17f570f77bf00728d8d8dd0ae9f',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10199,'','',100,'','func','','e6a2','',0,0,0,'',False,False,False,False,True,True,'/manage/Organs/organinfo','','机构信息','c251c17f570f77bf00728d8d8dd0ae9f',88,0,'item','7383d2425a17f4ce59cb13094c96118a',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10200,'','',100,'','func','','e667','',0,0,0,'',False,False,False,False,True,True,'/manage/Organs/about','','单位介绍','c251c17f570f77bf00728d8d8dd0ae9f',88,1,'item','151c0f86093805fe0fcdda6be39bb007',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10201,'','',100,'','func','','e645','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/Employee','','管理员','c251c17f570f77bf00728d8d8dd0ae9f',88,2,'item','ff70834b1af658beaa1ba86dd2514880',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10202,'','',0,'','func','','e68b','',0,0,0,'',False,False,False,False,True,False,'sys/depart.aspx','purview','部门信息','c251c17f570f77bf00728d8d8dd0ae9f',88,3,'item','887e1c3444208f98b12445e7a62e1c2f',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10203,'','',100,'','func','','e655','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/Position','purview','岗位设置','c251c17f570f77bf00728d8d8dd0ae9f',88,4,'item','871a922530ef97717cbd6f5f61d5cafc',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10204,'','',100,'','func','','e804','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/EmpTitle','','职务头衔','c251c17f570f77bf00728d8d8dd0ae9f',88,5,'item','baa31535166ec9736c4ccf03a44a5dd9',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10205,'','',100,'','func','','e67d','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/EmpGroup','purview','工作组','c251c17f570f77bf00728d8d8dd0ae9f',88,6,'item','82757f86610edd41612051d8484dc6e9',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23680,'','',100,'','func','','e813','',0,0,3,'',False,True,False,False,False,True,'/teacher/course/list','','课程管理','569',569,0,'item','6b83ad54dc5319393f4eaf23b6ae14c8',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9974,'','',100,'','func','','e755','',0,0,0,'',False,False,False,False,True,True,'/manage/ques/itemrepeat','','试题修复','651',651,6,'item','1669172453942',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23681,'','',100,'','func','','e817','',0,0,0,'',False,False,False,False,False,True,'/teacher/course/Messages','','课程交流','569',569,1,'item','cc6e884e86541560bddc33e539cfdbc7',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23682,'','',0,'','func','','e67d','',0,0,0,'',False,False,False,False,False,False,'/teacher/student/list','','我的学员','569',569,2,'item','a4c7e947718555647d5c033409812101',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23683,'','',100,'','func','','e816','',0,0,0,'',False,True,False,False,False,True,'','','测试/考试','569',569,3,'item','ceef164ede5ac404041250eb01c46be3',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23684,'','',100,'','func','','e6b0','',0,0,0,'',False,False,False,False,False,True,'/teacher/testpaper/list','','试卷管理','ceef164ede5ac404041250eb01c46be3',569,0,'item','e32ff65ff0db40c9d569a80d95550c25',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23685,'','',100,'','func','','e810','',0,0,0,'',False,False,False,False,False,True,'/teacher/exam/results','','专项考试成绩','ceef164ede5ac404041250eb01c46be3',569,1,'item','1673081413592',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23686,'','',100,'','func','','e669','',0,0,0,'',False,True,False,False,False,True,'/teacher/self/index','','个人信息','569',569,4,'item','b486c9a4eca4cc594585bd6639e281fe',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10136,'','',0,'','sys','','a020','',0,0,0,'系统首页',False,False,True,False,True,True,'/','','首页','0',103,0,'link','d9ffe1150602ac1fd987007396520189',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10137,'','',0,'','sys','','a034','',0,0,0,'',False,True,True,False,True,True,'#','','源代码','0',103,1,'item','5f241cb3015f4e6ba505ae9243feef99',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10138,'','',0,'','sys','','e691','',0,0,0,'支持二次开发',False,False,False,False,True,True,'https://github.com/weishakeji/LearningSystem','','产品源码','5f241cb3015f4e6ba505ae9243feef99',103,0,'link','b6570c588539269c6de5ac06b7438e70',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10139,'','',0,'','sys','','a010','',0,0,0,'',False,False,False,False,True,True,'https://github.com/weishakeji/WebdeskUI','','WebUI源码','5f241cb3015f4e6ba505ae9243feef99',103,1,'link','e680f05fce7d34c783286d98e2beeb97',450,'',False,False,False,False,640);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10140,'','',0,'','sys','','e686','',0,0,0,'国内Gitee开源镜像',False,False,False,False,True,True,'https://gitee.com/weishakeji','','国内镜像','5f241cb3015f4e6ba505ae9243feef99',103,2,'link','c834f537e216e4b529ef7d4449593524',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10141,'','',0,'','sys','','','',0,0,0,'',False,False,False,False,True,True,'','','null','5f241cb3015f4e6ba505ae9243feef99',103,3,'hr','b6936694735702ccacb76f692444f547',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10142,'','',0,'','sys','','a022','',0,0,0,'',False,True,False,False,True,True,'','','开发文档','5f241cb3015f4e6ba505ae9243feef99',103,4,'item','36851ec244b58c6e893a788c049298e5',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10143,'','',0,'','sys','','a01c','',0,0,0,'',False,False,False,False,True,True,'/help/api/','','ViewData API 说明','36851ec244b58c6e893a788c049298e5',103,0,'link','7bfaf2ad62853302824b625c926a5a2f',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10144,'','',0,'','sys','','e6a4','',0,0,0,'',False,False,False,False,True,True,'/help/datas/','','数据字典','36851ec244b58c6e893a788c049298e5',103,1,'link','d14c2127edbccdaf73490709d0cf78c2',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10145,'','',0,'','sys','','a010','',0,0,0,'',False,False,False,False,True,True,'http://webdesk.weisha100.cn/','','WebUI 开发文档','36851ec244b58c6e893a788c049298e5',103,2,'link','5e4e303706b7d0583453a3ada7f267bf',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10146,'','',0,'','sys','','e600','',0,0,0,'',False,False,False,False,True,True,'','','newnode-7879','36851ec244b58c6e893a788c049298e5',103,3,'hr','0d73063295412838f39d31e015036d40',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10147,'','',0,'','sys','','e610','',0,0,0,'',False,False,False,False,True,True,'/Utilities/Fonts/index.html','','图标库','36851ec244b58c6e893a788c049298e5',103,4,'link','23f7e9cf86ce216020ab6251693d49b1',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10148,'','',0,'','sys','','e836','',0,0,0,'',False,False,False,False,True,True,'http://www.weishakeji.net/download.html','','升级日志','5f241cb3015f4e6ba505ae9243feef99',103,5,'link','f268a63814cc7500123950307b3faa4f',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10149,'','',0,'','sys','','a026','',0,0,0,'',False,True,True,False,True,True,'','','帮助','0',103,2,'item','83c860c6e6d9efc97c1d643a69562a0a',200,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10150,'','',0,'','sys','','a022','',0,0,0,'',False,False,False,False,True,True,'/readme.html','','自述文件','83c860c6e6d9efc97c1d643a69562a0a',103,0,'link','4a0ba13c193afd931459fe4422fe2284',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10151,'','',0,'','sys','','e7d4','',0,0,0,'',False,False,False,False,True,True,'http://www.weisha100.net/','','在线教程','83c860c6e6d9efc97c1d643a69562a0a',103,1,'link','f5383ee2e50f234d322ec3e6c6ab22ec',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10152,'','',0,'','sys','','a026','',0,0,0,'在线学习教程',False,False,False,False,True,True,'/help','','帮助','83c860c6e6d9efc97c1d643a69562a0a',103,2,'link','8eb4784b53887148a45bc80fc16a19c1',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10153,'','',0,'','sys','','','',0,0,0,'',False,False,False,False,True,True,'','','newnode-5338','83c860c6e6d9efc97c1d643a69562a0a',103,3,'hr','26de70c3a084bf45bba3d1108abf2144',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10154,'','',0,'','sys','','a034','',0,0,0,'',False,False,False,False,True,True,'/help/License.html','','开源协议','83c860c6e6d9efc97c1d643a69562a0a',103,4,'open','a2980cfee1ad6268ab5a3af56b8b3b64',400,'PublicLicense',False,False,True,False,600);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10155,'','',0,'','sys','','a027','',0,0,0,'',False,False,False,False,True,True,'/manage/Platform/copyright','','版权信息','83c860c6e6d9efc97c1d643a69562a0a',103,5,'open','60a81a51602ea583adc3d086d10a5424',600,'',True,True,True,True,800);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10156,'','',0,'','sys','','','',0,0,0,'',False,False,False,False,True,True,'','','newnode-7595','83c860c6e6d9efc97c1d643a69562a0a',103,6,'hr','b39062b640c982317666591ac7481a2d',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10157,'','',0,'','sys','','a031','',0,0,0,'',False,True,False,False,True,True,'','','关于','83c860c6e6d9efc97c1d643a69562a0a',103,7,'open','8b6bd638621686c382eb11d1d6759ad7',400,'about',False,False,True,True,600);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10158,'','',0,'','sys','','a001','',0,0,0,'微厦科技官网',False,False,False,False,True,False,'http://www.weishakeji.net','','微厦科技','83c860c6e6d9efc97c1d643a69562a0a',103,8,'link','8fcb85b04376833dc6fb8a2fda5abab8',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24983,'','',0,'','func','','e6b0','rgb(75, 2, 197)',-6,0,0,'',False,False,False,False,False,False,'/orgadmin/data/Exercise','','试题练习','1697789368523',522,2,'item','1697789631914',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24984,'','',0,'','func','','','',0,0,0,'',False,False,False,False,False,False,'','','考试加分','1697789368523',522,3,'item','1697789647933',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24985,'数据','',100,'','func','','e6ef','',0,0,2,'',False,True,False,False,False,True,'','','数据分析','522',522,3,'item','2b858af35952ad4106e1f97b10b20ff9',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24986,'','',100,'','func','','e81c','rgb(213, 25, 4)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/Capital/Summary','','收入汇总','2b858af35952ad4106e1f97b10b20ff9',522,0,'item','1697791007226',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24987,'','',100,'','func','','e856','rgb(255, 66, 18)',0,0,0,'选课最多的专业',False,False,False,False,False,True,'/orgadmin/Statis/CourseHot','','热门课程','2b858af35952ad4106e1f97b10b20ff9',522,1,'item','5f81b3a13ce40cdc0525d3346bcdc682',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24988,'','',100,'','func','','e746','rgb(230, 145, 10)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/Statis/CourseAmount','','课程收入','2b858af35952ad4106e1f97b10b20ff9',522,2,'item','1697790883366',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24989,'','',100,'','func','','e6a4','rgb(22, 127, 183)',-6,0,0,'',False,False,False,False,False,True,'/orgadmin/Statis/Storage','','资源存储','2b858af35952ad4106e1f97b10b20ff9',522,3,'item','1697791356432',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24990,'','',0,'','func','','e650','',0,0,0,'',False,False,False,False,False,False,'','','热门教师','2b858af35952ad4106e1f97b10b20ff9',522,4,'item','ee0d5748fa5855398e9d2a0ba5ac5651',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24991,'','',0,'','func','','e8c9','',0,0,0,'',False,False,False,False,False,False,'/manage/teacher/order.aspx','','优秀教师','2b858af35952ad4106e1f97b10b20ff9',522,5,'item','53308789bf582bb1e60583d0df808580',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24992,'','',0,'','func','','e67d','',0,0,0,'',False,False,False,False,False,False,'/manage/orgadmin/stonline.aspx','','学员在线','2b858af35952ad4106e1f97b10b20ff9',522,6,'item','a24cbf78d35248503adfaa03ff60ca11',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24993,'','',0,'','func','','e81b','',0,0,0,'',False,False,False,False,False,False,'/manage/teacher/Comments.aspx','','教师评价','2b858af35952ad4106e1f97b10b20ff9',522,7,'item','843c0827d3d2810782adda9aaa6f409a',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24994,'','',0,'','func','','e6f1','',0,0,0,'',False,False,False,False,False,False,'/web/viewport/Index','','数据大屏','2b858af35952ad4106e1f97b10b20ff9',522,8,'item','1701256457042',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24995,'','',100,'','func','','a01d','',15,5,0,'',False,True,False,False,False,True,'','','学员登录','2b858af35952ad4106e1f97b10b20ff9',522,9,'item','1705109474971',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24996,'','',100,'','func','','e61d','',0,0,0,'',False,False,False,False,False,True,'/orgadmin/log/loginlog','','登录日志','1705109474971',522,0,'item','1705402993842',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24997,'','',100,'','func','','a04a','',0,0,0,'',False,False,False,False,False,True,'/web/viewport/login','','地域分布','1705109474971',522,1,'item','1705403019261',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22748,'','',0,'','func','','','',0,0,0,'',False,False,False,False,True,True,'','','操作记录','485d923c64b7a076861d2189d31bc52b',88,2,'item','4635221fa43b3a4f0a55e39cc0d5772c',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24998,'管理','',100,'','func','','a038','',3,0,2,'',False,True,False,False,False,True,'','','平台管理','522',522,4,'item','d42f434639edecdbd7f7f5919e6d086a',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24999,'','',100,'','func','','e732','rgb(237, 104, 9)',-5,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/General','','基础信息','d42f434639edecdbd7f7f5919e6d086a',522,0,'item','fc60823be11ec1b67cbc8865085928ca',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25000,'','',100,'','func','','e67d','rgb(175, 3, 196)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/about','','关于我们','d42f434639edecdbd7f7f5919e6d086a',522,1,'item','1697103541077',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25001,'','',100,'','func','','e6ed','rgb(4, 109, 173)',6,0,-2,'当前机构的管理人员',False,True,False,False,False,True,'','','管理员','d42f434639edecdbd7f7f5919e6d086a',522,2,'item','76d02763628ceb20715ff8700f93d711',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25002,'','',100,'','func','','e812','rgb(2, 120, 71)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/admin/Employee','','管理人员','76d02763628ceb20715ff8700f93d711',522,0,'item','5f8650559e67d7aee0865ab46abc57e5',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25003,'','',89,'','func','','e635','rgb(168, 2, 177)',5,0,-2,'',False,False,False,False,False,True,'/orgadmin/admin/Position','purview','角色/岗位','76d02763628ceb20715ff8700f93d711',522,1,'item','5f3a00f6661e44c530939cb7ad74845f',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25004,'','',100,'','func','','e645','rgb(2, 119, 177)',-1,0,0,'',False,False,False,False,False,True,'/orgadmin/admin/EmpTitle','','职务','76d02763628ceb20715ff8700f93d711',522,2,'item','1639834362028',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25005,'','',0,'','func','','e711','rgb(9, 126, 184)',0,0,0,'',False,True,False,False,False,False,'','','组织机构','d42f434639edecdbd7f7f5919e6d086a',522,3,'item','85c3ddb99d58e33f9e3637cfb6c2b298',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25006,'','',0,'','func','','e687','rgb(24, 85, 2)',0,0,0,'',False,False,False,False,False,False,'/manage/sys/depart.aspx','purview','部门信息','85c3ddb99d58e33f9e3637cfb6c2b298',522,0,'item','482695a528fb8f892b6dceb259bd40b3',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25007,'','',0,'','func','','e67d','rgb(2, 57, 85)',0,0,0,'',False,False,False,False,False,False,'/manage/sys/empgroup.aspx','purview','工作组','85c3ddb99d58e33f9e3637cfb6c2b298',522,1,'item','8238df6e47c88762ba42a7995e547f3e',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25008,'','',0,'','func','','e639','rgb(83, 5, 188)',0,0,-2,'',False,False,False,False,False,False,'/manage/sys/title.aspx','','职务头衔','85c3ddb99d58e33f9e3637cfb6c2b298',522,2,'item','0dd1db3b35c9fe75e38edcdf738ebd2c',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24793,'','',100,'','func','','e669','',0,0,0,'',False,False,False,False,False,True,'/student/Self/Intro','','个人介绍','c1d2a8cba0766a36dafa91f43a581f18',547,2,'item','1641735504763',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24794,'','',100,'','func','','e76a','',0,0,0,'已经选学的课程',False,False,False,False,False,True,'/student/Self/safe','','安全管理','c1d2a8cba0766a36dafa91f43a581f18',547,3,'item','501e00e137aebb030d30b8de30edec06',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24795,'','',100,'','func','','a01d','',30,5,2,'',False,False,False,False,False,True,'/student/self/loginlog','','登录日志','c1d2a8cba0766a36dafa91f43a581f18',547,4,'item','1704957895680',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24796,'','',0,'','func','','a039','',0,0,0,'',False,False,False,False,False,False,'/manage/student/online.aspx','','在线时间','c1d2a8cba0766a36dafa91f43a581f18',547,5,'item','4cbafbacb24a146eb1e03cca80d32db6',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24797,'','',100,'','func','','e81c','',0,0,0,'',False,True,False,False,False,True,'','','充值/资金','547',547,5,'node','f4c2e87c58a014d0eaaed7ba1a459314',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24798,'','',100,'','func','','e749','',0,0,0,'',False,False,False,False,False,True,'/Student/Money/recharge','','充值','f4c2e87c58a014d0eaaed7ba1a459314',547,0,'item','ca6c8e9988678ea4bc089a98d64dbe43',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24799,'','',100,'','func','','e824','',0,0,0,'',False,False,False,False,False,True,'/Student/Money/Details','','资金','f4c2e87c58a014d0eaaed7ba1a459314',547,1,'item','02d9f63ce76365a7d986e0b0a0ea70e4',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24800,'','',100,'','func','','e847','',0,0,0,'',False,False,False,False,False,True,'/Student/Coupon/index','','卡券','f4c2e87c58a014d0eaaed7ba1a459314',547,2,'item','b632ee17275095c13cfb8055129c59cd',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24801,'','',100,'','func','','e88a','',0,0,0,'',False,False,False,False,False,True,'/Student/Point/index','','积分','f4c2e87c58a014d0eaaed7ba1a459314',547,3,'item','17ed5191fd4a3b9d3fc366a1cda5b4dc',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24802,'','',100,'','func','','e666','',0,0,0,'',False,False,False,False,False,True,'/Student/Money/Profit','','收益','f4c2e87c58a014d0eaaed7ba1a459314',547,4,'item','3ed08ea8c3a6dbbb0b14535e27357061',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24803,'','',100,'','func','','e685','',0,0,0,'',False,True,False,False,False,True,'','','学习卡','547',547,6,'node','dff9c491a3f3e5493cec04abf7244b69',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24804,'','',100,'','func','','e685','',0,0,0,'',False,False,False,False,False,True,'/student/Learningcard/index','','我的学习卡','dff9c491a3f3e5493cec04abf7244b69',547,0,'item','3a108c8fbb70ddb57532149a214bc427',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24805,'','',100,'','func','','','',0,0,0,'',False,False,False,False,False,True,'','','newnode-6141','547',547,7,'hr','1641640249725',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24806,'','',100,'','func','','e690','',0,0,0,'',False,True,False,False,False,True,'','','分享','547',547,8,'item','2a3233d51cbc815b00bce3e9d7788dbb',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24807,'','',100,'','func','','e73e','',0,0,0,'',False,False,False,False,False,True,'/student/share/link','','分享链接','2a3233d51cbc815b00bce3e9d7788dbb',547,0,'item','82809d1a369ab3c44c330c909a532866',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24808,'','',100,'','func','','e67d','',0,0,0,'',False,True,False,False,False,True,'/student/share/subordinates','','我的朋友','2a3233d51cbc815b00bce3e9d7788dbb',547,1,'item','83f7721be4b7779ce3f097a59b81adb9',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25009,'','',100,'','func','','a038','rgb(208, 107, 0)',0,0,0,'',False,True,False,False,False,True,'/orgadmin/setup/function','','功能设置','d42f434639edecdbd7f7f5919e6d086a',522,4,'item','acc513b05fe589c27716631c54ef30f8',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25010,'','',0,'','func','','a053','',0,0,0,'',False,False,False,False,False,False,'/orgadmin/setup/qrcode','','二维码','acc513b05fe589c27716631c54ef30f8',522,0,'item','95aca19ba38c02a7b9f3d2b7a7e0c7e5',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25011,'','',100,'','func','','a035','rgb(8, 113, 166)',-3,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/Register','','登录注册','acc513b05fe589c27716631c54ef30f8',522,1,'item','1695313545347',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25012,'','',100,'','func','','e813','rgb(3, 137, 62)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/study','','学习相关','acc513b05fe589c27716631c54ef30f8',522,2,'item','1695313546693',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25013,'','',100,'','func','','e79b','rgb(64, 88, 0)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/device','','终端设备','acc513b05fe589c27716631c54ef30f8',522,3,'item','1695313569415',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25014,'界面','',100,'','func','','a010','',0,0,3,'',False,True,False,False,False,True,'','','界面风格','522',522,5,'item','abf085d525ccc320ed7b6d05cd02f161',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25015,'','',100,'','func','','e609','rgb(3, 39, 239)',0,0,0,'',False,True,False,False,False,True,'','','Web端风格','abf085d525ccc320ed7b6d05cd02f161',522,0,'item','65af6428b0ff12160d40e372ae5b8337',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25016,'','',100,'','func','','a044','rgb(74, 163, 6)',-5,-2,-2,'',False,False,False,False,False,True,'/orgadmin/template/select.web','','Web端模板','65af6428b0ff12160d40e372ae5b8337',522,0,'item','4be6e84aeacaec7514680b72499b7c19',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25017,'','',100,'','func','','a009','rgb(7, 78, 142)',0,-2,0,'',False,False,False,False,False,True,'/orgadmin/template/Navigation.web','','导航菜单','65af6428b0ff12160d40e372ae5b8337',522,1,'item','185d53f8d69610c63281766012d17a8d',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25018,'','',100,'','func','','a045','rgb(22, 132, 210)',1,0,-1,'',False,False,False,False,False,True,'/orgadmin/template/ShowPicture.web','','轮播图片','65af6428b0ff12160d40e372ae5b8337',522,2,'item','e99f9b903ccc0bdefdbca97abcc9f4b1',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25019,'','',100,'','func','','e622','rgb(204, 103, 5)',2,0,-2,'',False,True,False,False,False,True,'','','移动端风格','abf085d525ccc320ed7b6d05cd02f161',522,1,'item','bc979c4b488eaffbf119e6ab518f7689',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25020,'','',100,'','func','','e677','rgb(1, 174, 73)',5,-2,-2,'',False,False,False,False,False,True,'/orgadmin/template/select.mobi','','移动端模板','bc979c4b488eaffbf119e6ab518f7689',522,0,'item','df3455c4a980c841604b55dc6651a92f',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25021,'','',100,'','func','','e632','rgb(7, 134, 159)',-9,-2,-1,'',False,False,False,False,False,True,'/orgadmin/template/Navigation.mobi','','导航按钮','bc979c4b488eaffbf119e6ab518f7689',522,1,'item','9bbdcbde47d569e6a9d5c59a8947a445',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25022,'','',100,'','func','','a045','rgb(159, 65, 7)',1,0,-2,'',False,False,False,False,False,True,'/orgadmin/template/ShowPicture.mobi','','轮播图片','bc979c4b488eaffbf119e6ab518f7689',522,2,'item','5469dba2b4b8d54745500eea8c1ba089',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25023,'','',100,'','func','','a029','rgb(2, 89, 111)',0,0,0,'',False,True,False,False,False,True,'','','友情链接','abf085d525ccc320ed7b6d05cd02f161',522,2,'item','2f1359ccc50792dbf8c75483a6f508fb',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25024,'','',100,'','func','','a03d','rgb(4, 103, 177)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/links/list','','所有链接','2f1359ccc50792dbf8c75483a6f508fb',522,0,'item','c68451aaa777687e559756c9f02f68d3',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25025,'','',100,'','func','','a015','rgb(132, 59, 7)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/links/sort','','链接分类','2f1359ccc50792dbf8c75483a6f508fb',522,1,'item','8a539ecff79b6ede1b38b2a8380e86cd',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25026,'','',100,'','func','','a033','rgb(131, 4, 194)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/setup/Extracode','','附加代码','abf085d525ccc320ed7b6d05cd02f161',522,3,'item','1697103633401',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24954,'教务','',100,'','func','','e76b','',-2,0,2,'gggg',False,True,False,False,False,True,'','','教务管理','522',522,0,'item','cba85fde312efe019f9acafe32038fe4',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24955,'','',100,'','func','','e813','rgb(42, 130, 3)',0,0,0,'',False,True,False,False,False,True,'','','学习内容','cba85fde312efe019f9acafe32038fe4',522,0,'item','a76471634c09b23347199ee23682d1ed',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24956,'','rgb(66, 163, 6)',100,'','func','','e813','',0,0,0,'课程管理，包括课程章节、视频、试题、价格等',False,False,False,False,False,True,'/orgadmin/course/list','','课程','a76471634c09b23347199ee23682d1ed',522,0,'item','a2d8c81ec24efe439b4c9b2d139e99fe',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24957,'','rgb(3, 121, 180)',100,'','func','','e750','rgb(5, 74, 191)',3,0,0,'',False,False,False,False,False,True,'/orgadmin/Subject/list','','专业','a76471634c09b23347199ee23682d1ed',522,1,'item','f9b11e7920f6ab15ead04eeafb511830',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24958,'','rgb(107, 8, 210)',100,'','func','','e755','',-4,0,0,'',False,False,False,False,False,True,'/orgadmin/Question/list','','试题库','a76471634c09b23347199ee23682d1ed',522,2,'item','8546016f8e1c6e078b5dddd0eab7920d',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24959,'','',100,'','func','','e804','rgb(220, 51, 6)',8,0,0,'',False,True,False,False,False,True,'','','学员管理','cba85fde312efe019f9acafe32038fe4',522,1,'item','fc20f555f70b93019964a391d33a14d5',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24960,'','',100,'','func','','e808','rgb(2, 122, 20)',2,0,0,'',False,False,False,False,False,True,'/orgadmin/Student/list','','学员信息','fc20f555f70b93019964a391d33a14d5',522,0,'item','b50ea4a3ed65be9d39651c1f1ecf014c',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24961,'','',100,'','func','','e723','',0,0,0,'',False,False,False,False,False,True,'/orgadmin/Student/Activation','','活跃度','fc20f555f70b93019964a391d33a14d5',522,1,'item','1708482766944',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24962,'','',100,'','func','','e67d','rgb(34, 0, 252)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/Student/sort','','学员组','fc20f555f70b93019964a391d33a14d5',522,2,'item','53774f25cbb2a6248bdc4b5783d1f842',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24963,'','',100,'','func','','e650','rgb(0, 85, 169)',0,0,0,'',False,True,False,False,False,True,'','','教师管理','cba85fde312efe019f9acafe32038fe4',522,2,'item','bc07d10b0c411cab2e14f60328e8e4ad',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24964,'','',100,'','func','','e6a1','rgb(1, 143, 36)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/teacher/list','','教师信息','bc07d10b0c411cab2e14f60328e8e4ad',522,0,'item','19c839b6968161696712b7e7b76c9772',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24965,'','',100,'','func','','e639','rgb(173, 20, 238)',0,0,-2,'',False,False,False,False,False,True,'/orgadmin/Teacher/titles','','教师职称','bc07d10b0c411cab2e14f60328e8e4ad',522,1,'item','651397af8465c643284ff8e137fd8079',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24966,'','',100,'','func','','e68f','rgb(183, 56, 4)',1,0,-2,'',False,False,False,False,False,True,'/orgadmin/setup/Stamp','','学习证明','cba85fde312efe019f9acafe32038fe4',522,3,'item','1639658295720',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24967,'考试','',100,'','func','','e810','',0,0,3,'',False,True,False,False,False,True,'','','专项考试','522',522,1,'item','1665903171969',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24968,'','',100,'','func','','e810','rgb(82, 4, 242)',0,0,0,'',False,False,False,False,False,True,'/teacher/exam/list','','考试管理','1665903171969',569,0,'item','606b87e461d6b43e1ff789ad9b1b11c2',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24969,'','',100,'','func','','e82e','rgb(5, 137, 0)',0,0,0,'',False,False,False,False,False,True,'/teacher/exam/results','','考试成绩','1665903171969',569,1,'item','f2b59e41fb0d29f16707ad11b590e686',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24970,'运维','',100,'','func','','e79b','',3,0,3,'',False,True,False,False,False,True,'','','运营与维护','522',522,2,'item','1697428052534',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24971,'','',100,'','func','','e60f','rgb(196, 32, 2)',5,0,-2,'',False,False,False,False,False,True,'/orgadmin/Rechargecode/Codeset','','充值卡','1697428052534',522,0,'item','1697428790833',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24972,'','',100,'','func','','e685','rgb(0, 130, 30)',5,0,-2,'',False,False,False,False,False,True,'/orgadmin/Learningcard/cardset','','学习卡','1697428052534',522,1,'item','1697428791888',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24973,'','',100,'','func','','e824','rgb(255, 123, 0)',0,0,0,'',False,True,False,False,False,True,'','','资金管理','1697428052534',522,2,'item','1697791565174',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24974,'','',100,'','func','','e749','rgb(235, 160, 0)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/Capital/Records','','资金流水','1697791565174',522,0,'item','1697428808320',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24975,'','',100,'','func','','e607','rgb(0, 154, 19)',10,0,0,'',False,False,False,False,False,True,'/orgadmin/Capital/Accounts','','人工充值','1697791565174',522,1,'item','1697791615582',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24976,'','',100,'','func','','e697','rgb(1, 163, 29)',0,0,0,'',False,False,False,False,False,True,'/orgadmin/notice/list','','通知公告','1697428052534',522,3,'item','7505573f225da91c421b31e8e950aa16',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24977,'','',100,'','func','','e75c','rgb(244, 56, 0)',0,0,0,'',False,True,False,False,False,True,'','','新闻管理','1697428052534',522,4,'item','d001a8ab9566b79e46dc6d81fb7fa213',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24978,'','',100,'','func','','e71c','rgb(201, 101, 6)',-5,0,-2,'新闻管理',False,False,False,False,False,True,'/orgadmin/news/list','','新闻发布','d001a8ab9566b79e46dc6d81fb7fa213',522,0,'item','fdffc2a7aa807909b9c259169c70794d',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24979,'','',100,'','func','','e668','rgb(7, 120, 201)',0,0,-2,'',False,False,False,False,False,True,'/orgadmin/news/Columns','','新闻栏目','d001a8ab9566b79e46dc6d81fb7fa213',522,1,'item','e3346bd15202ce654c42f126d2153a41',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24980,'','',100,'','func','','e79e','rgb(102, 4, 214)',10,0,0,'',False,True,False,False,False,True,'','','数据校正','1697428052534',522,5,'item','1697789368523',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24981,'','',100,'','func','','e6d8','rgb(245, 74, 0)',-6,0,2,'',False,False,False,False,False,True,'/manage/ques/itemrepeat','','试题修复','1697789368523',522,0,'item','1697789410970',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24982,'','',86,'','func','','a049','rgb(15, 134, 197)',0,0,0,'人工修正视频学习进度、试题练习完成度',False,False,False,False,False,True,'/orgadmin/data/VideoProgress','','学习进度','1697789368523',522,1,'item','1697789613476',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24782,'','',100,'','func','','e813','',0,0,0,'已经选学的课程',False,True,False,False,False,True,'/student/course/index','','我的课程','547',547,0,'item','99e3c10a6ff4c0af38d4ad6551662222',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24783,'','rgb(1, 159, 200)',100,'','func','','e6f1','',0,0,0,'',False,True,False,False,False,True,'','','学习回顾','547',547,1,'item','8f2fedf0d52426d8107380eb60af23cb',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24784,'','',0,'','func','','e634','',0,0,0,'已经选学的课程',False,False,False,False,False,False,'/Student/Test/Archives','','测试成绩','8f2fedf0d52426d8107380eb60af23cb',547,0,'item','e61b2ed6eed9cb98323eadfde84d1d99',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24785,'','',100,'','func','','e810','',0,0,0,'已经选学的课程',False,False,False,False,False,True,'/Student/exam/Results','','专项考试','8f2fedf0d52426d8107380eb60af23cb',547,1,'item','0df6f2c3642c081462a35f1f1ada550a',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24786,'','',100,'','func','','e6b0','',0,0,0,'已经选学的课程',False,False,False,False,False,True,'/student/Question/errors','','错题回顾','8f2fedf0d52426d8107380eb60af23cb',547,2,'item','caedac420273252de2dadfd450a98382',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24787,'','',0,'','func','','e667','',0,0,0,'',False,False,False,False,False,False,'/student/study/certificate','','学习证明','8f2fedf0d52426d8107380eb60af23cb',547,3,'item','9570d28a7c77d0137551fa4d499e9988',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24788,'','rgb(2, 128, 29)',100,'','func','','e639','',0,0,0,'',False,False,False,False,False,True,'/student/study/Certificate','','学习证明','547',547,2,'item','1642663352817',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24789,'','',100,'','func','','','',0,0,0,'',False,False,False,False,False,True,'','','--分隔线-','547',547,3,'hr','1641613171019',0,'',False,False,False,False,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24790,'','',100,'','func','','e68f','',0,0,0,'',False,True,False,False,False,True,'','','个人信息','547',547,4,'node','c1d2a8cba0766a36dafa91f43a581f18',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24791,'','',100,'','func','','a043','',0,0,0,'已经选学的课程',False,False,False,False,False,True,'/student/Self/info','','基本信息','c1d2a8cba0766a36dafa91f43a581f18',547,0,'item','7c5f1c92ee9e6c364a46c755df860b26',300,'',False,False,False,False,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24792,'','',100,'','func','','e71a','',0,0,0,'已经选学的课程',False,False,False,False,False,True,'/student/Self/link','','联系方式','c1d2a8cba0766a36dafa91f43a581f18',547,1,'item','22475af5e44f46286660708fb4f2c4c9',300,'',False,False,False,False,400);
--- 表 ManageMenu 的索引 --
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_Func" ON public."ManageMenu" USING btree ("MM_Func" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "ManageMenu_aaaaaManageMenu_PK" ON public."ManageMenu" USING btree ("MM_Id");
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_IsShow" ON public."ManageMenu" USING btree ("MM_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_IsUse" ON public."ManageMenu" USING btree ("MM_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_PatId" ON public."ManageMenu" USING btree ("MM_PatId" DESC);
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_Tax" ON public."ManageMenu" USING btree ("MM_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_UID" ON public."ManageMenu" USING btree ("MM_UID" DESC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_Func" ON "ManageMenu" ("MM_Func" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaManageMenu_PK" ON "ManageMenu" ("MM_Id" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_aaaaaManageMenu_PK" ON "ManageMenu" ("MM_Id" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_IsShow" ON "ManageMenu" ("MM_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_IsUse" ON "ManageMenu" ("MM_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_PatId" ON "ManageMenu" ("MM_PatId" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_Tax" ON "ManageMenu" ("MM_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_IX_MM_UID" ON "ManageMenu" ("MM_UID" ASC);
+INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (6881,'','',100,'','func','','a030','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/Platinfo','','常规','651',88,0,'item','6362b3b6a38c5c7b976fa64e40219e46',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (88,'','',0,'','func','','a038','',0,0,0,'请不要轻易改动！',false,false,true,false,true,true,'','system','系统设置','0',88,3,'item','88',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22731,'','',100,'','func','','a022','',0,0,0,'',false,true,false,false,true,true,'/manage/Platform/Agreement','','注册协议','88',651,0,'item','69475b3d3dfff2e4470402686bbe9393',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22732,'','',100,'','func','','e7d4','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/limitdomain','','保留域名','88',88,1,'item','70c20a152062c09c598384f35d9cde36',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22733,'','',100,'','func','','a030','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/SystemPara','','系统参数','88',88,2,'item','b918a2008b0d5adb9e852b6bb113cf9c',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22734,'','',100,'','func','','a01c','',0,0,0,'',false,true,false,false,true,true,'','','接口管理','88',88,3,'item','742f03375a49149ef533668189ec0777',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22735,'','',100,'','func','','e824','',0,0,0,'',false,false,false,false,true,true,'/manage/pay/list','','支付接口','742f03375a49149ef533668189ec0777',88,0,'item','a19b1b08a06bac9d0adc044e0055a53b',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22736,'','',100,'','func','','e645','',0,0,0,'',false,false,false,false,true,true,'/manage/OtherLogin/setup','','第三方登录','742f03375a49149ef533668189ec0777',88,1,'item','6a47cb4dcaff0fe97b45c0347139f438',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22737,'','',100,'','func','','e76e','',0,0,0,'',false,false,false,false,true,true,'/manage/SMS/Setup','','短信接口','742f03375a49149ef533668189ec0777',88,2,'item','f4c77daf1be33a237f6e5ee64da40c63',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22738,'','',100,'','func','','e639','',0,0,0,'',false,false,false,false,true,true,'/manage/Sso/Setup','','单点登录','742f03375a49149ef533668189ec0777',88,3,'item','8b60275871e44251d0712030ec9a44e7',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22739,'','',100,'','func','','e661','',0,0,0,'',false,false,false,false,true,true,'/manage/live/qiniuyun','','七牛云直播','742f03375a49149ef533668189ec0777',88,4,'item','8d34c9389a5dd4ec6ab6c3bf50060b10',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (2318,'分校','',0,'','func','','a003','',0,0,0,'',false,false,true,false,true,true,'','organ','分支机构','0',2318,2,'','99171ec989452adea2c9d8d8b4a2c3a4',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22740,'','',100,'','func','','e64c','',0,0,0,'',false,false,false,false,true,true,'/manage/setup/BaiduLBS','','百度地图','742f03375a49149ef533668189ec0777',88,5,'item','1701333322013',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22741,'','',100,'','func','','a00c','',0,0,0,'',false,true,false,false,true,true,'','','菜单管理','88',88,4,'item','9e4d9f97f71fc3a076e9893449bea4be',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22742,'','',100,'','func','','a024','',0,0,0,'管理界面左侧的菜单',false,false,false,false,true,true,'/manage/Platform/menuroot','MenuTree','功能菜单','9e4d9f97f71fc3a076e9893449bea4be',88,0,'item','33f1cd7ad494a32c5a061babf4d62599',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22743,'','',100,'','func','','a005','',0,0,0,'位于管理界面左上方的下拉菜单',false,false,false,false,true,true,'/manage/Platform/sysmenu','','系统菜单','9e4d9f97f71fc3a076e9893449bea4be',88,1,'item','26c139b82c6c9455864a56a4c8ba0f6f',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22744,'','',100,'','func','','e88a','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/PointSetup','','积分设置','88',651,5,'item','2ad779650365a880c345016b15ed9401',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22745,'','',0,'','func','','a025','',0,0,0,'',false,true,false,false,true,false,'','','系统日志','88',88,6,'item','485d923c64b7a076861d2189d31bc52b',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22746,'','',0,'','func','','','',0,0,0,'',false,false,false,false,true,true,'','','数据清理','485d923c64b7a076861d2189d31bc52b',88,0,'item','ef5ed2135cec3915a022d5f8d6d91b45',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (522,'','',0,'','func','','a003','',0,0,0,'用于机构管理员操作',false,false,true,false,false,true,'','organAdmin','机构管理','0',522,4,'item','522',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (547,'','',0,'','func','','e804','',0,0,0,'学员登录后看到的菜单项',false,false,true,false,false,true,'','student','学员的管理','0',547,5,'item','547',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (569,'','',0,'','func','','e647','',0,0,0,'教师进入教学管理时看到的菜单项',false,false,true,false,false,true,'','teacher','教师的管理','0',569,6,'item','569',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22747,'','',0,'','func','','','',0,0,0,'',false,false,false,false,true,true,'','','登录日志','485d923c64b7a076861d2189d31bc52b',88,1,'item','da544360c2d541f501758b826d1ca510',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9247,'','',100,'','func','','e67d','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/Accounts','','账户','651',651,0,'item','552b799487f974e4e2705254180ab16e',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9248,'','',100,'','func','','e746','',0,0,0,'',false,false,false,false,true,true,'/manage/Capital/Records','','资金流水','651',651,1,'item','de1cfb2ccec3e0befab63d0957227213',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9249,'','',100,'','func','','e60f','',0,0,0,'',false,false,false,false,true,true,'/manage/Learningcard/cardset','','学习卡','651',0,2,'item','eab253f97e1b78feab00fc256047acd5',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9250,'','',100,'','func','','e62f','',0,0,0,'',false,true,false,false,true,true,'/manage/Rechargecode/Codeset','','充值码','651',651,3,'item','9eb880dcf1d228e4e75f07429e0fe17a',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9251,'','',100,'','func','','f008f','',0,0,0,'',false,true,false,false,true,false,'','','考试管理','651',0,4,'item','71fd444a28f50e71f664761603daf63e',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9252,'','',100,'','func','','e82e','',0,0,0,'',false,false,false,false,true,true,'/teacher/exam/results','','考试成绩','71fd444a28f50e71f664761603daf63e',0,0,'item','9773958521dd3c6f46bbc424d26b9770',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (651,'','',0,'','func','','e72f','',0,0,0,'',false,false,true,false,true,true,'','base','基础设置','0',651,0,'item','651',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10193,'','',100,'','func','','e770','',0,0,0,'',false,true,false,false,true,true,'','','分机构管理','99171ec989452adea2c9d8d8b4a2c3a4',651,0,'item','dbda24c276292d3229c7df766a890ca1',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10194,'','',100,'','func','','a02a','',0,0,0,'',false,false,false,false,true,true,'/manage/Organs/list','','机构列表','dbda24c276292d3229c7df766a890ca1',651,0,'item','a93acf4d1572ef78fa2d748a69b58738',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10195,'','',0,'','func','','a042','',0,0,0,'',false,false,false,false,true,false,'/manage/Organs/Verify','','机构审核','dbda24c276292d3229c7df766a890ca1',651,1,'item','ee61424a18a1b5544124b197dad6142e',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10196,'','',100,'','func','','e81b','',0,0,0,'',false,false,false,false,true,true,'/manage/Organs/Level','','机构等级','dbda24c276292d3229c7df766a890ca1',651,2,'item','3f9df262b89e46fa930b4369a5e239bd',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10197,'','',100,'','func','','e699','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/ProfitSharing','','分润设置','dbda24c276292d3229c7df766a890ca1',651,3,'item','9fba648f72cf773e0a560c421aae8420',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10198,'','',100,'','func','','a003','',0,0,0,'',false,true,false,false,true,true,'','','当前机构','99171ec989452adea2c9d8d8b4a2c3a4',88,1,'item','c251c17f570f77bf00728d8d8dd0ae9f',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10199,'','',100,'','func','','e6a2','',0,0,0,'',false,false,false,false,true,true,'/manage/Organs/organinfo','','机构信息','c251c17f570f77bf00728d8d8dd0ae9f',88,0,'item','7383d2425a17f4ce59cb13094c96118a',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10200,'','',100,'','func','','e667','',0,0,0,'',false,false,false,false,true,true,'/manage/Organs/about','','单位介绍','c251c17f570f77bf00728d8d8dd0ae9f',88,1,'item','151c0f86093805fe0fcdda6be39bb007',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10201,'','',100,'','func','','e645','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/Employee','','管理员','c251c17f570f77bf00728d8d8dd0ae9f',88,2,'item','ff70834b1af658beaa1ba86dd2514880',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10202,'','',0,'','func','','e68b','',0,0,0,'',false,false,false,false,true,false,'sys/depart.aspx','purview','部门信息','c251c17f570f77bf00728d8d8dd0ae9f',88,3,'item','887e1c3444208f98b12445e7a62e1c2f',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10203,'','',100,'','func','','e655','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/Position','purview','岗位设置','c251c17f570f77bf00728d8d8dd0ae9f',88,4,'item','871a922530ef97717cbd6f5f61d5cafc',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25014,'界面','',100,'','func','','a010','',0,0,3,'',false,true,false,false,false,true,'','','界面风格','522',522,5,'item','abf085d525ccc320ed7b6d05cd02f161',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10204,'','',100,'','func','','e804','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/EmpTitle','','职务头衔','c251c17f570f77bf00728d8d8dd0ae9f',88,5,'item','baa31535166ec9736c4ccf03a44a5dd9',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10205,'','',100,'','func','','e67d','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/EmpGroup','purview','工作组','c251c17f570f77bf00728d8d8dd0ae9f',88,6,'item','82757f86610edd41612051d8484dc6e9',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23680,'','',100,'','func','','e813','',0,0,3,'',false,true,false,false,false,true,'/teacher/course/list','','课程管理','569',569,0,'item','6b83ad54dc5319393f4eaf23b6ae14c8',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (9974,'','',100,'','func','','e755','',0,0,0,'',false,false,false,false,true,true,'/manage/ques/itemrepeat','','试题修复','651',651,6,'item','1669172453942',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23681,'','',100,'','func','','e817','',0,0,0,'',false,false,false,false,false,true,'/teacher/course/Messages','','课程交流','569',569,1,'item','cc6e884e86541560bddc33e539cfdbc7',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23682,'','',0,'','func','','e67d','',0,0,0,'',false,false,false,false,false,false,'/teacher/student/list','','我的学员','569',569,2,'item','a4c7e947718555647d5c033409812101',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23683,'','',100,'','func','','e816','',0,0,0,'',false,true,false,false,false,true,'','','测试/考试','569',569,3,'item','ceef164ede5ac404041250eb01c46be3',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23684,'','',100,'','func','','e6b0','',0,0,0,'',false,false,false,false,false,true,'/teacher/testpaper/list','','试卷管理','ceef164ede5ac404041250eb01c46be3',569,0,'item','e32ff65ff0db40c9d569a80d95550c25',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23685,'','',100,'','func','','e810','',0,0,0,'',false,false,false,false,false,true,'/teacher/exam/results','','专项考试成绩','ceef164ede5ac404041250eb01c46be3',569,1,'item','1673081413592',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (23686,'','',100,'','func','','e669','',0,0,0,'',false,true,false,false,false,true,'/teacher/self/index','','个人信息','569',569,4,'item','b486c9a4eca4cc594585bd6639e281fe',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10136,'','',0,'','sys','','a020','',0,0,0,'系统首页',false,false,true,false,true,true,'/','','首页','0',103,0,'link','d9ffe1150602ac1fd987007396520189',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10137,'','',0,'','sys','','a034','',0,0,0,'',false,true,true,false,true,true,'#','','源代码','0',103,1,'item','5f241cb3015f4e6ba505ae9243feef99',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10138,'','',0,'','sys','','e691','',0,0,0,'支持二次开发',false,false,false,false,true,true,'https://github.com/weishakeji/LearningSystem','','产品源码','5f241cb3015f4e6ba505ae9243feef99',103,0,'link','b6570c588539269c6de5ac06b7438e70',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10139,'','',0,'','sys','','a010','',0,0,0,'',false,false,false,false,true,true,'https://github.com/weishakeji/WebdeskUI','','WebUI源码','5f241cb3015f4e6ba505ae9243feef99',103,1,'link','e680f05fce7d34c783286d98e2beeb97',450,'',false,false,false,false,640);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10140,'','',0,'','sys','','e686','',0,0,0,'国内Gitee开源镜像',false,false,false,false,true,true,'https://gitee.com/weishakeji','','国内镜像','5f241cb3015f4e6ba505ae9243feef99',103,2,'link','c834f537e216e4b529ef7d4449593524',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10141,'','',0,'','sys','','','',0,0,0,'',false,false,false,false,true,true,'','','null','5f241cb3015f4e6ba505ae9243feef99',103,3,'hr','b6936694735702ccacb76f692444f547',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10142,'','',0,'','sys','','a022','',0,0,0,'',false,true,false,false,true,true,'','','开发文档','5f241cb3015f4e6ba505ae9243feef99',103,4,'item','36851ec244b58c6e893a788c049298e5',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10143,'','',0,'','sys','','a01c','',0,0,0,'',false,false,false,false,true,true,'/help/api/','','ViewData API 说明','36851ec244b58c6e893a788c049298e5',103,0,'link','7bfaf2ad62853302824b625c926a5a2f',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10144,'','',0,'','sys','','e6a4','',0,0,0,'',false,false,false,false,true,true,'/help/datas/','','数据字典','36851ec244b58c6e893a788c049298e5',103,1,'link','d14c2127edbccdaf73490709d0cf78c2',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10145,'','',0,'','sys','','a010','',0,0,0,'',false,false,false,false,true,true,'http://webdesk.weisha100.cn/','','WebUI 开发文档','36851ec244b58c6e893a788c049298e5',103,2,'link','5e4e303706b7d0583453a3ada7f267bf',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10146,'','',0,'','sys','','e600','',0,0,0,'',false,false,false,false,true,true,'','','newnode-7879','36851ec244b58c6e893a788c049298e5',103,3,'hr','0d73063295412838f39d31e015036d40',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10147,'','',0,'','sys','','e610','',0,0,0,'',false,false,false,false,true,true,'/Utilities/Fonts/index.html','','图标库','36851ec244b58c6e893a788c049298e5',103,4,'link','23f7e9cf86ce216020ab6251693d49b1',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10148,'','',0,'','sys','','e836','',0,0,0,'',false,false,false,false,true,true,'http://www.weishakeji.net/download.html','','升级日志','5f241cb3015f4e6ba505ae9243feef99',103,5,'link','f268a63814cc7500123950307b3faa4f',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10149,'','',0,'','sys','','a026','',0,0,0,'',false,true,true,false,true,true,'','','帮助','0',103,2,'item','83c860c6e6d9efc97c1d643a69562a0a',200,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10150,'','',0,'','sys','','a022','',0,0,0,'',false,false,false,false,true,true,'/readme.html','','自述文件','83c860c6e6d9efc97c1d643a69562a0a',103,0,'link','4a0ba13c193afd931459fe4422fe2284',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10151,'','',0,'','sys','','e7d4','',0,0,0,'',false,false,false,false,true,true,'http://www.weisha100.net/','','在线教程','83c860c6e6d9efc97c1d643a69562a0a',103,1,'link','f5383ee2e50f234d322ec3e6c6ab22ec',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10152,'','',0,'','sys','','a026','',0,0,0,'在线学习教程',false,false,false,false,true,true,'/help','','帮助','83c860c6e6d9efc97c1d643a69562a0a',103,2,'link','8eb4784b53887148a45bc80fc16a19c1',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10153,'','',0,'','sys','','','',0,0,0,'',false,false,false,false,true,true,'','','newnode-5338','83c860c6e6d9efc97c1d643a69562a0a',103,3,'hr','26de70c3a084bf45bba3d1108abf2144',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10154,'','',0,'','sys','','a034','',0,0,0,'',false,false,false,false,true,true,'/help/License.html','','开源协议','83c860c6e6d9efc97c1d643a69562a0a',103,4,'open','a2980cfee1ad6268ab5a3af56b8b3b64',400,'PublicLicense',false,false,true,false,600);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10155,'','',0,'','sys','','a027','',0,0,0,'',false,false,false,false,true,true,'/manage/Platform/copyright','','版权信息','83c860c6e6d9efc97c1d643a69562a0a',103,5,'open','60a81a51602ea583adc3d086d10a5424',600,'',true,true,true,true,800);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10156,'','',0,'','sys','','','',0,0,0,'',false,false,false,false,true,true,'','','newnode-7595','83c860c6e6d9efc97c1d643a69562a0a',103,6,'hr','b39062b640c982317666591ac7481a2d',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10157,'','',0,'','sys','','a031','',0,0,0,'',false,true,false,false,true,true,'','','关于','83c860c6e6d9efc97c1d643a69562a0a',103,7,'open','8b6bd638621686c382eb11d1d6759ad7',400,'about',false,false,true,true,600);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (10158,'','',0,'','sys','','a001','',0,0,0,'微厦科技官网',false,false,false,false,true,false,'http://www.weishakeji.net','','微厦科技','83c860c6e6d9efc97c1d643a69562a0a',103,8,'link','8fcb85b04376833dc6fb8a2fda5abab8',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24983,'','',0,'','func','','e6b0','rgb(75, 2, 197)',-6,0,0,'',false,false,false,false,false,false,'/orgadmin/data/Exercise','','试题练习','1697789368523',522,2,'item','1697789631914',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24984,'','',0,'','func','','','',0,0,0,'',false,false,false,false,false,false,'','','考试加分','1697789368523',522,3,'item','1697789647933',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24985,'数据','',100,'','func','','e6ef','',0,0,2,'',false,true,false,false,false,true,'','','数据分析','522',522,3,'item','2b858af35952ad4106e1f97b10b20ff9',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24986,'','',100,'','func','','e81c','rgb(213, 25, 4)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/Capital/Summary','','收入汇总','2b858af35952ad4106e1f97b10b20ff9',522,0,'item','1697791007226',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24987,'','',100,'','func','','e856','rgb(255, 66, 18)',0,0,0,'选课最多的专业',false,false,false,false,false,true,'/orgadmin/Statis/CourseHot','','热门课程','2b858af35952ad4106e1f97b10b20ff9',522,1,'item','5f81b3a13ce40cdc0525d3346bcdc682',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24988,'','',100,'','func','','e746','rgb(230, 145, 10)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/Statis/CourseAmount','','课程收入','2b858af35952ad4106e1f97b10b20ff9',522,2,'item','1697790883366',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24989,'','',100,'','func','','e6a4','rgb(22, 127, 183)',-6,0,0,'',false,false,false,false,false,true,'/orgadmin/Statis/Storage','','资源存储','2b858af35952ad4106e1f97b10b20ff9',522,3,'item','1697791356432',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24990,'','',0,'','func','','e650','',0,0,0,'',false,false,false,false,false,false,'','','热门教师','2b858af35952ad4106e1f97b10b20ff9',522,4,'item','ee0d5748fa5855398e9d2a0ba5ac5651',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24991,'','',0,'','func','','e8c9','',0,0,0,'',false,false,false,false,false,false,'/manage/teacher/order.aspx','','优秀教师','2b858af35952ad4106e1f97b10b20ff9',522,5,'item','53308789bf582bb1e60583d0df808580',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24992,'','',0,'','func','','e67d','',0,0,0,'',false,false,false,false,false,false,'/manage/orgadmin/stonline.aspx','','学员在线','2b858af35952ad4106e1f97b10b20ff9',522,6,'item','a24cbf78d35248503adfaa03ff60ca11',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24993,'','',0,'','func','','e81b','',0,0,0,'',false,false,false,false,false,false,'/manage/teacher/Comments.aspx','','教师评价','2b858af35952ad4106e1f97b10b20ff9',522,7,'item','843c0827d3d2810782adda9aaa6f409a',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24994,'','',0,'','func','','e6f1','',0,0,0,'',false,false,false,false,false,false,'/web/viewport/Index','','数据大屏','2b858af35952ad4106e1f97b10b20ff9',522,8,'item','1701256457042',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24995,'','',100,'','func','','a01d','',15,5,0,'',false,true,false,false,false,true,'','','学员登录','2b858af35952ad4106e1f97b10b20ff9',522,9,'item','1705109474971',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24996,'','',100,'','func','','e61d','',0,0,0,'',false,false,false,false,false,true,'/orgadmin/log/loginlog','','登录日志','1705109474971',522,0,'item','1705402993842',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24997,'','',100,'','func','','a04a','',0,0,0,'',false,false,false,false,false,true,'/web/viewport/login','','地域分布','1705109474971',522,1,'item','1705403019261',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (22748,'','',0,'','func','','','',0,0,0,'',false,false,false,false,true,true,'','','操作记录','485d923c64b7a076861d2189d31bc52b',88,2,'item','4635221fa43b3a4f0a55e39cc0d5772c',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24998,'管理','',100,'','func','','a038','',3,0,2,'',false,true,false,false,false,true,'','','平台管理','522',522,4,'item','d42f434639edecdbd7f7f5919e6d086a',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24999,'','',100,'','func','','e732','rgb(237, 104, 9)',-5,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/General','','基础信息','d42f434639edecdbd7f7f5919e6d086a',522,0,'item','fc60823be11ec1b67cbc8865085928ca',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25000,'','',100,'','func','','e67d','rgb(175, 3, 196)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/about','','关于我们','d42f434639edecdbd7f7f5919e6d086a',522,1,'item','1697103541077',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25001,'','',100,'','func','','e6ed','rgb(4, 109, 173)',6,0,-2,'当前机构的管理人员',false,true,false,false,false,true,'','','管理员','d42f434639edecdbd7f7f5919e6d086a',522,2,'item','76d02763628ceb20715ff8700f93d711',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25002,'','',100,'','func','','e812','rgb(2, 120, 71)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/admin/Employee','','管理人员','76d02763628ceb20715ff8700f93d711',522,0,'item','5f8650559e67d7aee0865ab46abc57e5',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25003,'','',89,'','func','','e635','rgb(168, 2, 177)',5,0,-2,'',false,false,false,false,false,true,'/orgadmin/admin/Position','purview','角色/岗位','76d02763628ceb20715ff8700f93d711',522,1,'item','5f3a00f6661e44c530939cb7ad74845f',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25004,'','',100,'','func','','e645','rgb(2, 119, 177)',-1,0,0,'',false,false,false,false,false,true,'/orgadmin/admin/EmpTitle','','职务','76d02763628ceb20715ff8700f93d711',522,2,'item','1639834362028',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25005,'','',0,'','func','','e711','rgb(9, 126, 184)',0,0,0,'',false,true,false,false,false,false,'','','组织机构','d42f434639edecdbd7f7f5919e6d086a',522,3,'item','85c3ddb99d58e33f9e3637cfb6c2b298',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25006,'','',0,'','func','','e687','rgb(24, 85, 2)',0,0,0,'',false,false,false,false,false,false,'/manage/sys/depart.aspx','purview','部门信息','85c3ddb99d58e33f9e3637cfb6c2b298',522,0,'item','482695a528fb8f892b6dceb259bd40b3',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25007,'','',0,'','func','','e67d','rgb(2, 57, 85)',0,0,0,'',false,false,false,false,false,false,'/manage/sys/empgroup.aspx','purview','工作组','85c3ddb99d58e33f9e3637cfb6c2b298',522,1,'item','8238df6e47c88762ba42a7995e547f3e',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25008,'','',0,'','func','','e639','rgb(83, 5, 188)',0,0,-2,'',false,false,false,false,false,false,'/manage/sys/title.aspx','','职务头衔','85c3ddb99d58e33f9e3637cfb6c2b298',522,2,'item','0dd1db3b35c9fe75e38edcdf738ebd2c',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24793,'','',100,'','func','','e669','',0,0,0,'',false,false,false,false,false,true,'/student/Self/Intro','','个人介绍','c1d2a8cba0766a36dafa91f43a581f18',547,2,'item','1641735504763',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24794,'','',100,'','func','','e76a','',0,0,0,'已经选学的课程',false,false,false,false,false,true,'/student/Self/safe','','安全管理','c1d2a8cba0766a36dafa91f43a581f18',547,3,'item','501e00e137aebb030d30b8de30edec06',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24795,'','',100,'','func','','a01d','',30,5,2,'',false,false,false,false,false,true,'/student/self/loginlog','','登录日志','c1d2a8cba0766a36dafa91f43a581f18',547,4,'item','1704957895680',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24796,'','',0,'','func','','a039','',0,0,0,'',false,false,false,false,false,false,'/manage/student/online.aspx','','在线时间','c1d2a8cba0766a36dafa91f43a581f18',547,5,'item','4cbafbacb24a146eb1e03cca80d32db6',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24797,'','',100,'','func','','e81c','',0,0,0,'',false,true,false,false,false,true,'','','充值/资金','547',547,5,'node','f4c2e87c58a014d0eaaed7ba1a459314',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24798,'','',100,'','func','','e749','',0,0,0,'',false,false,false,false,false,true,'/Student/Money/recharge','','充值','f4c2e87c58a014d0eaaed7ba1a459314',547,0,'item','ca6c8e9988678ea4bc089a98d64dbe43',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24799,'','',100,'','func','','e824','',0,0,0,'',false,false,false,false,false,true,'/Student/Money/Details','','资金','f4c2e87c58a014d0eaaed7ba1a459314',547,1,'item','02d9f63ce76365a7d986e0b0a0ea70e4',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24800,'','',100,'','func','','e847','',0,0,0,'',false,false,false,false,false,true,'/Student/Coupon/index','','卡券','f4c2e87c58a014d0eaaed7ba1a459314',547,2,'item','b632ee17275095c13cfb8055129c59cd',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24801,'','',100,'','func','','e88a','',0,0,0,'',false,false,false,false,false,true,'/Student/Point/index','','积分','f4c2e87c58a014d0eaaed7ba1a459314',547,3,'item','17ed5191fd4a3b9d3fc366a1cda5b4dc',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24802,'','',100,'','func','','e666','',0,0,0,'',false,false,false,false,false,true,'/Student/Money/Profit','','收益','f4c2e87c58a014d0eaaed7ba1a459314',547,4,'item','3ed08ea8c3a6dbbb0b14535e27357061',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24803,'','',100,'','func','','e685','',0,0,0,'',false,true,false,false,false,true,'','','学习卡','547',547,6,'node','dff9c491a3f3e5493cec04abf7244b69',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24804,'','',100,'','func','','e685','',0,0,0,'',false,false,false,false,false,true,'/student/Learningcard/index','','我的学习卡','dff9c491a3f3e5493cec04abf7244b69',547,0,'item','3a108c8fbb70ddb57532149a214bc427',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24805,'','',100,'','func','','','',0,0,0,'',false,false,false,false,false,true,'','','newnode-6141','547',547,7,'hr','1641640249725',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24806,'','',100,'','func','','e690','',0,0,0,'',false,true,false,false,false,true,'','','分享','547',547,8,'item','2a3233d51cbc815b00bce3e9d7788dbb',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24807,'','',100,'','func','','e73e','',0,0,0,'',false,false,false,false,false,true,'/student/share/link','','分享链接','2a3233d51cbc815b00bce3e9d7788dbb',547,0,'item','82809d1a369ab3c44c330c909a532866',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24808,'','',100,'','func','','e67d','',0,0,0,'',false,true,false,false,false,true,'/student/share/subordinates','','我的朋友','2a3233d51cbc815b00bce3e9d7788dbb',547,1,'item','83f7721be4b7779ce3f097a59b81adb9',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25009,'','',100,'','func','','a038','rgb(208, 107, 0)',0,0,0,'',false,true,false,false,false,true,'/orgadmin/setup/function','','功能设置','d42f434639edecdbd7f7f5919e6d086a',522,4,'item','acc513b05fe589c27716631c54ef30f8',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25010,'','',0,'','func','','a053','',0,0,0,'',false,false,false,false,false,false,'/orgadmin/setup/qrcode','','二维码','acc513b05fe589c27716631c54ef30f8',522,0,'item','95aca19ba38c02a7b9f3d2b7a7e0c7e5',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25011,'','',100,'','func','','a035','rgb(8, 113, 166)',-3,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/Register','','登录注册','acc513b05fe589c27716631c54ef30f8',522,1,'item','1695313545347',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25012,'','',100,'','func','','e813','rgb(3, 137, 62)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/study','','学习相关','acc513b05fe589c27716631c54ef30f8',522,2,'item','1695313546693',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25013,'','',100,'','func','','e79b','rgb(64, 88, 0)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/device','','终端设备','acc513b05fe589c27716631c54ef30f8',522,3,'item','1695313569415',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25015,'','',100,'','func','','e609','rgb(3, 39, 239)',0,0,0,'',false,true,false,false,false,true,'','','Web端风格','abf085d525ccc320ed7b6d05cd02f161',522,0,'item','65af6428b0ff12160d40e372ae5b8337',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25016,'','',100,'','func','','a044','rgb(74, 163, 6)',-5,-2,-2,'',false,false,false,false,false,true,'/orgadmin/template/select.web','','Web端模板','65af6428b0ff12160d40e372ae5b8337',522,0,'item','4be6e84aeacaec7514680b72499b7c19',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25017,'','',100,'','func','','a009','rgb(7, 78, 142)',0,-2,0,'',false,false,false,false,false,true,'/orgadmin/template/Navigation.web','','导航菜单','65af6428b0ff12160d40e372ae5b8337',522,1,'item','185d53f8d69610c63281766012d17a8d',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25018,'','',100,'','func','','a045','rgb(22, 132, 210)',1,0,-1,'',false,false,false,false,false,true,'/orgadmin/template/ShowPicture.web','','轮播图片','65af6428b0ff12160d40e372ae5b8337',522,2,'item','e99f9b903ccc0bdefdbca97abcc9f4b1',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25019,'','',100,'','func','','e622','rgb(204, 103, 5)',2,0,-2,'',false,true,false,false,false,true,'','','移动端风格','abf085d525ccc320ed7b6d05cd02f161',522,1,'item','bc979c4b488eaffbf119e6ab518f7689',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25020,'','',100,'','func','','e677','rgb(1, 174, 73)',5,-2,-2,'',false,false,false,false,false,true,'/orgadmin/template/select.mobi','','移动端模板','bc979c4b488eaffbf119e6ab518f7689',522,0,'item','df3455c4a980c841604b55dc6651a92f',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25021,'','',100,'','func','','e632','rgb(7, 134, 159)',-9,-2,-1,'',false,false,false,false,false,true,'/orgadmin/template/Navigation.mobi','','导航按钮','bc979c4b488eaffbf119e6ab518f7689',522,1,'item','9bbdcbde47d569e6a9d5c59a8947a445',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25022,'','',100,'','func','','a045','rgb(159, 65, 7)',1,0,-2,'',false,false,false,false,false,true,'/orgadmin/template/ShowPicture.mobi','','轮播图片','bc979c4b488eaffbf119e6ab518f7689',522,2,'item','5469dba2b4b8d54745500eea8c1ba089',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25023,'','',100,'','func','','a029','rgb(2, 89, 111)',0,0,0,'',false,true,false,false,false,true,'','','友情链接','abf085d525ccc320ed7b6d05cd02f161',522,2,'item','2f1359ccc50792dbf8c75483a6f508fb',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25024,'','',100,'','func','','a03d','rgb(4, 103, 177)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/links/list','','所有链接','2f1359ccc50792dbf8c75483a6f508fb',522,0,'item','c68451aaa777687e559756c9f02f68d3',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25025,'','',100,'','func','','a015','rgb(132, 59, 7)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/links/sort','','链接分类','2f1359ccc50792dbf8c75483a6f508fb',522,1,'item','8a539ecff79b6ede1b38b2a8380e86cd',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (25026,'','',100,'','func','','a033','rgb(131, 4, 194)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/setup/Extracode','','附加代码','abf085d525ccc320ed7b6d05cd02f161',522,3,'item','1697103633401',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24954,'教务','',100,'','func','','e76b','',-2,0,2,'gggg',false,true,false,false,false,true,'','','教务管理','522',522,0,'item','cba85fde312efe019f9acafe32038fe4',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24955,'','',100,'','func','','e813','rgb(42, 130, 3)',0,0,0,'',false,true,false,false,false,true,'','','学习内容','cba85fde312efe019f9acafe32038fe4',522,0,'item','a76471634c09b23347199ee23682d1ed',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24956,'','rgb(66, 163, 6)',100,'','func','','e813','',0,0,0,'课程管理，包括课程章节、视频、试题、价格等',false,false,false,false,false,true,'/orgadmin/course/list','','课程','a76471634c09b23347199ee23682d1ed',522,0,'item','a2d8c81ec24efe439b4c9b2d139e99fe',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24957,'','rgb(3, 121, 180)',100,'','func','','e750','rgb(5, 74, 191)',3,0,0,'',false,false,false,false,false,true,'/orgadmin/Subject/list','','专业','a76471634c09b23347199ee23682d1ed',522,1,'item','f9b11e7920f6ab15ead04eeafb511830',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24958,'','rgb(107, 8, 210)',100,'','func','','e755','',-4,0,0,'',false,false,false,false,false,true,'/orgadmin/Question/list','','试题库','a76471634c09b23347199ee23682d1ed',522,2,'item','8546016f8e1c6e078b5dddd0eab7920d',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24959,'','',100,'','func','','e804','rgb(220, 51, 6)',8,0,0,'',false,true,false,false,false,true,'','','学员管理','cba85fde312efe019f9acafe32038fe4',522,1,'item','fc20f555f70b93019964a391d33a14d5',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24960,'','',100,'','func','','e808','rgb(2, 122, 20)',2,0,0,'',false,false,false,false,false,true,'/orgadmin/Student/list','','学员信息','fc20f555f70b93019964a391d33a14d5',522,0,'item','b50ea4a3ed65be9d39651c1f1ecf014c',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24961,'','',100,'','func','','e723','',0,0,0,'',false,false,false,false,false,true,'/orgadmin/Student/Activation','','活跃度','fc20f555f70b93019964a391d33a14d5',522,1,'item','1708482766944',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24962,'','',100,'','func','','e67d','rgb(34, 0, 252)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/Student/sort','','学员组','fc20f555f70b93019964a391d33a14d5',522,2,'item','53774f25cbb2a6248bdc4b5783d1f842',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24963,'','',100,'','func','','e650','rgb(0, 85, 169)',0,0,0,'',false,true,false,false,false,true,'','','教师管理','cba85fde312efe019f9acafe32038fe4',522,2,'item','bc07d10b0c411cab2e14f60328e8e4ad',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24964,'','',100,'','func','','e6a1','rgb(1, 143, 36)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/teacher/list','','教师信息','bc07d10b0c411cab2e14f60328e8e4ad',522,0,'item','19c839b6968161696712b7e7b76c9772',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24965,'','',100,'','func','','e639','rgb(173, 20, 238)',0,0,-2,'',false,false,false,false,false,true,'/orgadmin/Teacher/titles','','教师职称','bc07d10b0c411cab2e14f60328e8e4ad',522,1,'item','651397af8465c643284ff8e137fd8079',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24966,'','',100,'','func','','e68f','rgb(183, 56, 4)',1,0,-2,'',false,false,false,false,false,true,'/orgadmin/setup/Stamp','','学习证明','cba85fde312efe019f9acafe32038fe4',522,3,'item','1639658295720',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24967,'考试','',100,'','func','','e810','',0,0,3,'',false,true,false,false,false,true,'','','专项考试','522',522,1,'item','1665903171969',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24968,'','',100,'','func','','e810','rgb(82, 4, 242)',0,0,0,'',false,false,false,false,false,true,'/teacher/exam/list','','考试管理','1665903171969',569,0,'item','606b87e461d6b43e1ff789ad9b1b11c2',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24969,'','',100,'','func','','e82e','rgb(5, 137, 0)',0,0,0,'',false,false,false,false,false,true,'/teacher/exam/results','','考试成绩','1665903171969',569,1,'item','f2b59e41fb0d29f16707ad11b590e686',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24970,'运维','',100,'','func','','e79b','',3,0,3,'',false,true,false,false,false,true,'','','运营与维护','522',522,2,'item','1697428052534',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24971,'','',100,'','func','','e60f','rgb(196, 32, 2)',5,0,-2,'',false,false,false,false,false,true,'/orgadmin/Rechargecode/Codeset','','充值卡','1697428052534',522,0,'item','1697428790833',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24972,'','',100,'','func','','e685','rgb(0, 130, 30)',5,0,-2,'',false,false,false,false,false,true,'/orgadmin/Learningcard/cardset','','学习卡','1697428052534',522,1,'item','1697428791888',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24973,'','',100,'','func','','e824','rgb(255, 123, 0)',0,0,0,'',false,true,false,false,false,true,'','','资金管理','1697428052534',522,2,'item','1697791565174',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24974,'','',100,'','func','','e749','rgb(235, 160, 0)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/Capital/Records','','资金流水','1697791565174',522,0,'item','1697428808320',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24975,'','',100,'','func','','e607','rgb(0, 154, 19)',10,0,0,'',false,false,false,false,false,true,'/orgadmin/Capital/Accounts','','人工充值','1697791565174',522,1,'item','1697791615582',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24976,'','',100,'','func','','e697','rgb(1, 163, 29)',0,0,0,'',false,false,false,false,false,true,'/orgadmin/notice/list','','通知公告','1697428052534',522,3,'item','7505573f225da91c421b31e8e950aa16',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24977,'','',100,'','func','','e75c','rgb(244, 56, 0)',0,0,0,'',false,true,false,false,false,true,'','','新闻管理','1697428052534',522,4,'item','d001a8ab9566b79e46dc6d81fb7fa213',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24978,'','',100,'','func','','e71c','rgb(201, 101, 6)',-5,0,-2,'新闻管理',false,false,false,false,false,true,'/orgadmin/news/list','','新闻发布','d001a8ab9566b79e46dc6d81fb7fa213',522,0,'item','fdffc2a7aa807909b9c259169c70794d',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24979,'','',100,'','func','','e668','rgb(7, 120, 201)',0,0,-2,'',false,false,false,false,false,true,'/orgadmin/news/Columns','','新闻栏目','d001a8ab9566b79e46dc6d81fb7fa213',522,1,'item','e3346bd15202ce654c42f126d2153a41',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24980,'','',100,'','func','','e79e','rgb(102, 4, 214)',10,0,0,'',false,true,false,false,false,true,'','','数据校正','1697428052534',522,5,'item','1697789368523',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24981,'','',100,'','func','','e6d8','rgb(245, 74, 0)',-6,0,2,'',false,false,false,false,false,true,'/manage/ques/itemrepeat','','试题修复','1697789368523',522,0,'item','1697789410970',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24982,'','',86,'','func','','a049','rgb(15, 134, 197)',0,0,0,'人工修正视频学习进度、试题练习完成度',false,false,false,false,false,true,'/orgadmin/data/VideoProgress','','学习进度','1697789368523',522,1,'item','1697789613476',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24782,'','',100,'','func','','e813','',0,0,0,'已经选学的课程',false,true,false,false,false,true,'/student/course/index','','我的课程','547',547,0,'item','99e3c10a6ff4c0af38d4ad6551662222',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24783,'','rgb(1, 159, 200)',100,'','func','','e6f1','',0,0,0,'',false,true,false,false,false,true,'','','学习回顾','547',547,1,'item','8f2fedf0d52426d8107380eb60af23cb',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24784,'','',0,'','func','','e634','',0,0,0,'已经选学的课程',false,false,false,false,false,false,'/Student/Test/Archives','','测试成绩','8f2fedf0d52426d8107380eb60af23cb',547,0,'item','e61b2ed6eed9cb98323eadfde84d1d99',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24785,'','',100,'','func','','e810','',0,0,0,'已经选学的课程',false,false,false,false,false,true,'/Student/exam/Results','','专项考试','8f2fedf0d52426d8107380eb60af23cb',547,1,'item','0df6f2c3642c081462a35f1f1ada550a',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24786,'','',100,'','func','','e6b0','',0,0,0,'已经选学的课程',false,false,false,false,false,true,'/student/Question/errors','','错题回顾','8f2fedf0d52426d8107380eb60af23cb',547,2,'item','caedac420273252de2dadfd450a98382',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24787,'','',0,'','func','','e667','',0,0,0,'',false,false,false,false,false,false,'/student/study/certificate','','学习证明','8f2fedf0d52426d8107380eb60af23cb',547,3,'item','9570d28a7c77d0137551fa4d499e9988',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24788,'','rgb(2, 128, 29)',100,'','func','','e639','',0,0,0,'',false,false,false,false,false,true,'/student/study/Certificate','','学习证明','547',547,2,'item','1642663352817',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24789,'','',100,'','func','','','',0,0,0,'',false,false,false,false,false,true,'','','--分隔线-','547',547,3,'hr','1641613171019',0,'',false,false,false,false,0);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24790,'','',100,'','func','','e68f','',0,0,0,'',false,true,false,false,false,true,'','','个人信息','547',547,4,'node','c1d2a8cba0766a36dafa91f43a581f18',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24791,'','',100,'','func','','a043','',0,0,0,'已经选学的课程',false,false,false,false,false,true,'/student/Self/info','','基本信息','c1d2a8cba0766a36dafa91f43a581f18',547,0,'item','7c5f1c92ee9e6c364a46c755df860b26',300,'',false,false,false,false,400);INSERT INTO "ManageMenu"("MM_Id","MM_AbbrName","MM_Color","MM_Complete","MM_Font","MM_Func","MM_Help","MM_IcoCode","MM_IcoColor","MM_IcoSize","MM_IcoX","MM_IcoY","MM_Intro","MM_IsBold","MM_IsChilds","MM_IsFixed","MM_IsItalic","MM_IsShow","MM_IsUse","MM_Link","MM_Marker","MM_Name","MM_PatId","MM_Root","MM_Tax","MM_Type","MM_UID","MM_WinHeight","MM_WinID","MM_WinMax","MM_WinMin","MM_WinMove","MM_WinResize","MM_WinWidth") VALUES (24792,'','',100,'','func','','e71a','',0,0,0,'已经选学的课程',false,false,false,false,false,true,'/student/Self/link','','联系方式','c1d2a8cba0766a36dafa91f43a581f18',547,1,'item','22475af5e44f46286660708fb4f2c4c9',300,'',false,false,false,false,400);
 
 -- 创建表 ManageMenu_Point --
+DROP TABLE IF EXISTS public."ManageMenu_Point" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ManageMenu_Point"
 (
 	"MMP_Id" integer NOT NULL,
@@ -1258,16 +1232,16 @@ CREATE TABLE IF NOT EXISTS public."ManageMenu_Point"
 	"MM_Id" integer NOT NULL,
 	 CONSTRAINT key_managemenu_point PRIMARY KEY ("MMP_Id")
 );
--- 表 ManageMenu_Point 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ManageMenu_Point_MMP_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ManageMenu_Point_MMP_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ManageMenu_Point_MMP_Id_seq" OWNED BY public."ManageMenu_Point"."MMP_Id";
 ALTER TABLE "ManageMenu_Point" ALTER COLUMN "MMP_Id" SET DEFAULT NEXTVAL('"ManageMenu_Point_MMP_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaManageMenu_Point_PK" ON "ManageMenu_Point" ("MMP_Id" ASC);
+CREATE INDEX IF NOT EXISTS "ManageMenu_Point_aaaaaManageMenu_Point_PK" ON "ManageMenu_Point" ("MMP_Id" ASC);
 
--- 表 ManageMenu_Point 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "ManageMenu_Point_aaaaaManageMenu_Point_PK" ON public."ManageMenu_Point" USING btree ("MMP_Id");
 
 -- 创建表 Message --
+DROP TABLE IF EXISTS public."Message" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Message"
 (
 	"Msg_Id" integer NOT NULL,
@@ -1277,7 +1251,7 @@ CREATE TABLE IF NOT EXISTS public."Message"
 	"Ac_Photo" character varying(255) COLLATE pg_catalog."default",
 	"Cou_ID" bigint NOT NULL,
 	"Msg_Context" character varying(255) COLLATE pg_catalog."default",
-	"Msg_CrtTime" timestamp without time zone,
+	"Msg_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Msg_Del" boolean NOT NULL,
 	"Msg_IP" character varying(200) COLLATE pg_catalog."default",
 	"Msg_IsReply" boolean NOT NULL,
@@ -1286,28 +1260,28 @@ CREATE TABLE IF NOT EXISTS public."Message"
 	"Msg_PlayTime" integer NOT NULL,
 	"Msg_QQ" character varying(255) COLLATE pg_catalog."default",
 	"Msg_ReContext" character varying(1000) COLLATE pg_catalog."default",
-	"Msg_ReadTime" timestamp without time zone,
+	"Msg_ReadTime" TIMESTAMP WITH TIME ZONE,
 	"Msg_State" integer NOT NULL,
 	"Msg_Title" character varying(100) COLLATE pg_catalog."default",
 	"Ol_ID" bigint NOT NULL,
 	"Org_Id" integer NOT NULL,
 	 CONSTRAINT key_message PRIMARY KEY ("Msg_Id")
 );
--- 表 Message 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Message_Msg_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Message_Msg_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Message_Msg_Id_seq" OWNED BY public."Message"."Msg_Id";
 ALTER TABLE "Message" ALTER COLUMN "Msg_Id" SET DEFAULT NEXTVAL('"Message_Msg_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Message_IX_Ac_ID" ON "Message" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Cou_ID" ON "Message" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Msg_CrtTime" ON "Message" ("Msg_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "Message_aaaaaMessage_PK" ON "Message" ("Msg_Id" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaMessage_PK" ON "Message" ("Msg_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Ol_ID" ON "Message" ("Ol_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Message_IX_Org_Id" ON "Message" ("Org_Id" ASC);
 
--- 表 Message 的索引 --
-CREATE INDEX IF NOT EXISTS "Message_IX_Ac_ID" ON public."Message" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Message_IX_Cou_ID" ON public."Message" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Message_IX_Msg_CrtTime" ON public."Message" USING btree ("Msg_CrtTime" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Message_aaaaaMessage_PK" ON public."Message" USING btree ("Msg_Id");
-CREATE INDEX IF NOT EXISTS "Message_IX_Ol_ID" ON public."Message" USING btree ("Ol_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Message_IX_Org_Id" ON public."Message" USING btree ("Org_Id" DESC);
 
 -- 创建表 MessageBoard --
+DROP TABLE IF EXISTS public."MessageBoard" CASCADE;
 CREATE TABLE IF NOT EXISTS public."MessageBoard"
 (
 	"Mb_Id" integer NOT NULL,
@@ -1315,11 +1289,11 @@ CREATE TABLE IF NOT EXISTS public."MessageBoard"
 	"Ac_Name" character varying(255) COLLATE pg_catalog."default",
 	"Ac_Photo" character varying(255) COLLATE pg_catalog."default",
 	"Cou_ID" bigint NOT NULL,
-	"Mb_AnsTime" timestamp without time zone,
+	"Mb_AnsTime" TIMESTAMP WITH TIME ZONE,
 	"Mb_Answer" text,
 	"Mb_At" integer NOT NULL,
 	"Mb_Content" text,
-	"Mb_CrtTime" timestamp without time zone,
+	"Mb_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Mb_Email" character varying(255) COLLATE pg_catalog."default",
 	"Mb_FluxNumber" integer NOT NULL,
 	"Mb_IP" character varying(255) COLLATE pg_catalog."default",
@@ -1338,20 +1312,20 @@ CREATE TABLE IF NOT EXISTS public."MessageBoard"
 	"Th_ID" integer NOT NULL,
 	 CONSTRAINT key_messageboard PRIMARY KEY ("Mb_Id")
 );
--- 表 MessageBoard 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."MessageBoard_Mb_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."MessageBoard_Mb_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."MessageBoard_Mb_Id_seq" OWNED BY public."MessageBoard"."Mb_Id";
 ALTER TABLE "MessageBoard" ALTER COLUMN "Mb_Id" SET DEFAULT NEXTVAL('"MessageBoard_Mb_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Cou_ID" ON "MessageBoard" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_CrtTime" ON "MessageBoard" ("Mb_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaMessageBoard_PK" ON "MessageBoard" ("Mb_Id" ASC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_aaaaaMessageBoard_PK" ON "MessageBoard" ("Mb_Id" ASC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_IsTheme" ON "MessageBoard" ("Mb_IsTheme" ASC);
+CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Org_Id" ON "MessageBoard" ("Org_ID" ASC);
 
--- 表 MessageBoard 的索引 --
-CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Cou_ID" ON public."MessageBoard" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_CrtTime" ON public."MessageBoard" USING btree ("Mb_CrtTime" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "MessageBoard_aaaaaMessageBoard_PK" ON public."MessageBoard" USING btree ("Mb_Id");
-CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Mb_IsTheme" ON public."MessageBoard" USING btree ("Mb_IsTheme" DESC);
-CREATE INDEX IF NOT EXISTS "MessageBoard_IX_Org_Id" ON public."MessageBoard" USING btree ("Org_ID" DESC);
 
 -- 创建表 MoneyAccount --
+DROP TABLE IF EXISTS public."MoneyAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."MoneyAccount"
 (
 	"Ma_ID" integer NOT NULL,
@@ -1359,48 +1333,47 @@ CREATE TABLE IF NOT EXISTS public."MoneyAccount"
 	"Ac_ID" integer NOT NULL,
 	"Ac_Name" character varying(50) COLLATE pg_catalog."default",
 	"Ma_Buyer" character varying(255) COLLATE pg_catalog."default",
-	"Ma_CrtTime" timestamp without time zone NOT NULL,
+	"Ma_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ma_From" integer NOT NULL,
 	"Ma_Info" character varying(500) COLLATE pg_catalog."default",
 	"Ma_IsSuccess" boolean NOT NULL,
-	"Ma_Money" numeric(18,4) NOT NULL,
+	"Ma_Money" DECIMAL(18,4) NOT NULL,
 	"Ma_Remark" character varying(1000) COLLATE pg_catalog."default",
 	"Ma_Seller" character varying(255) COLLATE pg_catalog."default",
 	"Ma_Serial" character varying(100) COLLATE pg_catalog."default",
 	"Ma_Source" character varying(200) COLLATE pg_catalog."default",
 	"Ma_Status" integer NOT NULL,
-	"Ma_Total" numeric(18,4) NOT NULL,
+	"Ma_Total" DECIMAL(18,4) NOT NULL,
 	"Ma_Type" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Pai_ID" integer NOT NULL,
 	"Rc_Code" character varying(100) COLLATE pg_catalog."default",
 	 CONSTRAINT key_moneyaccount PRIMARY KEY ("Ma_ID")
 );
--- 表 MoneyAccount 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."MoneyAccount_Ma_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."MoneyAccount_Ma_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."MoneyAccount_Ma_ID_seq" OWNED BY public."MoneyAccount"."Ma_ID";
 ALTER TABLE "MoneyAccount" ALTER COLUMN "Ma_ID" SET DEFAULT NEXTVAL('"MoneyAccount_Ma_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_AccName" ON "MoneyAccount" ("Ac_AccName" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_ID" ON "MoneyAccount" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_Name" ON "MoneyAccount" ("Ac_Name" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_CrtTime" ON "MoneyAccount" ("Ma_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_From" ON "MoneyAccount" ("Ma_From" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_IsSuccess" ON "MoneyAccount" ("Ma_IsSuccess" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Money" ON "MoneyAccount" ("Ma_Money" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Serial" ON "MoneyAccount" ("Ma_Serial" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Type" ON "MoneyAccount" ("Ma_Type" ASC);
+CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Org_ID" ON "MoneyAccount" ("Org_ID" ASC);
 
--- 表 MoneyAccount 的索引 --
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_AccName" ON public."MoneyAccount" USING btree ("Ac_AccName" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_ID" ON public."MoneyAccount" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ac_Name" ON public."MoneyAccount" USING btree ("Ac_Name" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_CrtTime" ON public."MoneyAccount" USING btree ("Ma_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_From" ON public."MoneyAccount" USING btree ("Ma_From" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_IsSuccess" ON public."MoneyAccount" USING btree ("Ma_IsSuccess" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Money" ON public."MoneyAccount" USING btree ("Ma_Money" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Serial" ON public."MoneyAccount" USING btree ("Ma_Serial" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Ma_Type" ON public."MoneyAccount" USING btree ("Ma_Type" DESC);
-CREATE INDEX IF NOT EXISTS "MoneyAccount_IX_Org_ID" ON public."MoneyAccount" USING btree ("Org_ID" DESC);
 
 -- 创建表 Navigation --
+DROP TABLE IF EXISTS public."Navigation" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Navigation"
 (
 	"Nav_ID" integer NOT NULL,
 	"Nav_Child" integer NOT NULL,
 	"Nav_Color" character varying(255) COLLATE pg_catalog."default",
-	"Nav_CrtTime" timestamp without time zone NOT NULL,
+	"Nav_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Nav_EnName" character varying(255) COLLATE pg_catalog."default",
 	"Nav_Event" text,
 	"Nav_Font" character varying(255) COLLATE pg_catalog."default",
@@ -1423,28 +1396,28 @@ CREATE TABLE IF NOT EXISTS public."Navigation"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_navigation PRIMARY KEY ("Nav_ID")
 );
--- 表 Navigation 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Navigation_Nav_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Navigation_Nav_ID_seq" START WITH 862 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Navigation_Nav_ID_seq" OWNED BY public."Navigation"."Nav_ID";
 ALTER TABLE "Navigation" ALTER COLUMN "Nav_ID" SET DEFAULT NEXTVAL('"Navigation_Nav_ID_seq"'::regclass);
 
-INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (2,0,'','2014-05-31 11:12:22','','','','','','',False,True,'201608240908032030.jpg','首页','','web','',1,'','main','2','/default.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (6,0,'','2014-05-31 14:05:13','','','','','','',False,True,'','课程中心','','web','',18,'课程中心','main','6','/Courses.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (11,0,'','2014-06-01 16:44:56','','','','','','',False,True,'','通知公告','','web','',5,'','foot','11','/notices.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (12,0,'','2014-06-01 16:45:22','','','','','','',False,True,'','新闻资讯','','web','',6,'','foot','12','/news.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (13,0,'#003562','2014-06-01 16:45:44','','','','','','',True,True,'','机构管理','','web','_blank',7,'','foot','13','/admin/index.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (14,0,'','2014-06-01 16:46:07','','','','','','',False,True,'','友情链接','','web','',8,'','foot','14','/links.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (15,0,'','2014-06-01 16:46:30','','','','','','',False,True,'','关于我们','','web','',9,'','foot','15','/about.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (16,0,'','2014-06-01 16:46:55','','','','','','',False,True,'','联系我们','','web','',12,'','foot','16','/Contactus.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (21,0,'','2014-06-01 17:23:39','','','','','','',False,False,'','教师','','web','',19,'','main','21','/teacher/List.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (22,0,'','2014-06-01 17:24:39','','','','','','',False,True,'','在线练习','','web','',20,'','main','22','/Training.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (26,0,'','2014-06-01 17:30:11','','','','','','',False,False,'','测试','','web','',22,'','main','26','/test.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (27,0,'','2014-06-01 17:30:23','','','','','','',False,True,'','在线考试','','web','',21,'','main','27','/exam.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (47,0,'','2016-09-11 10:48:07','','','','','','',False,True,'','工作动态','','web','',17,'','main','47','/newslist.ashx?colid=5',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (48,0,'','2016-09-11 10:48:19','','','','','','',False,True,'','新闻中心','','web','',4,'','main','48','/news.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (49,0,'','2016-09-11 10:48:32','','','','','','',False,False,'','在线帮助','','web','',23,'','main','49','/newslist.ashx?colid=11',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (50,0,'','2016-09-11 10:48:40','','','','','','',False,True,'','关于我们','','web','',24,'','main','50','/about.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (51,0,'','2016-09-11 10:51:12','','','','','','',False,True,'','政策法规','','web','',15,'','main','51','/newslist.ashx?colid=6',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (52,0,'','2016-09-26 20:54:24','','','','','','',False,True,'','国内新闻','48','web','',0,'','main','52','/newslist.ashx?colid=8',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (53,0,'','2016-09-26 20:59:29','','','','','','',False,True,'','省内新闻','48','web','',1,'','main','53','/newslist.ashx?colid=9',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (54,0,'','2016-09-26 20:59:49','','','','','','',False,True,'','工作动态','48','web','',2,'','main','54','/newslist.ashx?colid=5',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (57,0,'','2016-09-28 23:10:09','','','','','','',False,True,'','十八届五中全会精神','6','web','',0,'','main','57','/Courses.ashx?sbjid=94',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (58,0,'','2016-09-28 23:10:51','','','','','','',False,True,'','两学一做','6','web','',1,'','main','58','/Courses.ashx?sbjid=92',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (59,0,'','2016-09-28 23:12:08','','','','','','',False,True,'','通知公告','','web','',14,'','main','59','/notices.ashx',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (60,0,'','2016-09-29 15:41:41','','','','','','',False,False,'','司法资讯','52','web','',0,'','main','60','',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (61,0,'','2016-11-27 11:21:15','','','','','','',False,False,'','首页','','web','',0,'','main','61','/default.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (62,0,'','2016-11-27 11:22:11','','','','','','',False,True,'','课程','','web','',1,'课程中心','main','62','/Courses.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (63,0,'','2016-11-27 11:25:23','','','','','','',False,True,'','新闻','','web','',2,'','main','63','/news.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (646,0,'','1753-01-01 00:00:00','','','','e697','','',False,True,'','通知公告','','web','',0,'','foot','80','/web/notice',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (647,0,'','1753-01-01 00:00:00','','','','e75c','','',False,True,'','新闻资讯','','web','',1,'','foot','81','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (91,0,'','2017-02-25 16:57:27','','','','','','',False,True,'201702250523350090.jpg','自定义菜单2','','mobi','',1,'','main','91','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (92,0,'','2017-02-25 16:57:47','','','','','','',False,True,'','自定义菜单1','','mobi','',0,'','main','92','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (93,0,'','2017-02-25 17:10:00','','','','','','',False,True,'201702250524198570.jpg','自定义菜单3','','mobi','',2,'','main','93','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (64,0,'','2016-11-27 11:25:49','','','','','','',False,False,'','教师','','web','',3,'','main','64','/teacher/List.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (65,0,'','2016-11-27 11:26:09','','','','','','',False,False,'','练习','','web','',4,'','main','65','/Training.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (66,0,'','2016-11-27 11:26:31','','','','','','',False,True,'','测试','','web','',5,'','main','66','/test.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (67,0,'','2016-11-27 11:27:09','','','','','','',False,True,'','考试','','web','',6,'','main','67','/exam.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (648,0,'','1753-01-01 00:00:00','','','','a038','','',False,True,'','机构管理','','web','',2,'','foot','82','/orgadmin',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (649,0,'','1753-01-01 00:00:00','','','','e67d','','',False,True,'','关于我们','','web','',3,'','foot','83','/web/about',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (650,1,'','1753-01-01 00:00:00','','','','e751','','',False,False,'','联系我们','','web','',4,'','foot','84','/web/conn',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (850,0,'','1753-01-01 00:00:00','','','','a020','','',False,True,'','首页','','web','',0,'','main','8b6a174de0e1ecceede7106127e7d83a','/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (851,1,'','1753-01-01 00:00:00','','','','e813','','',False,True,'','课程中心','','web','',1,'','main','68','/web/Course',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (852,0,'','1753-01-01 00:00:00','','','','e810','','',False,True,'','考务中心','','web','',2,'','main','72','/web/exam',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (853,1,'','1753-01-01 00:00:00','','','','e75c','','',False,True,'','新闻资讯','','web','',3,'','main','73','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (854,0,'','1753-01-01 00:00:00','','','','e697','','',False,True,'','通知公告','','web','',4,'','main','8106f4b832995ffcd174b5274c85a40e','/web/notice',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (855,1,'','1753-01-01 00:00:00','','','','a026','','',False,True,'','帮助','','web','',5,'','main','3d094a35a075a331545bc407e9aa57f6','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (856,0,'','1753-01-01 00:00:00','','','','a026','','',False,True,'','帮助中心','3d094a35a075a331545bc407e9aa57f6','web','_blank',0,'','main','74daa309accbe357765af9be24ff3c3a','/help',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (857,0,'','1753-01-01 00:00:00','','','','a03d','','',False,True,'','在线帮助','3d094a35a075a331545bc407e9aa57f6','web','_blank',1,'','main','7c28d33b967c57712d32edc585e25f8a','http://www.weisha100.net/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (858,1,'','1753-01-01 00:00:00','','','','a034','','',False,True,'','开源代码','3d094a35a075a331545bc407e9aa57f6','web','',2,'','main','c4708328e12561efd42f000a13f3e28c','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (859,0,'','1753-01-01 00:00:00','','','','e686','','',False,True,'','Gitee源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',0,'','main','777c15c95d66c4fd146c4460ced427b1','https://gitee.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (860,0,'','1753-01-01 00:00:00','','','','e691','','',False,True,'','Github源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',1,'','main','4ffaf75cc966646a4694cf5d3ad78b3d','https://github.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (861,0,'','1753-01-01 00:00:00','','','','e67d','','',False,True,'','关于我们','3d094a35a075a331545bc407e9aa57f6','web','',3,'','main','f883521693b859158123f9bd9e835d99','/web/about',4,'');
--- 表 Navigation 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Navigation_aaaaaNavigation_PK" ON public."Navigation" USING btree ("Nav_ID");
-CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_IsShow" ON public."Navigation" USING btree ("Nav_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Navigation_Nav_PID" ON public."Navigation" USING btree ("Nav_PID" DESC);
-CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Site" ON public."Navigation" USING btree ("Nav_Site" DESC);
-CREATE INDEX IF NOT EXISTS "Navigation_Nav_Tax" ON public."Navigation" USING btree ("Nav_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Type" ON public."Navigation" USING btree ("Nav_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Navigation_IX_Org_ID" ON public."Navigation" USING btree ("Org_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Navigation_aaaaaNavigation_PK" ON "Navigation" ("Nav_ID" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaNavigation_PK" ON "Navigation" ("Nav_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_IsShow" ON "Navigation" ("Nav_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_PID" ON "Navigation" ("Nav_PID" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Site" ON "Navigation" ("Nav_Site" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_Nav_Tax" ON "Navigation" ("Nav_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Nav_Type" ON "Navigation" ("Nav_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Navigation_IX_Org_ID" ON "Navigation" ("Org_ID" ASC);
+INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (2,0,'','2014-05-31 11:12:22','','','','','','',false,true,'201608240908032030.jpg','首页','','web','',1,'','main','2','/default.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (6,0,'','2014-05-31 14:05:13','','','','','','',false,true,'','课程中心','','web','',18,'课程中心','main','6','/Courses.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (11,0,'','2014-06-01 16:44:56','','','','','','',false,true,'','通知公告','','web','',5,'','foot','11','/notices.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (12,0,'','2014-06-01 16:45:22','','','','','','',false,true,'','新闻资讯','','web','',6,'','foot','12','/news.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (13,0,'#003562','2014-06-01 16:45:44','','','','','','',true,true,'','机构管理','','web','_blank',7,'','foot','13','/admin/index.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (14,0,'','2014-06-01 16:46:07','','','','','','',false,true,'','友情链接','','web','',8,'','foot','14','/links.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (15,0,'','2014-06-01 16:46:30','','','','','','',false,true,'','关于我们','','web','',9,'','foot','15','/about.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (16,0,'','2014-06-01 16:46:55','','','','','','',false,true,'','联系我们','','web','',12,'','foot','16','/Contactus.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (21,0,'','2014-06-01 17:23:39','','','','','','',false,false,'','教师','','web','',19,'','main','21','/teacher/List.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (22,0,'','2014-06-01 17:24:39','','','','','','',false,true,'','在线练习','','web','',20,'','main','22','/Training.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (26,0,'','2014-06-01 17:30:11','','','','','','',false,false,'','测试','','web','',22,'','main','26','/test.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (27,0,'','2014-06-01 17:30:23','','','','','','',false,true,'','在线考试','','web','',21,'','main','27','/exam.ashx',3,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (47,0,'','2016-09-11 10:48:07','','','','','','',false,true,'','工作动态','','web','',17,'','main','47','/newslist.ashx?colid=5',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (48,0,'','2016-09-11 10:48:19','','','','','','',false,true,'','新闻中心','','web','',4,'','main','48','/news.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (49,0,'','2016-09-11 10:48:32','','','','','','',false,false,'','在线帮助','','web','',23,'','main','49','/newslist.ashx?colid=11',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (50,0,'','2016-09-11 10:48:40','','','','','','',false,true,'','关于我们','','web','',24,'','main','50','/about.ashx',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (51,0,'','2016-09-11 10:51:12','','','','','','',false,true,'','政策法规','','web','',15,'','main','51','/newslist.ashx?colid=6',3,'郑州市司法局网络培训学院');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (52,0,'','2016-09-26 20:54:24','','','','','','',false,true,'','国内新闻','48','web','',0,'','main','52','/newslist.ashx?colid=8',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (53,0,'','2016-09-26 20:59:29','','','','','','',false,true,'','省内新闻','48','web','',1,'','main','53','/newslist.ashx?colid=9',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (54,0,'','2016-09-26 20:59:49','','','','','','',false,true,'','工作动态','48','web','',2,'','main','54','/newslist.ashx?colid=5',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (57,0,'','2016-09-28 23:10:09','','','','','','',false,true,'','十八届五中全会精神','6','web','',0,'','main','57','/Courses.ashx?sbjid=94',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (58,0,'','2016-09-28 23:10:51','','','','','','',false,true,'','两学一做','6','web','',1,'','main','58','/Courses.ashx?sbjid=92',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (59,0,'','2016-09-28 23:12:08','','','','','','',false,true,'','通知公告','','web','',14,'','main','59','/notices.ashx',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (60,0,'','2016-09-29 15:41:41','','','','','','',false,false,'','司法资讯','52','web','',0,'','main','60','',3,'郑州市司法系统学法用法平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (61,0,'','2016-11-27 11:21:15','','','','','','',false,false,'','首页','','web','',0,'','main','61','/default.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (62,0,'','2016-11-27 11:22:11','','','','','','',false,true,'','课程','','web','',1,'课程中心','main','62','/Courses.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (63,0,'','2016-11-27 11:25:23','','','','','','',false,true,'','新闻','','web','',2,'','main','63','/news.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (646,0,'','1752-12-31 23:54:17','','','','e697','','',false,true,'','通知公告','','web','',0,'','foot','80','/web/notice',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (647,0,'','1752-12-31 23:54:17','','','','e75c','','',false,true,'','新闻资讯','','web','',1,'','foot','81','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (91,0,'','2017-02-25 16:57:27','','','','','','',false,true,'201702250523350090.jpg','自定义菜单2','','mobi','',1,'','main','91','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (92,0,'','2017-02-25 16:57:47','','','','','','',false,true,'','自定义菜单1','','mobi','',0,'','main','92','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (93,0,'','2017-02-25 17:10:00','','','','','','',false,true,'201702250524198570.jpg','自定义菜单3','','mobi','',2,'','main','93','',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (64,0,'','2016-11-27 11:25:49','','','','','','',false,false,'','教师','','web','',3,'','main','64','/teacher/List.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (65,0,'','2016-11-27 11:26:09','','','','','','',false,false,'','练习','','web','',4,'','main','65','/Training.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (66,0,'','2016-11-27 11:26:31','','','','','','',false,true,'','测试','','web','',5,'','main','66','/test.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (67,0,'','2016-11-27 11:27:09','','','','','','',false,true,'','考试','','web','',6,'','main','67','/exam.ashx',2,'郑州微厦计算机科技有限公司');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (648,0,'','1752-12-31 23:54:17','','','','a038','','',false,true,'','机构管理','','web','',2,'','foot','82','/orgadmin',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (649,0,'','1752-12-31 23:54:17','','','','e67d','','',false,true,'','关于我们','','web','',3,'','foot','83','/web/about',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (650,1,'','1752-12-31 23:54:17','','','','e751','','',false,false,'','联系我们','','web','',4,'','foot','84','/web/conn',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (850,0,'','1752-12-31 23:54:17','','','','a020','','',false,true,'','首页','','web','',0,'','main','8b6a174de0e1ecceede7106127e7d83a','/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (851,1,'','1752-12-31 23:54:17','','','','e813','','',false,true,'','课程中心','','web','',1,'','main','68','/web/Course',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (852,0,'','1752-12-31 23:54:17','','','','e810','','',false,true,'','考务中心','','web','',2,'','main','72','/web/exam',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (853,1,'','1752-12-31 23:54:17','','','','e75c','','',false,true,'','新闻资讯','','web','',3,'','main','73','/web/news',4,'云课堂网校平台');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (854,0,'','1752-12-31 23:54:17','','','','e697','','',false,true,'','通知公告','','web','',4,'','main','8106f4b832995ffcd174b5274c85a40e','/web/notice',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (855,1,'','1752-12-31 23:54:17','','','','a026','','',false,true,'','帮助','','web','',5,'','main','3d094a35a075a331545bc407e9aa57f6','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (856,0,'','1752-12-31 23:54:17','','','','a026','','',false,true,'','帮助中心','3d094a35a075a331545bc407e9aa57f6','web','_blank',0,'','main','74daa309accbe357765af9be24ff3c3a','/help',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (857,0,'','1752-12-31 23:54:17','','','','a03d','','',false,true,'','在线帮助','3d094a35a075a331545bc407e9aa57f6','web','_blank',1,'','main','7c28d33b967c57712d32edc585e25f8a','http://www.weisha100.net/',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (858,1,'','1752-12-31 23:54:17','','','','a034','','',false,true,'','开源代码','3d094a35a075a331545bc407e9aa57f6','web','',2,'','main','c4708328e12561efd42f000a13f3e28c','',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (859,0,'','1752-12-31 23:54:17','','','','e686','','',false,true,'','Gitee源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',0,'','main','777c15c95d66c4fd146c4460ced427b1','https://gitee.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (860,0,'','1752-12-31 23:54:17','','','','e691','','',false,true,'','Github源码库','c4708328e12561efd42f000a13f3e28c','web','_blank',1,'','main','4ffaf75cc966646a4694cf5d3ad78b3d','https://github.com/weishakeji/LearningSystem',4,'');INSERT INTO "Navigation"("Nav_ID","Nav_Child","Nav_Color","Nav_CrtTime","Nav_EnName","Nav_Event","Nav_Font","Nav_Icon","Nav_Image","Nav_Intro","Nav_IsBold","Nav_IsShow","Nav_Logo","Nav_Name","Nav_PID","Nav_Site","Nav_Target","Nav_Tax","Nav_Title","Nav_Type","Nav_UID","Nav_Url","Org_ID","Org_Name") VALUES (861,0,'','1752-12-31 23:54:17','','','','e67d','','',false,true,'','关于我们','3d094a35a075a331545bc407e9aa57f6','web','',3,'','main','f883521693b859158123f9bd9e835d99','/web/about',4,'');
 
 -- 创建表 NewsNote --
+DROP TABLE IF EXISTS public."NewsNote" CASCADE;
 CREATE TABLE IF NOT EXISTS public."NewsNote"
 (
 	"Nn_Id" integer NOT NULL,
 	"Art_Id" bigint NOT NULL,
 	"Nn_City" character varying(255) COLLATE pg_catalog."default",
-	"Nn_CrtTime" timestamp without time zone,
+	"Nn_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Nn_Details" character varying(50) COLLATE pg_catalog."default",
 	"Nn_Email" character varying(100) COLLATE pg_catalog."default",
 	"Nn_IP" character varying(50) COLLATE pg_catalog."default",
@@ -1456,16 +1429,16 @@ CREATE TABLE IF NOT EXISTS public."NewsNote"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_newsnote PRIMARY KEY ("Nn_Id")
 );
--- 表 NewsNote 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."NewsNote_Nn_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."NewsNote_Nn_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."NewsNote_Nn_Id_seq" OWNED BY public."NewsNote"."Nn_Id";
 ALTER TABLE "NewsNote" ALTER COLUMN "Nn_Id" SET DEFAULT NEXTVAL('"NewsNote_Nn_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaNewsNote_PK" ON "NewsNote" ("Nn_Id" ASC);
+CREATE INDEX IF NOT EXISTS "NewsNote_aaaaaNewsNote_PK" ON "NewsNote" ("Nn_Id" ASC);
 
--- 表 NewsNote 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "NewsNote_aaaaaNewsNote_PK" ON public."NewsNote" USING btree ("Nn_Id");
 
 -- 创建表 Notice --
+DROP TABLE IF EXISTS public."Notice" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Notice"
 (
 	"No_Id" bigint NOT NULL,
@@ -1473,19 +1446,19 @@ CREATE TABLE IF NOT EXISTS public."Notice"
 	"Acc_Name" character varying(50) COLLATE pg_catalog."default",
 	"No_BgImage" text,
 	"No_Context" text,
-	"No_CrtTime" timestamp without time zone,
-	"No_EndTime" timestamp without time zone,
+	"No_CrtTime" TIMESTAMP WITH TIME ZONE,
+	"No_EndTime" TIMESTAMP WITH TIME ZONE,
 	"No_Height" integer NOT NULL,
-	"No_Interval" character varying(2000) COLLATE pg_catalog."default",
+	"No_Interval" text,
 	"No_IsShow" boolean NOT NULL,
 	"No_IsTop" boolean NOT NULL,
-	"No_Linkurl" character varying(2000) COLLATE pg_catalog."default",
+	"No_Linkurl" text,
 	"No_OpenCount" integer NOT NULL,
 	"No_Organ" character varying(50) COLLATE pg_catalog."default",
 	"No_Page" character varying(200) COLLATE pg_catalog."default",
 	"No_Range" integer NOT NULL,
-	"No_StartTime" timestamp without time zone,
-	"No_StudentSort" character varying(2000) COLLATE pg_catalog."default",
+	"No_StartTime" TIMESTAMP WITH TIME ZONE,
+	"No_StudentSort" text,
 	"No_Timespan" integer NOT NULL,
 	"No_Ttl" character varying(255) COLLATE pg_catalog."default",
 	"No_Type" integer NOT NULL,
@@ -1495,6 +1468,14 @@ CREATE TABLE IF NOT EXISTS public."Notice"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_notice PRIMARY KEY ("No_Id")
 );
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_EndTime" ON "Notice" ("No_EndTime" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsShow" ON "Notice" ("No_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsTop" ON "Notice" ("No_IsTop" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Page" ON "Notice" ("No_Page" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_StartTime" ON "Notice" ("No_StartTime" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Ttl" ON "Notice" ("No_Ttl" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Type" ON "Notice" ("No_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_Org_ID" ON "Notice" ("Org_ID" ASC);
 INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_CrtTime","No_EndTime","No_Height","No_Interval","No_IsShow","No_IsTop","No_Linkurl","No_OpenCount","No_Organ","No_Page","No_Range","No_StartTime","No_StudentSort","No_Timespan","No_Ttl","No_Type","No_ViewNum","No_Width","Org_ID","Org_Name") VALUES (129504671140155392,0,'','','<p>&ldquo;视频学习、试题练习、在线考试&rdquo;紧密相联，打造成为集&nbsp;<strong>&ldquo;学、练、考&rdquo;</strong>&nbsp;于一体的在线学习系统。&ldquo;点播/直播&rdquo;、&ldquo;刷题/测试&rdquo;、&ldquo;组卷/考试&rdquo;，根据学习内容的不同权重汇总综合成绩，生成学习证明。</p>
 <p>支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。<strong><span style="color: #e03e2d;">安装用户突破四万家。</span></strong></p>
 <p><a href="/help/" target="_blank" rel="noopener">?帮助中心</a> &nbsp;<a href="/web/link" target="_blank" rel="noopener">&spades;友商推荐</a></p>
@@ -1508,18 +1489,10 @@ INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_C
 <ul>
 <li style="list-style-type: initial;">Gitee ：<a href="https://gitee.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://gitee.com/weishakeji/LearningSystem</a></li>
 <li style="list-style-type: initial;">GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://github.com/weishakeji/LearningSystem</a></li>
-</ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',True,False,'',0,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
--- 表 Notice 的索引 --
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_EndTime" ON public."Notice" USING btree ("No_EndTime" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsShow" ON public."Notice" USING btree ("No_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsTop" ON public."Notice" USING btree ("No_IsTop" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_Page" ON public."Notice" USING btree ("No_Page" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_StartTime" ON public."Notice" USING btree ("No_StartTime" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_Ttl" ON public."Notice" USING btree ("No_Ttl" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_Type" ON public."Notice" USING btree ("No_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Notice_IX_Org_ID" ON public."Notice" USING btree ("Org_ID" DESC);
+</ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',true,false,'',0,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
 
 -- 创建表 OrganLevel --
+DROP TABLE IF EXISTS public."OrganLevel" CASCADE;
 CREATE TABLE IF NOT EXISTS public."OrganLevel"
 (
 	"Olv_ID" integer NOT NULL,
@@ -1533,17 +1506,16 @@ CREATE TABLE IF NOT EXISTS public."OrganLevel"
 	"Ps_ID" integer NOT NULL,
 	 CONSTRAINT key_organlevel PRIMARY KEY ("Olv_ID")
 );
--- 表 OrganLevel 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."OrganLevel_Olv_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."OrganLevel_Olv_ID_seq" START WITH 7 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."OrganLevel_Olv_ID_seq" OWNED BY public."OrganLevel"."Olv_ID";
 ALTER TABLE "OrganLevel" ALTER COLUMN "Olv_ID" SET DEFAULT NEXTVAL('"OrganLevel_Olv_ID_seq"'::regclass);
 
-INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (1,'',False,True,1,'VIP','vip0',2,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (2,'',False,True,0,'钻石级','vip1',1,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (5,'',True,True,0,'默认机构','default',0,14);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (6,'仅提供在线考试功能。',False,True,0,'在线考试','exam',3,0);
--- 表 OrganLevel 的索引 --
-CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_IsUse" ON public."OrganLevel" USING btree ("Olv_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_Tax" ON public."OrganLevel" USING btree ("Olv_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_IsUse" ON "OrganLevel" ("Olv_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "OrganLevel_IX_Olv_Tax" ON "OrganLevel" ("Olv_Tax" ASC);
+INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (1,'',false,true,1,'VIP','vip0',2,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (2,'',false,true,0,'钻石级','vip1',1,1);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (5,'',true,true,0,'默认机构','default',0,14);INSERT INTO "OrganLevel"("Olv_ID","Olv_Intro","Olv_IsDefault","Olv_IsUse","Olv_Level","Olv_Name","Olv_Tag","Olv_Tax","Ps_ID") VALUES (6,'仅提供在线考试功能。',false,true,0,'在线考试','exam',3,0);
 
 -- 创建表 Organization --
+DROP TABLE IF EXISTS public."Organization" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Organization"
 (
 	"Org_ID" integer NOT NULL,
@@ -1586,7 +1558,7 @@ CREATE TABLE IF NOT EXISTS public."Organization"
 	"Org_PlatformName" character varying(255) COLLATE pg_catalog."default",
 	"Org_Province" character varying(255) COLLATE pg_catalog."default",
 	"Org_QuesCount" integer NOT NULL,
-	"Org_RegTime" timestamp without time zone NOT NULL,
+	"Org_RegTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Org_Street" character varying(255) COLLATE pg_catalog."default",
 	"Org_Template" character varying(255) COLLATE pg_catalog."default",
 	"Org_TemplateMobi" character varying(255) COLLATE pg_catalog."default",
@@ -1597,34 +1569,34 @@ CREATE TABLE IF NOT EXISTS public."Organization"
 	"Org_Zip" character varying(20) COLLATE pg_catalog."default",
 	 CONSTRAINT key_organization PRIMARY KEY ("Org_ID")
 );
--- 表 Organization 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Organization_Org_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Organization_Org_ID_seq" START WITH 5 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Organization_Org_ID_seq" OWNED BY public."Organization"."Org_ID";
 ALTER TABLE "Organization" ALTER COLUMN "Org_ID" SET DEFAULT NEXTVAL('"Organization_Org_ID_seq"'::regclass);
 
-INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (2,2,'钻石级','WeiSha','微厦科技','郑州市农科路鑫苑世家二号楼606室','','郑州市','','',0,'','金水区','','WeiShaKeji','','','','','','<div class="TRS_Editor" style="font-size: 16px; color: rgb(0, 0, 0); line-height: 28px; overflow: hidden; font-family: 瀹嬩綋;"><div class="Custom_UnionStyle" style="color: rgb(67, 67, 67); line-height: 28px; overflow: hidden;"><p align="justify" style="line-height: 28px; color: black;">经济日报-中国经济网北京3月21日讯（记者吴佳佳）国务院联防联控机制今天召开新闻发布会介绍，当前国内疫情防控总体保持良好态势，我国重点人群新冠疫苗接种工作顺利推进，截至3月20日24时，全国累计报告接种7495.6万剂次，下一步全国将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　国家卫健委宣传司副司长、新闻发言人米锋指出，各地正在全面抓好常态化疫情防控，保障群众安全、顺畅出行。当前，国内低风险地区持健康通行“绿码”，在测温正常且做好个人防护的前提下可有序出行，各地不得擅自加码。对新增散发病例，要发现一起、扑灭一起，确保不出现规模性反弹。</p><p align="justify" style="line-height: 28px; color: black;">　　关于60岁以上人群新冠疫苗接种的情况，国家卫生健康委员会疾控局一级巡视员贺青华在会上表示，部分地区在充分评估健康状况的情况下和被感染风险的前提下，已经开始为60岁以上身体条件比较好的老人接种新冠疫苗。同时，疫苗研发单位也在加快推进研发，在临床试验取得足够安全性、有效性数据以后，将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　既然疫苗需要大规模接种，那么产量如何保证？工业和信息化部消费品工业司副司长毛俊锋表示，目前疫苗产量与2月初相比已经有了大幅度提高，下一步还会进一步提升。全年疫苗产量完全可以满足全国人民的接种需求。目前，我国已有5款疫苗获批了附条件上市或者是获准了紧急使用，其他技术路线的疫苗也会陆续上市，一旦产品获批，就会启动生产、上市供应。</p><p align="justify" style="line-height: 28px; color: black;">　　“疫苗生产周期长，涉及环节多，技术含量更高，特别是对它的监管要求也更为严格，尤其是新冠病毒疫苗，现在疫苗生产总量、扩产增产速度在我国都是前所未有的，企业在增产扩能过程中要始终把质量安全放在第一位。”毛俊锋说，企业要切实履行疫苗质量安全的主体责任，严格落实质量管理体系。</p><p align="justify" style="line-height: 28px; color: black;">　　针对国产疫苗不良反应情况，中国疾控中心免疫规划首席专家王华庆介绍，现在监测的不良反应主要包括局部反应和全身反应。局部的不良反应包括如疼痛、红肿、硬结的情况，这些无须处理，会自行痊愈；全身的不良反应包括如头痛、乏力、低热的情况。他介绍，当前接到的不良反应报告为疑似不良反应，也就是说，属于怀疑和疫苗有关的反应。后续将继续开展较为严重的不良反应调查，通过补充调查、了解接种史、疾病情况等，再由专家组做出诊断。</p><p align="justify" style="line-height: 28px; color: black;">　　不少人关心，接种疫苗后可以摘下口罩吗？对此，中国疾控中心副主任冯子健说，由于当前全球新冠疫情仍在持续流行，国内疫苗接种率较低，来自高流行地区的人员或物品入境，仍有导致在境内传播的风险。因此，我国在人群疫苗接种达到较高免疫水平之前，无论是否接种疫苗，在人群聚集的室内或封闭场所，仍然需要继续佩戴口罩，并严格遵循当地具体的防控措施要求。</p></div></div><p style="font-size: 16px; line-height: 28px; color: rgb(0, 0, 0); font-family: 瀹嬩綋; float: right;">（责任编辑：符仲明）</p>',False,True,True,True,True,'','','34.7969676989','','','','201809030230274008.jpg','113.681890337','郑州微厦计算机科技有限公司','','王','微厦在线学习平台','河南省',0,'1753-01-01 00:00:00','农科路','School','','root','','','','');INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (4,5,'默认机构','icloud','网校平台','郑州市','','','','<?xml version="1.0" encoding="UTF-8"?><items><item key="IsLoginForPw" value="True" /><item key="IsLoginForSms" value="True" /><item key="IsSwitchPlay" value="False" /><item key="VideoTolerance" value="6" /><item key="Stamp" value="a9fd754c1b5a257130d2c50c615a1af1.png" /><item key="StampPosition" value="right-top" /><item key="IsVerifyStudent" value="False" /><item key="IsRegStudent" value="True" /><item key="IsDisableChat" value="True" /><item key="finaltest_condition_video" value="1" /><item key="finaltest_weight_video" value="40" /><item key="finaltest_weight_ques" value="0" /><item key="finaltest_weight_exam" value="60" /><item key="finaltest_score_pass" value="60" /><item key="finaltest_condition_ques" value="0" /><item key="finaltest_count" value="5" /></items>',0,'','','','icloud','','','','','','<div>该信息由管理员后台编辑；</div>
+CREATE INDEX IF NOT EXISTS "Organization_IX_Olv_ID" ON "Organization" ("Olv_ID" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaOrganization_PK" ON "Organization" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_aaaaaOrganization_PK" ON "Organization" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsDefault" ON "Organization" ("Org_IsDefault" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsPass" ON "Organization" ("Org_IsPass" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsRoot" ON "Organization" ("Org_IsRoot" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsShow" ON "Organization" ("Org_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsUse" ON "Organization" ("Org_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_Name" ON "Organization" ("Org_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_PlatformName" ON "Organization" ("Org_PlatformName" ASC);
+CREATE INDEX IF NOT EXISTS "Organization_IX_Org_TwoDomain" ON "Organization" ("Org_TwoDomain" ASC);
+INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (2,2,'钻石级','WeiSha','微厦科技','郑州市农科路鑫苑世家二号楼606室','','郑州市','','',0,'','金水区','','WeiShaKeji','','','','','','<div class="TRS_Editor" style="font-size: 16px; color: rgb(0, 0, 0); line-height: 28px; overflow: hidden; font-family: 瀹嬩綋;"><div class="Custom_UnionStyle" style="color: rgb(67, 67, 67); line-height: 28px; overflow: hidden;"><p align="justify" style="line-height: 28px; color: black;">经济日报-中国经济网北京3月21日讯（记者吴佳佳）国务院联防联控机制今天召开新闻发布会介绍，当前国内疫情防控总体保持良好态势，我国重点人群新冠疫苗接种工作顺利推进，截至3月20日24时，全国累计报告接种7495.6万剂次，下一步全国将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　国家卫健委宣传司副司长、新闻发言人米锋指出，各地正在全面抓好常态化疫情防控，保障群众安全、顺畅出行。当前，国内低风险地区持健康通行“绿码”，在测温正常且做好个人防护的前提下可有序出行，各地不得擅自加码。对新增散发病例，要发现一起、扑灭一起，确保不出现规模性反弹。</p><p align="justify" style="line-height: 28px; color: black;">　　关于60岁以上人群新冠疫苗接种的情况，国家卫生健康委员会疾控局一级巡视员贺青华在会上表示，部分地区在充分评估健康状况的情况下和被感染风险的前提下，已经开始为60岁以上身体条件比较好的老人接种新冠疫苗。同时，疫苗研发单位也在加快推进研发，在临床试验取得足够安全性、有效性数据以后，将大规模开展60岁以上老年人群的疫苗接种。</p><p align="justify" style="line-height: 28px; color: black;">　　既然疫苗需要大规模接种，那么产量如何保证？工业和信息化部消费品工业司副司长毛俊锋表示，目前疫苗产量与2月初相比已经有了大幅度提高，下一步还会进一步提升。全年疫苗产量完全可以满足全国人民的接种需求。目前，我国已有5款疫苗获批了附条件上市或者是获准了紧急使用，其他技术路线的疫苗也会陆续上市，一旦产品获批，就会启动生产、上市供应。</p><p align="justify" style="line-height: 28px; color: black;">　　“疫苗生产周期长，涉及环节多，技术含量更高，特别是对它的监管要求也更为严格，尤其是新冠病毒疫苗，现在疫苗生产总量、扩产增产速度在我国都是前所未有的，企业在增产扩能过程中要始终把质量安全放在第一位。”毛俊锋说，企业要切实履行疫苗质量安全的主体责任，严格落实质量管理体系。</p><p align="justify" style="line-height: 28px; color: black;">　　针对国产疫苗不良反应情况，中国疾控中心免疫规划首席专家王华庆介绍，现在监测的不良反应主要包括局部反应和全身反应。局部的不良反应包括如疼痛、红肿、硬结的情况，这些无须处理，会自行痊愈；全身的不良反应包括如头痛、乏力、低热的情况。他介绍，当前接到的不良反应报告为疑似不良反应，也就是说，属于怀疑和疫苗有关的反应。后续将继续开展较为严重的不良反应调查，通过补充调查、了解接种史、疾病情况等，再由专家组做出诊断。</p><p align="justify" style="line-height: 28px; color: black;">　　不少人关心，接种疫苗后可以摘下口罩吗？对此，中国疾控中心副主任冯子健说，由于当前全球新冠疫情仍在持续流行，国内疫苗接种率较低，来自高流行地区的人员或物品入境，仍有导致在境内传播的风险。因此，我国在人群疫苗接种达到较高免疫水平之前，无论是否接种疫苗，在人群聚集的室内或封闭场所，仍然需要继续佩戴口罩，并严格遵循当地具体的防控措施要求。</p></div></div><p style="font-size: 16px; line-height: 28px; color: rgb(0, 0, 0); font-family: 瀹嬩綋; float: right;">（责任编辑：符仲明）</p>',false,true,true,true,true,'','','34.7969676989','','','','201809030230274008.jpg','113.681890337','郑州微厦计算机科技有限公司','','王','微厦在线学习平台','河南省',0,'1752-12-31 23:54:17','农科路','School','','root','','','','');INSERT INTO "Organization"("Org_ID","Olv_ID","Olv_Name","Org_AbbrEnName","Org_AbbrName","Org_Address","Org_BankAcc","Org_City","Org_CoBank","Org_Config","Org_CourseCount","Org_Description","Org_District","Org_Email","Org_EnName","Org_ExtraMobi","Org_ExtraWeb","Org_Fax","Org_GonganBeian","Org_ICP","Org_Intro","Org_IsDefault","Org_IsPass","Org_IsRoot","Org_IsShow","Org_IsUse","Org_Keywords","Org_Lang","Org_Latitude","Org_Linkman","Org_LinkmanPhone","Org_LinkmanQQ","Org_Logo","Org_Longitude","Org_Name","Org_Owner","Org_Phone","Org_PlatformName","Org_Province","Org_QuesCount","Org_RegTime","Org_Street","Org_Template","Org_TemplateMobi","Org_TwoDomain","Org_USCI","Org_WebSite","Org_Weixin","Org_Zip") VALUES (4,5,'默认机构','icloud','网校平台','郑州市','','','','<?xml version="1.0" encoding="UTF-8"?><items><item key="IsLoginForPw" value="True" /><item key="IsLoginForSms" value="True" /><item key="IsSwitchPlay" value="False" /><item key="VideoTolerance" value="6" /><item key="Stamp" value="a9fd754c1b5a257130d2c50c615a1af1.png" /><item key="StampPosition" value="right-top" /><item key="IsVerifyStudent" value="False" /><item key="IsRegStudent" value="False" /><item key="IsDisableChat" value="True" /><item key="finaltest_condition_video" value="1" /><item key="finaltest_weight_video" value="40" /><item key="finaltest_weight_ques" value="0" /><item key="finaltest_weight_exam" value="60" /><item key="finaltest_score_pass" value="60" /><item key="finaltest_condition_ques" value="0" /><item key="finaltest_count" value="5" /></items>',0,'','','','icloud','','','','','','<div>该信息由管理员后台编辑；</div>
 <div>&nbsp;</div>
 <div>菜单路径：管理中心（管理员）=&gt;&nbsp; 平台管理=&gt;&nbsp; 关于我们</div>
-<div>&nbsp;</div>',True,True,False,True,True,'','','34.819187','','','','dc282e74901b2e88fd47a2306bb65f43.jpg','113.757022','郑州微厦计算机科技有限公司','','400-6015615','云课堂网校平台','',0,'2016-12-28 16:45:12','','Default','Default','exam','','','','');
--- 表 Organization 的索引 --
-CREATE INDEX IF NOT EXISTS "Organization_IX_Olv_ID" ON public."Organization" USING btree ("Olv_ID" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Organization_aaaaaOrganization_PK" ON public."Organization" USING btree ("Org_ID");
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsDefault" ON public."Organization" USING btree ("Org_IsDefault" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsPass" ON public."Organization" USING btree ("Org_IsPass" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsRoot" ON public."Organization" USING btree ("Org_IsRoot" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsShow" ON public."Organization" USING btree ("Org_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_IsUse" ON public."Organization" USING btree ("Org_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_Name" ON public."Organization" USING btree ("Org_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_PlatformName" ON public."Organization" USING btree ("Org_PlatformName" DESC);
-CREATE INDEX IF NOT EXISTS "Organization_IX_Org_TwoDomain" ON public."Organization" USING btree ("Org_TwoDomain" DESC);
+<div>&nbsp;</div>',true,true,false,true,true,'','','34.819187','','','','dc282e74901b2e88fd47a2306bb65f43.jpg','113.757022','郑州微厦计算机科技有限公司','','400-6015615','云课堂网校平台','',0,'2016-12-28 16:45:12','','Default','Default','exam','','','','');
 
 -- 创建表 Outline --
+DROP TABLE IF EXISTS public."Outline" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Outline"
 (
 	"Ol_ID" bigint NOT NULL,
 	"Cou_ID" bigint NOT NULL,
 	"Ol_Courseware" text,
-	"Ol_CrtTime" timestamp without time zone NOT NULL,
+	"Ol_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ol_Intro" text,
 	"Ol_IsAccessory" boolean NOT NULL,
 	"Ol_IsChecked" boolean NOT NULL,
@@ -1638,40 +1610,40 @@ CREATE TABLE IF NOT EXISTS public."Outline"
 	"Ol_Level" integer NOT NULL,
 	"Ol_LiveID" character varying(200) COLLATE pg_catalog."default",
 	"Ol_LiveSpan" integer NOT NULL,
-	"Ol_LiveTime" timestamp without time zone NOT NULL,
-	"Ol_ModifyTime" timestamp without time zone NOT NULL,
+	"Ol_LiveTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Ol_ModifyTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ol_Name" character varying(500) COLLATE pg_catalog."default",
 	"Ol_PID" bigint NOT NULL,
 	"Ol_QuesCount" integer NOT NULL,
 	"Ol_Tax" integer NOT NULL,
-	"Ol_UID" character varying(200) NOT NULL COLLATE pg_catalog."default",
+	"Ol_UID" character varying(200) COLLATE pg_catalog."default" NOT NULL,
 	"Ol_Video" text,
 	"Ol_XPath" character varying(255) COLLATE pg_catalog."default",
 	"Org_ID" integer NOT NULL,
 	"Sbj_ID" bigint NOT NULL,
 	 CONSTRAINT key_outline PRIMARY KEY ("Ol_ID")
 );
+CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID2" ON "Outline" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID" ON "Outline" ("Cou_ID" ASC,"Ol_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsFinish" ON "Outline" ("Ol_IsFinish" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsUse" ON "Outline" ("Ol_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsVideo" ON "Outline" ("Ol_IsVideo" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Name" ON "Outline" ("Ol_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_PID" ON "Outline" ("Ol_PID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Tax" ON "Outline" ("Ol_Tax" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Org_ID" ON "Outline" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Outline_IX_Sbj_ID" ON "Outline" ("Sbj_ID" ASC);
 
--- 表 Outline 的索引 --
-CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID2" ON public."Outline" USING btree ("Cou_ID");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Cou_ID" ON public."Outline" USING btree ("Cou_ID", "Ol_Tax" DESC);
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsFinish" ON public."Outline" USING btree ("Ol_IsFinish");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsUse" ON public."Outline" USING btree ("Ol_IsUse");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_IsVideo" ON public."Outline" USING btree ("Ol_IsVideo");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Name" ON public."Outline" USING btree ("Ol_Name");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_PID" ON public."Outline" USING btree ("Ol_PID");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Ol_Tax" ON public."Outline" USING btree ("Ol_Tax");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Org_ID" ON public."Outline" USING btree ("Org_ID");
-CREATE INDEX IF NOT EXISTS "Outline_IX_Sbj_ID" ON public."Outline" USING btree ("Sbj_ID");
 
 -- 创建表 OutlineEvent --
+DROP TABLE IF EXISTS public."OutlineEvent" CASCADE;
 CREATE TABLE IF NOT EXISTS public."OutlineEvent"
 (
 	"Oe_ID" integer NOT NULL,
 	"Cou_ID" bigint NOT NULL,
 	"Oe_Answer" character varying(500) COLLATE pg_catalog."default",
 	"Oe_Context" text,
-	"Oe_CrtTime" timestamp without time zone NOT NULL,
+	"Oe_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Oe_Datatable" text,
 	"Oe_EventType" integer NOT NULL,
 	"Oe_Height" integer NOT NULL,
@@ -1685,14 +1657,14 @@ CREATE TABLE IF NOT EXISTS public."OutlineEvent"
 	"Org_ID" integer NOT NULL,
 	 CONSTRAINT key_outlineevent PRIMARY KEY ("Oe_ID")
 );
--- 表 OutlineEvent 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."OutlineEvent_Oe_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."OutlineEvent_Oe_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."OutlineEvent_Oe_ID_seq" OWNED BY public."OutlineEvent"."Oe_ID";
 ALTER TABLE "OutlineEvent" ALTER COLUMN "Oe_ID" SET DEFAULT NEXTVAL('"OutlineEvent_Oe_ID_seq"'::regclass);
 
 
 
 -- 创建表 PayInterface --
+DROP TABLE IF EXISTS public."PayInterface" CASCADE;
 CREATE TABLE IF NOT EXISTS public."PayInterface"
 (
 	"Pai_ID" integer NOT NULL,
@@ -1713,27 +1685,26 @@ CREATE TABLE IF NOT EXISTS public."PayInterface"
 	"Pai_Tax" integer NOT NULL,
 	 CONSTRAINT key_payinterface PRIMARY KEY ("Pai_ID")
 );
--- 表 PayInterface 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."PayInterface_Pai_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."PayInterface_Pai_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."PayInterface_Pai_ID_seq" OWNED BY public."PayInterface"."Pai_ID";
 ALTER TABLE "PayInterface" ALTER COLUMN "Pai_ID" SET DEFAULT NEXTVAL('"PayInterface_Pai_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Org_ID" ON "PayInterface" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_InterfaceType" ON "PayInterface" ("Pai_InterfaceType" ASC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_IsEnable" ON "PayInterface" ("Pai_IsEnable" ASC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Name" ON "PayInterface" ("Pai_Name" ASC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Platform" ON "PayInterface" ("Pai_Platform" ASC);
+CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Tax" ON "PayInterface" ("Pai_Tax" ASC);
 
--- 表 PayInterface 的索引 --
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Org_ID" ON public."PayInterface" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_InterfaceType" ON public."PayInterface" USING btree ("Pai_InterfaceType" DESC);
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_IsEnable" ON public."PayInterface" USING btree ("Pai_IsEnable" DESC);
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Name" ON public."PayInterface" USING btree ("Pai_Name" DESC);
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Platform" ON public."PayInterface" USING btree ("Pai_Platform" DESC);
-CREATE INDEX IF NOT EXISTS "PayInterface_IX_Pai_Tax" ON public."PayInterface" USING btree ("Pai_Tax" DESC);
 
 -- 创建表 PointAccount --
+DROP TABLE IF EXISTS public."PointAccount" CASCADE;
 CREATE TABLE IF NOT EXISTS public."PointAccount"
 (
 	"Pa_ID" integer NOT NULL,
 	"Ac_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
-	"Pa_CrtTime" timestamp without time zone NOT NULL,
+	"Pa_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Pa_From" integer NOT NULL,
 	"Pa_Info" character varying(500) COLLATE pg_catalog."default",
 	"Pa_Remark" character varying(1000) COLLATE pg_catalog."default",
@@ -1745,20 +1716,19 @@ CREATE TABLE IF NOT EXISTS public."PointAccount"
 	"Pa_Value" integer NOT NULL,
 	 CONSTRAINT key_pointaccount PRIMARY KEY ("Pa_ID")
 );
--- 表 PointAccount 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."PointAccount_Pa_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."PointAccount_Pa_ID_seq" START WITH 1772 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."PointAccount_Pa_ID_seq" OWNED BY public."PointAccount"."Pa_ID";
 ALTER TABLE "PointAccount" ALTER COLUMN "Pa_ID" SET DEFAULT NEXTVAL('"PointAccount_Pa_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Ac_ID" ON "PointAccount" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Org_ID" ON "PointAccount" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_CrtTime" ON "PointAccount" ("Pa_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Info" ON "PointAccount" ("Pa_Info" ASC);
+CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Type" ON "PointAccount" ("Pa_Type" ASC);
 INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1770,2,4,'2023-12-05 04:26:46',1,'账号密码登录','','0004202312050426465585EXAM19','电脑网页',2424,9348,2,10);INSERT INTO "PointAccount"("Pa_ID","Ac_ID","Org_ID","Pa_CrtTime","Pa_From","Pa_Info","Pa_Remark","Pa_Serial","Pa_Source","Pa_Total","Pa_TotalAmount","Pa_Type","Pa_Value") VALUES (1771,2,4,'2024-01-22 17:58:18',1,'账号密码登录','','0004202401220558185804EXAM14','电脑网页',2434,9358,2,10);
--- 表 PointAccount 的索引 --
-CREATE INDEX IF NOT EXISTS "PointAccount_IX_Ac_ID" ON public."PointAccount" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "PointAccount_IX_Org_ID" ON public."PointAccount" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_CrtTime" ON public."PointAccount" USING btree ("Pa_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Info" ON public."PointAccount" USING btree ("Pa_Info" DESC);
-CREATE INDEX IF NOT EXISTS "PointAccount_IX_Pa_Type" ON public."PointAccount" USING btree ("Pa_Type" DESC);
 
 -- 创建表 Position --
+DROP TABLE IF EXISTS public."Position" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Position"
 (
 	"Posi_Id" integer NOT NULL,
@@ -1771,19 +1741,19 @@ CREATE TABLE IF NOT EXISTS public."Position"
 	"Posi_Tax" integer NOT NULL,
 	 CONSTRAINT key_position PRIMARY KEY ("Posi_Id")
 );
--- 表 Position 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Position_Posi_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Position_Posi_Id_seq" START WITH 20 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Position_Posi_Id_seq" OWNED BY public."Position"."Posi_Id";
 ALTER TABLE "Position" ALTER COLUMN "Posi_Id" SET DEFAULT NEXTVAL('"Position_Posi_Id_seq"'::regclass);
 
-INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (2,2,'','',False,True,'财务',3);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (3,2,'','jjj',True,True,'管理员',5);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (4,2,'','',False,True,'总经理',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (5,2,'','',False,True,'员工',4);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (6,2,'','',False,True,'部门经理',2);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (7,2,'','',False,True,'副总',1);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (10,4,'中国珠宝网','',True,True,'管理员',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (19,4,'','',False,True,'测试一下，又一个管理',1);
--- 表 Position 的索引 --
-CREATE INDEX IF NOT EXISTS "Position_IX_Org_ID" ON public."Position" USING btree ("Org_ID" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON public."Position" USING btree ("Posi_Id");
-CREATE INDEX IF NOT EXISTS "Position_IX_Posi_IsUse" ON public."Position" USING btree ("Posi_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Position_IX_Posi_Tax" ON public."Position" USING btree ("Posi_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Org_ID" ON "Position" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaPosition_PK" ON "Position" ("Posi_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Position_aaaaaPosition_PK" ON "Position" ("Posi_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_IsUse" ON "Position" ("Posi_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Position_IX_Posi_Tax" ON "Position" ("Posi_Tax" ASC);
+INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (2,2,'','',false,true,'财务',3);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (3,2,'','jjj',true,true,'管理员',5);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (4,2,'','',false,true,'总经理',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (5,2,'','',false,true,'员工',4);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (6,2,'','',false,true,'部门经理',2);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (7,2,'','',false,true,'副总',1);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (10,4,'中国珠宝网','',true,true,'管理员',0);INSERT INTO "Position"("Posi_Id","Org_ID","Org_Name","Posi_Intro","Posi_IsAdmin","Posi_IsUse","Posi_Name","Posi_Tax") VALUES (19,4,'','',false,true,'测试一下，又一个管理',1);
 
 -- 创建表 ProfitSharing --
+DROP TABLE IF EXISTS public."ProfitSharing" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ProfitSharing"
 (
 	"Ps_ID" integer NOT NULL,
@@ -1793,20 +1763,20 @@ CREATE TABLE IF NOT EXISTS public."ProfitSharing"
 	"Ps_IsTheme" boolean NOT NULL,
 	"Ps_IsUse" boolean NOT NULL,
 	"Ps_Level" integer NOT NULL,
-	"Ps_MoneyValue" numeric(18,4) NOT NULL,
+	"Ps_MoneyValue" DECIMAL(18,4) NOT NULL,
 	"Ps_Moneyratio" integer NOT NULL,
 	"Ps_Name" character varying(100) COLLATE pg_catalog."default",
 	"Ps_PID" integer NOT NULL,
 	 CONSTRAINT key_profitsharing PRIMARY KEY ("Ps_ID")
 );
--- 表 ProfitSharing 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ProfitSharing_Ps_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ProfitSharing_Ps_ID_seq" START WITH 21 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ProfitSharing_Ps_ID_seq" OWNED BY public."ProfitSharing"."Ps_ID";
 ALTER TABLE "ProfitSharing" ALTER COLUMN "Ps_ID" SET DEFAULT NEXTVAL('"ProfitSharing_Ps_ID_seq"'::regclass);
 
-INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (1,0,0,'含自身，则为三级',True,True,1,0.0000,0,'二级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (4,0,30,'',False,True,1,0.0000,40,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (9,0,20,'',False,True,7,0.0000,18,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (13,0,0,'含自身，则为四级',True,False,2,0.0000,0,'三级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (14,0,0,'只有直接下线购买课程有提成',True,True,0,0.0000,0,'一级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (15,0,50,'',False,True,1,0.0000,35,'',14);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (17,0,30,'',False,True,0,0.0000,35,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (18,0,30,'',False,True,2,0.0000,20,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (20,0,20,'',False,True,1,0.0000,5,'',13);
+INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (1,0,0,'含自身，则为三级',true,true,1,0.0000,0,'二级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (4,0,30,'',false,true,1,0.0000,40,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (9,0,20,'',false,true,7,0.0000,18,'',1);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (13,0,0,'含自身，则为四级',true,false,2,0.0000,0,'三级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (14,0,0,'只有直接下线购买课程有提成',true,true,0,0.0000,0,'一级分润',0);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (15,0,50,'',false,true,1,0.0000,35,'',14);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (17,0,30,'',false,true,0,0.0000,35,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (18,0,30,'',false,true,2,0.0000,20,'',13);INSERT INTO "ProfitSharing"("Ps_ID","Ps_CouponValue","Ps_Couponratio","Ps_Intro","Ps_IsTheme","Ps_IsUse","Ps_Level","Ps_MoneyValue","Ps_Moneyratio","Ps_Name","Ps_PID") VALUES (20,0,20,'',false,true,1,0.0000,5,'',13);
 
 -- 创建表 Purview --
+DROP TABLE IF EXISTS public."Purview" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Purview"
 (
 	"Pur_Id" integer NOT NULL,
@@ -1820,17 +1790,17 @@ CREATE TABLE IF NOT EXISTS public."Purview"
 	"Pur_Type" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_purview PRIMARY KEY ("Pur_Id")
 );
--- 表 Purview 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Purview_Pur_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Purview_Pur_Id_seq" START WITH 3287 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Purview_Pur_Id_seq" OWNED BY public."Purview"."Pur_Id";
 ALTER TABLE "Purview" ALTER COLUMN "Pur_Id" SET DEFAULT NEXTVAL('"Purview_Pur_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Purview_IX_Olv_ID" ON "Purview" ("Olv_ID" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaPurview_PK" ON "Purview" ("Pur_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Purview_aaaaaPurview_PK" ON "Purview" ("Pur_Id" ASC);
 INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3154,0,0,'a2d8c81ec24efe439b4c9b2d139e99fe',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3155,0,0,'f9b11e7920f6ab15ead04eeafb511830',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3156,0,0,'8546016f8e1c6e078b5dddd0eab7920d',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3157,0,0,'b50ea4a3ed65be9d39651c1f1ecf014c',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3158,0,0,'1708482766944',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3159,0,0,'53774f25cbb2a6248bdc4b5783d1f842',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3160,0,0,'19c839b6968161696712b7e7b76c9772',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3161,0,0,'651397af8465c643284ff8e137fd8079',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3162,0,0,'1639658295720',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3163,0,0,'606b87e461d6b43e1ff789ad9b1b11c2',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3164,0,0,'f2b59e41fb0d29f16707ad11b590e686',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3165,0,0,'1697428790833',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3166,0,0,'1697428791888',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3167,0,0,'1697428808320',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3168,0,0,'1697791615582',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3169,0,0,'7505573f225da91c421b31e8e950aa16',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3170,0,0,'fdffc2a7aa807909b9c259169c70794d',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3171,0,0,'e3346bd15202ce654c42f126d2153a41',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3172,0,0,'1697789410970',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3221,0,0,'a2d8c81ec24efe439b4c9b2d139e99fe',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3222,0,0,'f9b11e7920f6ab15ead04eeafb511830',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3223,0,0,'8546016f8e1c6e078b5dddd0eab7920d',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3224,0,0,'b50ea4a3ed65be9d39651c1f1ecf014c',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3225,0,0,'1708482766944',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3226,0,0,'53774f25cbb2a6248bdc4b5783d1f842',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3227,0,0,'19c839b6968161696712b7e7b76c9772',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3228,0,0,'651397af8465c643284ff8e137fd8079',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3229,0,0,'1639658295720',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3230,0,0,'606b87e461d6b43e1ff789ad9b1b11c2',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3231,0,0,'f2b59e41fb0d29f16707ad11b590e686',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3232,0,0,'1697428790833',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3233,0,0,'1697428791888',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3234,0,0,'1697428808320',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3235,0,0,'1697791615582',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3236,0,0,'7505573f225da91c421b31e8e950aa16',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3237,0,0,'fdffc2a7aa807909b9c259169c70794d',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3238,0,0,'e3346bd15202ce654c42f126d2153a41',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3239,0,0,'1697789410970',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3240,0,0,'1697789613476',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3241,0,0,'1697791007226',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3242,0,0,'5f81b3a13ce40cdc0525d3346bcdc682',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3243,0,0,'1697790883366',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3244,0,0,'1697791356432',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3245,0,0,'1705402993842',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3246,0,0,'1705403019261',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3247,0,0,'fc60823be11ec1b67cbc8865085928ca',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3248,0,0,'1697103541077',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3249,0,0,'5f8650559e67d7aee0865ab46abc57e5',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3250,0,0,'5f3a00f6661e44c530939cb7ad74845f',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3251,0,0,'1639834362028',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3252,0,0,'1695313545347',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3253,0,0,'1695313546693',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3254,0,0,'1695313569415',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3255,0,0,'4be6e84aeacaec7514680b72499b7c19',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3256,0,0,'185d53f8d69610c63281766012d17a8d',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3257,0,0,'e99f9b903ccc0bdefdbca97abcc9f4b1',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3258,0,0,'df3455c4a980c841604b55dc6651a92f',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3259,0,0,'9bbdcbde47d569e6a9d5c59a8947a445',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3260,0,0,'5469dba2b4b8d54745500eea8c1ba089',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3261,0,0,'c68451aaa777687e559756c9f02f68d3',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3262,0,0,'8a539ecff79b6ede1b38b2a8380e86cd',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3263,0,0,'1697103633401',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3264,0,0,'99e3c10a6ff4c0af38d4ad6551662222',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3265,0,0,'0df6f2c3642c081462a35f1f1ada550a',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3266,0,0,'caedac420273252de2dadfd450a98382',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3267,0,0,'1642663352817',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3268,0,0,'1641613171019',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3269,0,0,'7c5f1c92ee9e6c364a46c755df860b26',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3270,0,0,'22475af5e44f46286660708fb4f2c4c9',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3271,0,0,'1641735504763',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3173,0,0,'1697789613476',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3174,0,0,'1697791007226',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3272,0,0,'501e00e137aebb030d30b8de30edec06',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3175,0,0,'5f81b3a13ce40cdc0525d3346bcdc682',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3176,0,0,'1697790883366',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3177,0,0,'1697791356432',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3178,0,0,'1705402993842',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3179,0,0,'1705403019261',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3180,0,0,'fc60823be11ec1b67cbc8865085928ca',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3181,0,0,'1697103541077',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3182,0,0,'5f8650559e67d7aee0865ab46abc57e5',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3183,0,0,'5f3a00f6661e44c530939cb7ad74845f',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3184,0,0,'1639834362028',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3185,0,0,'1695313545347',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3186,0,0,'1695313546693',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3187,0,0,'1695313569415',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3188,0,0,'4be6e84aeacaec7514680b72499b7c19',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3189,0,0,'185d53f8d69610c63281766012d17a8d',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3190,0,0,'e99f9b903ccc0bdefdbca97abcc9f4b1',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3191,0,0,'df3455c4a980c841604b55dc6651a92f',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3192,0,0,'9bbdcbde47d569e6a9d5c59a8947a445',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3193,0,0,'5469dba2b4b8d54745500eea8c1ba089',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3194,0,0,'c68451aaa777687e559756c9f02f68d3',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3195,0,0,'8a539ecff79b6ede1b38b2a8380e86cd',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3196,0,0,'1697103633401',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3197,0,0,'99e3c10a6ff4c0af38d4ad6551662222',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3198,0,0,'0df6f2c3642c081462a35f1f1ada550a',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3199,0,0,'caedac420273252de2dadfd450a98382',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3200,0,0,'1642663352817',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3201,0,0,'1641613171019',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3202,0,0,'7c5f1c92ee9e6c364a46c755df860b26',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3203,0,0,'22475af5e44f46286660708fb4f2c4c9',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3204,0,0,'1641735504763',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3205,0,0,'501e00e137aebb030d30b8de30edec06',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3206,0,0,'1704957895680',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3207,0,0,'ca6c8e9988678ea4bc089a98d64dbe43',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3208,0,0,'02d9f63ce76365a7d986e0b0a0ea70e4',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3209,0,0,'b632ee17275095c13cfb8055129c59cd',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3210,0,0,'17ed5191fd4a3b9d3fc366a1cda5b4dc',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3211,0,0,'3ed08ea8c3a6dbbb0b14535e27357061',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3212,0,0,'3a108c8fbb70ddb57532149a214bc427',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3213,0,0,'1641640249725',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3214,0,0,'82809d1a369ab3c44c330c909a532866',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3215,0,0,'83f7721be4b7779ce3f097a59b81adb9',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3216,0,0,'6b83ad54dc5319393f4eaf23b6ae14c8',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3217,0,0,'cc6e884e86541560bddc33e539cfdbc7',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3218,0,0,'e32ff65ff0db40c9d569a80d95550c25',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3219,0,0,'1673081413592',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3220,0,0,'b486c9a4eca4cc594585bd6639e281fe',1,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3273,0,0,'ca6c8e9988678ea4bc089a98d64dbe43',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3274,0,0,'02d9f63ce76365a7d986e0b0a0ea70e4',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3275,0,0,'b632ee17275095c13cfb8055129c59cd',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3276,0,0,'17ed5191fd4a3b9d3fc366a1cda5b4dc',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3277,0,0,'3ed08ea8c3a6dbbb0b14535e27357061',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3278,0,0,'3a108c8fbb70ddb57532149a214bc427',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3279,0,0,'1641640249725',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3280,0,0,'82809d1a369ab3c44c330c909a532866',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3281,0,0,'83f7721be4b7779ce3f097a59b81adb9',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3282,0,0,'6b83ad54dc5319393f4eaf23b6ae14c8',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3283,0,0,'cc6e884e86541560bddc33e539cfdbc7',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3284,0,0,'e32ff65ff0db40c9d569a80d95550c25',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3285,0,0,'1673081413592',5,0,0,'','orglevel');INSERT INTO "Purview"("Pur_Id","Dep_Id","EGrp_Id","MM_UID","Olv_ID","Org_ID","Posi_Id","Pur_State","Pur_Type") VALUES (3286,0,0,'b486c9a4eca4cc594585bd6639e281fe',5,0,0,'','orglevel');
--- 表 Purview 的索引 --
-CREATE INDEX IF NOT EXISTS "Purview_IX_Olv_ID" ON public."Purview" USING btree ("Olv_ID" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "Purview_aaaaaPurview_PK" ON public."Purview" USING btree ("Pur_Id");
 
 -- 创建表 QuesAnswer --
+DROP TABLE IF EXISTS public."QuesAnswer" CASCADE;
 CREATE TABLE IF NOT EXISTS public."QuesAnswer"
 (
 	"Ans_Context" text,
@@ -1842,6 +1812,7 @@ CREATE TABLE IF NOT EXISTS public."QuesAnswer"
 
 
 -- 创建表 QuesTypes --
+DROP TABLE IF EXISTS public."QuesTypes" CASCADE;
 CREATE TABLE IF NOT EXISTS public."QuesTypes"
 (
 	"Qt_ID" integer NOT NULL,
@@ -1856,14 +1827,14 @@ CREATE TABLE IF NOT EXISTS public."QuesTypes"
 	"Qt_TypeName" character varying(100) COLLATE pg_catalog."default",
 	 CONSTRAINT key_questypes PRIMARY KEY ("Qt_ID")
 );
--- 表 QuesTypes 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."QuesTypes_Qt_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."QuesTypes_Qt_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."QuesTypes_Qt_ID_seq" OWNED BY public."QuesTypes"."Qt_ID";
 ALTER TABLE "QuesTypes" ALTER COLUMN "Qt_ID" SET DEFAULT NEXTVAL('"QuesTypes_Qt_ID_seq"'::regclass);
 
 
 
 -- 创建表 Questions --
+DROP TABLE IF EXISTS public."Questions" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Questions"
 (
 	"Qus_ID" bigint NOT NULL,
@@ -1874,7 +1845,7 @@ CREATE TABLE IF NOT EXISTS public."Questions"
 	"Org_ID" integer NOT NULL,
 	"Qt_ID" integer NOT NULL,
 	"Qus_Answer" text,
-	"Qus_CrtTime" timestamp without time zone NOT NULL,
+	"Qus_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Qus_Diff" integer NOT NULL,
 	"Qus_ErrorInfo" character varying(255) COLLATE pg_catalog."default",
 	"Qus_Errornum" integer NOT NULL,
@@ -1885,7 +1856,7 @@ CREATE TABLE IF NOT EXISTS public."Questions"
 	"Qus_IsUse" boolean NOT NULL,
 	"Qus_IsWrong" boolean NOT NULL,
 	"Qus_Items" text,
-	"Qus_LastTime" timestamp without time zone NOT NULL,
+	"Qus_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Qus_Number" real NOT NULL,
 	"Qus_Tax" integer NOT NULL,
 	"Qus_Title" text,
@@ -1896,20 +1867,19 @@ CREATE TABLE IF NOT EXISTS public."Questions"
 	"Sbj_Name" character varying(500) COLLATE pg_catalog."default",
 	 CONSTRAINT key_questions PRIMARY KEY ("Qus_ID")
 );
+CREATE INDEX IF NOT EXISTS "Questions_IX_Cou_ID" ON "Questions" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Ol_ID" ON "Questions" ("Ol_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Org_ID" ON "Questions" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Diff" ON "Questions" ("Qus_Diff" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsError" ON "Questions" ("Qus_IsError" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsUse" ON "Questions" ("Qus_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsWrong" ON "Questions" ("Qus_IsWrong" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Type" ON "Questions" ("Qus_Type" ASC);
+CREATE INDEX IF NOT EXISTS "Questions_IX_Sbj_ID" ON "Questions" ("Sbj_ID" ASC);
 
--- 表 Questions 的索引 --
-CREATE INDEX IF NOT EXISTS "Questions_IX_Cou_ID" ON public."Questions" USING btree ("Cou_ID");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Ol_ID" ON public."Questions" USING btree ("Ol_ID");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Org_ID" ON public."Questions" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Diff" ON public."Questions" USING btree ("Qus_Diff" DESC);
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_ID" ON public."Questions" USING btree ("Qus_ID");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsError" ON public."Questions" USING btree ("Qus_IsError");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsUse" ON public."Questions" USING btree ("Qus_IsUse");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_IsWrong" ON public."Questions" USING btree ("Qus_IsWrong");
-CREATE INDEX IF NOT EXISTS "Questions_IX_Qus_Type" ON public."Questions" USING btree ("Qus_Type" DESC);
-CREATE INDEX IF NOT EXISTS "Questions_IX_Sbj_ID" ON public."Questions" USING btree ("Sbj_ID" DESC);
 
 -- 创建表 RechargeCode --
+DROP TABLE IF EXISTS public."RechargeCode" CASCADE;
 CREATE TABLE IF NOT EXISTS public."RechargeCode"
 (
 	"Rc_ID" integer NOT NULL,
@@ -1917,48 +1887,47 @@ CREATE TABLE IF NOT EXISTS public."RechargeCode"
 	"Ac_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Rc_Code" character varying(100) COLLATE pg_catalog."default",
-	"Rc_CrtTime" timestamp without time zone NOT NULL,
+	"Rc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Rc_IsEnable" boolean NOT NULL,
 	"Rc_IsUsed" boolean NOT NULL,
-	"Rc_LimitEnd" timestamp without time zone NOT NULL,
-	"Rc_LimitStart" timestamp without time zone NOT NULL,
+	"Rc_LimitEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Rc_LimitStart" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Rc_Price" integer NOT NULL,
 	"Rc_Pw" character varying(20) COLLATE pg_catalog."default",
 	"Rc_QrcodeBase64" text,
 	"Rc_Type" integer NOT NULL,
-	"Rc_UsedTime" timestamp without time zone NOT NULL,
+	"Rc_UsedTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Rs_ID" integer NOT NULL,
 	 CONSTRAINT key_rechargecode PRIMARY KEY ("Rc_ID")
 );
--- 表 RechargeCode 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."RechargeCode_Rc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."RechargeCode_Rc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."RechargeCode_Rc_ID_seq" OWNED BY public."RechargeCode"."Rc_ID";
 ALTER TABLE "RechargeCode" ALTER COLUMN "Rc_ID" SET DEFAULT NEXTVAL('"RechargeCode_Rc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Ac_AccName" ON "RechargeCode" ("Ac_AccName" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Org_ID" ON "RechargeCode" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Code" ON "RechargeCode" ("Rc_Code" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_CrtTime" ON "RechargeCode" ("Rc_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsEnable" ON "RechargeCode" ("Rc_IsEnable" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsUsed" ON "RechargeCode" ("Rc_IsUsed" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Pw" ON "RechargeCode" ("Rc_Pw" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_UsedTime" ON "RechargeCode" ("Rc_UsedTime" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rs_ID" ON "RechargeCode" ("Rs_ID" ASC);
 
--- 表 RechargeCode 的索引 --
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Ac_AccName" ON public."RechargeCode" USING btree ("Ac_AccName" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Org_ID" ON public."RechargeCode" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Code" ON public."RechargeCode" USING btree ("Rc_Code" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_CrtTime" ON public."RechargeCode" USING btree ("Rc_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsEnable" ON public."RechargeCode" USING btree ("Rc_IsEnable" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_IsUsed" ON public."RechargeCode" USING btree ("Rc_IsUsed" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_Pw" ON public."RechargeCode" USING btree ("Rc_Pw" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rc_UsedTime" ON public."RechargeCode" USING btree ("Rc_UsedTime" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeCode_IX_Rs_ID" ON public."RechargeCode" USING btree ("Rs_ID" DESC);
 
 -- 创建表 RechargeSet --
+DROP TABLE IF EXISTS public."RechargeSet" CASCADE;
 CREATE TABLE IF NOT EXISTS public."RechargeSet"
 (
 	"Rs_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Rs_CodeLength" integer NOT NULL,
 	"Rs_Count" integer NOT NULL,
-	"Rs_CrtTime" timestamp without time zone NOT NULL,
+	"Rs_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Rs_Intro" character varying(1000) COLLATE pg_catalog."default",
 	"Rs_IsEnable" boolean NOT NULL,
-	"Rs_LimitEnd" timestamp without time zone NOT NULL,
-	"Rs_LimitStart" timestamp without time zone NOT NULL,
+	"Rs_LimitEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Rs_LimitStart" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Rs_Price" integer NOT NULL,
 	"Rs_Pw" character varying(100) COLLATE pg_catalog."default",
 	"Rs_PwLength" integer NOT NULL,
@@ -1966,30 +1935,29 @@ CREATE TABLE IF NOT EXISTS public."RechargeSet"
 	"Rs_UsedCount" integer NOT NULL,
 	 CONSTRAINT key_rechargeset PRIMARY KEY ("Rs_ID")
 );
--- 表 RechargeSet 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."RechargeSet_Rs_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."RechargeSet_Rs_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."RechargeSet_Rs_ID_seq" OWNED BY public."RechargeSet"."Rs_ID";
 ALTER TABLE "RechargeSet" ALTER COLUMN "Rs_ID" SET DEFAULT NEXTVAL('"RechargeSet_Rs_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Org_ID" ON "RechargeSet" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Count" ON "RechargeSet" ("Rs_Count" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_CrtTime" ON "RechargeSet" ("Rs_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Intro" ON "RechargeSet" ("Rs_Intro" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_IsEnable" ON "RechargeSet" ("Rs_IsEnable" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Price" ON "RechargeSet" ("Rs_Price" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Theme" ON "RechargeSet" ("Rs_Theme" ASC);
+CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_UsedCount" ON "RechargeSet" ("Rs_UsedCount" ASC);
 
--- 表 RechargeSet 的索引 --
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Org_ID" ON public."RechargeSet" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Count" ON public."RechargeSet" USING btree ("Rs_Count" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_CrtTime" ON public."RechargeSet" USING btree ("Rs_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Intro" ON public."RechargeSet" USING btree ("Rs_Intro" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_IsEnable" ON public."RechargeSet" USING btree ("Rs_IsEnable" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Price" ON public."RechargeSet" USING btree ("Rs_Price" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_Theme" ON public."RechargeSet" USING btree ("Rs_Theme" DESC);
-CREATE INDEX IF NOT EXISTS "RechargeSet_IX_Rs_UsedCount" ON public."RechargeSet" USING btree ("Rs_UsedCount" DESC);
 
 -- 创建表 ShowPicture --
+DROP TABLE IF EXISTS public."ShowPicture" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ShowPicture"
 (
 	"Shp_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Shp_BgColor" character varying(50) COLLATE pg_catalog."default",
 	"Shp_File" character varying(100) COLLATE pg_catalog."default",
-	"Shp_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Shp_Intro" text,
 	"Shp_IsShow" boolean NOT NULL,
 	"Shp_Site" character varying(50) COLLATE pg_catalog."default",
 	"Shp_Target" character varying(100) COLLATE pg_catalog."default",
@@ -1997,25 +1965,24 @@ CREATE TABLE IF NOT EXISTS public."ShowPicture"
 	"Shp_Url" character varying(500) COLLATE pg_catalog."default",
 	 CONSTRAINT key_showpicture PRIMARY KEY ("Shp_ID")
 );
--- 表 ShowPicture 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ShowPicture_Shp_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ShowPicture_Shp_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ShowPicture_Shp_ID_seq" OWNED BY public."ShowPicture"."Shp_ID";
 ALTER TABLE "ShowPicture" ALTER COLUMN "Shp_ID" SET DEFAULT NEXTVAL('"ShowPicture_Shp_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Org_ID" ON "ShowPicture" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_IsShow" ON "ShowPicture" ("Shp_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Site" ON "ShowPicture" ("Shp_Site" ASC);
+CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Tax" ON "ShowPicture" ("Shp_Tax" ASC);
 
--- 表 ShowPicture 的索引 --
-CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Org_ID" ON public."ShowPicture" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_IsShow" ON public."ShowPicture" USING btree ("Shp_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Site" ON public."ShowPicture" USING btree ("Shp_Site" DESC);
-CREATE INDEX IF NOT EXISTS "ShowPicture_IX_Shp_Tax" ON public."ShowPicture" USING btree ("Shp_Tax" DESC);
 
 -- 创建表 SingleSignOn --
+DROP TABLE IF EXISTS public."SingleSignOn" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SingleSignOn"
 (
 	"SSO_ID" integer NOT NULL,
-	"SSO_APPID" character varying(500) NOT NULL COLLATE pg_catalog."default",
+	"SSO_APPID" character varying(500) COLLATE pg_catalog."default" NOT NULL,
 	"SSO_Config" text,
-	"SSO_CrtTime" timestamp without time zone NOT NULL,
+	"SSO_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"SSO_Direction" character varying(50) COLLATE pg_catalog."default",
 	"SSO_Domain" character varying(500) COLLATE pg_catalog."default",
 	"SSO_Email" character varying(50) COLLATE pg_catalog."default",
@@ -2028,14 +1995,14 @@ CREATE TABLE IF NOT EXISTS public."SingleSignOn"
 	"SSO_Power" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_singlesignon PRIMARY KEY ("SSO_ID")
 );
--- 表 SingleSignOn 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."SingleSignOn_SSO_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."SingleSignOn_SSO_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."SingleSignOn_SSO_ID_seq" OWNED BY public."SingleSignOn"."SSO_ID";
 ALTER TABLE "SingleSignOn" ALTER COLUMN "SSO_ID" SET DEFAULT NEXTVAL('"SingleSignOn_SSO_ID_seq"'::regclass);
 
 
 
 -- 创建表 SmsFault --
+DROP TABLE IF EXISTS public."SmsFault" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SmsFault"
 (
 	"Smf_Id" integer NOT NULL,
@@ -2043,47 +2010,47 @@ CREATE TABLE IF NOT EXISTS public."SmsFault"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"Smf_Company" character varying(255) COLLATE pg_catalog."default",
 	"Smf_Context" character varying(255) COLLATE pg_catalog."default",
-	"Smf_CrtTime" timestamp without time zone,
+	"Smf_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Smf_MobileTel" character varying(255) COLLATE pg_catalog."default",
 	"Smf_SendName" character varying(255) COLLATE pg_catalog."default",
-	"Smf_SendTime" timestamp without time zone,
+	"Smf_SendTime" TIMESTAMP WITH TIME ZONE,
 	 CONSTRAINT key_smsfault PRIMARY KEY ("Smf_Id")
 );
--- 表 SmsFault 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."SmsFault_Smf_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."SmsFault_Smf_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."SmsFault_Smf_Id_seq" OWNED BY public."SmsFault"."Smf_Id";
 ALTER TABLE "SmsFault" ALTER COLUMN "Smf_Id" SET DEFAULT NEXTVAL('"SmsFault_Smf_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaSmsFault_PK" ON "SmsFault" ("Smf_Id" ASC);
+CREATE INDEX IF NOT EXISTS "SmsFault_aaaaaSmsFault_PK" ON "SmsFault" ("Smf_Id" ASC);
 
--- 表 SmsFault 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "SmsFault_aaaaaSmsFault_PK" ON public."SmsFault" USING btree ("Smf_Id");
 
 -- 创建表 SmsMessage --
+DROP TABLE IF EXISTS public."SmsMessage" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SmsMessage"
 (
 	"SMS_Id" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sms_Context" character varying(255) COLLATE pg_catalog."default",
-	"Sms_CrtTime" timestamp without time zone,
+	"Sms_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Sms_MailBox" integer NOT NULL,
 	"Sms_SendId" integer NOT NULL,
 	"Sms_SendName" character varying(255) COLLATE pg_catalog."default",
-	"Sms_SendTime" timestamp without time zone,
+	"Sms_SendTime" TIMESTAMP WITH TIME ZONE,
 	"Sms_State" integer NOT NULL,
 	"Sms_Type" integer NOT NULL,
 	 CONSTRAINT key_smsmessage PRIMARY KEY ("SMS_Id")
 );
--- 表 SmsMessage 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."SmsMessage_SMS_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."SmsMessage_SMS_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."SmsMessage_SMS_Id_seq" OWNED BY public."SmsMessage"."SMS_Id";
 ALTER TABLE "SmsMessage" ALTER COLUMN "SMS_Id" SET DEFAULT NEXTVAL('"SmsMessage_SMS_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaSmsMessage_PK" ON "SmsMessage" ("SMS_Id" ASC);
+CREATE INDEX IF NOT EXISTS "SmsMessage_aaaaaSmsMessage_PK" ON "SmsMessage" ("SMS_Id" ASC);
 
--- 表 SmsMessage 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "SmsMessage_aaaaaSmsMessage_PK" ON public."SmsMessage" USING btree ("SMS_Id");
 
 -- 创建表 Special --
+DROP TABLE IF EXISTS public."Special" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Special"
 (
 	"Sp_Id" integer NOT NULL,
@@ -2103,23 +2070,23 @@ CREATE TABLE IF NOT EXISTS public."Special"
 	"Sp_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sp_OutUrl" character varying(255) COLLATE pg_catalog."default",
 	"Sp_PatId" integer NOT NULL,
-	"Sp_PushTime" timestamp without time zone,
+	"Sp_PushTime" TIMESTAMP WITH TIME ZONE,
 	"Sp_QrCode" character varying(255) COLLATE pg_catalog."default",
 	"Sp_Tax" integer NOT NULL,
 	"Sp_Tootip" character varying(255) COLLATE pg_catalog."default",
 	"Sp_Uid" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_special PRIMARY KEY ("Sp_Id")
 );
--- 表 Special 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Special_Sp_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Special_Sp_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Special_Sp_Id_seq" OWNED BY public."Special"."Sp_Id";
 ALTER TABLE "Special" ALTER COLUMN "Sp_Id" SET DEFAULT NEXTVAL('"Special_Sp_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaSpecial_PK" ON "Special" ("Sp_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Special_aaaaaSpecial_PK" ON "Special" ("Sp_Id" ASC);
 
--- 表 Special 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Special_aaaaaSpecial_PK" ON public."Special" USING btree ("Sp_Id");
 
 -- 创建表 Special_Article --
+DROP TABLE IF EXISTS public."Special_Article" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Special_Article"
 (
 	"Spa_Id" integer NOT NULL,
@@ -2129,25 +2096,25 @@ CREATE TABLE IF NOT EXISTS public."Special_Article"
 	"Sp_Id" integer NOT NULL,
 	 CONSTRAINT key_special_article PRIMARY KEY ("Spa_Id")
 );
--- 表 Special_Article 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Special_Article_Spa_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Special_Article_Spa_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Special_Article_Spa_Id_seq" OWNED BY public."Special_Article"."Spa_Id";
 ALTER TABLE "Special_Article" ALTER COLUMN "Spa_Id" SET DEFAULT NEXTVAL('"Special_Article_Spa_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaSpecial_Article_PK" ON "Special_Article" ("Spa_Id" ASC);
+CREATE INDEX IF NOT EXISTS "Special_Article_aaaaaSpecial_Article_PK" ON "Special_Article" ("Spa_Id" ASC);
 
--- 表 Special_Article 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "Special_Article_aaaaaSpecial_Article_PK" ON public."Special_Article" USING btree ("Spa_Id");
 
 -- 创建表 StudentSort --
+DROP TABLE IF EXISTS public."StudentSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."StudentSort"
 (
 	"Sts_ID" bigint NOT NULL,
 	"Dep_CnName" character varying(100) COLLATE pg_catalog."default",
 	"Dep_Id" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
-	"Org_Name" character varying(255) NOT NULL COLLATE pg_catalog."default",
+	"Org_Name" character varying(255) COLLATE pg_catalog."default" NOT NULL,
 	"Sts_Count" integer NOT NULL,
-	"Sts_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Sts_Intro" text,
 	"Sts_IsDefault" boolean NOT NULL,
 	"Sts_IsUse" boolean NOT NULL,
 	"Sts_Name" character varying(255) COLLATE pg_catalog."default",
@@ -2155,36 +2122,35 @@ CREATE TABLE IF NOT EXISTS public."StudentSort"
 	"Sts_Tax" integer NOT NULL,
 	 CONSTRAINT key_studentsort PRIMARY KEY ("Sts_ID")
 );
-INSERT INTO "StudentSort"("Sts_ID","Dep_CnName","Dep_Id","Org_ID","Org_Name","Sts_Count","Sts_Intro","Sts_IsDefault","Sts_IsUse","Sts_Name","Sts_SwitchPlay","Sts_Tax") VALUES (15012714616000001,'',0,4,'郑州微厦计算机科技有限公司',2,'',True,True,'默认组d',False,2);
--- 表 StudentSort 的索引 --
-CREATE INDEX IF NOT EXISTS "StudentSort_IX_Org_ID" ON public."StudentSort" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_IsUse" ON public."StudentSort" USING btree ("Sts_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Name" ON public."StudentSort" USING btree ("Sts_Name" DESC);
-CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Tax" ON public."StudentSort" USING btree ("Sts_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Org_ID" ON "StudentSort" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_IsUse" ON "StudentSort" ("Sts_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Name" ON "StudentSort" ("Sts_Name" ASC);
+CREATE INDEX IF NOT EXISTS "StudentSort_IX_Sts_Tax" ON "StudentSort" ("Sts_Tax" ASC);
+INSERT INTO "StudentSort"("Sts_ID","Dep_CnName","Dep_Id","Org_ID","Org_Name","Sts_Count","Sts_Intro","Sts_IsDefault","Sts_IsUse","Sts_Name","Sts_SwitchPlay","Sts_Tax") VALUES (15012714616000001,'',0,4,'郑州微厦计算机科技有限公司',2,'',true,true,'默认组d',false,2);
 
 -- 创建表 StudentSort_Course --
+DROP TABLE IF EXISTS public."StudentSort_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."StudentSort_Course"
 (
 	"Ssc_ID" integer NOT NULL,
 	"Cou_ID" bigint NOT NULL,
-	"Ssc_EndTime" timestamp without time zone NOT NULL,
+	"Ssc_EndTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Ssc_IsEnable" boolean NOT NULL,
-	"Ssc_StartTime" timestamp without time zone NOT NULL,
+	"Ssc_StartTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Sts_ID" bigint NOT NULL,
 	 CONSTRAINT key_studentsort_course PRIMARY KEY ("Ssc_ID")
 );
--- 表 StudentSort_Course 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."StudentSort_Course_Ssc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."StudentSort_Course_Ssc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."StudentSort_Course_Ssc_ID_seq" OWNED BY public."StudentSort_Course"."Ssc_ID";
 ALTER TABLE "StudentSort_Course" ALTER COLUMN "Ssc_ID" SET DEFAULT NEXTVAL('"StudentSort_Course_Ssc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Cou_ID" ON "StudentSort_Course" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Ssc_IsEnable" ON "StudentSort_Course" ("Ssc_IsEnable" ASC);
+CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Sts_ID" ON "StudentSort_Course" ("Sts_ID" ASC);
 
--- 表 StudentSort_Course 的索引 --
-CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Cou_ID" ON public."StudentSort_Course" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Ssc_IsEnable" ON public."StudentSort_Course" USING btree ("Ssc_IsEnable" DESC);
-CREATE INDEX IF NOT EXISTS "StudentSort_Course_IX_Sts_ID" ON public."StudentSort_Course" USING btree ("Sts_ID" DESC);
 
 -- 创建表 Student_Collect --
+DROP TABLE IF EXISTS public."Student_Collect" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Collect"
 (
 	"Stc_ID" integer NOT NULL,
@@ -2195,23 +2161,22 @@ CREATE TABLE IF NOT EXISTS public."Student_Collect"
 	"Qus_Title" text,
 	"Qus_Type" integer NOT NULL,
 	"Sbj_ID" bigint NOT NULL,
-	"Stc_CrtTime" timestamp without time zone NOT NULL,
+	"Stc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Stc_Level" integer NOT NULL,
 	"Stc_Strange" integer NOT NULL,
 	 CONSTRAINT key_student_collect PRIMARY KEY ("Stc_ID")
 );
--- 表 Student_Collect 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Student_Collect_Stc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Student_Collect_Stc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Student_Collect_Stc_ID_seq" OWNED BY public."Student_Collect"."Stc_ID";
 ALTER TABLE "Student_Collect" ALTER COLUMN "Stc_ID" SET DEFAULT NEXTVAL('"Student_Collect_Stc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Ac_ID" ON "Student_Collect" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Cou_ID" ON "Student_Collect" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Qus_ID" ON "Student_Collect" ("Qus_ID" ASC);
 
--- 表 Student_Collect 的索引 --
-CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Ac_ID" ON public."Student_Collect" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Cou_ID" ON public."Student_Collect" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Collect_IX_Qus_ID" ON public."Student_Collect" USING btree ("Qus_ID" DESC);
 
 -- 创建表 Student_Course --
+DROP TABLE IF EXISTS public."Student_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Course"
 (
 	"Stc_ID" integer NOT NULL,
@@ -2222,38 +2187,37 @@ CREATE TABLE IF NOT EXISTS public."Student_Course"
 	"Org_ID" integer NOT NULL,
 	"Rc_Code" character varying(100) COLLATE pg_catalog."default",
 	"Stc_Coupon" integer NOT NULL,
-	"Stc_CrtTime" timestamp without time zone NOT NULL,
-	"Stc_EndTime" timestamp without time zone NOT NULL,
+	"Stc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Stc_EndTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Stc_ExamScore" real NOT NULL,
 	"Stc_IsEnable" boolean NOT NULL,
 	"Stc_IsFree" boolean NOT NULL,
 	"Stc_IsTry" boolean NOT NULL,
-	"Stc_Money" numeric(18,4) NOT NULL,
+	"Stc_Money" DECIMAL(18,4) NOT NULL,
 	"Stc_QuesScore" real NOT NULL,
 	"Stc_ResultScore" real NOT NULL,
-	"Stc_StartTime" timestamp without time zone NOT NULL,
+	"Stc_StartTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Stc_StudyScore" real NOT NULL,
 	"Stc_Type" integer NOT NULL,
 	"Sts_ID" bigint NOT NULL,
 	 CONSTRAINT key_student_course PRIMARY KEY ("Stc_ID")
 );
--- 表 Student_Course 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Student_Course_Stc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Student_Course_Stc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Student_Course_Stc_ID_seq" OWNED BY public."Student_Course"."Stc_ID";
 ALTER TABLE "Student_Course" ALTER COLUMN "Stc_ID" SET DEFAULT NEXTVAL('"Student_Course_Stc_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Ac_ID" ON "Student_Course" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Cou_ID" ON "Student_Course" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Lc_Code" ON "Student_Course" ("Lc_Code" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Org_ID" ON "Student_Course" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_EndTime" ON "Student_Course" ("Stc_EndTime" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_ResultScore" ON "Student_Course" ("Stc_ResultScore" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_StartTime" ON "Student_Course" ("Stc_StartTime" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_Type" ON "Student_Course" ("Stc_Type" ASC);
 
--- 表 Student_Course 的索引 --
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Ac_ID" ON public."Student_Course" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Cou_ID" ON public."Student_Course" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Lc_Code" ON public."Student_Course" USING btree ("Lc_Code" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Org_ID" ON public."Student_Course" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_EndTime" ON public."Student_Course" USING btree ("Stc_EndTime" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_ResultScore" ON public."Student_Course" USING btree ("Stc_ResultScore" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_StartTime" ON public."Student_Course" USING btree ("Stc_StartTime" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Course_IX_Stc_Type" ON public."Student_Course" USING btree ("Stc_Type" DESC);
 
 -- 创建表 Student_Notes --
+DROP TABLE IF EXISTS public."Student_Notes" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Notes"
 (
 	"Stn_ID" integer NOT NULL,
@@ -2265,23 +2229,22 @@ CREATE TABLE IF NOT EXISTS public."Student_Notes"
 	"Qus_Title" text,
 	"Qus_Type" integer NOT NULL,
 	"Stn_Context" character varying(1000) COLLATE pg_catalog."default",
-	"Stn_CrtTime" timestamp without time zone NOT NULL,
+	"Stn_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Stn_PID" integer NOT NULL,
 	"Stn_Title" character varying(100) COLLATE pg_catalog."default",
 	 CONSTRAINT key_student_notes PRIMARY KEY ("Stn_ID")
 );
--- 表 Student_Notes 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Student_Notes_Stn_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Student_Notes_Stn_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Student_Notes_Stn_ID_seq" OWNED BY public."Student_Notes"."Stn_ID";
 ALTER TABLE "Student_Notes" ALTER COLUMN "Stn_ID" SET DEFAULT NEXTVAL('"Student_Notes_Stn_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Ac_ID" ON "Student_Notes" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Cou_ID" ON "Student_Notes" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Qus_ID" ON "Student_Notes" ("Qus_ID" ASC);
 
--- 表 Student_Notes 的索引 --
-CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Ac_ID" ON public."Student_Notes" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Cou_ID" ON public."Student_Notes" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Notes_IX_Qus_ID" ON public."Student_Notes" USING btree ("Qus_ID" DESC);
 
 -- 创建表 Student_Ques --
+DROP TABLE IF EXISTS public."Student_Ques" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Student_Ques"
 (
 	"Squs_ID" integer NOT NULL,
@@ -2291,24 +2254,23 @@ CREATE TABLE IF NOT EXISTS public."Student_Ques"
 	"Qus_ID" bigint NOT NULL,
 	"Qus_Type" integer NOT NULL,
 	"Sbj_ID" bigint NOT NULL,
-	"Squs_CrtTime" timestamp without time zone NOT NULL,
+	"Squs_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Squs_Level" integer NOT NULL,
 	 CONSTRAINT key_student_ques PRIMARY KEY ("Squs_ID")
 );
--- 表 Student_Ques 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Student_Ques_Squs_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Student_Ques_Squs_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Student_Ques_Squs_ID_seq" OWNED BY public."Student_Ques"."Squs_ID";
 ALTER TABLE "Student_Ques" ALTER COLUMN "Squs_ID" SET DEFAULT NEXTVAL('"Student_Ques_Squs_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Ac_ID" ON "Student_Ques" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Cou_ID" ON "Student_Ques" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_Diff" ON "Student_Ques" ("Qus_Diff" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_ID" ON "Student_Ques" ("Qus_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_Type" ON "Student_Ques" ("Qus_Type" ASC);
 
--- 表 Student_Ques 的索引 --
-CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Ac_ID" ON public."Student_Ques" USING btree ("Ac_ID");
-CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Cou_ID" ON public."Student_Ques" USING btree ("Cou_ID");
-CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_Diff" ON public."Student_Ques" USING btree ("Qus_Diff" DESC);
-CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_ID" ON public."Student_Ques" USING btree ("Qus_ID");
-CREATE INDEX IF NOT EXISTS "Student_Ques_IX_Qus_Type" ON public."Student_Ques" USING btree ("Qus_Type" DESC);
 
 -- 创建表 Subject --
+DROP TABLE IF EXISTS public."Subject" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Subject"
 (
 	"Sbj_ID" bigint NOT NULL,
@@ -2318,7 +2280,7 @@ CREATE TABLE IF NOT EXISTS public."Subject"
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
 	"Sbj_ByName" character varying(255) COLLATE pg_catalog."default",
 	"Sbj_CourseCount" integer NOT NULL,
-	"Sbj_CrtTime" timestamp without time zone NOT NULL,
+	"Sbj_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Sbj_Details" text,
 	"Sbj_Intro" text,
 	"Sbj_IsRec" boolean NOT NULL,
@@ -2335,16 +2297,16 @@ CREATE TABLE IF NOT EXISTS public."Subject"
 	"Sbj_XPath" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_subject PRIMARY KEY ("Sbj_ID")
 );
+CREATE INDEX IF NOT EXISTS "Subject_IX_Org_ID" ON "Subject" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsRec" ON "Subject" ("Sbj_IsRec" ASC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsUse" ON "Subject" ("Sbj_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Name" ON "Subject" ("Sbj_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_PID" ON "Subject" ("Sbj_PID" ASC);
+CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Tax" ON "Subject" ("Sbj_Tax" ASC);
 
--- 表 Subject 的索引 --
-CREATE INDEX IF NOT EXISTS "Subject_IX_Org_ID" ON public."Subject" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsRec" ON public."Subject" USING btree ("Sbj_IsRec" DESC);
-CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_IsUse" ON public."Subject" USING btree ("Sbj_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Name" ON public."Subject" USING btree ("Sbj_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_PID" ON public."Subject" USING btree ("Sbj_PID" DESC);
-CREATE INDEX IF NOT EXISTS "Subject_IX_Sbj_Tax" ON public."Subject" USING btree ("Sbj_Tax" DESC);
 
 -- 创建表 SystemPara --
+DROP TABLE IF EXISTS public."SystemPara" CASCADE;
 CREATE TABLE IF NOT EXISTS public."SystemPara"
 (
 	"Sys_Id" integer NOT NULL,
@@ -2358,11 +2320,13 @@ CREATE TABLE IF NOT EXISTS public."SystemPara"
 	"Sys_Value" text,
 	 CONSTRAINT key_systempara PRIMARY KEY ("Sys_Id")
 );
--- 表 SystemPara 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."SystemPara_Sys_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."SystemPara_Sys_Id_seq" START WITH 255 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."SystemPara_Sys_Id_seq" OWNED BY public."SystemPara"."Sys_Id";
 ALTER TABLE "SystemPara" ALTER COLUMN "Sys_Id" SET DEFAULT NEXTVAL('"SystemPara_Sys_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaSystemPara_PK" ON "SystemPara" ("Sys_Id" ASC);
+CREATE INDEX IF NOT EXISTS "SystemPara_aaaaaSystemPara_PK" ON "SystemPara" ("Sys_Id" ASC);
+CREATE INDEX IF NOT EXISTS "SystemPara_IX_Sys_Key" ON "SystemPara" ("Sys_Key" ASC);
 INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (204,0,'','','Agreement_accounts','','','','<span style="color: rgb(0, 0, 0); font-family: &quot;sans serif&quot;, tahoma, verdana, helvetica; font-size: 12px;">
 请务必认真阅读和理解本《用户服务协议》（以下简称《协议》）中规定的所有权利和限制。除非您接受本《协议》条款，否则您无权注册、登录或使用本协议所涉及的相关服务。您一旦注册、登录、使用或以任何方式使用本《协议》所涉及的相关服务的行为将视为对本《协议》的接受，即表示您同意接受本《协议》各项条款的约束。如果您不同意本《协议》中的条款，请不要注册、登录或使用本《协议》相关服务。</span>
 <br style="color: rgb(0, 0, 0); font-family: &quot;sans serif&quot;, tahoma, verdana, helvetica; font-size: 12px;">
@@ -2901,11 +2865,9 @@ INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","S
 <br />
 9.2 本协议所有条款的标题仅为阅读方便，本身并无实际涵义，不能作为本协议涵义解释的依据。&nbsp;<br />
 <br />');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (5,0,'','','NewsSourceItem','','','','新浪,网易,腾讯');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (7,0,'','','SysIsLoginLogs','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (8,0,'','','SysIsWorkLogs','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (9,0,'','','SystemName','','','','微厦在线学习云平台');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (10,0,'','','SysLoginTimeSpan','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (12,0,'','','IsWebsiteSatatic','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (206,0,'','','LoginPoint','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (30,0,'','','IsAllowMobile','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (31,0,'','','IsAllowMobileVerifyCode','','','','False');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (207,0,'','','LoginPointMax','','','','30');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (208,0,'','','SharePoint','','','','3');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (197,0,'','','SmsCurrent','','','','河南腾信');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (209,0,'','','SharePointMax','','','','12');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (254,0,'','','111','','','','22');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (217,0,'','','RegFirst','','','','2000');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (228,0,'','','QQLoginIsUse','','','','True');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (193,0,'','','flowNumber','','','','222');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (194,0,'','','SubjectForAccout_1','','','','8,');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (196,0,'','','SysWorkTimeSpan','','','','10');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (210,0,'','','RegPoint','','','','100');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (211,0,'','','RegPointMax','','','','500');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (212,0,'','','PointConvert','','','','1000');INSERT INTO "SystemPara"("Sys_Id","Org_Id","Org_Name","Sys_Default","Sys_Key","Sys_ParaIntro","Sys_SelectUnit","Sys_Unit","Sys_Value") VALUES (229,0,'','','WeixinLoginIsUse','','','','True');
--- 表 SystemPara 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "SystemPara_aaaaaSystemPara_PK" ON public."SystemPara" USING btree ("Sys_Id");
-CREATE INDEX IF NOT EXISTS "SystemPara_IX_Sys_Key" ON public."SystemPara" USING btree ("Sys_Key" DESC);
 
 -- 创建表 Teacher --
+DROP TABLE IF EXISTS public."Teacher" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Teacher"
 (
 	"Th_ID" integer NOT NULL,
@@ -2913,26 +2875,26 @@ CREATE TABLE IF NOT EXISTS public."Teacher"
 	"Ac_UID" character varying(100) COLLATE pg_catalog."default",
 	"Dep_Id" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
-	"Org_Name" character varying(255) NOT NULL COLLATE pg_catalog."default",
+	"Org_Name" character varying(255) COLLATE pg_catalog."default" NOT NULL,
 	"Th_AccName" character varying(50) COLLATE pg_catalog."default",
 	"Th_AddrContact" character varying(255) COLLATE pg_catalog."default",
 	"Th_Address" character varying(255) COLLATE pg_catalog."default",
 	"Th_Age" integer NOT NULL,
 	"Th_Anwser" character varying(255) COLLATE pg_catalog."default",
-	"Th_Birthday" timestamp without time zone NOT NULL,
+	"Th_Birthday" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Th_CodeNumber" character varying(50) COLLATE pg_catalog."default",
-	"Th_CrtTime" timestamp without time zone NOT NULL,
+	"Th_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Th_Education" character varying(255) COLLATE pg_catalog."default",
 	"Th_Email" character varying(50) COLLATE pg_catalog."default",
 	"Th_IDCardNumber" character varying(50) COLLATE pg_catalog."default",
-	"Th_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Th_Intro" text,
 	"Th_IsOpenMobi" boolean NOT NULL,
 	"Th_IsOpenPhone" boolean NOT NULL,
 	"Th_IsPass" boolean NOT NULL,
 	"Th_IsShow" boolean NOT NULL,
 	"Th_IsUse" boolean NOT NULL,
 	"Th_Job" character varying(255) COLLATE pg_catalog."default",
-	"Th_LastTime" timestamp without time zone NOT NULL,
+	"Th_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Th_LinkMan" character varying(50) COLLATE pg_catalog."default",
 	"Th_LinkManPhone" character varying(50) COLLATE pg_catalog."default",
 	"Th_Major" character varying(255) COLLATE pg_catalog."default",
@@ -2946,7 +2908,7 @@ CREATE TABLE IF NOT EXISTS public."Teacher"
 	"Th_Pw" character varying(100) COLLATE pg_catalog."default",
 	"Th_Qq" character varying(50) COLLATE pg_catalog."default",
 	"Th_Qus" character varying(255) COLLATE pg_catalog."default",
-	"Th_RegTime" timestamp without time zone NOT NULL,
+	"Th_RegTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Th_Score" integer NOT NULL,
 	"Th_Sex" integer NOT NULL,
 	"Th_Signature" character varying(255) COLLATE pg_catalog."default",
@@ -2959,26 +2921,25 @@ CREATE TABLE IF NOT EXISTS public."Teacher"
 	"Ths_Name" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_teacher PRIMARY KEY ("Th_ID")
 );
--- 表 Teacher 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Teacher_Th_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Teacher_Th_ID_seq" START WITH 29 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Teacher_Th_ID_seq" OWNED BY public."Teacher"."Th_ID";
 ALTER TABLE "Teacher" ALTER COLUMN "Th_ID" SET DEFAULT NEXTVAL('"Teacher_Th_ID_seq"'::regclass);
 
-INSERT INTO "Teacher"("Th_ID","Ac_ID","Ac_UID","Dep_Id","Org_ID","Org_Name","Th_AccName","Th_AddrContact","Th_Address","Th_Age","Th_Anwser","Th_Birthday","Th_CodeNumber","Th_CrtTime","Th_Education","Th_Email","Th_IDCardNumber","Th_Intro","Th_IsOpenMobi","Th_IsOpenPhone","Th_IsPass","Th_IsShow","Th_IsUse","Th_Job","Th_LastTime","Th_LinkMan","Th_LinkManPhone","Th_Major","Th_Name","Th_Nation","Th_Native","Th_Phone","Th_PhoneMobi","Th_Photo","Th_Pinyin","Th_Pw","Th_Qq","Th_Qus","Th_RegTime","Th_Score","Th_Sex","Th_Signature","Th_Tax","Th_Title","Th_ViewNum","Th_Weixin","Th_Zip","Ths_ID","Ths_Name") VALUES (28,2,'0f6305210623cffd6f966db6a3606a1c',0,4,'郑州微厦计算机科技有限公司','tester','','',1995,'','1995-03-07 00:00:00','','2016-11-26 17:40:41','31','','410105199503071228','',True,False,True,False,True,'','2024-01-22 17:58:18','','','','韩晓梅','','河南省,郑州市,金水区','','400 6015615','','HXM','e10adc3949ba59abbe56e057f20f883e','','','1753-01-01 00:00:00',0,2,'',0,'',6,'','',1,'讲师');
--- 表 Teacher 的索引 --
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Org_ID" ON public."Teacher" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_AccName" ON public."Teacher" USING btree ("Th_AccName" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IDCardNumber" ON public."Teacher" USING btree ("Th_IDCardNumber" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsShow" ON public."Teacher" USING btree ("Th_IsShow" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsUse" ON public."Teacher" USING btree ("Th_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Name" ON public."Teacher" USING btree ("Th_Name" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Phone" ON public."Teacher" USING btree ("Th_Phone" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_PhoneMobi" ON public."Teacher" USING btree ("Th_PhoneMobi" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Pinyin" ON public."Teacher" USING btree ("Th_Pinyin" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Sex" ON public."Teacher" USING btree ("Th_Sex" DESC);
-CREATE INDEX IF NOT EXISTS "Teacher_IX_Ths_ID" ON public."Teacher" USING btree ("Ths_ID" DESC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Org_ID" ON "Teacher" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_AccName" ON "Teacher" ("Th_AccName" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IDCardNumber" ON "Teacher" ("Th_IDCardNumber" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsShow" ON "Teacher" ("Th_IsShow" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_IsUse" ON "Teacher" ("Th_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Name" ON "Teacher" ("Th_Name" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Phone" ON "Teacher" ("Th_Phone" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_PhoneMobi" ON "Teacher" ("Th_PhoneMobi" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Pinyin" ON "Teacher" ("Th_Pinyin" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Th_Sex" ON "Teacher" ("Th_Sex" ASC);
+CREATE INDEX IF NOT EXISTS "Teacher_IX_Ths_ID" ON "Teacher" ("Ths_ID" ASC);
+INSERT INTO "Teacher"("Th_ID","Ac_ID","Ac_UID","Dep_Id","Org_ID","Org_Name","Th_AccName","Th_AddrContact","Th_Address","Th_Age","Th_Anwser","Th_Birthday","Th_CodeNumber","Th_CrtTime","Th_Education","Th_Email","Th_IDCardNumber","Th_Intro","Th_IsOpenMobi","Th_IsOpenPhone","Th_IsPass","Th_IsShow","Th_IsUse","Th_Job","Th_LastTime","Th_LinkMan","Th_LinkManPhone","Th_Major","Th_Name","Th_Nation","Th_Native","Th_Phone","Th_PhoneMobi","Th_Photo","Th_Pinyin","Th_Pw","Th_Qq","Th_Qus","Th_RegTime","Th_Score","Th_Sex","Th_Signature","Th_Tax","Th_Title","Th_ViewNum","Th_Weixin","Th_Zip","Ths_ID","Ths_Name") VALUES (28,2,'0f6305210623cffd6f966db6a3606a1c',0,4,'郑州微厦计算机科技有限公司','tester','','',1995,'','1995-03-07 00:00:00','','2016-11-26 17:40:41','31','','410105199503071228','',true,false,true,false,true,'','2024-01-22 17:58:18','','','','韩晓梅','','河南省,郑州市,金水区','','400 6015615','','HXM','e10adc3949ba59abbe56e057f20f883e','','','1752-12-31 23:54:17',0,2,'',0,'',6,'','',1,'讲师');
 
 -- 创建表 TeacherComment --
+DROP TABLE IF EXISTS public."TeacherComment" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherComment"
 (
 	"Thc_ID" integer NOT NULL,
@@ -2987,7 +2948,7 @@ CREATE TABLE IF NOT EXISTS public."TeacherComment"
 	"Th_ID" integer NOT NULL,
 	"Th_Name" character varying(50) COLLATE pg_catalog."default",
 	"Thc_Comment" character varying(1000) COLLATE pg_catalog."default",
-	"Thc_CrtTime" timestamp without time zone NOT NULL,
+	"Thc_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Thc_Device" character varying(50) COLLATE pg_catalog."default",
 	"Thc_IP" character varying(100) COLLATE pg_catalog."default",
 	"Thc_IsShow" boolean NOT NULL,
@@ -2996,67 +2957,66 @@ CREATE TABLE IF NOT EXISTS public."TeacherComment"
 	"Thc_Score" real NOT NULL,
 	 CONSTRAINT key_teachercomment PRIMARY KEY ("Thc_ID")
 );
--- 表 TeacherComment 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TeacherComment_Thc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TeacherComment_Thc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TeacherComment_Thc_ID_seq" OWNED BY public."TeacherComment"."Thc_ID";
 ALTER TABLE "TeacherComment" ALTER COLUMN "Thc_ID" SET DEFAULT NEXTVAL('"TeacherComment_Thc_ID_seq"'::regclass);
 
 
 
 -- 创建表 TeacherHistory --
+DROP TABLE IF EXISTS public."TeacherHistory" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherHistory"
 (
 	"Thh_ID" integer NOT NULL,
 	"Th_ID" integer NOT NULL,
 	"Th_Name" character varying(50) COLLATE pg_catalog."default",
 	"Thh_Compay" character varying(200) COLLATE pg_catalog."default",
-	"Thh_CrtTime" timestamp without time zone,
+	"Thh_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Thh_Education" character varying(200) COLLATE pg_catalog."default",
-	"Thh_EndTime" timestamp without time zone,
-	"Thh_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Thh_EndTime" TIMESTAMP WITH TIME ZONE,
+	"Thh_Intro" text,
 	"Thh_Job" character varying(200) COLLATE pg_catalog."default",
 	"Thh_Major" character varying(200) COLLATE pg_catalog."default",
 	"Thh_Post" character varying(200) COLLATE pg_catalog."default",
 	"Thh_School" character varying(200) COLLATE pg_catalog."default",
-	"Thh_StartTime" timestamp without time zone NOT NULL,
+	"Thh_StartTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Thh_Success" character varying(1000) COLLATE pg_catalog."default",
 	"Thh_Theme" character varying(100) COLLATE pg_catalog."default",
 	"Thh_Type" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_teacherhistory PRIMARY KEY ("Thh_ID")
 );
--- 表 TeacherHistory 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TeacherHistory_Thh_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TeacherHistory_Thh_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TeacherHistory_Thh_ID_seq" OWNED BY public."TeacherHistory"."Thh_ID";
 ALTER TABLE "TeacherHistory" ALTER COLUMN "Thh_ID" SET DEFAULT NEXTVAL('"TeacherHistory_Thh_ID_seq"'::regclass);
 
 
 
 -- 创建表 TeacherSort --
+DROP TABLE IF EXISTS public."TeacherSort" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TeacherSort"
 (
 	"Ths_ID" integer NOT NULL,
 	"Org_ID" integer NOT NULL,
 	"Org_Name" character varying(255) COLLATE pg_catalog."default",
-	"Ths_Intro" character varying(2000) COLLATE pg_catalog."default",
+	"Ths_Intro" text,
 	"Ths_IsDefault" boolean NOT NULL,
 	"Ths_IsUse" boolean NOT NULL,
 	"Ths_Name" character varying(255) COLLATE pg_catalog."default",
 	"Ths_Tax" integer NOT NULL,
 	 CONSTRAINT key_teachersort PRIMARY KEY ("Ths_ID")
 );
--- 表 TeacherSort 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TeacherSort_Ths_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TeacherSort_Ths_ID_seq" START WITH 8 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TeacherSort_Ths_ID_seq" OWNED BY public."TeacherSort"."Ths_ID";
 ALTER TABLE "TeacherSort" ALTER COLUMN "Ths_ID" SET DEFAULT NEXTVAL('"TeacherSort_Ths_ID_seq"'::regclass);
 
-INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (1,4,'郑州微厦计算机科技有限公司','中级（讲师、中学一级教师、小学高级教师、实验师）',True,True,'讲师',2);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (4,4,'郑州微厦计算机科技有限公司','初级（助教、助理讲师、教员、中学二级教师、中学三级教师、小学一级教师、小学二级教师、助理实验师、实验员）',False,True,'助教',1);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (5,4,'郑州微厦计算机科技有限公司','副高（副教授、中学高级教师、高级讲师、高级实验师）',False,True,'副教授',3);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (6,4,'郑州微厦计算机科技有限公司','正高级（教授、中学研究员级教师）',False,True,'正教授',4);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (7,4,'郑州微厦计算机科技有限公司','',False,False,'金牌大师',5);
--- 表 TeacherSort 的索引 --
-CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Org_ID" ON public."TeacherSort" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_IsUse" ON public."TeacherSort" USING btree ("Ths_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Name" ON public."TeacherSort" USING btree ("Ths_Name" DESC);
-CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Tax" ON public."TeacherSort" USING btree ("Ths_Tax" DESC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Org_ID" ON "TeacherSort" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_IsUse" ON "TeacherSort" ("Ths_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Name" ON "TeacherSort" ("Ths_Name" ASC);
+CREATE INDEX IF NOT EXISTS "TeacherSort_IX_Ths_Tax" ON "TeacherSort" ("Ths_Tax" ASC);
+INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (1,4,'郑州微厦计算机科技有限公司','中级（讲师、中学一级教师、小学高级教师、实验师）',true,true,'讲师',2);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (4,4,'郑州微厦计算机科技有限公司','初级（助教、助理讲师、教员、中学二级教师、中学三级教师、小学一级教师、小学二级教师、助理实验师、实验员）',false,true,'助教',1);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (5,4,'郑州微厦计算机科技有限公司','副高（副教授、中学高级教师、高级讲师、高级实验师）',false,true,'副教授',3);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (6,4,'郑州微厦计算机科技有限公司','正高级（教授、中学研究员级教师）',false,true,'正教授',4);INSERT INTO "TeacherSort"("Ths_ID","Org_ID","Org_Name","Ths_Intro","Ths_IsDefault","Ths_IsUse","Ths_Name","Ths_Tax") VALUES (7,4,'郑州微厦计算机科技有限公司','',false,false,'金牌大师',5);
 
 -- 创建表 Teacher_Course --
+DROP TABLE IF EXISTS public."Teacher_Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Teacher_Course"
 (
 	"Thc_ID" integer NOT NULL,
@@ -3064,14 +3024,14 @@ CREATE TABLE IF NOT EXISTS public."Teacher_Course"
 	"Th_ID" integer NOT NULL,
 	 CONSTRAINT key_teacher_course PRIMARY KEY ("Thc_ID")
 );
--- 表 Teacher_Course 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."Teacher_Course_Thc_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."Teacher_Course_Thc_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."Teacher_Course_Thc_ID_seq" OWNED BY public."Teacher_Course"."Thc_ID";
 ALTER TABLE "Teacher_Course" ALTER COLUMN "Thc_ID" SET DEFAULT NEXTVAL('"Teacher_Course_Thc_ID_seq"'::regclass);
 
 
 
 -- 创建表 TestPaper --
+DROP TABLE IF EXISTS public."TestPaper" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaper"
 (
 	"Tp_Id" bigint NOT NULL,
@@ -3085,7 +3045,7 @@ CREATE TABLE IF NOT EXISTS public."TestPaper"
 	"Th_Name" character varying(255) COLLATE pg_catalog."default",
 	"Tp_Author" character varying(50) COLLATE pg_catalog."default",
 	"Tp_Count" integer NOT NULL,
-	"Tp_CrtTime" timestamp without time zone NOT NULL,
+	"Tp_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Tp_Diff" integer NOT NULL,
 	"Tp_Diff2" integer NOT NULL,
 	"Tp_FromConfig" text,
@@ -3095,7 +3055,7 @@ CREATE TABLE IF NOT EXISTS public."TestPaper"
 	"Tp_IsFinal" boolean NOT NULL,
 	"Tp_IsRec" boolean NOT NULL,
 	"Tp_IsUse" boolean NOT NULL,
-	"Tp_Lasttime" timestamp without time zone NOT NULL,
+	"Tp_Lasttime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Tp_Logo" character varying(255) COLLATE pg_catalog."default",
 	"Tp_Name" character varying(255) COLLATE pg_catalog."default",
 	"Tp_PassScore" integer NOT NULL,
@@ -3107,17 +3067,17 @@ CREATE TABLE IF NOT EXISTS public."TestPaper"
 	"Tp_UID" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_testpaper PRIMARY KEY ("Tp_Id")
 );
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Cou_ID" ON "TestPaper" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Org_ID" ON "TestPaper" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Sbj_ID" ON "TestPaper" ("Sbj_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_CrtTime" ON "TestPaper" ("Tp_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Diff" ON "TestPaper" ("Tp_Diff" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_IsUse" ON "TestPaper" ("Tp_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Name" ON "TestPaper" ("Tp_Name" ASC);
 
--- 表 TestPaper 的索引 --
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Cou_ID" ON public."TestPaper" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Org_ID" ON public."TestPaper" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Sbj_ID" ON public."TestPaper" USING btree ("Sbj_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_CrtTime" ON public."TestPaper" USING btree ("Tp_CrtTime" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Diff" ON public."TestPaper" USING btree ("Tp_Diff" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_IsUse" ON public."TestPaper" USING btree ("Tp_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "TestPaper_IX_Tp_Name" ON public."TestPaper" USING btree ("Tp_Name" DESC);
 
 -- 创建表 TestPaperItem --
+DROP TABLE IF EXISTS public."TestPaperItem" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaperItem"
 (
 	"TPI_ID" integer NOT NULL,
@@ -3131,16 +3091,16 @@ CREATE TABLE IF NOT EXISTS public."TestPaperItem"
 	"Tp_UID" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_testpaperitem PRIMARY KEY ("TPI_ID")
 );
--- 表 TestPaperItem 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TestPaperItem_TPI_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TestPaperItem_TPI_ID_seq" START WITH 685 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TestPaperItem_TPI_ID_seq" OWNED BY public."TestPaperItem"."TPI_ID";
 ALTER TABLE "TestPaperItem" ALTER COLUMN "TPI_ID" SET DEFAULT NEXTVAL('"TestPaperItem_TPI_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaTestPagerItem_PK" ON "TestPaperItem" ("TPI_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaperItem_aaaaaTestPagerItem_PK" ON "TestPaperItem" ("TPI_ID" ASC);
 INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TPI_Number","TPI_Percent","TPI_Type","Tp_UID") VALUES (680,0,0,'',10,50,50,1,'b98629d1e5117d62206b79cd6587dd8c');INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TPI_Number","TPI_Percent","TPI_Type","Tp_UID") VALUES (681,0,0,'',10,40,40,2,'b98629d1e5117d62206b79cd6587dd8c');INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TPI_Number","TPI_Percent","TPI_Type","Tp_UID") VALUES (682,0,0,'',0,0,0,3,'b98629d1e5117d62206b79cd6587dd8c');INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TPI_Number","TPI_Percent","TPI_Type","Tp_UID") VALUES (683,0,0,'',0,0,0,4,'b98629d1e5117d62206b79cd6587dd8c');INSERT INTO "TestPaperItem"("TPI_ID","Ol_ID","Org_ID","Org_Name","TPI_Count","TPI_Number","TPI_Percent","TPI_Type","Tp_UID") VALUES (684,0,0,'',10,10,10,5,'b98629d1e5117d62206b79cd6587dd8c');
--- 表 TestPaperItem 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "TestPaperItem_aaaaaTestPagerItem_PK" ON public."TestPaperItem" USING btree ("TPI_ID");
 
 -- 创建表 TestPaperQues --
+DROP TABLE IF EXISTS public."TestPaperQues" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestPaperQues"
 (
 	"Tq_Id" integer NOT NULL,
@@ -3153,16 +3113,16 @@ CREATE TABLE IF NOT EXISTS public."TestPaperQues"
 	"Tq_Type" integer NOT NULL,
 	 CONSTRAINT key_testpaperques PRIMARY KEY ("Tq_Id")
 );
--- 表 TestPaperQues 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TestPaperQues_Tq_Id_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TestPaperQues_Tq_Id_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TestPaperQues_Tq_Id_seq" OWNED BY public."TestPaperQues"."Tq_Id";
 ALTER TABLE "TestPaperQues" ALTER COLUMN "Tq_Id" SET DEFAULT NEXTVAL('"TestPaperQues_Tq_Id_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "aaaaaTestPaperQues_PK" ON "TestPaperQues" ("Tq_Id" ASC);
+CREATE INDEX IF NOT EXISTS "TestPaperQues_aaaaaTestPaperQues_PK" ON "TestPaperQues" ("Tq_Id" ASC);
 
--- 表 TestPaperQues 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "TestPaperQues_aaaaaTestPaperQues_PK" ON public."TestPaperQues" USING btree ("Tq_Id");
 
 -- 创建表 TestResults --
+DROP TABLE IF EXISTS public."TestResults" CASCADE;
 CREATE TABLE IF NOT EXISTS public."TestResults"
 (
 	"Tr_ID" integer NOT NULL,
@@ -3180,7 +3140,7 @@ CREATE TABLE IF NOT EXISTS public."TestResults"
 	"Tp_Id" bigint NOT NULL,
 	"Tp_Name" character varying(255) COLLATE pg_catalog."default",
 	"Tr_Colligate" real NOT NULL,
-	"Tr_CrtTime" timestamp without time zone,
+	"Tr_CrtTime" TIMESTAMP WITH TIME ZONE,
 	"Tr_Draw" real NOT NULL,
 	"Tr_IP" character varying(255) COLLATE pg_catalog."default",
 	"Tr_IsSubmit" boolean NOT NULL,
@@ -3192,26 +3152,26 @@ CREATE TABLE IF NOT EXISTS public."TestResults"
 	"Tr_UID" character varying(255) COLLATE pg_catalog."default",
 	 CONSTRAINT key_testresults PRIMARY KEY ("Tr_ID")
 );
--- 表 TestResults 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."TestResults_Tr_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."TestResults_Tr_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."TestResults_Tr_ID_seq" OWNED BY public."TestResults"."Tr_ID";
 ALTER TABLE "TestResults" ALTER COLUMN "Tr_ID" SET DEFAULT NEXTVAL('"TestResults_Tr_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_ID" ON "TestResults" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_Name" ON "TestResults" ("Ac_Name" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Cou_ID" ON "TestResults" ("Cou_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Org_ID" ON "TestResults" ("Org_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Sbj_ID" ON "TestResults" ("Sbj_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_St_IDCardNumber" ON "TestResults" ("St_IDCardNumber" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Id" ON "TestResults" ("Tp_Id" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Name" ON "TestResults" ("Tp_Name" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_CrtTime" ON "TestResults" ("Tr_CrtTime" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaTestResults_PK" ON "TestResults" ("Tr_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_aaaaaTestResults_PK" ON "TestResults" ("Tr_ID" ASC);
+CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_Score" ON "TestResults" ("Tr_Score" ASC);
 
--- 表 TestResults 的索引 --
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_ID" ON public."TestResults" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Ac_Name" ON public."TestResults" USING btree ("Ac_Name" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Cou_ID" ON public."TestResults" USING btree ("Cou_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Org_ID" ON public."TestResults" USING btree ("Org_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Sbj_ID" ON public."TestResults" USING btree ("Sbj_ID" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_St_IDCardNumber" ON public."TestResults" USING btree ("St_IDCardNumber" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Id" ON public."TestResults" USING btree ("Tp_Id" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Tp_Name" ON public."TestResults" USING btree ("Tp_Name" DESC);
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_CrtTime" ON public."TestResults" USING btree ("Tr_CrtTime" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "TestResults_aaaaaTestResults_PK" ON public."TestResults" USING btree ("Tr_ID");
-CREATE INDEX IF NOT EXISTS "TestResults_IX_Tr_Score" ON public."TestResults" USING btree ("Tr_Score" DESC);
 
 -- 创建表 ThirdpartyAccounts --
+DROP TABLE IF EXISTS public."ThirdpartyAccounts" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ThirdpartyAccounts"
 (
 	"Ta_ID" integer NOT NULL,
@@ -3222,20 +3182,20 @@ CREATE TABLE IF NOT EXISTS public."ThirdpartyAccounts"
 	"Ta_Tag" character varying(100) COLLATE pg_catalog."default",
 	 CONSTRAINT key_thirdpartyaccounts PRIMARY KEY ("Ta_ID")
 );
--- 表 ThirdpartyAccounts 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ThirdpartyAccounts_Ta_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ThirdpartyAccounts_Ta_ID_seq" START WITH 1 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ThirdpartyAccounts_Ta_ID_seq" OWNED BY public."ThirdpartyAccounts"."Ta_ID";
 ALTER TABLE "ThirdpartyAccounts" ALTER COLUMN "Ta_ID" SET DEFAULT NEXTVAL('"ThirdpartyAccounts_Ta_ID_seq"'::regclass);
 
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON "ThirdpartyAccounts" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_ACID_Tag" ON "ThirdpartyAccounts" ("Ac_ID" ASC,"Ta_Tag" ASC);
+CREATE INDEX IF NOT EXISTS "aaaaaThirdpartyAccounts_PK" ON "ThirdpartyAccounts" ("Ta_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_aaaaaThirdpartyAccounts_PK" ON "ThirdpartyAccounts" ("Ta_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON "ThirdpartyAccounts" ("Ta_Openid" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Tag" ON "ThirdpartyAccounts" ("Ta_Tag" ASC);
 
--- 表 ThirdpartyAccounts 的索引 --
-CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ac_ID" ON public."ThirdpartyAccounts" USING btree ("Ac_ID" DESC);
-CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_ACID_Tag" ON public."ThirdpartyAccounts" USING btree ("Ac_ID" DESC, "Ta_Tag" DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS "ThirdpartyAccounts_aaaaaThirdpartyAccounts_PK" ON public."ThirdpartyAccounts" USING btree ("Ta_ID");
-CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Openid" ON public."ThirdpartyAccounts" USING btree ("Ta_Openid" DESC);
-CREATE INDEX IF NOT EXISTS "ThirdpartyAccounts_IX_Ta_Tag" ON public."ThirdpartyAccounts" USING btree ("Ta_Tag" DESC);
 
 -- 创建表 ThirdpartyLogin --
+DROP TABLE IF EXISTS public."ThirdpartyLogin" CASCADE;
 CREATE TABLE IF NOT EXISTS public."ThirdpartyLogin"
 (
 	"Tl_ID" integer NOT NULL,
@@ -3247,59 +3207,17 @@ CREATE TABLE IF NOT EXISTS public."ThirdpartyLogin"
 	"Tl_IsUse" boolean NOT NULL,
 	"Tl_Name" character varying(255) COLLATE pg_catalog."default",
 	"Tl_Returl" character varying(1000) COLLATE pg_catalog."default",
-	"Tl_Secret" character varying(2000) COLLATE pg_catalog."default",
+	"Tl_Secret" text,
 	"Tl_Tag" character varying(255) COLLATE pg_catalog."default",
 	"Tl_Tax" integer NOT NULL,
 	 CONSTRAINT key_thirdpartylogin PRIMARY KEY ("Tl_ID")
 );
--- 表 ThirdpartyLogin 的序列 --
-CREATE SEQUENCE IF NOT EXISTS public."ThirdpartyLogin_Tl_ID_seq";
+CREATE SEQUENCE IF NOT EXISTS public."ThirdpartyLogin_Tl_ID_seq" START WITH 5 INCREMENT BY 1 MINVALUE 1  MAXVALUE 9223372036854775807  CYCLE;
 ALTER SEQUENCE IF EXISTS public."ThirdpartyLogin_Tl_ID_seq" OWNED BY public."ThirdpartyLogin"."Tl_ID";
 ALTER TABLE "ThirdpartyLogin" ALTER COLUMN "Tl_ID" SET DEFAULT NEXTVAL('"ThirdpartyLogin_Tl_ID_seq"'::regclass);
 
-INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (1,'','','','',True,True,'QQ','','','QqOpenID',1);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (2,'','','','',True,True,'微信','','','WeixinOpenID',2);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (3,'','','','',True,True,'金蝶','','','Jindie',3);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (4,'','','','',True,False,'郑州工商','','','ZzGongshang',4);
--- 表 ThirdpartyLogin 的索引 --
-CREATE UNIQUE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON public."ThirdpartyLogin" USING btree ("Tl_ID");
-CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_IsUse" ON public."ThirdpartyLogin" USING btree ("Tl_IsUse" DESC);
-CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_Tag" ON public."ThirdpartyLogin" USING btree ("Tl_Tag" DESC);
-
-
-/*
-	修正主键的自增ID的启始值为最大ID值
-
-	原因：
-		当从其它数据库转到Postgresql时，自增ID默认是从1开始，如果表中有历史数据
-		在新增记录时，自增ID有可能与之前的记录重复，导致插入失败
-		在Sqlite中不存在这个问题
-*/
---利用游标，获取序列与所属表、字段
-DO $$
-DECLARE cur_name CURSOR FOR
-	SELECT sequence_name,
-	substring(sequence_name FROM '(\w+)_[A-Za-z]+_[A-Za-z]+_seq$') as tbname,
-	substring(sequence_name FROM '[A-Za-z]+_([A-Za-z]+_[A-Za-z]+)_seq') as keyname
-	FROM information_schema.sequences 
-	order by sequence_name;
-	sname VARCHAR(200);		--序列的名称
-	tbname VARCHAR(200);	--表名
-	mainkey VARCHAR(50);	--字段名
-	tmsql VARCHAR(500);		
-	maxid bigint;			--最大的自增id的值
-BEGIN
-OPEN cur_name;
-	LOOP
-	    FETCH cur_name INTO sname ,tbname, mainkey;
-	   	EXIT WHEN NOT FOUND; -- 如果没有数据了，退出循环
-		--获取当前表的最大自增字段的值
-	    tmsql:='SELECT COALESCE(MAX("' || mainkey || '"),0) FROM "' || tbname || '"';
-		EXECUTE tmsql INTO maxid; 	
-		--RAISE NOTICE 'maxid: %, maxid:%', tmsql,maxid;
-
-		--修改序列的启始值
-		tmsql:='ALTER SEQUENCE "' || sname || '" RESTART WITH ' || (maxid+1);
-		RAISE NOTICE 'sql: %', tmsql;
-		EXECUTE tmsql; 
-    
-	END LOOP;
-	CLOSE cur_name;
-END $$;
+CREATE INDEX IF NOT EXISTS "aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_aaaaaThirdpartyLogin_PK" ON "ThirdpartyLogin" ("Tl_ID" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_IsUse" ON "ThirdpartyLogin" ("Tl_IsUse" ASC);
+CREATE INDEX IF NOT EXISTS "ThirdpartyLogin_IX_Tl_Tag" ON "ThirdpartyLogin" ("Tl_Tag" ASC);
+INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (1,'','','','',true,true,'QQ','','','QqOpenID',1);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (2,'','','','',true,true,'微信','','','WeixinOpenID',2);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (3,'','','','',true,true,'金蝶','','','Jindie',3);INSERT INTO "ThirdpartyLogin"("Tl_ID","Tl_APPID","Tl_Account","Tl_Config","Tl_Domain","Tl_IsRegister","Tl_IsUse","Tl_Name","Tl_Returl","Tl_Secret","Tl_Tag","Tl_Tax") VALUES (4,'','','','',true,false,'郑州工商','','','ZzGongshang',4);
