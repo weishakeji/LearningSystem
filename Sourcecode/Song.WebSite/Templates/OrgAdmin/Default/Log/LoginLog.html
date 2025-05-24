@@ -53,8 +53,8 @@
                 </el-table-column>
                 <el-table-column label="设备信息" width="250px">
                     <template slot-scope="scope">
-                        <icon v-if="scope.row.Lso_Platform=='PC'">&#xe609;</icon>
-                        <icon v-if="scope.row.Lso_Platform=='Mobi'">&#xe677;</icon>
+                        <icon v-if="scope.row.Lso_Platform=='PC'" medium>&#xe609;</icon>
+                        <icon v-if="scope.row.Lso_Platform=='Mobi'" medium>&#xe677;</icon>
                         {{scope.row.Lso_OS}} ({{scope.row.Lso_Browser}})
                     </template>
                 </el-table-column>
