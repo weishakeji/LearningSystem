@@ -838,7 +838,7 @@ namespace Song.ServiceImpls
             if ("videoAsc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Asc;
             if ("videoDesc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Desc;
             //
-            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {
                 wc.And(Course._.Cou_IsFree == true);
