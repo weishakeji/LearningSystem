@@ -38,7 +38,7 @@ Vue.component('progress_video', {
                     break;
                 }
             }
-            return percent;
+            return Math.floor(percent * 100) / 100;
         },
         //状态（颜色）
         'state': function () {
