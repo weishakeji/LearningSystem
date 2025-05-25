@@ -27,6 +27,7 @@
 .quesError button {
 	float: right;
 	width: 50%;
+	margin: 10px 10px 0px 0px;
 }
 
 .quesError div[role='checkbox'] {
@@ -35,6 +36,5 @@
 }
 
 .quesError button .van-button__text {
-	color: #fff !important;
 	font-size: 16px;
 }

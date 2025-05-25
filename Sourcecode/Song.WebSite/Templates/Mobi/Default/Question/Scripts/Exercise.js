@@ -107,7 +107,7 @@ $ready(function () {
                                     span = span / 1000;
                                     th.$toast.success({
                                         message: '试题加载完成\n 用时 ' + span.toFixed(2) + ' 秒',
-                                        duration: 1500
+                                        duration: 150000
                                     });
                                 }
                             });

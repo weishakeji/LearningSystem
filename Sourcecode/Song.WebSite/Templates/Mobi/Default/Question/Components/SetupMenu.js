@@ -8,7 +8,7 @@ Vue.component('setupmenu', {
       show: false,
       fontsizekey: 'Exercise_Font_Size',       //用于存储字体大小的值
       //视图模式，night:夜晚模式，day:白天模式，cosy：护眼模式
-      view_model: 'day',
+      view_model: $api.querystring('view', 'day'),
       views: [{ name: '日常模式', icon: '&#xe729', val: 'day' },
       { name: '夜间模式', icon: '&#xa032', val: 'night' },
       { name: '护眼模式', icon: '&#xa03a', val: 'cosy' }],
@@ -23,7 +23,9 @@ Vue.component('setupmenu', {
     //视图模式变化时
     'view_model': {
       handler(nv, ov) {
-        $dom("#vapp").attr('view', nv);
+        $dom("body").attr('view', nv);
+        var url = $api.setpara('view', nv);
+        history.pushState({}, "", url); 
       },
       immediate: true
     },

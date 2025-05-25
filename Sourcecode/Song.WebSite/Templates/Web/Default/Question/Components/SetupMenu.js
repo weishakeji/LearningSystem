@@ -8,7 +8,7 @@ Vue.component('setupmenu', {
       show: false,
       fontsizekey: 'Exercise_Font_Size',       //用于存储字体大小的值
       //视图模式，night:夜晚模式，day:白天模式，cosy：护眼模式
-      view_model: 'day',
+      view_model: $api.querystring('view', 'day'),
       views: [{ name: '日常模式', icon: '&#xe729', val: 'day' },
       { name: '夜间模式', icon: '&#xa032', val: 'night' },
       { name: '护眼模式', icon: '&#xa03a', val: 'cosy' }],
@@ -23,20 +23,19 @@ Vue.component('setupmenu', {
     //视图模式变化时
     'view_model': {
       handler(nv, ov) {
-        $dom("#vapp").attr('view', nv);
-      },
-      immediate: true
+        $dom("body").attr('view', nv);
+        var url = $api.setpara('view', nv);
+        history.pushState({}, "", url); 
+      }, immediate: true
     },
   },
   computed: {
     //页面名称，不带后缀名
-    'page': function () {
-      return $dom.file().toLowerCase();
-    }
+    'page': () => $dom.file().toLowerCase()
   },
   mounted: function () {
-      //刷新页面即重置字体大小
-      this.setFont();
+    //刷新页面即重置字体大小
+    this.setFont();
   },
   methods: {
     //更新试题
@@ -116,12 +115,12 @@ Vue.component('setupmenu', {
     clearNotes: function () {
       var couid = $api.querystring("couid", 0);
       var acid = this.account.Ac_ID;
-      var th=this;
+      var th = this;
       this.$confirm('清除当前课程所有试题笔记, 是否继续?', '清空笔记', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {      
+      }).then(function () {
         $api.delete('Question/NotesClear', { 'acid': acid, 'couid': couid }).then(function (req) {
         }).catch((err) => console.error(err)).finally(() => {
           th.$parent.state.clear(true);

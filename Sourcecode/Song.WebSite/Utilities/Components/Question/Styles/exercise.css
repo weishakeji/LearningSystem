@@ -1,5 +1,5 @@
 /*日间模式*/
-#vapp[view=day] {
+body[view=day] {
 	/*前景、背景、卡片背景*/
 	--fg-color: #333;
 	--bg-color: #f4f4f4;
@@ -16,7 +16,7 @@
 }
 
 /*夜晚模式*/
-#vapp[view=night] {
+body[view=night] {
 	/*前景、背景、卡片背景*/
 	--fg-color: #aaa;
 	--bg-color: #222;
@@ -33,7 +33,7 @@
 }
 
 /*护眼模式*/
-#vapp[view=cosy] {
+body[view=cosy] {
 	/*前景、背景、卡片背景*/
 	--fg-color: #333;
 	--bg-color: #faf4e3;
@@ -50,13 +50,12 @@
 }
 
 *:not([noview], .el-drawer__open, .van-overlay, .answerSheet dd,
-	.van-toast, .van-dialog, .ws_prompt_panel,
-	.el-message-box) {
+	.van-toast, .van-dialog, .van-icon, .van-toast__text,
+	.ws_prompt_panel,
+	.el-dialog__wrapper, *[role=dialog]) {
 	background-color: var(--bg-color) !important;
 	color: var(--fg-color)
 }
-
-
 
 dl.quesArea {
 	display: flex;
