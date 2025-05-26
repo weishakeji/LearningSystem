@@ -96,12 +96,13 @@
 	height: auto;
 }
 
-.is-current .el-tree-node__content {
+.is-current>.el-tree-node__content {
 	background-color: #fcf0de !important;
 }
 
 .el-tree-node__content:hover {
-	background-color: #bebebe !important;
+	background-color: #666 !important;
+	color: #eee;
 }
 
 .custom-tree-node {
