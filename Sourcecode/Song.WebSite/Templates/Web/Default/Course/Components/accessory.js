@@ -35,7 +35,7 @@ Vue.component('accessory', {
             th.msg = '';
             $api.cache('Accessory/List', { 'uid': uid, 'type': 'Course' }).then(function (acc) {
                 if (acc.data.success) {
-                    th.datas = acc.data.result;
+                    th.datas = acc.data.result;                  
                 } else {
                     th.msg = "附件信息加载异常！详情：\r" + acc.data.message;
                 }
@@ -64,9 +64,10 @@ Vue.component('accessory', {
     template: `<div id="accessory">
         <div v-if="!owned" style="color:red;">课程未购买，资料不提供下载或预览</div>
         <div v-if="owned" v-for="(item,index) in datas" class="download">
-            <a  target="_blank" :href="item.As_FileName"
+            <span>{{index+1}} . </span>
+            <a target="_blank" :href="item.As_FileName" :filetype="item.As_Extension"
                 v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"
-                :download="item.As_Name">{{index+1}}、{{item.As_Name}}                
+                :download="item.As_Name">{{item.As_Name}}                
             </a>
             <span class="filesize">{{item.As_Size|size}}</span>
         </div>

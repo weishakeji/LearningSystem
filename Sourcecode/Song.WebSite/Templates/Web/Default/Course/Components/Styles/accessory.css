@@ -7,12 +7,16 @@
 
 #accessory a, #accessory>div {
 	font-size: 16px;
-	text-indent: 20px;	
 	color: #CCC;
 	line-height: 30px;
 	width: auto;
 }
-
+#accessory *[filetype]{
+	color: #CCC !important;
+}
+#accessory *[filetype]::before{
+	margin-right: 10px;
+}
 #accessory>div.download:hover {
 	background-color: #333;
 }
