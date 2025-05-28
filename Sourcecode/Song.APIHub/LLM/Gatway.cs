@@ -1,0 +1,124 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+/// <summary>
+/// 大语言模型（Large Language Model, LLM）
+/// </summary>
+namespace Song.APIHub.LLM
+{
+    public class Gatway
+    {
+        // 设置请求 URL 和内容
+        static readonly string _api_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+
+        private static string _api_key = "";
+        private static readonly object _lock = new object();
+        /// <summary>
+        /// API Key
+        /// </summary>
+        public static void SetApiKey(string apikey) => _api_key = apikey;
+        public static string APIKey
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (string.IsNullOrWhiteSpace(_api_key))                  
+                        _api_key = "sk-149b79268cc54a42ae26ef92fd567453";
+
+                    return _api_key;
+                }
+            }
+        }
+
+        private static string _api_model = "deepseek-v3";
+        /// <summary>
+        /// 设置大语言模型的名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+        /// </summary>
+        /// <param name="model"></param>
+        public static void SetApiModel(string model) => _api_model = model;
+
+
+        private static async Task<string> Exchange(string jsonContent)
+        {
+            return await SendPostRequestAsync(_api_url, jsonContent, APIKey);
+        }
+
+        /// <summary>
+        /// 咨询，只问一个问题
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static async Task<string> Consult(string message)
+        {           
+            return await Consult(null, message);
+        }
+        /// <summary>
+        /// 咨询，只问一个问题
+        /// </summary>
+        /// <param name="role">假定大语言模型的角色</param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static async Task<string> Consult(string role,string message)
+        {
+            if (string.IsNullOrWhiteSpace(role))            
+                role = "You are a helpful assistant.";
+            
+            JArray messages = new JArray();
+            messages.Add(new JObject(){
+                    {"role", "system"},
+                    {"content",role}
+                });
+            messages.Add(new JObject()
+                {
+                    {"role", "user"},
+                    {"content", message}
+                });
+            JObject jo = new JObject();
+            jo.Add("model", _api_model);
+            jo.Add("stream", false);
+            jo.Add("messages", messages);
+            return await SendPostRequestAsync(_api_url, jo.ToString(), APIKey);
+        }
+        /// <summary>
+        /// 发送Post请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="jsonContent"></param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
+        private static async Task<string> SendPostRequestAsync(string url, string jsonContent, string apiKey)
+        {
+            HttpClient httpClient = new HttpClient();
+            using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
+            {
+                // 清除之前的请求头（因为HttpClient是静态的）
+                httpClient.DefaultRequestHeaders.Clear();
+
+                // 设置请求头
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // 发送请求并获取响应
+                HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+                // 处理响应
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    return $"请求失败: {response.StatusCode}";
+                }
+            }
+        }
+    }
+}

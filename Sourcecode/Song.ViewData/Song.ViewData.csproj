@@ -215,6 +215,7 @@
     <Compile Include="Methods\HelpDocument.cs" />
     <Compile Include="Methods\Knowledge.cs" />
     <Compile Include="Methods\Guide.cs" />
+    <Compile Include="Methods\LLM.cs" />
     <Compile Include="Methods\Sso.cs" />
     <Compile Include="Methods\Sms.cs" />
     <Compile Include="Methods\OtherLogin.cs" />
@@ -273,6 +274,10 @@
     <Compile Include="ViewMethod.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Song.APIHub\Song.APIHub.csproj">
+      <Project>{3bd1c3f0-ccb4-416b-9bd2-6ca28a2604c7}</Project>
+      <Name>Song.APIHub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
