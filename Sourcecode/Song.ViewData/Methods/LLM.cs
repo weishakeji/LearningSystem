@@ -23,8 +23,8 @@ namespace Song.ViewData.Methods
     {
         public string Consult(string message)
         {
-            Task<string> result = Song.APIHub.LLM.Gatway.Consult(message);
-            return result.Result;
+            string result = Song.APIHub.LLM.Gatway.Consult(null,message);
+            return result;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Song.APIHub.LLM
 
         private static async Task<string> Exchange(string jsonContent)
         {
-            return await SendPostRequestAsync(_api_url, jsonContent, APIKey);
+            return await _sendPostRequestAsync(_api_url, jsonContent, APIKey);
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace Song.APIHub.LLM
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static async Task<string> Consult(string message)
+        public static async Task<string> ConsultAsync(string message)
         {           
-            return await Consult(null, message);
+            return await ConsultAsync(null, message);
         }
         /// <summary>
         /// 咨询，只问一个问题
@@ -66,7 +66,7 @@ namespace Song.APIHub.LLM
         /// <param name="role">假定大语言模型的角色</param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static async Task<string> Consult(string role,string message)
+        public static async Task<string> ConsultAsync(string role,string message)
         {
             if (string.IsNullOrWhiteSpace(role))            
                 role = "You are a helpful assistant.";
@@ -85,7 +85,7 @@ namespace Song.APIHub.LLM
             jo.Add("model", _api_model);
             jo.Add("stream", false);
             jo.Add("messages", messages);
-            return await SendPostRequestAsync(_api_url, jo.ToString(), APIKey);
+            return await _sendPostRequestAsync(_api_url, jo.ToString(), APIKey);
         }
         /// <summary>
         /// 发送Post请求
@@ -94,7 +94,7 @@ namespace Song.APIHub.LLM
         /// <param name="jsonContent"></param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        private static async Task<string> SendPostRequestAsync(string url, string jsonContent, string apiKey)
+        private static async Task<string> _sendPostRequestAsync(string url, string jsonContent, string apiKey)
         {
             HttpClient httpClient = new HttpClient();
             using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
@@ -120,5 +120,71 @@ namespace Song.APIHub.LLM
                 }
             }
         }
+
+        #region 同步方法
+        /// <summary>
+        /// 咨询，只问一个问题
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static string Consult(string message) => Consult(null, message);
+        /// <summary>
+        /// 咨询，只问一个问题
+        /// </summary>
+        /// <param name="role">假定大语言模型的角色</param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static string Consult(string role, string message)
+        {
+            if (string.IsNullOrWhiteSpace(role))
+                role = "You are a helpful assistant.";
+
+            JArray messages = new JArray();
+            messages.Add(new JObject(){
+                    {"role", "system"},
+                    {"content",role}
+                });
+            messages.Add(new JObject()
+                {
+                    {"role", "user"},
+                    {"content", message}
+                });
+            JObject jo = new JObject();
+            jo.Add("model", _api_model);
+            jo.Add("stream", false);
+            jo.Add("messages", messages);
+            string result= _sendPostRequest(_api_url, jo.ToString(), APIKey);
+            //解析为JSON对象
+            dynamic json = JsonConvert.DeserializeObject(result);
+            string content = (string)json["choices"][0]["message"]["content"];
+            return content;
+        }
+        private static string _sendPostRequest(string url, string jsonContent, string apiKey)
+        {
+            HttpClient httpClient = new HttpClient();            
+            using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
+            {
+                // 清除之前的请求头（因为HttpClient是静态的）
+                httpClient.DefaultRequestHeaders.Clear();
+
+                // 设置请求头
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // 发送请求并获取响应
+                HttpResponseMessage response = httpClient.PostAsync(url, content).Result;
+
+                // 处理响应
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    return $"请求失败: {response.StatusCode}";
+                }
+            }
+        }
+        #endregion
     }
 }
