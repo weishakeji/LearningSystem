@@ -53,7 +53,7 @@ weisha.linksorts .link-item[show=true] div.detail{
 weisha.linksorts .link-item[show=true] div.detail * {
 	line-height: 28px;
 	color: #666;
-	font-size: 15px;	
+	font-size: 18px;	
 }
 
 weisha.linksorts .link-item img {
@@ -62,5 +62,5 @@ weisha.linksorts .link-item img {
 
 weisha.linksorts .link-item a {
 	color: #333;
-	font-size: 16px;
+	font-size: 18px;
 }

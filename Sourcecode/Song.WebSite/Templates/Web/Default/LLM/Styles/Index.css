@@ -1,0 +1,21 @@
+﻿@charset "utf-8";
+
+context.navig {
+	display: flex;
+	justify-content: space-between;
+}
+
+context.navig .model {
+	color: #999;
+}
+
+context.navig .model span {
+	margin-left: 10px;
+	font-size: 22px;
+	color: #333;
+}
+
+/*内容区*/
+context.body{
+	min-height: calc(100vh - 400px);
+}

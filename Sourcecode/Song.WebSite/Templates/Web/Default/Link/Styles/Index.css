@@ -1,14 +1,18 @@
 ﻿@charset "utf-8";
-
+weisha.linksorts{
+	min-height: calc(100vh - 400px);
+	padding: 0px 15px 0px 15px;
+}
 weisha.linksorts .link-item a{
-	font-size: 18px !important;
+	font-size: 22px !important;
+	margin: 10px 0px;
 }
 weisha.linksorts{
     display: flex;	
 	flex-direction: column;
 }
 .sortname {
-	margin-top: 50px;
+	margin-top: 10px;
 	font-weight: bold;
 	font-size: 30px;
 	color: #666;

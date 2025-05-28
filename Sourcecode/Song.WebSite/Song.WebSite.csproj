@@ -1433,6 +1433,9 @@
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
+    <Content Include="Templates\Web\Default\LLM\Index.html" />
+    <Content Include="Templates\Web\Default\LLM\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\LLM\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Viewport\Login.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Login.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Login.css" />

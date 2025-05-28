@@ -54,13 +54,15 @@ Vue.component('linksorts', {
         }
     },
 
-    template: `<weisha class="linksorts" v-if="sorts.length>0">
-        <slot name="title"></slot>           
-        <links :sort="ls" v-for="(ls,i) in sorts" :showdetail="showdetail">
-            <template slot="sortname">
-                <slot name="sortname" :sort="ls"></slot>
-            </template>  
-        </links>       
+    template: `<weisha class="linksorts">
+        <template  v-if="sorts.length>0"> 
+            <slot name="title"></slot>           
+            <links :sort="ls" v-for="(ls,i) in sorts" :showdetail="showdetail">
+                <template slot="sortname">
+                    <slot name="sortname" :sort="ls"></slot>
+                </template>  
+            </links>    
+        </template>   
     </weisha>`
 });
 //友情链接列表
@@ -123,7 +125,7 @@ Vue.component('links', {
                     </a>
                 </template>
                 <a :href="d.Lk_Url" target="_blank"  v-else :title="d.Lk_Tootip">
-                    {{d.Lk_Name}}
+                    <icon>&#xa03d</icon>{{d.Lk_Name}}
                 </a>
                 <div v-if="isshowdetail(d)" class="detail">
                     <div v-html="d.Lk_Explain"></div>

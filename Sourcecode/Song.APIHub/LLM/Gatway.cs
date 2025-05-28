@@ -44,6 +44,10 @@ namespace Song.APIHub.LLM
         /// </summary>
         /// <param name="model"></param>
         public static void SetApiModel(string model) => _api_model = model;
+        /// <summary>
+        /// 获取大语言模型的名称
+        /// </summary>
+        public static string ApiModel => _api_model;
 
 
         private static async Task<string> Exchange(string jsonContent)

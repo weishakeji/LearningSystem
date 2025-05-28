@@ -21,10 +21,18 @@ namespace Song.ViewData.Methods
     [HttpPost, HttpGet]
     public class LLM : ViewMethod, IViewAPI
     {
+        /// <summary>
+        /// 模型引擎的名称
+        /// </summary>
+        public string Model() => Song.APIHub.LLM.Gatway.ApiModel;
+        /// <summary>
+        /// 咨询问题
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public string Consult(string message)
         {
-            string result = Song.APIHub.LLM.Gatway.Consult(null,message);
-            return result;
+            return Song.APIHub.LLM.Gatway.Consult(null, message);
         }
     }
 }

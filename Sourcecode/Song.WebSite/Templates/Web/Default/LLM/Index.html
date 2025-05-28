@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>友情链接</title>
+    <title>AI大语言模型</title>
 </head>
 
 <body>
@@ -16,18 +16,19 @@
         <context class="navig">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
-                <el-breadcrumb-item>友情链接</el-breadcrumb-item>
-
+                <el-breadcrumb-item>AI大语言模型</el-breadcrumb-item>
             </el-breadcrumb>
+            <div class="model">
+                AI引擎<span v-html="model"></span>
+            </div>
 
         </context>
-        <context>
-            <linksorts :sort="null" :org="org" :count="0" :showdetail="true">
-                <div slot="sortname" slot-scope="data" class="sortname" :title="data.sort.Ls_Tootip">
-                    <icon>&#xa029</icon>
-                    {{data.sort.Ls_Name}}
-                </div>
-            </linksorts>
+        <context class="body">u
+            <div class="history">
+
+            </div>
+            <div class="content">
+            </div>
         </context>
         <page_footer :organ="org">loading ...</page_footer>
     </div>
