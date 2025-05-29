@@ -63,6 +63,9 @@ Vue.component('linksorts', {
                 </template>  
             </links>    
         </template>   
+        <template v-else>
+            <slot name="nodata"></slot>
+        </template>
     </weisha>`
 });
 //友情链接列表

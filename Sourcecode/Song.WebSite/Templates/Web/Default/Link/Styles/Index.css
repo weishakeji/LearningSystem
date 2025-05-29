@@ -21,3 +21,13 @@ weisha.linksorts{
 weisha.linksorts  div.linksarea{
 	margin-left: 50px;
 }
+.nodata{
+	text-align: center;
+	font-size: 30px;
+	padding: 160px;
+	color: #666;
+}
+.nodata icon{
+	font-size: 90px;
+	margin-right: 30px;
+}

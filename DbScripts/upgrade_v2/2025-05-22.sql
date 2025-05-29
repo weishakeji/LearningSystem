@@ -1,4 +1,7 @@
-/*è®¡ç®—ä¸“ä¸šçš„è¯•é¢˜æ•°ï¼Œä»…å½“å‰å±‚çº§ï¼Œä¸åŒ…æ‹¬ä¸‹çº§*/
+
+/*ÒÔÏÂÊÇPostgresqlÊý¾Ý¿âÉý¼¶½Å±¾*/
+
+/*¼ÆËã×¨ÒµµÄÊÔÌâÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶*/
 UPDATE "Subject"
 SET "Sbj_QuesCount" = q.count
 FROM (
@@ -8,7 +11,7 @@ FROM (
 ) as q
 WHERE q."Sbj_ID" = "Subject"."Sbj_ID";
 
-/*è®¡ç®—ä¸“ä¸šçš„è¯¾ç¨‹æ•°ï¼Œä»…å½“å‰å±‚çº§ï¼Œä¸åŒ…æ‹¬ä¸‹çº§*/
+/*¼ÆËã×¨ÒµµÄ¿Î³ÌÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶*/
 UPDATE "Subject"
 SET "Sbj_CourseCount" = q.count
 FROM (
@@ -18,7 +21,7 @@ FROM (
 ) as q
 WHERE q."Sbj_ID" = "Subject"."Sbj_ID";
 
-/*è®¡ç®—ä¸“ä¸šçš„è¯•å·æ•°ï¼Œä»…å½“å‰å±‚çº§ï¼Œä¸åŒ…æ‹¬ä¸‹çº§*/
+/*¼ÆËã×¨ÒµµÄÊÔ¾íÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶*/
 UPDATE "Subject"
 SET "Sbj_TestCount" = q.count
 FROM (
@@ -30,7 +33,7 @@ WHERE q."Sbj_ID" = "Subject"."Sbj_ID";
 
 
 
-/*è®¡ç®—ç« èŠ‚çš„è¯•é¢˜æ•°ï¼Œä»…å½“å‰å±‚çº§ï¼Œä¸åŒ…æ‹¬ä¸‹çº§*/
+/*¼ÆËãÕÂ½ÚµÄÊÔÌâÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶*/
 UPDATE "Outline"
 SET "Ol_QuesCount" = q.count
 FROM (
@@ -40,7 +43,7 @@ FROM (
 ) as q
 WHERE q."Ol_ID" = "Outline"."Ol_ID";
 
-/*è¯•ç®—è¯¾ç¨‹çš„è¯•é¢˜æ•°*/
+/*ÊÔËã¿Î³ÌµÄÊÔÌâÊý*/
 UPDATE "Course"
 SET "Cou_QuesCount" = q.count
 FROM (
@@ -51,6 +54,65 @@ FROM (
 WHERE q."Cou_ID" = "Course"."Cou_ID";
 
 
-/* ä¿®æ­£è¯•é¢˜çš„éš¾åº¦ç­‰çº§ï¼Œä¸çŸ¥é“ä¸ºä»€ä¹ˆè¯•é¢˜éš¾åº¦ä¼šå‡ºçŽ°å¤§äºŽ5çš„æƒ…å†µ */
+/* ÐÞÕýÊÔÌâµÄÄÑ¶ÈµÈ¼¶£¬²»ÖªµÀÎªÊ²Ã´ÊÔÌâÄÑ¶È»á³öÏÖ´óÓÚ5µÄÇé¿ö */
 UPDATE "Questions" SET "Qus_Diff"=5  WHERE "Qus_Diff">=5;
 UPDATE "Questions" SET "Qus_Diff"=1  WHERE "Qus_Diff"<=1;
+
+
+
+
+/*ÒÔÏÂÊÇSqlserverÉý¼¶½Å±¾*/
+
+-- ¼ÆËã×¨ÒµµÄÊÔÌâÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶
+UPDATE s
+SET s.Sbj_QuesCount = q.count
+FROM Subject s
+INNER JOIN (
+    SELECT Sbj_ID, COUNT(*) as count
+    FROM Questions
+    GROUP BY Sbj_ID
+) q ON q.Sbj_ID = s.Sbj_ID;
+
+-- ¼ÆËã×¨ÒµµÄ¿Î³ÌÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶
+UPDATE s
+SET s.Sbj_CourseCount = q.count
+FROM Subject s
+INNER JOIN (
+    SELECT Sbj_ID, COUNT(*) as count
+    FROM Course
+    GROUP BY Sbj_ID
+) q ON q.Sbj_ID = s.Sbj_ID;
+
+-- ¼ÆËã×¨ÒµµÄÊÔ¾íÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶
+UPDATE s
+SET s.Sbj_TestCount = q.count
+FROM Subject s
+INNER JOIN (
+    SELECT Sbj_ID, COUNT(*) as count
+    FROM TestPaper
+    GROUP BY Sbj_ID
+) q ON q.Sbj_ID = s.Sbj_ID;
+
+-- ¼ÆËãÕÂ½ÚµÄÊÔÌâÊý£¬½öµ±Ç°²ã¼¶£¬²»°üÀ¨ÏÂ¼¶
+UPDATE o
+SET o.Ol_QuesCount = q.count
+FROM Outline o
+INNER JOIN (
+    SELECT Ol_ID, COUNT(*) as count
+    FROM Questions
+    GROUP BY Ol_ID
+) q ON q.Ol_ID = o.Ol_ID;
+
+-- ¼ÆËã¿Î³ÌµÄÊÔÌâÊý
+UPDATE c
+SET c.Cou_QuesCount = q.count
+FROM Course c
+INNER JOIN (
+    SELECT Cou_ID, COUNT(*) as count
+    FROM Questions
+    GROUP BY Cou_ID
+) q ON q.Cou_ID = c.Cou_ID;
+
+-- ÐÞÕýÊÔÌâµÄÄÑ¶ÈµÈ¼¶£¬²»ÖªµÀÎªÊ²Ã´ÊÔÌâÄÑ¶È»á³öÏÖ´óÓÚ5µÄÇé¿ö
+UPDATE Questions SET Qus_Diff = 5 WHERE Qus_Diff >= 5;
+UPDATE Questions SET Qus_Diff = 1 WHERE Qus_Diff <= 1;
