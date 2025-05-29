@@ -25,6 +25,8 @@ namespace Song.ViewData.Methods
         /// 模型引擎的名称
         /// </summary>
         public string Model() => Song.APIHub.LLM.Gatway.ApiModel;
+
+        #region 交流
         /// <summary>
         /// 咨询问题，只处理一个问题
         /// </summary>
@@ -48,5 +50,77 @@ namespace Song.ViewData.Methods
         {
             return Song.APIHub.LLM.Gatway.Communion(character, messages);
         }
+        #endregion
+
+        #region 交流记录
+        /// <summary>
+        /// 新增交流记录
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        public bool RecordsAdd(LlmRecords record)
+        {
+            Business.Do<ILargeLanguage>().RecordsAdd(record);
+            return true;
+        }
+        /// <summary>
+        /// 新增交流记录
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        public bool RecordsUpdate(LlmRecords record)
+        {
+            Business.Do<ILargeLanguage>().RecordsSave(record);
+            return true;
+        }
+        /// <summary>
+        /// 删除交流记录
+        /// </summary>
+        /// <param name="ids">交流信息的id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public int RecordsDelete(string ids)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(ids)) return i;
+            string[] arr = ids.Split(',');
+            foreach (string s in arr)
+            {
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<ILargeLanguage>().RecordsDelete(idval);
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;         
+        }
+        /// <summary>
+        /// 删除学员所有交流信息
+        /// </summary>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool RecordsClear(int acid)
+        {
+            Business.Do<ILargeLanguage>().RecordsClear(acid);
+            return true;
+        }
+        /// <summary>
+        /// 学员所有交流记录
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        public List<Song.Entities.LlmRecords> RecordsAll(int acid)
+        {
+            return Business.Do<ILargeLanguage>().RecordsAll(acid);
+        }
+        #endregion
     }
 }

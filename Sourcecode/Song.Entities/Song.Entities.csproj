@@ -162,6 +162,7 @@
     <Compile Include="LimitDomain.cs" />
     <Compile Include="Links.cs" />
     <Compile Include="LinksSort.cs" />
+    <Compile Include="LlmRecords.cs" />
     <Compile Include="LogForStudentExercise.cs" />
     <Compile Include="LogForStudentOnline.cs" />
     <Compile Include="LogForStudentQuestions.cs" />

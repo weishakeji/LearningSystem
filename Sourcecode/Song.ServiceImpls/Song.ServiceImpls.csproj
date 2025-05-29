@@ -198,6 +198,7 @@
     <Compile Include="EmployeeCom.cs" />
     <Compile Include="LogsCom.cs" />
     <Compile Include="MessageCom.cs" />
+    <Compile Include="LargeLanguageCom.cs" />
     <Compile Include="ThirdpartyLoginCom.cs" />
     <Compile Include="SystemParaCom.cs" />
     <Compile Include="LinksCom.cs" />

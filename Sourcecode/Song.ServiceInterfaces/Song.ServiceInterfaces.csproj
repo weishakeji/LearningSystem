@@ -162,6 +162,7 @@
     <Compile Include="IOutline.cs" />
     <Compile Include="IPayInterface.cs" />
     <Compile Include="IPosition.cs" />
+    <Compile Include="ILargeLanguage.cs" />
     <Compile Include="IThirdpartyLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IEmpGroup.cs" />
