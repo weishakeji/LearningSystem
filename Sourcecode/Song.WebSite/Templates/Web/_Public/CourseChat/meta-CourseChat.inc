@@ -23,7 +23,7 @@
             text-align: center;
             float:left;
             font-size: 16px;           
-            animation: rotate_360 0.5s infinite linear;
+            animation: degree_rotation_360 0.5s infinite linear;
             transform-origin: center center;
         }
         *[v-cloak]::after {
@@ -36,26 +36,9 @@
             top:8px;
             left: 20px;
         }
-    @keyframes rotate_360 {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        25% {
-            transform: rotate(90deg);
-        }
-
-        50% {
-            transform: rotate(180deg);
-        }
-
-        75% {
-            transform: rotate(270deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
+    @keyframes degree_rotation_360 {
+       from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
 </style>

@@ -41,7 +41,7 @@
         line-height: 28px;
         text-align: center;
         font-size: 26px;
-        animation: rotate_360 0.15s infinite linear;
+        animation: degree_rotation_360 0.25s linear infinite;
         transform-origin: center center;
     }
 
@@ -51,22 +51,9 @@
         margin: 5px 0px 0px 10px;
     }
 
-    @keyframes rotate_360 {
-        0%, 100% {
-            transform: rotate(0deg);
-        }
-
-        25% {
-            transform: rotate(90deg);
-        }
-
-        50% {
-            transform: rotate(180deg);
-        }
-
-        75% {
-            transform: rotate(270deg);
-        }
+    @keyframes degree_rotation_360 {
+        from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     @keyframes gradient_animation {

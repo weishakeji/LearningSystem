@@ -17,7 +17,7 @@ context.navig .model span {
 
 /*内容区*/
 context.body {
-	min-height: calc(100vh - 400px);
+	min-height: calc(100vh - 200px);
 	display: flex;
 }
 
@@ -44,17 +44,36 @@ context.body {
 	border: solid 1px rgb(218, 218, 218);
 	box-sizing: border-box;
 	padding: 15px;
-
+	position: absolute;
+	bottom: 10px;
+	left: 10%;
 }
 
 .area .inputbox textarea {
 	border: none;
 	background-color: transparent;
 	resize: none;
-	background-color: bisque;
+	width: 100%;
+	height: calc(100% - 45px);
+	font-size: 18px;
 }
 
 .area .inputbox textarea:focus {
 	outline: none;
 	border: none;
+}
+
+.area .footbar {
+	position: absolute;
+	bottom: 0;
+	left: 0px;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.area .footbar>*:first-child {
+	margin-top: 15px;
 }
