@@ -17,7 +17,7 @@ context.navig .model span {
 
 /*内容区*/
 context.body {
-	min-height: calc(100vh - 200px);
+	height: calc(100vh - 200px);
 	display: flex;
 }
 
@@ -29,8 +29,14 @@ context.body {
 
 .area {
 	width: 100%;
-	background-color: #fafa;
+	height: 100%;
 	position: relative;
+}
+
+.messages_area {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
 }
 
 /*输入框*/
@@ -76,4 +82,12 @@ context.body {
 
 .area .footbar>*:first-child {
 	margin-top: 15px;
+}
+
+/*开启新话题*/
+.area .newCommunion {
+	font-size: 18px !important;
+}
+.area .newCommunion icon{
+	font-size: 23px;
 }

@@ -49,7 +49,7 @@ namespace Song.APIHub.LLM
         /// </summary>
         public static string ApiModel => _api_model;
 
-
+        #region 异步方法
         private static async Task<string> Exchange(string jsonContent)
         {
             return await _sendPostRequestAsync(_api_url, jsonContent, APIKey);
@@ -67,18 +67,18 @@ namespace Song.APIHub.LLM
         /// <summary>
         /// 咨询，只问一个问题
         /// </summary>
-        /// <param name="role">假定大语言模型的角色</param>
+        /// <param name="character">假定大语言模型的角色</param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static async Task<string> ConsultAsync(string role,string message)
+        public static async Task<string> ConsultAsync(string character, string message)
         {
-            if (string.IsNullOrWhiteSpace(role))            
-                role = "You are a helpful assistant.";
+            if (string.IsNullOrWhiteSpace(character))
+                character = "You are a helpful assistant.";
             
             JArray messages = new JArray();
             messages.Add(new JObject(){
                     {"role", "system"},
-                    {"content",role}
+                    {"content",character}
                 });
             messages.Add(new JObject()
                 {
@@ -124,6 +124,8 @@ namespace Song.APIHub.LLM
                 }
             }
         }
+        #endregion
+
 
         #region 同步方法
         /// <summary>
@@ -135,18 +137,18 @@ namespace Song.APIHub.LLM
         /// <summary>
         /// 咨询，只问一个问题
         /// </summary>
-        /// <param name="role">假定大语言模型的角色</param>
+        /// <param name="character">假定大语言模型的角色</param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static string Consult(string role, string message)
+        public static string Consult(string character, string message)
         {
-            if (string.IsNullOrWhiteSpace(role))
-                role = "You are a helpful assistant.";
+            if (string.IsNullOrWhiteSpace(character))
+                character = "You are a helpful assistant.";
 
             JArray messages = new JArray();
             messages.Add(new JObject(){
                     {"role", "system"},
-                    {"content",role}
+                    {"content",character}
                 });
             messages.Add(new JObject()
                 {
@@ -163,6 +165,34 @@ namespace Song.APIHub.LLM
             string content = (string)json["choices"][0]["message"]["content"];
             return content;
         }
+        /// <summary>
+        /// 与AI交流问题，可以多轮沟通
+        /// </summary>
+        /// <param name="character">AI的角色设定，可以为空</param>
+        /// <param name="messages">
+        /// 由于AI并不存储沟通过程，这里是多轮沟通的内容。
+        /// 例如：{"role", "user"},{"content", msg }
+        /// </param>
+        /// <returns></returns>
+        public static string Communion(string character, JArray messages)
+        {
+            JObject jo = new JObject();
+            jo.Add("model", _api_model);
+            jo.Add("stream", false);
+            jo.Add("messages", messages);
+            string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
+            //解析为JSON对象
+            dynamic json = JsonConvert.DeserializeObject(result);
+            string content = (string)json["choices"][0]["message"]["content"];
+            return content;
+        }
+        /// <summary>
+        /// 向云服务发送请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="jsonContent"></param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
         private static string _sendPostRequest(string url, string jsonContent, string apiKey)
         {
             HttpClient httpClient = new HttpClient();            

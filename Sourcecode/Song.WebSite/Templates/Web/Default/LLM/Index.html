@@ -28,12 +28,28 @@
                 de
             </div>
             <div class="area">
+                <div class="messages_area">
+                    <div v-for="(item,index) in messages" :key="index">
+                        {{item.role}}:
+                        <div v-html="formatText(item.content)"></div>
+
+                    </div>
+                    <span loading="p2" v-if="loading">loading...</span>
+                </div>
                 <div class="inputbox">
-                    <textarea v-model="input" placeholder="请输入..."></textarea>
+                    <textarea v-model.trim="input" placeholder="请输入..." @keyup.enter="send"></textarea>
                     <div class="footbar">
-                        <loading star></loading>                      
-                        <el-button type="success" plain>
-                            <icon>&#xe84c</icon> 提 交
+                        <loading star v-if="loading">正在加载...</loading>
+                        <span v-else>
+                            <el-link type="primary" v-if="messages.length>0" class="newCommunion" @click="newCommunion">
+                                <icon>&#xe817</icon>开启新话题
+                            </el-link>
+                        </span>
+
+                        <el-button type="success" plain :disabled="input=='' || loading" @click="send">
+                            <icon v-if="!loading">&#xe84c</icon>
+                            <loading v-else bubble></loading>
+                            提 交
                         </el-button>
                     </div>
                 </div>

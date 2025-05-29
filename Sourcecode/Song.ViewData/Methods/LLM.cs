@@ -26,13 +26,27 @@ namespace Song.ViewData.Methods
         /// </summary>
         public string Model() => Song.APIHub.LLM.Gatway.ApiModel;
         /// <summary>
-        /// 咨询问题
+        /// 咨询问题，只处理一个问题
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="character">AI的角色设定，可以为空</param>
+        /// <param name="message">提出的问题</param>
         /// <returns></returns>
-        public string Consult(string message)
+        public string Consult(string character, string message)
         {
-            return Song.APIHub.LLM.Gatway.Consult(null, message);
+            return Song.APIHub.LLM.Gatway.Consult(character, message);
+        }
+        /// <summary>
+        /// 与AI交流问题，可以多轮沟通
+        /// </summary>
+        /// <param name="character">AI的角色设定，可以为空</param>
+        /// <param name="messages">
+        /// 由于AI并不存储沟通过程，这里是多轮沟通的内容。
+        /// 例如：{"role", "user"},{"content", msg }
+        /// </param>
+        /// <returns></returns>
+        public string Communion(string character, JArray messages)
+        {
+            return Song.APIHub.LLM.Gatway.Communion(character, messages);
         }
     }
 }
