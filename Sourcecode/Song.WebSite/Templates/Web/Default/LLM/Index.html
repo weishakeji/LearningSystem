@@ -50,7 +50,7 @@
                     <div class="footbar">
                         <loading star v-if="loading">正在加载...</loading>
                         <span v-else>
-                            <el-link type="primary" v-if="messages.length>0" class="newCommunion" @click="newCommunion">
+                            <el-link type="primary" v-if="messages.length>0" class="newCommunion" @click="messages = []">
                                 <icon>&#xe817</icon>开启新话题
                             </el-link>
                         </span>

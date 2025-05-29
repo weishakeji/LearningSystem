@@ -67,16 +67,10 @@ $ready(function () {
                 }).finally(() => th.loading = false);
                 console.error(th.messages);
             },
-            //开启新话题
-            newCommunion: function () {
-                this.messages = [];
-            },
-            // 格式化文本
-            formatText: function (text) {
-                const html = marked.parse(text);
-                return html;
-            }
+          
+           
         },
+        // 组件
         components: {
             // 用户的消息框
             'user_msg': {
