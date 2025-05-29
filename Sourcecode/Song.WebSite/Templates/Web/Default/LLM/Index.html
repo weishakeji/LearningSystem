@@ -17,27 +17,36 @@
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
                 <el-breadcrumb-item>AI大语言模型</el-breadcrumb-item>
-            </el-breadcrumb>
-            <div class="model">
-                AI引擎<span v-html="model"></span>
-            </div>
-
+            </el-breadcrumb> 
         </context>
         <context class="body">
             <div class="history">
-                de
+                <div class="title">沟通历史记录</div>
+                <div class="datalist">
+                </div>
+                <div class="model">
+                    AI引擎<span v-html="model"></span>
+                </div>
             </div>
             <div class="area">
                 <div class="messages_area">
-                    <div v-for="(item,index) in messages" :key="index">
-                        {{item.role}}:
-                        <div v-html="formatText(item.content)"></div>
+                    <div class="welcome" v-if="messages.length<1">
+                        <div class="welcome_title">
+                            <div class="ai_icon"> </div>
+                            <div>您好！我是基于大语言模型的AI助手</div>
+                        </div>
 
+                        <div class="welcome_text">我擅长信息处理、多轮对话与复杂任务分解。建议清晰描述需求以获得最佳回复，我会持续优化响应质量。请问今天能为您解决什么问题？</div>
                     </div>
+                    <template v-for="(item,index) in messages" v-else>
+                        <user_msg v-if="item.role=='user'" :message="item.content" :account="account"></user_msg>
+                        <ai_msg v-if="item.role=='system'" :message="item.content"></ai_msg>
+                    </template>
                     <span loading="p2" v-if="loading">loading...</span>
                 </div>
+                <!-- 输入框 -->
                 <div class="inputbox">
-                    <textarea v-model.trim="input" placeholder="请输入..." @keyup.enter="send"></textarea>
+                    <textarea v-model.trim="input" placeholder="请输入您的问题..." @keyup.enter="send"></textarea>
                     <div class="footbar">
                         <loading star v-if="loading">正在加载...</loading>
                         <span v-else>

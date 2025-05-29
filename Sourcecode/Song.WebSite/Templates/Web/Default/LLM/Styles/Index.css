@@ -5,16 +5,6 @@ context.navig {
 	justify-content: space-between;
 }
 
-context.navig .model {
-	color: #999;
-}
-
-context.navig .model span {
-	margin-left: 10px;
-	font-size: 22px;
-	color: #333;
-}
-
 /*内容区*/
 context.body {
 	height: calc(100vh - 200px);
@@ -23,8 +13,36 @@ context.body {
 
 .history {
 	width: 400px;
-	background-color: #999;
 	margin-right: 30px;
+	box-sizing: border-box;
+	padding: 10px;
+	position: relative;
+}
+.history .title {
+	font-size: 18px;
+	color: #333;
+	line-height: 30px;
+	text-align: center;
+	border: solid 1px #ddd;
+	border-radius: 5px;
+	padding: 8px 10px;
+}
+.history .model {
+	color: #999;
+	position: absolute;
+	bottom: 10px;
+	text-align: center;
+	border: solid 1px #ddd;
+	border-radius: 5px;
+	padding: 8px 10px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.history .model span {
+	margin-left: 10px;
+	font-size: 22px;
+	color: #333;
 }
 
 .area {
@@ -35,8 +53,14 @@ context.body {
 
 .messages_area {
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 180px);
 	overflow: auto;
+	box-sizing: border-box;
+	padding: 0px 15px;
+}
+
+*[loading='p2'] {
+	margin: 20px auto;
 }
 
 /*输入框*/
@@ -44,15 +68,15 @@ context.body {
 	position: relative;
 	background-color: rgb(243 244 246);
 	margin: 10px auto;
-	width: 80%;
+	width: 100%;
 	height: 150px;
 	border-radius: 10px;
 	border: solid 1px rgb(218, 218, 218);
 	box-sizing: border-box;
 	padding: 15px;
 	position: absolute;
-	bottom: 10px;
-	left: 10%;
+	bottom: 0px;
+	left: 0px;
 }
 
 .area .inputbox textarea {
@@ -88,6 +112,83 @@ context.body {
 .area .newCommunion {
 	font-size: 18px !important;
 }
-.area .newCommunion icon{
+
+.area .newCommunion icon {
 	font-size: 23px;
+}
+
+/*用户消息的区域*/
+.user_message {
+	display: flex;
+	flex-direction: row-reverse;
+	font-size: 18px;
+	margin: 0px 0px 20px 0px;
+}
+
+.user_message .user_message_content {
+	box-sizing: border-box;
+	max-width: calc(100% - 50px);
+	padding: 10px 10px 0px 50px;
+
+}
+
+.user_message .ws_avatar {
+	border: solid 1px rgb(218, 218, 218);
+}
+
+/*AI消息的区域*/
+.ai_msg {
+	display: flex;
+	margin: 0px 0px 20px 0px;
+}
+
+.ai_msg .ai_msg_icon {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-image: url("../Images/ai.png");
+	background-size: 100% 100%;
+	/* 拉伸填充整个容器 */
+	background-repeat: no-repeat;
+	margin-top: 8px;
+}
+
+.ai_msg .ai_msg_content {
+	box-sizing: border-box;
+	max-width: calc(100% - 50px);
+	padding: 0px 50px 0px 10px;
+	font-size: 18px;
+}
+
+/*欢迎语*/
+.welcome {
+	width: 80%;
+	margin: 60px auto;
+}
+
+.welcome_title {
+	display: flex;
+	font-size: 25px;
+	line-height: 70px;
+	margin: 0px auto 20px auto;
+	justify-content: center;
+
+}
+
+.welcome_title .ai_icon {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-image: url("../Images/ai.png");
+	background-size: 100% 100%;
+	/* 拉伸填充整个容器 */
+	background-repeat: no-repeat;
+	margin-top: 8px;
+	margin-right: 15px;
+}
+
+.welcome .welcome_text {
+	font-size: 18px;
+	color: #999;
+	line-height: 30px;
 }

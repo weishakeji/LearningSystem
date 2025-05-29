@@ -1,5 +1,4 @@
 $ready(function () {
-
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -11,18 +10,7 @@ $ready(function () {
             model: '',        //大语言模型的引擎名称
 
             input: '',         //输入内容
-            messages: [{
-                role: 'system',
-                content: 'You are a helpful assistant.'
-            }, {
-                role: 'user',
-                content: '中国有多少海域？'
-            },
-            {
-                role: 'system',
-                content: '不知道，我去问问AI吧！'
-            }
-            ],         //对话记录
+            messages: [],         //对话记录
             //加载中
             loading: false,
             loading_init: true
@@ -88,7 +76,31 @@ $ready(function () {
                 const html = marked.parse(text);
                 return html;
             }
+        },
+        components: {
+            // 用户的消息框
+            'user_msg': {
+                props: ['account', 'message'],
+                methods: {
+                },
+                template: `<div class="user_message">
+                    <avatar :account="account" circle="true" size="50"></avatar>
+                    <div class="user_message_content" v-html="message"></div>
+                </div >`
+            },
+            //Ai的消息框
+            'ai_msg': {
+                props: ['message'],
+                methods: {
+                },
+                template: `<div class="ai_msg">    
+                    <div class="ai_msg_icon"></div>              
+                    <div class="ai_msg_content" v-html="marked.parse(message)"></div>
+                </div >`
+            }
         }
     });
 
-}, ["../Components/links.js", "Scripts/marked.min.js"]);
+}, ['../Components/links.js',
+    '/Utilities/Components/avatar.js',
+    'Scripts/marked.min.js']);
