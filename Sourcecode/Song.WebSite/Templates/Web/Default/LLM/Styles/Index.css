@@ -16,6 +16,45 @@ context.navig .model span {
 }
 
 /*内容区*/
-context.body{
+context.body {
 	min-height: calc(100vh - 400px);
+	display: flex;
+}
+
+.history {
+	width: 400px;
+	background-color: #999;
+	margin-right: 30px;
+}
+
+.area {
+	width: 100%;
+	background-color: #fafa;
+	position: relative;
+}
+
+/*输入框*/
+.area .inputbox {
+	position: relative;
+	background-color: rgb(243 244 246);
+	margin: 10px auto;
+	width: 80%;
+	height: 150px;
+	border-radius: 10px;
+	border: solid 1px rgb(218, 218, 218);
+	box-sizing: border-box;
+	padding: 15px;
+
+}
+
+.area .inputbox textarea {
+	border: none;
+	background-color: transparent;
+	resize: none;
+	background-color: bisque;
+}
+
+.area .inputbox textarea:focus {
+	outline: none;
+	border: none;
 }

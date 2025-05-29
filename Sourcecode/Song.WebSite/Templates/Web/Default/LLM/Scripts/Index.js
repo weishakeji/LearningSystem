@@ -9,7 +9,9 @@ $ready(function () {
             config: {},      //当前机构配置项     
 
             model: '',        //大语言模型的引擎名称
-            datas: {},
+
+            input: '',         //输入内容
+            
             loading_init: true
         },
         mounted: function () {

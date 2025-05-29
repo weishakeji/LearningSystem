@@ -23,11 +23,21 @@
             </div>
 
         </context>
-        <context class="body">u
+        <context class="body">
             <div class="history">
-
+                de
             </div>
-            <div class="content">
+            <div class="area">
+                <div class="inputbox">
+                    <textarea v-model="input" placeholder="请输入..."></textarea>
+                    <div class="footbar">
+                        <loading star></loading>
+                        <span loading="p2">loading...</span>
+                        <el-button type="success" plain>
+                            <icon>&#xe84c</icon> 提 交
+                        </el-button>
+                    </div>
+                </div>
             </div>
         </context>
         <page_footer :organ="org">loading ...</page_footer>
