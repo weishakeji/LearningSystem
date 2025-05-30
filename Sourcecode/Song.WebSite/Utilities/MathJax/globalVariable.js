@@ -9,6 +9,7 @@ window.globalVariable = {
             messageStyle: "none", //不显示信息
             jax: ["input/TeX", "output/HTML-CSS"],
             tex2jax: {
+                packages: ['base', 'ams'],  // 显式声明需要加载的 TeX 包
                 inlineMath: [["$", "$"], ["\\(", "\\)"]], //行内公式选择符
                 displayMath: [["$$", "$$"], ["\\[", "\\]"]], //段内公式选择符
                 skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] //避开某些标签

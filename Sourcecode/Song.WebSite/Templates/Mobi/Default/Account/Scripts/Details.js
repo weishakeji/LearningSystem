@@ -7,7 +7,7 @@ $ready(function () {
             platinfo: {},
             org: {},
             config: {},      //当前机构配置项
-          
+
             loading: true,  //
             uploading: false,        //修改信息中
             activeNames: []
@@ -18,7 +18,7 @@ $ready(function () {
         },
         computed: {
             //是否登录
-            islogin: (t) => { return !$api.isnull(t.account); }
+            islogin: t => !$api.isnull(t.account)
         },
         watch: {
             //提交信息中的状态变更
@@ -34,7 +34,7 @@ $ready(function () {
                 handler: function (nv, ov) {
                     this.loading = false;
                     if ($api.isnull(nv)) return;
-                    this.account.Ac_Sex = String(nv.Ac_Sex); 
+                    this.account.Ac_Sex = String(nv.Ac_Sex);
                 }, immediate: true
             },
         },

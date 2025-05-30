@@ -27,6 +27,26 @@ context.body {
 	border-radius: 5px;
 	padding: 8px 10px;
 }
+.history .datalist {
+	box-sizing: border-box;
+	padding: 10px 0px;
+	height: calc(100% - 100px);
+	width: 100%;
+}
+.history .datalist>div{
+	box-sizing: border-box;
+	padding: 5px 10px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 18px;
+	white-space: nowrap;      /* 禁止换行 */
+	overflow: hidden;         /* 隐藏溢出内容 */
+	text-overflow: ellipsis; 
+	width: 300px;
+}
+.history .datalist>div:hover{
+	background-color: rgb(219 234 254);
+}
 .history .model {
 	color: #999;
 	position: absolute;
@@ -35,7 +55,7 @@ context.body {
 	border: solid 1px #ddd;
 	border-radius: 5px;
 	padding: 8px 10px;
-	width: 100%;
+	width: calc(100% - 20px);
 	box-sizing: border-box;
 }
 

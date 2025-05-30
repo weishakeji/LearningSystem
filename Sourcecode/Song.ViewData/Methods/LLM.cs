@@ -58,20 +58,26 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public bool RecordsAdd(LlmRecords record)
+        [HttpPost,Student]
+        public LlmRecords RecordsAdd(LlmRecords record)
         {
             Business.Do<ILargeLanguage>().RecordsAdd(record);
-            return true;
+            return record;
         }
         /// <summary>
         /// 新增交流记录
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public bool RecordsUpdate(LlmRecords record)
+        [HttpPost, Student]
+        public LlmRecords RecordsUpdate(LlmRecords record)
         {
-            Business.Do<ILargeLanguage>().RecordsSave(record);
-            return true;
+            Song.Entities.LlmRecords old = Business.Do<ILargeLanguage>().RecordsSingle(record.Llr_ID);
+            if (old == null) throw new Exception("Not found entity for LlmRecords！");
+
+            old.Copy<Song.Entities.LlmRecords>(record);
+            Business.Do<ILargeLanguage>().RecordsSave(old);
+            return old;
         }
         /// <summary>
         /// 删除交流记录
