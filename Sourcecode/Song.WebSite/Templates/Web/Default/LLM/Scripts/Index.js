@@ -42,6 +42,12 @@ $ready(function () {
             messages: function () {
                 if (!this.islogin || !this.record.Llr_Records) return [];
                 return this.record.Llr_Records;
+            },
+            //是否为新话题
+            isnewTopic: function () {
+                let  isnewTopic = $api.storage('isnewTopic');
+                if(isnewTopic==null)return true;        //默认是新话题
+                return isnewTopic=='true' || isnewTopic===true;
             }
         },
         watch: {
@@ -51,7 +57,8 @@ $ready(function () {
                     if (nv && nv.Ac_ID != null) {
                         var th = this;
                         this.loadRecords(function (records) {
-                            if (records.length > 0) th.record = $api.clone(records[0]);
+                            if (records.length > 0 && !th.isnewTopic)
+                                th.record = $api.clone(records[0]);
                             th.$nextTick(function () {
                                 window.setTimeout(function () {
                                     let area = $dom("div.messages_area")[0];
@@ -84,9 +91,14 @@ $ready(function () {
                 this.record.Llr_ID = 0;
                 this.record.Llr_Topic = '';
                 this.record.Llr_Records = [];
+                //记录新话题的状态
+                $api.storage('isnewTopic', true);
+
             },
+            //选择历史对话记录
             selectRecord: function (record) {
-                 this.record = $api.clone(record); 
+                this.record = $api.clone(record);
+                $api.storage('isnewTopic', false);
             },
             // 发送
             send: function () {
