@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>AI大语言模型</title>   
+    <title>AI大语言模型</title>
 </head>
 
 <body>
@@ -18,8 +18,11 @@
                 <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
                 <el-breadcrumb-item>AI大语言模型</el-breadcrumb-item>
             </el-breadcrumb>
-        </context> 
-        <context class="body">
+        </context>
+        <context class="body nologin" v-if="!islogin">
+            <nologin></nologin> 
+        </context>
+        <context class="body" v-else>
             <div class="history">
                 <div class="title">沟通历史记录</div>
                 <div class="datalist">
@@ -53,8 +56,7 @@
                     <div class="footbar">
                         <loading star v-if="loading">正在加载...</loading>
                         <span v-else>
-                            <el-link type="primary" v-if="messages.length>0" class="newCommunion"
-                                @click="newTopic">
+                            <el-link type="primary" v-if="messages.length>0" class="newCommunion" @click="newTopic">
                                 <icon>&#xe817</icon>开启新话题
                             </el-link>
                         </span>
