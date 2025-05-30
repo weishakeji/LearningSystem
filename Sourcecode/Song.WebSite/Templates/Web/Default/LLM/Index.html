@@ -20,15 +20,35 @@
             </el-breadcrumb>
         </context>
         <context class="body nologin" v-if="!islogin">
-            <nologin></nologin> 
+            <nologin></nologin>
         </context>
         <context class="body" v-else>
             <div class="history">
                 <div class="title">沟通历史记录</div>
-                <div class="datalist">
-                    <div v-for="item in records" @click="selectRecord(item)">
+                <div class="datalist" v-if="records.length>0">
+                    <div v-for="item in records" @click="selectRecord(item)" :current="item.Llr_ID==record.Llr_ID">
                         {{item.Llr_Topic}}
+
+                        <el-dropdown v-if="item.Llr_ID==record.Llr_ID">
+                            <span class="el-dropdown-link">
+                                <icon>&#xe838</icon>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                        icon-color="red" title="确定删除吗？" @confirm="delRecord(item.Llr_ID)">
+                                        <el-link type="danger" :disabled="loadingid==item.Llr_ID" plain
+                                            icon="el-icon-delete" slot="reference">删除
+                                        </el-link>
+                                    </el-popconfirm>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <div v-else class="right"></div>
                     </div>
+                </div>
+                <div class="nohistory" v-else>
+                    <div class="nohistory_text">没有历史记录</div>
                 </div>
                 <div class="model">
                     AI引擎<span v-html="model"></span>

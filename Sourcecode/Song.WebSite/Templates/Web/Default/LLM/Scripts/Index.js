@@ -21,7 +21,8 @@ $ready(function () {
 
             //加载中
             loading: false,
-            loading_init: true
+            loading_init: true,
+            loadingid: 0
         },
         mounted: function () {
             this.getModelname();
@@ -45,9 +46,9 @@ $ready(function () {
             },
             //是否为新话题
             isnewTopic: function () {
-                let  isnewTopic = $api.storage('isnewTopic');
-                if(isnewTopic==null)return true;        //默认是新话题
-                return isnewTopic=='true' || isnewTopic===true;
+                let isnewTopic = $api.storage('isnewTopic');
+                if (isnewTopic == null) return true;        //默认是新话题
+                return isnewTopic == 'true' || isnewTopic === true;
             }
         },
         watch: {
@@ -134,9 +135,9 @@ $ready(function () {
                     if (req.data.success) {
                         let result = req.data.result;
                         if (result != null) {
-                            result.Llr_Records = JSON.parse(result.Llr_Records);
-                            console.error(result);
+                            result.Llr_Records = JSON.parse(result.Llr_Records);                           
                             th.record = result;
+                            th.selectRecord(th.record);
                         }
                         th.loadRecords();
                     } else {
@@ -164,6 +165,23 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => { });
+            },
+            //删除对话记录
+            delRecord: function (id) {
+                var th = this;
+                th.loadingid = id;
+                $api.delete('LLM/RecordsDelete', { 'ids': id }).then(req => {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.loadRecords(function (records) {
+                            if (records.length < 1) th.newTopic();
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadingid = 0);
             }
         },
         // 组件

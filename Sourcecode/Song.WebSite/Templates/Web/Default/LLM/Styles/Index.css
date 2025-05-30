@@ -18,6 +18,7 @@ context.body {
 	padding: 10px;
 	position: relative;
 }
+
 .history .title {
 	font-size: 18px;
 	color: #333;
@@ -27,25 +28,61 @@ context.body {
 	border-radius: 5px;
 	padding: 8px 10px;
 }
+.history .nohistory_text{
+	text-align: center;
+	padding: 60px 0px;
+	font-size: 16px;
+	color: #999;
+}
 .history .datalist {
 	box-sizing: border-box;
 	padding: 10px 0px;
 	height: calc(100% - 100px);
 	width: 100%;
 }
-.history .datalist>div{
+
+.history .datalist>div {
 	box-sizing: border-box;
 	padding: 5px 10px;
 	cursor: pointer;
 	border-radius: 5px;
-	font-size: 18px;
-	white-space: nowrap;      /* 禁止换行 */
-	overflow: hidden;         /* 隐藏溢出内容 */
-	text-overflow: ellipsis; 
-	width: 300px;
+	font-size: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+
+	width: 280px;
+	position: relative;
 }
-.history .datalist>div:hover{
+
+.history .datalist>div:hover, .history .datalist>div[current] {
 	background-color: rgb(219 234 254);
+}
+
+.history .datalist>div[current] {
+	padding-right: 30px;
+}
+
+.history .datalist>div[current] .el-dropdown {
+	position: absolute;
+	width: 40px;
+	height: 35px;
+	right: 0px;
+	top: 0px;
+	line-height: 40px;
+	text-align: right;
+	background: linear-gradient(to right,
+			rgba(219, 234, 254, 0), rgba(219, 234, 254, 1) 20%, rgba(219, 234, 254, 1) 100%);
+}
+.history .datalist>div:not(:hover) .right{
+	position: absolute;
+	width: 20px;
+	height: 35px;
+	right: 0px;
+	top: 0px;
+	line-height: 40px;
+	text-align: right;
+	background: linear-gradient(to right,
+			rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 1) 100%);
 }
 .history .model {
 	color: #999;
