@@ -49,6 +49,42 @@ $ready(function () {
                 let isnewTopic = $api.storage('isnewTopic');
                 if (isnewTopic == null) return true;        //默认是新话题
                 return isnewTopic == 'true' || isnewTopic === true;
+            },
+            //历史记录
+            historys: function () {
+                let datas = [
+                    { span: 1, text: '今天' },
+                    { span: 2, text: '昨天' },
+                    { span: 7, text: '本周' },
+                    { span: 30, text: '30天内' },
+                    { span: -1, text: '更多...' },
+                ];
+                let records = $api.clone(this.records);
+                for (let i = 0; i < datas.length; i++) {
+                    let data = datas[i];
+                    data.list = [];
+                    //时间界限
+                    const now = new Date();
+                    const deadline = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    deadline.setDate(now.getDate() + 1 - data.span);
+                    //按时间分割聊天记录   
+                    for (let j = 0; j < records.length; j++) {
+                        let record = records[j];
+                        if (data.span > 0) {
+                            if (record.Llr_LastTime > deadline) {
+                                data.list.push(record);
+                                records.splice(j, 1);
+                                j--;
+                            }
+                        } else {
+                            data.list.push(record);
+                            records.splice(j, 1);
+                            j--;
+                        }
+                    }
+                }
+                //console.error(datas);
+                return datas;
             }
         },
         watch: {
@@ -58,6 +94,7 @@ $ready(function () {
                     if (nv && nv.Ac_ID != null) {
                         var th = this;
                         this.loadRecords(function (records) {
+                            console.error(records);
                             if (records.length > 0 && !th.isnewTopic)
                                 th.record = $api.clone(records[0]);
                             th.$nextTick(function () {
@@ -135,7 +172,7 @@ $ready(function () {
                     if (req.data.success) {
                         let result = req.data.result;
                         if (result != null) {
-                            result.Llr_Records = JSON.parse(result.Llr_Records);                           
+                            result.Llr_Records = JSON.parse(result.Llr_Records);
                             th.record = result;
                             th.selectRecord(th.record);
                         }

@@ -28,22 +28,30 @@ context.body {
 	border-radius: 5px;
 	padding: 8px 10px;
 }
-.history .nohistory_text{
+
+.history .nohistory_text {
 	text-align: center;
 	padding: 60px 0px;
 	font-size: 16px;
 	color: #999;
 }
+
 .history .datalist {
 	box-sizing: border-box;
 	padding: 10px 0px;
 	height: calc(100% - 100px);
 	width: 100%;
+	color: #666;
 }
-
-.history .datalist>div {
+.history .datalist .date{
+	padding: 15px 10px 5px 10px;	
+	font-weight:  bold;
+	font-size: 15px;
+}
+/*沟通历史的项*/
+.history .datalist .item {
 	box-sizing: border-box;
-	padding: 5px 10px;
+	padding: 10px 10px;
 	cursor: pointer;
 	border-radius: 5px;
 	font-size: 16px;
@@ -54,15 +62,15 @@ context.body {
 	position: relative;
 }
 
-.history .datalist>div:hover, .history .datalist>div[current] {
+.history .datalist .item:hover, .history .datalist .item[current] {
 	background-color: rgb(219 234 254);
 }
 
-.history .datalist>div[current] {
+.history .datalist .item[current] {
 	padding-right: 30px;
 }
 
-.history .datalist>div[current] .el-dropdown {
+.history .datalist .item[current] .el-dropdown {
 	position: absolute;
 	width: 40px;
 	height: 35px;
@@ -73,7 +81,8 @@ context.body {
 	background: linear-gradient(to right,
 			rgba(219, 234, 254, 0), rgba(219, 234, 254, 1) 20%, rgba(219, 234, 254, 1) 100%);
 }
-.history .datalist>div:not(:hover) .right{
+
+.history .datalist .item:not(:hover) .right {
 	position: absolute;
 	width: 20px;
 	height: 35px;
@@ -84,6 +93,7 @@ context.body {
 	background: linear-gradient(to right,
 			rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 1) 100%);
 }
+
 .history .model {
 	color: #999;
 	position: absolute;
