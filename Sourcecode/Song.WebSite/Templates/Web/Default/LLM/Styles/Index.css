@@ -231,7 +231,15 @@ context.nologin {
 	padding: 0px 50px 0px 10px;
 	font-size: 18px;
 }
-
+.ai_msg h1{
+	font-size: 22px;
+}
+.ai_msg h2{
+	font-size: 20px;
+}
+.ai_msg h3{
+	font-size: 18px;
+}
 /*欢迎语*/
 .welcome {
 	width: 80%;

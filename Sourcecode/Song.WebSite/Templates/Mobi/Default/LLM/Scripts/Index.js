@@ -5,7 +5,7 @@ $ready(function () {
             account: {},     //当前登录账号
             platinfo: {},
             org: {},
-            config: {},      //当前机构配置项     
+            config: {},      //当前机构配置项
 
             model: '',        //大语言模型的引擎名称
 
@@ -18,6 +18,7 @@ $ready(function () {
                 Llr_Records: []     //对话记录
             },
             records: [],        //所有对话记录
+            showhistory: false,   //是否显示历史记录
 
             //加载中
             loading: false,
@@ -202,6 +203,16 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => { });
+            },
+            //删除记录
+            btnDelete: function (id) {
+                var th = this;
+                this.$dialog.confirm({
+                    title: '删除记录',
+                    message: '您是否确定删除当前沟通记录？',
+                }).then(() => {
+                   th.delRecord(id);
+                }).catch(() => { }); 
             },
             //删除对话记录
             delRecord: function (id) {

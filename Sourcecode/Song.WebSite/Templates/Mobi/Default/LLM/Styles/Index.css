@@ -1,18 +1,25 @@
 ﻿@charset "utf-8";
-html, body, #vapp{
+
+html, body, #vapp {
 	overflow: hidden;
 }
+
 .page_header {
-    height: 44px;
-    font-size: 16px;
-    width: 100%;
-    z-index: 2;
-    display: flex;
-    line-height: 44px;
-    color: #666;
-    text-align: left;
-    justify-content: space-between;
+	height: 44px;
+	font-size: 16px;
+	width: 100%;
+	z-index: 2;
+	display: flex;
+	line-height: 44px;
+	color: #666;
+	text-align: left;
+	justify-content: space-between;
 }
+
+.init[loading] {
+	margin: calc(100vh/3) auto 0px auto;
+}
+
 /*内容区*/
 context.body {
 	height: calc(100vh - 200px);
@@ -22,17 +29,18 @@ context.body {
 	overflow-x: hidden;
 	width: calc(100vw - 30px);
 }
+
 context.nologin {
 	box-sizing: border-box;
 	overflow: hidden;
 }
+
 /*历史信息*/
 .history {
-	width: 400px;
-	margin-right: 50px;
 	box-sizing: border-box;
 	padding: 10px;
 	position: relative;
+	height:100%;
 }
 
 .history .title {
@@ -58,56 +66,26 @@ context.nologin {
 	height: calc(100% - 100px);
 	width: 100%;
 	color: #666;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
-.history .datalist .date{
-	padding: 15px 10px 5px 10px;	
-	font-weight:  bold;
+
+.history .datalist .date {
+	padding: 15px 10px 5px 10px;
+	font-weight: bold;
 	font-size: 15px;
 }
+
 /*沟通历史的项*/
-.history .datalist .item {
-	box-sizing: border-box;
-	padding: 10px 10px;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 16px;
-	white-space: nowrap;
-	overflow: hidden;
-
-	width: 280px;
-	position: relative;
-}
-
-.history .datalist .item:hover, .history .datalist .item[current] {
+.history .datalist .item[current] {
 	background-color: rgb(219 234 254);
 }
-
-.history .datalist .item[current] {
-	padding-right: 30px;
+.history .van-cell{
+	background-color: transparent;
 }
-
-.history .datalist .item[current] .el-dropdown {
-	position: absolute;
-	width: 40px;
-	height: 35px;
-	right: 0px;
-	top: 0px;
-	line-height: 40px;
-	text-align: right;
-	background: linear-gradient(to right,
-			rgba(219, 234, 254, 0), rgba(219, 234, 254, 1) 20%, rgba(219, 234, 254, 1) 100%);
-}
-
-.history .datalist .item:not(:hover) .right {
-	position: absolute;
-	width: 20px;
-	height: 35px;
-	right: 0px;
-	top: 0px;
-	line-height: 40px;
-	text-align: right;
-	background: linear-gradient(to right,
-			rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 1) 100%);
+.history .van-cell__title{
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .history .model {
@@ -124,7 +102,7 @@ context.nologin {
 
 .history .model span {
 	margin-left: 10px;
-	font-size: 22px;
+	font-size: 16px;
 	color: #333;
 }
 
@@ -175,16 +153,18 @@ context.nologin {
 .inputbox .footbar>*:first-child {
 	margin-top: 10px;
 }
-.inputbox .van-button{
+
+.inputbox .van-button {
 	height: 35px;
 }
+
 /*开启新话题*/
 .inputbox .newCommunion {
 	font-size: 18px !important;
 	color: #1989fa;
 }
 
-.inputbox  .newCommunion icon {
+.inputbox .newCommunion icon {
 	font-size: 23px;
 }
 
@@ -230,7 +210,15 @@ context.nologin {
 	padding: 0px 50px 0px 10px;
 	font-size: 18px;
 }
-
+.ai_msg h1{
+	font-size: 22px;
+}
+.ai_msg h2{
+	font-size: 20px;
+}
+.ai_msg h3{
+	font-size: 18px;
+}
 /*欢迎语*/
 .welcome {
 	width: 80%;
@@ -241,14 +229,19 @@ context.nologin {
 	display: flex;
 	font-size: 25px;
 	line-height: 70px;
-	margin: 0px auto 20px auto;
+	margin: 0px auto 10px auto;
 	justify-content: center;
 
 }
-
+.welcome_subtit{
+	font-size: 20px;
+	margin: 0px auto 20px auto;
+	justify-content: center;
+	display: flex;
+}
 .welcome_title .ai_icon {
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	border-radius: 50%;
 	background-image: url("../Images/ai.png");
 	background-size: 100% 100%;

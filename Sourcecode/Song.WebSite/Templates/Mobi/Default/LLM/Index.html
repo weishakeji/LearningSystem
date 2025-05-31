@@ -10,22 +10,19 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
-        <page_header title="AI大语言模型" icon="&#xa034" menu="true" @menu="alert(2)"></page_header>
-
-        <context class="body nologin" v-if="loading_init">
-            <div loading="p4"></div>
-        </context>
-
+        <page_header title="AI大语言模型" icon="&#xa034" menu="true" @menu="showhistory=true">
+            <span v-html="model"></span>
+        </page_header>
+        <div loading="p4" class="init" v-if="loading_init"></div>
         <nologin v-else-if="!islogin"></nologin>
-
         <template v-else>
             <context class="body">
                 <div class="welcome" v-if="messages.length<1">
                     <div class="welcome_title">
-                        <div class="ai_icon"> </div>
-                        <div>您好！我是基于大语言模型的AI助手</div>
+                        <div class="ai_icon"></div>
+                        <div>您好！</div>
                     </div>
-
+                    <div class="welcome_subtit">我是基于大语言模型的AI助手</div>
                     <div class="welcome_text">我擅长信息处理、多轮对话与复杂任务分解。建议清晰描述需求以获得最佳回复，我会持续优化响应质量。请问今天能为您解决什么问题？</div>
                 </div>
                 <template v-for="(item,index) in messages" v-else>
@@ -55,7 +52,34 @@
                 </div>
             </div>
         </template>
-
+        <!-- 历史记录 -->
+        <van-popup v-model="showhistory" position="right" :style="{ height: '100%',width: '60%' }" id="aside_history">
+            <div class="history">
+                <div class="title">沟通历史记录</div>
+                <div class="datalist" v-if="records.length>0">
+                    <template v-for="span in historys" v-if="span.list.length>0">
+                        <div v-html="span.text" class="date"></div>
+                        <van-swipe-cell v-for="item in span.list" :current="item.Llr_ID==record.Llr_ID"
+                        class="item">
+                            <van-cell :border="false" @click="selectRecord(item)">
+                                <template #title>
+                                    {{item.Llr_Topic}}
+                                </template>
+                            </van-cell>
+                            <template #right>
+                                <van-button type="danger" class="btnDelete" @click="btnDelete(item.Llr_ID)">删除</van-button>
+                            </template>
+                        </van-swipe-cell>
+                    </template>
+                </div>
+                <div class="nohistory" v-else>
+                    <div class="nohistory_text">没有历史记录</div>
+                </div>
+                <div class="model">
+                    <span v-html="model"></span>
+                </div>
+            </div>
+        </van-popup>
     </div>
 
 </body>
