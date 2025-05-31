@@ -13,7 +13,6 @@ Vue.component('icons', {
     watch: {
         'selected': function (val, old) {
             this.show = false;
-            console.log(this.show);
             this.$emit('change', val);
         }
     },
@@ -42,16 +41,13 @@ Vue.component('icons', {
         th.loading = true;
         //加载图标
         $api.cache('Platform/IconJson').then(function (req) {
-            th.loading = false;
             if (req.data.success) {
                 th.data = req.data.result;
             } else {
                 throw req.data.message;
             }
-        }).catch(function (err) {
-            th.loading = false;
-            console.error(err);
-        });
+        }).catch(err => console.error(err))
+            .finally(() => th.loading = false);
     },
     methods: {
 

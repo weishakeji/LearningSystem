@@ -197,7 +197,7 @@ context.nologin {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
-	background-image: url("../Images/ai.png");
+	background-image: url("/Utilities/Images/ai.png");
 	background-size: 100% 100%;
 	/* 拉伸填充整个容器 */
 	background-repeat: no-repeat;
@@ -243,7 +243,7 @@ context.nologin {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
-	background-image: url("../Images/ai.png");
+	background-image: url("/Utilities/Images/ai.png");
 	background-size: 100% 100%;
 	/* 拉伸填充整个容器 */
 	background-repeat: no-repeat;

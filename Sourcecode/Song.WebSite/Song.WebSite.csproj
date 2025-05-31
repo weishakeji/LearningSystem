@@ -417,7 +417,6 @@
     <Content Include="Templates\Mobi\Default\Link\Index.html" />
     <Content Include="Templates\Mobi\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Link\Styles\Index.css" />
-    <Content Include="Templates\Mobi\Default\LLM\Images\ai.png" />
     <Content Include="Templates\Mobi\Default\LLM\Index.html" />
     <Content Include="Templates\Mobi\Default\LLM\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\LLM\Styles\Index.css" />
@@ -1440,7 +1439,6 @@
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
-    <Content Include="Templates\Web\Default\LLM\Images\ai.png" />
     <Content Include="Templates\Web\Default\LLM\Index.html" />
     <Content Include="Templates\Web\Default\LLM\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\LLM\Styles\Index.css" />
@@ -1641,6 +1639,7 @@
     <Content Include="Utilities\Fonts\Styles\Help.css" />
     <Content Include="Utilities\Fonts\Styles\Loading.css" />
     <Content Include="Utilities\Fonts\Styles\index.css" />
+    <Content Include="Utilities\Images\ai.png" />
     <Content Include="Utilities\Images\alpha.png" />
     <Content Include="Utilities\Images\def_logo.jpg" />
     <Content Include="Utilities\Images\def_logo2.jpg" />
