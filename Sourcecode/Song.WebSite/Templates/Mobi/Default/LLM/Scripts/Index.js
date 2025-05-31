@@ -92,7 +92,7 @@ $ready(function () {
             'account': {
                 handler: function (nv, ov) {
                     if (nv && nv.Ac_ID != null) {
-                        var th = this;
+                        var th = this;                      
                         this.loadRecords(function (records) {
                             if (records.length > 0 && !th.isnewTopic)
                                 th.record = $api.clone(records[0]);
@@ -259,6 +259,5 @@ $ready(function () {
         }
     });
 
-}, ['../Components/links.js',
-    '/Utilities/Components/avatar.js',
+}, ['../Components/page_header.js',
     '/Utilities/Scripts/marked.min.js']);

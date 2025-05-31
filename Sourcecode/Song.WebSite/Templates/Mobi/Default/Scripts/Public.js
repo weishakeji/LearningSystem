@@ -9,15 +9,18 @@
     //加载相关组件
     window.$components = function (f) {
         var arr = [];
+        let webpath = $dom.path();    //
         //加载Vant
         arr.push('/Utilities/Vant/vant.min.js');
         //加载vue组件
-        arr.push($dom.path() + 'Components/footer_menu.js');
-        arr.push($dom.path() + 'Components/aside_menu.js');
+        arr.push(webpath + 'Components/footer_menu.js');
+        arr.push(webpath + 'Components/aside_menu.js');
           //头像组件
           arr.push('/Utilities/Components/avatar.js');
         //通用组件，用于获取学员登录，机构信息等
-        arr.push($dom.path() + 'Components/generic.js');
+        arr.push(webpath + 'Components/generic.js');
+         //未登录的样式
+         arr.push(webpath + 'Components/nologin.js');
         //增加试题相关组件
         let arr2 = window.$quesjs();
         for (let i = 0; i < arr2.length; i++)

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>AI大语言模型</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <page_header title="AI大语言模型" icon="&#xa034" menu="true" @menu="alert(2)"></page_header>
+
+        <context class="body nologin" v-if="loading_init">
+            <div loading="p4"></div>
+        </context>
+
+        <nologin v-else-if="!islogin"></nologin>
+
+        <template v-else>
+            <context class="body">
+                <div class="welcome" v-if="messages.length<1">
+                    <div class="welcome_title">
+                        <div class="ai_icon"> </div>
+                        <div>您好！我是基于大语言模型的AI助手</div>
+                    </div>
+
+                    <div class="welcome_text">我擅长信息处理、多轮对话与复杂任务分解。建议清晰描述需求以获得最佳回复，我会持续优化响应质量。请问今天能为您解决什么问题？</div>
+                </div>
+                <template v-for="(item,index) in messages" v-else>
+                    <user_msg v-if="item.role=='user'" :message="item.content" :account="account"></user_msg>
+                    <ai_msg v-if="item.role=='system'" :message="item.content"></ai_msg>
+                </template>
+                <span loading="p2" v-if="loading">loading...</span>
+
+            </context>
+
+            <!-- 输入框 -->
+            <div class="inputbox">
+                <textarea v-model.trim="input" placeholder="请输入您的问题..." @keyup.enter="send"></textarea>
+                <div class="footbar">
+                    <loading star v-if="loading">正在加载...</loading>
+                    <span v-else>
+                        <a v-if="messages.length>0" class="newCommunion" @click="newTopic">
+                            <icon>&#xe817</icon>开启新话题
+                        </a>
+                    </span>
+
+                    <van-button type="info" :disabled="input=='' || loading" @click="send">
+                        <icon v-if="!loading">&#xe84c</icon>
+                        <loading v-else bubble></loading>
+                        提 交
+                    </van-button>
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+</body>
+
+</html>

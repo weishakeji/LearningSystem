@@ -1,19 +1,32 @@
 ﻿@charset "utf-8";
-
-context.navig {
-	display: flex;
-	justify-content: space-between;
+html, body, #vapp{
+	overflow: hidden;
 }
-
+.page_header {
+    height: 44px;
+    font-size: 16px;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    line-height: 44px;
+    color: #666;
+    text-align: left;
+    justify-content: space-between;
+}
 /*内容区*/
 context.body {
 	height: calc(100vh - 200px);
-	display: flex;
+	margin: 50px 15px 0px 15px;
+	display: block;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: calc(100vw - 30px);
 }
 context.nologin {
-	padding-top: 260px;
 	box-sizing: border-box;
+	overflow: hidden;
 }
+/*历史信息*/
 .history {
 	width: 400px;
 	margin-right: 50px;
@@ -45,8 +58,6 @@ context.nologin {
 	height: calc(100% - 100px);
 	width: 100%;
 	color: #666;
-	overflow-y: auto;
-	overflow-x: hidden ;
 }
 .history .datalist .date{
 	padding: 15px 10px 5px 10px;	
@@ -117,31 +128,16 @@ context.nologin {
 	color: #333;
 }
 
-.area {
-	width: 100%;
-	height: 100%;
-	position: relative;
-}
-
-.messages_area {
-	width: 100%;
-	height: calc(100% - 180px);
-	overflow: auto;
-	box-sizing: border-box;
-	padding: 0px 15px;
-}
-
 *[loading='p2'] {
 	margin: 20px auto;
 }
 
 /*输入框*/
-.area .inputbox {
-	position: relative;
+.inputbox {
 	background-color: rgb(243 244 246);
-	margin: 10px auto;
-	width: 100%;
-	height: 150px;
+	margin: 10px;
+	width: calc(100% - 20px);
+	height: 130px;
 	border-radius: 10px;
 	border: solid 1px rgb(218, 218, 218);
 	box-sizing: border-box;
@@ -151,21 +147,21 @@ context.nologin {
 	left: 0px;
 }
 
-.area .inputbox textarea {
+.inputbox textarea {
 	border: none;
 	background-color: transparent;
 	resize: none;
 	width: 100%;
-	height: calc(100% - 45px);
+	height: calc(100% - 40px);
 	font-size: 18px;
 }
 
-.area .inputbox textarea:focus {
+.inputbox textarea:focus {
 	outline: none;
 	border: none;
 }
 
-.area .footbar {
+.inputbox .footbar {
 	position: absolute;
 	bottom: 0;
 	left: 0px;
@@ -176,16 +172,19 @@ context.nologin {
 	padding: 10px;
 }
 
-.area .footbar>*:first-child {
-	margin-top: 15px;
+.inputbox .footbar>*:first-child {
+	margin-top: 10px;
 }
-
+.inputbox .van-button{
+	height: 35px;
+}
 /*开启新话题*/
-.area .newCommunion {
+.inputbox .newCommunion {
 	font-size: 18px !important;
+	color: #1989fa;
 }
 
-.area .newCommunion icon {
+.inputbox  .newCommunion icon {
 	font-size: 23px;
 }
 

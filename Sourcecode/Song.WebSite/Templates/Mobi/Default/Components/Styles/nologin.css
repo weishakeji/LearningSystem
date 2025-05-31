@@ -1,0 +1,22 @@
+/*学员未登录*/
+/*没有登录*/
+#weisha_nologin {
+    text-align: center;
+    box-sizing: border-box;
+    padding: calc((100vh - 100%)/2) 20px;
+    height: auto;
+    display: block;
+    font-size: 18px;
+    margin: auto;
+}
+
+#weisha_nologin icon {
+    font-size: 120px;
+    color: #999;
+    margin: 0px 0px 20px 0px;
+}
+
+#weisha_nologin button {
+    width: 100%;
+    margin: 100px 0px 0px 0px;
+}

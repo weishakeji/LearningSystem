@@ -10,6 +10,10 @@
     color: #666;
     text-align: left;
     justify-content: space-between;
+
+
+    box-shadow: 1px 1px 1px  rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
 .van-sticky--fixed .page_header {
     background-color: #fff;
@@ -49,7 +53,7 @@
 }
 .page_header .header_title>*::before {
     width: auto;
-    margin-right: 3px;
+    margin-right: 8px;
     font-size: 21px;
     float: left;
 }
