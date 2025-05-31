@@ -55,7 +55,7 @@ $ready(function () {
                 let datas = [
                     { span: 1, text: '今天' },
                     { span: 2, text: '昨天' },
-                    { span: 7, text: '本周' },
+                    { span: 7, text: '7天内' },
                     { span: 30, text: '30天内' },
                     { span: -1, text: '更多...' },
                 ];
@@ -93,8 +93,8 @@ $ready(function () {
                 handler: function (nv, ov) {
                     if (nv && nv.Ac_ID != null) {
                         var th = this;
+                        th.loading_init = false;
                         this.loadRecords(function (records) {
-                            console.error(records);
                             if (records.length > 0 && !th.isnewTopic)
                                 th.record = $api.clone(records[0]);
                             th.$nextTick(function () {
@@ -261,4 +261,4 @@ $ready(function () {
 
 }, ['../Components/links.js',
     '/Utilities/Components/avatar.js',
-    'Scripts/marked.min.js']);
+    '/Utilities/Scripts/marked.min.js']);
