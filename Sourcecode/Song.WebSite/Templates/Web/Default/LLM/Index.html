@@ -19,7 +19,10 @@
                 <el-breadcrumb-item>AI大语言模型</el-breadcrumb-item>
             </el-breadcrumb>
         </context>
-        <context class="body nologin" v-if="!islogin">
+        <context class="body nologin" v-if="loading_init">
+            <div loading="p4"></div>
+        </context>
+        <context class="body nologin" v-else-if="!islogin">
             <nologin></nologin>
         </context>
         <context class="body" v-else>

@@ -10,7 +10,10 @@ context.body {
 	height: calc(100vh - 200px);
 	display: flex;
 }
-
+context.nologin {
+	padding-top: 260px;
+	box-sizing: border-box;
+}
 .history {
 	width: 400px;
 	margin-right: 50px;
