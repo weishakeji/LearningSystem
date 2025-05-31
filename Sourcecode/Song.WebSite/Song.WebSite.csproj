@@ -389,6 +389,9 @@
     <Content Include="Templates\Mobi\Default\Account\Styles\Share.css" />
     <Content Include="Templates\Mobi\Default\Components\generic.js" />
     <Content Include="Templates\Mobi\Default\Components\links.js" />
+    <Content Include="Templates\Mobi\Default\Components\nologin.js" />
+    <Content Include="Templates\Mobi\Default\Components\Styles\links.css" />
+    <Content Include="Templates\Mobi\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Mobi\Default\Coupon\Details.html" />
     <Content Include="Templates\Mobi\Default\Coupon\Scripts\Details.js" />
     <Content Include="Templates\Mobi\Default\Coupon\Styles\Details.css" />
@@ -414,6 +417,10 @@
     <Content Include="Templates\Mobi\Default\Link\Index.html" />
     <Content Include="Templates\Mobi\Default\Link\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Link\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\LLM\Images\ai.png" />
+    <Content Include="Templates\Mobi\Default\LLM\Index.html" />
+    <Content Include="Templates\Mobi\Default\LLM\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\LLM\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\News\Components\Styles\Articles.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\AnswerSheet.js" />
@@ -1574,6 +1581,7 @@
     <Content Include="Templates\Web\_Public\Inc\meta.inc" />
     <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Utilities\AreaCodeInfo.xml" />
     <Content Include="Utilities\baiduMap\map_show.js" />
     <Content Include="Utilities\baiduMap\map_setup.js" />
     <Content Include="Utilities\ChinaMap\110000_full.json" />
@@ -1762,6 +1770,7 @@
     <Content Include="Utilities\PdfViewer\viewer.js" />
     <Content Include="Utilities\Scripts\hammer.min.js" />
     <Content Include="Templates\Mobi\Default\Scripts\treemenu.js" />
+    <Content Include="Utilities\Scripts\marked.min.js" />
     <Content Include="Utilities\Scripts\position.js" />
     <Content Include="Utilities\Scripts\utils.js" />
     <Content Include="Utilities\Scripts\mobile-detect.min.js" />
