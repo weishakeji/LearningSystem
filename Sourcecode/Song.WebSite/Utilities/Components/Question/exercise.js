@@ -377,11 +377,14 @@ Vue.component('question', {
                     <card-title><icon>&#xe816</icon> 正确答案</card-title>
                     <card-context v-html="sucessAnswer()"></card-context>
                 </card>
-                <card v-if="ques.Qus_Explain!=''" class="explain">   
-                    <card-title><icon>&#xe85a</icon> 试题解析</card-title>
+                <card class="explain">   
+                    <card-title>
+                        <span><icon>&#xe85a</icon> 试题解析</span>
+                        <div class="ai_btn">AI解析</div>
+                    </card-title>
                     <card-context>
                         <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                        <span v-else>无</span> 
+                        <span v-else>无，请利用AI解析</span> 
                     </card-context>
                 </card>
                 <card class="knowledge" v-if="existknl" >   

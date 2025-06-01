@@ -1127,5 +1127,19 @@ namespace Song.ViewData.Methods
             return jo;
         }
         #endregion
+
+        #region AI相关
+
+        /// <summary>
+        /// AI试题解析
+        /// </summary>
+        /// <param name="qid"></param>
+        /// <returns></returns>
+        public string AIExplain(long qid)
+        {
+            return string.Empty;
+        }
+
+        #endregion
     }
 }

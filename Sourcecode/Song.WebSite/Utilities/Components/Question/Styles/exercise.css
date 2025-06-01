@@ -126,11 +126,7 @@ dl.quesArea dd card-title {
 	word-break: normal;
 }
 
-.explain, .explain p, .explain span, .explain font,
-.knowledge, .knowledge p, .knowledge span, .knowledge font {
-	line-height: 150%;
-	font-size: 18px;
-}
+
 
 /*未答题的样式*/
 dl.quesArea dd card[correct="null"], card[correct="null"] * {
@@ -144,7 +140,33 @@ dl.quesArea dd card[correct="null"] {
 dl.quesArea dd card card-title {
 	border-bottom: 1px solid var(--card-border) !important;
 }
-
+/*试题解析*/
+dl.quesArea dd card.explain card-title{
+	display: flex;
+	justify-content: space-between;
+}
+.explain, .explain p, .explain span, .explain font,
+.knowledge, .knowledge p, .knowledge span, .knowledge font {
+	line-height: 150%;
+	font-size: 18px;
+}
+.ai_btn{
+	display: flex;	
+	line-height: 28px;
+	font-size: 16px;
+	font-weight: bold;
+}
+.ai_btn::before {
+	content: '';
+	display: block;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background-image: url("/Utilities/Images/ai.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;	
+	margin-right: 8px;
+}
 /*答对的样式*/
 dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	color: var(--fg-color) !important;

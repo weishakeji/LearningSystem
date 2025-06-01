@@ -2070,7 +2070,12 @@ namespace Song.ServiceImpls
         /// <param name="stid">学员id</param>
         /// <param name="type">类型，支出为1，转入2</param>
         /// <param name="from">来源，1为管理员，2为充值码，3为在线支付</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="search">按信息检索</param>
+        /// <param name="moneymin"></param>
+        /// <param name="moneymax"></param>
+        /// <param name="serial"></param>
         /// <param name="state">状态，-1为所有，1为成功，2为失败</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
