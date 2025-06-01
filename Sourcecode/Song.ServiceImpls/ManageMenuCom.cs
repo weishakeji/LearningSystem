@@ -176,7 +176,7 @@ namespace Song.ServiceImpls
             if (entity.MM_Tax < 1)
             {
                 object obj = Gateway.Default.Max<ManageMenu>(ManageMenu._.MM_Tax, ManageMenu._.MM_PatId == entity.MM_PatId);
-                entity.MM_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.MM_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             if (string.IsNullOrWhiteSpace(entity.MM_UID))
                 entity.MM_UID = WeiSha.Core.Request.UniqueID();
@@ -309,7 +309,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<ManageMenu>(ManageMenu._.MM_Tax, ManageMenu._.MM_PatId == parentId);
-            return obj is int ? (int)obj : 0;
+            return obj != null ? Convert.ToInt32(obj) + 1 : 0;
         }        
         /// <summary>
         /// 获取对象；即所有栏目；

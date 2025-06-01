@@ -174,7 +174,7 @@ namespace Song.ServiceImpls
             if (entity.Kns_Tax < 1 )
             {
                 object obj = Gateway.Default.Max<KnowledgeSort>(KnowledgeSort._.Kns_Tax, KnowledgeSort._.Cou_ID == entity.Cou_ID && KnowledgeSort._.Kns_PID == entity.Kns_PID);
-                entity.Kns_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Kns_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)

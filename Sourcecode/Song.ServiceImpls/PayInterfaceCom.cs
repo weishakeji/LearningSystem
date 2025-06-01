@@ -25,7 +25,7 @@ namespace Song.ServiceImpls
             }
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<PayInterface>(PayInterface._.Pai_Tax, PayInterface._.Pai_Tax > -1 && PayInterface._.Org_ID == entity.Org_ID);
-            entity.Pai_Tax = obj is int ? (int)obj + 1 : 1;
+            entity.Pai_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
             Gateway.Default.Save<PayInterface>(entity);
         }
         /// <summary>

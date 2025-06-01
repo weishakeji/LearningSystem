@@ -47,7 +47,7 @@ namespace Song.ServiceImpls
                     }
                     //计算排序号
                     object obj = tran.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
-                    entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
+                    entity.Ol_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
                     //唯一id
                     entity.Ol_UID = WeiSha.Core.Request.SnowID().ToString();
                     //编辑时间
@@ -169,7 +169,7 @@ namespace Song.ServiceImpls
             if (old.Ol_PID != entity.Ol_PID)
             {
                 object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Org_ID == entity.Org_ID && Outline._.Ol_PID == entity.Ol_PID);
-                entity.Ol_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Ol_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
             }
             //编辑时间
             //if (entity.Ol_ModifyTime < DateTime.Now.AddYears(-30))

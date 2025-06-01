@@ -24,7 +24,7 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<Links>(Links._.Lk_Tax, Links._.Ls_Id == entity.Ls_Id && Links._.Org_ID == org.Org_ID);
-            int tax = obj is int ? (int)obj : 0;
+            int tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             entity.Lk_Tax = tax + 1;
             LinksSort ls = Gateway.Default.From<LinksSort>().Where(LinksSort._.Ls_Id == entity.Ls_Id).ToFirst<LinksSort>();
             if (ls != null)
@@ -110,7 +110,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<Links>(Links._.Lk_Tax, Links._.Ls_Id == sortId && Links._.Org_ID == orgid);
-            return obj is int ? (int)obj : 0;
+            return obj != null ? Convert.ToInt32(obj) + 1 : 0;
         }
         public Links[] GetLinksAll(int orgid, bool? isShow)
         {
@@ -235,8 +235,8 @@ namespace Song.ServiceImpls
                 entity.Ls_IsUse = parent.Ls_IsUse;
             }
             //添加对象，并设置排序号
-            object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == entity.Ls_PatId);       
-            entity.Ls_Tax = obj is int ?  (int)obj + 1 : entity.Ls_Tax;
+            object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == entity.Ls_PatId);
+            entity.Ls_Tax = obj != null ? Convert.ToInt32(obj) + 1 : entity.Ls_Tax;
             if (entity.Org_ID < 1)
             {
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -347,7 +347,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<LinksSort>(LinksSort._.Ls_Tax, LinksSort._.Ls_PatId == parentId && LinksSort._.Org_ID == orgid);
-            return obj is int ? (int)obj : 0;
+            return obj != null ? Convert.ToInt32(obj) + 1 : 0;
         }
         /// <suPsary>
         /// 获取对象；即所有栏目；

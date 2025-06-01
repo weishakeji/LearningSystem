@@ -166,7 +166,7 @@ namespace Song.ServiceImpls
         public int ArticleAddNumber(long id, int addNum)
         {
             object obj = Gateway.Default.Max<Article>(Article._.Art_Number, Article._.Art_ID == id);
-            int i = obj is int ? (int)obj : 0;          
+            int i = obj != null ? Convert.ToInt32(obj) : 0;
             //如果不用增加，则直接返回当前浏览量
             if (addNum < 1) return i;
 

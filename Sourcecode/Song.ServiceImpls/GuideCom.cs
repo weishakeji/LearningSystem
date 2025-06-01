@@ -273,7 +273,7 @@ namespace Song.ServiceImpls
             if (entity.Gc_Tax < 1)
             {
                 object obj = Gateway.Default.Max<GuideColumns>(GuideColumns._.Gc_Tax, GuideColumns._.Cou_ID == entity.Cou_ID && GuideColumns._.Gc_PID == entity.Gc_PID);
-                entity.Gc_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Gc_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }            
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;
@@ -289,7 +289,7 @@ namespace Song.ServiceImpls
             if (old.Gc_PID != entity.Gc_PID)
             {
                 object obj = Gateway.Default.Max<GuideColumns>(GuideColumns._.Gc_Tax, GuideColumns._.Cou_ID == entity.Cou_ID && GuideColumns._.Gc_PID == entity.Gc_PID);
-                entity.Gc_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Gc_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             using (DbTrans trans = Gateway.Default.BeginTrans())
             {

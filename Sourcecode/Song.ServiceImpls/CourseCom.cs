@@ -45,7 +45,7 @@ namespace Song.ServiceImpls
             }
             //object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, Course._.Org_ID == entity.Org_ID && Course._.Sbj_ID == entity.Sbj_ID && Course._.Cou_PID == entity.Cou_PID);
             object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, new WhereClip());
-            entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
+            entity.Cou_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             //默认为免费课程
             entity.Cou_IsFree = true;
             entity.Cou_Allowedit = true;    //默认允许编辑
@@ -115,7 +115,7 @@ namespace Song.ServiceImpls
             if (old.Cou_PID != entity.Cou_PID)
             {
                 object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, Course._.Org_ID == entity.Org_ID && Course._.Cou_PID == entity.Cou_PID);
-                entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Cou_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             //如果图片带有多余路径，只保留文件名
             if (!string.IsNullOrWhiteSpace(entity.Cou_Logo) && entity.Cou_Logo.IndexOf("/") > -1)
@@ -1745,7 +1745,7 @@ namespace Song.ServiceImpls
             entity.Cou_ID = cou.Cou_ID;
 
             object obj = Gateway.Default.Max<CoursePrice>(CoursePrice._.CP_Tax, CoursePrice._.Cou_UID == entity.Cou_UID);
-            entity.CP_Tax = obj is int ? (int)obj + 1 : 0;
+            entity.CP_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0; 
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;
             //校验是否已经存在,同一个时间单位，只准设置一个

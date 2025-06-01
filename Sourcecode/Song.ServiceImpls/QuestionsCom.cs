@@ -1100,7 +1100,7 @@ namespace Song.ServiceImpls
             if (entity.Qt_Tax < 1)
             {
                 object obj = Gateway.Default.Max<QuesTypes>(QuesTypes._.Qt_Tax, QuesTypes._.Cou_ID == entity.Cou_ID);
-                entity.Qt_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Qt_Tax = obj!=null ? Convert.ToInt32(obj) + 1 : 0;
             }
             Gateway.Default.Save<QuesTypes>(entity);
             return entity.Qt_ID;

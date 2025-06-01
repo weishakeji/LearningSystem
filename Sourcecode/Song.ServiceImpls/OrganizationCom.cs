@@ -463,11 +463,11 @@ namespace Song.ServiceImpls
 
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<OrganLevel>(OrganLevel._.Olv_Tax, OrganLevel._.Olv_Tax > -1);
-            int tax = obj is int ? (int)obj : 0;
+            int tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             entity.Olv_Tax = tax + 1;
             //判断是否默认
             obj = Gateway.Default.Count<OrganLevel>(OrganLevel._.Olv_IsDefault==true);
-            bool isDef = (obj is int ? (int)obj : 0) > 0;
+            bool isDef = (obj != null ? Convert.ToInt32(obj) : 0) > 0;
             if (!isDef) entity.Olv_IsDefault = true;
             Gateway.Default.Save<OrganLevel>(entity);
         }

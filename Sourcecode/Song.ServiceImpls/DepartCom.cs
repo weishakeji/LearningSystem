@@ -34,7 +34,7 @@ namespace Song.ServiceImpls
             if (entity.Dep_Tax < 1)
             {
                 object obj = Gateway.Default.Max<Depart>(Depart._.Dep_Tax, Depart._.Org_ID == org.Org_ID && Depart._.Dep_PatId == entity.Dep_PatId);
-                entity.Dep_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Dep_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             //
             Gateway.Default.Save<Depart>(entity);

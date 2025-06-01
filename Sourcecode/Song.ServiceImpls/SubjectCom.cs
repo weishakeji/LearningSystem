@@ -25,7 +25,7 @@ namespace Song.ServiceImpls
             if (entity.Sbj_Tax < 1)
             {
                 object obj = Gateway.Default.Max<Subject>(Subject._.Sbj_Tax, Subject._.Org_ID == org.Org_ID && Subject._.Sbj_PID == entity.Sbj_PID);
-                entity.Sbj_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Sbj_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             if (org != null)
             {
@@ -98,7 +98,7 @@ namespace Song.ServiceImpls
             if (old.Sbj_PID != entity.Sbj_PID)
             {
                 object obj = Gateway.Default.Max<Subject>(Subject._.Sbj_Tax, Subject._.Org_ID == entity.Org_ID && Subject._.Sbj_PID == entity.Sbj_PID);
-                entity.Sbj_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Sbj_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             entity.Sbj_Level = _ClacLevel(entity);
             entity.Sbj_XPath = _ClacXPath(entity);

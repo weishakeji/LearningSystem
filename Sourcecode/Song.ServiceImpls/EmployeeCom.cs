@@ -449,7 +449,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<EmpTitle>(EmpTitle._.Title_Tax, EmpTitle._.Title_Tax > -1);
-            int tax = obj is int ? (int)obj : 0;
+            int tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             entity.Title_Tax = tax + 1;
             Organization org = Gateway.Default.From<Organization>().Where(Organization._.Org_ID == entity.Org_ID).ToFirst<Organization>();
             if (org != null) entity.Org_Name = org.Org_Name; 

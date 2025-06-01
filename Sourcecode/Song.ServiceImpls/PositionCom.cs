@@ -24,7 +24,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<Position>(Position._.Posi_Tax, Position._.Posi_Tax > -1 && Position._.Org_ID == entity.Org_ID);
-            entity.Posi_Tax = obj is int ? (int)obj + 1 : 1;
+            entity.Posi_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
 
             Gateway.Default.Save<Position>(entity);
         }

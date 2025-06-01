@@ -403,7 +403,7 @@ namespace Song.ServiceImpls
             }
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<TeacherSort>(TeacherSort._.Ths_Tax, TeacherSort._.Org_ID == org.Org_ID);
-            entity.Ths_Tax = obj is int ? (int)obj + 1 : 0;    
+            entity.Ths_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             Gateway.Default.Save<TeacherSort>(entity);
         }
 

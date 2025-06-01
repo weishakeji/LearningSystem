@@ -19,7 +19,7 @@ namespace Song.ServiceImpls
         {
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<Special>(Special._.Sp_Tax, Special._.Sp_Tax > -1);
-            entity.Sp_Tax = obj is int ? (int)obj + 1 : 0;
+            entity.Sp_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
             //所在机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)

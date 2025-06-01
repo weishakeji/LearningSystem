@@ -22,7 +22,7 @@ namespace Song.ServiceImpls
             if (entity.Col_Tax < 1)
             {
                 object obj = Gateway.Default.Max<Columns>( Columns._.Col_Tax,Columns._.Col_PID == entity.Col_PID);
-                entity.Col_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Col_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 1;
             }
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)

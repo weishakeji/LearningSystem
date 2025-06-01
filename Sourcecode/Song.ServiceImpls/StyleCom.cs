@@ -31,7 +31,7 @@ namespace Song.ServiceImpls
             {
                 object obj = Gateway.Default.Max<Navigation>(Navigation._.Nav_Tax,
                     Navigation._.Org_ID == entity.Org_ID && Navigation._.Nav_Site == entity.Nav_Site && Navigation._.Nav_Type == entity.Nav_Type && Navigation._.Nav_PID == entity.Nav_PID);
-                entity.Nav_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Nav_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             if (!string.IsNullOrWhiteSpace(entity.Nav_Logo))
             {
@@ -67,7 +67,7 @@ namespace Song.ServiceImpls
             {
                 object obj = Gateway.Default.Max<Navigation>(Navigation._.Nav_Tax, 
                     Navigation._.Nav_Site == entity.Nav_Site && Navigation._.Nav_Type == entity.Nav_Type && Navigation._.Nav_PID == entity.Nav_PID);
-                entity.Nav_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Nav_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             if (!string.IsNullOrWhiteSpace(entity.Nav_Logo))
             {
@@ -241,7 +241,7 @@ namespace Song.ServiceImpls
             {
                 object obj = Gateway.Default.Max<ShowPicture>(ShowPicture._.Shp_Tax,
                     ShowPicture._.Org_ID == entity.Org_ID && ShowPicture._.Shp_Site == entity.Shp_Site);
-                entity.Shp_Tax = obj is int ? (int)obj + 1 : 0;
+                entity.Shp_Tax = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             if (!string.IsNullOrWhiteSpace(entity.Shp_File))
             {
