@@ -1137,7 +1137,25 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public string AIExplain(long qid)
         {
-            return string.Empty;
+            Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(qid);
+            if (ques == null) return string.Empty;
+
+
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/Explain");
+            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Questions/Explain");
+
+            //取试题所在专业与课程
+            Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(ques.Sbj_ID);
+            //试题所在课程
+            Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(ques.Cou_ID);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, cou);
+
+            //咨询消息
+            message = APIHub.LLM.Gatway.TemplateHandle(message, ques);
+            //题型
+
+            return APIHub.LLM.Gatway.Consult(role, message);
         }
 
         #endregion

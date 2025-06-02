@@ -23,6 +23,8 @@ Vue.component('question', {
             //强制渲染，当答题时加一，不知道为什么有些题答题后页面没有渲染，只好采这种变态的方法
             forced_rendering: 0,
 
+            ai_show: false, //AI解析的面板显示
+            ai_loading: false, //加载Ai解析的状态
         }
     },
     watch: {
@@ -130,6 +132,23 @@ Vue.component('question', {
                 }
             }).catch(function (err) {
             });
+        },
+        //AI解析答案
+        getAiexplain: function () {
+            var th = this;
+            if (th.ai_loading) return;
+            th.ai_show = true;
+            th.ai_loading = true;
+            $api.get('Question/AIExplain', { 'qid': th.qid }).then(req => {
+                if (req.data.success) {
+                    var result = req.data.result;
+                    th.ques.AI_Explain = marked.parse(result);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.ai_loading = false);
         },
         //将试题对象中的Qus_Items，解析为json，并还原答题状态
         parseAnswer: function (ques) {
@@ -380,11 +399,16 @@ Vue.component('question', {
                 <card class="explain">   
                     <card-title>
                         <span><icon>&#xe85a</icon> 试题解析</span>
-                        <div class="ai_btn">AI解析</div>
+                        <div class="ai_btn" @click="getAiexplain">AI解析</div>
                     </card-title>
                     <card-context>
                         <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                        <span v-else>无，请利用AI解析</span> 
+                        <span v-else-if="ai_show==false">无，请尝试“AI解析”</span> 
+                        <div class="ai_panel" v-if="ai_show">
+                            以下是AI解析:<br/>
+                            <loading v-if="ai_loading" star>...</loading>
+                            <div v-else v-html="ques.AI_Explain"></div>
+                        </div>
                     </card-context>
                 </card>
                 <card class="knowledge" v-if="existknl" >   
@@ -396,6 +420,7 @@ Vue.component('question', {
                 </card>
             </div>
         </section>
+       
     </template>
 </dd>`
 });

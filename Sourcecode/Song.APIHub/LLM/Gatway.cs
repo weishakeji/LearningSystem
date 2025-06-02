@@ -7,6 +7,9 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// 大语言模型（Large Language Model, LLM）
@@ -218,6 +221,66 @@ namespace Song.APIHub.LLM
                     return $"请求失败: {response.StatusCode}";
                 }
             }
+        }
+        #endregion
+
+        #region 相关模板内容
+        //模板的根路径
+        private static string _template_path = AppDomain.CurrentDomain.BaseDirectory + "Utilities\\LLM";
+        /// <summary>
+        /// AI角色的文本模板
+        /// </summary>
+        /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
+        /// <returns></returns>
+        public static string TemplateRole(string path) => _tempalte_text(path, "role.txt");
+        /// <summary>
+        /// 咨询内容的模板文本内容
+        /// </summary>
+        /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
+        /// <returns></returns>
+        public static string TemplateMsg(string path) => _tempalte_text(path, "message.txt");
+        /// <summary>
+        /// 获取模板内容
+        /// </summary>
+        /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
+        /// <param name="file">模板文件名</param>
+        /// <returns></returns>
+        private static string _tempalte_text(string path, string file)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return string.Empty;
+            path = path.Replace("/", "\\");
+            string filepath = Path.Combine(_template_path, path, file);
+            if (File.Exists(filepath)) return File.ReadAllText(filepath);
+            return string.Empty;
+        }
+        //正则表达式
+        private static readonly Regex PlaceholderRegex = new Regex(@"\{\{(\w+)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        /// <summary>
+        ///  模板处理
+        /// </summary>
+        /// <param name="text">模板文本</param>
+        /// <param name="entity">数据实体</param>
+        /// <returns></returns>
+        public static string TemplateHandle(string text, WeiSha.Data.Entity entity)
+        {
+            Dictionary<string, string> replacements = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            Type type = entity.GetType();
+            // 获取所有公共属性
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                // 获取属性值
+                object value = property.GetValue(entity);
+                replacements.Add(property.Name, value != null ? value.ToString() : string.Empty);
+            }
+            // 替换占位符
+            string result = Regex.Replace(text, @"\{\{(\w+)\}\}", match =>
+            {
+                string key = match.Groups[1].Value;
+                return replacements.TryGetValue(key, out string value) ? value : match.Value;
+            });
+            return result;
         }
         #endregion
     }

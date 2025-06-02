@@ -345,7 +345,6 @@ dl.quesArea textarea {
 	float: right;
 	margin-right: 8px;
 }
-
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
 	dl.quesArea {

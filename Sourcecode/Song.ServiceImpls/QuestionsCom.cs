@@ -40,6 +40,12 @@ namespace Song.ServiceImpls
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 if (org != null) entity.Org_ID = org.Org_ID;
             }
+            //获取科目名称
+            if(entity.Sbj_ID>0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
+            {
+                Subject sbj = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
+                if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
+            }
             if (string.IsNullOrWhiteSpace(entity.Qus_UID))
                 entity.Qus_UID = WeiSha.Core.Request.UniqueID();          
             Gateway.Default.Save<Questions>(entity);
@@ -53,6 +59,12 @@ namespace Song.ServiceImpls
             entity.Qus_IsError = false;
             entity.Qus_Title = _ClearString(entity.Qus_Title);
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
+            //获取科目名称
+            if (entity.Sbj_ID > 0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
+            {
+                Subject sbj = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
+                if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
+            }
             //if (entity.Qus_Type == 3)
             //{
             //    if (entity.Qus_IsCorrect == false ) entity.Qus_IsError = true;
@@ -98,6 +110,12 @@ namespace Song.ServiceImpls
             entity.Qus_Title = _ClearString(entity.Qus_Title);
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
+            //获取科目名称
+            if (entity.Sbj_ID > 0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
+            {
+                Subject sbj = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
+                if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
+            }
             //答题选项的处理
             if (ansItem != null)
             {
@@ -132,6 +150,7 @@ namespace Song.ServiceImpls
                 old.Copy<Song.Entities.Questions>(entity, "Qus_ID");
                 Gateway.Default.Save<Questions>(old);
             }
+           
         }
         /// <summary>
         /// 删除试题
