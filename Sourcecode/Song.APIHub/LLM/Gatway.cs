@@ -270,10 +270,26 @@ namespace Song.APIHub.LLM
             PropertyInfo[] properties = type.GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                // 获取属性值
                 object value = property.GetValue(entity);
                 replacements.Add(property.Name, value != null ? value.ToString() : string.Empty);
             }
+            return _tempalte_handle(text, replacements);           
+        }
+        /// <summary>
+        /// 模版 处理
+        /// </summary>
+        /// <param name="text">模板文本</param>
+        /// <param name="tag">标签</param>
+        /// <param name="val">要替换的值</param>
+        /// <returns></returns>
+        public static string TemplateHandle(string text, string tag,string val)
+        {
+            Dictionary<string, string> replacements = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            replacements.Add(tag, val);
+            return _tempalte_handle(text, replacements);
+        }
+        private static string _tempalte_handle(string text, Dictionary<string, string> replacements)
+        {
             // 替换占位符
             string result = Regex.Replace(text, @"\{\{(\w+)\}\}", match =>
             {

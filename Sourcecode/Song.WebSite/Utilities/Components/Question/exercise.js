@@ -137,12 +137,29 @@ Vue.component('question', {
         getAiexplain: function () {
             var th = this;
             if (th.ai_loading) return;
+
+            let type = this.types[th.ques.Qus_Type - 1];    //试题类型
+            //试题选项
+            let items = '';
+            if (th.ques.Qus_Type == 1 || th.ques.Qus_Type == 2) {
+                for (var i = 0; i < th.ques.Qus_Items.length; i++)
+                    items += th.toletter(i) + "、" + th.ques.Qus_Items[i].Ans_Context + "\n";
+            }
+            if (th.ques.Qus_Type == 3) items += "A、正确；B、错误\n";
+            if (th.ques.Qus_Type == 4) items += "";
+            if (th.ques.Qus_Type == 5) {
+                for (var i = 0; i < th.ques.Qus_Items.length; i++)
+                    items += (i + 1) + "、" + th.ques.Qus_Items[i].Ans_Context + "\n";
+            }
+            //答案
+            let answer = this.sucessAnswer(this.ques);
+
             th.ai_show = true;
             th.ai_loading = true;
-            $api.get('Question/AIExplain', { 'qid': th.qid }).then(req => {
+            $api.post('Question/AIExplain', { 'qid': th.qid, 'type': type, 'items': items, 'answer': answer }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
-                    th.ques.AI_Explain = marked.parse(result);
+                    th.ques.AI_Explain = typeof marked === 'undefined' ? result : marked.parse(result);
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -182,28 +199,23 @@ Vue.component('question', {
         //选项的序号转字母
         toletter: index => String.fromCharCode(65 + index),
         //试题的正确答案
-        sucessAnswer: function () {
-            if (this.ques.Qus_Type == 1 || this.ques.Qus_Type == 2) {
+        sucessAnswer: function (ques) {
+            if (ques.Qus_Type == 1 || ques.Qus_Type == 2) {
                 var ansstr = '';
-                for (var j = 0; j < this.ques.Qus_Items.length; j++) {
-                    if (this.ques.Qus_Items[j].Ans_IsCorrect) {
+                for (var j = 0; j < ques.Qus_Items.length; j++) {
+                    if (ques.Qus_Items[j].Ans_IsCorrect)
                         ansstr += this.toletter(j) + "、";
-                    }
                 }
                 if (ansstr.indexOf("、") > -1)
                     ansstr = ansstr.substring(0, ansstr.length - 1);
                 return ansstr;
             }
-            if (this.ques.Qus_Type == 3) {
-                return this.ques.Qus_IsCorrect ? "正确" : "错误";
-            }
-            if (this.ques.Qus_Type == 4) {
-                return this.ques.Qus_Answer;
-            }
-            if (this.ques.Qus_Type == 5) {
+            if (ques.Qus_Type == 3) return ques.Qus_IsCorrect ? "正确" : "错误";
+            if (ques.Qus_Type == 4) return ques.Qus_Answer;
+            if (ques.Qus_Type == 5) {
                 var ansStr = [];
-                for (var i = 0; i < this.ques.Qus_Items.length; i++)
-                    ansStr.push((i + 1) + "、" + this.ques.Qus_Items[i].Ans_Context);
+                for (var i = 0; i < ques.Qus_Items.length; i++)
+                    ansStr.push((i + 1) + "、" + ques.Qus_Items[i].Ans_Context);
                 return ansStr.join("<br/>");
             }
         },
@@ -349,7 +361,7 @@ Vue.component('question', {
         <info no-font-size>
             <span>
                 <i>{{index+1}}/{{total}}</i>
-                [ {{this.types[ques.Qus_Type - 1]}}题 ] 
+                [ {{types[ques.Qus_Type - 1]}}题 ] 
             </span>
             <slot name="buttons" :ques="ques"></slot>          
         </info>
@@ -394,7 +406,7 @@ Vue.component('question', {
             <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
                 <card class="answer">   
                     <card-title><icon>&#xe816</icon> 正确答案</card-title>
-                    <card-context v-html="sucessAnswer()"></card-context>
+                    <card-context v-html="sucessAnswer(ques)"></card-context>
                 </card>
                 <card class="explain">   
                     <card-title>

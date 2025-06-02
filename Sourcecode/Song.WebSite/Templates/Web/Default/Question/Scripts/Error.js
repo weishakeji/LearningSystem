@@ -191,6 +191,7 @@ $ready(function () {
     });
 }, ['/Utilities/Components/question/function.js',
     '/Utilities/Components/question/learnmode.js', //练习模式，答题或背题
+    '/Utilities/Scripts/marked.min.js', //markdown的处理，用于AI解析生成文件的处理
     'Components/SetupMenu.js',          //右上角的设置项菜单 
     'Components/AnswerSheet.js',        //答题卡
     'Components/QuesArea.js',           //试题区域

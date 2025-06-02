@@ -155,6 +155,7 @@ dl.quesArea dd card.explain card-title{
 	line-height: 28px;
 	font-size: 16px;
 	font-weight: bold;
+	cursor: pointer;
 }
 .ai_btn::before {
 	content: '';
@@ -344,6 +345,10 @@ dl.quesArea textarea {
 .type5 button {
 	float: right;
 	margin-right: 8px;
+}
+/*AI解析*/
+.ai_panel h1{
+	font-size: 18px;
 }
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
