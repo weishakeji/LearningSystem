@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.dot(),
+            id: $api.dot(), 
             organ: {},           //当前机构
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项

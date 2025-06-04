@@ -36,6 +36,7 @@ Vue.component('general', {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
                     this.couid = nv.Cou_ID;
+                    this.question.Sbj_ID = nv.Sbj_ID;
                     if (this.$refs['subject']) this.$refs['subject'].setsbj(nv.Sbj_ID);
                 }
             }, immediate: true

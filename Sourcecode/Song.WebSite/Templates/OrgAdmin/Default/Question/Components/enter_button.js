@@ -48,8 +48,10 @@ Vue.component('enter_button', {
             if (!qus.Cou_ID || qus.Cou_ID <= 0)
                 return this.prompt('试题必须设置所属课程', 1);
             //是否设置专业
-            if (!qus.Sbj_ID || qus.Sbj_ID <= 0)
+            if (!qus.Sbj_ID || qus.Sbj_ID <= 0) {
+                console.error(qus);
                 return this.prompt('试题必须设置所属专业', 1);
+            }
             return true;
         },
         //提交
@@ -178,9 +180,9 @@ Vue.component('enter_button', {
             let href = window.location.href;
             //设置文件名
             let filename = 'modify_type';
-            if (direction == '上一题' && this.quesPrev) filename+= this.quesPrev.Qus_Type;
-            if (direction == '下一题' && this.quesNext) filename+=  this.quesNext.Qus_Type;
-            href = href.replace(/modify_type\d{1}/, filename);  
+            if (direction == '上一题' && this.quesPrev) filename += this.quesPrev.Qus_Type;
+            if (direction == '下一题' && this.quesNext) filename += this.quesNext.Qus_Type;
+            href = href.replace(/modify_type\d{1}/, filename);
             //console.error(href);
             //return;
             //设置试题id
