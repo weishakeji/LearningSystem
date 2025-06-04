@@ -1,7 +1,7 @@
 //专业的级联选择器
 $dom.load.css(['/Utilities/Components/Styles/sbj_cascader.css']);
 //事件：
-//change:选项变量时,参数:当前专业id,当前专业id的路径数组
+//change:选择变更时,参数:当前专业id,当前专业对象，专业名称的路径数组，专业对象的路径数组
 //load:加载数据完成，参数:专业数据
 Vue.component('sbj_cascader', {
     //sbjid:当前专业id
@@ -166,11 +166,25 @@ Vue.component('sbj_cascader', {
             return obj;
         },
         //选择变化后的事件
-        evetChange: function (val) {
-            var currid = '';
-            if (val.length > 0) currid = val[val.length - 1];
+        evetChange: function (arr) {
+            var sbjid = '';
+            if (arr.length > 0) sbjid = arr[arr.length - 1];    //当前专业id
+            let sbj = this.traversalQuery(sbjid, this.subjects);    //当前专业对象
+            //专业路径，从顶级到当前级
+            let array = [];
+            if (arr.length > 0) {
+                for (let index = 0; index < arr.length; index++) {
+                    let obj = this.traversalQuery(arr[index], this.subjects);
+                    array.push(obj);
+                }
+            }
+            //获取专业路径，从顶级到子级
+            const nodes = this.$refs['subject_cascader'].getCheckedNodes();
+            const labels = nodes!=null && nodes.length > 0 ? nodes[0].pathLabels : [];           
+            //返回参数：当前专业id，当前专业对象,专业路径数组
+            this.$emit('change', sbjid, sbj, labels, array);
+            //隐藏下拉框
             this.$refs['subject_cascader'].dropDownVisible = false;
-            this.$emit('change', currid, val);
         },
         //专业的路径，从子级上溯
         //sbjid:专业id

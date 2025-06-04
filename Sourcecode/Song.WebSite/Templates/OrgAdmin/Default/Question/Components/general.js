@@ -63,9 +63,13 @@ Vue.component('general', {
     },
     methods: {
         //专业更改时
-        changeSbj: function (val) {
-            this.question['Sbj_ID'] = val;
-            this.getCourses(val);
+        changeSbj: function (id, sbj, labels, arr) {
+           
+            this.question['Sbj_ID'] = id;
+            this.question['Sbj_Name'] = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
+            this.getCourses(id);
+
+            //console.error(this.question);
         },
         //获取课程
         getCourses: function (sbjid) {
