@@ -38,7 +38,7 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
-            if (string.IsNullOrEmpty(entity.Sbj_Name))
+            if (entity.Sbj_ID > 0 && string.IsNullOrEmpty(entity.Sbj_Name))
             {
                 Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == entity.Sbj_ID).ToFirst<Subject>();
                 if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
