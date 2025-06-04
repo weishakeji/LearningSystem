@@ -9,16 +9,15 @@ Vue.component('modify_main', {
             id: $api.dot(),     //试题id
             typename: $api.querystring('typename'),
             course: {},          //当前试题的课程
+            //当前试题
             question: {
                 Qus_ID: 0,
-                Cou_ID: 0,
-                Sbj_ID: 0,
-                Ol_ID: 0,
+                Qus_Title: '',
+                Cou_ID: 0, Sbj_ID: 0, Ol_ID: 0, Ol_Name: '',
                 Qus_Diff: 3,
-                Ol_Name: '',
                 Qus_IsCorrect: false,
                 Qus_Items: []
-            },      //当前试题
+            },
             organ: {},           //当前机构
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
@@ -135,6 +134,8 @@ Vue.component('modify_main', {
             $api.get(apipath, apipara).then(function (req) {
                 if (req.data.success) {
                     th.course = req.data.result;
+                    //设置试题的课程名称，这个在试题实体上并不存在，只是在前端临时使用
+                    th.question['Cou_Name'] = th.course.Cou_Name;
                     th.$emit('load', th.question, th.course);
                 } else {
                     console.error(req.data.exception);
@@ -155,9 +156,34 @@ Vue.component('modify_main', {
             if (index == null) index = 0;
             if (index < 0 || index > this.tabs.length) return;
             this.activeName = index == 0 ? 'question' : this.tabs[index - 1].name;
+        },
+        //AI生成事件
+        aievent: function () {
+            //console.error(this.question);
+            var th = this;
+            $api.post('Question/AIGenerate', { 'type': th.question.Qus_Type, 'sbj': th.question.Sbj_Name, 'cou': th.question.Cou_Name }).then(req => {
+                if (req.data.success) {
+                    var result = req.data.result;
+                    result = window.ques.parseAnswer(result);
+                    th.$set(th.question, 'Qus_Title', result.Qus_Title);
+                    th.$set(th.question, 'Qus_Items', result.Qus_Items);
+                    th.$set(th.question, 'Qus_Diff', result.Qus_Diff);
+                    th.$set(th.question, 'Qus_Explain', result.Qus_Explain);
+                    if (th.question.Qus_Type == 3) th.$set(th.question, 'Qus_IsCorrect', result.Qus_IsCorrect);
+                    if (th.question.Qus_Type == 4) th.$set(th.question, 'Qus_Answer', result.Qus_Answer);
+                    //th.question.Qus_Title = result.Qus_Title;
+                    th.$emit('load', th.question, th.course);
+                    //console.error(result);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => { });
         }
     },
     template: `<div class="panel" v-show="!loading">
+        <div class="ai_btn" @click="aievent">AI生成</div>
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <template slot="label">

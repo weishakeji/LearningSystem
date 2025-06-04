@@ -63,13 +63,10 @@ Vue.component('general', {
     },
     methods: {
         //专业更改时
-        changeSbj: function (id, sbj, labels, arr) {
-           
+        changeSbj: function (id, sbj, labels, arr) {           
             this.question['Sbj_ID'] = id;
             this.question['Sbj_Name'] = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
             this.getCourses(id);
-
-            //console.error(this.question);
         },
         //获取课程
         getCourses: function (sbjid) {
@@ -101,6 +98,8 @@ Vue.component('general', {
             var course = this.courses.find(item => item.Cou_ID == val);
             if (course && sbj != course.Sbj_ID) {
                 this.question['Sbj_ID'] = course.Sbj_ID;
+                //设置试题的课程名称，这个在试题实体上并不存在，只是在前端临时使用
+                this.question['Cou_Name'] = course.Cou_Name;
                 if (this.$refs['subject']) this.$refs['subject'].setsbj(course.Sbj_ID);
                 this.getCourses(course.Sbj_ID);
             }

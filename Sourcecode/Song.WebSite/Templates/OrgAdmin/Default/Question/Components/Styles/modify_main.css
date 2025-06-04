@@ -43,3 +43,11 @@
 #explain.editor .content {
 	height: calc(100% - 37px) !important;
 }
+
+/*AI生成的按钮*/
+.ai_btn{
+	position: absolute;
+	z-index: 10;
+	top: 10px;
+	right: 10px;
+}

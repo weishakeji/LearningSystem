@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.dot(), 
+            id: $api.dot(),
             organ: {},           //当前机构
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
@@ -20,18 +20,7 @@ $ready(function () {
             'entity': {
                 handler: function (nv, ov) {
                     if (this.ansitems.length < 1 && $api.getType(this.entity.Qus_Items) == "Array") {
-                        this.ansitems = this.entity.Qus_Items;
-                        for (let i = 0; i < this.ansitems.length; i++) {
-                            if (this.ansitems[i].Ans_ID > this.ans_max_id)
-                                this.ans_max_id = this.ansitems[i].Ans_ID;
-                        }
-                        while (this.ansitems.length < this.ans_min) {
-                            this.$set(this.ansitems, this.ansitems.length, this.newitem());
-                        }
-                        this.$nextTick(function () {
-                            this.rowdrop();
-                        });
-
+                       this.analysisitem();
                     }
                 }, immediate: false
             }
@@ -51,6 +40,20 @@ $ready(function () {
                     'Ans_Context': '',
                     'Ans_IsCorrect': false
                 };
+            },
+            //解析选项的数据
+            analysisitem: function () {
+                this.ansitems = this.entity.Qus_Items;
+                for (let i = 0; i < this.ansitems.length; i++) {
+                    if (this.ansitems[i].Ans_ID > this.ans_max_id)
+                        this.ans_max_id = this.ansitems[i].Ans_ID;
+                }
+                while (this.ansitems.length < this.ans_min) {
+                    this.$set(this.ansitems, this.ansitems.length, this.newitem());
+                }
+                this.$nextTick(function () {
+                    this.rowdrop();
+                });
             },
             //选项的单选事件
             radio: function (item) {
@@ -111,7 +114,14 @@ $ready(function () {
                 //将选项赋给试题
                 this.entity.Qus_Items = this.ansitems;
                 return true;
-            }
+            },
+            quesload: function (ques, course) {
+                this.entity = ques;
+                this.course = course;
+                this.analysisitem();
+                this.$set(this.entity, 'Qus_Title', ques.Qus_Title);
+                console.error(ques);
+            },
         },
     });
 }, ['/Utilities/Components/question/function.js',

@@ -1170,6 +1170,7 @@ namespace Song.ViewData.Methods
         /// <param name="sbj"></param>
         /// <param name="cou"></param>
         /// <returns></returns>
+        [HttpPost]
         public JObject AIGenerate(int type,string sbj,string cou)
         {
             string qtype = types[type - 1];
@@ -1188,20 +1189,21 @@ namespace Song.ViewData.Methods
             string result = APIHub.LLM.Gatway.Consult(role, message);
             Regex regex = new Regex(@"\{(.*)\}", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
             if (regex.IsMatch(result)) result = regex.Match(result).Groups[0].Value;
-            //单选题
+            JObject joqus = JObject.Parse(result);
+            //单选题、多选题
             if (type == 1 || type == 2)
-            {
-                JObject jo1 = JObject.Parse(result);
+            {               
                 //解析生成选项
                 List<QuesAnswer> answers = new List<QuesAnswer>();
                 //答案
                 string[] answer = null;
-                if (jo1["Qus_Answer"] is JArray)
+                if (joqus["Qus_Answer"] is JArray)
                 {
-                    answer = jo1["Qus_Answer"].ToArray().Select(x => x.ToString()).ToArray();
-                }else answer = jo1["Qus_Answer"].ToString().Split(',');
-                //jo1["Qus_Answer"].ToString().Split(',');   
-                JArray items=  jo1["Items"] as JArray;
+                    answer = joqus["Qus_Answer"].ToArray().Select(x => x.ToString()).ToArray();
+                }
+                else answer = joqus["Qus_Answer"].ToString().Split(',');
+                //
+                JArray items = joqus["Items"] as JArray;
                 for (int i = 0; i < items.Count; i++)
                 {
                     string item = items[i].ToString();    //选项
@@ -1213,28 +1215,21 @@ namespace Song.ViewData.Methods
                     qa.Qus_UID = WeiSha.Core.Request.UniqueID();
                     qa.Ans_Context = context;
                     //
-                    if(Array.IndexOf(answer, context)>-1 || Array.IndexOf(answer, serial.ToString()) > -1)
+                    if (Array.IndexOf(answer, context) > -1 || Array.IndexOf(answer, serial.ToString()) > -1)
                         qa.Ans_IsCorrect = true;
-                    //if (item == answer || serial == answer[0]) qa.Ans_IsCorrect = true;
-                    answers.Add(qa);                  
+                    //
+                    answers.Add(qa);
                 }
-                jo1.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(answers.ToArray()));
-                return jo1;
-            }
-            //多选题
-            if (type == 2)
-            {
-                return JObject.Parse(result);
+                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(answers.ToArray()));            
             }
             //判断题
-            if (type == 3) return JObject.Parse(result);
+            if (type == 3) joqus = JObject.Parse(result);
             //简答题
-            if (type == 4) return JObject.Parse(result);
+            if (type == 4) joqus = JObject.Parse(result);
             //填空题
             if (type == 5)
-            {
-                JObject jo5 = JObject.Parse(result);
-                string answer = jo5["Qus_Answer"].ToString();
+            {               
+                string answer = joqus["Qus_Answer"].ToString();
                 List<QuesAnswer> items = new List<QuesAnswer>();
                 foreach(string ans in answer.Split('、'))
                 {
@@ -1244,11 +1239,10 @@ namespace Song.ViewData.Methods
                     qa.Ans_Context = ans;
                     items.Add(qa);
                 }
-                jo5.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(items.ToArray()));
-                return jo5;
+                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(items.ToArray()));               
             }
-            //.ToObject<Song.Entities.Questions>();
-            return null;
+            joqus.Add("Qus_Type", type);
+            return joqus;
         }
         #endregion
     }
