@@ -1163,6 +1163,37 @@ namespace Song.ViewData.Methods
             //向AI发送请求
             return APIHub.LLM.Gatway.Consult(role, message);
         }
+        /// <summary>
+        /// AI生成试题
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="sbj"></param>
+        /// <param name="cou"></param>
+        /// <returns></returns>
+        public JObject AIGenerate(int type,string sbj,string cou)
+        {
+            string qtype = types[type - 1];
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/Generate");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, "Sbj_Name", sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, "Cou_Name", cou);
+
+            //生成问题的描述
+            string message = Song.APIHub.LLM.Gatway.TemplateText("Questions/Generate",$"type{type}.txt");
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Sbj_Name", sbj);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Cou_Name", cou);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "type", qtype);
+
+            //向AI发送请求
+            string result = APIHub.LLM.Gatway.Consult(role, message);
+            Regex regex = new Regex(@"\{(.*)\}", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
+            if (regex.IsMatch(result)) result = regex.Match(result).Groups[0].Value;
+            //简答题
+            if (type == 4) return JObject.Parse(result);
+            //填空题
+            if (type == 5) return JObject.Parse(result);
+            //.ToObject<Song.Entities.Questions>();
+        }
         #endregion
     }
 }

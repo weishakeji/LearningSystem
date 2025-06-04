@@ -232,20 +232,20 @@ namespace Song.APIHub.LLM
         /// </summary>
         /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
         /// <returns></returns>
-        public static string TemplateRole(string path) => _tempalte_text(path, "role.txt");
+        public static string TemplateRole(string path) => TemplateText(path, "role.txt");
         /// <summary>
         /// 咨询内容的模板文本内容
         /// </summary>
         /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
         /// <returns></returns>
-        public static string TemplateMsg(string path) => _tempalte_text(path, "message.txt");
+        public static string TemplateMsg(string path) => TemplateText(path, "message.txt"); 
         /// <summary>
         /// 获取模板内容
         /// </summary>
         /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
         /// <param name="file">模板文件名</param>
         /// <returns></returns>
-        private static string _tempalte_text(string path, string file)
+        public static string TemplateText(string path, string file)
         {
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             path = path.Replace("/", "\\");

@@ -1,0 +1,8 @@
+请为{{Sbj_Name}}专业下的《{{Cou_Name}}》课程的出一道{{type}}题。
+输出结果json，各属性对应关系如下：
+题目：Qus_Title
+正确答案：Qus_Answer
+难度：Qus_Diff
+
+其中，难度用1-5数字代表；
+返回的内容仅保留Json格式，不要带其它字符
