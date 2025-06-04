@@ -1659,6 +1659,13 @@
     <Content Include="Utilities\License\Styles\Index.css" />
     <Content Include="Utilities\LLM\Questions\Explain\message.txt" />
     <Content Include="Utilities\LLM\Questions\Explain\role.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\role.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\type1.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\type2.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\type3.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\type4.txt" />
+    <Content Include="Utilities\LLM\Questions\Generate\type5.txt" />
+    <Content Include="Utilities\LLM\Questions\reamde.txt" />
     <Content Include="Utilities\MathJax\globalVariable.js" />
     <Content Include="Utilities\MathJax\output\chtml.js" />
     <Content Include="Utilities\MathJax\output\chtml\fonts\tex.js" />
