@@ -299,6 +299,7 @@
     <Content Include="Help\WebdeskUI\Index.html" />
     <Content Include="Help\WebdeskUI\Scripts\Index.js" />
     <Content Include="Help\WebdeskUI\Styles\Index.css" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="SOURCE_LICENSE.txt" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
@@ -3419,7 +3420,6 @@
     <Content Include="Help\Datas\Entitiy\OutlineEvent.json" />
     <Content Include="Help\Datas\Entitiy\ThirdpartyAccounts.json" />
     <Content Include="App_Data\weisha.db" />
-    <None Include="packages.config" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win10\intro.json" />
     <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win7\intro.json" />
@@ -3456,6 +3456,9 @@
     <Content Include="Utilities\ChinaMap\650000_full.json" />
     <Content Include="Utilities\ChinaMap\710000_full.json" />
     <Content Include="Utilities\PageCheck\Config.weisha" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
