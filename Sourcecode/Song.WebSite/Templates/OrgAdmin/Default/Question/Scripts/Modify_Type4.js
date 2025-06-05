@@ -32,6 +32,7 @@ $ready(function () {
         },
     });
 }, ['/Utilities/Components/question/function.js',
+    '/Utilities/Scripts/marked.min.js', //markdown的处理，用于AI解析生成文件的处理
     'Components/ques_type.js',
     'Components/modify_main.js',
     'Components/knowledge.js',

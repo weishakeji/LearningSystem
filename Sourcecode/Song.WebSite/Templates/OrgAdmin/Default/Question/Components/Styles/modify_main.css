@@ -5,7 +5,7 @@
 	height: calc(100% - 65px);
 }
 
-.panel>div:not(:first-child) {
+.panel>div[remark]:not(:first-child) {
 	border: 1px solid #DCDFE6;
 	border-top: none;
 }
@@ -49,5 +49,26 @@
 	position: absolute;
 	z-index: 10;
 	top: 10px;
-	right: 10px;
+	right: 10px;	
+}
+.ai_btn>span{
+	display: block;
+	display: flex;
+	line-height: 20px;
+	cursor: pointer;
+	color: brown;
+}
+.ai_btn>span::before{
+	content: '';
+	display: block;
+	background-image: url("/Utilities/Images/ai.png");
+	width: 20px;
+	height: 20px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	margin-right: 8px;
+}
+.ai_btn>span:hover{
+	font-weight: bold;
+	text-shadow: 1px 1px 3px #ccc;
 }

@@ -20,18 +20,7 @@ $ready(function () {
             'entity': {
                 handler: function (nv, ov) {
                     if (this.ansitems.length < 1 && $api.getType(this.entity.Qus_Items) == "Array") {
-                        this.ansitems = this.entity.Qus_Items;
-                        for (let i = 0; i < this.ansitems.length; i++) {
-                            if (this.ansitems[i].Ans_ID > this.ans_max_id)
-                                this.ans_max_id = this.ansitems[i].Ans_ID;
-                        }
-                        while (this.ansitems.length < this.ans_min) {
-                            this.$set(this.ansitems, this.ansitems.length, this.newitem());
-                        }
-                        this.$nextTick(function () {
-                            this.rowdrop();
-                        });
-
+                        this.analysisitem();
                     }
                 }, immediate: false, deep: true
             }
@@ -51,6 +40,20 @@ $ready(function () {
                     'Ans_Context': '',
                     'Ans_IsCorrect': false
                 };
+            },
+            //解析选项的数据
+            analysisitem: function () {
+                this.ansitems = this.entity.Qus_Items;
+                for (let i = 0; i < this.ansitems.length; i++) {
+                    if (this.ansitems[i].Ans_ID > this.ans_max_id)
+                        this.ans_max_id = this.ansitems[i].Ans_ID;
+                }
+                while (this.ansitems.length < this.ans_min) {
+                    this.$set(this.ansitems, this.ansitems.length, this.newitem());
+                }
+                this.$nextTick(function () {
+                    this.rowdrop();
+                });
             },
             //选项的编辑后的确认编辑
             ansEnter: function (ans) {
@@ -93,10 +96,17 @@ $ready(function () {
                 //将选项赋给试题
                 this.entity.Qus_Items = this.ansitems;
                 return true;
-            }
+            },
+            //试题加载完成
+            quesload: function (ques, course) {
+                this.entity = ques;
+                this.course = course;
+                this.analysisitem();
+            },
         },
     });
 }, ['/Utilities/Components/question/function.js',
+    '/Utilities/Scripts/marked.min.js', //markdown的处理，用于AI解析生成文件的处理
     'Components/ques_type.js',
     'Components/modify_main.js',
     'Components/knowledge.js',

@@ -36,6 +36,7 @@ Vue.component('modify_main', {
             activeName: 'question',
 
             loading: false,
+            loading_ai: false,   //是否正在加载AI
             loading_init: true
         }
     },
@@ -159,16 +160,17 @@ Vue.component('modify_main', {
         },
         //AI生成事件
         aievent: function () {
-            //console.error(this.question);
             var th = this;
+            if (th.loading_ai) return;
+            th.loading_ai = true;
             $api.post('Question/AIGenerate', { 'type': th.question.Qus_Type, 'sbj': th.question.Sbj_Name, 'cou': th.question.Cou_Name }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
                     result = window.ques.parseAnswer(result);
-                    th.$set(th.question, 'Qus_Title', result.Qus_Title);
+                    th.$set(th.question, 'Qus_Title', th.aiformat(result.Qus_Title));
                     th.$set(th.question, 'Qus_Items', result.Qus_Items);
                     th.$set(th.question, 'Qus_Diff', result.Qus_Diff);
-                    th.$set(th.question, 'Qus_Explain', result.Qus_Explain);
+                    th.$set(th.question, 'Qus_Explain', th.aiformat(result.Qus_Explain));
                     if (th.question.Qus_Type == 3) th.$set(th.question, 'Qus_IsCorrect', result.Qus_IsCorrect);
                     if (th.question.Qus_Type == 4) th.$set(th.question, 'Qus_Answer', result.Qus_Answer);
                     //th.question.Qus_Title = result.Qus_Title;
@@ -179,11 +181,25 @@ Vue.component('modify_main', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => { });
-        }
+                .finally(() => th.loading_ai = false);
+        },
+        //AI返回结果的格式化
+        aiformat: function (text) {
+            if (text == null || text == "") return "";
+            text = text.replace(/\n/g, '<br/>');
+            text = text.replace(/\\times/g, "&times;");
+            text = text.replace(/\\div/g, "&divide;");
+            text = text.replace(/\\approx/g, "&asymp;");
+            text = text.replace(/\\text{([^}]*)}/g, "$1");
+            text = typeof marked === 'undefined' ? text : marked.parse(text);
+            return text;
+        },
     },
     template: `<div class="panel" v-show="!loading">
-        <div class="ai_btn" @click="aievent">AI生成</div>
+        <div class="ai_btn" @click="aievent">
+            <loading v-if="loading_ai" star>AI编辑中...</loading>
+            <span v-else>AI生成</span>
+        </div>
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <template slot="label">

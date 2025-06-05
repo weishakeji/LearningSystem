@@ -20,7 +20,7 @@ $ready(function () {
             'entity': {
                 handler: function (nv, ov) {
                     if (this.ansitems.length < 1 && $api.getType(this.entity.Qus_Items) == "Array") {
-                       this.analysisitem();
+                        this.analysisitem();
                     }
                 }, immediate: false
             }
@@ -115,16 +115,16 @@ $ready(function () {
                 this.entity.Qus_Items = this.ansitems;
                 return true;
             },
+            //试题加载完成
             quesload: function (ques, course) {
                 this.entity = ques;
                 this.course = course;
-                this.analysisitem();
-                this.$set(this.entity, 'Qus_Title', ques.Qus_Title);
-                console.error(ques);
+                this.analysisitem();              
             },
         },
     });
 }, ['/Utilities/Components/question/function.js',
+    '/Utilities/Scripts/marked.min.js', //markdown的处理，用于AI解析生成文件的处理
     'Components/ques_type.js',
     'Components/modify_main.js',
     'Components/knowledge.js',
