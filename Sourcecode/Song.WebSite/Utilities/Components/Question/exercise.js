@@ -411,11 +411,11 @@ Vue.component('question', {
                 <card class="explain">   
                     <card-title>
                         <span><icon>&#xe85a</icon> 试题解析</span>
-                        <div class="ai_btn" @click="getAiexplain">AI解析</div>
+                        <div class="ai_btn" v-if="ques.Qus_Explain==''" @click="getAiexplain">AI解析</div>
                     </card-title>
                     <card-context>
                         <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                        <span v-else-if="ai_show==false">无，请尝试“AI解析”</span> 
+                        <span v-else-if="ai_show==false">（无解析），请尝试“AI解析”</span> 
                         <div class="ai_panel" v-if="ai_show">
                             以下是AI解析:<br/>
                             <loading v-if="ai_loading" star>...</loading>
