@@ -13,7 +13,7 @@ html,body{
 	filter: blur(2px);
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
 }
-loading {
+loading[bubble] {
 	text-align: center;
 	padding: 20px;
 	margin: 30px auto;

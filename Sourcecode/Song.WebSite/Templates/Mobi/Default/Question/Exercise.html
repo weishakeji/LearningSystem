@@ -52,7 +52,7 @@
         </van-popup>
       </template>
       <!-- 试题区域-->
-      <loading star v-show="loading">试题加载中...</loading>
+      <loading bubble v-show="loading">试题加载中...</loading>
       <quesarea ref='quesarea' :ques="queslist" :types="types" :mode="learnmode%2" :account="account" :state="state"
         :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->

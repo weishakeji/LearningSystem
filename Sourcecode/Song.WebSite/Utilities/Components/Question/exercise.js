@@ -137,7 +137,6 @@ Vue.component('question', {
         getAiexplain: function () {
             var th = this;
             if (th.ai_loading) return;
-
             let type = this.types[th.ques.Qus_Type - 1];    //试题类型
             //试题选项
             let items = '';
@@ -159,7 +158,9 @@ Vue.component('question', {
             $api.post('Question/AIExplain', { 'qid': th.qid, 'type': type, 'items': items, 'answer': answer }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
-                    th.ques.AI_Explain = typeof marked === 'undefined' ? result : marked.parse(result);
+                    let aiexplain = typeof marked === 'undefined' ? result : marked.parse(result);
+                    th.$set(th.ques, 'AI_Explain', aiexplain);
+                    //th.$set(th.ques, 'Qus_Explain', aiexplain);
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -410,16 +411,22 @@ Vue.component('question', {
                 </card>
                 <card class="explain">   
                     <card-title>
-                        <span><icon>&#xe85a</icon> 试题解析</span>
-                        <div class="ai_btn" v-if="ques.Qus_Explain==''" @click="getAiexplain">AI解析</div>
+                        <span><icon>&#xe85a</icon> 试题解析</span>                      
+                        <div class="ai_btn" v-if="ques.Qus_Explain=='' && !ai_loading" @click="getAiexplain">
+                           AI解析
+                        </div>
                     </card-title>
                     <card-context>
                         <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                         <span v-else-if="ai_show==false">（无解析），请尝试“AI解析”</span> 
                         <div class="ai_panel" v-if="ai_show">
-                            以下是AI解析:<br/>
-                            <loading v-if="ai_loading" star>...</loading>
-                            <div v-else v-html="ques.AI_Explain"></div>
+                            <template  v-if="ai_loading">
+                                <loading star>正在加载中...</loading>
+                            </template>
+                            <template v-else> 
+                                <h1>以下是AI解析:</h1>
+                                <div v-html="ques.AI_Explain"></div>
+                            </template>
                         </div>
                     </card-context>
                 </card>

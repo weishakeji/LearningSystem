@@ -160,7 +160,9 @@ dl.quesArea dd card.explain card-title {
 	font-weight: bold;
 	cursor: pointer;
 }
-
+.ai_btn:hover{
+	text-shadow: 1px 1px 2px #666;
+}
 .ai_btn::before {
 	content: '';
 	display: block;
