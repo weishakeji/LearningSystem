@@ -862,16 +862,16 @@ namespace Song.ServiceImpls
                     var ques = new
                     {
                         id = Convert.ToInt64(qnode[j].Attributes["id"].Value),
-                        num = Convert.ToDouble(qnode[j].Attributes["num"].Value),
+                        num = Convert.ToSingle(qnode[j].Attributes["num"].Value),
                         ans = type == 1 || type == 2 || type == 3 ? qnode[j].Attributes["ans"].Value : qnode[j].InnerText
                     };
                     //是否正确
-                    bool isSucess = Business.Do<IQuestions>().ClacQues(ques.id, ques.ans);
-                    score += isSucess ? ques.num : 0;
-                    ((XmlElement)qnode[j]).SetAttribute("sucess", isSucess.ToString().ToLower());
-                    ((XmlElement)qnode[j]).SetAttribute("score", isSucess ? ques.num.ToString() : "0");
+                    float quesScore = Business.Do<IQuestions>().CalcScore(ques.id, ques.ans, ques.num);
+                    score += quesScore;
+                    ((XmlElement)qnode[j]).SetAttribute("sucess", (quesScore== ques.num).ToString().ToLower());
+                    ((XmlElement)qnode[j]).SetAttribute("score", quesScore.ToString());
                     //如果错了，则记录为错题，以方便复习
-                    if (!isSucess)
+                    if (quesScore != ques.num)
                     {
                         Song.Entities.Student_Ques sq = new Student_Ques();
                         //学生Id

@@ -256,6 +256,18 @@ namespace Song.APIHub.LLM
         //正则表达式
         private static readonly Regex PlaceholderRegex = new Regex(@"\{\{(\w+)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
+        /// 模板处理
+        /// </summary>
+        /// <param name="text">模板文本</param>
+        /// <param name="entities">数据实体</param>
+        /// <returns></returns>
+        public static string TemplateHandle(string text, params WeiSha.Data.Entity[] entities)
+        {
+            if (entities == null || entities.Length == 0) return text;
+            foreach (var entity in entities) text = TemplateHandle(text, entity);
+            return text;
+        }
+        /// <summary>
         ///  模板处理
         /// </summary>
         /// <param name="text">模板文本</param>
@@ -263,6 +275,7 @@ namespace Song.APIHub.LLM
         /// <returns></returns>
         public static string TemplateHandle(string text, WeiSha.Data.Entity entity)
         {
+            if (entity == null) return text;
             Dictionary<string, string> replacements = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             Type type = entity.GetType();
@@ -276,7 +289,7 @@ namespace Song.APIHub.LLM
             return _tempalte_handle(text, replacements);           
         }
         /// <summary>
-        /// 模版 处理
+        /// 模版处理
         /// </summary>
         /// <param name="text">模板文本</param>
         /// <param name="tag">标签</param>

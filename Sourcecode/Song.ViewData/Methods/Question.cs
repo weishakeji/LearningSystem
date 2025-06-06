@@ -1244,6 +1244,19 @@ namespace Song.ViewData.Methods
             joqus.Add("Qus_Type", type);
             return joqus;
         }
+        /// <summary>
+        /// AI计算分数
+        /// </summary>
+        /// <param name="qid"></param>
+        /// <param name="answer"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public float AICalcScore(long qid, string answer, float num)
+        {
+            float score = Business.Do<IQuestions>().CalcScore(qid, answer,num);
+            return score;
+        }
         #endregion
     }
 }

@@ -297,7 +297,10 @@
                 //设置为交卷
                 th.paperAnswer.patter = patter;
                 th.paperAnswer.score = th.calcReslutScore();
-                var xml = th.generateAnswerXml(th.paperAnswer);                
+                var xml = th.generateAnswerXml(th.paperAnswer);
+
+                //console.error(xml);
+                //return;
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     if (req.data.success) {
@@ -383,7 +386,7 @@
 
                     "patter": 1,    //提交方式，1为自动提交，2为交卷
                     "score": this.calcReslutScore(),
-                    "isclac": true,
+                    "isclac": false,    //如果为true，则在本地计算成绩；如果为false，则后台计算
                     "ques": []
                 }
                 //实际答题内容

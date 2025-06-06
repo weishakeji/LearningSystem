@@ -219,6 +219,10 @@
     <Compile Include="LiveCom.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Song.APIHub\Song.APIHub.csproj">
+      <Project>{3bd1c3f0-ccb4-416b-9bd2-6ca28a2604c7}</Project>
+      <Name>Song.APIHub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.DataQuery\Song.DataQuery.csproj">
       <Project>{e62b4e64-82bc-4028-a338-a92a86bb791a}</Project>
       <Name>Song.DataQuery</Name>

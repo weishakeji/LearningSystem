@@ -363,14 +363,21 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Song.Entities.QuesAnswer ItemToAnswer(string xml);
         /// <summary>
-        /// 计算当前试题的得分
+        /// 计算试题是否回答正确
         /// </summary>
-        /// <param name="id">试题的ID</param>
+        /// <param name="qid">试题的ID</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <returns>正确返回true</returns>
+        bool IsAnseerCorrect(long qid, string ans);
+        /// <summary>
+        /// 计算试题得分
+        /// </summary>
+        /// <param name="qid">试题的ID</param>
         /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
         /// <param name="num">该题的分数</param>
-        /// <returns>正确返回true</returns>
-        bool ClacQues(long qid, string ans);
-        #endregion       
+        /// <returns>试题分得</returns>
+        float CalcScore(long qid, string ans, float num);
+        #endregion
 
         #region 试题练习的记录
         /// <summary>

@@ -69,6 +69,6 @@
 	margin-right: 8px;
 }
 .ai_btn>span:hover{
-	font-weight: bold;
-	text-shadow: 1px 1px 3px #ccc;
+	transform: scale(1.05);
+	text-shadow: 1px 1px 3px #444;
 }

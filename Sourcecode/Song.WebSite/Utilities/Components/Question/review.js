@@ -275,15 +275,15 @@ Vue.component('question', {
             </div>
             <div class="resultBox" :qtype="ques.Qus_Type" v-if="existques">
                 <div :mobi="ismobi">
-                    <div>正确答案：<span v-html="sucessAnswer()"></span></div>
-                    <div>实际答题：<span v-html="actualAnswer()"></span></div>               
-                    <div v-if="accessory.state" class="accessory">
+                    <div class="sucessAnswer">正确答案：<span v-html="sucessAnswer()"></span></div>
+                    <div class="actualAnswer">实际答题：<span v-html="actualAnswer()"></span></div>               
+                    <div v-if="accessory.state" class="accessory" class="accessory">
                         附件: <a @click="accessoryview(accessory.url)">{{accessory.name}}</a>                 
                         <a :href="accessory.url" :download="accessory.name"><icon>&#xa029</icon>下载</a>
                     </div>               
                     <div class="result_score" :success="qans.success">得分：{{qans.score}} 分</div>
                 </div>
-                <div v-if="ques.Qus_Explain!=''">试题解析：<span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
+                <div v-if="ques.Qus_Explain!='' && false">试题解析：<span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                     <span v-else>无</span>
                 </div>
             </div>

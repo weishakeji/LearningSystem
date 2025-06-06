@@ -521,9 +521,8 @@ Vue.component('exam_item_modify', {
                 <el-select v-model="couid" style="width: 100%;" filterable clearable @change="courChange" placeholder="-- 课程 --">
                     <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                         :value="item.Cou_ID">
-                        <span>{{i+1}} . </span>
-                        <span>{{item.Cou_Name}}</span>
-                    </el-option>
+                        <span>{{i+1}} . {{item.Cou_Name}}</span>
+                        <icon test title='试卷数' style="float:right" v-if="item.Cou_TestCount>0">{{item.Cou_TestCount}}</icon>
                 </el-select>
             </el-form-item>
             <el-form-item label="试卷" prop="Tp_Id">

@@ -269,6 +269,10 @@ card[qid] .resultBox div.result_score[success] {
 	color: #1989fa;
 }
 
+card[qid] .resultBox>div>div {
+	margin-bottom: 15px;
+}
+
 .accessory {
 	font-size: 16px;
 }

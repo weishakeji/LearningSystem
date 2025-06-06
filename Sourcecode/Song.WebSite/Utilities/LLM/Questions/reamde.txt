@@ -1,2 +1,3 @@
 Explain：用于生成试题的解析
 Generate：用于试题编辑，根据专业、课程出题
+CalcScore：计算简答题的得分

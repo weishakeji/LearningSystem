@@ -1384,34 +1384,52 @@ namespace Song.ServiceImpls
 
         #region 计算试题得分
         /// <summary>
-        /// 计算当前试题的得分
+        /// 计算试题是否回答正确
         /// </summary>
         /// <param name="qid">试题的ID</param>
         /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
-        /// <param name="num">该题的分数</param>
         /// <returns>正确返回true</returns>
-        public bool ClacQues(long qid, string ans)
+        public bool IsAnseerCorrect(long qid, string ans)
         {
-            if (string.IsNullOrWhiteSpace(ans)) return false;
-            if (ans.Trim() == "" || ans.Trim() == "undefined") return false;
+            if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return false;
             //
             Questions qus = null;           
             if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
             if (qus == null) return false;
-            if (qus.Qus_Type == 1) return _clacQues1(qus, ans);
-            if (qus.Qus_Type == 2) return _clacQues2(qus, ans);
-            if (qus.Qus_Type == 3) return _clacQues3(qus, ans);
-            if (qus.Qus_Type == 4) return _clacQues4(qus, ans);
-            if (qus.Qus_Type == 5) return _clacQues5(qus, ans);
+            if (qus.Qus_Type == 1) return _determineQues1(qus, ans);
+            if (qus.Qus_Type == 2) return _determineQues2(qus, ans);
+            if (qus.Qus_Type == 3) return _determineQues3(qus, ans);
+            if (qus.Qus_Type == 4) return _determineQues4(qus, ans);
+            if (qus.Qus_Type == 5) return _determineQues5(qus, ans);
             return false;
         }
         /// <summary>
-        /// 计算单选题
+        /// 计算试题得分
+        /// </summary>
+        /// <param name="qid">试题的ID</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <param name="num">该题的分数</param>
+        /// <returns>试题分得</returns>
+        public float CalcScore(long qid, string ans, float num)
+        {
+            if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return 0;
+            Questions qus = null;
+            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
+            if (qus == null) return 0;
+            if (qus.Qus_Type == 1) return _determineQues1(qus, ans) ? num : 0;
+            if (qus.Qus_Type == 2) return _determineQues2(qus, ans) ? num : 0;
+            if (qus.Qus_Type == 3) return _determineQues3(qus, ans) ? num : 0;
+            if (qus.Qus_Type == 4) return _calcScoreQues4(qus, ans, num);
+            if (qus.Qus_Type == 5) return _determineQues5(qus, ans) ? num : 0;
+            return 0;
+        }
+        /// <summary>
+        /// 单选题，判断答题是否正确
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="ans"></param>
         /// <returns></returns>
-        private bool _clacQues1(Questions ques, string ans)
+        private bool _determineQues1(Questions ques, string ans)
         {
             QuesAnswer[] ans1 = ItemsToAnswer(ques, true);            
             if (ans1.Length < 1) return false;
@@ -1423,12 +1441,12 @@ namespace Song.ServiceImpls
             return false;
         }
         /// <summary>
-        /// 计算多选题
+        /// 多选题，判断答题是否正确
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="ans"></param>
         /// <returns></returns>
-        private bool _clacQues2(Questions ques, string ans)
+        private bool _determineQues2(Questions ques, string ans)
         {
             QuesAnswer[] ans2 = ItemsToAnswer(ques, true); 
             if (ans2.Length < 1) return false;
@@ -1452,12 +1470,12 @@ namespace Song.ServiceImpls
             return tm == 0;
         }
         /// <summary>
-        /// 计算判断题
+        /// 判断题，判断答题是否正确
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="ans"></param>
         /// <returns></returns>
-        private bool _clacQues3(Questions ques, string ans)
+        private bool _determineQues3(Questions ques, string ans)
         {
             ans = ans.Replace(",", "");
             if (Convert.ToInt64(ans) == 0 && ques.Qus_IsCorrect == true) return true;
@@ -1465,12 +1483,12 @@ namespace Song.ServiceImpls
             return false;
         }
         /// <summary>
-        /// 计算简答题
+        /// 简答题，判断答题是否正确
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="ans"></param>
         /// <returns></returns>
-        private bool _clacQues4(Questions ques, string ans)
+        private bool _determineQues4(Questions ques, string ans)
         {
             if (string.IsNullOrWhiteSpace(ans)) return false;
             if (string.IsNullOrWhiteSpace(ques.Qus_Answer)) return false;
@@ -1479,13 +1497,41 @@ namespace Song.ServiceImpls
             if (ans.Trim() == "" || ques.Qus_Answer.Trim()=="") return false;
             return ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase);          
         }
+        private float _calcScoreQues4(Questions ques, string ans, float num)
+        {
+            if (_determineQues4(ques, ans)) return num;
+            //取试题所在专业与课程
+            Subject sbj = Business.Do<ISubject>().SubjectSingle(ques.Sbj_ID);   
+            Course cou = Business.Do<ICourse>().CourseSingle(ques.Cou_ID);
+            Outline outline = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/CalcScore");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj, cou, outline);
+            //生成问题的描述
+            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Questions/CalcScore");
+            message = APIHub.LLM.Gatway.TemplateHandle(message, sbj, cou, outline, ques);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "answer", ans);
+
+            //向AI发送请求
+            string result = APIHub.LLM.Gatway.Consult(role, message);
+            Match match = Regex.Match(result, @"\d+");
+            float score = 0;
+            if (match.Success)
+            {
+                if (float.TryParse(match.Value, out score))
+                    score = score / 10 * num;         
+            }
+            if (score > num) score = num;
+            if (score < 0) score = 0;
+            return score;          
+        }
         /// <summary>
-        /// 填空题
+        /// 填空题，判断答题是否正确
         /// </summary>
         /// <param name="ques"></param>
         /// <param name="ans"></param>
         /// <returns></returns>
-        private bool _clacQues5(Questions ques, string ans)
+        private bool _determineQues5(Questions ques, string ans)
         {
             QuesAnswer[] ans5 = ItemsToAnswer(ques, null); 
             if (ans5.Length < 1) return false;
@@ -1500,12 +1546,7 @@ namespace Song.ServiceImpls
                 string corentTxt = WeiSha.Core.HTML.ClearTag(ans5[j].Ans_Context);
                 foreach (string tm in corentTxt.Split(','))
                 {
-                    if (tm == string.Empty || tm.Trim() == "") continue;
-                    //if (tm.Trim() == ansText[j].Trim())
-                    //{
-                    //    corrNum++;
-                    //    break;
-                    //}
+                    if (string.IsNullOrWhiteSpace(tm.Trim())) continue;                   
                     if (tm.Equals(ansText[j],StringComparison.OrdinalIgnoreCase))
                     {
                         corrNum++;
