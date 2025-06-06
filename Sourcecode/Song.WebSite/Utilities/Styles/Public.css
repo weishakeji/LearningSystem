@@ -198,7 +198,9 @@ card-context {
     color: yellow !important;
     padding: 2px 5px 2px 5px !important;
 }
-
+.el-input__inner[type="number"] {
+    padding-right: 0px;
+}
 /*消息框*/
 
 .el-message-box {

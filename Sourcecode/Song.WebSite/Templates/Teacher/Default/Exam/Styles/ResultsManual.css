@@ -161,6 +161,32 @@
 }
 /*人工判卷的区域*/
 .score_area{
+    display: flex;
+    justify-content: space-between;
+}
+.score_area .el-input{
     box-sizing: border-box; 
     max-width: 400px;
+}
+/*AI判卷的按钮*/
+.ai_btn>span{
+	display: block;
+	display: flex;
+	line-height: 20px;
+	cursor: pointer;
+	color: brown;
+}
+.ai_btn>span::before{
+	content: '';
+	display: block;
+	background-image: url("/Utilities/Images/ai.png");
+	width: 20px;
+	height: 20px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	margin-right: 8px;
+}
+.ai_btn>span:hover{
+	transform: scale(1.05);
+	text-shadow: 1px 1px 3px #444;
 }

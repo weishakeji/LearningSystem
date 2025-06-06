@@ -285,6 +285,41 @@
                         <span class="dot" v-html="dot"></span>
                         <span class="after">{{after}}</span>
                     </div>`
+            },
+            //AI判卷的按钮,参数分别为：试题对象，答题信息
+            'aibtn': {
+                props: ['ques', 'qans'],
+                data: function () {
+                    return {
+                        score: 0,
+                        loading: false
+                    }
+                },
+                methods: {
+                    aievent: function () {
+                        var th = this;
+                        th.loading = true;
+                        $api.post('Question/AICalcScore', { 'qid': th.ques.Qus_ID, 'answer': th.qans.ans, 'num': th.qans.num }).then(req => {
+                            if (req.data.success) {
+                                th.score = req.data.result;
+                                th.$set(th.qans, 'score', th.score);
+                                th.$notify({
+                                    title: 'AI判卷完成',
+                                    message: '得分 ' + th.score + ' 分',
+                                    type: th.score == th.qans.num ? 'success' : 'warning'
+                                });
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                },
+                template: ` <div class="ai_btn" @click="aievent">
+                    <loading v-if="loading" star>AI判卷中...</loading>
+                    <span v-else>AI判卷</span>
+                </div>`,
             }
         }
     });

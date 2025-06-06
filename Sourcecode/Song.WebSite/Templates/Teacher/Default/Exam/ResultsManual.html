@@ -25,8 +25,8 @@
         </div>
         <div class="context">
             <div class="accounts_list">
-                <el-table ref="datatables"  border resizable  :data="results" tooltip-effect="dark" style="width: 100%;" row-key="Exr_ID"
-                    v-loading="loading" @row-click="setCurrent" :highlight-current-row="true">
+                <el-table ref="datatables" border resizable :data="results" tooltip-effect="dark" style="width: 100%;"
+                    row-key="Exr_ID" v-loading="loading" @row-click="setCurrent" :highlight-current-row="true">
                     <el-table-column type="index" width="50" label="#">
                         <template slot-scope="scope">
                             <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
@@ -78,19 +78,18 @@
                         <question v-for="(q,i) in type.ques" :qans="q" :stid="account.Ac_ID" :exam="entity" :index="i"
                             :groupindex="0" :questions="quesAnswers" :org="organ">
                             <template scope="data">
-                                <el-input placeholder="请输入得分" class="score_area" type="number"
-                                    v-model.number="data.qans.score" :max="data.qans.num" :min="0"
-                                    @input="val=>{data.qans.score=val=='' ? 0 : (Number(val)>data.qans.num ? data.qans.num : Number(val))}">
-                                    <template slot="prepend">
-                                        <icon>&#xa02e</icon>人工判卷得分
-                                    </template>
-                                    <template slot="append">分，该题满分 {{data.qans.num}} 分</template>
-                                </el-input>
-                                <template v-if="false">
-                                    {{data.ques.Qus_Title}}
-                                    <hr />
-                                    {{data.qans}}
-                                </template>
+                                <div class="score_area">
+                                    <el-input placeholder="请输入得分" type="number" v-model.number="data.qans.score"
+                                        :max="data.qans.num" :min="0"
+                                        @input="val=>{data.qans.score=val=='' ? 0 : (Number(val)>data.qans.num ? data.qans.num : Number(val))}">
+                                        <template slot="prepend">
+                                            <icon>&#xa02e</icon>人工判卷得分
+                                        </template>
+                                        <template slot="append">分，该题满分 {{data.qans.num}} 分</template>
+                                    </el-input>
+                                    <aibtn :ques="data.ques" :qans="data.qans"></aibtn>
+                                </div>
+                                <div v-if="false">{{data.qans}}</div>
                             </template>
                         </question>
                     </template>
@@ -129,7 +128,7 @@
                             {{desensitizeIDcard(account.Ac_IDCardNumber)}}
                         </div>
                         <div icon="&#xa047" title="电话">
-                            <span v-html='desensitizePhone(account.Ac_MobiTel1)'></span>                            
+                            <span v-html='desensitizePhone(account.Ac_MobiTel1)'></span>
                         </div>
                     </template>
                     <icon :woman="current.Ac_Sex=='2'" v-else :man="current.Ac_Sex!='2'" class="large">
