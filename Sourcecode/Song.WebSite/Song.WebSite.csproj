@@ -2261,6 +2261,11 @@
     <Content Include="Utilities\TinyMCE\langs\zh_CN.js" />
     <Content Include="Utilities\TinyMCE\plugins\advlist\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\advlist\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\ai-llm\index.css" />
+    <Content Include="Utilities\TinyMCE\plugins\ai-llm\index.html" />
+    <Content Include="Utilities\TinyMCE\plugins\ai-llm\index.js" />
+    <Content Include="Utilities\TinyMCE\plugins\ai-llm\plugin.js" />
+    <Content Include="Utilities\TinyMCE\plugins\ai-llm\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\anchor\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\anchor\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\attachment\icons\default_file.svg" />

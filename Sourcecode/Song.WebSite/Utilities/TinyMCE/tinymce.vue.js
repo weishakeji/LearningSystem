@@ -72,9 +72,9 @@ Vue.component('editor', {
                     break;
                 //general常用按钮
                 case 'general':
-                    arr = [`undo redo cut copy formatpainter  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
+                    arr = [`undo redo cut copy formatpainter  | formatselect fontselect fontsizeselect forecolor backcolor table importword | ai-llm
                     | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
-                    layout removeformat  hr pagebreak  clearhtml  link fullscreen searchreplace preview`]
+                    layout removeformat  hr pagebreak  clearhtml  fullscreen searchreplace preview `]
                     break;
                 //simple简化版，相较于general更少按钮
                 case 'simple':
@@ -85,7 +85,7 @@ Vue.component('editor', {
                 //mini极少的按钮
                 case 'mini':
                     arr = [` forecolor  backcolor  lineheight letterspacing bullist numlist 
-                    | formatting  alignment indent_gr insert`]
+                    | formatting  alignment indent_gr insert | ai-llm`]
                     break;
                 //inline内联模式，没有按钮
                 case 'inline':
@@ -96,14 +96,13 @@ Vue.component('editor', {
                     arr = [` undo redo cut copy formatpainter | fontsizeselect forecolor backcolor bold italic underline strikethrough | superscript subscript 
                     indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify   
                     letterspacing bullist numlist  | hr table  insertdatetime removeformat  link importword 
-                    image-weisha charmap  kityformula-editor  media | fullscreen searchreplace preview`]
+                    image-weisha charmap  kityformula-editor  media  ai-llm | fullscreen searchreplace preview`]
                     break;
                 //试题的简单编辑
                 case 'ques':
                     arr = [` forecolor  backcolor  bold italic underline strikethrough  superscript subscript 
                     | alignleft aligncenter alignright alignjustify 
-                    |  image-weisha charmap  kityformula-editor
-                    `]
+                    |  image-weisha charmap  kityformula-editor`]
                     break;
             }
             return arr;
@@ -135,7 +134,7 @@ Vue.component('editor', {
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
                 advlist lists textpattern help emoticons indent2em lineheight formatpainter axupimgs 
-                powerpaste letterspacing quickbars attachment wordcount autoresize image importword image-weisha organinfo`,
+                powerpaste letterspacing quickbars attachment wordcount autoresize image importword image-weisha organinfo ai-llm`,
                 toolbar_groups: {
                     formatting: {
                         text: '格式',
@@ -155,7 +154,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image-weisha  emoticons charmap  kityformula-editor organinfo',
+                        items: 'image-weisha link  emoticons charmap  kityformula-editor organinfo',
                     }
                 },
                 //upfile attachment //上传文件、附件

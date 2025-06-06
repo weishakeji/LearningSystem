@@ -12,7 +12,7 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading_init"></loading>
         <div class="toolsbar">
-            <btngroup show="新增,删除" ref='btngroup' path="GuideModify" @delete="deleteData" width="800" height="600"
+            <btngroup show="新增,删除" ref='btngroup' path="GuideModify" @delete="deleteData" width="850" height="600"
                 ico="e840" :selects='selects' idkey='Gu_ID' table="guides" :modal="true">
                 <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsModify()">编辑公告的分类
                 </el-button>
