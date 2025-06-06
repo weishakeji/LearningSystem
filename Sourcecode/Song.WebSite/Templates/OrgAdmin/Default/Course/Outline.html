@@ -11,8 +11,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar" v-show="!loading">
-            <btngroup show="新增" ref='btngroup' @add="openbox(null,'OutlineModify','章节管理 - 新增',800,600,'e841')"
-                width="800" idkey='Ol_ID' height="600"></btngroup>
+            <btngroup show="新增" ref='btngroup' @add="openbox(null,'OutlineModify','章节管理 - 新增',850,600,'e841')"
+                width="850" idkey='Ol_ID' height="600"></btngroup>
             <query_panel :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">
@@ -79,10 +79,10 @@
                             <loading v-if="loadingid==data.Ol_ID" star></loading>
                             <template v-else>
                                 <el-link type="success"
-                                    @click="openbox(null,'OutlineModify?pid='+data.Ol_ID,'新增下级章节',800,600,'e841')">
+                                    @click="openbox(null,'OutlineModify?pid='+data.Ol_ID,'新增下级章节',850,600,'e841')">
                                     <icon>&#xe6ea</icon>新增下级
                                 </el-link>
-                                <el-link type="primary" @click="openbox(data,'OutlineModify','章节管理',800,600,'e841')">
+                                <el-link type="primary" @click="openbox(data,'OutlineModify','章节管理',850,600,'e841')">
                                     <icon>&#xa02e</icon>编辑
                                 </el-link>
                                 <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
