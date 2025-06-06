@@ -354,9 +354,9 @@ dl.quesArea textarea {
 	margin-right: 8px;
 }
 
-/*AI解析*/
-.ai_panel h1 {
-	
+/*AI得分，简答题*/
+.aiscore {
+	margin-left: 20px;
 }
 
 /*竖屏，手机端显示*/

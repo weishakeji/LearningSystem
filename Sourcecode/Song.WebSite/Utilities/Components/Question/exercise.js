@@ -24,7 +24,8 @@ Vue.component('question', {
             forced_rendering: 0,
 
             ai_show: false, //AI解析的面板显示
-            ai_loading: false, //加载Ai解析的状态
+            loading_ai: false, //加载Ai解析的状态
+            loading_score: false,   //加载分数的状态
         }
     },
     watch: {
@@ -136,7 +137,7 @@ Vue.component('question', {
         //AI解析答案
         getAiexplain: function () {
             var th = this;
-            if (th.ai_loading) return;
+            if (th.loading_ai) return;
             let type = this.types[th.ques.Qus_Type - 1];    //试题类型
             //试题选项
             let items = '';
@@ -154,7 +155,7 @@ Vue.component('question', {
             let answer = this.sucessAnswer(this.ques);
 
             th.ai_show = true;
-            th.ai_loading = true;
+            th.loading_ai = true;
             $api.post('Question/AIExplain', { 'qid': th.qid, 'type': type, 'items': items, 'answer': answer }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -166,7 +167,26 @@ Vue.component('question', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => th.ai_loading = false);
+                .finally(() => th.loading_ai = false);
+        },
+        //AI计算简答题得分
+        getAiscore: async function (qid, answer) {
+            var th = this;
+            if (th.loading_score) return;
+            th.loading_score = true;
+            await $api.post('Question/AICalcScore', { 'qid': qid, 'answer': answer, 'num': 10 }).then(req => {
+                if (req.data.success) {
+                    let score = req.data.result;  
+                    th.$set(th.state, 'score', score);
+                    th.$set(th.state, 'correct', score >= 10 ? "succ" : "error");
+                    //触发答题事件
+                    th.$emit('answer', th.state, th.ques);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(err => console.error(err))
+                .finally(() => th.loading_score = false);
         },
         //将试题对象中的Qus_Items，解析为json，并还原答题状态
         parseAnswer: function (ques) {
@@ -327,9 +347,11 @@ Vue.component('question', {
         //简答题
         doing_type4: function (ans, ques, judge) {
             let answer = ques.Qus_Answer.replace(/<[^>]+>/g, '').trim();
-            let correct = this.state.ans == answer;
-            this.state['ans'] = this.state.ans;
+            let correct = this.state.ans == answer || this.state.score >= 10;
+            this.state['ans'] = ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
+            //console.error(this.state.ans);
+            this.getAiscore(ques.Qus_ID, this.state.ans);
             return this.state['correct'] == 'succ';
         },
         //填空题
@@ -394,7 +416,11 @@ Vue.component('question', {
                     </div>
                     <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
                         <textarea rows="5" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
-                        <button type="primary" @click="ques_doing(state.ans,ques)">提交答案</button>
+                        <button type="primary" @click="ques_doing(state.ans,ques)" :disabled="loading_score">
+                            <loading star v-if="loading_score">提交中...</loading>
+                            <span v-else>提交答案</span>
+                        </button>
+                        <span v-if="state.score!=null" class="aiscore">AI评判：{{state.score}} 分</span>
                     </div>
                     <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                         <div v-for="(ans,i) in ques.Qus_Items">                   
@@ -412,7 +438,7 @@ Vue.component('question', {
                 <card class="explain">   
                     <card-title>
                         <span><icon>&#xe85a</icon> 试题解析</span>                      
-                        <div class="ai_btn" v-if="ques.Qus_Explain=='' && !ai_loading" @click="getAiexplain">
+                        <div class="ai_btn" v-if="ques.Qus_Explain=='' && !loading_ai" @click="getAiexplain">
                            AI解析
                         </div>
                     </card-title>
@@ -420,7 +446,7 @@ Vue.component('question', {
                         <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                         <span v-else-if="ai_show==false">（无解析），请尝试“AI解析”</span> 
                         <div class="ai_panel" v-if="ai_show">
-                            <template  v-if="ai_loading">
+                            <template  v-if="loading_ai">
                                 <loading star>正在加载中...</loading>
                             </template>
                             <template v-else> 

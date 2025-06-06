@@ -91,6 +91,10 @@ Vue.component('quesarea', {
         //试题答题状态变更时
         answer: function (state, ques) {
             this.state.data.current = state;
+             //更新答题状态
+             let index = this.state.data.items.findIndex(item => item.qid === state.qid);
+             this.state.data.items[index] = state;
+              //更新数据到服务器
             this.state.update(true);
         },
         //计算要异步加载的试题id
