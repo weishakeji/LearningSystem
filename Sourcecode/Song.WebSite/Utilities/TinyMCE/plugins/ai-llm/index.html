@@ -5,19 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>机构信息</title>
+    <title>AI大语言模型</title>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
-    <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/marked.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
     <link type="text/css" rel="stylesheet" href="index.css" />
 </head>
 
 <body>
     <div id="vapp" :editorid="editorid">
+        <div class="inputbox"><input type="text" v-model="input" placeholder="请输入内容" />
+            <button @click="send">发送</button>
+        </div>
         <loading v-if="loading"></loading>
-       
+        <div class="messages_area">
+            <div class="welcome" v-if="messages.length<1">
+                <div class="welcome_title">
+                    <div class="ai_icon"> </div>
+                    <div>您好！我是基于大语言模型的AI助手</div>
+                </div>
+
+                <div class="welcome_text">无论是写作辅助，还是创意灵感，我都用最专业、最贴心的方式助你一臂之力。随时提问，我会以最真诚的态度为你服务！
+                </div>
+            </div>
+            <template v-for="(item,index) in messages" v-else>
+                <user_msg v-if="item.role=='user'" :message="item.content"></user_msg>
+                <ai_msg v-if="item.role=='system'" :message="item.content"></ai_msg>
+            </template>
+            <span loading="p2" v-if="loading">loading...</span>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="index.js"></script>
