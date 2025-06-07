@@ -1,8 +1,7 @@
-console.error(333);
 tinymce.PluginManager.add('ai-llm', function (editor, url) {
 	var pluginName = 'AI助手';
 	var baseURL = tinymce.baseURL;
-	console.error(pluginName);
+	//console.error(pluginName);
 	var editorid = editor.id;
 	//console.error(editor);
 	var iframe1 = baseURL + '/plugins/ai-llm/index.html?editorid=' + editorid;
