@@ -67,6 +67,12 @@ a[download] {
 a[download]:hover {
     text-decoration: underline;
 }
+a[link]{
+    text-decoration:underline;
+}
+a[link]:hover{
+    color: #409EFF;
+}
 /*字体大小*/
 .large {
 	font-size: 16px;

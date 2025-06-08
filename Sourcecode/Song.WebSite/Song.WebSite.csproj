@@ -329,8 +329,11 @@
     <Content Include="Templates\Manage\Default\Ques\Scripts\ItemRepeat.js" />
     <Content Include="Templates\Manage\Default\Ques\Styles\ItemRepeat.css" />
     <Content Include="Templates\Manage\Default\Setup\BaiduLBS.html" />
+    <Content Include="Templates\Manage\Default\Setup\LargeLanguageModel.html" />
     <Content Include="Templates\Manage\Default\Setup\Scripts\BaiduLBS.js" />
+    <Content Include="Templates\Manage\Default\Setup\Scripts\LargeLanguageModel.js" />
     <Content Include="Templates\Manage\Default\Setup\Styles\BaiduLBS.css" />
+    <Content Include="Templates\Manage\Default\Setup\Styles\LargeLanguageModel.css" />
     <Content Include="Templates\Manage\Default\SMS\Message.html" />
     <Content Include="Templates\Manage\Default\SMS\Modify.html" />
     <Content Include="Templates\Manage\Default\SMS\Scripts\Message.js" />

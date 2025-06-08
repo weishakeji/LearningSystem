@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>大语言模型的设置</title>
+   
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <alert margin large v-if="!islogin">未登录，或登录已经超时</alert>
+        <template v-else>
+            <el-card class="box-card" shadow="hover">
+                <div slot="header" class="clearfix">
+                    <icon>&#xe820</icon>大语言模型的设置
+                </div>
+                <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
+                    <el-form-item label="API Key" prop="Sys_Value">
+                        <el-input v-model.trim="entity.Sys_Value" style="width: 400px" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <help multi>
+                            1、大语言模型的服务采用了阿里云百炼平台，需自主申请应用；
+                            <br />2、申请地址：<a href="https://bailian.console.aliyun.com" link
+                                target="_blank">https://bailian.console.aliyun.com</a>
+                            <br />3、操作步骤：注册阿里云百炼平台账号->选择“应用”菜单项->左下角“API-Key”菜单项
+                        </help>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" define="enter" v-on:click="btnEnter" :loading="loading">
+                            确 定</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-card>          
+        </template>
+    </div>
+</body>
+
+</html>
