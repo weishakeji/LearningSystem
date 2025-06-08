@@ -1166,12 +1166,13 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// AI生成试题
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="sbj"></param>
-        /// <param name="cou"></param>
+        /// <param name="type">试题类型，采用数字</param>
+        /// <param name="sbj">专业名称</param>
+        /// <param name="cou">课程名称</param>
+        /// <param name="outline">章节名称</param>
         /// <returns></returns>
         [HttpPost]
-        public JObject AIGenerate(int type,string sbj,string cou)
+        public JObject AIGenerate(int type,string sbj,string cou,string outline)
         {
             string qtype = types[type - 1];
             //设定AI的角色
@@ -1183,6 +1184,7 @@ namespace Song.ViewData.Methods
             string message = Song.APIHub.LLM.Gatway.TemplateText("Questions/Generate",$"type{type}.txt");
             message = APIHub.LLM.Gatway.TemplateHandle(message, "Sbj_Name", sbj);
             message = APIHub.LLM.Gatway.TemplateHandle(message, "Cou_Name", cou);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Ol_Name", outline);
             message = APIHub.LLM.Gatway.TemplateHandle(message, "type", qtype);
 
             //向AI发送请求

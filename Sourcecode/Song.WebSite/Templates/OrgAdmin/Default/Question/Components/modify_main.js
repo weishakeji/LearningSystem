@@ -160,10 +160,30 @@ Vue.component('modify_main', {
         },
         //AI生成事件
         aievent: function () {
+            if (this.loading_ai) return;
+            if (this.question.Qus_Title.length > 0) {
+                this.$confirm('您已经编写了题干，确定要重新生成吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.get_aiques();
+                }).catch(() => { });
+            } else {
+                this.get_aiques();
+            }
+        },
+        //AI创建试题
+        get_aiques: function () {
             var th = this;
             if (th.loading_ai) return;
             th.loading_ai = true;
-            $api.post('Question/AIGenerate', { 'type': th.question.Qus_Type, 'sbj': th.question.Sbj_Name, 'cou': th.question.Cou_Name }).then(req => {
+            $api.post('Question/AIGenerate', {
+                'type': th.question.Qus_Type,
+                'sbj': th.question.Sbj_Name,
+                'cou': th.question.Cou_Name,
+                'outline': th.question.Ol_Name
+            }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
                     result = window.ques.parseAnswer(result);
@@ -180,8 +200,10 @@ Vue.component('modify_main', {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading_ai = false);
+            }).catch(err => {
+                alert('AI生成异常，请重新生成。详情：'+err);
+                console.error(err);
+            }).finally(() => th.loading_ai = false);
         },
         //AI返回结果的格式化
         aiformat: function (text) {
@@ -191,14 +213,14 @@ Vue.component('modify_main', {
             text = text.replace(/\\times/g, "&times;");
             text = text.replace(/\\div/g, "&divide;");
             text = text.replace(/\\approx/g, "&asymp;");
-            text = text.replace(/\\text{([^}]*)}/g, "$1");           
+            text = text.replace(/\\text{([^}]*)}/g, "$1");
             return text;
         },
     },
     template: `<div class="panel" v-show="!loading">
         <div class="ai_btn" @click="aievent">
             <loading v-if="loading_ai" star>AI编辑中...</loading>
-            <span v-else>AI生成</span>
+            <span v-else>AI创建试题</span>
         </div>
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
