@@ -85,7 +85,7 @@
             <section v-if="!nullcourse">
                 <course_tabs ref="tabs">
                     <template slot="intro" remark="课程介绍">
-                        <div class="introBox" v-if="course.Cou_Target!=''">
+                        <div class="introBox" v-if="clearTag(course.Cou_Target)!=''">
                             <div>
                                 <icon>&#xe816</icon>学习目标：
                             </div>

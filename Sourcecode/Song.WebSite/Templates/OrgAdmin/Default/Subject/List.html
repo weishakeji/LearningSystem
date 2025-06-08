@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,更新数据,展开/折叠" ref='btngroup' path="Modify" @update_data="update_statdata"
-                @fold_open="fold=!fold" width="600" idkey='Sbj_ID' height="500"></btngroup>
+                @fold_open="fold=!fold" width="800" idkey='Sbj_ID' height="500"></btngroup>
             <query_panel :model="form" :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">

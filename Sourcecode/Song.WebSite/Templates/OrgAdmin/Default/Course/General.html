@@ -19,12 +19,14 @@
                                 <el-radio-button :label="0">学练考</el-radio-button>
                                 <el-radio-button :label="2">试题库</el-radio-button>
                             </el-radio-group>
-                            <help v-if="entity.Cou_Type==0">
-                                包括 视频学习、试题练习、结课考试
-                            </help>
-                            <help v-if="entity.Cou_Type==2">
-                                只有试题练习与模拟测试
-                            </help>
+                            <template v-if="true">
+                                <help v-if="entity.Cou_Type==0">
+                                    视频、试题、结课考试
+                                </help>
+                                <help v-if="entity.Cou_Type==2">
+                                    只有试题练习与模拟测试
+                                </help>
+                            </template>
                         </el-form-item>
                         <el-form-item label="专业/学科" prop="Sbj_ID">
                             <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="course"

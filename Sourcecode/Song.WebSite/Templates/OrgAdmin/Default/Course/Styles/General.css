@@ -4,6 +4,8 @@
 	height: calc(100% - 40px);
 	overflow-y: auto;
 	overflow-x: hidden;
+	padding-right: 5px;
+	box-sizing: border-box;
 }
 
 .el-form {

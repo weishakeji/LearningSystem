@@ -123,7 +123,7 @@ $ready(function () {
                 //当前课程
                 th.course = course.data.result;
                 if (th.course != null) {
-                    th.course.Cou_Target = th.clearTag(th.course.Cou_Target);
+                    th.course.Cou_Target = th.course.Cou_Target;
                     th.course.Cou_Intro = $api.trim(th.course.Cou_Intro);
                     if (Number(viewnum.data.result) >= 0)
                         th.course.Cou_ViewNum = viewnum.data.result;
