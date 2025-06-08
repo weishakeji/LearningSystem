@@ -17,7 +17,7 @@
 <body>
     <div id="vapp" :editorid="editorid">
         <div class="inputbox">
-            <input type="text" v-model="input" placeholder="请输入内容" @keydown.enter="send" :disabled="loading" />
+            <input type="text" v-model.trim="input" placeholder="请输入内容" @keydown.enter="send" :disabled="loading" />
             <button @click="send" :disabled="loading">
                 <loading v-if="loading" star> ...</loading>
                 <span v-else>发 送</span>
@@ -34,10 +34,24 @@
                 </div>
             </div>
             <template v-for="(item,index) in messages" v-else>
-                <user_msg v-if="item.role=='user' && 1==2" :message="item.content"></user_msg>
+                <!--用户消息-->
                 <div class="user_message" v-if="item.role=='user'">
-                    <div class="user_message_content" v-html="item.content"></div>
+                    <div v-if="editindex==index" class="editcontent">
+                        <textarea v-model.trim="editcontent" @keyup.enter="send"></textarea>
+                        <div class="edit_btn" >
+                            <icon back @click="editindex=-1">取消</icon>
+                            <icon submit @click="editsend(index)">提交</icon>                           
+                        </div>
+                    </div>
+                    <template v-else>
+                        <div class="user_message_content" v-html="item.content"></div>
+                        <div class="user_btn" v-if="!loading">
+                            <icon @click="copy(item.content)" title="复制">&#xa060</icon>
+                            <icon @click="edit(index)" title="编辑当前消息">&#xe64d</icon>
+                        </div>
+                    </template>
                 </div>
+                <!--AI消息-->
                 <template v-if="item.role=='system'">
                     <div class="ai_msg">
                         <div class="ai_msg_icon"></div>

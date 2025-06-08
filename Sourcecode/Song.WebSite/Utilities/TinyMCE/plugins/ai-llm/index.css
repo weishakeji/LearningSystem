@@ -92,19 +92,30 @@ html, body {
 	flex-direction: row-reverse;
 	font-size: 18px;
 	margin: 0px 0px 20px 0px;
+	position: relative;
 }
 
 .user_message .user_message_content {
 	box-sizing: border-box;
-
 	padding: 10px;
 	border-radius: 10px;
 	background-color: #eff6ff;
 	margin-right: 10px;
 }
 
-.user_message .ws_avatar {
-	border: solid 1px rgb(218, 218, 218);
+.user_message .user_btn {
+	position: absolute;
+	right: 15px;
+	bottom: -22px;
+	color: #999;
+}
+
+.user_message .user_btn icon {
+	cursor: pointer;
+}
+
+.user_message .user_btn icon:hover {
+	transform: scale(1.05);
 }
 
 /*AI消息的区域*/
@@ -149,4 +160,13 @@ html, body {
 
 .ai_msg h3 {
 	font-size: 18px;
+}
+
+/*编辑用户消息*/
+.edit_btn>icon{
+	cursor: pointer;
+	font-size: 16px;
+}
+.edit_btn>icon:hover{
+	transform: scale(1.05);
 }

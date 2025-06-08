@@ -97,6 +97,14 @@ icon[home]::before {
 icon[back]::before {
     content: '\e748';
 }
+/*提交*/
+icon[submit]::before {
+    content: '\e84c';
+}
+/*确认*/
+icon[enter]::before {
+    content: '\e634';
+}
 /*学员*/
 icon[student]::before {
     content: '\e804';

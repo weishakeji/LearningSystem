@@ -6,9 +6,13 @@
             input: '',          //消息
             messages: [],        //所有对话记录
 
+            editindex: -1,        //编辑的对话索引
+            editcontent: '',      //编辑的对话内容
+
             loading: false
         },
         mounted: function () {
+            //读取本地记录，只是作为临时调样式用，不用每次都调取远程
             this.messages = $api.storage('messages') || [];
             for (var i = 0; i < this.messages.length; i++) {
                 if (this.messages[i].role == 'system') {
@@ -48,10 +52,17 @@
             },
             // 发送
             send: function () {
-                if (this.input.trim() == '' || this.loading) return;               
+                if (this.input.trim() == '' || this.loading) return;
                 this.messages.push({ role: 'user', content: this.input });
                 this.getaillm(this.messages);
                 this.input = '';
+            },
+            //编辑用户消息的发送
+            editsend: function (index) {
+                this.messages = this.messages.splice(0, index + 1);
+                this.messages[index].content = this.editcontent;
+                this.getaillm(this.messages);
+                this.editindex = -1;
             },
             //清空
             clear: function () {
@@ -63,9 +74,10 @@
                 window.parent.organinfo_action(this.editorid, text);
             },
             //重新生成
-            fresh: function (index) {            
-                this.messages = this.messages.splice(0, index);               
+            fresh: function (index) {
+                this.messages = this.messages.splice(0, index);
                 this.getaillm(this.messages);
+                this.editindex = -1;
             },
             //复制到粘贴板
             //text:要复制的文本内容
@@ -85,6 +97,11 @@
                         reject(err);
                     }
                 });
+            },
+            //编辑用户的消息
+            edit: function (index) {
+                this.editindex = index;
+                this.editcontent = this.messages[index].content;
             },
             //格式化文本
             formatText: function (text) {
