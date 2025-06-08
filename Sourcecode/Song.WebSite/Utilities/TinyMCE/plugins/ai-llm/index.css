@@ -19,6 +19,7 @@ html, body {
 	height: calc(100% - 40px);
 	overflow: auto;
 	margin-top: 10px;
+	box-sizing: border-box;
 }
 
 .inputbox {
@@ -93,6 +94,7 @@ html, body {
 	font-size: 18px;
 	margin: 0px 0px 20px 0px;
 	position: relative;
+	box-sizing: border-box;
 }
 
 .user_message .user_message_content {
@@ -163,9 +165,43 @@ html, body {
 }
 
 /*编辑用户消息*/
+.editcontent{
+	background-color: rgb(243 244 246);
+    margin: 10px auto;
+    width: calc(100% - 30px);
+    height: 120px;
+    border-radius: 10px;
+    border: solid 1px rgb(218, 218, 218);
+	box-sizing: border-box;
+    padding: 15px;
+	position: relative;
+}
+.editcontent textarea {
+	border: none;
+	background-color: transparent;
+	resize: none;
+	width: 100%;
+	height: calc(100% - 20px);
+	font-size: 18px;
+}
+
+.editcontent textarea:focus {
+	outline: none;
+	border: none;
+}
+.edit_btn{
+	position: absolute;
+	width: 100%;
+	height: 35px;
+	bottom: 0;
+	text-align: right;
+	padding: 5px 30px 5px 0px;
+	box-sizing: border-box;
+}
 .edit_btn>icon{
 	cursor: pointer;
 	font-size: 16px;
+	margin-left: 15px;
 }
 .edit_btn>icon:hover{
 	transform: scale(1.05);

@@ -12,13 +12,14 @@
             loading: false
         },
         mounted: function () {
+            /*
             //读取本地记录，只是作为临时调样式用，不用每次都调取远程
             this.messages = $api.storage('messages') || [];
             for (var i = 0; i < this.messages.length; i++) {
                 if (this.messages[i].role == 'system') {
                     this.messages[i].content = this.formatText(this.messages[i].content);
                 }
-            }
+            }*/
         },
         updated: function () {
 
@@ -40,7 +41,7 @@
                     if (req.data.success) {
                         var result = th.formatText(req.data.result);
                         th.messages.push({ role: 'system', content: result });
-                        $api.storage('messages', th.messages);
+                        //$api.storage('messages', th.messages);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;

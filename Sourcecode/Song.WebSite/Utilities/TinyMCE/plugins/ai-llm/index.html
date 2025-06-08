@@ -37,7 +37,7 @@
                 <!--用户消息-->
                 <div class="user_message" v-if="item.role=='user'">
                     <div v-if="editindex==index" class="editcontent">
-                        <textarea v-model.trim="editcontent" @keyup.enter="send"></textarea>
+                        <textarea v-model.trim="editcontent" @keyup.enter="editsend(index)"></textarea>
                         <div class="edit_btn" >
                             <icon back @click="editindex=-1">取消</icon>
                             <icon submit @click="editsend(index)">提交</icon>                           
