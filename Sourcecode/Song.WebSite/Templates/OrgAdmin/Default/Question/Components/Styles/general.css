@@ -77,7 +77,7 @@
 	color: #999;
 }
 
-.tree-area .selected {
+.tree-area .selected, .tree-area .selected span {
 	color: darkgreen;
 	font-weight: bold;
 }

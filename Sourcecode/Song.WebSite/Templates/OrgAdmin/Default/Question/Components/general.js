@@ -6,6 +6,7 @@ Vue.component('general', {
             subjects: [],       //专业
             courses: [],     //课程列表
             couid: '',      //当前课程id
+            olid: $api.querystring("olid", ''),     //当前章节id
 
             outlines: [],     //课程下的所有章节
             outline: null,         //试题当前章节
@@ -63,7 +64,7 @@ Vue.component('general', {
     },
     methods: {
         //专业更改时
-        changeSbj: function (id, sbj, labels, arr) {           
+        changeSbj: function (id, sbj, labels, arr) {
             this.question['Sbj_ID'] = id;
             this.question['Sbj_Name'] = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
             this.getCourses(id);
@@ -113,10 +114,12 @@ Vue.component('general', {
                 if (req.data.success) {
                     th.outlines = req.data.result;
                     if (th.question.Ol_ID != '')
-                        th.outline = th.getoutline(th.outlines);
-                    //console.error(th.outline);
-                    //console.log(th.outlines);
+                        th.outline = th.getoutline(th.outlines, th.question.Ol_ID);
+                    else
+                        th.outline = th.getoutline(th.outlines, th.olid);
                     th.calcSerial(null, '');
+                    //设置当前章节
+                    if (th.outline != null) th.outlineClick(th.outline, null, null);
                 } else {
                     throw req.data.message;
                 }
@@ -141,26 +144,43 @@ Vue.component('general', {
             }
         },
         //获取当前章节
-        getoutline: function (list) {
+        getoutline: function (list, olid) {
             if (list == null) list = this.outlines;
             let outline = null;
             for (let i = 0; i < list.length; i++) {
-                if (this.question.Ol_ID == list[i].Ol_ID) {
+                if (olid == list[i].Ol_ID) {
                     outline = list[i];
                     break;
                 }
                 if (list[i].children) {
-                    outline = this.getoutline(list[i].children);
+                    outline = this.getoutline(list[i].children, olid);
                     if (outline != null) break;
                 }
             }
             return outline;
         },
+        //章节获取章节路径
+        getoutlinePath: function (outline) {
+            let name = outline.Ol_Name;
+            let parent = this.getoutline(this.outlines, outline.Ol_PID);
+            while (parent != null) {
+                name = parent.Ol_Name + ' / ' + name;
+                parent = this.getoutline(this.outlines, parent.Ol_PID);
+            }
+            return name;
+        },
         //章节节点点击事件
-        outlineClick: function (data, node, el) {
+        outlineClick: function (data, node, el) {          
             this.question.Ol_ID = data.Ol_ID;
             this.question.Ol_Name = data.Ol_Name;
-            this.outline = this.getoutline(this.outlines);
+            this.outline = this.getoutline(this.outlines, data.Ol_ID);
+            //设置当前章节ID到地址栏
+            var url = window.location.href;
+            url = $api.url.set(url, { 'olid': data.Ol_ID });
+            window.history.pushState({}, '', url);
+            //遍历获取章节路径，OutlinePath属性为临时属性
+            var path = this.getoutlinePath(data);
+            this.$set(this.question, 'OutlinePath', path);
         }
     },
     template: `<div class="general">
@@ -168,7 +188,7 @@ Vue.component('general', {
             <el-form-item label="难度" prop="Qus_Diff">
                 <el-rate title="点击难度值" v-model="question.Qus_Diff" :max="5" show-score></el-rate>
             </el-form-item>
-            <el-form-item label="排序号" prop="Qus_Tax">
+            <el-form-item label="排序号" prop="Qus_Tax" v-if="false">
                 <el-input-number v-model="question.Qus_Tax"></el-input-number>
                 <help>数值越小越靠前，可以为负值</help>
             </el-form-item>
@@ -193,7 +213,7 @@ Vue.component('general', {
                 <div class="outline_bar">
                     <el-input v-model="outlineFilterText" clearable style="width:160px" placeholder="搜索"
                                 suffix-icon="el-icon-search"></el-input>
-                    <span v-if="question.Ol_ID!=''">{{outline ? outline.Ol_Name : ''}}</span>
+                    <span v-if="question.Ol_ID!=''">{{question.OutlinePath}}</span>
                     <span v-else class="noselect">未选择章节</span>
                 </div>
                 <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="defaultOutlinesProps" expand-on-click-node

@@ -182,7 +182,7 @@ Vue.component('modify_main', {
                 'type': th.question.Qus_Type,
                 'sbj': th.question.Sbj_Name,
                 'cou': th.question.Cou_Name,
-                'outline': th.question.Ol_Name
+                'outline': th.question.OutlinePath
             }).then(req => {
                 if (req.data.success) {
                     var result = req.data.result;
