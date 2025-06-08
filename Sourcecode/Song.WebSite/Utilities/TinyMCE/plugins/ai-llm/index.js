@@ -3,14 +3,18 @@
         el: '#vapp',
         data: {
             editorid: $api.querystring('editorid'),  //编辑器的id
-            input: '',//消息
-
+            input: '',          //消息
             messages: [],        //所有对话记录
 
             loading: false
         },
         mounted: function () {
             this.messages = $api.storage('messages') || [];
+            for (var i = 0; i < this.messages.length; i++) {
+                if (this.messages[i].role == 'system') {
+                    this.messages[i].content = this.formatText(this.messages[i].content);
+                }
+            }
         },
         updated: function () {
 
@@ -24,16 +28,13 @@
         watch: {
         },
         methods: {
-            // 发送
-            send: function () {
-                if (this.input.trim() == '') return;
+            //获取ai的回复
+            getaillm: function (messages) {
                 var th = this;
-                th.messages.push({ role: 'user', content: th.input });
-                th.input = '';
                 th.loading = true;
-                $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': th.messages }).then(req => {
+                $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': messages }).then(req => {
                     if (req.data.success) {
-                        var result = req.data.result;
+                        var result = th.formatText(req.data.result);
                         th.messages.push({ role: 'system', content: result });
                         $api.storage('messages', th.messages);
                     } else {
@@ -44,52 +45,58 @@
                     console.error(err);
                     alert('请求失败');
                 }).finally(() => th.loading = false);
-
+            },
+            // 发送
+            send: function () {
+                if (this.input.trim() == '' || this.loading) return;               
+                this.messages.push({ role: 'user', content: this.input });
+                this.getaillm(this.messages);
+                this.input = '';
+            },
+            //清空
+            clear: function () {
+                this.messages = [];
+                $api.storage('messages', this.messages);
+            },
+            //插入到编辑器中
+            insert: function (text) {
+                window.parent.organinfo_action(this.editorid, text);
+            },
+            //重新生成
+            fresh: function (index) {            
+                this.messages = this.messages.splice(0, index);               
+                this.getaillm(this.messages);
+            },
+            //复制到粘贴板
+            //text:要复制的文本内容
+            //textbox:输入框类型，默认是input,多行文本用textarea
+            copy: function (text, textbox) {
+                return new Promise(function (resolve, reject) {
+                    try {
+                        if (textbox == null) textbox = 'input';
+                        var oInput = document.createElement(textbox);
+                        oInput.value = text;
+                        document.body.appendChild(oInput);
+                        oInput.select(); // 选择对象
+                        document.execCommand("Copy"); // 执行浏览器复制命令           
+                        oInput.style.display = 'none';
+                        resolve(this);
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+            },
+            //格式化文本
+            formatText: function (text) {
+                if (text == null || text == "") return "";
+                text = marked.parse(text);
+                //text = text.replace(/\n/g, '<br/>');
+                text = text.replace(/\\times/g, "&times;");
+                text = text.replace(/\\div/g, "&divide;");
+                text = text.replace(/\\approx/g, "&asymp;");
+                text = text.replace(/\\text{([^}]*)}/g, "$1");
+                return text;
             },
         },
-        // 组件
-        components: {
-            // 用户的消息框
-            'user_msg': {
-                props: ['message'],
-                methods: {
-                },
-                template: `<div class="user_message">
-                    
-                    <div class="user_message_content" v-html="message"></div>
-                </div >`
-            },
-            //Ai的消息框
-            'ai_msg': {
-                props: ['message'],
-                methods: {
-                    //格式化文本
-                    formatText: function (text) {
-                        if (text == null || text == "") return "";
-                        text = marked.parse(text);
-                        //text = text.replace(/\n/g, '<br/>');
-                        text = text.replace(/\\times/g, "&times;");
-                        text = text.replace(/\\div/g, "&divide;");
-                        text = text.replace(/\\approx/g, "&asymp;");
-                        text = text.replace(/\\text{([^}]*)}/g, "$1");
-                        return text;
-                    },
-                    //插入到编辑器中
-                    insert:  function (text) { 
-                        let editorid=$api.querystring('editorid');  //编辑器的id
-                        window.parent.organinfo_action(editorid,this.formatText(this.message));
-                    },
-                },
-                template: `<div class="ai_msg">    
-                    <div class="ai_msg_icon"></div>              
-                    <div class="ai_msg_content" v-html="formatText(message)"></div>
-                    <div class="ai_btn">
-                        <button class="ai_btn_copy">复制</button>
-                        <button class="ai_btn_fresh">重新生成</button>
-                        <button class="ai_btn_fresh" @click="insert">插入到编辑器</button>
-                    </div>
-                </div >`
-            }
-        }
     });
 })();

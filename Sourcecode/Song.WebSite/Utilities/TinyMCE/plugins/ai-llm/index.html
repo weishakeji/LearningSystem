@@ -16,23 +16,41 @@
 
 <body>
     <div id="vapp" :editorid="editorid">
-        <div class="inputbox"><input type="text" v-model="input" placeholder="请输入内容" />
-            <button @click="send">发送</button>
+        <div class="inputbox">
+            <input type="text" v-model="input" placeholder="请输入内容" @keydown.enter="send" :disabled="loading" />
+            <button @click="send" :disabled="loading">
+                <loading v-if="loading" star> ...</loading>
+                <span v-else>发 送</span>
+            </button>
         </div>
-        <loading v-if="loading"></loading>
+
         <div class="messages_area">
             <div class="welcome" v-if="messages.length<1">
                 <div class="welcome_title">
                     <div class="ai_icon"> </div>
                     <div>您好！我是基于大语言模型的AI助手</div>
                 </div>
-
                 <div class="welcome_text">无论是写作辅助，还是创意灵感，我都用最专业、最贴心的方式助你一臂之力。随时提问，我会以最真诚的态度为你服务！
                 </div>
             </div>
             <template v-for="(item,index) in messages" v-else>
-                <user_msg v-if="item.role=='user'" :message="item.content"></user_msg>
-                <ai_msg v-if="item.role=='system'" :message="item.content"></ai_msg>
+                <user_msg v-if="item.role=='user' && 1==2" :message="item.content"></user_msg>
+                <div class="user_message" v-if="item.role=='user'">
+                    <div class="user_message_content" v-html="item.content"></div>
+                </div>
+                <template v-if="item.role=='system'">
+                    <div class="ai_msg">
+                        <div class="ai_msg_icon"></div>
+                        <div class="ai_msg_area">
+                            <div class="ai_btn">
+                                <button class="ai_btn_copy" @click="copy(item.content)">复制</button>
+                                <button class="ai_btn_fresh" @click="fresh(index)">重新生成</button>
+                                <button class="ai_btn_fresh" @click="insert(item.content)">插入到编辑器</button>
+                            </div>
+                            <div class="ai_msg_content" v-html="item.content"></div>
+                        </div>
+                    </div>
+                </template>
             </template>
             <span loading="p2" v-if="loading">loading...</span>
         </div>

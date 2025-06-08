@@ -1,50 +1,58 @@
 html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
 }
 
 #vapp {
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    box-sizing: border-box;
-    overflow: auto;
-    padding: 10px;
-    margin: 10px;
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
+	box-sizing: border-box;
+	overflow: hidden;
+	padding: 10px;
+	margin: 10px;
+}
+
+.messages_area {
+	height: calc(100% - 40px);
+	overflow: auto;
+	margin-top: 10px;
 }
 
 .inputbox {
-    display: flex;
-    border: solid 1px #999;
-    border-radius: 5px;
-    height: 40px;
+	display: flex;
+	border: solid 1px #999;
+	border-radius: 5px;
+	height: 40px;
 }
 
 .inputbox input {
-    flex: 1;
-    border: none;
-    background-color: transparent;
-    resize: none;
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px;
-    margin: 0 10px;
+	flex: 1;
+	border: none;
+	background-color: transparent;
+	resize: none;
+	height: 40px;
+	font-size: 18px;
+	line-height: 40px;
+	margin: 0 10px;
 }
 
 .inputbox input:focus {
-    outline: none;
-    border: none;
+	outline: none;
+	border: none;
 }
+
 .inputbox button {
-    outline: none;
-    border: none;
-    width: 80px;
-    height: 36px;
-    margin: 2px 2px 0px 0px;
-    border-radius: 0px 5px 5px 0px;
+	outline: none;
+	border: none;
+	width: 80px;
+	height: 36px;
+	margin: 2px 2px 0px 0px;
+	border-radius: 0px 5px 5px 0px;
 }
+
 /*欢迎语*/
 .welcome {
 	width: 80%;
@@ -88,9 +96,11 @@ html, body {
 
 .user_message .user_message_content {
 	box-sizing: border-box;
-	max-width: calc(100% - 50px);
-	padding: 10px 10px 0px 50px;
 
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #eff6ff;
+	margin-right: 10px;
 }
 
 .user_message .ws_avatar {
@@ -114,18 +124,29 @@ html, body {
 	margin-top: 8px;
 }
 
-.ai_msg .ai_msg_content {
+.ai_btn {
+	margin: 5px 0px;
+}
+
+.ai_msg .ai_msg_area {
 	box-sizing: border-box;
 	max-width: calc(100% - 50px);
 	padding: 0px 50px 0px 10px;
 	font-size: 18px;
 }
-.ai_msg h1{
+
+.ai_msg_content>*:first-child {
+	margin-top: 0px !important;
+}
+
+.ai_msg h1 {
 	font-size: 22px;
 }
-.ai_msg h2{
+
+.ai_msg h2 {
 	font-size: 20px;
 }
-.ai_msg h3{
+
+.ai_msg h3 {
 	font-size: 18px;
 }

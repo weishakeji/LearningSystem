@@ -7,7 +7,7 @@ tinymce.PluginManager.add('ai-llm', function (editor, url) {
 	var iframe1 = baseURL + '/plugins/ai-llm/index.html?editorid=' + editorid;
 	var openDialog = function () {
 		return editor.windowManager.openUrl({
-			title: 'AI助手',
+			title: 'AI创作助手',
 			size: 'large',
 			width: Math.floor(window.innerWidth * 0.8),
 			height: Math.floor(window.innerHeight * 0.8),
