@@ -152,11 +152,10 @@ $ready(function () {
                         th.saveRecords(th.record);
                     } else {
                         console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
+                        throw req.data.message;
                     }
                 }).catch(err => {
-                    console.error(err);
-                    alert('请求失败');
+                    alert('请求失败；详情：' + err);
                 }).finally(() => th.loading = false);
 
             },
@@ -240,12 +239,12 @@ $ready(function () {
                     //格式化文本
                     formatText: function (text) {
                         if (text == null || text == "") return "";
-                        text = marked.parse(text);                        
+                        text = marked.parse(text);
                         text = text.replace(/\n/g, '<br/>');
                         text = text.replace(/\\times/g, "&times;");
                         text = text.replace(/\\div/g, "&divide;");
                         text = text.replace(/\\approx/g, "&asymp;");
-                        text = text.replace(/\\text{([^}]*)}/g, "$1");                        
+                        text = text.replace(/\\text{([^}]*)}/g, "$1");
                         return text;
                     }
                 },
@@ -257,6 +256,5 @@ $ready(function () {
         }
     });
 
-}, ['../Components/links.js',
-    '/Utilities/Components/avatar.js',
+}, ['/Utilities/Components/avatar.js',
     '/Utilities/Scripts/marked.min.js']);

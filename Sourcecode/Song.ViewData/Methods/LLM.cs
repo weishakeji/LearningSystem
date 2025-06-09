@@ -26,6 +26,33 @@ namespace Song.ViewData.Methods
         /// </summary>
         public string Model() => Song.APIHub.LLM.Gatway.ApiModel;
 
+        #region 设置相关参数
+        //用于本地存储appkey的键值
+        private static string _key = "LLM_aliyun_APIKey";
+
+        /// <summary>
+        /// 设置appkey
+        /// </summary>
+        [HttpPost, Admin]
+        public bool SetAppkey(string apikey)
+        {
+            //保存
+            Business.Do<ISystemPara>().Save(_key, apikey, true);
+            //设置
+            Song.APIHub.LLM.Gatway.SetApiKey(apikey);
+            return true;
+        }
+        /// <summary>
+        /// 获取appkey,来自数据库
+        /// </summary>
+        [HttpPost]
+        public string GetApikey() => Business.Do<ISystemPara>().GetValue(_key);
+        /// <summary>
+        /// APIKey,可能来自本地存储，也可以来自web.config中设置的值
+        /// </summary>
+        public string APIKey() => Song.APIHub.LLM.Gatway.APIKey;
+        #endregion
+
         #region 交流
         /// <summary>
         /// 咨询问题，只处理一个问题

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Song.Entities;
 
 /// <summary>
 /// 大语言模型（Large Language Model, LLM）
@@ -19,7 +20,8 @@ namespace Song.APIHub.LLM
     public class Gatway
     {
         // 设置请求 URL 和内容
-        static readonly string _api_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+        //static readonly string _api_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+        static readonly string _api_url = WeiSha.Core.App.Get["LLM_aliyun_url"].String;
 
         private static string _api_key = "";
         private static readonly object _lock = new object();
@@ -33,9 +35,13 @@ namespace Song.APIHub.LLM
             {
                 lock (_lock)
                 {
-                    if (string.IsNullOrWhiteSpace(_api_key))                  
-                        _api_key = "sk-149b79268cc54a42ae26ef92fd567453";
-
+                    if (string.IsNullOrWhiteSpace(_api_key))
+                    {
+                        SystemPara para = WeiSha.Core.Business.Do<Song.ServiceInterfaces.ISystemPara>().GetSingle("LLM_aliyun_APIKey");
+                        if (para != null) _api_key = para.Sys_Value;
+                        if (string.IsNullOrWhiteSpace(_api_key))
+                            _api_key = WeiSha.Core.App.Get["LLM_aliyun_APIKey"].String;
+                    }
                     return _api_key;
                 }
             }
@@ -198,6 +204,8 @@ namespace Song.APIHub.LLM
         /// <returns></returns>
         private static string _sendPostRequest(string url, string jsonContent, string apiKey)
         {
+            if (string.IsNullOrWhiteSpace(apiKey)) throw new Exception("API密钥不能为空");
+
             HttpClient httpClient = new HttpClient();            
             using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
             {
@@ -218,7 +226,7 @@ namespace Song.APIHub.LLM
                 }
                 else
                 {
-                    return $"请求失败: {response.StatusCode}";
+                    throw new Exception(response.StatusCode.ToString());                   
                 }
             }
         }

@@ -93,7 +93,7 @@ $ready(function () {
             'account': {
                 handler: function (nv, ov) {
                     if (nv && nv.Ac_ID != null) {
-                        var th = this;                      
+                        var th = this;
                         this.loadRecords(function (records) {
                             if (records.length > 0 && !th.isnewTopic)
                                 th.record = $api.clone(records[0]);
@@ -153,11 +153,10 @@ $ready(function () {
                         th.saveRecords(th.record);
                     } else {
                         console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
+                        throw req.data.message;
                     }
                 }).catch(err => {
-                    console.error(err);
-                    alert('请求失败');
+                    alert('请求失败；详情：' + err);
                 }).finally(() => th.loading = false);
 
             },
@@ -211,8 +210,8 @@ $ready(function () {
                     title: '删除记录',
                     message: '您是否确定删除当前沟通记录？',
                 }).then(() => {
-                   th.delRecord(id);
-                }).catch(() => { }); 
+                    th.delRecord(id);
+                }).catch(() => { });
             },
             //删除对话记录
             delRecord: function (id) {
@@ -255,7 +254,7 @@ $ready(function () {
                         text = text.replace(/\\times/g, "&times;");
                         text = text.replace(/\\div/g, "&divide;");
                         text = text.replace(/\\approx/g, "&asymp;");
-                        text = text.replace(/\\text{([^}]*)}/g, "$1");                       
+                        text = text.replace(/\\text{([^}]*)}/g, "$1");
                         return text;
                     }
                 },
