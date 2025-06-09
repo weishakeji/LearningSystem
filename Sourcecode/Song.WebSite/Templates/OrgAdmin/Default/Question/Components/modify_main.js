@@ -209,7 +209,7 @@ Vue.component('modify_main', {
         aiformat: function (text) {
             if (text == null || text == "") return "";
             text = typeof marked === 'undefined' ? text : marked.parse(text);
-            text = text.replace(/\n/g, '<br/>');
+            //text = text.replace(/\n/g, '<br/>');
             text = text.replace(/\\times/g, "&times;");
             text = text.replace(/\\div/g, "&divide;");
             text = text.replace(/\\approx/g, "&asymp;");

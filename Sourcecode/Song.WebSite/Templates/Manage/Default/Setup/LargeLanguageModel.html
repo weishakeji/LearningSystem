@@ -15,9 +15,9 @@
                 <div slot="header" class="clearfix">
                     <icon>&#xe820</icon>大语言模型的设置
                 </div>
-                <el-form ref="entity" :model="apikey" :rules="rules" label-width="100px" size="small">
+                <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
                     <el-form-item label="API Key" prop="apikey">
-                        <el-input v-model.trim="apikey" style="width: 400px" clearable></el-input>
+                        <el-input v-model.trim="entity.apikey" style="width: 400px" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="">
                         <help multi>

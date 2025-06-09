@@ -4,10 +4,13 @@ $ready(function () {
         el: '#vapp',
         data: {
             //要操作的对象
-            apikey: '',
+            entity: {
+                apikey: '', 
+            },
+
             rules: {
                 'apikey': [
-                    { required: false, message: '请输入阿里云百炼平台的AppKey', trigger: 'blur' }
+                    { min: 3, message: '长度在 3 到 5 个字符', trigger: 'blur' }
                 ]
             },
             error: '',       //错误提示
@@ -34,7 +37,7 @@ $ready(function () {
                         $api.post('LLM/GetApikey'),
                         $api.get('Organization/ForID', { 'id': th.admin.Org_ID })
                     ).then(([apikey, org]) => {
-                        th.apikey = apikey.data.result;
+                        th.entity.apikey = apikey.data.result;
                         th.org = org.data.result;
                     }).catch(err => alert(err))
                         .finally(() => th.loading = false);
@@ -55,7 +58,7 @@ $ready(function () {
                 this.$refs['entity'].validate(function (valid) {
                     if (valid) {
                         th.loading = true;
-                        $api.post("LLM/SetAppkey", { 'apikey': th.apikey }).then(function (req) {
+                        $api.post("LLM/SetAppkey", { 'apikey': th.entity.apikey }).then(function (req) {
                             if (req.data.success) {
                                 //th.apikey = req.data.result;
                                 th.$message({ message: '操作成功', type: 'success' });
