@@ -52,16 +52,20 @@
                     </template>
                 </div>
                 <!--AI消息-->
-                <template v-if="item.role=='system'">
+                <template v-if="item.role=='system' || item.role=='error'">
                     <div class="ai_msg">
                         <div class="ai_msg_icon"></div>
                         <div class="ai_msg_area">
-                            <div class="ai_btn">
+                            <div class="ai_btn" v-if="item.role!='error'">
                                 <button class="ai_btn_copy" @click="copy(item.content)">复制</button>
                                 <button class="ai_btn_fresh" @click="fresh(index)">重新生成</button>
                                 <button class="ai_btn_fresh" @click="insert(item.content)">插入到编辑器</button>
                             </div>
-                            <div class="ai_msg_content" v-html="item.content"></div>
+                            <div class="ai_msg_content error" v-if="item.role=='error'">
+                                <div>错误信息：</div>
+                                <div class="error_content" v-html="item.content"></div>
+                            </div>
+                            <div class="ai_msg_content" v-else v-html="item.content"></div>
                         </div>
                     </div>
                 </template>

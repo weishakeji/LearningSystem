@@ -21,34 +21,32 @@
                 }
             }*/
         },
-        updated: function () {
-
-        },
-        created: function () {
-
-        },
-        computed: {
-
-        },
-        watch: {
-        },
+        updated: function () { },
+        created: function () { },
+        computed: {},
+        watch: {},
         methods: {
             //获取ai的回复
             getaillm: function (messages) {
                 var th = this;
                 th.loading = true;
-                $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': messages }).then(req => {
+                let arr = [];
+                for (var i = 0; i < messages.length; i++) {
+                    if (messages[i].role != 'error') arr.push(messages[i]);
+                }
+                $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': arr }).then(req => {
                     if (req.data.success) {
                         var result = th.formatText(req.data.result);
                         th.messages.push({ role: 'system', content: result });
                         //$api.storage('messages', th.messages);
                     } else {
                         console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
+                        throw req.data.message;
                     }
                 }).catch(err => {
                     console.error(err);
-                    alert('请求失败');
+                    //alert('请求失败');
+                    th.messages.push({ role: 'error', content: '请求失败；详情：' + err });
                 }).finally(() => th.loading = false);
             },
             // 发送

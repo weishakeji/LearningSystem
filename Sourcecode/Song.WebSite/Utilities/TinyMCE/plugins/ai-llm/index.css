@@ -148,7 +148,13 @@ html, body {
 	padding: 0px 50px 0px 10px;
 	font-size: 18px;
 }
-
+.ai_msg .ai_msg_content.error{
+	background-color: rgb(252, 217, 217);
+	border-radius: 10px;
+	padding: 10px;
+	color: brown;
+	margin: 10px 0px;
+}
 .ai_msg_content>*:first-child {
 	margin-top: 0px !important;
 }
