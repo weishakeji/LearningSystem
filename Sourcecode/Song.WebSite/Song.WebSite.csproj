@@ -299,7 +299,6 @@
     <Content Include="Help\WebdeskUI\Index.html" />
     <Content Include="Help\WebdeskUI\Scripts\Index.js" />
     <Content Include="Help\WebdeskUI\Styles\Index.css" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="SOURCE_LICENSE.txt" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
