@@ -52,7 +52,7 @@
 
 
 ### 手机端
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.jpg)
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-mobi.png)
 ### 课程学习（手机端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/手机端课程页.png)
