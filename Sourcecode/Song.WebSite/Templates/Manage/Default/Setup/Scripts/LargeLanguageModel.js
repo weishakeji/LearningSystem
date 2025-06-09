@@ -4,10 +4,10 @@ $ready(function () {
         el: '#vapp',
         data: {
             //要操作的对象
-            entity: { 'Sys_Key': 'LLM_aliyun_APIKey', 'Sys_Value': '', 'Sys_Id': 0 },
+            apikey: '',
             rules: {
-                'Sys_Value': [
-                    { required: true, message: '请输入阿里云百炼平台的AppKey', trigger: 'blur' }
+                'apikey': [
+                    { required: false, message: '请输入阿里云百炼平台的AppKey', trigger: 'blur' }
                 ]
             },
             error: '',       //错误提示
@@ -31,11 +31,10 @@ $ready(function () {
                     if (!th.islogin) return;
                     th.loading = true;
                     $api.bat(
-                        $api.get('Platform/ParamForKey', { 'key': th.entity.Sys_Key }),
+                        $api.post('LLM/GetApikey'),
                         $api.get('Organization/ForID', { 'id': th.admin.Org_ID })
-                    ).then(([param, org]) => {
-                        if (param.data.result)
-                            th.entity = param.data.result;
+                    ).then(([apikey, org]) => {
+                        th.apikey = apikey.data.result;
                         th.org = org.data.result;
                     }).catch(err => alert(err))
                         .finally(() => th.loading = false);
@@ -56,9 +55,9 @@ $ready(function () {
                 this.$refs['entity'].validate(function (valid) {
                     if (valid) {
                         th.loading = true;
-                        $api.post("Platform/ParamModify", { 'entity': th.entity }).then(function (req) {
+                        $api.post("LLM/SetAppkey", { 'apikey': th.apikey }).then(function (req) {
                             if (req.data.success) {
-                                th.entity = req.data.result;
+                                //th.apikey = req.data.result;
                                 th.$message({ message: '操作成功', type: 'success' });
                             } else {
                                 console.error(req.data.exception);
