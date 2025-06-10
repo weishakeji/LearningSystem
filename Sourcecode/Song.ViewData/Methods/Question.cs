@@ -1198,12 +1198,20 @@ namespace Song.ViewData.Methods
                 //解析生成选项
                 List<QuesAnswer> answers = new List<QuesAnswer>();
                 //答案
-                string[] answer = null;
+                List<string> answer = new List<string>();
                 if (joqus["Qus_Answer"] is JArray)
                 {
-                    answer = joqus["Qus_Answer"].ToArray().Select(x => x.ToString()).ToArray();
+                    answer = joqus["Qus_Answer"].ToArray().Select(x => x.ToString()).ToList<string>();
                 }
-                else answer = joqus["Qus_Answer"].ToString().Split(',');
+                else
+                {
+                    string ans = joqus["Qus_Answer"].ToString();
+                    for(int i = 0; i < ans.Length; i++)
+                    {
+                        char c = ans[i];
+                        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))answer.Add(c.ToString());
+                    }                 
+                }
                 //
                 JArray items = joqus["Items"] as JArray;
                 for (int i = 0; i < items.Count; i++)
@@ -1217,7 +1225,7 @@ namespace Song.ViewData.Methods
                     qa.Qus_UID = WeiSha.Core.Request.UniqueID();
                     qa.Ans_Context = context;
                     //
-                    if (Array.IndexOf(answer, context) > -1 || Array.IndexOf(answer, serial.ToString()) > -1)
+                    if (Array.IndexOf(answer.ToArray(), context) > -1 || Array.IndexOf(answer.ToArray(), serial.ToString()) > -1)
                         qa.Ans_IsCorrect = true;
                     //
                     answers.Add(qa);

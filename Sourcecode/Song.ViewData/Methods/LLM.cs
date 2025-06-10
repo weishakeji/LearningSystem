@@ -50,7 +50,8 @@ namespace Song.ViewData.Methods
             Business.Do<ISystemPara>().Save(_key, apikey, true);
             Business.Do<ISystemPara>().Save(_model, model, true);
             //设置
-            Song.APIHub.LLM.Gatway.SetApiModel(apikey);
+            Song.APIHub.LLM.Gatway.SetApiKey(apikey);
+            Song.APIHub.LLM.Gatway.SetApiModel(model);
             return true;
         }
         /// <summary>

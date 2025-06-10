@@ -158,7 +158,7 @@ namespace Song.APIHub.LLM
                     {"content", message}
                 });
             JObject jo = new JObject();
-            jo.Add("model", _api_model);
+            jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
             return await _sendPostRequestAsync(_api_url, jo.ToString(), APIKey);
@@ -228,7 +228,8 @@ namespace Song.APIHub.LLM
                     {"content", message}
                 });
             JObject jo = new JObject();
-            jo.Add("model", _api_model);
+            if (string.IsNullOrWhiteSpace(ModelCode)) throw new Exception("请设置大语言模型");
+            jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
             string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
@@ -249,7 +250,8 @@ namespace Song.APIHub.LLM
         public static string Communion(string character, JArray messages)
         {
             JObject jo = new JObject();
-            jo.Add("model", _api_model);
+            if(string.IsNullOrWhiteSpace(ModelCode)) throw new Exception("请设置大语言模型");
+            jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
             string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
