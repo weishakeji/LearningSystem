@@ -1,5 +1,8 @@
 {
+   
+    "title": "阿里云百炼模型",
     "default": "deepseek-v3",
+    "apiurl": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
     "items": [
         {
             "model": "deepseek-r1",
