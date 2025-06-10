@@ -22,24 +22,35 @@ namespace Song.ViewData.Methods
     public class LLM : ViewMethod, IViewAPI
     {
         /// <summary>
-        /// 模型引擎的名称
+        /// 大模型引擎的名称
         /// </summary>
-        public string Model() => Song.APIHub.LLM.Gatway.ApiModel;
+        public string ModelName() => Song.APIHub.LLM.Gatway.ModelName;
+        /// <summary>
+        /// 大模型引擎的代码
+        /// </summary>
+        /// <returns></returns>
+        public string ModelCode() => Song.APIHub.LLM.Gatway.ModelCode;
+        /// <summary>
+        /// 阿里云的配置信息
+        /// </summary>
+        /// <returns></returns>
+        public JObject AliyunConfiguration() => Song.APIHub.LLM.Gatway.AliyunConfiguration;
 
         #region 设置相关参数
         //用于本地存储appkey的键值
         private static string _key = "LLM_aliyun_APIKey";
-
+        private static string _model = "LLM_aliyun_model";
         /// <summary>
-        /// 设置appkey
+        /// 设置模型的APIKey和模型名称
         /// </summary>
         [HttpPost, Admin]
-        public bool SetAppkey(string apikey)
+        public bool SetModel(string apikey,string model)
         {
             //保存
             Business.Do<ISystemPara>().Save(_key, apikey, true);
+            Business.Do<ISystemPara>().Save(_model, model, true);
             //设置
-            Song.APIHub.LLM.Gatway.SetApiKey(apikey);
+            Song.APIHub.LLM.Gatway.SetApiModel(apikey);
             return true;
         }
         /// <summary>

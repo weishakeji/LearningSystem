@@ -18,8 +18,17 @@
 .box-card:last-child .el-card__body {
     flex: 1;
 }
-
-#mapbox, #mapbox>div {
-    width: 100%;
-    height: 100%;
+.el-card__header {
+   display: flex;
+   justify-content: space-between; 
+}
+/*模型选择框*/
+.select-model .el-select-dropdown__item{
+    height: auto;
+}
+.select-model .el-select-dropdown__item .name{
+    font-size: 18px;
+}
+.select-model .el-select-dropdown__item .descr{
+    color: #999;
 }

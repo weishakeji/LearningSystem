@@ -114,7 +114,7 @@ $ready(function () {
             //获取大语言模型名称
             getModelname: function () {
                 var th = this;
-                $api.get('LLM/Model').then(req => {
+                $api.get('LLM/ModelName').then(req => {
                     if (req.data.success) {
                         let result = req.data.result;
                         th.model = result.replace(/^./, match => match.toUpperCase())

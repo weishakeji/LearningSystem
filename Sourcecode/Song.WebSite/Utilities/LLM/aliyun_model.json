@@ -1,0 +1,30 @@
+{
+    "default": "deepseek-v3",
+    "items": [
+        {
+            "model": "deepseek-r1",
+            "name": "DeepSeek-R1",
+            "descr": "性能较高，能力较强，输入：¥0.004 / 千Token，输出：¥0.016 / 千Token"
+        },
+        {
+            "model": "deepseek-v3",
+            "name": "DeepSeek V3",
+            "descr": "中文能力上表现优秀，输入：¥0.002 / 千Token，输出：¥0.008 / 千Token"
+        },
+        {
+            "model": "qwen-turbo",
+            "name": "通义千问-Turbo",
+            "descr": "高性价比，输入：¥0.0003 / 千Token，输出：¥0.0006 / 千Token"
+        },
+        {
+            "model": "qwen-plus",
+            "name": "通义千问-Plus",
+            "descr": "性能出众，输入：¥0.0008 / 千Token，输出：¥0.002 / 千Token"
+        },
+        {
+            "model": "qwen-turbo-latest",
+            "name": "通义千问3",
+            "descr": "通义千问系列最快，输入：¥0.0003 / 千Token，输出：思考模式0.006元，非思考模式 0.0006元"
+        }
+    ]
+}

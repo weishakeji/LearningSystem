@@ -5,7 +5,8 @@ $ready(function () {
         data: {
             //要操作的对象
             entity: {
-                apikey: '', 
+                'apikey': '',   //apikey
+                'model': ''     //大模型名称
             },
 
             rules: {
@@ -16,8 +17,8 @@ $ready(function () {
             error: '',       //错误提示
             //当前登录的管理员
             admin: null,
-            //当前机构
-            org: {},
+            //配置项
+            cfg: {},
             loading: false,
             loading_init: false
         },
@@ -34,11 +35,13 @@ $ready(function () {
                     if (!th.islogin) return;
                     th.loading = true;
                     $api.bat(
-                        $api.post('LLM/GetApikey'),
-                        $api.get('Organization/ForID', { 'id': th.admin.Org_ID })
-                    ).then(([apikey, org]) => {
+                        $api.post('LLM/GetApikey'),     //获取apikey
+                        $api.post('LLM/ModelCode'),     //模型的代码
+                        $api.get('LLM/AliyunConfiguration') //配置项，即所有模型
+                    ).then(([apikey,mcode, cfg]) => {
                         th.entity.apikey = apikey.data.result;
-                        th.org = org.data.result;
+                        th.entity.model = mcode.data.result;
+                        th.cfg = cfg.data.result;
                     }).catch(err => alert(err))
                         .finally(() => th.loading = false);
                 } else {
@@ -58,7 +61,7 @@ $ready(function () {
                 this.$refs['entity'].validate(function (valid) {
                     if (valid) {
                         th.loading = true;
-                        $api.post("LLM/SetAppkey", { 'apikey': th.entity.apikey }).then(function (req) {
+                        $api.post("LLM/SetModel", th.entity).then(function (req) {
                             if (req.data.success) {
                                 //th.apikey = req.data.result;
                                 th.$message({ message: '操作成功', type: 'success' });

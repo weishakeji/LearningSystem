@@ -4,7 +4,7 @@
 <head resource>
     <include file="../inc/meta.inc" />
     <title>大语言模型的设置</title>
-   
+
 </head>
 
 <body>
@@ -12,27 +12,41 @@
         <alert margin large v-if="!islogin">未登录，或登录已经超时</alert>
         <template v-else>
             <el-card class="box-card" shadow="hover">
-                <div slot="header" class="clearfix">
-                    <icon>&#xe820</icon>大语言模型的设置
-                </div>
+                <template slot="header">
+                    <span>
+                        <icon large>&#xe662</icon>阿里云百炼 - 大语言模型
+                    </span>
+                    <span>
+                        <icon>&#xa03d</icon><a href="https://bailian.console.aliyun.com" target="_blank" link>官方网站</a>
+                    </span>
+                </template>
                 <el-form ref="entity" :model="entity" :rules="rules" label-width="100px" size="small">
                     <el-form-item label="API Key" prop="apikey">
                         <el-input v-model.trim="entity.apikey" style="width: 400px" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <help multi>
-                            1、大语言模型的服务采用了阿里云百炼平台，需自主申请应用；
-                            <br />2、申请地址：<a href="https://bailian.console.aliyun.com" link
-                                target="_blank">https://bailian.console.aliyun.com</a>
-                            <br />3、操作步骤：注册阿里云百炼平台账号->选择“应用”菜单项->左下角“API-Key”菜单项
+                        <help multi>注册阿里云百炼平台账号->选择“应用”菜单项->左下角“API-Key”菜单项
                         </help>
+                    </el-form-item>
+                    <el-form-item label="模型" prop="model">
+                        <el-select v-model="entity.model" popper-class="select-model" filterable
+                            placeholder="-- 模型名称 --" clearable :multiple-limit="1">
+                            <el-option v-for="(item,i) in cfg.items" :key="item.model" :label="item.name"
+                                :value="item.model">
+                                <div class="name">{{i+1}} . {{item.name}}</div>
+                                <div class="descr">{{item.descr}}</div>
+                            </el-option>
+                        </el-select>
+
+                        <el-input v-model.trim="entity.model" placeholder="手工填写模型名称" style="width: 150px" clearable>
+                        </el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" define="enter" v-on:click="btnEnter" :loading="loading">
                             确 定</el-button>
                     </el-form-item>
                 </el-form>
-            </el-card>          
+            </el-card>
         </template>
     </div>
 </body>

@@ -23,6 +23,7 @@ namespace Song.APIHub.LLM
         //static readonly string _api_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
         static readonly string _api_url = WeiSha.Core.App.Get["LLM_aliyun_url"].String;
 
+        #region API key
         private static string _api_key = "";
         private static readonly object _lock = new object();
         /// <summary>
@@ -46,17 +47,79 @@ namespace Song.APIHub.LLM
                 }
             }
         }
+        #endregion
 
-        private static string _api_model = "deepseek-v3";
+        //模板的根路径
+        private static string _llm_path = AppDomain.CurrentDomain.BaseDirectory + "Utilities\\LLM";
+        /// <summary>
+        /// LLM模型的配置项
+        /// </summary>
+        public static JObject AliyunConfiguration
+        {
+            get
+            {
+                string filepath = Path.Combine(_llm_path, "aliyun_model.json");
+                if (!File.Exists(filepath)) return null;
+                string json = File.ReadAllText(filepath);
+                return JObject.Parse(json);
+            }
+        }
+
+        #region 模型名称
+        private static string _api_model = "";
         /// <summary>
         /// 设置大语言模型的名称。模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
         /// </summary>
         /// <param name="model"></param>
         public static void SetApiModel(string model) => _api_model = model;
         /// <summary>
+        /// 获取大语言模型的代码
+        /// </summary>
+        public static string ModelCode
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (string.IsNullOrWhiteSpace(_api_model))
+                    {
+                        SystemPara para = WeiSha.Core.Business.Do<Song.ServiceInterfaces.ISystemPara>().GetSingle("LLM_aliyun_model");
+                        if (para != null) _api_model = para.Sys_Value;
+                        if (string.IsNullOrWhiteSpace(_api_model))
+                        {
+                            if (AliyunConfiguration != null)
+                            {
+                                _api_model = AliyunConfiguration["default"].ToString();
+                            }
+                        }                          
+                    }
+                    return _api_model;
+                }
+            }
+        }
+        /// <summary>
         /// 获取大语言模型的名称
         /// </summary>
-        public static string ApiModel => _api_model;
+        public static string ModelName
+        {
+            get
+            {
+                string modelCode = ModelCode;
+                string modelName = "";
+                if (AliyunConfiguration != null)
+                {
+                    JArray jarr = (JArray)AliyunConfiguration["items"];
+                    foreach (JObject obj in jarr)
+                    {
+                        string model = (string)obj["model"];
+                        if (model == modelCode) return (string)obj["name"];                       
+                    }
+                }
+                if (string.IsNullOrWhiteSpace(modelName)) return modelCode;
+                return  modelName;
+            }
+        }
+        #endregion
 
         #region 异步方法
         private static async Task<string> Exchange(string jsonContent)
@@ -70,7 +133,7 @@ namespace Song.APIHub.LLM
         /// <param name="message"></param>
         /// <returns></returns>
         public static async Task<string> ConsultAsync(string message)
-        {           
+        {
             return await ConsultAsync(null, message);
         }
         /// <summary>
@@ -83,7 +146,7 @@ namespace Song.APIHub.LLM
         {
             if (string.IsNullOrWhiteSpace(character))
                 character = "You are a helpful assistant.";
-            
+
             JArray messages = new JArray();
             messages.Add(new JObject(){
                     {"role", "system"},
@@ -168,7 +231,7 @@ namespace Song.APIHub.LLM
             jo.Add("model", _api_model);
             jo.Add("stream", false);
             jo.Add("messages", messages);
-            string result= _sendPostRequest(_api_url, jo.ToString(), APIKey);
+            string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
             //解析为JSON对象
             dynamic json = JsonConvert.DeserializeObject(result);
             string content = (string)json["choices"][0]["message"]["content"];
@@ -206,7 +269,7 @@ namespace Song.APIHub.LLM
         {
             if (string.IsNullOrWhiteSpace(apiKey)) throw new Exception("API密钥不能为空");
 
-            HttpClient httpClient = new HttpClient();            
+            HttpClient httpClient = new HttpClient();
             using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
             {
                 // 清除之前的请求头（因为HttpClient是静态的）
@@ -226,15 +289,13 @@ namespace Song.APIHub.LLM
                 }
                 else
                 {
-                    throw new Exception(response.StatusCode.ToString());                   
+                    throw new Exception(response.StatusCode.ToString());
                 }
             }
         }
         #endregion
 
-        #region 相关模板内容
-        //模板的根路径
-        private static string _template_path = AppDomain.CurrentDomain.BaseDirectory + "Utilities\\LLM";
+        #region 相关模板内容       
         /// <summary>
         /// AI角色的文本模板
         /// </summary>
@@ -246,7 +307,7 @@ namespace Song.APIHub.LLM
         /// </summary>
         /// <param name="path">模板所处的路径，相对于_template_path根路径</param>
         /// <returns></returns>
-        public static string TemplateMsg(string path) => TemplateText(path, "message.txt"); 
+        public static string TemplateMsg(string path) => TemplateText(path, "message.txt");
         /// <summary>
         /// 获取模板内容
         /// </summary>
@@ -257,7 +318,7 @@ namespace Song.APIHub.LLM
         {
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             path = path.Replace("/", "\\");
-            string filepath = Path.Combine(_template_path, path, file);
+            string filepath = Path.Combine(_llm_path, path, file);
             if (File.Exists(filepath)) return File.ReadAllText(filepath);
             return string.Empty;
         }
@@ -294,7 +355,7 @@ namespace Song.APIHub.LLM
                 object value = property.GetValue(entity);
                 replacements.Add(property.Name, value != null ? value.ToString() : string.Empty);
             }
-            return _tempalte_handle(text, replacements);           
+            return _tempalte_handle(text, replacements);
         }
         /// <summary>
         /// 模版处理
@@ -303,7 +364,7 @@ namespace Song.APIHub.LLM
         /// <param name="tag">标签</param>
         /// <param name="val">要替换的值</param>
         /// <returns></returns>
-        public static string TemplateHandle(string text, string tag,string val)
+        public static string TemplateHandle(string text, string tag, string val)
         {
             Dictionary<string, string> replacements = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             replacements.Add(tag, val);
