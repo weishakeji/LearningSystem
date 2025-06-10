@@ -1,0 +1,9 @@
+{
+    default: 'deepseek-v3',
+    items: [
+        {
+            model: 'deepseek-v3',
+            name: 'DeepSeek-v3'
+        }
+    ]
+}
