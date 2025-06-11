@@ -148,7 +148,7 @@ $ready(function () {
                 $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': th.record.Llr_Records }).then(req => {
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.record.Llr_Records.push({ role: 'system', content: result });
+                        th.record.Llr_Records.push({ role: 'assistant', content: result });
                         th.saveRecords(th.record);
                     } else {
                         console.error(req.data.exception);

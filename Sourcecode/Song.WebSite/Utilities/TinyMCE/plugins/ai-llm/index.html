@@ -52,7 +52,7 @@
                     </template>
                 </div>
                 <!--AI消息-->
-                <template v-if="item.role=='system' || item.role=='error'">
+                <template v-else>
                     <div class="ai_msg">
                         <div class="ai_msg_icon"></div>
                         <div class="ai_msg_area">

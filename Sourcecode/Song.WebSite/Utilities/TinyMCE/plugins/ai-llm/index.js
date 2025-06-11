@@ -37,7 +37,7 @@
                 $api.post('LLM/Communion', { 'character': 'You are a helpful assistant.', 'messages': arr }).then(req => {
                     if (req.data.success) {
                         var result = th.formatText(req.data.result);
-                        th.messages.push({ role: 'system', content: result });
+                        th.messages.push({ role: 'assistant', content: result });
                         //$api.storage('messages', th.messages);
                     } else {
                         console.error(req.data.exception);
