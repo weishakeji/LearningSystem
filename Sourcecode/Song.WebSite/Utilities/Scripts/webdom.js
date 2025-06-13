@@ -17,6 +17,7 @@
     };
     webdom.version = function () {
         var template = webdom('meta[build-number]');
+        if (template.length < 1) return null;
         return template.attr("build-number");
     };
     webdom.init = function (query, context) {
@@ -673,6 +674,19 @@
         var ua = window.navigator.userAgent.toLowerCase();
         return ua.match(/miniProgram/i) == 'miniprogram';
     };
+    //是否存处于本机
+    webdom.isLocalhost = function () {
+        // 检查是否在浏览器环境中
+        if (typeof window === 'undefined') return false;
+        return (
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1' ||
+            // IPv6的本地地址
+            window.location.hostname === '[::1]' ||
+            // 或者检查是否以.localhost结尾 (开发时常用)
+            window.location.hostname.endsWith('.localhost')
+        );
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -770,8 +784,8 @@
                 let cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
-                one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
-                if (!webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                if (!webdom.isLocalhost() && !webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                else if (webdom.version()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
                 cur_script.href = one;
                 if (tagName != null)
                     cur_script.setAttribute('tag', tagName);
@@ -806,8 +820,8 @@
 
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
-                one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
-                if (!webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                if (!webdom.isLocalhost() && !webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
+                else if (webdom.version()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
                 cur_script.src = one;
                 if (tagName != null)
                     cur_script.setAttribute('tag', tagName);
