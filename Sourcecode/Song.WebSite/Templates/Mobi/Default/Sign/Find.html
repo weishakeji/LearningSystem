@@ -21,7 +21,7 @@
                 <card-title>
                     <icon style="font-size: 23px;">&#xe687</icon>请输录您的账号
                 </card-title>
-                <card-context>
+                <card-content>
                     <van-field v-model="acc.input" label="账号" required :error='acc.error' :error-message="acc.message"
                         placeholder="请输入您的账号">
                     </van-field>
@@ -33,14 +33,14 @@
                             </van-button>
                         </template>
                     </van-cell>
-                </card-context>
+                </card-content>
             </card>
             <!--安全问题-->
             <card v-if="step==2">
                 <card-title>
                     <icon>&#xa043</icon>安全问题
                 </card-title>
-                <card-context>
+                <card-content>
                     <van-cell title="账号" :value="account.Ac_AccName"></van-cell>
                     <template v-if="account.Ac_Qus!=''">
                         <van-cell title="安全问题" :value="account.Ac_Qus"></van-cell>
@@ -59,7 +59,7 @@
                     <template v-else>
                         <van-cell title="提示" label="没有设置安全问题，无法找回密码，请联系管理员！"></van-cell>
                     </template>
-                </card-context>
+                </card-content>
             </card>
             <!--修改密码-->
             <card v-if="step==3">
@@ -72,7 +72,7 @@
                     </template>
                     重新设置密码
                 </card-title>
-                <card-context>
+                <card-content>
                     <van-cell title="账号" :value="account.Ac_AccName"></van-cell>
                     <van-field v-model="pw.input1" label="密码" required type="password" placeholder=""> </van-field>
 
@@ -89,7 +89,7 @@
                     </van-cell>
 
 
-                </card-context>
+                </card-content>
             </card>
         </context>
     </div>

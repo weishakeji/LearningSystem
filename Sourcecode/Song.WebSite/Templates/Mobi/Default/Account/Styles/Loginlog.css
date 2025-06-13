@@ -9,7 +9,7 @@ card{
    display: flex;
    flex-direction: column;
 }
-card-context{
+card-content{
     flex: 1;
     overflow-y: auto;
    

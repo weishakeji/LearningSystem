@@ -23,7 +23,7 @@ Vue.component('articles', {
             .finally(() => th.loading = false);
     },
     methods: {},
-    template: `<card-context> 
+    template: `<card-content> 
         <div v-if="loading"><loading>加载中...</loading></div>    
         <div class="item" v-for="(art,i) in datas">  
             <a :href="'/web/news/article.'+art.Art_ID" target="_blank">
@@ -32,6 +32,6 @@ Vue.component('articles', {
             <span>[ {{art.Art_PushTime|date("MM-dd")}} ]</span>
         </div>
         <div  v-if="datas.length==0 && !loading" class="noarticle">没有内容</div>
-    </card-context>`
+    </card-content>`
 });
 

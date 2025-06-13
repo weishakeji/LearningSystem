@@ -270,11 +270,11 @@ $ready(function () {
                             关联课程
                             <span>（{{courses.length}}）</span>
                         </card-title>
-                        <card-context>
+                        <card-content>
                             <div v-for="(c,i) in courses">
                                 {{i+1}}、{{c.Cou_Name}}
                             </div>
-                        </card-context>
+                        </card-content>
                     </card>  
                 </template>              
             </div>`

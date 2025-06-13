@@ -124,13 +124,13 @@ context.columns>div.column .col_name a[icon]:first-child::before {
 context.columns>div.column .col_name a[icon]:last-child{
     font-size: 14px;
 }
-card-context {
+card-content {
     display: block;
     min-height: 180px;
     padding: 0px !important;
 }
 
-card-context .item a {
+card-content .item a {
     display: block;
     font-size: 18px;
     line-height: 35px;

@@ -34,30 +34,30 @@
         </div>
       </div>
       <card v-else>
-        <card-context>
+        <card-content>
           学员不存在
-        </card-context>
+        </card-content>
       </card>
       <card v-if="isexist">
-        <card-context>
+        <card-content>
           <div title="学号" v-if="account.Ac_CodeNumber!=''" v-html="account.Ac_CodeNumber"></div>
           <div title="性别" v-html="account.Ac_Sex== 0 ? '' : (account.Ac_Sex== 1 ? '男' : '女')"> </div>
           <div title="年龄" v-html="account.Ac_Age > 200 || account.Ac_Age<=0 ? '' : account.Ac_Age"> </div>
           <div title="身份证" v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></div>
-        </card-context>
+        </card-content>
       </card>
       <card v-if="isexist">
-        <card-context>
+        <card-content>
           <div title="学历" v-html="getedu(account.Ac_Education)"></div>
           <div title="专业" v-html="account.Ac_Major"> </div>
           <div title="院校" v-if="account.Ac_School!=''" v-html="account.Ac_School"> </div>
-        </card-context>
+        </card-content>
       </card>
       <card v-if="courses.length>0">
         <card-title>
           学习情况<span>（{{courses.length}} 门课程 ）</span>
         </card-title>
-        <card-context class="course_info">
+        <card-content class="course_info">
           <loading v-if="loading"></loading>
           <progress_value ref="progress" :stid="account.Ac_ID" :course="c" :config="config" v-for="(c,index) in courses"
             v-if="c && isexist">
@@ -74,7 +74,7 @@
 
             </template>
           </progress_value>
-        </card-context>
+        </card-content>
       </card>
       <div class="org_info">
         <div class="plate-name"> {{org.Org_Name}} </div>

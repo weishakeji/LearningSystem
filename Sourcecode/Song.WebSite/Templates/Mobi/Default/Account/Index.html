@@ -16,7 +16,7 @@
             <template v-if="islogin">
 
                 <card class="first" shadow="never">
-                    <card-context>
+                    <card-content>
                         <div class="first-row">
                             <div>
                                 <div class="money" @click="navigateTo('../Money/Details')">
@@ -35,19 +35,19 @@
                             </div>
                         </div>
 
-                    </card-context>
+                    </card-content>
                 </card>
                 <card shadow="never" v-for="(item,index) in items">
                     <card-title>
                         <icon v-html="'&#x'+item.icon">&x{{item.icon}}</icon>
                         <span>{{item.name}}</span>
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <div v-for="(m,idx) in item.items" @click="navigateTo(m.url)" :class="{'nolink':m.url==''}">
                             <icon v-html="'&#x'+m.icon">&x{{m.icon}}</icon>
                             {{m.name}}
                         </div>
-                    </card-context>
+                    </card-content>
                 </card>
                 <van-button type="default" @click="logout">退出登录</van-button>
             </template>

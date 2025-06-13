@@ -18,18 +18,18 @@
                     <card-title>
                         <icon>&#xa02e</icon> 个人签名
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <van-collapse v-model="activeNames">
                             <van-field v-model="account.Ac_Signature" type="textarea" placeholder="" @change="update">
                             </van-field>
                         </van-collapse>
-                    </card-context>
+                    </card-content>
                 </card>
                 <card shadow="never">
                     <card-title>
                         <icon>&#xe66a</icon> 基本信息
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <van-collapse v-model="activeNames">
                             <van-collapse-item name="1">
                                 <template #title>
@@ -129,7 +129,7 @@
                             </van-collapse-item>
                         </van-collapse>
 
-                    </card-context>
+                    </card-content>
                 </card>              
 
             </template>

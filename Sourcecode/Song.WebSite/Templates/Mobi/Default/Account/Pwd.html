@@ -18,7 +18,7 @@
                     <card-title>
                         <icon>&#xe613</icon> 密码修改
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <van-form @submit="changePw">
                             <van-field v-model="password.oldpw" name="原密码" type="password" label="原密码" placeholder="原密码"
                                 :rules="[{ required: true, message: '请填写原密码' }]"></van-field>
@@ -35,7 +35,7 @@
                                 </van-button>
                             </van-cell>
                         </van-form>
-                    </card-context>
+                    </card-content>
                 </card>
             </template>
         </div>

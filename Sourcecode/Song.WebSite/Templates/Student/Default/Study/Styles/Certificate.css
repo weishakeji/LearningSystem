@@ -56,7 +56,7 @@ context>div {
 	height: calc(100% - 60px);
 }
 
-.left card.course card-context {
+.left card.course card-content {
 	position: relative;
 	padding-bottom: 40px;
 	box-sizing: border-box;

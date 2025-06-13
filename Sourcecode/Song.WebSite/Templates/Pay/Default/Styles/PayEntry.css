@@ -13,7 +13,7 @@ loading{
 .btns{
     display: flex;
 }
-.account_error card-context a{
+.account_error card-content a{
 
     width: auto;
     background-color: #409EFF;

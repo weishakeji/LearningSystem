@@ -23,21 +23,21 @@
                 <card-title arrow>
                     <icon>&#xa01c</icon>接口数据
                 </card-title>
-                <card-context>
+                <card-content>
                     <p>当前系统采用RESTful风格的接口与服务端进行数据交换，在本地缓存接口数据可以减轻服务器运算压力，提升浏览速度。</p>
                     <p><icon>&#xe6a4</icon>
                         采用IndexedDb存储。</p>
-                </card-context>
+                </card-content>
             </card>
             <card>
                 <card-title>
                     <icon>&#xe6b0</icon>试题练习
                     <van-button type="danger" @click="clearQues"> <icon>&#xe800</icon> 清空</van-button>
                 </card-title>
-                <card-context>
+                <card-content>
                     <p>试题练习的本地记录，内容涉及练习进度、答题状态、相关统计数据。可以在试题练习时按章节删除记录，也可以在此处全部删除记录。</p>
                     <p><icon>&#xe6a4</icon>采用localStorage存储。</p>
-                </card-context>
+                </card-content>
             </card>
 
             <card>
@@ -46,10 +46,10 @@
 
                     <van-button type="danger" @click="clearState"> <icon>&#xe800</icon> 清空</van-button>
                 </card-title>
-                <card-context>
+                <card-content>
                     <p>登录状态、访问数据的记录。清理此数据将影响登录状态。</p>
                     <p><icon>&#xe6a4</icon>采用localStorage存储。</p>
-                </card-context>
+                </card-content>
             </card>
         </context>
         <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>

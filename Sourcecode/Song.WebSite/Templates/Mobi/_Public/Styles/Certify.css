@@ -74,7 +74,7 @@ card {
 	width: 100%;
 }
 
-card-context>div[title]::before {
+card-content>div[title]::before {
 	content: attr(title) '：';
 }
 

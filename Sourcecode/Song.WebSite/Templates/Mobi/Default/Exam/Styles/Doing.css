@@ -24,7 +24,7 @@ div[loading]{
 }
 
 /*未登录*/
-.nologin card-context{
+.nologin card-content{
 	display: flex;	
 }
 .nologin .acc_photo {

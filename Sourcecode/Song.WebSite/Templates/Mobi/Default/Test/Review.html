@@ -37,14 +37,14 @@
         <context>
             <card v-if="!loading">
                 <card-title>《{{paper.Tp_Name}}》</card-title>
-                <card-context>
+                <card-content>
                     <row> 成绩：<score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
                         <span class="tag">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
                     </row>
                     <row>
                         时间： {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
                     </row>
-                </card-context>
+                </card-content>
             </card>
             <template v-if="error==''">
                 <van-sticky>

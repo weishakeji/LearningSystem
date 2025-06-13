@@ -151,7 +151,7 @@ card-title a {
 	height: 20px;
 }
 
-card-context {
+card-content {
 	font-size: 16px;
 	padding-left: 30px;
 }
@@ -160,10 +160,10 @@ card-context {
 	line-height: 30px;
 }
 
-card-context>div>div.item:first-child {
+card-content>div>div.item:first-child {
 	margin-top: 10px;
 }
-card-context>div>div.item:not(:first-child) {
+card-content>div>div.item:not(:first-child) {
 	margin-left: 20px;
 }
 /*得分样式*/

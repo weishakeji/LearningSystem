@@ -50,7 +50,7 @@
                     <icon>&#xe685</icon> 学习卡
                     <icon class="help" @click="showhelp=true">&#xa026</icon>
                 </card-title>
-                <card-context>
+                <card-content>
                     <van-cell class="input_row">
                         <template #title>
                             <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
@@ -78,7 +78,7 @@
                         </van-button>
 
                     </van-cell>
-                </card-context>
+                </card-content>
             </card>
             <!-- 学习卡列表 -->
             <card class="list">
@@ -87,7 +87,7 @@
                     <span>（<b v-html="carddata.count"></b>张）</span>
                     <input type="text" id="search_code" v-model="search_code"></input>
                 </card-title>
-                <card-context>
+                <card-content>
                     <template v-if="mycards.length>0">
                         <van-swipe-cell v-for="(c,i) in mycards">
                             <van-cell>
@@ -129,7 +129,7 @@
                         </van-swipe-cell>
                     </template>
                     <van-cell v-else title="没有任何学习卡"></van-cell>
-                </card-context>
+                </card-content>
             </card>
         </context>
 

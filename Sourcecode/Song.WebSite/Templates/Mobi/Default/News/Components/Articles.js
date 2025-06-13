@@ -30,13 +30,13 @@ Vue.component('articles', {
             navigateTo('article.' + art.Art_ID);
         }
     },
-    template: `<card-context :notnull="datas.length>0"> 
+    template: `<card-content :notnull="datas.length>0"> 
         <div v-if="loading"><van-loading size="24px">加载中...</van-loading></div>
         <artrow  v-for="(art,i) in datas" :art="art" ></artrow>
         <div v-if="datas.length==0 && !loading" class="noarticle">
             <icon>&#xe839</icon>没有内容
         </div>
-    </card-context>`
+    </card-content>`
 });
 //新闻的标题行
 Vue.component('artrow', {

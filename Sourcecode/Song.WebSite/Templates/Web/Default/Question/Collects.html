@@ -17,10 +17,10 @@
     <loading bubble v-if="loading_init">正在初始化...</loading>
     <card v-else-if="!islogin" @click="window.location.href=commonaddr('signin')">
       <card-title icon="&#xa043">未登录</card-title>
-      <card-context>
+      <card-content>
         <alert>未登录或登录状态失效</alert>
         <p>点击此处登录</p>
-      </card-context>
+      </card-content>
     </card>
     <template v-else>
       <prompt_panel ref="prompt" remark="手式指引的提示面板"></prompt_panel>

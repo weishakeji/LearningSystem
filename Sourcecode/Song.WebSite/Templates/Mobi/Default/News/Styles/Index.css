@@ -25,7 +25,7 @@ card-title {
     padding: 5px 6px !important;
 }
 
-card:has(card-context[notnull]) card-title::after {
+card:has(card-content[notnull]) card-title::after {
     content: '\e670';
     position: absolute;
     top: 15px;

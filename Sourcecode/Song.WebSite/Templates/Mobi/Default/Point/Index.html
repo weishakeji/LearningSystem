@@ -53,7 +53,7 @@
                 <icon>&#xe88a</icon>积分兑换卡券
                 <van-tag type="success" @click='godetails'>查看积分详情</van-tag>
             </card-title>
-            <card-context>
+            <card-content>
                 <van-cell title="兑换比例" :value="param.PointConvert+' ： 1'"></van-cell>
                 <van-cell>
                     <template #label>
@@ -78,13 +78,13 @@
                         <icon>&#xe88a</icon>兑换成卡券
                     </van-button>
                 </van-cell>
-            </card-context>
+            </card-content>
         </card>
         <card class="help">
             <card-title>
                 <icon size='20'>&#xa026</icon>说明
             </card-title>
-            <card-context>
+            <card-content>
                 <div class="explain">
                     <dl>
                         <dt>1、如何赚取积分？</dt>
@@ -102,7 +102,7 @@
                         <dd>卡券与现金1:1等价，可用于购买课程。</dd>
                     </dl>
                 </div>
-            </card-context>
+            </card-content>
         </card>
         <aside_menu ref='aside_menu' :account="account" :config="config"></aside_menu>
         <footer_menu ref='footer_menu' :organ="org"></footer_menu>

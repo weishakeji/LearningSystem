@@ -17,7 +17,7 @@
                     <a class="btn btntest" @click="btnDoing">参加测试</a>
 
                 </card-title>
-                <card-context>
+                <card-content>
                     <div class="row">
                         题 量：{{paper.Tp_Count}} 道
                     </div>
@@ -34,7 +34,7 @@
                     <div class="row">
                         专 业：{{paper.Sbj_Name}}
                     </div>
-                </card-context>
+                </card-content>
             </card>
             <card>
                 <card-title>
@@ -42,7 +42,7 @@
 
                     <span class="btn btnCloseAll" @click="btnDeleteAll">清空成绩</span>
                 </card-title>
-                <card-context>
+                <card-content>
                     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
                         @load="onload">
                         <van-swipe-cell v-for="(item,i) in datas" @open="cell_swipe">
@@ -65,7 +65,7 @@
                             </template>
                         </van-swipe-cell>
                     </van-list>
-                </card-context>
+                </card-content>
             </card>
 
 

@@ -54,14 +54,14 @@
                                 <span icon="&#xe748" @click="window.history.go(-1);"></span>
                                 学员登录后才能考试！
                             </card-title>
-                            <card-context>
+                            <card-content>
                                 <div class="acc_photo nophoto"></div>
                                 <div class="accInfo null_icon">
                                     <div class="acc-name"> <a href="/web/sign/in">点击此处登录 </a>
                                     </div>
                                     <span class="acc-money"> ... </span>
                                 </div>
-                            </card-context>
+                            </card-content>
                         </card>
                     </template>
                     <template v-else-if="!examstate.exist">
@@ -70,16 +70,16 @@
                                 <span icon="&#xe748" @click="window.history.go(-1);"></span>
                                 当前考试不存在，或考试被禁！
                             </card-title>
-                            <card-context>
+                            <card-content>
                                 <div class="null_icon" icon="&#xe849">
                                     没有内容
                                 </div>
-                            </card-context>
+                            </card-content>
                         </card>
                     </template>
                     <template v-else-if="!loading.exam" remark="考试存在">
                         <card>
-                            <card-context>
+                            <card-content>
                                 <row>时间：
                                     <span v-if="exam.Exam_DateType==1">
                                         <!--准时开始-->
@@ -93,29 +93,29 @@
                                 </row>
                                 <row>专业：{{subject.Sbj_Name}} </row>
                                 <row>课程：{{paper.Cou_Name}}</row>
-                            </card-context>
+                            </card-content>
                         </card>
                         <template v-if="!examstate.allow">
                             <card>
                                 <card-title>
                                     <span icon="&#xe6bd"></span> 不需要参加此次考试
                                 </card-title>
-                                <card-context>
+                                <card-content>
                                     <div class="null_icon" icon="&#xe60e">
                                         您不在考试人员范围内！
                                     </div>
-                                </card-context>
+                                </card-content>
                             </card>
                         </template>
                         <template v-else-if="examstate.issubmit">
                             <card>
                                 <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                                 </card-title>
-                                <card-context>
+                                <card-content>
                                     <a class="null_icon" icon="&#xe654" :href="goreview()">
                                         点击此处查看成绩！
                                     </a>
-                                </card-context>
+                                </card-content>
                             </card>
                         </template>
                         <template v-else-if="examstate.isover">
@@ -123,11 +123,11 @@
                                 <card-title>
                                     <span icon="&#xe6bd"></span>考试时间已过
                                 </card-title>
-                                <card-context>
+                                <card-content>
                                     <div class="null_icon" icon="&#xe854">
                                         好像错过了什么！
                                     </div>
-                                </card-context>
+                                </card-content>
                             </card>
                         </template>
                         <template v-else-if="!examstate.isstart">
@@ -138,7 +138,7 @@
                                         {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
                                     </el-tag>
                                 </card-title>
-                                <card-context>
+                                <card-content>
                                     <div class="time_icon" icon="&#xa039">
                                         <el-tag type="primary">当前时间</el-tag> <br />
                                         <!--当前时间-->
@@ -146,7 +146,7 @@
                                         <br />
                                         <el-tag type="danger">距离开考</el-tag> <br />{{howtime}}
                                     </div>
-                                </card-context>
+                                </card-content>
                             </card>
                         </template>
                     </template>
@@ -219,7 +219,7 @@
             <card>
                 <card-title>《{{exam.Exam_Name}}》
                 </card-title>
-                <card-context>
+                <card-content>
                     <row>时间：
                         <span v-if="exam.Exam_DateType==1">
                             <!--准时开始-->
@@ -236,7 +236,7 @@
                     <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
                     <row>专业：{{subject.Sbj_Name}} </row>
                     <row>课程：{{paper.Cou_Name}}</row>
-                </card-context>
+                </card-content>
             </card>
         </el-dialog>
         <el-dialog :visible.sync="submitState.show" class="submitState" :close-on-click-modal="false"

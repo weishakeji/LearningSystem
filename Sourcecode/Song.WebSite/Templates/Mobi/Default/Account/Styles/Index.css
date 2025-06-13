@@ -13,14 +13,14 @@
     box-sizing: border-box;
 }
 
-card-context {
+card-content {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 /*第一排按钮*/
-card.first card-context {
+card.first card-content {
     display: block;
     flex-direction: row;
     flex-wrap: wrap;
@@ -71,7 +71,7 @@ icon[point]{
     margin: 0px 10px;
 }
 
-card-context>div {
+card-content>div {
     margin: 10px;
 }
 

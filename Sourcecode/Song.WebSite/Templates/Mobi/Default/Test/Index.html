@@ -17,7 +17,7 @@
 
                 <card v-for="(paper,index) in datas" @click="gopaper(paper)">
                     <card-title icon="&#xe731">{{index+1}}.{{paper.Tp_Name}}</card-title>
-                    <card-context>
+                    <card-content>
                         <div class="row">
                             题 量：{{paper.Tp_Count}} 道
                         </div>
@@ -27,7 +27,7 @@
                         <div class="row">
                             限 时：{{paper.Tp_Span}} 分钟
                         </div>
-                    </card-context>
+                    </card-content>
                 </card>
 
 

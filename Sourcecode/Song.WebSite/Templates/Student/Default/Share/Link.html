@@ -12,16 +12,16 @@
         <card class="link">
             <card-title icon="&#xe690">分享链接</card-title>
 
-            <card-context>
+            <card-content>
                 <a :href="shareurl()" target="_blank">{{shareurl()}}</a>
                 <el-tag type="info" @click="copytext(shareurl(),'链接')">复制</el-tag>
-            </card-context>
+            </card-content>
         </card>
         <card class="qrcode">
             <card-title icon="&#xa053">分享二维码</card-title>
-            <card-context>
+            <card-content>
                 <div id="qrcode"></div>
-            </card-context>
+            </card-content>
         </card>
     </div>
 </body>

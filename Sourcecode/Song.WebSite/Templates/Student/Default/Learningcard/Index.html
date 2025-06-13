@@ -162,11 +162,11 @@
                             关联课程
                             <span>（{{detail.courses ? detail.courses.length : 0}}）</span>
                         </card-title>
-                        <card-context>
+                        <card-content>
                             <a v-for="(c,i) in detail.courses" :href="'/web/course/detail.'+c.Cou_ID" target="_blank">
                                 {{i+1}}、{{c.Cou_Name}}
                             </a>
-                        </card-context>
+                        </card-content>
                     </card>
                 </div>
             </el-drawer>

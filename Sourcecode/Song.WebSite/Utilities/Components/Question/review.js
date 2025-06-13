@@ -246,7 +246,7 @@ Vue.component('question', {
         <card-title :index="calcIndex(index+1)" :num="qans.num" v-else-if="existques && ques.Qus_Title" v-html="ques.Qus_Title">           
         </card-title>
         <card-title :index="calcIndex(index+1)" :num="qans.num"  v-else><span class="null">(试题不存在)</span></card-title>
-        <card-context>
+        <card-content>
             <div class="ans_area type1" v-if="ques.Qus_Type==1">
                 <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
                     <i>{{toletter(i)}} .</i>            
@@ -293,7 +293,7 @@ Vue.component('question', {
                 </div>
             </div>
             <slot :ques="ques" :qans="qans"></slot>
-        </card-context>
+        </card-content>
        
         <div class="orgname noview" v-if="org">{{org.Org_Name}}</div>
       </card>`

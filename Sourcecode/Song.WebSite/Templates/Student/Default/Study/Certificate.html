@@ -40,7 +40,7 @@
                     </template>
                     <div class="courses" v-if="selects.length>0">
                         <card v-for="(item,index) in selects" class="course">
-                            <card-context>
+                            <card-content>
                                 <div class="info_row">
                                     <span v-html="index + 1" class="index"></span>
                                     <a target="_blank" class="cour_name" :href="'/web/course/detail.'+item.Cou_ID"
@@ -59,7 +59,7 @@
                                     </el-button>
 
                                 </div>
-                            </card-context>
+                            </card-content>
                         </card>
                     </div>
                     <div class="nocentext" v-else>

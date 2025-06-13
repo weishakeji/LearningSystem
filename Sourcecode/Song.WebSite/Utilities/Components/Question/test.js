@@ -187,7 +187,7 @@ Vue.component('question', {
         </info>
         <card  shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
             <card-title v-html="ques.Qus_Title"></card-title>          
-            <card-context>
+            <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">               
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                     :selected="ans.selected" @click="ques_doing(ans,ques)">
@@ -218,7 +218,7 @@ Vue.component('question', {
                         <input type="text" v-model.trim="ans.answer" @blur="ques_doing(null,ques)"></input>                
                     </div>                   
                 </div>    
-            </card-context>
+            </card-content>
         </card>
     </template>
 </dd>`

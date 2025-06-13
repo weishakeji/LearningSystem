@@ -26,9 +26,9 @@
                 <card-title>
                     <alert>没有考试</alert>
                 </card-title>
-                <card-context>
+                <card-content>
                     当前课程未设置结课考试
-                </card-context>
+                </card-content>
             </card>
 
             <template v-else>
@@ -37,7 +37,7 @@
                         <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加考试</a>
 
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <div class="row">
                             题 量：{{paper.Tp_Count}} 道
                         </div>
@@ -54,21 +54,21 @@
                         <div class="row" v-if="paper.Sbj_Name!=''">
                             专 业：{{paper.Sbj_Name}}
                         </div>
-                    </card-context>
+                    </card-content>
                 </card>
                 <card class="paper">
                     <card-title icon="&#xe731">结课条件</card-title>
-                    <card-context>
+                    <card-content>
                         <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase"
                             :paperid="tpid" :account="account"></final_condition>
-                    </card-context>
+                    </card-content>
                 </card>
 
                 <card>
                     <card-title>
                         <icon>&#xe6f1</icon>历史成绩
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
                             @load="onload">
                             <van-swipe-cell v-for="(item,i) in datas">
@@ -89,7 +89,7 @@
                                 </van-cell>
                             </van-swipe-cell>
                         </van-list>
-                    </card-context>
+                    </card-content>
                 </card>
             </template>
 

@@ -35,10 +35,10 @@
         <context>
             <card v-if="!loading">
                 <card-title>《{{exam.Exam_Name ? exam.Exam_Name : exam.Exam_Title}}》</card-title>
-                <card-context v-if="error!=''" remark="如果考试未结束">                   
+                <card-content v-if="error!=''" remark="如果考试未结束">                   
                     <alert> {{error}}</alert>
-                </card-context>
-                <card-context v-else>
+                </card-content>
+                <card-content v-else>
                     <div class="info"> 亲爱的
                         <b v-if="student.Ac_Name" v-html="student.Ac_Name"></b>
                         <b v-else> 匿名考生</b>，
@@ -49,7 +49,7 @@
                         <span v-if="paper" class="scoreinfo">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
                         <alert v-else>试卷不存在</alert>
                     </div>
-                </card-context>
+                </card-content>
             </card>
             <template v-if="error==''">               
 

@@ -29,7 +29,7 @@
             </div>
             <card class="browser">
                 <card-title icon="&#xa030">设备信息</card-title>
-                <card-context>
+                <card-content>
                     <div>
                         <span class="key">doman:</span>
                         <span class="val" v-html="window.location.host"></span>
@@ -38,12 +38,12 @@
                         <span class="key">{{k}}:</span>
                         <span class="val">{{v}}</span>
                     </div>
-                </card-context>
+                </card-content>
             </card>
 
             <card class="version">
                 <card-title icon="&#xa037">版本<span v-html="editon.Edition" class="editon"></span></card-title>
-                <card-context>
+                <card-content>
                     <div>
                         <span class="key">Published version:</span>
                         <span class="val" v-html="version.major+'.'+version.minor"></span>
@@ -60,7 +60,7 @@
                         <span class="key">Release date:</span>
                         <span class="val nowrap" v-html="version.release"></span>
                     </div>
-                </card-context>
+                </card-content>
             </card>
             <div class="copyright">
                 Copyright &copy; <span v-html="year"></span> <span v-html="copyright('powerby')"></span> All rights

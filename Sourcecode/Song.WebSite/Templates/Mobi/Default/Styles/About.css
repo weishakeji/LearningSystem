@@ -105,13 +105,13 @@ card-title span {
 	float: right;
 }
 
-card.version card-context>div span.key {
+card.version card-content>div span.key {
 	width: 160px;
 }
-card.version card-context>div span.val {
+card.version card-content>div span.val {
 	flex: 1;
 }
-card.version card-context>div {
+card.version card-content>div {
 	display: flex;
 }
 iframe {

@@ -109,7 +109,7 @@ card-title {
 	border-bottom: solid 1px rgba(0, 0, 0, .1);
 }
 
-card:has(card-context[notnull]) card-title::after {
+card:has(card-content[notnull]) card-title::after {
     content: '\e670';
     position: absolute;
     top: 15px;
@@ -131,7 +131,7 @@ card-title[line] {
 	border-bottom: solid 1px rgba(0, 0, 0, .1);
 }
 
-card-context {
+card-content {
 	display: block;
 	padding: 10px 15px 15px 15px;
 	line-height: 30px;

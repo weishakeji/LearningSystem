@@ -53,7 +53,7 @@
                         <icon>&#xe60f</icon> 充值卡
                         <icon class="help" @click="showhelp=true">&#xa026</icon>
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <van-cell class="input_row">
                             <template #title>
                                 <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
@@ -78,7 +78,7 @@
                             </van-button>
 
                         </van-cell>
-                    </card-context>
+                    </card-content>
                 </card>
                 <!-- 在线支付接口列表 -->
                 <card class="list" v-if="paypis.length>0">
@@ -96,14 +96,14 @@
                         </van-field>
 
                     </card-title>
-                    <card-context class="paypis">
+                    <card-content class="paypis">
                         <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
                             @click="setCurrentpay(item.Pai_ID)">
                             <img :src="'/Utilities/Images/Pay/'+item.Pai_Pattern+'.png'" />
                             <span>{{item.Pai_Name}}</span>
                         </van-cell>
                         <van-cell remark="勿删除此标签"></van-cell>
-                    </card-context>
+                    </card-content>
                 </card>
                 <div v-else class="nopis">
                     平台未设置支付接口，无法在线充值

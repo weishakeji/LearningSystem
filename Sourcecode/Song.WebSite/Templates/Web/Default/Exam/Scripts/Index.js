@@ -167,7 +167,7 @@ $ready(function () {
                 参加考试<icon>&#xe6c6</icon>
             </a>
         </card-title>
-        <card-context>
+        <card-content>
         <div class="item"> {{exam.Exam_Title}}</div>
           <div class="item">时间：
             <span v-if="exam.Exam_DateType==1">
@@ -184,7 +184,7 @@ $ready(function () {
           <div class="item">总分：{{exam.Exam_Total}}分（{{exam.Exam_PassScore}}分及格）</div>        
           <div class="item">专业：{{subject.Sbj_Name}}</div>
           <div class="item" v-if="paper">课程：{{paper.Cou_Name}}</div>        
-        </card-context>
+        </card-content>
       </card>`
     });
     //考试主题（用于所有考试）
@@ -242,10 +242,10 @@ $ready(function () {
         },
         template: `<card class="theme"  shadow="hover">
         <card-title>{{index+1}}.《{{theme.Exam_Title}}》 </card-title>
-        <card-context>
+        <card-content>
         <div class="item">参考人员：{{group}} </div>     
         <theme_item v-for="(e,index) in exams" :exam="e" :index="index" :account="account"></exam_data>
-        </card-context>
+        </card-content>
       </card>`
     });
     //考试主题中的详情（用于所有考试）
@@ -359,13 +359,13 @@ $ready(function () {
         <card-title style="cursor: pointer" @click="gourl">{{index+1}}.《{{exam.Exam_Name}}》
         <score :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分</score>
         </card-title>
-        <card-context>
+        <card-content>
             <div class="item"> {{exam.Exam_Title}}</div>          
             <div class="item">限时：{{exam.Exam_Span}}分钟 &nbsp; 题量：{{paper.Tp_Count}}道</div>
             <div class="item">交卷时间：{{result.Exr_SubmitTime|date("yyyy-MM-dd HH:mm:ss")}}</div>
             <div class="item">得分：{{result.Exr_ScoreFinal}} 分
             （满分{{exam.Exam_Total}}分，{{exam.Tp_PassScore}}分及格）</div>           
-        </card-context>
+        </card-content>
       </card>`
     });
 }, ["../Components/courses.js",

@@ -191,7 +191,7 @@ Vue.component('question', {
         </info>
         <card>   
             <card-title v-html="ques.Qus_Title"></card-title>
-            <card-context>
+            <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                     :selected="ans.selected" @click="type1_select(ans,ques.Qus_Items)">
@@ -237,7 +237,7 @@ Vue.component('question', {
                         <input type="text" v-model="ans.Ans_Context" @input="type5_input(ques)"></input>     
                     </div>
                 </div>    
-            </card-context>
+            </card-content>
         </card>
     </dd>`
 });

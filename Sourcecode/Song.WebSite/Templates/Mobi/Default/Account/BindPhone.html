@@ -18,7 +18,7 @@
                     <card-title>
                         <icon>&#xe66d</icon>手机号绑定
                     </card-title>
-                    <card-context v-if="isbind">
+                    <card-content v-if="isbind">
                         <van-cell>
                             <template #title>
                                 {{account.Ac_MobiTel1}}
@@ -40,7 +40,7 @@
                             </template>
 
                         </van-cell>
-                    </card-context>
+                    </card-content>
                     <template v-else-if="!available">
                         <van-cell>                           
                             <template #default>
@@ -50,7 +50,7 @@
                     </template>
 
                     <!-- 未绑定-->
-                    <card-context v-else class="phonebind">
+                    <card-content v-else class="phonebind">
                         <div prop="phone">
                             <span>手机号</span>
                             <input type="text" tabindex="1"  v-model.trim='form.phone' autocomplete="off" v-model.trim='form.phone'
@@ -80,7 +80,7 @@
                             </template>
 
                         </van-cell>
-                    </card-context>
+                    </card-content>
                 </card>
 
             </template>

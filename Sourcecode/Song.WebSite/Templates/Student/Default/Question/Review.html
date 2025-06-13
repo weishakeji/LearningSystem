@@ -16,7 +16,7 @@
             <template v-if="error!=''">
                 <card>
                     <card-title icon="&#xe6fe">错误！</card-title>
-                    <card-context>{{error}}</card-context>
+                    <card-content>{{error}}</card-content>
                 </card>
             </template>
             <template v-else>
@@ -61,7 +61,7 @@
                     </section>
                     <card v-else>
                         <card-title icon="&#xe839">没有试题！</card-title>
-                        <card-context>没有供学习的试题。</card-context>
+                        <card-content>没有供学习的试题。</card-content>
                     </card>
                 </template>
                 <!--答题卡 -->

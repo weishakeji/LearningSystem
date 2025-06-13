@@ -23,12 +23,12 @@
                         <span icon="&#xa00b"></span>
                         检索：“{{search}}”
                     </card-title>
-                    <card-context>
+                    <card-content>
                         <artrow v-for="(art,i) in articles" :art="art"></artrow>
                         <div v-if="articles.length==0 && !loading" class="noarticle">
                             <icon>&#xe839</icon>没有内容
                         </div>
-                    </card-context>
+                    </card-content>
                 </card>
             </van-list>
         </div>

@@ -16,10 +16,10 @@
                     <icon>&#xe6d0</icon>参数错误
                 </span>
             </card-title>
-            <card-context>
+            <card-content>
                 <p>用于支付的相关参数存在错误; </p>
                 <p>或支付时效已过。</p>
-            </card-context>
+            </card-content>
         </card>
         <loading v-else-if="loading">loading ...</loading>
         <card class="account_error" v-else-if="!account">
@@ -29,10 +29,10 @@
                     <icon>&#xa043</icon>未登录
                 </span>
             </card-title>
-            <card-context>
+            <card-content>
                 <p>账号未登录，或登录失效</p>
                 <p><a href="/web/sign/in">点击此处登录</a></p>
-            </card-context>
+            </card-content>
         </card>
         <card class="payif_error" v-else-if="!ifexist">
             <card-title>
@@ -41,10 +41,10 @@
                     <icon>&#xe6d0</icon>接口异常
                 </span>
             </card-title>
-            <card-context>
+            <card-content>
                 <p>支付接口的配置信息存在异常；</p>
                 <p>支付接口不存在，或是被禁用。</p>
-            </card-context>
+            </card-content>
         </card>
         <loading v-else-if="loading_income">生成资金流水...</loading>
         <!-- 转向支付平台-->
