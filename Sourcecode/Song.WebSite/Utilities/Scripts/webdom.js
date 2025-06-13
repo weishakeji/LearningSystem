@@ -922,10 +922,19 @@
     //加载自身相关的js或css  
     webdom.selfresource = function () {
         if (webdom('head[resource]').length > 0) {
-            var file = webdom('meta[view]').attr("view");
-            if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
-            webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
-            webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+            var view = webdom('meta[view]');
+            if (view != null && view.length > 0) {
+                var file = view.attr("view");
+                if (file.indexOf('/') > -1) file = file.substring(file.lastIndexOf('/'));
+                webdom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
+                webdom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+            } else {
+                let file = window.location.pathname;
+                if (file.indexOf('/') > -1) file = file.substring(file.lastIndexOf('/') + 1);
+                if (file.indexOf('.') > -1) file = file.substring(0, file.lastIndexOf('.'));
+                webdom.load.css(['styles/' + file + '.css']);
+                webdom.load.js(['Scripts/' + file + '.js']);
+            }
         }
     };
     //创建全局对象，方便调用
