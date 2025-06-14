@@ -11,16 +11,21 @@
       <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
       <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
       <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
+      <script type="text/javascript" src="/Utilities/jsontreejs/jsonTree.js"></script>
 
+      <link rel="stylesheet" href="/Utilities/styles/public.css">
       <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
-
+      <link rel="stylesheet" type="text/css" href="/Utilities/jsontreejs/jsonTree.css" />
+      <link rel="stylesheet" href="/Utilities/jsontreejs/themes/light/jsontree.js.light.theme.css">
 
       <link href="Styles/index.css" rel="stylesheet" type="text/css" />
+      <!--加载prism，高亮显示代码-->
+      <script type="text/javascript" src="/Utilities/prism/prism.js"></script>
+      <link rel="stylesheet" href="/Utilities/prism/prism.css">
       <meta charset="utf-8">
 </head>
 
 <body>
-
       <section id="apiinfo">
             <menu id="menu">
                   <div class="tit" @dblclick="getapi(false)"> API List
@@ -44,7 +49,7 @@
                   </dl>
             </menu>
 
-            <context id="context">
+            <content id="content">
                   <h1 v-on:click="helpshow=!helpshow">ViewData RESTful API 接口方法使用说明<span
                               :class="helpshow ? 'show' : 'hidden'"><i class="el-icon-caret-bottom"></i></span> </h1>
                   <div class="homepage">
@@ -59,8 +64,9 @@
                               </attr>
                               <div @dblclick="copyApipath(method.ClassName,method.Name)" class="name" title="双击复制"
                                     v-html="method.ClassName +'.'+method.Name">
-                                    <para>{{parameter}}</para>
+                                
                               </div>
+                              <para>{{parameter}}</para>
                               <intro><b>摘要：</b><span v-html="method.Intro"></span></intro>
                               <params>
                                     <table cellspacing="0" cellpadding="0" border="0" v-show="method.Paras.length>0">
@@ -134,13 +140,14 @@
                               <div id="testarea">
                                     <div v-show="showcode">
                                           <span id="apiurl"></span>
+                                          <pre></pre>
 
-                                          <pre id="teststring"></pre>
-
-
+                                          <pre class="line-numbers">
+                                                <code  id="teststring" class="language-javascript"></code>
+                                          </pre>
                                     </div>
-                                    <pre id="testresult"></pre>
-
+                                    <pre class="line-numbers"><code  id="apiresult-xml" class="language-xml"></code> </pre>             
+                                    <div id="apiresult-json" remark="接口返回结果"></div>
                               </div>
                         </div>
                   </div>
@@ -149,18 +156,25 @@
 
 
                         <P><b>单个访问</b> </P>
-                        <pre>
+                        <card>
+                              <card-title>单个访问</card-title>
+                              <card-content>
+                                    <pre  class="line-numbers"><code class="language-javascript">
       $api.get('Account/Current').then(req=>{
             if(req.data.success){
                   var result=req.data.result;
-                  //...
+                  //...业务代码
             }else{
                   throw req.data.message;
             }
       }).catch(err=>console.error(err))
-        .finally(()=>{});</pre>
-                        <P><b>批量访问</b> </P>
-                        <pre>
+            .finally(()=>{}); 
+      </code></pre>
+                                    </card-content>
+                                    </card>
+
+                                    <P><b>批量访问</b> </P>
+                                    <pre class="line-numbers"><code class="language-javascript">
       //批量访问过中会验证结果是否异常，但不会触发catch
       $api.bat(
             $api.get('Account/Current'),
@@ -172,10 +186,10 @@
           let result3=cou.data.result;                   
       }).catch(err => console.error(err))
          .finally(() => {});
-                        </pre>
-                        <P><b>浏览器本地缓存</b> </P>
+      </code></pre>
+                                    <P><b>浏览器本地缓存</b> </P>
 
-                        <pre>
+                                    <pre class="line-numbers"><code class="language-javascript">
       //采用浏览器本地数据库(IndexedDB)存储接口数据
       //当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络
 
@@ -202,9 +216,9 @@
       //清除所有缓存，包括被强制缓存的数据
       $api.api_cache.reset();
 
-</pre>
-                  </div>
-            </context>
+</code></pre>
+                              </div>
+            </content>
 
       </section>
       <script type="text/javascript" src="Scripts/index.js"></script>

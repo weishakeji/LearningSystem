@@ -217,7 +217,7 @@ dd.noapi span {
     padding-right: 20px;
 }
 
-context {
+content {
     width: calc(100% - 310px);
     height: 100%;
     float: right;
@@ -225,7 +225,7 @@ context {
     overflow-y: auto;
 }
 
-context>h1 {
+content>h1 {
     font-size: 16px;
     margin: 0px;
     height: 40px;
@@ -234,7 +234,7 @@ context>h1 {
     padding: 0px 0px 0 20px;
 }
 
-context>h1>span {
+content>h1>span {
     display: block;
     float: right;
     margin-right: 1px;
@@ -246,22 +246,22 @@ context>h1>span {
     transition: 0.5s all;
 }
 
-context>h1>span>i {
+content>h1>span>i {
     width: 40px;
     height: 40px;
     display: block;
 }
 
-context>h1>span>i::before {
+content>h1>span>i::before {
     line-height: 40px;
     display: block;
 }
 
-context>h1>span.show {
+content>h1>span.show {
     transform: rotate(0deg);
 }
 
-context>h1>span.hidden {
+content>h1>span.hidden {
     transform: rotate(-90deg);
 }
 
@@ -449,14 +449,6 @@ fieldset {
     position: relative;
 }
 
-#testarea {
-    width: calc(100% - 0px);
-    display: table;
-    word-wrap: break-word;
-    word-break: break-all;
-    padding: 10px 30px 10px 0px;
-    margin: 0px;
-}
 
 #apiurl {
     line-height: 30px;
@@ -468,23 +460,6 @@ fieldset {
     margin-right: 8px;
 }
 
-#testarea pre {
-    margin: 0px 0px 10px 0px;
-    width: calc(100% - 40px);
-    font-size: 14px;
-    line-height: 20px;
-    padding: 20px;
-    background-color: rgb(240, 243, 215);
-    word-wrap: break-word;
-    word-break: break-all;
-    border: 1px solid #ccc;
-    position: relative;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-}
 
 #testarea fieldset {
     margin: 0px;

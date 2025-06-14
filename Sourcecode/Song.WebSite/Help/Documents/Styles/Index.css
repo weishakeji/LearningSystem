@@ -6,23 +6,23 @@
 .no-data icon{
     font-size: 22px;
 }
-.no-data .context{
+.no-data .content{
     font-size: 18px;
 }
 /*帮助详情*/
-div.context{
+div.content{
     width: 100%;
     height: calc(100% - 55px);
     border: none;
 }
-div.context iframe{
+div.content iframe{
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     padding: 20px;
     opacity: 0;    
     transition: opacity 1s;
 }
-div.context iframe[show]{
+div.content iframe[show]{
     opacity: 1;
 }
 /*编辑框*/

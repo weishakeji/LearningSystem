@@ -1,0 +1,156 @@
+﻿.interfaces {
+    /*当前选中的颜色*/
+    --api-current-color: #409eff;
+}
+
+.interfaces {
+    width: 350px;
+    height: 100%;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
+}
+
+.interfaces .bar {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.interfaces .bar .el-tag {
+    line-height: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.interfaces .bar .el-input {
+    font-size: 18px;
+}
+
+.interfaces div[role='tablist'] {
+    height: calc(100% - 40px);
+    overflow: auto;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.interfaces div[role='tablist']::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 2px;
+    height: 1px;
+}
+
+.interfaces div[role='tablist']::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}
+
+.interfaces div[role='tablist']::-webkit-scrollbar-track {
+    border-radius: 2px;
+}
+
+.interfaces .el-collapse-item__header {
+    box-sizing: border-box;
+    padding-left: 15px;
+    font-size: 16px;
+    border-left: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+}
+
+.interfaces .el-collapse-item__header .item_title {
+    width: calc(100% - 20px);
+    float: right;
+    display: flex;
+    justify-content: space-between;
+}
+
+.interfaces .el-collapse-item__header .item_title[current] .name {
+    font-weight: bold;
+    color: var(--api-current-color);
+}
+
+.interfaces .el-collapse-item__header .item_title .intro {
+    font-size: 14px;
+    margin-left: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+    display: block;
+    flex: 1;
+    text-align: right;
+}
+
+.interfaces .el-collapse-item__header .name {
+    color: #333;
+}
+
+.el-collapse-item__content {
+    border-left: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+    box-sizing: border-box;
+    padding-bottom: 5px;
+}
+
+.el-collapse-item__content .intro:first-child {
+    font-size: 13px;
+    color: #999;
+    padding: 5px 10px 5px 20px;
+    line-height: 20px;
+    position: relative;
+}
+
+/*接口方法样式*/
+
+.el-collapse-item__content .method {
+    padding: 5px 0px 5px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.el-collapse-item__content .method:last-child {
+    padding-bottom: 0px;
+}
+
+.el-collapse-item__content .method:hover {
+    transform: scale(1.02);
+
+    background-color: rgb(236, 245, 255);
+}
+.el-collapse-item__content .method>div{
+    display: flex;
+    justify-content: space-between;
+}
+.el-collapse-item__content .method>div:first-child span {
+    display: block; 
+}
+.el-collapse-item__content .method:hover>div:first-child span {
+    text-shadow: 1px 1px 2px #333;    
+}
+.el-collapse-item__content .method>div:first-child i{
+    font-size: 12px;
+    margin: 0px 5px;
+    display: block;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+    text-align: right;
+}
+.el-collapse-item__content .method .intro {
+    font-size: 15px;
+    color: #999;
+    margin-left: 22px;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding-right: 20px;
+    line-height: 20px;
+}
+
+.el-collapse-item__content .method[current] {
+    background-color: rgb(236, 245, 255);
+}
+
+.el-collapse-item__content .method[current]>div:first-child span {
+    font-weight: bold;
+    color: var(--api-current-color);
+}

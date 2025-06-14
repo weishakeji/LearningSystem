@@ -1,0 +1,110 @@
+﻿html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#vapp[v-cloak] {
+    display: none;
+}
+
+#vapp {
+    display: flex;
+}
+
+#content {
+    flex: 1;
+    overflow: auto;
+    padding: 0px 15px 0px 0px;
+}
+
+.el-card:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/*方法的简述面板*/
+.el-card__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.method_title span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.method_card .el-card__body>div[title] {
+    padding: 5px 0px;
+
+}
+
+.method_card .el-card__body>div[title]::before {
+    content: attr(title) '：';
+    font-weight: bold;
+}
+
+.method_card .method_btns>* {
+    cursor: pointer;
+}
+
+.method_card .method_btns>*:hover {
+    transform: scale(1.05);
+}
+
+/*参数列表的表格*/
+
+.method_test table {
+    width: calc(100% - 5px);
+   box-shadow: 0px 1px 1px #eee;
+}
+
+.method_test table th {
+    font-weight: normal;
+    background-color: #eee;
+    font-size: 15px;
+    padding: 8px;
+}
+
+.method_test table th, .method_test table td {
+    text-align: center;
+}
+
+.method_test table tr th:first-child {
+    text-align: center;
+}
+
+.method_test table td {
+    font-size: 16px;
+    padding: 5px 8px;
+}
+
+.method_test table .left {
+    text-align: left;
+}
+
+.method_test table input {
+    height: 25px;
+    width: 150px;
+    border: 1px solid #999;
+    border-radius: 2px;
+}
+
+.el-form--inline {
+    margin: 0px;
+}
+
+.el-form-item {
+    margin-bottom: 0px !important;
+}
+
+/*测试区域的按钮*/
+.test_btns {
+    margin-top: 20px;
+    text-align: right;
+}
+.apiurl {
+    line-height: 30px;
+    font-size: 18px;
+}

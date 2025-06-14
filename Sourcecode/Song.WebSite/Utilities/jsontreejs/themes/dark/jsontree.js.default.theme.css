@@ -1,0 +1,54 @@
+:root {
+    /* Colors */
+    --json-tree-js-color-dark-black: #1c2128;
+    --json-tree-js-color-black: #3b3a3a;
+    --json-tree-js-color-snow-white: #F5F5F5;
+    --json-tree-js-color-light-gray: #BBBBBB;
+
+    /* Colors - Types */
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: var(--json-tree-js-color-snow-white);
+    --json-tree-js-color-map: #BDB5D5;
+    --json-tree-js-color-set: #FFD700;
+    --json-tree-js-color-boolean: #FF0000;
+    --json-tree-js-color-float: #e3c868;
+    --json-tree-js-color-number: #666bf9;
+    --json-tree-js-color-bigint: #6495ED;
+    --json-tree-js-color-string: #78b13f;
+    --json-tree-js-color-date: #a656f5;
+    --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
+    --json-tree-js-color-undefined: var(--json-tree-js-color-null);
+    --json-tree-js-color-symbol: #DAA06D;
+    --json-tree-js-color-function: var(--json-tree-js-color-null);
+    --json-tree-js-color-lambda: var(--json-tree-js-color-function);
+    --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+    --json-tree-js-color-guid: #c45600;
+    --json-tree-js-color-regexp: #AA336A;
+    --json-tree-js-color-url: #00FFFF;
+    --json-tree-js-color-email: #FA8072;
+    --json-tree-js-color-link: #89CFF0;
+    --json-tree-js-color-html: #FF00FF;
+    
+    /* ToolTip */
+    --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
+    --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
+
+    /* Containers */
+    --json-tree-js-container-background-color: #22272e;
+    --json-tree-js-container-border-color: #454c56;
+
+    /* Paging Columns */
+    --json-tree-js-paging-column-background-color: #272e37;
+    --json-tree-js-paging-column-border-color: var(--json-tree-js-container-border-color);
+
+    /* Button */
+    --json-tree-js-button-background-color: #2d333b;
+    --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-active: #616b79;
+    --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-color-disabled: var(--json-tree-js-container-border-color);
+}

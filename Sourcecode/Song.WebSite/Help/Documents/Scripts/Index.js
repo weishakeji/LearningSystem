@@ -15,7 +15,7 @@
             iframshow: false,   //是否显示iframe
 
             edit: false,      //是否为编辑模式
-            context: '',     //帮助文件的内容
+            content: '',     //帮助文件的内容
             loading: false,
 
         },
@@ -51,7 +51,7 @@
                 handler: function (nv, ov) {
                     if (nv) {
                         this.iframshow = false;
-                        this.getcontext(this.file.url);
+                        this.getcontent(this.file.url);
                         this.$nextTick(function () {
                             this.tinymcecss();
                         });
@@ -115,12 +115,12 @@
                     .finally(() => th.loading = false);
             },
             //获取帮助文件的内容
-            getcontext: function (url) {
+            getcontent: function (url) {
                 var th = this;
                 th.loading = true;
-                $api.get('HelpDocument/FileContext', { 'file': url }).then(req => {
+                $api.get('HelpDocument/Filecontent', { 'file': url }).then(req => {
                     if (req.data.success) {
-                        th.context = req.data.result;
+                        th.content = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -132,7 +132,7 @@
             btnSave: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('HelpDocument/FileSave', { 'file': th.file.url, 'context': th.context }).then(req => {
+                $api.get('HelpDocument/FileSave', { 'file': th.file.url, 'content': th.content }).then(req => {
                     if (req.data.success) {
                         th.$message({ message: '保存成功！', type: 'success' });
                         this.edit = false;

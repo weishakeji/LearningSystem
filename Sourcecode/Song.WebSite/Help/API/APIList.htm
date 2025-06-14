@@ -1,0 +1,125 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="APIList" page="/Help/API/APIList.htm" />
+    <link rel="shortcut icon" href="../Images/api.ico" />
+    <title>API 接口列表</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="Scripts/core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <interfaces @selected="m=>method=m"></interfaces>
+        <div id="content" v-if="method!=null">
+            <el-card shadow="hover" class="method_card">
+                <template slot="header">
+                    <div class="method_title">
+                        <icon large>&#xa01c</icon>
+                        <span @dblclick="copy(method.ClassName+'/'+method.Name)" title="双击复制"
+                            v-html="method.ClassName +'.'+method.Name">
+                        </span>
+                    </div>
+                    <div class="method_btns">
+                        <icon copy title="复制" size="medium" @click="copy(method.ClassName+'/'+method.Name)"> </icon>
+                    </div>
+                </template>
+
+                <div title="特性">
+                    <span v-for="item in method.Attrs">[{{item.Name}}
+                        <i v-show='item.Ignore'>(Ignore={{item.Ignore}})</i>
+                        <i v-show='item.Expires>0' title='缓存过期时间'>(Expires={{item.Expires}})</i>] </span>
+                    <span v-if="method.Attrs.length<1">默认</span>
+                </div>
+                <div title="摘要" v-html="method.Intro" v-if="method.Intro!=''"></div>
+                <div title="参数" v-html="method.Paramstring" v-if="method.Paramstring!=''"></div>
+                <div title="返回值">
+                    <span class="type">{{method.Return.Type}}</span>
+                    <div v-if="method.Return.Intro!=''" v-html="showintro(method.Return.Intro)"></div>
+                </div>
+                <div title="示例" v-if="method.Example!=''">
+                    <pre v-html="method.Example"></pre>
+                </div>
+                <div title="备注" v-if="method.Remarks!=''">
+                    <pre v-html="method.Remarks"></pre>
+                </div>
+            </el-card>
+            <!--测试接口-->
+            <el-card shadow="hover" class="method_test">
+                <template slot="header">
+                    <div class="method_title">
+                        <icon large>&#xa023</icon>测试接口
+                    </div>
+                    <el-form :inline="true" size="mini" :model="testform">
+                        <el-form-item label="HTTP方法">
+                            <el-select v-model="testform.httpmethod" @change="displayscript" placeholder="请选择"
+                                style="width: 100px;">
+                                <el-option v-for="item in httpmethods" :key="item" :label="item" :value="item">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="返回">
+                            <el-radio-group v-model="testform.returntype">
+                                <el-radio-button label="JSON"></el-radio-button>
+                                <el-radio-button label="XML"></el-radio-button>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <table cellspacing="0" cellpadding="0" border="0" v-if="method.Paras.length>0">
+                    <tr>
+                        <th width="40">#</th>
+                        <th width="100">形参</th>
+                        <th width="110">测试值</th>
+                        <th width="100">类型</th>
+                        <th width="80">可空</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr v-for="(item,index) in method.Paras">
+                        <td v-html="index+1"></td>
+                        <td v-html="item.Name"></td>
+                        <td><input type="text" :name="item.Name" v-model.trim="item.Value"
+                                @input.prevent="displayscript" /></td>
+                        <td> {{item.Type.substring(item.Type.lastIndexOf('.')+1)}} </td>
+                        <td>{{item.Nullable}}</td>
+                        <td v-html="item.Intro" class="left"></td>
+                    </tr>
+                </table>
+                <div v-else>
+                    该接口没有参数，可以直接调用。
+                </div>
+                <div class="test_btns">
+                    <el-button type="info" size="medium" plain @click="displayscript(!showscript)">
+                        <icon>&#xa033</icon>查看脚本
+                    </el-button>
+                    <el-button type="primary" size="medium" @click="testapi" :disabled="loading">
+                        <loading v-if="loading" asterisk>正在加载...</loading>
+                        <template v-else>
+                            <icon>&#xa030</icon>测试接口
+                        </template>
+                    </el-button>
+                </div>
+            </el-card>
+
+            <!--显示接口脚本信息-->
+            <div v-show="showscript" class="showscript">
+                <div class="apiurl" v-html="apiurl" icon="&#xa029" large></div>
+                <pre class="line-numbers"><code  id="teststring" class="language-javascript"></code></pre>
+            </div>
+            <!--接口调用的返回信息-->
+            <div v-if="showresult" class="showresult">
+                <loading v-if="loading"></loading>
+                <div v-show="!loading">
+                    <pre class="line-numbers"
+                        v-show="testform.returntype=='XML'"><code  id="apiresult-xml" class="language-xml"></code> </pre>
+                    <div v-show="testform.returntype=='JSON'" id="apiresult-json" remark="接口返回结果"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

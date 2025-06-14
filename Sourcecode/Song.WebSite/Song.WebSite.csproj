@@ -241,6 +241,21 @@
     <Content Include="Download\readme.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Help\API\APIList.htm" />
+    <Content Include="Help\API\Components\interfaces.js" />
+    <Content Include="Help\API\Components\Styles\interfaces.css" />
+    <Content Include="Help\API\Explain.htm" />
+    <Content Include="Help\API\Homepage.htm" />
+    <Content Include="Help\API\Index.htm" />
+    <Content Include="Help\API\Scripts\APIList.js" />
+    <Content Include="Help\API\Scripts\core.js" />
+    <Content Include="Help\API\Scripts\Explain.js" />
+    <Content Include="Help\API\Scripts\Homepage.js" />
+    <Content Include="Help\API\Scripts\Index.js" />
+    <Content Include="Help\API\Styles\APIList.css" />
+    <Content Include="Help\API\Styles\Explain.css" />
+    <Content Include="Help\API\Styles\Homepage.css" />
+    <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\Contents\DataEntity.html" />
     <Content Include="Help\Contents\Images\DataEntity\1.png" />
     <Content Include="Help\Contents\Images\DataEntity\2.png" />
@@ -254,9 +269,6 @@
     <Content Include="Help\Contents\Tutorials.html" />
     <Content Include="Help\Contents\Upgrade.html" />
     <Content Include="Help\Copyright.html" />
-    <Content Include="Help\API\Index.htm" />
-    <Content Include="Help\API\Scripts\Index.js" />
-    <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\Contents\Deployment.html" />
     <Content Include="Help\Contents\Overview.html" />
     <Content Include="Help\Contents\Scripts\Deployment.html.js" />
@@ -1657,6 +1669,10 @@
     <Content Include="Utilities\Images\Pay\支付宝网页直付.png" />
     <Content Include="Utilities\Images\testpaper.jpg" />
     <Content Include="Utilities\Images\weishakeji.png" />
+    <Content Include="Utilities\jsontreejs\jsontree.css" />
+    <Content Include="Utilities\jsontreejs\jsonTree.js" />
+    <Content Include="Utilities\jsontreejs\themes\dark\jsontree.js.default.theme.css" />
+    <Content Include="Utilities\jsontreejs\themes\light\jsontree.js.light.theme.css" />
     <Content Include="Utilities\License\Index.xsl" />
     <Content Include="Utilities\License\Scripts\Index.js" />
     <Content Include="Utilities\License\Styles\Index.css" />
@@ -1779,6 +1795,8 @@
     <Content Include="Utilities\PdfViewer\viewer.css" />
     <Content Include="Utilities\PdfViewer\viewer.html" />
     <Content Include="Utilities\PdfViewer\viewer.js" />
+    <Content Include="Utilities\prism\prism.css" />
+    <Content Include="Utilities\prism\prism.js" />
     <Content Include="Utilities\Scripts\hammer.min.js" />
     <Content Include="Templates\Mobi\Default\Scripts\treemenu.js" />
     <Content Include="Utilities\Scripts\marked.min.js" />
@@ -3467,6 +3485,10 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Utilities\LLM\aliyun_model.json" />
+    <Content Include="Utilities\jsontreejs\LICENSE" />
+    <Content Include="Utilities\jsontreejs\package.json" />
+    <Content Include="Utilities\jsontreejs\README.md" />
+    <Content Include="Utilities\jsontreejs\themes\.DS_Store" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

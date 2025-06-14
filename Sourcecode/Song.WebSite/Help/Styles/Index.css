@@ -147,8 +147,8 @@ header *[copyright=tel] {
 
 /*底部区域*/
 footer {
-    height: 50px;
-    line-height: 60px;
+    height: 30px;
+    line-height: 30px;
     display: flex;
     box-sizing: border-box;
     padding: 5px 5px 5px 30px;
@@ -163,7 +163,7 @@ footer * {
 section {
     display: flex;
     width: 100%;
-    height: calc(100% - 140px);
+    height: calc(100% - 110px);
 }
 
 section aside {

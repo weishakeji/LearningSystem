@@ -77,7 +77,7 @@
                 th.error = err;
                 console.error(err);
                 //alert(err);
-            }).finally(()=> th.loading = false);
+            }).finally(() => th.loading = false);
         }
     },
     created: function () {
@@ -186,7 +186,7 @@ Vue.component('methods', {
  */
 //右侧的内容区
 var rvue = new Vue({
-    el: '#context',
+    el: '#content',
     data: {
         method: null, //接口方法对象
         loading: false, //调用接口时的状态
@@ -197,7 +197,7 @@ var rvue = new Vue({
         method: function (n, o) {
             var ele = document.getElementById("testresult");
             if (ele != null) ele.innerText = "";
-            var inputs = Array.from(document.querySelectorAll("#context table input"));
+            var inputs = Array.from(document.querySelectorAll("#content table input"));
             inputs.forEach(function (item) {
                 item.value = "";
             });
@@ -209,7 +209,7 @@ var rvue = new Vue({
     computed: {
         parameter: function () {
             let fullname = this.method.FullName;
-            let name = this.method.Name;
+            //let name = this.method.Name;
             if (fullname.indexOf('(') > -1) {
                 let paras = fullname.substring(fullname.indexOf('(') + 1).split(',');
                 let str = '';
@@ -239,16 +239,26 @@ var rvue = new Vue({
                     rvue.loading = false;
                 }, 500);
             }, rettype).then(function (req) {
-                var ele = document.getElementById("testresult");
+               
                 if (req == null) throw {
                     message: '没有获取到返回值，可能是服务器端错误'
                 };
                 console.log(req);
                 var result = JSON.stringify(req.data.result);
-                if (req.config && req.config.returntype == "xml")
-                    ele.innerText = $api.trim(rvue.xmlformat(unescape(req.data)));
-                if (!req.config || req.config.returntype == "json")
-                    ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
+                if (req.config && req.config.returntype == "xml"){
+                    var ele = document.getElementById("apiresult-xml");
+                    let xml = rvue.xmlformat(unescape(req.data));
+
+                    document.getElementById("apiresult-xml").innerHTML =xml;
+                    Prism.highlightAll();
+                }
+                if (!req.config || req.config.returntype == "json") {
+                  
+                    //const tree = jsonTree.create(req.data, document.getElementById('apiresult'));
+                    let json = unescape(JSON.stringify(req.data));
+                    $jsontree.render(document.getElementById("apiresult-json"), req.data);
+                    $jsontree.setJson("apiresult-json", json);                   
+                }
 
             }).catch(function (ex) {
                 rvue.loading = false;
@@ -267,16 +277,17 @@ var rvue = new Vue({
             document.getElementById("apiurl").innerText = urlstr.toLowerCase();
             let jsstr = "$api." + http + "('" + method + "'" + (params == "{}" ? "" : "," + params) + ")";
             jsstr += ".then(req=>{\r\
-            if(req.data.success){\r\
-                var result=req.data.result;\r\
-                //...\r\
-            }else{\r\
-                console.error(req.data.exception);\r\
-                throw req.config.way + ' ' + req.data.message;\r\
-            }\r}).catch(err=>console.error(err))\r\
-                .finally(()=>{});";
-            //jsstr = rvue.jsonformat(jsstr, false);
-            document.getElementById("teststring").innerText = jsstr;
+        if(req.data.success){\r\
+            var result=req.data.result;\r\
+            //...\r\
+        }else{\r\
+            console.error(req.data.exception);\r\
+            throw req.config.way + ' ' + req.data.message;\r\
+        }\r}).catch(err=>console.error(err))\r\
+.finally(()=>{});";
+            
+            document.getElementById("teststring").innerHTML = jsstr;
+            Prism.highlightAll();
             return jsstr;
         },
         //复制测试代码
@@ -305,7 +316,7 @@ var rvue = new Vue({
         //获取录入的参数
         getInputPara: function () {
             let arr = new Array();
-            let inputs = Array.from(document.querySelectorAll("#context table input"));
+            let inputs = Array.from(document.querySelectorAll("#content table input"));
             inputs.forEach(function (item) {
                 let name = item.getAttribute("name");
                 let val = item.value;
@@ -319,109 +330,29 @@ var rvue = new Vue({
             txt += "}";
             return txt;
         },
-        //json字符格式化
-        //isbrace:花括号是否换行，true换行
-        jsonformat: function (json, isbrace) {
-            var formatted = '', //转换后的json字符串
-                padIdx = 0, //换行后是否增减PADDING的标识
-                PADDING = '    '; //4个空格符
-            /**
-             * 将对象转化为string
-             */
-            if (typeof json !== 'string') {
-                json = JSON.stringify(json);
-            }
-            /** 
-             *利用正则类似将{'name':'ccy','age':18,'info':['address':'wuhan','interest':'playCards']}
-             *---> \r\n{\r\n'name':'ccy',\r\n'age':18,\r\n
-             *'info':\r\n[\r\n'address':'wuhan',\r\n'interest':'playCards'\r\n]\r\n}\r\n
-             */
-            json = json.replace(/(\,)/g, '$1\r\n')
-                //.replace(/([\[\]])/g, '\r\n$1\r\n')               
-                .replace(/(\r\n\r\n)/g, '\r\n')
-                .replace(/\r\n\,/g, ',');
-            if (isbrace) json = json.replace(/([\{\}])/g, '\r\n$1\r\n');
-            /** 
-             * 根据split生成数据进行遍历，一行行判断是否增减PADDING
-             */
-            (json.split('\r\n')).forEach(function (node, index) {
-                var indent = 0,
-                    padding = '';
-                if (node.match(/\{$/) || node.match(/\[$/)) indent = 1;
-                else if (node.match(/\}/) || node.match(/\]/)) padIdx = padIdx !== 0 ? --padIdx : padIdx;
-                else indent = 0;
-                for (var i = 0; i < padIdx; i++) padding += PADDING;
-                formatted += padding + node + '\r\n';
-                padIdx += indent;
-                //console.log('index:' + index + ',indent:' + indent + ',padIdx:' + padIdx + ',node-->' + node);
-            });
-            //formatted=formatted.replace(/\r\n/g, '<br/>');
-            return formatted;
-        },
         //xml格式化
-        xmlformat: function (text) {
-            //计算头函数 用来缩进
-            function setPrefix(prefixIndex) {
-                var result = '';
-                var span = '    '; //缩进长度
-                var output = [];
-                for (var i = 0; i < prefixIndex; ++i) {
-                    output.push(span);
-                }
-                result = output.join('');
-                return result;
-            }
-            //使用replace去空格
-            text = '\n' + text.replace(/(<\w+)(\s.*?>)/g, function ($0, name, props) {
-                return name + ' ' + props.replace(/\s+(\w+=)/g, " $1");
-            }).replace(/>\s*?</g, ">\n<");
-            //处理注释
-            text = text.replace(/\n/g, '\r').replace(/<!--(.+?)-->/g, function ($0, text) {
-                var ret = '<!--' + escape(text) + '-->';
-                return ret;
-            }).replace(/\r/g, '\n');
-            //调整格式  以压栈方式递归调整缩进
-            var rgx = /\n(<(([^\?]).+?)(?:\s|\s*?>|\s*?(\/)>)(?:.*?(?:(?:(\/)>)|(?:<(\/)\2>)))?)/mg;
-            var nodeStack = [];
-            var output = text.replace(rgx, function ($0, all, name, isBegin, isCloseFull1, isCloseFull2, isFull1, isFull2) {
-                var isClosed = (isCloseFull1 == '/') || (isCloseFull2 == '/') || (isFull1 == '/') || (isFull2 == '/');
-                var prefix = '';
-                if (isBegin == '!') { //!开头
-                    prefix = setPrefix(nodeStack.length);
-                } else {
-                    if (isBegin != '/') { ///开头
-                        prefix = setPrefix(nodeStack.length);
-                        if (!isClosed) { //非关闭标签
-                            nodeStack.push(name);
-                        }
-                    } else {
-                        nodeStack.pop(); //弹栈
-                        prefix = setPrefix(nodeStack.length);
-                    }
-                }
-                var ret = '\n' + prefix + all;
-                return ret;
-            });
-            var prefixSpace = -1;
-            var outputText = output.substring(1);
-            //还原注释内容
-            outputText = outputText.replace(/\n/g, '\r').replace(/(\s*)<!--(.+?)-->/g, function ($0, prefix, text) {
-                if (prefix.charAt(0) == '\r')
-                    prefix = prefix.substring(1);
-                text = unescape(text).replace(/\r/g, '\n');
-                var ret = '\n' + prefix + '<!--' + text.replace(/^\s*/mg, prefix) + '-->';
-                return ret;
-            });
-            outputText = outputText.replace(/\s+$/g, '').replace(/\r/g, '\r\n');
-            return outputText;
+        xmlformat: function (text) {           
+            let formatted = ''
+            let indent = ''
+            const tab = '  '
+            
+            text.split(/>\s*</).forEach(node => {
+              if (node.match(/^\/\w/)) indent = indent.substring(tab.length)
+              formatted += indent + '<' + node + '>\n'
+              if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab
+            })
+            
+            text= formatted.substring(1, formatted.length - 1);
+            text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return text;
         },
         //清理Html标签
         clearhtml: str => str.replace(/(<([^>]+)>)/ig, ""),
         //显示文本
         showintro: txt => {
-            txt=txt.replace(/\s+/g, " ");
-            txt=txt.replace(/\r/g, " ");
-            txt=txt.replace(/\n/g, " ");
+            txt = txt.replace(/\s+/g, " ");
+            txt = txt.replace(/\r/g, " ");
+            txt = txt.replace(/\n/g, " ");
             return txt.replace(/ /g, '<br/>');
         }
 
@@ -430,3 +361,4 @@ var rvue = new Vue({
 
     }
 });
+

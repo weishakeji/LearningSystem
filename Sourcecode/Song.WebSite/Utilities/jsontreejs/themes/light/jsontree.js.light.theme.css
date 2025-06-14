@@ -1,0 +1,67 @@
+:root {
+    /* Colors */
+    --json-tree-js-color-dark-black: #fff;
+    --json-tree-js-color-black: #F5F5F5;
+    --json-tree-js-color-snow-white: #3b3a3a;
+    --json-tree-js-color-light-gray: #818080;
+
+    /* Colors - Types */
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: #333;
+    --json-tree-js-color-map: #a8a0bd;
+    --json-tree-js-color-set: #989800;
+    --json-tree-js-color-boolean: #FF0000;
+    --json-tree-js-color-float: #F4BB44;
+    --json-tree-js-color-number: #666bf9;
+    --json-tree-js-color-bigint: #6495ED;
+    --json-tree-js-color-string: #097969;
+    --json-tree-js-color-date: #a656f5;
+    --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
+    --json-tree-js-color-undefined: var(--json-tree-js-color-null);
+    --json-tree-js-color-symbol: #DAA06D;
+    --json-tree-js-color-function: var(--json-tree-js-color-null);
+    --json-tree-js-color-lambda: var(--json-tree-js-color-function);
+    --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+    --json-tree-js-color-guid: #c45600;
+    --json-tree-js-color-regexp: #AA336A;
+    --json-tree-js-color-url: #89CFF0;
+    --json-tree-js-color-email: #FA8072;
+    --json-tree-js-color-link: #0047AB;
+    --json-tree-js-color-html: #FF00FF;
+
+    /* Colors - Editable Fields */
+    --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
+    --json-tree-js-editable-background-color: var(--json-tree-js-color-dark-black);
+
+    /* Colors - Highlights */
+    --json-tree-js-highlight-selected-color: #aba0a0;
+    --json-tree-js-highlight-compare-color: #c3bbbb;
+    --json-tree-js-highlight-selected-border-color: var(--json-tree-js-color-black);
+
+    /* ToolTip */
+    --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
+    --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
+
+    /* Containers */
+    --json-tree-js-container-background-color: #fff;
+    --json-tree-js-container-border-color: #ccc;
+    --json-tree-js-container-object-left-border-color: #677180;
+
+    /* Paging Columns */
+    --json-tree-js-paging-column-background-color: #dbd6d6;
+    --json-tree-js-paging-column-border-color: var(--json-tree-js-container-border-color);
+
+    /* Button */
+    --json-tree-js-button-background-color: #e8e6e6;
+    --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-hover: #cecaca;
+    --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-active: #a9a2a2;
+    --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-color-disabled: var(--json-tree-js-button-background-color-hover);
+
+    /* CheckBox */
+    --json-tree-js-checkbox-background-color-checked: #818080;
+}

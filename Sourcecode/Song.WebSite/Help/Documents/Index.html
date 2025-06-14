@@ -70,19 +70,19 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading"></loading>
         <div v-else-if="edit" class="file-detail">
-            <editor :content="context" model="general" ref="editor" upload="Help" :dataid="file.name"
-                @change="text=>context=text"> </editor>
+            <editor :content="content" model="general" ref="editor" upload="Help" :dataid="file.name"
+                @change="text=>content=text"> </editor>
         </div>
         <div v-else-if="!file.exist" class="no-data">
             <div>
                 <icon>&#xe70e</icon>帮助信息未编辑！
             </div>
-            <div class="context">
+            <div class="content">
                 <p>帮助文件“{{file.url}}”不存在</p>
                 <help>编辑帮助信息需要管理员在本机登录后操作。</help>
             </div>
         </div>
-        <div class="context" v-show="!loading && !edit && file.exist" >
+        <div class="content" v-show="!loading && !edit && file.exist" >
             <iframe :name="file.name" :id="file.name" :show="iframshow"
                 frameborder="0" marginwidth="0" marginheight="0" :src="file.url+'?t='+new Date().getTime()"></iframe>
         </div>

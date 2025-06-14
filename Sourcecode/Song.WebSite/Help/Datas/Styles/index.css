@@ -166,14 +166,14 @@ dd.noapi span {
     color: rgb(253, 76, 76);
 }
 
-context {
+content {
     width: calc(100% - 300px);
     height: 100%;
     float: left;
     overflow-y: auto;
 }
 
-context>h1 {
+content>h1 {
     margin: 0px;
     height: 40px;
     line-height: 40px;
@@ -183,11 +183,11 @@ context>h1 {
     cursor: default;
 }
 
-context>h1 span {
+content>h1 span {
     font-size: 18px;
 }
 
-context>h1>b {
+content>h1>b {
     display: block;
     position: absolute;
     right: 25px;
@@ -203,7 +203,7 @@ context>h1>b {
     cursor: pointer;
 }
 
-context>h1>b:hover {
+content>h1>b:hover {
     box-shadow: 0px 0px 3px 3px #ddd, 0px 0px 3px 2px #ddd inset;
 }
 

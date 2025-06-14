@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+      <meta charset="utf-8">
+      <meta view="Homepage" page="/Help/API/Homepage.htm" />
+      <link rel="shortcut icon" href="../Images/api.ico" />
+      <title>RESTful API 接口说明</title>
+      <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+      <script type="text/javascript" src="Scripts/core.js"></script>
+</head>
+
+<body>
+      <h1>ViewData RESTful API 接口方法使用说明</h1>
+      <div id="vapp" v-cloak>
+            <el-tabs v-model="activeName">
+                  <el-tab-pane name="first"><span slot="label"><icon help large></icon>说明</span></el-tab-pane>
+                  <el-tab-pane name="second"><span slot="label"><icon large>&#xa01c</icon>API 接口查询</span></el-tab-pane>
+                  <el-tab-pane name="third"><span slot="label"><icon large>&#xe73e</icon>导出</span></el-tab-pane>
+
+            </el-tabs>
+           <iframe src="Explain.htm" v-show="activeName=='first'" frameborder="0" allowtransparency="true"></iframe>
+           <iframe src="APIList.htm" v-show="activeName=='second'" frameborder="0" allowtransparency="true"></iframe>
+           <div  v-show="activeName=='third'" remark="导出"> 
+            <p>
+                  所有接口导出为word文档
+            </p>
+            <p>暂时没有做</p>
+           </div>
+      </div>
+</body>
+
+</html>

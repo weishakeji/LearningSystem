@@ -38,7 +38,7 @@ window.vapp = new Vue({
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
-                name: 'RESTful API', type: 'node', url: 'api/',
+                name: 'RESTful API', type: 'node', url: 'api/homepage.htm',
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
