@@ -92,10 +92,18 @@ icon[size='mini']::before  {
 /*首页*/
 icon[home]::before {
     content: '\a020';
+    transform: scale(0.95);
+    display: inline-block;
 }
 /*返回*/
 icon[back]::before {
     content: '\e748';
+}
+/*禁用*/
+icon[disabled]::before {
+    content: '\e7ad';
+    transform: scale(0.9);
+    display: inline-block;
 }
 /*提交*/
 icon[submit]::before {
@@ -247,6 +255,8 @@ icon[qq]::before {
 /*微信*/
 icon[weixin]::before {
     content: '\e730';
+    transform: scale(1.2);
+    display: inline-block;
 }
 
 /*帮助、提示*/

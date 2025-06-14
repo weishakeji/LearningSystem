@@ -92,7 +92,12 @@
                 </div>
                 <div class="test_btns">
                     <el-button type="info" size="medium" plain @click="displayscript(!showscript)">
-                        <icon>&#xa033</icon>查看脚本
+                        <template v-if="showscript">
+                            <icon>&#xe85c</icon>隐藏脚本
+                        </template>
+                        <template v-else>
+                            <icon>&#xa033</icon>查看脚本
+                        </template>
                     </el-button>
                     <el-button type="primary" size="medium" @click="testapi" :disabled="loading">
                         <loading v-if="loading" asterisk>正在加载...</loading>
@@ -104,10 +109,21 @@
             </el-card>
 
             <!--显示接口脚本信息-->
-            <div v-show="showscript" class="showscript">
-                <div class="apiurl" v-html="apiurl" icon="&#xa029" large></div>
-                <pre class="line-numbers"><code  id="teststring" class="language-javascript"></code></pre>
-            </div>
+            <el-card shadow="hover" v-show="showscript" class="method_script">
+                <template slot="header">
+                    <div>
+                        <icon large>&#xa033</icon>API调用脚本
+                    </div>
+                    <div class="method_btns">
+                        <icon copy title="复制" size="medium" @click="copy(apiscript, 'textarea')"> </icon>
+                    </div>
+                </template>
+                <div class="showscript">
+                    <div class="apiurl" v-html="apiurl" icon="&#xa029" large></div>
+                    <pre class="line-numbers"><code  id="teststring" class="language-javascript"></code></pre>
+                </div>
+            </el-card>
+
             <!--接口调用的返回信息-->
             <div v-if="showresult" class="showresult">
                 <loading v-if="loading"></loading>
