@@ -96,7 +96,7 @@
                             <icon>&#xe85c</icon>隐藏脚本
                         </template>
                         <template v-else>
-                            <icon>&#xa033</icon>查看脚本
+                            <icon>&#xa03a</icon>查看脚本
                         </template>
                     </el-button>
                     <el-button type="primary" size="medium" @click="testapi" :disabled="loading">
@@ -112,7 +112,7 @@
             <el-card shadow="hover" v-show="showscript" class="method_script">
                 <template slot="header">
                     <div>
-                        <icon large>&#xa033</icon>API调用脚本
+                        <icon large>&#xa022</icon>API调用脚本
                     </div>
                     <div class="method_btns">
                         <icon copy title="复制" size="medium" @click="copy(apiscript, 'textarea')"> </icon>
@@ -125,13 +125,19 @@
             </el-card>
 
             <!--接口调用的返回信息-->
-            <div v-if="showresult" class="showresult">
+            <div v-show="showresult" class="showresult">               
                 <loading v-if="loading"></loading>
-                <div v-show="!loading">
-                    <pre class="line-numbers"
-                        v-show="testform.returntype=='XML'"><code  id="apiresult-xml" class="language-xml"></code> </pre>
-                    <div v-show="testform.returntype=='JSON'" id="apiresult-json" remark="接口返回结果"></div>
-                </div>
+                <el-card shadow="hover" v-show="testform.returntype=='XML'">
+                    <template slot="header">
+                        <div>
+                            <icon large>&#xa033</icon>XML返回结果
+                        </div>
+                    </template>
+                    <pre class="line-numbers" 
+                        v-show="!loading && testform.returntype=='XML'"><code  id="apiresult-xml" class="language-xml"></code> </pre>
+                </el-card>  
+              
+                <div v-show="!loading && testform.returntype=='JSON'" id="apiresult-json" remark="接口返回结果"></div>
             </div>
 
         </div>

@@ -27,8 +27,16 @@
                 this.testform.apipath = val.ClassName + "/" + val.Name;
                 //隐藏脚本显示
                 this.displayscript(false);
-
+                //隐藏结果
                 this.showresult = false;
+                $jsontree.render(document.getElementById("apiresult-json"), '');
+                $jsontree.setJson("apiresult-json", '');
+                $jsontree.destroyAll();
+                let xmlel = document.getElementById("apiresult-xml");
+                if (xmlel != null) {
+                    xmlel.innerHTML = '';
+                    Prism.highlightAll();
+                }
             }
         },
         computed: {
@@ -115,8 +123,7 @@
                         });
 
                     }).catch(function (ex) {
-                        var ele = document.getElementById("testresult");
-                        ele.innerText = ex.message;
+                        alert(ex);
                     }).finally(() => th.loading = false);
             },
             //xml格式化

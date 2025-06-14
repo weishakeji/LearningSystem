@@ -63,6 +63,11 @@
 .attrs>span::after {
     content: ']';
 }
+.attrs i{
+    font-size: 13px;
+    color: #777;
+    margin-right: 5px;
+}
 /*参数列表的表格*/
 
 .method_test table {
