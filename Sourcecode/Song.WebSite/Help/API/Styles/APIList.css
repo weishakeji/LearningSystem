@@ -52,7 +52,17 @@
 .method_card .method_btns>*:hover {
     transform: scale(1.05);
 }
-
+/*特性*/
+.attrs>span{
+    margin-right: 10px;
+    font-size: 15px;
+}
+.attrs>span::before {
+    content: '[ ';
+}
+.attrs>span::after {
+    content: ']';
+}
 /*参数列表的表格*/
 
 .method_test table {

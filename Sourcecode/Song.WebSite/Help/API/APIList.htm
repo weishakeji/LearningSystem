@@ -27,11 +27,11 @@
                     </div>
                 </template>
 
-                <div title="特性">
-                    <span v-for="item in method.Attrs">[{{item.Name}}
+                <div title="特性" class="attrs">
+                    <span v-for="item in method.Attrs">{{item.Name}}
                         <i v-show='item.Ignore'>(Ignore={{item.Ignore}})</i>
-                        <i v-show='item.Expires>0' title='缓存过期时间'>(Expires={{item.Expires}})</i>] </span>
-                    <span v-if="method.Attrs.length<1">默认</span>
+                        <i v-show='item.Expires>0' title='缓存过期时间'>(Expires={{item.Expires}})</i></span>
+                    <i v-if="method.Attrs.length<1">默认</i>
                 </div>
                 <div title="摘要" v-html="method.Intro" v-if="method.Intro!=''"></div>
                 <div title="参数" v-html="method.Paramstring" v-if="method.Paramstring!=''"></div>

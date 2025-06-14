@@ -2,7 +2,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            activeName:  'second',
+            activeName:  'first',
         },
         watch: {
             

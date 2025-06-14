@@ -172,7 +172,7 @@ Vue.component('methods', {
                 for (let t = 0; t < paras.length; t++) {
                     if (paras[t].indexOf('.') > -1) {
                         str += paras[t].substring(paras[t].lastIndexOf('.') + 1);
-                        if (t < paras.length - 1) str += ',';
+                        if (t < paras.length - 1) str += ', ';
                     }
                 }
                 return '(' + str.toLowerCase().replace(/\&/g, '');
