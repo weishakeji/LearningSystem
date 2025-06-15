@@ -67,9 +67,9 @@ namespace Song.ServiceImpls
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 if (org != null) entity.Org_ID = org.Org_ID;
             }
-            //更新学员组的数量
-            if (entity.Sts_ID > 0)            
-                Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
+            //学员组
+            if (entity.Sts_ID <= 0) entity.Sts_Name = string.Empty;
+            else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);           
            
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
@@ -99,7 +99,11 @@ namespace Song.ServiceImpls
             //如果密码为空
             if (string.IsNullOrWhiteSpace(entity.Ac_Pw))
                 entity.Ac_Pw = WeiSha.Core.Login.Get["Account"].DefaultPw.MD5;
-            Gateway.Default.Save<Accounts>(entity); 
+            Gateway.Default.Save<Accounts>(entity);
+
+            //更新学员组的数量
+            if (entity.Sts_ID > 0) Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
+
             //初次注册时的积分
             int regPoint = Business.Do<ISystemPara>()["RegFirst"].Int32 ?? 0;                       
             PointAccount pa = new PointAccount();   //开始增加积分
@@ -132,6 +136,9 @@ namespace Song.ServiceImpls
             //如果手机号为空，则绑定的手机号也为空
             if(string.IsNullOrWhiteSpace(entity.Ac_MobiTel1))
                 entity.Ac_MobiTel2 = entity.Ac_MobiTel1;
+            //学员组
+            if (entity.Sts_ID <= 0) entity.Sts_Name = string.Empty;
+            else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);
             //如果密码不为空
             //if (!string.IsNullOrWhiteSpace(entity.Ac_Pw))
             //    entity.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 

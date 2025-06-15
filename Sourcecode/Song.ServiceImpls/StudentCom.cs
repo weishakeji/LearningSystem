@@ -125,6 +125,15 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == identify).ToFirst<StudentSort>();
         }
+
+        /// <summary>
+        /// 获取学员组名称
+        /// </summary>
+        public string SortName(long identify)
+        {
+            StudentSort sort = this.SortSingle(identify);
+            return sort != null ? sort.Sts_Name : "";
+        }
         /// <summary>
         /// 根据学员组名称获取学员
         /// </summary>

@@ -23,9 +23,15 @@
            <iframe src="APIList.htm" v-show="activeName=='second'" frameborder="0" allowtransparency="true"></iframe>
            <div  v-show="activeName=='third'" remark="导出"> 
             <p>
-                  所有接口导出为word文档
+            导出所有API为word文档
             </p>
-            <p>暂时没有做</p>
+            <p>
+                一般情况下无须导出接口，在线查看即可。曾经遇到甲方要求提供接口文档，用于项目验收，所以写了这个功能。
+            </p>
+           
+            <alert>导出word文件的代码已经写了，不过这里还没有实现界面操作，后续会继续实现。</alert>
+            <hr/>
+            <warning>注意：只能在本机localhost下，且管理员登录状态，才能导出。</warning>
            </div>
       </div>
 </body>
