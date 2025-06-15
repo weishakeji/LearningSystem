@@ -27,24 +27,12 @@ context.navig>div {
     padding: 15px;
     box-sizing: border-box;
 }
-
-context.navig>div.bar {
-    display: flex;
-}
-
-context.navig>div.bar>div:first-child {
-    width: 80px;
-    text-align: right;
-}
-context.navig>div.bar>div:last-child {
-    width: calc(100% - 80px);
-}
-context.navig>div.bar .el-tag {
-    margin: 0px 10px 10px 0px;
+/*面包屑导航*/
+context.navig .el-breadcrumb {
     font-size: 14px;
 }
 
-context.navig>div.subject .el-tag {
+context.navig .el-breadcrumb b {
     cursor: pointer;
 }
 

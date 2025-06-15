@@ -14,9 +14,10 @@
             loading
             ...
         </page_header>
-
         <context class="navig">
             <breadcrumb ref="breadcrumb" :subjects="subjects" :current="sbjCurrent"></breadcrumb>
+        </context>
+        <context class="queryarea">           
             <div class="bar" v-if="query.search.length>0">
                 <div>查询：</div>
                 <div>

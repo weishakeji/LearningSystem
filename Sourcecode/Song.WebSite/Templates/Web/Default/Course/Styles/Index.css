@@ -20,15 +20,27 @@ context {
     text-align: left;
     margin-top: 10px;
 }
+/*顶部专业选择区域*/
+context.queryarea>div.bar {
+    display: flex;
+}
 
-/*面包屑导航*/
-.el-breadcrumb {
+context.queryarea>div.bar>div:first-child {
+    width: 80px;
+    text-align: right;
+}
+context.queryarea>div.bar>div:last-child {
+    width: calc(100% - 80px);
+}
+context.queryarea>div.bar .el-tag {
+    margin: 0px 10px 10px 0px;
     font-size: 14px;
 }
 
-.el-breadcrumb b {
+context.queryarea>div.subject .el-tag {
     cursor: pointer;
 }
+
 
 /*按专业显示课程*/
 context.subjectbox {
