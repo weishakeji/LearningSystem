@@ -9,11 +9,11 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <modify_main ref="main" @load="(q,c)=>{entity=q;course=c;}" @init="(o,c,t)=>{organ=o;config=c;types=t}">
+        <modify_main ref="main" @load="quesload" @init="(o,c,t)=>{organ=o;config=c;types=t}">
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="question"
+                    <editor  ref="editor_title" :content="entity.Qus_Title" id="title" :menubar="false" model="question"
                         style="height: 400px;" upload="ques" :dataid="entity.Qus_ID"
                         @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>

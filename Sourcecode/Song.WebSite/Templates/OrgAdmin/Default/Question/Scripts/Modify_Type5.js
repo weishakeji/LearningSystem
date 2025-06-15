@@ -102,6 +102,9 @@ $ready(function () {
                 this.entity = ques;
                 this.course = course;
                 this.analysisitem();
+                  //重置题干的编辑框
+                  let editor = this.$refs['editor_title'];
+                  if (editor != null) editor.setContent(ques.Qus_Title);
             },
         },
     });

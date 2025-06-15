@@ -28,7 +28,18 @@ $ready(function () {
                     return alert('简答题的答案不得为空！', 0);
                 }
                 return true;
-            }
+            },
+            //试题加载完成
+            quesload: function (ques, course) {
+                this.entity = ques;
+                this.course = course;
+                //重置题干的编辑框
+                let editor = this.$refs['editor_title'];
+                if (editor != null) editor.setContent(ques.Qus_Title);
+                 //重置答案的编辑框
+                 let answer = this.$refs['editor_answer'];
+                 if (answer != null) answer.setContent(ques.Qus_Answer);
+            },
         },
     });
 }, ['/Utilities/Components/question/function.js',

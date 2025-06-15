@@ -193,15 +193,18 @@ Vue.component('modify_main', {
                     th.$set(th.question, 'Qus_Explain', th.aiformat(result.Qus_Explain));
                     if (th.question.Qus_Type == 3) th.$set(th.question, 'Qus_IsCorrect', result.Qus_IsCorrect);
                     if (th.question.Qus_Type == 4) th.$set(th.question, 'Qus_Answer', result.Qus_Answer);
-                    //th.question.Qus_Title = result.Qus_Title;
+                    //th.question.Qus_Title = result.Qus_Title;                    
                     th.$emit('load', th.question, th.course);
                     //console.error(result);
+                    //重置试题解析的输入框
+                    let editor = this.$refs['editor_explain'];
+                    if (editor != null) editor.setContent(th.question.Qus_Explain);
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => {
-                alert('AI生成异常，请重新生成。详情：'+err);
+                alert('AI生成异常，请重新生成。详情：' + err);
                 console.error(err);
             }).finally(() => th.loading_ai = false);
         },
@@ -241,7 +244,7 @@ Vue.component('modify_main', {
         </div>
         <div v-show="activeName=='explan'" remark="解析">
             <template v-if="quesnull"></template>
-            <editor v-else ref="editor" :content="question.Qus_Explain" id="explain" upload="ques" :dataid="question.Qus_ID" 
+            <editor v-else ref="editor_explain" :content="question.Qus_Explain" id="explain" upload="ques" :dataid="question.Qus_ID" 
             :menubar="false" model="question" @change="text=>question.Qus_Explain=text"></editor>          
         </div>
         <div v-show="activeName=='knowledge'" remark="知识点">

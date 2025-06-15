@@ -32,7 +32,15 @@ $ready(function () {
             //验证方法
             verify: function (ques, alert) {
                 return true;
-            }
+            },
+            //试题加载完成
+            quesload: function (ques, course) {
+                this.entity = ques;
+                this.course = course;
+                //重置题干的编辑框
+                let editor = this.$refs['editor_title'];
+                if (editor != null) editor.setContent(ques.Qus_Title);
+            },
         },
     });
 }, ['/Utilities/Components/question/function.js',

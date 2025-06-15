@@ -11,7 +11,7 @@ Vue.component('editor', {
     props: ['content', 'model', 'menubar', 'id', 'placeholsder', 'upload', 'dataid'],
     data: function () {
         return {
-            //编辑器的文本
+            //编辑器的文本，默认来自content，两者不完全相同
             text: '',
             isinit: false,       //是否初始化
             load: false       //预加载效果
@@ -34,12 +34,17 @@ Vue.component('editor', {
                     tinyMCE.editors[this.ctrid].settings['dataid'] = nv;
             }, immediate: true
         },
+        //编辑内容变更时
         'content': {
             handler: function (nv, ov) {
-                this.text = nv.replace(/[\r\n]/g, '');
-                this.setContent(this.text);
+                //初次填充内容时，设置文本，后续不再设置文本；否则会导致编辑器光标一直处在最前面
+                if (this.text == null || this.text == '') {
+                    if (nv != null && nv != '')
+                        this.text = nv.replace(/[\r\n]/g, '');
+                    this.setContent(this.text);
+                }
             }, immediate: false
-        }
+        },       
     },
     computed: {
         //控件id
@@ -184,9 +189,9 @@ Vue.component('editor', {
                 setup: function (ed) {
                     //当录入变动时
                     ed.on('input change redo undo keydown', function (e) {
-                        var content = tinyMCE.get(ed.id).getContent();
+                        var text = tinyMCE.get(ed.id).getContent();
                         //触发vue组件事件
-                        th.$emit('change', content);
+                        th.$emit('change', text);
                         //var escapedClassName = ed.id.replace(/(\[|\])/g, '\\$&');
                         //console.log(content);
                     });
@@ -218,14 +223,14 @@ Vue.component('editor', {
                     var d = editor.getParam('dataid', 123);
                     console.log('dataid: ' + d);
                     //var html = editor.getContent();   
-                      
+
                     //初次加载时，计算内容中的字数           
                     var wordcount = tinymce.activeEditor.plugins.wordcount;
                     var wordcount_el = document.querySelectorAll('.tox-statusbar__wordcount');
                     if (wordcount_el.length > 0) {
                         wordcount_el[0].innerHTML = wordcount_el[0].innerHTML.replace('0', wordcount.body.getWordCount());
                     }
-                  
+
 
                     //alert(html);
                     //tinyMCE.editors[tinymceConfig.tinyID+'2'].setContent(html2); 
@@ -238,13 +243,20 @@ Vue.component('editor', {
         },
         //获取内容
         getContent: function () {
+            let editor = tinyMCE.editors[this.ctrid];
+            if (editor == null) return '';
             var html = tinyMCE.editors[this.ctrid].getContent();
             return html.replace(/<script[^>]+>/g, "");
         },
         //设置内容
         setContent: function (text) {
-
-            tinyMCE.editors[this.ctrid].setContent(text);
+            let editor = tinyMCE.editors[this.ctrid];
+            if (editor != null) editor.setContent(text);
+        },
+        //刷新编辑器文本
+        refresh:function(){
+            let editor = tinyMCE.editors[this.ctrid];
+            if (editor != null) editor.setContent(this.content);
         }
     },
 
