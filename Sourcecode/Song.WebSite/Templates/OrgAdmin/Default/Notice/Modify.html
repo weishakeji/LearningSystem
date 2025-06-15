@@ -38,7 +38,7 @@
                             </el-col>
                         </template>
                         <el-col class="editor_row">
-                            <el-form-item label="内容" prop="No_Context" style="height: 100%;">
+                            <el-form-item label="" label-width="0" prop="No_Context" style="height: 100%;">
                                 <editor :content="formData.No_Context" model="general" ref="editor" upload="Notice"
                                     :dataid="formData.No_Id" @change="text=>formData.No_Context=text"> </editor>
                             </el-form-item>

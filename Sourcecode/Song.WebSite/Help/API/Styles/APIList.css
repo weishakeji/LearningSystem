@@ -43,6 +43,7 @@
 .method_card .el-card__body>div[title]::before {
     content: attr(title) '：';
     font-weight: bold;
+    letter-spacing: 0.3em;
 }
 
 .method_card .method_btns>* {
