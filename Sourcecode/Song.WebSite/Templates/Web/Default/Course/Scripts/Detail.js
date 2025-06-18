@@ -72,7 +72,7 @@ $ready(function () {
                 }, immediate: true,
             },
             'nullcourse': function (nv, ov) {
-                //console.log(nv);
+                //生成二维码
                 this.$nextTick(function () {
                     this.qrcode();
                 });

@@ -14,7 +14,7 @@ Vue.component('aside_menu', {
                 { name: '资金明细', login: 0, url: 'Money/Details', icon: '&#xe749', size: 20, evt: null },
                 { name: '积分兑换', login: 0, url: 'Point/index', icon: '&#xe88a', size: 20, evt: null },
                 { name: '学习卡', login: 0, url: 'Card/learn', icon: '&#xe60f', size: 18, evt: null },
-                { name: '第三方账号绑定', login: 0, url: 'Account/OtherLogin', icon: '&#xe808', size: 20, evt: null },
+                { name: '账号绑定', login: 0, url: 'Account/OtherLogin', icon: '&#xe808', size: 20, evt: null },
                 { name: 'hr', login: 0 },
                 { name: '我的朋友', login: 0, url: 'Account/Myfriends', icon: '&#xe635', size: 20, evt: null },
                 { name: '新闻资讯', login: -1, url: 'News/index', icon: '&#xe75c', size: 20, evt: null },

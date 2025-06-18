@@ -1,5 +1,7 @@
 ﻿/*课程价格*/
-
+.course_prices {
+	position: relative;
+}
 .course_prices .price {
 	background-color: #fdf6ec;
 	border-color: #faecd8;
@@ -12,7 +14,19 @@
 	font-size: 12px;
 	display: table;
 }
-
+.course_prices.istry::before{
+	content: "试";
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: #e6a23c;
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border-radius: 50%;
+}
 .course_prices .first {
 	margin-bottom: 2px;
 }

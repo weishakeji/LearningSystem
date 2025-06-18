@@ -36,7 +36,7 @@ Vue.component('course_prices', {
             var th = this;
             return new Promise(function (res, rej) {
                 var cou = th.course;
-                if (cou.Cou_IsFree || cou.Cou_IsLimitFree || cou.Cou_Price==0) return res();
+                if (cou.Cou_IsFree || cou.Cou_IsLimitFree || cou.Cou_Price == 0) return res();
                 if (!$api.isnull(cou.Cou_Prices) && cou.Cou_Prices.length != 0) {
                     //console.error(cou.Cou_Prices);
                     th.prices = cou.prices = $api.parseJson(cou.Cou_Prices);
@@ -69,7 +69,7 @@ Vue.component('course_prices', {
             return price;
         }
     },
-    template: `<div class="course_prices">
+    template: `<div :class="{'course_prices':true,'istry':(course.Cou_IsTry && !course.Cou_IsFree)}">
         <template v-if="course.Cou_IsFree">
             <el-tag type="success"><icon>&#xe71e</icon>免费</el-tag>
         </template>
