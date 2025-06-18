@@ -114,9 +114,9 @@
                                     @click="tolearing(course,o)">免费</el-tag>
                                 <template v-else>
                                     <progress_video class="tolearing"
-                                        v-if="owned || course.Cou_IsFree || course.Cou_IsLimitFree || forever"
-                                        :videolog="videolog" :outline="o" :course="course" text="学习" @click="tolearing(course,o)">
-                                    </progress_video>
+                                        v-if="owned || (course.Cou_IsFree || course.Cou_IsLimitFree || forever)"
+                                        :videolog="videolog" :outline="o" :course="course" text="学习" @click="tolearing(course,o)">                                        
+                                    </progress_video>                                    
                                     <a type="primary" v-else :href="'buy.'+course.Cou_ID+'?olid='+o.Ol_ID">
                                         <el-tag type="warning">购买</el-tag>
                                     </a>

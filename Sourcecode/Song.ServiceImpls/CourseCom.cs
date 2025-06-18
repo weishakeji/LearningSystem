@@ -343,7 +343,7 @@ namespace Song.ServiceImpls
             if (course == null || !course.Cou_IsUse) return false;
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
             wc.And(Student_Course._.Stc_IsEnable == true && Student_Course._.Stc_Type != 5);
-            //wc.And(Student_Course._.Stc_IsTry == false && Student_Course._.Stc_IsFree == false);
+            wc.And(Student_Course._.Stc_IsTry == false && Student_Course._.Stc_IsFree == false);
             wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);              
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
             return sc != null;

@@ -66,7 +66,7 @@ $ready(function () {
                         if (purchase.data.result != null)
                             th.purchase = purchase.data.result;
                         th.videolog = videolog.data.result;
-                        th.owned = owned.data.result;
+                        th.owned = owned.data.result;   //学员是否拥有这个课程，包括购买或学员组关联，试用的不算                    
                     }).catch(err => console.error(err))
                         .finally(() => th.loading = false);
                 }, immediate: true,
