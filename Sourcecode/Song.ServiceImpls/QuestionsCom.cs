@@ -150,7 +150,8 @@ namespace Song.ServiceImpls
                 old.Copy<Song.Entities.Questions>(entity, "Qus_ID");
                 Gateway.Default.Save<Questions>(old);
             }
-           
+            //更新章节试题数
+            Business.Do<IOutline>().StatisticalQuestion(entity.Ol_ID);
         }
         /// <summary>
         /// 删除试题
@@ -201,7 +202,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Questions>(wc);
             foreach (int orgid in orgids) Business.Do<IQuestions>().QuesCountUpdate(orgid, -1, -1, -1);
             foreach (int sbjid in sbjids) Business.Do<IQuestions>().QuesCountUpdate(-1, sbjid, -1, -1);
-            foreach (int couid in couids) Business.Do<IQuestions>().QuesCountUpdate(-1, couid, couid, -1);
+            foreach (int couid in couids) Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
             //删除图片等资源
             new Task(() =>
             {

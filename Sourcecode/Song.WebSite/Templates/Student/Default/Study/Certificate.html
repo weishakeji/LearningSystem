@@ -24,7 +24,7 @@
 
         <context>
             <div class="left">
-                <el-card>
+                <el-card  shadow="hover">
                     <template slot="header">
                         <span>
                             <icon>&#xe639</icon>学习证明打印
@@ -39,7 +39,7 @@
                         </div>
                     </template>
                     <div class="courses" v-if="selects.length>0">
-                        <card v-for="(item,index) in selects" class="course">
+                        <card v-for="(item,index) in selects" class="course"  shadow="hover">
                             <card-content>
                                 <div class="info_row">
                                     <span v-html="index + 1" class="index"></span>
@@ -71,7 +71,7 @@
             </div>
             <div class="right">
                 <div class="courses" v-if="courses.length>0">
-                    <el-card v-for="(item,index) in courses" class="course">
+                    <el-card v-for="(item,index) in courses" class="course"  shadow="hover">
                         <div class="picture">
                             <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
                             <img src="/Utilities/images/cou_nophoto.jpg" v-else />

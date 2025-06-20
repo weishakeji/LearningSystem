@@ -9,7 +9,7 @@ $ready(function () {
             config: {},      //当前机构配置项        
 
             query: {
-                'acid': -1, 'search': '', 'enable': true, 'istry': true, 'size': 10, 'index': 0
+                'acid': -1, 'search': '', 'enable': null, 'istry': null, 'size': 10, 'index': 0
             },
             courses: [],        //课程列表
             total: 1, //总记录数

@@ -983,6 +983,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int StatisticalQuestion(long olid)
         {
+            if (olid <= 0) return 0;
             return StatisticalQuestion(new long[] { olid });
         }
         /// <summary>

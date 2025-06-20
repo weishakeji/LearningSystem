@@ -84,19 +84,24 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public bool Modify(Song.Entities.Questions entity)
         {
-            //Thread.Sleep(5000);
-            //return true;
-
             Song.Entities.Questions old = Business.Do<IQuestions>().QuesSingle(entity.Qus_ID);
             if (old == null) throw new Exception("Not found entity for Questions！");
-
+            //是否更改章节id
+            long oldOlid = old.Ol_ID, newOlid = entity.Ol_ID;
             old.Copy<Song.Entities.Questions>(entity);
             //处理单选、多选的选项
             if (entity.Qus_Type == 1 || entity.Qus_Type == 2 || entity.Qus_Type == 5)
             {
                 old.Qus_Items = Business.Do<IQuestions>().AnswerToItems(_answerToItems(entity));
-            }
+            }           
             Business.Do<IQuestions>().QuesSave(old);
+
+            //更新章节试题数
+            if (oldOlid != newOlid)
+            {                
+                Business.Do<IOutline>().StatisticalQuestion(oldOlid);
+                Business.Do<IOutline>().StatisticalQuestion(newOlid);
+            }
             return true;
         }
         /// <summary>

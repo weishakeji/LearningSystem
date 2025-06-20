@@ -67,6 +67,7 @@ context>div {
 .right .courses {
 	height: calc(100% - 35px);
 	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .nocoures {
