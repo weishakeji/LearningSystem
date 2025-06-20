@@ -30,6 +30,7 @@
     height: calc(100% - 65px);
     box-sizing: content-box;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .item {
