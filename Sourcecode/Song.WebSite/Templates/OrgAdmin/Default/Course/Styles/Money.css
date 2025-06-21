@@ -18,3 +18,6 @@
 .edit_row td{
     background-color: rgb(225, 243, 216) !important;
 }
+.el-table th.el-table__cell.is-leaf{
+    border-top: 1px solid #EBEEF5 !important;
+}

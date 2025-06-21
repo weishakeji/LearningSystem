@@ -10,15 +10,15 @@
             id: $api.querystring('id'),
             course: {},     //当前课程
             tabs: [
-                { name: '基本信息', tab: 'general', icon: '&#xa038' },
-                { name: '简介', tab: 'intro', icon: '&#xe63d' },
-                { name: '资费', tab: 'money', icon: '&#xe81c' },
+                { name: '基本信息', tab: 'general', icon: '&#xe667', size:'small' },
+                { name: '简介', tab: 'intro', icon: '&#xa02e', size:'small'  },
+                { name: '资费', tab: 'money', icon: '&#xe746' },
                 { name: '章节', tab: 'outline', icon: '&#xe841' },
                 { name: '试题', tab: 'question', icon: '&#xe75e' },
                 { name: '试卷/考试', tab: 'testpaper', icon: '&#xe810' },
                 //{ name: '结课考试', tab: 'finaltest', icon: '&#xe816' },
-                { name: '知识点', tab: 'knowledge', icon: '&#xe76d' },
-                { name: '公告', tab: 'guide', icon: '&#xe840' },
+                { name: '知识点', tab: 'knowledge', icon: '&#xa022', size:'small'  },
+                { name: '公告', tab: 'guide', icon: '&#xe840', size:'large'  },
                 { name: '留言', tab: 'message', icon: '&#xe817' }
             ],
             tabName: 'general',      //顶部选项卡的示默认项

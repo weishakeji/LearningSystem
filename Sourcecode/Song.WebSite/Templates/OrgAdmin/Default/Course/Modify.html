@@ -20,12 +20,12 @@
                         <div slot="label" @dblclick="doubletab(item.tab)" v-if="item.tab==tabName">
                             <el-tooltip class="item" effect="light" content="双击刷新" placement="bottom">
                                 <span>
-                                    <icon v-html="item.icon"></icon>{{item.name}}
+                                    <icon v-html="item.icon" :[item.size]="true"></icon>{{item.name}}
                                 </span>
                             </el-tooltip>
                         </div>
                         <div v-else slot="label">
-                            <icon v-html="item.icon"></icon>{{item.name}}
+                            <icon v-html="item.icon" :[item.size]="true"></icon>{{item.name}}
                         </div>
                     </el-tab-pane>
                 </el-tabs>
