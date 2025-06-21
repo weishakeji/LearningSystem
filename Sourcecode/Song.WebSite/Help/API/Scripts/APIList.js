@@ -14,6 +14,7 @@
             httpmethods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", "CACHE"],
             //接口完整路径
             apiurl: '',
+            foldintro: false,        //是否显示接口介绍
             showscript: false,       //是否显示脚本
             showresult: false,       //是否显示接口调用的结果
 
@@ -37,6 +38,8 @@
                     xmlel.innerHTML = '';
                     Prism.highlightAll();
                 }
+                //是否折叠接口介绍区域
+                this.foldintro = false;
             }
         },
         computed: {
@@ -74,7 +77,7 @@
                 return txt.replace(/ /g, '<br/>');
             },
             //复制到粘贴板
-            copy: function (val, textbox) {
+            copytext: function (val, textbox) {
                 if (textbox == null) textbox = 'input';
                 let oInput = document.createElement(textbox);
                 oInput.value = val;
@@ -108,6 +111,7 @@
                 $api.query(method, para, http, () => th.loading = true, () => th.loading = false, rettype)
                     .then(req => {
                         if (req == null) throw '没有获取到返回值，可能是服务器端错误';
+                        th.foldintro = true;
                         th.$nextTick(function () {
                             if (req.config && req.config.returntype == "xml") {
                                 var ele = document.getElementById("apiresult-xml");

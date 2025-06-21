@@ -53,6 +53,21 @@
 .method_card .method_btns>*:hover {
     transform: scale(1.05);
 }
+/*面板折叠*/
+.method_card.fold .el-card__body{
+    display: none;
+}
+.method_card.fold .el-card__header{
+    border-bottom: none;
+}
+.method_card .foldbtn{
+    display: inline-block;
+    transition: all 0.3s;
+    font-size: 20px;
+ }
+.method_card.fold .foldbtn{
+   transform: rotate(270deg);
+}
 /*特性*/
 .attrs>span{
     margin-right: 10px;
@@ -92,7 +107,7 @@
 }
 
 .method_test table td {
-    font-size: 16px;
+    font-size: 14px;
     padding: 5px 8px;
 }
 

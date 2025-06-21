@@ -12,39 +12,43 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <!--左侧接口列表-->
         <interfaces @selected="m=>method=m"></interfaces>
+        <!--接口信息-->
         <div id="content" v-if="method!=null">
-            <el-card shadow="hover" class="method_card">
+            <el-card shadow="hover" :class="{'method_card':true,'fold':foldintro}">
                 <template slot="header">
                     <div class="method_title">
                         <icon large>&#xa01c</icon>
-                        <span @dblclick="copy(method.ClassName+'/'+method.Name)" title="双击复制"
+                        <span @dblclick="copytext(method.ClassName+'/'+method.Name)" title="双击复制"
                             v-html="method.ClassName +'.'+method.Name">
                         </span>
                     </div>
                     <div class="method_btns">
-                        <icon copy title="复制" size="medium" @click="copy(method.ClassName+'/'+method.Name)"> </icon>
+                        <icon copy title="复制" size="medium" @click="copytext(method.ClassName+'/'+method.Name)"> </icon>
+                        <i class="el-icon-caret-bottom foldbtn" @click="foldintro=!foldintro"></i>
                     </div>
                 </template>
-
-                <div title="特性" class="attrs">
-                    <span v-for="item in method.Attrs">{{item.Name}}
-                        <i v-show='item.Ignore'>(Ignore={{item.Ignore}})</i>
-                        <i v-show='item.Expires>0' title='缓存过期时间'>(Expires={{item.Expires}})</i></span>
-                    <i v-if="method.Attrs.length<1">默认</i>
-                </div>
-                <div title="摘要" v-html="method.Intro" v-if="method.Intro!=''"></div>
-                <div title="参数" v-html="method.Paramstring" v-if="method.Paramstring!=''"></div>
-                <div title="返回值">
-                    <span class="type">{{method.Return.Type}}</span>
-                    <div v-if="method.Return.Intro!=''" v-html="showintro(method.Return.Intro)"></div>
-                </div>
-                <div title="示例" v-if="method.Example!=''">
-                    <pre v-html="method.Example"></pre>
-                </div>
-                <div title="备注" v-if="method.Remarks!=''">
-                    <pre v-html="method.Remarks"></pre>
-                </div>
+                <template v-if="!foldintro">
+                    <div title="特性" class="attrs">
+                        <span v-for="item in method.Attrs">{{item.Name}}
+                            <i v-show='item.Ignore'>(Ignore={{item.Ignore}})</i>
+                            <i v-show='item.Expires>0' title='缓存过期时间'>(Expires={{item.Expires}})</i></span>
+                        <i v-if="method.Attrs.length<1">默认</i>
+                    </div>
+                    <div title="摘要" v-html="method.Intro" v-if="method.Intro!=''"></div>
+                    <div title="参数" v-html="method.Paramstring" v-if="method.Paramstring!=''"></div>
+                    <div title="返回值">
+                        <span class="type">{{method.Return.Type}}</span>
+                        <div v-if="method.Return.Intro!=''" v-html="showintro(method.Return.Intro)"></div>
+                    </div>
+                    <div title="示例" v-if="method.Example!=''">
+                        <pre v-html="method.Example"></pre>
+                    </div>
+                    <div title="备注" v-if="method.Remarks!=''">
+                        <pre v-html="method.Remarks"></pre>
+                    </div>
+                </template>
             </el-card>
             <!--测试接口-->
             <el-card shadow="hover" class="method_test">
@@ -115,7 +119,7 @@
                         <icon large>&#xa022</icon>API调用脚本
                     </div>
                     <div class="method_btns">
-                        <icon copy title="复制" size="medium" @click="copy(apiscript, 'textarea')"> </icon>
+                        <icon copy title="复制" size="medium" @click="copytext(apiscript, 'textarea')"> </icon>
                     </div>
                 </template>
                 <div class="showscript">
@@ -125,7 +129,7 @@
             </el-card>
 
             <!--接口调用的返回信息-->
-            <div v-show="showresult" class="showresult">               
+            <div v-show="showresult" class="showresult">
                 <loading v-if="loading"></loading>
                 <el-card shadow="hover" v-show="testform.returntype=='XML'">
                     <template slot="header">
@@ -133,10 +137,10 @@
                             <icon large>&#xa033</icon>XML返回结果
                         </div>
                     </template>
-                    <pre class="line-numbers" 
+                    <pre class="line-numbers"
                         v-show="!loading && testform.returntype=='XML'"><code  id="apiresult-xml" class="language-xml"></code> </pre>
-                </el-card>  
-              
+                </el-card>
+
                 <div v-show="!loading && testform.returntype=='JSON'" id="apiresult-json" remark="接口返回结果"></div>
             </div>
 
