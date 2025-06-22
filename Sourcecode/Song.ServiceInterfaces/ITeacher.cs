@@ -79,7 +79,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取单一实体对象，按网站教师名称
         /// </summary>
-        /// <param name="name">帐号名称</param>
+        /// <param name="accname">帐号名称</param>
         /// <returns></returns>
         Teacher TeacherSingle(string accname, string pw, int orgid);
         /// <summary>
@@ -88,6 +88,12 @@ namespace Song.ServiceInterfaces
         /// <param name="name">教师帐号</param>
         /// <returns></returns>
         bool IsTeacherExist(int orgid, string accname);
+        /// <summary>
+        /// 当前用帐号是否重名
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         bool IsTeacherExist(int orgid, Teacher entity);
         /// <summary>
         /// 获取对象；即所有网站教师；
@@ -95,7 +101,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Teacher[] TeacherAll(int orgid,bool? isUse);
         /// <summary>
-        /// 获取教师
+        /// 获取指定数量的教师
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="isUse"></param>
@@ -110,6 +116,10 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int TeacherOfCount(int orgid, bool? isUse);
         /// <summary>
+        /// 教师的课程数
+        /// </summary>
+        int CourseCount(int thid);
+        /// <summary>
         /// 导出Excel格式的教师信息
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
@@ -120,6 +130,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 分页获取所有的网站教师帐号；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="size">每页显示几条记录</param>
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
@@ -142,17 +153,17 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Teacher[] TeacherPager(int orgid, int thsid, int gender, bool? isUse, bool? isShow, string searName, string phone, string acc,string idcard, string order,int size, int index, out int countSum);     
+        Teacher[] TeacherPager(int orgid, int thsid, int gender, bool? isUse, bool? isShow, string searName, string phone, string acc,string idcard, string order,int size, int index, out int countSum);
         #endregion
 
-        #region 教师分类管理
+        #region 教师职称（或叫分类）
         /// <summary>
-        /// 添加学生分类
+        /// 添加教师分类
         /// </summary>
         /// <param name="entity">业务实体</param>
         void SortAdd(TeacherSort entity);
         /// <summary>
-        /// 修改学生分类
+        /// 修改教师职称
         /// </summary>
         /// <param name="entity">业务实体</param>
         void SortSave(TeacherSort entity);
@@ -175,7 +186,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TeacherSort SortDefault(int orgid);
         /// <summary>
-        /// 设置默认学生分类
+        /// 设置默认教师职称
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="identify"></param>

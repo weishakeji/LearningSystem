@@ -165,6 +165,41 @@ $ready(function () {
                 var param = { ico: icon };
                 this.$refs.btngroup.pagebox(page + '?id=' + entity.Th_ID, title, null, width, height, param);
             }
+        },
+        components: {
+            //教师的课程数
+            'course_count': {
+                props: ['thid'],
+                data: function () {
+                    return {
+                        count: 0,
+                        loading: false
+                    }
+                },
+                mounted: function () {
+                    this.getcount();
+                },
+                methods: {
+                    getcount: function () {
+                        var th = this;
+                        th.loading = true;
+                        $api.get("Teacher/CourseCount", { "id": th.thid })
+                            .then(req => {
+                                if (req.data.success) {
+                                    th.count = req.data.result;
+                                } else {
+                                    console.error(req.data.exception);
+                                    throw req.config.way + ' ' + req.data.message;
+                                }
+                            }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                },
+                template: `<div class="course_count">
+                    <loading v-if="loading"></loading>
+                    <icon v-else course title="课程数">{{count}}</icon>                   
+                </div>`
+            }
         }
     });
 

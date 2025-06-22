@@ -279,6 +279,15 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Teacher>(wc);
         }
         /// <summary>
+        /// 教师的课程数
+        /// </summary>
+        public int CourseCount(int thid)
+        {
+            WhereClip wc = new WhereClip();
+            if (thid > 0) wc.And(Course._.Th_ID == thid);         
+            return Gateway.Default.Count<Course>(wc);
+        }
+        /// <summary>
         /// 导出Excel格式的教师信息
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>

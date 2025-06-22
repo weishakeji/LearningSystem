@@ -489,6 +489,15 @@ namespace Song.ViewData.Methods
             }
 
         }
+        /// <summary>
+        /// 教师的课程数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int CourseCount(int id)
+        { 
+            return Business.Do<ITeacher>().CourseCount(id);
+        }
         #endregion
 
         #region 私有方法，处理对象的关联信息
