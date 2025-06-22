@@ -655,9 +655,8 @@ namespace Song.ServiceImpls
             if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
             if (diff > 0 && diff <= 5) wc.And(Questions._.Qus_Diff == diff);
             if (!string.IsNullOrWhiteSpace(searTxt) && searTxt.Trim() != "")
-            {
                 wc.And(Questions._.Qus_Title.Contains(searTxt.Trim()));
-            }
+         
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_ID.Desc)

@@ -216,11 +216,13 @@
 .cur_data {
     height: calc(100% - 30px);
     width: 100px;
-    background-color: #e5ffef;
+    background-color: #f4fff8;
+    color: #666;
     padding: 15px;
     font-size: 14px;
     display: flex;
     flex-direction: column;
+   
 }
 .cur_data>icon::before{
     font-size: 20px;
