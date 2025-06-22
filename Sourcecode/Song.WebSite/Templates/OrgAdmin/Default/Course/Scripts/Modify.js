@@ -12,7 +12,7 @@
             tabs: [
                 { name: '基本信息', tab: 'general', icon: '&#xe667', size: 'small', enable: true },
                 { name: '简介', tab: 'intro', icon: '&#xa02e', size: 'small', enable: true },
-                { name: 'AI助教', tab: 'aiagent', svg: 'ai', size: 'large', color: 'red', enable: true },
+                { name: 'AI助教', tab: 'aiagent', svg: 'ai', size: 'large', color: '#409EFF', enable: true },
                 { name: '资费', tab: 'money', icon: '&#xe746', enable: true },
                 { name: '章节', tab: 'outline', icon: '&#xe841', enable: true },
                 { name: '试题', tab: 'question', icon: '&#xe75e' },
