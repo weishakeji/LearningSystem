@@ -213,13 +213,19 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="sortid"></param>
         /// <returns></returns>
-        int SortOfNumber(int sortid);
+        int SortTeacherCount(int sortid);
         /// <summary>
-        /// 获取某网站学生所属的组；
+        /// 教师职称的课程数量
         /// </summary>
-        /// <param name="studentId">网站学生id</param>
+        /// <param name="sortid"></param>
         /// <returns></returns>
-        TeacherSort Sort4Teacher(int studentId);
+        int SortCourseCount(int sortid);
+        /// <summary>
+        /// 教师所属的职称
+        /// </summary>
+        /// <param name="thid">教师id</param>
+        /// <returns></returns>
+        TeacherSort Sort4Teacher(int thid);
         /// <summary>
         /// 获取某个组的所有网站学生
         /// </summary>

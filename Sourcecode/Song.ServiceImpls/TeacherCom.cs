@@ -489,13 +489,27 @@ namespace Song.ServiceImpls
             count = count > 0 ? count : int.MaxValue;
             return Gateway.Default.From<TeacherSort>().Where(wc).ToList<TeacherSort>(count);
         }
-        public int SortOfNumber(int sortid)
+        public int SortTeacherCount(int sortid)
         {
             return Gateway.Default.Count<Teacher>(Teacher._.Ths_ID == sortid);
         }
-        public TeacherSort Sort4Teacher(int studentId)
+
+        /// <summary>
+        /// 教师职称的课程数量
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <returns></returns>
+        public int SortCourseCount(int sortid)
         {
-            Teacher st = this.TeacherSingle(studentId);
+            var query = Gateway.Default.From<Teacher>()
+                .LeftJoin<TeacherSort>(Teacher._.Ths_ID == TeacherSort._.Ths_ID)      // 教师表关联职称表
+                .LeftJoin<Course>(Teacher._.Th_ID == Course._.Th_ID) // 教师表左关联课程表
+                .Where(TeacherSort._.Ths_ID == sortid);
+            return query.Count();
+        }
+        public TeacherSort Sort4Teacher(int thid)
+        {
+            Teacher st = this.TeacherSingle(thid);
             if (st == null) return null;
             return Gateway.Default.From<TeacherSort>().Where(TeacherSort._.Ths_ID == st.Ths_ID).ToFirst<TeacherSort>();
         }

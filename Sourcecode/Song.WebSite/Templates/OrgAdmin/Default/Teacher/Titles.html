@@ -41,7 +41,12 @@
                 </el-table-column>
                 <el-table-column label="教师" width="60">
                     <template slot-scope="scope">                      
-                        <teacher_count :sortid="scope.row.Ths_ID"></teacher_count> 人
+                        <teacher_count :sortid="scope.row.Ths_ID"></teacher_count>
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程数" width="100">
+                    <template slot-scope="scope">
+                        <course_count :thsid="scope.row.Ths_ID"></course_count>
                     </template>
                 </el-table-column>
                 <el-table-column label="备注" min-width="150">

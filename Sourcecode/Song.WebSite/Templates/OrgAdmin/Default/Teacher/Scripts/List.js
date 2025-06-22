@@ -197,7 +197,7 @@ $ready(function () {
                 },
                 template: `<div class="course_count">
                     <loading v-if="loading"></loading>
-                    <icon v-else course title="课程数">{{count}}</icon>                   
+                    <icon v-else-if="count>0" course size="medium" title="课程数">{{count}}</icon>                   
                 </div>`
             }
         }

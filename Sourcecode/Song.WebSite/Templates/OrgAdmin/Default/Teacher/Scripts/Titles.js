@@ -184,44 +184,80 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);
             }
+        },
+        components: {
+            //课程数
+            'course_count': {
+                props: ['thsid'],
+                data: function () {
+                    return {
+                        count: 0,
+                        loading: false
+                    }
+                },
+                mounted: function () {
+                    this.getcount();
+                },
+                methods: {
+                    getcount: function () {
+                        var th = this;
+                        th.loading = true;
+                        $api.get("Teacher/TitleCourseCount", { "id": th.thsid })
+                            .then(req => {
+                                if (req.data.success) {
+                                    th.count = req.data.result;
+                                } else {
+                                    console.error(req.data.exception);
+                                    throw req.config.way + ' ' + req.data.message;
+                                }
+                            }).catch(err => console.error(err))
+                            .finally(() => th.loading = false);
+                    }
+                },
+                template: `<div class="course_count">
+                    <loading v-if="loading"></loading>
+                    <icon v-else-if="count>0" course size="medium" title="课程数">{{count}}</icon>                   
+                </div>`
+            },
+            //职称下的教师数
+            'teacher_count': {
+                //sortid:职称id
+                props: ['sortid',],
+                data: function () {
+                    return {
+                        count: 0,
+                        loading: true       //预载
+                    }
+                },
+                watch: {
+                    'sortid': {
+                        handler: function (nv, ov) {
+                            if ($api.isnull(nv) || nv == ov) return;
+                            var th = this;
+                            th.loading = true;
+                            $api.get('Teacher/TitleOfNumber', { 'id': nv }).then(function (req) {
+                                if (req.data.success) {
+                                    th.count = req.data.result;
+                                } else {
+                                    console.error(req.data.exception);
+                                    throw req.config.way + ' ' + req.data.message;
+                                }
+                            }).catch(err => console.error(err))
+                                .finally(() => th.loading = false);
+                        }, immediate: true
+                    }
+                },
+                created: function () {
+
+                },
+                methods: {
+                },
+                template: `<span class="teacher_count">
+                    <span class="el-icon-loading" v-if="loading"></span>
+                    <span v-else-if="count>0">{{count}} 人</span>
+                </span>`
+            }
         }
     });
-    //职称下的教师数
-    Vue.component('teacher_count', {
-        //sortid:职称id
-        props: ['sortid',],
-        data: function () {
-            return {
-                count: 0,
-                loading: true       //预载
-            }
-        },
-        watch: {
-            'sortid': {
-                handler: function (nv, ov) {
-                    if ($api.isnull(nv) || nv == ov) return;
-                    var th = this;
-                    th.loading = true;
-                    $api.get('Teacher/TitleOfNumber', { 'id': nv }).then(function (req) {
-                        if (req.data.success) {
-                            th.count = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(err => console.error(err))
-                        .finally(() => th.loading = false);
-                }, immediate: true
-            }
-        },
-        created: function () {
 
-        },
-        methods: {
-        },
-        template: `<span class="teacher_count">
-            <span class="el-icon-loading" v-if="loading"></span>
-            <template v-else>{{count}}</template>
-        </span>`
-    });
 });

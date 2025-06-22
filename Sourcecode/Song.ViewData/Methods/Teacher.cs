@@ -48,7 +48,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int TitleOfNumber(int id)
         {
-            return Business.Do<ITeacher>().SortOfNumber(id);
+            return Business.Do<ITeacher>().SortTeacherCount(id);
         }
         /// <summary>
         /// 根据id获取信息
@@ -152,6 +152,15 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
+        }
+        /// <summary>
+        /// 教师职称的课程数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int TitleCourseCount(int id)
+        {
+            return Business.Do<ITeacher>().SortCourseCount(id);
         }
         #endregion
 
