@@ -3,6 +3,7 @@
     //加载主要的Css文件
     $dom.load.css([
         '/Utilities/Fonts/icon.css',
+        '/Utilities/Fonts/SvgIcons/svg.css',
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         $dom.path() + 'styles/public.css',

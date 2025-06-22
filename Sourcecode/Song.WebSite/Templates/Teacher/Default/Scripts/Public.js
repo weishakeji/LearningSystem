@@ -4,7 +4,8 @@
         '/Utilities/styles/public.css',
         $dom.path() + 'styles/public.css',
         //$dom.path() + 'styles/dropmenu.css',
-        '/Utilities/Fonts/icon.css'
+        '/Utilities/Fonts/icon.css',
+        '/Utilities/Fonts/SvgIcons/svg.css',
     ], $dom.selfresource);
     //加载相关组件
     window.$components = function (f) {

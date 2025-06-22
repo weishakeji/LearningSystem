@@ -1654,6 +1654,12 @@
     <Content Include="Utilities\Fonts\Styles\Help.css" />
     <Content Include="Utilities\Fonts\Styles\Loading.css" />
     <Content Include="Utilities\Fonts\Styles\index.css" />
+    <Content Include="Utilities\Fonts\svg.html" />
+    <Content Include="Utilities\Fonts\SvgIcons\ai1.svg" />
+    <Content Include="Utilities\Fonts\SvgIcons\ai2.svg" />
+    <Content Include="Utilities\Fonts\SvgIcons\ai3.svg" />
+    <Content Include="Utilities\Fonts\SvgIcons\ailogo.svg" />
+    <Content Include="Utilities\Fonts\SvgIcons\svg.css" />
     <Content Include="Utilities\Images\ai.png" />
     <Content Include="Utilities\Images\alpha.png" />
     <Content Include="Utilities\Images\def_logo.jpg" />

@@ -10,17 +10,17 @@
             id: $api.querystring('id'),
             course: {},     //当前课程
             tabs: [
-                { name: '基本信息', tab: 'general', icon: '&#xe667', size:'small' },
-                { name: '简介', tab: 'intro', icon: '&#xa02e', size:'small'  },
-                { name: 'AI助教', tab: 'aiagent', icon: '&#xe816' },
-                { name: '资费', tab: 'money', icon: '&#xe746' },
-                { name: '章节', tab: 'outline', icon: '&#xe841' },
+                { name: '基本信息', tab: 'general', icon: '&#xe667', size: 'small', enable: true },
+                { name: '简介', tab: 'intro', icon: '&#xa02e', size: 'small', enable: true },
+                { name: 'AI助教', tab: 'aiagent', svg: 'ai', size: 'large', color: 'red', enable: true },
+                { name: '资费', tab: 'money', icon: '&#xe746', enable: true },
+                { name: '章节', tab: 'outline', icon: '&#xe841', enable: true },
                 { name: '试题', tab: 'question', icon: '&#xe75e' },
-                { name: '试卷/考试', tab: 'testpaper', icon: '&#xe810' },
-               
-                { name: '知识点', tab: 'knowledge', icon: '&#xa022', size:'small'  },
-                { name: '公告', tab: 'guide', icon: '&#xe840', size:'large'  },
-                { name: '留言', tab: 'message', icon: '&#xe817' }
+                { name: '试卷/考试', tab: 'testpaper', icon: '&#xe810', enable: true },
+
+                { name: '知识点', tab: 'knowledge', icon: '&#xa022', size: 'small', enable: true },
+                { name: '公告', tab: 'guide', icon: '&#xe840', size: 'large', enable: true },
+                { name: '留言', tab: 'message', icon: '&#xe817', enable: true }
             ],
             tabName: 'general',      //顶部选项卡的示默认项
             loading: true

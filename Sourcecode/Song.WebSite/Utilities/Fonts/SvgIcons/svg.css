@@ -1,0 +1,41 @@
+icon[svg] {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: currentColor;
+    mask-size: cover;    
+}
+
+/*图标大小设置*/
+icon[svg][huge]{
+    transform: scale(1.5);
+    margin-right: 0.5rem;
+}
+icon[svg][large] {
+   transform: scale(1.2);
+   margin-right: 0.2rem;
+}
+icon[svg][medium] {
+    transform: scale(1);
+}
+icon[svg][small] {
+    transform: scale(0.9);
+}
+icon[svg][mini]{
+    transform: scale(0.7);
+}
+/*图标*/
+icon[svg=ai]{
+    mask-image: url('ai1.svg');
+}
+icon[svg=ai2]{
+    mask-image: url('ai2.svg');
+}
+icon[svg=ai3]{
+    background-image: url('ai3.svg');
+    background-color:transparent;
+    background-size: contain;
+}
+icon[svg=ailogo]{
+    mask-image: url('ailogo.svg');
+}

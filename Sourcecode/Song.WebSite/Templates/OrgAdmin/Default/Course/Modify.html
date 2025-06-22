@@ -16,16 +16,16 @@
             <template v-if="exist" remark="课程管理">
                 <course_name :course="course" @save="savename"></course_name>
                 <el-tabs type="card" tab-position="top" v-model="tabName" class="course_tabs noselect">
-                    <el-tab-pane v-for="item in tabs" :name="item.tab">
+                    <el-tab-pane v-for="item in tabs" :name="item.tab" v-if="item.enable">
                         <div slot="label" @dblclick="doubletab(item.tab)" v-if="item.tab==tabName">
                             <el-tooltip class="item" effect="light" content="双击刷新" placement="bottom">
-                                <span>
-                                    <icon v-html="item.icon" :[item.size]="true"></icon>{{item.name}}
+                                <span :style="{'color':item.color}">
+                                    <icon v-html="item.icon" :svg="item.svg" :[item.size]="true"></icon>{{item.name}}
                                 </span>
                             </el-tooltip>
                         </div>
-                        <div v-else slot="label">
-                            <icon v-html="item.icon" :[item.size]="true"></icon>{{item.name}}
+                        <div v-else slot="label" :style="{'color':item.color}">
+                            <icon v-html="item.icon" :svg="item.svg"  :[item.size]="true"></icon>{{item.name}}
                         </div>
                     </el-tab-pane>
                 </el-tabs>
