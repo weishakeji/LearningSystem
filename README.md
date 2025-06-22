@@ -6,7 +6,7 @@
 
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
-
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/ai.png)
 ###  一些感怀
 >  **江城子** - 加班写代码 - 2025年3月<br/>
 (我以为，我可以很快的写一款软件，大卖，早早的财务自由。
