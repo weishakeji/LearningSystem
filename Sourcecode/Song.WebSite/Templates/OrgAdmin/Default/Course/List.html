@@ -108,6 +108,7 @@
                     <div>
                         <el-tag type="warning" v-if="scope.row.Cou_Type">试题库</el-tag>
                         <live v-if="scope.row.Cou_Type!=2 && scope.row.Cou_ExistLive" title="直播课"></live>
+                        <icon svg="ai2" title="AI助教" v-if="scope.row.Cou_EnabledAI">AI助教</icon>
                         <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
                             v-html="showsearch(scope.row.Cou_Name,form.search)" class="large"> </a>
                     </div>

@@ -71,7 +71,10 @@ live {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
+.title_box icon[svg]{
+	float: left;
+	color: rgb(255, 30, 30);
+}
 .title_box live {
 	width: 20px;
 	height: 16px;

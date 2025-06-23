@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head resource>
     <meta charset="UTF-8">
-    <include file="../inc/meta.inc" /> 
+    <include file="../inc/meta.inc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>课程AI助教</title>
 </head>
+
 <body>
-    <div id="vapp" v-cloak> 
-    {{loading}}
-    </div> 
+    <div id="vapp" v-cloak>
+        <el-form ref="course" :model="course" :rules="rules" v-loading="loading" @submit.native.prevent
+            label-width="80px">
+            <el-form-item label="" prop="Cou_EnabledAI">
+                <el-switch v-model="course.Cou_EnabledAI" @change="updateCourse()"
+                    :active-text="course.Cou_EnabledAI ? '启用AI助教' : '禁用AI助教'">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="AI数据源" prop="Cou_AIType">
+                <el-radio-group v-model="course.Cou_AIType" @change="updateCourse()">                   
+                        <el-radio :label="0">采用公域大语言模型 </el-radio>                   
+                        <el-radio :label="1">采用课程专用知识库</el-radio>                   
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="智能体" prop="Cou_AIAgent">
+                <el-input v-model="course.Cou_AIAgent" placeholder="请输入智能体的网址" @blur="updateCourse"></el-input>
+            </el-form-item>
+        </el-form>
+    </div>
 </body>
+
 </html>
