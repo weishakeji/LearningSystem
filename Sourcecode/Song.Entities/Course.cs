@@ -10,11 +10,17 @@ namespace Song.Entities {
     		
     		protected Int64 _Cou_ID;
     		
+    		protected String _Cou_AIAgent;
+    		
+    		protected Int32 _Cou_AIType;
+    		
     		protected Boolean _Cou_Allowedit;
     		
     		protected String _Cou_Content;
     		
     		protected DateTime _Cou_CrtTime;
+    		
+    		protected Boolean _Cou_EnabledAI;
     		
     		protected Boolean _Cou_ExistExam;
     		
@@ -110,6 +116,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Cou_AIAgent {
+    			get {
+    				return this._Cou_AIAgent;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_AIAgent, _Cou_AIAgent, value);
+    				this._Cou_AIAgent = value;
+    			}
+    		}
+    		
+    		public Int32 Cou_AIType {
+    			get {
+    				return this._Cou_AIType;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_AIType, _Cou_AIType, value);
+    				this._Cou_AIType = value;
+    			}
+    		}
+    		
     		public Boolean Cou_Allowedit {
     			get {
     				return this._Cou_Allowedit;
@@ -137,6 +163,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Cou_CrtTime, _Cou_CrtTime, value);
     				this._Cou_CrtTime = value;
+    			}
+    		}
+    		
+    		public Boolean Cou_EnabledAI {
+    			get {
+    				return this._Cou_EnabledAI;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_EnabledAI, _Cou_EnabledAI, value);
+    				this._Cou_EnabledAI = value;
     			}
     		}
     		
@@ -581,9 +617,12 @@ namespace Song.Entities {
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
     					_.Cou_ID,
+    					_.Cou_AIAgent,
+    					_.Cou_AIType,
     					_.Cou_Allowedit,
     					_.Cou_Content,
     					_.Cou_CrtTime,
+    					_.Cou_EnabledAI,
     					_.Cou_ExistExam,
     					_.Cou_ExistLive,
     					_.Cou_FreeEnd,
@@ -634,9 +673,12 @@ namespace Song.Entities {
     		protected override object[] GetValues() {
     			return new object[] {
     					this._Cou_ID,
+    					this._Cou_AIAgent,
+    					this._Cou_AIType,
     					this._Cou_Allowedit,
     					this._Cou_Content,
     					this._Cou_CrtTime,
+    					this._Cou_EnabledAI,
     					this._Cou_ExistExam,
     					this._Cou_ExistLive,
     					this._Cou_FreeEnd,
@@ -688,6 +730,12 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
+    			if ((false == reader.IsDBNull(_.Cou_AIAgent))) {
+    				this._Cou_AIAgent = reader.GetString(_.Cou_AIAgent);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_AIType))) {
+    				this._Cou_AIType = reader.GetInt32(_.Cou_AIType);
+    			}
     			if ((false == reader.IsDBNull(_.Cou_Allowedit))) {
     				this._Cou_Allowedit = reader.GetBoolean(_.Cou_Allowedit);
     			}
@@ -696,6 +744,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_CrtTime))) {
     				this._Cou_CrtTime = reader.GetDateTime(_.Cou_CrtTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_EnabledAI))) {
+    				this._Cou_EnabledAI = reader.GetBoolean(_.Cou_EnabledAI);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ExistExam))) {
     				this._Cou_ExistExam = reader.GetBoolean(_.Cou_ExistExam);
@@ -855,6 +906,16 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Course>("Cou_ID");
     			
     			/// <summary>
+    			/// 字段名：Cou_AIAgent - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_AIAgent = new WeiSha.Data.Field<Course>("Cou_AIAgent");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_AIType - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_AIType = new WeiSha.Data.Field<Course>("Cou_AIType");
+    			
+    			/// <summary>
     			/// 字段名：Cou_Allowedit - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Cou_Allowedit = new WeiSha.Data.Field<Course>("Cou_Allowedit");
@@ -868,6 +929,11 @@ namespace Song.Entities {
     			/// 字段名：Cou_CrtTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Cou_CrtTime = new WeiSha.Data.Field<Course>("Cou_CrtTime");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_EnabledAI - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_EnabledAI = new WeiSha.Data.Field<Course>("Cou_EnabledAI");
     			
     			/// <summary>
     			/// 字段名：Cou_ExistExam - 数据类型：Boolean
@@ -1081,4 +1147,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

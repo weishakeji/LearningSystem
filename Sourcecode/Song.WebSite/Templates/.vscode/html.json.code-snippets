@@ -1,0 +1,22 @@
+{
+	"HTML5 Template": {
+	  "prefix": "tmpl:html5",
+	  "body": [
+		"<!DOCTYPE html>",
+		"<html lang=\"en\">",
+		"<head resource>",
+		"    <meta charset=\"UTF-8\">",
+		"    <include file=\"../inc/meta.inc\" /> ",
+		"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+		"    <title>$1</title>",
+		"</head>",
+		"<body>",
+		"    <div id=\"vapp\" v-cloak> ",
+		"    $0",
+		"    </div> ",
+		"</body>",
+		"</html>"
+	  ],
+	  "description": "HTML5 微厦在线学习系统的专用模板"
+	}
+  }

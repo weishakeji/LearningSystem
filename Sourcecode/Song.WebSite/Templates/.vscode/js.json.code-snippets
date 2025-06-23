@@ -1,0 +1,30 @@
+{
+	"Javascript Template": {
+	  "prefix": "tmpl:javascript",
+	  "body": [
+		"\\$ready(function () {",
+		"\twindow.vapp = new Vue({",
+		"\t\tel: '#vapp',",
+		"\t\tdata: {",
+		"\t\t\tloading: false,",
+		"\t\t},",
+		"\t\tmounted: function () {",
+		"\t\t\n\t\t},",
+		"\t\tcreated: function () {",
+		"\t\t\n\t\t},",
+		"\t\tcomputed: {",
+		"\t\t\n\t\t},",
+		"\t\twatch: {",
+		"\t\t\n\t\t},",
+		"\t\tmethods: {",
+		"\t\t\n\t\t},",
+		"\t\tfilters: {",
+		"\t\t\n\t\t},",
+		"\t\tcomponents: {",
+		"\t\t\n\t\t}",
+		"\t});",
+		"});"
+	  ],
+	  "description": "Javascript  微厦在线学习系统的专用模板"
+	}
+}
