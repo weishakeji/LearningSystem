@@ -1,24 +1,25 @@
 weisha.subject_show {
-    display: block;
+    display: flex;
     width: 100%;
     height: 420px;
     position: relative;
     margin-bottom: 80px;
 }
 
-weisha.subject_show subject {
+weisha.subject_show .subject {
     display: block;
-    float: left;
     position: relative;
     width: 220px;
     height: 420px;
     cursor: pointer;
-    transition: all 0.5s;    
+    transition: all 0.5s;
 }
-weisha.subject_show subject:hover{
+
+weisha.subject_show .subject:hover {
     transform: scale(1.02);
 }
-weisha.subject_show subject::before {
+
+weisha.subject_show .subject::before {
     content: attr(name);
     display: block;
     width: 100%;
@@ -32,108 +33,34 @@ weisha.subject_show subject::before {
     font-size: 20px;
     text-shadow: 1px 1px 5px #fff, -1px -1px 5px #fff;
 }
-weisha.subject_show subject img{
+
+weisha.subject_show .subject img {
     width: 220px;
     max-height: 420px;
     border-radius: 3px;
 }
+
 /*课程*/
 
 weisha.subject_show courses {
-    display: block;
-    float: right;
+    flex: 1;
     width: calc(100% - 220px);
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-left: 65px;
 }
 
-weisha.subject_show courses>div {
-    width: 260px;
+weisha.subject_show courses>weisha_course {
+    width: 230px;
     height: 210px;
-    float: left;
-    margin-left: 65px;
     transition: all 0.5s;
     position: relative;
+    flex: 0 0 calc(30% - 10px);
+    margin-bottom: 30px;
 }
 
-weisha.subject_show courses>div[rec]::before {
-    content: '\e741';
-    font-family: "webdesk_icon" !important;
-    font-size: 60px;
-    display: block;
-    position: absolute;
-    margin: -2px 0px 0px -4px;
-    color: rgb(255, 30, 30);
-    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
-}
-
-weisha.subject_show courses>div:hover {
-    transform: scale(1.05);
-}
-
-weisha.subject_show courses img:first-child {
-    width: 260px;
-    height: 146px;
-    border-radius: 5px;
-    cursor: pointer;
-    
-}
-weisha.subject_show .type {
-    position: absolute;
-    top: 3px;
-    right: 3px;
- }
-weisha.subject_show .name {
-    line-height: 25px;
-    font-size: 16px;
-    max-height: 50px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-weisha.subject_show .price {
-    font-size: 12px;
-    height: 25px;
-    line-height: 25px;
-    margin-top: 6px;
-    padding: 0px 10px 0px 0px;
-}
-
-weisha.subject_show .price .money {
-    color: #F60;
-}
-
-weisha.subject_show .price .money icon {
-    font-size: 16px;
-    margin-right: 3px;
-}
-
-weisha.subject_show .price .free {
-    color: rgb(0, 148, 7);
-}
-
-weisha.subject_show .price .free::before {
-    content: '\e72d';
-    font-family: "webdesk_icon" !important;
-    margin-right: 5px;
-    font-size: 16px;
-    display: inline-block;
-}
-
-weisha.subject_show .price .view {
-    float: right;
-    display: block;
-    margin-right: 3px;
-    color: #999;
-}
-
-weisha.subject_show .price .view::before {
-    content: '\a03a';
-    font-family: "webdesk_icon" !important;
-    margin-right: 3px;
-    font-size: 16px;
-    display: inline-block;
-}
-weisha.subject_show courses loading{
+weisha.subject_show courses loading {
     margin: 30px auto;
 }

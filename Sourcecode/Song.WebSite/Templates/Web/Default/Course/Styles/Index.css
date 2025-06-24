@@ -51,19 +51,19 @@ context.subjectbox {
 context.coursebox {
     padding-top: 30px;
     display: flex;
-    flex-direction: row;
-    --flex-direction: column;
+    flex-direction: row; 
     flex-wrap: wrap;
-    --justify-content: space-between;
+    justify-content: space-between;
     align-items:flex-start;
     align-content: flex-start;
     overflow-x: hidden;
-    overflow-y: hidden;
-    --max-height: 300px;
+    overflow-y: hidden;   
 }
 context.coursebox weisha_course{
     margin-right: 53px;
     margin-bottom: 80px;
+    flex: 0 0 calc(22% - 10px);
+    margin-bottom: 50px;
 }
 context.coursebox weisha_course.fourth{
     margin-right: 0px;

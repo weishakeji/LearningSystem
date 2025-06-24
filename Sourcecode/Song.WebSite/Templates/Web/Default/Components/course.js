@@ -13,12 +13,12 @@ Vue.component('course', {
     },
     watch: {
         'org': {
-            handler: function (nv, ov) {
+            handler: function (nv, ov) {              
                 if (JSON.stringify(nv) == '{}' || nv == null) return;
                 var config = $api.organ(nv).config;
                 //是否移除充值金额相关
-                if (!!config.IsMobileRemoveMoney)
-                    this.mremove = config.IsMobileRemoveMoney;
+                if (!!config.IsWebRemoveMoney)
+                    this.mremove = config.IsWebRemoveMoney;                
             }, immediate: true
         }
     },

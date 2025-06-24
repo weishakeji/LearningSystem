@@ -77,28 +77,13 @@ Vue.component('subject_show', {
         }
     },
     template: `<weisha class="subject_show" v-if="show">
-        <subject :name="subject.Sbj_Name" v-if="subject!=null" @click="gocourses(subject)">     
+        <div class="subject" :name="subject.Sbj_Name" v-if="subject!=null" @click="gocourses(subject)">     
             <img :src="subject.Sbj_Logo" v-if="subject.Sbj_Logo && subject.Sbj_Logo!=''"/>
             <img :src="path+'images/nosubject.jpg'" v-else />
-        </subject>
+        </div>
         <courses>
-            <loading v-if="loading">loading ... </loading>
-            <template v-else>
-                <div v-for="cour in courses" @click="godetail(cour.Cou_ID)" :rec="cour.Cou_IsRec">
-                    <img :src="cour.Cou_LogoSmall" v-if="cour.Cou_LogoSmall && cour.Cou_LogoSmall!=''"/>
-                    <img :src="path+'images/cou_nophoto.jpg'" v-else />
-                    <el-tag type="warning" class="type" v-if="cour.Cou_Type">试题库</el-tag>   
-                    <a class="name">{{ cour.Cou_Name }}</a>
-                    <div class="price">
-                        <span class="free" v-if="cour.Cou_IsFree">免费</span>
-                        <span class="money" v-else-if="cour.Cou_Price>0">
-                            <icon>&#xe818;</icon>
-                            {{cour.Cou_Price}}元/{{cour.Cou_PriceSpan}}{{cour.Cou_PriceUnit}}             
-                        </span>
-                        <span class="view" title="访问量">{{cour.Cou_ViewNum}}</span>
-                    </div>
-                </div>
-            </template>
+            <loading v-if="loading">loading ... </loading>          
+            <course  v-else v-for="(item, i) in courses" :item="item" :org="org"></course>
         </courses>
     </weisha>`
 });
