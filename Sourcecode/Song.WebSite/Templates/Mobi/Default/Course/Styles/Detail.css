@@ -151,22 +151,30 @@ a.go-home:before {
 }
 
 .mainmenuBox>div {
-    flex: 1;
-    width: calc((100% - 20px)/5 - 20px);
+    width: calc((100% - 20px)/4 - 5px);
     flex-basis: auto;
     font-size: 13px;
     text-align: center;
-    padding: 10px 5px 0px 5px;
+    padding: 20px 5px 0px 5px;
     position: relative;
 }
 
 .mainmenuBox>div[disabled] {
-    color: #666;
+    color: #999;
 }
 
 .mainmenuBox>div icon {
     display: block;
+    height: 35px;
     margin-bottom: 4px;
+    transform: scale(1.2);
+}
+
+.mainmenuBox>div icon[svg] {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 4px;
+    margin: 0px auto 4px auto;
 }
 
 .mainmenuBox span {

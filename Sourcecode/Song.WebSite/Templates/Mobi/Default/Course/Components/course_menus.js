@@ -24,11 +24,24 @@ Vue.component('course_menus', {
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'knowledge', name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true,
+                    id: 'testfinal', name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'testfinal', name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true,
+                    id: 'knowledge', name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
+
+                {
+                    id: 'notice', name: '课程公告', url: '../Test/Finality', icon: '&#xe697', size: 32, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
+                {
+                    id: 'aiagent', name: 'AI助教', url: '../Test/Finality', svg: 'ai', size: 32, show: true,
+                    count: 0, disabled: false, mustbuy: true, evt: null
+                },
+                {
+                    id: 'score', name: '综合成绩', url: '../Test/Finality', icon: '&#xe829', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
             ],
@@ -50,6 +63,10 @@ Vue.component('course_menus', {
                         this.menus[i].disabled = nv[this.menus[i].id] == 0;
                     this.menus[i].count = nv[this.menus[i].id];
                 }
+                //设置AI助教是否启用
+                let aiagent = this.menus.find(m => m.id == 'aiagent');
+                if (aiagent != null) aiagent.disabled = !this.course.Cou_EnabledAI;
+
             }
         }
     },
@@ -181,7 +198,8 @@ Vue.component('course_menus', {
     template: `<div class="mainmenu">
                 <div class="mainmenuBox">
                      <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="showitem(m)" :disabled="m.disabled">
-                        <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
+                        <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'" v-if="!m.svg"></icon>
+                        <icon v-else :svg="m.svg"></icon>
                         <name>{{m.name}}</name>
                         <span v-if="m.count>0 && m.id!='testfinal'">{{m.count}}</span>
                     </div>                                   
