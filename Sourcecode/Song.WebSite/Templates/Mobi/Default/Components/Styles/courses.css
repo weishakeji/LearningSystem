@@ -31,7 +31,7 @@
 
 .cour-card .cour-title .van-loading {
     display: inline-block;
-    padding: 0px;   
+    padding: 0px;
     font-size: 16px !important;
     margin-top: -3px;
 }
@@ -41,11 +41,11 @@
     display: block;
 }
 
-    .cour-card .cour-title more::before {
-        content: "\e001";
-        font-family: webdesk_icon;
-        color: #888888;
-    }
+.cour-card .cour-title more::before {
+    content: "\e001";
+    font-family: webdesk_icon;
+    color: #888888;
+}
 
 .cour-card .cour-content {
     display: flex;
@@ -64,7 +64,31 @@
     text-align: center;
     position: relative;
 }
-
+.cour-card  .topbar {
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    width: calc(100% - 2px);
+    display: flex;
+    justify-content:flex-end;
+    box-sizing: border-box;
+    padding: 2px;
+ }
+ .cour-card .topbar>*{
+    margin-left: 6px;
+ }
+ .cour-card  .topbar>.ai{
+   color: #fff;
+   background-color: rgba(255, 0, 0, 0.8);
+   padding: 2px 6px;
+   border-radius: 3px;
+   font-size: 14px;
+ }
+ .cour-card  .topbar>.ai icon[svg]{
+    width: 16px;
+    height: 16px;
+    margin-bottom: -3px;
+ }
 .cour-card .cour-box:nth-of-type(even) {
     margin-left: 2%;
     margin-right: 2%;
@@ -140,7 +164,7 @@ live {
 
 .cour-card .cour-box price {
     right: 3px;
-    top: 10px;    
+    top: 10px;
     position: absolute;
 }
 

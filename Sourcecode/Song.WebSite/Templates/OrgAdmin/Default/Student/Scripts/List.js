@@ -88,7 +88,7 @@ $ready(function () {
                     if (d.data.success) {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
-                        th.total = d.data.total;                       
+                        th.total = d.data.total;
                     } else {
                         console.error(d.data.exception);
                         throw d.data.message;
@@ -124,7 +124,13 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.accounts.findIndex(item => item.Ac_ID.toString() == id);
-                        if (index >= 0) th.$set(th.accounts, index, result);
+                        if (index >= 0) {
+                            th.$set(th.accounts, index, result);
+                            th.$message({
+                                message: '刷新账号 (' + result.Ac_AccName + ') 成功',
+                                type: 'success'
+                            });
+                        }
                     } else {
                         throw req.data.message;
                     }

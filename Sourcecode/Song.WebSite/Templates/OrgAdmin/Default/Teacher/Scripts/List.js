@@ -102,7 +102,13 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.datas.findIndex(item => item.Th_ID == id);
-                        if (index >= 0) th.$set(th.datas, index, result);
+                        if (index >= 0) {
+                            th.$set(th.datas, index, result);
+                            th.$message({
+                                message: '刷新教师信息 (' + result.Th_Name + ') 成功',
+                                type: 'success'
+                            });
+                        }
                     } else {
                         throw req.data.message;
                     }

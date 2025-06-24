@@ -15,7 +15,7 @@
                 { name: 'AI助教', tab: 'aiagent', svg: 'ai', size: 'large', color: '#409EFF', enable: true },
                 { name: '资费', tab: 'money', icon: '&#xe746', enable: true },
                 { name: '章节', tab: 'outline', icon: '&#xe841', enable: true },
-                { name: '试题', tab: 'question', icon: '&#xe75e' },
+                { name: '试题', tab: 'question', icon: '&#xe75e', enable: true },
                 { name: '试卷/考试', tab: 'testpaper', icon: '&#xe810', enable: true },
 
                 { name: '知识点', tab: 'knowledge', icon: '&#xa022', size: 'small', enable: true },

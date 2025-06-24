@@ -148,11 +148,32 @@
     font-family: webdesk_icon;
     margin-right: 3px;
 }
-.cour-box picture .type {
+.cour-box picture  .topbar {
     position: absolute;
-    top: 3px;
-    right: 3px;    
-}
+    top: 2px;
+    left: 0px;
+    width: calc(100% - 2px);
+    display: flex;
+    justify-content:flex-end;
+    box-sizing: border-box;
+    padding: 2px;
+ }
+ .cour-box picture .topbar>*{
+    margin-left: 6px;
+ }
+ .cour-box picture .topbar>.ai{
+   color: #fff;
+   background-color: rgba(255, 0, 0, 0.8);
+   padding: 2px 6px;
+   border-radius: 3px;
+   font-size: 14px;
+ }
+ .cour-box picture .topbar>.ai icon[svg]{
+    width: 16px;
+    height: 16px;
+    margin-bottom: -3px;
+ }
+
 .cour-box .van-cell__title {
     display: flex;
 }

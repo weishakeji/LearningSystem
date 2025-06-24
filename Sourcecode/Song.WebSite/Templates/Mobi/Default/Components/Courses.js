@@ -134,6 +134,10 @@ Vue.component('cour-box', {
     template: `<div class="cour-box" :couid="course.Cou_ID" v-on:click.stop="clickevent">
                 <rec v-if="course.Cou_IsRec"></rec>
                 <img :src="defpic"/>
+                <div class="topbar">
+                    <van-tag type="warning" class="type" v-if="course.Cou_Type">题库</van-tag>   
+                    <span class="ai" v-if="course.Cou_EnabledAI"><icon svg="ai"></icon>AI助教</span>            
+                </div>    
                 <name>
                     <live v-if="course.Cou_ExistLive"></live>                     
                     <t v-if="course.Cou_IsTry"></t>{{course.Cou_Name}}

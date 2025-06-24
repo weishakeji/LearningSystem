@@ -60,8 +60,11 @@
                         <picture>
                             <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
                             <img src="/Utilities/images/cou_nophoto.jpg" v-else />
-                            <rec v-if="item.Cou_IsRec"></rec>        
-                            <van-tag type="primary" class="type" v-if="item.Cou_Type==2">题库</van-tag>                   
+                            <rec v-if="item.Cou_IsRec"></rec>     
+                            <div class="topbar">
+                                <van-tag type="warning" class="type" v-if="item.Cou_Type">题库</van-tag>   
+                                <span class="ai" v-if="item.Cou_EnabledAI"><icon svg="ai"></icon>AI助教</span>            
+                            </div> 
                             <live v-if="item.Cou_ExistLive"></live>
                             <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}</van-tag>
                         </picture>

@@ -82,7 +82,10 @@
                                 <rec v-if="item.Cou_IsRec"></rec>
                                 <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}
                                 </van-tag>
-                                <van-tag type="primary" class="type" v-if="item.Cou_Type==2">题库</van-tag>
+                                <div class="topbar">
+                                    <van-tag type="warning" class="type" v-if="item.Cou_Type">题库</van-tag>   
+                                    <span class="ai" v-if="item.Cou_EnabledAI"><icon svg="ai"></icon>AI助教</span>            
+                                </div>                                
                             </picture>
                             <info @click="godetail(item.Cou_ID)">
                                 <div class="curname">
