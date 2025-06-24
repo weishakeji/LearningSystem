@@ -728,8 +728,7 @@ namespace Song.ServiceImpls
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             wcOrder = wcOrder & Course._.Cou_ID.Desc;
-            return Gateway.Default.From<Course>().Where(wc)
-               .OrderBy(wcOrder).ToList<Course>(count);
+            return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(count);
         }
         public bool CourseIsChildren(int orgid, long couid, bool? isUse)
         {
@@ -837,7 +836,7 @@ namespace Song.ServiceImpls
             //按视频数量的排序
             if ("videoAsc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Asc;
             if ("videoDesc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) wcOrder = Course._.Cou_VideoCount.Desc;
-            //
+            //推荐课程
             if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Desc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {

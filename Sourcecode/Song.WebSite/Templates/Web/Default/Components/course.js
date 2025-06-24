@@ -43,7 +43,10 @@ Vue.component('course', {
             <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall && item.Cou_LogoSmall!=''"/>
             <img src="/Utilities/images/cou_nophoto.jpg" v-else />
         </a>
-        <el-tag type="warning" class="type" v-if="item.Cou_Type">试题库</el-tag>   
+        <div class="topbar">
+            <el-tag type="warning" class="type" v-if="item.Cou_Type">试题库</el-tag>   
+            <span class="ai" v-if="item.Cou_EnabledAI"><icon svg="ai"></icon>AI助教</span>            
+        </div>       
         <a class="name" :href="seturl()" target="_blank">{{ item.Cou_Name }}</a>
         <div class="price" v-if="!mremove">
             <span class="free" v-if="item.Cou_IsFree">免费</span>

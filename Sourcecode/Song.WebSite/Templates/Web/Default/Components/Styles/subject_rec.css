@@ -59,62 +59,7 @@ weisha.subject_rec courses img:first-child {
     border-radius: 5px;
     cursor: pointer;
 }
-weisha.subject_rec .type {
-   position: absolute;
-   top: 3px;
-   right: 3px;
-}
-weisha.subject_rec .name {
-    line-height: 25px;
-    font-size: 16px;
-    max-height: 50px;
-    overflow: hidden;
-    cursor: pointer;
-}
 
-weisha.subject_rec .price {
-    font-size: 12px;
-    height: 25px;
-    line-height: 25px;
-    margin-top: 6px;
-    padding: 0px 10px 0px 10px;
-}
-
-weisha.subject_rec .price .money {
-    color: #F60;
-}
-
-weisha.subject_rec .price .money icon {
-    font-size: 16px;
-    margin-right: 3px;
-}
-
-weisha.subject_rec .price .free {
-    color: rgb(0, 148, 7);
-}
-
-weisha.subject_rec .price .free::before {
-    content: '\e72d';
-    font-family: "webdesk_icon" !important;
-    margin-right: 5px;
-    font-size: 16px;
-    display: inline-block;
-}
-
-weisha.subject_rec .price .view {
-    float: right;
-    display: block;
-    margin-right: 3px;
-    color: #999;
-}
-
-weisha.subject_rec .price .view::before {
-    content: '\a03a';
-    font-family: "webdesk_icon" !important;
-    margin-right: 3px;
-    font-size: 16px;
-    display: inline-block;
-}
 weisha.subject_rec courses loading{
     margin: 30px auto;
 }
