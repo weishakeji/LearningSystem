@@ -16,7 +16,11 @@ context {
     width: 1200px;
     padding: 0px calc((100% - 1200px)/2);
     text-align: left;
+   
     margin-top: 10px;
+}
+context:empty {
+    min-height: 600px;   
 }
 /*面包屑导航*/
 context.navig {

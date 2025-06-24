@@ -12,7 +12,6 @@
         <page_header @load="(o,c,p)=>{org=o;config=c;platinfo=p;}" @login="acc=>account = acc">loading ...
         </page_header>
         <context class="news" v-if="articles.length>0">
-
             <div class="artbox">
                 <div class="art_img" remark="图片新闻">
                     <template v-for="(data,i) in articles">
@@ -46,7 +45,7 @@
             </div>
         </context>
         <context class="rec">
-            <subject_rec :subject="null" :count="8" :mincount="4" order="rec"></subject_rec>
+            <subject_rec :subject="null" :count="8" :org="org" :mincount="4" order="rec"></subject_rec>
         </context>
         <page_footer :organ="org">loading ...</page_footer>
     </div>

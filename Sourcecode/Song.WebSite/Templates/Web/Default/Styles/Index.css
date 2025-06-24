@@ -24,7 +24,7 @@ html, body {
     height: 460px;
     --left: calc((100% - 1200px)/2);
     left: 0%;
-  
+
     top: 0px;
 }
 
@@ -41,6 +41,10 @@ context {
     padding: 0px calc((100% - 1200px)/2);
     text-align: left;
     margin-top: 30px;
+}
+
+context.rec {
+    margin-bottom: -80px;
 }
 
 /*通知公告*/
@@ -83,15 +87,18 @@ context {
     margin-right: 10px;
 }
 
-.notice .noItem:nth-child(1) b{
-	color: rgb(179, 11, 44);
+.notice .noItem:nth-child(1) b {
+    color: rgb(179, 11, 44);
 }
-.notice .noItem:nth-child(2) b{
-	color: rgb(238, 23, 66);
+
+.notice .noItem:nth-child(2) b {
+    color: rgb(238, 23, 66);
 }
-.notice .noItem:nth-child(3) b{
-	color: #ff9a03;
+
+.notice .noItem:nth-child(3) b {
+    color: #ff9a03;
 }
+
 .notice .noItem a {
     font-size: 20px;
 }
@@ -140,7 +147,7 @@ context {
     background-repeat: no-repeat;
     height: 19px;
     width: 56px;
-    display: block; 
+    display: block;
     position: absolute;
     right: 0px;
     bottom: -1px;
@@ -220,11 +227,3 @@ context {
     display: inline-block;
 }
 
-
-
-/*专业、课程*/
-
-context.subjectbox {
-    padding-top: 30px;
-    overflow: auto;
-}
