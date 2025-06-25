@@ -160,7 +160,7 @@ a.go-home:before {
 }
 
 .mainmenuBox>div[disabled] {
-    
+
     opacity: 0.3;
 }
 
@@ -192,12 +192,15 @@ a.go-home:before {
     padding: 0 6px;
 
 }
-.tab span[icon]{
+
+.tab span[icon] {
     font-size: 15px;
 }
-.tab span[icon]::before{
+
+.tab span[icon]::before {
     font-size: 17px;
 }
+
 /*内容区*/
 
 #Context {
@@ -318,6 +321,23 @@ a.go-home:before {
     right: 0px;
 }
 
+/*教师*/
+.teacher .ws_avatar {
+    margin: 10px auto;
+}
+
+.teacher .thname {
+   text-align: center;
+    font-size: 18px;
+}
+.teacher .thintro {  
+     font-size: 16px;
+     line-height: 1.6rem;
+     padding: 0px 15px;
+ }
+ .teacher .thsname{
+    font-size: 15px;
+ }
 /*弹出面板*/
 .mainmenu .van-popup button {
     font-size: 16px;

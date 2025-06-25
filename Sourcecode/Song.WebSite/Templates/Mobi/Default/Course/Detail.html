@@ -120,9 +120,12 @@
             <!--教师-->
             <template v-if="tabActive==3">
                 <div class="teacher" v-if="teacher">
-                    <div class="avatar" :style="'background-image:url('+teacher.Tch_Avatar+')'"></div>
-                    <div class="name">{{teacher.Tch_Name}}</div>
-                    <div class="intro" v-html="teacher.Tch_Intro"></div>
+                    <avatar :teacher="teacher" circle="true" size="60"></avatar>
+                    <div class="thname">
+                        <span v-html="teacher.Th_Name" ></span>
+                        <span v-if="teacher.Ths_Name!=''" class="thsname">({{teacher.Ths_Name}})</span>
+                    </div>
+                    <div v-html="teacher.Th_Intro" class="thintro"></div>
                 </div>
                 <div class="nodata" v-else>没有指定教师</div>
             </template>
