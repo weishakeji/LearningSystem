@@ -128,28 +128,7 @@
                     <div v-html="teacher.Th_Intro" class="thintro"></div>
                 </div>
                 <div class="nodata" v-else>没有指定教师</div>
-            </template>
-            <!--课程通知-->
-            <template v-if="tabActive==3">
-                <div class="guids" remark="课程公告">
-                    <div v-for="(g,i) in guides">
-                        <a @click="guides_show=true;guide=g;">{{i+1}}.{{g.Gu_Title}}</a>
-                        <span>{{g.Gu_CrtTime|date('MM-dd')}}</span>
-                    </div>
-                </div>
-                <van-popup v-model="guides_show" class="guides_show">
-                    <div>
-                        <div class="Gu_Title">
-                            <template v-if="guide.Gu_TitleFull !='' ">{{guide.Gu_TitleFull}}</template>
-                            <template v-else>{{guide.Gu_Title}}</template>
-                        </div>
-                        <div v-if="guide.Gu_Details !=''" v-html="guide.Gu_Details"></div>
-                        <div v-if="guide.Gu_Source!=''">来源 ： {{guide.Gu_Source}}</div>
-                    </div>
-                </van-popup>
-            </template>
-
-
+            </template>           
         </div>
     </div>
 </body>
