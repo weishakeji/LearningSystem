@@ -119,10 +119,10 @@ $ready(function () {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
-                    }).catch(function (err) {       
+                    }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    }) .finally(() => th.loading_sel = false);
+                    }).finally(() => th.loading_sel = false);
             },
             //显示教师详情
             showteach: function (teach) {
@@ -136,5 +136,4 @@ $ready(function () {
         }
     });
 
-}, ['../teacher/Components/photo.js',
-    "/Utilities/Components/education.js"]);
+}, ["/Utilities/Components/education.js"]);

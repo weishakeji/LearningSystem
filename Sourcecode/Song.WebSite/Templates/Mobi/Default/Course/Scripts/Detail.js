@@ -98,6 +98,7 @@ $ready(function () {
                     th.datainfo = datainfo.data.result;
                     th.guides = guides.data.result;
                     th.teacher = teacher.data.result;
+                    console.error(th.teacher);
                     //如果已经登录
                     if (th.islogin) {
                         th.loading = true;

@@ -46,7 +46,7 @@
                         </template>
                     </span>
                 </template>
-            </div>           
+            </div>
         </div>
         <van-sticky>
             <!--按钮组-->
@@ -54,22 +54,22 @@
                 :studied="studied" :owned="owned" :loading="loading" :datainfo="datainfo">
             </course_menus>
             <!--选项卡-->
-            <van-tabs v-model="tabActive">
+            <van-tabs v-model="tabActive" class="tab">
                 <van-tab title="detail">
                     <template #title>
-                        <span icon="&#xe813">课程介绍
+                        <span icon="&#xe813">课程介绍</span>
                     </template>
                 </van-tab>
                 <van-tab title="outline"> <template #title>
-                        <span icon="&#xe841">章节
+                        <span icon="&#xe841">章节</span>
                     </template>
                 </van-tab>
                 <van-tab title="target"> <template #title>
-                        <span icon="&#xe816">学习目标
+                        <span icon="&#xe816">学习目标</span>
                     </template>
                 </van-tab>
-                <van-tab title="notice"> <template #title>
-                        <span icon="&#xe697">公告
+                <van-tab title="teacher"> <template #title>
+                        <span icon="&#xe6a1">讲师</span>
                     </template>
                 </van-tab>
             </van-tabs>
@@ -78,7 +78,7 @@
 
             <!--课程详情-->
             <template v-if="tabActive==0">
-                <van-tag type="primary" class="type" v-if="course.Cou_Type">试题库</van-tag>                
+                <van-tag type="primary" class="type" v-if="course.Cou_Type">试题库</van-tag>
                 <div class="introBox" v-if="course.Cou_Intro!=''" v-html="course.Cou_Intro"></div>
                 <div class="introBox" v-else>没有内容</div>
             </template>
@@ -113,6 +113,19 @@
                     </van-cell>
                 </van-cell-group>
             </template>
+            <!--学习目标-->
+            <template v-if="tabActive==2">
+                <div class="couTarget" v-html="course.Cou_Target"></div>
+            </template>
+            <!--教师-->
+            <template v-if="tabActive==3">
+                <div class="teacher" v-if="teacher">
+                    <div class="avatar" :style="'background-image:url('+teacher.Tch_Avatar+')'"></div>
+                    <div class="name">{{teacher.Tch_Name}}</div>
+                    <div class="intro" v-html="teacher.Tch_Intro"></div>
+                </div>
+                <div class="nodata" v-else>没有指定教师</div>
+            </template>
             <!--课程通知-->
             <template v-if="tabActive==3">
                 <div class="guids" remark="课程公告">
@@ -126,16 +139,13 @@
                         <div class="Gu_Title">
                             <template v-if="guide.Gu_TitleFull !='' ">{{guide.Gu_TitleFull}}</template>
                             <template v-else>{{guide.Gu_Title}}</template>
-                        </div>                      
+                        </div>
                         <div v-if="guide.Gu_Details !=''" v-html="guide.Gu_Details"></div>
-                        <div  v-if="guide.Gu_Source!=''">来源 ： {{guide.Gu_Source}}</div>
+                        <div v-if="guide.Gu_Source!=''">来源 ： {{guide.Gu_Source}}</div>
                     </div>
                 </van-popup>
             </template>
-            <!--学习目标-->
-            <template v-if="tabActive==2">
-                <div class="couTarget" v-html="course.Cou_Target"></div>
-            </template>
+
 
         </div>
     </div>

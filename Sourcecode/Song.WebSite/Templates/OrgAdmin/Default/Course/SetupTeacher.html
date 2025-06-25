@@ -17,7 +17,7 @@
             </div>
             <div class="teach" mark="课程教师">
                 <div v-if="existteach" @click="showteach(teacher)" class="teacher">
-                    <photo :teacher="teacher" circle="true" size="45"></photo>
+                    <avatar :teacher="teacher" circle="true" size="45"></avatar>
                     <div>{{teacher.Th_Name}}</div>
                 </div>
                 <div v-else class="noteach">
@@ -44,7 +44,7 @@
                 </template>
                 <template slot-scope="scope">
                     <el-tooltip class="item" effect="light" content="点击查看详情" placement="right">
-                        <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex!=2" @click="showteach(scope.row)">
+                        <icon large :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex!=2" @click="showteach(scope.row)">
                             <span v-html='showsearch(scope.row.Th_Name,query.search)' class="large"
                                 v-if="scope.row.Th_Name!=''"></span>
                             <span v-else class="noname" class="large">(没有名字)</span>
@@ -130,7 +130,7 @@
         <!-- 教师详情-->
         <el-drawer :visible.sync="drawer" direction="ltr" size="40%">
             <span slot="title">{{drawerobj.Th_Name}}</span>
-            <photo :teacher="drawerobj" circle="true" size="100"></photo>
+            <avatar :teacher="drawerobj" circle="true" size="100"></avatar>
             <dl>
                 <dd :class="drawerobj.Th_Sex==2 ? 'woman' : 'man'">
                     <icon :woman="drawerobj.Th_Sex==2" :man="drawerobj.Th_Sex!=2"> </icon>姓名：

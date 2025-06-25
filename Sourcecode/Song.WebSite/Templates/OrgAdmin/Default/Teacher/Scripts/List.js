@@ -209,5 +209,4 @@ $ready(function () {
         }
     });
 
-}, ['Components/photo.js',
-    "/Utilities/Components/education.js"]);
+}, ["/Utilities/Components/education.js"]);

@@ -192,7 +192,12 @@ a.go-home:before {
     padding: 0 6px;
 
 }
-
+.tab span[icon]{
+    font-size: 15px;
+}
+.tab span[icon]::before{
+    font-size: 17px;
+}
 /*内容区*/
 
 #Context {
