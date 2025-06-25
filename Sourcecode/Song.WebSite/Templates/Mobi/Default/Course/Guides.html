@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-row class="topBox">
+            <van-col span="7" class="btntop">
+                <a icon="&#xe748" @click="window.history.back();"></a>
+                <a :href="'../course/Detail.'+couid">
+                    <icon course></icon>
+                </a>
+                <a icon="&#xa020" href="/mobi/"></a>
+            </van-col>
+            <span icon="&#xe697" @click="showCols=true">课程公告
+                <icon>&#xa00c</icon>
+            </span>
+        </van-row>
+        <div class="context">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+                @load="onload">
+                <card shadow="never">
+                    <card-title>
+                        <icon course></icon>《 {{course.Cou_Name}} 》
+                    </card-title>
+                    <card-content>
+                        <datarow v-for="(d,i) in guides" :data="d" :index="i+1" @click="m=>{current=m;show=true}">
+                        </datarow>
+                        <div v-if="guides.length==0 && !loading" class="noarticle">
+                            <icon>&#xe839</icon>没有内容
+                        </div>
+                    </card-content>
+                </card>
+            </van-list>
+        </div>
+        <!--通知分类面板-->
+        <van-popup v-model="showCols" position="right" style="width: 60%;height:100%" class="columns_panel">
+            <header @click="selectCol(null)">
+                <icon large>&#xe697</icon>公告分类
+            </header>
+            <section>
+                <columns :datas="columns" :level="0" :current="query.uid" @click="selectCol"></columns>
+            </section>
+        </van-popup>
+        <van-popup v-model="show" style="width: 80%;height:70%" class="show_panel" closeable>
+            <header v-html="current.Gu_Title"></header>
+            <section v-html="current.Gu_Details"></section>
+        </van-popup>
+    </div>
+</body>
+
+</html>

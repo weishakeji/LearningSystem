@@ -3,16 +3,17 @@
 		"prefix": "tmpl:vue-child-component",
 		"body": [
 			" '$1': {",
-			"\t'props': ['value'],",
-			"\t'data': function () {",
+			"\tprops: ['value'],",
+			"\tdata: function () {",
 			"\t\treturn {",
 			"\t\t\t\t\n\t\t}",
 			"\t},",			
-			"\t'watch': {},",
-			"\t'methods': {},",
-			"\t'template': `<div>\n\t\t\t\n\t\t</div>`",
+			"\twatch: {},",
+			"\tmethods: {},",
+			"\ttemplate: `<div>\n\t\t\t\n\t\t</div>`",
 			"}",
 		],
 		"description": "Vue Component  微厦在线学习系统的专用模板"
 	}
 }
+

@@ -33,7 +33,7 @@ Vue.component('course_menus', {
                 },
 
                 {
-                    id: 'notice', name: '课程公告', url: '../Test/Finality', icon: '&#xe697', size: 32, show: true,
+                    id: 'guide', name: '课程公告', url: 'Guides', icon: '&#xe697', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
@@ -41,7 +41,7 @@ Vue.component('course_menus', {
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'score', name: '综合成绩', url: '../Test/Finality', icon: '&#xe829', size: 32, show: true,
+                    id: 'score', name: '综合成绩', url: '', icon: '&#xe829', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
             ],

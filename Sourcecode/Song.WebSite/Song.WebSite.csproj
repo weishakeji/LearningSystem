@@ -425,6 +425,9 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
+    <Content Include="Templates\Mobi\Default\Course\Guides.html" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Guides.js" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Guides.css" />
     <Content Include="Templates\Mobi\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
@@ -1051,8 +1054,6 @@
     <Content Include="Templates\OrgAdmin\Default\Subject\Scripts\Modify.js" />
     <Content Include="Templates\OrgAdmin\Default\Subject\Styles\List.css" />
     <Content Include="Templates\OrgAdmin\Default\Subject\Styles\Modify.css" />
-    <Content Include="Templates\OrgAdmin\Default\Teacher\Components\photo.js" />
-    <Content Include="Templates\OrgAdmin\Default\Teacher\Components\Styles\Photo.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\ResetPassword.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Modify.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\ResetPassword.js" />
@@ -3000,6 +3001,7 @@
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
     <Folder Include="Templates\OrgAdmin\Default\Panel\Images\" />
+    <Folder Include="Templates\OrgAdmin\Default\Teacher\Components\Styles\" />
     <Folder Include="Templates\SSO\Default\Components\" />
     <Folder Include="Templates\Web\Default\Course\Images\" />
     <Folder Include="Utilities\Images\Mobi\" />

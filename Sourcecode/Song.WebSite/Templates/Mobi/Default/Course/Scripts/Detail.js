@@ -14,7 +14,6 @@ $ready(function () {
             datainfo: {},              //课程的相关数据统计
             teacher: null,     //课程教师
             outlines: [],     //课程章节
-            guides: [],          //课程通知
             prices: [],          //课程价格
             studied: false,        //是否在学习该课程
             owned: false,            //是否拥有该课程，例如购买或学员组关联
@@ -24,7 +23,6 @@ $ready(function () {
             loading_init: false,
 
             showState: 1,         //内容显示的切换状态
-            guides_show: false,           //通知公告是否显示
             guide: {},                   //当前要显示的通知公告
             tabActive: 0
         },
@@ -89,16 +87,14 @@ $ready(function () {
                 th.getPrices(th.course);//获取价格               
                 $api.bat(
                     $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
-                    $api.get('Course/Datainfo', { 'couid': th.couid }),
-                    $api.cache('Guide/Guides:3', { 'couid': th.couid, 'show': '', 'use': true, 'count': 20 }),
+                    $api.get('Course/Datainfo', { 'couid': th.couid }),                  
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID })
-                ).then(([outlines, datainfo, guides, teacher]) => {
+                ).then(([outlines, datainfo, teacher]) => {
                     //获取结果
                     th.outlines = outlines.data.result;
-                    th.datainfo = datainfo.data.result;
-                    th.guides = guides.data.result;
+                    th.datainfo = datainfo.data.result;                
                     th.teacher = teacher.data.result;
-                    console.error(th.teacher);
+                    //console.error(th.teacher);
                     //如果已经登录
                     if (th.islogin) {
                         th.loading = true;
