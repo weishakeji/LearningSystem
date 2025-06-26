@@ -28,8 +28,8 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
+a:not(.el-link):hover {
+	text-decoration: underline;
 }
 
 *::-webkit-scrollbar {

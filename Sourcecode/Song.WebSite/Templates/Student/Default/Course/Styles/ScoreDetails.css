@@ -4,53 +4,112 @@
 	padding: 20px;
 	box-sizing: border-box;
 }
-.context{
+
+.context {
 	counter-reset: section;
 }
-.row {
-	padding: 10px 15px 5px 40px;	
-	box-sizing: border-box;
+header{
+	margin-bottom: 15px;
+}
+header h1 {
+	font-size: 22px;
+}
+
+header section {
 	display: flex;
 	justify-content: space-between;
-	text-align: left;
-	position: relative;
+}
+
+header section>.account {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	box-sizing: content-box;
+	padding: 15px 0px 0px 15px;
+}
+
+header section>.account>* {
+	width: fit-content;
+}
+
+header section>.account i {
+	font-size: 14px;
+	color: #999;
+}
+
+header section>.account icon {
 	font-size: 18px;
 }
-.row::before{
-	font-family:"webdesk_icon" !important;	
-	font-size: 23px;
-	display: block;
-	position: absolute;
-	top: 10px;
-	left: 0px;
+
+/*得分*/
+.score {
+	width: 200px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	justify-content: space-between;
 }
-.row>span:first-child::before{
-	counter-increment: section;
-  content: counter(section) ". ";
+
+.score icon {
+	font-size: 40px;
+	color: #409EFF;
 }
-.row b{
-	margin: auto 10px;
+
+.score {
+	bottom: 10px;
 }
-.video::before{
-	content: '\e83a';
+
+.score>*:last-child {
+	color: #409EFF;
 }
-.ques::before{
-	content: '\e75e';
+
+.score>*:last-child span {
+	font-size: 40px;
+	font-weight: bold;
+	text-shadow:
+		1px 1px 3px currentColor,
+		/* 使用currentColor继承字体颜色 */
+		0 0 5px rgba(0, 0, 0, 0.2);
 }
-.exam::before{
-	content: '\e810';
+
+.score>*.nopass {
+	font-size: 20px;
+	margin: 0px 5px;
+	color: #ff4040;
+}
+
+section .el-col {
+	text-align: center;
+	padding: 5px 10px;
+}
+
+section>.el-row:first-child *, section>.el-row>.el-col:first-child {
+	color: #999;
 }
 
 /*底部*/
-.footer{
+.footer {
 	justify-content: space-between;
 }
-.score{
-	bottom: 10px;   
+/*帮助说明的面板*/
+.help_panel{
+	overflow: hidden !important;
 }
-.score span{
-	font-size: 30px;
-	line-height: 20px;
-	margin: 0px 5px;
-	color: #ff4040;
+.help_panel>div:last-child{
+	height: calc(100% - 111px);
+    overflow: auto;
+	box-sizing: content-box;
+}
+.help_panel *{
+	font-size: 16px;
+	line-height: 1.2rem;
+}
+.help_panel .tit{
+	color: #000;
+	font-weight: bold;
+}
+.help_panel .formula{
+	color: #409EFF;
 }

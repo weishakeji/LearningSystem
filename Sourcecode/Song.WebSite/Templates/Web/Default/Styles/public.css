@@ -45,8 +45,8 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
+a:not(.el-link):hover {
+	text-decoration: underline;
 }
 
 .open_notice_context, open_notice_context * {

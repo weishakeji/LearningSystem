@@ -58,7 +58,7 @@ a {
 	color: black;
 }
 
-a:hover {
+a:not(.el-link):hover {
 	text-decoration: underline;
 }
 

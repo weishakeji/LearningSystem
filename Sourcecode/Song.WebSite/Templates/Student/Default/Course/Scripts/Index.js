@@ -99,7 +99,7 @@ $ready(function () {
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + course.Cou_Name,
                     'width': '800px',
-                    'height': '400px'
+                    'height': '500px'
                 }
                 window.top.vapp.open(obj);
             }

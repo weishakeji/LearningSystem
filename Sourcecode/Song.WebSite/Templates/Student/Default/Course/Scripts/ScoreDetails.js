@@ -3,10 +3,11 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid: $api.dot(),
+            couid: $api.dot(),      //课程ID
             stid: $api.querystring('stid'), //学员ID
             stcid: $api.querystring('stcid'),    //学习记录的ID，即Student_Course的主键ID
             account: {},     //当前登录账号       
+            course: {},      //当前课程
 
             platinfo: {},
             organ: {},
@@ -14,6 +15,8 @@ $ready(function () {
 
             purchase: {},        //课程购买的记录
             purchase_query: { 'couid': -1, 'stid': -1 },
+
+            showhelp:false,     //显示帮助说明的面板
 
             loading_init: true,
             loading_fresh: 0,        //刷新的预载
@@ -24,11 +27,13 @@ $ready(function () {
             th.loading_init = true;
             $api.bat(
                 $api.get('Account/ForID', { 'id': th.stid }),
+                $api.get("Course/ForID", { "id": th.couid }),
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
-            ).then(([account, platinfo, organ]) => {
+            ).then(([account, cou, platinfo, organ]) => {
                 //获取结果
                 th.account = account.data.result;
+                th.course = cou.data.result;
                 th.platinfo = platinfo.data.result;
                 th.organ = organ.data.result;
                 //机构配置信息
@@ -44,6 +49,8 @@ $ready(function () {
         computed: {
             //是否登录
             islogin: t => !$api.isnull(t.account),
+            //课程是否存在
+            existcourse: t => !$api.isnull(t.course),
             //是否有购买记录
             isnull: t => $api.isnull(t.purchase)
         },
@@ -132,9 +139,9 @@ $ready(function () {
             },
             //取整
             //val:要取整的值
-            //decimal:小数位数
-            round: function (val, decimal) {
-                return Math.round(val * Math.pow(10, decimal)) / Math.pow(10, decimal);
+            //digit:小数位数
+            round: function (val, digit) {
+                return Math.round(val * Math.pow(10, digit)) / Math.pow(10, digit);
             }
         }
     });

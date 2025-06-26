@@ -204,7 +204,7 @@ a.go-home:before {
 /*内容区*/
 
 #Context {
-    min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 40px);
+    min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 125px);
     position: relative;
 }
 
@@ -305,6 +305,10 @@ a.go-home:before {
     overflow-wrap: break-word;
 }
 
+.introBox ul, .introBox ol {
+    padding: 10px 15px;
+}
+
 /*章节列表*/
 
 .outline .van-cell {
@@ -327,17 +331,20 @@ a.go-home:before {
 }
 
 .teacher .thname {
-   text-align: center;
+    text-align: center;
     font-size: 18px;
 }
-.teacher .thintro {  
-     font-size: 16px;
-     line-height: 1.6rem;
-     padding: 0px 15px;
- }
- .teacher .thsname{
+
+.teacher .thintro {
+    font-size: 16px;
+    line-height: 1.6rem;
+    padding: 0px 15px;
+}
+
+.teacher .thsname {
     font-size: 15px;
- }
+}
+
 /*弹出面板*/
 .mainmenu .van-popup button {
     font-size: 16px;

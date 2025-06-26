@@ -28,7 +28,7 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a:not(.el-link):hover{
     text-decoration: underline;
 }
 
