@@ -426,8 +426,11 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
     <Content Include="Templates\Mobi\Default\Course\Guides.html" />
+    <Content Include="Templates\Mobi\Default\Course\ScoreDetails.html" />
     <Content Include="Templates\Mobi\Default\Course\Scripts\Guides.js" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\ScoreDetails.js" />
     <Content Include="Templates\Mobi\Default\Course\Styles\Guides.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\ScoreDetails.css" />
     <Content Include="Templates\Mobi\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />

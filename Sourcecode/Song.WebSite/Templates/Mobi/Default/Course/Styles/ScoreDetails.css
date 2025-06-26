@@ -1,0 +1,139 @@
+#vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    
+}
+body,html,#vapp{
+    background-color: #fff;
+}
+
+.topBox {
+    height: 45px;
+    overflow: hidden;
+    font-size: 18px;
+    line-height: 45px;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 1px 1px 2px #ddd;
+}
+
+.topBox::after {
+    content: none;
+}
+
+.topBox span:last-child {
+    margin-right: 10px;
+}
+
+alert {
+    display: block;
+    margin: 20px;
+}
+
+
+header {
+    margin: 15px;
+}
+
+header h1 {
+    font-size: 22px;
+}
+
+header section {
+    display: flex;
+    justify-content: space-between;
+}
+
+header section>.account {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    box-sizing: content-box;
+    padding: 0px 0px 0px 15px;
+}
+
+header section>.account>* {
+    width: fit-content;
+}
+
+header section>.account i {
+    font-size: 14px;
+    color: #999;
+}
+
+header section>.account icon {
+    font-size: 18px;
+}
+
+/*得分*/
+.score {
+    width: 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    justify-content: space-between;
+    margin: 30px auto;
+}
+
+.score icon {
+    font-size: 40px;
+    color: #409EFF;
+}
+.score>*:first-child {
+    font-size: 20px;
+}
+.score>*:last-child {
+    color: #409EFF;
+    margin-top: 20px;
+}
+
+.score>*:last-child span {
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow:
+        1px 1px 3px currentColor,
+        /* 使用currentColor继承字体颜色 */
+        0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.score>*.nopass {
+    font-size: 20px;
+    color: #ff4040;
+}
+/*详情*/
+section .van-col {
+    text-align: center;
+    padding: 8px 10px;
+}
+
+section>.van-row:first-child *, section>.van-row>.van-col:first-child {
+    color: #999;
+}
+/*帮助说明的面板*/
+.help_panel{
+	padding: 0px 30px;
+    color: #444;
+}
+.help_panel>div:last-child{
+	height: calc(100% - 111px);
+    overflow: auto;
+	box-sizing: content-box;
+}
+.help_panel *{
+	font-size: 14px;
+	line-height: 1.2rem;
+}
+.help_panel .tit{
+	color: #000;
+	font-weight: bold;
+}
+.help_panel .formula{
+	color: #409EFF;
+}

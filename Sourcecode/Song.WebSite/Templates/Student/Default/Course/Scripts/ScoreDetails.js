@@ -146,4 +146,4 @@ $ready(function () {
         }
     });
 
-}, ['Components/outline_progress.js']);
+});

@@ -41,7 +41,7 @@ Vue.component('course_menus', {
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'score', name: '综合成绩', url: '', icon: '&#xe829', size: 32, show: true,
+                    id: 'score', name: '综合成绩', url: 'ScoreDetails', icon: '&#xe829', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
             ],

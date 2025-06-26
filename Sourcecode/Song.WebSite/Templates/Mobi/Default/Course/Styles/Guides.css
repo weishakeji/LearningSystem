@@ -5,6 +5,7 @@
     padding: 0px;
     overflow: hidden;
     position: relative;
+    background-color: #fff;
 }
 .topBox {
     height: 45px;
@@ -15,7 +16,7 @@
     width: 100vw;
     display: flex;
     justify-content: space-between;
-    box-shadow: 1px 1px 1px #ccc;
+    box-shadow: 1px 1px 2px #ddd;
 }
 
 .topBox::after {

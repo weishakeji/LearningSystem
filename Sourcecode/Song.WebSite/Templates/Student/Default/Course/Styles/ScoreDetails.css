@@ -82,7 +82,7 @@ header section>.account icon {
 
 section .el-col {
 	text-align: center;
-	padding: 5px 10px;
+	padding: 8px 10px;
 }
 
 section>.el-row:first-child *, section>.el-row>.el-col:first-child {

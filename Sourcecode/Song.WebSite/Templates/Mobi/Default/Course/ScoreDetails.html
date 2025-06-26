@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>成绩详情</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-row class="topBox">
+            <van-col span="7" class="btntop">
+                <a icon="&#xe748" @click="window.history.back();"></a>
+                <a :href="'../course/Detail.'+couid">
+                    <icon course></icon>
+                </a>
+                <a icon="&#xa020" href="/mobi/"></a>
+            </van-col>
+            <span icon="&#xe829" huge>综合成绩
+
+            </span>
+        </van-row>
+        <loading v-if="loading_init">...</loading>
+        <alert v-else-if="!islogin">未查询到学员信息</alert>
+        <alert v-else-if="!existcourse">课程不存在</alert>
+        <loading v-else-if="loading">...</loading>
+        <alert v-else-if="isnull">没有学习记录</alert>
+        <div v-else class="context">
+            <header>
+                <h1>《{{course.Cou_Name}}》</h1>
+                <section>
+                    <!--学员头像-->
+                    <avatar :account="account" circle="true" size="60"></avatar>
+                    <section class="account">
+                        <span>
+                            <icon :woman="account.Ac_Sex==2" :man="account.Ac_Sex==1" hide>
+                                <span v-html="account.Ac_Name"></span>
+                                <span v-else class="noname">(没有名字)</span>
+                            </icon>
+                            <i>(账号：{{account.Ac_AccName}})</i>
+                        </span>
+                        <van-tag  type="primary" class="cardid" v-if="account.Ac_IDCardNumber!=''">身份证：{{account.Ac_IDCardNumber}}
+                        </van-tag>
+                        <van-tag type="success" v-if="account.Ac_CodeNumber!=''">学号：{{account.Ac_CodeNumber}}</van-tag>
+                    </section>
+                  
+                </section>
+                <div class="score">
+                    <div>
+                        <icon>&#xe829</icon> 综合成绩
+                    </div>
+                    <div :class="{'nopass':purchase.Stc_ResultScore<60}">
+                        <span>{{purchase.Stc_ResultScore}} </span>分
+                    </div>
+
+                </div>
+            </header>
+            <van-divider content-position="left">详细信息</van-divider>
+            <section>
+                <van-row>
+                    <van-col :span="10">&nbsp;</van-col>  
+                    <van-col :span="7">
+                        权重
+                    </van-col>
+                    <van-col :span="7">
+                        达成
+                    </van-col>
+                </van-row>
+                <van-row>
+                    <van-col :span="10"><icon video></icon>视频学习</van-col>  
+                    <van-col :span="7">
+                        {{orgconfig('finaltest_weight_video',33.3)}} %
+                    </van-col>
+                    <van-col :span="7">
+                        <template v-if="purchase.Stc_StudyScore>0">{{round(purchase.Stc_StudyScore,2)}} %</template>
+                        <template v-else>-</template>
+                    </van-col>
+                </van-row>
+                <van-row>
+                    <van-col :span="10"> <icon question></icon>试题练习</van-col>  
+                    <van-col :span="7">
+                        {{orgconfig('finaltest_weight_ques',33.3)}} %
+                    </van-col>
+                    <van-col :span="7">
+                        <template v-if="purchase.Stc_QuesScore>0">{{round(purchase.Stc_QuesScore,2)}} %</template>
+                        <template v-else>-</template>
+                    </van-col>
+                </van-row>
+                <van-row>
+                    <van-col :span="10"><icon test></icon>结课考试</van-col>  
+                    <van-col :span="7">
+                        {{orgconfig('finaltest_weight_exam',33.3)}} %
+                    </van-col>
+                    <van-col :span="7">
+                        {{round(purchase.Stc_ExamScore,2)}} 分
+                    </van-col>
+                </van-row>              
+            </section>
+            <van-divider content-position="left">计算方法说明</van-divider>
+            <div class="help_panel">
+                <div class="area">
+                    <p>学员学习课程的综合成绩等于以下三项累加。</p>
+                    <p class="formula">计算公式：视频学习的进度 × 视频权重 + 试题练习的通过率 × 试题权重 + 结课考试的成绩 × 考试权重</p>
+
+                </div>
+                <el-divider content-position="left">算法说明</el-divider>
+                <div class="area">
+                    <div class="tit">1、视频的学习进度会加上“容差值”</div>
+                    <p>假如容差值为5%，则学习完成度大于95%时，即显示100%；</p>
+                    <p class="formula">公式为：（视频学习进度 + 容差值）>=100 ? 100 : （视频学习进度 + 容差值）</p>
+                </div>
+                <div class="area">
+                    <div class="tit">2、结课考试总分不是100分的情况</div>
+                    <p>由于综合成绩采用百分制，而如果结课考试的的总分大于100分，则在“结课考试成绩 × 考试权重”的计算中，计算结果大于预期值。</p>
+                    <p>例如180分为满分，120分及格，得分105分，仍是不及格，但是计算结果已经是大于100分了。需要将其成绩得分转为百分制。</p>
+                    <p class="formula">转换公式为：得分 ÷ 总分 × 100</p>
+                </div>
+                <div class="area">
+                    <div class="tit">3、结课考试及格分不是60分的情况</div>
+                    <p>综合成绩采用百分制，且60分及格制。而结课考试的及格分可能并不是60分。</p>
+                    <p>例如：设置结课考试及格分为25分，学员考26分，已经及格了，但是得分低，导致在“结课考试成绩 × 考试权重”的计算中，计算结果小于预期值。</p>
+                    <p>再例如：设置结课考试及格分为90分（满分100分），学员考85分，虽然得分高，但不可以认定成绩合格，如果转为60分及格制，只有约56.6分。</p>
+                    <p>成绩必转为60分及格制，转换公式如下：</p>
+                    <p class="formula">及格后的算法：（得分 - 及格分）÷ （总分 - 及格分） × 40 +60</p>
+                    <p class="formula">未及格的算法：(得分 - 及格分) ÷ 及格分 × 60 +60</p>
+                </div>
+                <div class="area">
+                    <div class="tit">4、权重分摊</div>
+                    <p>假如，当某个课程没有结课考试，结课考试的权重值会分摊到视频学习与试题练习。
+                        同理，没有试题时，试题权重分摊到视频与结课考试；没有视频，视频学习的权重分摊到另外两个上。</p>
+                    <p>例如：视频权重20%，试题30%，结果考试占50%（未设置结课考试，权重被其它两项分摊）
+                        以上样的值为例，公式如下：</p>
+                    <p class="formula">视频的权重为：视频权重20% × (1 ÷ ( 1 - 考试权重50% ) ) = 40%</p>
+                    <p class="formula">试题的权重为：试题权重30% × (1 ÷ ( 1 - 考试权重50% ) ) = 60%</p>
+                    <p>再假如，某个课程只有视频，没有试题与结课考试，后两者权重将全部分摊到视频学习，视频学习的权重成了100%</p>
+                    <p>那么只要视频学习完成了，不管视频学习权重占多少，综合成绩也是100分。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
