@@ -9,11 +9,11 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <page_header ref='pageheader' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
+        <page_header v-show="!inframe" ref='pageheader' @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}">
             loading
             ...
         </page_header>
-        <context class="navig">
+        <context class="navig" v-show="!inframe" >
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
                 <el-breadcrumb-item>AI大语言模型</el-breadcrumb-item>
@@ -25,7 +25,7 @@
         <context class="body nologin" v-else-if="!islogin">
             <nologin></nologin>
         </context>
-        <context class="body" v-else>
+        <context class="body" v-else :inframe="inframe">
             <div class="history">
                 <div class="title">沟通历史记录</div>
                 <div class="datalist" v-if="records.length>0">
@@ -98,7 +98,7 @@
                 </div>
             </div>
         </context>
-        <page_footer :organ="org">loading ...</page_footer>
+        <page_footer v-show="!inframe"  :organ="org">loading ...</page_footer>
     </div>
 
 

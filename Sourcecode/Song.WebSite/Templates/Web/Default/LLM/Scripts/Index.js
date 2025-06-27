@@ -39,6 +39,16 @@ $ready(function () {
         computed: {
             //是否登录
             islogin: t => !$api.isnull(t.account),
+            //是否处于iframe内，如果处于iframe内，则不显示顶部与底部的导航栏
+            inframe: function () {
+                let inframe = Boolean($api.querystring('inframe', false));
+                if (inframe) return inframe;
+                try {
+                    return window.self !== window.top;
+                } catch (e) {
+                    return true;
+                }
+            },
             //对话记录
             messages: function () {
                 if (!this.islogin || !this.record.Llr_Records) return [];

@@ -10,6 +10,12 @@ context.body {
 	height: calc(100vh - 200px);
 	display: flex;
 }
+context.body[inframe]{
+	width:auto !important;
+}
+context.body[inframe] .history {
+	margin-right: auto;
+}
 .history {
 	width: 400px;
 	margin-right: 50px;
