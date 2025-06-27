@@ -1,4 +1,6 @@
-$ready(['Components/topbar.js'],
+$ready(['Components/topbar.js',
+    '/Utilities/Components/avatar.js',
+    '/Utilities/Scripts/marked.min.js'],
     function () {
         window.vapp = new Vue({
             el: '#vapp',

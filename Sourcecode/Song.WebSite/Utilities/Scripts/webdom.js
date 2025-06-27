@@ -770,17 +770,11 @@
         css: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
                 //判断css文件是否存在，如果存在则不加载，主要用于组件的css加载
-                var exist = false;
-                webdom("link[type='text/css']").each(function () {
-                    let href = webdom(this).attr("href").toLowerCase();
-                    if (href.indexOf('?') > -1) href = href.substring(0, href.lastIndexOf('?'));
-                    if (one.toLowerCase() == href) {
-                        exist = true;
-                        return false;
-                    }
+                const exist = Array.from(document.querySelectorAll("link[type='text/css']")).some(link => {
+                    const href = link.getAttribute('href');
+                    return href && one.toLowerCase() === href.split('?')[0].toLowerCase();
                 });
-                if (exist) return;
-
+                if (exist) return c(0, { i: i, v: {} });
                 let cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.rel = "stylesheet";
@@ -789,9 +783,7 @@
                 cur_script.href = one;
                 if (tagName != null)
                     cur_script.setAttribute('tag', tagName);
-                cur_script.addEventListener('load', function () {
-                    c(0, { i: i, v: {} });
-                }, false);
+                cur_script.addEventListener('load', () => c(0, { i: i, v: {} }), false);
                 document.head.appendChild(cur_script)
             }, src, function (err, r) {
                 //全部加载完成后执行的回调函数
@@ -805,30 +797,19 @@
         js: function (src, callback, tagName) {
             webdom.load.arraySync(function (one, i, c) {
                 //判断js文件是否存在，如果存在则不加载
-                let exist = false;
-                let arr = document.querySelectorAll("script");
-                for (let i = 0; i < arr.length; i++) {
-                    let src = arr[i].getAttribute('src');
-                    if (src == null) continue;
-                    if (src.indexOf('?') > -1) src = src.substring(0, src.lastIndexOf('?'));
-                    if (one.toLowerCase() == src.toLowerCase()) {
-                        exist = true;
-                        break;
-                    }
-                }
-                if (exist) return;
-
+                const exist = Array.from(document.querySelectorAll("script")).some(script => {
+                    const src = script.getAttribute('src');
+                    return src && one.toLowerCase() === src.split('?')[0].toLowerCase();
+                });
+                if (exist) return c(0, { i: i, v: {} });
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 if (!webdom.isLocalhost() && !webdom.iscache()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'gettimer=' + new Date().getTime();
                 else if (webdom.version()) one += (one.indexOf('?') > -1 ? '&' : '?') + 'ver=' + webdom.version();
                 cur_script.src = one;
-                if (tagName != null)
-                    cur_script.setAttribute('tag', tagName);
-                cur_script.addEventListener('load', function () {
-                    c(0, { i: i, v: {} });
-                }, false);
-                document.head.appendChild(cur_script)
+                if (tagName != null) cur_script.setAttribute('tag', tagName);
+                cur_script.addEventListener('load', () => c(0, { i: i, v: {} }), false);
+                document.head.appendChild(cur_script);
             }, src, function (err, r) {
                 //全部加载完成后执行的回调函数
                 if (err) {
