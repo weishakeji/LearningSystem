@@ -183,5 +183,5 @@ $ready(function () {
         }
     });
 
-}, ['Components/TestHeader.js',
+}, ['../Course/Components/topbar.js',
     'Components/final_condition.js']);

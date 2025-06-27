@@ -10,18 +10,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <van-row class="topBox">
-            <van-col span="7" class="btntop">
-                <a icon="&#xe748" @click="window.history.back();"></a>
-                <a :href="'../course/Detail.'+couid">
-                    <icon course></icon>
-                </a>
-                <a icon="&#xa020" href="/mobi/"></a>
-            </van-col>
-            <span icon="&#xe697" @click="showCols=true">课程公告
-                <icon>&#xa00c</icon>
-            </span>
-        </van-row>
+        <topbar icon="e697" size="large" title="课程公告" :setup="true" @click="showCols=true"></topbar>
         <div class="context">
             <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
                 @load="onload">

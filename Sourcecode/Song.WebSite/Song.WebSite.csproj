@@ -410,6 +410,7 @@
     <Content Include="Templates\Mobi\Default\Coupon\Details.html" />
     <Content Include="Templates\Mobi\Default\Coupon\Scripts\Details.js" />
     <Content Include="Templates\Mobi\Default\Coupon\Styles\Details.css" />
+    <Content Include="Templates\Mobi\Default\Course\AIAgent.html" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_float.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_footer.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_live.js" />
@@ -425,10 +426,14 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\topbar.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\topbar.js" />
     <Content Include="Templates\Mobi\Default\Course\Guides.html" />
     <Content Include="Templates\Mobi\Default\Course\ScoreDetails.html" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\AIAgent.js" />
     <Content Include="Templates\Mobi\Default\Course\Scripts\Guides.js" />
     <Content Include="Templates\Mobi\Default\Course\Scripts\ScoreDetails.js" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\AIAgent.css" />
     <Content Include="Templates\Mobi\Default\Course\Styles\Guides.css" />
     <Content Include="Templates\Mobi\Default\Course\Styles\ScoreDetails.css" />
     <Content Include="Templates\Mobi\Default\Exam\Components\exam_tabs.js" />

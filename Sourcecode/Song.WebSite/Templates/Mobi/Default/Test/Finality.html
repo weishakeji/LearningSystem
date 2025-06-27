@@ -10,18 +10,9 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
-        <div class="header">
-            <icon @click="gohome()">&#xa020</icon>
-            <icon @click="gocourse()" course></icon>
-            <span @click="gocourse()" class="cour_name">{{course.Cou_Name}}</span>
-            <span class="title">
-                <icon>&#xe810</icon>
-                结课考试
-            </span>
-        </div>
-
+        <topbar icon="e810" size="large" title="结课考试"></topbar>
         <div class="context">
-
+            <h1 class="cour_name">《 {{course.Cou_Name}} 》</h1>
             <card v-if="!paperexist" class="papernull">
                 <card-title>
                     <alert>没有考试</alert>

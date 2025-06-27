@@ -37,7 +37,7 @@ Vue.component('course_menus', {
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'aiagent', name: 'AI助教', url: '../Test/Finality', svg: 'ai', size: 32, show: true,
+                    id: 'aiagent', name: 'AI助教', url: 'AIAgent', svg: 'ai', size: 32, show: true,
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {

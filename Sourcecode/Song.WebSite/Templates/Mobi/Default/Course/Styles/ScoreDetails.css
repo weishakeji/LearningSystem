@@ -10,26 +10,6 @@ body,html,#vapp{
     background-color: #fff;
 }
 
-.topBox {
-    height: 45px;
-    overflow: hidden;
-    font-size: 18px;
-    line-height: 45px;
-    text-align: center;
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 1px 1px 2px #ddd;
-}
-
-.topBox::after {
-    content: none;
-}
-
-.topBox span:last-child {
-    margin-right: 10px;
-}
-
 alert {
     display: block;
     margin: 20px;

@@ -9,18 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <van-row class="topBox">
-            <van-col span="7" class="btntop">
-                <a icon="&#xe748" @click="window.history.back();"></a>
-                <a :href="'../course/Detail.'+couid">
-                    <icon course></icon>
-                </a>
-                <a icon="&#xa020" href="/mobi/"></a>
-            </van-col>
-            <span icon="&#xe829" huge>综合成绩
-
-            </span>
-        </van-row>
+        <topbar icon="e829" size="huge" title="综合成绩"></topbar>      
         <loading v-if="loading_init">...</loading>
         <alert v-else-if="!islogin">未查询到学员信息</alert>
         <alert v-else-if="!existcourse">课程不存在</alert>
