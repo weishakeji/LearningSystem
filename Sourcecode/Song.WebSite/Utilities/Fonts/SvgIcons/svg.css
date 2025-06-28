@@ -5,6 +5,7 @@ icon[svg] {
     background-color: currentColor;
     -webkit-mask-size: cover;    
     mask-size: cover;  
+    background-repeat: no-repeat;
 }
 
 /*图标大小设置*/

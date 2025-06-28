@@ -315,7 +315,7 @@ $ready(['Components/topbar.js',
                         }
                     },
                     template: `<div class="ai_msg">    
-                        <div class="ai_msg_icon"></div>              
+                        <div class="ai_msg_icon"><icon svg="ai3"></icon>助教</div>
                         <div class="ai_msg_content" v-html="formatText(message)"></div>
                     </div >`
                 }
