@@ -10,6 +10,20 @@
     box-shadow: 1px 1px 2px #ddd;
 }
 
+.topBox .topbtns {
+    display: flex;
+    width: 100px;
+    justify-content: center;
+}
+
+.topBox>span {
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .topBox::after {
     content: none;
 }
@@ -17,7 +31,9 @@
 .topBox span:last-child {
     margin-right: 10px;
 }
+
 .topBox .setup {
     margin-left: 10px;
     color: #444;
+    line-height: 45px !important;
 }

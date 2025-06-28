@@ -21,18 +21,18 @@ Vue.component('topbar', {
     },
     methods: {},
     template: `<van-row class="topBox">
-        <van-col span="7" class="btntop">
+        <div class="topbtns">
             <a @click="window.history.back();"><icon large>&#xe748</icon></a>
             <a :href="'../course/Detail.'+couid"><icon course></icon></a>
             <a href="/mobi/"><icon>&#xa020</icon></a>
-        </van-col>
-        <span @click="$emit('click')">
+        </div>
+        <span>
             <template v-if="title">
                 <icon v-if="svg" :svg="svg" :[size]="true"></icon>
                 <icon v-else-if="icon" v-html="'&#x'+icon" :[size]="true"></icon>
-                {{title}}
-            </template>
-            <icon v-if="setup" class="setup" large>&#xa00c</icon>
+                {{title}} 
+            </template>           
         </span>
+        <icon v-if="setup" class="setup" large  @click="$emit('click')">&#xa00c</icon>
     </van-row>`
 });

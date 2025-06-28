@@ -10,7 +10,7 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
-        <topbar icon="e697" svg="ai" size="medium" title="AI助教" :setup="true" @click="showhistory=true"></topbar>
+        <topbar  size="medium" :title="course.Cou_Name" :setup="true" @click="showhistory=true"></topbar>
 
         <div loading="p4" class="init" v-if="loading_init"></div>
         <nologin v-else-if="!islogin"></nologin>
