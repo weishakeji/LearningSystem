@@ -41,7 +41,7 @@ Vue.component('course_data', {
                 $api.put('Course/StudentSum', { 'couid': th.course.Cou_ID }).then(function (req) {
                     if (req.data.success) {
                         th.data['student'] = req.data.result;
-                        th.course.data =th.data;
+                        th.$set(th.course, 'data', th.data);
                         return res();
                     } else {
                         console.error(req.data.exception);
