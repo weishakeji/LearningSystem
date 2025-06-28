@@ -72,10 +72,26 @@ namespace Song.ServiceImpls
         /// 所有
         /// </summary>
         /// <param name="acid">学员的账号id</param>
+        /// <param name="couid"></param>
         /// <returns></returns>
-        public List<LlmRecords> RecordsAll(int acid)
+        public List<LlmRecords> RecordsAll(int acid, long couid)
         {
-            return Gateway.Default.From<LlmRecords>().Where(LlmRecords._.Ac_ID == acid).OrderBy(LlmRecords._.Llr_LastTime.Desc).ToList<LlmRecords>();
+            return RecordsCount(acid, couid, 0);
+        }
+        /// <summary>
+        /// 所有
+        /// </summary>
+        /// <param name="acid">学员的账号id</param>
+        /// <param name="couid"></param>
+        /// <param name="count">指定数量的记录</param>
+        /// <returns></returns>
+        public List<LlmRecords> RecordsCount(int acid, long couid, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc.And(LlmRecords._.Ac_ID == acid);
+            if (couid > 0) wc.And(LlmRecords._.Cou_ID == couid);
+            else wc.And(LlmRecords._.Cou_ID == 0);
+            return Gateway.Default.From<LlmRecords>().Where(wc).OrderBy(LlmRecords._.Llr_LastTime.Desc).ToList<LlmRecords>(count);
         }
         /// <summary>
         /// 分页获取
@@ -85,10 +101,12 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<LlmRecords> RecordsPager(int acid, int size, int index, out int countSum)
+        public List<LlmRecords> RecordsPager(int acid, long couid, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(LlmRecords._.Ac_ID == acid);
+            if (couid > 0) wc.And(LlmRecords._.Cou_ID == couid);
+            else wc.And(LlmRecords._.Cou_ID == 0);
             countSum = Gateway.Default.Count<LlmRecords>(wc);
             return Gateway.Default.From<LlmRecords>().Where(wc).OrderBy(LlmRecords._.Llr_LastTime.Desc).ToList<LlmRecords>(size, (index - 1) * size);
         }

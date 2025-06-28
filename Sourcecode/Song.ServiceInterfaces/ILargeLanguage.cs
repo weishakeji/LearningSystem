@@ -42,16 +42,26 @@ namespace Song.ServiceInterfaces
         /// 所有
         /// </summary>
         /// <param name="acid">学员的账号id</param>
+        /// <param name="couid">课程id</param>
         /// <returns></returns>
-        List<LlmRecords> RecordsAll(int acid);
+        List<LlmRecords> RecordsAll(int acid, long couid);
+        /// <summary>
+        /// 所有
+        /// </summary>
+        /// <param name="acid">学员的账号id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="count">指定数量的记录</param>
+        /// <returns></returns>
+        List<LlmRecords> RecordsCount(int acid, long couid, int count);
         /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="acid">学员的账号id</param>
+        /// <param name="couid">课程id</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<LlmRecords> RecordsPager(int acid, int size, int index, out int countSum);
+        List<LlmRecords> RecordsPager(int acid, long couid, int size, int index, out int countSum);
     }
 }

@@ -12,6 +12,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Ac_ID;
     		
+    		protected Int64 _Cou_ID;
+    		
     		protected DateTime _Llr_CrtTime;
     		
     		protected DateTime _Llr_LastTime;
@@ -37,6 +39,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Ac_ID, _Ac_ID, value);
     				this._Ac_ID = value;
+    			}
+    		}
+    		
+    		public Int64 Cou_ID {
+    			get {
+    				return this._Cou_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
+    				this._Cou_ID = value;
     			}
     		}
     		
@@ -109,6 +121,7 @@ namespace Song.Entities {
     			return new WeiSha.Data.Field[] {
     					_.Llr_ID,
     					_.Ac_ID,
+    					_.Cou_ID,
     					_.Llr_CrtTime,
     					_.Llr_LastTime,
     					_.Llr_Records,
@@ -122,6 +135,7 @@ namespace Song.Entities {
     			return new object[] {
     					this._Llr_ID,
     					this._Ac_ID,
+    					this._Cou_ID,
     					this._Llr_CrtTime,
     					this._Llr_LastTime,
     					this._Llr_Records,
@@ -137,6 +151,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ac_ID))) {
     				this._Ac_ID = reader.GetInt32(_.Ac_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_ID))) {
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
     			if ((false == reader.IsDBNull(_.Llr_CrtTime))) {
     				this._Llr_CrtTime = reader.GetDateTime(_.Llr_CrtTime);
@@ -187,6 +204,11 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ac_ID = new WeiSha.Data.Field<LlmRecords>("Ac_ID");
     			
     			/// <summary>
+    			/// 字段名：Cou_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<LlmRecords>("Cou_ID");
+    			
+    			/// <summary>
     			/// 字段名：Llr_CrtTime - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Llr_CrtTime = new WeiSha.Data.Field<LlmRecords>("Llr_CrtTime");
@@ -208,3 +230,4 @@ namespace Song.Entities {
     		}
     	}
     }
+    

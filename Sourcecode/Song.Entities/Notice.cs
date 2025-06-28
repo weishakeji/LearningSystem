@@ -34,6 +34,8 @@ namespace Song.Entities {
     		
     		protected Int32 _No_OpenCount;
     		
+    		protected Int32 _No_Order;
+    		
     		protected String _No_Organ;
     		
     		protected String _No_Page;
@@ -185,6 +187,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_OpenCount, _No_OpenCount, value);
     				this._No_OpenCount = value;
+    			}
+    		}
+    		
+    		public Int32 No_Order {
+    			get {
+    				return this._No_Order;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Order, _No_Order, value);
+    				this._No_Order = value;
     			}
     		}
     		
@@ -341,6 +353,7 @@ namespace Song.Entities {
     					_.No_IsTop,
     					_.No_Linkurl,
     					_.No_OpenCount,
+    					_.No_Order,
     					_.No_Organ,
     					_.No_Page,
     					_.No_Range,
@@ -373,6 +386,7 @@ namespace Song.Entities {
     					this._No_IsTop,
     					this._No_Linkurl,
     					this._No_OpenCount,
+    					this._No_Order,
     					this._No_Organ,
     					this._No_Page,
     					this._No_Range,
@@ -429,6 +443,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.No_OpenCount))) {
     				this._No_OpenCount = reader.GetInt32(_.No_OpenCount);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Order))) {
+    				this._No_Order = reader.GetInt32(_.No_Order);
     			}
     			if ((false == reader.IsDBNull(_.No_Organ))) {
     				this._No_Organ = reader.GetString(_.No_Organ);
@@ -556,6 +573,11 @@ namespace Song.Entities {
     			/// 字段名：No_OpenCount - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field No_OpenCount = new WeiSha.Data.Field<Notice>("No_OpenCount");
+    			
+    			/// <summary>
+    			/// 字段名：No_Order - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Order = new WeiSha.Data.Field<Notice>("No_Order");
     			
     			/// <summary>
     			/// 字段名：No_Organ - 数据类型：String

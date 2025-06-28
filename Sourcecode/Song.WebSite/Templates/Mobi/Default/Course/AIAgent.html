@@ -1,13 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head resource>
     <meta charset="UTF-8">
-    <include file="../inc/meta.inc" /> 
+    <include file="../inc/meta.inc" />
     <title>AI助教</title>
 </head>
+
 <body>
-    <div id="vapp" v-cloak> 
-        <topbar icon="e697" svg="ai" size="medium" title="AI助教" :setup="true"></topbar>
-    </div> 
+    <div id="vapp" v-cloak>
+        <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
+        <topbar icon="e697" svg="ai" size="medium" title="AI助教" :setup="true" @click="showhistory=true"></topbar>
+
+        <div loading="p4" class="init" v-if="loading_init"></div>
+        <nologin v-else-if="!islogin"></nologin>
+        <template v-else>
+            <context class="body">
+                <div class="welcome" v-if="messages.length<1">
+                    <div class="welcome_title">                     
+                        <icon svg="ai3"></icon>
+                        <div>您好！</div>
+                    </div>
+                    <div class="welcome_subtit">我是课程《{{course.Cou_Name}}》的AI助教</div>
+                    <div class="welcome_text">很高兴在这里与你相遇，我能为你提供课程内容答疑和知识点解析，
+                        随时解答你的疑问（24小时在线哦！）</div>
+                </div>
+                <template v-for="(item,index) in messages" v-else>
+                    <user_msg v-if="item.role=='user'" :message="item.content" :account="account"></user_msg>
+                    <ai_msg v-else :message="item.content"></ai_msg>
+                </template>
+                <span loading="p2" v-if="loading">loading...</span>
+
+            </context>
+
+            <!-- 输入框 -->
+            <div class="inputbox">
+                <textarea v-model.trim="input" placeholder="请输入您的问题..." @keyup.enter="send"></textarea>
+                <div class="footbar">
+                    <loading star v-if="loading">正在加载...</loading>
+                    <span v-else>
+                        <a v-if="messages.length>0" class="newCommunion" @click="newTopic">
+                            <icon>&#xe817</icon>开启新话题
+                        </a>
+                    </span>
+
+                    <van-button type="info" :disabled="input=='' || loading" @click="send">
+                        <icon v-if="!loading">&#xe84c</icon>
+                        <loading v-else bubble></loading>
+                        提 交
+                    </van-button>
+                </div>
+            </div>
+        </template>
+        <!-- 历史记录 -->
+        <van-popup v-model="showhistory" position="right" :style="{ height: '100%',width: '60%' }" id="aside_history">
+            <div class="history">
+                <div class="title">沟通历史记录</div>
+                <div class="datalist" v-if="records.length>0">
+                    <template v-for="span in historys" v-if="span.list.length>0">
+                        <div v-html="span.text" class="date"></div>
+                        <van-swipe-cell v-for="item in span.list" :current="item.Llr_ID==record.Llr_ID" class="item">
+                            <van-cell :border="false" @click="selectRecord(item)">
+                                <template #title>
+                                    {{item.Llr_Topic}}
+                                </template>
+                            </van-cell>
+                            <template #right>
+                                <van-button type="danger" class="btnDelete" @click="btnDelete(item.Llr_ID)">删除
+                                </van-button>
+                            </template>
+                        </van-swipe-cell>
+                    </template>
+                </div>
+                <div class="nohistory" v-else>
+                    <div class="nohistory_text">没有历史记录</div>
+                </div>
+            </div>
+        </van-popup>
+    </div>
 </body>
+
 </html>

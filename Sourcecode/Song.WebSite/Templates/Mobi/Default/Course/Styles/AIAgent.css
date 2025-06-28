@@ -1,0 +1,251 @@
+@charset "utf-8";
+
+html, body, #vapp {
+	overflow: hidden;
+}
+
+.page_header {
+	height: 44px;
+	font-size: 16px;
+	width: 100%;
+	z-index: 2;
+	display: flex;
+	line-height: 44px;
+	color: #666;
+	text-align: left;
+	justify-content: space-between;
+}
+
+.init[loading] {
+	margin: calc(100vh/3) auto 0px auto;
+}
+
+/*内容区*/
+context.body {
+	height: calc(100vh - 200px);
+	margin: 10px 15px 0px 15px;
+	display: block;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: calc(100vw - 30px);
+}
+
+context.nologin {
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+/*历史信息*/
+.history {
+	box-sizing: border-box;
+	padding: 10px;
+	position: relative;
+	height:100%;
+}
+
+.history .title {
+	font-size: 16px;
+	color: #333;
+	text-align: center;
+	border: solid 1px #ddd;
+	border-radius: 5px;
+	padding: 8px 10px;
+}
+
+.history .nohistory_text {
+	text-align: center;
+	padding: 60px 0px;
+	font-size: 16px;
+	color: #999;
+}
+
+.history .datalist {
+	box-sizing: border-box;
+	padding: 10px 0px;
+	height: calc(100% - 30px);
+	width: 100%;
+	color: #666;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.history .datalist .date {
+	padding: 15px 10px 5px 10px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+/*沟通历史的项*/
+.history .datalist .item[current] {
+	background-color: rgb(219 234 254);
+}
+.history .van-cell{
+	background-color: transparent;
+}
+.history .van-cell__title{
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.history .model {
+	color: #999;
+	position: absolute;
+	bottom: 10px;
+	text-align: center;
+	border: solid 1px #ddd;
+	border-radius: 5px;
+	padding: 8px 10px;
+	width: calc(100% - 20px);
+	box-sizing: border-box;
+}
+
+.history .model span {
+	margin-left: 10px;
+	font-size: 16px;
+	color: #333;
+}
+
+*[loading='p2'] {
+	margin: 20px auto;
+}
+
+/*输入框*/
+.inputbox {
+	background-color: rgb(243 244 246);
+	margin: 10px;
+	width: calc(100% - 20px);
+	height: 130px;
+	border-radius: 10px;
+	border: solid 1px rgb(218, 218, 218);
+	box-sizing: border-box;
+	padding: 15px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+.inputbox textarea {
+	border: none;
+	background-color: transparent;
+	resize: none;
+	width: 100%;
+	height: calc(100% - 40px);
+	font-size: 18px;
+}
+
+.inputbox textarea:focus {
+	outline: none;
+	border: none;
+}
+
+.inputbox .footbar {
+	position: absolute;
+	bottom: 0;
+	left: 0px;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.inputbox .footbar>*:first-child {
+	margin-top: 10px;
+}
+
+.inputbox .van-button {
+	height: 35px;
+}
+
+/*开启新话题*/
+.inputbox .newCommunion {
+	font-size: 18px !important;
+	color: #1989fa;
+}
+
+.inputbox .newCommunion icon {
+	font-size: 23px;
+}
+
+/*用户消息的区域*/
+.user_message {
+	display: flex;
+	flex-direction: row-reverse;
+	font-size: 18px;
+	margin: 0px 0px 20px 0px;
+}
+
+.user_message .user_message_content {
+	box-sizing: border-box;
+	max-width: calc(100% - 50px);
+	padding: 10px 10px 0px 50px;
+
+}
+
+.user_message .ws_avatar {
+	border: solid 1px rgb(218, 218, 218);
+}
+
+/*AI消息的区域*/
+.ai_msg {
+	display: flex;
+	margin: 0px 0px 20px 0px;
+}
+
+.ai_msg .ai_msg_icon {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-image: url("/Utilities/Images/ai.png");
+	background-size: 100% 100%;
+	/* 拉伸填充整个容器 */
+	background-repeat: no-repeat;
+	margin-top: 8px;
+}
+
+.ai_msg .ai_msg_content {
+	box-sizing: border-box;
+	max-width: calc(100% - 50px);
+	padding: 0px 50px 0px 10px;
+	font-size: 18px;
+}
+.ai_msg h1{
+	font-size: 22px;
+}
+.ai_msg h2{
+	font-size: 20px;
+}
+.ai_msg h3{
+	font-size: 18px;
+}
+/*欢迎语*/
+.welcome {
+	width: 80%;
+	margin: 60px auto;
+    color: #467cdf;
+}
+
+.welcome_title {
+	display: flex;
+	font-size: 25px;
+	margin: 0px auto 10px auto;
+	justify-content: center;
+
+}
+
+.welcome_title icon[svg=ai3] {
+	transform: scale(2.5);
+    margin-right: 25px;
+}
+
+.welcome_subtit{
+	font-size: 20px;
+	margin: 0px auto 20px auto;
+	justify-content: center;
+	display: flex;
+}
+.welcome .welcome_text {
+	font-size: 18px;
+	color: #999;
+	line-height: 30px;
+}
