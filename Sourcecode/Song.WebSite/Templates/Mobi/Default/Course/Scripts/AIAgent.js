@@ -14,9 +14,8 @@ $ready(['Components/topbar.js',
                 course: {},
                 studied: false,        //是否在学习该课程
                 owned: false,            //是否拥有该课程，例如购买或学员组关联
-                purchase: null,          //课程购买记录    
-
-                model: '',        //大语言模型的引擎名称              
+                purchase: null,          //课程购买记录 
+                 
                 isnewTopickey: 'isNewTopic',     //是否为新话题的storage键值
                 input: '',         //输入内容
                 //当前对话记录
@@ -35,7 +34,7 @@ $ready(['Components/topbar.js',
                 loadingid: 0
             },
             mounted: function () {
-                this.getModelname();
+               
             },
             created: function () {
                 /*
@@ -79,7 +78,7 @@ $ready(['Components/topbar.js',
                 messages: function () {
                     if (!this.islogin || !this.record.Llr_Records) return [];
                     return this.record.Llr_Records;
-                },               
+                },
                 //历史记录
                 historys: function () {
                     let datas = [
@@ -155,21 +154,7 @@ $ready(['Components/topbar.js',
                         if (purchase.data.result != null) th.purchase = purchase.data.result;
                     }).catch(err => console.error(err))
                         .finally(() => th.loading_init = false);
-                },
-                //获取大语言模型名称
-                getModelname: function () {
-                    var th = this;
-                    $api.get('LLM/ModelName').then(req => {
-                        if (req.data.success) {
-                            let result = req.data.result;
-                            th.model = result.replace(/^./, match => match.toUpperCase())
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(err => console.error(err))
-                        .finally(() => { });
-                },
+                },              
                 //开启新话题
                 newTopic: function () {
                     this.record.Llr_ID = 0;
@@ -177,11 +162,10 @@ $ready(['Components/topbar.js',
                     this.record.Llr_Records = [];
                     //记录新话题的状态
                     this.newTopicState(true);
-
                 },
                 //选择历史对话记录
                 selectRecord: function (record) {
-                    this.record = $api.clone(record);                  
+                    this.record = $api.clone(record);
                     this.newTopicState(false);
                 },
                 //是否为新话题的状态,state为设置状态
@@ -189,25 +173,28 @@ $ready(['Components/topbar.js',
                     if (state == null) {
                         let obj = $api.storage(this.isnewTopickey);
                         if (obj == null) return true;        //默认是新话题
-                        if(typeof obj === 'object' && obj !== null && !Array.isArray(obj))
-                            return obj[this.couid];                        
+                        if (typeof obj === 'object' && obj !== null && !Array.isArray(obj))
+                            return obj[this.couid];
                         return true;
 
                     } else {
                         let obj = $api.storage(this.isnewTopickey);
-                        if (obj == null || !(typeof obj === 'object' && obj !== null && !Array.isArray(obj))) obj = {};                          
+                        if (obj == null || !(typeof obj === 'object' && obj !== null && !Array.isArray(obj))) obj = {};
                         obj[this.couid] = state;
                         $api.storage(this.isnewTopickey, obj);
                     }
                 },
-                // 发送
-                send: function () {
-                    if (this.input.trim() == '') return;
+                 //获取ai的回复
+                getaillm:function(){
                     var th = this;
-                    th.record.Llr_Records.push({ role: 'user', content: th.input });
+                    //th.record.Llr_Records.push({ role: 'user', content: th.input });
+                    let arr = [];
+                    for (var i = 0; i < th.record.Llr_Records.length; i++) {
+                        if (th.record.Llr_Records[i].role != 'error') arr.push(th.record.Llr_Records[i]);
+                    }
                     th.input = '';
                     th.loading = true;
-                    $api.post('LLM/CourseAIAgenCommunion', { 'couid': th.couid, 'messages': th.record.Llr_Records }).then(req => {
+                    $api.post('LLM/CourseAIAgenCommunion', { 'couid': th.couid, 'messages': arr }).then(req => {
                         if (req.data.success) {
                             var result = req.data.result;
                             th.record.Llr_Records.push({ role: 'assistant', content: result });
@@ -217,9 +204,23 @@ $ready(['Components/topbar.js',
                             throw req.data.message;
                         }
                     }).catch(err => {
-                        alert('请求失败；详情：' + err);
+                        //alert('请求失败；详情：' + err);
+                        //alert('请求失败');
+                        th.record.Llr_Records.push({ role: 'error', content: '请求失败；详情：' + err });
                     }).finally(() => th.loading = false);
-
+                },
+                // 发送
+                send: function () {                  
+                    if (this.input.trim() == '' || this.loading) return;
+                    this.record.Llr_Records.push({ role: 'user', content: this.input });
+                    this.getaillm();
+                    this.input = '';
+                },
+                //刷新，让AI重新回答问题
+                fresh: function (item) {
+                    let index = this.record.Llr_Records.findIndex(x => x == item);
+                    this.record.Llr_Records = this.record.Llr_Records.splice(0, index);
+                    this.getaillm();                   
                 },
                 //保存对话记录
                 saveRecords: function (record) {
@@ -307,7 +308,7 @@ $ready(['Components/topbar.js',
                 },
                 //Ai的消息框
                 'ai_msg': {
-                    props: ['message'],
+                    props: ['item'],
                     methods: {
                         //格式化文本
                         formatText: function (text) {
@@ -318,12 +319,34 @@ $ready(['Components/topbar.js',
                             text = text.replace(/\\approx/g, "&asymp;");
                             text = text.replace(/\\text{([^}]*)}/g, "$1");
                             return text;
+                        },
+                        //复制到粘贴板
+                        //text:要复制的文本内容
+                        //textbox:输入框类型，默认是input,多行文本用textarea
+                        btncopy: function (text, textbox) {
+                            this.copy(text, textbox).then(function (data) {
+                                data.$toast('复制成功');
+                            });
+                        },
+                        //刷新，重新生成
+                        btnfresh: function (item) {
+                            this.$emit('fresh', item);
                         }
                     },
                     template: `<div class="ai_msg">    
                         <div class="ai_msg_icon"><icon svg="ai3"></icon>助教</div>
-                        <div class="ai_msg_content" v-html="formatText(message)"></div>
-                    </div >`
+                        <div class="ai_msg_content" :error="item.role=='error'">
+                            <div v-if="item.role=='error'">
+                                <div>错误信息：</div>
+                                <div v-html="item.content"></div>
+                            </div>
+                            <div v-else v-html="formatText(item.content)"></div>
+                            <div class="ai_btn" v-if="item.role!='error'">
+                                <icon copy class="ai_btn_copy" @click="btncopy(item.content)">复制</icon>
+                                <icon fresh class="ai_btn_fresh" @click="btnfresh(item)">重新生成</icon>                                
+                            </div>
+                        </div>
+                    </div>`
                 }
             }
         });

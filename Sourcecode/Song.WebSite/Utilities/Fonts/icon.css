@@ -99,6 +99,10 @@ icon[home]::before {
 icon[back]::before {
     content: '\e748';
 }
+/*刷新*/
+icon[fresh]::before {
+    content: '\e694';
+}
 /*禁用*/
 icon[disabled]::before {
     content: '\e7ad';

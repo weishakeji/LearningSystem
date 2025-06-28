@@ -1691,6 +1691,8 @@
     <Content Include="Utilities\License\Index.xsl" />
     <Content Include="Utilities\License\Scripts\Index.js" />
     <Content Include="Utilities\License\Styles\Index.css" />
+    <Content Include="Utilities\LLM\Course\AIAgent\message.txt" />
+    <Content Include="Utilities\LLM\Course\AIAgent\role.txt" />
     <Content Include="Utilities\LLM\Questions\Explain\message.txt" />
     <Content Include="Utilities\LLM\Questions\Explain\role.txt" />
     <Content Include="Utilities\LLM\Questions\Generate\role.txt" />

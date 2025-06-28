@@ -27,7 +27,7 @@
                 </div>
                 <template v-for="(item,index) in messages" v-else>
                     <user_msg v-if="item.role=='user'" :message="item.content" :account="account"></user_msg>
-                    <ai_msg v-else :message="item.content"></ai_msg>
+                    <ai_msg v-else :item="item" @fresh="fresh"></ai_msg>
                 </template>
                 <span loading="p2" v-if="loading">loading...</span>
 
