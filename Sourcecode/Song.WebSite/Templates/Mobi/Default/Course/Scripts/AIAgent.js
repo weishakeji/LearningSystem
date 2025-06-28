@@ -16,9 +16,8 @@ $ready(['Components/topbar.js',
                 owned: false,            //是否拥有该课程，例如购买或学员组关联
                 purchase: null,          //课程购买记录    
 
-                model: '',        //大语言模型的引擎名称
-                character:'',       //大语言模型的角色内容，来自role.txt
-
+                model: '',        //大语言模型的引擎名称              
+                isnewTopickey: 'isNewTopic',     //是否为新话题的storage键值
                 input: '',         //输入内容
                 //当前对话记录
                 record: {
@@ -80,13 +79,7 @@ $ready(['Components/topbar.js',
                 messages: function () {
                     if (!this.islogin || !this.record.Llr_Records) return [];
                     return this.record.Llr_Records;
-                },
-                //是否为新话题
-                isnewTopic: function () {
-                    let isnewTopic = $api.storage('isnewTopic');
-                    if (isnewTopic == null) return true;        //默认是新话题
-                    return isnewTopic == 'true' || isnewTopic === true;
-                },
+                },               
                 //历史记录
                 historys: function () {
                     let datas = [
@@ -130,7 +123,7 @@ $ready(['Components/topbar.js',
                         if (nv && nv.Ac_ID != null) {
                             var th = this;
                             this.loadRecords(function (records) {
-                                if (records.length > 0 && !th.isnewTopic)
+                                if (records.length > 0 && !th.newTopicState())
                                     th.record = $api.clone(records[0]);
                                 th.$nextTick(function () {
                                     window.setTimeout(function () {
@@ -147,7 +140,6 @@ $ready(['Components/topbar.js',
                 }
             },
             methods: {
-
                 //获取课程信息
                 getcourse: function () {
                     var th = this;
@@ -155,14 +147,12 @@ $ready(['Components/topbar.js',
                         $api.get('Course/ForID', { 'id': th.couid }),
                         $api.get('Course/Studied', { 'couid': th.couid }),
                         $api.get('Course/Owned', { 'couid': th.couid, 'acid': th.account.Ac_ID }),
-                        $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account ? th.account.Ac_ID : 0 }),
-                        $api.get("LLM/CourseAIAgentSystemRole", {"couid":th.couid})
-                    ).then(([cou, studied, owned, purchase,character]) => {
+                        $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account ? th.account.Ac_ID : 0 })
+                    ).then(([cou, studied, owned, purchase]) => {
                         th.course = cou.data.result;
                         th.studied = studied.data.result;
                         th.owned = owned.data.result;
                         if (purchase.data.result != null) th.purchase = purchase.data.result;
-                        th.character = character.data.result;
                     }).catch(err => console.error(err))
                         .finally(() => th.loading_init = false);
                 },
@@ -186,13 +176,29 @@ $ready(['Components/topbar.js',
                     this.record.Llr_Topic = '';
                     this.record.Llr_Records = [];
                     //记录新话题的状态
-                    $api.storage('isnewTopic', true);
+                    this.newTopicState(true);
 
                 },
                 //选择历史对话记录
                 selectRecord: function (record) {
-                    this.record = $api.clone(record);
-                    $api.storage('isnewTopic', false);
+                    this.record = $api.clone(record);                  
+                    this.newTopicState(false);
+                },
+                //是否为新话题的状态,state为设置状态
+                newTopicState: function (state) {
+                    if (state == null) {
+                        let obj = $api.storage(this.isnewTopickey);
+                        if (obj == null) return true;        //默认是新话题
+                        if(typeof obj === 'object' && obj !== null && !Array.isArray(obj))
+                            return obj[this.couid];                        
+                        return true;
+
+                    } else {
+                        let obj = $api.storage(this.isnewTopickey);
+                        if (obj == null || !(typeof obj === 'object' && obj !== null && !Array.isArray(obj))) obj = {};                          
+                        obj[this.couid] = state;
+                        $api.storage(this.isnewTopickey, obj);
+                    }
                 },
                 // 发送
                 send: function () {
