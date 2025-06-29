@@ -18,12 +18,12 @@
                 </el-switch>
             </el-form-item>
             <el-form-item label="AI数据源" prop="Cou_AIType">
-                <el-radio-group v-model="course.Cou_AIType" @change="updateCourse()">                   
+                <el-radio-group v-model="course.Cou_AIType" @change="updateCourse()" :disabled="true">                   
                         <el-radio :label="0">采用公域大语言模型 </el-radio>                   
                         <el-radio :label="1">采用课程专用知识库</el-radio>                   
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="智能体" prop="Cou_AIAgent">
+            <el-form-item label="智能体" prop="Cou_AIAgent" v-show="course.Cou_AIType==1">
                 <el-input v-model="course.Cou_AIAgent" placeholder="请输入智能体的网址" @blur="updateCourse"></el-input>
             </el-form-item>
         </el-form>

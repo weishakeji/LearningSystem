@@ -37,7 +37,7 @@ Vue.component('course_menus', {
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
-                    id: 'aiagent', name: 'AI助教', url: 'AIAgent', svg: 'ai', size: 32, show: true,
+                    id: 'aiagent', name: 'AI助教', url: 'AIAgent', svg: 'ai', size: 32, show: true, color:'#467cdf',
                     count: 0, disabled: false, mustbuy: true, evt: null
                 },
                 {
@@ -197,7 +197,8 @@ Vue.component('course_menus', {
     //
     template: `<div class="mainmenu">
                 <div class="mainmenuBox">
-                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="showitem(m)" :disabled="m.disabled">
+                     <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="showitem(m)" :disabled="m.disabled"
+                     :style="'color:'+m.color">
                         <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'" v-if="!m.svg"></icon>
                         <icon v-else :svg="m.svg"></icon>
                         <name>{{m.name}}</name>

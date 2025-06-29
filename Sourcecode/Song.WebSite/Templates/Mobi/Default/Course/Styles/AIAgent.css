@@ -33,11 +33,13 @@ context.body {
 context.nologin {
 	box-sizing: border-box;
 	overflow: hidden;
+	color: #1467bb;
 }
 context.nostudy{
 	box-sizing: border-box;
 	overflow: hidden;
 	padding: 60px 30px;
+	color: #1467bb;
 }
 context.nostudy>*:first-child{
 	margin-top: 60px;

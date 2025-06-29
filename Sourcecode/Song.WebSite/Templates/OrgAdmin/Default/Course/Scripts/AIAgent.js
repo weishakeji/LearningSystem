@@ -40,7 +40,7 @@ $ready(function () {
                 var th = this;
                 th.loading_course = true;
                 //去除不相关属性
-                var obj = th.remove_redundance(th.course);               
+                var obj = th.remove_redundance(th.course);
                 $api.post('Course/ModifyJson', { 'course': obj }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -66,7 +66,7 @@ $ready(function () {
                 const props = ['Cou_ID'];
                 // 从 Vue 实例的 $refs 对象中获取名为 'course' 的引用，
                 const fields = this.$refs['course'].fields;
-                for (let field of fields)  props.push(field.prop);
+                for (let field of fields) props.push(field.prop);
                 const propSet = new Set(props);
                 for (let att in obj)
                     if (!propSet.has(att)) delete obj[att];
@@ -74,11 +74,11 @@ $ready(function () {
                 console.log(obj);
                 return obj;
             },
-             //刷新课程列表中的状态
-             fresh_course: function () {
+            //刷新课程列表中的状态
+            fresh_course: function () {
                 var couid = this.course.Cou_ID;
                 var win = window.parent;
-                if (win && win.vapp) {
+                if (win && win.vapp && win.vapp.close_fresh) {
                     win.vapp.close_fresh('vapp.freshrow("' + couid + '")');
                     //win.vapp.close_fresh('vapp.handleCurrentChange()');
                 }
