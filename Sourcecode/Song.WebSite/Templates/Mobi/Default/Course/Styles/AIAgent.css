@@ -34,7 +34,14 @@ context.nologin {
 	box-sizing: border-box;
 	overflow: hidden;
 }
-
+context.nostudy{
+	box-sizing: border-box;
+	overflow: hidden;
+	padding: 60px 30px;
+}
+context.nostudy>*:first-child{
+	margin-top: 60px;
+}
 /*历史信息*/
 .history {
 	box-sizing: border-box;

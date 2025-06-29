@@ -10,10 +10,24 @@
 <body>
     <div id="vapp" v-cloak>
         <generic @login="acc=>account = acc" @load="(o,c,p)=>{org=o,config=c,platinfo=p}"></generic>
-        <topbar  size="medium" :title="course.Cou_Name" :setup="true" @click="showhistory=true"></topbar>
-
+        <topbar  size="medium" v-if="islogin && !nullcourse" :title="course.Cou_Name" :setup="true" @click="showhistory=true"></topbar>
+        <topbar  svg="ai" size="medium" v-else title="AI助教" :setup="true" @click="showhistory=true"></topbar>
         <div loading="p4" class="init" v-if="loading_init"></div>
         <nologin v-else-if="!islogin"></nologin>
+        <context class="nostudy" v-else-if="!course.Cou_EnabledAI">
+            <div class="welcome_title">                     
+                <icon svg="ai3"></icon>
+                <div>您好！</div>
+            </div>
+            <div class="welcome_subtit">该课程未启用AI助教</div>
+        </context>
+        <context class="nostudy" v-else-if="!canstudy">
+            <div class="welcome_title">                     
+                <icon svg="ai3"></icon>
+                <div>您好！</div>
+            </div>
+            <div class="welcome_subtit">您未选修《{{course.Cou_Name}}》</div>
+        </context>
         <template v-else>
             <context class="body">
                 <div class="welcome" v-if="messages.length<1">
