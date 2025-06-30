@@ -32,7 +32,7 @@
                 <van-cell :border="false" class="notice" @click="gonotice(item.No_Id)">
                     <template #title>
                         <icon icon="&#xe840"></icon> {{item.No_Ttl}}
-                        <van-tag round color="#ccc" type="primary">{{item.No_StartTime|date("MM-dd")}}</van-tag>
+                        <van-tag round color="#ccc" type="primary">{{item.No_CrtTime|date("MM-dd")}}</van-tag>
                     </template>
                 </van-cell>
             </van-swipe-cell>

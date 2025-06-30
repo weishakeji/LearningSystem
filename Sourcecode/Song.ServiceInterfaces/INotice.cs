@@ -121,5 +121,13 @@ namespace Song.ServiceInterfaces
         /// <param name="count">取多少条</param>
         /// <returns></returns>
         Notice[] List(int orgid, int type, string forpage, DateTime? time, bool? isShow, int count);
+
+        /// <summary>
+        /// <summary>
+        /// 更改顺序
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        bool UpdateTaxis(Notice[] items);
     }
 }

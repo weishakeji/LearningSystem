@@ -19,9 +19,7 @@ namespace Song.ServiceImpls
 
         public long Add(Notice entity)
         {
-            if (entity.No_Id <= 0)         
-                entity.No_Id = WeiSha.Core.Request.SnowID();
-           
+            if (entity.No_Id <= 0) entity.No_Id = WeiSha.Core.Request.SnowID();           
             entity.No_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
@@ -29,12 +27,17 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
-            if (entity.No_StartTime != null)            
-                entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
+            if (entity.No_StartTime != null) entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
             if (entity.No_EndTime != null)
             {
                 DateTime end = ((DateTime)entity.No_EndTime).AddDays(1);
                 entity.No_EndTime = end.Date.AddSeconds(-1);
+            }
+            //如果没有排序号，则自动计算
+            if (entity.No_Order < 1)
+            {
+                object obj = Gateway.Default.Max<Notice>(Notice._.No_Order, Notice._.Org_ID == entity.Org_ID);
+                entity.No_Order = obj != null ? Convert.ToInt32(obj) + 1 : 0;
             }
             Gateway.Default.Save<Notice>(entity);
             return entity.No_Id;
@@ -93,13 +96,15 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Notice NoticePrev(long identify, int orgid)
         {
+            Notice notice = this.NoticeSingle(identify);
+            if (notice == null) return null;
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             wc &= Notice._.No_IsShow == true;
-            wc &= Notice._.No_StartTime < DateTime.Now;
+            wc &= Notice._.No_Order < notice.No_Order;
             Song.Entities.Notice no = this.NoticeSingle(identify);
-            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_StartTime.Asc)
-                .Where(wc && Notice._.No_StartTime > no.No_StartTime).ToFirst<Notice>();
+            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_Order.Asc)
+                .Where(wc).ToFirst<Notice>();
         }
         /// <summary>
         /// 当前公告的下一条公告
@@ -109,25 +114,27 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Notice NoticeNext(long identify,int orgid)
         {
+            Notice notice = this.NoticeSingle(identify);
+            if (notice == null) return null;
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             wc &= Notice._.No_IsShow == true;
-            wc &= Notice._.No_StartTime < DateTime.Now;
+            wc &= Notice._.No_Order > notice.No_Order;
             Song.Entities.Notice no = this.NoticeSingle(identify);
-            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_StartTime.Desc)
-                .Where(wc && Notice._.No_StartTime < no.No_StartTime).ToFirst<Notice>();
+            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_Order.Desc)
+                .Where(wc).ToFirst<Notice>();
         }
 
         public Notice[] GetAll()
         {
-            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_StartTime.Desc).ToArray<Notice>();
+            return Gateway.Default.From<Notice>().OrderBy(Notice._.No_Order.Desc).ToArray<Notice>();
         }
         public Notice[] GetAll(int orgid, bool? isShow)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>();
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_Order.Desc).ToArray<Notice>();
         }
 
         public Notice[] GetCount(int orgid, int type, bool? isShow, int count)
@@ -137,7 +144,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (type > 0) wc &= Notice._.No_Type == type;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(count);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_Order.Desc).ToArray<Notice>(count);
         }
         /// <summary>
         /// 取具体的数量
@@ -175,7 +182,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             countSum = Gateway.Default.Count<Notice>(wc);
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(size, (index - 1) * size);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_Order.Desc).ToArray<Notice>(size, (index - 1) * size);
         }
 
         /// <summary>
@@ -195,7 +202,7 @@ namespace Song.ServiceImpls
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
             if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Notice._.No_Ttl.Contains(searTxt));
             countSum = Gateway.Default.Count<Notice>(wc);
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(size, (index - 1) * size);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_Order.Desc).ToArray<Notice>(size, (index - 1) * size);
         }
         /// <summary>
         /// 获取通知公告
@@ -235,9 +242,36 @@ namespace Song.ServiceImpls
                 DateTime date = ((DateTime)time).Date;
                 wc &= Notice._.No_StartTime <= date && Notice._.No_EndTime >= date;
             }
-            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc && Notice._.No_Id.Desc).ToArray<Notice>(count);
+            return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_Order.Desc).ToArray<Notice>(count);
         }
 
-
+        /// <summary>
+        /// 更改顺序
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public bool UpdateTaxis(Notice[] items)
+        {
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    foreach (Notice item in items)
+                    {
+                        tran.Update<Notice>(
+                            new Field[] { Notice._.No_Order },
+                            new object[] { item.No_Order },
+                            Notice._.No_Id == item.No_Id);
+                    }
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
 }

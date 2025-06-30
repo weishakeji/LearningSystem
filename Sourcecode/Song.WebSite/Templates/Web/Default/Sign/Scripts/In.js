@@ -121,7 +121,7 @@ $ready(function () {
                     {{data.No_Ttl}}</a>
                 </div>
                 <div class="nodate">
-                    <icon>&#xe81a</icon>{{data.No_StartTime|date("yyyy-MM-dd HH:mm")}}
+                    <icon>&#xe81a</icon>{{data.No_CrtTime|date("yyyy-MM-dd HH:mm")}}
                 </div>
             </div>
         </div>`

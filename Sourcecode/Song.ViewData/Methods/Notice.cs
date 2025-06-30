@@ -71,15 +71,8 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public bool Add(Song.Entities.Notice entity)
         {
-            try
-            {
-                Business.Do<INotice>().Add(entity);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<INotice>().Add(entity);
+            return true;
         }
         /// <summary>
         /// 删除
@@ -109,6 +102,17 @@ namespace Song.ViewData.Methods
                 }
             }
             return i;
+        }
+        /// <summary>
+        /// 更改排序
+        /// </summary>
+        /// <param name="items">数组</param>
+        /// <returns></returns>
+        [HttpPost]
+        public bool ModifyTaxis(Song.Entities.Notice[] items)
+        {
+            Business.Do<INotice>().UpdateTaxis(items);
+            return true;
         }
         /// <summary>
         /// 分页获取
@@ -181,5 +185,7 @@ namespace Song.ViewData.Methods
             }
             return Business.Do<INotice>().GetCount(orgid, type, true, count);
         }
+
+
     }
 }
