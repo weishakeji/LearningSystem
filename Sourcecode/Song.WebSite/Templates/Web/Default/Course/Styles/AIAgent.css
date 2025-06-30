@@ -1,0 +1,334 @@
+@charset "utf-8";
+
+html, body, #vapp {
+    overflow: hidden;
+}
+
+.page_header {
+    height: 44px;
+    font-size: 16px;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    line-height: 44px;
+    color: #666;
+    text-align: left;
+    justify-content: space-between;
+}
+
+.init[loading] {
+    margin: calc(100vh/3) auto 0px auto;
+}
+
+/*内容区*/
+context.body {
+    height: 100%;
+    display: flex;
+}
+
+context.body[inframe] .history {
+    margin-right: 15px;
+    width: 260px;
+}
+
+*[inframe] context {
+    width: auto !important;
+}
+
+context.nologin {
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #1467bb;
+}
+
+context.nostudy {
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #1467bb;
+}
+
+context.nostudy>*:first-child {
+    margin-top: 60px;
+}
+
+.area {
+    position: relative;
+    flex: 1;
+}
+.messages_area {
+	width: 100%;
+	height: calc(100% - 180px);
+	overflow: auto;
+	box-sizing: border-box;
+	padding: 0px 15px;
+}
+/*历史信息*/
+.history {
+    width: 400px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-right: 30px;
+    position: relative;
+    height: 100%;
+}
+
+.history .title {
+    font-size: 18px;
+    color: #333;
+    line-height: 30px;
+    text-align: center;
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+
+.history .nohistory_text {
+    text-align: center;
+    padding: 60px 0px;
+    font-size: 16px;
+    color: #999;
+}
+
+.history .datalist {
+    box-sizing: border-box;
+    padding: 10px 0px;
+    height: calc(100% - 100px);
+    width: 100%;
+    color: #666;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.history .datalist .date {
+    padding: 15px 10px 5px 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/*沟通历史的项*/
+.history .datalist .item {
+    box-sizing: border-box;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+.history .datalist .item:hover, .history .datalist .item[current] {
+    background-color: rgb(219 234 254);
+}
+
+.history .datalist .item[current] {
+    padding-right: 30px;
+}
+
+.history .datalist .item[current] .el-dropdown {
+    position: absolute;
+    width: 40px;
+    height: 35px;
+    right: 0px;
+    top: 0px;
+    line-height: 40px;
+    text-align: right;
+    background: linear-gradient(to right,
+            rgba(219, 234, 254, 0), rgba(219, 234, 254, 1) 20%, rgba(219, 234, 254, 1) 100%);
+}
+
+.history .datalist .item:not(:hover) .right {
+    position: absolute;
+    width: 20px;
+    height: 35px;
+    right: 0px;
+    top: 0px;
+    line-height: 40px;
+    text-align: right;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 1) 100%);
+}
+
+.history .model {
+    color: #999;
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    padding: 8px 10px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+}
+
+.history .model span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+*[loading='p2'] {
+    margin: 20px auto;
+}
+
+/*输入框*/
+.inputbox {
+    background-color: rgb(243 244 246);
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: 130px;
+    border-radius: 10px;
+    border: solid 1px rgb(218, 218, 218);
+    box-sizing: border-box;
+    padding: 15px;
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+}
+
+.inputbox textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    width: 100%;
+    height: calc(100% - 40px);
+    font-size: 18px;
+}
+
+.inputbox textarea:focus {
+    outline: none;
+    border: none;
+}
+
+.inputbox .footbar {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.inputbox .footbar>*:first-child {
+    margin-top: 10px;
+}
+
+.inputbox .van-button {
+    height: 35px;
+}
+
+/*开启新话题*/
+.inputbox .newCommunion {
+    font-size: 18px !important;
+    color: #1989fa;
+}
+
+.inputbox .newCommunion icon {
+    font-size: 23px;
+}
+
+/*用户消息的区域*/
+.user_message {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 18px;
+    margin: 0px 0px 20px 0px;
+}
+
+.user_message .user_message_content {
+    box-sizing: border-box;
+    max-width: calc(100% - 50px);
+    padding: 10px 10px 0px 50px;
+
+}
+
+.user_message .ws_avatar {
+    border: solid 1px rgb(218, 218, 218);
+}
+
+/*AI消息的区域*/
+.ai_msg {
+    display: flex;
+    margin: 0px 0px 20px 0px;
+}
+
+.ai_msg .ai_msg_icon {
+    color: #1467bb;
+    text-align: center;
+    font-size: 15px;
+    line-height: 25px;
+}
+
+.ai_msg .ai_msg_icon icon {
+    width: 50px;
+    height: 50px;
+    margin-top: 8px;
+    display: block;
+}
+
+.ai_msg .ai_msg_content {
+    box-sizing: border-box;
+    max-width: calc(100% - 50px);
+    padding: 0px 50px 0px 10px;
+    font-size: 18px;
+}
+
+.ai_msg .ai_msg_content[error] {
+    background-color: rgb(252, 217, 217);
+    border-radius: 10px;
+    padding: 10px;
+    color: brown;
+    margin: 10px 0px;
+}
+
+.ai_msg .ai_msg_content .ai_btn {
+    color: #999;
+    font-size: 15px;
+}
+
+.ai_msg h1 {
+    font-size: 22px;
+}
+
+.ai_msg h2 {
+    font-size: 20px;
+}
+
+.ai_msg h3 {
+    font-size: 18px;
+}
+
+/*欢迎语*/
+.welcome {
+    width: 80%;
+    margin: 60px auto;
+    color: #467cdf;
+}
+
+.welcome_title {
+    display: flex;
+    font-size: 25px;
+    margin: 0px auto 10px auto;
+    justify-content: center;
+
+}
+
+.welcome_title icon[svg=ai3] {
+    transform: scale(2.5);
+    margin-right: 25px;
+}
+
+.welcome_subtit {
+    font-size: 20px;
+    margin: 0px auto 20px auto;
+    justify-content: center;
+    display: flex;
+}
+
+.welcome .welcome_text {
+    font-size: 18px;
+    color: #999;
+    line-height: 30px;
+}

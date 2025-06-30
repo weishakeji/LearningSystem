@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>AI助教</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak :inframe="inframe">
+        <page_header v-show="!inframe" ref='header' @login="acc=>account = acc"
+            @load="(o,c,p)=>{org=o,config=c,platinfo=p}">loading ...
+        </page_header>
+        <div loading="p4" class="init" v-if="loading_init"></div>
+        <nologin v-else-if="!islogin"></nologin>
+        <context class="nostudy" v-else-if="!course.Cou_EnabledAI">
+            <div class="welcome_title">
+                <icon svg="ai3"></icon>
+                <div>您好！</div>
+            </div>
+            <div class="welcome_subtit">该课程未启用AI助教</div>
+        </context>
+        <context class="nostudy" v-else-if="!canstudy">
+            <div class="welcome_title">
+                <icon svg="ai3"></icon>
+                <div>您好！</div>
+            </div>
+            <div class="welcome_subtit">您未选修《{{course.Cou_Name}}》</div>
+        </context>
+
+        <context class="body" v-else :inframe="inframe">
+            <!-- 历史记录 -->
+            <div class="history">
+                <div class="title">沟通历史记录</div>
+                <div class="datalist" v-if="records.length>0">
+                    <div v-for="span in historys" v-if="span.list.length>0">
+                        <div v-html="span.text" class="date"></div>
+                        <div v-for="item in span.list" @click="selectRecord(item)" :current="item.Llr_ID==record.Llr_ID"
+                            class="item">
+                            {{item.Llr_Topic}}
+                            <el-dropdown v-if="item.Llr_ID==record.Llr_ID">
+                                <span class="el-dropdown-link">
+                                    <icon>&#xe838</icon>
+                                </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item>
+                                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用'
+                                            icon="el-icon-info" icon-color="red" title="确定删除吗？"
+                                            @confirm="delRecord(item.Llr_ID)">
+                                            <el-link type="danger" :disabled="loadingid==item.Llr_ID" plain
+                                                icon="el-icon-delete" slot="reference">删除
+                                            </el-link>
+                                        </el-popconfirm>
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                            <div v-else class="right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nohistory" v-else>
+                    <div class="nohistory_text">没有历史记录</div>
+                </div>
+            </div>
+            <div class="area">
+                <div class="welcome" v-if="messages.length<1">
+                    <div class="welcome_title">
+                        <icon svg="ai3"></icon>
+                        <div>您好！</div>
+                    </div>
+                    <div class="welcome_subtit">我是课程《{{course.Cou_Name}}》的AI助教</div>
+                    <div class="welcome_text">很高兴在这里与你相遇，我能为你提供课程内容答疑和知识点解析，
+                        随时解答你的疑问（24小时在线哦！）</div>
+                </div>
+                <div class="messages_area" v-else>
+                    <template v-for="(item,index) in messages">
+                        <user_msg v-if="item.role=='user'" :message="item.content" :account="account"></user_msg>
+                        <ai_msg v-else :item="item" @fresh="fresh"></ai_msg>
+                    </template>
+                </div>
+                <span loading="p2" v-if="loading">loading...</span> <!-- 输入框 -->
+                <div class="inputbox">
+                    <textarea v-model.trim="input" placeholder="请输入您的问题..." @keyup.enter="send"></textarea>
+                    <div class="footbar">
+                        <loading star v-if="loading">正在加载...</loading>
+                        <span v-else>
+                            <a v-if="messages.length>0" class="newCommunion" @click="newTopic">
+                                <icon>&#xe817</icon>开启新话题
+                            </a>
+                        </span>
+
+                        <van-button type="info" :disabled="input=='' || loading" @click="send">
+                            <icon v-if="!loading">&#xe84c</icon>
+                            <loading v-else bubble></loading>
+                            提 交
+                        </van-button>
+                    </div>
+                </div>
+            </div>
+        </context>
+    </div>
+</body>
+
+</html>

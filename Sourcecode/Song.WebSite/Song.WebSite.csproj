@@ -1461,7 +1461,10 @@
     <Content Include="Templates\Web\Default\Components\nologin.js" />
     <Content Include="Templates\Web\Default\Components\Styles\courses.css" />
     <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
+    <Content Include="Templates\Web\Default\Course\AIAgent.html" />
     <Content Include="Templates\Web\Default\Course\Components\Styles\guides.css" />
+    <Content Include="Templates\Web\Default\Course\Scripts\AIAgent.js" />
+    <Content Include="Templates\Web\Default\Course\Styles\AIAgent.css" />
     <Content Include="Templates\Web\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Web\Default\LLM\Index.html" />
     <Content Include="Templates\Web\Default\LLM\Scripts\Index.js" />

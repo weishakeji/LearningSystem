@@ -115,8 +115,9 @@
                                 <template v-else>
                                     <progress_video class="tolearing"
                                         v-if="owned || (course.Cou_IsFree || course.Cou_IsLimitFree || forever)"
-                                        :videolog="videolog" :outline="o" :course="course" text="学习" @click="tolearing(course,o)">                                        
-                                    </progress_video>                                    
+                                        :videolog="videolog" :outline="o" :course="course" text="学习"
+                                        @click="tolearing(course,o)">
+                                    </progress_video>
                                     <a type="primary" v-else :href="'buy.'+course.Cou_ID+'?olid='+o.Ol_ID">
                                         <el-tag type="warning">购买</el-tag>
                                     </a>
@@ -149,12 +150,13 @@
                             <div>
                                 <span class="order">{{i+1}}.</span>
                                 <a :href="'../test/paper.'+item.Tp_Id" target="_blank">{{item.Tp_Name}}</a>
-                                 <el-tag type="primary" v-if="item.Tp_IsFinal"> <icon>&#xe816</icon>结课考试
-                                 </el-tag>
+                                <el-tag type="primary" v-if="item.Tp_IsFinal">
+                                    <icon>&#xe816</icon>结课考试
+                                </el-tag>
                             </div>
                             <div>
-                               
-                                   
+
+
                                 <el-tag type="success" title="题量"> {{item.Tp_Count}} 道题</el-tag>
                                 <template v-if="item.Tp_Type==1">
                                     <el-tag type="info">
@@ -176,6 +178,10 @@
                             </div>
                         </div>
                     </div>
+
+                    <iframe slot="aigent" remark="AI助教" class="aigent" :src="'/web/course/AIAgent.'+couid"
+                        frameborder="0" width="100%" height="100%"></iframe>
+
                 </course_tabs>
             </section>
 

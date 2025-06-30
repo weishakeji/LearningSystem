@@ -43,11 +43,14 @@
                                 <live v-if="item.Cou_Type!=2 && item.Cou_ExistLive" title="直播课"></live>
                                 <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                             </div>
-                            <el-button type="text" @click="viewScore(item,scope.data)" v-if="item.Cou_Type!=2">
-                                <icon>&#xe829</icon>综合成绩：<span
-                                    :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}}
-                                    分</span>
-                            </el-button>
+                            <div>
+                                <span class="aiagent" v-if="item.Cou_EnabledAI" @click="viewAIagent(item)"><icon svg="ai"></icon>AI助教</span>
+                                <el-button type="text" @click="viewScore(item,scope.data)" v-if="item.Cou_Type!=2">
+                                    <icon large>&#xe829</icon>综合成绩：<span
+                                        :class="{'nopass':scope.data.Stc_ResultScore<60}">{{scope.data.Stc_ResultScore}}
+                                        分</span>
+                                </el-button>
+                            </div>
                         </template>
                         <div class="cour_img">
                             <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID">

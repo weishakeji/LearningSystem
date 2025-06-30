@@ -236,6 +236,7 @@ $ready(function () {
                     { name: '课程公告', tab: 'guide', icon: '&#xe697', size: 21, show: true, evt: null },
                     { name: '交流咨询', tab: 'message', icon: '&#xe817', size: 22, show: false, evt: null },
                     { name: '测试/考试', tab: 'test', icon: '&#xe810', size: 21, show: true, evt: null },
+                    { name: 'AI助教', tab: 'aigent', svg: 'ai', size: 21, show: true, evt: null },
                 ],
                 activeName: $api.querystring('tab', 'intro'),
                 curr_menus: {},  //当前点击的按钮项
@@ -255,7 +256,8 @@ $ready(function () {
         template: `<el-tabs v-model="activeName">
             <el-tab-pane v-for="item in menus" v-if="item.show" :name="item.tab">
                 <template slot="label">
-                    <icon v-html="item.icon" :style="'font-size:'+item.size+'px'"></icon>
+                    <icon v-if="item.svg" :svg="item.svg"></icon>
+                    <icon v-else v-html="item.icon" :style="'font-size:'+item.size+'px'"></icon>
                     {{item.name}}
                 </template>  
             <slot :name="item.tab"></slot>      

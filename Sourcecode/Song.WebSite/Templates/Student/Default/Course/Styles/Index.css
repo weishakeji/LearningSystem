@@ -103,6 +103,18 @@ context .course:last-child {
 .nopass{
 	color: rgb(245, 108, 108);
 }
+.aiagent{
+	color: rgb(245, 108, 108);
+	font-size: 14px;
+cursor: pointer;
+}
+.aiagent:hover{
+	
+}
+.aiagent icon[svg]{
+	width: 16px;
+	height: 16px;
+}
 /*课程内容*/
 .el-card__body {
 	box-sizing: border-box;

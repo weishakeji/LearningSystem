@@ -102,6 +102,22 @@ $ready(function () {
                     'height': '500px'
                 }
                 window.top.vapp.open(obj);
+            },
+             //AI助教       
+            viewAIagent: function (course) {
+                if (!window.top || !window.top.vapp) return;
+                var url = "/web/course/AIAgent";
+                url = $api.url.dot(course.Cou_ID, url);
+                url = $api.url.set(url, { 'stid': this.account.Ac_ID});
+                var obj = {
+                    'url': url,
+                    'pid': window.name,
+                    'ico': 'e820', 'min': false,
+                    'title': 'AI助教 - ' + course.Cou_Name,
+                    'width': '800px',
+                    'height': '800px'
+                }
+                window.top.vapp.open(obj);
             }
         }
     });
