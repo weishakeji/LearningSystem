@@ -23,8 +23,7 @@ namespace Song.ServiceImpls
 
         public int KnowledgeAdd(Knowledge entity)
         {
-            if (entity.Kn_ID <= 0)
-                entity.Kn_ID = WeiSha.Core.Request.SnowID();
+            if (entity.Kn_ID <= 0) entity.Kn_ID = WeiSha.Core.Request.SnowID();
             entity.Kn_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
@@ -35,10 +34,7 @@ namespace Song.ServiceImpls
             if (entity.Kns_ID>0)
             {
                 KnowledgeSort sort= Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Kns_ID == entity.Kns_ID).ToFirst<KnowledgeSort>();
-                if (sort != null)
-                {
-                    entity.Kns_Name = sort.Kns_Name;
-                }
+                if (sort != null) entity.Kns_Name = sort.Kns_Name;              
             }
             return Gateway.Default.Save<Knowledge>(entity);
         }

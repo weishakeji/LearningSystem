@@ -95,7 +95,7 @@ $ready(function () {
             },
             //可以学习
             canstudy: function () {
-                return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
+                return this.studied || (this.purchased && this.purchase.Stc_IsEnable);
             },
             //是否可以永久学习
             forever: function () {

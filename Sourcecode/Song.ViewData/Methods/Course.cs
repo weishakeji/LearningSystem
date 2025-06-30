@@ -1368,7 +1368,7 @@ namespace Song.ViewData.Methods
             //if (isExistSort) return true;
 
             //可以学习该课程
-            bool isBuy = Business.Do<ICourse>().AllowStudy(couid, acc.Ac_ID);
+            bool isBuy = Business.Do<ICourse>().AllowStudy(course, acc);
             if (isBuy) return true;
 
             return false;

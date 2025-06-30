@@ -19,7 +19,8 @@ Vue.component('topbar', {
     mounted: function () {
 
     },
-    methods: {},
+    methods: {
+    },
     template: `<van-row class="topBox">
         <div class="topbtns">
             <a @click="window.history.back();"><icon large>&#xe748</icon></a>

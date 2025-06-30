@@ -12,10 +12,18 @@
 
 .topBox .topbtns {
     display: flex;
-    width: 100px;
     justify-content: center;
+    padding: 0px 8px;
+    box-sizing:content-box;
 }
 
+.topBox .topbtns>* {
+    width: 30px;
+    display: block;
+}
+.topBox .topbtns icon {
+    margin-right: 0px;
+}
 .topBox>span {
     flex: 1;
     text-align: right;
