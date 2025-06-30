@@ -21,7 +21,7 @@
             </query_panel>
         </div>
         <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects = val"
+            @selection-change="val=>selects = val"  index-key="No_Order"
             :row-class-name="data=>{return data.row.No_IsShow ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>{$refs.btngroup.modify(row[$refs.btngroup.idkey])}" row-key="No_Id">
             <el-table-column type="selection" width="35">
@@ -34,7 +34,7 @@
 
             <el-table-column label="主题" min-width="200px">
                 <template slot-scope="scope">
-                    <span v-html="showsearch(scope.row.No_Ttl,form.search)" class="large"></span>
+                    <span v-html="showsearch(scope.row.No_Ttl,form.search)" class="draghandle large"></span>
 
                 </template>
             </el-table-column>
